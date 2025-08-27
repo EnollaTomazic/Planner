@@ -1,0 +1,95 @@
+/* src/components/goals/style.css
+   Scoped, tiny helpers for Goals. Lavender-Glitch friendly.
+   NOTE: Globals still own tokens and utilities.
+*/
+
+/* Cap/remaining pill */
+[data-scope="goals"] .goals-cap {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .6rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--muted)/.2);
+  font-size: .75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Compact goal row shell */
+[data-scope="goals"] .goal-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .5rem;
+  align-items: center;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--card)/.6);
+  padding: .5rem .6rem;
+}
+
+/* ───────────────── Terminal-style waitlist ───────────────── */
+.waitlist-terminal {
+  --wl-bg: hsl(var(--card));
+  --wl-hair: hsl(var(--border));
+  --wl-text: hsl(var(--muted-foreground));
+  --wl-ink: hsl(var(--foreground));
+  --wl-accent: hsl(var(--primary));
+  background:
+    linear-gradient(to bottom, transparent 0, rgba(255,255,255,.02) 2px, transparent 2px) top/100% 24px,
+    var(--wl-bg);
+  border: 1px solid var(--wl-hair);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.waitlist-terminal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .6rem .9rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--wl-hair), transparent 30%);
+}
+
+.waitlist-terminal__feed {
+  max-height: 300px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--wl-text);
+}
+
+.waitlist-terminal__line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .5rem;
+  align-items: center;
+  padding: .5rem .9rem;
+  border-bottom: 1px dashed color-mix(in oklab, var(--wl-hair), transparent 50%);
+}
+
+.waitlist-terminal__dot {
+  width: .375rem;
+  height: .375rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--wl-accent), white 12%);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--wl-accent), transparent 60%);
+}
+
+.waitlist-terminal__input {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem .9rem;
+  border-top: 1px solid color-mix(in oklab, var(--wl-hair), transparent 30%);
+  background: linear-gradient(to right, rgba(255,255,255,.02), transparent);
+}
+
+.waitlist-terminal__caret {
+  width: 10px;
+  height: 1.2em;
+  margin-left: .5ch;
+  background: var(--wl-ink);
+  animation: wl-blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes wl-blink { 50% { opacity: 0; } }

@@ -1,0 +1,386 @@
+// src/components/goals/TimerTab.tsx
+"use client";
+
+/**
+ * TimerTab — Lavender-Glitch timer with a glitchy progress bar
+ * - Top tabs use TabBar (borderless neon) for profiles
+ * - Right slot shows Quick presets (+ Review) when profile = Personal
+ * - Digits centered; minus/plus on the sides
+ * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
+ */
+import "../goals/style.css";
+
+import * as React from "react";
+import SectionCard from "@/components/ui/layout/SectionCard";
+import IconButton from "@/components/ui/primitives/IconButton";
+import TabBar from "@/components/ui/layout/TabBar";
+import {
+  Play, Pause, RotateCcw, Plus, Minus,
+  BookOpen, Brush, Code2, User, ListChecks,
+} from "lucide-react";
+import { useLocalDB } from "@/lib/db";
+
+/* profiles */
+type ProfileKey = "study" | "clean" | "code" | "personal";
+type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
+const PROFILES: Profile[] = [
+  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 30 },
+  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 20 },
+  { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
+  { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
+];
+
+const QUICK = [10, 15, 20, 25, 30, 45, 60];
+
+/* helpers */
+const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
+const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+const fmt = (ms: number) => {
+  const m = Math.floor(ms / 60_000);
+  const s = Math.floor((ms % 60_000) / 1000);
+  return `${pad(m)}:${pad(s)}`;
+};
+const parseMmSs = (v: string) => {
+  const m = v.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
+  if (!m) return null;
+  const mm = Number(m[1]), ss = Number(m[2]);
+  return mm * 60_000 + ss * 1000;
+};
+
+export default function TimerTab() {
+  const [profile, setProfile] = useLocalDB<ProfileKey>("goals.timer.profile.v1", "study");
+  const [personalMinutes, setPersonalMinutes] = useLocalDB<number>("goals.timer.personalMin.v1", 25);
+
+  const profileDef = React.useMemo(() => PROFILES.find(p => p.key === profile)!, [profile]);
+  const isPersonal = profile === "personal";
+  const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
+
+  // remaining time
+  const [remaining, setRemaining] = useLocalDB<number>("goals.timer.remaining.v1", minutes * 60_000);
+  const [running, setRunning] = useLocalDB<boolean>("goals.timer.running.v1", false);
+
+  // edit mode for mm:ss
+  const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
+  React.useEffect(() => { setTimeEdit(fmt(remaining)); }, [remaining]);
+
+  // tick loop
+  React.useEffect(() => {
+    if (!running) return;
+    const id = window.setInterval(() => {
+      setRemaining(r => Math.max(0, r - 250));
+    }, 250);
+    return () => window.clearInterval(id);
+  }, [running, setRemaining]);
+
+  // adjust minutes for personal
+  function adjust(delta: number) {
+    if (!isPersonal) return;
+    if (running) return;
+    const ms = remaining;
+    const secs = Math.floor((ms % 60_000) / 1000);
+    const next = clamp(minutes + delta, 0, 180);
+    setPersonalMinutes(next);
+    setRemaining(next * 60_000 + secs * 1000);
+  }
+
+  function start() { if (remaining <= 0) setRemaining(minutes * 60_000); setRunning(true); }
+  function pause() { setRunning(false); }
+  function reset() { setRunning(false); setRemaining(minutes * 60_000); }
+  function commitEdit() {
+    if (!isPersonal || running) return;
+    const ms = parseMmSs(timeEdit);
+    if (ms == null) { setTimeEdit(fmt(remaining)); return; }
+    const mm = Math.floor(ms / 60_000), ss = Math.floor((ms % 60_000) / 1000);
+    setPersonalMinutes(mm);
+    setRemaining(mm * 60_000 + ss * 1000);
+  }
+
+  const totalMs = minutes * 60_000;
+  const progress = Math.max(0, Math.min(1, 1 - remaining / Math.max(1, totalMs)));
+  const finished = remaining <= 0;
+
+  // Typed CSS var style for glitch bar width
+  type PctStyle = React.CSSProperties & { ["--pct"]: string };
+  const pctStyle: PctStyle = React.useMemo(
+    () => ({ ["--pct"]: `${Math.round(progress * 100)}%` }),
+    [progress]
+  );
+
+  // Tab items map
+  const tabItems = React.useMemo(
+    () =>
+      PROFILES.map(p => ({
+        key: p.key,
+        label: (
+          <span className="inline-flex items-center">
+            {p.icon}
+            {p.label}
+          </span>
+        ),
+      })),
+    []
+  );
+
+  // Right slot content for Personal: quick presets + Review
+  const rightSlot = isPersonal ? (
+    <div className="flex items-center flex-wrap gap-2">
+      {QUICK.map(m => (
+        <button
+          key={`q-${m}`}
+          className={["btn-like-segmented", minutes === m && "is-active"].filter(Boolean).join(" ")}
+          onClick={() => !running && setPersonalMinutes(m)}
+          type="button"
+          title={`Set ${m} minutes`}
+        >
+          {m}m
+        </button>
+      ))}
+      <button
+        className="btn-like-segmented inline-flex items-center gap-1"
+        onClick={() => setRunning(false)}
+        type="button"
+        title="Open pre-review checklist"
+      >
+        <ListChecks className="mr-1" />
+        Review
+      </button>
+    </div>
+  ) : null;
+
+  return (
+    <SectionCard className="card-neo-soft">
+      <SectionCard.Header sticky>
+        <TabBar
+          items={tabItems}
+          value={profile}
+          onValueChange={(k) => setProfile(k as ProfileKey)}
+          size="md"
+          align="between"
+          ariaLabel="Timer profiles"
+          right={rightSlot}
+          showBaseline
+        />
+      </SectionCard.Header>
+
+      <SectionCard.Body>
+        {/* Stage row with side buttons and centered digits */}
+        <div className="relative rounded-2xl card-neo-soft p-5 sm:p-6 overflow-hidden">
+          <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
+            {/* minus */}
+            <IconButton
+              title="Minus 5 minutes"
+              aria-label="Minus 5 minutes"
+              onClick={() => adjust(-5)}
+              disabled={!isPersonal || running || minutes <= 0}
+              className="shrink-0"
+            >
+              <Minus />
+            </IconButton>
+
+            {/* digits */}
+            <div className="relative grid place-items-center py-6">
+              <div className="relative">
+                <div className="text-6xl sm:text-7xl font-bold tabular-nums select-none title-glow">
+                  {fmt(remaining)}
+                </div>
+                {isPersonal && !running && (
+                  <div className="absolute inset-0 grid place-items-center pointer-events-none">
+                    <input
+                      aria-label="Edit minutes and seconds"
+                      value={timeEdit}
+                      onChange={(e) => setTimeEdit(e.currentTarget.value)}
+                      onBlur={commitEdit}
+                      onKeyDown={(e) => e.key === "Enter" && commitEdit()}
+                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus:outline-none text-6xl sm:text-7xl font-bold tabular-nums"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* plus */}
+            <IconButton
+              title="Plus 5 minutes"
+              aria-label="Plus 5 minutes"
+              onClick={() => adjust(+5)}
+              disabled={!isPersonal || running}
+              className="shrink-0"
+            >
+              <Plus />
+            </IconButton>
+          </div>
+
+          {/* GLITCH loader */}
+          <div className="mt-6">
+            <div className="lg-loader">
+              {/* track texture */}
+              <div className="lg-noise" aria-hidden />
+              {/* progress core */}
+              <div className="lg-progress" style={pctStyle} aria-hidden />
+              {/* rgb ghost trails */}
+              <div className="lg-progress rgb r" style={pctStyle} aria-hidden />
+              <div className="lg-progress rgb b" style={pctStyle} aria-hidden />
+              {/* scanline sweep */}
+              <div className="lg-scan" aria-hidden />
+            </div>
+
+            <div className="mt-2 text-xs text-muted-foreground tabular-nums">
+              {Math.round(progress * 100)}%
+            </div>
+          </div>
+        </div>
+
+        {/* Controls row */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {!running ? (
+            <button
+              className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2"
+              onClick={start}
+              type="button"
+              title="Start"
+            >
+              <Play />
+              Start
+            </button>
+          ) : (
+            <button
+              className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2 is-active"
+              onClick={pause}
+              type="button"
+              title="Pause"
+            >
+              <Pause />
+              Pause
+            </button>
+          )}
+          <button
+            className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2"
+            onClick={reset}
+            type="button"
+            title="Reset"
+          >
+            <RotateCcw />
+            Reset
+          </button>
+        </div>
+
+        {/* Complete state */}
+        {finished && (
+          <div className="mt-6 grid place-items-center">
+            <div className="complete text-sm px-3 py-1 rounded-full">Complete</div>
+            <div className="complete-text mt-2 text-xs">Good. Now do the review, not Twitter.</div>
+          </div>
+        )}
+      </SectionCard.Body>
+
+      {/* Local styles for neon pills, glitch loader, and complete state */}
+      <style jsx>{`
+        /* Emphasize active tab text glow (works with TabBar) */
+        [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
+
+        /* === GLITCH BAR === */
+        .lg-loader {
+          position: relative;
+          height: 12px;
+          border-radius: 9999px;
+          overflow: hidden;
+          background: linear-gradient(90deg, hsl(var(--muted) / .25), hsl(var(--muted) / .15));
+          box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
+          isolation: isolate;
+        }
+
+        .lg-noise {
+          position: absolute; inset: 0;
+          background:
+            repeating-linear-gradient(90deg, transparent 0 8px, hsl(var(--foreground) / .03) 8px 9px),
+            repeating-linear-gradient(180deg, hsl(var(--foreground) / .02) 0 1px, transparent 1px 3px);
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          opacity: .8;
+          animation: glitchNoise 1600ms steps(16) infinite;
+        }
+
+        .lg-progress {
+          position: absolute; inset: 0;
+          width: var(--pct);
+          background:
+            linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+          box-shadow:
+            inset 0 0 10px hsl(var(--primary) / .7),
+            inset 0 0 16px hsl(var(--accent) / .6);
+          border-right: 0 solid transparent;
+          -webkit-mask-image:
+            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+          mask-image:
+            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+          animation:
+            widthEase 220ms ease,
+            jitter 900ms steps(12) infinite;
+        }
+
+        .lg-progress.rgb {
+          mix-blend-mode: screen;
+          opacity: .5;
+          filter: blur(1px);
+        }
+        .lg-progress.rgb.r {
+          background: linear-gradient(90deg, #ff2d75 0%, #ffc4f0 100%);
+          transform: translateX(-1px);
+          animation:
+            widthEase 220ms ease,
+            jitterX 900ms steps(12) infinite reverse;
+        }
+        .lg-progress.rgb.b {
+          background: linear-gradient(90deg, #3aa8ff 0%, #cde9ff 100%);
+          transform: translateX(1px);
+          animation:
+            widthEase 220ms ease,
+            jitterX 900ms steps(12) infinite;
+        }
+
+        .lg-scan {
+          position: absolute; inset: 0;
+          background: linear-gradient(90deg, transparent, hsl(var(--ring) / .22), transparent);
+          mix-blend-mode: screen;
+          pointer-events: none;
+          animation: scan 2.2s linear infinite;
+        }
+
+        @keyframes widthEase { from { width: calc(var(--pct) * .985); } to { width: var(--pct); } }
+        @keyframes scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes jitter {
+          0%{ transform: translateY(0) }
+          50%{ transform: translateY(-0.5px) }
+          100%{ transform: translateY(0) }
+        }
+        @keyframes jitterX {
+          0%{ transform: translateX(0) }
+          50%{ transform: translateX(1px) }
+          100%{ transform: translateX(0) }
+        }
+        @keyframes glitchNoise {
+          0%{ background-position: 0 0, 0 0 }
+          100%{ background-position: 16px 0, 0 8px }
+        }
+
+        .complete {
+          background: linear-gradient(90deg,hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+          color: hsl(var(--primary-foreground));
+          box-shadow: 0 0 12px hsl(var(--ring)/.25);
+          animation: softPulse 2.4s ease-in-out infinite;
+        }
+        .complete-text {
+          color: hsl(var(--muted-foreground));
+          text-shadow: 0 0 8px hsl(var(--ring)/.25);
+          animation: flicker .2s steps(2) 12, glow 2.4s ease-in-out infinite 2.4s;
+        }
+        @keyframes softPulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes flicker { 0%{opacity:.2} 50%{opacity:1} 100%{opacity:.4} }
+        @keyframes glow {
+          0%,100%{ text-shadow: 0 0 12px hsla(var(--primary), .35) }
+          50%{ text-shadow: 0 0 24px hsla(var(--accent), .65) }
+        }
+      `}</style>
+    </SectionCard>
+  );
+}

@@ -1,0 +1,58 @@
+/* src/components/team/style.css */
+
+/* Champ badges */
+.champ-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.champ-badge{
+  display: inline-flex; align-items: center;
+  height: 1.75rem; padding: 0 0.6rem; border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card)); color: hsl(var(--foreground));
+  font-size: 0.75rem; line-height: 1; white-space: nowrap;
+  transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
+}
+.champ-badge:hover{ background: hsl(var(--primary-soft)); border-color: hsl(var(--ring)); }
+.champ-badge--dense{ height: 1.5rem; padding: 0 0.5rem; }
+
+/* Title flicker ONLY within the Team scope */
+[data-scope="team"] .glitch-title{ position: relative; display: inline-block; }
+[data-scope="team"] .glitch-title::before,
+[data-scope="team"] .glitch-title::after{
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0; pointer-events: none; mix-blend-mode: screen;
+}
+[data-scope="team"] .glitch-title::before{
+  color: hsl(var(--accent));
+  clip-path: polygon(0 2%, 100% 2%, 100% 40%, 0 40%);
+  animation: team-glitch-jitter 2.1s infinite linear alternate-reverse;
+}
+[data-scope="team"] .glitch-title::after{
+  color: hsl(var(--primary));
+  clip-path: polygon(0 60%, 100% 60%, 100% 98%, 0 98%);
+  animation: team-glitch-jitter 1.9s infinite linear;
+}
+[data-scope="team"] .glitch-flicker{
+  animation: team-glitch-flicker 4s infinite steps(1, end);
+  text-shadow:
+    0 0 0.45rem hsl(var(--ring) / .55),
+    0 0 0.1rem hsl(var(--accent) / .35);
+}
+
+@keyframes team-glitch-jitter{
+  0%{transform: translate(0,0)}10%{transform: translate(1px,-1px)}20%{transform: translate(-1px,1px)}
+  30%{transform: translate(1px,0)}40%{transform: translate(-1px,0)}50%{transform: translate(1px,1px)}
+  60%{transform: translate(-1px,-1px)}70%{transform: translate(0,1px)}80%{transform: translate(-1px,0)}
+  90%{transform: translate(1px,0)}100%{transform: translate(0,0)}
+}
+@keyframes team-glitch-flicker{
+  0%,2%,35%,37%,100%{opacity:1;filter:none}
+  1%{opacity:.86;filter:blur(.2px)}
+  36%{opacity:.92;filter:blur(.1px)}
+  60%{opacity:.88;filter:blur(.22px)}
+  61%{opacity:1;filter:none}
+}
+
+@media (prefers-reduced-motion: reduce){
+  [data-scope="team"] .glitch-title::before,
+  [data-scope="team"] .glitch-title::after{ display:none; }
+  [data-scope="team"] .glitch-flicker{ animation: none; text-shadow: none; }
+}

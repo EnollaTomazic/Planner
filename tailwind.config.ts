@@ -1,0 +1,41 @@
+// Tailwind config — Lavender‑Glitch theme bindings
+// - TypeScript config; works with Tailwind 3.4+
+// - Dark mode by class; colors map to CSS variables in globals.css
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: ["class"],
+  content: ["./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: { DEFAULT: "hsl(var(--card))" },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+          soft: "hsl(var(--primary-soft))"
+        },
+        accent: { DEFAULT: "hsl(var(--accent))", soft: "hsl(var(--accent-soft))" },
+        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" }
+      },
+      borderRadius: { lg: "12px", xl: "16px", "2xl": "24px" },
+      boxShadow: {
+        neo: "0 6px 20px -6px hsl(var(--shadow-color))",
+        neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))"
+      },
+      transitionTimingFunction: {
+        out: "cubic-bezier(0.16, 1, 0.3, 1)",
+        snap: "cubic-bezier(0.22, 1, 0.36, 1)"
+      },
+      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" }
+    }
+  },
+  plugins: []
+};
+
+export default config;
