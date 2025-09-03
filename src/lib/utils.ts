@@ -26,8 +26,10 @@ export function cn(...inputs: ClassValue[]): string {
     }
     if (v && typeof v === "object" && !Array.isArray(v)) {
       const dict = v as Record<string, unknown>;
-      for (const k in dict) {
-        if (dict[k]) out.push(k);
+      // Only iterate over an object's own enumerable properties to avoid
+      // leaking prototype keys into the class list.
+      for (const [k, val] of Object.entries(dict)) {
+        if (val) out.push(k);
       }
       return;
     }
