@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "type": "npm", "script": "dev",   "label": "npm: dev",   "problemMatcher": [] },
+    { "type": "npm", "script": "build", "label": "npm: build", "group": "build" },
+    { "type": "npm", "script": "start", "label": "npm: start" },
+    { "type": "npm", "script": "lint",  "label": "npm: lint" }
+  ]
+}
