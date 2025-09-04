@@ -2,6 +2,7 @@
 
 import NavBar from "@/components/chrome/NavBar";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
+import AnimationToggle from "@/components/ui/AnimationToggle";
 import "@/app/globals.css";
 
 /**
@@ -29,9 +30,7 @@ export default function SiteChrome() {
         <div className="flex items-center gap-3">
           <NavBar />
           <ThemeToggle />
-          <div className="rounded-xl border px-2 py-[2px] text-[10px] text-[hsl(var(--muted-foreground))] opacity-80">
-            v1
-          </div>
+          <AnimationToggle />
         </div>
       </div>
 
