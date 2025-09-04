@@ -41,7 +41,7 @@ const DayRow = React.memo(
 );
 
 /* ───────── Scroll-to-top button ───────── */
-function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
+function ScrollTopFloatingButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -64,9 +64,9 @@ function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> 
 
   return (
     <IconButton
-      aria-label="Back to top"
+      aria-label="Scroll to top"
       onClick={scrollTop}
-      className="fixed bottom-6 right-6 z-50"
+      className="fixed top-1/2 -translate-y-1/2 right-2 z-50"
     >
       <ArrowUp />
     </IconButton>
@@ -118,7 +118,7 @@ function Inner() {
         ))}
       </section>
       </main>
-      <BackToTopButton watchRef={heroRef} />
+      <ScrollTopFloatingButton watchRef={heroRef} />
     </>
   );
 }
