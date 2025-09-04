@@ -24,6 +24,7 @@ const noFlash = `
   try {
     var MODE_KEY = 'lg-mode';
     var VAR_KEY  = 'lg-variant';
+    var BG_KEY   = 'lg-bg';
     var LEGACY   = 'lg-theme';
     var cl = document.documentElement.classList;
 
@@ -59,12 +60,19 @@ const noFlash = `
       variant = 'lg';
       try { localStorage.setItem(VAR_KEY, variant); } catch (_) {}
     }
+    var bg = parseInt(localStorage.getItem(BG_KEY) || '0', 10);
+    if (bg !== 1 && bg !== 2) {
+      bg = 0;
+      try { localStorage.setItem(BG_KEY, String(bg)); } catch (_) {}
+    }
 
     // ---- apply one theme-* class ----
     Array.from(cl).forEach(function (name) {
       if (name.indexOf('theme-') === 0) cl.remove(name);
     });
     cl.add('theme-' + variant);
+    ['bg-alt1','bg-alt2'].forEach(function (c) { cl.remove(c); });
+    if (bg === 1) cl.add('bg-alt1'); else if (bg === 2) cl.add('bg-alt2');
 
     // ---- light only matters for the base LG theme ----
     if (variant === 'lg') {
