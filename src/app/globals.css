@@ -445,7 +445,7 @@ html.bg-intense body::after {
   }
 
   .btn-like-segmented {
-    @apply inline-flex items-center rounded-2xl border px-3.5 py-2 text-sm transition;
+    @apply inline-flex items-center rounded-2xl border px-4 py-2 text-sm transition;
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));
