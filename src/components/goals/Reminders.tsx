@@ -145,10 +145,6 @@ export default function Reminders() {
     setQuickAdd("");
   }
 
-  function addNew() {
-    addNewWithTitle("New reminder");
-  }
-
   function patch(id: string, partial: Partial<Reminder>) {
     setItems(prev => prev.map(r => (r.id === id ? { ...r, ...partial, updatedAt: Date.now() } : r)));
   }
@@ -209,9 +205,6 @@ export default function Reminders() {
             </button>
 
             {/* actions */}
-            <IconButton title="Add reminder" aria-label="Add reminder" onClick={addNew} circleSize="md">
-              <Plus />
-            </IconButton>
             <button className="btn-like-segmented h-10" onClick={resetSeeds} type="button" title="Replace with curated seeds">
               Reset
             </button>
