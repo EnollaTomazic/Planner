@@ -370,28 +370,23 @@ function ChampPillsEdit({
       {(list.length ? list : [""]).map((c, i) => (
         <span key={i} className="champ-badge text-xs">
           <i className="dot" />
-          <span
-            contentEditable
+          <input
+            type="text"
             dir="ltr"
-            suppressContentEditableWarning
-            className="outline-none"
-            onInput={(e) => setAt(i, (e.currentTarget.textContent ?? "").trim())}
+            value={c}
+            onChange={(e) => setAt(i, e.currentTarget.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === ",") {
                 e.preventDefault();
                 insertAfter(i);
               }
-              if (e.key === "Backspace") {
-                const text = (e.currentTarget.textContent ?? "").trim();
-                if (!text) {
-                  e.preventDefault();
-                  removeAt(i);
-                }
+              if (e.key === "Backspace" && !e.currentTarget.value) {
+                e.preventDefault();
+                removeAt(i);
               }
             }}
-          >
-            {c}
-          </span>
+            className="bg-transparent outline-none border-none w-24"
+          />
         </span>
       ))}
     </div>
