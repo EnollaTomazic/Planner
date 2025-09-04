@@ -1,4 +1,3 @@
-// src/components/ui/primitives/searchBar.tsx
 "use client";
 
 import * as React from "react";
@@ -54,32 +53,35 @@ export default function SearchBar({
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
-  const [local, setLocal] = React.useState(value);
+  const [query, setQuery] = React.useState(value);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   // Mirror external value into local state whenever it changes.
-  // No need to read `local` here; linter calms down.
+  // No need to read `query` here; linter calms down.
   React.useEffect(() => {
-    setLocal(value);
+    setQuery(value);
   }, [value]);
 
   // Debounced emit of local changes
   React.useEffect(() => {
     if (!onValueChange) return;
     if (debounceMs <= 0) {
-      onValueChange(local);
+      onValueChange(query);
       return;
     }
-    const t = setTimeout(() => onValueChange(local), debounceMs);
+    const t = setTimeout(() => onValueChange(query), debounceMs);
     return () => clearTimeout(t);
-  }, [local, onValueChange, debounceMs]);
+  }, [query, onValueChange, debounceMs]);
 
-  const showClear = clearable && local.length > 0;
+  const showClear = clearable && query.length > 0;
 
   return (
     <div
       className={cn(
-        "grid grid-cols-[1fr,auto] items-center gap-2 w-full",
+        // Two-column grid: search input + optional right slot
+        // Tailwind's arbitrary value syntax uses an underscore instead of a comma.
+        // `minmax(0,1fr)` prevents input overflow when space is constrained.
+        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full",
         className
       )}
     >
@@ -93,9 +95,9 @@ export default function SearchBar({
 
         <Input
           ref={inputRef}
-          value={local}
+          value={query}
           onChange={(e) => {
-            setLocal(e.target.value);
+            setQuery(e.target.value);
             onChange?.(e); // immediate callback if the consumer wants it
           }}
           placeholder={placeholder}
@@ -116,9 +118,10 @@ export default function SearchBar({
             tone="primary"
             circleSize={btnCircleMap[size]}
             iconSize={btnIconMap[size]}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2"
+            // Position clear button inside the input without overlapping text
+            className="!absolute right-2 top-1/2 -translate-y-1/2"
             onClick={() => {
-              setLocal("");
+              setQuery("");
               onValueChange?.("");
               inputRef.current?.focus();
             }}

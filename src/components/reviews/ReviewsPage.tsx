@@ -120,6 +120,7 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
+                  buttonClassName="h-10 px-3.5"
                 />
               </div>
               <Button

@@ -219,39 +219,40 @@ export default function GoalsPage() {
                   <span className="text-xs text-muted-foreground tabular-nums">{pctDone}%</span>
                 </div>
 
-                {/* filter chips */}
-                <div className="segmented" role="tablist" aria-label="Filter">
-                  {FILTERS.map((f) => {
-                    const active = filter === f;
-                    return (
-                      <button
-                        key={f}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        className={["btn-like-segmented", active && "is-active"]
-                          .filter(Boolean)
-                          .join(" ")}
-                        onClick={() => setFilter(f)}
-                      >
-                        {f}
-                      </button>
-                    );
-                  })}
+                {/* right side controls */}
+                <div className="ml-auto flex items-center gap-2 sm:gap-3">
+                  {/* filter chips */}
+                  <div className="segmented" role="tablist" aria-label="Filter">
+                    {FILTERS.map((f) => {
+                      const active = filter === f;
+                      return (
+                        <button
+                          key={f}
+                          type="button"
+                          role="tab"
+                          aria-selected={active}
+                          className={["btn-like-segmented", active && "is-active"]
+                            .filter(Boolean)
+                            .join(" ")}
+                          onClick={() => setFilter(f)}
+                        >
+                          {f}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Sort dropdown */}
+                  <AnimatedSelect
+                    id="goals-sort"
+                    prefixLabel="Sort"
+                    items={SORT_ITEMS}
+                    value={sort}
+                    onChange={(v) => setSort((v as SortKey) ?? "Newest")}
+                    buttonClassName="h-9"
+                    ariaLabel="Sort goals"
+                  />
                 </div>
-
-                <div className="ml-auto" />
-
-                {/* Sort on the right */}
-                <AnimatedSelect
-                  id="goals-sort"
-                  prefixLabel="Sort"
-                  items={SORT_ITEMS}
-                  value={sort}
-                  onChange={(v) => setSort((v as SortKey) ?? "Newest")}
-                  buttonClassName="h-9"
-                  ariaLabel="Sort goals"
-                />
               </div>
             </SectionCard.Header>
 
@@ -290,7 +291,7 @@ export default function GoalsPage() {
                             title={g.done ? "Mark active" : "Mark done"}
                             aria-label={g.done ? "Mark active" : "Mark done"}
                             onClick={() => toggleDone(g.id)}
-                            className="rounded-full p-1.5 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+                            className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
                           >
                             {g.done ? (
                               <Check className="[&>path]:stroke-[2] size-5" />
@@ -311,6 +312,7 @@ export default function GoalsPage() {
                             title="Delete"
                             aria-label="Delete goal"
                             onClick={() => removeGoal(g.id)}
+                            circleSize="sm"
                           >
                             <Trash2 />
                           </IconButton>
@@ -367,7 +369,7 @@ export default function GoalsPage() {
                     addGoal();
                   }}
                 >
-                  <label className="grid gap-1">
+                  <label className="grid gap-2">
                     <span className="text-xs text-muted-foreground">Title</span>
                     <Input
                       className="h-10 w-full"
@@ -378,7 +380,7 @@ export default function GoalsPage() {
                     />
                   </label>
 
-                  <label className="grid gap-1">
+                  <label className="grid gap-2">
                     <span className="text-xs text-muted-foreground">Metric (optional)</span>
                     <Input
                       className="h-10 w-full tabular-nums"
@@ -388,7 +390,7 @@ export default function GoalsPage() {
                     />
                   </label>
 
-                  <label className="grid gap-1">
+                  <label className="grid gap-2">
                     <span className="text-xs text-muted-foreground">Notes (optional)</span>
                     <Textarea
                       className="w-full min-h-[120px]"

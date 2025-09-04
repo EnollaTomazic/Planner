@@ -8,6 +8,9 @@ body,
 #__next {
   height: 100%;
 }
+html {
+  scroll-behavior: smooth;
+}
 * {
   box-sizing: border-box;
 }
