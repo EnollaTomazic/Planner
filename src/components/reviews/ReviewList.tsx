@@ -6,6 +6,7 @@ import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Ghost, Trash2 } from "lucide-react";
+import IconButton from "@/components/ui/IconButton";
 
 type Props = {
   reviews: Review[];
@@ -144,26 +145,18 @@ export default function ReviewList({
               {/* Right controls — fixed width; circular icon button */}
               <div className="flex h-full w-10 items-center justify-end">
                 {onDelete ? (
-                  <button
-                    type="button"
+                  <IconButton
                     aria-label="Delete review"
-                    title="Delete review"
-                    className={cn(
-                      "rounded-full h-8 w-8 flex items-center justify-center",
-                      // constant border for no-jump + subtle bg
-                      "border border-[hsl(var(--border)/.35)] bg-[hsl(var(--card))]",
-                      "opacity-0 group-hover/review:opacity-100 group-focus-within/review:opacity-100",
-                      "transition-[opacity,box-shadow,border-color,background] duration-200",
-                      // subtle glow only
-                      "hover:border-[hsl(var(--border)/.6)] hover:shadow-[0_2px_8px_hsl(var(--shadow-color)/.2)]"
-                    )}
+                    size="sm"
+                    variant="destructive"
+                    className="opacity-0 group-hover/review:opacity-100 group-focus-within/review:opacity-100"
                     onClick={(e) => {
                       e.stopPropagation();
                       onDelete?.(r.id);
                     }}
                   >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                    <Trash2 />
+                  </IconButton>
                 ) : null}
               </div>
             </div>
