@@ -86,7 +86,7 @@ export default function TodayHero({ iso }: Props) {
             onChange={v => { setSelProjectId(v); /* clears task selection via hook */ }}
             label="Project"
             hideLabel
-            buttonClassName="h-10 rounded-2xl"
+            buttonClassName="h-10 rounded-full"
             dropdownClassName="rounded-2xl"
             placeholder="Select a project"
           />
