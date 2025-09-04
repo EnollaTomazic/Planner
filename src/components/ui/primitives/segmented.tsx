@@ -81,15 +81,17 @@ export const SegmentedGroup = ({
         if (!React.isValidElement<SegmentedButtonProps>(child)) return child;
         const selected = child.props.value === value;
         return React.cloneElement(
-          child as React.ReactElement<any>,
+          child as React.ReactElement<SegmentedButtonProps>,
           {
             ref: setBtnRef(i),
             tabIndex: selected ? 0 : -1,
             selected,
             onSelect: () => onChange(child.props.value),
             id: child.props.id ?? `${child.props.value}-tab`,
-            "aria-controls": child.props["aria-controls"] ?? `${child.props.value}-panel`,
-          } as any
+            "aria-controls":
+              child.props["aria-controls"] ?? `${child.props.value}-panel`,
+          } as Partial<SegmentedButtonProps> &
+            React.RefAttributes<HTMLButtonElement>
         );
       })}
     </div>
