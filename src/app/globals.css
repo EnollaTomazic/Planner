@@ -176,15 +176,15 @@ html.bg-intense body::after {
     will-change: transform, box-shadow;
   }
   .card-neo {
-    background: hsl(var(--card));
+    background: hsl(var(--card) / 0.75);
     box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
       0 30px 60px hsl(250 30% 2% / 0.35);
   }
   .card-neo-soft {
     background: linear-gradient(
       180deg,
-      hsl(var(--card)),
-      hsl(var(--card) / 0.9)
+      hsl(var(--card) / 0.75),
+      hsl(var(--card) / 0.55)
     );
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
