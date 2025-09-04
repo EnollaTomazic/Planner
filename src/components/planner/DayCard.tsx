@@ -32,6 +32,8 @@ export default function DayCard({ iso, isToday }: Props) {
   const [draftTask, setDraftTask] = React.useState("");
   const [editingProjectId, setEditingProjectId] = React.useState<string | null>(null);
   const [editingProjectName, setEditingProjectName] = React.useState("");
+  const projectInputRef = React.useRef<HTMLInputElement>(null);
+  const taskInputRef = React.useRef<HTMLInputElement>(null);
 
   // If the selected project goes away, clear selection
   React.useEffect(() => {
@@ -72,35 +74,23 @@ export default function DayCard({ iso, isToday }: Props) {
   return (
     <section
       className={cn(
-        "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
-        "grid gap-4 lg:gap-6",
+        "daycard relative rounded-2xl border p-4",
+        "grid gap-6",
         "grid-cols-1 lg:grid-cols-[340px_1px_1fr]",
-        isToday && "ring-1 ring-[hsl(var(--ring)/0.65)] title-glow",
-        "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r",
-        "before:from-transparent before:via-[hsl(var(--ring)/.45)] before:to-transparent",
-        "after:pointer-events-none after:absolute after:-inset-px after:rounded-2xl after:bg-[radial-gradient(60%_40%_at_100%_0%,hsl(var(--ring)/.12),transparent_60%)]"
+        isToday && "ring-1 ring-[hsl(var(--ring)/0.65)]"
       )}
       aria-label={`Planner for ${iso}`}
     >
       {/* Header */}
-      <div className="col-span-1 lg:col-span-3 flex items-center gap-3 min-w-0">
-        <span className="glitch glitch-label text-sm font-semibold tracking-wide shrink-0" data-text={headerText}>
-          {headerText}
-        </span>
+      <div className="col-span-1 lg:col-span-3 flex items-center gap-4 min-w-0">
+        <span className="text-sm font-semibold shrink-0">{headerText}</span>
 
-        <div className="flex-1 min-w-0">
-          <div
-            className={cn("glitch-track", pctNum === 100 && "is-complete")}
-            role="progressbar"
-            aria-valuemin={0} aria-valuemax={100} aria-valuenow={pctNum}
-          >
-            <div className="glitch-fill transition-[width] duration-500 ease-out" style={{ width: `${pctNum}%` }} />
-            <div className="glitch-scan" />
-          </div>
+        <div className="flex-1 h-1.5 rounded-full bg-muted" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pctNum}>
+          <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${pctNum}%` }} />
         </div>
 
-        <div className="shrink-0 flex items-baseline gap-3 text-xs text-[hsl(var(--muted-foreground))]">
-          <span className="tabular-nums font-medium text-[hsl(var(--foreground))]">{pctNum}%</span>
+        <div className="shrink-0 flex items-baseline gap-3 text-xs text-muted-foreground">
+          <span className="tabular-nums font-medium text-foreground">{pctNum}%</span>
           <span className="hidden sm:inline">·</span>
           <span className="whitespace-nowrap"><span className="tabular-nums">{projects.length}</span> projects</span>
           <span className="hidden sm:inline">·</span>
@@ -114,6 +104,7 @@ export default function DayCard({ iso, isToday }: Props) {
         onSubmit={e => { e.preventDefault(); addProjectCommit(); }}
       >
         <Input
+          ref={projectInputRef}
           className="task-input w-full"
           placeholder="> new project…"
           value={draftProject}
@@ -126,7 +117,18 @@ export default function DayCard({ iso, isToday }: Props) {
       <div className="flex flex-col gap-3 min-w-0">
         <div className={cn("mt-1 px-0 py-2 w-full", projectsScrollable ? "max-h-[260px] overflow-y-auto" : "overflow-visible")}>
           {projects.length === 0 ? (
-            <EmptyRow text="No projects yet." />
+            <div className="border border-dashed rounded-lg p-6 text-center text-sm text-muted-foreground">
+              No projects yet.
+              <div className="mt-2">
+                <button
+                  type="button"
+                  className="rounded-md border px-2 py-1 text-xs"
+                  onClick={() => projectInputRef.current?.focus()}
+                >
+                  Add project
+                </button>
+              </div>
+            </div>
           ) : (
             <ul className="w-full space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5" role="radiogroup" aria-label="Projects">
               {projects.map((p, idx) => {
@@ -216,6 +218,7 @@ export default function DayCard({ iso, isToday }: Props) {
       <div className="flex flex-col gap-3 min-w-0">
         {selectedProjectId && (
           <Input
+            ref={taskInputRef}
             className="task-input w-full"
             placeholder="> add task…"
             value={draftTask}
@@ -226,9 +229,25 @@ export default function DayCard({ iso, isToday }: Props) {
         )}
         <div className="min-h-[120px] max-h-[320px] overflow-y-auto px-2 py-2">
           {!selectedProjectId ? (
-            <EmptyRow text="No task selected." />
+            <div className="border border-dashed rounded-lg p-6 text-center text-sm text-muted-foreground">
+              No task selected.
+              <div className="mt-2">
+                <button type="button" className="rounded-md border px-2 py-1 text-xs">Select project</button>
+              </div>
+            </div>
           ) : tasksForSelected.length === 0 ? (
-            <EmptyRow text="No tasks selected." />
+            <div className="border border-dashed rounded-lg p-6 text-center text-sm text-muted-foreground">
+              No tasks yet.
+              <div className="mt-2">
+                <button
+                  type="button"
+                  className="rounded-md border px-2 py-1 text-xs"
+                  onClick={() => taskInputRef.current?.focus()}
+                >
+                  Add task
+                </button>
+              </div>
+            </div>
           ) : (
             <ul className="space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5" aria-label="Tasks">
               {tasksForSelected.map(t => (
@@ -247,10 +266,6 @@ export default function DayCard({ iso, isToday }: Props) {
       </div>
     </section>
   );
-}
-
-function EmptyRow({ text }: { text: string }) {
-  return <div className="tasks-placeholder text-xs">{text}</div>;
 }
 
 function TaskRow({

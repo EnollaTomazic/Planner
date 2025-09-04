@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import Hero2 from "@/components/ui/layout/Hero2";
 import Button from "@/components/ui/primitives/button";
 import { useFocusDate, useDay, type ISODate } from "./usePlanner";
 import { cn } from "@/lib/utils";
@@ -97,38 +96,27 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative w-full rounded-2xl border text-left px-3 py-2 transition",
-        // default border is NOT white; use card hairline tint
-        "border-[hsl(var(--card-hairline))] bg-[hsl(var(--card)/0.75)]",
+        "relative w-full rounded-2xl border px-3 py-2 text-left",
+        "border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.6)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-        today && "chip--today",
-        selected
-          ? cn(
-              // “armed” personality: dashed, tinted border + subtle glow
-              "border-dashed border-[hsl(var(--primary)/.75)] shadow-[0_8px_22px_hsl(var(--shadow-color)/.22)]",
-              "ring-1 ring-[hsl(var(--primary)/.45)]"
-            )
-          : "hover:border-[hsl(var(--primary)/.4)] hover:shadow-[0_6px_18px_hsl(var(--shadow-color)/.18)]"
+        today && "ring-1 ring-[hsl(var(--ring)/0.6)]",
+        selected && "border-dashed border-[hsl(var(--primary))]"
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
     >
       <div
         className={cn(
-          "chip__date",
+          "text-xs",
           today ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--muted-foreground))]"
         )}
-        data-text={iso}
       >
         {iso}
       </div>
-      <div className="chip__counts">
+      <div className="mt-1 text-sm">
         <span className="tabular-nums text-[hsl(var(--foreground))]">{done}</span>
         <span className="text-[hsl(var(--muted-foreground))]"> / {total}</span>
       </div>
-      {/* decorative layers */}
-      <span aria-hidden className="chip__scan" />
-      <span aria-hidden className="chip__edge" />
     </button>
   );
 }
@@ -191,111 +179,47 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top-right controls go in Hero2.right */
-  const right = (
-    <div className="flex items-center gap-2">
-      <Button
-        variant="ghost"
-        size="sm"
-        vibe="lift"
-        pill
-        aria-label="Previous week"
-        leftIcon={<ChevronLeft className="btn-icon" />}
-        onClick={prevWeek}
-      >
-        Prev
-      </Button>
-      <Button
-        variant="secondary"
-        size="sm"
-        vibe="glitch"
-        pill
-        aria-label="Jump to today"
-        onClick={jumpToday}
-      >
-        Today
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        vibe="lift"
-        pill
-        aria-label="Next week"
-        rightIcon={<ChevronRight className="btn-icon" />}
-        onClick={nextWeek}
-      >
-        Next
-      </Button>
-
-      {showTop && (
-        <Button
-          variant="destructive"
-          size="sm"
-          vibe="lift"
-          pill
-          aria-label="Jump to top"
-          leftIcon={<ArrowUpToLine className="btn-icon" />}
-          onClick={jumpToTop}
-          title="Jump to top"
-        >
-          Top
-        </Button>
-      )}
-    </div>
-  );
-
   return (
-    <Hero2
-      heading={
-        <span className="hero2-title" data-text={heading}>
-          {heading}
-        </span>
-      }
-      subtitle={`${isoStart} → ${isoEnd}`}
-      right={right}
-      rail
-      sticky
-      dividerTint="primary"
-      bottom={
-        <div className="grid gap-3 flex-1">
-          {/* Range + totals */}
-          <div className="flex items-center justify-between gap-3">
-            <span
-              className={cn(
-                "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
-                "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
-              )}
-              aria-label={`Week range ${rangeLabel}`}
-            >
-              <CalendarDays className="size-4 opacity-80" />
-              <span className="opacity-90">{rangeLabel}</span>
-            </span>
-
-            <span className="text-sm text-[hsl(var(--muted-foreground))]">
-              <span className="opacity-70">Total tasks: </span>
-              <span className="font-medium tabular-nums text-[hsl(var(--foreground))]">
-                {weekDone} / {weekTotal}
-              </span>
-            </span>
-          </div>
-
-          {/* Day chips */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
-            {days.map((d, i) => (
-              <DayChip
-                key={d}
-                iso={d}
-                selected={d === iso}
-                today={d === today}
-                done={per[i]?.done ?? 0}
-                total={per[i]?.total ?? 0}
-                onClick={selectOnly}
-                onDoubleClick={jumpToDay}
-              />
-            ))}
-          </div>
+    <section className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-xl font-semibold">{heading}</h1>
+          <p className="text-sm text-muted-foreground">
+            {isoStart} — {isoEnd}
+          </p>
         </div>
-      }
-    />
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="ghost" onClick={prevWeek} leftIcon={<ChevronLeft className="h-4 w-4" />}>Prev</Button>
+          <Button size="sm" variant="ghost" onClick={jumpToday}>Today</Button>
+          <Button size="sm" variant="ghost" onClick={nextWeek} rightIcon={<ChevronRight className="h-4 w-4" />}>Next</Button>
+          {showTop && (
+            <Button size="sm" variant="ghost" onClick={jumpToTop} leftIcon={<ArrowUpToLine className="h-4 w-4" />}>Top</Button>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <span className="inline-flex items-center gap-2">
+          <CalendarDays className="h-4 w-4" />
+          {rangeLabel}
+        </span>
+        <span>
+          {weekDone} / {weekTotal}
+        </span>
+      </div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+        {days.map((d, i) => (
+          <DayChip
+            key={d}
+            iso={d}
+            selected={d === iso}
+            today={d === today}
+            done={per[i]?.done ?? 0}
+            total={per[i]?.total ?? 0}
+            onClick={selectOnly}
+            onDoubleClick={jumpToDay}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

@@ -59,48 +59,37 @@ export default function TodayHero({ iso }: Props) {
   const openPicker = () => { const el = dateRef.current as DateInputWithPicker | null; if (el?.showPicker) el.showPicker(); else dateRef.current?.focus(); };
 
   return (
-    <section className="bg-hero-soft rounded-card card-pad-lg anim-in">
-      {/* Header */}
-      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
-          <h2 className="glitch text-lg font-semibold tracking-tight" data-text={isToday ? "Today" : viewIso}>
-            {isToday ? "Today" : viewIso}
-          </h2>
+    <section className="rounded-2xl border p-4 space-y-4">
+      {/* Header with inline progress */}
+      <div className="flex items-center gap-4">
+        <h2 className="text-lg font-semibold">{isToday ? "Today" : viewIso}</h2>
+        <div className="flex-1 h-1.5 rounded-full bg-muted" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
+          <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${pct}%` }} />
         </div>
-
-        <div className="flex items-center gap-2">
-          <input
-            ref={dateRef}
-            type="date"
-            value={viewIso || nowISO}
-            onChange={e => setIso(e.target.value)}
-            aria-label="Change focused date"
-            className="sr-only"
-          />
-          <IconButton
-            aria-label="Open calendar"
-            title={viewIso}
-            onClick={openPicker}
-            circleSize="md"
-            variant="ring"
-            iconSize="md"
-          >
-            <Calendar />
-          </IconButton>
-        </div>
-      </div>
-
-      {/* Animated Progress of selected project */}
-      <div className="mb-4 flex items-center gap-3">
-        <div className={cn("glitch-track w-full", pct === 100 && "is-complete")} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
-          <div className="glitch-fill transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
-          <div className="glitch-scan" />
-        </div>
-        <span className="glitch-percent w-12 text-right text-sm" aria-live="polite">{pct}%</span>
+        <span className="w-12 text-right text-sm" aria-live="polite">{pct}%</span>
+        <input
+          ref={dateRef}
+          type="date"
+          value={viewIso || nowISO}
+          onChange={e => setIso(e.target.value)}
+          aria-label="Change focused date"
+          className="sr-only"
+        />
+        <IconButton
+          aria-label="Open calendar"
+          title={viewIso}
+          onClick={openPicker}
+          circleSize="sm"
+          variant="ring"
+          fx={false}
+          iconSize="sm"
+        >
+          <Calendar />
+        </IconButton>
       </div>
 
       {/* Projects */}
-      <div className="mt-4 space-y-4">
+      <div className="space-y-4">
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -176,9 +165,11 @@ export default function TodayHero({ iso }: Props) {
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
-        <div className="mt-4 text-[13px] text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
+        <div className="border border-dashed rounded-lg p-6 text-center text-sm text-muted-foreground">
+          Select a project to add tasks.
+        </div>
       ) : (
-        <div className="mt-4 space-y-4">
+        <div className="space-y-4">
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -198,7 +189,9 @@ export default function TodayHero({ iso }: Props) {
           </form>
 
           {scopedTasks.length === 0 ? (
-            <div className="tasks-placeholder">No tasks yet.</div>
+            <div className="border border-dashed rounded-lg p-6 text-center text-sm text-muted-foreground">
+              No tasks yet.
+            </div>
           ) : (
             <ul className="space-y-2" role="list" aria-label="Tasks">
               {scopedTasks.slice(0, 12).map(t => {

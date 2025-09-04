@@ -112,7 +112,7 @@ function Inner() {
       </section>
 
       {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
-      <section role="list" aria-label="Week days (Monday to Sunday)" className="flex flex-col gap-4">
+      <section role="list" aria-label="Week days (Monday to Sunday)" className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {dayItems.map(item => (
           <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
         ))}

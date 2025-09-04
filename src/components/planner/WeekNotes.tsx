@@ -8,7 +8,6 @@ import "./style.css";
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/textarea";
 import { usePlanner, type ISODate } from "./usePlanner";
 
@@ -27,19 +26,17 @@ export default function WeekNotes({ iso }: Props) {
   }, [day.notes]);
 
   return (
-    <SectionCard className="card-neo-soft">
-      <SectionCard.Header title="Notes" />
-      <SectionCard.Body>
-        <Textarea
-          placeholder="Jot down anything related to this day…"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          name={`notes-${iso}`}
-          className="planner-textarea"
-          onBlur={() => setNotes(value)}
-        />
-        <p className="mt-2 text-xs text-[hsl(var(--muted-foreground))]">Autosaves on blur.</p>
-      </SectionCard.Body>
-    </SectionCard>
+    <section className="rounded-2xl border p-4 space-y-2">
+      <h2 className="text-base font-semibold">Notes</h2>
+      <Textarea
+        placeholder="Jot anything for this day…"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        name={`notes-${iso}`}
+        className="min-h-[80px] rounded-lg border p-2 text-sm"
+        onBlur={() => setNotes(value)}
+      />
+      <p className="text-xs text-muted-foreground">Autosaves on blur</p>
+    </section>
   );
 }
