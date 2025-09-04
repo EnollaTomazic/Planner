@@ -9,7 +9,6 @@ export interface GlitchSegmentedGroupProps {
   ariaLabel?: string;
   children: React.ReactNode;
   className?: string;
-  intensity?: "calm" | "default" | "feral";
 }
 
 export interface GlitchSegmentedButtonProps
@@ -18,7 +17,6 @@ export interface GlitchSegmentedButtonProps
   icon?: React.ReactNode;
   selected?: boolean;
   onSelect?: () => void;
-  intensity?: "calm" | "default" | "feral";
 }
 
 export const GlitchSegmentedGroup = ({
@@ -27,7 +25,6 @@ export const GlitchSegmentedGroup = ({
   ariaLabel,
   children,
   className,
-  intensity,
 }: GlitchSegmentedGroupProps) => {
   const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const setBtnRef = (index: number) => (el: HTMLButtonElement | null) => {
@@ -80,7 +77,6 @@ export const GlitchSegmentedGroup = ({
             ref: setBtnRef(i),
             tabIndex: selected ? 0 : -1,
             selected,
-            intensity,
             onSelect: () => onChange(child.props.value),
             id: child.props.id ?? `${child.props.value}-tab`,
             "aria-controls": child.props["aria-controls"] ?? `${child.props.value}-panel`,
@@ -94,9 +90,8 @@ export const GlitchSegmentedGroup = ({
 export const GlitchSegmentedButton = React.forwardRef<
   HTMLButtonElement,
   GlitchSegmentedButtonProps
->(({ icon, children, className, selected, onSelect, intensity, ...rest }, ref) => {
+>(({ icon, children, className, selected, onSelect, ...rest }, ref) => {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     <button
       ref={ref}
       type="button"
