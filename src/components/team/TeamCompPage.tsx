@@ -44,6 +44,7 @@ export default function TeamCompPage() {
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Comps header mode"
             className="px-2"
+            variant="glass"
           >
             {TABS.map((t) => (
               <SegmentedButton key={t.key} value={t.key} icon={t.icon}>
