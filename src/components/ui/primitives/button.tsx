@@ -170,6 +170,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             rounded,
             baseByVariant[variant],
             vibeMap[vibe],
+            (variant === "primary" || variant === "ghost") && "glitch-scanlines",
             "overflow-hidden active:scale-[.995]",
             block && "w-full",
             className
