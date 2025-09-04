@@ -172,7 +172,7 @@ export default function TimerTab() {
   ) : null;
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard className="card-neo-soft no-hover">
       <SectionCard.Header sticky>
         <TabBar
           items={tabItems}
@@ -299,6 +299,15 @@ export default function TimerTab() {
 
       {/* Local styles for neon pills, glitch loader, and complete state */}
       <style jsx>{`
+        /* Disable card hover bloom */
+        .no-hover.card-neo-soft:hover {
+          box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+            inset 0 1px 0 hsl(var(--foreground) / 0.05),
+            0 30px 60px hsl(250 30% 2% / 0.35);
+        }
+        .no-hover.card-neo-soft:hover::before { opacity: 0.45; }
+        .no-hover.card-neo-soft:hover::after { opacity: 0; }
+
         /* Emphasize active tab text glow (works with TabBar) */
         [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
 
