@@ -26,6 +26,7 @@ import GoalQueue, { WaitItem } from "./GoalQueue";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
+import { LOCALE } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -260,7 +261,7 @@ export default function GoalsPage() {
                               ].join(" ")}
                             />
                             <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                              {new Date(g.createdAt).toLocaleDateString()}
+                              {new Date(g.createdAt).toLocaleDateString(LOCALE)}
                             </time>
                           </span>
                           <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>

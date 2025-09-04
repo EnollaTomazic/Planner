@@ -1,6 +1,9 @@
 // src/lib/utils.ts
 // Tiny helpers. Keep dependencies minimal and SSR-safe.
 
+// Default locale for consistent date/time formatting.
+export const LOCALE = "en-US";
+
 export type ClassValue =
   | string
   | number

@@ -4,7 +4,7 @@ import "../reviews/style.css";
 
 import * as React from "react";
 import type { Review } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, LOCALE } from "@/lib/utils";
 import { Ghost, Trash2 } from "lucide-react";
 import IconButton from "@/components/ui/IconButton";
 
@@ -54,7 +54,7 @@ export default function ReviewList({
 
         const dateStr =
           typeof r.createdAt === "number"
-            ? new Date(r.createdAt).toLocaleDateString()
+            ? new Date(r.createdAt).toLocaleDateString(LOCALE)
             : "";
 
         const dotColor =
