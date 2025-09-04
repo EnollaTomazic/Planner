@@ -1,6 +1,5 @@
-// src/lib/reviewData.ts
-import * as React from "react";
-import type { Pillar } from "../../lib/types";
+import type { ComponentType } from "react";
+import type { Pillar, Role } from "@/lib/types";
 import {
   Flag,
   MapPin,
@@ -16,9 +15,6 @@ import {
 /** Persisted key for role memory */
 export const LAST_ROLE_KEY = "last_role";
 
-/** Role type used across editor/summary */
-export type Role = "TOP" | "JGL" | "MID" | "ADC" | "SUP";
-
 /** Lane/pillar enums used in UI */
 export const ALL_PILLARS: Pillar[] = [
   "Wave",
@@ -33,13 +29,13 @@ export const ALL_PILLARS: Pillar[] = [
 export const ROLE_OPTIONS: Array<{
   value: Role;
   label: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: ComponentType<{ className?: string }>;
 }> = [
   { value: "TOP", label: "Top", Icon: Flag },
-  { value: "JGL", label: "Jungle", Icon: MapPin },
+  { value: "JUNGLE", label: "Jungle", Icon: MapPin },
   { value: "MID", label: "Mid", Icon: Target },
   { value: "ADC", label: "ADC", Icon: Crosshair },
-  { value: "SUP", label: "Support", Icon: Shield },
+  { value: "SUPPORT", label: "Support", Icon: Shield },
 ];
 
 /** Deterministic index selector (cheap string hash) */
@@ -54,7 +50,7 @@ export function pickIndex(seed: string, modulo: number): number {
 
 /** Icon + color class for a score bucket */
 export function scoreIcon(score: number): {
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: ComponentType<{ className?: string }>;
   cls: string;
 } {
   if (score <= 3) return { Icon: Skull, cls: "text-rose-400" };
