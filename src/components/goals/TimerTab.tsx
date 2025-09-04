@@ -14,7 +14,6 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
-import Input from "@/components/ui/primitives/input";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
@@ -57,8 +56,21 @@ export default function TimerTab() {
   const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
 
   // remaining time
-  const [remaining, setRemaining] = useLocalDB<number>("goals.timer.remaining.v1", minutes * 60_000);
-  const [running, setRunning] = useLocalDB<boolean>("goals.timer.running.v1", false);
+  const [remaining, setRemaining] = useLocalDB<number>(
+    "goals.timer.remaining.v1",
+    minutes * 60_000,
+  );
+  const [running, setRunning] = useLocalDB<boolean>(
+    "goals.timer.running.v1",
+    false,
+  );
+
+  // Reset timer when switching profiles (studying, cleaning, coding)
+  React.useEffect(() => {
+    setRunning(false);
+    setRemaining((profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -122,13 +134,18 @@ export default function TimerTab() {
     []
   );
 
-  // Right slot content for Personal: quick presets + custom time field
+  // Right slot content for Personal: glitchy quick presets + custom time field
   const rightSlot = isPersonal ? (
     <div className="flex items-center flex-wrap gap-2">
-      {QUICK.map(m => (
+      {QUICK.map((m) => (
         <button
           key={`q-${m}`}
-          className={["btn-like-segmented", minutes === m && "is-active"].filter(Boolean).join(" ")}
+          className={[
+            "btn-like-segmented btn-glitch",
+            minutes === m && "is-active",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           onClick={() => {
             if (running) return;
             setPersonalMinutes(m);
@@ -140,7 +157,7 @@ export default function TimerTab() {
           {m}m
         </button>
       ))}
-      <Input
+      <input
         aria-label="Custom minutes and seconds"
         value={timeEdit}
         onChange={(e) => setTimeEdit(e.currentTarget.value)}
@@ -148,8 +165,8 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="w-24"
-        tone="default"
+        className="btn-like-segmented btn-glitch w-20 text-center"
+        type="text"
       />
     </div>
   ) : null;

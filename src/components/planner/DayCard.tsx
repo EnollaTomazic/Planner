@@ -67,8 +67,22 @@ export default function DayCard({ iso, isToday }: Props) {
 
   const projectsScrollable = projects.length > 3;
 
+  const cardRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        setSelectedProjectId("");
+        setSelectedTaskId("");
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [setSelectedProjectId, setSelectedTaskId]);
+
   return (
     <section
+      ref={cardRef}
       className={cn(
         "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
         "grid gap-4 lg:gap-6",
@@ -106,28 +120,16 @@ export default function DayCard({ iso, isToday }: Props) {
         </div>
       </div>
 
-      {/* Add row */}
+      {/* Add project */}
       <div className="col-span-1 lg:col-span-3">
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Input
-            className="planner-input w-full"
-            placeholder="New project…"
-            value={draftProject}
-            onChange={e => setDraftProject(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && addProjectCommit()}
-            aria-label="Add project"
-          />
-          {selectedProjectId ? (
-            <Input
-              className="planner-input w-full"
-              placeholder="Add task…"
-              value={draftTask}
-              onChange={e => setDraftTask(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && addTaskCommit()}
-              aria-label="Add task"
-            />
-          ) : null}
-        </div>
+        <Input
+          className="w-full"
+          placeholder="> new project..."
+          value={draftProject}
+          onChange={e => setDraftProject(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && addProjectCommit()}
+          aria-label="Add project"
+        />
       </div>
 
       {/* Left: projects */}
@@ -192,11 +194,21 @@ export default function DayCard({ iso, isToday }: Props) {
 
       {/* Right: tasks */}
       <div className="flex flex-col gap-3 min-w-0">
+        {selectedProjectId && (
+          <Input
+            className="task-input w-full"
+            placeholder="> add task..."
+            value={draftTask}
+            onChange={e => setDraftTask(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && addTaskCommit()}
+            aria-label="Add task"
+          />
+        )}
         <div className="min-h-[120px] max-h-[320px] overflow-y-auto px-2 py-2">
           {!selectedProjectId ? (
-            <EmptyRow text="No project selected." />
+            <EmptyRow text="No task selected." />
           ) : tasksForSelected.length === 0 ? (
-            <EmptyRow text="No tasks yet." />
+            <EmptyRow text="No tasks selected." />
           ) : (
             <ul className="space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5" aria-label="Tasks">
               {tasksForSelected.map(t => (
