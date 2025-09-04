@@ -55,7 +55,7 @@ export default function PageTabs({
             const active = t.id === value;
             const classNames = [
               "btn-like-segmented rounded-xl px-4 py-2 font-mono text-sm border relative",
-              active ? "is-active" : "",
+              active ? "is-active btn-glitch" : "",
             ]
               .filter(Boolean)
               .join(" ");
@@ -71,6 +71,7 @@ export default function PageTabs({
                       background:
                         "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)))",
                     }}
+                    transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
                   />
                 )}
               </>
