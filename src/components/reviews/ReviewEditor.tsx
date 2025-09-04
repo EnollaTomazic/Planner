@@ -412,8 +412,10 @@ export default function ReviewEditor({
 
     const r = ext.role ?? lastRole ?? "MID";
     setRole(r);
-    setLastRole(r);
 
+    // Default new reviews to the previously selected role without
+    // overwriting the remembered role when opening existing reviews.
+    // Persisting happens only when the user explicitly selects a role.
     if (ext.role == null) {
       onChangeMeta?.({ role: r });
     }
