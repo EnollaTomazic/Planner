@@ -162,7 +162,7 @@ export default function ReviewsPage({
                 }}
                 onRename={onRename}
                 onDelete={onDelete}
-                className="max-h-[66dvh] overflow-auto pr-1"
+                className="max-h-[66dvh] overflow-auto p-2"
               />
             </SectionCard.Body>
           </SectionCard>
