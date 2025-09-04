@@ -13,7 +13,10 @@ export { default as Badge } from "./primitives/badge";
 export { default as Pill } from "./primitives/pill";
 export { default as SearchBar } from "./primitives/searchbar";
 export { SegmentedGroup, SegmentedButton } from "./primitives/segmented";
+<<<<<<< HEAD
 export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/glitch-segmented";
+=======
+>>>>>>> origin/main
 //
 // Feedback
 //

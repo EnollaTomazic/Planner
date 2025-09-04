@@ -32,7 +32,16 @@ const config: Config = {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
         snap: "cubic-bezier(0.22, 1, 0.36, 1)"
       },
-      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" }
+      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" }
+        }
+      },
+      animation: {
+        shimmer: "shimmer 120ms linear"
+      }
     }
   },
   plugins: []
