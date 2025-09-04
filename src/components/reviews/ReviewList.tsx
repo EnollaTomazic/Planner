@@ -64,16 +64,8 @@ export default function ReviewList({
             onClick={() => onSelect(r.id)}
             onKeyDown={onTileKeyDown}
             className={cn(
-              "group/review relative w-full rounded-2xl h-20 px-3 py-2",
-              // constant border to prevent hover jump
-              "border border-[hsl(var(--border)/.22)]",
-              "bg-[hsl(var(--card))]",
-              "transition-[box-shadow,background,border-color] duration-200",
-              // glow only (no transform)
-              "hover:border-[hsl(var(--border)/.45)] hover:shadow-[0_0_0_1px_hsl(var(--accent)/.25)_inset,0_10px_20px_hsl(var(--shadow-color)/.28)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-              active &&
-                "shadow-[0_0_0_1px_hsl(var(--accent)/.35)_inset,0_12px_24px_hsl(var(--shadow-color)/.32)]"
+              "group/review review-tile relative w-full h-20 px-3 py-2",
+              active && "review-tile--active"
             )}
             aria-current={active ? "true" : undefined}
           >
