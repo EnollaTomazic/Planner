@@ -69,22 +69,8 @@ export default function DayCard({ iso, isToday }: Props) {
 
   const projectsScrollable = projects.length > 3;
 
-  const cardRef = React.useRef<HTMLElement>(null);
-
-  React.useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
-        setSelectedProjectId("");
-        setSelectedTaskId("");
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [setSelectedProjectId, setSelectedTaskId]);
-
   return (
     <section
-      ref={cardRef}
       className={cn(
         "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
         "grid gap-4 lg:gap-6",
@@ -159,13 +145,17 @@ export default function DayCard({ iso, isToday }: Props) {
                       aria-checked={active}
                       aria-label={p.name || "Untitled project"}
                       onKeyDown={e => { if (!isEditing) onRowKey(e); }}
-                      onClick={() => !isEditing && setSelectedProjectId(p.id)}
+                      onClick={() => {
+                        if (isEditing) return;
+                        setSelectedProjectId(active ? "" : p.id);
+                        if (active) setSelectedTaskId("");
+                      }}
                       className={cn(
-                        "group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
+                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
                         "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
                         "grid min-h-[44px] grid-cols-[auto,1fr,auto] items-center gap-4",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-                        active && "proj-card proj-card--active ring-1 ring-[hsl(var(--ring))]"
+                        active && "proj-card--active ring-1 ring-[hsl(var(--ring))]"
                       )}
                     >
                       <span className="shrink-0 ml-0.5" onMouseDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}>
