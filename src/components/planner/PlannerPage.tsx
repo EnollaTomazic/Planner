@@ -13,7 +13,6 @@ import "./style.css";
 import * as React from "react";
 import TodayHero from "./TodayHero";
 import DayCard from "./DayCard";
-import FocusPanel from "./FocusPanel";
 import WeekNotes from "./WeekNotes";
 import WeekPicker from "./WeekPicker";
 import { PlannerProvider, useFocusDate, useWeek, type ISODate } from "./usePlanner";
@@ -42,9 +41,19 @@ const DayRow = React.memo(
 );
 
 /* ───────── Scroll-to-top button ───────── */
-function BackToTopButton() {
+function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
   const [visible, setVisible] = React.useState(false);
   const [top, setTop] = React.useState(0);
+
+  React.useEffect(() => {
+    const target = watchRef.current;
+    if (!target) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => setVisible(!e.isIntersecting));
+    });
+    obs.observe(target);
+    return () => obs.disconnect();
+  }, [watchRef]);
 
   React.useEffect(() => {
     const onScroll = () => {
@@ -58,8 +67,6 @@ function BackToTopButton() {
       const btnSize = 40; // approximate IconButton height (md)
       const range = window.innerHeight - margin * 2 - btnSize;
       setTop(margin + progress * range);
-
-      setVisible(scrollY > 200);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -98,6 +105,8 @@ function Inner() {
     [days, today]
   );
 
+  const heroRef = React.useRef<HTMLDivElement>(null);
+
   return (
     <>
       <main className="page-shell py-6 space-y-6" aria-labelledby="planner-week-heading">
@@ -112,13 +121,12 @@ function Inner() {
         aria-label="Today and weekly panels"
         className="grid grid-cols-1 gap-6 lg:grid-cols-12"
       >
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-8" ref={heroRef}>
           <TodayHero iso={iso} />
         </div>
 
         {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          <FocusPanel iso={iso} />
           <WeekNotes iso={iso} />
         </aside>
       </section>
@@ -130,7 +138,7 @@ function Inner() {
         ))}
       </section>
       </main>
-      <BackToTopButton />
+      <BackToTopButton watchRef={heroRef} />
     </>
   );
 }
