@@ -2007,38 +2007,58 @@ html.light .btn-cta {
     0 8px 20px hsl(var(--shadow-color) / 0.22);
 }
 
-/* === Glitch neon scanline effect for buttons === */
-.glitch-scanlines {
+/* === Scan button style with CRT effects === */
+.btn-scan {
+  --glow: var(--accent);
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-2);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--ring) / 0.15);
+  color: hsl(var(--muted-foreground) / 0.6);
+  transition: color var(--dur-quick), box-shadow var(--dur-quick),
+    filter var(--dur-quick), background var(--dur-quick);
 }
-.glitch-scanlines::after {
+.btn-scan:hover {
+  color: hsl(var(--accent));
+  box-shadow: 0 0 8px hsl(var(--glow) / 0.4);
+  filter: brightness(1.05);
+}
+.btn-scan:active,
+.btn-scan[aria-pressed="true"],
+.btn-scan[data-selected="true"] {
+  color: hsl(var(--accent-foreground));
+  background: hsl(var(--accent) / 0.2);
+  box-shadow: 0 0 20px hsl(var(--glow)), 0 0 40px hsl(var(--glow) / 0.8);
+  filter: brightness(1.1) hue-rotate(-8deg);
+}
+.btn-scan::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    hsl(var(--accent) / 0.08) 0 1px,
+    hsl(var(--glow) / 0.1) 0 1px,
     transparent 1px 3px
   );
-  opacity: 0.12;
+  opacity: 0;
   mix-blend-mode: overlay;
   transition: opacity 200ms, filter 200ms;
 }
-.glitch-scanlines:hover::after {
-  opacity: 0.28;
+.btn-scan:hover::after {
+  opacity: 0.15;
   filter: drop-shadow(0 0 6px hsl(var(--glow) / 0.5));
   animation: crt-scan 4s linear infinite;
 }
-.glitch-scanlines:active::after,
-.glitch-scanlines[aria-pressed="true"]::after,
-.glitch-scanlines[data-selected="true"]::after {
+.btn-scan:active::after,
+.btn-scan[aria-pressed="true"]::after,
+.btn-scan[data-selected="true"]::after {
   opacity: 0.45;
   filter: drop-shadow(0 0 8px hsl(var(--glow)));
   animation: crt-scan 1s linear infinite, crt-jitter 200ms steps(2, end) infinite;
 }
-.glitch-scanlines::before {
+.btn-scan::before {
   content: "";
   position: absolute;
   inset: -2px;
@@ -2048,13 +2068,13 @@ html.light .btn-cta {
   opacity: 0;
   transition: opacity 200ms;
 }
-.glitch-scanlines:hover::before {
+.btn-scan:hover::before {
   opacity: 0.25;
   animation: crt-glow 2.4s ease-in-out infinite alternate;
 }
-.glitch-scanlines:active::before,
-.glitch-scanlines[aria-pressed="true"]::before,
-.glitch-scanlines[data-selected="true"]::before {
+.btn-scan:active::before,
+.btn-scan[aria-pressed="true"]::before,
+.btn-scan[data-selected="true"]::before {
   opacity: 0.45;
 }
 @keyframes crt-scan {
@@ -2083,14 +2103,14 @@ html.light .btn-cta {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .glitch-scanlines:hover::after,
-  .glitch-scanlines:active::after,
-  .glitch-scanlines[aria-pressed="true"]::after,
-  .glitch-scanlines[data-selected="true"]::after,
-  .glitch-scanlines:hover::before,
-  .glitch-scanlines:active::before,
-  .glitch-scanlines[aria-pressed="true"]::before,
-  .glitch-scanlines[data-selected="true"]::before {
+  .btn-scan:hover::after,
+  .btn-scan:active::after,
+  .btn-scan[aria-pressed="true"]::after,
+  .btn-scan[data-selected="true"]::after,
+  .btn-scan:hover::before,
+  .btn-scan:active::before,
+  .btn-scan[aria-pressed="true"]::before,
+  .btn-scan[data-selected="true"]::before {
     animation: none;
   }
 }
