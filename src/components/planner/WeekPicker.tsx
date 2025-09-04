@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import Image from "next/image";
 import Hero2 from "@/components/ui/layout/Hero2";
 import Button from "@/components/ui/primitives/button";
 import { useFocusDate, useDay, type ISODate } from "./usePlanner";
@@ -258,53 +257,44 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
       bottom={
-        <>
-          <div className="grid gap-3 flex-1">
-            {/* Range + totals */}
-            <div className="flex items-center justify-between gap-3">
-              <span
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
-                  "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
-                )}
-                aria-label={`Week range ${rangeLabel}`}
-              >
-                <CalendarDays className="size-4 opacity-80" />
-                <span className="opacity-90">{rangeLabel}</span>
-              </span>
+        <div className="grid gap-3 flex-1">
+          {/* Range + totals */}
+          <div className="flex items-center justify-between gap-3">
+            <span
+              className={cn(
+                "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
+                "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
+              )}
+              aria-label={`Week range ${rangeLabel}`}
+            >
+              <CalendarDays className="size-4 opacity-80" />
+              <span className="opacity-90">{rangeLabel}</span>
+            </span>
 
-              <span className="text-sm text-[hsl(var(--muted-foreground))]">
-                <span className="opacity-70">Total tasks: </span>
-                <span className="font-medium tabular-nums text-[hsl(var(--foreground))]">
-                  {weekDone} / {weekTotal}
-                </span>
+            <span className="text-sm text-[hsl(var(--muted-foreground))]">
+              <span className="opacity-70">Total tasks: </span>
+              <span className="font-medium tabular-nums text-[hsl(var(--foreground))]">
+                {weekDone} / {weekTotal}
               </span>
-            </div>
-
-            {/* Day chips */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
-              {days.map((d, i) => (
-                <DayChip
-                  key={d}
-                  iso={d}
-                  selected={d === iso}
-                  today={d === today}
-                  done={per[i]?.done ?? 0}
-                  total={per[i]?.total ?? 0}
-                  onClick={selectOnly}
-                  onDoubleClick={jumpToDay}
-                />
-              ))}
-            </div>
+            </span>
           </div>
-          <Image
-            src="/weekly-highlight.svg"
-            alt="Weekly highlight"
-            width={64}
-            height={64}
-            className="h-16 w-16 rounded-full object-cover"
-          />
-        </>
+
+          {/* Day chips */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+            {days.map((d, i) => (
+              <DayChip
+                key={d}
+                iso={d}
+                selected={d === iso}
+                today={d === today}
+                done={per[i]?.done ?? 0}
+                total={per[i]?.total ?? 0}
+                onClick={selectOnly}
+                onDoubleClick={jumpToDay}
+              />
+            ))}
+          </div>
+        </div>
       }
     />
   );
