@@ -32,9 +32,9 @@ export default function Header({
       )}
       style={sticky ? { borderColor: "hsl(var(--border))" } : undefined}
     >
-      <div className="mx-auto max-w-6xl px-3 md:px-4 py-2.5">
+      <div className="mx-auto max-w-6xl px-2 md:px-4 py-2">
         {title || actions ? (
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-4">
             <div className="font-mono text-sm text-[hsl(var(--muted-foreground))]">
               {title}
             </div>

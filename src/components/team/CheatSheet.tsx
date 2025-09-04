@@ -33,6 +33,7 @@ export type CheatSheetProps = {
   className?: string;
   dense?: boolean;
   data?: Archetype[];
+  query?: string;
 };
 
 /* ───────────── seeds ───────────── */
@@ -56,7 +57,7 @@ const DEFAULT_SHEET: Archetype[] = [
     examples: {
       Top: ["Ornn", "Sion", "Shen"],
       Jungle: ["Sejuani", "Maokai"],
-      Mid: ["Orianni", "Azir"],
+      Mid: ["Orianna", "Azir"],
       ADC: ["Jinx", "Zeri"],
       Support: ["Braum", "Lulu"],
     },
@@ -206,6 +207,7 @@ function TitleEdit({
     );
   return (
     <input
+      dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       className="w-full bg-transparent border-none outline-none text-lg sm:text-xl font-semibold glitch-title title-glow"
@@ -226,6 +228,7 @@ function ParagraphEdit({
     );
   return (
     <textarea
+      dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       rows={2}
@@ -276,6 +279,7 @@ function BulletListEdit({
       e.preventDefault();
       const newLi = document.createElement("li");
       newLi.contentEditable = "true";
+      newLi.dir = "ltr";
       newLi.innerHTML = "";
       li.after(newLi);
       newLi.focus();
@@ -296,6 +300,7 @@ function BulletListEdit({
         } else if (parent && !parent.querySelector("li")) {
           const seed = document.createElement("li");
           seed.contentEditable = "true";
+          seed.dir = "ltr";
           seed.innerHTML = "";
           parent.appendChild(seed);
           seed.focus();
@@ -324,7 +329,7 @@ function BulletListEdit({
       onKeyDown={onKeyDown}
     >
       {(items.length ? items : [""]).map((w, idx) => (
-        <li key={idx} contentEditable suppressContentEditableWarning>
+        <li key={idx} contentEditable dir="ltr" suppressContentEditableWarning>
           {w}
         </li>
       ))}
@@ -364,29 +369,25 @@ function ChampPillsEdit({
   return (
     <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
       {(list.length ? list : [""]).map((c, i) => (
-        <span key={i} className="champ-badge glitch-pill text-xs">
+        <span key={i} className="champ-badge text-xs">
           <i className="dot" />
-          <span
-            contentEditable
-            suppressContentEditableWarning
-            className="outline-none"
-            onInput={(e) => setAt(i, (e.currentTarget.textContent ?? "").trim())}
+          <input
+            type="text"
+            dir="ltr"
+            value={c}
+            onChange={(e) => setAt(i, e.currentTarget.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === ",") {
                 e.preventDefault();
                 insertAfter(i);
               }
-              if (e.key === "Backspace") {
-                const text = (e.currentTarget.textContent ?? "").trim();
-                if (!text) {
-                  e.preventDefault();
-                  removeAt(i);
-                }
+              if (e.key === "Backspace" && !e.currentTarget.value) {
+                e.preventDefault();
+                removeAt(i);
               }
             }}
-          >
-            {c}
-          </span>
+            className="bg-transparent outline-none border-none w-24"
+          />
         </span>
       ))}
     </div>
@@ -399,9 +400,28 @@ export default function CheatSheet({
   className = "",
   dense = false,
   data = DEFAULT_SHEET,
+  query = "",
 }: CheatSheetProps) {
   const [sheet, setSheet] = useLocalDB<Archetype[]>("team:cheatsheet.v2", data);
   const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return sheet;
+    return sheet.filter((a) => {
+      const hay = [
+        a.title,
+        a.description,
+        ...(a.wins ?? []),
+        ...(a.struggles ?? []),
+        ...(a.tips ?? []),
+        ...Object.values(a.examples).flat(),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [sheet, query]);
 
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
@@ -415,7 +435,7 @@ export default function CheatSheet({
       data-scope="team"
       className={["grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3", className].join(" ")}
     >
-      {sheet.map((a) => {
+      {filtered.map((a) => {
         const isEditing = editingId === a.id;
 
         return (

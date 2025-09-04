@@ -2,11 +2,12 @@
 "use client";
 
 import * as React from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Image as ImageIcon } from "lucide-react";
 import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect";
 
 type Mode = "dark" | "light";
-type Variant = "lg" | "citrus" | "noir" | "ocean" | "rose";
+type Variant = "lg" | "glitch2" | "citrus" | "noir" | "ocean" | "rose";
+type Background = 0 | 1 | 2 | 3 | 4 | 5;
 
 type ThemeToggleProps = {
   className?: string;
@@ -18,13 +19,17 @@ type ThemeToggleProps = {
 const THEME_KEY = "lg-theme";
 const MODE_KEY  = "lg-mode";
 const VAR_KEY   = "lg-variant";
+const BG_KEY    = "lg-bg";
+
+const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-streak"] as const;
 
 const VARIANTS: { id: Variant; label: string }[] = [
-  { id: "lg",     label: "Glitch" },
-  { id: "rose",   label: "Rose Quartz" },
-  { id: "ocean",  label: "Oceanic" },
-  { id: "citrus", label: "Citrus" },
-  { id: "noir",   label: "Noir" },
+  { id: "lg",       label: "Glitch" },
+  { id: "glitch2",  label: "Glitch v2" },
+  { id: "rose",     label: "Rose Quartz" },
+  { id: "ocean",    label: "Oceanic" },
+  { id: "citrus",   label: "Citrus" },
+  { id: "noir",     label: "Noir" },
 ];
 
 const LEGACY = ["theme-lg-dark","theme-lg-light","theme-cyber-void","theme-sunset-synth"];
@@ -32,6 +37,7 @@ const LEGACY = ["theme-lg-dark","theme-lg-light","theme-cyber-void","theme-sunse
 function parseTheme(v: string | null): { variant: Variant; mode: Mode } {
   if (v === "theme-lg-light") return { variant: "lg", mode: "light" };
   if (v === "theme-lg-dark")  return { variant: "lg", mode: "dark" };
+  if (v === "theme-glitch2")  return { variant: "glitch2", mode: "dark" };
   if (v === "theme-citrus")   return { variant: "citrus", mode: "dark" };
   if (v === "theme-noir")     return { variant: "noir", mode: "dark" };
   if (v === "theme-ocean")    return { variant: "ocean", mode: "dark" };
@@ -41,29 +47,41 @@ function parseTheme(v: string | null): { variant: Variant; mode: Mode } {
 }
 const asThemeString = (v: Variant, m: Mode) => (v === "lg" ? (m === "light" ? "theme-lg-light" : "theme-lg-dark") : `theme-${v}`);
 
-function writeStorage(variant: Variant, mode: Mode) {
+function writeStorage(variant: Variant, mode: Mode, bg: Background) {
   try {
     localStorage.setItem(THEME_KEY, asThemeString(variant, mode));
     localStorage.setItem(MODE_KEY, mode);
     localStorage.setItem(VAR_KEY, variant);
+    localStorage.setItem(BG_KEY, String(bg));
   } catch {}
 }
-function readStorage(): { variant: Variant; mode: Mode } {
+function readStorage(): { variant: Variant; mode: Mode; bg: Background } {
   try {
     const t = localStorage.getItem(THEME_KEY);
-    if (t) return parseTheme(t);
+    if (t) {
+      const { variant, mode } = parseTheme(t);
+      const b = parseInt(localStorage.getItem(BG_KEY) || "0", 10);
+      const bg: Background = b >= 1 && b <= 5 ? (b as Background) : 0;
+      return { variant, mode, bg };
+    }
     const m = localStorage.getItem(MODE_KEY) as Mode | null;
     const v = localStorage.getItem(VAR_KEY) as Variant | null;
-    if ((m === "dark" || m === "light") && v && VARIANTS.some(x => x.id === v)) return { variant: v, mode: m };
+      const b = parseInt(localStorage.getItem(BG_KEY) || "0", 10);
+      const bg: Background = b >= 1 && b <= 5 ? (b as Background) : 0;
+    if ((m === "dark" || m === "light") && v && VARIANTS.some(x => x.id === v)) return { variant: v, mode: m, bg };
   } catch {}
-  return parseTheme(null);
+  const { variant, mode } = parseTheme(null);
+  return { variant, mode, bg: 0 };
 }
-function applyClasses(variant: Variant, mode: Mode) {
+function applyClasses(variant: Variant, mode: Mode, bg: Background) {
   const cl = document.documentElement.classList;
   // remove previous theme classes
   cl.forEach(n => { if (n.startsWith("theme-")) cl.remove(n); });
   LEGACY.forEach(k => cl.remove(k));
   cl.add(`theme-${variant}`);
+
+  BG_CLASSES.forEach(c => { if (c) cl.remove(c); });
+  if (bg > 0) cl.add(BG_CLASSES[bg]);
 
   // mode only matters for LG
   if (variant === "lg") {
@@ -84,21 +102,22 @@ export default function ThemeToggle({
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
   const [mounted, setMounted] = React.useState(false);
-  const [{ variant, mode }, setState] = React.useState<{ variant: Variant; mode: Mode }>({
+  const [{ variant, mode, bg }, setState] = React.useState<{ variant: Variant; mode: Mode; bg: Background }>({
     variant: "lg",
     mode: "dark",
+    bg: 0,
   });
 
   React.useEffect(() => {
     setMounted(true);
     const s = readStorage();
     setState(s);
-    applyClasses(s.variant, s.mode);
-    writeStorage(s.variant, s.mode);
+    applyClasses(s.variant, s.mode, s.bg);
+    writeStorage(s.variant, s.mode, s.bg);
     const onStorage = () => {
       const ns = readStorage();
       setState(ns);
-      applyClasses(ns.variant, ns.mode);
+      applyClasses(ns.variant, ns.mode, ns.bg);
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
@@ -109,18 +128,26 @@ export default function ThemeToggle({
 
   function setVariantPersist(v: Variant) {
     const nextMode: Mode = v === "lg" ? mode : "dark";
-    const next = { variant: v, mode: nextMode };
+    const next = { variant: v, mode: nextMode, bg };
     setState(next);
-    writeStorage(next.variant, next.mode);
-    applyClasses(next.variant, next.mode);
+    writeStorage(next.variant, next.mode, next.bg);
+    applyClasses(next.variant, next.mode, next.bg);
   }
   function toggleMode() {
     if (modeDisabled) return;
     const next: Mode = isDark ? "light" : "dark";
-    const s = { variant, mode: next };
+    const s = { variant, mode: next, bg };
     setState(s);
-    writeStorage(s.variant, s.mode);
-    applyClasses(s.variant, s.mode);
+    writeStorage(s.variant, s.mode, s.bg);
+    applyClasses(s.variant, s.mode, s.bg);
+  }
+
+  function cycleBg() {
+      const next: Background = ((bg + 1) % BG_CLASSES.length) as Background;
+    const s = { variant, mode, bg: next };
+    setState(s);
+    writeStorage(s.variant, s.mode, s.bg);
+    applyClasses(s.variant, s.mode, s.bg);
   }
 
   if (!mounted) {
@@ -151,13 +178,24 @@ export default function ThemeToggle({
         {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
       </button>
 
+      {/* background cycle */}
+      <button
+        type="button"
+        aria-label={`${aria}: cycle background`}
+        onClick={cycleBg}
+        title="Change background"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+      >
+        <ImageIcon className="h-4 w-4" />
+      </button>
+
       {/* dropdown — no visible title; uses aria label */}
       <AnimatedSelect
         ariaLabel={aria}
         items={items}
         value={variant}
         onChange={(v) => setVariantPersist(v as Variant)}
-        buttonClassName="!h-9 !px-3 !rounded-[9999px] !text-sm"
+        buttonClassName="!h-9 !px-3 !rounded-full !text-sm !w-auto"
         matchTriggerWidth={false}
         align="right"
         className="shrink-0"

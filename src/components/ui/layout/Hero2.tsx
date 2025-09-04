@@ -107,19 +107,7 @@ export default function Hero2({
   );
 
   // Compose bottom area: prefer built-in search if provided.
-  const bottomNode =
-    search ? (
-      <Hero2SearchBar
-        {...search}
-        className={cx(
-          "w-full",
-          search.round && "rounded-full [&>input]:rounded-full",
-          search.className
-        )}
-      />
-    ) : (
-      bottom
-    );
+  const bottomNode = search ? <Hero2SearchBar {...search} /> : bottom;
 
   return (
     <section className={cx("grid gap-3", className)} {...rest}>
@@ -255,9 +243,19 @@ export function Hero2Tabs<K extends string>(props: {
 /* ───────────── Reusable: Search inside Hero2 divider ───────── */
 export function Hero2SearchBar({
   className,
+  round,
   ...props
-}: SearchBarProps & { className?: string }) {
-  return <SearchBar {...props} className={cx("w-full max-w-[640px]", className)} />;
+}: SearchBarProps & { className?: string; round?: boolean }) {
+  return (
+    <SearchBar
+      {...props}
+      className={cx(
+        "w-full max-w-[640px]",
+        round && "rounded-full [&>input]:rounded-full",
+        className
+      )}
+    />
+  );
 }
 
 /* ───────────── CSS injected globally via styled-jsx (unchanged) ─────────── */

@@ -66,6 +66,19 @@ export default function CheckCircle({
     return () => clearTimeout(t);
   }, []);
 
+  // If our checked state flips off from an external source while hovered or
+  // focused, ensure we still run the "just cleared" power-down sequence so the
+  // neon rim doesn't remain lit.
+  const prevChecked = React.useRef(checked);
+  React.useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    if (prevChecked.current && !checked && !justCleared) {
+      cleanup = markJustCleared();
+    }
+    prevChecked.current = checked;
+    return cleanup;
+  }, [checked, markJustCleared, justCleared]);
+
   // Theme-driven tones
   const pink = "hsl(var(--success,316 92% 70%))";
   const glow = "hsl(var(--success-glow,316 92% 52% / 0.6))";
@@ -116,12 +129,8 @@ export default function CheckCircle({
     }
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      if (checked) {
-        onChange(false);
-        markJustCleared();
-      } else {
-        onChange(true);
-      }
+      onChange(!checked);
+      if (checked) markJustCleared();
     }
   }
 
@@ -146,12 +155,8 @@ export default function CheckCircle({
               clearSelection();
               return;
             }
-            if (checked) {
-              onChange(false);
-              markJustCleared();
-            } else {
-              onChange(true);
-            }
+            onChange(!checked);
+            if (checked) markJustCleared();
           }}
           onKeyDown={onKey}
           onMouseEnter={() => setHovered(true)}

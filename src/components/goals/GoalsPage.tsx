@@ -13,27 +13,24 @@
 import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
 
 import * as React from "react";
-import {
-  Flag,
-  ListChecks,
-  Timer as TimerIcon,
-  Check,
-  Trash2,
-  Plus,
-  ArrowUpRight,
-} from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
-import Hero, { HeroTabs } from "@/components/ui/layout/Hero";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
 import IconButton from "@/components/ui/primitives/IconButton";
-import AnimatedSelect, { type DropItem } from "@/components/ui/selects/AnimatedSelect";
-import Progress from "@/components/ui/feedback/Progress";
+import CheckCircle from "@/components/ui/toggles/CheckCircle";
+import {
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+} from "@/components/ui";
+import GoalsTabs, { FilterKey } from "./GoalsTabs";
+import GoalsProgress from "./GoalsProgress";
+import GoalForm from "./GoalForm";
+import GoalQueue, { WaitItem } from "./GoalQueue";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
+import { LOCALE } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -41,26 +38,16 @@ import TimerTab from "./TimerTab";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
-type FilterKey = "All" | "Active" | "Done";
-type SortKey = "Newest" | "Oldest" | "Title";
 
 const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: string }> = [
-  { key: "goals", label: "Goals", icon: <Flag className="mr-1" />, hint: "Cap 3 active" },
-  { key: "reminders", label: "Reminders", icon: <ListChecks className="mr-1" />, hint: "Quick cues" },
-  { key: "timer", label: "Timer", icon: <TimerIcon className="mr-1" />, hint: "Focus sprints" },
+  { key: "goals", label: "Goals", icon: <Flag className="mr-1 h-4 w-4" />, hint: "Cap 3 active" },
+  { key: "reminders", label: "Reminders", icon: <ListChecks className="mr-1 h-4 w-4" />, hint: "Quick cues" },
+  { key: "timer", label: "Timer", icon: <TimerIcon className="mr-1 h-4 w-4" />, hint: "Focus sprints" },
 ];
 
-const SORT_ITEMS: DropItem[] = [
-  { value: "Newest", label: "Newest" },
-  { value: "Oldest", label: "Oldest" },
-  { value: "Title", label: "Title" },
-];
-
-const FILTERS: FilterKey[] = ["All", "Active", "Done"];
 const ACTIVE_CAP = 3;
 
 /* ---------- Waitlist ---------- */
-type WaitItem = { id: string; text: string; createdAt: number };
 const WAITLIST_SEEDS: WaitItem[] = [
   { id: uid("wl"), text: "Fix wave-3 crash timing", createdAt: Date.now() - 86400000 },
   { id: uid("wl"), text: "Early ward @2:30 then shove", createdAt: Date.now() - 860000 },
@@ -74,7 +61,6 @@ export default function GoalsPage() {
 
   // stores
   const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
-  const [sort, setSort] = useLocalDB<SortKey>("goals.sort.v1", "Newest");
   const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
   const [waitlist, setWaitlist] = useLocalDB<WaitItem[]>("goals.waitlist.v1", WAITLIST_SEEDS);
 
@@ -87,6 +73,7 @@ export default function GoalsPage() {
   // undo
   const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
   const undoTimer = React.useRef<number | null>(null);
+  const formRef = React.useRef<HTMLDivElement | null>(null);
 
   // stats
   const totalCount = goals.length;
@@ -98,11 +85,9 @@ export default function GoalsPage() {
   // derive list
   const sorted = React.useMemo(() => {
     const rows = [...goals];
-    if (sort === "Newest") rows.sort((a, b) => b.createdAt - a.createdAt);
-    else if (sort === "Oldest") rows.sort((a, b) => a.createdAt - b.createdAt);
-    else rows.sort((a, b) => a.title.localeCompare(b.title));
+    rows.sort((a, b) => b.createdAt - a.createdAt);
     return rows;
-  }, [goals, sort]);
+  }, [goals]);
 
   const filtered = React.useMemo(() => {
     if (filter === "Active") return sorted.filter((g) => !g.done);
@@ -186,282 +171,183 @@ export default function GoalsPage() {
       : "Pick a duration and focus.";
 
   return (
-    <main className="grid gap-4">
+    <main className="grid gap-6">
       {/* ======= HERO ======= */}
       <Hero
         eyebrow="GOALS"
         heading="Today"
         subtitle={heroSubtitle}
         sticky
+        barClassName="gap-2 items-baseline"
         right={
-          <HeroTabs
-            tabs={TABS}
-            activeKey={tab}
-            onChange={(k) => setTab(k)}
-            ariaLabel="Today sections"
-          />
+          <GlitchSegmentedGroup
+            value={tab}
+            onChange={(v) => setTab(v as Tab)}
+            ariaLabel="Goals header mode"
+          >
+            {TABS.map((t) => (
+              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
+                {t.label}
+              </GlitchSegmentedButton>
+            ))}
+          </GlitchSegmentedGroup>
         }
       />
 
-      {/* -------------------------- GOALS TAB -------------------------- */}
-      {tab === "goals" && (
-        <>
-          <SectionCard className="card-neo-soft">
-            <SectionCard.Header sticky>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <h2 className="text-base font-semibold">Your Goals</h2>
-
-                {/* progress, stable width */}
-                <div className="flex items-center gap-2 min-w-[120px]" aria-label="Progress">
-                  <div className="w-28">
-                    <Progress value={pctDone} />
-                  </div>
-                  <span className="text-xs text-muted-foreground tabular-nums">{pctDone}%</span>
-                </div>
-
-                {/* filter chips */}
-                <div className="segmented" role="tablist" aria-label="Filter">
-                  {FILTERS.map((f) => {
-                    const active = filter === f;
-                    return (
-                      <button
-                        key={f}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        className={["btn-like-segmented", active && "is-active"]
-                          .filter(Boolean)
-                          .join(" ")}
-                        onClick={() => setFilter(f)}
-                      >
-                        {f}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="ml-auto" />
-
-                {/* Sort on the right */}
-                <AnimatedSelect
-                  id="goals-sort"
-                  prefixLabel="Sort"
-                  items={SORT_ITEMS}
-                  value={sort}
-                  onChange={(v) => setSort((v as SortKey) ?? "Newest")}
-                  buttonClassName="h-9"
-                  ariaLabel="Sort goals"
+      <section className="grid gap-6">
+        <div
+          role="tabpanel"
+          id="goals-panel"
+          aria-labelledby="goals-tab"
+          hidden={tab !== "goals"}
+        >
+          {tab === "goals" && (
+            <>
+              {totalCount === 0 ? (
+                <GoalsProgress
+                  total={totalCount}
+                  pct={pctDone}
+                  onAddFirst={() =>
+                    formRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
                 />
-              </div>
-            </SectionCard.Header>
-
-            {/* Grid — fixed-ish card min height to reduce jumpiness */}
-            <SectionCard.Body>
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
-                {filtered.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">
-                    No goals here. Add one simple, finishable thing.
-                  </p>
-                ) : (
-                  filtered.map((g) => (
-                    <article
-                      key={g.id}
-                      className={[
-                        "relative rounded-2xl p-5",
-                        "card-neo-soft transition",
-                        "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
-                        "min-h-[152px] flex flex-col",
-                      ].join(" ")}
-                    >
-                      {/* decorative rail */}
-                      <span
-                        aria-hidden
-                        className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                      />
-
-                      {/* header row */}
-                      <header className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
-                          {g.title}
-                        </h3>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            title={g.done ? "Mark active" : "Mark done"}
-                            aria-label={g.done ? "Mark active" : "Mark done"}
-                            onClick={() => toggleDone(g.id)}
-                            className="rounded-full p-1.5 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
-                          >
-                            {g.done ? (
-                              <Check className="[&>path]:stroke-[2] size-5" />
-                            ) : (
-                              <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="9"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="1.8"
-                                />
-                              </svg>
-                            )}
-                          </button>
-                          <IconButton
-                            title="Delete"
-                            aria-label="Delete goal"
-                            onClick={() => removeGoal(g.id)}
-                          >
-                            <Trash2 />
-                          </IconButton>
-                        </div>
-                      </header>
-
-                      {/* body */}
-                      <div className="mt-3 text-sm text-muted-foreground space-y-2">
-                        {g.metric ? (
-                          <div className="tabular-nums">
-                            <span className="opacity-70">Metric:</span> {g.metric}
-                          </div>
-                        ) : null}
-                        {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
-                      </div>
-
-                      {/* footer sticks to bottom */}
-                      <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-2">
-                          <span
-                            aria-hidden
-                            className={[
-                              "h-2 w-2 rounded-full",
-                              g.done
-                                ? "bg-[hsl(var(--accent))]"
-                                : "bg-[hsl(var(--primary))]",
-                            ].join(" ")}
-                          />
-                          <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                            {new Date(g.createdAt).toLocaleDateString()}
-                          </time>
-                        </span>
-                        <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
-                          {g.done ? "Done" : "Active"}
-                        </span>
-                      </footer>
-                    </article>
-                  ))
-                )}
-              </div>
-            </SectionCard.Body>
-          </SectionCard>
-
-          {/* Add Goal + Waiting List */}
-          <SectionCard className="card-neo">
-            <SectionCard.Header title={<span className="text-base font-semibold">Add Goal</span>} />
-            <SectionCard.Body>
-              <div className="grid gap-6 lg:grid-cols-[1fr_minmax(320px,420px)]">
-                {/* left: form */}
-                <form
-                  className="grid gap-3 max-w-xl"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    addGoal();
-                  }}
-                >
-                  <label className="grid gap-1">
-                    <span className="text-xs text-muted-foreground">Title</span>
-                    <Input
-                      className="h-10 w-full"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Clear wave 3 faster…"
-                      aria-required="true"
-                    />
-                  </label>
-
-                  <label className="grid gap-1">
-                    <span className="text-xs text-muted-foreground">Metric (optional)</span>
-                    <Input
-                      className="h-10 w-full tabular-nums"
-                      value={metric}
-                      onChange={(e) => setMetric(e.target.value)}
-                      placeholder="Win lane by 10 CS at 10"
-                    />
-                  </label>
-
-                  <label className="grid gap-1">
-                    <span className="text-xs text-muted-foreground">Notes (optional)</span>
-                    <Textarea
-                      className="w-full min-h-[120px]"
-                      rows={6}
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Constraints, reminders, champion pool notes…"
-                    />
-                  </label>
-
-                  <div className="flex items-center justify-between gap-3 pt-1">
-                    <div className="text-xs text-muted-foreground">
-                      {activeCount >= ACTIVE_CAP ? (
-                        <span className="text-[hsl(var(--accent))]">
-                          Cap reached. Finish one to add more.
-                        </span>
+              ) : (
+                <SectionCard>
+                  <SectionCard.Header sticky className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <h2 className="text-lg font-semibold">Your Goals</h2>
+                      <GoalsProgress total={totalCount} pct={pctDone} />
+                    </div>
+                    <GoalsTabs value={filter} onChange={setFilter} />
+                  </SectionCard.Header>
+                  <SectionCard.Body>
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
+                      {filtered.length === 0 ? (
+                        <p className="text-sm text-white/60">
+                          No goals here. Add one simple, finishable thing.
+                        </p>
                       ) : (
-                        <span>
-                          {Math.max(0, ACTIVE_CAP - activeCount)} active slot
-                          {ACTIVE_CAP - activeCount === 1 ? "" : "s"} left
-                        </span>
+                        filtered.map((g) => (
+                          <article
+                            key={g.id}
+                            className={["relative rounded-2xl p-6","card-neo transition","hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]","min-h-[152px] flex flex-col"].join(" ")}
+                          >
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                            />
+                            <header className="flex items-start justify-between gap-2">
+                              <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
+                                {g.title}
+                              </h3>
+                              <div className="flex items-center gap-1">
+                                <CheckCircle
+                                  aria-label={g.done ? "Mark active" : "Mark done"}
+                                  checked={g.done}
+                                  onChange={() => toggleDone(g.id)}
+                                  size="lg"
+                                />
+                                <IconButton
+                                  title="Delete"
+                                  aria-label="Delete goal"
+                                  onClick={() => removeGoal(g.id)}
+                                  circleSize="sm"
+                                >
+                                  <Trash2 />
+                                </IconButton>
+                              </div>
+                            </header>
+                            <div className="mt-3 text-sm text-white/60 space-y-2">
+                              {g.metric ? (
+                                <div className="tabular-nums">
+                                  <span className="opacity-70">Metric:</span> {g.metric}
+                                </div>
+                              ) : null}
+                              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                            </div>
+                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
+                              <span className="inline-flex items-center gap-2">
+                                <span
+                                  aria-hidden
+                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
+                                />
+                                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
+                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                                </time>
+                              </span>
+                              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
+                                {g.done ? "Done" : "Active"}
+                              </span>
+                            </footer>
+                          </article>
+                        ))
                       )}
                     </div>
-                    <Button
-                      type="submit"
-                      disabled={activeCount >= ACTIVE_CAP || !title.trim()}
-                      className="h-10"
-                    >
-                      Add Goal
-                    </Button>
-                  </div>
+                  </SectionCard.Body>
+                </SectionCard>
+              )}
 
-                  {err ? (
-                    <p role="status" aria-live="polite" className="text-xs text-[hsl(var(--accent))]">
-                      {err}
-                    </p>
-                  ) : null}
-                </form>
-
-                {/* right: waitlist (terminal style) */}
-                <WaitlistPanel
-                  items={waitlist}
-                  onAdd={(t) => addWait(t)}
-                  onRemove={(id) => removeWait(id)}
-                  onPromote={(it) => promoteWait(it)}
+              <div ref={formRef}>
+                <GoalForm
+                  title={title}
+                  metric={metric}
+                  notes={notes}
+                  onTitleChange={setTitle}
+                  onMetricChange={setMetric}
+                  onNotesChange={setNotes}
+                  onSubmit={addGoal}
+                  activeCount={activeCount}
+                  activeCap={ACTIVE_CAP}
+                  err={err}
                 />
               </div>
-            </SectionCard.Body>
-          </SectionCard>
 
-          {/* Undo snackbar */}
-          {lastDeleted && (
-            <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
-              Deleted “{lastDeleted.title}”.{" "}
-              <button
-                type="button"
-                className="underline underline-offset-2"
-                onClick={() => {
-                  if (!lastDeleted) return;
-                  setGoals((prev) => [lastDeleted, ...prev]);
-                  setLastDeleted(null);
-                }}
-              >
-                Undo
-              </button>
-            </div>
+              <GoalQueue
+                items={waitlist}
+                onAdd={addWait}
+                onRemove={removeWait}
+                onPromote={promoteWait}
+              />
+
+              {lastDeleted && (
+                <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
+                  Deleted “{lastDeleted.title}”.{" "}
+                  <button
+                    type="button"
+                    className="underline underline-offset-2"
+                    onClick={() => {
+                      if (!lastDeleted) return;
+                      setGoals((prev) => [lastDeleted, ...prev]);
+                      setLastDeleted(null);
+                    }}
+                  >
+                    Undo
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
+        </div>
 
-      {/* ----------------------- OTHER TABS ----------------------- */}
-      {tab === "reminders" && <RemindersTab />}
-      {tab === "timer" && <TimerTab />}
+        <div
+          role="tabpanel"
+          id="reminders-panel"
+          aria-labelledby="reminders-tab"
+          hidden={tab !== "reminders"}
+        >
+          {tab === "reminders" && <RemindersTab />}
+        </div>
+
+        <div
+          role="tabpanel"
+          id="timer-panel"
+          aria-labelledby="timer-tab"
+          hidden={tab !== "timer"}
+        >
+          {tab === "timer" && <TimerTab />}
+        </div>
+      </section>
 
       <style jsx>{`
         .tabular-nums {
@@ -472,96 +358,3 @@ export default function GoalsPage() {
   );
 }
 
-/* ----------------------- Waitlist UI (terminal style) ----------------------- */
-
-function WaitlistPanel({
-  items,
-  onAdd,
-  onRemove,
-  onPromote,
-}: {
-  items: WaitItem[];
-  onAdd: (text: string) => void;
-  onRemove: (id: string) => void;
-  onPromote: (item: WaitItem) => void;
-}) {
-  const [val, setVal] = React.useState("");
-  const feedRef = React.useRef<HTMLDivElement | null>(null);
-
-  // Auto-scroll to bottom when items change
-  React.useEffect(() => {
-    const el = feedRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [items]);
-
-  const count = items.length;
-
-  return (
-    <div className="waitlist-terminal">
-      <div className="waitlist-terminal__header">
-        <h3 className="font-semibold">Goal Waiting List</h3>
-        <span className="text-xs text-muted-foreground tabular-nums">
-          {count} item{count === 1 ? "" : "s"}
-        </span>
-      </div>
-
-      <div ref={feedRef} className="waitlist-terminal__feed">
-        {items.length === 0 ? (
-          <div className="waitlist-terminal__line text-sm"># no items — add one below</div>
-        ) : (
-          items.map((it) => (
-            <div key={it.id} className="waitlist-terminal__line">
-              <span className="waitlist-terminal__dot" aria-hidden />
-              <p className="truncate text-sm">{it.text}</p>
-              <div className="flex items-center gap-1 shrink-0">
-                <IconButton
-                  title="Promote to form"
-                  aria-label="Promote to form"
-                  onClick={() => onPromote(it)}
-                  circleSize="sm"
-                  iconSize="sm"
-                >
-                  <ArrowUpRight />
-                </IconButton>
-                <IconButton
-                  title="Remove"
-                  aria-label="Remove"
-                  onClick={() => onRemove(it.id)}
-                  circleSize="sm"
-                  iconSize="sm"
-                  variant="ring"
-                >
-                  <Trash2 />
-                </IconButton>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const t = val.trim();
-          if (!t) return;
-          onAdd(t);
-          setVal("");
-        }}
-        className="waitlist-terminal__input"
-      >
-        <Input
-          value={val}
-          onChange={(e) => setVal(e.currentTarget.value)}
-          placeholder="> type and press Enter"
-          className="flex-1 h-10 font-mono"
-          aria-label="New waitlist item"
-        />
-        <span className="waitlist-terminal__caret" aria-hidden />
-        <IconButton title="Add" aria-label="Add" type="submit" circleSize="md">
-          <Plus />
-        </IconButton>
-      </form>
-    </div>
-  );
-}

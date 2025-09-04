@@ -257,7 +257,7 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
       bottom={
-        <div className="grid gap-3">
+        <div className="grid gap-3 flex-1">
           {/* Range + totals */}
           <div className="flex items-center justify-between gap-3">
             <span

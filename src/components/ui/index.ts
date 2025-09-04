@@ -12,6 +12,7 @@ export { default as Textarea } from "./primitives/textarea";
 export { default as Badge } from "./primitives/badge";
 export { default as Pill } from "./primitives/pill";
 export { default as SearchBar } from "./primitives/searchbar";
+export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/glitch-segmented";
 //
 // Feedback
 //
@@ -21,6 +22,7 @@ export { default as Progress } from "./feedback/Progress";
 // Theme
 //
 export { default as ThemeToggle } from "./theme/ThemeToggle";
+export { default as AnimationToggle } from "./AnimationToggle";
 
 //
 // Toggles

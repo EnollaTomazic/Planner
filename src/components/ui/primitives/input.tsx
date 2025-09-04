@@ -4,7 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/** Small helper to generate a stable id/name from aria-label if missing. */
+/** Small helper to generate a stable name from aria-label if missing. */
 function slug(s?: string) {
   return (s ?? "")
     .toLowerCase()
@@ -46,7 +46,9 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 ) {
   const auto = React.useId();
   const fromAria = slug(ariaLabel as string | undefined);
-  const finalId = id || fromAria || auto;
+  // Always derive a unique id from React to avoid duplicates when the same
+  // aria-label is used for multiple fields.
+  const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 
   return (

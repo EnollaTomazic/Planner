@@ -31,7 +31,9 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
 ) {
   const auto = React.useId();
   const fromAria = slug(ariaLabel as string | undefined);
-  const finalId = id || fromAria || auto;
+  // Use React-generated id by default so multiple fields sharing an aria-label
+  // do not end up with duplicate ids.
+  const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 
   return (
