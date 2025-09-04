@@ -181,6 +181,7 @@ export default function GoalsPage() {
             value={tab}
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Goals header mode"
+            className="p-1"
           >
             {TABS.map((t) => (
               <SegmentedButton key={t.key} value={t.key} icon={t.icon}>

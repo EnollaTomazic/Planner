@@ -72,7 +72,8 @@ export const SegmentedGroup = ({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex rounded-full bg-[hsl(var(--surface-1))] p-0.5",
+        // Use card tokens so the control matches the app chrome
+        "inline-flex rounded-full p-1 bg-[hsl(var(--card))] shadow-[0_0_0_1px_hsl(var(--card-hairline))]",
         className
       )}
       onKeyDown={onKeyDown}
@@ -81,15 +82,15 @@ export const SegmentedGroup = ({
         if (!React.isValidElement<SegmentedButtonProps>(child)) return child;
         const selected = child.props.value === value;
         return React.cloneElement(
-          child as React.ReactElement<any>,
+          child as React.ReactElement<SegmentedButtonProps>,
           {
-            ref: setBtnRef(i),
+            ref: setBtnRef(i) as React.Ref<HTMLButtonElement>,
             tabIndex: selected ? 0 : -1,
             selected,
             onSelect: () => onChange(child.props.value),
             id: child.props.id ?? `${child.props.value}-tab`,
             "aria-controls": child.props["aria-controls"] ?? `${child.props.value}-panel`,
-          } as any
+          } as React.Attributes & Partial<SegmentedButtonProps>
         );
       })}
     </div>
@@ -111,12 +112,12 @@ export const SegmentedButton = React.forwardRef<
         onClick={onSelect}
         className={cn(
           "flex-1 select-none whitespace-nowrap rounded-full px-3 h-9 inline-flex items-center justify-center gap-1 text-sm",
-          "bg-[hsl(var(--surface-2))] text-[hsl(var(--muted-foreground))] shadow-[inset_0_0_0_1px_hsl(var(--surface-3))]",
+          "bg-[hsl(var(--card))] text-[hsl(var(--muted-foreground))] shadow-[inset_0_0_0_1px_hsl(var(--card-hairline))]",
           "motion-safe:transition-[color,box-shadow,transform] motion-safe:ease-[cubic-bezier(.2,.8,.2,1)] motion-safe:duration-[120ms]",
-          "hover:shadow-[0_0_0_1px_hsl(var(--accent)/.25),0_0_8px_hsl(var(--accent)/.15)] hover:text-[hsl(var(--foreground))]",
-          "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_0_1px_hsl(var(--accent)),0_0_10px_hsl(var(--accent)/.6)]",
-          "data-[selected=true]:bg-[hsl(var(--accent))] data-[selected=true]:text-[hsl(var(--accent-foreground))] data-[selected=true]:shadow-[0_0_0_1px_hsl(var(--accent)),0_0_8px_hsl(var(--accent)/.5)] data-[selected=true]:motion-safe:duration-[160ms]",
-          "focus-visible:outline-none data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[hsl(var(--ring))] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--accent))]",
+          "hover:shadow-[0_0_0_1px_hsl(var(--ring)/.25),0_0_8px_hsl(var(--ring)/.15)] hover:text-[hsl(var(--foreground))]",
+          "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_0_1px_hsl(var(--ring)),0_0_10px_hsl(var(--ring)/.6)]",
+          "data-[selected=true]:bg-[var(--seg-active-grad)] data-[selected=true]:text-[hsl(var(--primary-foreground))] data-[selected=true]:shadow-[0_0_0_1px_hsl(var(--ring)/.22),0_0_8px_hsl(var(--shadow-color)/.25)] data-[selected=true]:motion-safe:duration-[160ms]",
+          "focus-visible:outline-none data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[hsl(var(--ring))] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--primary))]",
           "motion-reduce:transition-none motion-reduce:transform-none",
           className
         )}
