@@ -44,11 +44,22 @@ const DayRow = React.memo(
 /* ───────── Scroll-to-top button ───────── */
 function BackToTopButton() {
   const [visible, setVisible] = React.useState(false);
+  const [top, setTop] = React.useState(0);
 
   React.useEffect(() => {
     const onScroll = () => {
       if (typeof window === "undefined") return;
-      setVisible(window.scrollY > 200);
+      const scrollY = window.scrollY;
+      const doc = document.documentElement;
+      const maxScroll = doc.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
+
+      const margin = 24; // px offset from viewport edges (Tailwind's 6)
+      const btnSize = 40; // approximate IconButton height (md)
+      const range = window.innerHeight - margin * 2 - btnSize;
+      setTop(margin + progress * range);
+
+      setVisible(scrollY > 200);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -67,7 +78,8 @@ function BackToTopButton() {
     <IconButton
       aria-label="Back to top"
       onClick={scrollTop}
-      className="fixed bottom-6 right-6 z-50"
+      className="fixed right-6 z-50"
+      style={{ top }}
     >
       <ArrowUp />
     </IconButton>
