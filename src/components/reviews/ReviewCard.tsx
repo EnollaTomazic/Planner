@@ -47,12 +47,12 @@ export default function ReviewCard({
             <span>{created ? created.toLocaleDateString() : "—"}</span>
           </div>
 
-          {!!(review.tags?.length) && (
+          {Array.isArray(review.tags) && review.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {review.tags!.slice(0, 6).map((t) => (
+              {review.tags.slice(0, 6).map((t) => (
                 <Pill key={t}>{t}</Pill>
               ))}
-              {review.tags!.length > 6 && <Pill>+{review.tags!.length - 6}</Pill>}
+              {review.tags.length > 6 && <Pill>+{review.tags.length - 6}</Pill>}
             </div>
           )}
         </div>
