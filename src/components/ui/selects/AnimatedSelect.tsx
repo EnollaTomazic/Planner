@@ -221,7 +221,7 @@ export default function AnimatedSelect({
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
-    "group glitch-trigger relative inline-flex items-center gap-2 rounded-2xl px-3 overflow-hidden",
+    "group glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
     "border border-[hsl(var(--ring)/.22)] data-[lit=true]:border-[hsl(var(--ring)/.38)] data-[open=true]:border-[hsl(var(--ring)/.38)]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
@@ -229,7 +229,7 @@ export default function AnimatedSelect({
     buttonClassName,
   ].join(" ");
 
-  const caretCls = `caret ml-1 size-4 opacity-75 ${open ? "caret-open" : ""}`;
+  const caretCls = `caret ml-auto size-4 shrink-0 opacity-75 ${open ? "caret-open" : ""}`;
 
   return (
     <div id={id} className={["glitch-wrap", className].join(" ")}>
