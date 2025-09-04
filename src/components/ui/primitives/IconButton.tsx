@@ -141,8 +141,13 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
               transition: border-color 150ms ease;
             }
             /* Let the neon take over the border area */
-            .ib2-root.ib2--ring:hover,
+            .ib2-root.ib2--ring:hover {
+              --ib-ring: var(--ib-ring-hover);
+              border-color: transparent;
+            }
+            .ib2-root.ib2--ring:active,
             .ib2-root.ib2--ring[aria-pressed="true"] {
+              --ib-ring: var(--ib-ring-active);
               border-color: transparent;
             }
 
