@@ -20,7 +20,7 @@ type Props = { iso: ISODate; isToday?: boolean };
 
 export default function DayCard({ iso, isToday }: Props) {
   const {
-    projects, addProject, deleteProject, toggleProject,
+    projects, addProject, renameProject, deleteProject, toggleProject,
     tasks, addTask, renameTask, toggleTask, deleteTask,
     doneTasks, totalTasks,
   } = useDay(iso);
@@ -30,6 +30,8 @@ export default function DayCard({ iso, isToday }: Props) {
 
   const [draftProject, setDraftProject] = React.useState("");
   const [draftTask, setDraftTask] = React.useState("");
+  const [editingProjectId, setEditingProjectId] = React.useState<string | null>(null);
+  const [editingProjectName, setEditingProjectName] = React.useState("");
 
   // If the selected project goes away, clear selection
   React.useEffect(() => {
@@ -148,15 +150,16 @@ export default function DayCard({ iso, isToday }: Props) {
                   if (projects.length > 1 && (e.key === "ArrowUp" || e.key === "ArrowLeft")) { e.preventDefault(); const prev = (idx - 1 + projects.length) % projects.length; setSelectedProjectId(projects[prev].id); }
                 };
 
+                const isEditing = editingProjectId === p.id;
                 return (
                   <li key={p.id} className="w-full">
-                    <button
-                      type="button"
+                    <div
                       role="radio"
+                      tabIndex={0}
                       aria-checked={active}
                       aria-label={p.name || "Untitled project"}
-                      onKeyDown={onRowKey}
-                      onClick={() => setSelectedProjectId(p.id)}
+                      onKeyDown={e => { if (!isEditing) onRowKey(e); }}
+                      onClick={() => !isEditing && setSelectedProjectId(p.id)}
                       className={cn(
                         "group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
                         "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
@@ -169,9 +172,34 @@ export default function DayCard({ iso, isToday }: Props) {
                         <CheckCircle checked={!!p.done} onChange={() => toggleProject(p.id)} aria-label="Toggle project complete" size="md" />
                       </span>
 
-                      <span className="proj-card__title truncate font-medium">{p.name || "Untitled"}</span>
+                      {isEditing ? (
+                        <Input
+                          className="h-8 text-sm"
+                          autoFocus
+                          value={editingProjectName}
+                          onChange={e => setEditingProjectName(e.target.value)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter") { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }
+                            if (e.key === "Escape") { setEditingProjectId(null); setEditingProjectName(p.name); }
+                          }}
+                          onBlur={() => { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }}
+                          aria-label={`Rename project ${p.name}`}
+                        />
+                      ) : (
+                        <span className="proj-card__title truncate font-medium">{p.name || "Untitled"}</span>
+                      )}
 
-                      <div className="ml-auto opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                      <div className="ml-auto flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                        <IconButton
+                          aria-label="Edit project"
+                          title="Edit"
+                          onClick={e => { e.preventDefault(); e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }}
+                          circleSize="sm"
+                          iconSize="xs"
+                          variant="ring"
+                        >
+                          <Pencil />
+                        </IconButton>
                         <IconButton
                           aria-label="Delete project" title="Delete"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); const was = selectedProjectId === p.id; deleteProject(p.id); if (was) setSelectedProjectId(""); }}
@@ -180,7 +208,7 @@ export default function DayCard({ iso, isToday }: Props) {
                           <Trash2 />
                         </IconButton>
                       </div>
-                    </button>
+                    </div>
                   </li>
                 );
               })}

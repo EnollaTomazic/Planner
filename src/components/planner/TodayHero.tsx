@@ -10,7 +10,6 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { toISODate, cn } from "@/lib/utils";
 import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import Input from "@/components/ui/primitives/input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil, Trash2, Calendar, CirclePlus } from "lucide-react";
@@ -70,20 +69,22 @@ export default function TodayHero({ iso }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="w-[240px]">
-            <AnimatedSelect
-              items={projects.length ? projects.map(p => ({ value: p.id, label: p.name || "Untitled" })) : [{ value: "", label: "No projects" }]}
-              value={selProjectId}
-              onChange={v => { setSelProjectId(v); /* clears task selection via hook */ }}
-              label="Project"
-              hideLabel
-              buttonClassName="h-10 rounded-full"
-              dropdownClassName="rounded-2xl"
-              placeholder="Select a project"
-            />
-          </div>
-          <input ref={dateRef} type="date" value={viewIso || nowISO} onChange={e => setIso(e.target.value)} aria-label="Change focused date" className="sr-only" />
-          <IconButton aria-label="Open calendar" title={viewIso} onClick={openPicker} circleSize="md" variant="ring" iconSize="md">
+          <input
+            ref={dateRef}
+            type="date"
+            value={viewIso || nowISO}
+            onChange={e => setIso(e.target.value)}
+            aria-label="Change focused date"
+            className="sr-only"
+          />
+          <IconButton
+            aria-label="Open calendar"
+            title={viewIso}
+            onClick={openPicker}
+            circleSize="md"
+            variant="ring"
+            iconSize="md"
+          >
             <Calendar />
           </IconButton>
         </div>
@@ -101,19 +102,23 @@ export default function TodayHero({ iso }: Props) {
       {/* Projects */}
       <div className="mt-1">
         <form
-          className="flex items-center gap-2"
           onSubmit={e => {
             e.preventDefault();
-            const title = projectName.trim(); if (!title) return;
+            const title = projectName.trim();
+            if (!title) return;
             const id = addProject(title);
             setProjectName("");
             if (id) setSelProjectId(id);
           }}
         >
-          <Input name="new-project" placeholder="> new project…" value={projectName} onChange={e => setProjectName(e.target.value)} aria-label="New project" className="mt-1" />
-          <IconButton type="submit" aria-label="Add project" title="Add project" circleSize="sm" variant="ring" iconSize="sm">
-            <CirclePlus />
-          </IconButton>
+          <Input
+            name="new-project"
+            placeholder="> new project…"
+            value={projectName}
+            onChange={e => setProjectName(e.target.value)}
+            aria-label="New project"
+            className="mt-1 task-input"
+          />
         </form>
 
         {projects.length > 0 && (
@@ -125,7 +130,7 @@ export default function TodayHero({ iso }: Props) {
                 <li
                   key={p.id}
                   className={cn(
-                    "group flex select-none items-center justify-between rounded-[24px] border px-3 py-2 text-sm transition",
+                    "group flex select-none items-center justify-between rounded-2xl border px-3 py-2 text-sm transition",
                     "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
                     isSelected && "ring-1 ring-[hsl(var(--ring))]"
                   )}
@@ -201,7 +206,7 @@ export default function TodayHero({ iso }: Props) {
                   <li
                     key={t.id}
                     className={cn(
-                      "task-tile flex items-center justify-between rounded-[24px] border px-3 py-2",
+                      "task-tile flex items-center justify-between rounded-2xl border px-3 py-2",
                       "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]"
                     )}
                     role="listitem"
