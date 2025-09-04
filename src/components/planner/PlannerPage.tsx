@@ -43,7 +43,6 @@ const DayRow = React.memo(
 /* ───────── Scroll-to-top button ───────── */
 function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
   const [visible, setVisible] = React.useState(false);
-  const [top, setTop] = React.useState(0);
 
   React.useEffect(() => {
     const target = watchRef.current;
@@ -54,24 +53,6 @@ function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> 
     obs.observe(target);
     return () => obs.disconnect();
   }, [watchRef]);
-
-  React.useEffect(() => {
-    const onScroll = () => {
-      if (typeof window === "undefined") return;
-      const scrollY = window.scrollY;
-      const doc = document.documentElement;
-      const maxScroll = doc.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-
-      const margin = 24; // px offset from viewport edges (Tailwind's 6)
-      const btnSize = 40; // approximate IconButton height (md)
-      const range = window.innerHeight - margin * 2 - btnSize;
-      setTop(margin + progress * range);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
@@ -85,8 +66,7 @@ function BackToTopButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> 
     <IconButton
       aria-label="Back to top"
       onClick={scrollTop}
-      className="fixed right-6 z-50"
-      style={{ top }}
+      className="fixed bottom-6 right-6 z-50"
     >
       <ArrowUp />
     </IconButton>
