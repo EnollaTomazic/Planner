@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cn } from './utils.ts';
+import { cn, fromISODate } from './utils.ts';
 
 // Unit tests for the `cn` class name utility
 
@@ -36,4 +36,11 @@ test('handles mixed inputs', () => {
     0
   );
   assert.equal(result, 'foo 1 bar baz qux corge');
+});
+
+test('fromISODate returns null for invalid dates', () => {
+  const valid = fromISODate('2024-02-29');
+  assert(valid && valid.getFullYear() === 2024 && valid.getMonth() === 1 && valid.getDate() === 29);
+  assert.equal(fromISODate('2024-02-30'), null);
+  assert.equal(fromISODate('not-a-date'), null);
 });

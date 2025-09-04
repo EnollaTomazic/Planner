@@ -66,7 +66,11 @@ export function fromISODate(iso: string): Date | null {
   if (!isISODate(iso)) return null;
   const [y, m, d] = iso.split("-").map((x) => parseInt(x, 10));
   const dt = new Date(y, m - 1, d, 0, 0, 0, 0);
-  return Number.isFinite(dt.getTime()) ? dt : null;
+  if (!Number.isFinite(dt.getTime())) return null;
+  // Guard against JS Date rolling over invalid dates like "2023-02-31" -> Mar 3
+  return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d
+    ? dt
+    : null;
 }
 
 /** Predicate for "YYYY-MM-DD". */
