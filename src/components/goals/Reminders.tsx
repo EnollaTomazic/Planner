@@ -329,7 +329,7 @@ function ReminderCard({
               <IconButton title="Save (Enter)" aria-label="Save" onClick={save}>
                 <Check />
               </IconButton>
-              <IconButton title="Cancel (Esc)" aria-label="Cancel" variant="glow" onClick={cancel}>
+              <IconButton title="Cancel (Esc)" aria-label="Cancel" onClick={cancel}>
                 <X />
               </IconButton>
             </>
@@ -338,7 +338,7 @@ function ReminderCard({
               <IconButton title="Edit" aria-label="Edit" onClick={() => setEditing(true)}>
                 <Pencil />
               </IconButton>
-              <IconButton title="Delete" aria-label="Delete" variant="glow" onClick={onDelete}>
+              <IconButton title="Delete" aria-label="Delete" onClick={onDelete}>
                 <Trash2 />
               </IconButton>
             </>

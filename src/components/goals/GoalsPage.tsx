@@ -17,7 +17,6 @@ import {
   Flag,
   ListChecks,
   Timer as TimerIcon,
-  Check,
   Trash2,
   Plus,
   ArrowUpRight,
@@ -30,6 +29,7 @@ import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Progress from "@/components/ui/feedback/Progress";
+import CheckCircle from "@/components/ui/toggles/CheckCircle";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
@@ -196,7 +196,7 @@ export default function GoalsPage() {
       {tab === "goals" && (
         <>
           <SectionCard className="card-neo-soft">
-            <SectionCard.Header sticky>
+            <SectionCard.Header sticky className="flex items-center justify-between">
               <div className="flex items-center gap-2 sm:gap-3">
                 <h2 className="text-base font-semibold">Your Goals</h2>
 
@@ -207,31 +207,27 @@ export default function GoalsPage() {
                   </div>
                   <span className="text-xs text-muted-foreground tabular-nums">{pctDone}%</span>
                 </div>
+              </div>
 
-                {/* right side filter chips */}
-                <div
-                  className="ml-auto flex items-center gap-4"
-                  role="tablist"
-                  aria-label="Filter"
-                >
-                  {FILTERS.map((f) => {
-                    const active = filter === f;
-                    return (
-                      <button
-                        key={f}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        className={["btn-like-segmented", active && "is-active"]
-                          .filter(Boolean)
-                          .join(" ")}
-                        onClick={() => setFilter(f)}
-                      >
-                        {f}
-                      </button>
-                    );
-                  })}
-                </div>
+              {/* right side filter chips */}
+              <div className="flex items-center gap-4" role="tablist" aria-label="Filter">
+                {FILTERS.map((f) => {
+                  const active = filter === f;
+                  return (
+                    <button
+                      key={f}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      className={["btn-like-segmented", active && "is-active"]
+                        .filter(Boolean)
+                        .join(" ")}
+                      onClick={() => setFilter(f)}
+                    >
+                      {f}
+                    </button>
+                  );
+                })}
               </div>
             </SectionCard.Header>
 
@@ -265,28 +261,12 @@ export default function GoalsPage() {
                           {g.title}
                         </h3>
                         <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            title={g.done ? "Mark active" : "Mark done"}
+                          <CheckCircle
                             aria-label={g.done ? "Mark active" : "Mark done"}
-                            onClick={() => toggleDone(g.id)}
-                            className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
-                          >
-                            {g.done ? (
-                              <Check className="[&>path]:stroke-[2] size-5" />
-                            ) : (
-                              <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="9"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="1.8"
-                                />
-                              </svg>
-                            )}
-                          </button>
+                            checked={g.done}
+                            onChange={() => toggleDone(g.id)}
+                            size="lg"
+                          />
                           <IconButton
                             title="Delete"
                             aria-label="Delete goal"
