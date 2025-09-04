@@ -11,6 +11,16 @@ body,
 html {
   scroll-behavior: smooth;
 }
+
+html.no-animations {
+  scroll-behavior: auto;
+}
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+  animation: none !important;
+  transition: none !important;
+}
 * {
   box-sizing: border-box;
 }
