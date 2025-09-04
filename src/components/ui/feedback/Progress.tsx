@@ -1,4 +1,4 @@
-// src/components/ui/Progress.tsx
+// src/components/ui/feedback/Progress.tsx
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ export default function Progress({
 }) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
   return (
-    <div className={cn("h-2 w-full rounded-full bg-muted", className)} aria-label={label}>
+    <div className={cn("h-2 w-full rounded-full bg-muted", className)}>
       <div
         className="h-full rounded-full bg-[hsl(var(--primary))] transition-[width]"
         style={{ width: `${v}%` }}
@@ -23,6 +23,7 @@ export default function Progress({
         aria-valuemax={100}
         aria-valuenow={v}
         role="progressbar"
+        aria-label={label}
       >
         <span className="sr-only">{v}%</span>
       </div>
