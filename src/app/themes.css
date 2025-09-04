@@ -93,24 +93,25 @@ html.light {
 
 /* ---------- Citrus ---------- */
 html.theme-citrus {
-  --background: 45 80% 96%;
-  --foreground: 35 40% 18%;
-  --card: 45 90% 98%;
-  --border: 40 20% 82%;
-  --input: 40 80% 92%;
-  --ring: 40 95% 50%;
-  --primary: 40 95% 50%;
+  /* Dark Citrus palette */
+  --background: 28 30% 9%;
+  --foreground: 30 35% 96%;
+  --card: 28 30% 14%;
+  --border: 30 25% 24%;
+  --input: 30 22% 16%;
+  --ring: 33 92% 58%;
+  --primary: 33 92% 58%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 40 90% 92%;
-  --accent: 20 90% 60%;
-  --accent-2: 15 85% 50%;
-  --accent-soft: 20 80% 94%;
-  --muted: 40 40% 90%;
-  --muted-foreground: 40 20% 40%;
-  --shadow-color: 35 90% 50%;
-  --lav-deep: 20 85% 50%;
-  --success: 150 70% 40%;
-  --success-glow: 150 70% 30% / 0.6;
+  --primary-soft: 33 90% 22%;
+  --accent: 188 75% 55%;
+  --accent-2: 165 70% 45%;
+  --accent-soft: 188 60% 22%;
+  --muted: 28 22% 18%;
+  --muted-foreground: 28 14% 70%;
+  --shadow-color: 33 92% 58%;
+  --lav-deep: 188 75% 55%;
+  --success: 150 70% 45%;
+  --success-glow: 150 70% 35% / 0.6;
 }
 
 /* ---------- Noir ---------- */
@@ -222,24 +223,24 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 /* Citrus backdrop */
 html.theme-citrus body {
   background-image:
-    radial-gradient(1200px 700px at 20% -10%, hsl(40 95% 50% / 0.22), transparent 60%),
-    radial-gradient(1200px 600px at 120% 10%, hsl(20 90% 60% / 0.18), transparent 60%),
+    radial-gradient(1200px 700px at 20% -10%, hsl(33 92% 58% / 0.22), transparent 60%),
+    radial-gradient(1200px 600px at 120% 10%, hsl(188 75% 55% / 0.18), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-citrus body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.08;
   background:
-    repeating-linear-gradient(90deg, hsl(40 95% 50% / 0.35) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(20 90% 60% / 0.35) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(33 92% 58% / 0.25) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(188 75% 55% / 0.25) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; animation: citrus-grid 20s linear infinite;
 }
 html.theme-citrus body::after {
   content: ""; position: fixed; inset: -8%; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(60% 40% at 12% -5%,  hsl(40 95% 50% / 0.18), transparent 60%),
-    radial-gradient(50% 35% at 105% 10%, hsl(20 90% 60% / 0.16), transparent 60%),
-    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 40% / 0.12), transparent 65%);
+    radial-gradient(60% 40% at 12% -5%,  hsl(33 92% 58% / 0.18), transparent 60%),
+    radial-gradient(50% 35% at 105% 10%, hsl(188 75% 55% / 0.16), transparent 60%),
+    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 45% / 0.12), transparent 65%);
   filter: blur(2px) saturate(110%); animation: citrus-pan 28s ease-in-out infinite alternate;
 }
 @keyframes citrus-grid { to { transform: translate3d(26px, 26px, 0); } }
