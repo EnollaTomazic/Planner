@@ -13,7 +13,6 @@ import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import {
   Tag,
   Trash2,
-  Save,
   Check,
   Target,
   Shield,
@@ -357,6 +356,8 @@ export default function ReviewEditor({
   const [tags, setTags] = React.useState<string[]>(Array.isArray(review.tags) ? review.tags : []);
   const [draftTag, setDraftTag] = React.useState("");
 
+  const rootRef = React.useRef<HTMLDivElement>(null);
+
   const [opponent, setOpponent] = React.useState(review.opponent ?? "");
   const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
   const [pillars, setPillars] = React.useState<Pillar[]>(
@@ -411,10 +412,9 @@ export default function ReviewEditor({
 
     const r = ext.role ?? lastRole ?? "MID";
     setRole(r);
+    setLastRole(r);
 
-    // If it's a new review (no role yet), immediately persist the remembered role
     if (ext.role == null) {
-      setLastRole(r);          // keep local memory in sync
       onChangeMeta?.({ role: r });
     }
 
@@ -436,20 +436,6 @@ export default function ReviewEditor({
   };
   const commitNotes = () => onChangeNotes?.(notes);
 
-  const extNow = getExt(review);
-  const isDirty =
-    notes !== (review.notes ?? "") ||
-    (extNow.result ?? "Win") !== result ||
-    Number(extNow.score ?? NaN) !== score ||
-    Boolean(extNow.focusOn) !== focusOn ||
-    Number(extNow.focus ?? NaN) !== focus ||
-    (review.lane ?? review.title ?? "") !== (lane ?? "") ||
-    opponent !== (review.opponent ?? "") ||
-    role !== (extNow.role ?? undefined) ||
-    JSON.stringify(tags) !== JSON.stringify(review.tags ?? []) ||
-    JSON.stringify(pillars) !== JSON.stringify(review.pillars ?? []) ||
-    JSON.stringify(markers) !== JSON.stringify(extNow.markers ?? []);
-
   function saveAll() {
     commitLaneAndTitle();
     commitNotes();
@@ -465,6 +451,21 @@ export default function ReviewEditor({
       focus,
     });
   }
+
+  const saveAllRef = React.useRef(saveAll);
+  saveAllRef.current = saveAll;
+
+  React.useEffect(() => {
+    function handlePointerDown(e: PointerEvent) {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(e.target as Node)) {
+        saveAllRef.current();
+        onDone?.();
+      }
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [onDone]);
 
   const sortedMarkers = React.useMemo(
     () => [...markers].sort((a, b) => a.seconds - b.seconds),
@@ -541,7 +542,7 @@ export default function ReviewEditor({
   }
 
   return (
-    <div className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
+    <div ref={rootRef} className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
       <div className="section-h sticky">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           <div className="min-w-0">
@@ -596,18 +597,6 @@ export default function ReviewEditor({
           </div>
 
           <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
-            <IconButton
-              aria-label="Save"
-              title={isDirty ? "Save changes" : "Nothing to save"}
-              disabled={!isDirty}
-              circleSize="md"
-              iconSize="md"
-              variant="ring"
-              onClick={saveAll}
-            >
-              <Save />
-            </IconButton>
-
             {onDelete ? (
               <IconButton
                 aria-label="Delete review"
