@@ -21,6 +21,7 @@ export { default as Progress } from "./feedback/Progress";
 // Theme
 //
 export { default as ThemeToggle } from "./theme/ThemeToggle";
+export { default as AnimationToggle } from "./AnimationToggle";
 
 //
 // Toggles

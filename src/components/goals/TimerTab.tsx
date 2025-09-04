@@ -4,7 +4,7 @@
 /**
  * TimerTab — Lavender-Glitch timer with a glitchy progress bar
  * - Top tabs use TabBar (borderless neon) for profiles
- * - Right slot shows Quick presets (+ Review) when profile = Personal
+ * - Right slot shows Quick presets + custom time when profile = Personal
  * - Digits centered; minus/plus on the sides
  * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
  */
@@ -14,9 +14,10 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
+import Input from "@/components/ui/primitives/input";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
-  BookOpen, Brush, Code2, User, ListChecks,
+  BookOpen, Brush, Code2, User,
 } from "lucide-react";
 import { useLocalDB } from "@/lib/db";
 
@@ -24,8 +25,8 @@ import { useLocalDB } from "@/lib/db";
 type ProfileKey = "study" | "clean" | "code" | "personal";
 type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
 const PROFILES: Profile[] = [
-  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 30 },
-  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 20 },
+  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
+  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 30 },
   { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
   { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
 ];
@@ -121,29 +122,35 @@ export default function TimerTab() {
     []
   );
 
-  // Right slot content for Personal: quick presets + Review
+  // Right slot content for Personal: quick presets + custom time field
   const rightSlot = isPersonal ? (
     <div className="flex items-center flex-wrap gap-2">
       {QUICK.map(m => (
         <button
           key={`q-${m}`}
           className={["btn-like-segmented", minutes === m && "is-active"].filter(Boolean).join(" ")}
-          onClick={() => !running && setPersonalMinutes(m)}
+          onClick={() => {
+            if (running) return;
+            setPersonalMinutes(m);
+            setRemaining(m * 60_000);
+          }}
           type="button"
           title={`Set ${m} minutes`}
         >
           {m}m
         </button>
       ))}
-      <button
-        className="btn-like-segmented inline-flex items-center gap-1"
-        onClick={() => setRunning(false)}
-        type="button"
-        title="Open pre-review checklist"
-      >
-        <ListChecks className="mr-1" />
-        Review
-      </button>
+      <Input
+        aria-label="Custom minutes and seconds"
+        value={timeEdit}
+        onChange={(e) => setTimeEdit(e.currentTarget.value)}
+        onBlur={commitEdit}
+        onKeyDown={(e) => e.key === "Enter" && commitEdit()}
+        placeholder="mm:ss"
+        disabled={running}
+        className="w-24"
+        tone="default"
+      />
     </div>
   ) : null;
 
@@ -168,9 +175,9 @@ export default function TimerTab() {
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
-              title="Minus 5 minutes"
-              aria-label="Minus 5 minutes"
-              onClick={() => adjust(-5)}
+              title="Minus 1 minute"
+              aria-label="Minus 1 minute"
+              onClick={() => adjust(-1)}
               disabled={!isPersonal || running || minutes <= 0}
               className="shrink-0"
             >
@@ -200,9 +207,9 @@ export default function TimerTab() {
 
             {/* plus */}
             <IconButton
-              title="Plus 5 minutes"
-              aria-label="Plus 5 minutes"
-              onClick={() => adjust(+5)}
+              title="Plus 1 minute"
+              aria-label="Plus 1 minute"
+              onClick={() => adjust(+1)}
               disabled={!isPersonal || running}
               className="shrink-0"
             >
