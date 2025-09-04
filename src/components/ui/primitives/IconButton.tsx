@@ -48,7 +48,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type="button"
         className={cn(
-          "btn-scan inline-flex items-center justify-center select-none rounded-full transition",
+          "btn-glitch inline-flex items-center justify-center select-none !rounded-full transition",
           "focus-visible:outline-none",
           "[&>svg]:transition",
           "active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
