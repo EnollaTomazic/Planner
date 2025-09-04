@@ -129,12 +129,8 @@ export default function CheckCircle({
     }
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      if (checked) {
-        onChange(false);
-        markJustCleared();
-      } else {
-        onChange(true);
-      }
+      onChange(!checked);
+      if (checked) markJustCleared();
     }
   }
 
@@ -159,12 +155,8 @@ export default function CheckCircle({
               clearSelection();
               return;
             }
-            if (checked) {
-              onChange(false);
-              markJustCleared();
-            } else {
-              onChange(true);
-            }
+            onChange(!checked);
+            if (checked) markJustCleared();
           }}
           onKeyDown={onKey}
           onMouseEnter={() => setHovered(true)}
