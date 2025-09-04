@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import Image from "next/image";
 import Hero2 from "@/components/ui/layout/Hero2";
 import Button from "@/components/ui/primitives/button";
 import { useFocusDate, useDay, type ISODate } from "./usePlanner";
@@ -296,10 +297,11 @@ export default function WeekPicker() {
               ))}
             </div>
           </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://pin.it/6abRvOq6C"
+          <Image
+            src="/weekly-highlight.svg"
             alt="Weekly highlight"
+            width={64}
+            height={64}
             className="h-16 w-16 rounded-full object-cover"
           />
         </>
