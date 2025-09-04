@@ -118,6 +118,32 @@
   background: linear-gradient(180deg, hsl(var(--card) / .65), hsl(var(--card) / .45));
 }
 
+/* Dark task input with subtle glitch lines */
+.task-input {
+  height: var(--control-h);
+  border-radius: var(--radius-2, 12px);
+  padding-inline: var(--control-px);
+  font-size: var(--control-fs);
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--card) / .55) 0,
+    hsl(var(--card) / .55) 1px,
+    hsl(var(--card) / .50) 1px,
+    hsl(var(--card) / .50) 2px
+  );
+  border: 1px solid hsl(var(--card-hairline));
+  color: hsl(var(--foreground));
+  transition: box-shadow var(--dur-quick), border-color var(--dur-quick);
+}
+.task-input::placeholder {
+  color: hsl(var(--muted-foreground) / 0.8);
+}
+.task-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35);
+  border-color: hsl(var(--ring));
+}
+
 /* ============ Week chips: hover flicker + active glitch ============ */
 @keyframes chip-flicker {
   0%, 22%, 24%, 55%, 57%, 100% { opacity: 1; filter: none; }
