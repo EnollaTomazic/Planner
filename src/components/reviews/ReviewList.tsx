@@ -70,10 +70,10 @@ export default function ReviewList({
               "bg-[hsl(var(--card))]",
               "transition-[box-shadow,background,border-color] duration-200",
               // glow only (no transform)
-              "hover:border-[hsl(var(--border)/.45)] hover:shadow-[0_0_0_1px_hsl(var(--accent)/.25)_inset,0_10px_28px_hsl(var(--shadow-color)/.28)]",
+              "hover:border-[hsl(var(--border)/.45)] hover:shadow-[0_0_0_1px_hsl(var(--accent)/.25)_inset,0_10px_20px_hsl(var(--shadow-color)/.28)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
               active &&
-                "shadow-[0_0_0_1px_hsl(var(--accent)/.35)_inset,0_12px_32px_hsl(var(--shadow-color)/.32)]"
+                "shadow-[0_0_0_1px_hsl(var(--accent)/.35)_inset,0_12px_24px_hsl(var(--shadow-color)/.32)]"
             )}
             aria-current={active ? "true" : undefined}
           >
