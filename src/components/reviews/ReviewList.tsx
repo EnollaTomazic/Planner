@@ -5,7 +5,7 @@ import "../reviews/style.css";
 import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
+import { Ghost, Trash2 } from "lucide-react";
 
 type Props = {
   reviews: Review[];
@@ -30,15 +30,26 @@ export default function ReviewList({
   onDelete,
   className,
 }: Props) {
+  if (reviews.length === 0) {
+    return (
+      <div className={cn("reviews-scope", className)}>
+        <div className="flex flex-col items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
+          <Ghost className="h-6 w-6 opacity-60" />
+          <p>No reviews yet. Create your first one.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("reviews-scope space-y-2", className)}>
+    <div className={cn("reviews-scope space-y-3", className)}>
       {reviews.map((r) => {
         const active = r.id === selectedId;
 
         // Typed, no "any"
         const res: "Win" | "Loss" | undefined = r.result;
         const scoreNum = typeof r.score === "number" ? r.score : NaN;
-        const scoreTxt = Number.isFinite(scoreNum) ? ` · ${scoreNum}/10` : "";
+        const scoreTxt = Number.isFinite(scoreNum) ? `${scoreNum}/10` : "";
 
         const dateStr =
           typeof r.createdAt === "number"
@@ -47,10 +58,10 @@ export default function ReviewList({
 
         const dotColor =
           res === "Win"
-            ? "bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,.8)]"
+            ? "bg-emerald-400"
             : res === "Loss"
-            ? "bg-rose-400 shadow-[0_0_12px_rgba(244,63,94,.8)]"
-            : "bg-slate-400 shadow-[0_0_12px_rgba(148,163,184,.5)]";
+            ? "bg-rose-400"
+            : "bg-slate-400";
 
         const onTileKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           if (e.key === "Enter" || e.key === " ") onSelect(r.id);
@@ -64,7 +75,7 @@ export default function ReviewList({
             onClick={() => onSelect(r.id)}
             onKeyDown={onTileKeyDown}
             className={cn(
-              "group/review review-tile relative w-full h-20 px-3 py-2",
+              "group/review review-tile relative w-full h-20 p-2",
               active && "review-tile--active"
             )}
             aria-current={active ? "true" : undefined}
@@ -82,8 +93,12 @@ export default function ReviewList({
                       dotColor
                     )}
                   />
-                  <div className="truncate font-medium leading-6">
-                    {r.title || "Untitled review"}
+                  <div className="truncate text-sm font-semibold leading-6">
+                    {r.title?.trim() ? (
+                      r.title
+                    ) : (
+                      <span className="italic text-muted-foreground">No Title</span>
+                    )}
                   </div>
                   {dateStr ? (
                     <div className="shrink-0 text-[10px] leading-none text-muted-foreground">
@@ -91,13 +106,38 @@ export default function ReviewList({
                     </div>
                   ) : null}
                 </div>
-                <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-                  {(r.opponent || "—") +
-                    " · " +
-                    (r.lane || "—") +
-                    " · " +
-                    (res ? (res === "Win" ? "W" : "L") : r.side || "—") +
-                    scoreTxt}
+                <div className="mt-1 flex flex-wrap gap-1 text-xs">
+                  {r.opponent ? (
+                    <span className="rounded-full bg-[hsl(var(--muted)/.6)] px-2 py-0.5 text-[11px] text-muted-foreground">
+                      {r.opponent}
+                    </span>
+                  ) : null}
+                  {r.lane ? (
+                    <span className="rounded-full bg-[hsl(var(--muted)/.6)] px-2 py-0.5 text-[11px] text-muted-foreground">
+                      {r.lane}
+                    </span>
+                  ) : null}
+                  {res ? (
+                    <span
+                      className={cn(
+                        "rounded-full px-2 py-0.5 text-[11px]",
+                        res === "Win"
+                          ? "bg-emerald-500/20 text-emerald-300"
+                          : "bg-rose-500/20 text-rose-300"
+                      )}
+                    >
+                      {res === "Win" ? "W" : "L"}
+                    </span>
+                  ) : r.side ? (
+                    <span className="rounded-full bg-[hsl(var(--muted)/.6)] px-2 py-0.5 text-[11px] text-muted-foreground">
+                      {r.side}
+                    </span>
+                  ) : null}
+                  {scoreTxt ? (
+                    <span className="rounded-full bg-[hsl(var(--muted)/.6)] px-2 py-0.5 text-[11px] text-muted-foreground">
+                      {scoreTxt}
+                    </span>
+                  ) : null}
                 </div>
               </div>
 
@@ -114,8 +154,8 @@ export default function ReviewList({
                       "border border-[hsl(var(--border)/.35)] bg-[hsl(var(--card))]",
                       "opacity-0 group-hover/review:opacity-100 group-focus-within/review:opacity-100",
                       "transition-[opacity,box-shadow,border-color,background] duration-200",
-                      // glow only (no transform)
-                      "hover:border-[hsl(var(--border)/.6)] hover:shadow-[0_6px_20px_hsl(var(--shadow-color)/.28),inset_0_0_0_1px_hsl(var(--accent)/.25)]"
+                      // subtle glow only
+                      "hover:border-[hsl(var(--border)/.6)] hover:shadow-[0_2px_8px_hsl(var(--shadow-color)/.2)]"
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
