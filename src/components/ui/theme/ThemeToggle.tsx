@@ -6,7 +6,7 @@ import { Sun, Moon, Image as ImageIcon } from "lucide-react";
 import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect";
 
 type Mode = "dark" | "light";
-type Variant = "lg" | "citrus" | "noir" | "ocean" | "rose";
+type Variant = "lg" | "glitch2" | "citrus" | "noir" | "ocean" | "rose";
 type Background = 0 | 1 | 2 | 3 | 4 | 5;
 
 type ThemeToggleProps = {
@@ -24,11 +24,12 @@ const BG_KEY    = "lg-bg";
 const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-streak"] as const;
 
 const VARIANTS: { id: Variant; label: string }[] = [
-  { id: "lg",     label: "Glitch" },
-  { id: "rose",   label: "Rose Quartz" },
-  { id: "ocean",  label: "Oceanic" },
-  { id: "citrus", label: "Citrus" },
-  { id: "noir",   label: "Noir" },
+  { id: "lg",       label: "Glitch" },
+  { id: "glitch2",  label: "Glitch v2" },
+  { id: "rose",     label: "Rose Quartz" },
+  { id: "ocean",    label: "Oceanic" },
+  { id: "citrus",   label: "Citrus" },
+  { id: "noir",     label: "Noir" },
 ];
 
 const LEGACY = ["theme-lg-dark","theme-lg-light","theme-cyber-void","theme-sunset-synth"];
@@ -36,6 +37,7 @@ const LEGACY = ["theme-lg-dark","theme-lg-light","theme-cyber-void","theme-sunse
 function parseTheme(v: string | null): { variant: Variant; mode: Mode } {
   if (v === "theme-lg-light") return { variant: "lg", mode: "light" };
   if (v === "theme-lg-dark")  return { variant: "lg", mode: "dark" };
+  if (v === "theme-glitch2")  return { variant: "glitch2", mode: "dark" };
   if (v === "theme-citrus")   return { variant: "citrus", mode: "dark" };
   if (v === "theme-noir")     return { variant: "noir", mode: "dark" };
   if (v === "theme-ocean")    return { variant: "ocean", mode: "dark" };
