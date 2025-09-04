@@ -25,6 +25,17 @@ html.no-animations *::after {
   box-sizing: border-box;
 }
 
+/* Global focus & selection styling */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+::selection {
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
 /* ---------- Background & typography ---------- */
 body {
   color: hsl(var(--foreground));
@@ -496,11 +507,6 @@ html.bg-intense body::after {
     border-color: hsl(var(--ring));
     box-shadow: 0 0 0 2px hsl(var(--ring) / 0.35),
       0 12px 28px hsl(var(--ring) / 0.25);
-  }
-  .btn-like-segmented:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.45),
-      0 10px 24px hsl(var(--shadow-color) / 0.25);
   }
 
   .btn-glitch {
@@ -1368,9 +1374,6 @@ textarea:-webkit-autofill {
 .pill-compact:hover {
   @apply bg-[hsl(var(--muted))/0.28];
 }
-.pill-compact:focus-visible {
-  @apply outline-none ring-2 ring-[hsl(var(--ring))];
-}
 .pill-compact--primary {
   @apply border-[hsl(var(--ring))]   bg-[hsl(var(--primary-soft))/0.25];
 }
@@ -1417,10 +1420,6 @@ textarea:-webkit-autofill {
 }
 .badge[data-interactive="true"]:hover {
   background: color-mix(in oklab, hsl(var(--muted)) 28%, transparent);
-}
-.badge[data-interactive="true"]:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 .badge[data-selected="true"] {
   background: color-mix(in oklab, hsl(var(--primary-soft)) 36%, transparent);
@@ -1997,8 +1996,7 @@ textarea:-webkit-autofill {
 }
 .btn-cta.is-active,
 .btn-cta[aria-current="page"],
-.btn-cta:hover,
-.btn-cta:focus-visible {
+.btn-cta:hover {
   background: var(--seg-active-grad);
   color: hsl(var(--primary-foreground));
   box-shadow: 0 0 0 2px hsl(var(--ring) / 0.38),
