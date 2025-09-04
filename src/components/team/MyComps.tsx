@@ -190,6 +190,7 @@ function ChampChips({
           <i className="dot" />
           <span
             contentEditable
+            dir="ltr"
             suppressContentEditableWarning
             className="outline-none"
             onInput={e => setAt(i, (e.currentTarget.textContent ?? "").trim())}
@@ -276,6 +277,7 @@ export default function MyComps() {
             className="rounded-card flex items-left gap-6 glitch"
           >
             <Input
+              dir="ltr"
               value={draft}
               onChange={e => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
@@ -342,6 +344,7 @@ export default function MyComps() {
                       </h3>
                     ) : (
                       <Input
+                        dir="ltr"
                         aria-label="Comp title"
                         value={c.title}
                         onChange={e => patch(c.id, { title: e.target.value })}
@@ -383,6 +386,7 @@ export default function MyComps() {
                         </p>
                       ) : (
                         <Textarea
+                          dir="ltr"
                           aria-label="Notes"
                           rows={4}
                           className="planner-textarea"
