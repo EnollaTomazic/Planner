@@ -190,7 +190,12 @@ export default function TodayHero({ iso }: Props) {
               if (id) setSelTaskId(id);
             }}
           >
-            <Input name={`new-task-${selProjectId}`} placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`} aria-label="New task" className="mt-1" />
+              <Input
+                name={`new-task-${selProjectId}`}
+                placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
+                aria-label="New task"
+                className="mt-1 task-input"
+              />
             <IconButton type="submit" aria-label="Add task" title="Add task" circleSize="sm" variant="ring" iconSize="sm">
               <CirclePlus />
             </IconButton>
