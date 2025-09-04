@@ -5,7 +5,7 @@ import "../reviews/style.css";
 import RoleSelector from "@/components/reviews/RoleSelector";
 
 import * as React from "react";
-import type { Review, Pillar } from "@/lib/types";
+import type { Review, Pillar, Role } from "@/lib/types";
 import Input from "@/components/ui/primitives/input";
 import Textarea from "@/components/ui/primitives/textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -31,8 +31,7 @@ import {
   FOCUS_POOLS,
   pickIndex,
   scoreIcon,
-  type Role,
-} from "@/components/reviews/reviewData"; // <-- corrected import path
+} from "@/components/reviews/reviewData";
 
 /** Faint section label + rule used throughout the form. */
 function SectionLabel({ children }: { children: React.ReactNode }) {
