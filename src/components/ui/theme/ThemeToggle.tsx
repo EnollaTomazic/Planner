@@ -7,7 +7,7 @@ import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect
 
 type Mode = "dark" | "light";
 type Variant = "lg" | "citrus" | "noir" | "ocean" | "rose";
-type Background = 0 | 1 | 2;
+type Background = 0 | 1 | 2 | 3;
 
 type ThemeToggleProps = {
   className?: string;
@@ -21,7 +21,7 @@ const MODE_KEY  = "lg-mode";
 const VAR_KEY   = "lg-variant";
 const BG_KEY    = "lg-bg";
 
-const BG_CLASSES = ["", "bg-alt1", "bg-alt2"] as const;
+const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light"] as const;
 
 const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg",     label: "Glitch" },
@@ -59,13 +59,13 @@ function readStorage(): { variant: Variant; mode: Mode; bg: Background } {
     if (t) {
       const { variant, mode } = parseTheme(t);
       const b = parseInt(localStorage.getItem(BG_KEY) || "0", 10);
-      const bg: Background = b === 1 || b === 2 ? b : 0;
+      const bg: Background = b === 1 || b === 2 || b === 3 ? b : 0;
       return { variant, mode, bg };
     }
     const m = localStorage.getItem(MODE_KEY) as Mode | null;
     const v = localStorage.getItem(VAR_KEY) as Variant | null;
     const b = parseInt(localStorage.getItem(BG_KEY) || "0", 10);
-    const bg: Background = b === 1 || b === 2 ? b : 0;
+    const bg: Background = b === 1 || b === 2 || b === 3 ? b : 0;
     if ((m === "dark" || m === "light") && v && VARIANTS.some(x => x.id === v)) return { variant: v, mode: m, bg };
   } catch {}
   const { variant, mode } = parseTheme(null);
@@ -141,7 +141,7 @@ export default function ThemeToggle({
   }
 
   function cycleBg() {
-    const next: Background = ((bg + 1) % 3) as Background;
+    const next: Background = ((bg + 1) % 4) as Background;
     const s = { variant, mode, bg: next };
     setState(s);
     writeStorage(s.variant, s.mode, s.bg);

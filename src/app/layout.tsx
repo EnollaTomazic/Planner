@@ -61,7 +61,7 @@ const noFlash = `
       try { localStorage.setItem(VAR_KEY, variant); } catch (_) {}
     }
     var bg = parseInt(localStorage.getItem(BG_KEY) || '0', 10);
-    if (bg !== 1 && bg !== 2) {
+    if (bg !== 1 && bg !== 2 && bg !== 3) {
       bg = 0;
       try { localStorage.setItem(BG_KEY, String(bg)); } catch (_) {}
     }
@@ -71,8 +71,10 @@ const noFlash = `
       if (name.indexOf('theme-') === 0) cl.remove(name);
     });
     cl.add('theme-' + variant);
-    ['bg-alt1','bg-alt2'].forEach(function (c) { cl.remove(c); });
-    if (bg === 1) cl.add('bg-alt1'); else if (bg === 2) cl.add('bg-alt2');
+    ['bg-alt1','bg-alt2','bg-light'].forEach(function (c) { cl.remove(c); });
+    if (bg === 1) cl.add('bg-alt1');
+    else if (bg === 2) cl.add('bg-alt2');
+    else if (bg === 3) cl.add('bg-light');
 
     // ---- light only matters for the base LG theme ----
     if (variant === 'lg') {
