@@ -184,7 +184,6 @@ export default function GoalsPage() {
             value={tab}
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Goals header mode"
-            intensity="default"
           >
             {TABS.map((t) => (
               <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
