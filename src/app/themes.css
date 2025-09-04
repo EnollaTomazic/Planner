@@ -328,6 +328,31 @@ html.theme-rose body::after {
 }
 @keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
 
+/* Additional background options */
+html.bg-alt1 body {
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, hsl(var(--accent) / 0.20), transparent 60%),
+    radial-gradient(900px 500px at 110% 20%, hsl(var(--accent-2) / 0.18), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt1 body::before,
+html.bg-alt1 body::after {
+  content: none;
+}
+
+html.bg-alt2 body {
+  background-image:
+    radial-gradient(1000px 600px at 50% 0%, hsl(var(--primary) / 0.18), transparent 60%),
+    radial-gradient(900px 500px at 50% 120%, hsl(var(--accent) / 0.16), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt2 body::before,
+html.bg-alt2 body::after {
+  content: none;
+}
+
 /* ---------- Shared backdrop animations ---------- */
 @keyframes lg-grid-drift { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(26px,26px,0)} }
 @keyframes lg-aurora-pan {
