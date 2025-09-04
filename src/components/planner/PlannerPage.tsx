@@ -17,6 +17,8 @@ import FocusPanel from "./FocusPanel";
 import WeekNotes from "./WeekNotes";
 import WeekPicker from "./WeekPicker";
 import { PlannerProvider, useFocusDate, useWeek, type ISODate } from "./usePlanner";
+import IconButton from "@/components/ui/primitives/IconButton";
+import { ArrowUp } from "lucide-react";
 
 /* ───────── Row (memo) ───────── */
 
@@ -39,6 +41,39 @@ const DayRow = React.memo(
   (a: Readonly<DayRowProps>, b: Readonly<DayRowProps>) => a.iso === b.iso && a.isToday === b.isToday
 );
 
+/* ───────── Scroll-to-top button ───────── */
+function BackToTopButton() {
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => {
+      if (typeof window === "undefined") return;
+      setVisible(window.scrollY > 200);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  if (!visible) return null;
+
+  return (
+    <IconButton
+      aria-label="Back to top"
+      onClick={scrollTop}
+      className="fixed bottom-6 right-6 z-50"
+    >
+      <ArrowUp />
+    </IconButton>
+  );
+}
+
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
@@ -52,7 +87,8 @@ function Inner() {
   );
 
   return (
-    <main className="page-shell py-6 space-y-6" aria-labelledby="planner-week-heading">
+    <>
+      <main className="page-shell py-6 space-y-6" aria-labelledby="planner-week-heading">
       {/* Week header (range, nav, totals, day chips) */}
       <h1 id="planner-week-heading" className="sr-only">
         Weekly planner
@@ -81,7 +117,9 @@ function Inner() {
           <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
         ))}
       </section>
-    </main>
+      </main>
+      <BackToTopButton />
+    </>
   );
 }
 
