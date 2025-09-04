@@ -75,7 +75,7 @@ export default function NavBar() {
                       background:
                         "linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--primary)))",
                     }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
                   />
                 )}
               </Link>
