@@ -270,7 +270,8 @@ export default function GoalsPage() {
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "bg-[hsl(var(--accent))]" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
                                 />
                                 <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
                                   {new Date(g.createdAt).toLocaleDateString(LOCALE)}
