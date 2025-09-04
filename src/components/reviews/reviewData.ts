@@ -15,6 +15,10 @@ import {
 /** Persisted key for role memory */
 export const LAST_ROLE_KEY = "last_role";
 
+/** Persisted keys for timestamp preferences */
+export const LAST_MARKER_MODE_KEY = "last_marker_mode";
+export const LAST_MARKER_TIME_KEY = "last_marker_time";
+
 /** Lane/pillar enums used in UI */
 export const ALL_PILLARS: Pillar[] = [
   "Wave",
