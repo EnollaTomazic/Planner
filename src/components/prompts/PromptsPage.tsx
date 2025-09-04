@@ -12,6 +12,7 @@ import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import Input from "@/components/ui/primitives/input";
 import { useLocalDB, uid } from "@/lib/db";
+import { LOCALE } from "@/lib/utils";
 
 type Prompt = {
   id: string;
@@ -117,7 +118,7 @@ export default function PromptsPage() {
               <header className="flex items-center justify-between">
                 <h3 className="font-semibold">{deriveTitle(p)}</h3>
                 <time className="text-xs text-muted-foreground">
-                  {new Date(p.createdAt).toLocaleString()}
+                  {new Date(p.createdAt).toLocaleString(LOCALE)}
                 </time>
               </header>
               {p.text ? (
