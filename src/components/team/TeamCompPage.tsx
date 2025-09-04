@@ -33,7 +33,7 @@ export default function TeamCompPage() {
   return (
     <main className="grid gap-4">
       <Hero
-        eyebrow="Team Comp"
+        eyebrow="Comps"
         heading="Today"
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
@@ -42,7 +42,7 @@ export default function TeamCompPage() {
             tabs={TABS}
             activeKey={tab}
             onChange={(k: Tab) => setTab(k)}
-            ariaLabel="Team Comp views"
+            ariaLabel="Comps views"
           />
         }
         className="mb-1"

@@ -2,7 +2,7 @@
 "use client";
 
 /**
- * MyComps — CRUD for custom team comps, single-panel version.
+ * MyComps — CRUD for custom comps, single-panel version.
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Hover-only actions: Copy / Edit / Delete; Save when editing
