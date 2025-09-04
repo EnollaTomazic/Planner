@@ -456,57 +456,53 @@ html.bg-intense body::after {
   }
 
   .btn-like-segmented {
-    @apply inline-flex items-center rounded-2xl border px-4 py-2 text-sm transition;
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm rounded-full;
     position: relative;
     overflow: hidden;
-    border-color: hsl(var(--card-hairline));
-    background: linear-gradient(
-        90deg,
-        hsl(var(--primary-soft)) 0%,
-        transparent 100%
-      ),
-      hsl(var(--card));
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    border: 1px solid hsl(var(--ring) / 0.6);
+    background: hsl(var(--surface-2) / 0.1);
     color: hsl(var(--muted-foreground));
-    transition: transform var(--dur-quick) var(--ease-out),
-      background var(--dur-quick), color var(--dur-quick);
+    box-shadow: 0 0 4px hsl(var(--ring) / 0.4);
+    transition: color 180ms ease-in-out, background 180ms ease-in-out,
+      box-shadow 180ms ease-in-out;
   }
   .btn-like-segmented:hover {
-    background: linear-gradient(
-        90deg,
-        hsl(var(--primary) / 0.12) 0%,
-        transparent 100%
-      ),
-      hsl(var(--card));
     color: hsl(var(--foreground));
-    text-shadow: 0 0 6px hsl(var(--accent) / 0.25);
+    box-shadow: 0 0 6px hsl(var(--ring) / 0.7);
   }
-  .btn-like-segmented::after {
+  .btn-like-segmented::before {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 24%;
-    left: -30%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--foreground) / 0.18),
-      transparent
+    top: -24px;
+    left: 50%;
+    width: 70%;
+    height: 24px;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      ellipse at bottom,
+      hsl(var(--accent)),
+      transparent 70%
     );
-    transform: skewX(-20deg);
     opacity: 0;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    transition: opacity 180ms ease-in-out;
+    pointer-events: none;
   }
-  .btn-like-segmented:hover::after {
-    animation: sheenSweep var(--dur-slow) var(--ease-out) 1 forwards;
-    opacity: 1;
-  }
-  .btn-like-segmented[aria-current="page"],
-  .btn-like-segmented.is-active {
+  .btn-like-segmented.is-active,
+  .btn-like-segmented[aria-current="page"] {
     color: hsl(var(--foreground));
-    background: color-mix(in oklab, hsl(var(--card)) 75%, transparent);
+    background: hsl(var(--accent) / 0.15);
     border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.35),
-      0 12px 28px hsl(var(--ring) / 0.25);
+    box-shadow: inset 0 0 8px hsl(var(--accent) / 0.6),
+      0 0 8px hsl(var(--ring) / 0.8),
+      0 0 12px hsl(var(--accent) / 0.5);
+  }
+  .btn-like-segmented.is-active::before,
+  .btn-like-segmented[aria-current="page"]::before {
+    opacity: 1;
   }
 
   .btn-glitch {
