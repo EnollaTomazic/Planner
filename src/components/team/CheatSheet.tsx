@@ -33,6 +33,7 @@ export type CheatSheetProps = {
   className?: string;
   dense?: boolean;
   data?: Archetype[];
+  query?: string;
 };
 
 /* ───────────── seeds ───────────── */
@@ -399,9 +400,28 @@ export default function CheatSheet({
   className = "",
   dense = false,
   data = DEFAULT_SHEET,
+  query = "",
 }: CheatSheetProps) {
   const [sheet, setSheet] = useLocalDB<Archetype[]>("team:cheatsheet.v2", data);
   const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return sheet;
+    return sheet.filter((a) => {
+      const hay = [
+        a.title,
+        a.description,
+        ...(a.wins ?? []),
+        ...(a.struggles ?? []),
+        ...(a.tips ?? []),
+        ...Object.values(a.examples).flat(),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [sheet, query]);
 
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
@@ -415,7 +435,7 @@ export default function CheatSheet({
       data-scope="team"
       className={["grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3", className].join(" ")}
     >
-      {sheet.map((a) => {
+      {filtered.map((a) => {
         const isEditing = editingId === a.id;
 
         return (
