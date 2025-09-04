@@ -119,6 +119,8 @@ export default function SearchBar({
             className="absolute right-1.5 top-1/2 -translate-y-1/2"
             onClick={() => {
               setLocal("");
+              const e = { target: { value: "" } } as React.ChangeEvent<HTMLInputElement>;
+              onChange?.(e);
               onValueChange?.("");
               inputRef.current?.focus();
             }}

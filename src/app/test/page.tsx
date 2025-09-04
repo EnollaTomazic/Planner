@@ -15,11 +15,8 @@ import Badge from "@/components/ui/primitives/badge";
 import Toggle from "@/components/ui/toggles/toggle";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { NeonIcon } from "@/components/ui/toggles/NeonIcon";
-import { Sun, Moon, Search } from "lucide-react";
-import { useState } from "react";
-
 // Icons
-import {  Plus, Trash2, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 export default function TestPage() {
   const [search, setSearch] = React.useState("");

@@ -11,6 +11,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import Input from "@/components/ui/primitives/input";
+import SearchBar from "@/components/ui/primitives/searchbar";
 import { useLocalDB, uid } from "@/lib/db";
 
 type Prompt = {
@@ -30,6 +31,26 @@ export default function PromptsPage() {
 
   // Search (now lives in the header)
   const [query, setQuery] = React.useState("");
+
+  // Animations toggle
+  const ANIM_KEY = "lg-anims";
+  const [animOn, setAnimOn] = React.useState(true);
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem(ANIM_KEY);
+      const on = stored !== "off";
+      setAnimOn(on);
+      document.documentElement.setAttribute("data-animations", on ? "on" : "off");
+    } catch {}
+  }, []);
+  function toggleAnimations() {
+    setAnimOn((prev) => {
+      const next = !prev;
+      document.documentElement.setAttribute("data-animations", next ? "on" : "off");
+      try { localStorage.setItem(ANIM_KEY, next ? "on" : "off"); } catch {}
+      return next;
+    });
+  }
 
   // Derived: filtered list
   const filtered = React.useMemo(() => {
@@ -78,11 +99,7 @@ export default function PromptsPage() {
           {/* Right: search + save */}
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-48 sm:w-64 md:w-80">
-              <Input
-                placeholder="Search prompts…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
+              <SearchBar value={query} onValueChange={setQuery} placeholder="Search prompts…" />
             </div>
             <Button
               variant="ghost"
@@ -90,6 +107,9 @@ export default function PromptsPage() {
               disabled={!titleDraft.trim() && !textDraft.trim()}
             >
               Save
+            </Button>
+            <Button variant="ghost" onClick={toggleAnimations}>
+              {animOn ? "Animations On" : "Animations Off"}
             </Button>
           </div>
         </div>

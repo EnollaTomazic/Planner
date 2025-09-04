@@ -120,6 +120,8 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
+                  buttonClassName="h-10"
+                  ariaLabel="Sort reviews"
                 />
               </div>
               <Button

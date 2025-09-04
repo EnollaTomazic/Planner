@@ -20,7 +20,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const BASE =
-  "block w-full h-10 px-3 " +
+  "block w-full h-10 px-3 text-left " +
   "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
@@ -40,6 +40,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     name,
     "aria-label": ariaLabel,
     tone = "pill", // ⬅️ default changed here
+    dir = "ltr",
     ...props
   },
   ref
@@ -54,6 +55,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       ref={ref}
       id={finalId}
       name={finalName}
+      dir={dir}
       className={cn(
         BASE,
         tone === "pill" ? "rounded-full" : "rounded-2xl",
