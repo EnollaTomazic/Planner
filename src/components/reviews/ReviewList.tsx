@@ -6,7 +6,7 @@ import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Ghost, Trash2 } from "lucide-react";
-import IconButton from "@/components/ui/IconButton";
+import { IconButton } from "@/components/ui";
 
 type Props = {
   reviews: Review[];
@@ -147,8 +147,9 @@ export default function ReviewList({
                 {onDelete ? (
                   <IconButton
                     aria-label="Delete review"
-                    size="sm"
-                    variant="destructive"
+                    circleSize="sm"
+                    iconSize="sm"
+                    tone="danger"
                     className="opacity-0 group-hover/review:opacity-100 group-focus-within/review:opacity-100"
                     onClick={(e) => {
                       e.stopPropagation();
