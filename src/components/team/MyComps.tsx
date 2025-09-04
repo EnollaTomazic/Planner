@@ -285,6 +285,7 @@ export default function MyComps() {
               aria-label="Add comp"
               circleSize="md"
               className="shrink-0"
+              variant="solid"
             >
               <Plus />
             </IconButton>

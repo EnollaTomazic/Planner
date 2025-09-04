@@ -937,7 +937,7 @@ export default function ReviewEditor({
               disabled={!canAddMarker}
               circleSize="md"
               iconSize="sm"
-              variant="ring"
+              variant="solid"
               onClick={addMarker}
             >
               <Plus />
@@ -1006,7 +1006,7 @@ export default function ReviewEditor({
               title="Add tag"
               circleSize="md"
               iconSize="sm"
-              variant="ring"
+              variant="solid"
               onClick={() => {
                 addTag(draftTag);
                 setDraftTag("");

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type Circle = "sm" | "md" | "lg";
 type Icon = "xs" | "sm" | "md" | "lg";
 type Tone = "primary" | "accent" | "info" | "danger";
-type Variant = "ring" | "glow"; // ring = flat outline w/ neon on hover, glow = original FX
+type Variant = "ring" | "glow" | "solid"; // ring = flat outline, glow = original FX, solid = filled
 
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   circleSize?: Circle;
@@ -14,7 +14,7 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   tone?: Tone;
   active?: boolean;
   fx?: boolean;      // kept for backwards-compat in "glow" mode
-  variant?: Variant; // "ring" (default) | "glow"
+  variant?: Variant; // "ring" (default) | "glow" | "solid"
 };
 
 const circleMap: Record<Circle, string> = {
@@ -86,6 +86,35 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       "--ib-ring-hover": "hsl(var(--foreground) / 0.28)",
       "--ib-ring-active": "hsl(var(--foreground) / 0.36)",
     };
+
+    // ─────────────────────────────────────────────────────────────
+    // VARIANT: SOLID button matching primary "Add" styling
+    // ─────────────────────────────────────────────────────────────
+    if (variant === "solid") {
+      return (
+        <button
+          ref={ref}
+          type="button"
+          data-active={active ? "true" : undefined}
+          aria-pressed={active || undefined}
+          className={cn(
+            "inline-flex items-center justify-center select-none rounded-full",
+            "text-[hsl(var(--primary-foreground))]",
+            "bg-[var(--seg-active-grad)]",
+            "shadow-[0_0_0_1px_hsl(var(--ring)/.22),0_12px_28px_hsl(var(--shadow-color)/.28)]",
+            "transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            "hover:brightness-[1.05] active:brightness-[0.95] active:scale-[0.97]",
+            "disabled:opacity-50 disabled:pointer-events-none",
+            circleMap[circleSize],
+            iconMap[iconSize],
+            className
+          )}
+          {...rest}
+        >
+          {withIcon(children)}
+        </button>
+      );
+    }
 
     // ─────────────────────────────────────────────────────────────
     // VARIANT: FLAT RING with NEON that COVERS the gray border on hover

@@ -164,7 +164,7 @@ export default function Reminders() {
 
   return (
     <div className="grid gap-4">
-      <SectionCard className="card-neo">
+      <SectionCard className="card-neo-soft">
         <SectionCard.Header sticky>
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
@@ -223,7 +223,7 @@ export default function Reminders() {
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
               className="h-10 flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
               <Plus />
             </IconButton>
             <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">
@@ -232,7 +232,7 @@ export default function Reminders() {
           </div>
 
           {/* Cards grid */}
-          <div className="grid card-neo gap-3 sm:gap-4 md:grid-cols-2">
+          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-2">
             {filtered.map((r) => (
               <ReminderCard
                 key={r.id}

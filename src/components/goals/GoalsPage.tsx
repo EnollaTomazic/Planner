@@ -244,7 +244,7 @@ export default function GoalsPage() {
                       key={g.id}
                       className={[
                         "relative rounded-2xl p-5",
-                        "card-neo-soft transition",
+                        "card-neo transition",
                         "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
                         "min-h-[152px] flex flex-col",
                       ].join(" ")}
@@ -316,7 +316,7 @@ export default function GoalsPage() {
           </SectionCard>
 
           {/* Add Goal + Waiting List */}
-          <SectionCard className="card-neo">
+          <SectionCard className="card-neo-soft">
             <SectionCard.Header title={<span className="text-base font-semibold">Add Goal</span>} />
             <SectionCard.Body>
               <div className="grid gap-6 lg:grid-cols-[1fr_minmax(320px,420px)]">
@@ -519,7 +519,7 @@ function WaitlistPanel({
           aria-label="New waitlist item"
         />
         <span className="waitlist-terminal__caret" aria-hidden />
-        <IconButton title="Add" aria-label="Add" type="submit" circleSize="md">
+        <IconButton title="Add" aria-label="Add" type="submit" circleSize="md" variant="solid">
           <Plus />
         </IconButton>
       </form>

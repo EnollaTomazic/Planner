@@ -200,7 +200,7 @@ export default function JungleClears() {
                 </div>
 
                 <div className="mb-2 flex justify-end">
-                  <IconButton circleSize="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)}>
+                  <IconButton circleSize="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
                     <Plus />
                   </IconButton>
                 </div>
