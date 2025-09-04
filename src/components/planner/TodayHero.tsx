@@ -12,7 +12,7 @@ import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/input";
 import IconButton from "@/components/ui/primitives/IconButton";
-import { Pencil, Trash2, Calendar, CirclePlus } from "lucide-react";
+import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
@@ -91,7 +91,7 @@ export default function TodayHero({ iso }: Props) {
       </div>
 
       {/* Animated Progress of selected project */}
-      <div className="mb-3 flex items-center gap-3">
+      <div className="mb-4 flex items-center gap-3">
         <div className={cn("glitch-track w-full", pct === 100 && "is-complete")} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
           <div className="glitch-fill transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
           <div className="glitch-scan" />
@@ -100,7 +100,7 @@ export default function TodayHero({ iso }: Props) {
       </div>
 
       {/* Projects */}
-      <div className="mt-1">
+      <div className="mt-4 space-y-4">
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -117,12 +117,12 @@ export default function TodayHero({ iso }: Props) {
             value={projectName}
             onChange={e => setProjectName(e.target.value)}
             aria-label="New project"
-            className="mt-1 task-input"
+            className="task-input w-full"
           />
         </form>
 
         {projects.length > 0 && (
-          <ul className="mt-3 space-y-2" role="list" aria-label="Projects">
+          <ul className="space-y-2" role="list" aria-label="Projects">
             {projects.slice(0, 12).map(p => {
               const isEditing = editingProjectId === p.id;
               const isSelected = selProjectId === p.id;
@@ -178,9 +178,8 @@ export default function TodayHero({ iso }: Props) {
       {!selProjectId ? (
         <div className="mt-4 text-[13px] text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
       ) : (
-        <>
+        <div className="mt-4 space-y-4">
           <form
-            className="flex items-center gap-2"
             onSubmit={e => {
               e.preventDefault();
               const el = e.currentTarget.elements.namedItem(`new-task-${selProjectId}`) as HTMLInputElement | null;
@@ -190,21 +189,18 @@ export default function TodayHero({ iso }: Props) {
               if (id) setSelTaskId(id);
             }}
           >
-              <Input
-                name={`new-task-${selProjectId}`}
-                placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
-                aria-label="New task"
-                className="mt-1 task-input"
-              />
-            <IconButton type="submit" aria-label="Add task" title="Add task" circleSize="sm" variant="ring" iconSize="sm">
-              <CirclePlus />
-            </IconButton>
+            <Input
+              name={`new-task-${selProjectId}`}
+              placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
+              aria-label="New task"
+              className="task-input w-full"
+            />
           </form>
 
           {scopedTasks.length === 0 ? (
-            <div className="tasks-placeholder mt-4">No tasks yet.</div>
+            <div className="tasks-placeholder">No tasks yet.</div>
           ) : (
-            <ul className="mt-4 space-y-2" role="list" aria-label="Tasks">
+            <ul className="space-y-2" role="list" aria-label="Tasks">
               {scopedTasks.slice(0, 12).map(t => {
                 const isEditing = editingTaskId === t.id;
                 return (
@@ -251,7 +247,7 @@ export default function TodayHero({ iso }: Props) {
               {scopedTasks.length > 12 && <li className="pr-1 text-right text-xs opacity-70">+ {scopedTasks.length - 12} more…</li>}
             </ul>
           )}
-        </>
+        </div>
       )}
     </section>
   );

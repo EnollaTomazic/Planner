@@ -109,16 +109,18 @@ export default function DayCard({ iso, isToday }: Props) {
       </div>
 
       {/* Add project */}
-      <div className="col-span-1 lg:col-span-3">
+      <form
+        className="col-span-1 lg:col-span-3"
+        onSubmit={e => { e.preventDefault(); addProjectCommit(); }}
+      >
         <Input
-          className="w-full"
-          placeholder="> new project..."
+          className="task-input w-full"
+          placeholder="> new project…"
           value={draftProject}
           onChange={e => setDraftProject(e.target.value)}
-          onKeyDown={e => e.key === "Enter" && addProjectCommit()}
           aria-label="Add project"
         />
-      </div>
+      </form>
 
       {/* Left: projects */}
       <div className="flex flex-col gap-3 min-w-0">
@@ -215,7 +217,7 @@ export default function DayCard({ iso, isToday }: Props) {
         {selectedProjectId && (
           <Input
             className="task-input w-full"
-            placeholder="> add task..."
+            placeholder="> add task…"
             value={draftTask}
             onChange={e => setDraftTask(e.target.value)}
             onKeyDown={e => e.key === "Enter" && addTaskCommit()}
