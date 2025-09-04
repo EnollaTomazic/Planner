@@ -19,6 +19,7 @@ import {
   BookOpen, Brush, Code2, User,
 } from "lucide-react";
 import { useLocalDB } from "@/lib/db";
+import DurationSelector from "./DurationSelector";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
@@ -30,7 +31,6 @@ const PROFILES: Profile[] = [
   { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
 ];
 
-const QUICK = [10, 15, 20, 25, 30, 45, 60];
 
 /* helpers */
 const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
@@ -134,29 +134,18 @@ export default function TimerTab() {
     []
   );
 
-  // Right slot content for Personal: glitchy quick presets + custom time field
+  // Right slot content for Personal: quick duration chips + custom time field
   const rightSlot = isPersonal ? (
     <div className="flex items-center flex-wrap gap-2">
-      {QUICK.map((m) => (
-        <button
-          key={`q-${m}`}
-          className={[
-            "btn-like-segmented btn-glitch",
-            minutes === m && "is-active",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          onClick={() => {
-            if (running) return;
-            setPersonalMinutes(m);
-            setRemaining(m * 60_000);
-          }}
-          type="button"
-          title={`Set ${m} minutes`}
-        >
-          {m}m
-        </button>
-      ))}
+      <DurationSelector
+        value={minutes}
+        onChange={(m) => {
+          if (running) return;
+          setPersonalMinutes(m);
+          setRemaining(m * 60_000);
+        }}
+        disabled={running}
+      />
       <input
         aria-label="Custom minutes and seconds"
         value={timeEdit}
