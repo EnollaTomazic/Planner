@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { ROLE_OPTIONS, type Role } from "@/components/reviews/reviewData";
+import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
+import type { Role } from "@/lib/types";
 
 type Props = {
   value: Role;
