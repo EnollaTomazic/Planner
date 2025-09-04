@@ -27,6 +27,8 @@ import { uid, useLocalDB } from "@/lib/db";
 import {
   ALL_PILLARS,
   LAST_ROLE_KEY,
+  LAST_MARKER_MODE_KEY,
+  LAST_MARKER_TIME_KEY,
   SCORE_POOLS,
   FOCUS_POOLS,
   pickIndex,
@@ -362,6 +364,8 @@ export default function ReviewEditor({
   );
 
   const [lastRole, setLastRole] = useLocalDB<Role>(LAST_ROLE_KEY, "MID");
+  const [lastMarkerMode, setLastMarkerMode] = useLocalDB<boolean>(LAST_MARKER_MODE_KEY, true);
+  const [lastMarkerTime, setLastMarkerTime] = useLocalDB<string>(LAST_MARKER_TIME_KEY, "");
   const ext0 = getExt(review);
   const initialRole: Role = ext0.role ?? lastRole ?? "MID";
   const [role, setRole] = React.useState<Role>(initialRole);
@@ -380,8 +384,8 @@ export default function ReviewEditor({
     Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : []
   );
 
-  const [useTimestamp, setUseTimestamp] = React.useState(true);
-  const [tTime, setTTime] = React.useState("");
+  const [useTimestamp, setUseTimestamp] = React.useState(lastMarkerMode);
+  const [tTime, setTTime] = React.useState(lastMarkerTime);
   const [tNote, setTNote] = React.useState("");
 
   const laneRef = React.useRef<HTMLInputElement>(null);
@@ -418,8 +422,8 @@ export default function ReviewEditor({
     setFocus(Number.isFinite(ext.focus ?? NaN) ? Number(ext.focus) : 5);
 
     setMarkers(Array.isArray(ext.markers) ? ext.markers.map(normalizeMarker) : []);
-    setUseTimestamp(true);
-    setTTime("");
+    setUseTimestamp(lastMarkerMode);
+    setTTime(lastMarkerTime);
     setTNote("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review.id]);
@@ -848,8 +852,18 @@ export default function ReviewEditor({
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
               className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
-              onClick={() => setUseTimestamp(true)}
-              onKeyDown={(e) => onIconKey(e, () => setUseTimestamp(true))}
+              onClick={() => {
+                setUseTimestamp(true);
+                setLastMarkerMode(true);
+                setTTime(lastMarkerTime);
+              }}
+              onKeyDown={(e) =>
+                onIconKey(e, () => {
+                  setUseTimestamp(true);
+                  setLastMarkerMode(true);
+                  setTTime(lastMarkerTime);
+                })
+              }
               title="Timestamp mode"
             >
               <NeonIcon kind="clock" on={useTimestamp} />
@@ -860,8 +874,16 @@ export default function ReviewEditor({
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
               className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
-              onClick={() => setUseTimestamp(false)}
-              onKeyDown={(e) => onIconKey(e, () => setUseTimestamp(false))}
+              onClick={() => {
+                setUseTimestamp(false);
+                setLastMarkerMode(false);
+              }}
+              onKeyDown={(e) =>
+                onIconKey(e, () => {
+                  setUseTimestamp(false);
+                  setLastMarkerMode(false);
+                })
+              }
               title="Note-only mode"
             >
               <NeonIcon kind="file" on={!useTimestamp} />
@@ -873,7 +895,10 @@ export default function ReviewEditor({
               <Input
                 ref={timeRef}
                 value={tTime}
-                onChange={(e) => setTTime(e.target.value)}
+                onChange={(e) => {
+                  setTTime(e.target.value);
+                  setLastMarkerTime(e.target.value);
+                }}
                 placeholder="00:00"
                 className="h-10 rounded-2xl text-center font-mono tabular-nums"
                 aria-label="Timestamp time in mm:ss"
