@@ -91,6 +91,43 @@ html.light {
   --success-glow: 316 86% 48% / 0.55;
 }
 
+/* ---------- Glitch v2 ---------- */
+html.theme-glitch2 {
+  --background: 252 35% 9%;
+  --foreground: 260 20% 98%;
+  --card: 254 30% 12%;
+  --border: 256 20% 24%;
+  --input: 254 22% 14%;
+  --ring: 268 70% 66%;
+  --primary: 268 70% 66%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 268 70% 24%;
+  --accent: 286 65% 70%;
+  --accent-2: 200 70% 60%;
+  --accent-soft: 286 60% 24%;
+  --muted: 252 26% 16%;
+  --muted-foreground: 252 14% 75%;
+  --shadow-color: 268 70% 66%;
+  --lav-deep: 312 75% 65%;
+  --success: 316 92% 70%;
+  --success-glow: 316 92% 52% / 0.6;
+  --edge-iris: conic-gradient(
+    from 180deg,
+    hsl(268 70% 66% / 0),
+    hsl(268 70% 66% / 0.7),
+    hsl(200 70% 60% / 0.7),
+    hsl(312 75% 65% / 0.7),
+    hsl(268 70% 66% / 0)
+  );
+  --seg-active-grad: linear-gradient(
+    90deg,
+    hsl(268 70% 66% / 0.95),
+    hsl(286 65% 70% / 0.95),
+    hsl(200 70% 60% / 0.95)
+  );
+  --shadow: 0 10px 30px hsl(252 30% 4% / 0.3);
+}
+
 /* ---------- Citrus ---------- */
 html.theme-citrus {
   /* Dark Citrus palette */
@@ -189,7 +226,7 @@ html.theme-rose {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -199,7 +236,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -209,7 +246,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -218,6 +255,18 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
     radial-gradient(120% 100% at 50% 100%, hsl(0 0% 0% / 0.35), transparent 70%);
   filter: blur(2px) saturate(110%);
   animation: lg-aurora-pan 24s ease-in-out infinite alternate;
+}
+
+/* Glitch v2 backdrop */
+html.theme-glitch2 body {
+  background-image:
+    radial-gradient(1000px 600px at 20% -10%, hsl(268 70% 66% / 0.2), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed;
+}
+html.theme-glitch2 body::before,
+html.theme-glitch2 body::after {
+  content: none;
 }
 
 /* Citrus backdrop */
