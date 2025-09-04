@@ -29,7 +29,6 @@ import Input from "@/components/ui/primitives/input";
 import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import IconButton from "@/components/ui/primitives/IconButton";
-import AnimatedSelect, { type DropItem } from "@/components/ui/selects/AnimatedSelect";
 import Progress from "@/components/ui/feedback/Progress";
 
 import { useLocalDB, uid } from "@/lib/db";
@@ -42,18 +41,11 @@ import TimerTab from "./TimerTab";
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
 type FilterKey = "All" | "Active" | "Done";
-type SortKey = "Newest" | "Oldest" | "Title";
 
 const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: string }> = [
   { key: "goals", label: "Goals", icon: <Flag className="mr-1" />, hint: "Cap 3 active" },
   { key: "reminders", label: "Reminders", icon: <ListChecks className="mr-1" />, hint: "Quick cues" },
   { key: "timer", label: "Timer", icon: <TimerIcon className="mr-1" />, hint: "Focus sprints" },
-];
-
-const SORT_ITEMS: DropItem[] = [
-  { value: "Newest", label: "Newest" },
-  { value: "Oldest", label: "Oldest" },
-  { value: "Title", label: "Title" },
 ];
 
 const FILTERS: FilterKey[] = ["All", "Active", "Done"];
@@ -74,7 +66,6 @@ export default function GoalsPage() {
 
   // stores
   const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
-  const [sort, setSort] = useLocalDB<SortKey>("goals.sort.v1", "Newest");
   const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
   const [waitlist, setWaitlist] = useLocalDB<WaitItem[]>("goals.waitlist.v1", WAITLIST_SEEDS);
 
@@ -98,11 +89,9 @@ export default function GoalsPage() {
   // derive list
   const sorted = React.useMemo(() => {
     const rows = [...goals];
-    if (sort === "Newest") rows.sort((a, b) => b.createdAt - a.createdAt);
-    else if (sort === "Oldest") rows.sort((a, b) => a.createdAt - b.createdAt);
-    else rows.sort((a, b) => a.title.localeCompare(b.title));
+    rows.sort((a, b) => b.createdAt - a.createdAt);
     return rows;
-  }, [goals, sort]);
+  }, [goals]);
 
   const filtered = React.useMemo(() => {
     if (filter === "Active") return sorted.filter((g) => !g.done);
@@ -219,39 +208,29 @@ export default function GoalsPage() {
                   <span className="text-xs text-muted-foreground tabular-nums">{pctDone}%</span>
                 </div>
 
-                {/* right side controls */}
-                <div className="ml-auto flex items-center gap-2 sm:gap-3">
-                  {/* filter chips */}
-                  <div className="segmented" role="tablist" aria-label="Filter">
-                    {FILTERS.map((f) => {
-                      const active = filter === f;
-                      return (
-                        <button
-                          key={f}
-                          type="button"
-                          role="tab"
-                          aria-selected={active}
-                          className={["btn-like-segmented", active && "is-active"]
-                            .filter(Boolean)
-                            .join(" ")}
-                          onClick={() => setFilter(f)}
-                        >
-                          {f}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Sort dropdown */}
-                  <AnimatedSelect
-                    id="goals-sort"
-                    prefixLabel="Sort"
-                    items={SORT_ITEMS}
-                    value={sort}
-                    onChange={(v) => setSort((v as SortKey) ?? "Newest")}
-                    buttonClassName="h-9"
-                    ariaLabel="Sort goals"
-                  />
+                {/* right side filter chips */}
+                <div
+                  className="ml-auto flex items-center gap-4"
+                  role="tablist"
+                  aria-label="Filter"
+                >
+                  {FILTERS.map((f) => {
+                    const active = filter === f;
+                    return (
+                      <button
+                        key={f}
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        className={["btn-like-segmented", active && "is-active"]
+                          .filter(Boolean)
+                          .join(" ")}
+                        onClick={() => setFilter(f)}
+                      >
+                        {f}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </SectionCard.Header>
