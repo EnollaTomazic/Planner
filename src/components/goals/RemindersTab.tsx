@@ -3,7 +3,7 @@
 
 /**
  * RemindersTab — Hero2 header + borderless TabBar everywhere
- * - Domain tabs in Hero2.right (Life | League | BLA), neon divider tint matches domain
+ * - Domain tabs in Hero2.right (Life | League | Learn), neon divider tint matches domain
  * - Bottom search stays in Hero2.bottom
  * - Quick Add row now lives inside the SAME panel as the cards (top of SectionCard.Body)
  * - Groups row uses TabBar (badges show per-group counts)
@@ -38,7 +38,7 @@ import {
 
 /* ───────── Types & seeds ───────── */
 
-type Domain = "Life" | "League" | "BLA";
+type Domain = "Life" | "League" | "Learn";
 type Source = "MLA" | "BLA" | "BrokenByConcept" | "Custom";
 type Group = "quick" | "pregame" | "laning" | "trading" | "tempo" | "review";
 
@@ -82,20 +82,44 @@ function R(
 }
 
 const SEEDS: Reminder[] = [
-  R("Hit 2 first", "Push 3 melees → step up or respect if losing push.", [], "BLA", "quick", true, "BLA"),
-  R("Jungle start check", "Track start → first gank lane → second spawn prio.", [], "BrokenByConcept", "quick", true, "BLA"),
+  R("Hit 2 first", "Push 3 melees → step up or respect if losing push.", [], "BLA", "quick", true, "Learn"),
+  R(
+    "Jungle start check",
+    "Track start → first gank lane → second spawn prio.",
+    [],
+    "BrokenByConcept",
+    "quick",
+    true,
+    "Learn"
+  ),
   R("3-wave plan", "Say it: slow then crash 3 OR hold then thin/freeze.", [], "MLA", "pregame", false, "League"),
-  R("Ward 2:30", "River/tri at 2:30. Sweep before shove.", [], "BrokenByConcept", "pregame", false, "BLA"),
+  R(
+    "Ward 2:30",
+    "River/tri at 2:30. Sweep before shove.",
+    [],
+    "BrokenByConcept",
+    "pregame",
+    false,
+    "Learn"
+  ),
   R("Space with casters", "Trade when your casters live; back off on enemy wave.", [], "MLA", "laning", false, "League"),
   R("CD punish", "Trade on enemy cooldown gaps; track sums.", [], "MLA", "trading", false, "League"),
-  R("Good recall", "Shove → recall on spike → arrive first to river.", [], "BrokenByConcept", "tempo", false, "BLA"),
-  R("Death audit", "Wave, vision, jungle, greed. Name the fix.", [], "BLA", "review", false, "BLA"),
+  R(
+    "Good recall",
+    "Shove → recall on spike → arrive first to river.",
+    [],
+    "BrokenByConcept",
+    "tempo",
+    false,
+    "Learn"
+  ),
+  R("Death audit", "Wave, vision, jungle, greed. Name the fix.", [], "BLA", "review", false, "Learn"),
 ];
 
 const DOMAIN_ITEMS: Array<{ key: Domain; label: string; icon: React.ReactNode }> = [
-  { key: "Life",   label: "Life",   icon: <Sparkles className="mr-1" /> },
+  { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
   { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
-  { key: "BLA",    label: "BLA",    icon: <GraduationCap className="mr-1" /> },
+  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
 ];
 
 const GROUPS: Array<{ key: Group; label: string; hint?: string }> = [
@@ -129,7 +153,7 @@ export default function RemindersTab() {
   const [showFilters, setShowFilters] = React.useState(false);
 
   const inferDomain = (r: Reminder): Domain =>
-    r.domain ?? (r.source === "BLA" || r.source === "BrokenByConcept" ? "BLA" : "League");
+    r.domain ?? (r.source === "BLA" || r.source === "BrokenByConcept" ? "Learn" : "League");
 
   // counts for group badges (per current domain)
   const counts = React.useMemo(() => {
@@ -165,7 +189,7 @@ export default function RemindersTab() {
       title: (initialTitle ?? "New reminder").trim() || "New reminder",
       body: "",
       tags: [],
-      source: domain === "BLA" ? "BLA" : "Custom",
+      source: domain === "Learn" ? "BLA" : "Custom",
       group,
       domain,
       pinned: group === "quick",
@@ -181,7 +205,7 @@ export default function RemindersTab() {
 
   const remove = (id: string) => setItems((prev) => prev.filter((r) => r.id !== id));
 
-  const showGroups = domain === "League" || domain === "BLA";
+  const showGroups = domain === "League" || domain === "Learn";
   const neonClass = domain === "Life" ? "neon-life" : "neon-primary";
 
   // TabBar items
@@ -212,6 +236,7 @@ export default function RemindersTab() {
             align="end"
             size="md"
             ariaLabel="Reminder domain"
+            showBaseline
           />
         }
         bottom={
@@ -257,7 +282,7 @@ export default function RemindersTab() {
               </div>
             </form>
 
-            {/* Groups row (League/BLA) with Filters toggle on the right */}
+            {/* Groups row (League/Learn) with Filters toggle on the right */}
             {showGroups && (
               <TabBar
                 items={GROUP_TABS}
@@ -318,7 +343,7 @@ export default function RemindersTab() {
               ))}
             </div>
 
-            {filtered.length === 0 && <EmptyState onAdd={() => addNew("One clear reminder")} />}
+            {filtered.length === 0 && <EmptyState />}
           </div>
         </SectionCard.Body>
 
@@ -358,13 +383,10 @@ export default function RemindersTab() {
 
 /* ───────── UI bits ───────── */
 
-function EmptyState({ onAdd }: { onAdd: () => void }) {
+function EmptyState() {
   return (
-    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center gap-3">
+    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
-      <Button onClick={onAdd} className="btn-like-segmented">
-        Add reminder
-      </Button>
     </div>
   );
 }
@@ -517,7 +539,7 @@ function RemTile({
             </div>
 
             <div className="segmented inline-flex">
-              {(["Life", "League", "BLA"] as Domain[]).map((d) => (
+              {(["Life", "League", "Learn"] as Domain[]).map((d) => (
                 <button
                   key={d}
                   className={["btn-like-segmented", (value.domain ?? "League") === d && "is-active"].filter(Boolean).join(" ")}
