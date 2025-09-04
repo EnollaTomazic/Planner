@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { href: "/", label: "Reviews" },
+  { href: "/reviews", label: "Reviews" },
   { href: "/planner", label: "Planner" },
   { href: "/goals", label: "Goals" },
   { href: "/team", label: "Team Comp" },
@@ -27,9 +27,7 @@ export default function NavBar() {
       <ul className="flex items-center gap-2">
         {ITEMS.map((it) => {
           const active =
-            it.href === "/"
-              ? path === "/"
-              : path === it.href || path.startsWith(it.href + "/");
+            path === it.href || path.startsWith(it.href + "/");
 
           return (
             <li key={it.href} className="relative">
