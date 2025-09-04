@@ -47,7 +47,6 @@ export default function TeamCompPage() {
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Comps header mode"
             className="px-2"
-            intensity="default"
           >
             {TABS.map((t) => (
               <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
