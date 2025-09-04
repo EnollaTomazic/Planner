@@ -15,7 +15,14 @@ import "../team/style.css";
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
 import Hero from "@/components/ui/layout/Hero";
+<<<<<<< HEAD
+import {
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+} from "@/components/ui";
+=======
 import { SegmentedGroup, SegmentedButton } from "@/components/ui";
+>>>>>>> origin/main
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
@@ -39,11 +46,25 @@ export default function TeamCompPage() {
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
         right={
+<<<<<<< HEAD
+          <GlitchSegmentedGroup
+=======
           <SegmentedGroup
+>>>>>>> origin/main
             value={tab}
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Comps header mode"
             className="px-2"
+<<<<<<< HEAD
+            intensity="default"
+          >
+            {TABS.map((t) => (
+              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
+                {t.label}
+              </GlitchSegmentedButton>
+            ))}
+          </GlitchSegmentedGroup>
+=======
             variant="glass"
           >
             {TABS.map((t) => (
@@ -52,6 +73,7 @@ export default function TeamCompPage() {
               </SegmentedButton>
             ))}
           </SegmentedGroup>
+>>>>>>> origin/main
         }
         className="mb-1"
         barClassName="gap-2 items-baseline"

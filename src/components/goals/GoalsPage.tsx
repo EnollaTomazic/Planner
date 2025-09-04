@@ -19,7 +19,14 @@ import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
+<<<<<<< HEAD
+import {
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+} from "@/components/ui";
+=======
 import { SegmentedGroup, SegmentedButton } from "@/components/ui";
+>>>>>>> origin/main
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalsProgress from "./GoalsProgress";
 import GoalForm from "./GoalForm";
@@ -177,6 +184,20 @@ export default function GoalsPage() {
         sticky
         barClassName="gap-2 items-baseline"
         right={
+<<<<<<< HEAD
+          <GlitchSegmentedGroup
+            value={tab}
+            onChange={(v) => setTab(v as Tab)}
+            ariaLabel="Goals header mode"
+            intensity="default"
+          >
+            {TABS.map((t) => (
+              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
+                {t.label}
+              </GlitchSegmentedButton>
+            ))}
+          </GlitchSegmentedGroup>
+=======
           <SegmentedGroup
             value={tab}
             onChange={(v) => setTab(v as Tab)}
@@ -189,6 +210,7 @@ export default function GoalsPage() {
               </SegmentedButton>
             ))}
           </SegmentedGroup>
+>>>>>>> origin/main
         }
       />
 
