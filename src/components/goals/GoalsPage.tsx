@@ -29,7 +29,6 @@ import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Progress from "@/components/ui/feedback/Progress";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
@@ -37,6 +36,7 @@ import type { Goal } from "@/lib/types";
 /* Tabs */
 import RemindersTab from "./RemindersTab";
 import TimerTab from "./TimerTab";
+import GoalCard from "./GoalCard";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
@@ -196,39 +196,33 @@ export default function GoalsPage() {
       {tab === "goals" && (
         <>
           <SectionCard className="card-neo-soft">
-            <SectionCard.Header sticky className="flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-3">
+            <SectionCard.Header sticky className="space-y-3">
+              <div className="flex items-center justify-between">
                 <h2 className="text-base font-semibold">Your Goals</h2>
 
-                {/* progress, stable width */}
-                <div className="flex items-center gap-2 min-w-[120px]" aria-label="Progress">
-                  <div className="w-28">
-                    <Progress value={pctDone} />
-                  </div>
-                  <span className="text-xs text-muted-foreground tabular-nums">{pctDone}%</span>
+                {/* right side filter chips */}
+                <div className="flex items-center gap-4" role="tablist" aria-label="Filter">
+                  {FILTERS.map((f) => {
+                    const active = filter === f;
+                    return (
+                      <button
+                        key={f}
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        className={["btn-like-segmented", active && "is-active"]
+                          .filter(Boolean)
+                          .join(" ")}
+                        onClick={() => setFilter(f)}
+                      >
+                        {f}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* right side filter chips */}
-              <div className="flex items-center gap-4" role="tablist" aria-label="Filter">
-                {FILTERS.map((f) => {
-                  const active = filter === f;
-                  return (
-                    <button
-                      key={f}
-                      type="button"
-                      role="tab"
-                      aria-selected={active}
-                      className={["btn-like-segmented", active && "is-active"]
-                        .filter(Boolean)
-                        .join(" ")}
-                      onClick={() => setFilter(f)}
-                    >
-                      {f}
-                    </button>
-                  );
-                })}
-              </div>
+              <Progress value={pctDone} className="h-[6px]" />
             </SectionCard.Header>
 
             {/* Grid — fixed-ish card min height to reduce jumpiness */}
@@ -240,75 +234,12 @@ export default function GoalsPage() {
                   </p>
                 ) : (
                   filtered.map((g) => (
-                    <article
+                    <GoalCard
                       key={g.id}
-                      className={[
-                        "relative rounded-2xl p-5",
-                        "card-neo transition",
-                        "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
-                        "min-h-[152px] flex flex-col",
-                      ].join(" ")}
-                    >
-                      {/* decorative rail */}
-                      <span
-                        aria-hidden
-                        className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                      />
-
-                      {/* header row */}
-                      <header className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
-                          {g.title}
-                        </h3>
-                        <div className="flex items-center gap-1">
-                          <CheckCircle
-                            aria-label={g.done ? "Mark active" : "Mark done"}
-                            checked={g.done}
-                            onChange={() => toggleDone(g.id)}
-                            size="lg"
-                          />
-                          <IconButton
-                            title="Delete"
-                            aria-label="Delete goal"
-                            onClick={() => removeGoal(g.id)}
-                            circleSize="sm"
-                          >
-                            <Trash2 />
-                          </IconButton>
-                        </div>
-                      </header>
-
-                      {/* body */}
-                      <div className="mt-3 text-sm text-muted-foreground space-y-2">
-                        {g.metric ? (
-                          <div className="tabular-nums">
-                            <span className="opacity-70">Metric:</span> {g.metric}
-                          </div>
-                        ) : null}
-                        {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
-                      </div>
-
-                      {/* footer sticks to bottom */}
-                      <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-2">
-                          <span
-                            aria-hidden
-                            className={[
-                              "h-2 w-2 rounded-full",
-                              g.done
-                                ? "bg-[hsl(var(--accent))]"
-                                : "bg-[hsl(var(--primary))]",
-                            ].join(" ")}
-                          />
-                          <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                            {new Date(g.createdAt).toLocaleDateString()}
-                          </time>
-                        </span>
-                        <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
-                          {g.done ? "Done" : "Active"}
-                        </span>
-                      </footer>
-                    </article>
+                      goal={g}
+                      onToggle={() => toggleDone(g.id)}
+                      onDelete={() => removeGoal(g.id)}
+                    />
                   ))
                 )}
               </div>
