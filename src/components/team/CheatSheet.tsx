@@ -56,7 +56,7 @@ const DEFAULT_SHEET: Archetype[] = [
     examples: {
       Top: ["Ornn", "Sion", "Shen"],
       Jungle: ["Sejuani", "Maokai"],
-      Mid: ["Orianni", "Azir"],
+      Mid: ["Orianna", "Azir"],
       ADC: ["Jinx", "Zeri"],
       Support: ["Braum", "Lulu"],
     },
@@ -206,6 +206,7 @@ function TitleEdit({
     );
   return (
     <input
+      dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       className="w-full bg-transparent border-none outline-none text-lg sm:text-xl font-semibold glitch-title title-glow"
@@ -226,6 +227,7 @@ function ParagraphEdit({
     );
   return (
     <textarea
+      dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       rows={2}
@@ -276,6 +278,7 @@ function BulletListEdit({
       e.preventDefault();
       const newLi = document.createElement("li");
       newLi.contentEditable = "true";
+      newLi.dir = "ltr";
       newLi.innerHTML = "";
       li.after(newLi);
       newLi.focus();
@@ -296,6 +299,7 @@ function BulletListEdit({
         } else if (parent && !parent.querySelector("li")) {
           const seed = document.createElement("li");
           seed.contentEditable = "true";
+          seed.dir = "ltr";
           seed.innerHTML = "";
           parent.appendChild(seed);
           seed.focus();
@@ -324,7 +328,7 @@ function BulletListEdit({
       onKeyDown={onKeyDown}
     >
       {(items.length ? items : [""]).map((w, idx) => (
-        <li key={idx} contentEditable suppressContentEditableWarning>
+        <li key={idx} contentEditable dir="ltr" suppressContentEditableWarning>
           {w}
         </li>
       ))}
@@ -368,6 +372,7 @@ function ChampPillsEdit({
           <i className="dot" />
           <span
             contentEditable
+            dir="ltr"
             suppressContentEditableWarning
             className="outline-none"
             onInput={(e) => setAt(i, (e.currentTarget.textContent ?? "").trim())}
