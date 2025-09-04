@@ -119,7 +119,7 @@ export default function SearchBar({
             circleSize={btnCircleMap[size]}
             iconSize={btnIconMap[size]}
             // Position clear button inside the input without overlapping text
-            className="absolute right-2 top-1/2 -translate-y-1/2"
+            className="!absolute right-2 top-1/2 -translate-y-1/2"
             onClick={() => {
               setQuery("");
               onValueChange?.("");
