@@ -141,6 +141,7 @@ export const GlitchSegmentedButton = React.forwardRef<
         "disabled:opacity-40 disabled:shadow-none",
         "data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[var(--ring-contrast)] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--surface-2)/0.25)]",
         "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+        "glitch-scanlines",
         className
       )}
       {...rest}
@@ -151,7 +152,6 @@ export const GlitchSegmentedButton = React.forwardRef<
         </span>
       ) : null}
       <span className="seg-label truncate">{children}</span>
-      <span aria-hidden className="glitch-scanline" />
       <style jsx>{`
         button[data-glitch="true"] .seg-label {
           animation: seg-jitter 150ms steps(2, end);
@@ -180,18 +180,6 @@ export const GlitchSegmentedButton = React.forwardRef<
         button[data-glitch="true"] .seg-label::after {
           transform: translate(calc(-1px * var(--gi)), 0);
         }
-        .glitch-scanline {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to right, transparent 0%, var(--accent-overlay) 50%, transparent 100%);
-          opacity: 0;
-          transform: translateX(-100%);
-          pointer-events: none;
-        }
-        button[data-glitch="true"] .glitch-scanline {
-          opacity: 0.08;
-          animation: scanline 140ms linear;
-        }
         button[data-intensity="calm"] {
           --gi: 0.5;
         }
@@ -208,18 +196,9 @@ export const GlitchSegmentedButton = React.forwardRef<
           75% { transform: translate(calc(1px * var(--gi)), 0); }
           100% { transform: translate(0,0); }
         }
-        @keyframes scanline {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(100%); }
-        }
         @media (prefers-reduced-motion: reduce) {
           button[data-glitch="true"] .seg-label {
             animation: none;
-          }
-          .glitch-scanline {
-            animation: none;
-            transform: none;
-            opacity: 0;
           }
         }
       `}</style>

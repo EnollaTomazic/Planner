@@ -99,6 +99,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           aria-pressed={active || undefined}
           className={cn(
             "inline-flex items-center justify-center select-none rounded-full",
+            "relative overflow-hidden glitch-scanlines",
             "text-[hsl(var(--primary-foreground))]",
             "bg-[var(--seg-active-grad)]",
             "shadow-[0_0_0_1px_hsl(var(--ring)/.22),0_12px_28px_hsl(var(--shadow-color)/.28)]",
@@ -130,6 +131,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
             className={cn(
               "group ib2-root ib2--ring relative inline-flex items-center justify-center select-none",
               "rounded-full border-2 bg-transparent",
+              "overflow-hidden glitch-scanlines",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
               "disabled:opacity-50 disabled:pointer-events-none",
               circleMap[circleSize],
@@ -268,7 +270,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           aria-pressed={active || undefined}
           className={cn(
             "group ib-root relative inline-flex items-center justify-center select-none",
-            "overflow-hidden rounded-full border border-[hsl(var(--border))]",
+            "overflow-hidden glitch-scanlines rounded-full border border-[hsl(var(--border))]",
             "bg-[hsl(var(--card)/.60)] backdrop-blur-md",
             "transition-transform duration-150 ease-out",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
