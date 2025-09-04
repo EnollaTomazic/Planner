@@ -54,8 +54,9 @@ export default function PillarSelector({
                 aria-hidden
                 className={cn(
                   "h-2 w-2 rounded-full",
-                  active ? "bg-[hsl(var(--accent))]" : "bg-[hsl(var(--muted-foreground))]"
+                  active ? "" : "bg-[hsl(var(--muted-foreground))]"
                 )}
+                style={active ? { background: "var(--accent-overlay)" } : undefined}
               />
               {p}
             </button>

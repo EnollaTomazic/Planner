@@ -70,8 +70,8 @@ export const GlitchSegmentedGroup = ({
       className={cn(
         "inline-flex rounded-full p-0.5 backdrop-blur-sm",
         "bg-[hsl(var(--surface-2)/0.1)]",
-        "ring-1 ring-[hsl(var(--accent)/0.4)]",
-        "shadow-[0_0_8px_hsl(var(--accent)/0.15)]",
+        "ring-1 ring-[var(--ring-contrast)]",
+        "shadow-[0_0_8px_var(--glow-active)]",
         className
       )}
       onKeyDown={onKeyDown}
@@ -131,15 +131,15 @@ export const GlitchSegmentedButton = React.forwardRef<
         "relative flex-1 h-9 select-none whitespace-nowrap px-3 inline-flex items-center justify-center gap-2 text-sm font-medium",
         "rounded-full first:rounded-l-full last:rounded-r-full",
         "bg-[hsl(var(--surface-2)/0.15)] backdrop-blur-sm text-[hsl(var(--muted))]",
-        "ring-1 ring-[hsl(var(--accent)/0.4)]",
+        "ring-1 ring-[var(--ring-contrast)]",
         "shadow-[inset_0_1px_rgba(255,255,255,0.15)]",
         "motion-safe:transition-[background-color,color,box-shadow,transform] motion-safe:ease-[cubic-bezier(.2,.8,.2,1)] motion-safe:duration-[160ms]",
-        "hover:-translate-y-px hover:shadow-[0_0_6px_hsl(var(--accent)/0.3)]",
-        "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_6px_hsl(var(--accent)/0.5)]",
-        "data-[selected=true]:bg-[hsl(var(--surface-2)/0.25)] data-[selected=true]:text-[hsl(var(--foreground))]",
-        "data-[selected=true]:ring-[hsl(var(--accent))] data-[selected=true]:shadow-[0_0_8px_hsl(var(--accent)/0.6)]",
+        "hover:-translate-y-px hover:shadow-[0_0_6px_var(--glow-active)]",
+        "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_6px_var(--glow-active)]",
+        "data-[selected=true]:bg-[hsl(var(--surface-2)/0.25)] data-[selected=true]:text-[var(--text-on-accent)]",
+        "data-[selected=true]:ring-[var(--ring-contrast)] data-[selected=true]:shadow-[0_0_8px_var(--glow-active)]",
         "disabled:opacity-40 disabled:shadow-none",
-        "data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[hsl(var(--ring))] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--surface-2)/0.25)]",
+        "data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[var(--ring-contrast)] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--surface-2)/0.25)]",
         "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
         className
       )}
@@ -168,7 +168,7 @@ export const GlitchSegmentedButton = React.forwardRef<
           content: "";
           position: absolute;
           inset: 0;
-          background: hsl(var(--accent));
+          background: var(--accent-overlay);
           mix-blend-mode: screen;
           opacity: 0;
           pointer-events: none;
@@ -183,7 +183,7 @@ export const GlitchSegmentedButton = React.forwardRef<
         .glitch-scanline {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to right, transparent 0%, hsl(var(--accent)) 50%, transparent 100%);
+          background: linear-gradient(to right, transparent 0%, var(--accent-overlay) 50%, transparent 100%);
           opacity: 0;
           transform: translateX(-100%);
           pointer-events: none;
