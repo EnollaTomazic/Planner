@@ -16,7 +16,6 @@ import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import {
@@ -158,10 +157,6 @@ export default function GoalsPage() {
   function removeWait(id: string) {
     setWaitlist((prev) => prev.filter((w) => w.id !== id));
   }
-  function promoteWait(item: WaitItem) {
-    setTitle(item.text);
-    setWaitlist((prev) => prev.filter((w) => w.id !== item.id));
-  }
 
   const summary =
     tab === "goals"
@@ -209,80 +204,75 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <>
-              {totalCount === 0 ? (
-                <GoalsProgress
-                  total={totalCount}
-                  pct={pctDone}
-                  onAddFirst={() =>
-                    formRef.current?.scrollIntoView({ behavior: "smooth" })
-                  }
-                />
-              ) : (
-                <SectionCard className="card-neo-soft">
-                  <SectionCard.Header sticky className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <h2 className="text-lg font-semibold">Your Goals</h2>
-                      <GoalsProgress total={totalCount} pct={pctDone} />
+              <div className="mx-auto mt-6 mb-6 max-w-screen-2xl">
+                {totalCount === 0 ? (
+                  <GoalsProgress
+                    total={totalCount}
+                    pct={pctDone}
+                    onAddFirst={() =>
+                      formRef.current?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  />
+                ) : null}
+                <div className="grid gap-y-6 md:grid-cols-2 md:gap-x-6">
+                  <section>
+                    <div className="mb-4 flex items-center justify-between">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <h2 className="text-lg font-semibold">Your Goals</h2>
+                        <GoalsProgress total={totalCount} pct={pctDone} />
+                      </div>
+                      <GoalsTabs value={filter} onChange={setFilter} />
                     </div>
-                    <GoalsTabs value={filter} onChange={setFilter} />
-                  </SectionCard.Header>
-                  <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {filtered.length === 0 ? (
-                        <p className="text-sm text-white/60">
+                        <p className="text-sm text-[hsl(var(--foreground)/0.65)]">
                           No goals here. Add one simple, finishable thing.
                         </p>
                       ) : (
                         filtered.map((g) => (
                           <article
                             key={g.id}
-                            className={["relative rounded-2xl p-6","card-neo transition","hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]","min-h-[152px] flex flex-col"].join(" ")}
+                            className="group rounded-2xl p-4 ring-1 ring-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] transition hover:-translate-y-[1px] hover:shadow-md focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.6)]"
                           >
-                            <span
-                              aria-hidden
-                              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                            />
-                            <header className="flex items-start justify-between gap-2">
-                              <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
-                                {g.title}
-                              </h3>
+                            <header className="flex items-center justify-between gap-2">
+                              <div className="min-w-0">
+                                <h3 className="font-semibold leading-tight line-clamp-2">{g.title}</h3>
+                                <time
+                                  className="mt-1 block text-xs text-[hsl(var(--foreground)/0.65)]"
+                                  dateTime={new Date(g.createdAt).toISOString()}
+                                >
+                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                                </time>
+                              </div>
                               <div className="flex items-center gap-1">
                                 <CheckCircle
                                   aria-label={g.done ? "Mark active" : "Mark done"}
                                   checked={g.done}
                                   onChange={() => toggleDone(g.id)}
                                   size="lg"
+                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
                                 />
                                 <IconButton
                                   title="Delete"
                                   aria-label="Delete goal"
                                   onClick={() => removeGoal(g.id)}
                                   circleSize="sm"
+                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
                                 >
                                   <Trash2 />
                                 </IconButton>
                               </div>
                             </header>
-                            <div className="mt-3 text-sm text-white/60 space-y-2">
+                            <div className="mt-4 space-y-2 text-sm text-[hsl(var(--foreground)/0.65)]">
                               {g.metric ? (
                                 <div className="tabular-nums">
                                   <span className="opacity-70">Metric:</span> {g.metric}
                                 </div>
                               ) : null}
-                              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                              {g.notes ? <p className="leading-relaxed line-clamp-2">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
-                              <span className="inline-flex items-center gap-2">
-                                <span
-                                  aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
-                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
-                                />
-                                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
-                                </time>
-                              </span>
-                              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
+                            <footer className="mt-4 flex justify-end text-xs">
+                              <span className={g.done ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--foreground)/0.65)]"}>
                                 {g.done ? "Done" : "Active"}
                               </span>
                             </footer>
@@ -290,31 +280,26 @@ export default function GoalsPage() {
                         ))
                       )}
                     </div>
-                  </SectionCard.Body>
-                </SectionCard>
-              )}
-
-              <div ref={formRef}>
-                <GoalForm
-                  title={title}
-                  metric={metric}
-                  notes={notes}
-                  onTitleChange={setTitle}
-                  onMetricChange={setMetric}
-                  onNotesChange={setNotes}
-                  onSubmit={addGoal}
-                  activeCount={activeCount}
-                  activeCap={ACTIVE_CAP}
-                  err={err}
-                />
+                  </section>
+                  <section className="md:sticky md:top-16" ref={formRef}>
+                    <GoalForm
+                      title={title}
+                      metric={metric}
+                      notes={notes}
+                      onTitleChange={setTitle}
+                      onMetricChange={setMetric}
+                      onNotesChange={setNotes}
+                      onSubmit={addGoal}
+                      activeCount={activeCount}
+                      activeCap={ACTIVE_CAP}
+                      err={err}
+                    />
+                  </section>
+                  <section className="md:col-span-2">
+                    <GoalQueue items={waitlist} onAdd={addWait} onRemove={removeWait} />
+                  </section>
+                </div>
               </div>
-
-              <GoalQueue
-                items={waitlist}
-                onAdd={addWait}
-                onRemove={removeWait}
-                onPromote={promoteWait}
-              />
 
               {lastDeleted && (
                 <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
