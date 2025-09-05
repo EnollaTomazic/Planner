@@ -716,13 +716,12 @@ export default function ReviewEditor({
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full"
+                  className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
                   style={{
                     width: `calc(${(score / 10) * 100}% + 10px)`,
                     background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))",
-                    boxShadow: "0 0 16px hsl(var(--primary)/.35)",
                   }}
                 />
                 <div
@@ -785,14 +784,13 @@ export default function ReviewEditor({
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                     <div
-                      className="absolute left-0 top-0 h-2 rounded-full"
+                      className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
                       style={{
                         width: `calc(${(focus / 10) * 100}% + 10px)`,
                         background:
                           "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))",
-                        boxShadow: "0 0 16px hsl(var(--accent)/.35)",
                       }}
                     />
                     <div
