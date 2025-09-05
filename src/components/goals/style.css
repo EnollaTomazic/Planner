@@ -36,7 +36,7 @@
   --wl-ink: hsl(var(--foreground));
   --wl-accent: hsl(var(--primary));
   background:
-    linear-gradient(to bottom, transparent 0, rgba(255,255,255,.02) 2px, transparent 2px) top/100% 24px,
+    linear-gradient(to bottom, transparent 0, hsl(var(--foreground)/0.02) 2px, transparent 2px) top/100% 24px,
     var(--wl-bg);
   border: 1px solid var(--wl-hair);
   border-radius: 14px;
@@ -81,7 +81,7 @@
   gap: .5rem;
   padding: .6rem .9rem;
   border-top: 1px solid color-mix(in oklab, var(--wl-hair), transparent 30%);
-  background: linear-gradient(to right, rgba(255,255,255,.02), transparent);
+  background: linear-gradient(to right, hsl(var(--foreground)/0.02), transparent);
 }
 
 .waitlist-terminal__caret {
