@@ -5,7 +5,7 @@ import "./style.css";
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { useWeek, usePlanner, type ISODate } from "./usePlanner";
-import { cn } from "@/lib/utils";
+import { cn, LOCALE } from "@/lib/utils";
 
 /**
  * WeekSummary
@@ -146,7 +146,7 @@ function fmtDay(iso: string) {
   try {
     const [y, m, d] = iso.split("-").map(Number);
     const dt = new Date(Date.UTC(y, m - 1, d));
-    return dt.toLocaleDateString(undefined, { day: "2-digit", month: "short" });
+    return dt.toLocaleDateString(LOCALE, { day: "2-digit", month: "short" });
   } catch {
     return iso;
   }

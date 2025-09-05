@@ -14,17 +14,21 @@ import "../team/style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Hero, { HeroTabs, type HeroTab } from "@/components/ui/layout/Hero";
+import Hero from "@/components/ui/layout/Hero";
+import {
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+} from "@/components/ui";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
 
 type Tab = "cheat" | "builder" | "clears";
 
-const TABS: HeroTab<Tab>[] = [
-  { key: "cheat",   label: "Cheat Sheet",   hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-1" /> },
-  { key: "builder", label: "Builder",       hint: "Fill allies vs enemies",         icon: <Hammer className="mr-1" /> },
-  { key: "clears",  label: "Jungle Clears", hint: "Relative buckets by speed",      icon: <Timer className="mr-1" /> },
+const TABS = [
+  { key: "cheat", label: "Cheat Sheet", hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-1 h-4 w-4" /> },
+  { key: "builder", label: "Builder", hint: "Fill allies vs enemies", icon: <Hammer className="mr-1 h-4 w-4" /> },
+  { key: "clears", label: "Jungle Clears", hint: "Relative buckets by speed", icon: <Timer className="mr-1 h-4 w-4" /> },
 ] as const;
 
 export default function TeamCompPage() {
@@ -38,21 +42,28 @@ export default function TeamCompPage() {
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
         right={
-          <HeroTabs<Tab>
-            tabs={TABS}
-            activeKey={tab}
-            onChange={(k: Tab) => setTab(k)}
-            ariaLabel="Comps views"
-          />
+          <GlitchSegmentedGroup
+            value={tab}
+            onChange={(v) => setTab(v as Tab)}
+            ariaLabel="Comps header mode"
+            className="px-2"
+          >
+            {TABS.map((t) => (
+              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
+                {t.label}
+              </GlitchSegmentedButton>
+            ))}
+          </GlitchSegmentedGroup>
         }
         className="mb-1"
+        barClassName="gap-2 items-baseline"
       />
 
       <section className="grid gap-4">
         <div
           role="tabpanel"
-          id="hero-cheat-panel"
-          aria-labelledby="hero-cheat-tab"
+          id="cheat-panel"
+          aria-labelledby="cheat-tab"
           hidden={tab !== "cheat"}
         >
           {tab === "cheat" && <CheatSheetTabs />}
@@ -60,8 +71,8 @@ export default function TeamCompPage() {
 
         <div
           role="tabpanel"
-          id="hero-builder-panel"
-          aria-labelledby="hero-builder-tab"
+          id="builder-panel"
+          aria-labelledby="builder-tab"
           hidden={tab !== "builder"}
         >
           {tab === "builder" && <Builder />}
@@ -69,8 +80,8 @@ export default function TeamCompPage() {
 
         <div
           role="tabpanel"
-          id="hero-clears-panel"
-          aria-labelledby="hero-clears-tab"
+          id="clears-panel"
+          aria-labelledby="clears-tab"
           hidden={tab !== "clears"}
         >
           {tab === "clears" && <JungleClears />}

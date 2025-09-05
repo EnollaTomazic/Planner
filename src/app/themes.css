@@ -25,6 +25,16 @@
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+  --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+  --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+  --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+
+  /* Default button tones */
+  --neon: var(--glow);
+  --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
+  --btn-bg: transparent;
+  --btn-fg: hsl(var(--foreground));
 
   /* Hairlines, radii, motion, control geometry, gradients */
   /* Fallback (works everywhere) */

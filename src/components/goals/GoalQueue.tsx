@@ -5,6 +5,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { ArrowUpRight, Trash2 } from "lucide-react";
+import { LOCALE } from "@/lib/utils";
 
 export type WaitItem = { id: string; text: string; createdAt: number };
 
@@ -42,7 +43,7 @@ export default function GoalQueue({ items, onAdd, onRemove, onPromote }: GoalQue
                   className="text-xs text-white/60 opacity-0 group-hover:opacity-100"
                   dateTime={new Date(it.createdAt).toISOString()}
                 >
-                  {new Date(it.createdAt).toLocaleDateString()}
+                  {new Date(it.createdAt).toLocaleDateString(LOCALE)}
                 </time>
                 <div className="flex items-center gap-1 ml-2">
                   <IconButton

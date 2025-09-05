@@ -25,6 +25,17 @@ html.no-animations *::after {
   box-sizing: border-box;
 }
 
+/* Global focus & selection styling */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+::selection {
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
 /* ---------- Background & typography ---------- */
 body {
   color: hsl(var(--foreground));
@@ -496,11 +507,6 @@ html.bg-intense body::after {
     border-color: hsl(var(--ring));
     box-shadow: 0 0 0 2px hsl(var(--ring) / 0.35),
       0 12px 28px hsl(var(--ring) / 0.25);
-  }
-  .btn-like-segmented:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.45),
-      0 10px 24px hsl(var(--shadow-color) / 0.25);
   }
 
   .btn-glitch {
@@ -1368,9 +1374,6 @@ textarea:-webkit-autofill {
 .pill-compact:hover {
   @apply bg-[hsl(var(--muted))/0.28];
 }
-.pill-compact:focus-visible {
-  @apply outline-none ring-2 ring-[hsl(var(--ring))];
-}
 .pill-compact--primary {
   @apply border-[hsl(var(--ring))]   bg-[hsl(var(--primary-soft))/0.25];
 }
@@ -1417,10 +1420,6 @@ textarea:-webkit-autofill {
 }
 .badge[data-interactive="true"]:hover {
   background: color-mix(in oklab, hsl(var(--muted)) 28%, transparent);
-}
-.badge[data-interactive="true"]:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 .badge[data-selected="true"] {
   background: color-mix(in oklab, hsl(var(--primary-soft)) 36%, transparent);
@@ -1997,8 +1996,7 @@ textarea:-webkit-autofill {
 }
 .btn-cta.is-active,
 .btn-cta[aria-current="page"],
-.btn-cta:hover,
-.btn-cta:focus-visible {
+.btn-cta:hover {
   background: var(--seg-active-grad);
   color: hsl(var(--primary-foreground));
   box-shadow: 0 0 0 2px hsl(var(--ring) / 0.38),
@@ -2007,4 +2005,92 @@ textarea:-webkit-autofill {
 html.light .btn-cta {
   box-shadow: 0 0 0 1px hsl(var(--ring) / 0.25),
     0 8px 20px hsl(var(--shadow-color) / 0.22);
+}
+
+/* === Glitch neon scanline effect for buttons === */
+.glitch-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.glitch-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--accent) / 0.08) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  transition: opacity 200ms, filter 200ms;
+}
+.glitch-scanlines:hover::after {
+  opacity: 0.28;
+  filter: drop-shadow(0 0 6px hsl(var(--glow) / 0.5));
+  animation: crt-scan 4s linear infinite;
+}
+.glitch-scanlines:active::after,
+.glitch-scanlines[aria-pressed="true"]::after,
+.glitch-scanlines[data-selected="true"]::after {
+  opacity: 0.45;
+  filter: drop-shadow(0 0 8px hsl(var(--glow)));
+  animation: crt-scan 1s linear infinite, crt-jitter 200ms steps(2, end) infinite;
+}
+.glitch-scanlines::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, hsl(var(--glow) / 0.35), transparent 70%);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.glitch-scanlines:hover::before {
+  opacity: 0.25;
+  animation: crt-glow 2.4s ease-in-out infinite alternate;
+}
+.glitch-scanlines:active::before,
+.glitch-scanlines[aria-pressed="true"]::before,
+.glitch-scanlines[data-selected="true"]::before {
+  opacity: 0.45;
+}
+@keyframes crt-scan {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 100%;
+  }
+}
+@keyframes crt-glow {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+@keyframes crt-jitter {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glitch-scanlines:hover::after,
+  .glitch-scanlines:active::after,
+  .glitch-scanlines[aria-pressed="true"]::after,
+  .glitch-scanlines[data-selected="true"]::after,
+  .glitch-scanlines:hover::before,
+  .glitch-scanlines:active::before,
+  .glitch-scanlines[aria-pressed="true"]::before,
+  .glitch-scanlines[data-selected="true"]::before {
+    animation: none;
+  }
 }
