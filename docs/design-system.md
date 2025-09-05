@@ -13,12 +13,12 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Respect the `no-animations` class for reduced motion users. Avoid forcing animations when it is present.
 
 ## Primitive components
-- Reusable building blocks live under `src/components/ui/primitives` (e.g. `button`, `badge`, `input`).
+- Reusable building blocks live under `src/components/ui/primitives` (e.g. `Button`, `Badge`, `Input`).
 - Prefer composing these primitives rather than creating bespoke styles.
 - Variant props are provided for sizing and icon placement where appropriate.
 
 ```tsx
-import { Button } from "@/components/ui/primitives/button";
+import { Button } from "@/components/ui/primitives/Button";
 
 export function Submit() {
   return (

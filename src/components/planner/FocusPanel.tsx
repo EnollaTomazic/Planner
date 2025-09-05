@@ -12,8 +12,8 @@ import "./style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Button from "@/components/ui/primitives/button";
+import Input from "@/components/ui/primitives/Input";
+import Button from "@/components/ui/primitives/Button";
 import { usePlanner, type ISODate } from "./usePlanner";
 
 type Props = { iso: ISODate };

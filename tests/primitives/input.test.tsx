@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import Input from '../../src/components/ui/primitives/input';
+import Input from '../../src/components/ui/primitives/Input';
 
 afterEach(cleanup);
 

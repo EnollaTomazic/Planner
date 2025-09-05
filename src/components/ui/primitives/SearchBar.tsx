@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Input from "./input";
+import Input from "./Input";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

@@ -8,9 +8,9 @@
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
-import Input from "@/components/ui/primitives/input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
+import Input from "@/components/ui/primitives/Input";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 
