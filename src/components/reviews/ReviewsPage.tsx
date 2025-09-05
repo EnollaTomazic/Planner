@@ -150,7 +150,7 @@ export default function ReviewsPage({
         )}
       >
         <aside>
-          <SectionCard className="overflow-hidden">
+          <SectionCard className="overflow-hidden bg-card/50">
             <SectionCard.Body>
               <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
               <ReviewList
