@@ -2,7 +2,7 @@
 "use client";
 
 /**
- * MyComps — CRUD for custom team comps, single-panel version.
+ * MyComps — CRUD for custom comps, single-panel version.
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Hover-only actions: Copy / Edit / Delete; Save when editing
@@ -213,10 +213,26 @@ function ChampChips({
 
 /* ───────────── Component ───────────── */
 
-export default function MyComps() {
+export type MyCompsProps = { query?: string };
+
+export default function MyComps({ query = "" }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
   const [raw, setRaw] = useLocalDB<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return items;
+    return items.filter((c) => {
+      const hay = [
+        c.title,
+        c.notes ?? "",
+        ...ROLES.flatMap((r) => c.roles[r] ?? []),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [items, query]);
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
@@ -285,21 +301,26 @@ export default function MyComps() {
               aria-label="Add comp"
               circleSize="md"
               className="shrink-0"
+              variant="solid"
             >
               <Plus />
             </IconButton>
           </form>
 
-          {/* Empty state */}
+          {/* Empty states */}
           {items.length === 0 ? (
             <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
               No comps yet. Type a title above and press Enter.
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
+              Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {items.map(c => {
+            {filtered.map(c => {
               const editing = editingId === c.id;
 
               return (

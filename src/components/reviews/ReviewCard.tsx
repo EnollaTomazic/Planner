@@ -2,7 +2,7 @@
 import "../reviews/style.css";
 
 import type { Review } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, LOCALE } from "@/lib/utils";
 import Pill from "@/components/ui/primitives/pill";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil } from "lucide-react";
@@ -44,7 +44,7 @@ export default function ReviewCard({
             <span>Side: {review.side || "—"}</span>
             <span>Patch: {review.patch || "—"}</span>
             <span>Duration: {review.duration || "—"}</span>
-            <span>{created ? created.toLocaleDateString() : "—"}</span>
+            <span>{created ? created.toLocaleDateString(LOCALE) : "—"}</span>
           </div>
 
           {Array.isArray(review.tags) && review.tags.length > 0 && (

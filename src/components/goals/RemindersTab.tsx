@@ -256,7 +256,7 @@ export default function RemindersTab() {
         }
       />
 
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="glitch-terminal">
         <SectionCard.Body>
           <div className="grid gap-4">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
@@ -272,9 +272,9 @@ export default function RemindersTab() {
                 placeholder={`Quick add to ${GROUPS.find((g) => g.key === group)?.label ?? "Group"}…`}
                 value={quickAdd}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuickAdd(e.currentTarget.value)}
-                className="h-10 flex-1"
+                className="glitch-terminal__input h-10 flex-1"
               />
-              <IconButton title="Add quick" aria-label="Add quick" type="submit" circleSize="md">
+              <IconButton title="Add quick" aria-label="Add quick" type="submit" circleSize="md" variant="solid">
                 <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
               </IconButton>
               <div className={neonClass}>
@@ -385,8 +385,8 @@ export default function RemindersTab() {
 
 function EmptyState() {
   return (
-    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
-      <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
+    <div className="glitch-terminal ds-card-pad text-sm text-muted-foreground grid place-items-center">
+      <p className="glitch-terminal__output">Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );
 }
@@ -421,7 +421,7 @@ function RemTile({
   const pinned = !!value.pinned;
 
   return (
-    <article className="card-neo rounded-card card-pad relative group">
+    <article className="glitch-terminal__command card-pad relative group">
       {/* Header row */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex-1 min-w-0">
@@ -432,7 +432,7 @@ function RemTile({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)}
               onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && save()}
               aria-label="Title"
-              className="font-semibold uppercase tracking-wide"
+              className="glitch-terminal__input font-semibold uppercase tracking-wide"
             />
           ) : (
             <h4
@@ -501,7 +501,7 @@ function RemTile({
               placeholder="Short, skimmable sentence."
               value={body}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.currentTarget.value)}
-              className="textarea-base"
+              className="glitch-terminal__input textarea-base"
             />
 
             <label className="text-xs opacity-70">Tags</label>
@@ -510,6 +510,7 @@ function RemTile({
               placeholder="tags, comma, separated"
               value={tagsText}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTagsText(e.currentTarget.value)}
+              className="glitch-terminal__input"
             />
 
             <div className="segmented inline-flex">
@@ -576,7 +577,10 @@ function RemTile({
 
             <div className="mt-1 flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
+                <span
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ background: "var(--accent-overlay)" }}
+                />
                 <span className="text-xs">{fmtDate(value.createdAt)}</span>
               </div>
 

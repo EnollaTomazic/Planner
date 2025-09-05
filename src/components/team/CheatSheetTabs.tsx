@@ -30,7 +30,7 @@ export default function CheatSheetTabs() {
   return (
     <div className="w-full">
       <Hero2
-        eyebrow="Team Comp"
+        eyebrow="Comps"
         heading="Cheat Sheet"
         subtitle={tab === "sheet" ? "Archetypes & tips" : "Your saved compositions"}
         tabs={{
@@ -45,11 +45,10 @@ export default function CheatSheetTabs() {
           placeholder: "Search…",
           size: "md",
           round: true,
-          // No "New Comp" button here; creation lives inside <MyComps />
         }}
       />
       <div className="mt-6">
-        {tab === "sheet" ? <CheatSheet dense /> : <MyComps />}
+        {tab === "sheet" ? <CheatSheet dense query={query} /> : <MyComps query={query} />}
       </div>
     </div>
   );
