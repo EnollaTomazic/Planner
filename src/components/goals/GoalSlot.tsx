@@ -14,7 +14,7 @@ export default function GoalSlot({ goal, idx }: GoalSlotProps) {
   const code = `HQ0${num}`;
   return (
     <div
-      className="scanlines group relative rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] shadow-neoSoft hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--accent))] focus-within:ring-2 focus-within:ring-[hsl(var(--accent))]"
+      className="goal-card group shadow-neoSoft hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--accent))] focus-within:ring-2 focus-within:ring-[hsl(var(--accent))]"
     >
       <header className="flex items-center justify-between border-b border-[hsl(var(--border))] px-3 py-2 text-xs font-mono">
         <div className="flex items-center gap-2 truncate">

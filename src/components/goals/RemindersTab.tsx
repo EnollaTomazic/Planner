@@ -255,7 +255,7 @@ export default function RemindersTab() {
         }
       />
 
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="goal-card">
         <SectionCard.Body>
           <div className="grid gap-2.5">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
@@ -384,7 +384,7 @@ export default function RemindersTab() {
 
 function EmptyState() {
   return (
-    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
+    <div className="goal-card rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );

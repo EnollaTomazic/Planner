@@ -25,7 +25,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   }
 
   return (
-    <div className="scanlines rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft font-mono">
+    <div className="goal-card p-4 shadow-neoSoft font-mono">
       <header className="mb-4 flex items-center justify-between text-xs text-[hsl(var(--fg-muted))]">
         <span>project file detected</span>
         <button
