@@ -298,7 +298,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
           {/* Left: Title */}
           <div className="min-w-0">
             <div className="mb-0.5 text-xs text-white/25">Title</div>
-            <div className="truncate text-lg font-medium leading-7 text-white/90">
+            <div className="truncate text-lg font-medium leading-7 text-white/70">
               {laneTitle || "Untitled review"}
             </div>
           </div>
@@ -475,7 +475,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
         {review.notes ? (
           <div>
             <SectionLabel>Notes</SectionLabel>
-            <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-sm leading-6 text-white/80">
+            <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-sm leading-6 text-white/70">
               {review.notes}
             </div>
           </div>
