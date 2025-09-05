@@ -208,3 +208,15 @@
 .goal-tv:hover .goal-tv__delete {
   opacity: 1;
 }
+
+/* Done state */
+.goal-tv--done .goal-tv__screen {
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+.goal-tv--done .goal-tv__screen > div > span:first-child {
+  text-decoration: line-through;
+}
+.goal-tv--done .goal-tv__check {
+  color: hsl(var(--success));
+}
