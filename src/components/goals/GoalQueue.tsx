@@ -28,21 +28,21 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
     <div className="font-mono">
       <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Goal Queue</h2>
       {items.length === 0 ? (
-        <div className="scanlines rounded-2xl border-2 border-dashed border-border/30 bg-card/60 p-8 text-center text-sm text-foreground/65">
+        <div className="scanlines rounded-2xl border border-border/30 bg-card/60 p-8 text-center text-sm text-foreground/65">
           No queued goals
         </div>
       ) : (
-        <ul className="divide-y divide-border/15">
+        <ul className="divide-y divide-border/15 border-t border-border/15">
           {items.map((it) => (
             <li
               key={it.id}
-              className="flex h-12 items-center justify-between"
+              className="group flex h-12 items-center justify-between"
             >
               <div className="flex min-w-0 items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-foreground/65" aria-hidden />
                 <p className="truncate text-sm text-foreground/85">{it.text}</p>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                 <IconButton
                   title="Drag"
                   aria-label="Drag"

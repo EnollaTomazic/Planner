@@ -204,7 +204,7 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <>
-              <div className="mx-auto mt-6 mb-6 max-w-screen-2xl">
+              <div className="mx-auto my-6 max-w-screen-2xl px-4">
                 {totalCount === 0 ? (
                   <GoalsProgress
                     total={totalCount}
@@ -216,7 +216,7 @@ export default function GoalsPage() {
                 ) : null}
                 <div className="grid gap-y-6 md:grid-cols-2 md:gap-x-6">
                   <section>
-                    <div className="mb-4 flex items-center justify-between">
+                    <div className="mb-6 flex items-center justify-between">
                       <div className="flex items-center gap-2 sm:gap-3">
                         <h2 className="text-lg font-semibold uppercase tracking-tight">Your Goals</h2>
                         <GoalsProgress total={totalCount} pct={pctDone} />
@@ -225,14 +225,14 @@ export default function GoalsPage() {
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {filtered.length === 0 ? (
-                        <p className="text-sm text-foreground/65">
+                        <div className="scanlines rounded-2xl border-2 border-dashed border-border/30 p-6 text-center text-sm text-foreground/65">
                           No goals here. Add one simple, finishable thing.
-                        </p>
+                        </div>
                       ) : (
                         filtered.map((g) => (
                           <article
                             key={g.id}
-                            className="group scanlines rounded-2xl bg-card/60 p-4 ring-1 ring-accent/20 shadow-neoSoft transition hover:-translate-y-px hover:ring-2 hover:ring-accent focus-within:ring-2 focus-within:ring-accent"
+                            className="group scanlines rounded-2xl border border-border bg-card/60 p-4 ring-1 ring-border/40 shadow-neoSoft transition hover:-translate-y-px hover:ring-2 hover:ring-accent focus-within:ring-2 focus-within:ring-accent"
                           >
                             <header className="flex items-center justify-between gap-2">
                               <h3 className="min-w-0 font-semibold leading-tight line-clamp-2">{g.title}</h3>
@@ -263,20 +263,23 @@ export default function GoalsPage() {
                               ) : null}
                               {g.notes ? <p className="leading-relaxed line-clamp-2">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-4 flex items-baseline justify-between text-xs text-foreground/65">
+                            <footer className="mt-4 flex items-center justify-between text-xs text-foreground/65">
+                              <div className="flex items-center gap-1">
+                                <time dateTime={new Date(g.createdAt).toISOString()}>
+                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                                </time>
+                                <span className="h-1 w-1 rounded-full bg-foreground/65" aria-hidden />
+                              </div>
                               <span
                                 className={cn(
                                   "rounded-full border px-2 py-0.5",
                                   g.done
                                     ? "border-accent/40 text-accent"
-                                    : "border-border/40"
+                                    : "border-border/40",
                                 )}
                               >
                                 {g.done ? "Done" : "Active"}
                               </span>
-                              <time dateTime={new Date(g.createdAt).toISOString()}>
-                                {new Date(g.createdAt).toLocaleDateString(LOCALE)}
-                              </time>
                             </footer>
                           </article>
                         ))
