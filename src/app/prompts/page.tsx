@@ -23,7 +23,10 @@ export default function Page() {
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Button</span>
-          <Button className="w-56">Click me</Button>
+          <div className="w-56 flex justify-center gap-2">
+            <Button>Default</Button>
+            <Button variant="primary">Primary</Button>
+          </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Card</span>
