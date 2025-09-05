@@ -37,58 +37,66 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <div className="scanlines rounded-2xl bg-card/60 p-5 ring-1 ring-border/30 font-mono">
+      <div className="scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft">
         <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Add Goal</h2>
-        <div className="grid gap-2.5">
-          <label className="grid gap-3">
-            <span className="text-xs text-foreground/80">Title</span>
+        <div className="grid gap-4">
+          <label htmlFor="goal-title" className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--fg-muted))]">Title</span>
             <Input
-              className="rounded-2xl border-border/30 bg-card/60 focus-visible:ring-2 focus-visible:ring-accent"
+              id="goal-title"
+              className="h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label className="grid gap-3">
-            <span className="text-xs text-foreground/80">Metric (optional)</span>
+          <label htmlFor="goal-metric" className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--fg-muted))]">Metric (optional)</span>
             <Input
-              className="rounded-2xl border-border/30 bg-card/60 tabular-nums focus-visible:ring-2 focus-visible:ring-accent"
+              id="goal-metric"
+              className="h-10 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] tabular-nums focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label className="grid gap-3">
-            <span className="text-xs text-foreground/80">Notes (optional)</span>
+          <label htmlFor="goal-notes" className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--fg-muted))]">Notes (optional)</span>
             <Textarea
-              className="h-24 rounded-2xl border-border/30 bg-card/60 focus-visible:ring-2 focus-visible:ring-accent"
+              id="goal-notes"
+              className="min-h-24 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
-        
+
           <div className="flex justify-end">
             <Button
               type="submit"
               size="lg"
-              className="h-12"
+              pill={false}
+              className="h-12 rounded-xl"
               disabled={!title.trim()}
               aria-label="Add Goal"
             >
               Add Goal
             </Button>
           </div>
-          <p className="glitch-text text-xs text-foreground/65">
+          <p id="goal-form-help" className="glitch-text text-xs text-[hsl(var(--fg-muted))]">
             {activeCount >= activeCap
               ? "Cap reached. Finish one to add more."
               : `${activeCap - activeCount} active slot${activeCap - activeCount === 1 ? "" : "s"} left`}
           </p>
           {err ? (
             <p
+              id="goal-form-error"
               role="status"
               aria-live="polite"
-              className="glitch-text text-xs text-accent"
+              className="glitch-text text-xs text-[hsl(var(--accent))]"
             >
               {err}
             </p>
