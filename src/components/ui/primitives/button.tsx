@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { neuRaised, neuInset } from "./neu";
@@ -53,7 +53,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={cn(base, "bg-[hsl(var(--panel)/0.85)]")}
           style={{ boxShadow: neuRaised(12) }}
           whileHover={{ scale: 1.03, boxShadow: neuRaised(16) }}
-          whileTap={{ scale: 0.96, boxShadow: neuInset(10) as any }}
+          whileTap={{
+            scale: 0.96,
+            boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+          }}
           {...rest}
         >
           <span
@@ -77,7 +80,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={cn(base, "bg-[hsl(var(--panel)/0.6)]")}
           style={{ boxShadow: neuRaised(10) }}
           whileHover={{ scale: 1.02, boxShadow: neuRaised(14) }}
-          whileTap={{ scale: 0.97, boxShadow: neuInset(8) as any }}
+          whileTap={{
+            scale: 0.97,
+            boxShadow: neuInset(8) as CSSProperties["boxShadow"],
+          }}
           {...rest}
         >
           {children}
@@ -91,7 +97,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(base, "bg-[hsl(var(--panel)/0.8)]")}
         style={{ boxShadow: neuRaised(12) }}
         whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
-        whileTap={{ scale: 0.97, boxShadow: neuInset(9) as any }}
+        whileTap={{
+          scale: 0.97,
+          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+        }}
         {...rest}
       >
         {children}

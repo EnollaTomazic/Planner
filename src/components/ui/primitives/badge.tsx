@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -15,14 +14,17 @@ type Tone =
   | "adc"
   | "support";
 
-export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
+type BadgeOwnProps<T extends React.ElementType = "span"> = {
   size?: Size;
   tone?: Tone;
   interactive?: boolean;
   selected?: boolean;
   glitch?: boolean;
-  as?: "span" | "button";
+  as?: T;
 };
+
+export type BadgeProps<T extends React.ElementType = "span"> = BadgeOwnProps<T> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
   xs: "px-2 py-[3px] text-[11px] leading-none",
@@ -40,18 +42,18 @@ const toneBorder: Record<Tone, string> = {
   support: "border-[hsl(var(--tone-sup))]",
 };
 
-export default function Badge({
+export default function Badge<T extends React.ElementType = "span">({
   size = "sm",
   tone = "neutral",
   interactive = false,
   selected = false,
   glitch = false,
-  as = "span",
+  as,
   className,
   children,
   ...rest
-}: BadgeProps) {
-  const Comp = as as any;
+}: BadgeProps<T>) {
+  const Comp = as ?? "span";
 
   return (
     <Comp
