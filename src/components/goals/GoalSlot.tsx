@@ -3,21 +3,32 @@
 import * as React from "react";
 import { Check, Pencil } from "lucide-react";
 import type { Goal } from "@/lib/types";
+import EditGoalDialog from "./EditGoalDialog";
 
 interface GoalSlotProps {
   goal?: Goal | null;
   onToggleDone?: (id: string) => void;
-  onEdit?: (id: string, title: string) => void;
+  onEdit?: (g: Goal) => void;
 }
 
 export default function GoalSlot({ goal, onToggleDone, onEdit }: GoalSlotProps) {
+  const [isEditing, setIsEditing] = React.useState(false);
+  const editBtnRef = React.useRef<HTMLButtonElement>(null);
+
   function handleEdit() {
-    if (!goal || !onEdit) return;
-    const t = window.prompt("Edit goal title", goal.title);
-    if (t !== null) {
-      const clean = t.trim();
-      if (clean) onEdit(goal.id, clean);
-    }
+    if (!goal) return;
+    setIsEditing(true);
+  }
+
+  function handleCancel() {
+    setIsEditing(false);
+    editBtnRef.current?.focus();
+  }
+
+  function handleConfirm(updated: Goal) {
+    onEdit?.(updated);
+    setIsEditing(false);
+    editBtnRef.current?.focus();
   }
 
   return (
@@ -39,9 +50,18 @@ export default function GoalSlot({ goal, onToggleDone, onEdit }: GoalSlotProps) 
               className="goal-tv__edit"
               aria-label="Edit goal"
               onClick={handleEdit}
+              ref={editBtnRef}
             >
               <Pencil className="h-4 w-4" />
             </button>
+            {goal && (
+              <EditGoalDialog
+                goal={goal}
+                open={isEditing}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+              />
+            )}
           </>
         ) : (
           <span className="goal-tv__empty">NO SIGNAL</span>

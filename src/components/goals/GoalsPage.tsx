@@ -146,8 +146,14 @@ export default function GoalsPage() {
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
   }
 
-  function editGoal(id: string, title: string) {
-    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, title } : g)));
+  function editGoal(updated: Goal) {
+    setGoals((prev) =>
+      prev.map((g) =>
+        g.id === updated.id
+          ? { ...g, title: updated.title, metric: updated.metric, notes: updated.notes }
+          : g
+      )
+    );
   }
 
   // waitlist ops
