@@ -2094,3 +2094,20 @@ html.light .btn-cta {
     animation: none;
   }
 }
+
+/* ---------- Icon styling ---------- */
+.lucide {
+  color: hsl(var(--muted-foreground));
+  transition: color var(--dur-quick) var(--ease-out),
+    filter var(--dur-quick) var(--ease-out);
+}
+
+.lucide:hover,
+.lucide:active,
+button:hover .lucide,
+button:active .lucide,
+a:hover .lucide,
+a:active .lucide {
+  color: hsl(var(--accent));
+  filter: drop-shadow(0 0 6px hsl(var(--accent) / 0.8));
+}
