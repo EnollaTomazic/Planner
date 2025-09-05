@@ -55,7 +55,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         aria-busy={loading || undefined}
         className={cn(
-          "inline-flex items-center justify-center select-none font-medium transition",
+          "glitch-scanlines inline-flex items-center justify-center select-none font-medium transition",
           "focus-visible:outline-none",
           "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
           "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
