@@ -555,7 +555,7 @@ export default function ReviewEditor({
 
             <div className="mb-2">
               <div className="relative">
-                <Target className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Target className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={laneRef}
                   value={lane}
@@ -568,7 +568,7 @@ export default function ReviewEditor({
                       go(opponentRef);
                     }
                   }}
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-10"
                   placeholder="Ashe/Lulu"
                   aria-label="Lane (used as Title)"
                 />
@@ -578,7 +578,7 @@ export default function ReviewEditor({
             <div>
               <SectionLabel>Opponent</SectionLabel>
               <div className="relative">
-                <Shield className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Shield className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={opponentRef}
                   value={opponent}
@@ -591,7 +591,7 @@ export default function ReviewEditor({
                     }
                   }}
                   placeholder="Draven/Thresh"
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-10"
                   aria-label="Opponent"
                 />
               </div>
@@ -891,7 +891,7 @@ export default function ReviewEditor({
                   setLastMarkerTime(e.target.value);
                 }}
                 placeholder="00:00"
-                className="h-10 rounded-2xl text-center font-mono tabular-nums"
+                className="text-center font-mono tabular-nums"
                 aria-label="Timestamp time in mm:ss"
                 inputMode="numeric"
                 pattern="^[0-9]?\d:[0-5]\d$"
@@ -927,7 +927,7 @@ export default function ReviewEditor({
                 }
               }}
               placeholder="Note"
-              className="h-10 rounded-2xl"
+              className="rounded-2xl"
               aria-label="Timestamp note"
             />
 
@@ -985,12 +985,12 @@ export default function ReviewEditor({
           <SectionLabel>Tags</SectionLabel>
           <div className="mt-1 flex items-center gap-2">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Tag className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="h-10 rounded-2xl pl-9"
+                className="pl-10"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();

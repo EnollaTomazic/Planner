@@ -18,7 +18,7 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
 };
 
 const BASE =
-  "block w-full min-h-[160px] rounded-2xl px-4 py-3 text-sm " +
+  "block w-full max-w-[343px] min-h-[160px] rounded-2xl px-4 py-3 text-base " +
   "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +

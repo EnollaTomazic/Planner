@@ -70,8 +70,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
 
       <form onSubmit={submit} className="mt-4">
         <Input
-          tone="default"
-          className="h-12 rounded-2xl border border-border/30 bg-card/60 focus-visible:ring-2 focus-visible:ring-accent"
+          className="rounded-2xl border-border/30 bg-card/60 focus-visible:ring-2 focus-visible:ring-accent"
           value={val}
           onChange={(e) => setVal(e.currentTarget.value)}
           placeholder="Add to queue…"

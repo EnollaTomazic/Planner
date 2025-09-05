@@ -15,12 +15,12 @@ function slug(s?: string) {
 }
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  /** Rounded look: "pill" = capsule (default), "default" = soft 2xl corners */
+  /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
   tone?: "default" | "pill";
 };
 
 const BASE =
-  "block w-full h-10 px-3 " +
+  "block w-full max-w-[343px] h-[52px] px-4 py-3 text-base rounded-2xl " +
   "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
@@ -39,7 +39,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     id,
     name,
     "aria-label": ariaLabel,
-    tone = "pill", // ⬅️ default changed here
+    tone = "default",
     ...props
   },
   ref
@@ -58,7 +58,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       name={finalName}
       className={cn(
         BASE,
-        tone === "pill" ? "rounded-full" : "rounded-2xl",
+        tone === "pill" ? "rounded-full" : undefined,
         className
       )}
       {...props}

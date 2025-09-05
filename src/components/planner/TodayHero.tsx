@@ -117,7 +117,7 @@ export default function TodayHero({ iso }: Props) {
             value={projectName}
             onChange={e => setProjectName(e.target.value)}
             aria-label="New project"
-            className="task-input w-full"
+            className="w-full"
           />
         </form>
 
@@ -147,7 +147,7 @@ export default function TodayHero({ iso }: Props) {
                         if (e.key === "Escape") setEditingProjectId(null);
                       }}
                       onBlur={() => { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }}
-                      className="h-8 text-sm" aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
+                      aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
                     />
                   ) : (
                     <div className="flex items-center gap-3 min-w-0">
@@ -193,7 +193,7 @@ export default function TodayHero({ iso }: Props) {
               name={`new-task-${selProjectId}`}
               placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
               aria-label="New task"
-              className="task-input w-full"
+              className="w-full"
             />
           </form>
 
@@ -224,7 +224,7 @@ export default function TodayHero({ iso }: Props) {
                             if (e.key === "Escape") setEditingTaskId(null);
                           }}
                           onBlur={() => { renameTask(t.id, editingTaskText || t.text); setEditingTaskId(null); }}
-                          className="h-8 text-sm" aria-label={`Rename task ${t.text}`}
+                          aria-label={`Rename task ${t.text}`}
                         />
                       ) : (
                         <span className={cn("task-tile__text", t.done && "line-through-soft")} onClick={() => setEditingTaskId(t.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter") setEditingTaskId(t.id); }} aria-label={`Edit task ${t.text}`} title="Edit task">

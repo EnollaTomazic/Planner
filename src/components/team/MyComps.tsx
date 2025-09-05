@@ -293,7 +293,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               onChange={e => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
               aria-label="New comp title"
-              className="h-10 flex-1"
+              className="flex-1"
             />
             <IconButton
               type="submit"
@@ -364,13 +364,12 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                         aria-label="Comp title"
                         value={c.title}
                         onChange={e => patch(c.id, { title: e.target.value })}
-                        className="h-9"
                       />
                     )}
                   </header>
 
                   {/* roles */}
-                  <div className="grid gap-3">
+                  <div className="grid gap-2.5">
                     {ROLES.map(r => {
                       const list = c.roles[r] ?? [];
                       const setList = (next: string[]) =>
