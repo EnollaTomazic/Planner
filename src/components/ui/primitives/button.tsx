@@ -57,10 +57,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {...rest}
         >
           <span
-            className="absolute inset-0 rounded-2xl"
+            className="absolute inset-0 z-0 rounded-2xl ring-1 ring-[hsl(var(--line))]"
             style={{
               background:
-                "linear-gradient(90deg, hsl(275 95% 72% /.18), hsl(195 95% 68% /.18))",
+                "linear-gradient(180deg, rgba(255,255,255,0.15), transparent)",
             }}
           />
           <span className="relative z-10 font-semibold inline-flex items-center gap-2">
