@@ -21,7 +21,7 @@ import {
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
-import { Plus, Sun } from "lucide-react";
+import { Plus, Sun, Search } from "lucide-react";
 
 export default function Page() {
   const tabs = [
@@ -131,6 +131,15 @@ export default function Page() {
             <Input size="md" placeholder="Medium" />
             <Input size="lg" placeholder="Large" />
             <Input tone="pill" placeholder="Pill" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Input w/ Icon</span>
+          <div className="w-56 flex items-center gap-2">
+            <Input size="md" placeholder="Search" className="flex-1" />
+            <IconButton size="md">
+              <Search />
+            </IconButton>
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
