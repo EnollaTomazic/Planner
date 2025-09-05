@@ -32,6 +32,7 @@ export type InputProps = Omit<
 const BASE =
   "block w-full max-w-[343px] rounded-2xl bg-[hsl(var(--panel)/0.9)] " +
   "text-[hsl(var(--text))] placeholder:text-[hsl(var(--muted-foreground))] " +
+  "ring-1 ring-[hsl(var(--line)/0.8)] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
   "disabled:opacity-50 disabled:cursor-not-allowed transition-colors";
 
@@ -79,6 +80,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         typeof size === "string" ? SIZE[size] : SIZE.sm,
         tone === "pill" ? "rounded-full" : undefined,
         indent && "pl-10",
+        "relative before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/10 before:to-transparent",
         className
       )}
       style={{ boxShadow: neuInset(10), ...style }}
