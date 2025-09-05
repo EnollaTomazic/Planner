@@ -696,10 +696,11 @@ html.bg-intense body::after {
   .pill {
     @apply inline-flex items-center rounded-full border text-xs;
     height: 1.75rem;
-    padding: 0 0.6rem;
-    gap: 0.4rem;
-    background: hsl(var(--muted));
-    color: hsl(var(--muted-foreground));
+    padding: 0 0.75rem;
+    gap: 0.5rem;
+    background: hsl(var(--panel));
+    color: hsl(var(--text));
+    border-color: hsl(var(--line) / 0.35);
   }
   .pill--low {
     background: hsl(var(--accent) / 0.15);
@@ -721,8 +722,7 @@ html.bg-intense body::after {
       hsl(var(--success) / 0.24)
     );
     border-color: hsl(var(--success));
-    box-shadow: 0 0 0 1px hsl(var(--success) / 0.35),
-      0 6px 24px hsl(var(--success-glow));
+    box-shadow: none;
   }
 }
 
