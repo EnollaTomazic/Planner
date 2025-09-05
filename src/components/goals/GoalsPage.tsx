@@ -171,7 +171,7 @@ export default function GoalsPage() {
       : "Pick a duration and focus.";
 
   return (
-    <main className="grid gap-6">
+    <main className="page-shell grid gap-6 py-6">
       {/* ======= HERO ======= */}
       <Hero
         eyebrow="GOALS"
