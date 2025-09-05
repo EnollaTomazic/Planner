@@ -42,14 +42,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type="button"
         className={cn(
-          "glitch-scanlines inline-flex items-center justify-center select-none rounded-full transition",
-          "focus-visible:outline-none",
-          "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-          "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-          "[&>svg]:transition",
-          "disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center select-none rounded-full border border-[hsl(var(--line)/0.35)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)] bg-transparent hover:bg-[hsl(var(--panel)/0.45)] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
           sizeClass,
           iconMap[iconSize],
           className

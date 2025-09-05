@@ -89,7 +89,7 @@ export default function PromptsPage() {
               />
             </div>
             <Button
-              variant="ghost"
+              variant="primary"
               onClick={save}
               disabled={!titleDraft.trim() && !textDraft.trim()}
             >
