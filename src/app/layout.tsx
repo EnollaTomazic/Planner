@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] glitch-root">
         <SiteChrome />
-        <main className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
+        <main className="relative z-10">
           {children}
         </main>
       </body>
