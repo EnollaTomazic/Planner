@@ -166,7 +166,7 @@ export default function GoalsPage() {
       : "Pick a duration and focus.";
 
   return (
-    <main className="page-shell grid gap-4 py-6">
+    <main id="goals-main" role="main" className="page-shell grid gap-6 py-6">
       {/* ======= HERO ======= */}
       <Hero
         eyebrow="Goals"
@@ -195,7 +195,7 @@ export default function GoalsPage() {
         }
       />
 
-      <section className="grid gap-4">
+      <section className="grid gap-6">
         <div
           role="tabpanel"
           id="goals-panel"
@@ -214,8 +214,8 @@ export default function GoalsPage() {
                     }
                   />
                 ) : null}
-                <div className="grid gap-y-6 md:grid-cols-2 md:gap-x-6">
-                  <section>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <section className="order-2 md:order-1">
                     <div className="mb-6 flex items-center justify-between">
                       <div className="flex items-center gap-2 sm:gap-3">
                         <h2 className="text-lg font-semibold uppercase tracking-tight">Your Goals</h2>
@@ -225,14 +225,14 @@ export default function GoalsPage() {
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {filtered.length === 0 ? (
-                        <div className="scanlines rounded-2xl border-2 border-dashed border-border/30 p-6 text-center text-sm text-foreground/65">
+                        <div className="scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-6 text-center text-sm text-[hsl(var(--fg-muted))]">
                           No goals here. Add one simple, finishable thing.
                         </div>
                       ) : (
                         filtered.map((g) => (
                           <article
                             key={g.id}
-                            className="group scanlines rounded-2xl border border-border bg-card/60 p-4 ring-1 ring-border/40 shadow-neoSoft transition hover:-translate-y-px hover:ring-2 hover:ring-accent focus-within:ring-2 focus-within:ring-accent"
+                            className="group scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft transition hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--ring))] focus-within:ring-2 focus-within:ring-[hsl(var(--accent))]"
                           >
                             <header className="flex items-center justify-between gap-2">
                               <h3 className="min-w-0 font-semibold leading-tight line-clamp-2">{g.title}</h3>
@@ -242,40 +242,40 @@ export default function GoalsPage() {
                                   checked={g.done}
                                   onChange={() => toggleDone(g.id)}
                                   size="lg"
-                                  className="focus-visible:ring-2 focus-visible:ring-accent"
+                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
                                 />
                                 <IconButton
                                   title="Delete"
                                   aria-label="Delete goal"
                                   onClick={() => removeGoal(g.id)}
                                   circleSize="sm"
-                                  className="focus-visible:ring-2 focus-visible:ring-accent"
+                                  className="rounded-xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
                                 >
                                   <Trash2 />
                                 </IconButton>
                               </div>
                             </header>
-                            <div className="mt-4 space-y-2 text-sm text-foreground/65">
+                            <div className="mt-4 space-y-2 text-sm text-[hsl(var(--fg-muted))]">
                               {g.metric ? (
                                 <div className="tabular-nums">
-                                  <span className="opacity-70">Metric:</span> {g.metric}
+                                  <span className="text-[hsl(var(--fg)/0.7)]">Metric:</span> {g.metric}
                                 </div>
                               ) : null}
                               {g.notes ? <p className="leading-relaxed line-clamp-2">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-4 flex items-center justify-between text-xs text-foreground/65">
+                            <footer className="mt-4 flex items-center justify-between text-xs text-[hsl(var(--fg-muted))]">
                               <div className="flex items-center gap-1">
                                 <time dateTime={new Date(g.createdAt).toISOString()}>
                                   {new Date(g.createdAt).toLocaleDateString(LOCALE)}
                                 </time>
-                                <span className="h-1 w-1 rounded-full bg-foreground/65" aria-hidden />
+                                <span className="h-1 w-1 rounded-full bg-[hsl(var(--fg)/0.65)]" aria-hidden />
                               </div>
                               <span
                                 className={cn(
-                                  "rounded-full border px-2 py-0.5",
+                                  "rounded-xl border px-2 py-0.5",
                                   g.done
-                                    ? "border-accent/40 text-accent"
-                                    : "border-border/40",
+                                    ? "border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent))]"
+                                    : "border-[hsl(var(--border)/0.4)] text-[hsl(var(--fg))]",
                                 )}
                               >
                                 {g.done ? "Done" : "Active"}
@@ -286,7 +286,7 @@ export default function GoalsPage() {
                       )}
                     </div>
                   </section>
-                  <section className="md:sticky md:top-4" ref={formRef}>
+                  <section className="order-1 md:order-2 md:sticky md:top-4" ref={formRef}>
                     <GoalForm
                       title={title}
                       metric={metric}
@@ -300,14 +300,14 @@ export default function GoalsPage() {
                       err={err}
                     />
                   </section>
-                  <section className="md:col-span-2">
+                  <section className="order-3 md:col-span-2">
                     <GoalQueue items={waitlist} onAdd={addWait} onRemove={removeWait} />
                   </section>
                 </div>
               </div>
 
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-full border border-border bg-card px-4 py-2 text-sm shadow-sm">
+                <div className="mx-auto w-fit rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
                   Deleted “{lastDeleted.title}”.{" "}
                   <button
                     type="button"
