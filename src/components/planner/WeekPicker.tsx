@@ -103,12 +103,8 @@ function DayChip({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
         today && "chip--today",
         selected
-          ? cn(
-              // “armed” personality: dashed, tinted border + subtle glow
-              "border-dashed border-[hsl(var(--primary)/.75)] shadow-[0_8px_22px_hsl(var(--shadow-color)/.22)]",
-              "ring-1 ring-[hsl(var(--primary)/.45)]"
-            )
-          : "hover:border-[hsl(var(--primary)/.4)] hover:shadow-[0_6px_18px_hsl(var(--shadow-color)/.18)]"
+          ? "border-dashed border-[hsl(var(--primary)/.75)]"
+          : "hover:border-[hsl(var(--primary)/.4)]"
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
