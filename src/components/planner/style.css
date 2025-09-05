@@ -138,19 +138,31 @@
   isolation: isolate;
   contain: paint;
   will-change: box-shadow, background, border-color;
+  --neo-shadow:
+    -2px -2px 4px hsl(var(--background) / .6),
+    2px 2px 4px hsl(var(--shadow-color) / .3);
+  box-shadow: var(--neo-shadow);
 }
 .chip:hover {
   animation: chip-flicker 3.2s steps(1,end) infinite;
   background: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--primary)) 12% / .08);
   border-color: hsl(var(--primary) / .55);
   box-shadow:
-    inset 0 0 0 1px hsl(var(--primary) / .65),
-    0 8px 22px hsl(var(--shadow-color) / .25);
+    var(--neo-shadow),
+    0 6px 18px hsl(var(--shadow-color) / .18);
+}
+
+.chip[data-active] {
+  box-shadow:
+    var(--neo-shadow),
+    0 0 0 1px hsl(var(--primary) / .45),
+    0 8px 22px hsl(var(--shadow-color) / .22);
 }
 
 /* “Today” hint — faint ring and glow rail inside */
 .chip--today {
   box-shadow:
+    var(--neo-shadow),
     0 0 0 1px hsl(var(--ring) / .55) inset,
     0 0 0 2px hsl(var(--ring) / .15);
 }
@@ -161,6 +173,7 @@
   border-color: hsl(var(--ring));
   box-shadow:
     inset 0 0 0 2px hsl(var(--ring) / .35),
+    var(--neo-shadow),
     0 12px 28px hsl(var(--shadow-color) / .30);
 }
 .chip--active .chip__edge {
