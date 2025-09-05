@@ -98,7 +98,7 @@ export default function PromptsPage() {
 
       <SectionCard.Body>
         {/* Compose panel */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <Input
             placeholder="Title"
             value={titleDraft}

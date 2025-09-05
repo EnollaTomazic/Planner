@@ -256,7 +256,7 @@ function SideEditor(props: {
         </span>
       </header>
 
-      <div className="grid gap-3">
+      <div className="grid gap-2.5">
         {LANES.map(({ key, label }) => (
           <div key={key} className="grid grid-cols-[88px_1fr] items-center gap-3">
             <label
@@ -274,7 +274,7 @@ function SideEditor(props: {
           </div>
         ))}
 
-        <div className="grid gap-2">
+        <div className="grid gap-2.5">
           <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>

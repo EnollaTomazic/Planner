@@ -230,7 +230,6 @@ export default function JungleClears() {
                                 aria-label="Champion"
                                 value={editing.champ}
                                 onChange={(e) => setEditing({ ...editing, champ: e.currentTarget.value })}
-                                className="h-8"
                               />
                             </td>
                             <td className="py-2 pr-3">
@@ -239,7 +238,6 @@ export default function JungleClears() {
                                 placeholder="AD, Assassin"
                                 value={editing.type}
                                 onChange={(e) => setEditing({ ...editing, type: e.currentTarget.value })}
-                                className="h-8"
                               />
                             </td>
                             <td className="py-2 pr-3">
@@ -247,7 +245,6 @@ export default function JungleClears() {
                                 aria-label="Notes"
                                 value={editing.notes}
                                 onChange={(e) => setEditing({ ...editing, notes: e.currentTarget.value })}
-                                className="h-8"
                               />
                             </td>
                             <td className="py-2 pr-3">

@@ -557,29 +557,9 @@ html.bg-intense body::after {
     border-color: hsl(var(--ring));
   }
 
-  /* Planner pill inputs (single-line) */
-  .planner-input {
-    height: var(--control-h);
-    border-radius: 9999px;
-    padding-inline: var(--control-px);
-    font-size: var(--control-fs);
-    background: hsl(var(--input));
-    border: 1px solid hsl(var(--card-hairline));
-    color: hsl(var(--foreground));
-    transition: box-shadow var(--dur-quick), border-color var(--dur-quick);
-  }
-  .planner-input::placeholder {
-    color: hsl(var(--muted-foreground) / 0.8);
-  }
-  .planner-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35);
-    border-color: hsl(var(--ring));
-  }
-
   /* Textareas */
   .textarea-base {
-    @apply w-full rounded-2xl border text-sm;
+    @apply w-full rounded-2xl border text-base;
     background-color: hsl(var(--input));
     color: hsl(var(--foreground));
     border-color: hsl(var(--card-hairline));
@@ -587,7 +567,7 @@ html.bg-intense body::after {
     line-height: 1.6;
     resize: vertical;
     background-clip: padding-box;
-    padding: 0.85rem 1rem;
+    padding: 0.75rem 1rem;
   }
   .textarea-base::placeholder {
     color: hsl(var(--muted-foreground) / 0.8);
@@ -603,11 +583,12 @@ html.bg-intense body::after {
     background-color: hsl(var(--input));
     color: hsl(var(--foreground));
     border: 1px solid hsl(var(--card-hairline));
-    padding: 0.85rem 1rem;
+    padding: 0.75rem 1rem;
     min-height: 180px;
     line-height: 1.6;
     resize: vertical;
     background-clip: padding-box;
+    font-size: 1rem;
   }
   .planner-textarea:focus {
     outline: none;
