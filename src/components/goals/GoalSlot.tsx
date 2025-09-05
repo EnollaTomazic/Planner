@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, Pencil } from "lucide-react";
 import type { Goal } from "@/lib/types";
+import { PillarBadge } from "@/components/ui";
 
 interface GoalSlotProps {
   goal?: Goal | null;
@@ -25,7 +26,12 @@ export default function GoalSlot({ goal, onToggleDone, onEdit }: GoalSlotProps) 
       <div className="goal-tv__screen">
         {goal ? (
           <>
-            <span className="block">{goal.title}</span>
+            <div className="flex flex-col items-center">
+              <span className="block">{goal.title}</span>
+              {goal.pillar && (
+                <PillarBadge pillar={goal.pillar} size="sm" className="mt-1" as="span" />
+              )}
+            </div>
             <button
               type="button"
               className="goal-tv__check"
