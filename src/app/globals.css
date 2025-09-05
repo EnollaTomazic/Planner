@@ -535,7 +535,7 @@ html.bg-intense body::after {
 
   /* Inputs */
   .input-base {
-    @apply rounded-2xl border text-sm;
+    @apply rounded-xl border text-sm;
     height: var(--control-h);
     padding: 0 var(--control-px);
     font-size: var(--control-fs);
