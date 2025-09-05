@@ -4,12 +4,17 @@ import * as React from "react";
 import Input from "@/components/ui/primitives/input";
 import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
+import type { Pillar } from "@/lib/types";
+
+const PILLARS: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
 
 interface GoalFormProps {
   title: string;
+  pillar: Pillar | "";
   metric: string;
   notes: string;
   onTitleChange: (v: string) => void;
+  onPillarChange: (v: Pillar | "") => void;
   onMetricChange: (v: string) => void;
   onNotesChange: (v: string) => void;
   onSubmit: () => void;
@@ -20,9 +25,11 @@ interface GoalFormProps {
 
 export default function GoalForm({
   title,
+  pillar,
   metric,
   notes,
   onTitleChange,
+  onPillarChange,
   onMetricChange,
   onNotesChange,
   onSubmit,
@@ -50,6 +57,24 @@ export default function GoalForm({
               aria-required="true"
               aria-describedby="goal-form-help goal-form-error"
             />
+          </label>
+
+          <label htmlFor="goal-pillar" className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--fg-muted))]">Pillar (optional)</span>
+            <select
+              id="goal-pillar"
+              className="h-10 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              value={pillar}
+              onChange={(e) => onPillarChange(e.target.value as Pillar | "")}
+              aria-describedby="goal-form-help goal-form-error"
+            >
+              <option value="">None</option>
+              {PILLARS.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label htmlFor="goal-metric" className="grid gap-2">

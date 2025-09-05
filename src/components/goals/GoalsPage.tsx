@@ -26,7 +26,7 @@ import GoalQueue, { WaitItem } from "./GoalQueue";
 import GoalSlot from "./GoalSlot";
 
 import { useLocalDB, uid } from "@/lib/db";
-import type { Goal } from "@/lib/types";
+import type { Goal, Pillar } from "@/lib/types";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -64,6 +64,7 @@ export default function GoalsPage() {
   const [title, setTitle] = React.useState("");
   const [metric, setMetric] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [pillar, setPillar] = React.useState<Pillar | "">("");
   const [err, setErr] = React.useState<string | null>(null);
 
   // undo
@@ -95,6 +96,7 @@ export default function GoalsPage() {
     setTitle("");
     setMetric("");
     setNotes("");
+    setPillar("");
   }
 
   function addGoal() {
@@ -106,7 +108,7 @@ export default function GoalsPage() {
     const g: Goal = {
       id: uid("goal"),
       title: title.trim(),
-      pillar: "",
+      ...(pillar ? { pillar } : {}),
       metric: metric.trim() || undefined,
       notes: notes.trim() || undefined,
       done: false,
@@ -226,9 +228,11 @@ export default function GoalsPage() {
                       <section ref={formRef}>
                         <GoalForm
                           title={title}
+                          pillar={pillar}
                           metric={metric}
                           notes={notes}
                           onTitleChange={setTitle}
+                          onPillarChange={setPillar}
                           onMetricChange={setMetric}
                           onNotesChange={setNotes}
                           onSubmit={addGoal}
