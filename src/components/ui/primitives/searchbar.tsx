@@ -77,8 +77,9 @@ export default function SearchBar({
             onChange?.(e);
           }}
           placeholder={placeholder}
+          indent
           className={cn(
-            "w-full pl-10",
+            "w-full",
             showClear && "pr-10",
             "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
           )}

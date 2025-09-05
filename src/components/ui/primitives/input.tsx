@@ -14,18 +14,31 @@ function slug(s?: string) {
     .slice(0, 64);
 }
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type InputSize = "sm" | "md" | "lg";
+
+export type InputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> & {
   /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
   tone?: "default" | "pill";
+  /** Visual size of the control (defaults to small) */
+  size?: InputSize | number;
+  /** When true, increases left padding for icons */
+  indent?: boolean;
 };
 
 const BASE =
-  "block w-full max-w-[343px] h-[52px] px-4 py-3 text-base rounded-xl " +
-  "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
-  "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
+  "block w-full max-w-[343px] rounded-xl border border-[hsl(var(--border))] " +
+  "bg-[hsl(var(--card))] text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
-  "disabled:opacity-50 disabled:cursor-not-allowed " +
-  "transition-colors";
+  "disabled:opacity-50 disabled:cursor-not-allowed transition-colors";
+
+const SIZE: Record<InputSize, string> = {
+  sm: "h-9 px-3 py-2 text-sm",
+  md: "h-[52px] px-4 py-3 text-base",
+  lg: "h-14 px-6 py-4 text-lg",
+};
 
 /**
  * Input — Lavender-Glitch styled input
@@ -40,6 +53,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     name,
     "aria-label": ariaLabel,
     tone = "default",
+    size = "sm",
+    indent = false,
     ...props
   },
   ref
@@ -56,9 +71,12 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       ref={ref}
       id={finalId}
       name={finalName}
+      size={typeof size === "number" ? size : undefined}
       className={cn(
         BASE,
+        typeof size === "string" ? SIZE[size] : SIZE.sm,
         tone === "pill" ? "rounded-full" : undefined,
+        indent && "pl-10",
         className
       )}
       {...props}
