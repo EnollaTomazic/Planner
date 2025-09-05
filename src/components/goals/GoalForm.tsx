@@ -37,14 +37,14 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <div className="rounded-2xl p-5 ring-1 ring-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)]">
-        <h2 className="mb-4 text-lg font-semibold">Add Goal</h2>
+      <div className="scanlines rounded-2xl bg-card/60 p-5 ring-1 ring-border/30 font-mono">
+        <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Add Goal</h2>
         <div className="grid gap-4">
           <label className="grid gap-1">
-            <span className="text-sm text-[hsl(var(--foreground)/0.85)]">Title</span>
+            <span className="text-sm text-foreground/80">Title</span>
             <Input
               tone="default"
-              className="h-12 rounded-2xl border-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] text-sm focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+              className="h-12 rounded-2xl border-border/30 bg-card/60 text-sm focus-visible:ring-2 focus-visible:ring-accent"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -52,20 +52,20 @@ export default function GoalForm({
           </label>
 
           <label className="grid gap-1">
-            <span className="text-sm text-[hsl(var(--foreground)/0.85)]">Metric (optional)</span>
+            <span className="text-sm text-foreground/80">Metric (optional)</span>
             <Input
               tone="default"
-              className="h-10 rounded-2xl border-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] text-sm focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)] tabular-nums"
+              className="h-10 rounded-2xl border-border/30 bg-card/60 text-sm tabular-nums focus-visible:ring-2 focus-visible:ring-accent"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
             />
           </label>
 
           <label className="grid gap-1">
-            <span className="text-sm text-[hsl(var(--foreground)/0.85)]">Notes (optional)</span>
+            <span className="text-sm text-foreground/80">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="h-24 rounded-2xl border-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] text-sm focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+              className="h-24 rounded-2xl border-border/30 bg-card/60 text-sm focus-visible:ring-2 focus-visible:ring-accent"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
             />
@@ -82,7 +82,7 @@ export default function GoalForm({
               Add Goal
             </Button>
           </div>
-          <p className="text-xs text-[hsl(var(--foreground)/0.65)]">
+          <p className="glitch-text text-xs text-foreground/65">
             {activeCount >= activeCap
               ? "Cap reached. Finish one to add more."
               : `${activeCap - activeCount} active slot${activeCap - activeCount === 1 ? "" : "s"} left`}
@@ -91,7 +91,7 @@ export default function GoalForm({
             <p
               role="status"
               aria-live="polite"
-              className="text-xs text-[hsl(var(--accent))]"
+              className="glitch-text text-xs text-accent"
             >
               {err}
             </p>

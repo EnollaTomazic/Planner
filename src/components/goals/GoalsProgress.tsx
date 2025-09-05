@@ -12,8 +12,8 @@ interface GoalsProgressProps {
 export default function GoalsProgress({ total, pct, onAddFirst }: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="border border-dashed border-white/20 rounded-2xl p-6 text-center">
-        <p className="text-sm text-white/60 mb-4">No goals yet.</p>
+      <div className="border border-dashed border-foreground/20 rounded-2xl p-6 text-center">
+        <p className="mb-4 text-sm text-foreground/60">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} className="mx-auto" size="sm">
             Add a first goal
@@ -25,14 +25,14 @@ export default function GoalsProgress({ total, pct, onAddFirst }: GoalsProgressP
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
   return (
-    <div className="flex items-center gap-2 min-w-[120px]" aria-label="Progress">
-      <div className="w-28 h-1.5 rounded-full bg-white/10 overflow-hidden">
+    <div className="flex min-w-[120px] items-center gap-2" aria-label="Progress">
+      <div className="h-1.5 w-28 overflow-hidden rounded-full bg-foreground/10">
         <div
-          className="h-1.5 rounded-full bg-[hsl(var(--primary))] transition-[width]"
+          className="h-1.5 rounded-full bg-accent transition-[width]"
           style={{ width: `${v}%` }}
         />
       </div>
-      <span className="text-xs text-white/60 tabular-nums">{v}%</span>
+      <span className="tabular-nums text-xs text-foreground/60">{v}%</span>
     </div>
   );
 }

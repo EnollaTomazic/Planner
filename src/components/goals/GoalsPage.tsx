@@ -29,7 +29,7 @@ import GoalQueue, { WaitItem } from "./GoalQueue";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
-import { LOCALE } from "@/lib/utils";
+import { LOCALE, cn } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -218,52 +218,44 @@ export default function GoalsPage() {
                   <section>
                     <div className="mb-4 flex items-center justify-between">
                       <div className="flex items-center gap-2 sm:gap-3">
-                        <h2 className="text-lg font-semibold">Your Goals</h2>
+                        <h2 className="text-lg font-semibold uppercase tracking-tight">Your Goals</h2>
                         <GoalsProgress total={totalCount} pct={pctDone} />
                       </div>
                       <GoalsTabs value={filter} onChange={setFilter} />
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {filtered.length === 0 ? (
-                        <p className="text-sm text-[hsl(var(--foreground)/0.65)]">
+                        <p className="text-sm text-foreground/65">
                           No goals here. Add one simple, finishable thing.
                         </p>
                       ) : (
                         filtered.map((g) => (
                           <article
                             key={g.id}
-                            className="group rounded-2xl p-4 ring-1 ring-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] transition hover:-translate-y-[1px] hover:shadow-md focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.6)]"
+                            className="group scanlines rounded-2xl bg-card/60 p-4 ring-1 ring-accent/20 shadow-neoSoft transition hover:-translate-y-px hover:ring-2 hover:ring-accent focus-within:ring-2 focus-within:ring-accent"
                           >
                             <header className="flex items-center justify-between gap-2">
-                              <div className="min-w-0">
-                                <h3 className="font-semibold leading-tight line-clamp-2">{g.title}</h3>
-                                <time
-                                  className="mt-1 block text-xs text-[hsl(var(--foreground)/0.65)]"
-                                  dateTime={new Date(g.createdAt).toISOString()}
-                                >
-                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
-                                </time>
-                              </div>
+                              <h3 className="min-w-0 font-semibold leading-tight line-clamp-2">{g.title}</h3>
                               <div className="flex items-center gap-1">
                                 <CheckCircle
                                   aria-label={g.done ? "Mark active" : "Mark done"}
                                   checked={g.done}
                                   onChange={() => toggleDone(g.id)}
                                   size="lg"
-                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+                                  className="focus-visible:ring-2 focus-visible:ring-accent"
                                 />
                                 <IconButton
                                   title="Delete"
                                   aria-label="Delete goal"
                                   onClick={() => removeGoal(g.id)}
                                   circleSize="sm"
-                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+                                  className="focus-visible:ring-2 focus-visible:ring-accent"
                                 >
                                   <Trash2 />
                                 </IconButton>
                               </div>
                             </header>
-                            <div className="mt-4 space-y-2 text-sm text-[hsl(var(--foreground)/0.65)]">
+                            <div className="mt-4 space-y-2 text-sm text-foreground/65">
                               {g.metric ? (
                                 <div className="tabular-nums">
                                   <span className="opacity-70">Metric:</span> {g.metric}
@@ -271,17 +263,27 @@ export default function GoalsPage() {
                               ) : null}
                               {g.notes ? <p className="leading-relaxed line-clamp-2">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-4 flex justify-end text-xs">
-                              <span className={g.done ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--foreground)/0.65)]"}>
+                            <footer className="mt-4 flex items-baseline justify-between text-xs text-foreground/65">
+                              <span
+                                className={cn(
+                                  "rounded-full border px-2 py-0.5",
+                                  g.done
+                                    ? "border-accent/40 text-accent"
+                                    : "border-border/40"
+                                )}
+                              >
                                 {g.done ? "Done" : "Active"}
                               </span>
+                              <time dateTime={new Date(g.createdAt).toISOString()}>
+                                {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                              </time>
                             </footer>
                           </article>
                         ))
                       )}
                     </div>
                   </section>
-                  <section className="md:sticky md:top-16" ref={formRef}>
+                  <section className="md:sticky md:top-4" ref={formRef}>
                     <GoalForm
                       title={title}
                       metric={metric}
@@ -302,7 +304,7 @@ export default function GoalsPage() {
               </div>
 
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
+                <div className="mx-auto w-fit rounded-full border border-border bg-card px-4 py-2 text-sm shadow-sm">
                   Deleted “{lastDeleted.title}”.{" "}
                   <button
                     type="button"

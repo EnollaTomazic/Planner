@@ -28,13 +28,14 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
             aria-selected={active}
             onClick={() => onChange(f)}
             className={cn(
-              "h-8 px-3 rounded-full text-sm flex items-center", // equal height
-              "focus:ring-2 focus:ring-purple-400/60", // focus ring
+              "relative inline-flex items-center gap-1 px-2 py-1 text-xs font-mono uppercase tracking-tight transition",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
               active
-                ? "bg-white/10 ring-1 ring-white/20"
-                : "hover:bg-white/5"
+                ? "after:absolute after:inset-x-0 after:-bottom-[2px] after:h-[2px] after:bg-accent"
+                : "hover:translate-x-1"
             )}
           >
+            <span aria-hidden>&gt;</span>
             {f}
           </button>
         );

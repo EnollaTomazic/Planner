@@ -25,22 +25,22 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   }
 
   return (
-    <div>
-      <h2 className="mb-4 text-lg font-semibold">Goal Queue</h2>
+    <div className="font-mono">
+      <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Goal Queue</h2>
       {items.length === 0 ? (
-        <div className="rounded-2xl border-2 border-dashed border-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] p-8 text-center text-sm text-[hsl(var(--foreground)/0.65)]">
+        <div className="scanlines rounded-2xl border-2 border-dashed border-border/30 bg-card/60 p-8 text-center text-sm text-foreground/65">
           No queued goals
         </div>
       ) : (
-        <ul>
+        <ul className="divide-y divide-border/15">
           {items.map((it) => (
             <li
               key={it.id}
-              className="flex items-center justify-between py-3 border-t border-[hsl(var(--border)/0.15)]"
+              className="flex h-12 items-center justify-between"
             >
               <div className="flex min-w-0 items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[hsl(var(--foreground)/0.65)]" aria-hidden />
-                <p className="truncate text-sm text-[hsl(var(--foreground)/0.85)]">{it.text}</p>
+                <span className="h-2 w-2 rounded-full bg-foreground/65" aria-hidden />
+                <p className="truncate text-sm text-foreground/85">{it.text}</p>
               </div>
               <div className="flex items-center gap-1">
                 <IconButton
@@ -48,7 +48,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                   aria-label="Drag"
                   circleSize="sm"
                   iconSize="sm"
-                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+                  className="focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   <GripVertical />
                 </IconButton>
@@ -58,7 +58,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                   onClick={() => onRemove(it.id)}
                   circleSize="sm"
                   iconSize="sm"
-                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+                  className="focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   <Trash2 />
                 </IconButton>
@@ -71,7 +71,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
       <form onSubmit={submit} className="mt-4">
         <Input
           tone="default"
-          className="h-12 rounded-2xl border border-[hsl(var(--border)/0.3)] bg-[hsl(var(--card)/0.6)] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/0.6)]"
+          className="h-12 rounded-2xl border border-border/30 bg-card/60 focus-visible:ring-2 focus-visible:ring-accent"
           value={val}
           onChange={(e) => setVal(e.currentTarget.value)}
           placeholder="Add to queue…"
