@@ -13,8 +13,8 @@
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
 
-    "baseUrl": ".",                         // 👈 add
-    "paths": { "@/*": ["src/*"] },          // 👈 add
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] },
 
     "types": ["styled-jsx", "node"],
     "plugins": [{ "name": "next" }],

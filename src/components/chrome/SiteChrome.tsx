@@ -19,7 +19,10 @@ export default function SiteChrome() {
         <div className="flex items-center gap-2">
           <span
             className="h-2 w-2 rounded-full animate-pulse"
-            style={{ background: "hsl(var(--accent))" }}
+            style={{
+              background: "var(--accent-overlay)",
+              boxShadow: "0 0 6px var(--glow-active)",
+            }}
             aria-hidden
           />
           <span className="font-mono tracking-wide text-[hsl(var(--muted-foreground))]">

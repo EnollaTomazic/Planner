@@ -7,7 +7,6 @@ export interface GlitchSegmentedGroupProps {
   value: string;
   onChange: (v: string) => void;
   ariaLabel?: string;
-  intensity?: "calm" | "default" | "feral";
   children: React.ReactNode;
   className?: string;
 }
@@ -18,7 +17,6 @@ export interface GlitchSegmentedButtonProps
   icon?: React.ReactNode;
   selected?: boolean;
   onSelect?: () => void;
-  intensity?: "calm" | "default" | "feral";
 }
 
 export const GlitchSegmentedGroup = ({
@@ -27,7 +25,6 @@ export const GlitchSegmentedGroup = ({
   ariaLabel,
   children,
   className,
-  intensity = "default",
 }: GlitchSegmentedGroupProps) => {
   const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const setBtnRef = (index: number) => (el: HTMLButtonElement | null) => {
@@ -67,10 +64,7 @@ export const GlitchSegmentedGroup = ({
     <div
       role="tablist"
       aria-label={ariaLabel}
-      className={cn(
-        "inline-flex rounded-full bg-[hsl(var(--surface-2))] p-0.5",
-        className
-      )}
+      className={cn("inline-flex rounded-full bg-[var(--btn-bg)] p-0.5 gap-0.5", className)}
       onKeyDown={onKeyDown}
     >
       {React.Children.map(children, (child, i) => {
@@ -83,13 +77,10 @@ export const GlitchSegmentedGroup = ({
             ref: setBtnRef(i),
             tabIndex: selected ? 0 : -1,
             selected,
-            intensity,
             onSelect: () => onChange(child.props.value),
             id: child.props.id ?? `${child.props.value}-tab`,
-            "aria-controls":
-              child.props["aria-controls"] ?? `${child.props.value}-panel`,
-          } as Partial<GlitchSegmentedButtonProps> &
-            React.RefAttributes<HTMLButtonElement>
+            "aria-controls": child.props["aria-controls"] ?? `${child.props.value}-panel`,
+          } as Partial<GlitchSegmentedButtonProps> & React.RefAttributes<HTMLButtonElement>
         );
       })}
     </div>
@@ -99,20 +90,7 @@ export const GlitchSegmentedGroup = ({
 export const GlitchSegmentedButton = React.forwardRef<
   HTMLButtonElement,
   GlitchSegmentedButtonProps
->(({ icon, children, className, selected, onSelect, intensity = "default", ...rest }, ref) => {
-  const [glitch, setGlitch] = React.useState(false);
-  const lastRef = React.useRef(0);
-  const trigger = () => {
-    const now = Date.now();
-    if (now - lastRef.current < 300) return;
-    lastRef.current = now;
-    setGlitch(true);
-    window.setTimeout(() => setGlitch(false), 160);
-  };
-  React.useEffect(() => {
-    if (selected) trigger();
-  }, [selected]);
-
+>(({ icon, children, className, selected, onSelect, ...rest }, ref) => {
   return (
     <button
       ref={ref}
@@ -120,106 +98,26 @@ export const GlitchSegmentedButton = React.forwardRef<
       role="tab"
       aria-selected={selected}
       data-selected={selected ? "true" : undefined}
-      data-glitch={glitch ? "true" : undefined}
-      data-intensity={intensity}
       onClick={onSelect}
-      onMouseEnter={trigger}
       className={cn(
-        "relative flex-1 h-9 select-none whitespace-nowrap px-3 inline-flex items-center justify-center gap-2 text-sm font-medium",
-        "rounded-none first:rounded-l-full last:rounded-r-full",
-        "bg-[hsl(var(--surface-2))] text-[hsl(var(--muted))] shadow-[inset_0_0_0_1px_color-mix(in_oklab,hsl(var(--ring))_16%,transparent)]",
-        "motion-safe:transition-[background-color,color,box-shadow,transform] motion-safe:ease-[cubic-bezier(.2,.8,.2,1)] motion-safe:duration-[160ms]",
-        "hover:-translate-y-px hover:shadow-[0_0_0_1px_hsl(var(--accent)/.25),0_0_8px_hsl(var(--accent)/.15)]",
-        "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_0_1px_hsl(var(--accent)),0_0_10px_hsl(var(--accent)/.6)]",
-        "data-[selected=true]:bg-[color-mix(in_oklab,hsl(var(--accent))_18%,hsl(var(--surface-2)))] data-[selected=true]:text-[hsl(var(--on-accent))] data-[selected=true]:shadow-[0_0_0_1px_hsl(var(--accent)),0_0_8px_hsl(var(--glow))]",
-        "disabled:opacity-40 disabled:shadow-none",
-        "data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[hsl(var(--ring))] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[color-mix(in_oklab,hsl(var(--accent))_18%,hsl(var(--surface-2)))]",
-        "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+        "glitch-scanlines flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none",
+        "rounded-full transition focus-visible:outline-none",
+        "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
+        "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
+        "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
+        "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
+        "data-[selected=true]:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
+        "disabled:opacity-50 disabled:pointer-events-none",
         className
       )}
       {...rest}
     >
       {icon ? (
-        <span className="inline-flex h-4 w-4 items-center justify-center">
-          {icon}
-        </span>
+        <span className="inline-flex h-4 w-4 items-center justify-center">{icon}</span>
       ) : null}
-      <span className="seg-label truncate">{children}</span>
-      <span aria-hidden className="glitch-scanline" />
-      <style jsx>{`
-        button[data-glitch="true"] .seg-label {
-          animation: seg-jitter 150ms steps(2, end);
-        }
-        button[data-glitch="true"] .seg-label::before,
-        button[data-glitch="true"] .seg-label::after {
-          opacity: 0.12;
-        }
-        .seg-label {
-          position: relative;
-        }
-        .seg-label::before,
-        .seg-label::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: hsl(var(--accent));
-          mix-blend-mode: screen;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 160ms;
-        }
-        button[data-glitch="true"] .seg-label::before {
-          transform: translate(calc(1px * var(--gi)), 0);
-        }
-        button[data-glitch="true"] .seg-label::after {
-          transform: translate(calc(-1px * var(--gi)), 0);
-        }
-        .glitch-scanline {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to right, transparent 0%, hsl(var(--accent)) 50%, transparent 100%);
-          opacity: 0;
-          transform: translateX(-100%);
-          pointer-events: none;
-        }
-        button[data-glitch="true"] .glitch-scanline {
-          opacity: 0.08;
-          animation: scanline 140ms linear;
-        }
-        button[data-intensity="calm"] {
-          --gi: 0.5;
-        }
-        button[data-intensity="default"] {
-          --gi: 1;
-        }
-        button[data-intensity="feral"] {
-          --gi: 1.5;
-        }
-        @keyframes seg-jitter {
-          0% { transform: translate(0,0); }
-          25% { transform: translate(calc(1px * var(--gi)), 0); }
-          50% { transform: translate(calc(-1px * var(--gi)), 0); }
-          75% { transform: translate(calc(1px * var(--gi)), 0); }
-          100% { transform: translate(0,0); }
-        }
-        @keyframes scanline {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(100%); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          button[data-glitch="true"] .seg-label {
-            animation: none;
-          }
-          .glitch-scanline {
-            animation: none;
-            transform: none;
-            opacity: 0;
-          }
-        }
-      `}</style>
+      <span className="truncate">{children}</span>
     </button>
   );
 });
-GlitchSegmentedButton.displayName = "GlitchSegmentedButton";
 
-export default GlitchSegmentedGroup;
+GlitchSegmentedButton.displayName = "GlitchSegmentedButton";

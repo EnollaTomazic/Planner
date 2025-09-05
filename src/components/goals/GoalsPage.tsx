@@ -19,14 +19,10 @@ import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-<<<<<<< HEAD
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
 } from "@/components/ui";
-=======
-import { SegmentedGroup, SegmentedButton } from "@/components/ui";
->>>>>>> origin/main
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalsProgress from "./GoalsProgress";
 import GoalForm from "./GoalForm";
@@ -184,12 +180,10 @@ export default function GoalsPage() {
         sticky
         barClassName="gap-2 items-baseline"
         right={
-<<<<<<< HEAD
           <GlitchSegmentedGroup
             value={tab}
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Goals header mode"
-            intensity="default"
           >
             {TABS.map((t) => (
               <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
@@ -197,20 +191,6 @@ export default function GoalsPage() {
               </GlitchSegmentedButton>
             ))}
           </GlitchSegmentedGroup>
-=======
-          <SegmentedGroup
-            value={tab}
-            onChange={(v) => setTab(v as Tab)}
-            ariaLabel="Goals header mode"
-            variant="glass"
-          >
-            {TABS.map((t) => (
-              <SegmentedButton key={t.key} value={t.key} icon={t.icon}>
-                {t.label}
-              </SegmentedButton>
-            ))}
-          </SegmentedGroup>
->>>>>>> origin/main
         }
       />
 
@@ -289,7 +269,8 @@ export default function GoalsPage() {
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "bg-[hsl(var(--accent))]" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
                                 />
                                 <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
                                   {new Date(g.createdAt).toLocaleDateString(LOCALE)}
