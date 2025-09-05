@@ -29,10 +29,10 @@ export type InputProps = Omit<
 };
 
 const BASE =
-  "block w-full rounded-xl border border-[hsl(var(--border))] " +
+  "block w-full rounded-xl border-none border border-[hsl(var(--border))] " +
   "bg-[hsl(var(--card))] text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
-  "disabled:opacity-50 disabled:cursor-not-allowed transition-colors border-none";
+  "disabled:opacity-50 disabled:cursor-not-allowed transition-colors";
 
 const SIZE: Record<InputSize, string> = {
   sm: "h-9 px-3 py-2 text-sm",
