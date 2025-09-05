@@ -116,7 +116,6 @@ export default function GoalsPage() {
     resetForm();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function toggleDone(id: string) {
     setErr(null);
     setGoals((prev) => {
@@ -145,6 +144,10 @@ export default function GoalsPage() {
     setLastDeleted(g);
     if (undoTimer.current) window.clearTimeout(undoTimer.current);
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
+  }
+
+  function editGoal(id: string, title: string) {
+    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, title } : g)));
   }
 
   // waitlist ops
@@ -211,7 +214,12 @@ export default function GoalsPage() {
                   <div className="grid gap-6">
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                       {Array.from({ length: 3 }).map((_, i) => (
-                        <GoalSlot key={i} idx={i} goal={filtered[i]} />
+                        <GoalSlot
+                          key={i}
+                          goal={filtered[i]}
+                          onToggleDone={toggleDone}
+                          onEdit={editGoal}
+                        />
                       ))}
                     </div>
                     <div className="grid gap-6 lg:grid-cols-2">
