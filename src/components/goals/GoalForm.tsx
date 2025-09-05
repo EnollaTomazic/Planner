@@ -37,7 +37,7 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <div className="scanlines rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft">
+      <div className="goal-card p-4 shadow-neoSoft">
         <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Add Goal</h2>
         <div className="grid gap-4">
           <label htmlFor="goal-title" className="grid gap-2">
