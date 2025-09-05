@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, Pencil } from "lucide-react";
+import { Check, Pencil, Trash2 } from "lucide-react";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
 
@@ -9,9 +9,10 @@ interface GoalSlotProps {
   goal?: Goal | null;
   onToggleDone?: (id: string) => void;
   onEdit?: (id: string, title: string) => void;
+  onDelete?: (id: string) => void;
 }
 
-export default function GoalSlot({ goal, onToggleDone, onEdit }: GoalSlotProps) {
+export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalSlotProps) {
   function handleEdit() {
     if (!goal || !onEdit) return;
     const t = window.prompt("Edit goal title", goal.title);
@@ -47,6 +48,14 @@ export default function GoalSlot({ goal, onToggleDone, onEdit }: GoalSlotProps) 
               onClick={handleEdit}
             >
               <Pencil className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="goal-tv__delete"
+              aria-label="Delete goal"
+              onClick={() => onDelete?.(goal.id)}
+            >
+              <Trash2 className="h-4 w-4" />
             </button>
           </>
         ) : (

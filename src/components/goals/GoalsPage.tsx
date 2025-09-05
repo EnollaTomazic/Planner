@@ -138,7 +138,6 @@ export default function GoalsPage() {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function removeGoal(id: string) {
     setErr(null);
     const g = goals.find((x) => x.id === id) || null;
@@ -221,6 +220,7 @@ export default function GoalsPage() {
                           goal={filtered[i]}
                           onToggleDone={toggleDone}
                           onEdit={editGoal}
+                          onDelete={removeGoal}
                         />
                       ))}
                     </div>

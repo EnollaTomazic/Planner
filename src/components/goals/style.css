@@ -181,7 +181,8 @@
   color: hsl(var(--muted-foreground));
 }
 .goal-tv__check,
-.goal-tv__edit {
+.goal-tv__edit,
+.goal-tv__delete {
   position: absolute;
   bottom: 0.25rem;
   padding: 0.15rem;
@@ -198,6 +199,12 @@
   opacity: 0;
   transition: opacity 0.2s;
 }
-.goal-tv:hover .goal-tv__edit {
+.goal-tv__delete {
+  left: 1.75rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.goal-tv:hover .goal-tv__edit,
+.goal-tv:hover .goal-tv__delete {
   opacity: 1;
 }
