@@ -184,37 +184,26 @@
 .goal-tv__edit,
 .goal-tv__delete {
   position: absolute;
-  bottom: 0.5rem;
+  bottom: 0.25rem;
+  padding: 0.15rem;
   border-radius: 4px;
   background: hsl(var(--surface));
   color: hsl(var(--foreground));
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
-
-.goal-tv__check,
-.goal-tv__edit {
-  padding: 0.5rem;
-}
-
 .goal-tv__check {
-  right: 0.5rem;
+  right: 0.25rem;
 }
-
 .goal-tv__edit {
-  left: 0.5rem;
+  left: 0.25rem;
   opacity: 0;
   transition: opacity 0.2s;
 }
-
 .goal-tv__delete {
-  left: 3rem;
-  padding: 0.15rem;
+  left: 1.75rem;
   opacity: 0;
   transition: opacity 0.2s;
 }
-
 .goal-tv:hover .goal-tv__edit,
 .goal-tv:hover .goal-tv__delete {
   opacity: 1;
