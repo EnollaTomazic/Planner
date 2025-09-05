@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { buttonSizes, type ButtonSize } from "./button";
+import { buttonSizes, type ButtonSize } from "./Button";
 
 type Icon = "xs" | "sm" | "md" | "lg";
 
