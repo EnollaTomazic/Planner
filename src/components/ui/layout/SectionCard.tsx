@@ -18,17 +18,10 @@ type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 function Root({ className, children, ...props }: RootProps) {
   return (
     <section
-      className={cn("relative rounded-2xl bg-[hsl(var(--panel)/0.9)]", className)}
+      className={cn("card-neo-soft", className)}
       style={{ boxShadow: neuRaised(14) }}
       {...props}
     >
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0))",
-        }}
-      />
       {children}
     </section>
   );
