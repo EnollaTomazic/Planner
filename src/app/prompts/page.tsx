@@ -21,6 +21,7 @@ import {
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
+import "@/styles/glitch.css";
 import { Plus, Sun } from "lucide-react";
 
 export default function Page() {
@@ -102,6 +103,10 @@ export default function Page() {
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Glitch Layer</span>
+          <div className="relative w-56 h-24 rounded-md border bg-card/60 scanlines noise jitter" />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Hero</span>
           <div className="w-56">
             <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
@@ -140,8 +145,8 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Badge</span>
           <div className="w-56 flex justify-center gap-2">
-            <Badge>Neutral</Badge>
-            <Badge tone="accent">Accent</Badge>
+            <Badge variant="neo" size="sm">9/10</Badge>
+            <Badge variant="tag" size="sm">W</Badge>
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
