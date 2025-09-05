@@ -127,7 +127,7 @@ export default function ReviewsPage({
                 type="button"
                 variant="primary"
                 size="md"
-                className="btn-like-segmented px-3.5 whitespace-nowrap"
+                className="px-3.5 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
