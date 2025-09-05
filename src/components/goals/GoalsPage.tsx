@@ -163,7 +163,7 @@ export default function GoalsPage() {
     setWaitlist((prev) => prev.filter((w) => w.id !== item.id));
   }
 
-  const heroSubtitle =
+  const summary =
     tab === "goals"
       ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
       : tab === "reminders"
@@ -171,14 +171,20 @@ export default function GoalsPage() {
       : "Pick a duration and focus.";
 
   return (
-    <main className="page-shell grid gap-6 py-6">
+    <main className="page-shell grid gap-4 py-6">
       {/* ======= HERO ======= */}
       <Hero
-        eyebrow="GOALS"
-        heading="Today"
-        subtitle={heroSubtitle}
+        eyebrow="Goals"
+        heading={
+          <>
+            <span className="sm:mr-2">Today</span>
+            <span className="block text-xs text-[hsl(var(--muted-foreground))] sm:inline">
+              {summary}
+            </span>
+          </>
+        }
         sticky
-        barClassName="gap-2 items-baseline"
+        barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
         right={
           <GlitchSegmentedGroup
             value={tab}
@@ -194,7 +200,7 @@ export default function GoalsPage() {
         }
       />
 
-      <section className="grid gap-6">
+      <section className="grid gap-4">
         <div
           role="tabpanel"
           id="goals-panel"
@@ -212,7 +218,7 @@ export default function GoalsPage() {
                   }
                 />
               ) : (
-                <SectionCard>
+                <SectionCard className="card-neo-soft">
                   <SectionCard.Header sticky className="flex items-center justify-between">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <h2 className="text-lg font-semibold">Your Goals</h2>

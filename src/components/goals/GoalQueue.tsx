@@ -28,15 +28,15 @@ export default function GoalQueue({ items, onAdd, onRemove, onPromote }: GoalQue
   }
 
   return (
-    <SectionCard>
+    <SectionCard className="card-neo-soft">
       <SectionCard.Header title={<h2 className="text-lg font-semibold">Goal Queue</h2>} />
       <SectionCard.Body className="grid gap-6">
-        <ul className="divide-y divide-white/7">
+        <ul className="divide-y divide-white/10">
           {items.length === 0 ? (
-            <li className="py-2 text-sm text-white/60">No queued goals</li>
+            <li className="py-3 text-sm text-white/60">No queued goals</li>
           ) : (
             items.map((it) => (
-              <li key={it.id} className="group flex items-center gap-2 py-2">
+              <li key={it.id} className="group flex items-center gap-2 py-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
                 <p className="flex-1 truncate text-sm">{it.text}</p>
                 <time
@@ -74,7 +74,7 @@ export default function GoalQueue({ items, onAdd, onRemove, onPromote }: GoalQue
           )}
         </ul>
 
-        <form onSubmit={submit} className="flex items-center gap-2 pt-2">
+        <form onSubmit={submit} className="flex items-center gap-2 pt-3">
           <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
           <Input
             tone="default"
