@@ -551,9 +551,9 @@ function RemTile({
             </div>
 
             <div className="flex gap-2">
-              <Button className="h-8" onClick={save}>Save</Button>
+              <Button size="sm" onClick={save}>Save</Button>
               <Button
-                className="h-8"
+                size="sm"
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);

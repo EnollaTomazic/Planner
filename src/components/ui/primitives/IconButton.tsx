@@ -2,26 +2,22 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { buttonSizes, type ButtonSize } from "./button";
 
-type Circle = "sm" | "md" | "lg";
 type Icon = "xs" | "sm" | "md" | "lg";
 
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  circleSize?: Circle;
+  size?: ButtonSize;
   iconSize?: Icon;
   tone?: Tone;
   active?: boolean;
   fx?: boolean;
   variant?: Variant;
-};
-
-const circleMap: Record<Circle, string> = {
-  sm: "h-9 w-9",
-  md: "h-10 w-10",
-  lg: "h-11 w-11",
+  /** @deprecated use size */
+  circleSize?: ButtonSize;
 };
 
 const iconMap: Record<Icon, string> = {
@@ -33,16 +29,14 @@ const iconMap: Record<Icon, string> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    {
-      circleSize = "md",
-      iconSize = "md",
-      className,
-      ...rest
-    },
+    { size = "md", circleSize, iconSize = size, className, ...rest },
     ref
   ) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tone: _tone, active: _active, fx: _fx, variant: _variant, ...props } = rest;
+    const finalSize = circleSize ?? size;
+    const h = buttonSizes[finalSize].height;
+    const sizeClass = `${h} ${h.replace("h-", "w-")}`;
     return (
       <button
         ref={ref}
@@ -56,7 +50,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
           "[&>svg]:transition",
           "disabled:opacity-50 disabled:pointer-events-none",
-          circleMap[circleSize],
+          sizeClass,
           iconMap[iconSize],
           className
         )}
