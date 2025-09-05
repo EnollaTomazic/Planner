@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { neuInset } from "./neu";
 
 /** Small helper to generate a stable name from aria-label if missing. */
 function slug(s?: string) {
@@ -29,8 +30,8 @@ export type InputProps = Omit<
 };
 
 const BASE =
-  "block w-full max-w-[343px] rounded-xl border border-[hsl(var(--border))] " +
-  "bg-[hsl(var(--card))] text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
+  "block w-full max-w-[343px] rounded-2xl bg-[hsl(var(--panel)/0.9)] " +
+  "text-[hsl(var(--text))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
   "disabled:opacity-50 disabled:cursor-not-allowed transition-colors";
 
@@ -49,6 +50,7 @@ const SIZE: Record<InputSize, string> = {
 export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,
+    style,
     id,
     name,
     "aria-label": ariaLabel,
@@ -79,6 +81,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         indent && "pl-10",
         className
       )}
+      style={{ boxShadow: neuInset(10), ...style }}
       {...props}
     />
   );
