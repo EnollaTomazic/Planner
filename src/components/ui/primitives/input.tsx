@@ -20,7 +20,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const BASE =
-  "block w-full max-w-[343px] h-[52px] px-4 py-3 text-base rounded-2xl " +
+  "block w-full max-w-[343px] h-[52px] px-4 py-3 text-base rounded-xl " +
   "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
@@ -29,7 +29,7 @@ const BASE =
 
 /**
  * Input — Lavender-Glitch styled input
- * - Defaults to pill-shaped (`tone="pill"`)
+ * - Defaults to `tone="default"` (16px corners)
  * - Accepts className overrides and passes all standard <input> props
  * - Auto-generates stable `id` and `name` if not provided
  */
