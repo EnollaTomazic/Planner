@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Check, Pencil, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
 
@@ -23,7 +24,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
   }
 
   return (
-    <div className="goal-tv group shadow-neoSoft">
+    <div className={cn("goal-tv group shadow-neoSoft", goal?.done && "goal-tv--done")}>
       <div className="goal-tv__screen">
         {goal ? (
           <>
@@ -36,7 +37,8 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             <button
               type="button"
               className="goal-tv__check"
-              aria-label="Mark goal done"
+              aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
+              aria-pressed={goal.done}
               onClick={() => onToggleDone?.(goal.id)}
             >
               <Check className="h-4 w-4" />
