@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+"use client";
+
 import {
   Button,
   SectionCard,
@@ -21,8 +22,6 @@ import {
   AnimatedSelect,
 } from "@/components/ui";
 import { Plus, Sun } from "lucide-react";
-
-export const metadata: Metadata = { title: "Prompts · 13 League Review" };
 
 export default function Page() {
   const tabs = [
