@@ -38,7 +38,7 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <SectionCard>
+      <SectionCard className="card-neo-soft">
         <SectionCard.Header
           className="flex items-center justify-between"
           title={<h2 className="text-lg font-semibold">Add Goal</h2>}
