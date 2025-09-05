@@ -244,7 +244,6 @@ export default function RemindersTab() {
             value={query}
             onValueChange={setQuery}
             placeholder="Search title, text, tags…"
-            size="md"
             debounceMs={80}
             right={
               <div className="flex items-center gap-2">

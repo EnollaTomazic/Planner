@@ -43,7 +43,6 @@ export default function CheatSheetTabs() {
           value: query,
           onValueChange: setQuery,
           placeholder: "Search…",
-          size: "md",
           round: true,
         }}
       />
