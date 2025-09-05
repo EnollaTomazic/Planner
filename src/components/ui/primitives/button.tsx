@@ -63,7 +63,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 "linear-gradient(90deg, hsl(275 95% 72% /.18), hsl(195 95% 68% /.18))",
             }}
           />
-          <span className="relative z-10 font-semibold">{children as React.ReactNode}</span>
+          <span className="relative z-10 font-semibold inline-flex items-center gap-2">
+            {children as React.ReactNode}
+          </span>
         </motion.button>
       );
     }
