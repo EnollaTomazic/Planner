@@ -38,7 +38,7 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="glitch-terminal">
         <SectionCard.Header
           className="flex items-center justify-between"
           title={<h2 className="text-lg font-semibold">Add Goal</h2>}
@@ -53,7 +53,7 @@ export default function GoalForm({
             <span className="text-xs text-white/60">Title</span>
             <Input
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="glitch-terminal__input h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -64,7 +64,7 @@ export default function GoalForm({
             <span className="text-xs text-white/60">Metric (optional)</span>
             <Input
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
+              className="glitch-terminal__input h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
             />
@@ -74,13 +74,13 @@ export default function GoalForm({
             <span className="text-xs text-white/60">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="glitch-terminal__input min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
             />
           </label>
 
-          <div className="text-xs text-white/60">
+          <div className="glitch-terminal__output text-xs text-white/60">
             {activeCount >= activeCap ? (
               <span className="text-[hsl(var(--accent))]">
                 Cap reached. Finish one to add more.
@@ -94,7 +94,7 @@ export default function GoalForm({
           </div>
 
           {err ? (
-            <p role="status" aria-live="polite" className="text-xs text-[hsl(var(--accent))]">
+            <p role="status" aria-live="polite" className="glitch-terminal__output text-xs text-[hsl(var(--accent))]">
               {err}
             </p>
           ) : null}

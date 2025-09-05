@@ -164,7 +164,7 @@ export default function Reminders() {
 
   return (
     <div className="grid gap-4">
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="glitch-terminal">
         <SectionCard.Header sticky>
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
@@ -221,7 +221,7 @@ export default function Reminders() {
               value={quickAdd}
               onChange={(e) => setQuickAdd(e.currentTarget.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
-              className="h-10 flex-1"
+              className="glitch-terminal__input h-10 flex-1"
             />
             <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
               <Plus />
@@ -232,7 +232,7 @@ export default function Reminders() {
           </div>
 
           {/* Cards grid */}
-          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-2">
+          <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
             {filtered.map((r) => (
               <ReminderCard
                 key={r.id}
@@ -244,7 +244,7 @@ export default function Reminders() {
             ))}
 
             {filtered.length === 0 && (
-              <p className="text-sm text-[hsl(var(--muted-foreground))]">
+              <p className="glitch-terminal__output text-sm text-[hsl(var(--muted-foreground))]">
                 Nothing here. Add one or relax your filters.
               </p>
             )}
@@ -286,7 +286,7 @@ function ReminderCard({
   }
 
   return (
-    <article className="card-neo rounded-card p-4 sm:p-5 relative">
+    <article className="glitch-terminal__command p-4 sm:p-5 relative">
       {value.pinned && (
         <span aria-hidden className="absolute inset-y-3 left-0 w-[2px] rounded-full bg-[hsl(var(--primary)/.55)]" />
       )}
@@ -302,7 +302,7 @@ function ReminderCard({
               if (e.key === "Escape") cancel();
             }}
             aria-label="Title"
-            className="font-semibold"
+            className="glitch-terminal__input font-semibold"
           />
         ) : (
           <h3
@@ -354,13 +354,14 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              className="min-h-[88px]"
+              className="glitch-terminal__input min-h-[88px]"
             />
             <Input
               aria-label="Tags (comma separated)"
               placeholder="tags, comma, separated"
               value={tagsText}
               onChange={(e) => setTagsText(e.currentTarget.value)}
+              className="glitch-terminal__input"
             />
             <div className="select-neo-wrap">
               <select

@@ -28,15 +28,15 @@ export default function GoalQueue({ items, onAdd, onRemove, onPromote }: GoalQue
   }
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard className="glitch-terminal">
       <SectionCard.Header title={<h2 className="text-lg font-semibold">Goal Queue</h2>} />
       <SectionCard.Body className="grid gap-6">
         <ul className="divide-y divide-white/10">
           {items.length === 0 ? (
-            <li className="py-3 text-sm text-white/60">No queued goals</li>
+            <li className="glitch-terminal__output py-3 text-sm text-white/60">No queued goals</li>
           ) : (
             items.map((it) => (
-              <li key={it.id} className="group flex items-center gap-2 py-3">
+              <li key={it.id} className="glitch-terminal__command group flex items-center gap-2 py-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
                 <p className="flex-1 truncate text-sm">{it.text}</p>
                 <time
@@ -78,7 +78,7 @@ export default function GoalQueue({ items, onAdd, onRemove, onPromote }: GoalQue
           <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
           <Input
             tone="default"
-            className="flex-1 h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
+            className="glitch-terminal__input flex-1 h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
             value={val}
             onChange={(e) => setVal(e.currentTarget.value)}
             placeholder="Add to queue and press Enter"
