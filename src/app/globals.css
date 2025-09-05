@@ -923,7 +923,10 @@ html.bg-intense body::after {
   border-radius: 9999px;
   background: hsl(var(--foreground) / 0.08);
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.06);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--foreground) / 0.06),
+    inset 2px 2px 4px hsl(var(--shadow-color) / 0.45),
+    inset -2px -2px 4px hsl(var(--foreground) / 0.06);
 }
 .glitch-fill {
   height: 100%;
@@ -933,6 +936,7 @@ html.bg-intense body::after {
   background-size: 200% 100%;
   transition: width 0.35s cubic-bezier(0.22, 0.99, 0.28, 0.99);
   animation: glitchSheen 3s linear infinite;
+  box-shadow: 0 0 8px hsl(var(--accent) / 0.5);
 }
 .glitch-scan {
   position: absolute;
