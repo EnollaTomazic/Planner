@@ -3,27 +3,38 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+export const buttonSizes = {
+  sm: {
+    height: "h-8",
+    padding: "px-3",
+    text: "text-xs",
+    gap: "gap-1.5",
+  },
+  md: {
+    height: "h-10",
+    padding: "px-4",
+    text: "text-sm",
+    gap: "gap-2",
+  },
+  lg: {
+    height: "h-12",
+    padding: "px-6",
+    text: "text-base",
+    gap: "gap-2.5",
+  },
+} as const;
+
+export type ButtonSize = keyof typeof buttonSizes;
+
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "ghost" | "destructive";
-  size?: "sm" | "md" | "lg";
+  size?: ButtonSize;
   vibe?: "glitch" | "lift" | "none";
   loading?: boolean;
   block?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   pill?: boolean;
-};
-
-const sizeMap: Record<NonNullable<ButtonProps["size"]>, string> = {
-  sm: "h-9 px-3 text-sm",
-  md: "h-10 px-4 text-sm",
-  lg: "h-11 px-5 text-base",
-};
-
-const gapMap: Record<NonNullable<ButtonProps["size"]>, string> = {
-  sm: "gap-1.5",
-  md: "gap-2",
-  lg: "gap-2.5",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -47,6 +58,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { variant: _variant, vibe: _vibe, ...props } = rest;
     const isDisabled = disabled || loading;
     const rounded = pill ? "rounded-full" : "rounded-md";
+    const s = buttonSizes[size];
 
     return (
       <button
@@ -62,8 +74,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
           "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
           "disabled:opacity-50 disabled:pointer-events-none",
-          sizeMap[size],
-          gapMap[size],
+          s.height,
+          s.padding,
+          s.text,
+          s.gap,
           rounded,
           block && "w-full",
           className
