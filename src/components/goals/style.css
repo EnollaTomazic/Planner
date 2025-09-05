@@ -154,3 +154,50 @@
   );
   mix-blend-mode: overlay;
 }
+
+/* Simple pixelated TV slot */
+.goal-tv {
+  position: relative;
+  border: 4px solid hsl(var(--border));
+  border-radius: 8px;
+  background: hsl(var(--surface));
+  padding: 0.25rem;
+}
+.goal-tv__screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: hsl(var(--surface-2));
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875rem;
+  text-align: center;
+  color: hsl(var(--foreground));
+}
+.goal-tv__empty {
+  color: hsl(var(--muted-foreground));
+}
+.goal-tv__check,
+.goal-tv__edit {
+  position: absolute;
+  bottom: 0.25rem;
+  padding: 0.15rem;
+  border-radius: 4px;
+  background: hsl(var(--surface));
+  color: hsl(var(--foreground));
+  display: flex;
+}
+.goal-tv__check {
+  right: 0.25rem;
+}
+.goal-tv__edit {
+  left: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.goal-tv:hover .goal-tv__edit {
+  opacity: 1;
+}
