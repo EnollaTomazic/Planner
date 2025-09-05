@@ -27,8 +27,9 @@ html.no-animations *::after {
 
 /* Global focus & selection styling */
 *:focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 2px solid hsl(var(--ring-contrast));
   outline-offset: 2px;
+  box-shadow: 0 0 6px hsl(var(--glow) / 0.6);
 }
 
 ::selection {

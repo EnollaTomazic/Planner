@@ -11,6 +11,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import Input from "@/components/ui/primitives/input";
+import OutlineGlowDemo from "@/components/prompts/OutlineGlowDemo";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 
@@ -100,6 +101,7 @@ export default function PromptsPage() {
       </SectionCard.Header>
 
       <SectionCard.Body>
+        <OutlineGlowDemo />
         {/* Compose panel */}
         <div className="space-y-2.5">
           <Input
