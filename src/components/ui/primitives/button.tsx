@@ -35,7 +35,7 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, size = "md", variant = "secondary", children, ...rest }, ref) => {
+  ({ className, size = "sm", variant = "secondary", children, ...rest }, ref) => {
     const s = buttonSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-2xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)]",
