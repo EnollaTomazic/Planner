@@ -41,7 +41,9 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
   function submitEdit() {
     if (!goal || !onEdit) return;
     const clean = title.trim();
-    if (clean) onEdit(goal.id, clean);
+    if (clean && clean !== goal.title) {
+      onEdit(goal.id, clean);
+    }
     setEditing(false);
     editBtnRef.current?.focus();
   }
