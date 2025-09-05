@@ -37,14 +37,14 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <div className="scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft">
+      <div className="scanlines rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft">
         <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Add Goal</h2>
         <div className="grid gap-4">
           <label htmlFor="goal-title" className="grid gap-2">
             <span className="text-xs text-[hsl(var(--fg-muted))]">Title</span>
             <Input
               id="goal-title"
-              className="h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              className="h-12 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -56,7 +56,7 @@ export default function GoalForm({
             <span className="text-xs text-[hsl(var(--fg-muted))]">Metric (optional)</span>
             <Input
               id="goal-metric"
-              className="h-10 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] tabular-nums focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              className="h-10 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] tabular-nums focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
@@ -67,41 +67,40 @@ export default function GoalForm({
             <span className="text-xs text-[hsl(var(--fg-muted))]">Notes (optional)</span>
             <Textarea
               id="goal-notes"
-              className="min-h-24 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              className="min-h-24 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
           </label>
-
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              size="lg"
-              pill={false}
-              className="h-12 rounded-xl"
-              disabled={!title.trim()}
-              aria-label="Add Goal"
-            >
-              Add Goal
-            </Button>
-          </div>
+        </div>
+        <div className="mt-6 flex items-center justify-between">
           <p id="goal-form-help" className="glitch-text text-xs text-[hsl(var(--fg-muted))]">
             {activeCount >= activeCap
               ? "Cap reached. Finish one to add more."
               : `${activeCap - activeCount} active slot${activeCap - activeCount === 1 ? "" : "s"} left`}
           </p>
-          {err ? (
-            <p
-              id="goal-form-error"
-              role="status"
-              aria-live="polite"
-              className="glitch-text text-xs text-[hsl(var(--accent))]"
-            >
-              {err}
-            </p>
-          ) : null}
+          <Button
+            type="submit"
+            size="lg"
+            pill={false}
+            className="h-12 rounded-2xl"
+            disabled={!title.trim()}
+            aria-label="Add Goal"
+          >
+            Add Goal
+          </Button>
         </div>
+        {err ? (
+          <p
+            id="goal-form-error"
+            role="status"
+            aria-live="polite"
+            className="glitch-text mt-2 text-xs text-[hsl(var(--accent))]"
+          >
+            {err}
+          </p>
+        ) : null}
       </div>
     </form>
   );

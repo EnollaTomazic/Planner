@@ -25,10 +25,19 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   }
 
   return (
-    <div className="font-mono">
-      <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Goal Queue</h2>
+    <div className="scanlines rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft font-mono">
+      <header className="mb-4 flex items-center justify-between text-xs text-[hsl(var(--fg-muted))]">
+        <span>project file detected</span>
+        <button
+          type="button"
+          className="rounded-2xl px-3 py-1 hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--ring))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+          aria-label="Filter queue"
+        >
+          Filters
+        </button>
+      </header>
       {items.length === 0 ? (
-        <div className="scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-8 text-center text-sm text-[hsl(var(--fg-muted))]">
+        <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface))] p-8 text-center text-sm text-[hsl(var(--fg-muted))]">
           No queued goals
         </div>
       ) : (
@@ -48,7 +57,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                   aria-label="Drag"
                   circleSize="sm"
                   iconSize="sm"
-                  className="rounded-xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+                  className="rounded-2xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
                 >
                   <GripVertical />
                 </IconButton>
@@ -58,7 +67,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                   onClick={() => onRemove(it.id)}
                   circleSize="sm"
                   iconSize="sm"
-                  className="rounded-xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+                  className="rounded-2xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
                 >
                   <Trash2 />
                 </IconButton>
@@ -70,7 +79,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
 
       <form onSubmit={submit} className="mt-6">
         <Input
-          className="h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] placeholder:text-[hsl(var(--fg-muted))]"
+          className="h-12 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] placeholder:text-[hsl(var(--fg-muted))]"
           value={val}
           onChange={(e) => setVal(e.currentTarget.value)}
           placeholder="Add to queue…"

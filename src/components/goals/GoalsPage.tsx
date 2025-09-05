@@ -13,23 +13,20 @@
 import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
-import IconButton from "@/components/ui/primitives/IconButton";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
-import GoalsProgress from "./GoalsProgress";
 import GoalForm from "./GoalForm";
 import GoalQueue, { WaitItem } from "./GoalQueue";
+import GoalSlot from "./GoalSlot";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal } from "@/lib/types";
-import { LOCALE, cn } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -119,6 +116,7 @@ export default function GoalsPage() {
     resetForm();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function toggleDone(id: string) {
     setErr(null);
     setGoals((prev) => {
@@ -139,6 +137,7 @@ export default function GoalsPage() {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function removeGoal(id: string) {
     setErr(null);
     const g = goals.find((x) => x.id === id) || null;
@@ -205,109 +204,39 @@ export default function GoalsPage() {
           {tab === "goals" && (
             <>
               <div className="mx-auto my-6 max-w-screen-2xl px-4">
-                {totalCount === 0 ? (
-                  <GoalsProgress
-                    total={totalCount}
-                    pct={pctDone}
-                    onAddFirst={() =>
-                      formRef.current?.scrollIntoView({ behavior: "smooth" })
-                    }
-                  />
-                ) : null}
-                <div className="grid gap-6 md:grid-cols-2">
-                  <section className="order-2 md:order-1">
-                    <div className="mb-6 flex items-center justify-between">
-                      <div className="flex items-center gap-2 sm:gap-3">
-                        <h2 className="text-lg font-semibold uppercase tracking-tight">Your Goals</h2>
-                        <GoalsProgress total={totalCount} pct={pctDone} />
-                      </div>
-                      <GoalsTabs value={filter} onChange={setFilter} />
+                <div className="grid gap-6 md:grid-cols-[120px_1fr]">
+                  <aside>
+                    <GoalsTabs value={filter} onChange={setFilter} />
+                  </aside>
+                  <div className="grid gap-6">
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <GoalSlot key={i} idx={i} goal={filtered[i]} />
+                      ))}
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {filtered.length === 0 ? (
-                        <div className="scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-6 text-center text-sm text-[hsl(var(--fg-muted))]">
-                          No goals here. Add one simple, finishable thing.
-                        </div>
-                      ) : (
-                        filtered.map((g) => (
-                          <article
-                            key={g.id}
-                            className="group scanlines rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-4 shadow-neoSoft transition hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--ring))] focus-within:ring-2 focus-within:ring-[hsl(var(--accent))]"
-                          >
-                            <header className="flex items-center justify-between gap-2">
-                              <h3 className="min-w-0 font-semibold leading-tight line-clamp-2">{g.title}</h3>
-                              <div className="flex items-center gap-1">
-                                <CheckCircle
-                                  aria-label={g.done ? "Mark active" : "Mark done"}
-                                  checked={g.done}
-                                  onChange={() => toggleDone(g.id)}
-                                  size="lg"
-                                  className="focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
-                                />
-                                <IconButton
-                                  title="Delete"
-                                  aria-label="Delete goal"
-                                  onClick={() => removeGoal(g.id)}
-                                  circleSize="sm"
-                                  className="rounded-xl focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
-                                >
-                                  <Trash2 />
-                                </IconButton>
-                              </div>
-                            </header>
-                            <div className="mt-4 space-y-2 text-sm text-[hsl(var(--fg-muted))]">
-                              {g.metric ? (
-                                <div className="tabular-nums">
-                                  <span className="text-[hsl(var(--fg)/0.7)]">Metric:</span> {g.metric}
-                                </div>
-                              ) : null}
-                              {g.notes ? <p className="leading-relaxed line-clamp-2">{g.notes}</p> : null}
-                            </div>
-                            <footer className="mt-4 flex items-center justify-between text-xs text-[hsl(var(--fg-muted))]">
-                              <div className="flex items-center gap-1">
-                                <time dateTime={new Date(g.createdAt).toISOString()}>
-                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
-                                </time>
-                                <span className="h-1 w-1 rounded-full bg-[hsl(var(--fg)/0.65)]" aria-hidden />
-                              </div>
-                              <span
-                                className={cn(
-                                  "rounded-xl border px-2 py-0.5",
-                                  g.done
-                                    ? "border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent))]"
-                                    : "border-[hsl(var(--border)/0.4)] text-[hsl(var(--fg))]",
-                                )}
-                              >
-                                {g.done ? "Done" : "Active"}
-                              </span>
-                            </footer>
-                          </article>
-                        ))
-                      )}
+                    <div className="grid gap-6 lg:grid-cols-2">
+                      <section ref={formRef}>
+                        <GoalForm
+                          title={title}
+                          metric={metric}
+                          notes={notes}
+                          onTitleChange={setTitle}
+                          onMetricChange={setMetric}
+                          onNotesChange={setNotes}
+                          onSubmit={addGoal}
+                          activeCount={activeCount}
+                          activeCap={ACTIVE_CAP}
+                          err={err}
+                        />
+                      </section>
+                      <GoalQueue items={waitlist} onAdd={addWait} onRemove={removeWait} />
                     </div>
-                  </section>
-                  <section className="order-1 md:order-2 md:sticky md:top-4" ref={formRef}>
-                    <GoalForm
-                      title={title}
-                      metric={metric}
-                      notes={notes}
-                      onTitleChange={setTitle}
-                      onMetricChange={setMetric}
-                      onNotesChange={setNotes}
-                      onSubmit={addGoal}
-                      activeCount={activeCount}
-                      activeCap={ACTIVE_CAP}
-                      err={err}
-                    />
-                  </section>
-                  <section className="order-3 md:col-span-2">
-                    <GoalQueue items={waitlist} onAdd={addWait} onRemove={removeWait} />
-                  </section>
+                  </div>
                 </div>
               </div>
 
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
+                <div className="mx-auto w-fit rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
                   Deleted “{lastDeleted.title}”.{" "}
                   <button
                     type="button"
