@@ -108,7 +108,6 @@ export default function GoalForm({
           <Button
             type="submit"
             size="lg"
-            pill={false}
             className="h-12 rounded-2xl"
             disabled={!title.trim()}
             aria-label="Add Goal"

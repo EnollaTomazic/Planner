@@ -197,19 +197,14 @@ export default function WeekPicker() {
       <Button
         variant="ghost"
         size="sm"
-        vibe="lift"
-        pill
         aria-label="Previous week"
-        leftIcon={<ChevronLeft className="btn-icon" />}
         onClick={prevWeek}
       >
-        Prev
+        <ChevronLeft className="size-4" />
+        <span>Prev</span>
       </Button>
       <Button
-        variant="secondary"
         size="sm"
-        vibe="glitch"
-        pill
         aria-label="Jump to today"
         onClick={jumpToday}
       >
@@ -218,27 +213,23 @@ export default function WeekPicker() {
       <Button
         variant="ghost"
         size="sm"
-        vibe="lift"
-        pill
         aria-label="Next week"
-        rightIcon={<ChevronRight className="btn-icon" />}
         onClick={nextWeek}
       >
-        Next
+        <span>Next</span>
+        <ChevronRight className="size-4" />
       </Button>
 
       {showTop && (
         <Button
-          variant="destructive"
+          variant="primary"
           size="sm"
-          vibe="lift"
-          pill
           aria-label="Jump to top"
-          leftIcon={<ArrowUpToLine className="btn-icon" />}
           onClick={jumpToTop}
           title="Jump to top"
         >
-          Top
+          <ArrowUpToLine className="size-4" />
+          <span>Top</span>
         </Button>
       )}
     </div>

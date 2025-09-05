@@ -15,7 +15,7 @@ export default function GoalsProgress({ total, pct, onAddFirst }: GoalsProgressP
       <div className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-6 text-center">
         <p className="mb-4 text-sm text-[hsl(var(--fg-muted))]">No goals yet.</p>
         {onAddFirst && (
-          <Button onClick={onAddFirst} size="sm" pill={false} className="mx-auto rounded-xl">
+          <Button onClick={onAddFirst} size="sm" className="mx-auto rounded-xl">
             Add a first goal
           </Button>
         )}
