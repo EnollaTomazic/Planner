@@ -24,19 +24,31 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
   }
 
   return (
-    <div className={cn("goal-tv group shadow-neoSoft", goal?.done && "goal-tv--done")}>
-      <div className="goal-tv__screen">
+    <div
+      className={
+        "group relative rounded-lg border-4 border-[hsl(var(--border))] bg-[hsl(var(--surface))] p-1 shadow-neoSoft"
+      }
+    >
+      <div
+        className={cn(
+          "relative flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-[hsl(var(--surface-2))] font-mono text-center text-sm text-[hsl(var(--foreground))]",
+          goal?.done && "bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]",
+        )}
+      >
         {goal ? (
           <>
             <div className="flex flex-col items-center">
-              <span className="block">{goal.title}</span>
+              <span className={cn("block", goal?.done && "line-through")}>{goal.title}</span>
               {goal.pillar && (
                 <PillarBadge pillar={goal.pillar} size="sm" className="mt-1" as="span" />
               )}
             </div>
             <button
               type="button"
-              className="goal-tv__check"
+              className={cn(
+                "absolute bottom-1 right-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))]",
+                goal?.done && "text-[hsl(var(--success))]",
+              )}
               aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
               aria-pressed={goal.done}
               onClick={() => onToggleDone?.(goal.id)}
@@ -45,7 +57,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </button>
             <button
               type="button"
-              className="goal-tv__edit"
+              className="absolute bottom-1 left-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
               aria-label="Edit goal"
               onClick={handleEdit}
             >
@@ -53,7 +65,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </button>
             <button
               type="button"
-              className="goal-tv__delete"
+              className="absolute bottom-1 left-7 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
               aria-label="Delete goal"
               onClick={() => onDelete?.(goal.id)}
             >
@@ -61,7 +73,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </button>
           </>
         ) : (
-          <span className="goal-tv__empty">NO SIGNAL</span>
+          <span className="text-[hsl(var(--muted-foreground))]">NO SIGNAL</span>
         )}
       </div>
     </div>
