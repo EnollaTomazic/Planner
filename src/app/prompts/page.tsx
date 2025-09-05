@@ -7,7 +7,20 @@ import {
   ThemeToggle,
   Progress,
   Hero,
+  IconButton,
+  Input,
+  Textarea,
+  Badge,
+  Pill,
+  SearchBar,
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+  CheckCircle,
+  NeonIcon,
+  Toggle,
+  AnimatedSelect,
 } from "@/components/ui";
+import { Plus, Sun } from "lucide-react";
 
 export const metadata: Metadata = { title: "Prompts · 13 League Review" };
 
@@ -18,14 +31,29 @@ export default function Page() {
     { key: "three", label: "Three" },
   ];
 
+  const selectItems = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "cherry", label: "Cherry" },
+  ];
+
   return (
     <main className="p-6 bg-background text-foreground">
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Button</span>
+          <span className="text-sm font-medium">Button Variants</span>
           <div className="w-56 flex justify-center gap-2">
-            <Button>Default</Button>
+            <Button>Secondary</Button>
             <Button variant="primary">Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Button Sizes</span>
+          <div className="w-56 flex justify-center gap-2">
+            <Button size="sm">SM</Button>
+            <Button size="md">MD</Button>
+            <Button size="lg">LG</Button>
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
@@ -84,6 +112,86 @@ export default function Page() {
           <span className="text-sm font-medium">Card Neo</span>
           <div className="card-neo w-56 h-40 flex items-center justify-center">
             Card Neo
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Icon Button</span>
+          <div className="w-56 flex justify-center gap-2">
+            <IconButton>
+              <Plus />
+            </IconButton>
+            <IconButton size="lg">
+              <Sun />
+            </IconButton>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Input</span>
+          <div className="w-56 space-y-2">
+            <Input placeholder="Small" />
+            <Input size="md" placeholder="Medium" />
+            <Input size="lg" placeholder="Large" />
+            <Input tone="pill" placeholder="Pill" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Textarea</span>
+          <Textarea placeholder="Textarea" className="w-56" />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Badge</span>
+          <div className="w-56 flex justify-center gap-2">
+            <Badge>Neutral</Badge>
+            <Badge tone="accent">Accent</Badge>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Pill</span>
+          <div className="w-56 flex justify-center">
+            <Pill>Default</Pill>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Search Bar</span>
+          <div className="w-56">
+            <SearchBar value="" onValueChange={() => {}} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Segmented</span>
+          <GlitchSegmentedGroup
+            value="a"
+            onChange={() => {}}
+            className="w-56"
+          >
+            <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
+          </GlitchSegmentedGroup>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Check Circle</span>
+          <div className="w-56 flex justify-center gap-2">
+            <CheckCircle checked={false} onChange={() => {}} />
+            <CheckCircle checked onChange={() => {}} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Neon Icon</span>
+          <NeonIcon icon={Sun} on />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Toggle</span>
+          <Toggle value="Left" onChange={() => {}} />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Select</span>
+          <div className="w-56">
+            <AnimatedSelect
+              items={selectItems}
+              value="apple"
+              onChange={() => {}}
+            />
           </div>
         </div>
       </div>
