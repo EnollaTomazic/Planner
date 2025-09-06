@@ -204,7 +204,7 @@ export default function TimerTab() {
                       onChange={(e) => setTimeEdit(e.currentTarget.value)}
                       onBlur={commitEdit}
                       onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus:outline-none text-6xl sm:text-7xl font-bold tabular-nums"
+                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-6xl sm:text-7xl font-bold tabular-nums"
                     />
                   </div>
                 )}

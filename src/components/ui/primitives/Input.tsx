@@ -71,7 +71,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         name={finalName}
         size={typeof size === "number" ? size : undefined}
         className={cn(
-          "w-full bg-transparent px-3.5 pr-10 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none border-none",
+          "w-full bg-transparent px-3.5 pr-10 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
           typeof size === "string" ? SIZE[size] : SIZE.sm,
           indent && "pl-10",
           inputClassName

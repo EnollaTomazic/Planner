@@ -210,7 +210,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
-      className="w-full bg-transparent border-none outline-none text-lg sm:text-xl font-semibold glitch-title title-glow"
+      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-lg sm:text-xl font-semibold glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -232,7 +232,7 @@ function ParagraphEdit({
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       rows={2}
-      className="mt-1 w-full resize-y bg-transparent border-none outline-none text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
+      className="mt-1 w-full resize-y bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
       aria-label="Description"
     />
   );
@@ -386,7 +386,7 @@ function ChampPillsEdit({
                 removeAt(i);
               }
             }}
-            className="bg-transparent outline-none border-none w-24"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
       ))}

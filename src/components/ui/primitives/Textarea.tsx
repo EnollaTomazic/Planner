@@ -16,7 +16,7 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
 const INNER =
   "block w-full max-w-[343px] min-h-[160px] px-4 py-3 text-base bg-transparent " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
-  "outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] resize-y disabled:opacity-50 disabled:cursor-not-allowed";
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   {

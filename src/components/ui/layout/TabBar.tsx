@@ -153,10 +153,10 @@ export default function TabBar({
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
                   "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-200",
-                  "bg-transparent border-0 outline-none",
+                  "bg-transparent border-0",
                   s.h, s.px, s.text, size === "lg" ? "font-medium" : "font-normal",
                   "text-white/70 hover:text-white/70 data-[active=true]:text-white/70",
-                  "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className
                 )}

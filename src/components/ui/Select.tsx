@@ -55,7 +55,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           aria-invalid={errorText ? "true" : props["aria-invalid"]}
           aria-describedby={describedBy}
           className={cn(
-            "flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none appearance-none disabled:cursor-not-allowed",
+            "flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
             selectClassName
           )}
           {...props}
