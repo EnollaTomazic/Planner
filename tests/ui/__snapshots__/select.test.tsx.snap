@@ -1,0 +1,176 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Select > renders default state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-center rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter"
+  >
+    <select
+      aria-label="test"
+      class="flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none appearance-none disabled:cursor-not-allowed"
+      id=":r0:"
+      name="test"
+    >
+      <option
+        value=""
+      >
+        Choose…
+      </option>
+      <option
+        value="a"
+      >
+        A
+      </option>
+    </select>
+    <svg
+      class="lucide lucide-chevron-down pointer-events-none absolute right-3.5 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`Select > renders disabled state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-center rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter opacity-60 cursor-not-allowed focus-within:ring-0 focus-within:shadow-none"
+  >
+    <select
+      aria-label="test"
+      class="flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none appearance-none disabled:cursor-not-allowed"
+      disabled=""
+      id=":r3:"
+      name="test"
+    >
+      <option
+        value=""
+      >
+        Choose…
+      </option>
+    </select>
+    <svg
+      class="lucide lucide-chevron-down pointer-events-none absolute right-3.5 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`Select > renders error state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-center rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter border-[hsl(var(--destructive)/0.55)] focus-within:ring-[hsl(var(--destructive)/0.35)]"
+  >
+    <select
+      aria-describedby=":r2:-error"
+      aria-invalid="true"
+      aria-label="test"
+      class="flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none appearance-none disabled:cursor-not-allowed"
+      id=":r2:"
+      name="test"
+    >
+      <option
+        value=""
+      >
+        Choose…
+      </option>
+    </select>
+    <svg
+      class="lucide lucide-chevron-down pointer-events-none absolute right-3.5 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </div>
+  <p
+    class="text-xs mt-1 line-clamp-2 text-[hsl(var(--destructive))]"
+    id=":r2:-error"
+  >
+    Error
+  </p>
+</div>
+`;
+
+exports[`Select > renders focus state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-center rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter"
+  >
+    <select
+      aria-label="test"
+      class="flex-1 h-11 px-3.5 pr-9 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none appearance-none disabled:cursor-not-allowed"
+      id=":r1:"
+      name="test"
+    >
+      <option
+        value=""
+      >
+        Choose…
+      </option>
+      <option
+        value="a"
+      >
+        A
+      </option>
+    </select>
+    <svg
+      class="lucide lucide-chevron-down pointer-events-none absolute right-3.5 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </div>
+</div>
+`;

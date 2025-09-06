@@ -2,6 +2,7 @@
 import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
+import "../styles/glitch.css";
 
 
 import type { Metadata } from "next";

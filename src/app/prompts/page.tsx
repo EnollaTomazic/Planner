@@ -11,6 +11,8 @@ import {
   IconButton,
   Input,
   Textarea,
+  Select,
+  Label,
   Badge,
   Pill,
   SearchBar,
@@ -134,6 +136,13 @@ export default function Page() {
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Labeled Input</span>
+          <div className="w-56 space-y-1">
+            <Label htmlFor="demo-labeled">Username</Label>
+            <Input id="demo-labeled" placeholder="With label" helperText="Helper text" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Textarea</span>
           <Textarea placeholder="Textarea" className="w-56" />
         </div>
@@ -185,6 +194,19 @@ export default function Page() {
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Select</span>
+          <div className="w-56">
+            <Select id="demo-select" defaultValue="">
+              <option value="" disabled>
+                Choose…
+              </option>
+              <option value="apple">Apple</option>
+              <option value="banana">Banana</option>
+              <option value="cherry">Cherry</option>
+            </Select>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Animated Select</span>
           <div className="w-56">
             <AnimatedSelect
               items={selectItems}
