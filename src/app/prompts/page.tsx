@@ -3,23 +3,32 @@
 import * as React from "react";
 import {
   Button,
-  Card,
   IconButton,
   Input,
   Textarea,
   Badge,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
-  CheckCircle,
-  NeonIcon,
   TabBar,
+  Progress,
+  ThemeToggle,
+  SectionCard,
+  TitleBar,
+  Hero,
+  SearchBar,
 } from "@/components/ui";
-import { Search as SearchIcon, Star } from "lucide-react";
+import { Plus, Sun } from "lucide-react";
 
 export default function Page() {
-  const tabs = [
+  const viewTabs = [
     { key: "components", label: "Components" },
     { key: "colors", label: "Colors" },
+  ];
+
+  const demoTabs = [
+    { key: "one", label: "One" },
+    { key: "two", label: "Two" },
+    { key: "three", label: "Three" },
   ];
 
   const colorList = [
@@ -39,143 +48,147 @@ export default function Page() {
     "glow-soft",
   ];
 
+  const [view, setView] = React.useState("components");
+
   return (
     <main className="p-6 bg-background text-foreground">
-      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Button Variants</span>
-          <div className="w-56 flex justify-center gap-2">
-            <Button>Secondary</Button>
-            <Button variant="primary">Primary</Button>
-            <Button variant="ghost">Ghost</Button>
+      <div className="mb-8">
+        <TabBar items={viewTabs} value={view} onValueChange={setView} />
+      </div>
+      {view === "components" ? (
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Button Variants</span>
+            <div className="w-56 flex justify-center gap-2">
+              <Button>Secondary</Button>
+              <Button variant="primary">Primary</Button>
+              <Button variant="ghost">Ghost</Button>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Button Sizes</span>
-          <div className="w-56 flex justify-center gap-2">
-            <Button size="sm">SM</Button>
-            <Button size="md">MD</Button>
-            <Button size="lg">LG</Button>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Button Sizes</span>
+            <div className="w-56 flex justify-center gap-2">
+              <Button size="sm">SM</Button>
+              <Button size="md">MD</Button>
+              <Button size="lg">LG</Button>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Card</span>
-          <SectionCard className="w-56 h-40 flex items-center justify-center">
-            Card content
-          </SectionCard>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Navbar</span>
-          <div className="w-56">
-            <TitleBar label="Navigation" />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Card</span>
+            <SectionCard className="w-56 h-40 flex items-center justify-center">
+              Card content
+            </SectionCard>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Tabs</span>
-          <TabBar items={tabs} className="w-56" />
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Progress</span>
-          <div className="w-56">
-            <Progress value={50} />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Navbar</span>
+            <div className="w-56">
+              <TitleBar label="Navigation" />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Theme</span>
-          <div className="w-56 flex justify-center">
-            <ThemeToggle />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Tabs</span>
+            <TabBar items={demoTabs} className="w-56" />
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Title Ghost</span>
-          <h2 className="title-ghost">Ghost Title</h2>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Title Glow</span>
-          <h2 className="title-glow">Glowing Title</h2>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Glitch Text</span>
-          <div className="glitch text-lg font-semibold">Glitch</div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Glitch Background</span>
-          <div className="glitch-root bg-glitch-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
-            Backdrop
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Progress</span>
+            <div className="w-56">
+              <Progress value={50} />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Hero</span>
-          <div className="w-56">
-            <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Theme</span>
+            <div className="w-56 flex justify-center">
+              <ThemeToggle />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Card Neo</span>
-          <div className="card-neo w-56 h-40 flex items-center justify-center">
-            Card Neo
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Title Ghost</span>
+            <h2 className="title-ghost">Ghost Title</h2>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Icon Button</span>
-          <div className="w-56 flex justify-center gap-2">
-            <IconButton>
-              <Plus />
-            </IconButton>
-            <IconButton size="lg">
-              <Sun />
-            </IconButton>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Title Glow</span>
+            <h2 className="title-glow">Glowing Title</h2>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Input</span>
-          <div className="w-56 space-y-2">
-            <Input placeholder="Small" />
-            <Input size="md" placeholder="Medium" />
-            <Input size="lg" placeholder="Large" />
-            <Input tone="pill" placeholder="Pill" />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Glitch Text</span>
+            <div className="glitch text-lg font-semibold">Glitch</div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Textarea</span>
-          <Textarea placeholder="Textarea" className="w-56" />
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Badge</span>
-          <div className="w-56 flex justify-center gap-2">
-            <Badge>Neutral</Badge>
-            <Badge tone="accent">Accent</Badge>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Glitch Background</span>
+            <div className="glitch-root bg-glitch-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
+              Backdrop
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Pill</span>
-          <div className="w-56 flex justify-center">
-            <Pill>Default</Pill>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Hero</span>
+            <div className="w-56">
+              <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Search Bar</span>
-          <div className="w-56">
-            <SearchBar value="" onValueChange={() => {}} />
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Card Neo</span>
+            <div className="card-neo w-56 h-40 flex items-center justify-center">
+              Card Neo
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Segmented</span>
-          <GlitchSegmentedGroup
-            value="a"
-            onChange={() => {}}
-            className="w-56"
-          >
-            <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
-            <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
-            <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
-          </GlitchSegmentedGroup>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Icon Button</span>
+            <div className="w-56 flex justify-center gap-2">
+              <IconButton>
+                <Plus />
+              </IconButton>
+              <IconButton size="lg">
+                <Sun />
+              </IconButton>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Input</span>
+            <div className="w-56 space-y-2">
+              <Input placeholder="Small" />
+              <Input size="md" placeholder="Medium" />
+              <Input size="lg" placeholder="Large" />
+              <Input tone="pill" placeholder="Pill" />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Textarea</span>
+            <Textarea placeholder="Textarea" className="w-56" />
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Badge</span>
+            <div className="w-56 flex justify-center gap-2">
+              <Badge>Neutral</Badge>
+              <Badge tone="accent">Accent</Badge>
+              <Badge variant="pill">Pill</Badge>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Search Bar</span>
+            <div className="w-56">
+              <SearchBar value="" onValueChange={() => {}} />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Segmented</span>
+            <GlitchSegmentedGroup
+              value="a"
+              onChange={() => {}}
+              className="w-56"
+            >
+              <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
+              <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
+              <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
+            </GlitchSegmentedGroup>
+          </div>
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {colorList.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-purple-300">{c}</span>
+              <span className="text-xs uppercase tracking-wide text-purple-300">
+                {c}
+              </span>
               <div
                 className="w-24 h-16 rounded-md border"
                 style={{ backgroundColor: `hsl(var(--${c}))` }}
@@ -187,3 +200,4 @@ export default function Page() {
     </main>
   );
 }
+
