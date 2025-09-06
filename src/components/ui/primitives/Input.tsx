@@ -17,6 +17,8 @@ export type InputProps = Omit<
   size?: InputSize | number;
   /** When true, increases left padding for icons */
   indent?: boolean;
+  /** Optional className for the inner <input> element */
+  inputClassName?: string;
 };
 
 const SIZE: Record<InputSize, string> = {
@@ -34,6 +36,7 @@ const SIZE: Record<InputSize, string> = {
 export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,
+    inputClassName,
     style,
     id,
     name,
@@ -70,7 +73,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         className={cn(
           "w-full bg-transparent px-3.5 pr-10 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] outline-none border-none",
           typeof size === "string" ? SIZE[size] : SIZE.sm,
-          indent && "pl-10"
+          indent && "pl-10",
+          inputClassName
         )}
         {...props}
       />

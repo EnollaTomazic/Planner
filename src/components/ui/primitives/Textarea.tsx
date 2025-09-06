@@ -8,7 +8,9 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
   /** Rounded look without needing a global .planner-textarea class. */
   tone?: "default" | "pill";
   /** Optional className for the outer wrapper */
-  wrapperClassName?: string;
+  className?: string;
+  /** Optional className for the inner <textarea> element */
+  textareaClassName?: string;
 };
 
 const INNER =
@@ -19,7 +21,7 @@ const INNER =
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   {
     className,
-    wrapperClassName,
+    textareaClassName,
     id,
     name,
     "aria-label": ariaLabel,
@@ -42,13 +44,13 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
       tone={tone}
       error={error}
       disabled={props.disabled}
-      className={wrapperClassName}
+      className={className}
     >
       <textarea
         ref={ref}
         id={finalId}
         name={finalName}
-        className={cn(INNER, tone === "pill" && "rounded-full min-h-[120px]", className)}
+        className={cn(INNER, tone === "pill" && "rounded-full min-h-[120px]", textareaClassName)}
         {...props}
       />
     </FieldShell>
