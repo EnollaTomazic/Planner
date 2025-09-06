@@ -11,7 +11,7 @@ import { Tv } from "lucide-react";
 export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
-  onSelect: (id: string) => void;
+  onSelect?: (id: string) => void;
   className?: string;
 };
 
@@ -59,7 +59,7 @@ export default function ReviewList({
             key={r.id}
             review={r}
             selected={r.id === selectedId}
-            onClick={() => onSelect(r.id)}
+            onClick={onSelect ? () => onSelect(r.id) : undefined}
           />
         ))}
       </div>

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export interface GlitchSegmentedGroupProps {
   value: string;
-  onChange: (v: string) => void;
+  onChange?: (v: string) => void;
   ariaLabel?: string;
   children: React.ReactNode;
   className?: string;
@@ -21,7 +21,7 @@ export interface GlitchSegmentedButtonProps
 
 export const GlitchSegmentedGroup = ({
   value,
-  onChange,
+  onChange = () => {},
   ariaLabel,
   children,
   className,

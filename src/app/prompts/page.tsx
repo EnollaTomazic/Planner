@@ -17,7 +17,6 @@ import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   CheckCircle,
-  NeonIcon,
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
@@ -184,16 +183,12 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Search Bar</span>
           <div className="w-56">
-            <SearchBar value="" onValueChange={() => {}} />
+            <SearchBar value="" />
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Segmented</span>
-          <GlitchSegmentedGroup
-            value="a"
-            onChange={() => {}}
-            className="w-56"
-          >
+          <GlitchSegmentedGroup value="a" className="w-56">
             <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
             <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
             <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
@@ -202,36 +197,24 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Check Circle</span>
           <div className="w-56 flex justify-center gap-2">
-            <CheckCircle checked={false} onChange={() => {}} />
-            <CheckCircle checked onChange={() => {}} />
+            <CheckCircle checked={false} />
+            <CheckCircle checked />
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Neon Icon</span>
-          <NeonIcon icon={Sun} on />
-        </div>
-        <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Toggle</span>
-          <Toggle value="Left" onChange={() => {}} />
+          <Toggle value="Left" />
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Select</span>
           <div className="w-56">
-            <AnimatedSelect
-              items={selectItems}
-              value="apple"
-              onChange={() => {}}
-            />
+            <AnimatedSelect items={selectItems} value="apple" />
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Review List</span>
           <div className="w-72">
-            <ReviewList
-              reviews={sampleReviews}
-              selectedId={null}
-              onSelect={() => {}}
-            />
+            <ReviewList reviews={sampleReviews} selectedId={null} />
           </div>
         </div>
       </div>
