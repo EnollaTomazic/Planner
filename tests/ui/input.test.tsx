@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import Input from '../../src/components/ui/Input';
+import { Input } from '@/components/ui';
 
 afterEach(cleanup);
 
@@ -18,7 +18,7 @@ describe('Input', () => {
   });
 
   it('renders error state', () => {
-    const { container } = render(<Input aria-label="test" errorText="Error" />);
+    const { container } = render(<Input aria-label="test" aria-invalid="true" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
