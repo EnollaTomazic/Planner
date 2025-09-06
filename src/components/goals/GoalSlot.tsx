@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Check, Pencil, Trash2 } from "lucide-react";
+import { Check, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
+import Input from "@/components/ui/primitives/input";
 
 interface GoalSlotProps {
   goal?: Goal | null;
@@ -14,13 +15,35 @@ interface GoalSlotProps {
 }
 
 export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalSlotProps) {
-  function handleEdit() {
-    if (!goal || !onEdit) return;
-    const t = window.prompt("Edit goal title", goal.title);
-    if (t !== null) {
-      const clean = t.trim();
-      if (clean) onEdit(goal.id, clean);
+  const [editing, setEditing] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const editBtnRef = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    if (editing) {
+      setTitle(goal?.title ?? "");
+      inputRef.current?.focus();
     }
+  }, [editing, goal?.title]);
+
+  function startEdit() {
+    if (!goal) return;
+    setEditing(true);
+  }
+
+  function cancelEdit() {
+    setEditing(false);
+    setTitle(goal?.title ?? "");
+    editBtnRef.current?.focus();
+  }
+
+  function submitEdit() {
+    if (!goal || !onEdit) return;
+    const clean = title.trim();
+    if (clean) onEdit(goal.id, clean);
+    setEditing(false);
+    editBtnRef.current?.focus();
   }
 
   return (
@@ -38,17 +61,14 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
         {goal ? (
           <>
             <div className="flex flex-col items-center">
-              <span className={cn("block", goal?.done && "line-through")}>{goal.title}</span>
+              <span className="block">{goal.title}</span>
               {goal.pillar && (
                 <PillarBadge pillar={goal.pillar} size="sm" className="mt-1" as="span" />
               )}
             </div>
             <button
               type="button"
-              className={cn(
-                "absolute bottom-1 right-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))]",
-                goal?.done && "text-[hsl(var(--success))]",
-              )}
+              className="goal-tv__check"
               aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
               aria-pressed={goal.done}
               onClick={() => onToggleDone?.(goal.id)}
@@ -57,7 +77,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </button>
             <button
               type="button"
-              className="absolute bottom-1 left-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
+              className="goal-tv__edit"
               aria-label="Edit goal"
               onClick={handleEdit}
             >
@@ -65,7 +85,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </button>
             <button
               type="button"
-              className="absolute bottom-1 left-7 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
+              className="goal-tv__delete"
               aria-label="Delete goal"
               onClick={() => onDelete?.(goal.id)}
             >
