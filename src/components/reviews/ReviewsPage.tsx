@@ -127,16 +127,15 @@ export default function ReviewsPage({
                 type="button"
                 variant="primary"
                 size="md"
-                pill
-                leftIcon={<Plus />}
-                className="btn-like-segmented px-3.5 whitespace-nowrap"
+                className="px-3.5 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
                   onCreate();
                 }}
               >
-                New Review
+                <Plus className="size-4" />
+                <span>New Review</span>
               </Button>
             </div>
           </>

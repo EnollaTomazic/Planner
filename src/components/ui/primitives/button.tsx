@@ -1,87 +1,115 @@
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { neuRaised, neuInset } from "./neu";
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "ghost" | "destructive";
-  size?: "sm" | "md" | "lg";
-  vibe?: "glitch" | "lift" | "none";
-  loading?: boolean;
-  block?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  pill?: boolean;
-};
+export const buttonSizes = {
+  sm: {
+    height: "h-9",
+    padding: "px-3",
+    text: "text-[12px]",
+    gap: "gap-2",
+  },
+  md: {
+    height: "h-12",
+    padding: "px-4",
+    text: "text-[14px]",
+    gap: "gap-2",
+  },
+  lg: {
+    height: "h-14",
+    padding: "px-6",
+    text: "text-[16px]",
+    gap: "gap-2",
+  },
+} as const;
 
-const sizeMap: Record<NonNullable<ButtonProps["size"]>, string> = {
-  sm: "h-9 px-3 text-sm",
-  md: "h-10 px-4 text-sm",
-  lg: "h-11 px-5 text-base",
-};
+export type ButtonSize = keyof typeof buttonSizes;
 
-const gapMap: Record<NonNullable<ButtonProps["size"]>, string> = {
-  sm: "gap-1.5",
-  md: "gap-2",
-  lg: "gap-2.5",
+export type ButtonProps = React.ComponentProps<typeof motion.button> & {
+  size?: ButtonSize;
+  variant?: "primary" | "secondary" | "ghost";
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      size = "md",
-      loading = false,
-      block = false,
-      disabled,
-      children,
-      type = "button",
-      leftIcon,
-      rightIcon,
-      pill = true,
-      ...rest
-    },
-    ref
-  ) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { variant: _variant, vibe: _vibe, ...props } = rest;
-    const isDisabled = disabled || loading;
-    const rounded = pill ? "rounded-full" : "rounded-md";
+  ({ className, size = "sm", variant = "secondary", children, ...rest }, ref) => {
+    const s = buttonSizes[size];
+    const base = cn(
+      "relative inline-flex items-center justify-center rounded-2xl border border-[hsl(var(--line)/0.35)] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)]",
+      s.height,
+      s.padding,
+      s.text,
+      s.gap,
+      "text-[hsl(var(--text))]",
+      className
+    );
+
+    if (variant === "primary") {
+      return (
+        <motion.button
+          ref={ref}
+          className={cn(
+            base,
+            "bg-[hsl(var(--panel)/0.85)] overflow-hidden"
+          )}
+          style={{ boxShadow: neuRaised(12) }}
+          whileHover={{
+            scale: 1.03,
+            boxShadow: `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
+          }}
+          whileTap={{
+            scale: 0.96,
+            boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+          }}
+          {...rest}
+        >
+          <span
+            className="absolute inset-0 pointer-events-none rounded-2xl"
+            style={{
+              background:
+                "linear-gradient(90deg, hsl(var(--accent)/.18), hsl(var(--accent-2)/.18))",
+            }}
+          />
+          <span className="relative z-10 inline-flex items-center gap-2">
+            {children as React.ReactNode}
+          </span>
+        </motion.button>
+      );
+    }
+
+    if (variant === "ghost") {
+      return (
+        <motion.button
+          ref={ref}
+          className={cn(
+            base,
+            "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]"
+          )}
+          whileTap={{ scale: 0.97 }}
+          {...rest}
+        >
+          {children}
+        </motion.button>
+      );
+    }
 
     return (
-      <button
+      <motion.button
         ref={ref}
-        type={type}
-        disabled={isDisabled}
-        aria-busy={loading || undefined}
-        className={cn(
-          "glitch-scanlines inline-flex items-center justify-center select-none font-medium transition",
-          "focus-visible:outline-none",
-          "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-          "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-          "disabled:opacity-50 disabled:pointer-events-none",
-          sizeMap[size],
-          gapMap[size],
-          rounded,
-          block && "w-full",
-          className
-        )}
-        {...props}
+        className={cn(base, "bg-[hsl(var(--panel)/0.8)]")}
+        style={{ boxShadow: neuRaised(12) }}
+        whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
+        whileTap={{
+          scale: 0.97,
+          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+        }}
+        {...rest}
       >
-        {leftIcon ? (
-          <span className="inline-grid place-items-center btn-icon">
-            {leftIcon}
-          </span>
-        ) : null}
-        <span className="leading-none">{children}</span>
-        {rightIcon ? (
-          <span className="inline-grid place-items-center btn-icon">
-            {rightIcon}
-          </span>
-        ) : null}
-      </button>
+        {children}
+      </motion.button>
     );
   }
 );

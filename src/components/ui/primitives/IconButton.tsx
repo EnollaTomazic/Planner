@@ -2,26 +2,22 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import type { ButtonSize } from "./button";
 
-type Circle = "sm" | "md" | "lg";
 type Icon = "xs" | "sm" | "md" | "lg";
 
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  circleSize?: Circle;
+  size?: ButtonSize;
   iconSize?: Icon;
   tone?: Tone;
   active?: boolean;
   fx?: boolean;
   variant?: Variant;
-};
-
-const circleMap: Record<Circle, string> = {
-  sm: "h-9 w-9",
-  md: "h-10 w-10",
-  lg: "h-11 w-11",
+  /** @deprecated use size */
+  circleSize?: ButtonSize;
 };
 
 const iconMap: Record<Icon, string> = {
@@ -31,32 +27,28 @@ const iconMap: Record<Icon, string> = {
   lg: "[&>svg]:h-6 [&>svg]:w-6",
 };
 
+const sizeMap: Record<ButtonSize, string> = {
+  sm: "h-9 w-9",
+  md: "h-[52px] w-[52px]",
+  lg: "h-14 w-14",
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    {
-      circleSize = "md",
-      iconSize = "md",
-      className,
-      ...rest
-    },
+    { size = "md", circleSize, iconSize = size, className, ...rest },
     ref
   ) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tone: _tone, active: _active, fx: _fx, variant: _variant, ...props } = rest;
+    const finalSize = circleSize ?? size;
+    const sizeClass = sizeMap[finalSize];
     return (
       <button
         ref={ref}
         type="button"
         className={cn(
-          "glitch-scanlines inline-flex items-center justify-center select-none rounded-full transition",
-          "focus-visible:outline-none",
-          "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-          "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-          "[&>svg]:transition",
-          "disabled:opacity-50 disabled:pointer-events-none",
-          circleMap[circleSize],
+          "inline-flex items-center justify-center select-none rounded-full border border-[hsl(var(--line)/0.35)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)] bg-transparent hover:bg-[hsl(var(--panel)/0.45)] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+          sizeClass,
           iconMap[iconSize],
           className
         )}

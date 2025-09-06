@@ -161,7 +161,7 @@ export default function TimerTab() {
   ) : null;
 
   return (
-    <SectionCard className="card-neo-soft no-hover">
+    <SectionCard className="goal-card no-hover">
       <SectionCard.Header sticky>
         <TabBar
           items={tabItems}
@@ -177,7 +177,7 @@ export default function TimerTab() {
 
       <SectionCard.Body>
         {/* Stage row with side buttons and centered digits */}
-        <div className="relative rounded-2xl card-neo-soft p-5 sm:p-6 overflow-hidden">
+        <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
@@ -289,13 +289,13 @@ export default function TimerTab() {
       {/* Local styles for neon pills, glitch loader, and complete state */}
       <style jsx>{`
         /* Disable card hover bloom */
-        .no-hover.card-neo-soft:hover {
+        .no-hover.goal-card:hover {
           box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
             inset 0 1px 0 hsl(var(--foreground) / 0.05),
             0 30px 60px hsl(250 30% 2% / 0.35);
         }
-        .no-hover.card-neo-soft:hover::before { opacity: 0.45; }
-        .no-hover.card-neo-soft:hover::after { opacity: 0; }
+        .no-hover.goal-card:hover::before { opacity: 0.45; }
+        .no-hover.goal-card:hover::after { opacity: 0; }
 
         /* Emphasize active tab text glow (works with TabBar) */
         [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }

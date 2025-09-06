@@ -244,7 +244,6 @@ export default function RemindersTab() {
             value={query}
             onValueChange={setQuery}
             placeholder="Search title, text, tags…"
-            size="md"
             debounceMs={80}
             right={
               <div className="flex items-center gap-2">
@@ -256,9 +255,9 @@ export default function RemindersTab() {
         }
       />
 
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="goal-card">
         <SectionCard.Body>
-          <div className="grid gap-4">
+          <div className="grid gap-2.5">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
               onSubmit={(e) => {
@@ -272,7 +271,7 @@ export default function RemindersTab() {
                 placeholder={`Quick add to ${GROUPS.find((g) => g.key === group)?.label ?? "Group"}…`}
                 value={quickAdd}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuickAdd(e.currentTarget.value)}
-                className="h-10 flex-1"
+                className="flex-1"
               />
               <IconButton title="Add quick" aria-label="Add quick" type="submit" circleSize="md" variant="solid">
                 <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
@@ -385,7 +384,7 @@ export default function RemindersTab() {
 
 function EmptyState() {
   return (
-    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
+    <div className="goal-card rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );
@@ -492,7 +491,7 @@ function RemTile({
       </div>
 
       {/* Body + meta */}
-      <div className="mt-2 space-y-3">
+      <div className="mt-2 space-y-2.5">
         {editing ? (
           <>
             <label className="text-xs opacity-70">Note</label>
@@ -552,9 +551,11 @@ function RemTile({
             </div>
 
             <div className="flex gap-2">
-              <Button className="h-8" onClick={save}>Save</Button>
+              <Button size="sm" onClick={save}>
+                Save
+              </Button>
               <Button
-                className="h-8"
+                size="sm"
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);

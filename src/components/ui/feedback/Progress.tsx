@@ -1,20 +1,30 @@
 // src/components/ui/Progress.tsx
 "use client";
 
+import { neuInset, neuRaised } from "../primitives/neu";
+
 /** Simple progress bar (0..100), with SR label */
 export default function Progress({ value, label }: { value: number; label?: string }) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
   return (
-    <div className="h-2 w-full rounded-full bg-muted" aria-label={label}>
+    <div
+      className="h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]"
+      aria-label={label}
+    >
       <div
-        className="h-2 rounded-full bg-[hsl(var(--primary))] transition-[width]"
-        style={{ width: `${v}%` }}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={v}
-        role="progressbar"
+        className="h-full w-full overflow-hidden rounded-full bg-[hsl(var(--panel)/0.9)]"
+        style={{ boxShadow: neuInset(6) }}
       >
-        <span className="sr-only">{v}%</span>
+        <span
+          className="block h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] transition-[width]"
+          style={{ width: `${v}%`, boxShadow: neuRaised(4) }}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={v}
+          role="progressbar"
+        >
+          <span className="sr-only">{v}%</span>
+        </span>
       </div>
     </div>
   );

@@ -36,7 +36,7 @@
   --wl-ink: hsl(var(--foreground));
   --wl-accent: hsl(var(--primary));
   background:
-    linear-gradient(to bottom, transparent 0, rgba(255,255,255,.02) 2px, transparent 2px) top/100% 24px,
+    linear-gradient(to bottom, transparent 0, hsl(var(--foreground)/0.02) 2px, transparent 2px) top/100% 24px,
     var(--wl-bg);
   border: 1px solid var(--wl-hair);
   border-radius: 14px;
@@ -81,7 +81,7 @@
   gap: .5rem;
   padding: .6rem .9rem;
   border-top: 1px solid color-mix(in oklab, var(--wl-hair), transparent 30%);
-  background: linear-gradient(to right, rgba(255,255,255,.02), transparent);
+  background: linear-gradient(to right, hsl(var(--foreground)/0.02), transparent);
 }
 
 .waitlist-terminal__caret {
@@ -93,3 +93,65 @@
 }
 
 @keyframes wl-blink { 50% { opacity: 0; } }
+
+/* Scanline overlay for cards */
+.scanlines {
+  position: relative;
+}
+.scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.06) 0 1px,
+      transparent 1px 3px
+    );
+  mix-blend-mode: overlay;
+}
+
+/* Subtle glitch text utility */
+.glitch-text {
+  animation: glitch-text 2.8s steps(2, end) infinite;
+}
+@keyframes glitch-text {
+  0%, 100% {
+    text-shadow: 0.5px 0 hsl(var(--accent)), -0.5px 0 hsl(var(--accent-2));
+  }
+  50% {
+    text-shadow: -0.5px 0 hsl(var(--accent)), 0.5px 0 hsl(var(--accent-2));
+  }
+}
+
+/* Retro-inspired section card */
+.goal-card {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid hsl(var(--border));
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface-2)),
+    hsl(var(--surface))
+  );
+  box-shadow:
+    0 0 0 1px hsl(var(--border)) inset,
+    0 0 30px hsl(var(--accent) / 0.15);
+  overflow: hidden;
+}
+.goal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--foreground) / 0.06) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+

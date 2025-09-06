@@ -114,7 +114,7 @@ export default function DayCard({ iso, isToday }: Props) {
         onSubmit={e => { e.preventDefault(); addProjectCommit(); }}
       >
         <Input
-          className="task-input w-full"
+          className="w-full"
           placeholder="> new project…"
           value={draftProject}
           onChange={e => setDraftProject(e.target.value)}
@@ -166,7 +166,6 @@ export default function DayCard({ iso, isToday }: Props) {
 
                       {isEditing ? (
                         <Input
-                          className="h-8 text-sm"
                           autoFocus
                           value={editingProjectName}
                           onChange={e => setEditingProjectName(e.target.value)}
@@ -216,7 +215,7 @@ export default function DayCard({ iso, isToday }: Props) {
       <div className="flex flex-col gap-3 min-w-0">
         {selectedProjectId && (
           <Input
-            className="task-input w-full"
+            className="w-full"
             placeholder="> add task…"
             value={draftTask}
             onChange={e => setDraftTask(e.target.value)}
@@ -297,7 +296,6 @@ function TaskRow({
             </button>
           ) : (
             <Input
-              className="planner-input"
               name={`dc-rename-task-${task.id}`}
               ref={inputRef}
               value={text}

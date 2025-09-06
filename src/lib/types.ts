@@ -45,7 +45,7 @@ export type Review = {
 export type Goal = {
   id: string;
   title: string;
-  pillar: Pillar | "";
+  pillar?: Pillar;
   metric?: string;
   notes?: string;
   done: boolean;
