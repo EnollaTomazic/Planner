@@ -74,6 +74,10 @@ export default function ComponentGallery() {
 
   return (
     <main className="p-6 bg-background text-foreground">
+      <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+        Focus styles now use <code>focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]</code>
+        for accessible highlights.
+      </p>
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         <Item label="Button">
           <Button className="w-56">Click me</Button>

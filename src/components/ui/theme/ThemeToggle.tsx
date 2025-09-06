@@ -82,8 +82,8 @@ export default function ThemeToggle({
         className={[
           "inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0",
           "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
-          "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus:outline-none",
-          "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+          "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
           modeDisabled ? "opacity-60 cursor-not-allowed" : "",
         ].join(" ")}
       >
@@ -96,7 +96,7 @@ export default function ThemeToggle({
         aria-label={`${aria}: cycle background`}
         onClick={cycleBg}
         title="Change background"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
       >
         <ImageIcon className="h-4 w-4" />
       </button>

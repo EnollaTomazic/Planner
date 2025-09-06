@@ -737,7 +737,7 @@ export default function ReviewEditor({
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
@@ -813,7 +813,7 @@ export default function ReviewEditor({
                   onClick={() => togglePillar(p)}
                   onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
                   aria-pressed={active}
-                  className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
@@ -832,7 +832,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(true);
                 setLastMarkerMode(true);
@@ -854,7 +854,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(false);
                 setLastMarkerMode(false);

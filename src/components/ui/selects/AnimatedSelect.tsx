@@ -330,12 +330,12 @@ export default function AnimatedSelect({
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left outline-none transition",
+                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left transition",
                           disabledItem ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
                             : "hover:bg-white/5",
-                          "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]/60",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring)/0.6)]",
                           it.className ?? "",
                         ].join(" ")}
                       >

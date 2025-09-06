@@ -165,8 +165,8 @@ export default function CheckCircle({
           onBlur={() => setFocused(false)}
           onPointerDown={retriggerIgnite}
           className={cn(
-            "relative inline-grid place-items-center rounded-full outline-none transition",
-            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            "relative inline-grid place-items-center rounded-full transition",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
             "disabled:opacity-50 disabled:pointer-events-none",
             "h-full w-full"
           )}
@@ -290,7 +290,7 @@ export default function CheckCircle({
               "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
               "border border-[hsl(var(--card-hairline))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))]",
               "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
             )}
           >
             <svg viewBox="0 0 18 18" className="h-3.5 w-3.5" aria-hidden>

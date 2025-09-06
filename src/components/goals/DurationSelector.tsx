@@ -36,7 +36,7 @@ export default function DurationSelector({
               "border transition-colors",
               "border-white/10 bg-white/5 text-white/70",
               "hover:bg-white/10 hover:text-white/70",
-              "focus:outline-none focus:ring-2 focus:ring-purple-400/70",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
               active &&
                 "border-purple-400/60 bg-purple-500/20 text-white/70 font-semibold"
             )}
