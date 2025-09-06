@@ -5,7 +5,6 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
-import "@/styles/glitch.css";
 
 function formatDate(value: number | Date): string {
   const d = typeof value === "number" ? new Date(value) : value;
