@@ -52,7 +52,7 @@ export default function Page() {
   const [view, setView] = React.useState("components");
 
   return (
-    <main className="p-6 bg-background text-foreground">
+    <main className="page-shell py-6 bg-background text-foreground">
       <div className="mb-8">
         <TabBar items={viewTabs} value={view} onValueChange={setView} />
       </div>
