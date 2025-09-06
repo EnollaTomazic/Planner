@@ -25,14 +25,14 @@
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
-  --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
-  --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
-  --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
-  --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+  --accent-overlay: hsl(var(--accent));
+  --ring-contrast: hsl(var(--ring));
+  --glow-active: hsl(var(--glow));
+  --text-on-accent: hsl(var(--foreground));
 
   /* Default button tones */
   --neon: var(--glow);
-  --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
+  --neon-soft: hsl(var(--neon));
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
 
@@ -66,14 +66,25 @@
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
 }
 
-/* Upgrade hairline when color-mix(oklab) is supported */
+/* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
+    --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+    --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+    --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+    --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
     );
+  }
+}
+
+/* Upgrade contrast token when color-contrast is supported */
+@supports (color: color-contrast(white vs black)) {
+  :root {
+    --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
   }
 }
 
