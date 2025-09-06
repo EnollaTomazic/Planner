@@ -99,6 +99,11 @@ export default function ComponentGallery() {
         <Item label="Badge Pill">
           <Badge variant="pill">Pill</Badge>
         </Item>
+        <Item label="Accent Overlay Box">
+          <div className="w-56 h-20 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[var(--text-on-accent)]">
+            Overlay
+          </div>
+        </Item>
         <Item label="SearchBar">
           <SearchBar value={query} onValueChange={setQuery} className="w-56" />
         </Item>
