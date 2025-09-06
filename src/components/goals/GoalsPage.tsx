@@ -13,7 +13,7 @@
 import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -25,11 +25,11 @@ import {
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm from "./GoalForm";
-import GoalQueue, { WaitItem } from "./GoalQueue";
-import GoalSlot from "./GoalSlot";
+import GoalsProgress from "./GoalsProgress";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
+import { LOCALE } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -46,13 +46,6 @@ const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: strin
 
 const ACTIVE_CAP = 3;
 
-/* ---------- Waitlist ---------- */
-const WAITLIST_SEEDS: WaitItem[] = [
-  { id: uid("wl"), text: "Fix wave-3 crash timing", createdAt: Date.now() - 86400000 },
-  { id: uid("wl"), text: "Early ward @2:30 then shove", createdAt: Date.now() - 860000 },
-  { id: uid("wl"), text: "Track jungle path till 3 camps", createdAt: Date.now() - 420000 },
-];
-
 /* ====================================================================== */
 
 export default function GoalsPage() {
@@ -61,7 +54,6 @@ export default function GoalsPage() {
   // stores
   const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
   const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
-  const [waitlist, setWaitlist] = useLocalDB<WaitItem[]>("goals.waitlist.v1", WAITLIST_SEEDS);
 
   // add form
   const [title, setTitle] = React.useState("");
@@ -148,20 +140,6 @@ export default function GoalsPage() {
     setLastDeleted(g);
     if (undoTimer.current) window.clearTimeout(undoTimer.current);
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
-  }
-
-  function editGoal(id: string, title: string) {
-    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, title } : g)));
-  }
-
-  // waitlist ops
-  function addWait(text: string) {
-    const t = text.trim();
-    if (!t) return;
-    setWaitlist((prev) => [{ id: uid("wl"), text: t, createdAt: Date.now() }, ...prev]);
-  }
-  function removeWait(id: string) {
-    setWaitlist((prev) => prev.filter((w) => w.id !== id));
   }
 
   const summary =

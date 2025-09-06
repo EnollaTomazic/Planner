@@ -4,17 +4,13 @@ import * as React from "react";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import Button from "@/components/ui/primitives/Button";
-import type { Pillar } from "@/lib/types";
-
-const PILLARS: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
+import SectionCard from "@/components/ui/layout/SectionCard";
 
 interface GoalFormProps {
   title: string;
-  pillar: Pillar | "";
   metric: string;
   notes: string;
   onTitleChange: (v: string) => void;
-  onPillarChange: (v: Pillar | "") => void;
   onMetricChange: (v: string) => void;
   onNotesChange: (v: string) => void;
   onSubmit: () => void;
@@ -25,11 +21,9 @@ interface GoalFormProps {
 
 export default function GoalForm({
   title,
-  pillar,
   metric,
   notes,
   onTitleChange,
-  onPillarChange,
   onMetricChange,
   onNotesChange,
   onSubmit,
