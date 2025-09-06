@@ -159,8 +159,6 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                onRename={onRename}
-                onDelete={onDelete}
                 className="max-h-[66dvh] overflow-auto p-2"
               />
             </SectionCard.Body>

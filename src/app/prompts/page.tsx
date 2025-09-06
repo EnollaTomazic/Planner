@@ -1,5 +1,5 @@
-"use client";
-
+import type { Metadata } from "next";
+import type { Review } from "@/lib/types";
 import {
   Button,
   SectionCard,
@@ -17,11 +17,14 @@ import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   CheckCircle,
-  NeonIcon,
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
+import ReviewList from "@/components/reviews/ReviewList";
+import "@/styles/glitch.css";
 import { Plus, Sun } from "lucide-react";
+
+export const metadata: Metadata = { title: "Prompts · 13 League Review" };
 
 export default function Page() {
   const tabs = [
@@ -34,6 +37,29 @@ export default function Page() {
     { value: "apple", label: "Apple" },
     { value: "banana", label: "Banana" },
     { value: "cherry", label: "Cherry" },
+  ];
+
+  const sampleReviews: Review[] = [
+    {
+      id: "1",
+      title: "First Review",
+      notes: "Sample notes",
+      score: 9,
+      result: "Win",
+      tags: ["W"],
+      pillars: [],
+      createdAt: Date.now(),
+    },
+    {
+      id: "2",
+      title: "",
+      notes: "Needs work",
+      score: 7,
+      result: "Loss",
+      tags: [],
+      pillars: [],
+      createdAt: Date.now() - 86400000,
+    },
   ];
 
   return (
@@ -102,6 +128,10 @@ export default function Page() {
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Glitch Layer</span>
+          <div className="relative w-56 h-24 rounded-md border bg-card/60 scanlines noise jitter" />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Hero</span>
           <div className="w-56">
             <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
@@ -140,8 +170,8 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Badge</span>
           <div className="w-56 flex justify-center gap-2">
-            <Badge>Neutral</Badge>
-            <Badge tone="accent">Accent</Badge>
+            <Badge variant="neo" size="sm">9/10</Badge>
+            <Badge variant="tag" size="sm">W</Badge>
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
@@ -153,16 +183,12 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Search Bar</span>
           <div className="w-56">
-            <SearchBar value="" onValueChange={() => {}} />
+            <SearchBar value="" />
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Segmented</span>
-          <GlitchSegmentedGroup
-            value="a"
-            onChange={() => {}}
-            className="w-56"
-          >
+          <GlitchSegmentedGroup value="a" className="w-56">
             <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
             <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
             <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
@@ -171,26 +197,24 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Check Circle</span>
           <div className="w-56 flex justify-center gap-2">
-            <CheckCircle checked={false} onChange={() => {}} />
-            <CheckCircle checked onChange={() => {}} />
+            <CheckCircle checked={false} />
+            <CheckCircle checked />
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2">
-          <span className="text-sm font-medium">Neon Icon</span>
-          <NeonIcon icon={Sun} on />
-        </div>
-        <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Toggle</span>
-          <Toggle value="Left" onChange={() => {}} />
+          <Toggle value="Left" />
         </div>
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm font-medium">Select</span>
           <div className="w-56">
-            <AnimatedSelect
-              items={selectItems}
-              value="apple"
-              onChange={() => {}}
-            />
+            <AnimatedSelect items={selectItems} value="apple" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Review List</span>
+          <div className="w-72">
+            <ReviewList reviews={sampleReviews} selectedId={null} />
           </div>
         </div>
       </div>
