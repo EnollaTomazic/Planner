@@ -2,22 +2,30 @@
 
 import * as React from "react";
 import { cn, slugify } from "@/lib/utils";
+import FieldShell from "./FieldShell";
 
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   /** Rounded look without needing a global .planner-textarea class. */
   tone?: "default" | "pill";
+  /** Optional className for the outer wrapper */
+  wrapperClassName?: string;
 };
 
-const BASE =
-  "block w-full max-w-[343px] min-h-[160px] rounded-2xl px-4 py-3 text-base " +
-  "border border-[hsl(var(--border))] bg-[hsl(var(--card))] " +
+const INNER =
+  "block w-full max-w-[343px] min-h-[160px] px-4 py-3 text-base bg-transparent " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] " +
-  "disabled:opacity-50 disabled:cursor-not-allowed " +
-  "resize-y transition-colors";
+  "outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed";
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { className, id, name, "aria-label": ariaLabel, tone = "default", ...props },
+  {
+    className,
+    wrapperClassName,
+    id,
+    name,
+    "aria-label": ariaLabel,
+    tone = "default",
+    ...props
+  },
   ref
 ) {
   const auto = React.useId();
@@ -27,13 +35,22 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
   const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 
+  const error = props["aria-invalid"] ? true : false;
+
   return (
-    <textarea
-      ref={ref}
-      id={finalId}
-      name={finalName}
-      className={cn(BASE, tone === "pill" && "rounded-full min-h-[120px]", className)}
-      {...props}
-    />
+    <FieldShell
+      tone={tone}
+      error={error}
+      disabled={props.disabled}
+      className={wrapperClassName}
+    >
+      <textarea
+        ref={ref}
+        id={finalId}
+        name={finalName}
+        className={cn(INNER, tone === "pill" && "rounded-full min-h-[120px]", className)}
+        {...props}
+      />
+    </FieldShell>
   );
 });

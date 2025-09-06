@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Card, FieldShell } from "@/components/ui";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
@@ -166,6 +166,18 @@ export default function PromptsPage() {
               </button>
             </Input>
           </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">FieldShell</h3>
+          <p className="type-body">
+            Shared wrapper that provides consistent borders, background, and focus
+            states for inputs.
+          </p>
+          <FieldShell>
+            <div className="px-4 py-2 text-sm text-muted-foreground">
+              Custom content
+            </div>
+          </FieldShell>
         </Card>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>

@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import { cn, slugify } from "@/lib/utils";
+import FieldShell from "./FieldShell";
 
 type InputSize = "sm" | "md" | "lg";
 
@@ -54,14 +55,11 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   const disabled = props.disabled;
 
   return (
-    <div
-      className={cn(
-        "relative inline-flex w-full items-center rounded-[16px] border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.60)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('https://grainy-gradients.vercel.app/noise.svg')]",
-        tone === "pill" && "rounded-full",
-        error && "border-[hsl(var(--destructive)/0.6)] focus-within:ring-[hsl(var(--destructive)/0.35)]",
-        disabled && "opacity-60 pointer-events-none",
-        className
-      )}
+    <FieldShell
+      tone={tone}
+      error={error}
+      disabled={disabled}
+      className={className}
       style={style}
     >
       <input
@@ -85,7 +83,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
           -webkit-text-fill-color: hsl(var(--foreground));
         }
       `}</style>
-    </div>
+    </FieldShell>
   );
 });
 
