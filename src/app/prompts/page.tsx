@@ -160,7 +160,10 @@ export default function Page() {
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Textarea</span>
-            <Textarea placeholder="Textarea" className="w-56" />
+            <div className="w-56 space-y-2">
+              <Textarea placeholder="Default" />
+              <Textarea tone="pill" placeholder="Pill" />
+            </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Badge</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import Textarea from '../../src/components/ui/Textarea';
+import Textarea from '../../src/components/ui/primitives/Textarea';
 
 afterEach(cleanup);
 
@@ -17,13 +17,13 @@ describe('Textarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('renders error state', () => {
-    const { container } = render(<Textarea aria-label="test" errorText="Error" />);
+  it('renders disabled state', () => {
+    const { container } = render(<Textarea aria-label="test" disabled />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('renders disabled state', () => {
-    const { container } = render(<Textarea aria-label="test" disabled />);
+  it('renders pill tone', () => {
+    const { container } = render(<Textarea aria-label="test" tone="pill" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });
