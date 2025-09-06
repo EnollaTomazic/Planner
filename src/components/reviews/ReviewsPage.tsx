@@ -182,7 +182,9 @@ export default function ReviewsPage({
                 onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
                 onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
                 onRename={(title: string) => onRename(active.id, title)}
-                onChangeMeta={(partial) => onChangeMeta?.(active.id, partial as Partial<Review>)}
+                onChangeMeta={(partial: Partial<Review>) =>
+                  onChangeMeta?.(active.id, partial)
+                }
                 onDone={() => setPanelMode("summary")}
                 onDelete={onDelete ? () => onDelete(active.id) : undefined}
               />
