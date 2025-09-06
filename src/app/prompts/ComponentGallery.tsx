@@ -24,6 +24,7 @@ import {
   PillarBadge,
   PillarSelector,
   AnimatedSelect,
+  Select,
 } from '@/components/ui';
 import type { Pillar, Review } from '@/lib/types';
 import type { GameSide } from '@/components/ui/league/SideSelector';
@@ -198,6 +199,13 @@ export default function ComponentGallery() {
             <div className="md:col-span-4 md:w-[240px] bg-secondary h-10 rounded" />
             <div className="md:col-span-8 bg-muted h-10 rounded" />
           </div>
+        </Item>
+        <Item label="Select">
+          <Select aria-label="Fruit" className="w-56">
+            <option value="apple">Apple</option>
+            <option value="orange">Orange</option>
+            <option value="pear">Pear</option>
+          </Select>
         </Item>
       </div>
     </main>
