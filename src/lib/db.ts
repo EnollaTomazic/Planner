@@ -132,11 +132,9 @@ export function useLocalDB<T>(
 }
 
 /**
- * Tiny uid helper: collision-resistant enough for local-first lists.
- * Example: "review_mbb1r8i8_6p9x2y"
+ * Tiny uid helper using `crypto.randomUUID`.
+ * Example: "review_123e4567"
  */
 export function uid(prefix = "id"): string {
-  const time = Date.now().toString(36);
-  const rand = Math.random().toString(36).slice(2, 8);
-  return `${prefix}_${time}_${rand}`;
+  return `${prefix}_${crypto.randomUUID().slice(0, 8)}`;
 }

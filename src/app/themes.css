@@ -25,6 +25,16 @@
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+  --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+  --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+  --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+
+  /* Default button tones */
+  --neon: var(--glow);
+  --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
+  --btn-bg: transparent;
+  --btn-fg: hsl(var(--foreground));
 
   /* Hairlines, radii, motion, control geometry, gradients */
   /* Fallback (works everywhere) */
@@ -36,7 +46,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-2);
+  --control-h: 42px; --control-radius: var(--radius-3);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(

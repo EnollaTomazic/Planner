@@ -1,16 +1,20 @@
 "use client";
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
+import type { Pillar } from "@/lib/types";
+
+const PILLARS: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
 
 interface GoalFormProps {
   title: string;
+  pillar: Pillar | "";
   metric: string;
   notes: string;
   onTitleChange: (v: string) => void;
+  onPillarChange: (v: Pillar | "") => void;
   onMetricChange: (v: string) => void;
   onNotesChange: (v: string) => void;
   onSubmit: () => void;
@@ -21,9 +25,11 @@ interface GoalFormProps {
 
 export default function GoalForm({
   title,
+  pillar,
   metric,
   notes,
   onTitleChange,
+  onPillarChange,
   onMetricChange,
   onNotesChange,
   onSubmit,
@@ -38,7 +44,7 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <SectionCard>
+      <SectionCard className="card-neo-soft">
         <SectionCard.Header
           className="flex items-center justify-between"
           title={<h2 className="text-lg font-semibold">Add Goal</h2>}
@@ -57,6 +63,7 @@ export default function GoalForm({
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
@@ -67,6 +74,7 @@ export default function GoalForm({
               className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
@@ -77,6 +85,7 @@ export default function GoalForm({
               className="min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 

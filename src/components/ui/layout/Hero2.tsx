@@ -11,18 +11,11 @@
 
 import * as React from "react";
 import TabBar, { type TabBarProps, type TabItem } from "@/components/ui/layout/TabBar";
-import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/searchbar";
+import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/SearchBar";
 
 function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
 }
-
-const devLog = (...args: unknown[]) => {
-  if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
-    console.log("[Hero2]", ...args);
-  }
-};
 
 export interface Hero2Props
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
@@ -82,13 +75,6 @@ export default function Hero2({
   ...rest
 }: Hero2Props) {
   const headingStr = typeof heading === "string" ? heading : undefined;
-
-  React.useEffect(() => {
-    devLog("mounted Hero2", { heading: headingStr, sticky, rail });
-    return () => devLog("unmounted Hero2");
-  }, [headingStr, sticky, rail]);
-
-  devLog("render Hero2", { heading: headingStr, subtitle, sticky, rail });
 
   // Compose right area: prefer built-in tabs if provided.
   const rightNode = tabs ? (

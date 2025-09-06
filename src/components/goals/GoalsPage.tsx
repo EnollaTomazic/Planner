@@ -13,28 +13,23 @@
 import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-<<<<<<< HEAD
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
 } from "@/components/ui";
-=======
-import { SegmentedGroup, SegmentedButton } from "@/components/ui";
->>>>>>> origin/main
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
-import GoalsProgress from "./GoalsProgress";
 import GoalForm from "./GoalForm";
 import GoalQueue, { WaitItem } from "./GoalQueue";
+import GoalSlot from "./GoalSlot";
 
 import { useLocalDB, uid } from "@/lib/db";
-import type { Goal } from "@/lib/types";
-import { LOCALE } from "@/lib/utils";
+import type { Goal, Pillar } from "@/lib/types";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -72,6 +67,7 @@ export default function GoalsPage() {
   const [title, setTitle] = React.useState("");
   const [metric, setMetric] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [pillar, setPillar] = React.useState<Pillar | "">("");
   const [err, setErr] = React.useState<string | null>(null);
 
   // undo
@@ -103,6 +99,7 @@ export default function GoalsPage() {
     setTitle("");
     setMetric("");
     setNotes("");
+    setPillar("");
   }
 
   function addGoal() {
@@ -114,7 +111,7 @@ export default function GoalsPage() {
     const g: Goal = {
       id: uid("goal"),
       title: title.trim(),
-      pillar: "",
+      ...(pillar ? { pillar } : {}),
       metric: metric.trim() || undefined,
       notes: notes.trim() || undefined,
       done: false,
@@ -153,6 +150,10 @@ export default function GoalsPage() {
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
   }
 
+  function editGoal(id: string, title: string) {
+    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, title } : g)));
+  }
+
   // waitlist ops
   function addWait(text: string) {
     const t = text.trim();
@@ -162,12 +163,8 @@ export default function GoalsPage() {
   function removeWait(id: string) {
     setWaitlist((prev) => prev.filter((w) => w.id !== id));
   }
-  function promoteWait(item: WaitItem) {
-    setTitle(item.text);
-    setWaitlist((prev) => prev.filter((w) => w.id !== item.id));
-  }
 
-  const heroSubtitle =
+  const summary =
     tab === "goals"
       ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
       : tab === "reminders"
@@ -175,21 +172,25 @@ export default function GoalsPage() {
       : "Pick a duration and focus.";
 
   return (
-    <main className="grid gap-6">
+    <main id="goals-main" role="main" className="page-shell grid gap-6 py-6">
       {/* ======= HERO ======= */}
       <Hero
-        eyebrow="GOALS"
-        heading="Today"
-        subtitle={heroSubtitle}
+        eyebrow="Goals"
+        heading={
+          <>
+            <span className="sm:mr-2">Today</span>
+            <span className="block text-xs text-[hsl(var(--muted-foreground))] sm:inline">
+              {summary}
+            </span>
+          </>
+        }
         sticky
-        barClassName="gap-2 items-baseline"
+        barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
         right={
-<<<<<<< HEAD
           <GlitchSegmentedGroup
             value={tab}
             onChange={(v) => setTab(v as Tab)}
             ariaLabel="Goals header mode"
-            intensity="default"
           >
             {TABS.map((t) => (
               <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
@@ -197,20 +198,6 @@ export default function GoalsPage() {
               </GlitchSegmentedButton>
             ))}
           </GlitchSegmentedGroup>
-=======
-          <SegmentedGroup
-            value={tab}
-            onChange={(v) => setTab(v as Tab)}
-            ariaLabel="Goals header mode"
-            variant="glass"
-          >
-            {TABS.map((t) => (
-              <SegmentedButton key={t.key} value={t.key} icon={t.icon}>
-                {t.label}
-              </SegmentedButton>
-            ))}
-          </SegmentedGroup>
->>>>>>> origin/main
         }
       />
 
@@ -232,7 +219,7 @@ export default function GoalsPage() {
                   }
                 />
               ) : (
-                <SectionCard>
+                <SectionCard className="card-neo-soft">
                   <SectionCard.Header sticky className="flex items-center justify-between">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <h2 className="text-lg font-semibold">Your Goals</h2>
@@ -289,7 +276,8 @@ export default function GoalsPage() {
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "bg-[hsl(var(--accent))]" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
                                 />
                                 <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
                                   {new Date(g.createdAt).toLocaleDateString(LOCALE)}
@@ -322,15 +310,8 @@ export default function GoalsPage() {
                 />
               </div>
 
-              <GoalQueue
-                items={waitlist}
-                onAdd={addWait}
-                onRemove={removeWait}
-                onPromote={promoteWait}
-              />
-
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
+                <div className="mx-auto w-fit rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
                   Deleted “{lastDeleted.title}”.{" "}
                   <button
                     type="button"

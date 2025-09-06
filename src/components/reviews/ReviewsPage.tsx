@@ -9,7 +9,7 @@ import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import { Ghost, Plus } from "lucide-react";
 
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -92,7 +92,7 @@ export default function ReviewsPage({
   const active = base.find((r) => r.id === selectedId) || null;
 
   return (
-    <div className="space-y-6">
+    <main className="page-shell space-y-6 py-6">
       <Hero2
         heading={
           <div className="flex items-center gap-2">
@@ -127,16 +127,15 @@ export default function ReviewsPage({
                 type="button"
                 variant="primary"
                 size="md"
-                pill
-                leftIcon={<Plus />}
-                className="btn-like-segmented px-3.5 whitespace-nowrap"
+                className="px-3.5 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
                   onCreate();
                 }}
               >
-                New Review
+                <Plus className="size-4" />
+                <span>New Review</span>
               </Button>
             </div>
           </>
@@ -150,7 +149,7 @@ export default function ReviewsPage({
         )}
       >
         <aside>
-          <SectionCard className="overflow-hidden">
+          <SectionCard className="overflow-hidden bg-card/50">
             <SectionCard.Body>
               <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
               <ReviewList
@@ -160,8 +159,6 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                onRename={onRename}
-                onDelete={onDelete}
                 className="max-h-[66dvh] overflow-auto p-2"
               />
             </SectionCard.Body>
@@ -194,6 +191,6 @@ export default function ReviewsPage({
           )}
         </SectionCard>
       </div>
-    </div>
+    </main>
   );
 }
