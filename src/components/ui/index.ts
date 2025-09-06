@@ -11,6 +11,8 @@ export { default as Input } from "./primitives/Input";
 export { default as Textarea } from "./primitives/Textarea";
 export { default as FieldShell } from "./primitives/FieldShell";
 export { default as Badge } from "./Badge";
+export { default as Label } from "./Label";
+export { default as Select } from "./Select";
 export { default as SearchBar } from "./primitives/SearchBar";
 export { default as Card } from "./primitives/Card";
 export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/GlitchSegmented";
