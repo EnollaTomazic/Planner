@@ -57,13 +57,13 @@ exports[`ReviewListItem > renders default state 1`] = `
 exports[`ReviewListItem > renders loading state 1`] = `
 <div>
   <div
-    class="min-h-[76px] p-4 rounded-[16px] border bg-[hsl(var(--card)/0.60)] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] animate-pulse"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none animate-pulse"
   >
     <div
-      class="h-3 w-3/5 rounded bg-[hsl(var(--muted))] mb-3"
+      class="h-3 rounded bg-[hsl(var(--muted))] w-3/5 mb-3"
     />
     <div
-      class="h-3 w-2/5 rounded bg-[hsl(var(--muted))]"
+      class="h-3 rounded bg-[hsl(var(--muted))] w-2/5"
     />
   </div>
 </div>
