@@ -61,3 +61,22 @@ export function Header() {
 ```
 
 Following these guidelines keeps the interface consistent and lets theme updates propagate automatically.
+
+## SearchBar
+- Wraps its input in a `<form role="search">` for accessibility.
+- Submitting the form calls `onValueChange` immediately and optionally `onSubmit` with the current query.
+
+```tsx
+import { SearchBar } from "@/components/ui";
+
+export function Demo() {
+  return (
+    <SearchBar
+      value=""
+      onValueChange={() => {}}
+      onSubmit={(q) => console.log(q)}
+    />
+  );
+}
+```
+

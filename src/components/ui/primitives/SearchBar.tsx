@@ -12,6 +12,7 @@ export type SearchBarProps = Omit<
   value: string;
   onValueChange?: (next: string) => void;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onSubmit?: (value: string) => void;
   right?: React.ReactNode;
   clearable?: boolean;
   debounceMs?: number;
@@ -21,6 +22,7 @@ export default function SearchBar({
   value,
   onValueChange,
   onChange,
+  onSubmit,
   right,
   placeholder = "Search…",
   className,
@@ -52,7 +54,8 @@ export default function SearchBar({
   const showClear = clearable && query.length > 0;
 
   return (
-    <div
+    <form
+      role="search"
       className={cn(
         // Two-column grid: search input + optional right slot
         // Tailwind's arbitrary value syntax uses an underscore instead of a comma.
@@ -60,6 +63,11 @@ export default function SearchBar({
         "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full",
         className
       )}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onValueChange?.(query);
+        onSubmit?.(query);
+      }}
     >
       {/* Input column */}
       <div className="relative min-w-0">
@@ -84,6 +92,7 @@ export default function SearchBar({
             "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
           )}
           aria-label={rest["aria-label"] ?? "Search"}
+          type="search"
           {...rest}
         />
 
@@ -106,6 +115,6 @@ export default function SearchBar({
 
       {/* Right slot (filters, etc.) */}
       {right ? <div className="shrink-0">{right}</div> : null}
-    </div>
+    </form>
   );
 }

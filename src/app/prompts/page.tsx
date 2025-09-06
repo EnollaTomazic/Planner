@@ -176,7 +176,7 @@ export default function Page() {
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Search Bar</span>
             <div className="w-56">
-              <SearchBar value="" onValueChange={() => {}} />
+              <SearchBar value="" onValueChange={() => {}} onSubmit={() => {}} />
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
