@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card, FieldShell } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
@@ -84,10 +84,10 @@ export default function PromptsPage() {
           {/* Right: search + save */}
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-48 sm:w-64 md:w-80">
-              <Input
-                placeholder="Search prompts…"
+              <SearchBar
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onValueChange={setQuery}
+                placeholder="Search prompts…"
               />
             </div>
             <Button
