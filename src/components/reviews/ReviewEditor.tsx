@@ -3,6 +3,7 @@
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import "../reviews/style.css";
 import RoleSelector from "@/components/reviews/RoleSelector";
+import SectionLabel from "@/components/reviews/SectionLabel";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
@@ -34,15 +35,6 @@ import {
   scoreIcon,
 } from "@/components/reviews/reviewData";
 
-/** Faint section label + rule used throughout the form. */
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-2 flex items-center gap-2">
-      <div className="text-xs tracking-wide text-white/20">{children}</div>
-      <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
-    </div>
-  );
-}
 
 /** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
 function parseTime(mmss: string): number | null {
