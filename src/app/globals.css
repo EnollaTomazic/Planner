@@ -1577,8 +1577,11 @@ textarea:-webkit-autofill {
   --space-8: 64px;
 
   /* Glow tokens */
-  --glow-strong: 0 0 20px hsl(var(--ring) / 0.6);
-  --glow-soft: 0 0 10px hsl(var(--ring) / 0.3);
+  --glow-strong: 260 85% 60% / .55;
+  --glow-soft: 260 85% 60% / .25;
+
+  /* Radius token */
+  --radius: 16px;
 }
 
 @layer components {
@@ -1603,7 +1606,7 @@ textarea:-webkit-autofill {
   }
   .title-glow {
     @apply text-2xl font-semibold;
-    text-shadow: var(--glow-strong);
+    text-shadow: 0 0 20px hsl(var(--glow-strong));
   }
 }
 .ds-grid-gap {
