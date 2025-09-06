@@ -33,6 +33,16 @@ const config: Config = {
         snap: "cubic-bezier(0.22, 1, 0.36, 1)"
       },
       transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" },
+      spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "24px",
+        6: "32px",
+        7: "48px",
+        8: "64px"
+      },
       keyframes: {
         shimmer: {
           "0%": { transform: "translateX(-100%)" },

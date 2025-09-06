@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Card } from "@/components/ui";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
@@ -132,7 +132,7 @@ export default function PromptsPage() {
         {/* List */}
         <div className="mt-4 space-y-3">
           {filtered.map((p) => (
-            <article key={p.id} className="card-neo p-3">
+            <Card key={p.id} variant="neo" className="p-3">
               <header className="flex items-center justify-between">
                 <h3 className="font-semibold">{p.title}</h3>
                 <time className="text-xs text-muted-foreground">
@@ -142,12 +142,27 @@ export default function PromptsPage() {
               {p.text ? (
                 <p className="mt-1 whitespace-pre-wrap text-sm">{p.text}</p>
               ) : null}
-            </article>
+            </Card>
           ))}
           {filtered.length === 0 && (
             <div className="text-muted-foreground">Nothing matches your search. Typical.</div>
           )}
         </div>
+        <Card variant="neo" className="mt-8 space-y-4">
+          <h3 className="type-title">Design Tokens</h3>
+          <div>
+            <h4 className="type-subtitle">Spacing</h4>
+            <p className="type-body">4, 8, 12, 16, 24, 32, 48, 64</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Glow</h4>
+            <p className="type-body">--glow-strong, --glow-soft</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Type Ramp</h4>
+            <p className="type-body">eyebrow, title, subtitle, body, caption</p>
+          </div>
+        </Card>
       </SectionCard.Body>
     </SectionCard>
   );
