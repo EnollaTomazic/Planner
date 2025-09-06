@@ -9,6 +9,7 @@ export { default as Button } from "./primitives/Button";
 export { default as IconButton } from "./primitives/IconButton";
 export { default as Input } from "./primitives/Input";
 export { default as Textarea } from "./primitives/Textarea";
+export { default as FieldShell } from "./primitives/FieldShell";
 export { default as Badge } from "./Badge";
 export { default as SearchBar } from "./primitives/SearchBar";
 export { default as Card } from "./primitives/Card";
