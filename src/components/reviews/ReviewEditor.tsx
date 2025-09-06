@@ -35,19 +35,11 @@ import {
 } from "@/components/reviews/reviewData";
 
 /** Faint section label + rule used throughout the form. */
-function SectionLabel({
-  id,
-  children,
-}: {
-  id?: string;
-  children: React.ReactNode;
-}) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div id={id} className="mb-2 flex items-center gap-2">
-      <span className="text-[11px] uppercase tracking-wide text-purple-300/85">
-        {children}
-      </span>
-      <div className="h-px flex-1 bg-white/5" />
+    <div className="mb-2 flex items-center gap-2">
+      <div className="text-xs tracking-wide text-white/20">{children}</div>
+      <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
     </div>
   );
 }
@@ -552,181 +544,208 @@ export default function ReviewEditor({
   }
 
   return (
-    <div ref={rootRef} className={cn("space-y-6", className)}>
-      <div className="flex items-center justify-between">
-        <RoleSelector
-          value={role}
-          onChange={selectRole}
-          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
-        />
-        <div className="flex items-center gap-2">
-          {onDelete ? (
-            <IconButton
-              aria-label="Delete review"
-              title="Delete review"
-              size="sm"
-              iconSize="sm"
-              className="focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
-              onClick={onDelete}
-            >
-              <Trash2 />
-            </IconButton>
-          ) : null}
+    <div ref={rootRef} className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
+      <div className="section-h sticky">
+        <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
+          <div className="min-w-0">
+            <div className="mb-2">
+              <SectionLabel>Lane</SectionLabel>
+              <RoleSelector value={role} onChange={selectRole} />
+            </div>
 
-          {onDone ? (
-            <IconButton
-              aria-label="Done"
-              title="Save and close"
-              size="sm"
-              iconSize="sm"
-              className="focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
-              onClick={() => {
-                saveAll();
-                onDone?.();
-              }}
-            >
-              <Check />
-            </IconButton>
-          ) : null}
+            <div className="mb-2">
+              <div className="relative">
+                <Target className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  ref={laneRef}
+                  value={lane}
+                  onChange={(e) => setLane(e.target.value)}
+                  onBlur={commitLaneAndTitle}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      commitLaneAndTitle();
+                      go(opponentRef);
+                    }
+                  }}
+                  className="pl-10"
+                  placeholder="Ashe/Lulu"
+                  aria-label="Lane (used as Title)"
+                />
+              </div>
+            </div>
+
+            <div>
+              <SectionLabel>Opponent</SectionLabel>
+              <div className="relative">
+                <Shield className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  ref={opponentRef}
+                  value={opponent}
+                  onChange={(e) => setOpponent(e.target.value)}
+                  onBlur={() => commitMeta({ opponent })}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      go(resultRef);
+                    }
+                  }}
+                  placeholder="Draven/Thresh"
+                  className="pl-10"
+                  aria-label="Opponent"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
+            {onDelete ? (
+              <IconButton
+                aria-label="Delete review"
+                title="Delete review"
+                circleSize="md"
+                iconSize="md"
+                variant="ring"
+                onClick={onDelete}
+              >
+                <Trash2 />
+              </IconButton>
+            ) : null}
+
+            {onDone ? (
+              <IconButton
+                aria-label="Done"
+                title="Save and close"
+                circleSize="md"
+                iconSize="md"
+                variant="ring"
+                onClick={() => {
+                  saveAll();
+                  onDone?.();
+                }}
+              >
+                <Check />
+              </IconButton>
+            ) : null}
+          </div>
         </div>
       </div>
 
-      {/* Matchup */}
-      <section aria-labelledby="matchup-label" className="grid gap-3">
-        <SectionLabel id="matchup-label">Matchup</SectionLabel>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="relative">
-            <Target className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              ref={laneRef}
-              value={lane}
-              onChange={(e) => setLane(e.target.value)}
-              onBlur={commitLaneAndTitle}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  commitLaneAndTitle();
-                  go(opponentRef);
-                }
-              }}
-              className="h-10 w-full rounded-xl bg-transparent pl-9 pr-4 placeholder:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2 aria-[invalid=true]:ring-red-500"
-              placeholder="Ashe/Lulu"
-              aria-label="You"
-            />
-          </div>
-          <div className="relative">
-            <Shield className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              ref={opponentRef}
-              value={opponent}
-              onChange={(e) => setOpponent(e.target.value)}
-              onBlur={() => commitMeta({ opponent })}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  go(resultRef);
-                }
-              }}
-              className="h-10 w-full rounded-xl bg-transparent pl-9 pr-4 placeholder:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2 aria-[invalid=true]:ring-red-500"
-              placeholder="Draven/Thresh"
-              aria-label="Opponent"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Result */}
-      <section aria-labelledby="result-label">
-        <SectionLabel id="result-label">Result</SectionLabel>
-        <button
-          ref={resultRef}
-          type="button"
-          aria-pressed={result === "Win"}
-          onClick={() => setResult((p) => (p === "Win" ? "Loss" : "Win"))}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "Enter") {
-              e.preventDefault();
-              setResult((p) => (p === "Win" ? "Loss" : "Win"));
-              if (e.key === "Enter") go(scoreRangeRef);
-            }
-          }}
-          className={cn(
-            "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-xl",
-            "border border-white/10 bg-white/5",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
-          )}
-          title="Toggle Win/Loss"
-        >
-          <span
-            aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-lg transition-transform duration-300"
-            style={{
-              width: "calc(50% - 4px)",
-              transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
-              transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-              background:
-                result === "Win"
-                  ? "linear-gradient(90deg, hsla(160,90%,45%,.32), hsla(190,90%,60%,.28))"
-                  : "linear-gradient(90deg, hsla(0,90%,55%,.30), hsla(320,90%,65%,.26))",
-              boxShadow: "0 10px 30px hsl(var(--glow-soft))",
-            }}
-          />
-          <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
-            <div className={cn("py-2 text-center", result === "Win" ? "text-white" : "text-white/70")}>Win</div>
-            <div className={cn("py-2 text-center", result === "Loss" ? "text-white" : "text-white/70")}>Loss</div>
-          </div>
-        </button>
-      </section>
-
-      {/* Score */}
-      <section aria-labelledby="score-label">
-        <SectionLabel id="score-label">Score</SectionLabel>
-        <div className="relative h-12 rounded-xl border border-white/10 bg-white/5 px-4 focus-within:ring-2 focus-within:ring-purple-400/60 focus-within:ring-offset-2">
-          <input
-            ref={scoreRangeRef}
-            type="range"
-            min={0}
-            max={10}
-            step={1}
-            value={score}
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setScore(v);
-              commitMeta({ score: v });
-            }}
+      <div className="section-b ds-card-pad space-y-6">
+        {/* Result */}
+        <div>
+          <SectionLabel>Result</SectionLabel>
+          <button
+            ref={resultRef}
+            type="button"
+            role="switch"
+            aria-checked={result === "Win"}
+            onClick={() => setResult((p) => (p === "Win" ? "Loss" : "Win"))}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                go(timeRef);
+                setResult((p) => (p === "Win" ? "Loss" : "Win"));
+                go(scoreRangeRef);
               }
             }}
-            className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
-            aria-label="Score from 0 to 10"
-          />
-          <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-            <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+            className={cn(
+              "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
+              "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+            )}
+            title="Toggle Win/Loss"
+          >
+            <span
+              aria-hidden
+              className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
+              style={{
+                width: "calc(50% - 4px)",
+                transform: `translate3d(${result === "Win" ? "0" : "calc(100% + 2px)"},0,0)`,
+                transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
+                background:
+                  result === "Win"
+                    ? "linear-gradient(90deg, hsla(160,90%,45%,.32), hsla(190,90%,60%,.28))"
+                    : "linear-gradient(90deg, hsla(0,90%,55%,.30), hsla(320,90%,65%,.26))",
+                boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
+              }}
+            />
+            <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
               <div
-                className="absolute left-0 top-0 h-2 rounded-full bg-[linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent)))] shadow-[0_0_8px_hsl(var(--glow-strong))]"
-                style={{ width: `${(score / 10) * 100}%` }}
-              />
+                className={cn(
+                  "py-2 text-center",
+                  result === "Win" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+                )}
+              >
+                Win
+              </div>
               <div
-                className="absolute top-1/2 h-[14px] w-[14px] -translate-y-1/2 rounded-full border border-white/10 bg-[hsl(var(--card))] shadow-[0_0_8px_hsl(var(--glow-strong))]"
-                style={{ left: `calc(${(score / 10) * 100}% - 7px)` }}
-              />
+                className={cn(
+                  "py-2 text-center",
+                  result === "Loss" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+                )}
+              >
+                Loss
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* Score */}
+        <div>
+          <SectionLabel>Score</SectionLabel>
+          <div className="relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
+            <input
+              ref={scoreRangeRef}
+              type="range"
+              min={0}
+              max={10}
+              step={1}
+              value={score}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                setScore(v);
+                commitMeta({ score: v });
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  go(timeRef);
+                }
+              }}
+              className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
+              aria-label="Score from 0 to 10"
+            />
+            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
+              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
+                <div
+                  className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
+                  style={{
+                    width: `calc(${(score / 10) * 100}% + 10px)`,
+                    background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))",
+                  }}
+                />
+                <div
+                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                  style={{ left: `calc(${(score / 10) * 100}% - 10px)` }}
+                />
+              </div>
             </div>
           </div>
+          <div className="mt-1 flex items-center gap-2 text-[13px] text-muted-foreground">
+            <span className="pill h-6 px-2 text-xs">{score}/10</span>
+            <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
+            <span>{msg}</span>
+          </div>
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">{score}/10 • {msg}</p>
-      </section>
 
-      {/* Focus */}
-      <div>
-            <div className="flex items-center gap-3">
+        {/* Focus */}
+        <div>
+          <div className="flex items-center gap-3">
             <button
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
+              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
@@ -790,8 +809,8 @@ export default function ReviewEditor({
         </div>
 
         {/* Pillars */}
-        <section aria-labelledby="pillars-label">
-          <SectionLabel id="pillars-label">Pillars</SectionLabel>
+        <div>
+          <SectionLabel>Pillars</SectionLabel>
           <div className="flex flex-wrap gap-2">
             {ALL_PILLARS.map((p) => {
               const active = pillars.includes(p);
@@ -802,7 +821,7 @@ export default function ReviewEditor({
                   onClick={() => togglePillar(p)}
                   onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
                   aria-pressed={active}
-                  className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
+                  className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
@@ -812,7 +831,7 @@ export default function ReviewEditor({
               );
             })}
           </div>
-        </section>
+        </div>
 
         {/* Timestamps */}
         <div>
@@ -821,7 +840,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
+              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(true);
                 setLastMarkerMode(true);
@@ -843,7 +862,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 focus-visible:ring-offset-2"
+              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(false);
                 setLastMarkerMode(false);

@@ -159,7 +159,7 @@ export default function Page() {
             <span className="text-sm font-medium">Badge</span>
             <div className="w-56 flex justify-center gap-2">
               <Badge>Neutral</Badge>
-              <Badge tone="accent">Accent</Badge>
+              <Badge variant="accent">Accent</Badge>
               <Badge variant="pill">Pill</Badge>
             </div>
           </div>
