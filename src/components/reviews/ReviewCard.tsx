@@ -3,8 +3,7 @@ import "../reviews/style.css";
 
 import type { Review } from "@/lib/types";
 import { cn, LOCALE } from "@/lib/utils";
-import Pill from "@/components/ui/primitives/Pill";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Badge, IconButton } from "@/components/ui";
 import { Pencil } from "lucide-react";
 
 export default function ReviewCard({
@@ -50,9 +49,13 @@ export default function ReviewCard({
           {Array.isArray(review.tags) && review.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {review.tags.slice(0, 6).map((t) => (
-                <Pill key={t}>{t}</Pill>
+                <Badge key={t} variant="pill">
+                  {t}
+                </Badge>
               ))}
-              {review.tags.length > 6 && <Pill>+{review.tags.length - 6}</Pill>}
+              {review.tags.length > 6 && (
+                <Badge variant="pill">+{review.tags.length - 6}</Badge>
+              )}
             </div>
           )}
         </div>
