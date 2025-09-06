@@ -27,6 +27,12 @@ const iconMap: Record<Icon, string> = {
   lg: "[&>svg]:h-6 [&>svg]:w-6",
 };
 
+const sizeMap: Record<ButtonSize, string> = {
+  sm: "h-9 w-9",
+  md: "h-[52px] w-[52px]",
+  lg: "h-14 w-14",
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     { size = "md", circleSize, iconSize = size, className, ...rest },
@@ -35,8 +41,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tone: _tone, active: _active, fx: _fx, variant: _variant, ...props } = rest;
     const finalSize = circleSize ?? size;
-    const h = buttonSizes[finalSize].height;
-    const sizeClass = `${h} ${h.replace("h-", "w-")}`;
+    const sizeClass = sizeMap[finalSize];
     return (
       <button
         ref={ref}

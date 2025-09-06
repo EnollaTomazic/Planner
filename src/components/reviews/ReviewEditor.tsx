@@ -6,8 +6,8 @@ import RoleSelector from "@/components/reviews/RoleSelector";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
 import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import {

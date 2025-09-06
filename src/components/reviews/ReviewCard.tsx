@@ -3,7 +3,7 @@ import "../reviews/style.css";
 
 import type { Review } from "@/lib/types";
 import { cn, LOCALE } from "@/lib/utils";
-import Pill from "@/components/ui/primitives/pill";
+import Pill from "@/components/ui/primitives/Pill";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil } from "lucide-react";
 
