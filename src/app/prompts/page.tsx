@@ -17,9 +17,6 @@ import {
 import { Search as SearchIcon, Star } from "lucide-react";
 
 export default function Page() {
-  const [seg, setSeg] = React.useState("one");
-  const [checked, setChecked] = React.useState(false);
-  const [tab, setTab] = React.useState("components");
   const tabs = [
     { key: "components", label: "Components" },
     { key: "colors", label: "Colors" },
@@ -44,61 +41,135 @@ export default function Page() {
 
   return (
     <main className="p-6 bg-background text-foreground">
-      <TabBar items={tabs} value={tab} onValueChange={setTab} className="mb-6" />
-      {tab === "components" ? (
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Buttons</span>
-            <div className="flex gap-2">
-              <Button size="sm">SM</Button>
-              <Button size="md">MD</Button>
-              <Button size="lg">LG</Button>
-            </div>
-          </section>
-
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Icon & Toggles</span>
-            <div className="flex items-center gap-4">
-              <IconButton size="sm">
-                <SearchIcon />
-              </IconButton>
-              <CheckCircle checked={checked} onChange={setChecked} />
-              <NeonIcon icon={Star} on />
-            </div>
-          </section>
-
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Inputs</span>
-            <div className="w-full flex flex-col gap-2">
-              <Input placeholder="Type here" />
-              <Textarea placeholder="Write here" />
-            </div>
-          </section>
-
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Badge Variants</span>
-            <div className="flex gap-2">
-              <Badge variant="neutral">Neutral</Badge>
-              <Badge variant="accent">Accent</Badge>
-              <Badge variant="pill">Pill</Badge>
-            </div>
-          </section>
-
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Card</span>
-            <Card className="w-full h-32 flex items-center justify-center">
-              Card content
-            </Card>
-          </section>
-
-          <section className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Segmented</span>
-            <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-full">
-              <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
-            </GlitchSegmentedGroup>
-          </section>
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Button Variants</span>
+          <div className="w-56 flex justify-center gap-2">
+            <Button>Secondary</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Button Sizes</span>
+          <div className="w-56 flex justify-center gap-2">
+            <Button size="sm">SM</Button>
+            <Button size="md">MD</Button>
+            <Button size="lg">LG</Button>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Card</span>
+          <SectionCard className="w-56 h-40 flex items-center justify-center">
+            Card content
+          </SectionCard>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Navbar</span>
+          <div className="w-56">
+            <TitleBar label="Navigation" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Tabs</span>
+          <TabBar items={tabs} className="w-56" />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Progress</span>
+          <div className="w-56">
+            <Progress value={50} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Theme</span>
+          <div className="w-56 flex justify-center">
+            <ThemeToggle />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Title Ghost</span>
+          <h2 className="title-ghost">Ghost Title</h2>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Title Glow</span>
+          <h2 className="title-glow">Glowing Title</h2>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Glitch Text</span>
+          <div className="glitch text-lg font-semibold">Glitch</div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Glitch Background</span>
+          <div className="glitch-root bg-glitch-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
+            Backdrop
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Hero</span>
+          <div className="w-56">
+            <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Card Neo</span>
+          <div className="card-neo w-56 h-40 flex items-center justify-center">
+            Card Neo
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Icon Button</span>
+          <div className="w-56 flex justify-center gap-2">
+            <IconButton>
+              <Plus />
+            </IconButton>
+            <IconButton size="lg">
+              <Sun />
+            </IconButton>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Input</span>
+          <div className="w-56 space-y-2">
+            <Input placeholder="Small" />
+            <Input size="md" placeholder="Medium" />
+            <Input size="lg" placeholder="Large" />
+            <Input tone="pill" placeholder="Pill" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Textarea</span>
+          <Textarea placeholder="Textarea" className="w-56" />
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Badge</span>
+          <div className="w-56 flex justify-center gap-2">
+            <Badge>Neutral</Badge>
+            <Badge tone="accent">Accent</Badge>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Pill</span>
+          <div className="w-56 flex justify-center">
+            <Pill>Default</Pill>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Search Bar</span>
+          <div className="w-56">
+            <SearchBar value="" onValueChange={() => {}} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Segmented</span>
+          <GlitchSegmentedGroup
+            value="a"
+            onChange={() => {}}
+            className="w-56"
+          >
+            <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
+          </GlitchSegmentedGroup>
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">

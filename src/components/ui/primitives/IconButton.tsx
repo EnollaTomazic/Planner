@@ -33,13 +33,58 @@ const sizeMap: Record<ButtonSize, string> = {
   lg: "h-14 w-14",
 };
 
+const variantBase: Record<Variant, string> = {
+  ring: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+  solid: "",
+  glow: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+};
+
+const toneClasses: Record<Variant, Record<Tone, string>> = {
+  ring: {
+    primary:
+      "border-[hsl(var(--line)/0.35)] text-[hsl(var(--foreground))]",
+    accent:
+      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
+    info:
+      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
+    danger:
+      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
+  },
+  solid: {
+    primary:
+      "border-transparent bg-[hsl(var(--foreground)/0.15)] hover:bg-[hsl(var(--foreground)/0.25)] text-[hsl(var(--foreground))]",
+    accent:
+      "border-transparent bg-[hsl(var(--accent)/0.15)] hover:bg-[hsl(var(--accent)/0.25)] text-[hsl(var(--accent))]",
+    info:
+      "border-transparent bg-[hsl(var(--accent-2)/0.15)] hover:bg-[hsl(var(--accent-2)/0.25)] text-[hsl(var(--accent-2))]",
+    danger:
+      "border-transparent bg-[hsl(var(--danger)/0.15)] hover:bg-[hsl(var(--danger)/0.25)] text-[hsl(var(--danger))]",
+  },
+  glow: {
+    primary:
+      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))] shadow-[0_0_8px_hsl(var(--foreground)/0.3)]",
+    accent:
+      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
+    info:
+      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))] shadow-[0_0_8px_hsl(var(--accent-2)/0.3)]",
+    danger:
+      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))] shadow-[0_0_8px_hsl(var(--danger)/0.3)]",
+  },
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "md", circleSize, iconSize = size as Icon, className, ...rest },
+    {
+      size = "md",
+      circleSize,
+      iconSize = size as Icon,
+      className,
+      tone = "primary",
+      variant = "ring",
+      ...props
+    },
     ref
   ) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { tone: _tone, active: _active, fx: _fx, variant: _variant, ...props } = rest;
     const finalSize = circleSize ?? size;
     const sizeClass = sizeMap[finalSize];
     return (
@@ -47,7 +92,9 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type="button"
         className={cn(
-          "inline-flex items-center justify-center select-none rounded-full border border-[hsl(var(--line)/0.35)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)] bg-transparent hover:bg-[hsl(var(--panel)/0.45)] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center select-none rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+          variantBase[variant],
+          toneClasses[variant][tone],
           sizeClass,
           iconMap[iconSize],
           className
