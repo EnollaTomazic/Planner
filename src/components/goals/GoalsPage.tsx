@@ -16,6 +16,9 @@ import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
+import SectionCard from "@/components/ui/layout/SectionCard";
+import IconButton from "@/components/ui/primitives/IconButton";
+import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
@@ -207,44 +210,104 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <>
-              <div className="mx-auto my-6 max-w-screen-2xl px-4">
-                <div className="grid gap-6 md:grid-cols-[120px_1fr]">
-                  <aside>
+              {totalCount === 0 ? (
+                <GoalsProgress
+                  total={totalCount}
+                  pct={pctDone}
+                  onAddFirst={() =>
+                    formRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                />
+              ) : (
+                <SectionCard className="card-neo-soft">
+                  <SectionCard.Header sticky className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <h2 className="text-lg font-semibold">Your Goals</h2>
+                      <GoalsProgress total={totalCount} pct={pctDone} />
+                    </div>
                     <GoalsTabs value={filter} onChange={setFilter} />
-                  </aside>
-                  <div className="grid gap-6">
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                      {Array.from({ length: 3 }).map((_, i) => (
-                        <GoalSlot
-                          key={i}
-                          goal={filtered[i]}
-                          onToggleDone={toggleDone}
-                          onEdit={editGoal}
-                          onDelete={removeGoal}
-                        />
-                      ))}
+                  </SectionCard.Header>
+                  <SectionCard.Body>
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
+                      {filtered.length === 0 ? (
+                        <p className="text-sm text-white/60">
+                          No goals here. Add one simple, finishable thing.
+                        </p>
+                      ) : (
+                        filtered.map((g) => (
+                          <article
+                            key={g.id}
+                            className={["relative rounded-2xl p-6","card-neo transition","hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]","min-h-[152px] flex flex-col"].join(" ")}
+                          >
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                            />
+                            <header className="flex items-start justify-between gap-2">
+                              <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
+                                {g.title}
+                              </h3>
+                              <div className="flex items-center gap-1">
+                                <CheckCircle
+                                  aria-label={g.done ? "Mark active" : "Mark done"}
+                                  checked={g.done}
+                                  onChange={() => toggleDone(g.id)}
+                                  size="lg"
+                                />
+                                <IconButton
+                                  title="Delete"
+                                  aria-label="Delete goal"
+                                  onClick={() => removeGoal(g.id)}
+                                  circleSize="sm"
+                                >
+                                  <Trash2 />
+                                </IconButton>
+                              </div>
+                            </header>
+                            <div className="mt-3 text-sm text-white/60 space-y-2">
+                              {g.metric ? (
+                                <div className="tabular-nums">
+                                  <span className="opacity-70">Metric:</span> {g.metric}
+                                </div>
+                              ) : null}
+                              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                            </div>
+                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
+                              <span className="inline-flex items-center gap-2">
+                                <span
+                                  aria-hidden
+                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
+                                />
+                                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
+                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                                </time>
+                              </span>
+                              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
+                                {g.done ? "Done" : "Active"}
+                              </span>
+                            </footer>
+                          </article>
+                        ))
+                      )}
                     </div>
-                    <div className="grid gap-6 lg:grid-cols-2">
-                      <section ref={formRef}>
-                        <GoalForm
-                          title={title}
-                          pillar={pillar}
-                          metric={metric}
-                          notes={notes}
-                          onTitleChange={setTitle}
-                          onPillarChange={setPillar}
-                          onMetricChange={setMetric}
-                          onNotesChange={setNotes}
-                          onSubmit={addGoal}
-                          activeCount={activeCount}
-                          activeCap={ACTIVE_CAP}
-                          err={err}
-                        />
-                      </section>
-                      <GoalQueue items={waitlist} onAdd={addWait} onRemove={removeWait} />
-                    </div>
-                  </div>
-                </div>
+                  </SectionCard.Body>
+                </SectionCard>
+              )}
+
+              <div ref={formRef}>
+                <GoalForm
+                  title={title}
+                  metric={metric}
+                  notes={notes}
+                  onTitleChange={setTitle}
+                  onMetricChange={setMetric}
+                  onNotesChange={setNotes}
+                  onSubmit={addGoal}
+                  activeCount={activeCount}
+                  activeCap={ACTIVE_CAP}
+                  err={err}
+                />
               </div>
 
               {lastDeleted && (

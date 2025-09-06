@@ -44,14 +44,22 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <div className="goal-card p-4 shadow-neoSoft">
-        <h2 className="mb-4 text-lg font-semibold uppercase tracking-tight">Add Goal</h2>
-        <div className="grid gap-4">
-          <label htmlFor="goal-title" className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--fg-muted))]">Title</span>
+      <SectionCard className="card-neo-soft">
+        <SectionCard.Header
+          className="flex items-center justify-between"
+          title={<h2 className="text-lg font-semibold">Add Goal</h2>}
+          actions={
+            <Button type="submit" size="sm" disabled={!title.trim()}>
+              Add Goal
+            </Button>
+          }
+        />
+        <SectionCard.Body className="grid gap-6">
+          <label className="grid gap-1">
+            <span className="text-xs text-white/60">Title</span>
             <Input
-              id="goal-title"
-              className="h-12 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              tone="default"
+              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -59,73 +67,48 @@ export default function GoalForm({
             />
           </label>
 
-          <label htmlFor="goal-pillar" className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--fg-muted))]">Pillar (optional)</span>
-            <select
-              id="goal-pillar"
-              className="h-10 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
-              value={pillar}
-              onChange={(e) => onPillarChange(e.target.value as Pillar | "")}
-              aria-describedby="goal-form-help goal-form-error"
-            >
-              <option value="">None</option>
-              {PILLARS.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label htmlFor="goal-metric" className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--fg-muted))]">Metric (optional)</span>
+          <label className="grid gap-1">
+            <span className="text-xs text-white/60">Metric (optional)</span>
             <Input
-              id="goal-metric"
-              className="h-10 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] tabular-nums focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              tone="default"
+              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label htmlFor="goal-notes" className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--fg-muted))]">Notes (optional)</span>
+          <label className="grid gap-1">
+            <span className="text-xs text-white/60">Notes (optional)</span>
             <Textarea
-              id="goal-notes"
-              className="min-h-24 rounded-2xl border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]"
+              tone="default"
+              className="min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
           </label>
-        </div>
-        <div className="mt-6 flex items-center justify-between">
-          <p id="goal-form-help" className="glitch-text text-xs text-[hsl(var(--fg-muted))]">
-            {activeCount >= activeCap
-              ? "Cap reached. Finish one to add more."
-              : `${activeCap - activeCount} active slot${activeCap - activeCount === 1 ? "" : "s"} left`}
-          </p>
-          <Button
-            type="submit"
-            size="lg"
-            className="h-12 rounded-2xl"
-            disabled={!title.trim()}
-            aria-label="Add Goal"
-          >
-            Add Goal
-          </Button>
-        </div>
-        {err ? (
-          <p
-            id="goal-form-error"
-            role="status"
-            aria-live="polite"
-            className="glitch-text mt-2 text-xs text-[hsl(var(--accent))]"
-          >
-            {err}
-          </p>
-        ) : null}
-      </div>
+
+          <div className="text-xs text-white/60">
+            {activeCount >= activeCap ? (
+              <span className="text-[hsl(var(--accent))]">
+                Cap reached. Finish one to add more.
+              </span>
+            ) : (
+              <span>
+                {activeCap - activeCount} active slot
+                {activeCap - activeCount === 1 ? "" : "s"} left
+              </span>
+            )}
+          </div>
+
+          {err ? (
+            <p role="status" aria-live="polite" className="text-xs text-[hsl(var(--accent))]">
+              {err}
+            </p>
+          ) : null}
+        </SectionCard.Body>
+      </SectionCard>
     </form>
   );
 }
