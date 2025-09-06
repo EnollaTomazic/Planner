@@ -14,6 +14,13 @@ export default function ReviewPage() {
   const [reviews, setReviews] = useLocalDB<Review[]>("reviews.v1", []);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  // After local DB hydration, select the first review if none is chosen
+  useEffect(() => {
+    if (!selectedId && reviews.length > 0) {
+      setSelectedId(reviews[0].id);
+    }
+  }, [reviews, selectedId]);
+
   // Auto-heal selection if the selected review gets deleted or doesn't exist yet
   useEffect(() => {
     if (selectedId && !reviews.some(r => r.id === selectedId)) {
