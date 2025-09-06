@@ -12,6 +12,7 @@ export { default as Textarea } from "./primitives/Textarea";
 export { default as Badge } from "./primitives/Badge";
 export { default as Pill } from "./primitives/Pill";
 export { default as SearchBar } from "./primitives/SearchBar";
+export { default as Card } from "./primitives/Card";
 export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/GlitchSegmented";
 //
 // Feedback

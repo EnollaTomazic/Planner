@@ -10,7 +10,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 
 ## Layout and spacing
 - Use a 12‑column grid with 24px gutters.
-- Spacing scale is limited to 8/12/16/20/24/32px.
+- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64.
 
 ## Typography
 - Font sizes: 12px for labels, 14px for UI text, 16px for body copy, and 20/24px for titles.
