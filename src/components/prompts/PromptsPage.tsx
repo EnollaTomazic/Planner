@@ -152,6 +152,22 @@ export default function PromptsPage() {
           )}
         </div>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Input</h3>
+          <div className="space-y-3">
+            <Input placeholder="Default" />
+            <Input placeholder="Error" aria-invalid="true" />
+            <Input placeholder="With action">
+              <button
+                type="button"
+                aria-label="Confirm"
+                className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-[hsl(var(--accent)/0.45)] bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent))] shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+              >
+                <CheckIcon className="size-4" />
+              </button>
+            </Input>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
           <div>
             <h4 className="type-subtitle">Spacing</h4>
