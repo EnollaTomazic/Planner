@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { buttonSizes, type ButtonSize } from "./button";
+import type { ButtonSize } from "./Button";
 
 type Icon = "xs" | "sm" | "md" | "lg";
 
@@ -35,7 +35,7 @@ const sizeMap: Record<ButtonSize, string> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "md", circleSize, iconSize = size, className, ...rest },
+    { size = "md", circleSize, iconSize = size as Icon, className, ...rest },
     ref
   ) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
