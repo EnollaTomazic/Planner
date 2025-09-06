@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Textarea > renders default state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-start rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter"
+  >
+    <textarea
+      aria-label="test"
+      class="flex-1 min-h-[96px] h-24 px-3.5 py-3 text-sm bg-transparent placeholder:text-[hsl(var(--muted-foreground))/0.8] text-[hsl(var(--foreground))] caret-[hsl(var(--accent))] outline-none resize-y disabled:cursor-not-allowed"
+      id=":r0:"
+      name="test"
+    />
+  </div>
+</div>
+`;
+
+exports[`Textarea > renders disabled state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-start rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter opacity-60 cursor-not-allowed focus-within:ring-0 focus-within:shadow-none"
+  >
+    <textarea
+      aria-label="test"
+      class="flex-1 min-h-[96px] h-24 px-3.5 py-3 text-sm bg-transparent placeholder:text-[hsl(var(--muted-foreground))/0.8] text-[hsl(var(--foreground))] caret-[hsl(var(--accent))] outline-none resize-y disabled:cursor-not-allowed"
+      disabled=""
+      id=":r3:"
+      name="test"
+    />
+  </div>
+</div>
+`;
+
+exports[`Textarea > renders error state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-start rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter border-[hsl(var(--destructive)/0.55)] focus-within:ring-[hsl(var(--destructive)/0.35)]"
+  >
+    <textarea
+      aria-describedby=":r2:-error"
+      aria-invalid="true"
+      aria-label="test"
+      class="flex-1 min-h-[96px] h-24 px-3.5 py-3 text-sm bg-transparent placeholder:text-[hsl(var(--muted-foreground))/0.8] text-[hsl(var(--foreground))] caret-[hsl(var(--accent))] outline-none resize-y disabled:cursor-not-allowed"
+      id=":r2:"
+      name="test"
+    />
+  </div>
+  <p
+    class="text-xs mt-1 line-clamp-2 text-[hsl(var(--destructive))]"
+    id=":r2:-error"
+  >
+    Error
+  </p>
+</div>
+`;
+
+exports[`Textarea > renders focus state 1`] = `
+<div
+  class="space-y-1"
+>
+  <div
+    class="group relative inline-flex w-full items-start rounded-[16px] border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out before:content-[''] before:scanlines before:opacity-5 after:content-[''] after:noise hover:border-[hsl(var(--border)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] focus-within:ring-2 focus-within:ring-[hsl(var(--accent)/0.28)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--background))] focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] jitter"
+  >
+    <textarea
+      aria-label="test"
+      class="flex-1 min-h-[96px] h-24 px-3.5 py-3 text-sm bg-transparent placeholder:text-[hsl(var(--muted-foreground))/0.8] text-[hsl(var(--foreground))] caret-[hsl(var(--accent))] outline-none resize-y disabled:cursor-not-allowed"
+      id=":r1:"
+      name="test"
+    />
+  </div>
+</div>
+`;
