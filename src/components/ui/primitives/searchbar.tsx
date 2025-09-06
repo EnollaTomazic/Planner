@@ -4,47 +4,23 @@ import * as React from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Input from "./input";
-import IconButton from "./IconButton";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "size"
+  "onChange"
 > & {
   value: string;
   onValueChange?: (next: string) => void;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  size?: "sm" | "md" | "lg";
   right?: React.ReactNode;
   clearable?: boolean;
   debounceMs?: number;
-};
-
-const sizeMap: Record<NonNullable<SearchBarProps["size"]>, string> = {
-  sm: "h-9 text-sm",
-  md: "h-10 text-sm",
-  lg: "h-11 text-base",
-};
-const clearPadMap: Record<NonNullable<SearchBarProps["size"]>, string> = {
-  sm: "pr-10",
-  md: "pr-10",
-  lg: "pr-11",
-};
-const btnCircleMap: Record<NonNullable<SearchBarProps["size"]>, "sm" | "md"> = {
-  sm: "sm",
-  md: "sm",
-  lg: "md",
-};
-const btnIconMap: Record<NonNullable<SearchBarProps["size"]>, "xs" | "sm" | "md"> = {
-  sm: "sm",
-  md: "sm",
-  lg: "md",
 };
 
 export default function SearchBar({
   value,
   onValueChange,
   onChange,
-  size = "md",
   right,
   placeholder = "Search…",
   className,
@@ -88,8 +64,8 @@ export default function SearchBar({
       {/* Input column */}
       <div className="relative min-w-0">
         <Search
-          size={16}
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          size={18}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
           aria-hidden
         />
 
@@ -98,13 +74,13 @@ export default function SearchBar({
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            onChange?.(e); // immediate callback if the consumer wants it
+            onChange?.(e);
           }}
           placeholder={placeholder}
+          indent
           className={cn(
-            "w-full pl-9 rounded-full", // always pill
-            sizeMap[size],
-            showClear && clearPadMap[size],
+            "w-full",
+            showClear && "pr-10",
             "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
           )}
           aria-label={rest["aria-label"] ?? "Search"}
@@ -112,22 +88,19 @@ export default function SearchBar({
         />
 
         {showClear && (
-          <IconButton
+          <button
+            type="button"
             aria-label="Clear"
             title="Clear"
-            tone="primary"
-            circleSize={btnCircleMap[size]}
-            iconSize={btnIconMap[size]}
-            // Position clear button inside the input without overlapping text
-            className="!absolute right-2 top-1/2 -translate-y-1/2"
+            className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground"
             onClick={() => {
               setQuery("");
               onValueChange?.("");
               inputRef.current?.focus();
             }}
           >
-            <X />
-          </IconButton>
+            <X className="h-[18px] w-[18px]" />
+          </button>
         )}
       </div>
 

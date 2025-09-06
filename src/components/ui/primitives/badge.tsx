@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -15,14 +14,17 @@ type Tone =
   | "adc"
   | "support";
 
-export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
+type BadgeOwnProps<T extends React.ElementType = "span"> = {
   size?: Size;
   tone?: Tone;
   interactive?: boolean;
   selected?: boolean;
   glitch?: boolean;
-  as?: "span" | "button";
+  as?: T;
 };
+
+export type BadgeProps<T extends React.ElementType = "span"> = BadgeOwnProps<T> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
   xs: "px-2 py-[3px] text-[11px] leading-none",
@@ -32,7 +34,7 @@ const sizeMap: Record<Size, string> = {
 const toneBorder: Record<Tone, string> = {
   neutral: "border-[hsl(var(--card-hairline))]",
   primary: "border-[hsl(var(--ring))]",
-  accent: "border-[hsl(var(--accent))]",
+  accent: "border-[var(--accent-overlay)]",
   top: "border-[hsl(var(--tone-top))]",
   jungle: "border-[hsl(var(--tone-jg))]",
   mid: "border-[hsl(var(--tone-mid))]",
@@ -40,18 +42,18 @@ const toneBorder: Record<Tone, string> = {
   support: "border-[hsl(var(--tone-sup))]",
 };
 
-export default function Badge({
+export default function Badge<T extends React.ElementType = "span">({
   size = "sm",
   tone = "neutral",
   interactive = false,
   selected = false,
   glitch = false,
-  as = "span",
+  as,
   className,
   children,
   ...rest
-}: BadgeProps) {
-  const Comp = as as any;
+}: BadgeProps<T>) {
+  const Comp = as ?? "span";
 
   return (
     <Comp
@@ -59,16 +61,16 @@ export default function Badge({
       className={cn(
         "inline-flex max-w-full items-center gap-[6px] whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
         "border bg-[color-mix(in_oklab,hsl(var(--muted))_18%,transparent)]",
-        "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_rgb(0_0_0/.18)]",
+        "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_hsl(var(--shadow-color)/.18)]",
         "transition-[background,box-shadow,transform] duration-150 ease-out",
         sizeMap[size],
         toneBorder[tone],
-        interactive && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] cursor-pointer",
+        interactive && "cursor-pointer",
         interactive && "hover:bg-[color-mix(in_oklab,hsl(var(--muted))_28%,transparent)]",
         selected &&
-          "bg-[color-mix(in_oklab,hsl(var(--primary-soft))_36%,transparent)] border-[hsl(var(--ring))] shadow-[0_0_0_1px_hsl(var(--ring)/.6)_inset,0_8px_22px_hsl(var(--shadow-color)/.6)]",
+          "bg-[color-mix(in_oklab,hsl(var(--primary-soft))_36%,transparent)] border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_8px_22px_var(--glow-active)] text-[var(--text-on-accent)]",
         glitch &&
-          "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset,0_0_16px_hsl(var(--accent)/.25)] hover:shadow-[0_0_0_1px_hsl(var(--ring))_inset,0_0_20px_hsl(var(--accent)/.35)]",
+          "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset,0_0_16px_var(--glow-active)] hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_0_20px_var(--glow-active)]",
         className
       )}
       {...rest}

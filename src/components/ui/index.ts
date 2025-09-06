@@ -9,9 +9,10 @@ export { default as Button } from "./primitives/button";
 export { default as IconButton } from "./primitives/IconButton";
 export { default as Input } from "./primitives/input";
 export { default as Textarea } from "./primitives/textarea";
-export { default as Badge } from "./primitives/badge";
+export { default as Badge } from "./Badge";
 export { default as Pill } from "./primitives/pill";
 export { default as SearchBar } from "./primitives/searchbar";
+export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/glitch-segmented";
 //
 // Feedback
 //

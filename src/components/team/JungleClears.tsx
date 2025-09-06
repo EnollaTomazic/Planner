@@ -14,10 +14,16 @@ import "../team/style.css";
 import { useMemo, useState } from "react";
 import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { Timer } from "lucide-react";
+import IconButton from "@/components/ui/primitives/IconButton";
+import Input from "@/components/ui/primitives/input";
+import { useLocalDB, uid } from "@/lib/db";
+import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
 import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";
 
-type JunglerRow = (typeof JUNGLE_ROWS)[number];
+type JunglerRowSeed = (typeof JUNGLE_ROWS)[number];
+type JunglerRow = JunglerRowSeed & { id: string };
+const STORE_KEY = "team:jungle.clears.v1";
+const SEEDS: JunglerRow[] = JUNGLE_ROWS.map((r) => ({ ...r, id: uid("jg") }));
 const BUCKETS: ClearSpeed[] = ["Very Fast", "Fast", "Medium", "Slow"];
 
 const SPEED_PERSONA: Record<ClearSpeed, { tag: string; line: string }> = {
@@ -35,25 +41,87 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 };
 
 export default function JungleClears() {
+  const [items, setItems] = useLocalDB<JunglerRow[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = useState("");
+  const [editing, setEditing] = useState<{
+    id: string;
+    champ: string;
+    type: string;
+    notes: string;
+  } | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return JUNGLE_ROWS;
-    return JUNGLE_ROWS.filter((r) => {
+    return items.filter((r) => {
+      if (!q) return true;
       const hay = [r.champ, ...(r.type ?? []), r.notes ?? ""].join(" ").toLowerCase();
       return hay.includes(q);
     });
-  }, [query]);
+  }, [query, items]);
 
   const exampleByBucket = useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
-      const row = JUNGLE_ROWS.find((r) => r.speed === b);
+      const row = items.find((r) => r.speed === b && r.champ.trim());
       map[b] = row?.champ ?? "-";
     }
     return map;
-  }, []);
+  }, [items]);
+
+  function startEdit(r: JunglerRow) {
+    setEditing({
+      id: r.id,
+      champ: r.champ,
+      type: (r.type ?? []).join(", "),
+      notes: r.notes ?? "",
+    });
+  }
+
+  function cancelEdit() {
+    if (editing) {
+      const existing = items.find((r) => r.id === editing.id);
+      if (existing && !existing.champ.trim()) {
+        setItems((prev) => prev.filter((r) => r.id !== editing.id));
+      }
+    }
+    setEditing(null);
+  }
+
+  function saveEdit() {
+    if (!editing) return;
+    setItems((prev) =>
+      prev.map((r) =>
+        r.id === editing.id
+          ? {
+              ...r,
+              champ: editing.champ.trim() || r.champ,
+              type: editing.type
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean),
+              notes: editing.notes.trim() || undefined,
+            }
+          : r
+      )
+    );
+    setEditing(null);
+  }
+
+  function deleteRow(id: string) {
+    setItems((prev) => prev.filter((r) => r.id !== id));
+  }
+
+  function addRow(bucket: ClearSpeed) {
+    const newRow: JunglerRow = {
+      id: uid("jg"),
+      champ: "",
+      speed: bucket,
+      type: [],
+      notes: "",
+    };
+    setItems((prev) => [...prev, newRow]);
+    setEditing({ id: newRow.id, champ: "", type: "", notes: "" });
+  }
 
   return (
     <div data-scope="team" className="grid gap-4 sm:gap-6">
@@ -81,7 +149,7 @@ export default function JungleClears() {
       {/* Buckets */}
       <div className="grid gap-6 md:grid-cols-2">
         {BUCKETS.map((bucket) => {
-          const rowsAll = JUNGLE_ROWS.filter((r) => r.speed === bucket);
+          const rowsAll = items.filter((r) => r.speed === bucket);
           const rows = filtered.filter((r) => r.speed === bucket);
 
           return (
@@ -131,6 +199,12 @@ export default function JungleClears() {
                   </span>
                 </div>
 
+                <div className="mb-2 flex justify-end">
+                  <IconButton circleSize="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
+                    <Plus />
+                  </IconButton>
+                </div>
+
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <caption className="sr-only">{bucket} junglers with types and notes</caption>
@@ -139,24 +213,91 @@ export default function JungleClears() {
                         <th scope="col" className="pr-3">Champion</th>
                         <th scope="col" className="pr-3">Type</th>
                         <th scope="col" className="pr-3">Notes</th>
+                        <th scope="col" className="w-12 pr-3">
+                          <span className="sr-only">Actions</span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {rows.map((r: JunglerRow) => (
-                        <tr
-                          key={r.champ}
-                          className="h-10 border-t border-[hsl(var(--border))]/40 hover:bg-[hsl(var(--card))/0.45]"
-                        >
-                          <td className="py-2 pr-3 font-medium">{r.champ}</td>
-                          <td className="py-2 pr-3">
-                            <div className="flex flex-wrap gap-1.5">
-                              {(r.type ?? []).map((t) => (
-                                <span key={t} className="pill pill-compact text-xs">{t}</span>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="py-2 pr-3">{r.notes ?? "-"}</td>
-                        </tr>
+                        editing?.id === r.id ? (
+                          <tr
+                            key={r.id}
+                            className="h-10 border-t border-[hsl(var(--border))]/40 hover:bg-[hsl(var(--card))/0.45]"
+                          >
+                            <td className="py-2 pr-3 font-medium">
+                              <Input
+                                aria-label="Champion"
+                                value={editing.champ}
+                                onChange={(e) => setEditing({ ...editing, champ: e.currentTarget.value })}
+                              />
+                            </td>
+                            <td className="py-2 pr-3">
+                              <Input
+                                aria-label="Type"
+                                placeholder="AD, Assassin"
+                                value={editing.type}
+                                onChange={(e) => setEditing({ ...editing, type: e.currentTarget.value })}
+                              />
+                            </td>
+                            <td className="py-2 pr-3">
+                              <Input
+                                aria-label="Notes"
+                                value={editing.notes}
+                                onChange={(e) => setEditing({ ...editing, notes: e.currentTarget.value })}
+                              />
+                            </td>
+                            <td className="py-2 pr-3">
+                              <div className="flex gap-1">
+                                <IconButton circleSize="sm" iconSize="xs" aria-label="Save" onClick={saveEdit}>
+                                  <Check />
+                                </IconButton>
+                                <IconButton
+                                  circleSize="sm"
+                                  iconSize="xs"
+                                  tone="danger"
+                                  aria-label="Cancel"
+                                  onClick={cancelEdit}
+                                >
+                                  <X />
+                                </IconButton>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : (
+                          <tr
+                            key={r.id}
+                            className="h-10 border-t border-[hsl(var(--border))]/40 hover:bg-[hsl(var(--card))/0.45]"
+                          >
+                            <td className="py-2 pr-3 font-medium">{r.champ}</td>
+                            <td className="py-2 pr-3">
+                              <div className="flex flex-wrap gap-1.5">
+                                {(r.type ?? []).map((t) => (
+                                  <span key={t} className="pill pill-compact text-xs">
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="py-2 pr-3">{r.notes ?? "-"}</td>
+                            <td className="py-2 pr-3">
+                              <div className="flex gap-1">
+                                <IconButton circleSize="sm" iconSize="xs" aria-label="Edit" onClick={() => startEdit(r)}>
+                                  <Pencil />
+                                </IconButton>
+                                <IconButton
+                                  circleSize="sm"
+                                  iconSize="xs"
+                                  tone="danger"
+                                  aria-label="Delete"
+                                  onClick={() => deleteRow(r.id)}
+                                >
+                                  <Trash2 />
+                                </IconButton>
+                              </div>
+                            </td>
+                          </tr>
+                        )
                       ))}
                     </tbody>
                   </table>

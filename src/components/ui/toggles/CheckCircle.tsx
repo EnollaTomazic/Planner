@@ -29,7 +29,7 @@ const SIZE: Record<Size, string> = {
 
 export default function CheckCircle({
   checked,
-  onChange,
+  onChange = () => {},
   size = "md",
   className,
   disabled = false,
@@ -39,7 +39,7 @@ export default function CheckCircle({
   "aria-label": ariaLabel = "Toggle",
 }: {
   checked: boolean;
-  onChange: (next: boolean) => void;
+  onChange?: (next: boolean) => void;
   size?: Size;
   className?: string;
   disabled?: boolean;
@@ -65,6 +65,19 @@ export default function CheckCircle({
     const t = setTimeout(() => setJustCleared(false), 420);
     return () => clearTimeout(t);
   }, []);
+
+  // If our checked state flips off from an external source while hovered or
+  // focused, ensure we still run the "just cleared" power-down sequence so the
+  // neon rim doesn't remain lit.
+  const prevChecked = React.useRef(checked);
+  React.useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    if (prevChecked.current && !checked && !justCleared) {
+      cleanup = markJustCleared();
+    }
+    prevChecked.current = checked;
+    return cleanup;
+  }, [checked, markJustCleared, justCleared]);
 
   // Theme-driven tones
   const pink = "hsl(var(--success,316 92% 70%))";
@@ -116,12 +129,8 @@ export default function CheckCircle({
     }
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      if (checked) {
-        onChange(false);
-        markJustCleared();
-      } else {
-        onChange(true);
-      }
+      onChange(!checked);
+      if (checked) markJustCleared();
     }
   }
 
@@ -146,12 +155,8 @@ export default function CheckCircle({
               clearSelection();
               return;
             }
-            if (checked) {
-              onChange(false);
-              markJustCleared();
-            } else {
-              onChange(true);
-            }
+            onChange(!checked);
+            if (checked) markJustCleared();
           }}
           onKeyDown={onKey}
           onMouseEnter={() => setHovered(true)}

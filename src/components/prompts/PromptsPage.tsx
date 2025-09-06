@@ -12,6 +12,7 @@ import Textarea from "@/components/ui/primitives/textarea";
 import Button from "@/components/ui/primitives/button";
 import Input from "@/components/ui/primitives/input";
 import { useLocalDB, uid } from "@/lib/db";
+import { LOCALE } from "@/lib/utils";
 
 type Prompt = {
   id: string;
@@ -31,15 +32,18 @@ export default function PromptsPage() {
   // Search (now lives in the header)
   const [query, setQuery] = React.useState("");
 
-  // Derived: filtered list
-  const filtered = React.useMemo(() => {
+  // Derived: filtered list (compute titles once per prompt)
+  type PromptWithTitle = Prompt & { title: string };
+  const filtered: PromptWithTitle[] = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return prompts.slice();
-    return prompts.filter((p) => {
-      const title = deriveTitle(p).toLowerCase();
-      const text = (p.text || "").toLowerCase();
-      return title.includes(q) || text.includes(q);
-    });
+    return prompts.reduce<PromptWithTitle[]>((acc, p) => {
+      const title = deriveTitle(p);
+      const text = p.text || "";
+      if (!q || title.toLowerCase().includes(q) || text.toLowerCase().includes(q)) {
+        acc.push({ ...p, title });
+      }
+      return acc;
+    }, []);
   }, [prompts, query]);
 
   function deriveTitle(p: Prompt) {
@@ -85,7 +89,7 @@ export default function PromptsPage() {
               />
             </div>
             <Button
-              variant="ghost"
+              variant="primary"
               onClick={save}
               disabled={!titleDraft.trim() && !textDraft.trim()}
             >
@@ -97,7 +101,7 @@ export default function PromptsPage() {
 
       <SectionCard.Body>
         {/* Compose panel */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <Input
             placeholder="Title"
             value={titleDraft}
@@ -115,9 +119,9 @@ export default function PromptsPage() {
           {filtered.map((p) => (
             <article key={p.id} className="card-neo p-3">
               <header className="flex items-center justify-between">
-                <h3 className="font-semibold">{deriveTitle(p)}</h3>
+                <h3 className="font-semibold">{p.title}</h3>
                 <time className="text-xs text-muted-foreground">
-                  {new Date(p.createdAt).toLocaleString()}
+                  {new Date(p.createdAt).toLocaleString(LOCALE)}
                 </time>
               </header>
               {p.text ? (

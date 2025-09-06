@@ -16,12 +16,25 @@
   --accent: 292 80% 60%;
   --accent-2: 192 90% 50%;
   --accent-soft: 292 80% 20%;
+  --glow: 292 80% 60%;
+  --ring-muted: 248 20% 22%;
+  --danger: 0 84% 60%;
   --muted: 248 26% 14%;
   --muted-foreground: 250 15% 70%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+  --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+  --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+  --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+
+  /* Default button tones */
+  --neon: var(--glow);
+  --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
+  --btn-bg: transparent;
+  --btn-fg: hsl(var(--foreground));
 
   /* Hairlines, radii, motion, control geometry, gradients */
   /* Fallback (works everywhere) */
@@ -33,7 +46,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-2);
+  --control-h: 42px; --control-radius: var(--radius-3);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(
@@ -83,6 +96,9 @@ html.light {
   --accent: 292 80% 45%;
   --accent-2: 200 100% 50%;
   --accent-soft: 292 80% 94%;
+  --glow: 292 80% 45%;
+  --ring-muted: 240 9% 90%;
+  --danger: 0 84% 55%;
   --muted: 240 6% 96%;
   --muted-foreground: 240 4% 35%;
   --shadow-color: 262 83% 58%;
@@ -91,26 +107,64 @@ html.light {
   --success-glow: 316 86% 48% / 0.55;
 }
 
+/* ---------- Glitch v2 ---------- */
+html.theme-glitch2 {
+  --background: 252 35% 9%;
+  --foreground: 260 20% 98%;
+  --card: 254 30% 12%;
+  --border: 256 20% 24%;
+  --input: 254 22% 14%;
+  --ring: 268 70% 66%;
+  --primary: 268 70% 66%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 268 70% 24%;
+  --accent: 286 65% 70%;
+  --accent-2: 200 70% 60%;
+  --accent-soft: 286 60% 24%;
+  --muted: 252 26% 16%;
+  --muted-foreground: 252 14% 75%;
+  --shadow-color: 268 70% 66%;
+  --lav-deep: 312 75% 65%;
+  --success: 316 92% 70%;
+  --success-glow: 316 92% 52% / 0.6;
+  --edge-iris: conic-gradient(
+    from 180deg,
+    hsl(268 70% 66% / 0),
+    hsl(268 70% 66% / 0.7),
+    hsl(200 70% 60% / 0.7),
+    hsl(312 75% 65% / 0.7),
+    hsl(268 70% 66% / 0)
+  );
+  --seg-active-grad: linear-gradient(
+    90deg,
+    hsl(268 70% 66% / 0.95),
+    hsl(286 65% 70% / 0.95),
+    hsl(200 70% 60% / 0.95)
+  );
+  --shadow: 0 10px 30px hsl(252 30% 4% / 0.3);
+}
+
 /* ---------- Citrus ---------- */
 html.theme-citrus {
-  --background: 45 80% 96%;
-  --foreground: 35 40% 18%;
-  --card: 45 90% 98%;
-  --border: 40 20% 82%;
-  --input: 40 80% 92%;
-  --ring: 40 95% 50%;
-  --primary: 40 95% 50%;
+  /* Dark Citrus palette */
+  --background: 28 30% 9%;
+  --foreground: 30 35% 96%;
+  --card: 28 30% 14%;
+  --border: 30 25% 24%;
+  --input: 30 22% 16%;
+  --ring: 33 92% 58%;
+  --primary: 33 92% 58%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 40 90% 92%;
-  --accent: 20 90% 60%;
-  --accent-2: 15 85% 50%;
-  --accent-soft: 20 80% 94%;
-  --muted: 40 40% 90%;
-  --muted-foreground: 40 20% 40%;
-  --shadow-color: 35 90% 50%;
-  --lav-deep: 20 85% 50%;
-  --success: 150 70% 40%;
-  --success-glow: 150 70% 30% / 0.6;
+  --primary-soft: 33 90% 22%;
+  --accent: 188 75% 55%;
+  --accent-2: 165 70% 45%;
+  --accent-soft: 188 60% 22%;
+  --muted: 28 22% 18%;
+  --muted-foreground: 28 14% 70%;
+  --shadow-color: 33 92% 58%;
+  --lav-deep: 188 75% 55%;
+  --success: 150 70% 45%;
+  --success-glow: 150 70% 35% / 0.6;
 }
 
 /* ---------- Noir ---------- */
@@ -188,7 +242,7 @@ html.theme-rose {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -198,7 +252,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -208,7 +262,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -219,27 +273,39 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
   animation: lg-aurora-pan 24s ease-in-out infinite alternate;
 }
 
+/* Glitch v2 backdrop */
+html.theme-glitch2 body {
+  background-image:
+    radial-gradient(1000px 600px at 20% -10%, hsl(268 70% 66% / 0.2), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed;
+}
+html.theme-glitch2 body::before,
+html.theme-glitch2 body::after {
+  content: none;
+}
+
 /* Citrus backdrop */
 html.theme-citrus body {
   background-image:
-    radial-gradient(1200px 700px at 20% -10%, hsl(40 95% 50% / 0.22), transparent 60%),
-    radial-gradient(1200px 600px at 120% 10%, hsl(20 90% 60% / 0.18), transparent 60%),
+    radial-gradient(1200px 700px at 20% -10%, hsl(33 92% 58% / 0.22), transparent 60%),
+    radial-gradient(1200px 600px at 120% 10%, hsl(188 75% 55% / 0.18), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-citrus body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.08;
   background:
-    repeating-linear-gradient(90deg, hsl(40 95% 50% / 0.35) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(20 90% 60% / 0.35) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(33 92% 58% / 0.25) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(188 75% 55% / 0.25) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; animation: citrus-grid 20s linear infinite;
 }
 html.theme-citrus body::after {
   content: ""; position: fixed; inset: -8%; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(60% 40% at 12% -5%,  hsl(40 95% 50% / 0.18), transparent 60%),
-    radial-gradient(50% 35% at 105% 10%, hsl(20 90% 60% / 0.16), transparent 60%),
-    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 40% / 0.12), transparent 65%);
+    radial-gradient(60% 40% at 12% -5%,  hsl(33 92% 58% / 0.18), transparent 60%),
+    radial-gradient(50% 35% at 105% 10%, hsl(188 75% 55% / 0.16), transparent 60%),
+    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 45% / 0.12), transparent 65%);
   filter: blur(2px) saturate(110%); animation: citrus-pan 28s ease-in-out infinite alternate;
 }
 @keyframes citrus-grid { to { transform: translate3d(26px, 26px, 0); } }
@@ -326,6 +392,79 @@ html.theme-rose body::after {
   filter: blur(2px) saturate(112%); animation: rose-pan 27s ease-in-out infinite alternate;
 }
 @keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
+
+/* Additional background options */
+html.bg-alt1 body {
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, hsl(var(--accent) / 0.20), transparent 60%),
+    radial-gradient(900px 500px at 110% 20%, hsl(var(--accent-2) / 0.18), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt1 body::before,
+html.bg-alt1 body::after {
+  content: none;
+}
+
+html.bg-alt2 body {
+  background-image:
+    radial-gradient(1000px 600px at 50% 0%, hsl(var(--primary) / 0.18), transparent 60%),
+    radial-gradient(900px 500px at 50% 120%, hsl(var(--accent) / 0.16), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt2 body::before,
+html.bg-alt2 body::after {
+  content: none;
+}
+
+html.bg-light body {
+  background-image:
+    radial-gradient(1200px 700px at 50% -10%, hsl(var(--foreground) / 0.08), transparent 60%),
+    radial-gradient(1000px 600px at 50% 120%, hsl(var(--accent) / 0.06), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-light body::before,
+html.bg-light body::after {
+  content: none;
+}
+
+html.bg-vhs body {
+  background-color: #0b0f13;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(70, 230, 255, 0.15), transparent 60%),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(150, 210, 225, 0.15),
+      rgba(150, 210, 225, 0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-blend-mode: screen;
+}
+html.bg-vhs body::before,
+html.bg-vhs body::after {
+  content: none;
+}
+
+html.bg-streak body {
+  background-color: #1a1a24;
+  background-image:
+    radial-gradient(circle at 70% 40%, rgba(180, 100, 255, 0.25), transparent 40%),
+    repeating-linear-gradient(
+      to right,
+      rgba(160, 60, 255, 0.2),
+      rgba(160, 60, 255, 0.2) 6px,
+      transparent 6px,
+      transparent 20px
+    );
+  background-blend-mode: lighten;
+}
+html.bg-streak body::before,
+html.bg-streak body::after {
+  content: none;
+}
 
 /* ---------- Shared backdrop animations ---------- */
 @keyframes lg-grid-drift { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(26px,26px,0)} }

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
-import { Plus } from "lucide-react";
+import { Ghost, Plus } from "lucide-react";
 
 import Button from "@/components/ui/primitives/button";
 // ⬇️ use the new AnimatedSelect location
@@ -92,7 +92,7 @@ export default function ReviewsPage({
   const active = base.find((r) => r.id === selectedId) || null;
 
   return (
-    <div className="space-y-4">
+    <main className="page-shell space-y-6 py-6">
       <Hero2
         heading={
           <div className="flex items-center gap-2">
@@ -127,16 +127,15 @@ export default function ReviewsPage({
                 type="button"
                 variant="primary"
                 size="md"
-                pill
-                leftIcon={<Plus />}
-                className="btn-like-segmented px-3.5 whitespace-nowrap"
+                className="px-3.5 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
                   onCreate();
                 }}
               >
-                New Review
+                <Plus className="size-4" />
+                <span>New Review</span>
               </Button>
             </div>
           </>
@@ -145,12 +144,12 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid items-start gap-4",
+          "grid items-start gap-6",
           "grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr]"
         )}
       >
         <aside>
-          <SectionCard className="overflow-hidden">
+          <SectionCard className="overflow-hidden bg-card/50">
             <SectionCard.Body>
               <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
               <ReviewList
@@ -160,8 +159,6 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                onRename={onRename}
-                onDelete={onDelete}
                 className="max-h-[66dvh] overflow-auto p-2"
               />
             </SectionCard.Body>
@@ -170,8 +167,9 @@ export default function ReviewsPage({
 
         <SectionCard className="overflow-hidden">
           {!active ? (
-            <SectionCard.Body className="text-sm text-muted-foreground">
-              No review selected. Pick one on the left or create a new one.
+            <SectionCard.Body className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+              <Ghost className="h-6 w-6 opacity-60" />
+              <p>Select a review from the list or create a new one.</p>
             </SectionCard.Body>
           ) : panelMode === "summary" ? (
             <ReviewSummary
@@ -193,6 +191,6 @@ export default function ReviewsPage({
           )}
         </SectionCard>
       </div>
-    </div>
+    </main>
   );
 }

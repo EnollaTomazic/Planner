@@ -145,10 +145,6 @@ export default function Reminders() {
     setQuickAdd("");
   }
 
-  function addNew() {
-    addNewWithTitle("New reminder");
-  }
-
   function patch(id: string, partial: Partial<Reminder>) {
     setItems(prev => prev.map(r => (r.id === id ? { ...r, ...partial, updatedAt: Date.now() } : r)));
   }
@@ -167,18 +163,18 @@ export default function Reminders() {
   }
 
   return (
-    <div className="grid gap-4">
-      <SectionCard className="card-neo">
+    <div className="grid gap-2.5">
+      <SectionCard className="card-neo-soft">
         <SectionCard.Header sticky>
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}
             <div className="relative flex-1 min-w-[220px]">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 opacity-70" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70" />
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
-                className="pl-9 h-10"
+                className="pl-10"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
@@ -209,9 +205,6 @@ export default function Reminders() {
             </button>
 
             {/* actions */}
-            <IconButton title="Add reminder" aria-label="Add reminder" onClick={addNew} circleSize="md">
-              <Plus />
-            </IconButton>
             <button className="btn-like-segmented h-10" onClick={resetSeeds} type="button" title="Replace with curated seeds">
               Reset
             </button>
@@ -219,7 +212,7 @@ export default function Reminders() {
         </SectionCard.Header>
 
         {/* Panel body now holds Quick Add + neon quote + cards grid */}
-        <SectionCard.Body className="grid gap-4">
+        <SectionCard.Body className="grid gap-2.5">
           {/* Quick Add row (in the SAME panel as cards) */}
           <div className="sm:p-4 flex items-center gap-4">
             <Input
@@ -228,9 +221,9 @@ export default function Reminders() {
               value={quickAdd}
               onChange={(e) => setQuickAdd(e.currentTarget.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
-              className="h-10 flex-1"
+              className="flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
               <Plus />
             </IconButton>
             <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">
@@ -239,7 +232,7 @@ export default function Reminders() {
           </div>
 
           {/* Cards grid */}
-          <div className="grid card-neo gap-3 sm:gap-4 md:grid-cols-2">
+          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-2">
             {filtered.map((r) => (
               <ReminderCard
                 key={r.id}
@@ -336,7 +329,7 @@ function ReminderCard({
               <IconButton title="Save (Enter)" aria-label="Save" onClick={save}>
                 <Check />
               </IconButton>
-              <IconButton title="Cancel (Esc)" aria-label="Cancel" variant="glow" onClick={cancel}>
+              <IconButton title="Cancel (Esc)" aria-label="Cancel" onClick={cancel}>
                 <X />
               </IconButton>
             </>
@@ -345,7 +338,7 @@ function ReminderCard({
               <IconButton title="Edit" aria-label="Edit" onClick={() => setEditing(true)}>
                 <Pencil />
               </IconButton>
-              <IconButton title="Delete" aria-label="Delete" variant="glow" onClick={onDelete}>
+              <IconButton title="Delete" aria-label="Delete" onClick={onDelete}>
                 <Trash2 />
               </IconButton>
             </>
@@ -353,7 +346,7 @@ function ReminderCard({
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {editing ? (
           <>
             <Textarea

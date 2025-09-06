@@ -10,10 +10,9 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { toISODate, cn } from "@/lib/utils";
 import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import Input from "@/components/ui/primitives/input";
 import IconButton from "@/components/ui/primitives/IconButton";
-import { Pencil, Trash2, Calendar, CirclePlus } from "lucide-react";
+import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
@@ -70,27 +69,29 @@ export default function TodayHero({ iso }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="w-[240px]">
-            <AnimatedSelect
-              items={projects.length ? projects.map(p => ({ value: p.id, label: p.name || "Untitled" })) : [{ value: "", label: "No projects" }]}
-              value={selProjectId}
-              onChange={v => { setSelProjectId(v); /* clears task selection via hook */ }}
-              label="Project"
-              hideLabel
-              buttonClassName="h-10 rounded-full"
-              dropdownClassName="rounded-2xl"
-              placeholder="Select a project"
-            />
-          </div>
-          <input ref={dateRef} type="date" value={viewIso || nowISO} onChange={e => setIso(e.target.value)} aria-label="Change focused date" className="sr-only" />
-          <IconButton aria-label="Open calendar" title={viewIso} onClick={openPicker} circleSize="md" variant="ring" iconSize="md">
+          <input
+            ref={dateRef}
+            type="date"
+            value={viewIso || nowISO}
+            onChange={e => setIso(e.target.value)}
+            aria-label="Change focused date"
+            className="sr-only"
+          />
+          <IconButton
+            aria-label="Open calendar"
+            title={viewIso}
+            onClick={openPicker}
+            circleSize="md"
+            variant="ring"
+            iconSize="md"
+          >
             <Calendar />
           </IconButton>
         </div>
       </div>
 
       {/* Animated Progress of selected project */}
-      <div className="mb-3 flex items-center gap-3">
+      <div className="mb-4 flex items-center gap-3">
         <div className={cn("glitch-track w-full", pct === 100 && "is-complete")} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
           <div className="glitch-fill transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
           <div className="glitch-scan" />
@@ -99,25 +100,29 @@ export default function TodayHero({ iso }: Props) {
       </div>
 
       {/* Projects */}
-      <div className="mt-1">
+      <div className="mt-4 space-y-4">
         <form
-          className="flex items-center gap-2"
           onSubmit={e => {
             e.preventDefault();
-            const title = projectName.trim(); if (!title) return;
+            const title = projectName.trim();
+            if (!title) return;
             const id = addProject(title);
             setProjectName("");
             if (id) setSelProjectId(id);
           }}
         >
-          <Input name="new-project" placeholder="> new project…" value={projectName} onChange={e => setProjectName(e.target.value)} aria-label="New project" className="mt-1" />
-          <IconButton type="submit" aria-label="Add project" title="Add project" circleSize="sm" variant="ring" iconSize="sm">
-            <CirclePlus />
-          </IconButton>
+          <Input
+            name="new-project"
+            placeholder="> new project…"
+            value={projectName}
+            onChange={e => setProjectName(e.target.value)}
+            aria-label="New project"
+            className="w-full"
+          />
         </form>
 
         {projects.length > 0 && (
-          <ul className="mt-3 space-y-2" role="list" aria-label="Projects">
+          <ul className="space-y-2" role="list" aria-label="Projects">
             {projects.slice(0, 12).map(p => {
               const isEditing = editingProjectId === p.id;
               const isSelected = selProjectId === p.id;
@@ -125,7 +130,7 @@ export default function TodayHero({ iso }: Props) {
                 <li
                   key={p.id}
                   className={cn(
-                    "group flex select-none items-center justify-between rounded-[24px] border px-3 py-2 text-sm transition",
+                    "group flex select-none items-center justify-between rounded-2xl border px-3 py-2 text-sm transition",
                     "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
                     isSelected && "ring-1 ring-[hsl(var(--ring))]"
                   )}
@@ -142,7 +147,7 @@ export default function TodayHero({ iso }: Props) {
                         if (e.key === "Escape") setEditingProjectId(null);
                       }}
                       onBlur={() => { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }}
-                      className="h-8 text-sm" aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
+                      aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
                     />
                   ) : (
                     <div className="flex items-center gap-3 min-w-0">
@@ -173,9 +178,8 @@ export default function TodayHero({ iso }: Props) {
       {!selProjectId ? (
         <div className="mt-4 text-[13px] text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
       ) : (
-        <>
+        <div className="mt-4 space-y-4">
           <form
-            className="flex items-center gap-2"
             onSubmit={e => {
               e.preventDefault();
               const el = e.currentTarget.elements.namedItem(`new-task-${selProjectId}`) as HTMLInputElement | null;
@@ -185,23 +189,25 @@ export default function TodayHero({ iso }: Props) {
               if (id) setSelTaskId(id);
             }}
           >
-            <Input name={`new-task-${selProjectId}`} placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`} aria-label="New task" className="mt-1" />
-            <IconButton type="submit" aria-label="Add task" title="Add task" circleSize="sm" variant="ring" iconSize="sm">
-              <CirclePlus />
-            </IconButton>
+            <Input
+              name={`new-task-${selProjectId}`}
+              placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
+              aria-label="New task"
+              className="w-full"
+            />
           </form>
 
           {scopedTasks.length === 0 ? (
-            <div className="tasks-placeholder mt-4">No tasks yet.</div>
+            <div className="tasks-placeholder">No tasks yet.</div>
           ) : (
-            <ul className="mt-4 space-y-2" role="list" aria-label="Tasks">
+            <ul className="space-y-2" role="list" aria-label="Tasks">
               {scopedTasks.slice(0, 12).map(t => {
                 const isEditing = editingTaskId === t.id;
                 return (
                   <li
                     key={t.id}
                     className={cn(
-                      "task-tile flex items-center justify-between rounded-[24px] border px-3 py-2",
+                      "task-tile flex items-center justify-between rounded-2xl border px-3 py-2",
                       "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]"
                     )}
                     role="listitem"
@@ -218,7 +224,7 @@ export default function TodayHero({ iso }: Props) {
                             if (e.key === "Escape") setEditingTaskId(null);
                           }}
                           onBlur={() => { renameTask(t.id, editingTaskText || t.text); setEditingTaskId(null); }}
-                          className="h-8 text-sm" aria-label={`Rename task ${t.text}`}
+                          aria-label={`Rename task ${t.text}`}
                         />
                       ) : (
                         <span className={cn("task-tile__text", t.done && "line-through-soft")} onClick={() => setEditingTaskId(t.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter") setEditingTaskId(t.id); }} aria-label={`Edit task ${t.text}`} title="Edit task">
@@ -241,7 +247,7 @@ export default function TodayHero({ iso }: Props) {
               {scopedTasks.length > 12 && <li className="pr-1 text-right text-xs opacity-70">+ {scopedTasks.length - 12} more…</li>}
             </ul>
           )}
-        </>
+        </div>
       )}
     </section>
   );

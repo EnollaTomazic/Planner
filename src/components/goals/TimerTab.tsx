@@ -19,6 +19,7 @@ import {
   BookOpen, Brush, Code2, User,
 } from "lucide-react";
 import { useLocalDB } from "@/lib/db";
+import DurationSelector from "./DurationSelector";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
@@ -30,7 +31,6 @@ const PROFILES: Profile[] = [
   { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
 ];
 
-const QUICK = [10, 15, 20, 25, 30, 45, 60];
 
 /* helpers */
 const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
@@ -134,29 +134,18 @@ export default function TimerTab() {
     []
   );
 
-  // Right slot content for Personal: glitchy quick presets + custom time field
+  // Right slot content for Personal: quick duration chips + custom time field
   const rightSlot = isPersonal ? (
     <div className="flex items-center flex-wrap gap-2">
-      {QUICK.map((m) => (
-        <button
-          key={`q-${m}`}
-          className={[
-            "btn-like-segmented btn-glitch",
-            minutes === m && "is-active",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          onClick={() => {
-            if (running) return;
-            setPersonalMinutes(m);
-            setRemaining(m * 60_000);
-          }}
-          type="button"
-          title={`Set ${m} minutes`}
-        >
-          {m}m
-        </button>
-      ))}
+      <DurationSelector
+        value={minutes}
+        onChange={(m) => {
+          if (running) return;
+          setPersonalMinutes(m);
+          setRemaining(m * 60_000);
+        }}
+        disabled={running}
+      />
       <input
         aria-label="Custom minutes and seconds"
         value={timeEdit}
@@ -172,7 +161,7 @@ export default function TimerTab() {
   ) : null;
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard className="goal-card no-hover">
       <SectionCard.Header sticky>
         <TabBar
           items={tabItems}
@@ -188,7 +177,7 @@ export default function TimerTab() {
 
       <SectionCard.Body>
         {/* Stage row with side buttons and centered digits */}
-        <div className="relative rounded-2xl card-neo-soft p-5 sm:p-6 overflow-hidden">
+        <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
@@ -299,6 +288,15 @@ export default function TimerTab() {
 
       {/* Local styles for neon pills, glitch loader, and complete state */}
       <style jsx>{`
+        /* Disable card hover bloom */
+        .no-hover.goal-card:hover {
+          box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+            inset 0 1px 0 hsl(var(--foreground) / 0.05),
+            0 30px 60px hsl(250 30% 2% / 0.35);
+        }
+        .no-hover.goal-card:hover::before { opacity: 0.45; }
+        .no-hover.goal-card:hover::after { opacity: 0; }
+
         /* Emphasize active tab text glow (works with TabBar) */
         [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
 

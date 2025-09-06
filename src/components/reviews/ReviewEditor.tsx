@@ -13,7 +13,6 @@ import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import {
   Tag,
   Trash2,
-  Save,
   Check,
   Target,
   Shield,
@@ -357,6 +356,8 @@ export default function ReviewEditor({
   const [tags, setTags] = React.useState<string[]>(Array.isArray(review.tags) ? review.tags : []);
   const [draftTag, setDraftTag] = React.useState("");
 
+  const rootRef = React.useRef<HTMLDivElement>(null);
+
   const [opponent, setOpponent] = React.useState(review.opponent ?? "");
   const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
   const [pillars, setPillars] = React.useState<Pillar[]>(
@@ -412,9 +413,10 @@ export default function ReviewEditor({
     const r = ext.role ?? lastRole ?? "MID";
     setRole(r);
 
-    // If it's a new review (no role yet), immediately persist the remembered role
+    // Default new reviews to the previously selected role without
+    // overwriting the remembered role when opening existing reviews.
+    // Persisting happens only when the user explicitly selects a role.
     if (ext.role == null) {
-      setLastRole(r);          // keep local memory in sync
       onChangeMeta?.({ role: r });
     }
 
@@ -436,20 +438,6 @@ export default function ReviewEditor({
   };
   const commitNotes = () => onChangeNotes?.(notes);
 
-  const extNow = getExt(review);
-  const isDirty =
-    notes !== (review.notes ?? "") ||
-    (extNow.result ?? "Win") !== result ||
-    Number(extNow.score ?? NaN) !== score ||
-    Boolean(extNow.focusOn) !== focusOn ||
-    Number(extNow.focus ?? NaN) !== focus ||
-    (review.lane ?? review.title ?? "") !== (lane ?? "") ||
-    opponent !== (review.opponent ?? "") ||
-    role !== (extNow.role ?? undefined) ||
-    JSON.stringify(tags) !== JSON.stringify(review.tags ?? []) ||
-    JSON.stringify(pillars) !== JSON.stringify(review.pillars ?? []) ||
-    JSON.stringify(markers) !== JSON.stringify(extNow.markers ?? []);
-
   function saveAll() {
     commitLaneAndTitle();
     commitNotes();
@@ -465,6 +453,21 @@ export default function ReviewEditor({
       focus,
     });
   }
+
+  const saveAllRef = React.useRef(saveAll);
+  saveAllRef.current = saveAll;
+
+  React.useEffect(() => {
+    function handlePointerDown(e: PointerEvent) {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(e.target as Node)) {
+        saveAllRef.current();
+        onDone?.();
+      }
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [onDone]);
 
   const sortedMarkers = React.useMemo(
     () => [...markers].sort((a, b) => a.seconds - b.seconds),
@@ -541,7 +544,7 @@ export default function ReviewEditor({
   }
 
   return (
-    <div className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
+    <div ref={rootRef} className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
       <div className="section-h sticky">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           <div className="min-w-0">
@@ -552,7 +555,7 @@ export default function ReviewEditor({
 
             <div className="mb-2">
               <div className="relative">
-                <Target className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Target className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={laneRef}
                   value={lane}
@@ -565,7 +568,7 @@ export default function ReviewEditor({
                       go(opponentRef);
                     }
                   }}
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-10"
                   placeholder="Ashe/Lulu"
                   aria-label="Lane (used as Title)"
                 />
@@ -575,7 +578,7 @@ export default function ReviewEditor({
             <div>
               <SectionLabel>Opponent</SectionLabel>
               <div className="relative">
-                <Shield className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Shield className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={opponentRef}
                   value={opponent}
@@ -588,7 +591,7 @@ export default function ReviewEditor({
                     }
                   }}
                   placeholder="Draven/Thresh"
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-10"
                   aria-label="Opponent"
                 />
               </div>
@@ -596,18 +599,6 @@ export default function ReviewEditor({
           </div>
 
           <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
-            <IconButton
-              aria-label="Save"
-              title={isDirty ? "Save changes" : "Nothing to save"}
-              disabled={!isDirty}
-              circleSize="md"
-              iconSize="md"
-              variant="ring"
-              onClick={saveAll}
-            >
-              <Save />
-            </IconButton>
-
             {onDelete ? (
               <IconButton
                 aria-label="Delete review"
@@ -682,7 +673,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Win" ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Win" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
                 )}
               >
                 Win
@@ -690,7 +681,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Loss" ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Loss" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
                 )}
               >
                 Loss
@@ -725,13 +716,12 @@ export default function ReviewEditor({
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full"
+                  className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
                   style={{
                     width: `calc(${(score / 10) * 100}% + 10px)`,
                     background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))",
-                    boxShadow: "0 0 16px hsl(var(--primary)/.35)",
                   }}
                 />
                 <div
@@ -794,14 +784,13 @@ export default function ReviewEditor({
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                     <div
-                      className="absolute left-0 top-0 h-2 rounded-full"
+                      className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
                       style={{
                         width: `calc(${(focus / 10) * 100}% + 10px)`,
                         background:
                           "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))",
-                        boxShadow: "0 0 16px hsl(var(--accent)/.35)",
                       }}
                     />
                     <div
@@ -900,7 +889,7 @@ export default function ReviewEditor({
                   setLastMarkerTime(e.target.value);
                 }}
                 placeholder="00:00"
-                className="h-10 rounded-2xl text-center font-mono tabular-nums"
+                className="text-center font-mono tabular-nums"
                 aria-label="Timestamp time in mm:ss"
                 inputMode="numeric"
                 pattern="^[0-9]?\d:[0-5]\d$"
@@ -917,7 +906,7 @@ export default function ReviewEditor({
               />
             ) : (
               <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-white/80"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-white/70"
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >
@@ -936,7 +925,7 @@ export default function ReviewEditor({
                 }
               }}
               placeholder="Note"
-              className="h-10 rounded-2xl"
+              className="rounded-2xl"
               aria-label="Timestamp note"
             />
 
@@ -946,7 +935,7 @@ export default function ReviewEditor({
               disabled={!canAddMarker}
               circleSize="md"
               iconSize="sm"
-              variant="ring"
+              variant="solid"
               onClick={addMarker}
             >
               <Plus />
@@ -994,12 +983,12 @@ export default function ReviewEditor({
           <SectionLabel>Tags</SectionLabel>
           <div className="mt-1 flex items-center gap-2">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Tag className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="h-10 rounded-2xl pl-9"
+                className="pl-10"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -1015,7 +1004,7 @@ export default function ReviewEditor({
               title="Add tag"
               circleSize="md"
               iconSize="sm"
-              variant="ring"
+              variant="solid"
               onClick={() => {
                 addTag(draftTag);
                 setDraftTag("");
