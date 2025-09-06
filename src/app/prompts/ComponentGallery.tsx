@@ -28,6 +28,7 @@ import {
 import type { Pillar } from '@/lib/types';
 import type { GameSide } from '@/components/ui/league/SideSelector';
 import { Search as SearchIcon, Star } from 'lucide-react';
+import ReviewPanel from '@/components/reviews/ReviewPanel';
 
 function Item({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -157,6 +158,9 @@ export default function ComponentGallery() {
             className="w-56"
             hideLabel
           />
+        </Item>
+        <Item label="ReviewPanel">
+          <ReviewPanel>Content</ReviewPanel>
         </Item>
       </div>
     </main>
