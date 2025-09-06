@@ -11,6 +11,7 @@ import {
   GlitchSegmentedButton,
   TabBar,
   Progress,
+  Spinner,
   ThemeToggle,
   SectionCard,
   TitleBar,
@@ -93,6 +94,12 @@ export default function Page() {
             <span className="text-sm font-medium">Progress</span>
             <div className="w-56">
               <Progress value={50} />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Spinner</span>
+            <div className="w-56 flex justify-center">
+              <Spinner />
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
