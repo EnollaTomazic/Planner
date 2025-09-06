@@ -21,7 +21,7 @@ import {
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
-import { Plus, Sun, Check } from "lucide-react";
+import { Plus, Sun, Check as CheckIcon } from "lucide-react";
 
 export default function Page() {
   const tabs = [
@@ -142,7 +142,7 @@ export default function Page() {
                 aria-label="Confirm"
                 className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-[hsl(var(--accent)/0.45)] bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent))] shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
               >
-                <Check className="size-4" />
+                <CheckIcon className="size-4" />
               </button>
             </Input>
             <p className="mt-1 text-xs text-muted-foreground">Helper text</p>
