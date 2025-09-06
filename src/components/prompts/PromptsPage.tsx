@@ -159,6 +159,10 @@ export default function PromptsPage() {
             <p className="type-body">--glow-strong, --glow-soft</p>
           </div>
           <div>
+            <h4 className="type-subtitle">Radius</h4>
+            <p className="type-body">--radius</p>
+          </div>
+          <div>
             <h4 className="type-subtitle">Type Ramp</h4>
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
           </div>

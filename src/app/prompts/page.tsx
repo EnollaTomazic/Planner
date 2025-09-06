@@ -44,6 +44,8 @@ export default function Page() {
     "muted-foreground",
     "danger",
     "success",
+    "glow-strong",
+    "glow-soft",
   ];
 
   const [view, setView] = React.useState("components");

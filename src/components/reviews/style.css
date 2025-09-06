@@ -127,19 +127,20 @@
 }
 
 .seg__btn {
-  height: 2.5rem;                  /* h-10 */
+  height: 2.25rem;                 /* h-9 */
   border-radius: .75rem;           /* rounded-xl */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: .375rem;
-  padding: 0 .5rem;
+  padding: 0 1rem;                 /* px-4 */
   font-size: 11px;
   letter-spacing: .02em;
-  transition: color .18s ease;
+  color: hsl(var(--foreground));
+  transition: opacity .18s ease;
 }
-.seg__btn--idle { color: hsl(var(--muted-foreground)); }
-.seg__btn--active { color: hsl(var(--foreground)); text-shadow: 0 0 8px hsl(var(--accent) / .5); }
+.seg__btn--idle { opacity: .7; text-shadow: none; }
+.seg__btn--active { opacity: 1; text-shadow: 0 0 8px hsl(var(--glow-soft)); }
 
 /* Sliding pill — width accounts for the gaps; translate includes gap each step */
 .seg__rail {

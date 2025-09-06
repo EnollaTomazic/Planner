@@ -142,13 +142,8 @@ export default function ReviewsPage({
         }
       />
 
-      <div
-        className={cn(
-          "grid items-start gap-6",
-          "grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr]"
-        )}
-      >
-        <aside>
+      <div className={cn("grid items-start gap-6 lg:grid-cols-12")}> 
+        <aside className="lg:col-span-3 lg:w-[280px]">
           <SectionCard className="overflow-hidden bg-card/50">
             <SectionCard.Body>
               <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
@@ -165,31 +160,35 @@ export default function ReviewsPage({
           </SectionCard>
         </aside>
 
-        <SectionCard className="overflow-hidden">
+        <div className="lg:col-span-9 flex justify-center">
           {!active ? (
-            <SectionCard.Body className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
               <Ghost className="h-6 w-6 opacity-60" />
               <p>Select a review from the list or create a new one.</p>
-            </SectionCard.Body>
+            </div>
           ) : panelMode === "summary" ? (
-            <ReviewSummary
-              key={`summary-${active.id}`}
-              review={active}
-              onEdit={() => setPanelMode("edit")}
-            />
+            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))]">
+              <ReviewSummary
+                key={`summary-${active.id}`}
+                review={active}
+                onEdit={() => setPanelMode("edit")}
+              />
+            </div>
           ) : (
-            <ReviewEditor
-              key={`editor-${active.id}`}
-              review={active}
-              onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-              onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-              onRename={(title: string) => onRename(active.id, title)}
-              onChangeMeta={(partial) => onChangeMeta?.(active.id, partial as Partial<Review>)}
-              onDone={() => setPanelMode("summary")}
-              onDelete={onDelete ? () => onDelete(active.id) : undefined}
-            />
+            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))]">
+              <ReviewEditor
+                key={`editor-${active.id}`}
+                review={active}
+                onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+                onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                onRename={(title: string) => onRename(active.id, title)}
+                onChangeMeta={(partial) => onChangeMeta?.(active.id, partial as Partial<Review>)}
+                onDone={() => setPanelMode("summary")}
+                onDelete={onDelete ? () => onDelete(active.id) : undefined}
+              />
+            </div>
           )}
-        </SectionCard>
+        </div>
       </div>
     </main>
   );
