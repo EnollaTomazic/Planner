@@ -28,9 +28,6 @@ export default function ReviewList({
   if (count === 0) {
     return (
       <Card className={containerClass}>
-        <div className="flex justify-end mb-3">
-          <span className="text-sm text-muted-foreground">0 shown</span>
-        </div>
         <div className="flex flex-col items-center justify-center gap-3 p-6 text-sm text-muted-foreground">
           <Tv className="h-6 w-6 opacity-60" />
           <p>No reviews yet</p>
@@ -42,9 +39,6 @@ export default function ReviewList({
 
   return (
     <Card className={containerClass}>
-      <div className="flex justify-end mb-3">
-        <span className="text-sm text-muted-foreground">{count} shown</span>
-      </div>
       <div className="flex flex-col gap-3">
         {reviews.map(r => (
           <ReviewListItem
