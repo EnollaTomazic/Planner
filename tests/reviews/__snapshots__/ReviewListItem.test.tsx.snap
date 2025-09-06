@@ -27,13 +27,13 @@ exports[`ReviewListItem > renders default state 1`] = `
         >
           <span
             aria-label="Rating 9 out of 10"
-            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.35),0_0_10px_hsl(var(--accent)/0.20)] bg-[hsl(var(--accent)/0.10)] text-[hsl(var(--accent))]"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
           >
             9
             /10
           </span>
           <span
-            class="rounded-md px-1.5 py-0.5 text-[10px] tracking-wide bg-[hsl(var(--muted))/0.25] border border-[hsl(var(--border))/0.2] text-muted-foreground"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
           >
             W
           </span>
@@ -97,13 +97,13 @@ exports[`ReviewListItem > renders selected state 1`] = `
         >
           <span
             aria-label="Rating 9 out of 10"
-            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.35),0_0_10px_hsl(var(--accent)/0.20)] bg-[hsl(var(--accent)/0.10)] text-[hsl(var(--accent))]"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
           >
             9
             /10
           </span>
           <span
-            class="rounded-md px-1.5 py-0.5 text-[10px] tracking-wide bg-[hsl(var(--muted))/0.25] border border-[hsl(var(--border))/0.2] text-muted-foreground"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
           >
             W
           </span>
@@ -152,13 +152,13 @@ exports[`ReviewListItem > renders untitled state 1`] = `
         >
           <span
             aria-label="Rating 9 out of 10"
-            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.35),0_0_10px_hsl(var(--accent)/0.20)] bg-[hsl(var(--accent)/0.10)] text-[hsl(var(--accent))]"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
           >
             9
             /10
           </span>
           <span
-            class="rounded-md px-1.5 py-0.5 text-[10px] tracking-wide bg-[hsl(var(--muted))/0.25] border border-[hsl(var(--border))/0.2] text-muted-foreground"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
           >
             W
           </span>

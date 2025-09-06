@@ -2,10 +2,11 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
 import ReviewListItem from '../../src/components/reviews/ReviewListItem';
+import type { Review } from '../../src/lib/types';
 
 afterEach(cleanup);
 
-const baseReview = {
+const baseReview: Review = {
   id: '1',
   title: 'Sample Review',
   notes: 'Quick note',
