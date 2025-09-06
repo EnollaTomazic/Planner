@@ -1,5 +1,5 @@
-"use client";
-
+import type { Metadata } from "next";
+import type { Review } from "@/lib/types";
 import {
   Button,
   SectionCard,
@@ -21,8 +21,11 @@ import {
   Toggle,
   AnimatedSelect,
 } from "@/components/ui";
+import ReviewList from "@/components/reviews/ReviewList";
 import "@/styles/glitch.css";
 import { Plus, Sun } from "lucide-react";
+
+export const metadata: Metadata = { title: "Prompts · 13 League Review" };
 
 export default function Page() {
   const tabs = [
@@ -35,6 +38,29 @@ export default function Page() {
     { value: "apple", label: "Apple" },
     { value: "banana", label: "Banana" },
     { value: "cherry", label: "Cherry" },
+  ];
+
+  const sampleReviews: Review[] = [
+    {
+      id: "1",
+      title: "First Review",
+      notes: "Sample notes",
+      score: 9,
+      result: "Win",
+      tags: ["W"],
+      pillars: [],
+      createdAt: Date.now(),
+    },
+    {
+      id: "2",
+      title: "",
+      notes: "Needs work",
+      score: 7,
+      result: "Loss",
+      tags: [],
+      pillars: [],
+      createdAt: Date.now() - 86400000,
+    },
   ];
 
   return (
@@ -195,6 +221,16 @@ export default function Page() {
               items={selectItems}
               value="apple"
               onChange={() => {}}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Review List</span>
+          <div className="w-72">
+            <ReviewList
+              reviews={sampleReviews}
+              selectedId={null}
+              onSelect={() => {}}
             />
           </div>
         </div>
