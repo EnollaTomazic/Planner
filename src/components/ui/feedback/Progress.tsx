@@ -1,7 +1,7 @@
 // src/components/ui/Progress.tsx
 "use client";
 
-import { neuInset, neuRaised } from "../primitives/neu";
+import { neuInset, neuRaised } from "../primitives/Neu";
 
 /** Simple progress bar (0..100), with SR label */
 export default function Progress({ value, label }: { value: number; label?: string }) {

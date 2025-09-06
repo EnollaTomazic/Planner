@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { neuRaised } from "../primitives/neu";
+import { neuRaised } from "../primitives/Neu";
 
 type RootProps = React.HTMLAttributes<HTMLDivElement>;
 export type HeaderProps = {

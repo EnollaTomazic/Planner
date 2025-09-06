@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
 import type { Pillar } from "@/lib/types";
 
 const PILLARS: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];

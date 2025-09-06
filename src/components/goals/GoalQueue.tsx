@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { GripVertical, Trash2 } from "lucide-react";
 
