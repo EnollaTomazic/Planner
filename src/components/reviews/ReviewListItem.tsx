@@ -14,6 +14,8 @@ const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
 const statusDotWin = "bg-[hsl(var(--success))]";
 const statusDotDefault = "bg-[hsl(var(--muted-foreground))]";
 const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
+const itemLoading = cn(itemBase, "animate-pulse");
+const loadingLine = "h-3 rounded bg-[hsl(var(--muted))]";
 
 function formatDate(value: number | Date): string {
   const d = typeof value === "number" ? new Date(value) : value;
@@ -41,9 +43,9 @@ export default function ReviewListItem({
 }: ReviewListItemProps) {
   if (loading) {
     return (
-      <div className="min-h-[76px] p-4 rounded-[16px] border bg-[hsl(var(--card)/0.60)] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] animate-pulse">
-        <div className="h-3 w-3/5 rounded bg-[hsl(var(--muted))] mb-3" />
-        <div className="h-3 w-2/5 rounded bg-[hsl(var(--muted))]" />
+      <div className={itemLoading}>
+        <div className={cn(loadingLine, "w-3/5 mb-3")} />
+        <div className={cn(loadingLine, "w-2/5")} />
       </div>
     );
   }

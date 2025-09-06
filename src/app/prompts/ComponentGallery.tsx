@@ -176,6 +176,11 @@ export default function ComponentGallery() {
             <ReviewListItem review={demoReview} />
           </div>
         </Item>
+        <Item label="ReviewListItem Loading">
+          <div className="w-56">
+            <ReviewListItem loading />
+          </div>
+        </Item>
         <Item label="ReviewPanel">
           <ReviewPanel>Content</ReviewPanel>
         </Item>
