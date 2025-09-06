@@ -16,8 +16,8 @@ import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import {
   Clipboard,
   ClipboardCheck,

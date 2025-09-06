@@ -15,7 +15,7 @@ import { useMemo, useState } from "react";
 import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import { useLocalDB, uid } from "@/lib/db";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
 import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";

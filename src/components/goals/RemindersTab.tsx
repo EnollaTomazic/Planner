@@ -17,9 +17,9 @@
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
 import TabBar from "@/components/ui/layout/TabBar";

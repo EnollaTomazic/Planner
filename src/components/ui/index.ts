@@ -5,12 +5,10 @@
 //
 // Primitives
 //
-export { default as Button } from "./primitives/button";
+export { default as Button } from "./primitives/Button";
 export { default as IconButton } from "./primitives/IconButton";
-export { default as Input } from "./Input";
-export { default as Textarea } from "./Textarea";
-export { default as Select } from "./Select";
-export { default as Label } from "./Label";
+export { default as Input } from "./primitives/input";
+export { default as Textarea } from "./primitives/textarea";
 export { default as Badge } from "./primitives/badge";
 export { default as Pill } from "./primitives/pill";
 export { default as SearchBar } from "./primitives/searchbar";

@@ -11,7 +11,7 @@
 
 import * as React from "react";
 import TabBar, { type TabBarProps, type TabItem } from "@/components/ui/layout/TabBar";
-import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/searchbar";
+import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/SearchBar";
 
 function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");

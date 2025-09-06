@@ -9,7 +9,7 @@ import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import { Ghost, Plus } from "lucide-react";
 
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -159,8 +159,6 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                onRename={onRename}
-                onDelete={onDelete}
                 className="max-h-[66dvh] overflow-auto p-2"
               />
             </SectionCard.Body>

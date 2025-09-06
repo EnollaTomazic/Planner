@@ -4,7 +4,7 @@ import * as React from "react";
 import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { neuRaised, neuInset } from "./neu";
+import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
