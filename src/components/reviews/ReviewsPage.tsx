@@ -12,8 +12,8 @@ import { Ghost, Plus } from "lucide-react";
 import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
+import { neuRaised } from "@/components/ui/primitives/Neu";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -144,9 +144,14 @@ export default function ReviewsPage({
 
       <div className={cn("grid items-start gap-6 lg:grid-cols-12")}> 
         <aside className="lg:col-span-3 lg:w-[280px]">
-          <SectionCard className="overflow-hidden bg-card/50">
-            <SectionCard.Body>
-              <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
+          <div
+            className="card-neo-soft overflow-hidden bg-card/50"
+            style={{ boxShadow: neuRaised(14) }}
+          >
+            <div className="section-b">
+              <div className="mb-2 text-sm text-muted-foreground">
+                {filtered.length} shown
+              </div>
               <ReviewList
                 reviews={filtered}
                 selectedId={selectedId}
@@ -156,8 +161,8 @@ export default function ReviewsPage({
                 }}
                 className="max-h-[66dvh] overflow-auto p-2"
               />
-            </SectionCard.Body>
-          </SectionCard>
+            </div>
+          </div>
         </aside>
 
         <div className="lg:col-span-9 flex justify-center">
