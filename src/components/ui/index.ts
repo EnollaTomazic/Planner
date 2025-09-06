@@ -17,6 +17,7 @@ export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/Glitch
 // Feedback
 //
 export { default as Progress } from "./feedback/Progress";
+export { default as Spinner } from "./feedback/Spinner";
 
 //
 // Theme

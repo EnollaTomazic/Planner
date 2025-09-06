@@ -11,6 +11,7 @@ import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   Progress,
+  Spinner,
   ThemeToggle,
   AnimationToggle,
   CheckCircle,
@@ -94,6 +95,11 @@ export default function ComponentGallery() {
         <Item label="Progress">
           <div className="w-56">
             <Progress value={50} />
+          </div>
+        </Item>
+        <Item label="Spinner">
+          <div className="w-56 flex justify-center">
+            <Spinner />
           </div>
         </Item>
         <Item label="ThemeToggle">
