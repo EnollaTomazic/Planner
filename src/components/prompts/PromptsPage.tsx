@@ -171,7 +171,11 @@ export default function PromptsPage() {
           <h3 className="type-title">FieldShell</h3>
           <p className="type-body">
             Shared wrapper that provides consistent borders, background, and focus
-            states for inputs.
+            states for inputs. <code>Input</code>, <code>Select</code>, and
+            <code>Textarea</code> all use this wrapper internally. Extend styles
+            with the <code>className</code> prop on each component; use
+            <code>inputClassName</code>, <code>selectClassName</code>, or
+            <code>textareaClassName</code> to target the inner element.
           </p>
           <FieldShell>
             <div className="px-4 py-2 text-sm text-muted-foreground">
