@@ -2,17 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
-
-/** Small helper to generate a stable name from aria-label if missing. */
-function slug(s?: string) {
-  return (s ?? "")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9\-]/g, "")
-    .slice(0, 64);
-}
+import { cn, slugify } from "@/lib/utils";
 
 type InputSize = "sm" | "md" | "lg";
 
@@ -56,7 +46,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   ref
 ) {
   const auto = React.useId();
-  const fromAria = slug(ariaLabel as string | undefined);
+  const fromAria = slugify(ariaLabel as string | undefined);
   const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 

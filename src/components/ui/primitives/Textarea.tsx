@@ -1,16 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
-
-function slug(s?: string) {
-  return (s ?? "")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9\-]/g, "")
-    .slice(0, 64);
-}
+import { cn, slugify } from "@/lib/utils";
 
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   /** Rounded look without needing a global .planner-textarea class. */
@@ -30,7 +21,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
   ref
 ) {
   const auto = React.useId();
-  const fromAria = slug(ariaLabel as string | undefined);
+  const fromAria = slugify(ariaLabel as string | undefined);
   // Use React-generated id by default so multiple fields sharing an aria-label
   // do not end up with duplicate ids.
   const finalId = id || auto;

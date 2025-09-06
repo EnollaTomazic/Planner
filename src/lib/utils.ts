@@ -98,3 +98,13 @@ export function normalizeDate(src?: Date | number | string): Date {
   return dt;
 }
 
+/** Create a URL-friendly slug from a string. */
+export function slugify(s?: string): string {
+  return (s ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .slice(0, 64);
+}
+
