@@ -35,6 +35,8 @@ export default function Page() {
     "muted-foreground",
     "danger",
     "success",
+    "glow-strong",
+    "glow-soft",
   ];
 
   return (
