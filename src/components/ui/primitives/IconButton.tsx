@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { buttonSizes, type ButtonSize } from "./button";
+import type { ButtonSize } from "./button";
 
 type Icon = "xs" | "sm" | "md" | "lg";
 
@@ -27,6 +27,12 @@ const iconMap: Record<Icon, string> = {
   lg: "[&>svg]:h-6 [&>svg]:w-6",
 };
 
+const sizeMap: Record<ButtonSize, string> = {
+  sm: "h-9 w-9",
+  md: "h-[52px] w-[52px]",
+  lg: "h-14 w-14",
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     { size = "md", circleSize, iconSize = size, className, ...rest },
@@ -35,21 +41,13 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tone: _tone, active: _active, fx: _fx, variant: _variant, ...props } = rest;
     const finalSize = circleSize ?? size;
-    const h = buttonSizes[finalSize].height;
-    const sizeClass = `${h} ${h.replace("h-", "w-")}`;
+    const sizeClass = sizeMap[finalSize];
     return (
       <button
         ref={ref}
         type="button"
         className={cn(
-          "glitch-scanlines inline-flex items-center justify-center select-none rounded-full transition",
-          "focus-visible:outline-none",
-          "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-          "hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "focus-visible:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-          "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-          "[&>svg]:transition",
-          "disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center select-none rounded-full border border-[hsl(var(--line)/0.35)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)] bg-transparent hover:bg-[hsl(var(--panel)/0.45)] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
           sizeClass,
           iconMap[iconSize],
           className
