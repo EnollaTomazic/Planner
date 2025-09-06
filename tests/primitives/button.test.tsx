@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import { Button } from '../../src/components/ui/primitives/button';
+import { Button } from '../../src/components/ui/primitives/Button';
 
 afterEach(cleanup);
 

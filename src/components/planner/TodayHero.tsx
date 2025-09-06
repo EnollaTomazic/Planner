@@ -10,7 +10,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { toISODate, cn } from "@/lib/utils";
 import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";

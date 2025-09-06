@@ -40,17 +40,25 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
 
   function submitEdit() {
     if (!goal || !onEdit) return;
-    const clean = title.trim();
-    if (clean && clean !== goal.title) {
-      onEdit(goal.id, clean);
+    const t = window.prompt("Edit goal title", goal.title);
+    if (t !== null) {
+      const clean = t.trim();
+      if (clean) onEdit(goal.id, clean);
     }
-    setEditing(false);
-    editBtnRef.current?.focus();
   }
 
   return (
-    <div className={cn("goal-tv group shadow-neoSoft", goal?.done && "goal-tv--done")}>
-      <div className="goal-tv__screen">
+    <div
+      className={
+        "group relative rounded-lg border-4 border-[hsl(var(--border))] bg-[hsl(var(--surface))] p-1 shadow-neoSoft"
+      }
+    >
+      <div
+        className={cn(
+          "relative flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-[hsl(var(--surface-2))] font-mono text-center text-sm text-[hsl(var(--foreground))]",
+          goal?.done && "bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]",
+        )}
+      >
         {goal ? (
           editing ? (
             <form
@@ -130,7 +138,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
             </>
           )
         ) : (
-          <span className="goal-tv__empty">NO SIGNAL</span>
+          <span className="text-[hsl(var(--muted-foreground))]">NO SIGNAL</span>
         )}
       </div>
     </div>

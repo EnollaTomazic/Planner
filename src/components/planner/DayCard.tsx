@@ -10,7 +10,7 @@
 import "./style.css";
 import * as React from "react";
 import { useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { cn } from "@/lib/utils";
