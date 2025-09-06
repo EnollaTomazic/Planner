@@ -4,7 +4,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
-import Badge from "@/components/ui/Badge";
+import { Badge } from "@/components/ui";
 import "@/styles/glitch.css";
 
 function formatDate(value: number | Date): string {
@@ -86,16 +86,15 @@ export default function ReviewListItem({
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             {typeof score === "number" ? (
-              <Badge
-                variant="neo"
-                size="sm"
-                aria-label={`Rating ${score} out of 10`}
-              >
+              <Badge variant="accent" aria-label={`Rating ${score} out of 10`}>
                 {score}/10
               </Badge>
             ) : null}
             {resultTag ? (
-              <Badge variant="tag" size="sm">
+              <Badge
+                variant="neutral"
+                className="px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
+              >
                 {resultTag}
               </Badge>
             ) : null}

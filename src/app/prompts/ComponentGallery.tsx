@@ -7,7 +7,6 @@ import {
   Input,
   Textarea,
   Badge,
-  Pill,
   SearchBar,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
@@ -17,7 +16,7 @@ import {
   CheckCircle,
   NeonIcon,
   Toggle,
-  SectionCard,
+  Card,
   TitleBar,
   TabBar,
   SideSelector,
@@ -79,8 +78,8 @@ export default function ComponentGallery() {
         <Item label="Badge">
           <Badge>Badge</Badge>
         </Item>
-        <Item label="Pill">
-          <Pill>Pill</Pill>
+        <Item label="Badge Pill">
+          <Badge variant="pill">Pill</Badge>
         </Item>
         <Item label="SearchBar">
           <SearchBar value={query} onValueChange={setQuery} className="w-56" />
@@ -121,9 +120,9 @@ export default function ComponentGallery() {
           <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" />
         </Item>
         <Item label="Card">
-          <SectionCard className="w-56 h-40 flex items-center justify-center">
+          <Card className="w-56 h-40 flex items-center justify-center">
             Card content
-          </SectionCard>
+          </Card>
         </Item>
         <Item label="TitleBar">
           <div className="w-56">

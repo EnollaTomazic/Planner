@@ -132,7 +132,7 @@ export default function PromptsPage() {
         {/* List */}
         <div className="mt-4 space-y-3">
           {filtered.map((p) => (
-            <Card key={p.id} variant="neo" className="p-3">
+            <Card key={p.id} className="p-3">
               <header className="flex items-center justify-between">
                 <h3 className="font-semibold">{p.title}</h3>
                 <time className="text-xs text-muted-foreground">
@@ -148,7 +148,7 @@ export default function PromptsPage() {
             <div className="text-muted-foreground">Nothing matches your search. Typical.</div>
           )}
         </div>
-        <Card variant="neo" className="mt-8 space-y-4">
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
           <div>
             <h4 className="type-subtitle">Spacing</h4>
