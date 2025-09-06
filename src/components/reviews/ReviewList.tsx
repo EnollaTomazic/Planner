@@ -5,7 +5,7 @@ import React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
-import { Button } from "@/components/ui";
+import { Button, Card } from "@/components/ui";
 import { Tv } from "lucide-react";
 
 export type ReviewListProps = {
@@ -23,14 +23,11 @@ export default function ReviewList({
 }: ReviewListProps) {
   const count = reviews.length;
 
+  const containerClass = cn("max-w-[520px] mx-auto backdrop-blur-sm", className);
+
   if (count === 0) {
     return (
-      <div
-        className={cn(
-          "max-w-[520px] mx-auto p-4 rounded-2xl border bg-card/60 backdrop-blur-sm",
-          className
-        )}
-      >
+      <Card className={containerClass}>
         <div className="flex justify-end mb-3">
           <span className="text-sm text-muted-foreground">0 shown</span>
         </div>
@@ -39,22 +36,17 @@ export default function ReviewList({
           <p>No reviews yet</p>
           <Button variant="primary">New Review</Button>
         </div>
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "max-w-[520px] mx-auto p-4 rounded-2xl border bg-card/60 backdrop-blur-sm",
-        className
-      )}
-    >
+    <Card className={containerClass}>
       <div className="flex justify-end mb-3">
         <span className="text-sm text-muted-foreground">{count} shown</span>
       </div>
       <div className="flex flex-col gap-3">
-        {reviews.map((r) => (
+        {reviews.map(r => (
           <ReviewListItem
             key={r.id}
             review={r}
@@ -63,6 +55,6 @@ export default function ReviewList({
           />
         ))}
       </div>
-    </div>
+    </Card>
   );
 }
