@@ -81,6 +81,12 @@ export function useLocalDB<T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = React.useState<T>(initial);
 
+  // Keep the latest initial value for resets
+  const initialRef = React.useRef(initial);
+  React.useEffect(() => {
+    initialRef.current = initial;
+  }, [initial]);
+
   // Track whether we've mounted and whether we performed the initial load
   const loadedRef = React.useRef(false);
   const fullKeyRef = React.useRef(sk(key));
@@ -109,6 +115,10 @@ export function useLocalDB<T>(
     const onStorage = (e: StorageEvent) => {
       if (e.storageArea !== window.localStorage) return;
       if (e.key !== fullKeyRef.current) return;
+      if (e.newValue === null) {
+        setState(initialRef.current);
+        return;
+      }
       const next = parseJSON<T>(e.newValue);
       if (next !== null) setState(next);
     };

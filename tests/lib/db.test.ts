@@ -79,6 +79,33 @@ describe('useLocalDB', () => {
     });
     expect(result.current[0]).toBe('b');
   });
+
+  it('resets state to initial when storage key is removed', async () => {
+    const { result } = renderHook(() => useLocalDB('remove', 'init'));
+    await waitFor(() =>
+      expect(window.localStorage.getItem('13lr:remove')).toBe(JSON.stringify('init'))
+    );
+
+    // Change state so it differs from the initial value
+    act(() => result.current[1]('changed'));
+    await waitFor(() =>
+      expect(window.localStorage.getItem('13lr:remove')).toBe(JSON.stringify('changed'))
+    );
+
+    // Simulate another tab removing the key
+    await act(async () => {
+      window.localStorage.removeItem('13lr:remove');
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: '13lr:remove',
+          newValue: null,
+          storageArea: window.localStorage,
+        })
+      );
+    });
+
+    expect(result.current[0]).toBe('init');
+  });
 });
 
 // Tests for uid
