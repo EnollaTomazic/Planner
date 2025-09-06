@@ -12,6 +12,7 @@ import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
 import OutlineGlowDemo from "./OutlineGlowDemo";
+import SectionLabel from "@/components/reviews/SectionLabel";
 
 type Prompt = {
   id: string;
@@ -102,6 +103,8 @@ export default function PromptsPage() {
 
       <SectionCard.Body>
         <OutlineGlowDemo />
+          <SectionLabel>Section Label</SectionLabel>
+          <p className="text-sm text-muted-foreground">Divider used in reviews</p>
         {/* Compose panel */}
         <div className="space-y-2.5">
           <Input
