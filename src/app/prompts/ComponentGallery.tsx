@@ -25,10 +25,11 @@ import {
   PillarSelector,
   AnimatedSelect,
 } from '@/components/ui';
-import type { Pillar } from '@/lib/types';
+import type { Pillar, Review } from '@/lib/types';
 import type { GameSide } from '@/components/ui/league/SideSelector';
 import { Search as SearchIcon, Star } from 'lucide-react';
 import ReviewPanel from '@/components/reviews/ReviewPanel';
+import ReviewListItem from '@/components/reviews/ReviewListItem';
 
 function Item({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -59,6 +60,17 @@ export default function ComponentGallery() {
     { value: 'orange', label: 'Orange' },
     { value: 'pear', label: 'Pear' },
   ];
+
+  const demoReview: Review = {
+    id: 'demo',
+    title: 'Demo Review',
+    notes: 'Quick note',
+    tags: [],
+    pillars: [],
+    createdAt: Date.now(),
+    score: 8,
+    result: 'Win',
+  };
 
   return (
     <main className="p-6 bg-background text-foreground">
@@ -158,6 +170,11 @@ export default function ComponentGallery() {
             className="w-56"
             hideLabel
           />
+        </Item>
+        <Item label="ReviewListItem">
+          <div className="w-56">
+            <ReviewListItem review={demoReview} />
+          </div>
         </Item>
         <Item label="ReviewPanel">
           <ReviewPanel>Content</ReviewPanel>

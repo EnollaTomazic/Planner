@@ -6,6 +6,15 @@ import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
 
+const itemBase =
+  "relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none";
+const itemSelected =
+  "ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]";
+const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
+const statusDotWin = "bg-[hsl(var(--success))]";
+const statusDotDefault = "bg-[hsl(var(--muted-foreground))]";
+const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
+
 function formatDate(value: number | Date): string {
   const d = typeof value === "number" ? new Date(value) : value;
   return d.toLocaleDateString("en-US", {
@@ -53,24 +62,15 @@ export default function ReviewListItem({
       onClick={onClick}
       aria-label={`Open review: ${title}`}
       data-selected={selected ? "true" : undefined}
-      className={cn(
-        "relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200",
-        "hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))]",
-        "disabled:opacity-60 disabled:pointer-events-none",
-        selected &&
-          "ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]"
-      )}
+      className={cn(itemBase, selected && itemSelected)}
     >
       <div className="grid grid-cols-[20px_1fr_auto] gap-3">
         <span
           aria-hidden
           className={cn(
-            "self-center justify-self-center h-2 w-2 rounded-full",
-            review?.result === "Win"
-              ? "bg-[hsl(var(--success))]"
-              : "bg-[hsl(var(--muted-foreground))]",
-            review?.status === "new" && "animate-[pulse_2s_ease-in-out_infinite]"
+            statusDotBase,
+            review?.result === "Win" ? statusDotWin : statusDotDefault,
+            review?.status === "new" && statusDotPulse
           )}
         />
         <div className="min-w-0 flex flex-col gap-1">
