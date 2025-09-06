@@ -8,7 +8,7 @@ afterEach(cleanup);
 describe('Input', () => {
   it('uses small size classes by default', () => {
     const { getByRole } = render(<Input aria-label="test" />);
-    expect(getByRole('textbox')).toHaveClass('h-9');
+    expect(getByRole('textbox')).toHaveClass('h-11');
   });
 
   it('adds indent padding when enabled', () => {

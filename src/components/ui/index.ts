@@ -7,12 +7,12 @@
 //
 export { default as Button } from "./primitives/Button";
 export { default as IconButton } from "./primitives/IconButton";
-export { default as Input } from "./primitives/Input";
-export { default as Textarea } from "./primitives/Textarea";
-export { default as Badge } from "./primitives/Badge";
-export { default as Pill } from "./primitives/Pill";
-export { default as SearchBar } from "./primitives/SearchBar";
-export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/GlitchSegmented";
+export { default as Input } from "./primitives/input";
+export { default as Textarea } from "./primitives/textarea";
+export { default as Badge } from "./primitives/badge";
+export { default as Pill } from "./primitives/pill";
+export { default as SearchBar } from "./primitives/searchbar";
+export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/glitch-segmented";
 //
 // Feedback
 //

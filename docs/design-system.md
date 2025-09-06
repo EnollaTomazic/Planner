@@ -8,6 +8,23 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
 
+## Layout and spacing
+- Use a 12‑column grid with 24px gutters.
+- Spacing scale is limited to 8/12/16/20/24/32px.
+
+## Typography
+- Font sizes: 12px for labels, 14px for UI text, 16px for body copy, and 20/24px for titles.
+- Tracking: headers `-0.01em`; pills and labels `+0.02em`.
+- Use one weight per tier – `500` for UI, `600` for titles.
+
+## Radius and borders
+- Corner radius is 16px on all components (pills use full rounding).
+- Borders are `1px` solid `hsl(--line/0.35)`; avoid double outlines except on focus rings.
+
+## Texture
+- Background scanlines should not exceed `0.08` opacity and grain textures `0.06`.
+- Avoid stacking both textures on small components; reserve them for large panels.
+
 ## Global styles
 - `src/app/globals.css` resets layout, sets typography and applies focus and selection styles.
 - Respect the `no-animations` class for reduced motion users. Avoid forcing animations when it is present.

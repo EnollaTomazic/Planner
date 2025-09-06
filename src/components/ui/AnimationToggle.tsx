@@ -2,38 +2,33 @@
 
 import * as React from "react";
 import { Zap, ZapOff } from "lucide-react";
+import { useLocalDB, readLocal, writeLocal } from "@/lib/db";
 
-const KEY = "animations-enabled";
+const KEY = "ui:animations";
 
 export default function AnimationToggle() {
-  const [enabled, setEnabled] = React.useState(true);
+  const [enabled, setEnabled] = useLocalDB<boolean>(KEY, true);
   const [showNotice, setShowNotice] = React.useState(false);
 
   React.useEffect(() => {
-    let isEnabled = true;
-    let notice = false;
-    try {
-      const stored = localStorage.getItem(KEY);
-      if (stored !== null) {
-        isEnabled = stored === "true";
-      } else if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        isEnabled = false;
-        notice = true;
-      }
-    } catch {}
-    setEnabled(isEnabled);
-    setShowNotice(notice);
-    document.documentElement.classList.toggle("no-animations", !isEnabled);
-  }, []);
+    if (
+      readLocal<boolean>(KEY) === null &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setEnabled(false);
+      writeLocal(KEY, false);
+      setShowNotice(true);
+    }
+  }, [setEnabled]);
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle("no-animations", !enabled);
+  }, [enabled]);
 
   function toggle() {
     const next = !enabled;
     setEnabled(next);
     setShowNotice(false);
-    try {
-      localStorage.setItem(KEY, String(next));
-    } catch {}
-    document.documentElement.classList.toggle("no-animations", !next);
   }
 
   return (

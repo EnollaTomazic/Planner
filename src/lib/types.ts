@@ -40,6 +40,7 @@ export type Review = {
   focusOn?: boolean;
   focus?: number;            // 1..10
   markers?: ReviewMarker[];
+  status?: "new";           // transient UI flag
 };
 
 export type Goal = {

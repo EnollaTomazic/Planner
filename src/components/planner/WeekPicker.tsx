@@ -14,31 +14,10 @@ import Button from "@/components/ui/primitives/Button";
 import { useFocusDate, useDay, type ISODate } from "./usePlanner";
 import { cn } from "@/lib/utils";
 import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";
+import { isoToDate, toISO, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
-function isoToDate(iso: string) {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
-function toISO(d: Date) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-function addDays(d: Date, n: number) {
-  const x = new Date(d);
-  x.setDate(d.getDate() + n);
-  return x;
-}
-function mondayStart(d: Date) {
-  const shift = (d.getDay() + 6) % 7; // Mon=0..Sun=6
-  const s = new Date(d);
-  s.setDate(d.getDate() - shift);
-  s.setHours(0, 0, 0, 0);
-  return s;
-}
 const dmy = new Intl.DateTimeFormat(undefined, { day: "2-digit", month: "short" });
 
 /* ───────── safe week stats (7 fixed calls) ───────── */
@@ -137,7 +116,7 @@ export default function WeekPicker() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { start, end, heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
     const base = isoToDate(iso);
-    const s = mondayStart(base);
+    const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
     const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISO(addDays(s, i)) as ISODate);
     return {
