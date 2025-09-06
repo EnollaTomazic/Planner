@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { neuRaised, neuInset } from "./neu";
+import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
@@ -35,13 +35,14 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, size = "md", variant = "secondary", children, ...rest }, ref) => {
+  ({ className, size = "sm", variant = "secondary", children, ...rest }, ref) => {
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center gap-2 rounded-2xl",
+      "relative inline-flex items-center justify-center rounded-2xl border border-[hsl(var(--line)/0.35)] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)]",
       s.height,
       s.padding,
       s.text,
+      s.gap,
       "text-[hsl(var(--text))]",
       className
     );
@@ -50,20 +51,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <motion.button
           ref={ref}
-          className={cn(base, "bg-[hsl(var(--panel)/0.85)]")}
+          className={cn(
+            base,
+            "bg-[hsl(var(--panel)/0.85)] overflow-hidden"
+          )}
           style={{ boxShadow: neuRaised(12) }}
-          whileHover={{ scale: 1.03, boxShadow: neuRaised(16) }}
-          whileTap={{ scale: 0.96, boxShadow: neuInset(10) as any }}
+          whileHover={{
+            scale: 1.03,
+            boxShadow: `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
+          }}
+          whileTap={{
+            scale: 0.96,
+            boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+          }}
           {...rest}
         >
           <span
-            className="absolute inset-0 z-0 rounded-2xl ring-1 ring-[hsl(var(--line))]"
+            className="absolute inset-0 pointer-events-none rounded-2xl"
             style={{
               background:
-                "linear-gradient(180deg, rgba(255,255,255,0.15), transparent)",
+                "linear-gradient(90deg, hsl(var(--accent)/.18), hsl(var(--accent-2)/.18))",
             }}
           />
-          <span className="relative z-10 font-semibold inline-flex items-center gap-2">
+          <span className="relative z-10 inline-flex items-center gap-2">
             {children as React.ReactNode}
           </span>
         </motion.button>
@@ -74,10 +84,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <motion.button
           ref={ref}
-          className={cn(base, "bg-[hsl(var(--panel)/0.6)]")}
-          style={{ boxShadow: neuRaised(10) }}
-          whileHover={{ scale: 1.02, boxShadow: neuRaised(14) }}
-          whileTap={{ scale: 0.97, boxShadow: neuInset(8) as any }}
+          className={cn(
+            base,
+            "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]"
+          )}
+          whileTap={{ scale: 0.97 }}
           {...rest}
         >
           {children}
@@ -91,7 +102,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(base, "bg-[hsl(var(--panel)/0.8)]")}
         style={{ boxShadow: neuRaised(12) }}
         whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
-        whileTap={{ scale: 0.97, boxShadow: neuInset(9) as any }}
+        whileTap={{
+          scale: 0.97,
+          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+        }}
         {...rest}
       >
         {children}

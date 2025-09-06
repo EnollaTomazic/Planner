@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 
 interface GoalsProgressProps {
   total: number;

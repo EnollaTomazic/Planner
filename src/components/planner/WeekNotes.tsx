@@ -9,7 +9,7 @@ import "./style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Textarea from "@/components/ui/primitives/textarea";
+import Textarea from "@/components/ui/primitives/Textarea";
 import { usePlanner, type ISODate } from "./usePlanner";
 
 type Props = { iso: ISODate };

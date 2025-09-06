@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import ComponentGallery from "./ComponentGallery";
+import PromptsPage from "@/components/prompts/PromptsPage";
+export const metadata: Metadata = { title: "Prompts · 13 League Review" };
 
-export const metadata: Metadata = {
-  title: "Prompts · 13 League Review",
-};
-
-export default function Page() {
-  return <ComponentGallery />;
-}
+export default function Page() { return <PromptsPage />; }
