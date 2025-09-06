@@ -4,8 +4,7 @@ import * as React from "react";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Goal } from "@/lib/types";
-import { PillarBadge } from "@/components/ui";
-import Input from "@/components/ui/primitives/input";
+import { PillarBadge, Input } from "@/components/ui";
 
 interface GoalSlotProps {
   goal?: Goal | null;

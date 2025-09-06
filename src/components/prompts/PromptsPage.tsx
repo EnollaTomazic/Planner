@@ -7,13 +7,11 @@
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
-import Input from "@/components/ui/primitives/input";
+import { SectionCard, Textarea, Button, Input } from "@/components/ui";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
+import OutlineGlowDemo from "./OutlineGlowDemo";
 
 type Prompt = {
   id: string;
