@@ -184,6 +184,12 @@ export default function ComponentGallery() {
         <Item label="ReviewPanel">
           <ReviewPanel>Content</ReviewPanel>
         </Item>
+        <Item label="Review Layout">
+          <div className="grid w-full gap-4 md:grid-cols-12">
+            <div className="md:col-span-4 md:w-[240px] bg-secondary h-10 rounded" />
+            <div className="md:col-span-8 bg-muted h-10 rounded" />
+          </div>
+        </Item>
       </div>
     </main>
   );
