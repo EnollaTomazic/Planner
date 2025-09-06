@@ -7,7 +7,18 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card, FieldShell } from "@/components/ui";
+import {
+  SectionCard,
+  Textarea,
+  Button,
+  Input,
+  Card,
+  FieldShell,
+  Badge,
+  Progress,
+  Spinner,
+  CheckCircle,
+} from "@/components/ui";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
@@ -31,6 +42,9 @@ export default function PromptsPage() {
 
   // Search (now lives in the header)
   const [query, setQuery] = React.useState("");
+
+  // Demo state for CheckCircle
+  const [checkedDemo, setCheckedDemo] = React.useState(false);
 
   const titleId = React.useId();
 
@@ -182,6 +196,28 @@ export default function PromptsPage() {
               Custom content
             </div>
           </FieldShell>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Badge</h3>
+          <div className="flex flex-wrap gap-2">
+            <Badge>Neutral</Badge>
+            <Badge variant="accent">Accent</Badge>
+            <Badge variant="pill">Pill</Badge>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">CheckCircle</h3>
+          <CheckCircle checked={checkedDemo} onChange={setCheckedDemo} />
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Progress & Spinner</h3>
+          <div className="space-y-4">
+            <Progress value={45} label="Loading progress" />
+            <div className="flex items-center gap-4">
+              <Spinner />
+              <Spinner size={32} />
+            </div>
+          </div>
         </Card>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
