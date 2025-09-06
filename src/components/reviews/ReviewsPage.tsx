@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
+import ReviewPanel from "./ReviewPanel";
 import { Ghost, Plus } from "lucide-react";
 
 import Button from "@/components/ui/primitives/Button";
@@ -162,40 +163,40 @@ export default function ReviewsPage({
                 className="max-h-[66dvh] overflow-auto p-2"
               />
             </div>
-          </div>
-        </aside>
+            </div>
+          </aside>
 
-        <div className="lg:col-span-9 flex justify-center">
-          {!active ? (
-            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-              <Ghost className="h-6 w-6 opacity-60" />
-              <p>Select a review from the list or create a new one.</p>
-            </div>
-          ) : panelMode === "summary" ? (
-            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))]">
-              <ReviewSummary
-                key={`summary-${active.id}`}
-                review={active}
-                onEdit={() => setPanelMode("edit")}
-              />
-            </div>
-          ) : (
-            <div className="max-w-[880px] w-full rounded-[var(--radius)] p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-white/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))]">
-              <ReviewEditor
-                key={`editor-${active.id}`}
-                review={active}
-                onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-                onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-                onRename={(title: string) => onRename(active.id, title)}
-                onChangeMeta={(partial: Partial<Review>) =>
-                  onChangeMeta?.(active.id, partial)
-                }
-                onDone={() => setPanelMode("summary")}
-                onDelete={onDelete ? () => onDelete(active.id) : undefined}
-              />
-            </div>
-          )}
-        </div>
+          <div className="lg:col-span-9 flex justify-center">
+            {!active ? (
+              <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+                <Ghost className="h-6 w-6 opacity-60" />
+                <p>Select a review from the list or create a new one.</p>
+              </ReviewPanel>
+            ) : panelMode === "summary" ? (
+              <ReviewPanel>
+                <ReviewSummary
+                  key={`summary-${active.id}`}
+                  review={active}
+                  onEdit={() => setPanelMode("edit")}
+                />
+              </ReviewPanel>
+            ) : (
+              <ReviewPanel>
+                <ReviewEditor
+                  key={`editor-${active.id}`}
+                  review={active}
+                  onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+                  onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                  onRename={(title: string) => onRename(active.id, title)}
+                  onChangeMeta={(partial: Partial<Review>) =>
+                    onChangeMeta?.(active.id, partial)
+                  }
+                  onDone={() => setPanelMode("summary")}
+                  onDelete={onDelete ? () => onDelete(active.id) : undefined}
+                />
+              </ReviewPanel>
+            )}
+          </div>
       </div>
     </main>
   );
