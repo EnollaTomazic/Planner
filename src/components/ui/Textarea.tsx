@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -29,17 +29,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function T
   },
   ref
 ) {
-  function slug(s?: string) {
-    return (s ?? "")
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9\-]/g, "")
-      .slice(0, 64);
-  }
-
   const auto = React.useId();
-  const fromAria = slug(props["aria-label"] as string | undefined);
+  const fromAria = slugify(props["aria-label"] as string | undefined);
   const finalId = id || auto;
   const finalName = props.name || fromAria || finalId;
   const describedBy = errorText ? `${finalId}-error` : helperText ? `${finalId}-helper` : undefined;

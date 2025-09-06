@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cn, fromISODate } from '../../src/lib/utils';
+import { cn, fromISODate, slugify } from '../../src/lib/utils';
 
 describe('cn', () => {
   it('handles strings', () => {
@@ -47,5 +47,17 @@ describe('fromISODate', () => {
     ).toBe(true);
     expect(fromISODate('2024-02-30')).toBeNull();
     expect(fromISODate('not-a-date')).toBeNull();
+  });
+});
+
+describe('slugify', () => {
+  it('converts strings to kebab-case', () => {
+    expect(slugify('Hello World!')).toBe('hello-world');
+    expect(slugify('  Multiple   Spaces ')).toBe('multiple-spaces');
+  });
+
+  it('handles empty values', () => {
+    expect(slugify('')).toBe('');
+    expect(slugify(undefined)).toBe('');
   });
 });
