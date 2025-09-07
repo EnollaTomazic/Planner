@@ -237,6 +237,10 @@ export default function PromptsPage() {
             <p className="type-body">--glow-strong, --glow-soft</p>
           </div>
           <div>
+            <h4 className="type-subtitle">Focus Ring</h4>
+            <p className="type-body">--theme-ring for theme-aware ring color</p>
+          </div>
+          <div>
             <h4 className="type-subtitle">Radius</h4>
             <p className="type-body">--radius-md, --radius-lg, --radius-xl</p>
           </div>
