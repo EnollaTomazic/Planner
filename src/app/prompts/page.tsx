@@ -18,6 +18,7 @@ import {
   TitleBar,
   Hero,
   SearchBar,
+  Snackbar,
 } from "@/components/ui";
 import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
@@ -117,6 +118,12 @@ export default function Page() {
             <span className="text-sm font-medium">Spinner</span>
             <div className="w-56 flex justify-center">
               <Spinner />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Snackbar</span>
+            <div className="w-56 flex justify-center">
+              <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">

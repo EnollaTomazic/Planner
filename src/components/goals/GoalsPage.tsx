@@ -21,6 +21,7 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
+  Snackbar,
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm from "./GoalForm";
@@ -293,20 +294,15 @@ export default function GoalsPage() {
               </div>
 
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
-                  Deleted “{lastDeleted.title}”.{" "}
-                  <button
-                    type="button"
-                    className="underline underline-offset-2"
-                    onClick={() => {
-                      if (!lastDeleted) return;
-                      setGoals((prev) => [lastDeleted, ...prev]);
-                      setLastDeleted(null);
-                    }}
-                  >
-                    Undo
-                  </button>
-                </div>
+                <Snackbar
+                  message={<>Deleted “{lastDeleted.title}”.</>}
+                  actionLabel="Undo"
+                  onAction={() => {
+                    if (!lastDeleted) return;
+                    setGoals((prev) => [lastDeleted, ...prev]);
+                    setLastDeleted(null);
+                  }}
+                />
               )}
             </>
           )}
