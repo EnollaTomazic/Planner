@@ -500,7 +500,7 @@ function RemTile({
               placeholder="Short, skimmable sentence."
               value={body}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.currentTarget.value)}
-              className="textarea-base"
+              textareaClassName="textarea-base"
             />
 
             <label className="text-xs opacity-70">Tags</label>

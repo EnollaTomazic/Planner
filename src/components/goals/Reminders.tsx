@@ -353,7 +353,7 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              className="min-h-[88px]"
+              textareaClassName="min-h-[88px]"
             />
             <Input
               aria-label="Tags (comma separated)"

@@ -89,7 +89,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             <span className="text-xs text-[hsl(var(--muted-foreground))]">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="min-h-24 text-sm"
+              textareaClassName="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
