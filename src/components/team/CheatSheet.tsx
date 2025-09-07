@@ -448,6 +448,7 @@ export default function CheatSheet({
               {!isEditing ? (
                 <IconButton
                   title="Edit"
+                  aria-label="Edit"
                   size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
@@ -456,6 +457,7 @@ export default function CheatSheet({
               ) : (
                 <IconButton
                   title="Save"
+                  aria-label="Save"
                   size="sm"
                   onClick={() => setEditingId(null)}
                 >

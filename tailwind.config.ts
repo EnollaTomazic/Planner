@@ -30,7 +30,9 @@ const config: Config = {
           glow: "hsl(var(--success-glow))"
         },
         muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
-        lavDeep: "hsl(var(--lav-deep))"
+        lavDeep: "hsl(var(--lav-deep))",
+        surfaceVhs: "hsl(var(--surface-vhs))",
+        surfaceStreak: "hsl(var(--surface-streak))"
       },
       borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
@@ -39,9 +41,9 @@ const config: Config = {
       },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        snap: "cubic-bezier(0.22, 1, 0.36, 1)"
+        snap: "var(--ease-snap)"
       },
-      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" },
+      transitionDuration: { 140: "140ms", 200: "200ms", 220: "220ms", 420: "420ms" },
       spacing: {
         1: "4px",
         2: "8px",

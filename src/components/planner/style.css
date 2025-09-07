@@ -25,7 +25,7 @@
 
 /* ============ Row action buttons ============ */
 .daycard :where(.iconbtn) {
-  @apply size-8 rounded-full opacity-0 transition-opacity duration-150 ease-out;
+  @apply size-8 rounded-full opacity-0 transition-opacity duration-140 ease-out;
 }
 .daycard :where(.iconbtn > svg) {
   @apply size-3.5;
@@ -90,12 +90,22 @@
 
 /* ============ Task rows (right column) ============ */
 .task-tile__text {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
   color: hsl(var(--foreground));
   transition: color .15s var(--ease-out), text-shadow .15s var(--ease-out);
 }
 .task-tile__text:hover {
   color: hsl(var(--primary-foreground));
   text-shadow: 0 0 10px hsl(var(--accent) / .18);
+}
+.task-tile__text:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius-md, 6px);
 }
 
 /* Soft, readable strike-through for completed tasks */

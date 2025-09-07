@@ -50,10 +50,10 @@ export default function GoalForm({
         />
         <SectionCard.Body className="grid gap-6">
           <label className="grid gap-2">
-            <span className="text-xs text-white/60">Title</span>
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Title</span>
             <Input
               tone="default"
-              className="h-10 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="h-10 text-sm"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -62,10 +62,10 @@ export default function GoalForm({
           </label>
 
           <label className="grid gap-2">
-            <span className="text-xs text-white/60">Metric (optional)</span>
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Metric (optional)</span>
             <Input
               tone="default"
-              className="h-10 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
+              className="h-10 text-sm tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
@@ -73,17 +73,17 @@ export default function GoalForm({
           </label>
 
           <label className="grid gap-2">
-            <span className="text-xs text-white/60">Notes (optional)</span>
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="min-h-24 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <div className="text-xs text-white/60">
+          <div className="text-xs text-[hsl(var(--muted-foreground))]">
             {activeCount >= activeCap ? (
               <span className="text-[hsl(var(--accent))]">
                 Cap reached. Finish one to add more.

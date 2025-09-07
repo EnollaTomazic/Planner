@@ -14,3 +14,5 @@
 | `#cde9ff` | `hsl(var(--glitch-b-light))` |
 | `#0b0b12` | `hsl(var(--background))` |
 | `#9a8cff` | `hsl(var(--icon-fg))` |
+| `#0b0f13` | `hsl(var(--surface-vhs))` |
+| `#1a1a24` | `hsl(var(--surface-streak))` |

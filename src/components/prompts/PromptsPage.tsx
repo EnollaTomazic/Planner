@@ -156,10 +156,14 @@ export default function PromptsPage() {
         </div>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Input</h3>
+          <p className="text-sm text-muted-foreground">
+            Customize focus rings with the <code>--theme-ring</code> variable.
+          </p>
           <div className="space-y-3">
             <Input placeholder="Default" />
             <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
+            <Input placeholder="Custom ring" style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties} />
             <Input placeholder="With action">
               <button
                 type="button"
@@ -234,14 +238,6 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
-          <h3 className="type-title">GlitchSegmented</h3>
-          <GlitchSegmentedGroup value="one" onChange={() => {}}>
-            <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
-            <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
-            <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
-          </GlitchSegmentedGroup>
-        </Card>
-        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
           <div>
             <h4 className="type-subtitle">Colors</h4>
@@ -267,6 +263,14 @@ export default function PromptsPage() {
           <div>
             <h4 className="type-subtitle">Type Ramp</h4>
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Motion</h3>
+          <div className="flex gap-2">
+            <button className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60">
+              Slow fade
+            </button>
           </div>
         </Card>
       </SectionCard.Body>

@@ -18,6 +18,7 @@ import {
   TitleBar,
   Hero,
   SearchBar,
+  Snackbar,
 } from "@/components/ui";
 import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
@@ -48,6 +49,8 @@ export default function Page() {
     "muted-foreground",
     "surface",
     "surface-2",
+    "surface-vhs",
+    "surface-streak",
     "danger",
     "success",
     "glow-strong",
@@ -120,6 +123,12 @@ export default function Page() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Snackbar</span>
+            <div className="w-56 flex justify-center">
+              <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Theme</span>
             <div className="w-56 flex justify-center">
               <ThemeToggle />
@@ -158,10 +167,10 @@ export default function Page() {
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Icon Button</span>
             <div className="w-56 flex justify-center gap-2">
-              <IconButton>
+              <IconButton aria-label="Add" title="Add">
                 <Plus />
               </IconButton>
-              <IconButton size="lg">
+              <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
                 <Sun />
               </IconButton>
             </div>
@@ -202,6 +211,20 @@ export default function Page() {
               <Textarea placeholder="Default" />
               <Textarea tone="pill" placeholder="Pill" />
             </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Save Status</span>
+            <div className="w-56">
+              <div className="text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">
+                All changes saved
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Muted Text</span>
+            <p className="w-56 text-sm text-[hsl(var(--muted-foreground))] text-center">
+              Example of muted foreground text
+            </p>
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Badge</span>
