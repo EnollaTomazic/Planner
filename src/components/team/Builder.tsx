@@ -27,6 +27,7 @@ import {
   Copy,
 } from "lucide-react";
 import { useLocalDB } from "@/lib/db";
+import { copyText } from "@/lib/clipboard";
 
 /* ───────────────── types & constants ───────────────── */
 
@@ -135,16 +136,7 @@ export default function Builder() {
             enemies: selection === "enemies" ? state.enemies : EMPTY_TEAM,
           });
 
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-    }
+    await copyText(text);
     setCopied(selection);
     setTimeout(() => setCopied(null), 1300);
   }

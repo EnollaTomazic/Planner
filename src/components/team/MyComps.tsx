@@ -14,6 +14,7 @@ import "../team/style.css";
 
 import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
+import { copyText } from "@/lib/clipboard";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -77,19 +78,6 @@ function isStringArray(v: unknown): v is string[] {
 function safeNumber(v: unknown, fallback: number): number {
   const n = typeof v === "number" ? v : Number.NaN;
   return Number.isFinite(n) ? n : fallback;
-}
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    ta.remove();
-  }
 }
 
 function stringify(c: TeamComp) {
