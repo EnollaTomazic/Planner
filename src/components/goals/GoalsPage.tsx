@@ -29,7 +29,7 @@ import GoalsProgress from "./GoalsProgress";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
-import { LOCALE } from "@/lib/utils";
+import { shortDate } from "@/lib/date";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -265,7 +265,7 @@ export default function GoalsPage() {
                                   style={g.done ? { background: "var(--accent-overlay)" } : undefined}
                                 />
                                 <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
+                                  {shortDate.format(new Date(g.createdAt))}
                                 </time>
                               </span>
                               <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>

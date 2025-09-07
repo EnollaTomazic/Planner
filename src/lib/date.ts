@@ -1,6 +1,14 @@
 // src/lib/date.ts
 // Shared date helpers for planner components
 
+import { LOCALE } from "./utils";
+
+export const shortDate = new Intl.DateTimeFormat(LOCALE, {
+  month: "numeric",
+  day: "numeric",
+  year: "numeric",
+});
+
 export function toISO(d: Date): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

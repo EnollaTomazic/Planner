@@ -5,6 +5,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
+import { shortDate } from "@/lib/date";
 
 const itemBase =
   "review-tile relative w-full text-left h-auto min-h-[76px] p-4 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none";
@@ -15,15 +16,6 @@ const statusDotDefault = "bg-[hsl(var(--muted-foreground))]";
 const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
 const itemLoading = cn(itemBase, "animate-pulse");
 const loadingLine = "h-3 rounded bg-[hsl(var(--muted))]";
-
-function formatDate(value: number | Date): string {
-  const d = typeof value === "number" ? new Date(value) : value;
-  return d.toLocaleDateString("en-US", {
-    month: "numeric",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 export type ReviewListItemProps = {
   review?: Review;
@@ -54,7 +46,9 @@ export default function ReviewListItem({
   const subline = review?.notes?.trim() || "";
   const score = review?.score;
   const resultTag = review?.result ? review.result[0] : undefined;
-  const dateStr = review?.createdAt ? formatDate(review.createdAt) : "";
+  const dateStr = review?.createdAt
+    ? shortDate.format(new Date(review.createdAt))
+    : "";
 
   return (
     <div data-scope="reviews">
