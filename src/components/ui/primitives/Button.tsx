@@ -4,24 +4,24 @@ import * as React from "react";
 import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { neuRaised, neuInset } from "./neu";
+import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-9",
+    height: "h-5",
     padding: "px-3",
     text: "text-[12px]",
     gap: "gap-2",
   },
   md: {
-    height: "h-12",
+    height: "h-6",
     padding: "px-4",
     text: "text-[14px]",
     gap: "gap-2",
   },
   lg: {
-    height: "h-14",
-    padding: "px-6",
+    height: "h-7",
+    padding: "px-5",
     text: "text-[16px]",
     gap: "gap-2",
   },
@@ -43,7 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       s.padding,
       s.text,
       s.gap,
-      "text-[hsl(var(--text))]",
+      "text-[hsl(var(--foreground))]",
       className
     );
 
@@ -53,9 +53,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
           className={cn(
             base,
-            "bg-[hsl(var(--panel)/0.85)] overflow-hidden"
+            "bg-[hsl(var(--panel)/0.85)] overflow-hidden",
+            "shadow-neo"
           )}
-          style={{ boxShadow: neuRaised(12) }}
           whileHover={{
             scale: 1.03,
             boxShadow: `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
@@ -99,8 +99,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        className={cn(base, "bg-[hsl(var(--panel)/0.8)]")}
-        style={{ boxShadow: neuRaised(12) }}
+        className={cn(base, "bg-[hsl(var(--panel)/0.8)]", "shadow-neo")}
         whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
         whileTap={{
           scale: 0.97,

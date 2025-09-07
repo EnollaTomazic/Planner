@@ -11,13 +11,12 @@
  * - Quick Add (input + button + neon quote) now lives in the SAME panel as the cards (SectionCard.Body)
  */
 
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Badge from "@/components/ui/primitives/badge";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import { uid, useLocalDB } from "@/lib/db";
@@ -223,7 +222,7 @@ export default function Reminders() {
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
               className="flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="solid">
               <Plus />
             </IconButton>
             <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">

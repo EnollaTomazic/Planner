@@ -5,13 +5,14 @@ import React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
-import { Button } from "@/components/ui";
+import { Button, Card } from "@/components/ui";
 import { Tv } from "lucide-react";
 
 export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
   onSelect?: (id: string) => void;
+  onCreate?: () => void;
   className?: string;
 };
 
@@ -19,50 +20,41 @@ export default function ReviewList({
   reviews,
   selectedId,
   onSelect,
+  onCreate,
   className,
 }: ReviewListProps) {
   const count = reviews.length;
 
+  // Allow the list to grow with the sidebar instead of capping at 520px
+  const containerClass = cn("w-full mx-auto backdrop-blur-sm", className);
+
   if (count === 0) {
     return (
-      <div
-        className={cn(
-          "max-w-[520px] mx-auto p-4 rounded-2xl border bg-card/60 backdrop-blur-sm",
-          className
-        )}
-      >
-        <div className="flex justify-end mb-3">
-          <span className="text-sm text-muted-foreground">0 shown</span>
-        </div>
+      <Card className={containerClass}>
         <div className="flex flex-col items-center justify-center gap-3 p-6 text-sm text-muted-foreground">
           <Tv className="h-6 w-6 opacity-60" />
           <p>No reviews yet</p>
-          <Button variant="primary">New Review</Button>
+          <Button variant="primary" onClick={onCreate}>
+            New Review
+          </Button>
         </div>
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "max-w-[520px] mx-auto p-4 rounded-2xl border bg-card/60 backdrop-blur-sm",
-        className
-      )}
-    >
-      <div className="flex justify-end mb-3">
-        <span className="text-sm text-muted-foreground">{count} shown</span>
-      </div>
-      <div className="flex flex-col gap-3">
+    <Card className={containerClass}>
+      <ul className="flex flex-col gap-3">
         {reviews.map((r) => (
-          <ReviewListItem
-            key={r.id}
-            review={r}
-            selected={r.id === selectedId}
-            onClick={onSelect ? () => onSelect(r.id) : undefined}
-          />
+          <li key={r.id}>
+            <ReviewListItem
+              review={r}
+              selected={r.id === selectedId}
+              onClick={onSelect ? () => onSelect(r.id) : undefined}
+            />
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </Card>
   );
 }

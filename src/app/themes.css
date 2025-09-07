@@ -6,33 +6,47 @@
 :root {
   --background: 246 35% 7%;
   --foreground: 260 20% 96%;
+  --text: var(--foreground);
   --card: 248 30% 10%;
+  --panel: var(--card);
   --border: 252 20% 22%;
+  --line: var(--border);
   --input: 250 22% 12%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
   --accent: 292 80% 60%;
   --accent-2: 192 90% 50%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 292 80% 20%;
   --glow: 292 80% 60%;
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
   --muted: 248 26% 14%;
   --muted-foreground: 250 15% 70%;
+  --surface: 248 24% 12%;
+  --surface-2: 248 24% 16%;
+  --surface-vhs: 210 27% 6%;
+  --surface-streak: 240 16% 12%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
-  --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
-  --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
-  --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
-  --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+  --glitch-r: 339 100% 59%;
+  --glitch-r-light: 315 100% 88%;
+  --glitch-b: 206 100% 61%;
+  --glitch-b-light: 206 100% 90%;
+  --icon-fg: 247 100% 77%;
+  --accent-overlay: hsl(var(--accent));
+  --ring-contrast: hsl(var(--ring));
+  --glow-active: hsl(var(--glow));
+  --text-on-accent: hsl(var(--foreground));
 
   /* Default button tones */
   --neon: var(--glow);
-  --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
+  --neon-soft: hsl(var(--neon));
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
 
@@ -41,12 +55,12 @@
   --card-hairline: hsl(var(--border));
 
   --hairline-w: 1px;
-  --radius-1: 8px; --radius-2: 12px; --radius-3: 16px;
-  --radius-card: var(--radius-3);
+  --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px;
+  --radius-card: var(--radius-xl);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-3);
+  --control-h: 42px; --control-radius: var(--radius-xl);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(
@@ -66,14 +80,25 @@
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
 }
 
-/* Upgrade hairline when color-mix(oklab) is supported */
+/* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
+    --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+    --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+    --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+    --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
     );
+  }
+}
+
+/* Upgrade contrast token when color-contrast is supported */
+@supports (color: color-contrast(white vs black)) {
+  :root {
+    --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
   }
 }
 
@@ -86,21 +111,30 @@
 html.light {
   --background: 0 0% 100%;
   --foreground: 240 10% 10%;
+  --text: var(--foreground);
   --card: 0 0% 100%;
+  --panel: var(--card);
   --border: 240 9% 90%;
+  --line: var(--border);
   --input: 240 9% 97%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 92%;
   --accent: 292 80% 45%;
   --accent-2: 200 100% 50%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 292 80% 94%;
   --glow: 292 80% 45%;
   --ring-muted: 240 9% 90%;
   --danger: 0 84% 55%;
   --muted: 240 6% 96%;
   --muted-foreground: 240 4% 35%;
+  --surface: 240 7% 98%;
+  --surface-2: 240 6% 96%;
+  --surface-vhs: 210 27% 6%;
+  --surface-streak: 240 16% 12%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 86% 62%;
@@ -111,10 +145,14 @@ html.light {
 html.theme-glitch2 {
   --background: 252 35% 9%;
   --foreground: 260 20% 98%;
+  --text: var(--foreground);
   --card: 254 30% 12%;
+  --panel: var(--card);
   --border: 256 20% 24%;
+  --line: var(--border);
   --input: 254 22% 14%;
   --ring: 268 70% 66%;
+  --theme-ring: hsl(var(--ring));
   --primary: 268 70% 66%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 268 70% 24%;
@@ -149,10 +187,14 @@ html.theme-citrus {
   /* Dark Citrus palette */
   --background: 28 30% 9%;
   --foreground: 30 35% 96%;
+  --text: var(--foreground);
   --card: 28 30% 14%;
+  --panel: var(--card);
   --border: 30 25% 24%;
+  --line: var(--border);
   --input: 30 22% 16%;
   --ring: 33 92% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 33 92% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 33 90% 22%;
@@ -171,10 +213,14 @@ html.theme-citrus {
 html.theme-noir {
   --background: 0 0% 6%;
   --foreground: 0 0% 92%;
+  --text: var(--foreground);
   --card: 0 0% 10%;
+  --panel: var(--card);
   --border: 0 0% 20%;
+  --line: var(--border);
   --input: 0 0% 14%;
   --ring: 0 0% 80%;
+  --theme-ring: hsl(var(--ring));
   --primary: 0 0% 80%;
   --primary-foreground: 0 0% 0%;
   --primary-soft: 0 0% 30%;
@@ -193,10 +239,14 @@ html.theme-noir {
 html.theme-ocean {
   --background: 220 50% 8%;
   --foreground: 210 20% 96%;
+  --text: var(--foreground);
   --card: 220 35% 12%;
+  --panel: var(--card);
   --border: 220 20% 24%;
+  --line: var(--border);
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
+  --theme-ring: hsl(var(--ring));
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
@@ -215,10 +265,14 @@ html.theme-ocean {
 html.theme-rose {
   --background: 330 22% 10%;
   --foreground: 330 20% 96%;
+  --text: var(--foreground);
   --card: 330 24% 14%;
+  --panel: var(--card);
   --border: 330 14% 26%;
+  --line: var(--border);
   --input: 330 18% 16%;
   --ring: 325 80% 62%;
+  --theme-ring: hsl(var(--ring));
   --primary: 325 80% 62%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 325 80% 20%;
@@ -431,7 +485,7 @@ html.bg-light body::after {
 }
 
 html.bg-vhs body {
-  background-color: #0b0f13;
+  background-color: hsl(var(--surface-vhs));
   background-image:
     radial-gradient(circle at 20% 30%, rgba(70, 230, 255, 0.15), transparent 60%),
     repeating-linear-gradient(
@@ -449,7 +503,7 @@ html.bg-vhs body::after {
 }
 
 html.bg-streak body {
-  background-color: #1a1a24;
+  background-color: hsl(var(--surface-streak));
   background-image:
     radial-gradient(circle at 70% 40%, rgba(180, 100, 255, 0.25), transparent 40%),
     repeating-linear-gradient(

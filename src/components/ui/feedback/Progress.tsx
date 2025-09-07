@@ -1,8 +1,6 @@
 // src/components/ui/Progress.tsx
 "use client";
 
-import { neuInset, neuRaised } from "../primitives/neu";
-
 /** Simple progress bar (0..100), with SR label */
 export default function Progress({ value, label }: { value: number; label?: string }) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
@@ -12,12 +10,11 @@ export default function Progress({ value, label }: { value: number; label?: stri
       aria-label={label}
     >
       <div
-        className="h-full w-full overflow-hidden rounded-full bg-[hsl(var(--panel)/0.9)]"
-        style={{ boxShadow: neuInset(6) }}
+        className="h-full w-full overflow-hidden rounded-full bg-[hsl(var(--panel)/0.9)] shadow-neo-inset"
       >
         <span
-          className="block h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] transition-[width]"
-          style={{ width: `${v}%`, boxShadow: neuRaised(4) }}
+          className="block h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] transition-[width] shadow-neo-sm"
+          style={{ width: `${v}%` }}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={v}

@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
+import ReviewPanel from "./ReviewPanel";
 import { Ghost, Plus } from "lucide-react";
 
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
 
 type SortKey = "newest" | "oldest" | "title";
@@ -120,14 +120,14 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-3.5"
+                  buttonClassName="h-10 px-4"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-3.5 whitespace-nowrap"
+                className="px-4 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
@@ -142,16 +142,15 @@ export default function ReviewsPage({
         }
       />
 
-      <div
-        className={cn(
-          "grid items-start gap-6",
-          "grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr]"
-        )}
-      >
-        <aside>
-          <SectionCard className="overflow-hidden bg-card/50">
-            <SectionCard.Body>
-              <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
+      <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
+        <aside className="md:col-span-5 md:w-72 lg:col-span-4 lg:w-80">
+          <div
+            className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong"
+          >
+            <div className="section-b">
+              <div className="mb-2 text-sm text-muted-foreground">
+                {filtered.length} shown
+              </div>
               <ReviewList
                 reviews={filtered}
                 selectedId={selectedId}
@@ -159,37 +158,44 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                className="max-h-[66dvh] overflow-auto p-2"
+                onCreate={onCreate}
+                className="max-h-screen overflow-auto p-2"
               />
-            </SectionCard.Body>
-          </SectionCard>
-        </aside>
+            </div>
+            </div>
+          </aside>
 
-        <SectionCard className="overflow-hidden">
-          {!active ? (
-            <SectionCard.Body className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-              <Ghost className="h-6 w-6 opacity-60" />
-              <p>Select a review from the list or create a new one.</p>
-            </SectionCard.Body>
-          ) : panelMode === "summary" ? (
-            <ReviewSummary
-              key={`summary-${active.id}`}
-              review={active}
-              onEdit={() => setPanelMode("edit")}
-            />
-          ) : (
-            <ReviewEditor
-              key={`editor-${active.id}`}
-              review={active}
-              onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-              onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-              onRename={(title: string) => onRename(active.id, title)}
-              onChangeMeta={(partial) => onChangeMeta?.(active.id, partial as Partial<Review>)}
-              onDone={() => setPanelMode("summary")}
-              onDelete={onDelete ? () => onDelete(active.id) : undefined}
-            />
-          )}
-        </SectionCard>
+          <div className="md:col-span-7 lg:col-span-8 flex justify-center">
+            {!active ? (
+              <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+                <Ghost className="h-6 w-6 opacity-60" />
+                <p>Select a review from the list or create a new one.</p>
+              </ReviewPanel>
+            ) : panelMode === "summary" ? (
+              <ReviewPanel>
+                <ReviewSummary
+                  key={`summary-${active.id}`}
+                  review={active}
+                  onEdit={() => setPanelMode("edit")}
+                />
+              </ReviewPanel>
+            ) : (
+              <ReviewPanel>
+                <ReviewEditor
+                  key={`editor-${active.id}`}
+                  review={active}
+                  onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+                  onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                  onRename={(title: string) => onRename(active.id, title)}
+                  onChangeMeta={(partial: Partial<Review>) =>
+                    onChangeMeta?.(active.id, partial)
+                  }
+                  onDone={() => setPanelMode("summary")}
+                  onDelete={onDelete ? () => onDelete(active.id) : undefined}
+                />
+              </ReviewPanel>
+            )}
+          </div>
       </div>
     </main>
   );

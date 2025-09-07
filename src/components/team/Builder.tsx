@@ -12,8 +12,8 @@ import "../team/style.css";
 
 import { useMemo, useState } from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
 import {
   Shield,

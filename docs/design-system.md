@@ -6,11 +6,12 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
+- Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
 
 ## Layout and spacing
 - Use a 12‑column grid with 24px gutters.
-- Spacing scale is limited to 8/12/16/20/24/32px.
+- Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
 
 ## Typography
 - Font sizes: 12px for labels, 14px for UI text, 16px for body copy, and 20/24px for titles.
@@ -18,7 +19,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Use one weight per tier – `500` for UI, `600` for titles.
 
 ## Radius and borders
-- Corner radius is 16px on all components (pills use full rounding).
+- Corner radii follow an 8/12/16/24px scale; most components use 16px while pills are fully rounded.
 - Borders are `1px` solid `hsl(--line/0.35)`; avoid double outlines except on focus rings.
 
 ## Texture
@@ -30,12 +31,12 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Respect the `no-animations` class for reduced motion users. Avoid forcing animations when it is present.
 
 ## Primitive components
-- Reusable building blocks live under `src/components/ui/primitives` (e.g. `button`, `badge`, `input`).
+- Reusable building blocks live under `src/components/ui/primitives` (e.g. `Button`, `Badge`, `Input`).
 - Prefer composing these primitives rather than creating bespoke styles.
 - Variant props are provided for sizing and icon placement where appropriate.
 
 ```tsx
-import { Button } from "@/components/ui/primitives/button";
+import { Button } from "@/components/ui/primitives/Button";
 
 export function Submit() {
   return (
@@ -61,3 +62,23 @@ export function Header() {
 ```
 
 Following these guidelines keeps the interface consistent and lets theme updates propagate automatically.
+
+## SearchBar
+- Wraps its input in a `<form role="search">` for accessibility.
+- Submitting the form calls `onValueChange` immediately and optionally `onSubmit` with the current query.
+- Disables `autoComplete`, `autoCorrect`, `spellCheck`, and `autoCapitalize` by default for consistent text entry.
+
+```tsx
+import { SearchBar } from "@/components/ui";
+
+export function Demo() {
+  return (
+    <SearchBar
+      value=""
+      onValueChange={() => {}}
+      onSubmit={(q) => console.log(q)}
+    />
+  );
+}
+```
+

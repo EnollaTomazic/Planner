@@ -10,10 +10,9 @@
  * - Undo snackbar with 5s timer
  */
 
-import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -22,14 +21,15 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
+  Snackbar,
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
-import GoalForm from "./GoalForm";
-import GoalQueue, { WaitItem } from "./GoalQueue";
-import GoalSlot from "./GoalSlot";
+import GoalForm, { GoalFormHandle } from "./GoalForm";
+import GoalsProgress from "./GoalsProgress";
 
 import { useLocalDB, uid } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
+import { LOCALE } from "@/lib/utils";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -46,13 +46,6 @@ const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: strin
 
 const ACTIVE_CAP = 3;
 
-/* ---------- Waitlist ---------- */
-const WAITLIST_SEEDS: WaitItem[] = [
-  { id: uid("wl"), text: "Fix wave-3 crash timing", createdAt: Date.now() - 86400000 },
-  { id: uid("wl"), text: "Early ward @2:30 then shove", createdAt: Date.now() - 860000 },
-  { id: uid("wl"), text: "Track jungle path till 3 camps", createdAt: Date.now() - 420000 },
-];
-
 /* ====================================================================== */
 
 export default function GoalsPage() {
@@ -61,7 +54,6 @@ export default function GoalsPage() {
   // stores
   const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
   const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
-  const [waitlist, setWaitlist] = useLocalDB<WaitItem[]>("goals.waitlist.v1", WAITLIST_SEEDS);
 
   // add form
   const [title, setTitle] = React.useState("");
@@ -74,6 +66,7 @@ export default function GoalsPage() {
   const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
   const undoTimer = React.useRef<number | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
+  const titleInputRef = React.useRef<GoalFormHandle>(null);
 
   // stats
   const totalCount = goals.length;
@@ -119,6 +112,7 @@ export default function GoalsPage() {
     };
     setGoals((prev) => [g, ...prev]);
     resetForm();
+    titleInputRef.current?.focus({ preventScroll: true });
   }
 
   function toggleDone(id: string) {
@@ -148,20 +142,6 @@ export default function GoalsPage() {
     setLastDeleted(g);
     if (undoTimer.current) window.clearTimeout(undoTimer.current);
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
-  }
-
-  function editGoal(id: string, title: string) {
-    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, title } : g)));
-  }
-
-  // waitlist ops
-  function addWait(text: string) {
-    const t = text.trim();
-    if (!t) return;
-    setWaitlist((prev) => [{ id: uid("wl"), text: t, createdAt: Date.now() }, ...prev]);
-  }
-  function removeWait(id: string) {
-    setWaitlist((prev) => prev.filter((w) => w.id !== id));
   }
 
   const summary =
@@ -221,33 +201,38 @@ export default function GoalsPage() {
               ) : (
                 <SectionCard className="card-neo-soft">
                   <SectionCard.Header sticky className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="flex items-center gap-2 sm:gap-4">
                       <h2 className="text-lg font-semibold">Your Goals</h2>
                       <GoalsProgress total={totalCount} pct={pctDone} />
                     </div>
                     <GoalsTabs value={filter} onChange={setFilter} />
                   </SectionCard.Header>
                   <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
                       {filtered.length === 0 ? (
-                        <p className="text-sm text-white/60">
+                        <p className="text-sm text-[hsl(var(--muted-foreground))]">
                           No goals here. Add one simple, finishable thing.
                         </p>
                       ) : (
                         filtered.map((g) => (
                           <article
                             key={g.id}
-                            className={["relative rounded-2xl p-6","card-neo transition","hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]","min-h-[152px] flex flex-col"].join(" ")}
+                            className={[
+                              "relative rounded-2xl p-6",
+                              "card-neo transition",
+                              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
+                                "min-h-8 flex flex-col",
+                            ].join(" ")}
                           >
                             <span
                               aria-hidden
-                              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                              className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
                             />
                             <header className="flex items-start justify-between gap-2">
                               <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
                                 {g.title}
                               </h3>
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-2">
                                 <CheckCircle
                                   aria-label={g.done ? "Mark active" : "Mark done"}
                                   checked={g.done}
@@ -258,13 +243,13 @@ export default function GoalsPage() {
                                   title="Delete"
                                   aria-label="Delete goal"
                                   onClick={() => removeGoal(g.id)}
-                                  circleSize="sm"
+                                  size="sm"
                                 >
                                   <Trash2 />
                                 </IconButton>
                               </div>
                             </header>
-                            <div className="mt-3 text-sm text-white/60 space-y-2">
+                            <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))] space-y-2">
                               {g.metric ? (
                                 <div className="tabular-nums">
                                   <span className="opacity-70">Metric:</span> {g.metric}
@@ -272,7 +257,7 @@ export default function GoalsPage() {
                               ) : null}
                               {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
+                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]">
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
@@ -297,6 +282,7 @@ export default function GoalsPage() {
 
               <div ref={formRef}>
                 <GoalForm
+                  ref={titleInputRef}
                   title={title}
                   metric={metric}
                   notes={notes}
@@ -311,20 +297,15 @@ export default function GoalsPage() {
               </div>
 
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] px-4 py-2 text-sm shadow-sm">
-                  Deleted “{lastDeleted.title}”.{" "}
-                  <button
-                    type="button"
-                    className="underline underline-offset-2"
-                    onClick={() => {
-                      if (!lastDeleted) return;
-                      setGoals((prev) => [lastDeleted, ...prev]);
-                      setLastDeleted(null);
-                    }}
-                  >
-                    Undo
-                  </button>
-                </div>
+                <Snackbar
+                  message={<>Deleted “{lastDeleted.title}”.</>}
+                  actionLabel="Undo"
+                  onAction={() => {
+                    if (!lastDeleted) return;
+                    setGoals((prev) => [lastDeleted, ...prev]);
+                    setLastDeleted(null);
+                  }}
+                />
               )}
             </>
           )}

@@ -3,11 +3,12 @@
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import "../reviews/style.css";
 import RoleSelector from "@/components/reviews/RoleSelector";
+import SectionLabel from "@/components/reviews/SectionLabel";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
 import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import {
@@ -34,15 +35,6 @@ import {
   scoreIcon,
 } from "@/components/reviews/reviewData";
 
-/** Faint section label + rule used throughout the form. */
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-2 flex items-center gap-2">
-      <div className="text-xs tracking-wide text-white/20">{children}</div>
-      <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
-    </div>
-  );
-}
 
 /** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
 function parseTime(mmss: string): number | null {
@@ -603,7 +595,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Delete review"
                 title="Delete review"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={onDelete}
@@ -616,7 +608,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Done"
                 title="Save and close"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={() => {
@@ -745,7 +737,7 @@ export default function ReviewEditor({
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
@@ -821,7 +813,7 @@ export default function ReviewEditor({
                   onClick={() => togglePillar(p)}
                   onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
                   aria-pressed={active}
-                  className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
@@ -840,7 +832,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(true);
                 setLastMarkerMode(true);
@@ -862,7 +854,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
               onClick={() => {
                 setUseTimestamp(false);
                 setLastMarkerMode(false);
@@ -933,7 +925,7 @@ export default function ReviewEditor({
               aria-label="Add timestamp"
               title={canAddMarker ? "Add timestamp" : "Enter details"}
               disabled={!canAddMarker}
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={addMarker}
@@ -965,7 +957,7 @@ export default function ReviewEditor({
                   <IconButton
                     aria-label="Delete timestamp"
                     title="Delete timestamp"
-                    circleSize="sm"
+                    size="sm"
                     iconSize="sm"
                     variant="ring"
                     onClick={() => removeMarker(m.id)}
@@ -1002,7 +994,7 @@ export default function ReviewEditor({
             <IconButton
               aria-label="Add tag"
               title="Add tag"
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={() => {

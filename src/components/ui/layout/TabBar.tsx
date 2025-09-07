@@ -153,10 +153,10 @@ export default function TabBar({
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
                   "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-200",
-                  "bg-transparent border-0 outline-none",
+                  "bg-transparent border-0",
                   s.h, s.px, s.text, size === "lg" ? "font-medium" : "font-normal",
                   "text-white/70 hover:text-white/70 data-[active=true]:text-white/70",
-                  "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className
                 )}
@@ -181,9 +181,9 @@ export default function TabBar({
             className={cn(
               "pointer-events-none absolute -bottom-1 h-[2px] rounded-full opacity-0",
               "[background:var(--seg-active-grad,linear-gradient(90deg,hsl(var(--primary))_0%,hsl(var(--accent))_100%))]",
-              "transition-[transform,width,opacity] duration-200 ease-out"
+              "transition-[transform,width,opacity] duration-200 ease-out",
+              "shadow-ring"
             )}
-            style={{ boxShadow: "0 0 12px hsl(var(--ring))" }}
           />
         </div>
 

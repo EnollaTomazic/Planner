@@ -3,7 +3,6 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { neuRaised } from "../primitives/neu";
 
 type RootProps = React.HTMLAttributes<HTMLDivElement>;
 export type HeaderProps = {
@@ -18,8 +17,7 @@ type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 function Root({ className, children, ...props }: RootProps) {
   return (
     <section
-      className={cn("card-neo-soft", className)}
-      style={{ boxShadow: neuRaised(14) }}
+      className={cn("card-neo-soft shadow-neo-strong", className)}
       {...props}
     >
       {children}

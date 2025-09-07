@@ -10,7 +10,7 @@
 import "./style.css";
 import * as React from "react";
 import { useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { cn } from "@/lib/utils";
@@ -153,9 +153,9 @@ export default function DayCard({ iso, isToday }: Props) {
                         if (active) setSelectedTaskId("");
                       }}
                       className={cn(
-                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
+                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-4 pr-2 py-2",
                         "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
-                        "grid min-h-[44px] grid-cols-[auto,1fr,auto] items-center gap-4",
+                        "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
                         active && "proj-card--active ring-1 ring-[hsl(var(--ring))]"
                       )}
@@ -185,7 +185,7 @@ export default function DayCard({ iso, isToday }: Props) {
                           aria-label="Edit project"
                           title="Edit"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }}
-                          circleSize="sm"
+                          size="sm"
                           iconSize="xs"
                           variant="ring"
                         >
@@ -194,7 +194,7 @@ export default function DayCard({ iso, isToday }: Props) {
                         <IconButton
                           aria-label="Delete project" title="Delete"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); const was = selectedProjectId === p.id; deleteProject(p.id); if (was) setSelectedProjectId(""); }}
-                          circleSize="sm" iconSize="xs" variant="ring"
+                          size="sm" iconSize="xs" variant="ring"
                         >
                           <Trash2 />
                         </IconButton>
@@ -273,7 +273,7 @@ function TaskRow({
     <li className="group">
       <div
         className={cn(
-          "relative [overflow:visible] grid min-h-[44px] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-5 pr-3 py-2.5",
+          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-4 pr-2 py-2",
           "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
           "focus-within:ring-2 focus-within:ring-[hsl(var(--ring))]"
         )}
@@ -315,10 +315,10 @@ function TaskRow({
               : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto"
           )}
         >
-          <IconButton aria-label="Edit task" title="Edit" onClick={start} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Edit task" title="Edit" onClick={start} size="sm" iconSize="xs" variant="ring">
             <Pencil />
           </IconButton>
-          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} size="sm" iconSize="xs" variant="ring">
             <Trash2 />
           </IconButton>
         </div>

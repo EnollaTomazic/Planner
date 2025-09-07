@@ -16,8 +16,8 @@ import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import {
   Clipboard,
   ClipboardCheck,
@@ -203,7 +203,7 @@ function ChampChips({
                 removeAt(i);
               }
             }}
-            className="bg-transparent outline-none border-none w-24"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
       ))}
@@ -299,7 +299,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               type="submit"
               title="Add comp"
               aria-label="Add comp"
-              circleSize="md"
+              size="md"
               className="shrink-0"
               variant="solid"
             >
@@ -329,18 +329,18 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
                       <>
-                        <IconButton title="Copy" circleSize="sm" onClick={() => copyOne(c)}>
+                        <IconButton title="Copy" aria-label="Copy" size="sm" onClick={() => copyOne(c)}>
                           {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
                         </IconButton>
-                        <IconButton title="Edit" circleSize="sm" onClick={() => setEditingId(c.id)}>
+                        <IconButton title="Edit" aria-label="Edit" size="sm" onClick={() => setEditingId(c.id)}>
                           <Pencil />
                         </IconButton>
-                        <IconButton title="Delete" circleSize="sm" variant="ring" onClick={() => remove(c.id)}>
+                        <IconButton title="Delete" aria-label="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
                           <Trash2 />
                         </IconButton>
                       </>
                     ) : (
-                      <IconButton title="Save" circleSize="sm" onClick={() => setEditingId(null)}>
+                      <IconButton title="Save" aria-label="Save" size="sm" onClick={() => setEditingId(null)}>
                         <Check />
                       </IconButton>
                     )}

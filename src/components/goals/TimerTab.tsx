@@ -8,7 +8,6 @@
  * - Digits centered; minus/plus on the sides
  * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
  */
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -154,7 +153,7 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="btn-like-segmented btn-glitch w-20 text-center"
+          className="btn-like-segmented btn-glitch w-8 text-center"
         type="text"
       />
     </div>
@@ -204,7 +203,7 @@ export default function TimerTab() {
                       onChange={(e) => setTimeEdit(e.currentTarget.value)}
                       onBlur={commitEdit}
                       onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus:outline-none text-6xl sm:text-7xl font-bold tabular-nums"
+                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-6xl sm:text-7xl font-bold tabular-nums"
                     />
                   </div>
                 )}
@@ -332,9 +331,9 @@ export default function TimerTab() {
             inset 0 0 16px hsl(var(--accent) / .6);
           border-right: 0 solid transparent;
           -webkit-mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           animation:
             widthEase 220ms ease,
             jitter 900ms steps(12) infinite;
@@ -346,14 +345,14 @@ export default function TimerTab() {
           filter: blur(1px);
         }
         .lg-progress.rgb.r {
-          background: linear-gradient(90deg, #ff2d75 0%, #ffc4f0 100%);
+          background: linear-gradient(90deg, hsl(var(--glitch-r)) 0%, hsl(var(--glitch-r-light)) 100%);
           transform: translateX(-1px);
           animation:
             widthEase 220ms ease,
             jitterX 900ms steps(12) infinite reverse;
         }
         .lg-progress.rgb.b {
-          background: linear-gradient(90deg, #3aa8ff 0%, #cde9ff 100%);
+          background: linear-gradient(90deg, hsl(var(--glitch-b)) 0%, hsl(var(--glitch-b-light)) 100%);
           transform: translateX(1px);
           animation:
             widthEase 220ms ease,

@@ -7,6 +7,7 @@ import type { Review, Pillar, Role, ReviewMarker } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import IconButton from "@/components/ui/primitives/IconButton";
 import PillarBadge from "@/components/ui/league/pillars/PillarBadge"; // keep your existing path
+import SectionLabel from "@/components/reviews/SectionLabel";
 import { Pencil, FileText, Brain, Clock } from "lucide-react";
 import {
   ROLE_OPTIONS,
@@ -16,15 +17,6 @@ import {
   scoreIcon,
 } from "@/components/reviews/reviewData";
 
-/** Subtle label divider for section groupings */
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-2 flex items-center gap-2">
-      <div className="text-xs tracking-wide text-white/20">{children}</div>
-      <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
-    </div>
-  );
-}
 
 /** Static neon wrapper so badges look “selected” like in the editor */
 function StaticNeonWrap({ children }: { children: React.ReactNode }) {
@@ -324,7 +316,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
               <IconButton
                 aria-label="Edit review"
                 title="Edit review"
-                circleSize="md"   // ~h-10
+                size="md"   // ~h-10
                 iconSize="md"
                 variant="ring"   // non-destructive, quiet
                 onClick={onEdit}

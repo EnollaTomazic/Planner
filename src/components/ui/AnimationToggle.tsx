@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Zap, ZapOff } from "lucide-react";
 import { useLocalDB, readLocal, writeLocal } from "@/lib/db";
+import { cn } from "@/lib/utils";
 
 const KEY = "ui:animations";
 
@@ -38,12 +39,12 @@ export default function AnimationToggle() {
         aria-pressed={enabled}
         aria-label={enabled ? "Disable animations" : "Enable animations"}
         onClick={toggle}
-        className={[
+        className={cn(
           "inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0",
           "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
-          "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus:outline-none",
-          "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-        ].join(" ")}
+          "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+        )}
       >
         {enabled ? <Zap className="h-4 w-4" /> : <ZapOff className="h-4 w-4" />}
       </button>

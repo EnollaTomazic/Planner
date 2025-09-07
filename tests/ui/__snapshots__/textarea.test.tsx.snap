@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Textarea > renders default state 1`] = `
+<div
+  class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-140 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(195,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
+>
+  <textarea
+    class="block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus-visible:outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+    id=":r0:"
+    name="test"
+  />
+</div>
+`;
+
+exports[`Textarea > renders disabled state 1`] = `
+<div
+  class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-140 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(195,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] opacity-60 pointer-events-none"
+>
+  <textarea
+    class="block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus-visible:outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+    disabled=""
+    id=":r2:"
+    name="test"
+  />
+</div>
+`;
+
+exports[`Textarea > renders error state 1`] = `
+<div
+  class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-140 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(195,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] border-[hsl(var(--destructive)/0.6)] focus-within:ring-[hsl(var(--destructive)/0.35)]"
+>
+  <textarea
+    aria-invalid="true"
+    class="block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus-visible:outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+    id=":r4:"
+    name="test"
+  />
+</div>
+`;
+
+exports[`Textarea > renders focus state 1`] = `
+<div
+  class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-140 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(195,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
+>
+  <textarea
+    class="block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus-visible:outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+    id=":r1:"
+    name="test"
+  />
+</div>
+`;
+
+exports[`Textarea > renders pill tone 1`] = `
+<div
+  class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-140 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,rgba(195,255,255,0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] rounded-full"
+>
+  <textarea
+    class="block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus-visible:outline-none resize-y disabled:opacity-50 disabled:cursor-not-allowed rounded-full min-h-32"
+    id=":r3:"
+    name="test"
+  />
+</div>
+`;
