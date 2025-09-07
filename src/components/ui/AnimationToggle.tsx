@@ -24,6 +24,9 @@ export default function AnimationToggle() {
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("no-animations", !enabled);
+    return () => {
+      document.documentElement.classList.remove("no-animations");
+    };
   }, [enabled]);
 
   function toggle() {
