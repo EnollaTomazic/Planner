@@ -253,6 +253,15 @@ export default function Page() {
             </GlitchSegmentedGroup>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Grid Auto Rows</span>
+            <div className="w-56 grid grid-cols-2 gap-2 [grid-auto-rows:minmax(0,1fr)]">
+              <div className="card-neo p-2">A</div>
+              <div className="card-neo p-4">B with more content</div>
+              <div className="card-neo p-4">C</div>
+              <div className="card-neo p-2">D</div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Widths</span>
             <div className="flex gap-2">
               <div className="h-10 w-72 border rounded-md flex items-center justify-center text-xs text-muted-foreground">

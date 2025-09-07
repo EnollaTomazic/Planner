@@ -208,7 +208,7 @@ export default function GoalsPage() {
                     <GoalsTabs value={filter} onChange={setFilter} />
                   </SectionCard.Header>
                   <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
                       {filtered.length === 0 ? (
                         <p className="text-sm text-[hsl(var(--muted-foreground))]">
                           No goals here. Add one simple, finishable thing.
