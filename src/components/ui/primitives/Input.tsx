@@ -19,6 +19,8 @@ export type InputProps = Omit<
   indent?: boolean;
   /** Optional className for the inner <input> element */
   inputClassName?: string;
+  /** Reserve space for a trailing slot even if no children are provided */
+  hasEndSlot?: boolean;
 };
 
 const SIZE: Record<InputSize, string> = {
@@ -45,6 +47,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     size = "sm",
     indent = false,
     children,
+    hasEndSlot = false,
     ...props
   },
   ref
@@ -57,6 +60,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   const error =
     props["aria-invalid"] === true || props["aria-invalid"] === "true";
   const disabled = props.disabled;
+
+  const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
   return (
     <FieldShell
@@ -71,12 +76,13 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         id={finalId}
         name={finalName}
         size={typeof size === "number" ? size : undefined}
-          className={cn(
-            "w-full bg-transparent px-[var(--space-14)] pr-[var(--space-40)] text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-            typeof size === "string" ? SIZE[size] : SIZE.sm,
-            indent && "pl-[var(--space-40)]",
-            inputClassName
-          )}
+        className={cn(
+          "w-full bg-transparent px-[var(--space-14)] text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+          typeof size === "string" ? SIZE[size] : SIZE.sm,
+          indent && "pl-[var(--space-40)]",
+          showEndSlot && "pr-[var(--space-40)]",
+          inputClassName
+        )}
         {...props}
       />
       {children}
