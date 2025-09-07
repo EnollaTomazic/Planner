@@ -77,6 +77,9 @@ export default function Page() {
       <p className="mb-4 text-sm text-muted-foreground">
         Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
       </p>
+      <p className="mb-4 text-sm text-muted-foreground">
+        Buttons now default to the 40px <code>md</code> size and follow a 36/40/44px scale.
+      </p>
       <div className="mb-8">
         <TabBar items={viewTabs} value={view} onValueChange={setView} />
       </div>

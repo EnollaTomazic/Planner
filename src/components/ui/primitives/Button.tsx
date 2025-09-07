@@ -8,21 +8,21 @@ import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-5",
-    padding: "px-3",
-    text: "text-[12px]",
-    gap: "gap-2",
-  },
-  md: {
-    height: "h-6",
+    height: "h-9",
     padding: "px-4",
     text: "text-[14px]",
     gap: "gap-2",
   },
-  lg: {
-    height: "h-7",
+  md: {
+    height: "h-10",
     padding: "px-5",
     text: "text-[16px]",
+    gap: "gap-2",
+  },
+  lg: {
+    height: "h-11",
+    padding: "px-6",
+    text: "text-[18px]",
     gap: "gap-2",
   },
 } as const;
@@ -35,7 +35,7 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, size = "sm", variant = "secondary", children, ...rest }, ref) => {
+  ({ className, size = "md", variant = "secondary", children, ...rest }, ref) => {
     const s = buttonSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
