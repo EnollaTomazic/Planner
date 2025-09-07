@@ -155,9 +155,13 @@ export default function PromptsPage() {
         </div>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Input</h3>
+          <p className="text-sm text-muted-foreground">
+            Customize focus rings with the <code>--theme-ring</code> variable.
+          </p>
           <div className="space-y-3">
             <Input placeholder="Default" />
             <Input placeholder="Error" aria-invalid="true" />
+            <Input placeholder="Custom ring" style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties} />
             <Input placeholder="With action">
               <button
                 type="button"
