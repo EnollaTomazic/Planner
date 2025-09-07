@@ -562,44 +562,6 @@ html.bg-intense body::after {
     border-color: hsl(var(--ring));
   }
 
-  /* Textareas */
-  .textarea-base {
-    @apply w-full rounded-2xl border text-base;
-    background-color: hsl(var(--input));
-    color: hsl(var(--foreground));
-    border-color: hsl(var(--card-hairline));
-    min-height: 160px;
-    line-height: 1.6;
-    resize: vertical;
-    background-clip: padding-box;
-    padding: 0.75rem 1rem;
-  }
-  .textarea-base::placeholder {
-    color: hsl(var(--muted-foreground) / 0.8);
-  }
-  .textarea-base:focus {
-    outline: none;
-    border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35);
-  }
-
-  .planner-textarea {
-    border-radius: var(--radius-xl);
-    background-color: hsl(var(--input));
-    color: hsl(var(--foreground));
-    border: 1px solid hsl(var(--card-hairline));
-    padding: 0.75rem 1rem;
-    min-height: 180px;
-    line-height: 1.6;
-    resize: vertical;
-    background-clip: padding-box;
-    font-size: 1rem;
-  }
-  .planner-textarea:focus {
-    outline: none;
-    border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35);
-  }
 
   /* Section shell */
   .section {
