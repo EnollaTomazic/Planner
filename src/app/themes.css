@@ -16,6 +16,9 @@
   --accent: 292 80% 60%;
   --accent-2: 192 90% 50%;
   --accent-soft: 292 80% 20%;
+  --accent-foreground: 248 30% 10%;
+  --surface: 248 26% 12%;
+  --surface-2: 248 26% 18%;
   --glow: 292 80% 60%;
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
@@ -107,6 +110,9 @@ html.light {
   --accent: 292 80% 45%;
   --accent-2: 200 100% 50%;
   --accent-soft: 292 80% 94%;
+  --accent-foreground: 0 0% 100%;
+  --surface: 240 6% 96%;
+  --surface-2: 240 6% 92%;
   --glow: 292 80% 45%;
   --ring-muted: 240 9% 90%;
   --danger: 0 84% 55%;
