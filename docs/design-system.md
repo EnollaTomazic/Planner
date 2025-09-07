@@ -65,6 +65,7 @@ Following these guidelines keeps the interface consistent and lets theme updates
 ## SearchBar
 - Wraps its input in a `<form role="search">` for accessibility.
 - Submitting the form calls `onValueChange` immediately and optionally `onSubmit` with the current query.
+- Disables `autoComplete`, `autoCorrect`, `spellCheck`, and `autoCapitalize` by default for consistent text entry.
 
 ```tsx
 import { SearchBar } from "@/components/ui";

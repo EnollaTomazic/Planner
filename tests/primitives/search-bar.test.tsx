@@ -26,4 +26,33 @@ describe('SearchBar', () => {
     expect(handleSubmit).toHaveBeenCalledWith('hello');
     vi.useRealTimers();
   });
+
+  it('disables browser text help by default', () => {
+    const { getByRole } = render(
+      <SearchBar value="" onValueChange={() => {}} />
+    );
+    const input = getByRole('searchbox');
+    expect(input).toHaveAttribute('autocomplete', 'off');
+    expect(input).toHaveAttribute('autocorrect', 'off');
+    expect(input).toHaveAttribute('autocapitalize', 'none');
+    expect(input).toHaveAttribute('spellcheck', 'false');
+  });
+
+  it('allows overriding text helpers', () => {
+    const { getByRole } = render(
+      <SearchBar
+        value=""
+        onValueChange={() => {}}
+        autoComplete="on"
+        autoCorrect="on"
+        spellCheck={true}
+        autoCapitalize="words"
+      />
+    );
+    const input = getByRole('searchbox');
+    expect(input).toHaveAttribute('autocomplete', 'on');
+    expect(input).toHaveAttribute('autocorrect', 'on');
+    expect(input).toHaveAttribute('autocapitalize', 'words');
+    expect(input).toHaveAttribute('spellcheck', 'true');
+  });
 });
