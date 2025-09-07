@@ -32,7 +32,7 @@ export default function Snackbar({
           {" "}
           <button
             type="button"
-            className="underline underline-offset-2"
+            className="underline underline-offset-2 text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring]"
             onClick={onAction}
           >
             {actionLabel}

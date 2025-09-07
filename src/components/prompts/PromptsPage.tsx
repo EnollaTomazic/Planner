@@ -7,9 +7,8 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar, Snackbar } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
-import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui/primitives/GlitchSegmented";
 import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
@@ -235,6 +234,19 @@ export default function PromptsPage() {
             <IconButton aria-label="Scroll to top">
               <ArrowUp />
             </IconButton>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Snackbar</h3>
+          <p className="text-sm text-muted-foreground">
+            Temporary message with an action. Tab to focus the action button.
+          </p>
+          <div className="space-y-3">
+            <Snackbar
+              message="Copy saved"
+              actionLabel="Undo"
+              onAction={() => console.log("Undo")}
+            />
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
