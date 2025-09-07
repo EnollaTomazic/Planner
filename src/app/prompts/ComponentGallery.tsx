@@ -109,8 +109,18 @@ export default function ComponentGallery() {
           <Badge variant="pill">Pill</Badge>
         </Item>
         <Item label="Accent Overlay Box">
-          <div className="w-56 h-20 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[var(--text-on-accent)]">
+          <div className="w-56 h-20 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[hsl(var(--accent-foreground))]">
             Overlay
+          </div>
+        </Item>
+        <Item label="Surface">
+          <div className="w-56 h-20 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
+            Surface
+          </div>
+        </Item>
+        <Item label="Surface 2">
+          <div className="w-56 h-20 flex items-center justify-center rounded bg-[hsl(var(--surface-2))]">
+            Surface 2
           </div>
         </Item>
         <Item label="SearchBar">
