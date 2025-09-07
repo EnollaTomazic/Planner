@@ -54,7 +54,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 
-  const error = props["aria-invalid"] ? true : false;
+  const error =
+    props["aria-invalid"] === true || props["aria-invalid"] === "true";
   const disabled = props.disabled;
 
   return (

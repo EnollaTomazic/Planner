@@ -19,7 +19,7 @@ exports[`Input > renders disabled state 1`] = `
   <input
     class="w-full bg-transparent px-[var(--space-14)] pr-[var(--space-40)] text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] h-11"
     disabled=""
-    id=":r3:"
+    id=":r4:"
     name="test"
   />
 </div>
