@@ -22,6 +22,15 @@ describe('Input', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it('handles aria-invalid="false" as non-error', () => {
+    const { container } = render(
+      <Input aria-label="test" aria-invalid="false" />
+    );
+    expect(container.firstChild).not.toHaveClass(
+      'border-[hsl(var(--destructive)/0.6)]'
+    );
+  });
+
   it('renders disabled state', () => {
     const { container } = render(<Input aria-label="test" disabled />);
     expect(container.firstChild).toMatchSnapshot();

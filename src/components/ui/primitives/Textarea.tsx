@@ -37,7 +37,8 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
   const finalId = id || auto;
   const finalName = name || fromAria || finalId;
 
-  const error = props["aria-invalid"] ? true : false;
+  const error =
+    props["aria-invalid"] === true || props["aria-invalid"] === "true";
 
   return (
     <FieldShell
