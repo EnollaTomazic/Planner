@@ -1,17 +1,15 @@
 /* src/components/team/style.css */
 
 /* Champ badges */
-.champ-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.champ-badges { @apply flex flex-wrap gap-2; }
 .champ-badge{
-  display: inline-flex; align-items: center;
-  height: 1.75rem; padding: 0 0.6rem; border-radius: 9999px;
-  border: 1px solid hsl(var(--border));
+  @apply inline-flex items-center h-7 px-2.5 rounded-full border text-xs leading-none whitespace-nowrap;
+  border-color: hsl(var(--border));
   background: hsl(var(--card)); color: hsl(var(--foreground));
-  font-size: 0.75rem; line-height: 1; white-space: nowrap;
   transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
 }
 .champ-badge:hover{ background: hsl(var(--primary-soft)); border-color: hsl(var(--ring)); }
-.champ-badge--dense{ height: 1.5rem; padding: 0 0.5rem; }
+.champ-badge--dense{ @apply h-6 px-2; }
 
 /* Title flicker ONLY within the Team scope */
 [data-scope="team"] .glitch-title{ position: relative; display: inline-block; }

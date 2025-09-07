@@ -10,7 +10,7 @@
 import "./style.css";
 import * as React from "react";
 import { useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,7 @@ type Props = { iso: ISODate; isToday?: boolean };
 
 export default function DayCard({ iso, isToday }: Props) {
   const {
-    projects, addProject, deleteProject, toggleProject,
+    projects, addProject, renameProject, deleteProject, toggleProject,
     tasks, addTask, renameTask, toggleTask, deleteTask,
     doneTasks, totalTasks,
   } = useDay(iso);
@@ -30,6 +30,8 @@ export default function DayCard({ iso, isToday }: Props) {
 
   const [draftProject, setDraftProject] = React.useState("");
   const [draftTask, setDraftTask] = React.useState("");
+  const [editingProjectId, setEditingProjectId] = React.useState<string | null>(null);
+  const [editingProjectName, setEditingProjectName] = React.useState("");
 
   // If the selected project goes away, clear selection
   React.useEffect(() => {
@@ -106,29 +108,19 @@ export default function DayCard({ iso, isToday }: Props) {
         </div>
       </div>
 
-      {/* Add row */}
-      <div className="col-span-1 lg:col-span-3">
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Input
-            className="planner-input w-full"
-            placeholder="New project…"
-            value={draftProject}
-            onChange={e => setDraftProject(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && addProjectCommit()}
-            aria-label="Add project"
-          />
-          {selectedProjectId ? (
-            <Input
-              className="planner-input w-full"
-              placeholder="Add task…"
-              value={draftTask}
-              onChange={e => setDraftTask(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && addTaskCommit()}
-              aria-label="Add task"
-            />
-          ) : null}
-        </div>
-      </div>
+      {/* Add project */}
+      <form
+        className="col-span-1 lg:col-span-3"
+        onSubmit={e => { e.preventDefault(); addProjectCommit(); }}
+      >
+        <Input
+          className="w-full"
+          placeholder="> new project…"
+          value={draftProject}
+          onChange={e => setDraftProject(e.target.value)}
+          aria-label="Add project"
+        />
+      </form>
 
       {/* Left: projects */}
       <div className="flex flex-col gap-3 min-w-0">
@@ -146,39 +138,68 @@ export default function DayCard({ iso, isToday }: Props) {
                   if (projects.length > 1 && (e.key === "ArrowUp" || e.key === "ArrowLeft")) { e.preventDefault(); const prev = (idx - 1 + projects.length) % projects.length; setSelectedProjectId(projects[prev].id); }
                 };
 
+                const isEditing = editingProjectId === p.id;
                 return (
                   <li key={p.id} className="w-full">
-                    <button
-                      type="button"
+                    <div
                       role="radio"
+                      tabIndex={0}
                       aria-checked={active}
                       aria-label={p.name || "Untitled project"}
-                      onKeyDown={onRowKey}
-                      onClick={() => setSelectedProjectId(p.id)}
+                      onKeyDown={e => { if (!isEditing) onRowKey(e); }}
+                      onClick={() => {
+                        if (isEditing) return;
+                        setSelectedProjectId(active ? "" : p.id);
+                        if (active) setSelectedTaskId("");
+                      }}
                       className={cn(
-                        "group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
+                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-4 pr-2 py-2",
                         "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
-                        "grid min-h-[44px] grid-cols-[auto,1fr,auto] items-center gap-4",
+                        "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-                        active && "proj-card proj-card--active ring-1 ring-[hsl(var(--ring))]"
+                        active && "proj-card--active ring-1 ring-[hsl(var(--ring))]"
                       )}
                     >
                       <span className="shrink-0 ml-0.5" onMouseDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}>
                         <CheckCircle checked={!!p.done} onChange={() => toggleProject(p.id)} aria-label="Toggle project complete" size="md" />
                       </span>
 
-                      <span className="proj-card__title truncate font-medium">{p.name || "Untitled"}</span>
+                      {isEditing ? (
+                        <Input
+                          autoFocus
+                          value={editingProjectName}
+                          onChange={e => setEditingProjectName(e.target.value)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter") { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }
+                            if (e.key === "Escape") { setEditingProjectId(null); setEditingProjectName(p.name); }
+                          }}
+                          onBlur={() => { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }}
+                          aria-label={`Rename project ${p.name}`}
+                        />
+                      ) : (
+                        <span className="proj-card__title truncate font-medium">{p.name || "Untitled"}</span>
+                      )}
 
-                      <div className="ml-auto opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                      <div className="ml-auto flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                        <IconButton
+                          aria-label="Edit project"
+                          title="Edit"
+                          onClick={e => { e.preventDefault(); e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }}
+                          size="sm"
+                          iconSize="xs"
+                          variant="ring"
+                        >
+                          <Pencil />
+                        </IconButton>
                         <IconButton
                           aria-label="Delete project" title="Delete"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); const was = selectedProjectId === p.id; deleteProject(p.id); if (was) setSelectedProjectId(""); }}
-                          circleSize="sm" iconSize="xs" variant="ring"
+                          size="sm" iconSize="xs" variant="ring"
                         >
                           <Trash2 />
                         </IconButton>
                       </div>
-                    </button>
+                    </div>
                   </li>
                 );
               })}
@@ -192,11 +213,21 @@ export default function DayCard({ iso, isToday }: Props) {
 
       {/* Right: tasks */}
       <div className="flex flex-col gap-3 min-w-0">
+        {selectedProjectId && (
+          <Input
+            className="w-full"
+            placeholder="> add task…"
+            value={draftTask}
+            onChange={e => setDraftTask(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && addTaskCommit()}
+            aria-label="Add task"
+          />
+        )}
         <div className="min-h-[120px] max-h-[320px] overflow-y-auto px-2 py-2">
           {!selectedProjectId ? (
-            <EmptyRow text="No project selected." />
+            <EmptyRow text="No task selected." />
           ) : tasksForSelected.length === 0 ? (
-            <EmptyRow text="No tasks yet." />
+            <EmptyRow text="No tasks selected." />
           ) : (
             <ul className="space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5" aria-label="Tasks">
               {tasksForSelected.map(t => (
@@ -242,7 +273,7 @@ function TaskRow({
     <li className="group">
       <div
         className={cn(
-          "relative [overflow:visible] grid min-h-[44px] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-5 pr-3 py-2.5",
+          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-4 pr-2 py-2",
           "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
           "focus-within:ring-2 focus-within:ring-[hsl(var(--ring))]"
         )}
@@ -265,7 +296,6 @@ function TaskRow({
             </button>
           ) : (
             <Input
-              className="planner-input"
               name={`dc-rename-task-${task.id}`}
               ref={inputRef}
               value={text}
@@ -285,10 +315,10 @@ function TaskRow({
               : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto"
           )}
         >
-          <IconButton aria-label="Edit task" title="Edit" onClick={start} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Edit task" title="Edit" onClick={start} size="sm" iconSize="xs" variant="ring">
             <Pencil />
           </IconButton>
-          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} size="sm" iconSize="xs" variant="ring">
             <Trash2 />
           </IconButton>
         </div>

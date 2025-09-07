@@ -2,9 +2,8 @@
 import "../reviews/style.css";
 
 import type { Review } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import Pill from "@/components/ui/primitives/pill";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { cn, LOCALE } from "@/lib/utils";
+import { Badge, IconButton } from "@/components/ui";
 import { Pencil } from "lucide-react";
 
 export default function ReviewCard({
@@ -26,7 +25,7 @@ export default function ReviewCard({
             <h3 className={cn("truncate font-semibold", active && "title-glow")}>{review.title || "Untitled Review"}</h3>
             <IconButton
               aria-label="Rename"
-              circleSize="sm"
+              size="sm"
               iconSize="sm"
               onClick={(e) => {
                 e.preventDefault();
@@ -44,15 +43,19 @@ export default function ReviewCard({
             <span>Side: {review.side || "—"}</span>
             <span>Patch: {review.patch || "—"}</span>
             <span>Duration: {review.duration || "—"}</span>
-            <span>{created ? created.toLocaleDateString() : "—"}</span>
+            <span>{created ? created.toLocaleDateString(LOCALE) : "—"}</span>
           </div>
 
-          {!!(review.tags?.length) && (
+          {Array.isArray(review.tags) && review.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {review.tags!.slice(0, 6).map((t) => (
-                <Pill key={t}>{t}</Pill>
+              {review.tags.slice(0, 6).map((t) => (
+                <Badge key={t} variant="pill">
+                  {t}
+                </Badge>
               ))}
-              {review.tags!.length > 6 && <Pill>+{review.tags!.length - 6}</Pill>}
+              {review.tags.length > 6 && (
+                <Badge variant="pill">+{review.tags.length - 6}</Badge>
+              )}
             </div>
           )}
         </div>

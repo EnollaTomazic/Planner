@@ -9,6 +9,7 @@
 import "./style.css";
 import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
+import { toISO, addDays, weekRangeFromISO } from "@/lib/date";
 
 /* ───────────────── Types ───────────────── */
 export type ISODate = string;
@@ -41,17 +42,7 @@ type Selection = {
 };
 
 /* ───────────────── Date helpers ───────────────── */
-export function toISO(d: Date): ISODate {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
 function todayISO(): ISODate { return toISO(new Date()); }
-export function addDays(date: Date, n: number): Date { const d = new Date(date); d.setDate(d.getDate() + n); return d; }
-function mondayStartOfWeek(d: Date): Date { const copy = new Date(d); const day = copy.getDay(); const diff = (day + 6) % 7; copy.setHours(0,0,0,0); return addDays(copy, -diff); }
-function sundayEndOfWeek(d: Date): Date { const start = mondayStartOfWeek(d); const end = addDays(start, 6); end.setHours(23,59,59,999); return end; }
-export function weekRangeFromISO(iso: ISODate): { start: Date; end: Date } { const d = new Date(`${iso}T00:00:00`); return { start: mondayStartOfWeek(d), end: sundayEndOfWeek(d) }; }
 
 /* ───────────────── Context ───────────────── */
 type PlannerState = {

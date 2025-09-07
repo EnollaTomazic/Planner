@@ -4,11 +4,10 @@
 /**
  * TimerTab — Lavender-Glitch timer with a glitchy progress bar
  * - Top tabs use TabBar (borderless neon) for profiles
- * - Right slot shows Quick presets (+ Review) when profile = Personal
+ * - Right slot shows Quick presets + custom time when profile = Personal
  * - Digits centered; minus/plus on the sides
  * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
  */
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
@@ -16,21 +15,21 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
-  BookOpen, Brush, Code2, User, ListChecks,
+  BookOpen, Brush, Code2, User,
 } from "lucide-react";
 import { useLocalDB } from "@/lib/db";
+import DurationSelector from "./DurationSelector";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
 type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
 const PROFILES: Profile[] = [
-  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 30 },
-  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 20 },
+  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
+  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 30 },
   { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
   { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
 ];
 
-const QUICK = [10, 15, 20, 25, 30, 45, 60];
 
 /* helpers */
 const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
@@ -56,8 +55,21 @@ export default function TimerTab() {
   const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
 
   // remaining time
-  const [remaining, setRemaining] = useLocalDB<number>("goals.timer.remaining.v1", minutes * 60_000);
-  const [running, setRunning] = useLocalDB<boolean>("goals.timer.running.v1", false);
+  const [remaining, setRemaining] = useLocalDB<number>(
+    "goals.timer.remaining.v1",
+    minutes * 60_000,
+  );
+  const [running, setRunning] = useLocalDB<boolean>(
+    "goals.timer.running.v1",
+    false,
+  );
+
+  // Reset timer when switching profiles (studying, cleaning, coding)
+  React.useEffect(() => {
+    setRunning(false);
+    setRemaining((profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -121,34 +133,34 @@ export default function TimerTab() {
     []
   );
 
-  // Right slot content for Personal: quick presets + Review
+  // Right slot content for Personal: quick duration chips + custom time field
   const rightSlot = isPersonal ? (
     <div className="flex items-center flex-wrap gap-2">
-      {QUICK.map(m => (
-        <button
-          key={`q-${m}`}
-          className={["btn-like-segmented", minutes === m && "is-active"].filter(Boolean).join(" ")}
-          onClick={() => !running && setPersonalMinutes(m)}
-          type="button"
-          title={`Set ${m} minutes`}
-        >
-          {m}m
-        </button>
-      ))}
-      <button
-        className="btn-like-segmented inline-flex items-center gap-1"
-        onClick={() => setRunning(false)}
-        type="button"
-        title="Open pre-review checklist"
-      >
-        <ListChecks className="mr-1" />
-        Review
-      </button>
+      <DurationSelector
+        value={minutes}
+        onChange={(m) => {
+          if (running) return;
+          setPersonalMinutes(m);
+          setRemaining(m * 60_000);
+        }}
+        disabled={running}
+      />
+      <input
+        aria-label="Custom minutes and seconds"
+        value={timeEdit}
+        onChange={(e) => setTimeEdit(e.currentTarget.value)}
+        onBlur={commitEdit}
+        onKeyDown={(e) => e.key === "Enter" && commitEdit()}
+        placeholder="mm:ss"
+        disabled={running}
+        className="btn-like-segmented btn-glitch w-20 text-center"
+        type="text"
+      />
     </div>
   ) : null;
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard className="goal-card no-hover">
       <SectionCard.Header sticky>
         <TabBar
           items={tabItems}
@@ -164,13 +176,13 @@ export default function TimerTab() {
 
       <SectionCard.Body>
         {/* Stage row with side buttons and centered digits */}
-        <div className="relative rounded-2xl card-neo-soft p-5 sm:p-6 overflow-hidden">
+        <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
-              title="Minus 5 minutes"
-              aria-label="Minus 5 minutes"
-              onClick={() => adjust(-5)}
+              title="Minus 1 minute"
+              aria-label="Minus 1 minute"
+              onClick={() => adjust(-1)}
               disabled={!isPersonal || running || minutes <= 0}
               className="shrink-0"
             >
@@ -191,7 +203,7 @@ export default function TimerTab() {
                       onChange={(e) => setTimeEdit(e.currentTarget.value)}
                       onBlur={commitEdit}
                       onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus:outline-none text-6xl sm:text-7xl font-bold tabular-nums"
+                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-6xl sm:text-7xl font-bold tabular-nums"
                     />
                   </div>
                 )}
@@ -200,9 +212,9 @@ export default function TimerTab() {
 
             {/* plus */}
             <IconButton
-              title="Plus 5 minutes"
-              aria-label="Plus 5 minutes"
-              onClick={() => adjust(+5)}
+              title="Plus 1 minute"
+              aria-label="Plus 1 minute"
+              onClick={() => adjust(+1)}
               disabled={!isPersonal || running}
               className="shrink-0"
             >
@@ -275,6 +287,15 @@ export default function TimerTab() {
 
       {/* Local styles for neon pills, glitch loader, and complete state */}
       <style jsx>{`
+        /* Disable card hover bloom */
+        .no-hover.goal-card:hover {
+          box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+            inset 0 1px 0 hsl(var(--foreground) / 0.05),
+            0 30px 60px hsl(250 30% 2% / 0.35);
+        }
+        .no-hover.goal-card:hover::before { opacity: 0.45; }
+        .no-hover.goal-card:hover::after { opacity: 0; }
+
         /* Emphasize active tab text glow (works with TabBar) */
         [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
 

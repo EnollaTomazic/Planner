@@ -158,7 +158,9 @@ export default function PillarBadge({
           padding: 1px;
           border-radius: inherit;
           background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask:
+            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+            linear-gradient(hsl(var(--foreground)) 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           pointer-events: none;
@@ -173,7 +175,7 @@ export default function PillarBadge({
           position: relative;
           z-index: 1;
           letter-spacing: 0.2px;
-          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+          text-shadow: 0 1px 0 hsl(var(--shadow-color) / 0.05);
         }
 
         @media (prefers-reduced-motion: reduce) {

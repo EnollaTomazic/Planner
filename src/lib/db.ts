@@ -81,6 +81,12 @@ export function useLocalDB<T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = React.useState<T>(initial);
 
+  // Keep the latest initial value for resets
+  const initialRef = React.useRef(initial);
+  React.useEffect(() => {
+    initialRef.current = initial;
+  }, [initial]);
+
   // Track whether we've mounted and whether we performed the initial load
   const loadedRef = React.useRef(false);
   const fullKeyRef = React.useRef(sk(key));
@@ -109,6 +115,10 @@ export function useLocalDB<T>(
     const onStorage = (e: StorageEvent) => {
       if (e.storageArea !== window.localStorage) return;
       if (e.key !== fullKeyRef.current) return;
+      if (e.newValue === null) {
+        setState(initialRef.current);
+        return;
+      }
       const next = parseJSON<T>(e.newValue);
       if (next !== null) setState(next);
     };
@@ -132,11 +142,14 @@ export function useLocalDB<T>(
 }
 
 /**
- * Tiny uid helper: collision-resistant enough for local-first lists.
- * Example: "review_mbb1r8i8_6p9x2y"
+ * Tiny uid helper.
+ * Uses `crypto.randomUUID` when available; falls back to `Math.random`.
+ * Example: "review_123e4567"
  */
 export function uid(prefix = "id"): string {
-  const time = Date.now().toString(36);
-  const rand = Math.random().toString(36).slice(2, 8);
-  return `${prefix}_${time}_${rand}`;
+  const id =
+    typeof globalThis.crypto?.randomUUID === "function"
+      ? globalThis.crypto.randomUUID().slice(0, 8)
+      : Math.random().toString(36).slice(2, 10);
+  return `${prefix}_${id}`;
 }

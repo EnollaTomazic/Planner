@@ -5,22 +5,28 @@
 //
 // Primitives
 //
-export { default as Button } from "./primitives/button";
+export { default as Button } from "./primitives/Button";
 export { default as IconButton } from "./primitives/IconButton";
-export { default as Input } from "./primitives/input";
-export { default as Textarea } from "./primitives/textarea";
-export { default as Badge } from "./primitives/badge";
-export { default as Pill } from "./primitives/pill";
-export { default as SearchBar } from "./primitives/searchbar";
+export { default as Input } from "./primitives/Input";
+export { default as Textarea } from "./primitives/Textarea";
+export { default as FieldShell } from "./primitives/FieldShell";
+export { default as Badge } from "./Badge";
+export { default as Label } from "./Label";
+export { default as Select } from "./Select";
+export { default as SearchBar } from "./primitives/SearchBar";
+export { default as Card } from "./primitives/Card";
+export { GlitchSegmentedGroup, GlitchSegmentedButton } from "./primitives/GlitchSegmented";
 //
 // Feedback
 //
 export { default as Progress } from "./feedback/Progress";
+export { default as Spinner } from "./feedback/Spinner";
 
 //
 // Theme
 //
 export { default as ThemeToggle } from "./theme/ThemeToggle";
+export { default as AnimationToggle } from "./AnimationToggle";
 
 //
 // Toggles

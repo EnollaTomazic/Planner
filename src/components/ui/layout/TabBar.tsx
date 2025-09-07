@@ -3,7 +3,7 @@
 
 /**
  * TabBar — Lavender-Glitch borderless tabs with neon text and sliding indicator
- * - Text-only buttons (white/75 default, full white active) with neon glow.
+ * - Text-only buttons (white/70 default and active) with neon glow.
  * - Smooth indicator; keyboard: ← → Home End; role="tablist".
  */
 
@@ -152,11 +152,11 @@ export default function TabBar({
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
-                  "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-200",
-                  "bg-transparent border-0 outline-none",
+                  "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-220",
+                  "bg-transparent border-0",
                   s.h, s.px, s.text, size === "lg" ? "font-medium" : "font-normal",
-                  "text-white/75 hover:text-white data-[active=true]:text-white",
-                  "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
+                  "text-white/70 hover:text-white/70 data-[active=true]:text-white/70",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className
                 )}
@@ -166,7 +166,7 @@ export default function TabBar({
                 {item.icon && <span className={cn("mr-2 grid place-items-center", size !== "lg" ? "[&>svg]:h-4 [&>svg]:w-4" : "[&>svg]:h-5 [&>svg]:w-5")}>{item.icon}</span>}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-[10px] leading-none px-2 py-1 bg-[hsl(var(--primary-soft))] text-white/90">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-[10px] leading-none px-2 py-1 bg-[hsl(var(--primary-soft))] text-white/70">
                     {item.badge}
                   </span>
                 )}
@@ -181,7 +181,7 @@ export default function TabBar({
             className={cn(
               "pointer-events-none absolute -bottom-1 h-[2px] rounded-full opacity-0",
               "[background:var(--seg-active-grad,linear-gradient(90deg,hsl(var(--primary))_0%,hsl(var(--accent))_100%))]",
-              "transition-[transform,width,opacity] duration-200 ease-out"
+              "transition-[transform,width,opacity] duration-220 ease-out"
             )}
             style={{ boxShadow: "0 0 12px hsl(var(--ring))" }}
           />

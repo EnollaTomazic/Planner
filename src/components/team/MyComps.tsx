@@ -2,7 +2,7 @@
 "use client";
 
 /**
- * MyComps — CRUD for custom team comps, single-panel version.
+ * MyComps — CRUD for custom comps, single-panel version.
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Hover-only actions: Copy / Edit / Delete; Save when editing
@@ -16,8 +16,8 @@ import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import {
   Clipboard,
   ClipboardCheck,
@@ -188,27 +188,23 @@ function ChampChips({
       {(champs.length ? champs : [""]).map((c, i) => (
         <span key={i} className="champ-badge glitch-pill text-xs">
           <i className="dot" />
-          <span
-            contentEditable
-            suppressContentEditableWarning
-            className="outline-none"
-            onInput={e => setAt(i, (e.currentTarget.textContent ?? "").trim())}
+          <input
+            type="text"
+            dir="ltr"
+            value={c}
+            onChange={e => setAt(i, e.currentTarget.value)}
             onKeyDown={e => {
               if (e.key === "Enter" || e.key === ",") {
                 e.preventDefault();
                 insertAfter(i);
               }
-              if (e.key === "Backspace") {
-                const text = (e.currentTarget.textContent ?? "").trim();
-                if (!text) {
-                  e.preventDefault();
-                  removeAt(i);
-                }
+              if (e.key === "Backspace" && !e.currentTarget.value) {
+                e.preventDefault();
+                removeAt(i);
               }
             }}
-          >
-            {c}
-          </span>
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
+          />
         </span>
       ))}
     </div>
@@ -217,10 +213,26 @@ function ChampChips({
 
 /* ───────────── Component ───────────── */
 
-export default function MyComps() {
+export type MyCompsProps = { query?: string };
+
+export default function MyComps({ query = "" }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
   const [raw, setRaw] = useLocalDB<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return items;
+    return items.filter((c) => {
+      const hay = [
+        c.title,
+        c.notes ?? "",
+        ...ROLES.flatMap((r) => c.roles[r] ?? []),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [items, query]);
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
@@ -276,33 +288,39 @@ export default function MyComps() {
             className="rounded-card flex items-left gap-6 glitch"
           >
             <Input
+              dir="ltr"
               value={draft}
               onChange={e => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
               aria-label="New comp title"
-              className="h-10 flex-1"
+              className="flex-1"
             />
             <IconButton
               type="submit"
               title="Add comp"
               aria-label="Add comp"
-              circleSize="md"
+              size="md"
               className="shrink-0"
+              variant="solid"
             >
               <Plus />
             </IconButton>
           </form>
 
-          {/* Empty state */}
+          {/* Empty states */}
           {items.length === 0 ? (
             <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
               No comps yet. Type a title above and press Enter.
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
+              Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {items.map(c => {
+            {filtered.map(c => {
               const editing = editingId === c.id;
 
               return (
@@ -311,18 +329,18 @@ export default function MyComps() {
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
                       <>
-                        <IconButton title="Copy" circleSize="sm" onClick={() => copyOne(c)}>
+                        <IconButton title="Copy" size="sm" onClick={() => copyOne(c)}>
                           {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
                         </IconButton>
-                        <IconButton title="Edit" circleSize="sm" onClick={() => setEditingId(c.id)}>
+                        <IconButton title="Edit" size="sm" onClick={() => setEditingId(c.id)}>
                           <Pencil />
                         </IconButton>
-                        <IconButton title="Delete" circleSize="sm" variant="ring" onClick={() => remove(c.id)}>
+                        <IconButton title="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
                           <Trash2 />
                         </IconButton>
                       </>
                     ) : (
-                      <IconButton title="Save" circleSize="sm" onClick={() => setEditingId(null)}>
+                      <IconButton title="Save" size="sm" onClick={() => setEditingId(null)}>
                         <Check />
                       </IconButton>
                     )}
@@ -342,16 +360,16 @@ export default function MyComps() {
                       </h3>
                     ) : (
                       <Input
+                        dir="ltr"
                         aria-label="Comp title"
                         value={c.title}
                         onChange={e => patch(c.id, { title: e.target.value })}
-                        className="h-9"
                       />
                     )}
                   </header>
 
                   {/* roles */}
-                  <div className="grid gap-3">
+                  <div className="grid gap-2.5">
                     {ROLES.map(r => {
                       const list = c.roles[r] ?? [];
                       const setList = (next: string[]) =>
@@ -383,6 +401,7 @@ export default function MyComps() {
                         </p>
                       ) : (
                         <Textarea
+                          dir="ltr"
                           aria-label="Notes"
                           rows={4}
                           className="planner-textarea"
