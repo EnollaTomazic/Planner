@@ -24,6 +24,9 @@ import BadgePrimitive from "@/components/ui/primitives/Badge";
 import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
 import { cn } from "@/lib/utils";
+import PromptsHeader from "@/components/prompts/PromptsHeader";
+import PromptsComposePanel from "@/components/prompts/PromptsComposePanel";
+import PromptsDemos from "@/components/prompts/PromptsDemos";
 
 export default function Page() {
   const viewTabs = [
@@ -330,6 +333,27 @@ export default function Page() {
               <div className="h-10 w-80 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
                 w-80
               </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
+            <span className="text-sm font-medium">Prompts Header</span>
+            <SectionCard className="w-full">
+              <SectionCard.Header>
+                <PromptsHeader count={0} query="" onQueryChange={() => {}} onSave={() => {}} disabled />
+              </SectionCard.Header>
+              <SectionCard.Body />
+            </SectionCard>
+          </div>
+          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
+            <span className="text-sm font-medium">Prompts Compose</span>
+            <div className="w-full max-w-md">
+              <PromptsComposePanel title="" onTitleChange={() => {}} text="" onTextChange={() => {}} />
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
+            <span className="text-sm font-medium">Prompts Demos</span>
+            <div className="w-full">
+              <PromptsDemos />
             </div>
           </div>
         </div>
