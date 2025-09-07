@@ -108,3 +108,11 @@ export function slugify(s?: string): string {
     .slice(0, 64);
 }
 
+/**
+ * sanitizeText — remove HTML brackets to prevent node injection.
+ * Minimal on purpose; more heavy sanitizers can be added if needed.
+ */
+export function sanitizeText(input: string): string {
+  return input.replace(/[<>]/g, "");
+}
+
