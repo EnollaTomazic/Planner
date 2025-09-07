@@ -1,7 +1,7 @@
 import { readLocal, writeLocal } from "./db";
 
 export type Mode = "dark" | "light";
-export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose";
+export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose" | "hardstuck";
 export type Background = 0 | 1 | 2 | 3 | 4 | 5;
 export interface ThemeState {
   variant: Variant;
@@ -20,6 +20,7 @@ export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "ocean", label: "Oceanic" },
   { id: "citrus", label: "Citrus" },
   { id: "noir", label: "Noir" },
+  { id: "hardstuck", label: "Hardstuck" },
 ];
 
 export function defaultTheme(): ThemeState {
