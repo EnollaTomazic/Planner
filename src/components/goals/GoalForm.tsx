@@ -49,11 +49,11 @@ export default function GoalForm({
           }
         />
         <SectionCard.Body className="grid gap-6">
-          <label className="grid gap-1">
+          <label className="grid gap-2">
             <span className="text-xs text-white/60">Title</span>
             <Input
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="h-10 text-sm focus:ring-2 focus:ring-purple-400/60"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -61,22 +61,22 @@ export default function GoalForm({
             />
           </label>
 
-          <label className="grid gap-1">
+          <label className="grid gap-2">
             <span className="text-xs text-white/60">Metric (optional)</span>
             <Input
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
+              className="h-10 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label className="grid gap-1">
+          <label className="grid gap-2">
             <span className="text-xs text-white/60">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="min-h-24 text-sm focus:ring-2 focus:ring-purple-400/60"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
