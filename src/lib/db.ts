@@ -1,5 +1,5 @@
 // src/lib/db.ts
-// Local-first helpers for 13 League Review
+// Local-first helpers for Noxis Planner
 // - Hydration-safe: first render returns `initial`; no localStorage read until after mount
 // - SSR-safe: never touches window/localStorage on the server
 // - Cross-tab sync: listens to `storage` and updates state if another tab writes
@@ -10,10 +10,35 @@
 import * as React from "react";
 
 /** Namespacing so we don't collide with other apps in the same domain */
-const STORAGE_PREFIX = "13lr:";
+const STORAGE_PREFIX = "noxis-planner:";
+
+// Previous prefix used in older builds; retained for migration
+const OLD_STORAGE_PREFIX = "13lr:";
 
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
+
+// Migrate any legacy keys from older builds
+function ensureMigration() {
+  if (!isBrowser) return;
+  try {
+    const legacyKeys: string[] = [];
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key?.startsWith(OLD_STORAGE_PREFIX)) legacyKeys.push(key);
+    }
+    for (const oldKey of legacyKeys) {
+      const newKey = `${STORAGE_PREFIX}${oldKey.slice(OLD_STORAGE_PREFIX.length)}`;
+      if (window.localStorage.getItem(newKey) === null) {
+        const value = window.localStorage.getItem(oldKey);
+        if (value !== null) window.localStorage.setItem(newKey, value);
+      }
+      window.localStorage.removeItem(oldKey);
+    }
+  } catch {
+    // ignore
+  }
+}
 
 /** Build a fully namespaced key */
 const sk = (key: string) => `${STORAGE_PREFIX}${key}`;
@@ -40,6 +65,7 @@ function toJSON(v: unknown): string {
 /** Read from localStorage without throwing on SSR or privacy modes */
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
+  ensureMigration();
   try {
     return parseJSON<T>(window.localStorage.getItem(sk(key)));
   } catch {
@@ -50,6 +76,7 @@ export function readLocal<T>(key: string): T | null {
 /** Write to localStorage safely */
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
+  ensureMigration();
   try {
     window.localStorage.setItem(sk(key), toJSON(value));
   } catch {
@@ -60,6 +87,7 @@ export function writeLocal(key: string, value: unknown) {
 /** Remove a key from localStorage safely */
 export function removeLocal(key: string) {
   if (!isBrowser) return;
+  ensureMigration();
   try {
     window.localStorage.removeItem(sk(key));
   } catch {
@@ -103,6 +131,7 @@ export function useLocalDB<T>(
   // After mount: load once, wire cross-tab sync
   React.useEffect(() => {
     if (!isBrowser) return;
+    ensureMigration();
 
     // Load once after mount or after key change
     if (!loadedRef.current) {

@@ -36,14 +36,14 @@ describe('localStorage helpers', () => {
 
   it('writes and reads namespaced values', () => {
     writeLocal('foo', { bar: 1 });
-    expect(mockStorage.setItem).toHaveBeenCalledWith('13lr:foo', JSON.stringify({ bar: 1 }));
+    expect(mockStorage.setItem).toHaveBeenCalledWith('noxis-planner:foo', JSON.stringify({ bar: 1 }));
     expect(readLocal<{ bar: number }>('foo')).toEqual({ bar: 1 });
   });
 
   it('removes values', () => {
     writeLocal('foo', 'baz');
     removeLocal('foo');
-    expect(mockStorage.removeItem).toHaveBeenCalledWith('13lr:foo');
+    expect(mockStorage.removeItem).toHaveBeenCalledWith('noxis-planner:foo');
     expect(readLocal('foo')).toBeNull();
   });
 });
@@ -60,18 +60,20 @@ describe('useLocalDB', () => {
     const getSpy = vi.spyOn(window.localStorage.__proto__, 'getItem');
     const { result } = renderHook(() => useLocalDB('state', 'initial'));
     await waitFor(() => expect(result.current[0]).toBe('stored'));
-    expect(getSpy).toHaveBeenCalledWith('13lr:state');
+    expect(getSpy).toHaveBeenCalledWith('noxis-planner:state');
   });
 
   it('syncs state across tabs via storage events', async () => {
     const { result } = renderHook(() => useLocalDB('sync', 'a'));
     await waitFor(() =>
-      expect(window.localStorage.getItem('13lr:sync')).toBe(JSON.stringify('a'))
+      expect(window.localStorage.getItem('noxis-planner:sync')).toBe(
+        JSON.stringify('a')
+      )
     );
     await act(async () => {
       window.dispatchEvent(
         new StorageEvent('storage', {
-          key: '13lr:sync',
+          key: 'noxis-planner:sync',
           newValue: JSON.stringify('b'),
           storageArea: window.localStorage,
         })
@@ -83,21 +85,25 @@ describe('useLocalDB', () => {
   it('resets state to initial when storage key is removed', async () => {
     const { result } = renderHook(() => useLocalDB('remove', 'init'));
     await waitFor(() =>
-      expect(window.localStorage.getItem('13lr:remove')).toBe(JSON.stringify('init'))
+      expect(window.localStorage.getItem('noxis-planner:remove')).toBe(
+        JSON.stringify('init')
+      )
     );
 
     // Change state so it differs from the initial value
     act(() => result.current[1]('changed'));
     await waitFor(() =>
-      expect(window.localStorage.getItem('13lr:remove')).toBe(JSON.stringify('changed'))
+      expect(window.localStorage.getItem('noxis-planner:remove')).toBe(
+        JSON.stringify('changed')
+      )
     );
 
     // Simulate another tab removing the key
     await act(async () => {
-      window.localStorage.removeItem('13lr:remove');
+      window.localStorage.removeItem('noxis-planner:remove');
       window.dispatchEvent(
         new StorageEvent('storage', {
-          key: '13lr:remove',
+          key: 'noxis-planner:remove',
           newValue: null,
           storageArea: window.localStorage,
         })
