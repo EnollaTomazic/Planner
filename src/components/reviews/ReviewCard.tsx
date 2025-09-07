@@ -2,7 +2,8 @@
 import "../reviews/style.css";
 
 import type { Review } from "@/lib/types";
-import { cn, LOCALE } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { shortDate } from "@/lib/date";
 import { Badge, IconButton } from "@/components/ui";
 import { Pencil } from "lucide-react";
 
@@ -43,7 +44,7 @@ export default function ReviewCard({
             <span>Side: {review.side || "—"}</span>
             <span>Patch: {review.patch || "—"}</span>
             <span>Duration: {review.duration || "—"}</span>
-            <span>{created ? created.toLocaleDateString(LOCALE) : "—"}</span>
+            <span>{created ? shortDate.format(created) : "—"}</span>
           </div>
 
           {Array.isArray(review.tags) && review.tags.length > 0 && (
