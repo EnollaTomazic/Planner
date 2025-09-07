@@ -227,9 +227,21 @@ export default function TodayHero({ iso }: Props) {
                           aria-label={`Rename task ${t.text}`}
                         />
                       ) : (
-                        <span className={cn("task-tile__text", t.done && "line-through-soft")} onClick={() => setEditingTaskId(t.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter") setEditingTaskId(t.id); }} aria-label={`Edit task ${t.text}`} title="Edit task">
+                        <button
+                          type="button"
+                          className={cn("task-tile__text", t.done && "line-through-soft")}
+                          onClick={() => setEditingTaskId(t.id)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setEditingTaskId(t.id);
+                            }
+                          }}
+                          aria-label={`Edit task ${t.text}`}
+                          title="Edit task"
+                        >
                           {t.text}
-                        </span>
+                        </button>
                       )}
                     </div>
 

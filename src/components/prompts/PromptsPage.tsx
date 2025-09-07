@@ -207,6 +207,17 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Task Tile Text</h3>
+          <div className="space-y-2">
+            <button type="button" className="task-tile__text">
+              Editable task
+            </button>
+            <button type="button" className="task-tile__text line-through-soft">
+              Completed task
+            </button>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
           <div>
             <h4 className="type-subtitle">Colors</h4>
