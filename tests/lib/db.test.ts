@@ -111,12 +111,16 @@ describe('useLocalDB', () => {
 // Tests for uid
 
 describe('uid', () => {
-  it('generates unique identifiers', () => {
+  it('generates unique identifiers of sufficient length', () => {
     const ids = new Set<string>();
     for (let i = 0; i < 100; i++) {
       ids.add(uid('test'));
     }
     expect(ids.size).toBe(100);
+
+    const sample = uid('test');
+    expect(sample.startsWith('test_')).toBe(true);
+    expect(sample.slice('test_'.length).length).toBeGreaterThanOrEqual(16);
   });
 });
 

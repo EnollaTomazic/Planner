@@ -144,12 +144,15 @@ export function useLocalDB<T>(
 /**
  * Tiny uid helper.
  * Uses `crypto.randomUUID` when available; falls back to `Math.random`.
- * Example: "review_123e4567"
+ * Example: "review_123e4567e89b12d3"
  */
 export function uid(prefix = "id"): string {
   const id =
     typeof globalThis.crypto?.randomUUID === "function"
-      ? globalThis.crypto.randomUUID().slice(0, 8)
-      : Math.random().toString(36).slice(2, 10);
+      ? globalThis.crypto.randomUUID().replace(/-/g, "").slice(0, 16)
+      : (
+          Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2)
+        ).slice(0, 16);
   return `${prefix}_${id}`;
 }
