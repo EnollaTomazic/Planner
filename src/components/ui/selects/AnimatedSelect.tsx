@@ -424,7 +424,7 @@ function GlitchStyles() {
       .gb-sparks {
         position: absolute;
         inset: -1px;
-        border-radius: var(--radius-xl, 1rem);
+        border-radius: var(--radius-2xl, 1.5rem);
         pointer-events: none;
       }
 
@@ -472,7 +472,7 @@ function GlitchStyles() {
       /* Flickery aura hugging the border */
       .gb-flicker {
         inset: -2px;
-        border-radius: var(--radius-xl, 1rem);
+        border-radius: var(--radius-2xl, 1.5rem);
         background:
           radial-gradient(120% 120% at 50% 50%, hsl(var(--ring)/.18), transparent 60%);
         filter: blur(7px) saturate(1.06);

@@ -262,7 +262,7 @@ export function Hero2GlitchStyles() {
       .hero2-beams {
         position: absolute;
         inset: -2px;
-        border-radius: var(--radius-xl, 16px);
+        border-radius: var(--radius-2xl, 24px);
         z-index: 0;
         pointer-events: none;
         background: linear-gradient(100deg, transparent 0%, hsl(var(--primary) / 0.18) 10%, transparent 22%) 0 0/100% 100%,

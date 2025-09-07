@@ -294,6 +294,12 @@ export default function PromptsPage() {
           <div>
             <h4 className="type-subtitle">Radius</h4>
             <p className="type-body">--radius-md, --radius-lg, --radius-xl, --radius-2xl</p>
+            <div className="mt-2 flex gap-2">
+              <div className="size-6 rounded-md bg-[hsl(var(--panel)/0.8)]" />
+              <div className="size-6 rounded-lg bg-[hsl(var(--panel)/0.8)]" />
+              <div className="size-6 rounded-xl bg-[hsl(var(--panel)/0.8)]" />
+              <div className="size-6 rounded-2xl bg-[hsl(var(--panel)/0.8)]" />
+            </div>
           </div>
           <div>
             <h4 className="type-subtitle">Type Ramp</h4>
