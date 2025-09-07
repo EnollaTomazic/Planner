@@ -20,6 +20,7 @@ import {
   SearchBar,
   Snackbar,
 } from "@/components/ui";
+import BadgePrimitive from "@/components/ui/primitives/Badge";
 import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
 
@@ -242,6 +243,13 @@ export default function Page() {
               <Badge>Neutral</Badge>
               <Badge variant="accent">Accent</Badge>
               <Badge variant="pill">Pill</Badge>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Badge Primitive</span>
+            <div className="w-56 flex justify-center gap-2">
+              <BadgePrimitive size="xs">XS</BadgePrimitive>
+              <BadgePrimitive size="sm">SM</BadgePrimitive>
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
