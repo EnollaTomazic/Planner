@@ -8,6 +8,8 @@
 
 import * as React from "react";
 import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
+import IconButton from "@/components/ui/primitives/IconButton";
+import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import { Check as CheckIcon } from "lucide-react";
@@ -194,6 +196,14 @@ export default function PromptsPage() {
           <h3 className="type-title">Card</h3>
           <div className="space-y-3">
             <Card>Card content</Card>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">IconButton</h3>
+          <div className="space-x-3">
+            <IconButton aria-label="Scroll to top">
+              <ArrowUp />
+            </IconButton>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
