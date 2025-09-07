@@ -34,10 +34,10 @@
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
-  --glitch-r: 339 100% 59%;
-  --glitch-r-light: 315 100% 88%;
-  --glitch-b: 206 100% 61%;
-  --glitch-b-light: 206 100% 90%;
+  --aurora-g: 150 100% 60%;
+  --aurora-g-light: 150 100% 85%;
+  --aurora-p: 272 80% 60%;
+  --aurora-p-light: 272 80% 85%;
   --icon-fg: 247 100% 77%;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
@@ -144,8 +144,8 @@ html.light {
   --success-glow: 316 86% 48% / 0.55;
 }
 
-/* ---------- Glitch v2 ---------- */
-html.theme-glitch2 {
+/* ---------- Aurora ---------- */
+html.theme-aurora {
   --background: 283 100% 4%;
   --foreground: 260 20% 98%;
   --text: var(--foreground);
@@ -154,33 +154,33 @@ html.theme-glitch2 {
   --border: 279 100% 15%;
   --line: var(--border);
   --input: 279 100% 15%;
-  --ring: 279 100% 37%;
+  --ring: 150 100% 60%;
   --theme-ring: hsl(var(--ring));
-  --primary: 279 100% 37%;
+  --primary: 150 100% 60%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 279 100% 15%;
-  --accent: 280 100% 50%;
-  --accent-2: 182 100% 50%;
-  --accent-soft: 280 100% 20%;
+  --primary-soft: 150 100% 20%;
+  --accent: 272 80% 60%;
+  --accent-2: 150 100% 60%;
+  --accent-soft: 272 80% 20%;
   --muted: 279 100% 15%;
   --muted-foreground: 279 20% 75%;
-  --shadow-color: 279 100% 37%;
-  --lav-deep: 280 100% 50%;
+  --shadow-color: 150 100% 60%;
+  --lav-deep: 272 80% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
   --edge-iris: conic-gradient(
     from 180deg,
-    hsl(279 100% 37% / 0),
-    hsl(279 100% 37% / 0.7),
-    hsl(182 100% 50% / 0.7),
-    hsl(280 100% 50% / 0.7),
-    hsl(279 100% 37% / 0)
+    hsl(150 100% 60% / 0),
+    hsl(150 100% 60% / 0.7),
+    hsl(272 80% 60% / 0.7),
+    hsl(150 100% 60% / 0.7),
+    hsl(150 100% 60% / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(279 100% 37% / 0.95),
-    hsl(280 100% 50% / 0.95),
-    hsl(182 100% 50% / 0.95)
+    hsl(150 100% 60% / 0.95),
+    hsl(272 80% 60% / 0.95),
+    hsl(150 100% 60% / 0.95)
   );
   --shadow: 0 10px 30px hsl(279 30% 4% / 0.3);
 }
@@ -299,7 +299,7 @@ html.theme-rose {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -309,7 +309,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -319,7 +319,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-glitch2) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -330,15 +330,15 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
   animation: lg-aurora-pan 24s ease-in-out infinite alternate;
 }
 
-/* Glitch v2 backdrop */
-html.theme-glitch2 body {
+/* Aurora backdrop */
+html.theme-aurora body {
   background-image:
-    radial-gradient(1000px 600px at 20% -10%, hsl(279 100% 37% / 0.2), transparent 60%),
+    radial-gradient(1000px 600px at 20% -10%, hsl(150 100% 60% / 0.2), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed;
 }
-html.theme-glitch2 body::before,
-html.theme-glitch2 body::after {
+html.theme-aurora body::before,
+html.theme-aurora body::after {
   content: none;
 }
 

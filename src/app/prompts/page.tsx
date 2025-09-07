@@ -59,10 +59,10 @@ export default function Page() {
     "success",
     "glow-strong",
     "glow-soft",
-    "glitch-r",
-    "glitch-r-light",
-    "glitch-b",
-    "glitch-b-light",
+    "aurora-g",
+    "aurora-g-light",
+    "aurora-p",
+    "aurora-p-light",
     "icon-fg",
   ];
 
@@ -161,8 +161,8 @@ export default function Page() {
             <div className="glitch text-lg font-semibold">Glitch</div>
           </div>
           <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Glitch Background</span>
-            <div className="glitch-root bg-glitch-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
+            <span className="text-sm font-medium">Aurora Background</span>
+            <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
               Backdrop
             </div>
           </div>
@@ -297,16 +297,16 @@ export default function Page() {
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
-            <span className="text-sm font-medium">Glitch Palette</span>
+            <span className="text-sm font-medium">Aurora Palette</span>
             <div className="flex gap-2">
-              <div className="w-10 h-10 rounded bg-glitchR" />
-              <div className="w-10 h-10 rounded bg-glitchRLight" />
-              <div className="w-10 h-10 rounded bg-glitchB" />
-              <div className="w-10 h-10 rounded bg-glitchBLight" />
+              <div className="w-10 h-10 rounded bg-auroraG" />
+              <div className="w-10 h-10 rounded bg-auroraGLight" />
+              <div className="w-10 h-10 rounded bg-auroraP" />
+              <div className="w-10 h-10 rounded bg-auroraPLight" />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
-              Use <code>glitchR</code>, <code>glitchRLight</code>, <code>glitchB</code>, and
-              <code>glitchBLight</code> Tailwind classes for glitch effects.
+              Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>, and
+              <code>auroraPLight</code> Tailwind classes for aurora effects.
             </p>
           </div>
           {colorList.map((c) => (

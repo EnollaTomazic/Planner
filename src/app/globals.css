@@ -100,20 +100,20 @@ html.bg-intense body::after {
     0 0 14px hsl(var(--accent) / 0.5);
 }
 
-/* ---------- Reusable glitch backdrops ---------- */
+/* ---------- Reusable aurora backdrops ---------- */
 .glitch-root {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
 }
-.bg-glitch-layers {
+.bg-aurora-layers {
   background: radial-gradient(
       1200px 700px at 20% -10%,
-      hsl(291 89% 61% / 0.2),
+      hsl(272 80% 60% / 0.2),
       transparent 60%
     ),
     radial-gradient(
       1000px 600px at 110% 10%,
-      hsl(192 91% 46% / 0.18),
+      hsl(150 100% 60% / 0.18),
       transparent 60%
     ),
     linear-gradient(0deg, hsl(var(--foreground) / 0.08) 1px, transparent 1px),

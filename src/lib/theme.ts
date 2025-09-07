@@ -1,7 +1,7 @@
 import { readLocal, writeLocal } from "./db";
 
 export type Mode = "dark" | "light";
-export type Variant = "lg" | "glitch2" | "citrus" | "noir" | "ocean" | "rose";
+export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose";
 export type Background = 0 | 1 | 2 | 3 | 4 | 5;
 export interface ThemeState {
   variant: Variant;
@@ -15,7 +15,7 @@ export const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-s
 
 export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg", label: "Glitch" },
-  { id: "glitch2", label: "Glitch v2" },
+  { id: "aurora", label: "Aurora" },
   { id: "rose", label: "Rose Quartz" },
   { id: "ocean", label: "Oceanic" },
   { id: "citrus", label: "Citrus" },
