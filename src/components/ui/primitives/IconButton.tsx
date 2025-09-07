@@ -13,8 +13,6 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: ButtonSize;
   iconSize?: Icon;
   tone?: Tone;
-  active?: boolean;
-  fx?: boolean;
   variant?: Variant;
   /** @deprecated use size */
   circleSize?: ButtonSize;
