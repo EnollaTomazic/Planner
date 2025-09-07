@@ -23,7 +23,8 @@ export default function ReviewList({
 }: ReviewListProps) {
   const count = reviews.length;
 
-  const containerClass = cn("max-w-[520px] mx-auto backdrop-blur-sm", className);
+  // Allow the list to grow with the sidebar instead of capping at 520px
+  const containerClass = cn("w-full mx-auto backdrop-blur-sm", className);
 
   if (count === 0) {
     return (
