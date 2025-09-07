@@ -88,7 +88,7 @@ export default function SearchBar({
           indent
           className={cn(
             "w-full",
-            showClear && "pr-10",
+              showClear && "pr-[var(--space-40)]",
             "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
           )}
           aria-label={rest["aria-label"] ?? "Search"}
@@ -97,12 +97,12 @@ export default function SearchBar({
         />
 
         {showClear && (
-          <button
-            type="button"
-            aria-label="Clear"
-            title="Clear"
-            className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground"
-            onClick={() => {
+            <button
+              type="button"
+              aria-label="Clear"
+              title="Clear"
+              className="absolute right-[var(--space-20)] top-1/2 -translate-y-1/2 text-muted-foreground"
+              onClick={() => {
               setQuery("");
               onValueChange?.("");
               inputRef.current?.focus();

@@ -192,10 +192,10 @@ export default function PromptsPage() {
         </Card>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
-          <div>
-            <h4 className="type-subtitle">Spacing</h4>
-            <p className="type-body">4, 8, 12, 16, 24, 32, 48, 64</p>
-          </div>
+            <div>
+              <h4 className="type-subtitle">Spacing</h4>
+              <p className="type-body">4, 8, 12, 14, 16, 20, 24, 32, 36, 40, 48, 64</p>
+            </div>
           <div>
             <h4 className="type-subtitle">Glow</h4>
             <p className="type-body">--glow-strong, --glow-soft</p>

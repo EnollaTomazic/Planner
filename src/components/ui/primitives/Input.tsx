@@ -70,12 +70,12 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         id={finalId}
         name={finalName}
         size={typeof size === "number" ? size : undefined}
-        className={cn(
-          "w-full bg-transparent px-3.5 pr-10 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
-          typeof size === "string" ? SIZE[size] : SIZE.sm,
-          indent && "pl-10",
-          inputClassName
-        )}
+          className={cn(
+            "w-full bg-transparent px-[var(--space-14)] pr-[var(--space-40)] text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            typeof size === "string" ? SIZE[size] : SIZE.sm,
+            indent && "pl-[var(--space-40)]",
+            inputClassName
+          )}
         {...props}
       />
       {children}
