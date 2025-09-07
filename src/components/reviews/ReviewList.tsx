@@ -39,16 +39,17 @@ export default function ReviewList({
 
   return (
     <Card className={containerClass}>
-      <div className="flex flex-col gap-3">
-        {reviews.map(r => (
-          <ReviewListItem
-            key={r.id}
-            review={r}
-            selected={r.id === selectedId}
-            onClick={onSelect ? () => onSelect(r.id) : undefined}
-          />
+      <ul className="flex flex-col gap-3">
+        {reviews.map((r) => (
+          <li key={r.id}>
+            <ReviewListItem
+              review={r}
+              selected={r.id === selectedId}
+              onClick={onSelect ? () => onSelect(r.id) : undefined}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </Card>
   );
 }
