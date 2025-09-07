@@ -9,7 +9,7 @@ exports[`Select > renders default state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r0:"
       name="test"
     >
@@ -25,7 +25,7 @@ exports[`Select > renders default state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -53,7 +53,7 @@ exports[`Select > renders disabled state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       disabled=""
       id=":r4:"
       name="test"
@@ -65,7 +65,7 @@ exports[`Select > renders disabled state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -95,7 +95,7 @@ exports[`Select > renders error state 1`] = `
       aria-describedby=":r2:-error"
       aria-invalid="true"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r2:"
       name="test"
     >
@@ -106,7 +106,7 @@ exports[`Select > renders error state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -140,7 +140,7 @@ exports[`Select > renders focus state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r1:"
       name="test"
     >
@@ -156,7 +156,7 @@ exports[`Select > renders focus state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -185,7 +185,7 @@ exports[`Select > renders success state 1`] = `
     <select
       aria-describedby=":r3:-success"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r3:"
       name="test"
     >
@@ -196,7 +196,7 @@ exports[`Select > renders success state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
       stroke="currentColor"

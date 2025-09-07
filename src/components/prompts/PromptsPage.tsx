@@ -246,6 +246,23 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Spacing Demo</h3>
+          <div className="flex flex-wrap items-end gap-4">
+            <div className="h-4 w-1 bg-accent" />
+            <div className="h-4 w-2 bg-accent" />
+            <div className="h-4 w-3 bg-accent" />
+            <div className="h-4 w-4 bg-accent" />
+            <div className="h-4 w-5 bg-accent" />
+            <div className="h-4 w-6 bg-accent" />
+            <div className="h-4 w-7 bg-accent" />
+            <div className="h-4 w-8 bg-accent" />
+            <div className="h-4 w-14 bg-accent" />
+            <div className="h-4 w-20 bg-accent" />
+            <div className="h-4 w-36 bg-accent" />
+            <div className="h-4 w-40 bg-accent" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Motion</h3>
           <div className="flex gap-2">
             <button className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60">

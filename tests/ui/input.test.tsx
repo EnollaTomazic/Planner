@@ -42,18 +42,18 @@ describe('Input', () => {
         <span />
       </Input>
     );
-    expect(getByRole('textbox')).toHaveClass('pr-[var(--space-40)]');
+    expect(getByRole('textbox')).toHaveClass('pr-40');
   });
 
   it('adds padding when hasEndSlot is true', () => {
     const { getByRole } = render(
       <Input aria-label="test" hasEndSlot />
     );
-    expect(getByRole('textbox')).toHaveClass('pr-[var(--space-40)]');
+    expect(getByRole('textbox')).toHaveClass('pr-40');
   });
 
   it('has smaller padding by default', () => {
     const { getByRole } = render(<Input aria-label="test" />);
-    expect(getByRole('textbox')).not.toHaveClass('pr-[var(--space-40)]');
+    expect(getByRole('textbox')).not.toHaveClass('pr-40');
   });
 });

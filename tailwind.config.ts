@@ -52,7 +52,11 @@ const config: Config = {
         5: "24px",
         6: "32px",
         7: "48px",
-        8: "64px"
+        8: "64px",
+        14: "14px",
+        20: "20px",
+        36: "36px",
+        40: "40px"
       },
       keyframes: {
         shimmer: {

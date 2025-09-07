@@ -1567,20 +1567,6 @@ textarea:-webkit-autofill {
 
 /* ===== Design Tokens ===== */
 :root {
-  /* Spacing scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-14: 14px;
-  --space-20: 20px;
-  --space-36: 36px;
-  --space-40: 40px;
-
   /* Glow tokens */
   --glow-strong: 260 85% 60% / .55;
   --glow-soft: 260 85% 60% / .25;
@@ -1617,19 +1603,19 @@ textarea:-webkit-autofill {
   }
 }
 .ds-grid-gap {
-  gap: var(--space-4);
+  @apply gap-4;
 }
 @media (min-width: 640px) {
   .ds-grid-gap {
-    gap: var(--space-5);
+    @apply gap-5;
   }
 }
-.ds-card-gap > * + * {
-  margin-top: var(--space-4);
+.ds-card-gap {
+  @apply space-y-4;
 }
 @media (min-width: 640px) {
-  .ds-card-gap > * + * {
-    margin-top: var(--space-5);
+  .ds-card-gap {
+    @apply space-y-5;
   }
 }
 
@@ -1637,45 +1623,42 @@ textarea:-webkit-autofill {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr;
-  gap: var(--space-3);
+  @apply gap-3;
 }
 @media (min-width: 1024px) {
   .ds-toolbar {
     grid-template-columns: 1fr auto;
-    gap: var(--space-4);
+    @apply gap-4;
   }
 }
 .ds-toolbar-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
+  @apply gap-2;
 }
 @media (min-width: 640px) {
   .ds-toolbar-controls {
-    gap: var(--space-3);
+    @apply gap-3;
   }
 }
 .ds-card-pad {
-  padding: var(--space-4);
+  @apply p-4;
 }
 @media (min-width: 640px) {
   .ds-card-pad {
-    padding: var(--space-5);
+    @apply p-5;
   }
 }
 .ds-list {
-  @apply list-disc pl-5;
-}
-.ds-list > li + li {
-  margin-top: 0.375rem;
+  @apply list-disc pl-5 space-y-1.5;
 }
 
 /* === Champ badges ===================================== */
 .champ-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  @apply gap-2;
 }
 .champ-badge {
   display: inline-flex;
