@@ -38,8 +38,11 @@ export default function Page() {
   const colorList = [
     "background",
     "foreground",
+    "text",
     "card",
+    "panel",
     "border",
+    "line",
     "input",
     "ring",
     "accent",

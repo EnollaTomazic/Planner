@@ -6,8 +6,11 @@
 :root {
   --background: 246 35% 7%;
   --foreground: 260 20% 96%;
+  --text: var(--foreground);
   --card: 248 30% 10%;
+  --panel: var(--card);
   --border: 252 20% 22%;
+  --line: var(--border);
   --input: 250 22% 12%;
   --ring: 262 83% 58%;
   --theme-ring: hsl(var(--ring));
@@ -108,8 +111,11 @@
 html.light {
   --background: 0 0% 100%;
   --foreground: 240 10% 10%;
+  --text: var(--foreground);
   --card: 0 0% 100%;
+  --panel: var(--card);
   --border: 240 9% 90%;
+  --line: var(--border);
   --input: 240 9% 97%;
   --ring: 262 83% 58%;
   --theme-ring: hsl(var(--ring));
@@ -139,8 +145,11 @@ html.light {
 html.theme-glitch2 {
   --background: 252 35% 9%;
   --foreground: 260 20% 98%;
+  --text: var(--foreground);
   --card: 254 30% 12%;
+  --panel: var(--card);
   --border: 256 20% 24%;
+  --line: var(--border);
   --input: 254 22% 14%;
   --ring: 268 70% 66%;
   --theme-ring: hsl(var(--ring));
@@ -178,8 +187,11 @@ html.theme-citrus {
   /* Dark Citrus palette */
   --background: 28 30% 9%;
   --foreground: 30 35% 96%;
+  --text: var(--foreground);
   --card: 28 30% 14%;
+  --panel: var(--card);
   --border: 30 25% 24%;
+  --line: var(--border);
   --input: 30 22% 16%;
   --ring: 33 92% 58%;
   --theme-ring: hsl(var(--ring));
@@ -201,8 +213,11 @@ html.theme-citrus {
 html.theme-noir {
   --background: 0 0% 6%;
   --foreground: 0 0% 92%;
+  --text: var(--foreground);
   --card: 0 0% 10%;
+  --panel: var(--card);
   --border: 0 0% 20%;
+  --line: var(--border);
   --input: 0 0% 14%;
   --ring: 0 0% 80%;
   --theme-ring: hsl(var(--ring));
@@ -224,8 +239,11 @@ html.theme-noir {
 html.theme-ocean {
   --background: 220 50% 8%;
   --foreground: 210 20% 96%;
+  --text: var(--foreground);
   --card: 220 35% 12%;
+  --panel: var(--card);
   --border: 220 20% 24%;
+  --line: var(--border);
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
   --theme-ring: hsl(var(--ring));
@@ -247,8 +265,11 @@ html.theme-ocean {
 html.theme-rose {
   --background: 330 22% 10%;
   --foreground: 330 20% 96%;
+  --text: var(--foreground);
   --card: 330 24% 14%;
+  --panel: var(--card);
   --border: 330 14% 26%;
+  --line: var(--border);
   --input: 330 18% 16%;
   --ring: 325 80% 62%;
   --theme-ring: hsl(var(--ring));

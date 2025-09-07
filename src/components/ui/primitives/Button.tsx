@@ -43,7 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       s.padding,
       s.text,
       s.gap,
-      "text-[hsl(var(--text))]",
+      "text-[hsl(var(--foreground))]",
       className
     );
 
