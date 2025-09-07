@@ -23,7 +23,7 @@ export interface HeroProps extends Omit<React.HTMLAttributes<HTMLElement>, "titl
   children?: React.ReactNode;
   /** Still overridable, but true by default */
   sticky?: boolean;
-  /** Offset from top; keep "top-[64px]" if you sit under SiteChrome */
+  /** Offset from top; keep "top-8" if you sit under SiteChrome */
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
@@ -38,7 +38,7 @@ export default function Hero({
   right,
   children,
   sticky = true,
-  topClassName = "top-[64px]", // adjust if your header height changes
+  topClassName = "top-8", // adjust if your header height changes
   className,
   barClassName,
   bodyClassName,
@@ -67,13 +67,13 @@ export default function Hero({
       <div
         className={cx(
           "relative flex items-center justify-between gap-3",
-          "px-3 sm:px-4 py-2 min-h-[48px]",
+          "px-3 sm:px-4 py-2 min-h-12",
           barClassName
         )}
       >
         {rail ? (
           <div
-            className="hero-rail pointer-events-none absolute left-0 top-1 bottom-1 w-[6px] rounded-l-2xl"
+            className="hero-rail pointer-events-none absolute left-0 top-1 bottom-1 w-1.5 rounded-l-2xl"
             aria-hidden
           />
         ) : null}
@@ -83,7 +83,7 @@ export default function Hero({
           {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="mb-0.5 truncate text-[11px] uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+              <div className="mb-0.5 truncate text-[0.6875rem] uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
                 {eyebrow}
               </div>
             ) : null}
