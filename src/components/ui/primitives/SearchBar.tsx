@@ -28,6 +28,10 @@ export default function SearchBar({
   className,
   clearable = true,
   debounceMs = 0,
+  autoComplete = "off",
+  autoCorrect = "off",
+  spellCheck = false,
+  autoCapitalize = "none",
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
@@ -93,6 +97,10 @@ export default function SearchBar({
           )}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
+          autoComplete={autoComplete}
+          autoCorrect={autoCorrect}
+          spellCheck={spellCheck}
+          autoCapitalize={autoCapitalize}
           {...rest}
         />
 
