@@ -35,4 +35,25 @@ describe('Input', () => {
     const { container } = render(<Input aria-label="test" disabled />);
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('adds padding when children are present', () => {
+    const { getByRole } = render(
+      <Input aria-label="test">
+        <span />
+      </Input>
+    );
+    expect(getByRole('textbox')).toHaveClass('pr-[var(--space-40)]');
+  });
+
+  it('adds padding when hasEndSlot is true', () => {
+    const { getByRole } = render(
+      <Input aria-label="test" hasEndSlot />
+    );
+    expect(getByRole('textbox')).toHaveClass('pr-[var(--space-40)]');
+  });
+
+  it('has smaller padding by default', () => {
+    const { getByRole } = render(<Input aria-label="test" />);
+    expect(getByRole('textbox')).not.toHaveClass('pr-[var(--space-40)]');
+  });
 });

@@ -149,15 +149,18 @@ export default function Page() {
               </IconButton>
             </div>
           </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Input</span>
-            <div className="w-56 space-y-2">
-              <Input placeholder="Small" />
-              <Input size="md" placeholder="Medium" />
-              <Input size="lg" placeholder="Large" />
-              <Input tone="pill" placeholder="Pill" />
+            <div className="flex flex-col items-center space-y-2">
+              <span className="text-sm font-medium">Input</span>
+              <div className="w-56 space-y-2">
+                <Input placeholder="Small" />
+                <Input size="md" placeholder="Medium" />
+                <Input size="lg" placeholder="Large" />
+                <Input tone="pill" placeholder="Pill" />
+                <Input placeholder="With icon" hasEndSlot>
+                  <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                </Input>
+              </div>
             </div>
-          </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Textarea</span>
             <div className="w-56 space-y-2">
