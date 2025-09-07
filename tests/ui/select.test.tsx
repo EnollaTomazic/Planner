@@ -76,6 +76,6 @@ describe('Select', () => {
     const wrapper = (container.firstChild as HTMLElement).firstChild as HTMLElement;
     const select = getByRole('combobox');
     expect(wrapper).toHaveClass('rounded-full');
-    expect(select).toHaveClass('rounded-full');
+    expect(select).not.toHaveClass('rounded-full');
   });
 });
