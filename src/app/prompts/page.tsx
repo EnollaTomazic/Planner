@@ -194,14 +194,14 @@ export default function Page() {
             <span className="text-sm font-medium">Select</span>
             <div className="w-56 space-y-2">
               <Select defaultValue="">
-                <option value="" disabled>
+                <option value="" disabled hidden>
                   Choose…
                 </option>
                 <option value="a">A</option>
                 <option value="b">B</option>
               </Select>
               <Select success defaultValue="">
-                <option value="" disabled>
+                <option value="" disabled hidden>
                   Choose…
                 </option>
                 <option value="a">A</option>
@@ -218,14 +218,14 @@ export default function Page() {
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Save Status</span>
             <div className="w-56">
-              <div className="text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">
+              <div className="text-xs text-muted-foreground" aria-live="polite">
                 All changes saved
               </div>
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Muted Text</span>
-            <p className="w-56 text-sm text-[hsl(var(--muted-foreground))] text-center">
+            <p className="w-56 text-sm text-muted-foreground text-center">
               Example of muted foreground text
             </p>
           </div>
