@@ -330,6 +330,7 @@ export default function GoalsPage() {
         </div>
       </section>
 
+      {/* Use boolean styled-jsx attribute to satisfy typings */}
       <style jsx>{`
         .tabular-nums {
           font-variant-numeric: tabular-nums;
