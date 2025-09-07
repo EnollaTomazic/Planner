@@ -73,7 +73,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
-      size = "md",
+      size = "sm",
       circleSize,
       iconSize = size as Icon,
       className,
