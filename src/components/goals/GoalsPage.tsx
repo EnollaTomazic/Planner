@@ -330,7 +330,7 @@ export default function GoalsPage() {
         </div>
       </section>
 
-      <style jsx="true">{`
+      <style jsx>{`
         .tabular-nums {
           font-variant-numeric: tabular-nums;
         }

@@ -166,7 +166,7 @@ export function NeonIcon({
       />
 
       {/* Scoped keyframes */}
-      <style jsx="true">{`
+      <style jsx>{`
         .ni-root { width: var(--ni-size); height: var(--ni-size); }
 
         @keyframes niCore {

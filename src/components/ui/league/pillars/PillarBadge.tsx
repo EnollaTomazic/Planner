@@ -115,7 +115,7 @@ export default function PillarBadge({
       {withIcon && <Icon className="icon" aria-hidden="true" />}
       <span className="label">{pillar}</span>
 
-      <style jsx="true">{`
+      <style jsx>{`
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;

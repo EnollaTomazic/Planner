@@ -401,7 +401,7 @@ export default function AnimatedSelect({
    ───────────────────────────────────────────────────────── */
 function GlitchStyles() {
   return (
-    <style jsx="true">{`
+    <style jsx>{`
       /* caret jitter */
       .caret { transition: transform .18s var(--ease-out), filter .18s var(--ease-out); }
       .caret-open { transform: rotate(180deg); }
