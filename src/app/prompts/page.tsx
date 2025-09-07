@@ -158,10 +158,10 @@ export default function Page() {
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Icon Button</span>
             <div className="w-56 flex justify-center gap-2">
-              <IconButton>
+              <IconButton aria-label="Add" title="Add">
                 <Plus />
               </IconButton>
-              <IconButton size="lg">
+              <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
                 <Sun />
               </IconButton>
             </div>
