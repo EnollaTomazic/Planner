@@ -404,7 +404,8 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           dir="ltr"
                           aria-label="Notes"
                           rows={4}
-                          textareaClassName="planner-textarea"
+                          resize="resize-y"
+                          textareaClassName="min-h-[180px] leading-relaxed"
                           value={c.notes ?? ""}
                           onChange={e => patch(c.id, { notes: e.target.value })}
                         />

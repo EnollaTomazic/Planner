@@ -51,7 +51,8 @@ export default function WeekNotes({ iso }: Props) {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           name={`notes-${iso}`}
-          textareaClassName="planner-textarea"
+          resize="resize-y"
+          textareaClassName="min-h-[180px] leading-relaxed"
           onBlur={commit}
         />
         <div className="mt-2 text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">

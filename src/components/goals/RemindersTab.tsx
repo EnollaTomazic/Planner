@@ -499,8 +499,12 @@ function RemTile({
               aria-label="Body"
               placeholder="Short, skimmable sentence."
               value={body}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.currentTarget.value)}
-              textareaClassName="textarea-base"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setBody(e.currentTarget.value)
+              }
+              className="rounded-2xl"
+              resize="resize-y"
+              textareaClassName="min-h-[160px] leading-relaxed"
             />
 
             <label className="text-xs opacity-70">Tags</label>

@@ -283,7 +283,8 @@ function SideEditor(props: {
             placeholder="Short plan, spikes, target calls…"
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
-            textareaClassName="planner-textarea"
+            resize="resize-y"
+            textareaClassName="min-h-[180px] leading-relaxed"
             rows={4}
           />
         </div>
