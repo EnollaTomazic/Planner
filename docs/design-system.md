@@ -34,6 +34,9 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Reusable building blocks live under `src/components/ui/primitives` (e.g. `Button`, `Badge`, `Input`).
 - Prefer composing these primitives rather than creating bespoke styles.
 - Variant props are provided for sizing and icon placement where appropriate.
+- `Input` fields reuse their generated `id` as the default `name` to avoid
+  collisions when several fields share the same label. Supply a custom `name`
+  (or `id`) if you need specific form field identifiers.
 
 ```tsx
 import { Button } from "@/components/ui/primitives/Button";
