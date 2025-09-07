@@ -38,8 +38,7 @@ export default function DayCard({ iso, isToday }: Props) {
     if (selectedProjectId && !projects.some(p => p.id === selectedProjectId)) {
       setSelectedProjectId("");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projects.length]);
+  }, [projects, selectedProjectId, setSelectedProjectId]);
 
   // Header text + progress
   const date = React.useMemo(() => new Date(`${iso}T00:00:00`), [iso]);
