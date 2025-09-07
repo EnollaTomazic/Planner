@@ -38,10 +38,14 @@ const config: Config = {
         neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))"
       },
       transitionTimingFunction: {
-        out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        snap: "cubic-bezier(0.22, 1, 0.36, 1)"
+        out: "var(--ease-out)",
+        snap: "var(--ease-snap)"
       },
-      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" },
+      transitionDuration: {
+        140: "var(--dur-quick)",
+        220: "var(--dur-chill)",
+        420: "var(--dur-slow)"
+      },
       spacing: {
         1: "4px",
         2: "8px",

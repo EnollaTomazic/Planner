@@ -222,6 +222,14 @@ export default function PromptsPage() {
             <p className="type-body">8, 16, 24, 32, 40, 48, 64</p>
           </div>
           <div>
+            <h4 className="type-subtitle">Durations</h4>
+            <p className="type-body">--dur-quick (140ms), --dur-chill (220ms), --dur-slow (420ms)</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Easing</h4>
+            <p className="type-body">--ease-out, --ease-snap</p>
+          </div>
+          <div>
             <h4 className="type-subtitle">Glow</h4>
             <p className="type-body">--glow-strong, --glow-soft</p>
           </div>
