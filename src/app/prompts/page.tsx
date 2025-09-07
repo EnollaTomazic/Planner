@@ -188,8 +188,8 @@ export default function Page() {
             <div className="flex flex-col items-center space-y-2">
               <span className="text-sm font-medium">Input</span>
               <div className="w-56 space-y-2">
-                <Input placeholder="Small" />
-                <Input size="md" placeholder="Medium" />
+                <Input size="sm" placeholder="Small" />
+                <Input placeholder="Medium" />
                 <Input size="lg" placeholder="Large" />
                 <Input tone="pill" placeholder="Pill" />
                 <Input placeholder="With icon" hasEndSlot>
