@@ -9,6 +9,7 @@
 import * as React from "react";
 import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
+import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui/primitives/GlitchSegmented";
 import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
@@ -194,6 +195,14 @@ export default function PromptsPage() {
           </FieldShell>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Button</h3>
+          <div className="space-x-3">
+            <Button>Default</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Card</h3>
           <div className="space-y-3">
             <Card>Card content</Card>
@@ -206,6 +215,14 @@ export default function PromptsPage() {
               <ArrowUp />
             </IconButton>
           </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">GlitchSegmented</h3>
+          <GlitchSegmentedGroup value="one" onChange={() => {}}>
+            <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
+            <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
+          </GlitchSegmentedGroup>
         </Card>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
