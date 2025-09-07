@@ -53,4 +53,29 @@ describe('Select', () => {
     );
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('has no outline when focused', () => {
+    const { getByRole } = render(
+      <Select aria-label="outline">
+        <option value="">Choose…</option>
+      </Select>
+    );
+    const select = getByRole('combobox');
+    fireEvent.focus(select);
+    const style = getComputedStyle(select);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
+
+  it('applies rounded-full on pill tone', () => {
+    const { container, getByRole } = render(
+      <Select aria-label="pill" tone="pill">
+        <option value="">Choose…</option>
+      </Select>
+    );
+    const wrapper = (container.firstChild as HTMLElement).firstChild as HTMLElement;
+    const select = getByRole('combobox');
+    expect(wrapper).toHaveClass('rounded-full');
+    expect(select).toHaveClass('rounded-full');
+  });
 });

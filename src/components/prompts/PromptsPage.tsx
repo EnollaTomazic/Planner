@@ -7,8 +7,9 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
+import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui/primitives/GlitchSegmented";
 import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
@@ -160,6 +161,7 @@ export default function PromptsPage() {
           </p>
           <div className="space-y-3">
             <Input placeholder="Default" />
+            <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
             <Input placeholder="Custom ring" style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties} />
             <Input placeholder="With action">
@@ -171,6 +173,23 @@ export default function PromptsPage() {
                 <CheckIcon className="size-4" />
               </button>
             </Input>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Select</h3>
+          <div className="space-y-3">
+            <Select aria-label="Default">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Pill" tone="pill">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Error" errorText="Error">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
@@ -197,6 +216,14 @@ export default function PromptsPage() {
           </FieldShell>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Button</h3>
+          <div className="space-x-3">
+            <Button>Default</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Card</h3>
           <div className="space-y-3">
             <Card>Card content</Card>
@@ -208,17 +235,6 @@ export default function PromptsPage() {
             <IconButton aria-label="Scroll to top">
               <ArrowUp />
             </IconButton>
-          </div>
-        </Card>
-        <Card className="mt-8 space-y-4">
-          <h3 className="type-title">Task Tile Text</h3>
-          <div className="space-y-2">
-            <button type="button" className="task-tile__text">
-              Editable task
-            </button>
-            <button type="button" className="task-tile__text line-through-soft">
-              Completed task
-            </button>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">

@@ -1,25 +1,22 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import { Button } from '../../src/components/ui/primitives/Button';
+import IconButton from '../../src/components/ui/primitives/IconButton';
 
 afterEach(cleanup);
 
-describe('Button', () => {
-  it('renders its children', () => {
-    const { getByRole } = render(<Button>Click me</Button>);
-    expect(getByRole('button')).toHaveTextContent('Click me');
-  });
-
-  it('applies variant classes', () => {
+describe('IconButton', () => {
+  it('renders children', () => {
     const { getByRole } = render(
-      <Button className="btn-primary">Click me</Button>
+      <IconButton aria-label="up">up</IconButton>
     );
-    expect(getByRole('button')).toHaveClass('btn-primary');
+    expect(getByRole('button')).toHaveTextContent('up');
   });
 
   it('has no outline when focused', () => {
-    const { getByRole } = render(<Button>Focus</Button>);
+    const { getByRole } = render(
+      <IconButton aria-label="focus">X</IconButton>
+    );
     const btn = getByRole('button');
     btn.focus();
     const style = getComputedStyle(btn);
