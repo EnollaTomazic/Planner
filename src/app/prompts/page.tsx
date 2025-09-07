@@ -204,6 +204,14 @@ export default function Page() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Save Status</span>
+            <div className="w-56">
+              <div className="text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">
+                All changes saved
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Badge</span>
             <div className="w-56 flex justify-center gap-2">
               <Badge>Neutral</Badge>
