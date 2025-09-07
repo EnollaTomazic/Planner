@@ -109,17 +109,17 @@ export default function ComponentGallery() {
           <Badge variant="pill">Pill</Badge>
         </Item>
         <Item label="Accent Overlay Box">
-          <div className="w-56 h-20 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[hsl(var(--accent-foreground))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[hsl(var(--accent-foreground))]">
             Overlay
           </div>
         </Item>
         <Item label="Surface">
-          <div className="w-56 h-20 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
             Surface
           </div>
         </Item>
         <Item label="Surface 2">
-          <div className="w-56 h-20 flex items-center justify-center rounded bg-[hsl(var(--surface-2))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface-2))]">
             Surface 2
           </div>
         </Item>
@@ -167,7 +167,7 @@ export default function ComponentGallery() {
           <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" />
         </Item>
         <Item label="Card">
-          <Card className="w-56 h-40 flex items-center justify-center">
+          <Card className="w-56 h-8 flex items-center justify-center">
             Card content
           </Card>
         </Item>

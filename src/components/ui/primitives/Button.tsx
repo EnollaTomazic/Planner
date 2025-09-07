@@ -8,20 +8,20 @@ import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-9",
+    height: "h-5",
     padding: "px-3",
     text: "text-[12px]",
     gap: "gap-2",
   },
   md: {
-    height: "h-12",
+    height: "h-6",
     padding: "px-4",
     text: "text-[14px]",
     gap: "gap-2",
   },
   lg: {
-    height: "h-14",
-    padding: "px-6",
+    height: "h-7",
+    padding: "px-5",
     text: "text-[16px]",
     gap: "gap-2",
   },

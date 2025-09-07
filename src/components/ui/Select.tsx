@@ -59,15 +59,15 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           disabled={disabled}
           aria-invalid={errorText ? "true" : props["aria-invalid"]}
           aria-describedby={describedBy}
-            className={cn(
-              "flex-1 h-11 px-14 pr-36 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
-              selectClassName
-            )}
+              className={cn(
+                "flex-1 h-5 px-4 pr-7 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
+                selectClassName
+              )}
           {...props}
         >
           {children}
         </select>
-          <ChevronDown className="pointer-events-none absolute right-14 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
+            <ChevronDown className="pointer-events-none absolute right-4 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
       </FieldShell>
       {success && (
         <p

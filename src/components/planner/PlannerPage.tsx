@@ -66,7 +66,7 @@ function ScrollTopFloatingButton({ watchRef }: { watchRef: React.RefObject<HTMLE
     <IconButton
       aria-label="Scroll to top"
       onClick={scrollTop}
-      className="fixed bottom-20 right-2 z-50"
+        className="fixed bottom-8 right-2 z-50"
     >
       <ArrowUp />
     </IconButton>
@@ -106,7 +106,7 @@ function Inner() {
         </div>
 
         {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
-        <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
           <WeekNotes iso={iso} />
         </aside>
       </section>
