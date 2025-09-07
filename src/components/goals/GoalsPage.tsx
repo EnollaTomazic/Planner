@@ -206,27 +206,31 @@ export default function GoalsPage() {
                     <GoalsTabs value={filter} onChange={setFilter} />
                   </SectionCard.Header>
                   <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
-                      {filtered.length === 0 ? (
-                        <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                          No goals here. Add one simple, finishable thing.
-                        </p>
-                      ) : (
-                        filtered.map((g) => (
-                          <article
+                    {filtered.length === 0 ? (
+                      <p className="text-sm text-[hsl(var(--muted-foreground))]">
+                        No goals here. Add one simple, finishable thing.
+                      </p>
+                    ) : (
+                      <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr] list-none">
+                        {filtered.map((g) => (
+                          <li
                             key={g.id}
-                            className={[
-                              "relative rounded-2xl p-6",
-                              "card-neo transition",
-                              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
-                              "min-h-40 flex flex-col",
-                            ].join(" ")}
+                            role="listitem"
+                            className="h-full"
                           >
-                            <span
-                              aria-hidden
-                              className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                            />
-                            <header className="flex items-start justify-between gap-2">
+                            <article
+                              className={[
+                                "relative h-full rounded-2xl p-6",
+                                "card-neo transition",
+                                "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
+                                "min-h-40 flex flex-col",
+                              ].join(" ")}
+                            >
+                              <span
+                                aria-hidden
+                                className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                              />
+                              <header className="flex items-start justify-between gap-2">
                               <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
                                 {g.title}
                               </h3>
@@ -270,10 +274,11 @@ export default function GoalsPage() {
                                 {g.done ? "Done" : "Active"}
                               </span>
                             </footer>
-                          </article>
-                        ))
-                      )}
-                    </div>
+                            </article>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </SectionCard.Body>
                 </SectionCard>
               )}

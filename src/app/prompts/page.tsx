@@ -111,6 +111,23 @@ export default function Page() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Grid List</span>
+            <ul className="w-56 grid grid-cols-2 gap-2 list-none">
+              <li role="listitem" className="p-2 border rounded-md text-sm text-center">
+                One
+              </li>
+              <li role="listitem" className="p-2 border rounded-md text-sm text-center">
+                Two
+              </li>
+              <li role="listitem" className="p-2 border rounded-md text-sm text-center">
+                Three
+              </li>
+              <li role="listitem" className="p-2 border rounded-md text-sm text-center">
+                Four
+              </li>
+            </ul>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Progress</span>
             <div className="w-56">
               <Progress value={50} />

@@ -32,12 +32,12 @@ describe('GoalsPage', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Cap reached');
 
     // Mark the first goal as done
-    const goal1Article = screen.getByText('Goal 1').closest('article') as HTMLElement;
-    const toggleBtn = within(goal1Article).getByRole('checkbox', { name: 'Mark done' });
+    const goal1Item = screen.getByText('Goal 1').closest('[role="listitem"]') as HTMLElement;
+    const toggleBtn = within(goal1Item).getByRole('checkbox', { name: 'Mark done' });
     fireEvent.pointerDown(toggleBtn);
     fireEvent.click(toggleBtn);
     await waitFor(() => {
-      const goal1 = screen.getByText('Goal 1').closest('article') as HTMLElement;
+      const goal1 = screen.getByText('Goal 1').closest('[role="listitem"]') as HTMLElement;
       expect(within(goal1).getByText('Done')).toBeInTheDocument();
     });
 
@@ -49,8 +49,8 @@ describe('GoalsPage', () => {
     expect(goal4).toBeInTheDocument();
 
     // Remove the new goal and then undo
-    const goal4Article = goal4.closest('article') as HTMLElement;
-    const deleteButton = within(goal4Article).getByLabelText('Delete goal');
+    const goal4Item = goal4.closest('[role="listitem"]') as HTMLElement;
+    const deleteButton = within(goal4Item).getByLabelText('Delete goal');
     fireEvent.click(deleteButton);
     await waitFor(() => expect(screen.queryByText('Goal 4')).not.toBeInTheDocument());
     const undoButton = screen.getByRole('button', { name: 'Undo' });
