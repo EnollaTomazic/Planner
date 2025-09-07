@@ -208,7 +208,7 @@ export default function GoalsPage() {
                   <SectionCard.Body>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
                       {filtered.length === 0 ? (
-                        <p className="text-sm text-white/60">
+                        <p className="text-sm text-[hsl(var(--muted-foreground))]">
                           No goals here. Add one simple, finishable thing.
                         </p>
                       ) : (
@@ -247,7 +247,7 @@ export default function GoalsPage() {
                                 </IconButton>
                               </div>
                             </header>
-                            <div className="mt-4 text-sm text-white/60 space-y-2">
+                            <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))] space-y-2">
                               {g.metric ? (
                                 <div className="tabular-nums">
                                   <span className="opacity-70">Metric:</span> {g.metric}
@@ -255,7 +255,7 @@ export default function GoalsPage() {
                               ) : null}
                               {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
                             </div>
-                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
+                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]">
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
