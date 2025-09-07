@@ -4,6 +4,11 @@ import * as React from "react";
 import { cn, slugify } from "@/lib/utils";
 import FieldShell from "./FieldShell";
 
+/**
+ * Textarea primitive with optional pill tone.
+ * No default `resize-*` utility is applied; use the `resize` prop or
+ * `textareaClassName` to control resizing behavior.
+ */
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   /** Rounded look without needing a global .planner-textarea class. */
   tone?: "default" | "pill";
@@ -11,17 +16,20 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
   className?: string;
   /** Optional className for the inner <textarea> element */
   textareaClassName?: string;
+  /** Tailwind `resize-*` utility to control resizing behavior */
+  resize?: string;
 };
 
-  const INNER =
-    "block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent " +
+const INNER =
+  "block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
-  "focus:[outline:none] focus-visible:[outline:none] resize-y disabled:opacity-50 disabled:cursor-not-allowed";
+  "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-50 disabled:cursor-not-allowed";
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   {
     className,
     textareaClassName,
+    resize,
     id,
     name,
     "aria-label": ariaLabel,
@@ -51,7 +59,12 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
         ref={ref}
         id={finalId}
         name={finalName}
-          className={cn(INNER, tone === "pill" && "rounded-full min-h-6", textareaClassName)}
+        className={cn(
+          INNER,
+          tone === "pill" && "rounded-full min-h-6",
+          resize,
+          textareaClassName,
+        )}
         {...props}
       />
     </FieldShell>
