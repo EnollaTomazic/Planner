@@ -15,7 +15,7 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
       </div>
 
       {/* Scoped styles — no globals, no theme drift */}
-      <style jsx>{`
+      <style jsx="true">{`
         .term-mini {
           border: 1px solid hsl(var(--border));
           background:
