@@ -2,6 +2,7 @@ import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
 import { Input } from '@/components/ui';
+import { slugify } from '@/lib/utils';
 
 afterEach(cleanup);
 
@@ -64,6 +65,21 @@ describe('Input', () => {
     const style = getComputedStyle(input);
     expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
     expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
+
+  it('defaults name to generated id', () => {
+    const { getByRole } = render(<Input aria-label="name" />);
+    const input = getByRole('textbox') as HTMLInputElement;
+    expect(input.name).toBe(input.id);
+  });
+
+  it('uses slugified label when custom id provided', () => {
+    const { getByRole } = render(
+      <Input id="email" aria-label="Email Address" />
+    );
+    const input = getByRole('textbox') as HTMLInputElement;
+    expect(input.id).toBe('email');
+    expect(input.name).toBe(slugify('Email Address'));
   });
 
   it('applies rounded-full on pill tone', () => {

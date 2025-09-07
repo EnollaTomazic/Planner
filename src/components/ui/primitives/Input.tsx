@@ -33,7 +33,9 @@ const SIZE: Record<InputSize, string> = {
  * Input — Matte field with optional trailing slot.
  * - Defaults to `tone="default"` (16px corners)
  * - Accepts className overrides and passes all standard <input> props
- * - Auto-generates stable `id` and `name` if not provided
+ * - Auto-generates a stable `id`; if no `name` is supplied, the generated id is
+ *   reused to ensure uniqueness. The `aria-label` is only slugified when a
+ *   custom `id` guarantees uniqueness.
  */
 export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
@@ -55,7 +57,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   const auto = React.useId();
   const fromAria = slugify(ariaLabel as string | undefined);
   const finalId = id || auto;
-  const finalName = name || fromAria || finalId;
+  const finalName = name || (id ? fromAria : undefined) || finalId;
 
   const error =
     props["aria-invalid"] === true || props["aria-invalid"] === "true";

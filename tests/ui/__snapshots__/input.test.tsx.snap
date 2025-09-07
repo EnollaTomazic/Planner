@@ -8,7 +8,7 @@ exports[`Input > renders default state 1`] = `
   <input
     class="w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]"
     id=":r0:"
-    name="test"
+    name=":r0:"
   />
 </div>
 `;
@@ -22,7 +22,7 @@ exports[`Input > renders disabled state 1`] = `
     class="w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]"
     disabled=""
     id=":r4:"
-    name="test"
+    name=":r4:"
   />
 </div>
 `;
@@ -36,7 +36,7 @@ exports[`Input > renders error state 1`] = `
     aria-invalid="true"
     class="w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]"
     id=":r2:"
-    name="test"
+    name=":r2:"
   />
 </div>
 `;
@@ -49,7 +49,7 @@ exports[`Input > renders focus state 1`] = `
   <input
     class="w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]"
     id=":r1:"
-    name="test"
+    name=":r1:"
   />
 </div>
 `;
