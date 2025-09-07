@@ -153,9 +153,9 @@ export default function DayCard({ iso, isToday }: Props) {
                         if (active) setSelectedTaskId("");
                       }}
                       className={cn(
-                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-5 pr-3 py-2.5",
+                        "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-4 pr-2 py-2",
                         "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
-                        "grid min-h-[44px] grid-cols-[auto,1fr,auto] items-center gap-4",
+                        "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
                         active && "proj-card--active ring-1 ring-[hsl(var(--ring))]"
                       )}
@@ -273,7 +273,7 @@ function TaskRow({
     <li className="group">
       <div
         className={cn(
-          "relative [overflow:visible] grid min-h-[44px] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-5 pr-3 py-2.5",
+          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-4 pr-2 py-2",
           "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
           "focus-within:ring-2 focus-within:ring-[hsl(var(--ring))]"
         )}
