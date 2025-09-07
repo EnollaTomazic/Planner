@@ -1034,7 +1034,7 @@ export default function ReviewEditor({
             onChange={(e) => setNotes(e.target.value)}
             onBlur={commitNotes}
             placeholder="Key moments, mistakes to fix, drills to run…"
-            className="textarea-base min-h-[180px]"
+            textareaClassName="textarea-base min-h-[180px]"
           />
         </div>
       </div>
