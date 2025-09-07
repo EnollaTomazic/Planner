@@ -231,12 +231,12 @@ export default function TimerTab() {
               <div className="lg-progress" style={pctStyle} aria-hidden />
               {/* rgb ghost trails */}
               <div
-                className="lg-progress rgb r bg-gradient-to-r from-glitchR to-glitchRLight"
+                className="lg-progress rgb r bg-gradient-to-r from-auroraG to-auroraGLight"
                 style={pctStyle}
                 aria-hidden
               />
               <div
-                className="lg-progress rgb b bg-gradient-to-r from-glitchB to-glitchBLight"
+                className="lg-progress rgb b bg-gradient-to-r from-auroraP to-auroraPLight"
                 style={pctStyle}
                 aria-hidden
               />
