@@ -16,7 +16,8 @@ export default function Badge({ variant = "neutral", className, children, ...pro
       "rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))]",
     accent:
       "rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
-    pill: "pill",
+    pill:
+      "rounded-full px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
   };
 
   return (
