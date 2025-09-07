@@ -185,7 +185,7 @@ export default function DayCard({ iso, isToday }: Props) {
                           aria-label="Edit project"
                           title="Edit"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }}
-                          circleSize="sm"
+                          size="sm"
                           iconSize="xs"
                           variant="ring"
                         >
@@ -194,7 +194,7 @@ export default function DayCard({ iso, isToday }: Props) {
                         <IconButton
                           aria-label="Delete project" title="Delete"
                           onClick={e => { e.preventDefault(); e.stopPropagation(); const was = selectedProjectId === p.id; deleteProject(p.id); if (was) setSelectedProjectId(""); }}
-                          circleSize="sm" iconSize="xs" variant="ring"
+                          size="sm" iconSize="xs" variant="ring"
                         >
                           <Trash2 />
                         </IconButton>
@@ -315,10 +315,10 @@ function TaskRow({
               : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto"
           )}
         >
-          <IconButton aria-label="Edit task" title="Edit" onClick={start} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Edit task" title="Edit" onClick={start} size="sm" iconSize="xs" variant="ring">
             <Pencil />
           </IconButton>
-          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} circleSize="sm" iconSize="xs" variant="ring">
+          <IconButton aria-label="Delete task" title="Delete" onClick={onDelete} size="sm" iconSize="xs" variant="ring">
             <Trash2 />
           </IconButton>
         </div>

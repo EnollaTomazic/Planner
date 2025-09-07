@@ -316,7 +316,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
               <IconButton
                 aria-label="Edit review"
                 title="Edit review"
-                circleSize="md"   // ~h-10
+                size="md"   // ~h-10
                 iconSize="md"
                 variant="ring"   // non-destructive, quiet
                 onClick={onEdit}

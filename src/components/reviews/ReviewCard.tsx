@@ -25,7 +25,7 @@ export default function ReviewCard({
             <h3 className={cn("truncate font-semibold", active && "title-glow")}>{review.title || "Untitled Review"}</h3>
             <IconButton
               aria-label="Rename"
-              circleSize="sm"
+              size="sm"
               iconSize="sm"
               onClick={(e) => {
                 e.preventDefault();

@@ -200,7 +200,7 @@ export default function JungleClears() {
                 </div>
 
                 <div className="mb-2 flex justify-end">
-                  <IconButton circleSize="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
+                  <IconButton size="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
                     <Plus />
                   </IconButton>
                 </div>
@@ -249,11 +249,11 @@ export default function JungleClears() {
                             </td>
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
-                                <IconButton circleSize="sm" iconSize="xs" aria-label="Save" onClick={saveEdit}>
+                                <IconButton size="sm" iconSize="xs" aria-label="Save" onClick={saveEdit}>
                                   <Check />
                                 </IconButton>
                                 <IconButton
-                                  circleSize="sm"
+                                  size="sm"
                                   iconSize="xs"
                                   tone="danger"
                                   aria-label="Cancel"
@@ -282,11 +282,11 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">{r.notes ?? "-"}</td>
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
-                                <IconButton circleSize="sm" iconSize="xs" aria-label="Edit" onClick={() => startEdit(r)}>
+                                <IconButton size="sm" iconSize="xs" aria-label="Edit" onClick={() => startEdit(r)}>
                                   <Pencil />
                                 </IconButton>
                                 <IconButton
-                                  circleSize="sm"
+                                  size="sm"
                                   iconSize="xs"
                                   tone="danger"
                                   aria-label="Delete"

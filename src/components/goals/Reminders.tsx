@@ -222,7 +222,7 @@ export default function Reminders() {
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
               className="flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="solid">
               <Plus />
             </IconButton>
             <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">

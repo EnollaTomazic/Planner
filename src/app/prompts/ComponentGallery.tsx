@@ -88,10 +88,10 @@ export default function ComponentGallery() {
         </Item>
         <Item label="IconButton">
           <div className="flex gap-2">
-            <IconButton variant="ring" className="w-12 h-12">
+            <IconButton variant="ring" size="md">
               <SearchIcon />
             </IconButton>
-            <IconButton variant="glow" className="w-12 h-12">
+            <IconButton variant="glow" size="md">
               <SearchIcon />
             </IconButton>
           </div>
