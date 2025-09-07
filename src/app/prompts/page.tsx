@@ -90,7 +90,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Card</span>
-            <SectionCard className="w-56 h-40 flex items-center justify-center">
+            <SectionCard className="w-56 h-8 flex items-center justify-center">
               Card content
             </SectionCard>
           </div>
@@ -160,7 +160,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Card Neo</span>
-            <div className="card-neo w-56 h-40 flex items-center justify-center">
+            <div className="card-neo w-56 h-8 flex items-center justify-center">
               Card Neo
             </div>
           </div>

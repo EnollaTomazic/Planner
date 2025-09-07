@@ -90,11 +90,11 @@ export default function SearchBar({
           }}
           placeholder={placeholder}
           indent
-          className={cn(
-            "w-full",
-              showClear && "pr-40",
-            "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
-          )}
+            className={cn(
+              "w-full",
+              showClear && "pr-7",
+              "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
+            )}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
           autoComplete={autoComplete}
@@ -109,7 +109,7 @@ export default function SearchBar({
               type="button"
               aria-label="Clear"
               title="Clear"
-              className="absolute right-20 top-1/2 -translate-y-1/2 text-muted-foreground"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
               onClick={() => {
               setQuery("");
               onValueChange?.("");
