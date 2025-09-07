@@ -12,6 +12,7 @@ export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
   onSelect?: (id: string) => void;
+  onCreate?: () => void;
   className?: string;
 };
 
@@ -19,6 +20,7 @@ export default function ReviewList({
   reviews,
   selectedId,
   onSelect,
+  onCreate,
   className,
 }: ReviewListProps) {
   const count = reviews.length;
@@ -32,7 +34,9 @@ export default function ReviewList({
         <div className="flex flex-col items-center justify-center gap-3 p-6 text-sm text-muted-foreground">
           <Tv className="h-6 w-6 opacity-60" />
           <p>No reviews yet</p>
-          <Button variant="primary">New Review</Button>
+          <Button variant="primary" onClick={onCreate}>
+            New Review
+          </Button>
         </div>
       </Card>
     );
