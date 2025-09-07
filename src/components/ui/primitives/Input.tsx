@@ -5,16 +5,16 @@ import * as React from "react";
 import { cn, slugify } from "@/lib/utils";
 import FieldShell from "./FieldShell";
 
-type InputSize = "sm" | "md" | "lg";
+export type InputSize = "sm" | "md" | "lg";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "size"
+  "height"
 > & {
   /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
   tone?: "default" | "pill";
-  /** Visual size of the control (defaults to medium) */
-  size?: InputSize | number;
+  /** Visual height of the control (defaults to medium) */
+  height?: InputSize | number;
   /** When true, increases left padding for icons */
   indent?: boolean;
   /** Optional className for the inner <input> element */
@@ -23,7 +23,7 @@ export type InputProps = Omit<
   hasEndSlot?: boolean;
 };
 
-const SIZE: Record<InputSize, string> = {
+const HEIGHT: Record<InputSize, string> = {
   sm: "2.25rem", // h-9
   md: "2.5rem", // h-10
   lg: "2.75rem", // h-11
@@ -46,7 +46,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     name,
     "aria-label": ariaLabel,
     tone = "default",
-    size = "md",
+    height = "md",
     indent = false,
     children,
     hasEndSlot = false,
@@ -65,7 +65,12 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
-  const controlHeight = typeof size === "string" ? SIZE[size] : SIZE.md;
+  const controlHeight =
+    typeof height === "string"
+      ? HEIGHT[height]
+      : typeof height === "number"
+        ? `${height / 4}rem`
+        : HEIGHT.md;
 
   return (
     <FieldShell
@@ -79,7 +84,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         ref={ref}
         id={finalId}
         name={finalName}
-        size={typeof size === "number" ? size : undefined}
         className={cn(
           "w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]",
           indent && "pl-7",
