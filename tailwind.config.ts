@@ -21,7 +21,16 @@ const config: Config = {
           soft: "hsl(var(--primary-soft))"
         },
         accent: { DEFAULT: "hsl(var(--accent))", soft: "hsl(var(--accent-soft))" },
-        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" }
+        accent2: "hsl(var(--accent-2))",
+        glow: "hsl(var(--glow))",
+        ringMuted: "hsl(var(--ring-muted))",
+        danger: "hsl(var(--danger))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          glow: "hsl(var(--success-glow))"
+        },
+        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+        lavDeep: "hsl(var(--lav-deep))"
       },
       borderRadius: { lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
