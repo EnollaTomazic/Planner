@@ -10,6 +10,7 @@
   --border: 252 20% 22%;
   --input: 250 22% 12%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
@@ -111,6 +112,7 @@ html.light {
   --border: 240 9% 90%;
   --input: 240 9% 97%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 92%;
@@ -141,6 +143,7 @@ html.theme-glitch2 {
   --border: 256 20% 24%;
   --input: 254 22% 14%;
   --ring: 268 70% 66%;
+  --theme-ring: hsl(var(--ring));
   --primary: 268 70% 66%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 268 70% 24%;
@@ -179,6 +182,7 @@ html.theme-citrus {
   --border: 30 25% 24%;
   --input: 30 22% 16%;
   --ring: 33 92% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 33 92% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 33 90% 22%;
@@ -201,6 +205,7 @@ html.theme-noir {
   --border: 0 0% 20%;
   --input: 0 0% 14%;
   --ring: 0 0% 80%;
+  --theme-ring: hsl(var(--ring));
   --primary: 0 0% 80%;
   --primary-foreground: 0 0% 0%;
   --primary-soft: 0 0% 30%;
@@ -223,6 +228,7 @@ html.theme-ocean {
   --border: 220 20% 24%;
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
+  --theme-ring: hsl(var(--ring));
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
@@ -245,6 +251,7 @@ html.theme-rose {
   --border: 330 14% 26%;
   --input: 330 18% 16%;
   --ring: 325 80% 62%;
+  --theme-ring: hsl(var(--ring));
   --primary: 325 80% 62%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 325 80% 20%;
