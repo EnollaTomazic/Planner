@@ -7,7 +7,7 @@ import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
 
 const itemBase =
-  "relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none";
+  "relative w-full text-left h-auto min-h-[76px] p-4 rounded-xl border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none";
 const itemSelected =
   "ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]";
 const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";

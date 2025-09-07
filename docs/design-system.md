@@ -18,7 +18,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Use one weight per tier – `500` for UI, `600` for titles.
 
 ## Radius and borders
-- Corner radius is 16px on all components (pills use full rounding).
+- Corner radii follow an 8/12/16/24px scale; most components use 16px while pills are fully rounded.
 - Borders are `1px` solid `hsl(--line/0.35)`; avoid double outlines except on focus rings.
 
 ## Texture

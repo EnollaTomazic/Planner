@@ -9,7 +9,7 @@ type Props = {
 export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
-      <div className="term-mini flex items-center gap-2 px-2 py-1.5">
+      <div className="term-mini flex items-center gap-2 px-2 py-1.5 rounded-full">
         <span className="term-mini__text">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>
@@ -18,7 +18,6 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
       <style jsx>{`
         .term-mini {
           border: 1px solid hsl(var(--border));
-          border-radius: 9999px;
           background:
             linear-gradient(
               180deg,
