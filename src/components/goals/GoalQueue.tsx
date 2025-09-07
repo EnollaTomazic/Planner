@@ -66,7 +66,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
             <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
             <Input
               tone="default"
-              className="flex-1 h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="flex-1 h-9 text-sm"
               value={val}
               onChange={(e) => setVal(e.currentTarget.value)}
               placeholder="Add to queue and press Enter"
