@@ -9,14 +9,6 @@ exports[`Input > renders default state 1`] = `
     id=":r0:"
     name="test"
   />
-  <style>
-    
-        input:-webkit-autofill {
-          box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
-          -webkit-text-fill-color: hsl(var(--foreground));
-        }
-      
-  </style>
 </div>
 `;
 
@@ -30,14 +22,6 @@ exports[`Input > renders disabled state 1`] = `
     id=":r3:"
     name="test"
   />
-  <style>
-    
-        input:-webkit-autofill {
-          box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
-          -webkit-text-fill-color: hsl(var(--foreground));
-        }
-      
-  </style>
 </div>
 `;
 
@@ -51,14 +35,6 @@ exports[`Input > renders error state 1`] = `
     id=":r2:"
     name="test"
   />
-  <style>
-    
-        input:-webkit-autofill {
-          box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
-          -webkit-text-fill-color: hsl(var(--foreground));
-        }
-      
-  </style>
 </div>
 `;
 
@@ -71,13 +47,5 @@ exports[`Input > renders focus state 1`] = `
     id=":r1:"
     name="test"
   />
-  <style>
-    
-        input:-webkit-autofill {
-          box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
-          -webkit-text-fill-color: hsl(var(--foreground));
-        }
-      
-  </style>
 </div>
 `;
