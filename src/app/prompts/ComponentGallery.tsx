@@ -25,6 +25,8 @@ import {
   PillarSelector,
   AnimatedSelect,
   Select,
+  FieldShell,
+  Label,
 } from '@/components/ui';
 import type { Pillar, Review } from '@/lib/types';
 import type { GameSide } from '@/components/ui/league/SideSelector';
@@ -101,6 +103,19 @@ export default function ComponentGallery() {
         </Item>
         <Item label="Textarea">
           <Textarea placeholder="Write here" className="w-56" />
+        </Item>
+        <Item label="FieldShell">
+          <FieldShell className="w-56">
+            <div className="px-4 py-2 text-sm text-muted-foreground">
+              Custom content
+            </div>
+          </FieldShell>
+        </Item>
+        <Item label="Label">
+          <div className="w-56">
+            <Label htmlFor="label-demo">Label</Label>
+            <Input id="label-demo" placeholder="With spacing" />
+          </div>
         </Item>
         <Item label="Badge">
           <Badge>Badge</Badge>
