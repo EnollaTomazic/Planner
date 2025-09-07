@@ -235,7 +235,7 @@ export default function PromptsPage() {
           <div>
             <h4 className="type-subtitle">Colors</h4>
             <div className="flex gap-2">
-              <div className="size-6 rounded bg-accent2" />
+                <div className="size-6 rounded bg-accent-2" />
               <div className="size-6 rounded bg-danger" />
               <div className="size-6 rounded bg-success" />
               <div className="size-6 rounded bg-glow" />

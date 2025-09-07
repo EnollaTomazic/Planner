@@ -6,6 +6,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
+- Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
 
 ## Layout and spacing

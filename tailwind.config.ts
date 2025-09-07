@@ -21,7 +21,7 @@ const config: Config = {
           soft: "hsl(var(--primary-soft))"
         },
         accent: { DEFAULT: "hsl(var(--accent))", soft: "hsl(var(--accent-soft))" },
-        accent2: "hsl(var(--accent-2))",
+        "accent-2": "hsl(var(--accent-2))",
         glow: "hsl(var(--glow))",
         ringMuted: "hsl(var(--ring-muted))",
         danger: "hsl(var(--danger))",
