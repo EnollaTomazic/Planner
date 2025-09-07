@@ -16,8 +16,8 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0b0b12",
-          color: "#9a8cff",
+          background: "hsl(var(--background))",
+          color: "hsl(var(--icon-fg))",
         }}
       >
         13
