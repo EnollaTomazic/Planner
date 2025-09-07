@@ -181,9 +181,9 @@ export default function TabBar({
             className={cn(
               "pointer-events-none absolute -bottom-1 h-[2px] rounded-full opacity-0",
               "[background:var(--seg-active-grad,linear-gradient(90deg,hsl(var(--primary))_0%,hsl(var(--accent))_100%))]",
-              "transition-[transform,width,opacity] duration-200 ease-out"
+              "transition-[transform,width,opacity] duration-200 ease-out",
+              "shadow-ring"
             )}
-            style={{ boxShadow: "0 0 12px hsl(var(--ring))" }}
           />
         </div>
 

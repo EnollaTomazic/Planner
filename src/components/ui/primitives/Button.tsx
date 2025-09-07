@@ -53,9 +53,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
           className={cn(
             base,
-            "bg-[hsl(var(--panel)/0.85)] overflow-hidden"
+            "bg-[hsl(var(--panel)/0.85)] overflow-hidden",
+            "shadow-neo"
           )}
-          style={{ boxShadow: neuRaised(12) }}
           whileHover={{
             scale: 1.03,
             boxShadow: `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
@@ -99,8 +99,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        className={cn(base, "bg-[hsl(var(--panel)/0.8)]")}
-        style={{ boxShadow: neuRaised(12) }}
+        className={cn(base, "bg-[hsl(var(--panel)/0.8)]", "shadow-neo")}
         whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
         whileTap={{
           scale: 0.97,
