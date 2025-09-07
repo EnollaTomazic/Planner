@@ -7,9 +7,8 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar, Label } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
-import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui/primitives/GlitchSegmented";
 import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
@@ -197,6 +196,15 @@ export default function PromptsPage() {
           <div className="space-y-3">
             <Textarea placeholder="Default" />
             <Textarea placeholder="Pill" tone="pill" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Label</h3>
+          <div className="space-y-3">
+            <div>
+              <Label htmlFor="label-demo">Label</Label>
+              <Input id="label-demo" placeholder="With spacing" />
+            </div>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
