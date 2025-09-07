@@ -24,7 +24,7 @@ import {
   Snackbar,
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
-import GoalForm from "./GoalForm";
+import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
 
 import { useLocalDB, uid } from "@/lib/db";
@@ -66,6 +66,7 @@ export default function GoalsPage() {
   const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
   const undoTimer = React.useRef<number | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
+  const titleInputRef = React.useRef<GoalFormHandle>(null);
 
   // stats
   const totalCount = goals.length;
@@ -111,6 +112,7 @@ export default function GoalsPage() {
     };
     setGoals((prev) => [g, ...prev]);
     resetForm();
+    titleInputRef.current?.focus({ preventScroll: true });
   }
 
   function toggleDone(id: string) {
@@ -280,6 +282,7 @@ export default function GoalsPage() {
 
               <div ref={formRef}>
                 <GoalForm
+                  ref={titleInputRef}
                   title={title}
                   metric={metric}
                   notes={notes}
