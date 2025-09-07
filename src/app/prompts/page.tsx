@@ -74,6 +74,9 @@ export default function Page() {
         Global styles are now modularized into <code>animations.css</code>,
         <code>overlays.css</code>, and <code>utilities.css</code>.
       </p>
+      <p className="mb-4 text-sm text-muted-foreground">
+        Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
+      </p>
       <div className="mb-8">
         <TabBar items={viewTabs} value={view} onValueChange={setView} />
       </div>

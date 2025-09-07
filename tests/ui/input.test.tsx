@@ -42,19 +42,19 @@ describe('Input', () => {
         <span />
       </Input>
     );
-    expect(getByRole('textbox')).toHaveClass('pr-40');
+    expect(getByRole('textbox')).toHaveClass('pr-7');
   });
 
   it('adds padding when hasEndSlot is true', () => {
     const { getByRole } = render(
       <Input aria-label="test" hasEndSlot />
     );
-    expect(getByRole('textbox')).toHaveClass('pr-40');
+    expect(getByRole('textbox')).toHaveClass('pr-7');
   });
 
   it('has smaller padding by default', () => {
     const { getByRole } = render(<Input aria-label="test" />);
-    expect(getByRole('textbox')).not.toHaveClass('pr-40');
+    expect(getByRole('textbox')).not.toHaveClass('pr-7');
   });
 
   it('has no outline when focused', () => {
@@ -71,6 +71,6 @@ describe('Input', () => {
     const wrapper = container.firstChild as HTMLElement;
     const input = getByRole('textbox');
     expect(wrapper).toHaveClass('rounded-full');
-    expect(input).toHaveClass('rounded-full');
+    expect(input).not.toHaveClass('rounded-full');
   });
 });

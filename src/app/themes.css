@@ -60,7 +60,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-xl);
+  --control-h: 44px; --control-radius: var(--radius-xl);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(
