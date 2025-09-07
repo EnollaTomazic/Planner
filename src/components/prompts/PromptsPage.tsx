@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui/primitives/GlitchSegmented";
 import { ArrowUp } from "lucide-react";
@@ -169,6 +169,23 @@ export default function PromptsPage() {
                 <CheckIcon className="size-4" />
               </button>
             </Input>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Select</h3>
+          <div className="space-y-3">
+            <Select aria-label="Default">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Pill" tone="pill">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Error" errorText="Error">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
