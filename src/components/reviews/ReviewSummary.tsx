@@ -190,7 +190,7 @@ function NeonIcon({
       )}
 
       {/* keyframes (scoped) */}
-      <style jsx>{`
+      <style jsx="true">{`
         @keyframes neonCore {
           0% { opacity: .66; transform: scale(1) }
           50%{ opacity: .88; transform: scale(1.012) }

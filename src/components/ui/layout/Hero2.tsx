@@ -247,7 +247,7 @@ export function Hero2SearchBar({
 /* ───────────── CSS injected globally via styled-jsx (unchanged) ─────────── */
 export function Hero2GlitchStyles() {
   return (
-    <style jsx global>{`
+    <style jsx="true" global>{`
       /* === Hero2: header background layers =============================== */
       .hero2-frame {
         --hero2-c1: hsl(var(--accent));

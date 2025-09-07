@@ -191,7 +191,7 @@ function NeonIcon({
           opacity: phase === "powerdown" ? 0.6 : 0,
         }}
       />
-      <style jsx>{`
+      <style jsx="true">{`
         @keyframes neonCore {
           0% { opacity:.66; transform:scale(1) }
           50%{ opacity:.88; transform:scale(1.012) }

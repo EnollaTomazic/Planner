@@ -294,7 +294,7 @@ export default function TimerTab() {
       </SectionCard.Body>
 
       {/* Local styles for neon pills, glitch loader, and complete state */}
-      <style jsx>{`
+      <style jsx="true">{`
         /* Disable card hover bloom */
         .no-hover.goal-card:hover {
           box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,

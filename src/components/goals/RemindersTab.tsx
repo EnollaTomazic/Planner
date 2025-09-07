@@ -347,7 +347,7 @@ export default function RemindersTab() {
         </SectionCard.Body>
 
         {/* Local styles: keep neon-note flicker; divider is handled by Hero2 */}
-        <style jsx>{`
+        <style jsx="true">{`
           .neon-primary { --neon: var(--primary); }
           .neon-life { --neon: var(--accent); }
 
