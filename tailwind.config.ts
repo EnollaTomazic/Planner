@@ -29,6 +29,10 @@ const config: Config = {
           DEFAULT: "hsl(var(--success))",
           glow: "hsl(var(--success-glow))"
         },
+        glitchR: "hsl(var(--glitch-r))",
+        glitchRLight: "hsl(var(--glitch-r-light))",
+        glitchB: "hsl(var(--glitch-b))",
+        glitchBLight: "hsl(var(--glitch-b-light))",
         muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
         lavDeep: "hsl(var(--lav-deep))",
         surfaceVhs: "hsl(var(--surface-vhs))",

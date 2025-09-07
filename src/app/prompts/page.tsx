@@ -282,6 +282,19 @@ export default function Page() {
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+          <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
+            <span className="text-sm font-medium">Glitch Palette</span>
+            <div className="flex gap-2">
+              <div className="w-10 h-10 rounded bg-glitchR" />
+              <div className="w-10 h-10 rounded bg-glitchRLight" />
+              <div className="w-10 h-10 rounded bg-glitchB" />
+              <div className="w-10 h-10 rounded bg-glitchBLight" />
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Use <code>glitchR</code>, <code>glitchRLight</code>, <code>glitchB</code>, and
+              <code>glitchBLight</code> Tailwind classes for glitch effects.
+            </p>
+          </div>
           {colorList.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
               <span className="text-xs uppercase tracking-wide text-purple-300">

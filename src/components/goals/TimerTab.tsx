@@ -230,8 +230,16 @@ export default function TimerTab() {
               {/* progress core */}
               <div className="lg-progress" style={pctStyle} aria-hidden />
               {/* rgb ghost trails */}
-              <div className="lg-progress rgb r" style={pctStyle} aria-hidden />
-              <div className="lg-progress rgb b" style={pctStyle} aria-hidden />
+              <div
+                className="lg-progress rgb r bg-gradient-to-r from-glitchR to-glitchRLight"
+                style={pctStyle}
+                aria-hidden
+              />
+              <div
+                className="lg-progress rgb b bg-gradient-to-r from-glitchB to-glitchBLight"
+                style={pctStyle}
+                aria-hidden
+              />
               {/* scanline sweep */}
               <div className="lg-scan" aria-hidden />
             </div>
@@ -345,14 +353,12 @@ export default function TimerTab() {
           filter: blur(1px);
         }
         .lg-progress.rgb.r {
-          background: linear-gradient(90deg, hsl(var(--glitch-r)) 0%, hsl(var(--glitch-r-light)) 100%);
           transform: translateX(-1px);
           animation:
             widthEase 220ms ease,
             jitterX 900ms steps(12) infinite reverse;
         }
         .lg-progress.rgb.b {
-          background: linear-gradient(90deg, hsl(var(--glitch-b)) 0%, hsl(var(--glitch-b-light)) 100%);
           transform: translateX(1px);
           animation:
             widthEase 220ms ease,
