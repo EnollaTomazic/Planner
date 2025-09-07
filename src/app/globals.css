@@ -699,9 +699,9 @@ html.bg-intense body::after {
     height: 1.75rem;
     padding: 0 0.75rem;
     gap: 0.5rem;
-    background: hsl(var(--panel));
-    color: hsl(var(--text));
-    border-color: hsl(var(--line) / 0.35);
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border) / 0.35);
   }
   .pill--low {
     background: hsl(var(--accent) / 0.15);
