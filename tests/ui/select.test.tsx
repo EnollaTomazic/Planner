@@ -53,4 +53,17 @@ describe('Select', () => {
     );
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('has no outline when focused', () => {
+    const { getByRole } = render(
+      <Select aria-label="outline">
+        <option value="">Choose…</option>
+      </Select>
+    );
+    const select = getByRole('combobox');
+    fireEvent.focus(select);
+    const style = getComputedStyle(select);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
 });

@@ -42,4 +42,13 @@ describe('Textarea', () => {
       'border-[hsl(var(--destructive)/0.6)]'
     );
   });
+
+  it('has no outline when focused', () => {
+    const { getByRole } = render(<Textarea aria-label="outline" />);
+    const ta = getByRole('textbox');
+    fireEvent.focus(ta);
+    const style = getComputedStyle(ta);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
 });

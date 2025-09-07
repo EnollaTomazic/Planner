@@ -222,10 +222,9 @@ export default function AnimatedSelect({
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
-    "group glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
+    "glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
-    "border border-[hsl(var(--ring)/.22)] data-[lit=true]:border-[hsl(var(--ring)/.38)] data-[open=true]:border-[hsl(var(--ring)/.38)]",
-    "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
+    "focus:[outline:none] focus-visible:[outline:none]",
     "transition",
     buttonClassName,
   ].join(" ");
@@ -243,48 +242,52 @@ export default function AnimatedSelect({
         </div>
       ) : null}
 
-      <button
-        ref={triggerRef}
-        type="button"
-        disabled={disabled}
-        onClick={() => {
-          measure();
-          setOpen((v) => !v);
-        }}
-        onKeyDown={onTriggerKeyDown}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={`${idBase}-listbox`}
-        aria-labelledby={label ? labelId : undefined}
-        aria-label={label ? undefined : triggerAria}
-        className={triggerCls}
-        data-lit={lit ? "true" : "false"}
-        data-open={open ? "true" : "false"}
+      <div
+        className="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
       >
-        {prefixLabel ? <span className="opacity-70">❯</span> : null}
-
-        <span
-          className={[
-            "font-medium glitch-text",
-            lit ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]",
-            "group-hover:text-[hsl(var(--foreground))]",
-          ].join(" ")}
+        <button
+          ref={triggerRef}
+          type="button"
+          disabled={disabled}
+          onClick={() => {
+            measure();
+            setOpen((v) => !v);
+          }}
+          onKeyDown={onTriggerKeyDown}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-controls={`${idBase}-listbox`}
+          aria-labelledby={label ? labelId : undefined}
+          aria-label={label ? undefined : triggerAria}
+          className={triggerCls}
+          data-lit={lit ? "true" : "false"}
+          data-open={open ? "true" : "false"}
         >
-          {current ? current.label : <span className="opacity-70">{placeholder}</span>}
-        </span>
+          {prefixLabel ? <span className="opacity-70">❯</span> : null}
 
-        <svg viewBox="0 0 20 20" className={caretCls} aria-hidden="true">
-          <path d="M5 7l5 6 5-6" fill="none" stroke="currentColor" strokeWidth="2" />
-        </svg>
+          <span
+            className={[
+              "font-medium glitch-text",
+              lit ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]",
+              "group-hover:text-[hsl(var(--foreground))]",
+            ].join(" ")}
+          >
+            {current ? current.label : <span className="opacity-70">{placeholder}</span>}
+          </span>
 
-        {/* ── glitch border stack (no whites) ── */}
-        <span aria-hidden className="gb-iris" />
-        <span aria-hidden className="gb-chroma" />
-        <span aria-hidden className="gb-flicker" />
-        <span aria-hidden className="gb-scan" />
-        <span aria-hidden className="gb-noise" />
-        <span aria-hidden className="gb-sparks" />
-      </button>
+          <svg viewBox="0 0 20 20" className={caretCls} aria-hidden="true">
+            <path d="M5 7l5 6 5-6" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
+
+          {/* ── glitch border stack (no whites) ── */}
+          <span aria-hidden className="gb-iris" />
+          <span aria-hidden className="gb-chroma" />
+          <span aria-hidden className="gb-flicker" />
+          <span aria-hidden className="gb-scan" />
+          <span aria-hidden className="gb-noise" />
+          <span aria-hidden className="gb-sparks" />
+        </button>
+      </div>
 
       {/* Dropdown */}
       {mounted &&
@@ -343,7 +346,7 @@ export default function AnimatedSelect({
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
                             : "hover:bg-white/5",
-                          "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
+                          "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}
                       >

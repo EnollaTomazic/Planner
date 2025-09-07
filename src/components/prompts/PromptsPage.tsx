@@ -157,6 +157,7 @@ export default function PromptsPage() {
           <h3 className="type-title">Input</h3>
           <div className="space-y-3">
             <Input placeholder="Default" />
+            <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
             <Input placeholder="With action">
               <button
