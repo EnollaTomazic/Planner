@@ -49,6 +49,8 @@ export default function Page() {
     "muted-foreground",
     "surface",
     "surface-2",
+    "surface-vhs",
+    "surface-streak",
     "danger",
     "success",
     "glow-strong",
