@@ -76,7 +76,7 @@ export default function ComponentGallery() {
   return (
     <main className="p-6 bg-background text-foreground">
       <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
-        Focus styles now use <code>focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]</code>
+        Focus styles now use <code>focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0</code>
         for accessible highlights.
       </p>
       <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
