@@ -33,7 +33,12 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
   const fromAria = slugify(props["aria-label"] as string | undefined);
   const finalId = id || auto;
   const finalName = props.name || fromAria || finalId;
-  const describedBy = errorText ? `${finalId}-error` : helperText ? `${finalId}-helper` : undefined;
+  const successId = `${finalId}-success`;
+  const errorId = errorText ? `${finalId}-error` : undefined;
+  const helperId = helperText ? `${finalId}-helper` : undefined;
+  const describedBy = [errorId, helperId, success ? successId : undefined]
+    .filter(Boolean)
+    .join(" ") || undefined;
   return (
     <div className="space-y-1">
       <FieldShell
@@ -64,9 +69,19 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
         </select>
           <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
       </FieldShell>
+      {success && (
+        <p
+          id={successId}
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+        >
+          Selection saved
+        </p>
+      )}
       {(helperText || errorText) && (
         <p
-          id={errorText ? `${finalId}-error` : helperText ? `${finalId}-helper` : undefined}
+          id={errorId || helperId}
           className={cn(
             "text-xs mt-1 line-clamp-2",
             errorText ? "text-[hsl(var(--destructive))]" : "text-[hsl(var(--muted-foreground))]"
