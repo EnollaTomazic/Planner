@@ -21,24 +21,31 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
       {FILTERS.map((f) => {
         const active = value === f;
         return (
-          <button
+          <div
             key={f}
-            type="button"
-            role="tab"
-            aria-selected={active}
-            onClick={() => onChange(f)}
             className={cn(
-              "text-left font-mono text-sm transition",
-              "px-3 py-2 rounded-2xl",
-              "hover:-translate-y-px hover:ring-1 hover:ring-[hsl(var(--ring))]",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--accent))]",
-              active
-                ? "font-semibold text-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.1)]"
-                : undefined,
+              "rounded-2xl",
+              "focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
             )}
           >
-            {f}
-          </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => onChange(f)}
+              className={cn(
+                "text-left font-mono text-sm transition",
+                "px-3 py-2 rounded-2xl",
+                "hover:-translate-y-px",
+                "border-none outline-none focus:outline-none focus-visible:outline-none",
+                active
+                  ? "font-semibold text-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.1)]"
+                  : undefined,
+              )}
+            >
+              {f}
+            </button>
+          </div>
         );
       })}
     </div>
