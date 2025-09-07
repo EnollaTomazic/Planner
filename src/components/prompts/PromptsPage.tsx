@@ -227,7 +227,7 @@ export default function PromptsPage() {
           </div>
           <div>
             <h4 className="type-subtitle">Radius</h4>
-            <p className="type-body">--radius</p>
+            <p className="type-body">--radius-md, --radius-lg, --radius-xl</p>
           </div>
           <div>
             <h4 className="type-subtitle">Type Ramp</h4>

@@ -60,7 +60,7 @@ export default function PillarBadge({
 
   // Common class list
   const cls = [
-    "lg-pillar-badge",
+    "lg-pillar-badge rounded-full",
     sizeCls,
     interactive ? "cursor-pointer select-none" : "",
     active ? "active" : "",
@@ -120,7 +120,6 @@ export default function PillarBadge({
           position: relative;
           display: inline-flex;
           align-items: center;
-          border-radius: 9999px;
           line-height: 1;
           font-weight: 600;
 

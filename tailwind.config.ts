@@ -32,7 +32,7 @@ const config: Config = {
         muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
         lavDeep: "hsl(var(--lav-deep))"
       },
-      borderRadius: { lg: "12px", xl: "16px", "2xl": "24px" },
+      borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
         neo: "0 6px 20px -6px hsl(var(--shadow-color))",
         neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))"

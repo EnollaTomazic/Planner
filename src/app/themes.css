@@ -44,12 +44,12 @@
   --card-hairline: hsl(var(--border));
 
   --hairline-w: 1px;
-  --radius-1: 8px; --radius-2: 12px; --radius-3: 16px;
-  --radius-card: var(--radius-3);
+  --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px;
+  --radius-card: var(--radius-xl);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-3);
+  --control-h: 42px; --control-radius: var(--radius-xl);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(

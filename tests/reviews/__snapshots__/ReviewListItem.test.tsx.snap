@@ -4,7 +4,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-xl border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
     type="button"
   >
     <div
@@ -57,7 +57,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 exports[`ReviewListItem > renders loading state 1`] = `
 <div>
   <div
-    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none animate-pulse"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-xl border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none animate-pulse"
   >
     <div
       class="h-3 rounded bg-[hsl(var(--muted))] w-3/5 mb-3"
@@ -73,7 +73,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-xl border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]"
     data-selected="true"
     type="button"
   >
@@ -128,7 +128,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
 <div>
   <button
     aria-label="Open review: Untitled Review"
-    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-xl border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-200 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
     type="button"
   >
     <div

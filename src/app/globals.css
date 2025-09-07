@@ -511,7 +511,7 @@ html.bg-intense body::after {
   }
 
   .btn-glitch {
-    border-radius: var(--radius-2);
+    border-radius: var(--radius-lg);
     color: hsl(var(--primary-foreground));
     background: var(--seg-active-grad);
     box-shadow: 0 0 25px hsl(291 89% 61% / 0.6), 0 0 50px hsl(192 91% 46% / 0.4);
@@ -523,7 +523,7 @@ html.bg-intense body::after {
   }
 
   .btn-lift {
-    border-radius: var(--radius-2);
+    border-radius: var(--radius-lg);
     background: hsl(var(--card));
     border: 1px solid hsl(var(--card-hairline));
     box-shadow: 0 6px 18px hsl(var(--shadow-color) / 0.18);
@@ -580,7 +580,7 @@ html.bg-intense body::after {
   }
 
   .planner-textarea {
-    border-radius: 16px;
+    border-radius: var(--radius-xl);
     background-color: hsl(var(--input));
     color: hsl(var(--foreground));
     border: 1px solid hsl(var(--card-hairline));
@@ -753,13 +753,13 @@ html.bg-intense body::after {
   }
 
   .r-card-sm {
-    --radius-card: var(--radius-1);
+    --radius-card: var(--radius-md);
   }
   .r-card-md {
-    --radius-card: var(--radius-2);
+    --radius-card: var(--radius-lg);
   }
   .r-card-lg {
-    --radius-card: var(--radius-3);
+    --radius-card: var(--radius-xl);
   }
   .rounded-card {
     border-radius: var(--radius-card) !important;
@@ -1459,7 +1459,7 @@ textarea:-webkit-autofill {
 }
 .glitch-card {
   position: relative;
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
   border: 1px solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
   box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.05),
@@ -1585,8 +1585,10 @@ textarea:-webkit-autofill {
   --glow-strong: 260 85% 60% / .55;
   --glow-soft: 260 85% 60% / .25;
 
-  /* Radius token */
-  --radius: 16px;
+  /* Radius tokens */
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 }
 
 @layer components {
@@ -2163,7 +2165,7 @@ a:active .lucide {
 
 @layer components {
   .goal-card {
-    @apply relative overflow-hidden rounded-[14px] border border-[hsl(var(--border))];
+    @apply relative overflow-hidden rounded-xl border border-[hsl(var(--border))];
     background: linear-gradient(
       135deg,
       hsl(var(--surface-2)),
