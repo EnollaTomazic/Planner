@@ -7,11 +7,14 @@
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
-import Input from "@/components/ui/primitives/input";
+import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
+import IconButton from "@/components/ui/primitives/IconButton";
+import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
+import { LOCALE } from "@/lib/utils";
+import { Check as CheckIcon } from "lucide-react";
+import OutlineGlowDemo from "./OutlineGlowDemo";
+import SectionLabel from "@/components/reviews/SectionLabel";
 
 type Prompt = {
   id: string;
@@ -31,15 +34,20 @@ export default function PromptsPage() {
   // Search (now lives in the header)
   const [query, setQuery] = React.useState("");
 
-  // Derived: filtered list
-  const filtered = React.useMemo(() => {
+  const titleId = React.useId();
+
+  // Derived: filtered list (compute titles once per prompt)
+  type PromptWithTitle = Prompt & { title: string };
+  const filtered: PromptWithTitle[] = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return prompts.slice();
-    return prompts.filter((p) => {
-      const title = deriveTitle(p).toLowerCase();
-      const text = (p.text || "").toLowerCase();
-      return title.includes(q) || text.includes(q);
-    });
+    return prompts.reduce<PromptWithTitle[]>((acc, p) => {
+      const title = deriveTitle(p);
+      const text = p.text || "";
+      if (!q || title.toLowerCase().includes(q) || text.toLowerCase().includes(q)) {
+        acc.push({ ...p, title });
+      }
+      return acc;
+    }, []);
   }, [prompts, query]);
 
   function deriveTitle(p: Prompt) {
@@ -78,14 +86,14 @@ export default function PromptsPage() {
           {/* Right: search + save */}
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-48 sm:w-64 md:w-80">
-              <Input
-                placeholder="Search prompts…"
+              <SearchBar
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onValueChange={setQuery}
+                placeholder="Search prompts…"
               />
             </div>
             <Button
-              variant="ghost"
+              variant="primary"
               onClick={save}
               disabled={!titleDraft.trim() && !textDraft.trim()}
             >
@@ -96,13 +104,29 @@ export default function PromptsPage() {
       </SectionCard.Header>
 
       <SectionCard.Body>
+        <OutlineGlowDemo />
+          <SectionLabel>Section Label</SectionLabel>
+          <p className="text-sm text-muted-foreground">Divider used in reviews</p>
         {/* Compose panel */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <Input
+            id={titleId}
             placeholder="Title"
             value={titleDraft}
             onChange={(e) => setTitleDraft(e.target.value)}
-          />
+            aria-describedby={`${titleId}-help`}
+          >
+            <button
+              type="button"
+              aria-label="Confirm"
+              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-[hsl(var(--accent)/0.45)] bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent))] shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+            >
+              <CheckIcon className="size-4" />
+            </button>
+          </Input>
+          <p id={`${titleId}-help`} className="mt-1 text-xs text-muted-foreground">
+            Add a short title
+          </p>
           <Textarea
             placeholder="Write your prompt or snippet…"
             value={textDraft}
@@ -113,22 +137,107 @@ export default function PromptsPage() {
         {/* List */}
         <div className="mt-4 space-y-3">
           {filtered.map((p) => (
-            <article key={p.id} className="card-neo p-3">
+            <Card key={p.id} className="p-3">
               <header className="flex items-center justify-between">
-                <h3 className="font-semibold">{deriveTitle(p)}</h3>
+                <h3 className="font-semibold">{p.title}</h3>
                 <time className="text-xs text-muted-foreground">
-                  {new Date(p.createdAt).toLocaleString()}
+                  {new Date(p.createdAt).toLocaleString(LOCALE)}
                 </time>
               </header>
               {p.text ? (
                 <p className="mt-1 whitespace-pre-wrap text-sm">{p.text}</p>
               ) : null}
-            </article>
+            </Card>
           ))}
           {filtered.length === 0 && (
             <div className="text-muted-foreground">Nothing matches your search. Typical.</div>
           )}
         </div>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Input</h3>
+          <div className="space-y-3">
+            <Input placeholder="Default" />
+            <Input placeholder="Error" aria-invalid="true" />
+            <Input placeholder="With action">
+              <button
+                type="button"
+                aria-label="Confirm"
+                className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-[hsl(var(--accent)/0.45)] bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent))] shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+              >
+                <CheckIcon className="size-4" />
+              </button>
+            </Input>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Textarea</h3>
+          <div className="space-y-3">
+            <Textarea placeholder="Default" />
+            <Textarea placeholder="Pill" tone="pill" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">FieldShell</h3>
+          <p className="type-body">
+            Shared wrapper that provides consistent borders, background, and focus
+            states for inputs. <code>Input</code>, <code>Select</code>, and
+            <code>Textarea</code> all use this wrapper internally. Extend styles
+            with the <code>className</code> prop on each component; use
+            <code>inputClassName</code>, <code>selectClassName</code>, or
+            <code>textareaClassName</code> to target the inner element.
+          </p>
+          <FieldShell>
+            <div className="px-4 py-2 text-sm text-muted-foreground">
+              Custom content
+            </div>
+          </FieldShell>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Card</h3>
+          <div className="space-y-3">
+            <Card>Card content</Card>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">IconButton</h3>
+          <div className="space-x-3">
+            <IconButton aria-label="Scroll to top">
+              <ArrowUp />
+            </IconButton>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Design Tokens</h3>
+          <div>
+            <h4 className="type-subtitle">Colors</h4>
+            <div className="flex gap-2">
+              <div className="size-6 rounded bg-accent2" />
+              <div className="size-6 rounded bg-danger" />
+              <div className="size-6 rounded bg-success" />
+              <div className="size-6 rounded bg-glow" />
+            </div>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Spacing</h4>
+            <p className="type-body">8, 16, 24, 32, 40, 48, 64</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Durations</h4>
+            <p className="type-body">--dur-quick (140ms), --dur-chill (220ms), --dur-slow (420ms)</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Glow</h4>
+            <p className="type-body">--glow-strong, --glow-soft</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Radius</h4>
+            <p className="type-body">--radius</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Type Ramp</h4>
+            <p className="type-body">eyebrow, title, subtitle, body, caption</p>
+          </div>
+        </Card>
       </SectionCard.Body>
     </SectionCard>
   );

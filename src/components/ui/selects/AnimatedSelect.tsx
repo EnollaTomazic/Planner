@@ -61,6 +61,7 @@ export default function AnimatedSelect({
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const idBase = React.useId();
+  const labelId = `${idBase}-label`;
 
   // Positioning
   const [rect, setRect] = React.useState<DOMRect | null>(null);
@@ -224,7 +225,7 @@ export default function AnimatedSelect({
     "group glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
     "border border-[hsl(var(--ring)/.22)] data-[lit=true]:border-[hsl(var(--ring)/.38)] data-[open=true]:border-[hsl(var(--ring)/.38)]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+    "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
     "transition",
     buttonClassName,
   ].join(" ");
@@ -234,7 +235,12 @@ export default function AnimatedSelect({
   return (
     <div id={id} className={["glitch-wrap", className].join(" ")}>
       {label ? (
-        <div className={hideLabel ? "sr-only" : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"}>{label}</div>
+        <div
+          id={labelId}
+          className={hideLabel ? "sr-only" : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"}
+        >
+          {label}
+        </div>
       ) : null}
 
       <button
@@ -249,7 +255,8 @@ export default function AnimatedSelect({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${idBase}-listbox`}
-        aria-label={triggerAria}
+        aria-labelledby={label ? labelId : undefined}
+        aria-label={label ? undefined : triggerAria}
         className={triggerCls}
         data-lit={lit ? "true" : "false"}
         data-open={open ? "true" : "false"}
@@ -290,7 +297,8 @@ export default function AnimatedSelect({
                 role="listbox"
                 id={`${idBase}-listbox`}
                 tabIndex={-1}
-                aria-label={triggerAria}
+                aria-labelledby={label ? labelId : undefined}
+                aria-label={label ? undefined : triggerAria}
                 initial={{ opacity: 0, y: -4, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -4, scale: 0.98 }}
@@ -330,12 +338,12 @@ export default function AnimatedSelect({
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left outline-none transition",
+                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left transition",
                           disabledItem ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
                             : "hover:bg-white/5",
-                          "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]/60",
+                          "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}
                       >

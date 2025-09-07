@@ -1,0 +1,180 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReviewListItem > renders default state 1`] = `
+<div>
+  <button
+    aria-label="Open review: Sample Review"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-220 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
+    type="button"
+  >
+    <div
+      class="grid grid-cols-[20px_1fr_auto] gap-3"
+    >
+      <span
+        aria-hidden="true"
+        class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+      />
+      <div
+        class="min-w-0 flex flex-col gap-1"
+      >
+        <div
+          class="truncate font-medium text-base"
+        >
+          Sample Review
+        </div>
+        <div
+          class="flex items-center gap-1 text-sm text-muted-foreground"
+        >
+          <span
+            aria-label="Rating 9 out of 10"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+          >
+            9
+            /10
+          </span>
+          <span
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
+          >
+            W
+          </span>
+          <span
+            class="line-clamp-1 truncate"
+          >
+            Quick note
+          </span>
+        </div>
+      </div>
+      <span
+        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+      >
+        11/14/2023
+      </span>
+    </div>
+  </button>
+</div>
+`;
+
+exports[`ReviewListItem > renders loading state 1`] = `
+<div>
+  <div
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-220 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none animate-pulse"
+  >
+    <div
+      class="h-3 rounded bg-[hsl(var(--muted))] w-3/5 mb-3"
+    />
+    <div
+      class="h-3 rounded bg-[hsl(var(--muted))] w-2/5"
+    />
+  </div>
+</div>
+`;
+
+exports[`ReviewListItem > renders selected state 1`] = `
+<div>
+  <button
+    aria-label="Open review: Sample Review"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-220 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none ring-2 ring-[hsl(var(--accent))] shadow-[0_0_32px_0_hsl(var(--accent)/0.18)]"
+    data-selected="true"
+    type="button"
+  >
+    <div
+      class="grid grid-cols-[20px_1fr_auto] gap-3"
+    >
+      <span
+        aria-hidden="true"
+        class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+      />
+      <div
+        class="min-w-0 flex flex-col gap-1"
+      >
+        <div
+          class="truncate font-medium text-base"
+        >
+          Sample Review
+        </div>
+        <div
+          class="flex items-center gap-1 text-sm text-muted-foreground"
+        >
+          <span
+            aria-label="Rating 9 out of 10"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+          >
+            9
+            /10
+          </span>
+          <span
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
+          >
+            W
+          </span>
+          <span
+            class="line-clamp-1 truncate"
+          >
+            Quick note
+          </span>
+        </div>
+      </div>
+      <span
+        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+      >
+        11/14/2023
+      </span>
+    </div>
+  </button>
+</div>
+`;
+
+exports[`ReviewListItem > renders untitled state 1`] = `
+<div>
+  <button
+    aria-label="Open review: Untitled Review"
+    class="relative w-full text-left h-auto min-h-[76px] p-4 rounded-[16px] border shadow-[0_0_0_1px_hsl(var(--border)/0.12)] bg-[hsl(var(--card)/0.60)] scanlines noise jitter transition-all duration-220 hover:ring-1 hover:ring-[hsl(var(--accent))/0.18] hover:shadow-[0_0_24px_0_hsl(var(--accent)/0.10)] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] focus-visible:ring-[hsl(var(--accent))] disabled:opacity-60 disabled:pointer-events-none"
+    type="button"
+  >
+    <div
+      class="grid grid-cols-[20px_1fr_auto] gap-3"
+    >
+      <span
+        aria-hidden="true"
+        class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+      />
+      <div
+        class="min-w-0 flex flex-col gap-1"
+      >
+        <div
+          aria-label="Untitled Review"
+          class="truncate font-medium text-base text-muted-foreground/70"
+        >
+          Untitled Review
+        </div>
+        <div
+          class="flex items-center gap-1 text-sm text-muted-foreground"
+        >
+          <span
+            aria-label="Rating 9 out of 10"
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+          >
+            9
+            /10
+          </span>
+          <span
+            class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
+          >
+            W
+          </span>
+          <span
+            class="line-clamp-1 truncate"
+          >
+            Quick note
+          </span>
+        </div>
+      </div>
+      <span
+        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+      >
+        11/14/2023
+      </span>
+    </div>
+  </button>
+</div>
+`;

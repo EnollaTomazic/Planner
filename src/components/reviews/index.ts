@@ -4,3 +4,4 @@ export { default as ReviewEditor } from "./ReviewEditor";
 export { default as ReviewList } from "./ReviewList";
 export { default as ReviewSummary } from "./ReviewSummary";
 export { default as StatsStrip } from "./StatsStrip";
+export { default as ReviewPanel } from "./ReviewPanel";

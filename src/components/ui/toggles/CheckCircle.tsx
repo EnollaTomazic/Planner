@@ -29,7 +29,7 @@ const SIZE: Record<Size, string> = {
 
 export default function CheckCircle({
   checked,
-  onChange,
+  onChange = () => {},
   size = "md",
   className,
   disabled = false,
@@ -39,7 +39,7 @@ export default function CheckCircle({
   "aria-label": ariaLabel = "Toggle",
 }: {
   checked: boolean;
-  onChange: (next: boolean) => void;
+  onChange?: (next: boolean) => void;
   size?: Size;
   className?: string;
   disabled?: boolean;
@@ -65,6 +65,19 @@ export default function CheckCircle({
     const t = setTimeout(() => setJustCleared(false), 420);
     return () => clearTimeout(t);
   }, []);
+
+  // If our checked state flips off from an external source while hovered or
+  // focused, ensure we still run the "just cleared" power-down sequence so the
+  // neon rim doesn't remain lit.
+  const prevChecked = React.useRef(checked);
+  React.useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    if (prevChecked.current && !checked && !justCleared) {
+      cleanup = markJustCleared();
+    }
+    prevChecked.current = checked;
+    return cleanup;
+  }, [checked, markJustCleared, justCleared]);
 
   // Theme-driven tones
   const pink = "hsl(var(--success,316 92% 70%))";
@@ -116,12 +129,8 @@ export default function CheckCircle({
     }
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      if (checked) {
-        onChange(false);
-        markJustCleared();
-      } else {
-        onChange(true);
-      }
+      onChange(!checked);
+      if (checked) markJustCleared();
     }
   }
 
@@ -146,12 +155,8 @@ export default function CheckCircle({
               clearSelection();
               return;
             }
-            if (checked) {
-              onChange(false);
-              markJustCleared();
-            } else {
-              onChange(true);
-            }
+            onChange(!checked);
+            if (checked) markJustCleared();
           }}
           onKeyDown={onKey}
           onMouseEnter={() => setHovered(true)}
@@ -160,8 +165,8 @@ export default function CheckCircle({
           onBlur={() => setFocused(false)}
           onPointerDown={retriggerIgnite}
           className={cn(
-            "relative inline-grid place-items-center rounded-full outline-none transition",
-            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            "relative inline-grid place-items-center rounded-full transition",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
             "disabled:opacity-50 disabled:pointer-events-none",
             "h-full w-full"
           )}
@@ -252,7 +257,7 @@ export default function CheckCircle({
             viewBox="0 0 24 24"
             aria-hidden
             className={cn(
-              "relative z-[1] transition-all duration-200",
+              "relative z-[1] transition-all duration-220",
               lit
                 ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
                 : "text-muted-foreground/60 opacity-80"
@@ -285,7 +290,7 @@ export default function CheckCircle({
               "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
               "border border-[hsl(var(--card-hairline))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))]",
               "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
             )}
           >
             <svg viewBox="0 0 18 18" className="h-3.5 w-3.5" aria-hidden>

@@ -21,7 +21,16 @@ const config: Config = {
           soft: "hsl(var(--primary-soft))"
         },
         accent: { DEFAULT: "hsl(var(--accent))", soft: "hsl(var(--accent-soft))" },
-        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" }
+        accent2: "hsl(var(--accent-2))",
+        glow: "hsl(var(--glow))",
+        ringMuted: "hsl(var(--ring-muted))",
+        danger: "hsl(var(--danger))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          glow: "hsl(var(--success-glow))"
+        },
+        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+        lavDeep: "hsl(var(--lav-deep))"
       },
       borderRadius: { lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
@@ -30,9 +39,28 @@ const config: Config = {
       },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        snap: "cubic-bezier(0.22, 1, 0.36, 1)"
+        snap: "cubic-bezier(0.2, 0.8, 0.2, 1)"
       },
-      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" }
+      transitionDuration: { 140: "140ms", 220: "220ms", 420: "420ms" },
+      spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "24px",
+        6: "32px",
+        7: "48px",
+        8: "64px"
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" }
+        }
+      },
+      animation: {
+        shimmer: "shimmer 120ms linear"
+      }
     }
   },
   plugins: []

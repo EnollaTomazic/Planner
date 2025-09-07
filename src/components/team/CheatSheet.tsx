@@ -33,6 +33,7 @@ export type CheatSheetProps = {
   className?: string;
   dense?: boolean;
   data?: Archetype[];
+  query?: string;
 };
 
 /* ───────────── seeds ───────────── */
@@ -209,7 +210,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
-      className="w-full bg-transparent border-none outline-none text-lg sm:text-xl font-semibold glitch-title title-glow"
+      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-lg sm:text-xl font-semibold glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -231,7 +232,7 @@ function ParagraphEdit({
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
       rows={2}
-      className="mt-1 w-full resize-y bg-transparent border-none outline-none text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
+      className="mt-1 w-full resize-y bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
       aria-label="Description"
     />
   );
@@ -385,7 +386,7 @@ function ChampPillsEdit({
                 removeAt(i);
               }
             }}
-            className="bg-transparent outline-none border-none w-24"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
       ))}
@@ -399,9 +400,28 @@ export default function CheatSheet({
   className = "",
   dense = false,
   data = DEFAULT_SHEET,
+  query = "",
 }: CheatSheetProps) {
   const [sheet, setSheet] = useLocalDB<Archetype[]>("team:cheatsheet.v2", data);
   const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return sheet;
+    return sheet.filter((a) => {
+      const hay = [
+        a.title,
+        a.description,
+        ...(a.wins ?? []),
+        ...(a.struggles ?? []),
+        ...(a.tips ?? []),
+        ...Object.values(a.examples).flat(),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [sheet, query]);
 
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
@@ -415,7 +435,7 @@ export default function CheatSheet({
       data-scope="team"
       className={["grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3", className].join(" ")}
     >
-      {sheet.map((a) => {
+      {filtered.map((a) => {
         const isEditing = editingId === a.id;
 
         return (
@@ -428,7 +448,7 @@ export default function CheatSheet({
               {!isEditing ? (
                 <IconButton
                   title="Edit"
-                  circleSize="sm"
+                  size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
                   <Pencil />
@@ -436,7 +456,7 @@ export default function CheatSheet({
               ) : (
                 <IconButton
                   title="Save"
-                  circleSize="sm"
+                  size="sm"
                   onClick={() => setEditingId(null)}
                 >
                   <Check />

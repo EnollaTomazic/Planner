@@ -13,7 +13,6 @@ import "./style.css";
 import * as React from "react";
 import TodayHero from "./TodayHero";
 import DayCard from "./DayCard";
-import FocusPanel from "./FocusPanel";
 import WeekNotes from "./WeekNotes";
 import WeekPicker from "./WeekPicker";
 import { PlannerProvider, useFocusDate, useWeek, type ISODate } from "./usePlanner";
@@ -42,29 +41,18 @@ const DayRow = React.memo(
 );
 
 /* ───────── Scroll-to-top button ───────── */
-function BackToTopButton() {
+function ScrollTopFloatingButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
   const [visible, setVisible] = React.useState(false);
-  const [top, setTop] = React.useState(0);
 
   React.useEffect(() => {
-    const onScroll = () => {
-      if (typeof window === "undefined") return;
-      const scrollY = window.scrollY;
-      const doc = document.documentElement;
-      const maxScroll = doc.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-
-      const margin = 24; // px offset from viewport edges (Tailwind's 6)
-      const btnSize = 40; // approximate IconButton height (md)
-      const range = window.innerHeight - margin * 2 - btnSize;
-      setTop(margin + progress * range);
-
-      setVisible(scrollY > 200);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const target = watchRef.current;
+    if (!target) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => setVisible(!e.isIntersecting));
+    });
+    obs.observe(target);
+    return () => obs.disconnect();
+  }, [watchRef]);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
@@ -76,10 +64,9 @@ function BackToTopButton() {
 
   return (
     <IconButton
-      aria-label="Back to top"
+      aria-label="Scroll to top"
       onClick={scrollTop}
-      className="fixed right-6 z-50"
-      style={{ top }}
+      className="fixed bottom-20 right-2 z-50"
     >
       <ArrowUp />
     </IconButton>
@@ -98,6 +85,8 @@ function Inner() {
     [days, today]
   );
 
+  const heroRef = React.useRef<HTMLDivElement>(null);
+
   return (
     <>
       <main className="page-shell py-6 space-y-6" aria-labelledby="planner-week-heading">
@@ -112,13 +101,12 @@ function Inner() {
         aria-label="Today and weekly panels"
         className="grid grid-cols-1 gap-6 lg:grid-cols-12"
       >
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-8" ref={heroRef}>
           <TodayHero iso={iso} />
         </div>
 
         {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          <FocusPanel iso={iso} />
           <WeekNotes iso={iso} />
         </aside>
       </section>
@@ -130,7 +118,7 @@ function Inner() {
         ))}
       </section>
       </main>
-      <BackToTopButton />
+      <ScrollTopFloatingButton watchRef={heroRef} />
     </>
   );
 }
