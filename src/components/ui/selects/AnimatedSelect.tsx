@@ -225,7 +225,7 @@ export default function AnimatedSelect({
     "group glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
     "border border-[hsl(var(--ring)/.22)] data-[lit=true]:border-[hsl(var(--ring)/.38)] data-[open=true]:border-[hsl(var(--ring)/.38)]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+    "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
     "transition",
     buttonClassName,
   ].join(" ");
@@ -343,7 +343,7 @@ export default function AnimatedSelect({
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
                             : "hover:bg-white/5",
-                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring)/0.6)]",
+                          "focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}
                       >
