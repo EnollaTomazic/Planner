@@ -66,7 +66,7 @@ function ScrollTopFloatingButton({ watchRef }: { watchRef: React.RefObject<HTMLE
     <IconButton
       aria-label="Scroll to top"
       onClick={scrollTop}
-      className="fixed top-1/2 -translate-y-1/2 right-2 z-50"
+      className="fixed bottom-20 right-2 z-50"
     >
       <ArrowUp />
     </IconButton>

@@ -25,13 +25,11 @@
 
 /* ============ Row action buttons ============ */
 .daycard :where(.iconbtn) {
-  width: 32px;
-  height: 32px;
-  border-radius: 9999px;
-  opacity: 0;
-  transition: opacity .15s var(--ease-out);
+  @apply size-8 rounded-full opacity-0 transition-opacity duration-150 ease-out;
 }
-.daycard :where(.iconbtn > svg) { width: 14px; height: 14px; }
+.daycard :where(.iconbtn > svg) {
+  @apply size-3.5;
+}
 
 /* Reveal actions on hover or focus-within for a11y */
 .daycard .group:hover .iconbtn,
