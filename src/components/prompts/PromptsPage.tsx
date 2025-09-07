@@ -221,6 +221,10 @@ export default function PromptsPage() {
             <p className="type-body">--radius</p>
           </div>
           <div>
+            <h4 className="type-subtitle">Surfaces</h4>
+            <p className="type-body">--accent-foreground, --surface, --surface-2</p>
+          </div>
+          <div>
             <h4 className="type-subtitle">Type Ramp</h4>
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
           </div>

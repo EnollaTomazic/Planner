@@ -16,6 +16,9 @@
   --accent: 292 80% 60%;
   --accent-2: 192 90% 50%;
   --accent-soft: 292 80% 20%;
+  --accent-foreground: 248 30% 10%;
+  --surface: 248 26% 12%;
+  --surface-2: 248 26% 18%;
   --glow: 292 80% 60%;
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
@@ -28,7 +31,7 @@
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
   --glow-active: hsl(var(--glow));
-  --text-on-accent: hsl(var(--foreground));
+  --text-on-accent: hsl(var(--accent-foreground));
 
   /* Default button tones */
   --neon: var(--glow);
@@ -84,7 +87,7 @@
 /* Upgrade contrast token when color-contrast is supported */
 @supports (color: color-contrast(white vs black)) {
   :root {
-    --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
+    --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--accent-foreground)), hsl(var(--foreground)));
   }
 }
 
@@ -107,6 +110,9 @@ html.light {
   --accent: 292 80% 45%;
   --accent-2: 200 100% 50%;
   --accent-soft: 292 80% 94%;
+  --accent-foreground: 0 0% 100%;
+  --surface: 240 6% 96%;
+  --surface-2: 240 6% 92%;
   --glow: 292 80% 45%;
   --ring-muted: 240 9% 90%;
   --danger: 0 84% 55%;
@@ -132,6 +138,9 @@ html.theme-glitch2 {
   --accent: 286 65% 70%;
   --accent-2: 200 70% 60%;
   --accent-soft: 286 60% 24%;
+  --accent-foreground: 254 30% 12%;
+  --surface: 254 26% 14%;
+  --surface-2: 254 26% 20%;
   --muted: 252 26% 16%;
   --muted-foreground: 252 14% 75%;
   --shadow-color: 268 70% 66%;
@@ -170,6 +179,9 @@ html.theme-citrus {
   --accent: 188 75% 55%;
   --accent-2: 165 70% 45%;
   --accent-soft: 188 60% 22%;
+  --accent-foreground: 28 30% 14%;
+  --surface: 28 26% 16%;
+  --surface-2: 28 26% 22%;
   --muted: 28 22% 18%;
   --muted-foreground: 28 14% 70%;
   --shadow-color: 33 92% 58%;
@@ -192,6 +204,9 @@ html.theme-noir {
   --accent: 260 60% 60%;
   --accent-2: 320 60% 55%;
   --accent-soft: 260 30% 30%;
+  --accent-foreground: 0 0% 10%;
+  --surface: 0 0% 12%;
+  --surface-2: 0 0% 18%;
   --muted: 0 0% 18%;
   --muted-foreground: 0 0% 60%;
   --shadow-color: 0 0% 100%;
@@ -214,6 +229,9 @@ html.theme-ocean {
   --accent: 190 90% 55%;
   --accent-2: 225 85% 60%;
   --accent-soft: 190 80% 20%;
+  --accent-foreground: 220 35% 12%;
+  --surface: 220 30% 14%;
+  --surface-2: 220 30% 20%;
   --muted: 220 24% 16%;
   --muted-foreground: 220 14% 72%;
   --shadow-color: 200 90% 55%;
@@ -236,6 +254,9 @@ html.theme-rose {
   --accent: 280 70% 60%;
   --accent-2: 200 80% 58%;
   --accent-soft: 280 60% 22%;
+  --accent-foreground: 330 24% 14%;
+  --surface: 330 20% 16%;
+  --surface-2: 330 20% 22%;
   --muted: 330 18% 18%;
   --muted-foreground: 330 12% 72%;
   --shadow-color: 325 80% 62%;
