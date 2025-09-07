@@ -1,0 +1,28 @@
+import React from 'react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
+import { describe, it, expect, afterEach } from 'vitest';
+import AnimatedSelect from '../../src/components/ui/selects/AnimatedSelect';
+
+afterEach(cleanup);
+
+describe('AnimatedSelect', () => {
+  it('associates label and trigger via aria-labelledby', () => {
+    const items = [
+      { value: 'apple', label: 'Apple' },
+      { value: 'orange', label: 'Orange' },
+    ];
+    const { getByText, getByRole } = render(
+      <AnimatedSelect label="Fruit" items={items} />
+    );
+
+    const labelEl = getByText('Fruit');
+    const button = getByRole('button', { name: 'Fruit' });
+
+    expect(labelEl.id).toBeTruthy();
+    expect(button).toHaveAttribute('aria-labelledby', labelEl.id);
+
+    fireEvent.click(button);
+    const listbox = getByRole('listbox');
+    expect(listbox).toHaveAttribute('aria-labelledby', labelEl.id);
+  });
+});
