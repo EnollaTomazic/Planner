@@ -78,7 +78,7 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
+        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-220 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
         style={{
           width: "calc(50% - 4px)",
           transform: `translateX(${isRight ? "calc(100% + 2px)" : "0"})`,

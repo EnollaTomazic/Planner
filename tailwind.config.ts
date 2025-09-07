@@ -39,9 +39,9 @@ const config: Config = {
       },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        snap: "cubic-bezier(0.22, 1, 0.36, 1)"
+        snap: "cubic-bezier(0.2, 0.8, 0.2, 1)"
       },
-      transitionDuration: { 150: "150ms", 200: "200ms", 220: "220ms" },
+      transitionDuration: { 140: "140ms", 220: "220ms", 420: "420ms" },
       spacing: {
         1: "4px",
         2: "8px",
