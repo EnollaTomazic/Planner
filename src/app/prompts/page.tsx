@@ -180,6 +180,19 @@ export default function Page() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Hardstuck Background</span>
+            <div
+              className="w-56 h-24 rounded-md flex items-center justify-center"
+              style={{
+                backgroundColor: "hsl(165 60% 3%)",
+                color: "hsl(160 12% 95%)",
+                border: "1px solid hsl(165 40% 22%)",
+              }}
+            >
+              Hardstuck
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Hero</span>
             <div className="w-56">
               <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
