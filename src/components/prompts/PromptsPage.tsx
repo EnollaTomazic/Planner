@@ -245,6 +245,14 @@ export default function PromptsPage() {
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
           </div>
         </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Motion</h3>
+          <div className="flex gap-2">
+            <button className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60">
+              Slow fade
+            </button>
+          </div>
+        </Card>
       </SectionCard.Body>
     </SectionCard>
   );
