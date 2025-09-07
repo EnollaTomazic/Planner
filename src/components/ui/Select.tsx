@@ -45,7 +45,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
         className={cn(
           "group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]",
           success &&
-            "border-[hsl(var(--success)/0.45)] focus-within:ring-[hsl(var(--success)/0.28)]",
+            "border-[--theme-ring] focus-within:ring-[--theme-ring]",
           disabled && "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
           className
         )}

@@ -6,6 +6,7 @@ import {
   IconButton,
   Input,
   Textarea,
+  Select,
   Badge,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
@@ -169,6 +170,24 @@ export default function Page() {
                 </Input>
               </div>
             </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Select</span>
+            <div className="w-56 space-y-2">
+              <Select defaultValue="">
+                <option value="" disabled>
+                  Choose…
+                </option>
+                <option value="a">A</option>
+                <option value="b">B</option>
+              </Select>
+              <Select success defaultValue="">
+                <option value="" disabled>
+                  Choose…
+                </option>
+                <option value="a">A</option>
+              </Select>
+            </div>
+          </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Textarea</span>
             <div className="w-56 space-y-2">
