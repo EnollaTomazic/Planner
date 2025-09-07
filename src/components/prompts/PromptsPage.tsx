@@ -207,6 +207,15 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Shadows</h3>
+          <div className="flex flex-wrap gap-4">
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-strong" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-inset" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-ring" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Task Tile Text</h3>
           <div className="space-y-2">
             <button type="button" className="task-tile__text">
