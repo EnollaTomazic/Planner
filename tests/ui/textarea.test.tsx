@@ -2,6 +2,7 @@ import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
 import Textarea from '../../src/components/ui/primitives/Textarea';
+import { slugify } from '../../src/lib/utils';
 
 afterEach(cleanup);
 
@@ -60,5 +61,11 @@ describe('Textarea', () => {
     const style = getComputedStyle(ta);
     expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
     expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
+
+  it('slugifies generated id for default name', () => {
+    const { getByRole } = render(<Textarea />);
+    const ta = getByRole('textbox') as HTMLTextAreaElement;
+    expect(ta.name).toBe(slugify(ta.id));
   });
 });

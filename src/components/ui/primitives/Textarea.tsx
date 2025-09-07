@@ -35,7 +35,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
   // Use React-generated id by default so multiple fields sharing an aria-label
   // do not end up with duplicate ids.
   const finalId = id || auto;
-  const finalName = name || fromAria || finalId;
+  const finalName = name || fromAria || slugify(finalId);
 
   const error =
     props["aria-invalid"] === true || props["aria-invalid"] === "true";
