@@ -13,7 +13,7 @@ export type InputProps = Omit<
 > & {
   /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
   tone?: "default" | "pill";
-  /** Visual size of the control (defaults to small) */
+  /** Visual size of the control (defaults to medium) */
   size?: InputSize | number;
   /** When true, increases left padding for icons */
   indent?: boolean;
@@ -24,9 +24,9 @@ export type InputProps = Omit<
 };
 
 const SIZE: Record<InputSize, string> = {
-  sm: "h-5",
-  md: "h-6",
-  lg: "h-7",
+  sm: "2.25rem", // h-9
+  md: "2.5rem", // h-10
+  lg: "2.75rem", // h-11
 };
 
 /**
@@ -44,7 +44,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     name,
     "aria-label": ariaLabel,
     tone = "default",
-    size = "sm",
+    size = "md",
     indent = false,
     children,
     hasEndSlot = false,
@@ -63,13 +63,15 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
+  const controlHeight = typeof size === "string" ? SIZE[size] : SIZE.md;
+
   return (
     <FieldShell
       tone={tone}
       error={error}
       disabled={disabled}
       className={className}
-      style={style}
+      style={{ "--control-h": controlHeight, ...style } as React.CSSProperties}
     >
       <input
         ref={ref}
@@ -77,8 +79,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         name={finalName}
         size={typeof size === "number" ? size : undefined}
         className={cn(
-          "w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none",
-          typeof size === "string" ? SIZE[size] : SIZE.sm,
+          "w-full bg-transparent px-4 text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]",
           indent && "pl-7",
           showEndSlot && "pr-7",
           inputClassName

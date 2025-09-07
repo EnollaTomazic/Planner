@@ -159,10 +159,15 @@ export default function PromptsPage() {
             Customize focus rings with the <code>--theme-ring</code> variable.
           </p>
           <div className="space-y-3">
-            <Input placeholder="Default" />
+            <Input size="sm" placeholder="Small" />
+            <Input placeholder="Medium" />
+            <Input size="lg" placeholder="Large" />
             <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
-            <Input placeholder="Custom ring" style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties} />
+            <Input
+              placeholder="Custom ring"
+              style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties}
+            />
             <Input placeholder="With action">
               <button
                 type="button"
