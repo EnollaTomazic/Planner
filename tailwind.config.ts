@@ -30,7 +30,9 @@ const config: Config = {
           glow: "hsl(var(--success-glow))"
         },
         muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
-        lavDeep: "hsl(var(--lav-deep))"
+        lavDeep: "hsl(var(--lav-deep))",
+        surfaceVhs: "hsl(var(--surface-vhs))",
+        surfaceStreak: "hsl(var(--surface-streak))"
       },
       borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
