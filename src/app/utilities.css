@@ -1,5 +1,7 @@
 /* Global utility classes */
 
+@tailwind utilities;
+
 :root {
   --shell-max: 1120px;
 }
