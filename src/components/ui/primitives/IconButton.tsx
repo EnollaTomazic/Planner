@@ -34,9 +34,9 @@ const sizeMap: Record<ButtonSize, string> = {
 };
 
 const variantBase: Record<Variant, string> = {
-  ring: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
-  solid: "",
-  glow: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+  ring: "border bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+  solid: "border",
+  glow: "border bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
