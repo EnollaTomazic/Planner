@@ -87,9 +87,14 @@ export default function ComponentGallery() {
           <Button className="w-56">Click me</Button>
         </Item>
         <Item label="IconButton">
-          <IconButton className="w-12 h-12">
-            <SearchIcon />
-          </IconButton>
+          <div className="flex gap-2">
+            <IconButton variant="ring" className="w-12 h-12">
+              <SearchIcon />
+            </IconButton>
+            <IconButton variant="glow" className="w-12 h-12">
+              <SearchIcon />
+            </IconButton>
+          </div>
         </Item>
         <Item label="Input">
           <Input placeholder="Type here" className="w-56" />
