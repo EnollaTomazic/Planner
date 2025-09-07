@@ -1,44 +1,15 @@
 // src/lib/utils.ts
 // Tiny helpers. Keep dependencies minimal and SSR-safe.
 
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 // Default locale for consistent date/time formatting.
 export const LOCALE = "en-US";
 
-export type ClassValue =
-  | string
-  | number
-  | null
-  | undefined
-  | false
-  | ClassValue[]
-  | Record<string, unknown>;
-
-/** clsx/tw-merge–style combiner with no deps. */
+/** Combine class names using clsx and tailwind-merge. */
 export function cn(...inputs: ClassValue[]): string {
-  const out: string[] = [];
-  const walk = (v: ClassValue): void => {
-    if (!v) return;
-    if (typeof v === "string" || typeof v === "number") {
-      const s = String(v).trim();
-      if (s) out.push(s);
-      return;
-    }
-    if (Array.isArray(v)) {
-      for (const x of v) walk(x);
-      return;
-    }
-    if (v && typeof v === "object" && !Array.isArray(v)) {
-      const dict = v as Record<string, unknown>;
-      // Only iterate over an object's own enumerable properties to avoid
-      // leaking prototype keys into the class list.
-      for (const [k, val] of Object.entries(dict)) {
-        if (val) out.push(k);
-      }
-      return;
-    }
-  };
-  for (const i of inputs) walk(i);
-  return out.join(" ");
+  return twMerge(clsx(inputs));
 }
 
 /** Capitalize first letter (not Unicode-smart on purpose). */

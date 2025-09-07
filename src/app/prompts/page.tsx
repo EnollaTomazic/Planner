@@ -23,6 +23,7 @@ import {
 import BadgePrimitive from "@/components/ui/primitives/Badge";
 import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
+import { cn } from "@/lib/utils";
 
 export default function Page() {
   const viewTabs = [
@@ -280,6 +281,17 @@ export default function Page() {
             <div className="w-56 flex justify-center gap-2">
               <BadgePrimitive size="xs">XS</BadgePrimitive>
               <BadgePrimitive size="sm">SM</BadgePrimitive>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Class Merge</span>
+            <div
+              className={cn(
+                "w-56 h-8 flex items-center justify-center text-white bg-red-500",
+                "bg-blue-500"
+              )}
+            >
+              Blue wins
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
