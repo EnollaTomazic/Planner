@@ -26,9 +26,9 @@ import CheatSheetTabs from "./CheatSheetTabs";
 type Tab = "cheat" | "builder" | "clears";
 
 const TABS = [
-  { key: "cheat", label: "Cheat Sheet", hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-1 h-4 w-4" /> },
-  { key: "builder", label: "Builder", hint: "Fill allies vs enemies", icon: <Hammer className="mr-1 h-4 w-4" /> },
-  { key: "clears", label: "Jungle Clears", hint: "Relative buckets by speed", icon: <Timer className="mr-1 h-4 w-4" /> },
+  { key: "cheat", label: "Cheat Sheet", hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-2 h-4 w-4" /> },
+  { key: "builder", label: "Builder", hint: "Fill allies vs enemies", icon: <Hammer className="mr-2 h-4 w-4" /> },
+  { key: "clears", label: "Jungle Clears", hint: "Relative buckets by speed", icon: <Timer className="mr-2 h-4 w-4" /> },
 ] as const;
 
 export default function TeamCompPage() {
