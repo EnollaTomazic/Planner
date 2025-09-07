@@ -14,30 +14,61 @@ import {
   Progress,
   Spinner,
   ThemeToggle,
+  AnimationToggle,
   SectionCard,
   TitleBar,
   Hero,
   SearchBar,
   Snackbar,
+  Card,
+  CheckCircle,
+  NeonIcon,
+  Toggle,
+  SideSelector,
+  PillarBadge,
+  PillarSelector,
+  AnimatedSelect,
+  FieldShell,
+  Label,
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
-import { Plus, Sun } from "lucide-react";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
-import { cn } from "@/lib/utils";
 import PromptsHeader from "@/components/prompts/PromptsHeader";
 import PromptsComposePanel from "@/components/prompts/PromptsComposePanel";
 import PromptsDemos from "@/components/prompts/PromptsDemos";
+import ReviewPanel from "@/components/reviews/ReviewPanel";
+import ReviewListItem from "@/components/reviews/ReviewListItem";
+import type { Pillar, Review } from "@/lib/types";
+import type { GameSide } from "@/components/ui/league/SideSelector";
+import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+/**
+ * Prompt component gallery.
+ * Add new component demos to the `componentItems` array below.
+ * This page is the single gallery for components and styles.
+ */
+function Item({
+  label,
+  children,
+  className,
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex flex-col items-center space-y-2", className)}>
+      <span className="text-sm font-medium">{label}</span>
+      {children}
+    </div>
+  );
+}
 
 export default function Page() {
   const viewTabs = [
     { key: "components", label: "Components" },
     { key: "colors", label: "Colors" },
-  ];
-
-  const demoTabs = [
-    { key: "one", label: "One" },
-    { key: "two", label: "Two" },
-    { key: "three", label: "Three" },
   ];
 
   const colorList = [
@@ -72,12 +103,491 @@ export default function Page() {
 
   const [view, setView] = React.useState("components");
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
+  const [query, setQuery] = React.useState("");
+  const [seg, setSeg] = React.useState("one");
+  const [checked, setChecked] = React.useState(false);
+  const [toggleSide, setToggleSide] = React.useState<"Left" | "Right">("Left");
+  const [side, setSide] = React.useState<GameSide>("Blue");
+  const [pillars, setPillars] = React.useState<Pillar[]>([]);
+  const [selectValue, setSelectValue] = React.useState<string | undefined>();
+
+  const tabs = [
+    { key: "one", label: "One" },
+    { key: "two", label: "Two" },
+    { key: "three", label: "Three" },
+  ];
+
+  const selectItems = [
+    { value: "apple", label: "Apple" },
+    { value: "orange", label: "Orange" },
+    { value: "pear", label: "Pear" },
+  ];
+
+  const demoReview: Review = {
+    id: "demo",
+    title: "Demo Review",
+    notes: "Quick note",
+    tags: [],
+    pillars: [],
+    createdAt: Date.now(),
+    score: 8,
+    result: "Win",
+  };
+
+  const componentItems = [
+    { label: "Button", element: <Button className="w-56">Click me</Button> },
+    {
+      label: "IconButton",
+      element: (
+        <div className="flex gap-2">
+          <IconButton variant="ring" size="md" aria-label="Search" title="Search">
+            <SearchIcon />
+          </IconButton>
+          <IconButton variant="glow" size="md" aria-label="Search" title="Search">
+            <SearchIcon />
+          </IconButton>
+        </div>
+      ),
+    },
+    { label: "Input", element: <Input placeholder="Type here" className="w-56" /> },
+    { label: "Textarea", element: <Textarea placeholder="Write here" className="w-56" /> },
+    {
+      label: "FieldShell",
+      element: (
+        <FieldShell className="w-56">
+          <div className="px-4 py-2 text-sm text-muted-foreground">Custom content</div>
+        </FieldShell>
+      ),
+    },
+    {
+      label: "Label",
+      element: (
+        <div className="w-56">
+          <Label htmlFor="label-demo">Label</Label>
+          <Input id="label-demo" placeholder="With spacing" />
+        </div>
+      ),
+    },
+    { label: "Badge", element: <Badge>Badge</Badge> },
+    { label: "Badge Pill", element: <Badge variant="pill">Pill</Badge> },
+    {
+      label: "Accent Overlay Box",
+      element: (
+        <div className="w-56 h-6 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[hsl(var(--accent-foreground))]">
+          Overlay
+        </div>
+      ),
+    },
+    {
+      label: "Surface",
+      element: (
+        <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
+          Surface
+        </div>
+      ),
+    },
+    {
+      label: "Surface 2",
+      element: (
+        <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface-2))]">
+          Surface 2
+        </div>
+      ),
+    },
+    { label: "SearchBar", element: <SearchBar value={query} onValueChange={setQuery} className="w-56" /> },
+    {
+      label: "Segmented",
+      element: (
+        <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
+          <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
+          <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
+          <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
+        </GlitchSegmentedGroup>
+      ),
+    },
+    {
+      label: "Progress",
+      element: (
+        <div className="w-56">
+          <Progress value={50} />
+        </div>
+      ),
+    },
+    {
+      label: "Spinner",
+      element: (
+        <div className="w-56 flex justify-center">
+          <Spinner />
+        </div>
+      ),
+    },
+    {
+      label: "ThemeToggle",
+      element: (
+        <div className="w-56 flex justify-center">
+          <ThemeToggle />
+        </div>
+      ),
+    },
+    {
+      label: "AnimationToggle",
+      element: (
+        <div className="w-56 flex justify-center">
+          <AnimationToggle />
+        </div>
+      ),
+    },
+    {
+      label: "CheckCircle",
+      element: (
+        <div className="w-56 flex justify-center">
+          <CheckCircle checked={checked} onChange={setChecked} />
+        </div>
+      ),
+    },
+    {
+      label: "NeonIcon",
+      element: (
+        <div className="w-56 flex justify-center">
+          <NeonIcon icon={Star} on={true} />
+        </div>
+      ),
+    },
+    { label: "Toggle", element: <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" /> },
+    {
+      label: "Card",
+      element: (
+        <Card className="w-56 h-8 flex items-center justify-center">Card content</Card>
+      ),
+    },
+    {
+      label: "TitleBar",
+      element: (
+        <div className="w-56">
+          <TitleBar label="Navigation" />
+        </div>
+      ),
+    },
+    { label: "Tabs", element: <TabBar items={tabs} className="w-56" /> },
+    { label: "SideSelector", element: <SideSelector value={side} onChange={setSide} className="w-56" /> },
+    { label: "PillarBadge", element: <PillarBadge pillar="Wave" /> },
+    {
+      label: "PillarSelector",
+      element: (
+        <div className="w-56">
+          <PillarSelector value={pillars} onChange={setPillars} />
+        </div>
+      ),
+    },
+    {
+      label: "AnimatedSelect",
+      element: (
+        <AnimatedSelect
+          items={selectItems}
+          value={selectValue}
+          onChange={setSelectValue}
+          className="w-56"
+          hideLabel
+        />
+      ),
+    },
+    {
+      label: "ReviewListItem",
+      element: (
+        <div className="w-56">
+          <ReviewListItem review={demoReview} />
+        </div>
+      ),
+    },
+    {
+      label: "ReviewListItem Loading",
+      element: (
+        <div className="w-56">
+          <ReviewListItem loading />
+        </div>
+      ),
+    },
+    {
+      label: "ReviewPanel",
+      element: <ReviewPanel>Content</ReviewPanel>,
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "Review Layout",
+      element: (
+        <div className="grid w-full gap-4 md:grid-cols-12">
+          <div className="md:col-span-4 md:w-[240px] bg-secondary h-10 rounded" />
+          <div className="md:col-span-8 bg-muted h-10 rounded" />
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "Select",
+      element: (
+        <Select aria-label="Fruit" defaultValue="" className="w-56">
+          <option value="" disabled hidden>
+            Choose…
+          </option>
+          <option value="apple">Apple</option>
+          <option value="orange">Orange</option>
+          <option value="pear">Pear</option>
+        </Select>
+      ),
+    },
+    {
+      label: "Goals Tabs",
+      element: (
+        <div className="w-56">
+          <GoalsTabs value={goalFilter} onChange={setGoalFilter} />
+        </div>
+      ),
+    },
+    {
+      label: "Snackbar",
+      element: (
+        <div className="w-56 flex justify-center">
+          <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
+        </div>
+      ),
+    },
+    { label: "Title Ghost", element: <h2 className="title-ghost">Ghost Title</h2> },
+    { label: "Title Glow", element: <h2 className="title-glow">Glowing Title</h2> },
+    {
+      label: "Glitch Text",
+      element: <div className="glitch text-lg font-semibold">Glitch</div>,
+    },
+    {
+      label: "Aurora Background",
+      element: (
+        <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
+          Backdrop
+        </div>
+      ),
+    },
+    {
+      label: "Noir Background",
+      element: (
+        <div
+          className="w-56 h-24 rounded-md flex items-center justify-center"
+          style={{
+            backgroundColor: "hsl(350 70% 4%)",
+            color: "hsl(0 0% 92%)",
+            border: "1px solid hsl(350 40% 22%)",
+          }}
+        >
+          Noir
+        </div>
+      ),
+    },
+    {
+      label: "Hardstuck Background",
+      element: (
+        <div
+          className="w-56 h-24 rounded-md flex items-center justify-center"
+          style={{
+            backgroundColor: "hsl(165 60% 3%)",
+            color: "hsl(160 12% 95%)",
+            border: "1px solid hsl(165 40% 22%)",
+          }}
+        >
+          Hardstuck
+        </div>
+      ),
+    },
+    {
+      label: "Hero",
+      element: (
+        <div className="w-56">
+          <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+        </div>
+      ),
+    },
+    {
+      label: "Card Neo",
+      element: <div className="card-neo w-56 h-8 flex items-center justify-center">Card Neo</div>,
+    },
+    {
+      label: "Icon Button",
+      element: (
+        <div className="w-56 flex justify-center gap-2">
+          <IconButton aria-label="Add" title="Add">
+            <Plus />
+          </IconButton>
+          <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
+            <Sun />
+          </IconButton>
+        </div>
+      ),
+    },
+    {
+      label: "Input Variants",
+      element: (
+        <div className="w-56 space-y-2">
+          <Input height="sm" placeholder="Small" />
+          <Input placeholder="Medium" />
+          <Input height="lg" placeholder="Large" />
+          <Input height={12} placeholder="h-12" />
+          <Input tone="pill" placeholder="Pill" />
+          <Input placeholder="With icon" hasEndSlot>
+            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          </Input>
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3",
+    },
+    {
+      label: "Select Variants",
+      element: (
+        <div className="w-56 space-y-2">
+          <Select defaultValue="">
+            <option value="" disabled hidden>
+              Choose…
+            </option>
+            <option value="a">A</option>
+            <option value="b">B</option>
+          </Select>
+          <Select success defaultValue="">
+            <option value="" disabled hidden>
+              Choose…
+            </option>
+            <option value="a">A</option>
+          </Select>
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3",
+    },
+    {
+      label: "Textarea Variants",
+      element: (
+        <div className="w-56 space-y-2">
+          <Textarea placeholder="Default" />
+          <Textarea tone="pill" placeholder="Pill" />
+        </div>
+      ),
+    },
+    {
+      label: "Save Status",
+      element: (
+        <div className="w-56">
+          <div className="text-xs text-muted-foreground" aria-live="polite">
+            All changes saved
+          </div>
+        </div>
+      ),
+    },
+    {
+      label: "Muted Text",
+      element: (
+        <p className="w-56 text-sm text-muted-foreground text-center">
+          Example of muted foreground text
+        </p>
+      ),
+    },
+    {
+      label: "Badge Variants",
+      element: (
+        <div className="w-56 flex justify-center gap-2">
+          <Badge>Neutral</Badge>
+          <Badge variant="accent">Accent</Badge>
+          <Badge variant="pill">Pill</Badge>
+        </div>
+      ),
+    },
+    {
+      label: "Badge Primitive",
+      element: (
+        <div className="w-56 flex justify-center gap-2">
+          <BadgePrimitive size="xs">XS</BadgePrimitive>
+          <BadgePrimitive size="sm">SM</BadgePrimitive>
+        </div>
+      ),
+    },
+    {
+      label: "Class Merge",
+      element: (
+        <div
+          className={cn(
+            "w-56 h-8 flex items-center justify-center text-white bg-red-500",
+            "bg-blue-500"
+          )}
+        >
+          Blue wins
+        </div>
+      ),
+    },
+    {
+      label: "Grid Auto Rows",
+      element: (
+        <div className="w-56 grid grid-cols-2 gap-2 [grid-auto-rows:minmax(0,1fr)]">
+          <div className="card-neo p-2">A</div>
+          <div className="card-neo p-4">B with more content</div>
+          <div className="card-neo p-4">C</div>
+          <div className="card-neo p-2">D</div>
+        </div>
+      ),
+    },
+    {
+      label: "Widths",
+      element: (
+        <div className="flex gap-2">
+          <div className="h-10 w-72 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+            w-72
+          </div>
+          <div className="h-10 w-80 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+            w-80
+          </div>
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3",
+    },
+    {
+      label: "Prompts Header",
+      element: (
+        <SectionCard className="w-full">
+          <SectionCard.Header>
+            <PromptsHeader
+              count={0}
+              query=""
+              onQueryChange={() => {}}
+              onSave={() => {}}
+              disabled
+            />
+          </SectionCard.Header>
+          <SectionCard.Body />
+        </SectionCard>
+      ),
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "Prompts Compose",
+      element: (
+        <div className="w-full max-w-md">
+          <PromptsComposePanel
+            title=""
+            onTitleChange={() => {}}
+            text=""
+            onTextChange={() => {}}
+          />
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "Prompts Demos",
+      element: (
+        <div className="w-full">
+          <PromptsDemos />
+        </div>
+      ),
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+  ];
 
   return (
     <main className="page-shell py-6 bg-background text-foreground">
       <p className="mb-4 text-sm text-muted-foreground">
-        Global styles are now modularized into <code>animations.css</code>,
-        <code>overlays.css</code>, and <code>utilities.css</code>.
+        Global styles are now modularized into <code>animations.css</code>,<code>overlays.css</code>, and <code>utilities.css</code>.
       </p>
       <p className="mb-4 text-sm text-muted-foreground">
         Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
@@ -90,272 +600,11 @@ export default function Page() {
       </div>
       {view === "components" ? (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Button Variants</span>
-            <div className="w-56 flex justify-center gap-2">
-              <Button>Secondary</Button>
-              <Button variant="primary">Primary</Button>
-              <Button variant="ghost">Ghost</Button>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Button Sizes</span>
-            <div className="w-56 flex justify-center gap-2">
-              <Button size="sm">SM</Button>
-              <Button size="md">MD</Button>
-              <Button size="lg">LG</Button>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Card</span>
-            <SectionCard className="w-56 h-8 flex items-center justify-center">
-              Card content
-            </SectionCard>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Navbar</span>
-            <div className="w-56">
-              <TitleBar label="Navigation" />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Tabs</span>
-            <TabBar items={demoTabs} className="w-56" />
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Goals Tabs</span>
-            <div className="w-56">
-              <GoalsTabs value={goalFilter} onChange={setGoalFilter} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Progress</span>
-            <div className="w-56">
-              <Progress value={50} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Spinner</span>
-            <div className="w-56 flex justify-center">
-              <Spinner />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Snackbar</span>
-            <div className="w-56 flex justify-center">
-              <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Theme</span>
-            <div className="w-56 flex justify-center">
-              <ThemeToggle />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Title Ghost</span>
-            <h2 className="title-ghost">Ghost Title</h2>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Title Glow</span>
-            <h2 className="title-glow">Glowing Title</h2>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Glitch Text</span>
-            <div className="glitch text-lg font-semibold">Glitch</div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Aurora Background</span>
-            <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
-              Backdrop
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Noir Background</span>
-            <div
-              className="w-56 h-24 rounded-md flex items-center justify-center"
-              style={{
-                backgroundColor: "hsl(350 70% 4%)",
-                color: "hsl(0 0% 92%)",
-                border: "1px solid hsl(350 40% 22%)",
-              }}
-            >
-              Noir
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Hardstuck Background</span>
-            <div
-              className="w-56 h-24 rounded-md flex items-center justify-center"
-              style={{
-                backgroundColor: "hsl(165 60% 3%)",
-                color: "hsl(160 12% 95%)",
-                border: "1px solid hsl(165 40% 22%)",
-              }}
-            >
-              Hardstuck
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Hero</span>
-            <div className="w-56">
-              <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Card Neo</span>
-            <div className="card-neo w-56 h-8 flex items-center justify-center">
-              Card Neo
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Icon Button</span>
-            <div className="w-56 flex justify-center gap-2">
-              <IconButton aria-label="Add" title="Add">
-                <Plus />
-              </IconButton>
-              <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
-                <Sun />
-              </IconButton>
-            </div>
-          </div>
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium">Input</span>
-              <div className="w-56 space-y-2">
-                <Input height="sm" placeholder="Small" />
-                <Input placeholder="Medium" />
-                <Input height="lg" placeholder="Large" />
-                <Input height={12} placeholder="h-12" />
-                <Input tone="pill" placeholder="Pill" />
-                <Input placeholder="With icon" hasEndSlot>
-                  <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                </Input>
-              </div>
-            </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Select</span>
-            <div className="w-56 space-y-2">
-              <Select defaultValue="">
-                <option value="" disabled hidden>
-                  Choose…
-                </option>
-                <option value="a">A</option>
-                <option value="b">B</option>
-              </Select>
-              <Select success defaultValue="">
-                <option value="" disabled hidden>
-                  Choose…
-                </option>
-                <option value="a">A</option>
-              </Select>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Textarea</span>
-            <div className="w-56 space-y-2">
-              <Textarea placeholder="Default" />
-              <Textarea tone="pill" placeholder="Pill" />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Save Status</span>
-            <div className="w-56">
-              <div className="text-xs text-muted-foreground" aria-live="polite">
-                All changes saved
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Muted Text</span>
-            <p className="w-56 text-sm text-muted-foreground text-center">
-              Example of muted foreground text
-            </p>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Badge</span>
-            <div className="w-56 flex justify-center gap-2">
-              <Badge>Neutral</Badge>
-              <Badge variant="accent">Accent</Badge>
-              <Badge variant="pill">Pill</Badge>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Badge Primitive</span>
-            <div className="w-56 flex justify-center gap-2">
-              <BadgePrimitive size="xs">XS</BadgePrimitive>
-              <BadgePrimitive size="sm">SM</BadgePrimitive>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Class Merge</span>
-            <div
-              className={cn(
-                "w-56 h-8 flex items-center justify-center text-white bg-red-500",
-                "bg-blue-500"
-              )}
-            >
-              Blue wins
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Search Bar</span>
-            <div className="w-56">
-              <SearchBar value="" onValueChange={() => {}} onSubmit={() => {}} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Segmented</span>
-            <GlitchSegmentedGroup
-              value="a"
-              onChange={() => {}}
-              className="w-56"
-            >
-              <GlitchSegmentedButton value="a">A</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
-            </GlitchSegmentedGroup>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Grid Auto Rows</span>
-            <div className="w-56 grid grid-cols-2 gap-2 [grid-auto-rows:minmax(0,1fr)]">
-              <div className="card-neo p-2">A</div>
-              <div className="card-neo p-4">B with more content</div>
-              <div className="card-neo p-4">C</div>
-              <div className="card-neo p-2">D</div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm font-medium">Widths</span>
-            <div className="flex gap-2">
-              <div className="h-10 w-72 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
-                w-72
-              </div>
-              <div className="h-10 w-80 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
-                w-80
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
-            <span className="text-sm font-medium">Prompts Header</span>
-            <SectionCard className="w-full">
-              <SectionCard.Header>
-                <PromptsHeader count={0} query="" onQueryChange={() => {}} onSave={() => {}} disabled />
-              </SectionCard.Header>
-              <SectionCard.Body />
-            </SectionCard>
-          </div>
-          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
-            <span className="text-sm font-medium">Prompts Compose</span>
-            <div className="w-full max-w-md">
-              <PromptsComposePanel title="" onTitleChange={() => {}} text="" onTextChange={() => {}} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2 sm:col-span-2 md:col-span-3">
-            <span className="text-sm font-medium">Prompts Demos</span>
-            <div className="w-full">
-              <PromptsDemos />
-            </div>
-          </div>
+          {componentItems.map((item, idx) => (
+            <Item key={idx} label={item.label} className={item.className}>
+              {item.element}
+            </Item>
+          ))}
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
@@ -368,15 +617,12 @@ export default function Page() {
               <div className="w-10 h-10 rounded bg-auroraPLight" />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
-              Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>, and
-              <code>auroraPLight</code> Tailwind classes for aurora effects.
+              Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>, and<code>auroraPLight</code> Tailwind classes for aurora effects.
             </p>
           </div>
           {colorList.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-purple-300">
-                {c}
-              </span>
+              <span className="text-xs uppercase tracking-wide text-purple-300">{c}</span>
               <div
                 className="w-24 h-16 rounded-md border"
                 style={{ backgroundColor: `hsl(var(--${c}))` }}
