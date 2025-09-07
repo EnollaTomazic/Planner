@@ -121,14 +121,14 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-3.5"
+                  buttonClassName="h-10 px-4"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-3.5 whitespace-nowrap"
+                className="px-4 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
@@ -144,7 +144,7 @@ export default function ReviewsPage({
       />
 
       <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
-        <aside className="md:col-span-4 md:w-[240px] lg:col-span-3 lg:w-[280px]">
+        <aside className="md:col-span-4 md:w-60 lg:col-span-3 lg:w-72">
           <div
             className="card-neo-soft overflow-hidden bg-card/50"
             style={{ boxShadow: neuRaised(14) }}
@@ -160,7 +160,7 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                className="max-h-[66dvh] overflow-auto p-2"
+                className="max-h-screen overflow-auto p-2"
               />
             </div>
             </div>
