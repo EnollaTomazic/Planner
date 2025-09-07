@@ -168,6 +168,13 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Textarea</h3>
+          <div className="space-y-3">
+            <Textarea placeholder="Default" />
+            <Textarea placeholder="Pill" tone="pill" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">FieldShell</h3>
           <p className="type-body">
             Shared wrapper that provides consistent borders, background, and focus
