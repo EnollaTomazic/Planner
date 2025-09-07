@@ -56,4 +56,21 @@ describe('Input', () => {
     const { getByRole } = render(<Input aria-label="test" />);
     expect(getByRole('textbox')).not.toHaveClass('pr-40');
   });
+
+  it('has no outline when focused', () => {
+    const { getByRole } = render(<Input aria-label="outline" />);
+    const input = getByRole('textbox');
+    fireEvent.focus(input);
+    const style = getComputedStyle(input);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
+
+  it('applies rounded-full on pill tone', () => {
+    const { container, getByRole } = render(<Input aria-label="pill" tone="pill" />);
+    const wrapper = container.firstChild as HTMLElement;
+    const input = getByRole('textbox');
+    expect(wrapper).toHaveClass('rounded-full');
+    expect(input).toHaveClass('rounded-full');
+  });
 });

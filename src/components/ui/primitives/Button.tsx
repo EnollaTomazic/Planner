@@ -38,7 +38,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, size = "sm", variant = "secondary", children, ...rest }, ref) => {
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[hsl(var(--line)/0.35)] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent)/.6)]",
+      "relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
       s.height,
       s.padding,
       s.text,

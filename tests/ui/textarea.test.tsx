@@ -27,6 +27,16 @@ describe('Textarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it('applies rounded-full on pill tone', () => {
+    const { container, getByRole } = render(
+      <Textarea aria-label="pill" tone="pill" />
+    );
+    const wrapper = container.firstChild as HTMLElement;
+    const textarea = getByRole('textbox');
+    expect(wrapper).toHaveClass('rounded-full');
+    expect(textarea).toHaveClass('rounded-full');
+  });
+
   it('renders error state', () => {
     const { container } = render(
       <Textarea aria-label="test" aria-invalid="true" />
@@ -41,5 +51,14 @@ describe('Textarea', () => {
     expect(container.firstChild).not.toHaveClass(
       'border-[hsl(var(--destructive)/0.6)]'
     );
+  });
+
+  it('has no outline when focused', () => {
+    const { getByRole } = render(<Textarea aria-label="outline" />);
+    const ta = getByRole('textbox');
+    fireEvent.focus(ta);
+    const style = getComputedStyle(ta);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
   });
 });

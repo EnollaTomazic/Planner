@@ -25,4 +25,19 @@ describe('AnimatedSelect', () => {
     const listbox = getByRole('listbox');
     expect(listbox).toHaveAttribute('aria-labelledby', labelEl.id);
   });
+
+  it('has no outline on trigger when focused', () => {
+    const items = [
+      { value: 'apple', label: 'Apple' },
+      { value: 'orange', label: 'Orange' },
+    ];
+    const { getByRole } = render(
+      <AnimatedSelect ariaLabel="Fruit" items={items} />
+    );
+    const button = getByRole('button');
+    fireEvent.focus(button);
+    const style = getComputedStyle(button as HTMLElement);
+    expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
+    expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
+  });
 });
