@@ -160,6 +160,7 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
+                onCreate={onCreate}
                 className="max-h-screen overflow-auto p-2"
               />
             </div>
