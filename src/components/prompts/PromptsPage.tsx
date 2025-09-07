@@ -36,6 +36,12 @@ export default function PromptsPage() {
 
   const titleId = React.useId();
 
+  const deriveTitle = React.useCallback((p: Prompt) => {
+    if (p.title && p.title.trim()) return p.title.trim();
+    const firstLine = (p.text || "").split(/\r?\n/)[0]?.trim() || "";
+    return firstLine || "Untitled";
+  }, []);
+
   // Derived: filtered list (compute titles once per prompt)
   type PromptWithTitle = Prompt & { title: string };
   const filtered: PromptWithTitle[] = React.useMemo(() => {
@@ -48,13 +54,7 @@ export default function PromptsPage() {
       }
       return acc;
     }, []);
-  }, [prompts, query]);
-
-  function deriveTitle(p: Prompt) {
-    if (p.title && p.title.trim()) return p.title.trim();
-    const firstLine = (p.text || "").split(/\r?\n/)[0]?.trim() || "";
-    return firstLine || "Untitled";
-  }
+  }, [prompts, query, deriveTitle]);
 
   function save() {
     const text = textDraft.trim();
