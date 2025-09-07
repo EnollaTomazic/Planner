@@ -194,6 +194,17 @@ export default function Page() {
               <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
             </GlitchSegmentedGroup>
           </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Widths</span>
+            <div className="flex gap-2">
+              <div className="h-10 w-72 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+                w-72
+              </div>
+              <div className="h-10 w-80 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+                w-80
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">

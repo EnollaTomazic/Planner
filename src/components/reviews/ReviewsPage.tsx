@@ -144,7 +144,7 @@ export default function ReviewsPage({
       />
 
       <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
-        <aside className="md:col-span-4 md:w-60 lg:col-span-3 lg:w-72">
+        <aside className="md:col-span-5 md:w-72 lg:col-span-4 lg:w-80">
           <div
             className="card-neo-soft overflow-hidden bg-card/50"
             style={{ boxShadow: neuRaised(14) }}
@@ -166,7 +166,7 @@ export default function ReviewsPage({
             </div>
           </aside>
 
-          <div className="md:col-span-8 lg:col-span-9 flex justify-center">
+          <div className="md:col-span-7 lg:col-span-8 flex justify-center">
             {!active ? (
               <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
                 <Ghost className="h-6 w-6 opacity-60" />
