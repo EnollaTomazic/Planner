@@ -42,9 +42,11 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  min-height: 44px;
-  padding-left: .9rem;
-  padding-right: .6rem;
+  min-height: 48px;
+  padding-left: 1rem;
+  padding-right: .5rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
   border: 1px solid hsl(var(--card-hairline));
   background: hsl(var(--card) / .55);
   transition:
