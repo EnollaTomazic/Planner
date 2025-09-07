@@ -12,6 +12,7 @@ import "../team/style.css";
 import * as React from "react";
 import { useLocalDB } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
 
@@ -228,12 +229,14 @@ function ParagraphEdit({
       <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">{value}</p>
     );
   return (
-    <textarea
+    <Textarea
       dir="ltr"
       value={value}
       onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
       rows={2}
-      className="mt-1 w-full resize-y bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
+      className="mt-1 w-full"
+      resize="resize-y"
+      textareaClassName="bg-transparent border-none text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
       aria-label="Description"
     />
   );
