@@ -52,6 +52,11 @@ export default function Page() {
     "success",
     "glow-strong",
     "glow-soft",
+    "glitch-r",
+    "glitch-r-light",
+    "glitch-b",
+    "glitch-b-light",
+    "icon-fg",
   ];
 
   const [view, setView] = React.useState("components");

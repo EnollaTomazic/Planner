@@ -331,9 +331,9 @@ export default function TimerTab() {
             inset 0 0 16px hsl(var(--accent) / .6);
           border-right: 0 solid transparent;
           -webkit-mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           animation:
             widthEase 220ms ease,
             jitter 900ms steps(12) infinite;
@@ -345,14 +345,14 @@ export default function TimerTab() {
           filter: blur(1px);
         }
         .lg-progress.rgb.r {
-          background: linear-gradient(90deg, #ff2d75 0%, #ffc4f0 100%);
+          background: linear-gradient(90deg, hsl(var(--glitch-r)) 0%, hsl(var(--glitch-r-light)) 100%);
           transform: translateX(-1px);
           animation:
             widthEase 220ms ease,
             jitterX 900ms steps(12) infinite reverse;
         }
         .lg-progress.rgb.b {
-          background: linear-gradient(90deg, #3aa8ff 0%, #cde9ff 100%);
+          background: linear-gradient(90deg, hsl(var(--glitch-b)) 0%, hsl(var(--glitch-b-light)) 100%);
           transform: translateX(1px);
           animation:
             widthEase 220ms ease,

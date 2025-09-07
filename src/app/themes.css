@@ -28,6 +28,11 @@
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --glitch-r: 339 100% 59%;
+  --glitch-r-light: 315 100% 88%;
+  --glitch-b: 206 100% 61%;
+  --glitch-b-light: 206 100% 90%;
+  --icon-fg: 247 100% 77%;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
   --glow-active: hsl(var(--glow));
