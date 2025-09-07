@@ -4,30 +4,30 @@
 
 /* ---------- Tokens (dark base) ---------- */
 :root {
-  --background: 246 35% 7%;
-  --foreground: 260 20% 96%;
-  --card: 248 30% 10%;
-  --border: 252 20% 22%;
-  --input: 250 22% 12%;
-  --ring: 262 83% 58%;
-  --primary: 262 83% 58%;
+  --background: 267 82% 2%;
+  --foreground: 240 100% 98%;
+  --card: 259 44% 7%;
+  --border: 256 44% 22%;
+  --input: 258 45% 10%;
+  --ring: 267 100% 65%;
+  --primary: 267 100% 65%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 262 83% 18%;
-  --accent: 292 80% 60%;
-  --accent-2: 192 90% 50%;
+  --primary-soft: 267 100% 23%;
+  --accent: 314 100% 61%;
+  --accent-2: 186 100% 50%;
   --accent-foreground: 0 0% 100%;
-  --accent-soft: 292 80% 20%;
-  --glow: 292 80% 60%;
-  --ring-muted: 248 20% 22%;
-  --danger: 0 84% 60%;
-  --muted: 248 26% 14%;
-  --muted-foreground: 250 15% 70%;
-  --surface: 248 24% 12%;
-  --surface-2: 248 24% 16%;
-  --shadow-color: 262 83% 58%;
-  --lav-deep: 320 85% 60%;
-  --success: 316 92% 70%;
-  --success-glow: 316 92% 52% / 0.6;
+  --accent-soft: 314 100% 21%;
+  --glow: 292 84% 61%;
+  --ring-muted: 256 44% 22%;
+  --danger: 355 100% 59%;
+  --muted: 264 36% 15%;
+  --muted-foreground: 249 47% 77%;
+  --surface: 259 44% 9%;
+  --surface-2: 259 44% 13%;
+  --shadow-color: 267 100% 65%;
+  --lav-deep: 292 84% 61%;
+  --success: 153 100% 50%;
+  --success-glow: 153 100% 32% / 0.6;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
   --glow-active: hsl(var(--glow));
@@ -54,19 +54,19 @@
 
   --edge-iris: conic-gradient(
     from 180deg,
-    hsl(262 83% 58% / 0),
-    hsl(262 83% 58% / 0.7),
-    hsl(192 90% 50% / 0.7),
-    hsl(320 85% 60% / 0.7),
-    hsl(262 83% 58% / 0)
+    hsl(267 100% 65% / 0),
+    hsl(267 100% 65% / 0.7),
+    hsl(186 100% 50% / 0.7),
+    hsl(292 84% 61% / 0.7),
+    hsl(267 100% 65% / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(262 83% 58% / 0.95),
-    hsl(292 80% 60% / 0.95),
-    hsl(192 90% 50% / 0.95)
+    hsl(267 100% 65% / 0.95),
+    hsl(314 100% 61% / 0.95),
+    hsl(186 100% 50% / 0.95)
   );
-  --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
+  --shadow: 0 10px 30px hsl(267 30% 2% / 0.35);
 }
 
 /* Upgrade tokens when color-mix(oklab) is supported */
@@ -103,151 +103,166 @@ html.light {
   --card: 0 0% 100%;
   --border: 240 9% 90%;
   --input: 240 9% 97%;
-  --ring: 262 83% 58%;
-  --primary: 262 83% 58%;
+  --ring: 267 100% 65%;
+  --primary: 267 100% 65%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 262 83% 92%;
-  --accent: 292 80% 45%;
-  --accent-2: 200 100% 50%;
+  --primary-soft: 267 100% 99%;
+  --accent: 314 100% 46%;
+  --accent-2: 186 100% 50%;
   --accent-foreground: 0 0% 100%;
-  --accent-soft: 292 80% 94%;
-  --glow: 292 80% 45%;
+  --accent-soft: 314 100% 94%;
+  --glow: 292 84% 46%;
   --ring-muted: 240 9% 90%;
-  --danger: 0 84% 55%;
+  --danger: 355 100% 54%;
   --muted: 240 6% 96%;
   --muted-foreground: 240 4% 35%;
   --surface: 240 7% 98%;
   --surface-2: 240 6% 96%;
-  --shadow-color: 262 83% 58%;
-  --lav-deep: 320 85% 60%;
-  --success: 316 86% 62%;
-  --success-glow: 316 86% 48% / 0.55;
+  --shadow-color: 267 100% 65%;
+  --lav-deep: 292 84% 61%;
+  --success: 153 100% 42%;
+  --success-glow: 153 100% 30% / 0.55;
 }
 
 /* ---------- Glitch v2 ---------- */
 html.theme-glitch2 {
-  --background: 252 35% 9%;
-  --foreground: 260 20% 98%;
-  --card: 254 30% 12%;
-  --border: 256 20% 24%;
-  --input: 254 22% 14%;
-  --ring: 268 70% 66%;
-  --primary: 268 70% 66%;
+  --background: 251 100% 4%;
+  --foreground: 240 47% 97%;
+  --card: 254 64% 8%;
+  --border: 252 41% 28%;
+  --input: 255 66% 10%;
+  --ring: 170 100% 50%;
+  --primary: 170 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 268 70% 24%;
-  --accent: 286 65% 70%;
-  --accent-2: 200 70% 60%;
-  --accent-soft: 286 60% 24%;
-  --muted: 252 26% 16%;
-  --muted-foreground: 252 14% 75%;
-  --shadow-color: 268 70% 66%;
-  --lav-deep: 312 75% 65%;
-  --success: 316 92% 70%;
-  --success-glow: 316 92% 52% / 0.6;
+  --primary-soft: 170 100% 8%;
+  --accent: 300 100% 58%;
+  --accent-2: 267 100% 58%;
+  --accent-soft: 300 100% 18%;
+  --muted: 256 42% 18%;
+  --muted-foreground: 264 71% 80%;
+  --ring-muted: 252 41% 28%;
+  --danger: 337 100% 56%;
+  --shadow-color: 170 100% 50%;
+  --lav-deep: 170 100% 50%;
+  --success: 165 100% 50%;
+  --success-glow: 165 100% 32% / 0.6;
+  --glow: 170 100% 50%;
   --edge-iris: conic-gradient(
     from 180deg,
-    hsl(268 70% 66% / 0),
-    hsl(268 70% 66% / 0.7),
-    hsl(200 70% 60% / 0.7),
-    hsl(312 75% 65% / 0.7),
-    hsl(268 70% 66% / 0)
+    hsl(170 100% 50% / 0),
+    hsl(170 100% 50% / 0.7),
+    hsl(267 100% 58% / 0.7),
+    hsl(170 100% 50% / 0.7),
+    hsl(170 100% 50% / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(268 70% 66% / 0.95),
-    hsl(286 65% 70% / 0.95),
-    hsl(200 70% 60% / 0.95)
+    hsl(170 100% 50% / 0.95),
+    hsl(300 100% 58% / 0.95),
+    hsl(267 100% 58% / 0.95)
   );
-  --shadow: 0 10px 30px hsl(252 30% 4% / 0.3);
+  --shadow: 0 10px 30px hsl(251 30% 2% / 0.3);
 }
 
 /* ---------- Citrus ---------- */
 html.theme-citrus {
   /* Dark Citrus palette */
-  --background: 28 30% 9%;
-  --foreground: 30 35% 96%;
-  --card: 28 30% 14%;
-  --border: 30 25% 24%;
-  --input: 30 22% 16%;
-  --ring: 33 92% 58%;
-  --primary: 33 92% 58%;
+  --background: 30 100% 2%;
+  --foreground: 49 100% 96%;
+  --card: 23 100% 5%;
+  --border: 30 100% 13%;
+  --input: 28 100% 7%;
+  --ring: 41 100% 50%;
+  --primary: 41 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 33 90% 22%;
-  --accent: 188 75% 55%;
-  --accent-2: 165 70% 45%;
-  --accent-soft: 188 60% 22%;
-  --muted: 28 22% 18%;
-  --muted-foreground: 28 14% 70%;
-  --shadow-color: 33 92% 58%;
-  --lav-deep: 188 75% 55%;
-  --success: 150 70% 45%;
-  --success-glow: 150 70% 35% / 0.6;
+  --primary-soft: 41 100% 8%;
+  --accent: 22 100% 50%;
+  --accent-2: 50 100% 50%;
+  --accent-soft: 22 100% 10%;
+  --muted: 35 100% 9%;
+  --muted-foreground: 36 100% 80%;
+  --ring-muted: 30 100% 13%;
+  --danger: 12 100% 50%;
+  --shadow-color: 41 100% 50%;
+  --lav-deep: 22 100% 50%;
+  --success: 144 100% 50%;
+  --success-glow: 144 100% 32% / 0.6;
+  --glow: 22 100% 50%;
 }
 
 /* ---------- Noir ---------- */
 html.theme-noir {
-  --background: 0 0% 6%;
-  --foreground: 0 0% 92%;
-  --card: 0 0% 10%;
-  --border: 0 0% 20%;
-  --input: 0 0% 14%;
-  --ring: 0 0% 80%;
-  --primary: 0 0% 80%;
-  --primary-foreground: 0 0% 0%;
-  --primary-soft: 0 0% 30%;
-  --accent: 260 60% 60%;
-  --accent-2: 320 60% 55%;
-  --accent-soft: 260 30% 30%;
-  --muted: 0 0% 18%;
-  --muted-foreground: 0 0% 60%;
-  --shadow-color: 0 0% 100%;
-  --lav-deep: 260 60% 60%;
-  --success: 140 60% 50%;
-  --success-glow: 140 60% 40% / 0.6;
+  --background: 0 0% 4%;
+  --foreground: 0 0% 93%;
+  --card: 0 0% 7%;
+  --border: 0 0% 16%;
+  --input: 0 0% 8%;
+  --ring: 0 100% 59%;
+  --primary: 0 100% 59%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 0 100% 17%;
+  --accent: 0 100% 55%;
+  --accent-2: 0 0% 90%;
+  --accent-soft: 0 100% 15%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 61%;
+  --ring-muted: 0 0% 16%;
+  --danger: 3 100% 59%;
+  --shadow-color: 0 100% 59%;
+  --lav-deep: 349 100% 36%;
+  --success: 144 64% 50%;
+  --success-glow: 144 64% 32% / 0.6;
+  --glow: 349 100% 36%;
 }
 
 /* ---------- Oceanic ---------- */
 html.theme-ocean {
-  --background: 220 50% 8%;
-  --foreground: 210 20% 96%;
-  --card: 220 35% 12%;
-  --border: 220 20% 24%;
-  --input: 220 24% 14%;
-  --ring: 195 85% 55%;
-  --primary: 195 85% 55%;
+  --background: 218 93% 6%;
+  --foreground: 204 100% 97%;
+  --card: 211 81% 15%;
+  --border: 204 60% 27%;
+  --input: 216 72% 18%;
+  --ring: 195 100% 50%;
+  --primary: 195 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 195 85% 16%;
-  --accent: 190 90% 55%;
-  --accent-2: 225 85% 60%;
-  --accent-soft: 190 80% 20%;
-  --muted: 220 24% 16%;
-  --muted-foreground: 220 14% 72%;
-  --shadow-color: 200 90% 55%;
-  --lav-deep: 250 80% 65%;
-  --success: 160 70% 45%;
-  --success-glow: 160 70% 35% / 0.6;
+  --primary-soft: 195 100% 8%;
+  --accent: 167 100% 50%;
+  --accent-2: 350 100% 63%;
+  --accent-soft: 167 100% 10%;
+  --muted: 208 68% 21%;
+  --muted-foreground: 197 58% 71%;
+  --ring-muted: 204 60% 27%;
+  --danger: 350 100% 63%;
+  --shadow-color: 195 100% 50%;
+  --lav-deep: 195 100% 50%;
+  --success: 158 100% 50%;
+  --success-glow: 158 100% 32% / 0.6;
+  --glow: 195 100% 50%;
 }
 
 /* ---------- Rose Quartz ---------- */
 html.theme-rose {
-  --background: 330 22% 10%;
-  --foreground: 330 20% 96%;
-  --card: 330 24% 14%;
-  --border: 330 14% 26%;
-  --input: 330 18% 16%;
-  --ring: 325 80% 62%;
-  --primary: 325 80% 62%;
+  --background: 327 100% 4%;
+  --foreground: 341 100% 96%;
+  --card: 324 100% 8%;
+  --border: 326 100% 16%;
+  --input: 328 100% 9%;
+  --ring: 337 100% 55%;
+  --primary: 337 100% 55%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 325 80% 20%;
-  --accent: 280 70% 60%;
-  --accent-2: 200 80% 58%;
-  --accent-soft: 280 60% 22%;
-  --muted: 330 18% 18%;
-  --muted-foreground: 330 12% 72%;
-  --shadow-color: 325 80% 62%;
-  --lav-deep: 300 80% 64%;
-  --success: 150 65% 45%;
-  --success-glow: 150 65% 36% / 0.6;
+  --primary-soft: 337 100% 13%;
+  --accent: 338 100% 45%;
+  --accent-2: 330 100% 65%;
+  --accent-soft: 338 100% 5%;
+  --muted: 330 49% 17%;
+  --muted-foreground: 339 100% 88%;
+  --ring-muted: 326 100% 16%;
+  --danger: 346 100% 58%;
+  --shadow-color: 337 100% 55%;
+  --lav-deep: 337 100% 55%;
+  --success: 160 100% 50%;
+  --success-glow: 160 100% 32% / 0.6;
+  --glow: 337 100% 55%;
 }
 
 /* =========================================================
