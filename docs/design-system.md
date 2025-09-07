@@ -6,11 +6,12 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
+- Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
 
 ## Layout and spacing
 - Use a 12‑column grid with 24px gutters.
-- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64.
+- Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
 
 ## Typography
 - Font sizes: 12px for labels, 14px for UI text, 16px for body copy, and 20/24px for titles.

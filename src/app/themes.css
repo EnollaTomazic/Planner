@@ -6,10 +6,14 @@
 :root {
   --background: 246 35% 7%;
   --foreground: 260 20% 96%;
+  --text: var(--foreground);
   --card: 248 30% 10%;
+  --panel: var(--card);
   --border: 252 20% 22%;
+  --line: var(--border);
   --input: 250 22% 12%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
@@ -107,10 +111,14 @@
 html.light {
   --background: 0 0% 100%;
   --foreground: 240 10% 10%;
+  --text: var(--foreground);
   --card: 0 0% 100%;
+  --panel: var(--card);
   --border: 240 9% 90%;
+  --line: var(--border);
   --input: 240 9% 97%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 92%;
@@ -135,82 +143,94 @@ html.light {
 
 /* ---------- Glitch v2 ---------- */
 html.theme-glitch2 {
-  --background: 252 35% 9%;
+  --background: 283 100% 4%;
   --foreground: 260 20% 98%;
-  --card: 254 30% 12%;
-  --border: 256 20% 24%;
-  --input: 254 22% 14%;
-  --ring: 268 70% 66%;
-  --primary: 268 70% 66%;
+  --text: var(--foreground);
+  --card: 281 100% 7%;
+  --panel: var(--card);
+  --border: 279 100% 15%;
+  --line: var(--border);
+  --input: 279 100% 15%;
+  --ring: 279 100% 37%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 279 100% 37%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 268 70% 24%;
-  --accent: 286 65% 70%;
-  --accent-2: 200 70% 60%;
-  --accent-soft: 286 60% 24%;
-  --muted: 252 26% 16%;
-  --muted-foreground: 252 14% 75%;
-  --shadow-color: 268 70% 66%;
-  --lav-deep: 312 75% 65%;
+  --primary-soft: 279 100% 15%;
+  --accent: 280 100% 50%;
+  --accent-2: 182 100% 50%;
+  --accent-soft: 280 100% 20%;
+  --muted: 279 100% 15%;
+  --muted-foreground: 279 20% 75%;
+  --shadow-color: 279 100% 37%;
+  --lav-deep: 280 100% 50%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
   --edge-iris: conic-gradient(
     from 180deg,
-    hsl(268 70% 66% / 0),
-    hsl(268 70% 66% / 0.7),
-    hsl(200 70% 60% / 0.7),
-    hsl(312 75% 65% / 0.7),
-    hsl(268 70% 66% / 0)
+    hsl(279 100% 37% / 0),
+    hsl(279 100% 37% / 0.7),
+    hsl(182 100% 50% / 0.7),
+    hsl(280 100% 50% / 0.7),
+    hsl(279 100% 37% / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(268 70% 66% / 0.95),
-    hsl(286 65% 70% / 0.95),
-    hsl(200 70% 60% / 0.95)
+    hsl(279 100% 37% / 0.95),
+    hsl(280 100% 50% / 0.95),
+    hsl(182 100% 50% / 0.95)
   );
-  --shadow: 0 10px 30px hsl(252 30% 4% / 0.3);
+  --shadow: 0 10px 30px hsl(279 30% 4% / 0.3);
 }
 
 /* ---------- Citrus ---------- */
 html.theme-citrus {
   /* Dark Citrus palette */
-  --background: 28 30% 9%;
+  --background: 23 100% 4%;
   --foreground: 30 35% 96%;
-  --card: 28 30% 14%;
-  --border: 30 25% 24%;
-  --input: 30 22% 16%;
-  --ring: 33 92% 58%;
-  --primary: 33 92% 58%;
+  --text: var(--foreground);
+  --card: 25 100% 10%;
+  --panel: var(--card);
+  --border: 22 100% 24%;
+  --line: var(--border);
+  --input: 22 100% 16%;
+  --ring: 21 100% 35%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 21 100% 35%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 33 90% 22%;
-  --accent: 188 75% 55%;
-  --accent-2: 165 70% 45%;
-  --accent-soft: 188 60% 22%;
-  --muted: 28 22% 18%;
-  --muted-foreground: 28 14% 70%;
-  --shadow-color: 33 92% 58%;
-  --lav-deep: 188 75% 55%;
+  --primary-soft: 21 100% 20%;
+  --accent: 24 100% 50%;
+  --accent-2: 51 100% 50%;
+  --accent-soft: 24 100% 20%;
+  --muted: 22 100% 24%;
+  --muted-foreground: 22 20% 70%;
+  --shadow-color: 21 100% 35%;
+  --lav-deep: 24 100% 50%;
   --success: 150 70% 45%;
   --success-glow: 150 70% 35% / 0.6;
 }
 
 /* ---------- Noir ---------- */
 html.theme-noir {
-  --background: 0 0% 6%;
+  --background: 0 0% 2%;
   --foreground: 0 0% 92%;
-  --card: 0 0% 10%;
-  --border: 0 0% 20%;
+  --text: var(--foreground);
+  --card: 0 0% 8%;
+  --panel: var(--card);
+  --border: 0 0% 18%;
+  --line: var(--border);
   --input: 0 0% 14%;
-  --ring: 0 0% 80%;
-  --primary: 0 0% 80%;
-  --primary-foreground: 0 0% 0%;
-  --primary-soft: 0 0% 30%;
-  --accent: 260 60% 60%;
-  --accent-2: 320 60% 55%;
-  --accent-soft: 260 30% 30%;
+  --ring: 0 0% 40%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 0 0% 40%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 0 0% 20%;
+  --accent: 0 0% 67%;
+  --accent-2: 0 0% 94%;
+  --accent-soft: 0 0% 27%;
   --muted: 0 0% 18%;
   --muted-foreground: 0 0% 60%;
-  --shadow-color: 0 0% 100%;
-  --lav-deep: 260 60% 60%;
+  --shadow-color: 0 0% 40%;
+  --lav-deep: 0 0% 67%;
   --success: 140 60% 50%;
   --success-glow: 140 60% 40% / 0.6;
 }
@@ -219,10 +239,14 @@ html.theme-noir {
 html.theme-ocean {
   --background: 220 50% 8%;
   --foreground: 210 20% 96%;
+  --text: var(--foreground);
   --card: 220 35% 12%;
+  --panel: var(--card);
   --border: 220 20% 24%;
+  --line: var(--border);
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
+  --theme-ring: hsl(var(--ring));
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
@@ -239,22 +263,26 @@ html.theme-ocean {
 
 /* ---------- Rose Quartz ---------- */
 html.theme-rose {
-  --background: 330 22% 10%;
+  --background: 333 100% 4%;
   --foreground: 330 20% 96%;
-  --card: 330 24% 14%;
-  --border: 330 14% 26%;
-  --input: 330 18% 16%;
-  --ring: 325 80% 62%;
-  --primary: 325 80% 62%;
+  --text: var(--foreground);
+  --card: 339 100% 10%;
+  --panel: var(--card);
+  --border: 341 100% 22%;
+  --line: var(--border);
+  --input: 341 100% 16%;
+  --ring: 343 100% 35%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 343 100% 35%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 325 80% 20%;
-  --accent: 280 70% 60%;
-  --accent-2: 200 80% 58%;
-  --accent-soft: 280 60% 22%;
-  --muted: 330 18% 18%;
-  --muted-foreground: 330 12% 72%;
-  --shadow-color: 325 80% 62%;
-  --lav-deep: 300 80% 64%;
+  --primary-soft: 343 100% 20%;
+  --accent: 340 100% 45%;
+  --accent-2: 347 100% 90%;
+  --accent-soft: 340 100% 20%;
+  --muted: 341 100% 22%;
+  --muted-foreground: 340 20% 72%;
+  --shadow-color: 343 100% 35%;
+  --lav-deep: 340 100% 45%;
   --success: 150 65% 45%;
   --success-glow: 150 65% 36% / 0.6;
 }
@@ -302,7 +330,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 /* Glitch v2 backdrop */
 html.theme-glitch2 body {
   background-image:
-    radial-gradient(1000px 600px at 20% -10%, hsl(268 70% 66% / 0.2), transparent 60%),
+    radial-gradient(1000px 600px at 20% -10%, hsl(279 100% 37% / 0.2), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed;
 }
@@ -314,24 +342,24 @@ html.theme-glitch2 body::after {
 /* Citrus backdrop */
 html.theme-citrus body {
   background-image:
-    radial-gradient(1200px 700px at 20% -10%, hsl(33 92% 58% / 0.22), transparent 60%),
-    radial-gradient(1200px 600px at 120% 10%, hsl(188 75% 55% / 0.18), transparent 60%),
+    radial-gradient(1200px 700px at 20% -10%, hsl(21 100% 35% / 0.22), transparent 60%),
+    radial-gradient(1200px 600px at 120% 10%, hsl(24 100% 50% / 0.18), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-citrus body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.08;
   background:
-    repeating-linear-gradient(90deg, hsl(33 92% 58% / 0.25) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(188 75% 55% / 0.25) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(21 100% 35% / 0.25) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(24 100% 50% / 0.25) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; animation: citrus-grid 20s linear infinite;
 }
 html.theme-citrus body::after {
   content: ""; position: fixed; inset: -8%; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(60% 40% at 12% -5%,  hsl(33 92% 58% / 0.18), transparent 60%),
-    radial-gradient(50% 35% at 105% 10%, hsl(188 75% 55% / 0.16), transparent 60%),
-    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 45% / 0.12), transparent 65%);
+    radial-gradient(60% 40% at 12% -5%,  hsl(21 100% 35% / 0.18), transparent 60%),
+    radial-gradient(50% 35% at 105% 10%, hsl(24 100% 50% / 0.16), transparent 60%),
+    radial-gradient(55% 35% at 50% 110%, hsl(51 100% 50% / 0.12), transparent 65%);
   filter: blur(2px) saturate(110%); animation: citrus-pan 28s ease-in-out infinite alternate;
 }
 @keyframes citrus-grid { to { transform: translate3d(26px, 26px, 0); } }
@@ -358,8 +386,8 @@ html.theme-noir body::after {
   content: ""; position: fixed; inset: -12%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(80% 60% at 50% 120%, hsl(0 0% 0% / 0.4), transparent 70%),
-    radial-gradient(40% 25% at 6% 4%,  hsl(260 60% 60% / 0.12), transparent 60%),
-    radial-gradient(40% 25% at 94% 10%, hsl(320 60% 55% / 0.10), transparent 60%);
+    radial-gradient(40% 25% at 6% 4%,  hsl(0 0% 67% / 0.12), transparent 60%),
+    radial-gradient(40% 25% at 94% 10%, hsl(0 0% 94% / 0.10), transparent 60%);
   filter: blur(1.5px) saturate(105%); opacity: 0.9; animation: noir-drift 26s ease-in-out infinite alternate;
 }
 @keyframes noir-scan { 0%{background-position-y:0} 100%{background-position-y:100%} }
@@ -397,24 +425,24 @@ html.theme-ocean body::after {
 /* Rose Quartz backdrop */
 html.theme-rose body {
   background-image:
-    radial-gradient(1100px 620px at 16% -8%,  hsl(325 80% 62% / 0.20), transparent 60%),
-    radial-gradient(1000px 560px at 106% 14%, hsl(280 70% 60% / 0.16), transparent 60%),
+    radial-gradient(1100px 620px at 16% -8%,  hsl(343 100% 35% / 0.20), transparent 60%),
+    radial-gradient(1000px 560px at 106% 14%, hsl(340 100% 45% / 0.16), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-rose body::before {
   content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    repeating-linear-gradient(90deg, hsl(325 80% 62% / 0.30) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(280 70% 60% / 0.26) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(343 100% 35% / 0.30) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(340 100% 45% / 0.26) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; opacity:.10; animation: lg-grid-drift 18s linear infinite;
 }
 html.theme-rose body::after {
   content:""; position:fixed; inset:-10%; z-index:0; pointer-events:none;
   background:
-    radial-gradient(60% 40% at 12% -6%, hsl(325 80% 62% / 0.18), transparent 60%),
-    radial-gradient(55% 35% at 50% 116%, hsl(280 70% 60% / 0.12), transparent 65%),
-    radial-gradient(50% 35% at 100% 8%,   hsl(200 80% 58% / 0.10), transparent 60%);
+    radial-gradient(60% 40% at 12% -6%, hsl(343 100% 35% / 0.18), transparent 60%),
+    radial-gradient(55% 35% at 50% 116%, hsl(340 100% 45% / 0.12), transparent 65%),
+    radial-gradient(50% 35% at 100% 8%,   hsl(347 100% 90% / 0.10), transparent 60%);
   filter: blur(2px) saturate(112%); animation: rose-pan 27s ease-in-out infinite alternate;
 }
 @keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }

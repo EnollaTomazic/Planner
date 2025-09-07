@@ -14,7 +14,6 @@ import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
-import { neuRaised } from "@/components/ui/primitives/Neu";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -146,8 +145,7 @@ export default function ReviewsPage({
       <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
         <aside className="md:col-span-5 md:w-72 lg:col-span-4 lg:w-80">
           <div
-            className="card-neo-soft overflow-hidden bg-card/50"
-            style={{ boxShadow: neuRaised(14) }}
+            className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong"
           >
             <div className="section-b">
               <div className="mb-2 text-sm text-muted-foreground">

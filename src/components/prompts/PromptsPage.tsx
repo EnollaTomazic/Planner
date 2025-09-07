@@ -238,11 +238,31 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Shadows</h3>
+          <div className="flex flex-wrap gap-4">
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-strong" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-inset" />
+            <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-ring" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Task Tile Text</h3>
+          <div className="space-y-2">
+            <button type="button" className="task-tile__text">
+              Editable task
+            </button>
+            <button type="button" className="task-tile__text line-through-soft">
+              Completed task
+            </button>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
           <div>
             <h4 className="type-subtitle">Colors</h4>
             <div className="flex gap-2">
-              <div className="size-6 rounded bg-accent2" />
+                <div className="size-6 rounded bg-accent-2" />
               <div className="size-6 rounded bg-danger" />
               <div className="size-6 rounded bg-success" />
               <div className="size-6 rounded bg-glow" />
@@ -250,11 +270,15 @@ export default function PromptsPage() {
           </div>
           <div>
             <h4 className="type-subtitle">Spacing</h4>
-            <p className="type-body">8, 16, 24, 32, 40, 48, 64</p>
+            <p className="type-body">4, 8, 12, 16, 24, 32, 48, 64</p>
           </div>
           <div>
             <h4 className="type-subtitle">Glow</h4>
             <p className="type-body">--glow-strong, --glow-soft</p>
+          </div>
+          <div>
+            <h4 className="type-subtitle">Focus Ring</h4>
+            <p className="type-body">--theme-ring for theme-aware ring color</p>
           </div>
           <div>
             <h4 className="type-subtitle">Radius</h4>
@@ -263,14 +287,6 @@ export default function PromptsPage() {
           <div>
             <h4 className="type-subtitle">Type Ramp</h4>
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
-          </div>
-        </Card>
-        <Card className="mt-8 space-y-4">
-          <h3 className="type-title">Motion</h3>
-          <div className="flex gap-2">
-            <button className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60">
-              Slow fade
-            </button>
           </div>
         </Card>
       </SectionCard.Body>

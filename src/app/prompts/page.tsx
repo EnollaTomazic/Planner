@@ -38,8 +38,11 @@ export default function Page() {
   const colorList = [
     "background",
     "foreground",
+    "text",
     "card",
+    "panel",
     "border",
+    "line",
     "input",
     "ring",
     "accent",
@@ -90,7 +93,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Card</span>
-            <SectionCard className="w-56 h-40 flex items-center justify-center">
+            <SectionCard className="w-56 h-8 flex items-center justify-center">
               Card content
             </SectionCard>
           </div>
@@ -160,7 +163,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Card Neo</span>
-            <div className="card-neo w-56 h-40 flex items-center justify-center">
+            <div className="card-neo w-56 h-8 flex items-center justify-center">
               Card Neo
             </div>
           </div>
@@ -251,6 +254,15 @@ export default function Page() {
               <GlitchSegmentedButton value="b">B</GlitchSegmentedButton>
               <GlitchSegmentedButton value="c">C</GlitchSegmentedButton>
             </GlitchSegmentedGroup>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Grid Auto Rows</span>
+            <div className="w-56 grid grid-cols-2 gap-2 [grid-auto-rows:minmax(0,1fr)]">
+              <div className="card-neo p-2">A</div>
+              <div className="card-neo p-4">B with more content</div>
+              <div className="card-neo p-4">C</div>
+              <div className="card-neo p-2">D</div>
+            </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Widths</span>

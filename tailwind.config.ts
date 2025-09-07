@@ -21,7 +21,7 @@ const config: Config = {
           soft: "hsl(var(--primary-soft))"
         },
         accent: { DEFAULT: "hsl(var(--accent))", soft: "hsl(var(--accent-soft))" },
-        accent2: "hsl(var(--accent-2))",
+        "accent-2": "hsl(var(--accent-2))",
         glow: "hsl(var(--glow))",
         ringMuted: "hsl(var(--ring-muted))",
         danger: "hsl(var(--danger))",
@@ -36,7 +36,15 @@ const config: Config = {
       },
       borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
-        neo: "0 6px 20px -6px hsl(var(--shadow-color))",
+        "neo-sm":
+          "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",
+        neo:
+          "12px 12px 24px hsl(var(--panel)/0.72), -12px -12px 24px hsl(var(--foreground)/0.06)",
+        "neo-strong":
+          "14px 14px 28px hsl(var(--panel)/0.72), -14px -14px 28px hsl(var(--foreground)/0.06)",
+        "neo-inset":
+          "inset 4px 4px 10px hsl(var(--panel)/0.85), inset -4px -4px 10px hsl(var(--foreground)/0.08)",
+        ring: "0 0 12px hsl(var(--ring))",
         neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))"
       },
       transitionTimingFunction: {

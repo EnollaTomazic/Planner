@@ -26,9 +26,9 @@ const iconMap: Record<Icon, string> = {
 };
 
 const sizeMap: Record<ButtonSize, string> = {
-  sm: "h-9 w-9",
-  md: "h-[52px] w-[52px]",
-  lg: "h-14 w-14",
+  sm: "h-5 w-5",
+  md: "h-6 w-6",
+  lg: "h-7 w-7",
 };
 
 const variantBase: Record<Variant, string> = {

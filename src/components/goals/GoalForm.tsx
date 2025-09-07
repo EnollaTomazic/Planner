@@ -19,18 +19,30 @@ interface GoalFormProps {
   err?: string | null;
 }
 
-export default function GoalForm({
-  title,
-  metric,
-  notes,
-  onTitleChange,
-  onMetricChange,
-  onNotesChange,
-  onSubmit,
-  activeCount,
-  activeCap,
-  err,
-}: GoalFormProps) {
+export interface GoalFormHandle {
+  focus: (options?: FocusOptions) => void;
+}
+export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm(
+  {
+    title,
+    metric,
+    notes,
+    onTitleChange,
+    onMetricChange,
+    onNotesChange,
+    onSubmit,
+    activeCount,
+    activeCap,
+    err,
+  }: GoalFormProps,
+  ref
+) {
+  const titleRef = React.useRef<HTMLInputElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    focus: (options?: FocusOptions) => titleRef.current?.focus(options),
+  }));
+
   return (
     <form
       onSubmit={(e) => {
@@ -52,6 +64,7 @@ export default function GoalForm({
           <label className="grid gap-2">
             <span className="text-xs text-[hsl(var(--muted-foreground))]">Title</span>
             <Input
+              ref={titleRef}
               tone="default"
               className="h-10 text-sm"
               value={title}
@@ -105,5 +118,5 @@ export default function GoalForm({
       </SectionCard>
     </form>
   );
-}
+});
 

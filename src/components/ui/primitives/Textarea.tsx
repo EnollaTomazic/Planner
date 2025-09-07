@@ -13,8 +13,8 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
   textareaClassName?: string;
 };
 
-const INNER =
-  "block w-full max-w-full min-h-40 px-4 py-3 text-base bg-transparent " +
+  const INNER =
+    "block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent " +
   "text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] " +
   "focus:[outline:none] focus-visible:[outline:none] resize-y disabled:opacity-50 disabled:cursor-not-allowed";
 
@@ -51,7 +51,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
         ref={ref}
         id={finalId}
         name={finalName}
-        className={cn(INNER, tone === "pill" && "rounded-full min-h-32", textareaClassName)}
+          className={cn(INNER, tone === "pill" && "rounded-full min-h-6", textareaClassName)}
         {...props}
       />
     </FieldShell>
