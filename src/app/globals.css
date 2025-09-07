@@ -1338,6 +1338,7 @@ html.fx-overdrive .card-neo-soft.glitchy:hover .card-title {
 /* Autofill fix */
 input:-webkit-autofill,
 textarea:-webkit-autofill {
+  box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
   -webkit-text-fill-color: hsl(var(--foreground));
   transition: background-color 9999s ease-out 0s;
   caret-color: hsl(var(--foreground));

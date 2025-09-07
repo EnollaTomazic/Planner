@@ -79,14 +79,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         {...props}
       />
       {children}
-
-      {/* Autofill override */}
-      <style>{`
-        input:-webkit-autofill {
-          box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
-          -webkit-text-fill-color: hsl(var(--foreground));
-        }
-      `}</style>
     </FieldShell>
   );
 });
