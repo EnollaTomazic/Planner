@@ -36,6 +36,15 @@ describe('Select', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it('renders success state', () => {
+    const { container } = render(
+      <Select aria-label="test" success>
+        <option value="">Choose…</option>
+      </Select>
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   it('renders disabled state', () => {
     const { container } = render(
       <Select aria-label="test" disabled>
