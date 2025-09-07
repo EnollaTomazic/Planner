@@ -212,6 +212,12 @@ export default function Page() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Muted Text</span>
+            <p className="w-56 text-sm text-[hsl(var(--muted-foreground))] text-center">
+              Example of muted foreground text
+            </p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Badge</span>
             <div className="w-56 flex justify-center gap-2">
               <Badge>Neutral</Badge>

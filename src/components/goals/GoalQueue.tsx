@@ -32,14 +32,14 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
       <SectionCard.Body className="grid gap-6">
           <ul className="divide-y divide-white/10">
             {items.length === 0 ? (
-              <li className="py-3 text-sm text-white/60">No queued goals</li>
+              <li className="py-3 text-sm text-[hsl(var(--muted-foreground))]">No queued goals</li>
             ) : (
               items.map((it) => (
                 <li key={it.id} className="group flex items-center gap-2 py-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
                   <p className="flex-1 truncate text-sm">{it.text}</p>
                   <time
-                    className="text-xs text-white/60 opacity-0 group-hover:opacity-100"
+                    className="text-xs text-[hsl(var(--muted-foreground))] opacity-0 group-hover:opacity-100"
                     dateTime={new Date(it.createdAt).toISOString()}
                   >
                     {new Date(it.createdAt).toLocaleDateString(LOCALE)}
