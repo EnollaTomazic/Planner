@@ -38,7 +38,12 @@ const config: Config = {
         surfaceVhs: "hsl(var(--surface-vhs))",
         surfaceStreak: "hsl(var(--surface-streak))"
       },
-      borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
+      borderRadius: {
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-xl)",
+        "2xl": "var(--radius-2xl)"
+      },
       boxShadow: {
         "neo-sm":
           "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",

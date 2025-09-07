@@ -1228,6 +1228,7 @@ textarea:-webkit-autofill {
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 24px;
 }
 
 @layer components {
