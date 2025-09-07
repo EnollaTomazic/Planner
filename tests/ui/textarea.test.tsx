@@ -71,6 +71,14 @@ describe('Textarea', () => {
     expect(ta).toHaveClass('resize-y');
   });
 
+  it('applies textareaClassName to textarea', () => {
+    const { getByRole } = render(
+      <Textarea aria-label="custom" textareaClassName="custom" />
+    );
+    const ta = getByRole('textbox');
+    expect(ta).toHaveClass('custom');
+  });
+
   it('slugifies generated id for default name', () => {
     const { getByRole } = render(<Textarea />);
     const ta = getByRole('textbox') as HTMLTextAreaElement;
