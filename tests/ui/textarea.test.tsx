@@ -63,6 +63,14 @@ describe('Textarea', () => {
     expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
   });
 
+  it('applies resize prop', () => {
+    const { getByRole } = render(
+      <Textarea aria-label="resize" resize="resize-y" />
+    );
+    const ta = getByRole('textbox');
+    expect(ta).toHaveClass('resize-y');
+  });
+
   it('slugifies generated id for default name', () => {
     const { getByRole } = render(<Textarea />);
     const ta = getByRole('textbox') as HTMLTextAreaElement;

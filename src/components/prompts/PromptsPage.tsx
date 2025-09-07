@@ -131,6 +131,7 @@ export default function PromptsPage() {
             placeholder="Write your prompt or snippet…"
             value={textDraft}
             onChange={(e) => setTextDraft(e.target.value)}
+            resize="resize-y"
           />
         </div>
 
@@ -199,8 +200,8 @@ export default function PromptsPage() {
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Textarea</h3>
           <div className="space-y-3">
-            <Textarea placeholder="Default" />
-            <Textarea placeholder="Pill" tone="pill" />
+            <Textarea placeholder="Default" resize="resize-y" />
+            <Textarea placeholder="Pill" tone="pill" resize="resize-y" />
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
