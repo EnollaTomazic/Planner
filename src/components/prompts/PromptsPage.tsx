@@ -191,6 +191,12 @@ export default function PromptsPage() {
           </FieldShell>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Card</h3>
+          <div className="space-y-3">
+            <Card>Card content</Card>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Design Tokens</h3>
             <div>
               <h4 className="type-subtitle">Spacing</h4>
