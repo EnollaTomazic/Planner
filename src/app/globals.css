@@ -1575,6 +1575,10 @@ textarea:-webkit-autofill {
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 64px;
+  --space-14: 14px;
+  --space-20: 20px;
+  --space-36: 36px;
+  --space-40: 40px;
 
   /* Glow tokens */
   --glow-strong: 260 85% 60% / .55;
