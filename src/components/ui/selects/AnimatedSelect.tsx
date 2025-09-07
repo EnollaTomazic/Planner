@@ -61,6 +61,7 @@ export default function AnimatedSelect({
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const idBase = React.useId();
+  const labelId = `${idBase}-label`;
 
   // Positioning
   const [rect, setRect] = React.useState<DOMRect | null>(null);
@@ -234,7 +235,12 @@ export default function AnimatedSelect({
   return (
     <div id={id} className={["glitch-wrap", className].join(" ")}>
       {label ? (
-        <div className={hideLabel ? "sr-only" : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"}>{label}</div>
+        <div
+          id={labelId}
+          className={hideLabel ? "sr-only" : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"}
+        >
+          {label}
+        </div>
       ) : null}
 
       <button
@@ -249,7 +255,8 @@ export default function AnimatedSelect({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${idBase}-listbox`}
-        aria-label={triggerAria}
+        aria-labelledby={label ? labelId : undefined}
+        aria-label={label ? undefined : triggerAria}
         className={triggerCls}
         data-lit={lit ? "true" : "false"}
         data-open={open ? "true" : "false"}
@@ -290,7 +297,8 @@ export default function AnimatedSelect({
                 role="listbox"
                 id={`${idBase}-listbox`}
                 tabIndex={-1}
-                aria-label={triggerAria}
+                aria-labelledby={label ? labelId : undefined}
+                aria-label={label ? undefined : triggerAria}
                 initial={{ opacity: 0, y: -4, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -4, scale: 0.98 }}
