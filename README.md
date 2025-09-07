@@ -42,3 +42,8 @@ This app respects your operating system's "reduced motion" setting. If reduced m
 ## Design System
 
 Learn more about the components and guidelines in the [Design System](docs/design-system.md).
+
+## Contributing
+
+- Run `npm run format` before committing to ensure code style consistency.
+- When introducing new styles or components, add them to the prompts page (`src/app/prompts/page.tsx`) so they can be previewed.
