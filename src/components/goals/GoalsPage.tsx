@@ -213,7 +213,7 @@ export default function GoalsPage() {
                     ) : (
                       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr] list-none">
                         {filtered.map((g) => (
-                          <li key={g.id} className="h-full">
+                          <li role="listitem" key={g.id} className="h-full">
                             <article
                               className={[
                                 "relative h-full rounded-2xl p-6",
