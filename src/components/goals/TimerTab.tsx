@@ -8,7 +8,6 @@
  * - Digits centered; minus/plus on the sides
  * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
  */
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";

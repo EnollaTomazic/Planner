@@ -11,7 +11,6 @@
  * - Quick Add (input + button + neon quote) now lives in the SAME panel as the cards (SectionCard.Body)
  */
 
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
