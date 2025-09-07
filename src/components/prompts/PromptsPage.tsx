@@ -160,9 +160,10 @@ export default function PromptsPage() {
             Customize focus rings with the <code>--theme-ring</code> variable.
           </p>
           <div className="space-y-3">
-            <Input size="sm" placeholder="Small" />
+            <Input height="sm" placeholder="Small" />
             <Input placeholder="Medium" />
-            <Input size="lg" placeholder="Large" />
+            <Input height="lg" placeholder="Large" />
+            <Input height={12} placeholder="h-12" />
             <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
             <Input

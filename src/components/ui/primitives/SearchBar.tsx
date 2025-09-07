@@ -3,11 +3,11 @@
 import * as React from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Input from "./Input";
+import Input, { type InputSize } from "./Input";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange"
+  "onChange" | "height"
 > & {
   value: string;
   onValueChange?: (next: string) => void;
@@ -16,6 +16,8 @@ export type SearchBarProps = Omit<
   right?: React.ReactNode;
   clearable?: boolean;
   debounceMs?: number;
+  /** Visual height of the control */
+  height?: InputSize | number;
 };
 
 export default function SearchBar({
@@ -32,6 +34,7 @@ export default function SearchBar({
   autoCorrect = "off",
   spellCheck = false,
   autoCapitalize = "none",
+  height,
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
@@ -90,11 +93,12 @@ export default function SearchBar({
           }}
           placeholder={placeholder}
           indent
-            className={cn(
-              "w-full",
-              showClear && "pr-7",
-              "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
-            )}
+          height={height}
+          className={cn(
+            "w-full",
+            showClear && "pr-7",
+            "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
+          )}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
           autoComplete={autoComplete}
@@ -105,12 +109,12 @@ export default function SearchBar({
         />
 
         {showClear && (
-            <button
-              type="button"
-              aria-label="Clear"
-              title="Clear"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-              onClick={() => {
+          <button
+            type="button"
+            aria-label="Clear"
+            title="Clear"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+            onClick={() => {
               setQuery("");
               onValueChange?.("");
               inputRef.current?.focus();
@@ -126,3 +130,4 @@ export default function SearchBar({
     </form>
   );
 }
+
