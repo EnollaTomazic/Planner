@@ -595,7 +595,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Delete review"
                 title="Delete review"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={onDelete}
@@ -608,7 +608,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Done"
                 title="Save and close"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={() => {
@@ -925,7 +925,7 @@ export default function ReviewEditor({
               aria-label="Add timestamp"
               title={canAddMarker ? "Add timestamp" : "Enter details"}
               disabled={!canAddMarker}
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={addMarker}
@@ -957,7 +957,7 @@ export default function ReviewEditor({
                   <IconButton
                     aria-label="Delete timestamp"
                     title="Delete timestamp"
-                    circleSize="sm"
+                    size="sm"
                     iconSize="sm"
                     variant="ring"
                     onClick={() => removeMarker(m.id)}
@@ -994,7 +994,7 @@ export default function ReviewEditor({
             <IconButton
               aria-label="Add tag"
               title="Add tag"
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={() => {

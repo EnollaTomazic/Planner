@@ -81,7 +81,7 @@ export default function TodayHero({ iso }: Props) {
             aria-label="Open calendar"
             title={viewIso}
             onClick={openPicker}
-            circleSize="md"
+            size="md"
             variant="ring"
             iconSize="md"
           >
@@ -159,10 +159,10 @@ export default function TodayHero({ iso }: Props) {
                   )}
 
                   <div className="flex items-center gap-2">
-                    <IconButton aria-label={`Edit project ${p.name}`} title="Edit" onClick={e => { e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }} circleSize="sm" variant="ring" iconSize="xs">
+                    <IconButton aria-label={`Edit project ${p.name}`} title="Edit" onClick={e => { e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }} size="sm" variant="ring" iconSize="xs">
                       <Pencil />
                     </IconButton>
-                    <IconButton aria-label={`Remove project ${p.name}`} title="Remove" onClick={e => { e.stopPropagation(); deleteProject(p.id); if (selProjectId === p.id) setSelProjectId(""); }} circleSize="sm" variant="ring" iconSize="xs">
+                    <IconButton aria-label={`Remove project ${p.name}`} title="Remove" onClick={e => { e.stopPropagation(); deleteProject(p.id); if (selProjectId === p.id) setSelProjectId(""); }} size="sm" variant="ring" iconSize="xs">
                       <Trash2 />
                     </IconButton>
                   </div>
@@ -234,10 +234,10 @@ export default function TodayHero({ iso }: Props) {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <IconButton aria-label={`Edit task ${t.text}`} title="Edit" onClick={() => { setEditingTaskId(t.id); setEditingTaskText(t.text); setSelTaskId(t.id); }} circleSize="sm" variant="ring" iconSize="xs">
+                      <IconButton aria-label={`Edit task ${t.text}`} title="Edit" onClick={() => { setEditingTaskId(t.id); setEditingTaskText(t.text); setSelTaskId(t.id); }} size="sm" variant="ring" iconSize="xs">
                         <Pencil />
                       </IconButton>
-                      <IconButton aria-label="Remove task" title="Remove" onClick={() => { deleteTask(t.id); setSelTaskId(""); }} circleSize="sm" variant="ring" iconSize="xs">
+                      <IconButton aria-label="Remove task" title="Remove" onClick={() => { deleteTask(t.id); setSelTaskId(""); }} size="sm" variant="ring" iconSize="xs">
                         <Trash2 />
                       </IconButton>
                     </div>

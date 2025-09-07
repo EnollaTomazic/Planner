@@ -240,7 +240,7 @@ export default function GoalsPage() {
                                   title="Delete"
                                   aria-label="Delete goal"
                                   onClick={() => removeGoal(g.id)}
-                                  circleSize="sm"
+                                  size="sm"
                                 >
                                   <Trash2 />
                                 </IconButton>

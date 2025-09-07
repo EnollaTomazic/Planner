@@ -299,7 +299,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               type="submit"
               title="Add comp"
               aria-label="Add comp"
-              circleSize="md"
+              size="md"
               className="shrink-0"
               variant="solid"
             >
@@ -329,18 +329,18 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
                       <>
-                        <IconButton title="Copy" circleSize="sm" onClick={() => copyOne(c)}>
+                        <IconButton title="Copy" size="sm" onClick={() => copyOne(c)}>
                           {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
                         </IconButton>
-                        <IconButton title="Edit" circleSize="sm" onClick={() => setEditingId(c.id)}>
+                        <IconButton title="Edit" size="sm" onClick={() => setEditingId(c.id)}>
                           <Pencil />
                         </IconButton>
-                        <IconButton title="Delete" circleSize="sm" variant="ring" onClick={() => remove(c.id)}>
+                        <IconButton title="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
                           <Trash2 />
                         </IconButton>
                       </>
                     ) : (
-                      <IconButton title="Save" circleSize="sm" onClick={() => setEditingId(null)}>
+                      <IconButton title="Save" size="sm" onClick={() => setEditingId(null)}>
                         <Check />
                       </IconButton>
                     )}

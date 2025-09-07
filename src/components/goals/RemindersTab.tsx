@@ -273,7 +273,7 @@ export default function RemindersTab() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuickAdd(e.currentTarget.value)}
                 className="flex-1"
               />
-              <IconButton title="Add quick" aria-label="Add quick" type="submit" circleSize="md" variant="solid">
+              <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
                 <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
               </IconButton>
               <div className={neonClass}>
@@ -458,7 +458,7 @@ function RemTile({
               setEditing(true);
               setTimeout(() => titleRef.current?.focus(), 0);
             }}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
           >
@@ -469,7 +469,7 @@ function RemTile({
             title="Delete"
             aria-label="Delete"
             onClick={onDelete}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
             variant="ring"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
@@ -482,7 +482,7 @@ function RemTile({
             title={pinned ? "Unpin" : "Pin"}
             aria-label={pinned ? "Unpin" : "Pin"}
             onClick={() => onChange({ pinned: !pinned })}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
           >
             {pinned ? <PinOff /> : <Pin />}

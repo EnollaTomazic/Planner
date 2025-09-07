@@ -49,7 +49,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                       title="Delete"
                       aria-label="Delete"
                       onClick={() => onRemove(it.id)}
-                      circleSize="sm"
+                      size="sm"
                       iconSize="sm"
                       variant="ring"
                       className="opacity-0 group-hover:opacity-100"

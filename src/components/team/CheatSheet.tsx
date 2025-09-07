@@ -448,7 +448,7 @@ export default function CheatSheet({
               {!isEditing ? (
                 <IconButton
                   title="Edit"
-                  circleSize="sm"
+                  size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
                   <Pencil />
@@ -456,7 +456,7 @@ export default function CheatSheet({
               ) : (
                 <IconButton
                   title="Save"
-                  circleSize="sm"
+                  size="sm"
                   onClick={() => setEditingId(null)}
                 >
                   <Check />
