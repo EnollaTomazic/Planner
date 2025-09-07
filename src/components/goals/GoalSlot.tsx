@@ -59,6 +59,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
         )}
       >
         {goal ? (
+<<<<<<<<< Temporary merge branch 1
           editing ? (
             <form
               onSubmit={(e) => {
@@ -136,6 +137,44 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
               </button>
             </>
           )
+=========
+          <>
+            <div className="flex flex-col items-center">
+              <span className={cn("block", goal?.done && "line-through")}>{goal.title}</span>
+              {goal.pillar && (
+                <PillarBadge pillar={goal.pillar} size="sm" className="mt-1" as="span" />
+              )}
+            </div>
+            <button
+              type="button"
+              className={cn(
+                "absolute bottom-1 right-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))]",
+                goal?.done && "text-[hsl(var(--success))]",
+              )}
+              aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
+              aria-pressed={goal.done}
+              onClick={() => onToggleDone?.(goal.id)}
+            >
+              <Check className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="absolute bottom-1 left-1 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
+              aria-label="Edit goal"
+              onClick={handleEdit}
+            >
+              <Pencil className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="absolute bottom-1 left-7 flex rounded bg-[hsl(var(--surface))] p-[0.15rem] text-[hsl(var(--foreground))] opacity-0 transition-opacity group-hover:opacity-100"
+              aria-label="Delete goal"
+              onClick={() => onDelete?.(goal.id)}
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
+          </>
+>>>>>>>>> Temporary merge branch 2
         ) : (
           <span className="text-[hsl(var(--muted-foreground))]">NO SIGNAL</span>
         )}

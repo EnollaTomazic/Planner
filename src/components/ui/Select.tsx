@@ -11,6 +11,8 @@ export interface SelectProps
   helperText?: string;
   errorText?: string;
   success?: boolean;
+  /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
+  tone?: "default" | "pill";
   /** Optional className for the inner <select> element */
   selectClassName?: string;
 }
@@ -22,6 +24,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
     helperText,
     errorText,
     success,
+    tone = "default",
     disabled,
     id,
     children,
@@ -49,6 +52,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           disabled && "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
           className
         )}
+        tone={tone}
         error={!!errorText}
         disabled={disabled}
       >
@@ -59,15 +63,15 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           disabled={disabled}
           aria-invalid={errorText ? "true" : props["aria-invalid"]}
           aria-describedby={describedBy}
-              className={cn(
-                "flex-1 h-5 px-4 pr-7 text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
-                selectClassName
-              )}
+            className={cn(
+              "flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
+              selectClassName
+            )}
           {...props}
         >
           {children}
         </select>
-            <ChevronDown className="pointer-events-none absolute right-4 h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
+          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
       </FieldShell>
       {success && (
         <p
@@ -84,7 +88,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           id={errorId || helperId}
           className={cn(
             "text-xs mt-1 line-clamp-2",
-            errorText ? "text-[hsl(var(--destructive))]" : "text-[hsl(var(--muted-foreground))]"
+            errorText ? "text-danger" : "text-muted-foreground"
           )}
         >
           {errorText || helperText}

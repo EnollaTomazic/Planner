@@ -15,7 +15,7 @@ const ITEMS = [
   { href: "/reviews", label: "Reviews" },
   { href: "/planner", label: "Planner" },
   { href: "/goals", label: "Goals" },
-  { href: "/team", label: "Comps" },
+  { href: "/comps", label: "Comps" },
   { href: "/prompts", label: "Prompts" },
 ];
 

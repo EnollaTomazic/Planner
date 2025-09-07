@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { SectionCard, Textarea, Button, Input, Card, FieldShell, SearchBar } from "@/components/ui";
+import { SectionCard, Textarea, Button, Input, Select, Card, FieldShell, SearchBar, Label } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { ArrowUp } from "lucide-react";
 import { useLocalDB, uid } from "@/lib/db";
@@ -160,6 +160,7 @@ export default function PromptsPage() {
           </p>
           <div className="space-y-3">
             <Input placeholder="Default" />
+            <Input placeholder="Pill" tone="pill" />
             <Input placeholder="Error" aria-invalid="true" />
             <Input placeholder="Custom ring" style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties} />
             <Input placeholder="With action">
@@ -174,10 +175,36 @@ export default function PromptsPage() {
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Select</h3>
+          <div className="space-y-3">
+            <Select aria-label="Default">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Pill" tone="pill">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+            <Select aria-label="Error" errorText="Error">
+              <option value="">Choose…</option>
+              <option value="a">A</option>
+            </Select>
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
           <h3 className="type-title">Textarea</h3>
           <div className="space-y-3">
             <Textarea placeholder="Default" />
             <Textarea placeholder="Pill" tone="pill" />
+          </div>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Label</h3>
+          <div className="space-y-3">
+            <div>
+              <Label htmlFor="label-demo">Label</Label>
+              <Input id="label-demo" placeholder="With spacing" />
+            </div>
           </div>
         </Card>
         <Card className="mt-8 space-y-4">
@@ -195,6 +222,14 @@ export default function PromptsPage() {
               Custom content
             </div>
           </FieldShell>
+        </Card>
+        <Card className="mt-8 space-y-4">
+          <h3 className="type-title">Button</h3>
+          <div className="space-x-3">
+            <Button>Default</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </div>
         </Card>
         <Card className="mt-8 space-y-4">
           <h3 className="type-title">Card</h3>
@@ -260,19 +295,6 @@ export default function PromptsPage() {
           <div>
             <h4 className="type-subtitle">Type Ramp</h4>
             <p className="type-body">eyebrow, title, subtitle, body, caption</p>
-          </div>
-        </Card>
-        <Card className="mt-8 space-y-4">
-          <h3 className="type-title">Spacing Demo</h3>
-          <div className="flex flex-wrap items-end gap-4">
-            <div className="h-4 w-1 bg-accent" />
-            <div className="h-4 w-2 bg-accent" />
-            <div className="h-4 w-3 bg-accent" />
-            <div className="h-4 w-4 bg-accent" />
-            <div className="h-4 w-5 bg-accent" />
-            <div className="h-4 w-6 bg-accent" />
-            <div className="h-4 w-7 bg-accent" />
-            <div className="h-4 w-8 bg-accent" />
           </div>
         </Card>
         <Card className="mt-8 space-y-4">

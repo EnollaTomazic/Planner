@@ -75,11 +75,11 @@ export default function ComponentGallery() {
 
   return (
     <main className="p-6 bg-background text-foreground">
-      <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+      <p className="mb-4 text-sm text-muted-foreground">
         Focus styles now use <code>focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0</code>
         for accessible highlights.
       </p>
-      <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+      <p className="mb-4 text-sm text-muted-foreground">
         Input autofill colors are controlled globally via <code>input:-webkit-autofill</code>.
       </p>
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
@@ -219,7 +219,10 @@ export default function ComponentGallery() {
           </div>
         </Item>
         <Item label="Select">
-          <Select aria-label="Fruit" className="w-56">
+          <Select aria-label="Fruit" defaultValue="" className="w-56">
+            <option value="" disabled hidden>
+              Choose…
+            </option>
             <option value="apple">Apple</option>
             <option value="orange">Orange</option>
             <option value="pear">Pear</option>

@@ -37,13 +37,13 @@ const config: Config = {
       borderRadius: { md: "8px", lg: "12px", xl: "16px", "2xl": "24px" },
       boxShadow: {
         "neo-sm":
-          "4px 4px 8px hsl(var(--bg)/0.72), -4px -4px 8px hsl(var(--text)/0.06)",
+          "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",
         neo:
-          "12px 12px 24px hsl(var(--bg)/0.72), -12px -12px 24px hsl(var(--text)/0.06)",
+          "12px 12px 24px hsl(var(--panel)/0.72), -12px -12px 24px hsl(var(--foreground)/0.06)",
         "neo-strong":
-          "14px 14px 28px hsl(var(--bg)/0.72), -14px -14px 28px hsl(var(--text)/0.06)",
+          "14px 14px 28px hsl(var(--panel)/0.72), -14px -14px 28px hsl(var(--foreground)/0.06)",
         "neo-inset":
-          "inset 4px 4px 10px hsl(var(--bg)/0.85), inset -4px -4px 10px hsl(var(--text)/0.08)",
+          "inset 4px 4px 10px hsl(var(--panel)/0.85), inset -4px -4px 10px hsl(var(--foreground)/0.08)",
         ring: "0 0 12px hsl(var(--ring))",
         neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))"
       },
