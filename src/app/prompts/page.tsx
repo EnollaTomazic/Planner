@@ -19,6 +19,7 @@ import {
   SearchBar,
 } from "@/components/ui";
 import { Plus, Sun } from "lucide-react";
+import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
 
 export default function Page() {
   const viewTabs = [
@@ -50,6 +51,7 @@ export default function Page() {
   ];
 
   const [view, setView] = React.useState("components");
+  const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
 
   return (
     <main className="page-shell py-6 bg-background text-foreground">
@@ -89,6 +91,12 @@ export default function Page() {
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Tabs</span>
             <TabBar items={demoTabs} className="w-56" />
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm font-medium">Goals Tabs</span>
+            <div className="w-56">
+              <GoalsTabs value={goalFilter} onChange={setGoalFilter} />
+            </div>
           </div>
           <div className="flex flex-col items-center space-y-2">
             <span className="text-sm font-medium">Progress</span>
