@@ -487,11 +487,11 @@ html.bg-light body::after {
 html.bg-vhs body {
   background-color: hsl(var(--surface-vhs));
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(70, 230, 255, 0.15), transparent 60%),
+    radial-gradient(circle at 20% 30%, hsl(var(--accent-2) / 0.15), transparent 60%),
     repeating-linear-gradient(
       to bottom,
-      rgba(150, 210, 225, 0.15),
-      rgba(150, 210, 225, 0.15) 1px,
+      hsl(var(--accent-2) / 0.15),
+      hsl(var(--accent-2) / 0.15) 1px,
       transparent 1px,
       transparent 3px
     );
@@ -505,11 +505,11 @@ html.bg-vhs body::after {
 html.bg-streak body {
   background-color: hsl(var(--surface-streak));
   background-image:
-    radial-gradient(circle at 70% 40%, rgba(180, 100, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 70% 40%, hsl(var(--accent) / 0.25), transparent 40%),
     repeating-linear-gradient(
       to right,
-      rgba(160, 60, 255, 0.2),
-      rgba(160, 60, 255, 0.2) 6px,
+      hsl(var(--accent) / 0.2),
+      hsl(var(--accent) / 0.2) 6px,
       transparent 6px,
       transparent 20px
     );
