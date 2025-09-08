@@ -1,5 +1,6 @@
 import { colorTokens, spacingTokens, radiusTokens } from "@/lib/tokens";
 
+// Re-export tokens for demo components
 export { colorTokens, spacingTokens, radiusTokens };
 
 export const glowTokens = ["--glow-strong", "--glow-soft"];

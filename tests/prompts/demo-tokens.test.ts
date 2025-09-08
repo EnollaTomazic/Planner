@@ -22,7 +22,7 @@ describe("demo tokens", () => {
 
   it("use colors defined in tailwind config", () => {
     const colors = (config as any).theme?.extend?.colors ?? {};
-    const expected = colorTokens.map((c) => c.replace(/^bg-/, ""));
-    expect(expected.every((name) => colors[name])).toBe(true);
+    const expected = Object.keys(colors).map((name) => `bg-${name}`);
+    expect(colorTokens.sort()).toEqual(expected.sort());
   });
 });
