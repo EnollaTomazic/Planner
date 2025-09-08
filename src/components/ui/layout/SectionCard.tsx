@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type RootProps = React.HTMLAttributes<HTMLDivElement>;
-export type HeaderProps = {
+export type SectionCardHeaderProps = {
   sticky?: boolean;
   topClassName?: string; // sticky top offset
   className?: string;
@@ -34,7 +34,7 @@ function Header({
   children,
   title,
   actions,
-}: HeaderProps) {
+}: SectionCardHeaderProps) {
   return (
     <div
       className={cn(
