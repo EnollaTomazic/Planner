@@ -65,7 +65,7 @@ export default function Toggle({
       <span
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
-          !isRight ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+          !isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
         )}
         style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
       >
@@ -74,7 +74,7 @@ export default function Toggle({
       <span
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
-          isRight ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+          isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
         )}
         style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
       >

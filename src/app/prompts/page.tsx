@@ -151,6 +151,14 @@ export default function Page() {
       ),
     },
     {
+      label: "Foreground Overlay Box",
+      element: (
+        <div className="w-56 h-6 flex items-center justify-center rounded border border-[hsl(var(--border)/0.1)] bg-[hsl(var(--foreground)/0.05)] text-[hsl(var(--foreground)/0.7)]">
+          FG Overlay
+        </div>
+      ),
+    },
+    {
       label: "Surface",
       element: (
         <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
