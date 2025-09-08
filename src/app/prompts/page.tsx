@@ -47,6 +47,9 @@ import {
   TaskList,
   TaskRow,
   EmptyRow,
+  DayRow,
+  ScrollTopFloatingButton,
+  PlannerProvider,
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
@@ -731,6 +734,24 @@ export default function Page() {
         />
       ),
       className: "sm:col-span-2 md:col-span-3",
+    },
+    {
+      label: "DayRow",
+      element: (
+        <PlannerProvider>
+          <DayRow iso="2024-01-01" isToday={false} />
+        </PlannerProvider>
+      ),
+      className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "ScrollTopFloatingButton",
+      element: (
+        <ScrollTopFloatingButton
+          watchRef={React.createRef<HTMLElement>()}
+          forceVisible
+        />
+      ),
     },
   ];
 
