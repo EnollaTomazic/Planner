@@ -1,4 +1,9 @@
-import { readLocal, writeLocal } from "./db";
+import { createStorageKey } from "./db";
+import {
+  readLocal,
+  writeLocal,
+  localBootstrapScript,
+} from "./local-bootstrap";
 
 export type Mode = "dark" | "light";
 export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose" | "hardstuck";
@@ -61,11 +66,14 @@ export function defaultTheme(): ThemeState {
 }
 
 export function readTheme(): ThemeState {
-  return readLocal<ThemeState>(THEME_STORAGE_KEY) ?? defaultTheme();
+  return (
+    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ??
+    defaultTheme()
+  );
 }
 
 export function writeTheme(state: ThemeState) {
-  writeLocal(THEME_STORAGE_KEY, state);
+  writeLocal(createStorageKey(THEME_STORAGE_KEY), state);
 }
 
 export function applyTheme({ variant, mode, bg }: ThemeState) {
@@ -94,11 +102,8 @@ export function applyTheme({ variant, mode, bg }: ThemeState) {
 export function themeBootstrapScript(): string {
   return `((function(){
     try {
-      var STORAGE_PREFIX = "13lr:";
-      function parseJSON(raw){ if(!raw) return null; try{return JSON.parse(raw);}catch{return null;} }
-      function readLocal(key){ try{ return parseJSON(localStorage.getItem(STORAGE_PREFIX+key)); } catch { return null; } }
-      function writeLocal(key,val){ try{ localStorage.setItem(STORAGE_PREFIX+key, JSON.stringify(val)); } catch {} }
-      var key = "${THEME_STORAGE_KEY}";
+      ${localBootstrapScript()}
+      var key = "${createStorageKey(THEME_STORAGE_KEY)}";
       var data = readLocal(key);
       if(!data){
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;

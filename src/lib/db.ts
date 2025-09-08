@@ -7,6 +7,11 @@
 "use client";
 
 import * as React from "react";
+import {
+  parseJSON,
+  readLocal as baseReadLocal,
+  writeLocal as baseWriteLocal,
+} from "./local-bootstrap";
 
 /** Namespacing so we don't collide with other apps in the same domain */
 const STORAGE_PREFIX = "noxis-planner:";
@@ -48,16 +53,6 @@ export function createStorageKey(key: string): string {
   return `${STORAGE_PREFIX}${key}`;
 }
 
-/** Safe JSON parse */
-function parseJSON<T>(raw: string | null): T | null {
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return null;
-  }
-}
-
 /** Safe JSON stringify */
 function toJSON(v: unknown): string {
   try {
@@ -71,7 +66,7 @@ function toJSON(v: unknown): string {
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
   try {
-    return parseJSON<T>(window.localStorage.getItem(createStorageKey(key)));
+    return baseReadLocal<T>(createStorageKey(key));
   } catch {
     return null;
   }
@@ -81,7 +76,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    window.localStorage.setItem(createStorageKey(key), toJSON(value));
+    baseWriteLocal(createStorageKey(key), JSON.parse(toJSON(value)));
   } catch {
     // ignore quota/privacy errors
   }
@@ -150,9 +145,10 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     if (!isBrowser) return;
     if (!loadedRef.current) {
-      const fromStorage = parseJSON<T>(
-        window.localStorage.getItem(fullKeyRef.current),
-      );
+      let fromStorage = baseReadLocal<T>(fullKeyRef.current);
+      if (fromStorage === null) {
+        fromStorage = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
+      }
       if (fromStorage !== null) setState(fromStorage);
       loadedRef.current = true;
     }
@@ -176,7 +172,7 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
-      window.localStorage.setItem(fullKeyRef.current, toJSON(state));
+      baseWriteLocal(fullKeyRef.current, JSON.parse(toJSON(state)));
     } catch {
       // ignore
     }
