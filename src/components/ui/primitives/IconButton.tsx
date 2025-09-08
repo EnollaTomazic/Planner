@@ -14,8 +14,6 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   iconSize?: Icon;
   tone?: Tone;
   variant?: Variant;
-  /** @deprecated use size */
-  circleSize?: ButtonSize;
 };
 
 const iconMap: Record<Icon, string> = {
@@ -72,19 +70,10 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    {
-      size = "sm",
-      circleSize,
-      iconSize = size as Icon,
-      className,
-      tone = "primary",
-      variant = "ring",
-      ...props
-    },
+    { size = "sm", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
     ref
   ) => {
-    const finalSize = circleSize ?? size;
-    const sizeClass = sizeMap[finalSize];
+    const sizeClass = sizeMap[size];
     return (
       <button
         ref={ref}
