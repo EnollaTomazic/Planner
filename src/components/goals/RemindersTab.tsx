@@ -266,7 +266,7 @@ export default function RemindersTab() {
 
       <SectionCard className="goal-card">
         <SectionCard.Body>
-          <div className="grid gap-2.5">
+          <div className="grid gap-3">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
               onSubmit={(e) => {
