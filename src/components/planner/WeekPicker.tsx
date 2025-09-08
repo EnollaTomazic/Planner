@@ -15,7 +15,7 @@ import { useFocusDate } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
-import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";
+import { CalendarDays, ArrowUpToLine } from "lucide-react";
 import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
@@ -115,15 +115,12 @@ function DayChip({
 export default function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { start, end, heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
+  const { heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
     const base = fromISODate(iso) ?? new Date();
     const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
     const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISODate(addDays(s, i)) as ISODate);
     return {
-      start: s,
-      end: e,
       heading: `${dmy.format(s)} — ${dmy.format(e)}`,
       rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
       isoStart: toISODate(s),
@@ -131,10 +128,6 @@ export default function WeekPicker() {
       days: list,
     };
   }, [iso]);
-
-  const prevWeek = () => setIso(toISODate(addDays(start, -7)));
-  const nextWeek = () => setIso(toISODate(addDays(start, 7)));
-  const jumpToday = () => setIso(today);
 
   const { per, weekDone, weekTotal } = useWeekStats(days);
 
@@ -168,49 +161,20 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top-right controls go in Hero.right */
-  const right = (
-    <div className="flex items-center gap-2">
+  /* Top button goes in Hero.right when applicable */
+  const right =
+    showTop ? (
       <Button
-        variant="ghost"
+        variant="primary"
         size="sm"
-        aria-label="Previous week"
-        onClick={prevWeek}
+        aria-label="Jump to top"
+        onClick={jumpToTop}
+        title="Jump to top"
       >
-        <ChevronLeft className="size-4" />
-        <span>Prev</span>
+        <ArrowUpToLine className="size-4" />
+        <span>Top</span>
       </Button>
-      <Button
-        size="sm"
-        aria-label="Jump to today"
-        onClick={jumpToday}
-      >
-        Today
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        aria-label="Next week"
-        onClick={nextWeek}
-      >
-        <span>Next</span>
-        <ChevronRight className="size-4" />
-      </Button>
-
-      {showTop && (
-        <Button
-          variant="primary"
-          size="sm"
-          aria-label="Jump to top"
-          onClick={jumpToTop}
-          title="Jump to top"
-        >
-          <ArrowUpToLine className="size-4" />
-          <span>Top</span>
-        </Button>
-      )}
-    </div>
-  );
+    ) : undefined;
 
   return (
     <Hero
