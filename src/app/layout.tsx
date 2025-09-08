@@ -34,9 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] glitch-root">
         <SiteChrome />
-        <div className="relative z-10">
+        <main className="relative z-10">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   );
