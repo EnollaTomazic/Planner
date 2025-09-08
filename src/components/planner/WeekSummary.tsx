@@ -4,7 +4,9 @@ import "./style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { useWeek, usePlanner, type ISODate } from "./usePlanner";
+import { useWeek } from "./useFocusDate";
+import { usePlannerStore } from "./usePlannerStore";
+import type { ISODate } from "./plannerStore";
 import { cn, LOCALE } from "@/lib/utils";
 
 /**
@@ -39,7 +41,7 @@ export default function WeekSummary({
   bleed = false,
 }: Props) {
   const { days: weekDays, isToday } = useWeek(iso);
-  const { getDay } = usePlanner();
+  const { getDay } = usePlannerStore();
 
   const stats = React.useMemo(() => {
     return weekDays.map(d => {

@@ -9,11 +9,8 @@
 
 import "./style.css";
 import * as React from "react";
-import {
-  useSelectedProject,
-  useSelectedTask,
-  type ISODate,
-} from "./usePlanner";
+import { useSelectedProject, useSelectedTask } from "./useSelection";
+import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
 import Input from "@/components/ui/primitives/Input";
 import { cn } from "@/lib/utils";

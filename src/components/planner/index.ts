@@ -16,6 +16,16 @@ export { default as WeekPicker } from "./WeekPicker";
 export { default as WeekSummary } from "./WeekSummary";
 export * from "./dayCrud";
 export * from "./plannerCrud";
-export * from "./plannerStore";
+export {
+  PlannerProvider,
+  todayISO,
+  ensureDay,
+  type ISODate,
+  type DayRecord,
+  type Project,
+  type DayTask,
+} from "./plannerStore";
 export * from "./useDay";
-export * from "./usePlanner";
+export * from "./usePlannerStore";
+export * from "./useFocusDate";
+export * from "./useSelection";

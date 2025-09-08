@@ -3,10 +3,10 @@
 import * as React from "react";
 import { ensureDay, type ISODate } from "./plannerStore";
 import { makeCrud } from "./plannerCrud";
-import { usePlanner } from "./usePlanner";
+import { usePlannerStore } from "./usePlannerStore";
 
 export function useDay(iso: ISODate) {
-  const { days, upsertDay } = usePlanner();
+  const { days, upsertDay } = usePlannerStore();
 
   const rec = React.useMemo(() => ensureDay(days, iso), [days, iso]);
 
