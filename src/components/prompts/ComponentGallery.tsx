@@ -348,7 +348,7 @@ export default function ComponentGallery() {
       label: "Review Layout",
       element: (
         <div className="grid w-full gap-4 md:grid-cols-12">
-          <div className="md:col-span-4 md:w-[240px] bg-[hsl(var(--panel))] h-10 rounded" />
+          <div className="md:col-span-4 md:w-[240px] bg-panel h-10 rounded" />
           <div className="md:col-span-8 bg-muted h-10 rounded" />
         </div>
       ),

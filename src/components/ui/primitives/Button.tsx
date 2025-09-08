@@ -69,7 +69,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     > = {
       primary: {
-        className: "bg-[hsl(var(--panel)/0.85)] overflow-hidden shadow-neo",
+        className: "bg-panel/85 overflow-hidden shadow-neo",
         whileHover: {
           scale: 1.03,
           boxShadow:
@@ -91,7 +91,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         contentClass: "relative z-10 inline-flex items-center gap-2",
       },
       secondary: {
-        className: "bg-[hsl(var(--panel)/0.8)] shadow-neo",
+        className: "bg-panel/80 shadow-neo",
         whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
         whileTap: {
           scale: 0.97,
@@ -99,7 +99,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
       },
       ghost: {
-        className: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+        className: "bg-transparent hover:bg-panel/45",
         whileTap: { scale: 0.97 },
       },
     } as const;
