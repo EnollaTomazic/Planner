@@ -214,7 +214,7 @@ export default function WeekPicker() {
   return (
     <Hero
       heading={
-        <span className="hero2-title" data-text={heading}>
+        <span className="hero-title" data-text={heading}>
           {heading}
         </span>
       }

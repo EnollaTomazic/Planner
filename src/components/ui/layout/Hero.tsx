@@ -107,14 +107,14 @@ export default function Hero({
       <div
         className={cx(
           sticky ? "sticky-blur" : "",
-          "hero2-frame relative overflow-hidden rounded-2xl px-4 sm:px-5 py-4",
+          "hero-frame relative overflow-hidden rounded-2xl px-4 sm:px-5 py-4",
           topClassName,
         )}
       >
         {/* decorative layers */}
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
+        <span aria-hidden className="hero-beams" />
+        <span aria-hidden className="hero-scanlines" />
+        <span aria-hidden className="hero-noise" />
 
         <div
           className={cx("relative z-[2] flex items-center gap-3", barClassName)}
@@ -131,7 +131,7 @@ export default function Hero({
 
             <div className="flex items-baseline gap-2">
               <h2
-                className="hero2-title title-glow text-xl sm:text-2xl truncate"
+                className="hero-title title-glow text-xl sm:text-2xl truncate"
                 data-text={headingStr}
               >
                 {heading}
@@ -155,12 +155,12 @@ export default function Hero({
             {bottomNode ? (
               <div
                 className={cx(
-                  "relative hero2-sep",
+                  "relative hero-sep",
                   dividerTint === "life" ? "neon-life" : "neon-primary",
                 )}
               >
-                <span aria-hidden className="hero2-neon-line" />
-                <div className="hero2-sep-row">{bottomNode}</div>
+                <span aria-hidden className="hero-neon-line" />
+                <div className="hero-sep-row">{bottomNode}</div>
               </div>
             ) : null}
           </div>
@@ -258,12 +258,12 @@ export function HeroGlitchStyles() {
   return (
     <style jsx global>{`
       /* === Hero: header background layers =============================== */
-      .hero2-frame {
-        --hero2-c1: hsl(var(--accent));
-        --hero2-c2: hsl(var(--primary));
-        --hero2-bloom: hsl(var(--shadow-color) / 0.85);
+      .hero-frame {
+        --hero-c1: hsl(var(--accent));
+        --hero-c2: hsl(var(--primary));
+        --hero-bloom: hsl(var(--shadow-color) / 0.85);
         box-shadow:
-          0 10px 40px -18px var(--hero2-bloom),
+          0 10px 40px -18px var(--hero-bloom),
           inset 0 0 0 1px hsl(var(--border) / 0.55);
         background:
           radial-gradient(
@@ -282,7 +282,7 @@ export function HeroGlitchStyles() {
             hsl(var(--card) / 0.82)
           );
       }
-      .hero2-beams {
+      .hero-beams {
         position: absolute;
         inset: -2px;
         border-radius: var(--radius-2xl, 24px);
@@ -304,9 +304,9 @@ export function HeroGlitchStyles() {
             )
             0 0/100% 100%;
         mix-blend-mode: screen;
-        animation: hero2-beam-pan 7s linear infinite;
+        animation: hero-beam-pan 7s linear infinite;
       }
-      @keyframes hero2-beam-pan {
+      @keyframes hero-beam-pan {
         0% {
           transform: translateX(-3%);
         }
@@ -317,7 +317,7 @@ export function HeroGlitchStyles() {
           transform: translateX(-3%);
         }
       }
-      .hero2-scanlines {
+      .hero-scanlines {
         position: absolute;
         inset: 0;
         z-index: 1;
@@ -338,9 +338,9 @@ export function HeroGlitchStyles() {
           100% 14px,
           14px 100%;
         opacity: 0.07;
-        animation: hero2-scan-move 6s linear infinite;
+        animation: hero-scan-move 6s linear infinite;
       }
-      @keyframes hero2-scan-move {
+      @keyframes hero-scan-move {
         0% {
           background-position:
             0 0,
@@ -352,7 +352,7 @@ export function HeroGlitchStyles() {
             14px 0;
         }
       }
-      .hero2-noise {
+      .hero-noise {
         position: absolute;
         inset: 0;
         z-index: 1;
@@ -364,24 +364,24 @@ export function HeroGlitchStyles() {
           <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>\
           <rect width='100%' height='100%' filter='url(%23n)' opacity='0.38'/></svg>");
         background-size: 280px 280px;
-        animation: hero2-noise-shift 1.8s steps(2, end) infinite;
+        animation: hero-noise-shift 1.8s steps(2, end) infinite;
       }
-      @keyframes hero2-noise-shift {
+      @keyframes hero-noise-shift {
         50% {
           background-position: 50% 50%;
         }
       }
 
       /* === Glitch title ================================================== */
-      .hero2-title {
+      .hero-title {
         position: relative;
         text-shadow:
           -0.02em 0 hsl(var(--accent-2) / 0.65),
           0.02em 0 hsl(var(--lav-deep) / 0.65),
           0 0 0.25em hsl(var(--foreground) / 0.35);
       }
-      .hero2-title::before,
-      .hero2-title::after {
+      .hero-title::before,
+      .hero-title::after {
         content: attr(data-text);
         position: absolute;
         inset: 0;
@@ -389,19 +389,19 @@ export function HeroGlitchStyles() {
         clip-path: inset(0 0 0 0);
         opacity: 0.75;
       }
-      .hero2-title::before {
+      .hero-title::before {
         transform: translate(0.5px, -0.5px);
         color: hsl(var(--accent-2) / 0.85);
         mix-blend-mode: screen;
-        animation: hero2-glitch-a 2.4s infinite steps(8, end);
+        animation: hero-glitch-a 2.4s infinite steps(8, end);
       }
-      .hero2-title::after {
+      .hero-title::after {
         transform: translate(-0.5px, 0.5px);
         color: hsl(var(--lav-deep) / 0.85);
         mix-blend-mode: screen;
-        animation: hero2-glitch-b 2.4s infinite steps(9, end);
+        animation: hero-glitch-b 2.4s infinite steps(9, end);
       }
-      @keyframes hero2-glitch-a {
+      @keyframes hero-glitch-a {
         0% {
           clip-path: inset(0);
         }
@@ -421,7 +421,7 @@ export function HeroGlitchStyles() {
           clip-path: inset(0);
         }
       }
-      @keyframes hero2-glitch-b {
+      @keyframes hero-glitch-b {
         0% {
           clip-path: inset(0);
         }
@@ -452,11 +452,11 @@ export function HeroGlitchStyles() {
       .neon-life {
         --neon: var(--accent);
       }
-      .hero2-sep {
+      .hero-sep {
         position: relative;
         padding-top: var(--space-5);
       }
-      .hero2-neon-line {
+      .hero-neon-line {
         position: absolute;
         left: -8px;
         right: -8px;
@@ -476,7 +476,7 @@ export function HeroGlitchStyles() {
         animation: neon-flicker 3.4s infinite;
         opacity: 0.95;
       }
-      .hero2-sep-row {
+      .hero-sep-row {
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -509,12 +509,12 @@ export function HeroGlitchStyles() {
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .hero2-beams,
-        .hero2-scanlines,
-        .hero2-noise,
-        .hero2-title::before,
-        .hero2-title::after,
-        .hero2-neon-line {
+        .hero-beams,
+        .hero-scanlines,
+        .hero-noise,
+        .hero-title::before,
+        .hero-title::after,
+        .hero-neon-line {
           animation: none !important;
           transition: none !important;
         }
