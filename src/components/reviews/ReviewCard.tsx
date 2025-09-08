@@ -1,5 +1,5 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";

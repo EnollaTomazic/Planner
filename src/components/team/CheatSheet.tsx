@@ -1,6 +1,6 @@
 // src/components/team/CheatSheet.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 /**
  * CheatSheet — hover-only edit per card, write-through persistence.

@@ -10,7 +10,7 @@
  * - Scoped with data-scope="team" so glitch effects don't bleed globally
  */
 
-import "../team/style.css";
+import "./style.css";
 
 import * as React from "react";
 import { useLocalDB, uid } from "@/lib/db";
