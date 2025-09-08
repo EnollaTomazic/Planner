@@ -15,6 +15,7 @@
     "lint": "next lint",
     "typecheck": "ts-node scripts/typecheck.ts",
     "test": "vitest",
+    "check": "npm test && npm run lint && npm run typecheck",
     "check-all": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run typecheck\"",
     "format": "prettier --write .",
     "check-prompts": "ts-node scripts/check-prompts-updated.ts",
