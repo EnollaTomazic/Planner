@@ -63,7 +63,7 @@ export default function DayCard({ iso, isToday }: Props) {
       className={cn(
         "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
         "grid gap-4 lg:gap-6",
-        "grid-cols-1 lg:grid-cols-[340px_1px_1fr]",
+        "grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1px_1fr]",
         isToday && "ring-1 ring-[hsl(var(--ring)/0.65)] title-glow",
         "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r",
         "before:from-transparent before:via-[hsl(var(--ring)/.45)] before:to-transparent",
