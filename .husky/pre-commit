@@ -1,2 +1,2 @@
-npm run check-all
+npm run verify-prompts && npm run check-all
 

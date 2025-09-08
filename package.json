@@ -17,6 +17,7 @@
     "test": "vitest",
     "check-all": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run typecheck\"",
     "format": "prettier --write .",
+    "verify-prompts": "ts-node scripts/verify-prompts.ts",
     "check-prompts": "ts-node scripts/check-prompts-updated.ts",
     "postinstall": "ts-node scripts/postinstall.ts",
     "prepare": "husky"
