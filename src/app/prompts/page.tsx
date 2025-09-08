@@ -34,9 +34,11 @@ import {
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
 import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
-import PromptsHeader from "@/components/prompts/PromptsHeader";
-import PromptsComposePanel from "@/components/prompts/PromptsComposePanel";
-import PromptsDemos from "@/components/prompts/PromptsDemos";
+import {
+  PromptsHeader,
+  PromptsComposePanel,
+  PromptsDemos,
+} from "@/components/prompts";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Pillar, Review } from "@/lib/types";
@@ -72,7 +74,6 @@ export default function Page() {
     { key: "components", label: "Components" },
     { key: "colors", label: "Colors" },
   ];
-
 
   const [view, setView] = React.useState("components");
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
@@ -113,10 +114,20 @@ export default function Page() {
       label: "IconButton",
       element: (
         <div className="flex gap-2">
-          <IconButton variant="ring" size="md" aria-label="Search" title="Search">
+          <IconButton
+            variant="ring"
+            size="md"
+            aria-label="Search"
+            title="Search"
+          >
             <SearchIcon />
           </IconButton>
-          <IconButton variant="glow" size="md" aria-label="Search" title="Search">
+          <IconButton
+            variant="glow"
+            size="md"
+            aria-label="Search"
+            title="Search"
+          >
             <SearchIcon />
           </IconButton>
           <IconButton variant="ring" size="xl" aria-label="Search" title="Search">
@@ -125,13 +136,21 @@ export default function Page() {
         </div>
       ),
     },
-    { label: "Input", element: <Input placeholder="Type here" className="w-56" /> },
-    { label: "Textarea", element: <Textarea placeholder="Write here" className="w-56" /> },
+    {
+      label: "Input",
+      element: <Input placeholder="Type here" className="w-56" />,
+    },
+    {
+      label: "Textarea",
+      element: <Textarea placeholder="Write here" className="w-56" />,
+    },
     {
       label: "FieldShell",
       element: (
         <FieldShell className="w-56">
-          <div className="px-4 py-2 text-sm text-muted-foreground">Custom content</div>
+          <div className="px-4 py-2 text-sm text-muted-foreground">
+            Custom content
+          </div>
         </FieldShell>
       ),
     },
@@ -186,7 +205,12 @@ export default function Page() {
         </div>
       ),
     },
-    { label: "SearchBar", element: <SearchBar value={query} onValueChange={setQuery} className="w-56" /> },
+    {
+      label: "SearchBar",
+      element: (
+        <SearchBar value={query} onValueChange={setQuery} className="w-56" />
+      ),
+    },
     {
       label: "Segmented",
       element: (
@@ -245,11 +269,18 @@ export default function Page() {
         </div>
       ),
     },
-    { label: "Toggle", element: <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" /> },
+    {
+      label: "Toggle",
+      element: (
+        <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" />
+      ),
+    },
     {
       label: "Card",
       element: (
-        <Card className="w-56 h-8 flex items-center justify-center">Card content</Card>
+        <Card className="w-56 h-8 flex items-center justify-center">
+          Card content
+        </Card>
       ),
     },
     {
@@ -261,7 +292,12 @@ export default function Page() {
       ),
     },
     { label: "Tabs", element: <TabBar items={tabs} className="w-56" /> },
-    { label: "SideSelector", element: <SideSelector value={side} onChange={setSide} className="w-56" /> },
+    {
+      label: "SideSelector",
+      element: (
+        <SideSelector value={side} onChange={setSide} className="w-56" />
+      ),
+    },
     { label: "PillarBadge", element: <PillarBadge pillar="Wave" /> },
     {
       label: "PillarSelector",
@@ -343,8 +379,14 @@ export default function Page() {
         </div>
       ),
     },
-    { label: "Title Ghost", element: <h2 className="title-ghost">Ghost Title</h2> },
-    { label: "Title Glow", element: <h2 className="title-glow">Glowing Title</h2> },
+    {
+      label: "Title Ghost",
+      element: <h2 className="title-ghost">Ghost Title</h2>,
+    },
+    {
+      label: "Title Glow",
+      element: <h2 className="title-glow">Glowing Title</h2>,
+    },
     {
       label: "Glitch Text",
       element: <div className="glitch text-lg font-semibold">Glitch</div>,
@@ -391,7 +433,12 @@ export default function Page() {
       label: "Hero",
       element: (
         <div className="w-56">
-          <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+          <Hero
+            heading="Hero"
+            eyebrow="Eyebrow"
+            subtitle="Subtitle"
+            sticky={false}
+          />
         </div>
       ),
     },
@@ -399,13 +446,22 @@ export default function Page() {
       label: "Hero2",
       element: (
         <div className="w-56">
-          <Hero2 heading="Hero2" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+          <Hero2
+            heading="Hero2"
+            eyebrow="Eyebrow"
+            subtitle="Subtitle"
+            sticky={false}
+          />
         </div>
       ),
     },
     {
       label: "Card Neo",
-      element: <div className="card-neo w-56 h-8 flex items-center justify-center">Card Neo</div>,
+      element: (
+        <div className="card-neo w-56 h-8 flex items-center justify-center">
+          Card Neo
+        </div>
+      ),
     },
     {
       label: "Icon Button",
@@ -512,7 +568,7 @@ export default function Page() {
         <div
           className={cn(
             "w-56 h-8 flex items-center justify-center text-foreground bg-danger",
-            "bg-accent-2"
+            "bg-accent-2",
           )}
         >
           Accent wins
@@ -590,13 +646,16 @@ export default function Page() {
   return (
     <main className="page-shell py-6">
       <p className="mb-4 text-sm text-muted-foreground">
-        Global styles are now modularized into <code>animations.css</code>,<code>overlays.css</code>, and <code>utilities.css</code>.
+        Global styles are now modularized into <code>animations.css</code>,
+        <code>overlays.css</code>, and <code>utilities.css</code>.
       </p>
       <p className="mb-4 text-sm text-muted-foreground">
-        Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
+        Control height token <code>--control-h</code> now snaps to 44px to align
+        with the 4px spacing grid.
       </p>
       <p className="mb-4 text-sm text-muted-foreground">
-        Buttons now default to the 40px <code>md</code> size and follow a 36/40/44px scale.
+        Buttons now default to the 40px <code>md</code> size and follow a
+        36/40/44px scale.
       </p>
       <div className="mb-8">
         <TabBar items={viewTabs} value={view} onValueChange={setView} />
@@ -620,12 +679,16 @@ export default function Page() {
               <div className="w-10 h-10 rounded bg-auroraPLight" />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
-              Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>, and<code>auroraPLight</code> Tailwind classes for aurora effects.
+              Use <code>auroraG</code>, <code>auroraGLight</code>,{" "}
+              <code>auroraP</code>, and<code>auroraPLight</code> Tailwind
+              classes for aurora effects.
             </p>
           </div>
           {COLOR_TOKENS.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-accent">{c}</span>
+              <span className="text-xs uppercase tracking-wide text-accent">
+                {c}
+              </span>
               <div
                 className="w-24 h-16 rounded-md border"
                 style={{ backgroundColor: `hsl(var(--${c}))` }}
@@ -637,4 +700,3 @@ export default function Page() {
     </main>
   );
 }
-
