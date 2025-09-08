@@ -11,7 +11,8 @@
 import * as React from "react";
 import Hero2 from "@/components/ui/layout/Hero2";
 import Button from "@/components/ui/primitives/Button";
-import { useFocusDate, type ISODate } from "./usePlanner";
+import { useFocusDate } from "./useFocusDate";
+import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
 import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";

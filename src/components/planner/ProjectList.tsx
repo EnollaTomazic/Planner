@@ -7,7 +7,7 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EmptyRow from "./EmptyRow";
-import type { Project } from "./usePlanner";
+import type { Project } from "./plannerStore";
 
 type Props = {
   projects: Project[];

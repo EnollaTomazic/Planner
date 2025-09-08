@@ -10,15 +10,9 @@ vi.mock("@/lib/db", async () => {
   };
 });
 
-import {
-  PlannerProvider,
-  usePlanner,
-  useDay,
-  useSelectedProject,
-  useSelectedTask,
-} from "@/components/planner";
+import { PlannerProvider, usePlannerStore, useDay } from "@/components/planner";
 
-describe("usePlanner store and hooks", () => {
+describe("usePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <PlannerProvider>{children}</PlannerProvider>
   );
@@ -26,7 +20,7 @@ describe("usePlanner store and hooks", () => {
   it("supports project and task CRUD with toggles", () => {
     const { result } = renderHook(
       () => {
-        const planner = usePlanner();
+        const planner = usePlannerStore();
         const day = useDay(planner.focus);
         return { planner, day } as const;
       },
@@ -69,14 +63,14 @@ describe("usePlanner store and hooks", () => {
   it("provides day-scoped utilities via useDay", () => {
     const { result } = renderHook(
       () => {
-        const planner = usePlanner();
+        const planner = usePlannerStore();
         return useDay(planner.focus);
       },
       { wrapper },
     );
 
-    let t1 = "",
-      t2 = "";
+    let t1 = "";
+    let t2 = "";
     act(() => {
       t1 = result.current.addTask("First");
       t2 = result.current.addTask("Second");
@@ -89,49 +83,5 @@ describe("usePlanner store and hooks", () => {
 
     act(() => result.current.deleteTask(t1));
     expect(result.current.totalTasks).toBe(1);
-  });
-
-  it("tracks selection with useSelectedProject and useSelectedTask", () => {
-    const { result } = renderHook(
-      () => {
-        const planner = usePlanner();
-        const [selectedProject, setSelectedProject] = useSelectedProject(
-          planner.focus,
-        );
-        const [selectedTask, setSelectedTask] = useSelectedTask(planner.focus);
-        return {
-          planner,
-          selectedProject,
-          setSelectedProject,
-          selectedTask,
-          setSelectedTask,
-        } as const;
-      },
-      { wrapper },
-    );
-
-    let pid = "";
-    act(() => {
-      pid = result.current.planner.addProject("Proj");
-    });
-    let tid = "";
-    act(() => {
-      tid = result.current.planner.addTask("Task", pid);
-    });
-
-    expect(result.current.selectedProject).toBe("");
-    expect(result.current.selectedTask).toBe("");
-
-    act(() => result.current.setSelectedProject(pid));
-    expect(result.current.selectedProject).toBe(pid);
-    expect(result.current.selectedTask).toBe("");
-
-    act(() => result.current.setSelectedTask(tid));
-    expect(result.current.selectedTask).toBe(tid);
-    expect(result.current.selectedProject).toBe(pid);
-
-    act(() => result.current.setSelectedTask(""));
-    expect(result.current.selectedTask).toBe("");
-    expect(result.current.selectedProject).toBe("");
   });
 });

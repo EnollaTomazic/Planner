@@ -10,12 +10,13 @@ import "./style.css";
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/Textarea";
-import { usePlanner, type ISODate } from "./usePlanner";
+import { usePlannerStore } from "./usePlannerStore";
+import type { ISODate } from "./plannerStore";
 
 type Props = { iso: ISODate };
 
 export default function WeekNotes({ iso }: Props) {
-  const { focus, setFocus, day, setNotes } = usePlanner();
+  const { focus, setFocus, day, setNotes } = usePlannerStore();
   const [value, setValue] = React.useState(day.notes ?? "");
   const trimmed = value.trim();
   const original = (day.notes ?? "").trim();
