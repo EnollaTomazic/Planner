@@ -14,6 +14,19 @@ After running the script, add a demo of the new component to `src/app/prompts/pa
 
 `npm run build` runs the regeneration step automatically, but running it manually keeps the index and prompts page current during development.
 
+## Git hooks
+
+Running `npm install` triggers the `prepare` script, which installs a Husky pre-commit hook. The hook blocks commits unless the following commands succeed:
+
+```bash
+npm test
+npm run lint
+npm run typecheck
+npm run regen-ui
+```
+
+Ensure these checks pass before committing.
+
 ## Branch workflow
 
 ### Feature branch naming
