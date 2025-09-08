@@ -317,27 +317,63 @@ function ReminderCard({
         )}
 
         <div className="card-neo flex items-center gap-1">
-          <IconButton title={value.pinned ? "Unpin" : "Pin"} aria-label={value.pinned ? "Unpin" : "Pin"} onClick={() => onChange({ pinned: !value.pinned })}>
+          <IconButton
+            title={value.pinned ? "Unpin" : "Pin"}
+            aria-label={value.pinned ? "Unpin" : "Pin"}
+            onClick={() => onChange({ pinned: !value.pinned })}
+            size="sm"
+            iconSize="sm"
+          >
             {value.pinned ? <PinOff /> : <Pin />}
           </IconButton>
-          <IconButton title="Duplicate" aria-label="Duplicate" onClick={onDuplicate}>
+          <IconButton
+            title="Duplicate"
+            aria-label="Duplicate"
+            onClick={onDuplicate}
+            size="sm"
+            iconSize="sm"
+          >
             <Copy />
           </IconButton>
           {editing ? (
             <>
-              <IconButton title="Save (Enter)" aria-label="Save" onClick={save}>
+              <IconButton
+                title="Save (Enter)"
+                aria-label="Save"
+                onClick={save}
+                size="sm"
+                iconSize="sm"
+              >
                 <Check />
               </IconButton>
-              <IconButton title="Cancel (Esc)" aria-label="Cancel" onClick={cancel}>
+              <IconButton
+                title="Cancel (Esc)"
+                aria-label="Cancel"
+                onClick={cancel}
+                size="sm"
+                iconSize="sm"
+              >
                 <X />
               </IconButton>
             </>
           ) : (
             <>
-              <IconButton title="Edit" aria-label="Edit" onClick={() => setEditing(true)}>
+              <IconButton
+                title="Edit"
+                aria-label="Edit"
+                onClick={() => setEditing(true)}
+                size="sm"
+                iconSize="sm"
+              >
                 <Pencil />
               </IconButton>
-              <IconButton title="Delete" aria-label="Delete" onClick={onDelete}>
+              <IconButton
+                title="Delete"
+                aria-label="Delete"
+                onClick={onDelete}
+                size="sm"
+                iconSize="sm"
+              >
                 <Trash2 />
               </IconButton>
             </>

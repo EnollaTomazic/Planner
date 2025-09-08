@@ -119,6 +119,9 @@ export default function Page() {
           <IconButton variant="glow" size="md" aria-label="Search" title="Search">
             <SearchIcon />
           </IconButton>
+          <IconButton variant="ring" size="xl" aria-label="Search" title="Search">
+            <SearchIcon />
+          </IconButton>
         </div>
       ),
     },
@@ -413,6 +416,9 @@ export default function Page() {
           </IconButton>
           <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
             <Sun />
+          </IconButton>
+          <IconButton size="xl" aria-label="Search" title="Search">
+            <SearchIcon />
           </IconButton>
         </div>
       ),

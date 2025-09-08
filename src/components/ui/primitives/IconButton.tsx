@@ -4,29 +4,32 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { ButtonSize } from "./Button";
 
-type Icon = "xs" | "sm" | "md" | "lg";
+type IconButtonSize = ButtonSize | "xl";
+type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  size?: ButtonSize;
+  size?: IconButtonSize;
   iconSize?: Icon;
   tone?: Tone;
   variant?: Variant;
 };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&>svg]:h-3.5 [&>svg]:w-3.5",
-  sm: "[&>svg]:h-4 [&>svg]:w-4",
-  md: "[&>svg]:h-5 [&>svg]:w-5",
-  lg: "[&>svg]:h-6 [&>svg]:w-6",
+  xs: "[&>svg]:h-5 [&>svg]:w-5",
+  sm: "[&>svg]:h-6 [&>svg]:w-6",
+  md: "[&>svg]:h-7 [&>svg]:w-7",
+  lg: "[&>svg]:h-8 [&>svg]:w-8",
+  xl: "[&>svg]:h-9 [&>svg]:w-9",
 };
 
-const sizeMap: Record<ButtonSize, string> = {
-  sm: "h-5 w-5",
-  md: "h-6 w-6",
-  lg: "h-7 w-7",
+const sizeMap: Record<IconButtonSize, string> = {
+  sm: "h-9 w-9",
+  md: "h-10 w-10",
+  lg: "h-11 w-11",
+  xl: "h-12 w-12",
 };
 
 const variantBase: Record<Variant, string> = {
@@ -70,7 +73,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "sm", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
+    { size = "md", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
     ref
   ) => {
     const sizeClass = sizeMap[size];

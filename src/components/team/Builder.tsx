@@ -161,6 +161,8 @@ export default function Builder() {
                 title="Swap Allies ↔ Enemies"
                 aria-label="Swap Allies and Enemies"
                 onClick={swapSides}
+                size="sm"
+                iconSize="sm"
               >
                 <Shuffle />
               </IconButton>
@@ -168,6 +170,8 @@ export default function Builder() {
                 title="Copy both sides"
                 aria-label="Copy both sides"
                 onClick={() => copy("all")}
+                size="sm"
+                iconSize="sm"
               >
                 {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
               </IconButton>
@@ -288,6 +292,8 @@ function SideEditor(props: {
             aria-label={`Clear ${title}`}
             variant="ring"
             onClick={onClear}
+            size="sm"
+            iconSize="sm"
           >
             <Eraser />
           </IconButton>
@@ -295,6 +301,8 @@ function SideEditor(props: {
             title={`Copy ${title}`}
             aria-label={`Copy ${title}`}
             onClick={onCopy}
+            size="sm"
+            iconSize="sm"
           >
             <Copy />
           </IconButton>
