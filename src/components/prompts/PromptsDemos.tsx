@@ -194,7 +194,10 @@ export default function PromptsDemos() {
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Motion</h3>
         <div className="flex gap-2">
-          <button className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60">
+          <button
+            type="button"
+            className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60"
+          >
             Slow fade
           </button>
         </div>
