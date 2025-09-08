@@ -1,13 +1,20 @@
 # Design System Usage
 
-This project ships with a small design system based on Tailwind CSS and CSS variables. This guide summarizes how to use it when building new features.
+This project ships with a small design system based on Tailwind CSS and CSS variables. This guide summarizes how to use it when
+building new features.
 
 ## Tokens
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
+- A custom ESLint rule (`semantic-tokens/no-raw-colors`) flags Tailwind classes that use unknown tokens or unmapped raw colors.
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
+
+### Adding new colors
+1. Add the raw color and its replacement token to [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
+2. Define the token under `theme.extend.colors` in `tailwind.config.ts`.
+3. Use the new token in your components (`bg-your-token`, `text-your-token`, etc.).
 
 ### Effects tokens
 - `--edge-iris` – iridescent conic gradient for edges and focus rings. Defined in the dark base and re-colored for the Aurora theme ([themes.css](../src/app/themes.css#L69-L76), [Aurora override](../src/app/themes.css#L171-L178)).
@@ -94,4 +101,3 @@ export function Demo() {
   );
 }
 ```
-
