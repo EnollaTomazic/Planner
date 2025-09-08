@@ -204,8 +204,8 @@ export default function CheckCircle({
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
-              background:
-                "repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 3px)",
+          background:
+            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
               mixBlendMode: "overlay",
               animation: lit ? "ccScan 2.1s linear infinite" : undefined,
             }}
@@ -233,7 +233,7 @@ export default function CheckCircle({
             )}
             style={{
               background:
-                "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.22), transparent 60%)",
+                "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
               mixBlendMode: "screen",
               animation: phase === "ignite" ? "igniteFlicker .62s steps(18,end) 1" : undefined,
             }}
@@ -246,7 +246,7 @@ export default function CheckCircle({
             )}
             style={{
               background:
-                "radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,.14), transparent 60%)",
+                "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.14), transparent 60%)",
               mixBlendMode: "screen",
               animation: phase === "powerdown" ? "powerDown .36s linear 1" : undefined,
             }}

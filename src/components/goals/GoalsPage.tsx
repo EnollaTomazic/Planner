@@ -220,7 +220,7 @@ export default function GoalsPage() {
                             className={[
                               "relative rounded-2xl p-6",
                               "card-neo transition",
-                              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]",
+                              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_hsl(var(--shadow-color)/0.35)]",
                                 "min-h-8 flex flex-col",
                             ].join(" ")}
                           >

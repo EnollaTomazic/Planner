@@ -223,7 +223,7 @@
   background:
     repeating-linear-gradient(
       to bottom,
-      rgba(255,255,255,.06) 0 1px,
+      hsl(var(--foreground)/0.06) 0 1px,
       transparent 1px 3px
     );
   mix-blend-mode: overlay;
