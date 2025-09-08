@@ -19,6 +19,7 @@ import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { PlannerProvider } from "./plannerStore";
+import Header from "@/components/ui/layout/Header";
 
 /* ───────── Page body under provider ───────── */
 
@@ -38,12 +39,10 @@ function Inner() {
     <>
       <main
         className="page-shell py-6 space-y-6"
-        aria-labelledby="planner-week-heading"
+        aria-labelledby="planner-header"
       >
       {/* Week header (range, nav, totals, day chips) */}
-      <h1 id="planner-week-heading" className="sr-only">
-        Weekly planner
-      </h1>
+      <Header id="planner-header" heading="Planner" />
       <WeekPicker />
 
       {/* Today + Side column */}

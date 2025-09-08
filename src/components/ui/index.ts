@@ -15,7 +15,6 @@ export * from "./layout/Header";
 export { default as Hero2 } from "./layout/Hero2";
 export * from "./layout/Hero2";
 export { default as SectionCard } from "./layout/SectionCard";
-export * from "./layout/SectionCard";
 export { default as Split } from "./layout/Split";
 export { default as TabBar } from "./layout/TabBar";
 export * from "./layout/TabBar";
