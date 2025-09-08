@@ -67,7 +67,7 @@ export default function Hero({
       <div
         className={cx(
           "relative flex items-center",
-          "px-3 sm:px-4 py-2 min-h-12",
+          "px-3 sm:px-4 py-3 sm:py-4 min-h-12",
           barClassName
         )}
       >
@@ -106,7 +106,9 @@ export default function Hero({
 
       {/* Body under the bar */}
       {children ? (
-        <div className={cx("relative px-3 pb-3 pt-2 sm:px-4 sm:pb-4", bodyClassName)}>
+        <div
+          className={cx("relative px-3 py-3 sm:px-4 sm:py-4", bodyClassName)}
+        >
           {children}
         </div>
       ) : null}
