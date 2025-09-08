@@ -166,6 +166,14 @@ export default function Page() {
         </div>
       ),
     },
+    {
+      label: "Ring Subtle",
+      element: (
+        <div className="w-56 h-6 flex items-center justify-center rounded ring-1 ring-[hsl(var(--ring)/0.05)]">
+          Ring 5%
+        </div>
+      ),
+    },
     { label: "SearchBar", element: <SearchBar value={query} onValueChange={setQuery} className="w-56" /> },
     {
       label: "Segmented",
