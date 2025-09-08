@@ -117,7 +117,7 @@ export default function Hero({
         <span aria-hidden className="hero2-noise" />
 
         <div
-          className={cx("relative z-[2] flex items-center gap-3", barClassName)}
+          className={cx("relative z-[2] flex items-center gap-4", barClassName)}
         >
           {rail ? <span aria-hidden className="rail" /> : null}
           {icon ? <div className="opacity-90">{icon}</div> : null}
@@ -148,7 +148,7 @@ export default function Hero({
         </div>
 
         {children || bottomNode ? (
-          <div className="relative z-[2] mt-3 flex flex-col gap-3">
+          <div className="relative z-[2] mt-4 flex flex-col gap-4">
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
