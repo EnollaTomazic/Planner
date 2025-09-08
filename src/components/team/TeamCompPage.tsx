@@ -7,18 +7,14 @@
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
- * Uses Hero (v1) + HeroTabs for the main header.
+ * Uses Hero2 for the main header with built-in tabs.
  * The Cheat Sheet tab itself renders a nested Hero2 internally.
  */
 import "./style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Hero from "@/components/ui/layout/Hero";
-import {
-  GlitchSegmentedGroup,
-  GlitchSegmentedButton,
-} from "@/components/ui";
+import Hero2 from "@/components/ui/layout/Hero2";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
@@ -26,9 +22,9 @@ import CheatSheetTabs from "./CheatSheetTabs";
 type Tab = "cheat" | "builder" | "clears";
 
 const TABS = [
-  { key: "cheat", label: "Cheat Sheet", hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-2 h-4 w-4" /> },
-  { key: "builder", label: "Builder", hint: "Fill allies vs enemies", icon: <Hammer className="mr-2 h-4 w-4" /> },
-  { key: "clears", label: "Jungle Clears", hint: "Relative buckets by speed", icon: <Timer className="mr-2 h-4 w-4" /> },
+  { key: "cheat", label: "Cheat Sheet", hint: "Archetypes, counters, examples", icon: <BookOpenText /> },
+  { key: "builder", label: "Builder", hint: "Fill allies vs enemies", icon: <Hammer /> },
+  { key: "clears", label: "Jungle Clears", hint: "Relative buckets by speed", icon: <Timer /> },
 ] as const;
 
 export default function TeamCompPage() {
@@ -36,54 +32,32 @@ export default function TeamCompPage() {
 
   return (
     <main className="page-shell py-6 space-y-6">
-      <Hero
+      <Hero2
         eyebrow="Comps"
         heading="Today"
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
-        right={
-          <GlitchSegmentedGroup
-            value={tab}
-            onChange={(v) => setTab(v as Tab)}
-            ariaLabel="Comps header mode"
-            className="px-2"
-          >
-            {TABS.map((t) => (
-              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
-                {t.label}
-              </GlitchSegmentedButton>
-            ))}
-          </GlitchSegmentedGroup>
-        }
+        tabs={{
+          items: TABS.map((t) => ({ key: t.key, label: t.label, icon: t.icon })),
+          value: tab,
+          onChange: (k) => setTab(k as Tab),
+          align: "end",
+          className: "px-2",
+        }}
         className="mb-1"
         barClassName="gap-2 items-baseline"
       />
 
       <section className="grid gap-4">
-        <div
-          role="tabpanel"
-          id="cheat-panel"
-          aria-labelledby="cheat-tab"
-          hidden={tab !== "cheat"}
-        >
+        <div role="tabpanel" hidden={tab !== "cheat"}>
           {tab === "cheat" && <CheatSheetTabs />}
         </div>
 
-        <div
-          role="tabpanel"
-          id="builder-panel"
-          aria-labelledby="builder-tab"
-          hidden={tab !== "builder"}
-        >
+        <div role="tabpanel" hidden={tab !== "builder"}>
           {tab === "builder" && <Builder />}
         </div>
 
-        <div
-          role="tabpanel"
-          id="clears-panel"
-          aria-labelledby="clears-tab"
-          hidden={tab !== "clears"}
-        >
+        <div role="tabpanel" hidden={tab !== "clears"}>
           {tab === "clears" && <JungleClears />}
         </div>
       </section>

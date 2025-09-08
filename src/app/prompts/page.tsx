@@ -18,6 +18,7 @@ import {
   SectionCard,
   TitleBar,
   Hero,
+  Hero2,
   SearchBar,
   Snackbar,
   Card,
@@ -388,6 +389,14 @@ export default function Page() {
       element: (
         <div className="w-56">
           <Hero heading="Hero" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+        </div>
+      ),
+    },
+    {
+      label: "Hero2",
+      element: (
+        <div className="w-56">
+          <Hero2 heading="Hero2" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
         </div>
       ),
     },
