@@ -12,8 +12,10 @@ const itemBase =
 const itemSelected = "review-tile--active";
 const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
 const statusDotWin = "bg-[hsl(var(--success))]";
+const statusDotLoss = "bg-[hsl(var(--destructive))]";
 const statusDotDefault = "bg-[hsl(var(--muted-foreground))]";
 const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
+const statusDotBlink = "animate-[blink_1s_steps(2)_infinite]";
 const itemLoading = cn(itemBase, "animate-pulse");
 const loadingLine = "h-3 rounded bg-[hsl(var(--muted))]";
 
@@ -65,7 +67,12 @@ export default function ReviewListItem({
             aria-hidden
             className={cn(
               statusDotBase,
-              review?.result === "Win" ? statusDotWin : statusDotDefault,
+              statusDotBlink,
+              review?.result === "Win"
+                ? statusDotWin
+                : review?.result === "Loss"
+                ? statusDotLoss
+                : statusDotDefault,
               review?.status === "new" && statusDotPulse
             )}
           />

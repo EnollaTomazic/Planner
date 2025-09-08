@@ -15,7 +15,7 @@ exports[`ReviewListItem > renders default state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"
@@ -90,7 +90,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"
@@ -148,7 +148,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"

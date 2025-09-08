@@ -45,6 +45,14 @@
 }
 
 
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+}
+
+
 /* === RoleSelector (lane segmented control) =============================== */
 .role-sel {
   position: relative;
