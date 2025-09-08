@@ -23,6 +23,14 @@ export default function Page() {
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
         </div>
+        <div className="flex justify-center">
+          <input
+            aria-label="Timer demo"
+            defaultValue="25:00"
+            className="btn-like-segmented btn-glitch w-[5ch] text-center"
+            type="text"
+          />
+        </div>
       </div>
       <p className="mb-4 text-sm text-muted-foreground">
         Global styles are now modularized into <code>animations.css</code>,
