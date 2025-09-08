@@ -12,66 +12,11 @@ import "./style.css";
 
 import * as React from "react";
 import TodayHero from "./TodayHero";
-import DayCard from "./DayCard";
 import WeekNotes from "./WeekNotes";
 import WeekPicker from "./WeekPicker";
+import DayRow from "./DayRow";
+import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
 import { PlannerProvider, useFocusDate, useWeek, type ISODate } from "./usePlanner";
-import IconButton from "@/components/ui/primitives/IconButton";
-import { ArrowUp } from "lucide-react";
-
-/* ───────── Row (memo) ───────── */
-
-type DayRowProps = { iso: ISODate; isToday: boolean };
-
-const DayRow = React.memo(
-  function DayRow({ iso, isToday }: DayRowProps) {
-    return (
-      <section
-        id={`day-${iso}`}
-        role="listitem"
-        aria-label={`Day ${iso}${isToday ? " (Today)" : ""}`}
-        className="w-full scroll-m-24"
-        tabIndex={-1}
-      >
-        <DayCard iso={iso} isToday={isToday} />
-      </section>
-    );
-  },
-  (a: Readonly<DayRowProps>, b: Readonly<DayRowProps>) => a.iso === b.iso && a.isToday === b.isToday
-);
-
-/* ───────── Scroll-to-top button ───────── */
-function ScrollTopFloatingButton({ watchRef }: { watchRef: React.RefObject<HTMLElement> }) {
-  const [visible, setVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    const target = watchRef.current;
-    if (!target) return;
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => setVisible(!e.isIntersecting));
-    });
-    obs.observe(target);
-    return () => obs.disconnect();
-  }, [watchRef]);
-
-  const scrollTop = () => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  if (!visible) return null;
-
-  return (
-    <IconButton
-      aria-label="Scroll to top"
-      onClick={scrollTop}
-        className="fixed bottom-8 right-2 z-50"
-    >
-      <ArrowUp />
-    </IconButton>
-  );
-}
 
 /* ───────── Page body under provider ───────── */
 
