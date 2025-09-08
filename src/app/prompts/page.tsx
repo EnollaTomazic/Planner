@@ -36,6 +36,16 @@ export default function Page() {
         Buttons now default to the 40px <code>md</code> size and follow a
         36/40/44px scale.
       </p>
+      <div className="mb-8 flex flex-wrap gap-2">
+        <Button tone="primary">Primary tone</Button>
+        <Button tone="accent">Accent tone</Button>
+        <Button tone="info" variant="ghost">
+          Info ghost
+        </Button>
+        <Button tone="danger" variant="primary">
+          Danger primary
+        </Button>
+      </div>
       <div className="mb-8">
         <TabBar items={viewTabs} value={view} onValueChange={setView} />
       </div>
