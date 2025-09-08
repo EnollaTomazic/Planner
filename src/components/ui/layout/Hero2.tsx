@@ -10,8 +10,13 @@
  */
 
 import * as React from "react";
-import TabBar, { type TabBarProps, type TabItem } from "@/components/ui/layout/TabBar";
-import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/SearchBar";
+import TabBar, {
+  type TabBarProps,
+  type TabItem,
+} from "@/components/ui/layout/TabBar";
+import SearchBar, {
+  type SearchBarProps,
+} from "@/components/ui/primitives/SearchBar";
 
 function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
@@ -103,7 +108,7 @@ export default function Hero2({
         className={cx(
           sticky ? "sticky-blur" : "",
           "hero2-frame relative overflow-hidden rounded-2xl px-4 sm:px-5 py-4",
-          topClassName
+          topClassName,
         )}
       >
         {/* decorative layers */}
@@ -111,7 +116,9 @@ export default function Hero2({
         <span aria-hidden className="hero2-scanlines" />
         <span aria-hidden className="hero2-noise" />
 
-        <div className={cx("relative z-[2] flex items-center gap-3", barClassName)}>
+        <div
+          className={cx("relative z-[2] flex items-center gap-3", barClassName)}
+        >
           {rail ? <span aria-hidden className="rail" /> : null}
           {icon ? <div className="opacity-90">{icon}</div> : null}
 
@@ -140,20 +147,22 @@ export default function Hero2({
           <div className="ml-auto">{rightNode}</div>
         </div>
 
-        {children ? (
-          <div className={cx("relative z-[2] mt-3", bodyClassName)}>{children}</div>
-        ) : null}
-
-        {/* Neon divider + bottom slot (e.g., search) */}
-        {bottomNode ? (
-          <div
-            className={cx(
-              "relative z-[2] hero2-sep mt-3",
-              dividerTint === "life" ? "neon-life" : "neon-primary"
-            )}
-          >
-            <span aria-hidden className="hero2-neon-line" />
-            <div className="hero2-sep-row">{bottomNode}</div>
+        {children || bottomNode ? (
+          <div className="relative z-[2] mt-3 flex flex-col gap-3">
+            {children ? (
+              <div className={cx(bodyClassName)}>{children}</div>
+            ) : null}
+            {bottomNode ? (
+              <div
+                className={cx(
+                  "relative hero2-sep",
+                  dividerTint === "life" ? "neon-life" : "neon-primary",
+                )}
+              >
+                <span aria-hidden className="hero2-neon-line" />
+                <div className="hero2-sep-row">{bottomNode}</div>
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -201,14 +210,14 @@ export function Hero2Tabs<K extends string>(props: {
 
   const items: TabItem[] = React.useMemo(
     () =>
-      tabs.map(t => ({
+      tabs.map((t) => ({
         key: String(t.key),
         label: t.label,
         icon: t.icon,
         disabled: t.disabled,
         badge: t.badge,
       })),
-    [tabs]
+    [tabs],
   );
 
   return (
@@ -238,7 +247,7 @@ export function Hero2SearchBar({
       className={cx(
         "w-full max-w-[640px]",
         round && "rounded-full [&>input]:rounded-full",
-        className
+        className,
       )}
     />
   );
@@ -253,11 +262,25 @@ export function Hero2GlitchStyles() {
         --hero2-c1: hsl(var(--accent));
         --hero2-c2: hsl(var(--primary));
         --hero2-bloom: hsl(var(--shadow-color) / 0.85);
-        box-shadow: 0 10px 40px -18px var(--hero2-bloom),
+        box-shadow:
+          0 10px 40px -18px var(--hero2-bloom),
           inset 0 0 0 1px hsl(var(--border) / 0.55);
-        background: radial-gradient(120% 120% at 0% 0%, hsl(var(--accent) / 0.14) 0%, transparent 55%),
-          radial-gradient(120% 120% at 100% 0%, hsl(var(--primary) / 0.12) 0%, transparent 55%),
-          linear-gradient(0deg, hsl(var(--card) / 0.82), hsl(var(--card) / 0.82));
+        background:
+          radial-gradient(
+            120% 120% at 0% 0%,
+            hsl(var(--accent) / 0.14) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            120% 120% at 100% 0%,
+            hsl(var(--primary) / 0.12) 0%,
+            transparent 55%
+          ),
+          linear-gradient(
+            0deg,
+            hsl(var(--card) / 0.82),
+            hsl(var(--card) / 0.82)
+          );
       }
       .hero2-beams {
         position: absolute;
@@ -265,30 +288,69 @@ export function Hero2GlitchStyles() {
         border-radius: var(--radius-2xl, 24px);
         z-index: 0;
         pointer-events: none;
-        background: linear-gradient(100deg, transparent 0%, hsl(var(--primary) / 0.18) 10%, transparent 22%) 0 0/100% 100%,
-          linear-gradient(260deg, transparent 0%, hsl(var(--accent) / 0.2) 8%, transparent 20%) 0 0/100% 100%;
+        background:
+          linear-gradient(
+              100deg,
+              transparent 0%,
+              hsl(var(--primary) / 0.18) 10%,
+              transparent 22%
+            )
+            0 0/100% 100%,
+          linear-gradient(
+              260deg,
+              transparent 0%,
+              hsl(var(--accent) / 0.2) 8%,
+              transparent 20%
+            )
+            0 0/100% 100%;
         mix-blend-mode: screen;
         animation: hero2-beam-pan 7s linear infinite;
       }
       @keyframes hero2-beam-pan {
-        0% { transform: translateX(-3%); }
-        50% { transform: translateX(3%); }
-        100% { transform: translateX(-3%); }
+        0% {
+          transform: translateX(-3%);
+        }
+        50% {
+          transform: translateX(3%);
+        }
+        100% {
+          transform: translateX(-3%);
+        }
       }
       .hero2-scanlines {
         position: absolute;
         inset: 0;
         z-index: 1;
         pointer-events: none;
-        background: linear-gradient(transparent 94%, hsl(var(--foreground) / 0.5) 96%, transparent 98%),
-          linear-gradient(90deg, transparent 94%, hsl(var(--foreground) / 0.4) 96%, transparent 98%);
-        background-size: 100% 14px, 14px 100%;
+        background:
+          linear-gradient(
+            transparent 94%,
+            hsl(var(--foreground) / 0.5) 96%,
+            transparent 98%
+          ),
+          linear-gradient(
+            90deg,
+            transparent 94%,
+            hsl(var(--foreground) / 0.4) 96%,
+            transparent 98%
+          );
+        background-size:
+          100% 14px,
+          14px 100%;
         opacity: 0.07;
         animation: hero2-scan-move 6s linear infinite;
       }
       @keyframes hero2-scan-move {
-        0% { background-position: 0 0, 0 0; }
-        100% { background-position: 0 14px, 14px 0; }
+        0% {
+          background-position:
+            0 0,
+            0 0;
+        }
+        100% {
+          background-position:
+            0 14px,
+            14px 0;
+        }
       }
       .hero2-noise {
         position: absolute;
@@ -304,12 +366,18 @@ export function Hero2GlitchStyles() {
         background-size: 280px 280px;
         animation: hero2-noise-shift 1.8s steps(2, end) infinite;
       }
-      @keyframes hero2-noise-shift { 50% { background-position: 50% 50%; } }
+      @keyframes hero2-noise-shift {
+        50% {
+          background-position: 50% 50%;
+        }
+      }
 
       /* === Glitch title ================================================== */
       .hero2-title {
         position: relative;
-        text-shadow: -0.02em 0 hsl(var(--accent-2) / 0.65), 0.02em 0 hsl(var(--lav-deep) / 0.65),
+        text-shadow:
+          -0.02em 0 hsl(var(--accent-2) / 0.65),
+          0.02em 0 hsl(var(--lav-deep) / 0.65),
           0 0 0.25em hsl(var(--foreground) / 0.35);
       }
       .hero2-title::before,
@@ -334,33 +402,73 @@ export function Hero2GlitchStyles() {
         animation: hero2-glitch-b 2.4s infinite steps(9, end);
       }
       @keyframes hero2-glitch-a {
-        0% { clip-path: inset(0); }
-        10% { clip-path: inset(0 0 8% 0); }
-        20% { clip-path: inset(60% 0 0 0); }
-        40% { clip-path: inset(30% 0 40% 0); }
-        80% { clip-path: inset(10% 0 70% 0); }
-        100% { clip-path: inset(0); }
+        0% {
+          clip-path: inset(0);
+        }
+        10% {
+          clip-path: inset(0 0 8% 0);
+        }
+        20% {
+          clip-path: inset(60% 0 0 0);
+        }
+        40% {
+          clip-path: inset(30% 0 40% 0);
+        }
+        80% {
+          clip-path: inset(10% 0 70% 0);
+        }
+        100% {
+          clip-path: inset(0);
+        }
       }
       @keyframes hero2-glitch-b {
-        0% { clip-path: inset(0); }
-        15% { clip-path: inset(70% 0 10% 0); }
-        55% { clip-path: inset(0 0 60% 0); }
-        95% { clip-path: inset(20% 0 30% 0); }
-        100% { clip-path: inset(0); }
+        0% {
+          clip-path: inset(0);
+        }
+        15% {
+          clip-path: inset(70% 0 10% 0);
+        }
+        55% {
+          clip-path: inset(0 0 60% 0);
+        }
+        95% {
+          clip-path: inset(20% 0 30% 0);
+        }
+        100% {
+          clip-path: inset(0);
+        }
       }
 
       /* === HUD Tabs container (legacy hook, optional) ==================== */
-      .tabs-hud { background: transparent; box-shadow: none; }
+      .tabs-hud {
+        background: transparent;
+        box-shadow: none;
+      }
 
       /* === Neon divider (unchanged) ===================================== */
-      .neon-primary { --neon: var(--primary); }
-      .neon-life { --neon: var(--accent); }
-      .hero2-sep { position: relative; padding-top: 24px; }
+      .neon-primary {
+        --neon: var(--primary);
+      }
+      .neon-life {
+        --neon: var(--accent);
+      }
+      .hero2-sep {
+        position: relative;
+        padding-top: var(--space-5);
+      }
       .hero2-neon-line {
         position: absolute;
-        left: -8px; right: -8px; top: 0; height: 1px;
+        left: -8px;
+        right: -8px;
+        top: 0;
+        height: 1px;
         pointer-events: none;
-        background: linear-gradient(90deg, transparent, hsl(var(--neon)), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          hsl(var(--neon)),
+          transparent
+        );
         box-shadow:
           0 0 4px hsl(var(--neon) / 0.55),
           0 0 10px hsl(var(--neon) / 0.35),
@@ -375,12 +483,29 @@ export function Hero2GlitchStyles() {
         justify-content: space-between;
       }
       @keyframes neon-flicker {
-        0%, 17%, 22%, 26%, 52%, 100% { opacity: 1; }
-        18% { opacity: 0.72; }
-        24% { opacity: 0.55; }
-        54% { opacity: 0.78; }
-        70% { opacity: 0.62; }
-        74% { opacity: 1; }
+        0%,
+        17%,
+        22%,
+        26%,
+        52%,
+        100% {
+          opacity: 1;
+        }
+        18% {
+          opacity: 0.72;
+        }
+        24% {
+          opacity: 0.55;
+        }
+        54% {
+          opacity: 0.78;
+        }
+        70% {
+          opacity: 0.62;
+        }
+        74% {
+          opacity: 1;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {

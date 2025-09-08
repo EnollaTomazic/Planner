@@ -130,7 +130,12 @@ export default function Page() {
           >
             <SearchIcon />
           </IconButton>
-          <IconButton variant="ring" size="xl" aria-label="Search" title="Search">
+          <IconButton
+            variant="ring"
+            size="xl"
+            aria-label="Search"
+            title="Search"
+          >
             <SearchIcon />
           </IconButton>
         </div>
@@ -451,7 +456,10 @@ export default function Page() {
             eyebrow="Eyebrow"
             subtitle="Subtitle"
             sticky={false}
-          />
+            search={{ value: "", onValueChange: () => {}, round: true }}
+          >
+            <div className="text-sm text-muted-foreground">Body</div>
+          </Hero2>
         </div>
       ),
     },
