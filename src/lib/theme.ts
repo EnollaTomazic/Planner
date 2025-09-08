@@ -1,9 +1,13 @@
-import { createStorageKey } from "./db";
 import {
   readLocal,
   writeLocal,
   localBootstrapScript,
 } from "./local-bootstrap";
+
+const STORAGE_PREFIX = "noxis-planner:";
+function createStorageKey(key: string): string {
+  return `${STORAGE_PREFIX}${key}`;
+}
 
 export type Mode = "dark" | "light";
 export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose" | "hardstuck";
