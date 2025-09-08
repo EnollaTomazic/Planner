@@ -59,7 +59,7 @@ export default function TaskList({
           <EmptyRow text="No tasks selected." />
         ) : (
           <ul
-            className="space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5"
+            className="space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"
             aria-label="Tasks"
           >
             {tasksForSelected.map((t) => (

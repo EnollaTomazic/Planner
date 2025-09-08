@@ -48,7 +48,7 @@ export default function ProjectList({
           <EmptyRow text="No projects yet." />
         ) : (
           <ul
-            className="w-full space-y-2 [&>li:first-child]:mt-1.5 [&>li:last-child]:mb-1.5"
+            className="w-full space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"
             role="radiogroup"
             aria-label="Projects"
           >
@@ -102,7 +102,7 @@ export default function ProjectList({
                     )}
                   >
                     <span
-                      className="shrink-0 ml-0.5"
+                      className="shrink-0 ml-1"
                       onMouseDown={(e) => e.stopPropagation()}
                       onClick={(e) => e.stopPropagation()}
                     >

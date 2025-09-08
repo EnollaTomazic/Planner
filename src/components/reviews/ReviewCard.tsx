@@ -48,7 +48,7 @@ export default function ReviewCard({
           </div>
 
           {Array.isArray(review.tags) && review.tags.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="mt-2 flex flex-wrap gap-2">
               {review.tags.slice(0, 6).map((t) => (
                 <Badge key={t} variant="pill">
                   {t}

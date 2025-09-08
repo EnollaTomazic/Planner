@@ -381,7 +381,7 @@ function ReminderCard({
         </div>
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {editing ? (
           <>
             <Textarea

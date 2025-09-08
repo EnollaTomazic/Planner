@@ -258,7 +258,7 @@ export default function GoalsPage() {
                           >
                             <span
                               aria-hidden
-                              className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                              className="absolute inset-y-4 left-0 w-1 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
                             />
                             <header className="flex items-start justify-between gap-2">
                               <h3 className="font-semibold leading-tight pr-6 line-clamp-2">

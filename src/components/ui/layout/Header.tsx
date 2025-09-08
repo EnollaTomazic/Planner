@@ -73,7 +73,7 @@ export default function Header({
       >
         {rail ? (
           <div
-            className="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-1.5 rounded-l-2xl"
+            className="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
             aria-hidden
           />
         ) : null}
@@ -83,7 +83,7 @@ export default function Header({
           {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="mb-0.5 truncate text-[0.6875rem] uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+              <div className="mb-1 truncate text-[0.6875rem] uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
                 {eyebrow}
               </div>
             ) : null}
@@ -172,7 +172,7 @@ export function HeaderTabs<Key extends string = string>({
     <nav
       role="tablist"
       aria-label={ariaLabel ?? "Page sections"}
-      className="flex items-center gap-1 sm:gap-1.5"
+      className="flex items-center gap-1 sm:gap-2"
       onKeyDown={onKeyDown}
     >
       {tabs.map((t, i) => {
