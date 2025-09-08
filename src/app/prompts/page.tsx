@@ -573,7 +573,7 @@ export default function Page() {
   ];
 
   return (
-    <main className="page-shell py-6 bg-background text-foreground">
+    <main className="page-shell py-6">
       <p className="mb-4 text-sm text-muted-foreground">
         Global styles are now modularized into <code>animations.css</code>,<code>overlays.css</code>, and <code>utilities.css</code>.
       </p>
