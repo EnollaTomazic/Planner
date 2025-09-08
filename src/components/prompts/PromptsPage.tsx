@@ -70,7 +70,7 @@ export default function PromptsPage() {
 
   return (
     <SectionCard>
-      <SectionCard.Header sticky className="gap-3">
+      <SectionCard.Header sticky topClassName="top-8" className="gap-3">
         <PromptsHeader
           count={prompts.length}
           query={query}
