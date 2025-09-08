@@ -1,2 +1,11 @@
-npm run check-all
+#!/usr/bin/env sh
+
+if git diff --cached --name-only | grep -q '^src/components/ui/'; then
+  npm run regen-ui
+  git add src/components/ui/index.ts
+fi
+
+npm test -- --run
+npm run lint
+npm run typecheck
 
