@@ -1,0 +1,48 @@
+"use client";
+
+import * as React from "react";
+import { ensureDay, type ISODate } from "./plannerStore";
+import { makeCrud } from "./plannerCrud";
+import { usePlanner } from "./usePlanner";
+
+export function useDay(iso: ISODate) {
+  const { days, upsertDay } = usePlanner();
+
+  const rec = React.useMemo(() => ensureDay(days, iso), [days, iso]);
+
+  const tasks = React.useMemo(
+    () =>
+      rec.tasks.map((t) => ({
+        id: t.id,
+        title: t.title,
+        text: t.title,
+        done: t.done,
+        projectId: t.projectId,
+        createdAt: t.createdAt,
+      })),
+    [rec.tasks],
+  );
+
+  const crud = React.useMemo(() => makeCrud(iso, upsertDay), [iso, upsertDay]);
+
+  const doneTasks = React.useMemo(
+    () => tasks.filter((t) => t.done).length,
+    [tasks],
+  );
+  const totalTasks = tasks.length;
+
+  return {
+    projects: rec.projects,
+    tasks,
+    addProject: crud.addProject,
+    renameProject: crud.renameProject,
+    deleteProject: crud.removeProject,
+    toggleProject: crud.toggleProject,
+    addTask: crud.addTask,
+    renameTask: crud.renameTask,
+    deleteTask: crud.removeTask,
+    toggleTask: crud.toggleTask,
+    doneTasks,
+    totalTasks,
+  } as const;
+}
