@@ -34,11 +34,11 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
   return (
     <div className="flex min-w-[120px] items-center gap-2" aria-label="Progress">
       <div
-        className="h-1.5 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-[hsl(var(--fg)/0.1)]"
+        className="h-2 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-[hsl(var(--fg)/0.1)]"
         style={style}
       >
         <div
-          className="h-1.5 rounded-full bg-[hsl(var(--accent))] transition-[width]"
+          className="h-2 rounded-full bg-[hsl(var(--accent))] transition-[width]"
           style={{ width: `${v}%` }}
         />
       </div>

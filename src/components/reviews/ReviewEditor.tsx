@@ -964,7 +964,7 @@ export default function ReviewEditor({
                       <FileText size={14} className="opacity-80" />
                     </span>
                   ) : (
-                    <span className="pill h-7 min-w-[60px] px-2.5 text-[11px] font-mono tabular-nums text-center">
+                    <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
                       {m.time}
                     </span>
                   )}
@@ -1030,7 +1030,7 @@ export default function ReviewEditor({
                 <button
                   key={t}
                   type="button"
-                  className="chip h-9 px-3.5 text-sm group inline-flex items-center gap-1"
+                  className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >

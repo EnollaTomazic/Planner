@@ -352,7 +352,7 @@ export default function AnimatedSelect({
                   "relative pointer-events-auto rounded-2xl overflow-hidden",
                   "bg-[hsl(var(--card))]/92 backdrop-blur-xl",
                   "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
-                  "p-1.5",
+                  "p-2",
                   "max-h-[60vh] min-w-[220px] overflow-y-auto scrollbar-thin",
                   "scrollbar-thumb-[hsl(var(--foreground)/.12)] scrollbar-track-transparent",
                   dropdownClassName,
@@ -379,7 +379,7 @@ export default function AnimatedSelect({
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left transition",
+                          "group relative w-full rounded-xl px-4 py-3 text-left transition",
                           disabledItem
                             ? "opacity-50 cursor-not-allowed"
                             : "cursor-pointer",

@@ -28,7 +28,7 @@ export type BadgeProps<T extends React.ElementType = "span"> = BadgeOwnProps<T> 
 
 const sizeMap: Record<Size, string> = {
   xs: "px-2 py-1 text-xs leading-none",
-  sm: "px-2.5 py-2 text-xs leading-none",
+  sm: "px-3 py-2 text-xs leading-none",
 };
 
 const toneBorder: Record<Tone, string> = {

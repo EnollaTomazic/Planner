@@ -9,7 +9,7 @@ type Props = {
 export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
-      <div className="term-mini flex items-center gap-2 px-2 py-1.5 rounded-full">
+      <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full">
         <span className="term-mini__text">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>
