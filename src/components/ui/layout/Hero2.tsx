@@ -96,7 +96,7 @@ export default function Hero2({
   const bottomNode = search ? <Hero2SearchBar {...search} /> : bottom;
 
   return (
-    <section className={cx("grid gap-3", className)} {...rest}>
+    <section className={className} {...rest}>
       <Hero2GlitchStyles />
 
       <div
