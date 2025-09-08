@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { addDays, toISO, weekRangeFromISO } from "@/lib/date";
+import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
 import {
   ensureDay,
   todayISO,
@@ -24,7 +24,7 @@ export function useWeek(iso: ISODate) {
   return React.useMemo(() => {
     const { start, end } = weekRangeFromISO(iso);
     const days: ISODate[] = [];
-    for (let i = 0; i < 7; i++) days.push(toISO(addDays(start, i)));
+    for (let i = 0; i < 7; i++) days.push(toISODate(addDays(start, i)));
     const today = todayISO();
     const isToday = (d: ISODate) => d === today;
     return { start, end, days, isToday } as const;

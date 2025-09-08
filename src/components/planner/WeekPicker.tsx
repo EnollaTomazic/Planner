@@ -15,7 +15,7 @@ import { useFocusDate, type ISODate } from "./usePlanner";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
 import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";
-import { isoToDate, toISO, addDays, mondayStartOfWeek } from "@/lib/date";
+import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
@@ -116,23 +116,23 @@ export default function WeekPicker() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { start, end, heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
-    const base = isoToDate(iso);
+    const base = fromISODate(iso) ?? new Date();
     const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
-    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISO(addDays(s, i)) as ISODate);
+    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISODate(addDays(s, i)) as ISODate);
     return {
       start: s,
       end: e,
       heading: `${dmy.format(s)} — ${dmy.format(e)}`,
       rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
-      isoStart: toISO(s),
-      isoEnd: toISO(e),
+      isoStart: toISODate(s),
+      isoEnd: toISODate(e),
       days: list,
     };
   }, [iso]);
 
-  const prevWeek = () => setIso(toISO(addDays(start, -7)));
-  const nextWeek = () => setIso(toISO(addDays(start, 7)));
+  const prevWeek = () => setIso(toISODate(addDays(start, -7)));
+  const nextWeek = () => setIso(toISODate(addDays(start, 7)));
   const jumpToday = () => setIso(today);
 
   const { per, weekDone, weekTotal } = useWeekStats(days);

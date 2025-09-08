@@ -3,7 +3,7 @@
 import "./style.css";
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
-import { toISO } from "@/lib/date";
+import { toISODate } from "@/lib/date";
 
 export type ISODate = string;
 
@@ -35,7 +35,7 @@ export type Selection = {
 };
 
 export function todayISO(): ISODate {
-  return toISO(new Date());
+  return toISODate(new Date());
 }
 
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
