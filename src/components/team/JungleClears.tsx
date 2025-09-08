@@ -128,6 +128,7 @@ export default function JungleClears() {
       {/* Top: Hero2 header with pill search (round) */}
       <Hero2
         sticky={false}
+        topClassName="top-0"
         rail
         heading="Clear Speed Buckets"
         dividerTint="primary"

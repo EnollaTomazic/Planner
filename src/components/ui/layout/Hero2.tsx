@@ -63,7 +63,7 @@ export default function Hero2({
   right,
   children,
   sticky = true,
-  topClassName,
+  topClassName = "top-8",
   barClassName,
   bodyClassName,
   rail = true,
