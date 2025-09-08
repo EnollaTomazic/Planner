@@ -3,6 +3,7 @@
 import * as React from "react";
 import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
+import type { HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { neuRaised, neuInset } from "./Neu";
 
@@ -47,25 +48,28 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className
     );
 
-    if (variant === "primary") {
-      return (
-        <motion.button
-          ref={ref}
-          className={cn(
-            base,
-            "bg-[hsl(var(--panel)/0.85)] overflow-hidden",
-            "shadow-neo"
-          )}
-          whileHover={{
-            scale: 1.03,
-            boxShadow: `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
-          }}
-          whileTap={{
-            scale: 0.96,
-            boxShadow: neuInset(10) as CSSProperties["boxShadow"],
-          }}
-          {...rest}
-        >
+    const variants: Record<
+      NonNullable<ButtonProps["variant"]>,
+      {
+        className: string;
+        whileHover?: HTMLMotionProps<"button">["whileHover"];
+        whileTap?: HTMLMotionProps<"button">["whileTap"];
+        overlay?: React.ReactNode;
+        contentClass?: string;
+      }
+    > = {
+      primary: {
+        className: "bg-[hsl(var(--panel)/0.85)] overflow-hidden shadow-neo",
+        whileHover: {
+          scale: 1.03,
+          boxShadow:
+            `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
+        },
+        whileTap: {
+          scale: 0.96,
+          boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+        },
+        overlay: (
           <span
             className="absolute inset-0 pointer-events-none rounded-2xl"
             style={{
@@ -73,41 +77,40 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 "linear-gradient(90deg, hsl(var(--accent)/.18), hsl(var(--accent-2)/.18))",
             }}
           />
-          <span className="relative z-10 inline-flex items-center gap-2">
-            {children as React.ReactNode}
-          </span>
-        </motion.button>
-      );
-    }
+        ),
+        contentClass: "relative z-10 inline-flex items-center gap-2",
+      },
+      secondary: {
+        className: "bg-[hsl(var(--panel)/0.8)] shadow-neo",
+        whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
+        whileTap: {
+          scale: 0.97,
+          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+        },
+      },
+      ghost: {
+        className: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+        whileTap: { scale: 0.97 },
+      },
+    } as const;
 
-    if (variant === "ghost") {
-      return (
-        <motion.button
-          ref={ref}
-          className={cn(
-            base,
-            "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]"
-          )}
-          whileTap={{ scale: 0.97 }}
-          {...rest}
-        >
-          {children}
-        </motion.button>
-      );
-    }
+    const { className: variantClass, whileHover, whileTap, overlay, contentClass } =
+      variants[variant];
 
     return (
       <motion.button
         ref={ref}
-        className={cn(base, "bg-[hsl(var(--panel)/0.8)]", "shadow-neo")}
-        whileHover={{ scale: 1.02, boxShadow: neuRaised(15) }}
-        whileTap={{
-          scale: 0.97,
-          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
-        }}
+        className={cn(base, variantClass)}
+        whileHover={whileHover}
+        whileTap={whileTap}
         {...rest}
       >
-        {children}
+        {overlay}
+        {contentClass ? (
+          <span className={contentClass}>{children as React.ReactNode}</span>
+        ) : (
+          children as React.ReactNode
+        )}
       </motion.button>
     );
   }
