@@ -625,9 +625,9 @@ html.bg-intense body::after  { filter: blur(2px) saturate(120%); }
     hsl(262 83% 58% / 0)
   );
   /* mask to only show the ring, not fill the card */
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           mask-composite: exclude;
   opacity: .55;
   animation:

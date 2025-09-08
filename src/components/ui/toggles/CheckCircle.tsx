@@ -200,7 +200,7 @@ export default function CheckCircle({
               background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
               backgroundSize: "200% 100%",
               WebkitMask:
-                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               animation:
@@ -376,7 +376,7 @@ export default function CheckCircle({
             hsl(320 85% 60% / .6),
             hsl(262 83% 58% / .0)
           );
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           -webkit-mask-composite: xor; mask-composite: exclude;
           opacity: .5;
           animation: ccxHue 6s linear infinite, ccxJit 2s steps(6,end) infinite;
