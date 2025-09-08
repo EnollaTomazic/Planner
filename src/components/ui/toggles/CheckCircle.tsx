@@ -50,6 +50,17 @@ export default function CheckCircle({
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
 
+  const [reduceMotion, setReduceMotion] = React.useState(false);
+  React.useEffect(() => {
+    const mq = typeof window.matchMedia === "function"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)")
+      : null;
+    const onChange = () => setReduceMotion(mq?.matches ?? false);
+    onChange();
+    mq?.addEventListener("change", onChange);
+    return () => mq?.removeEventListener("change", onChange);
+  }, []);
+
   // Hover/focus tracking
   const [hovered, setHovered] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
@@ -192,7 +203,10 @@ export default function CheckCircle({
                 "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
-              animation: lit ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite" : undefined,
+              animation:
+                !reduceMotion && lit
+                  ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite"
+                  : undefined,
             } as React.CSSProperties}
           />
 
@@ -207,7 +221,7 @@ export default function CheckCircle({
           background:
             "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
               mixBlendMode: "overlay",
-              animation: lit ? "ccScan 2.1s linear infinite" : undefined,
+              animation: !reduceMotion && lit ? "ccScan 2.1s linear infinite" : undefined,
             }}
           />
 
@@ -235,7 +249,10 @@ export default function CheckCircle({
               background:
                 "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
               mixBlendMode: "screen",
-              animation: phase === "ignite" ? "igniteFlicker .62s steps(18,end) 1" : undefined,
+              animation:
+                !reduceMotion && phase === "ignite"
+                  ? "igniteFlicker .62s steps(18,end) 1"
+                  : undefined,
             }}
           />
           <span
@@ -248,7 +265,10 @@ export default function CheckCircle({
               background:
                 "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.14), transparent 60%)",
               mixBlendMode: "screen",
-              animation: phase === "powerdown" ? "powerDown .36s linear 1" : undefined,
+              animation:
+                !reduceMotion && phase === "powerdown"
+                  ? "powerDown .36s linear 1"
+                  : undefined,
             }}
           />
 
@@ -294,10 +314,14 @@ export default function CheckCircle({
             )}
           >
             <svg viewBox="0 0 18 18" className="h-3.5 w-3.5" aria-hidden>
-              <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path
+                d="M4 4l10 10M14 4L4 14"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
-            <span aria-hidden className="ccx-chroma" />
-            <span aria-hidden className="ccx-flicker" />
+            <span aria-hidden className="ccx-glow" />
           </button>
         )}
       </span>
@@ -328,14 +352,21 @@ export default function CheckCircle({
           60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
           100%{ opacity:0; transform:scale(.985) }
         }
-        .ccx-chroma,
-        .ccx-flicker {
+        .ccx-glow {
           position: absolute;
-          inset: -1px;
+          inset: -2px;
           border-radius: 9999px;
           pointer-events: none;
         }
-        .ccx-chroma {
+        .ccx-glow::before,
+        .ccx-glow::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+        }
+        .ccx-glow::before {
+          inset: 1px;
           padding: 1px;
           background: conic-gradient(
             from 180deg,
@@ -350,13 +381,18 @@ export default function CheckCircle({
           opacity: .5;
           animation: ccxHue 6s linear infinite, ccxJit 2s steps(6,end) infinite;
         }
-        .ccx-flicker {
-          inset: -2px;
+        .ccx-glow::after {
           background: radial-gradient(120% 120% at 50% 50%, hsl(var(--ring)/.18), transparent 60%);
           filter: blur(6px);
           mix-blend-mode: screen;
           opacity: .25;
           animation: ccxFlick 3s steps(20,end) infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ccx-glow::before,
+          .ccx-glow::after {
+            animation: none;
+          }
         }
         @keyframes ccxHue { to { filter: hue-rotate(360deg) } }
         @keyframes ccxJit {
