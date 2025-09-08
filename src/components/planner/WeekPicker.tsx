@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import Hero2 from "@/components/ui/layout/Hero2";
+import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
 import { useFocusDate } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
@@ -168,7 +168,7 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top-right controls go in Hero2.right */
+  /* Top-right controls go in Hero.right */
   const right = (
     <div className="flex items-center gap-2">
       <Button
@@ -213,7 +213,7 @@ export default function WeekPicker() {
   );
 
   return (
-    <Hero2
+    <Hero
       heading={
         <span className="hero2-title" data-text={heading}>
           {heading}

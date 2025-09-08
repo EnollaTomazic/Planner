@@ -14,7 +14,7 @@ import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
 import Header from "@/components/ui/layout/Header";
-import Hero2 from "@/components/ui/layout/Hero2";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
@@ -202,7 +202,7 @@ export default function GoalsPage() {
         }
       />
 
-      <Hero2
+      <Hero
         eyebrow="Stats"
         heading="Overview"
         subtitle={summary}
