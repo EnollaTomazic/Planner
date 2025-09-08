@@ -1,5 +1,5 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 import { useMemo, useState } from "react";
 import type { Review } from "@/lib/types";

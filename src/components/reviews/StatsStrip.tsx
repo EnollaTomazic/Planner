@@ -1,5 +1,5 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 export default function StatsStrip({
   total,

@@ -1,6 +1,6 @@
 // src/components/reviews/ReviewSummary.tsx
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 import * as React from "react";
 import type { Review, Pillar, Role, ReviewMarker } from "@/lib/types";

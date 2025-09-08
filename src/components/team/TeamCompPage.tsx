@@ -10,7 +10,7 @@
  * Uses Hero (v1) + HeroTabs for the main header.
  * The Cheat Sheet tab itself renders a nested Hero2 internally.
  */
-import "../team/style.css";
+import "./style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";

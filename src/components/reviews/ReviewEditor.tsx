@@ -1,7 +1,7 @@
 "use client";
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
-import "../reviews/style.css";
+import "./style.css";
 import RoleSelector from "@/components/reviews/RoleSelector";
 import SectionLabel from "@/components/reviews/SectionLabel";
 

@@ -1,6 +1,6 @@
 // src/components/team/Builder.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 /**
  * Builder — Allies vs Enemies with a center divider

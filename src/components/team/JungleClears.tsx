@@ -1,6 +1,6 @@
 // src/components/team/JungleClears.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 /**
  * JungleClears

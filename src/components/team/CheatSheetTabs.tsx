@@ -1,6 +1,6 @@
 // src/components/team/CheatSheetTabs.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 import * as React from "react";
 import { BookOpen, Users2 } from "lucide-react";
