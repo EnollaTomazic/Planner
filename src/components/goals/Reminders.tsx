@@ -162,7 +162,7 @@ export default function Reminders() {
   }
 
   return (
-    <div className="grid gap-2.5">
+    <div className="grid gap-3">
       <SectionCard className="card-neo-soft">
         <SectionCard.Header sticky topClassName="top-0">
           {/* header row (no Quick Add here anymore) */}
@@ -173,7 +173,7 @@ export default function Reminders() {
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
-                className="pl-10"
+                className="pl-6"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
@@ -211,7 +211,7 @@ export default function Reminders() {
         </SectionCard.Header>
 
         {/* Panel body now holds Quick Add + neon quote + cards grid */}
-        <SectionCard.Body className="grid gap-2.5">
+        <SectionCard.Body className="grid gap-3">
           {/* Quick Add row (in the SAME panel as cards) */}
           <div className="sm:p-4 flex items-center gap-4">
             <Input
