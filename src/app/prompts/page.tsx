@@ -41,6 +41,13 @@ import {
 } from "@/components/prompts";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
+import {
+  DayCardHeader,
+  ProjectList,
+  TaskList,
+  TaskRow,
+  EmptyRow,
+} from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
 import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
@@ -107,6 +114,16 @@ export default function Page() {
     score: 8,
     result: "Win",
   };
+
+  const demoProjects = [
+    { id: "p1", name: "Alpha", done: false, createdAt: Date.now() },
+    { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
+  ];
+
+  const demoTasks = [
+    { id: "t1", text: "Task A", done: false, projectId: "p1" },
+    { id: "t2", text: "Task B", done: true, projectId: "p1" },
+  ];
 
   const componentItems = [
     { label: "Button", element: <Button className="w-56">Click me</Button> },
@@ -648,6 +665,62 @@ export default function Page() {
         </div>
       ),
       className: "sm:col-span-2 md:col-span-3 w-full",
+    },
+    {
+      label: "DayCardHeader",
+      element: (
+        <DayCardHeader
+          iso="2024-01-01"
+          projectCount={2}
+          doneTasks={1}
+          totalTasks={3}
+        />
+      ),
+    },
+    { label: "EmptyRow", element: <EmptyRow text="Nothing here" /> },
+    {
+      label: "TaskRow",
+      element: (
+        <ul className="w-64">
+          <TaskRow
+            task={{ id: "t1", text: "Sample", done: false }}
+            onToggle={() => {}}
+            onDelete={() => {}}
+            onEdit={() => {}}
+            onSelect={() => {}}
+          />
+        </ul>
+      ),
+    },
+    {
+      label: "ProjectList",
+      element: (
+        <ProjectList
+          projects={demoProjects}
+          selectedProjectId=""
+          setSelectedProjectId={() => {}}
+          setSelectedTaskId={() => {}}
+          toggleProject={() => {}}
+          renameProject={() => {}}
+          deleteProject={() => {}}
+        />
+      ),
+      className: "sm:col-span-2 md:col-span-3",
+    },
+    {
+      label: "TaskList",
+      element: (
+        <TaskList
+          tasks={demoTasks}
+          selectedProjectId="p1"
+          addTask={() => ""}
+          renameTask={() => {}}
+          toggleTask={() => {}}
+          deleteTask={() => {}}
+          setSelectedTaskId={() => {}}
+        />
+      ),
+      className: "sm:col-span-2 md:col-span-3",
     },
   ];
 
