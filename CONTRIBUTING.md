@@ -27,6 +27,14 @@ npm run regen-ui
 
 Ensure these checks pass before committing.
 
+## Testing
+
+`npm test` runs only the tests for files changed since the last commit. To execute the full test suite, run:
+
+```bash
+npm test -- --run
+```
+
 ## Branch workflow
 
 ### Feature branch naming
