@@ -17,7 +17,7 @@
     "test": "vitest",
     "format": "prettier --write .",
     "check-prompts": "ts-node scripts/check-prompts-updated.ts",
-    "postinstall": "npm run regen-ui && npm run regen-feature",
+    "postinstall": "ts-node scripts/postinstall.ts",
     "prepare": "husky"
   },
   "dependencies": {
