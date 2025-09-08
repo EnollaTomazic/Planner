@@ -1,10 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  :root {
+    --shell-max: 1120px;
+  }
 
-@import './animations.css';
-@import './overlays.css';
-@import './utilities.css';
+  .page-shell {
+    width: 100%;
+    max-width: var(--shell-max, 1120px);
+    margin-inline: auto;
+    padding-inline: clamp(12px, 2.5vw, 24px);
+  }
+
+  /* Optional global overlays */
+  html.fx-scanlines::after,
+  body.fx-scanlines::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: repeating-linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.02) 0px,
+      hsl(var(--foreground) / 0.02) 1px,
+      transparent 2px,
+      transparent 3px
+    );
+    mix-blend-mode: soft-light;
+  }
+
+  html.fx-noise::before,
+  body.fx-noise::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.06'/></svg>");
+    background-size: 140px 140px;
+  }
+
+  html.fx-gifbars::before,
+  body.fx-gifbars::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    background-image: url("https://www.gifcen.com/wp-content/uploads/2022/05/glitch-gif.gif");
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: overlay;
+    opacity: 0.08;
+  }
+
+  html.fx-overdrive .card-neo:hover::before,
+  html.fx-overdrive .card-neo-soft:hover::before {
+    animation: edgePulse 1.6s ease-in-out infinite;
+  }
+
+  html.fx-overdrive .card-neo.glitchy:hover .card-title,
+  html.fx-overdrive .card-neo-soft.glitchy:hover .card-title {
+    animation: chromaJitter 0.8s steps(3, end) infinite;
+  }
+}
 
 /* ---------- Base reset ---------- */
 html,
@@ -76,7 +137,9 @@ html.bg-intense body::after {
 .title-ghost,
 :where(h1, h2, h3, .card-title) {
   position: relative;
-  text-shadow: 1px 0 hsl(var(--accent-2)), -1px 0 hsl(var(--lav-deep));
+  text-shadow:
+    1px 0 hsl(var(--accent-2)),
+    -1px 0 hsl(var(--lav-deep));
   animation: ghost 3.2s ease-in-out infinite;
 }
 .no-ghost {
@@ -106,7 +169,8 @@ html.bg-intense body::after {
   color: hsl(var(--foreground));
 }
 .bg-aurora-layers {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       1200px 700px at 20% -10%,
       hsl(272 80% 60% / 0.2),
       transparent 60%
@@ -118,7 +182,11 @@ html.bg-intense body::after {
     ),
     linear-gradient(0deg, hsl(var(--foreground) / 0.08) 1px, transparent 1px),
     linear-gradient(90deg, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
-  background-size: auto, auto, 100% 2px, 2px 100%;
+  background-size:
+    auto,
+    auto,
+    100% 2px,
+    2px 100%;
 }
 .bg-noise {
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
@@ -157,7 +225,8 @@ html.bg-intense body::after {
       hsl(262 83% 58% / 0)
     );
     filter: saturate(1.1);
-    animation: hero-hue-sweep 7s linear infinite,
+    animation:
+      hero-hue-sweep 7s linear infinite,
       hero-rail-jitter 2.2s steps(6, end) infinite;
     opacity: 0.6;
   }
@@ -185,7 +254,8 @@ html.bg-intense body::after {
     background-clip: padding-box;
     position: relative;
     isolation: isolate;
-    transition: transform var(--dur-quick) var(--ease-out),
+    transition:
+      transform var(--dur-quick) var(--ease-out),
       box-shadow var(--dur-quick) var(--ease-out),
       border-color var(--dur-quick) var(--ease-out),
       background var(--dur-quick) var(--ease-out);
@@ -193,7 +263,8 @@ html.bg-intense body::after {
   }
   .card-neo {
     background: hsl(var(--card) / 0.75);
-    box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+    box-shadow:
+      0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
       0 30px 60px hsl(250 30% 2% / 0.35);
   }
   .card-neo-soft {
@@ -204,7 +275,8 @@ html.bg-intense body::after {
     );
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
-    box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+    box-shadow:
+      0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
       inset 0 1px 0 hsl(var(--foreground) / 0.05),
       0 30px 60px hsl(250 30% 2% / 0.35);
   }
@@ -216,7 +288,9 @@ html.bg-intense body::after {
     padding: 1px;
     border-radius: calc(var(--_r) + 1px);
     background: var(--edge-iris);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0.45;
@@ -256,14 +330,16 @@ html.bg-intense body::after {
   }
   .card-neo[data-active="true"],
   .card-neo-soft[data-active="true"] {
-    box-shadow: 0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
+    box-shadow:
+      0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
       0 0 0 2px hsl(var(--ring) / 0.22),
       0 26px 60px hsl(var(--shadow-color) / 0.28);
   }
   .card-neo:focus-within,
   .card-neo-soft:focus-within {
     outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35),
+    box-shadow:
+      0 0 0 3px hsl(var(--ring) / 0.35),
       0 26px 60px hsl(var(--shadow-color) / 0.28);
   }
 
@@ -465,22 +541,18 @@ html.bg-intense body::after {
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));
-    background: linear-gradient(
-        90deg,
-        hsl(var(--primary-soft)) 0%,
-        transparent 100%
-      ),
+    background:
+      linear-gradient(90deg, hsl(var(--primary-soft)) 0%, transparent 100%),
       hsl(var(--card));
     color: hsl(var(--muted-foreground));
-    transition: transform var(--dur-quick) var(--ease-out),
-      background var(--dur-quick), color var(--dur-quick);
+    transition:
+      transform var(--dur-quick) var(--ease-out),
+      background var(--dur-quick),
+      color var(--dur-quick);
   }
   .btn-like-segmented:hover {
-    background: linear-gradient(
-        90deg,
-        hsl(var(--primary) / 0.12) 0%,
-        transparent 100%
-      ),
+    background:
+      linear-gradient(90deg, hsl(var(--primary) / 0.12) 0%, transparent 100%),
       hsl(var(--card));
     color: hsl(var(--foreground));
     text-shadow: 0 0 6px hsl(var(--accent) / 0.25);
@@ -510,7 +582,8 @@ html.bg-intense body::after {
     color: hsl(var(--foreground));
     background: color-mix(in oklab, hsl(var(--card)) 75%, transparent);
     border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.35),
+    box-shadow:
+      0 0 0 2px hsl(var(--ring) / 0.35),
       0 12px 28px hsl(var(--ring) / 0.25);
   }
 
@@ -518,8 +591,11 @@ html.bg-intense body::after {
     border-radius: var(--radius-lg);
     color: hsl(var(--primary-foreground));
     background: var(--seg-active-grad);
-    box-shadow: 0 0 25px hsl(291 89% 61% / 0.6), 0 0 50px hsl(192 91% 46% / 0.4);
-    transition: transform var(--dur-quick) var(--ease-out),
+    box-shadow:
+      0 0 25px hsl(291 89% 61% / 0.6),
+      0 0 50px hsl(192 91% 46% / 0.4);
+    transition:
+      transform var(--dur-quick) var(--ease-out),
       filter var(--dur-quick);
   }
   .btn-glitch:hover {
@@ -531,7 +607,8 @@ html.bg-intense body::after {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--card-hairline));
     box-shadow: 0 6px 18px hsl(var(--shadow-color) / 0.18);
-    transition: transform var(--dur-quick) var(--ease-out),
+    transition:
+      transform var(--dur-quick) var(--ease-out),
       box-shadow var(--dur-quick);
   }
   .btn-lift:hover {
@@ -548,7 +625,9 @@ html.bg-intense body::after {
     background-color: hsl(var(--input));
     border-color: hsl(var(--card-hairline));
     color: hsl(var(--foreground));
-    transition: box-shadow var(--dur-quick), border-color var(--dur-quick),
+    transition:
+      box-shadow var(--dur-quick),
+      border-color var(--dur-quick),
       background var(--dur-quick);
     display: inline-flex;
     align-items: center;
@@ -562,13 +641,13 @@ html.bg-intense body::after {
     border-color: hsl(var(--ring));
   }
 
-
   /* Section shell */
   .section {
     border: 0;
     border-radius: var(--radius-card);
     background: hsl(var(--card));
-    box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
+    box-shadow:
+      0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
       0 10px 30px hsl(250 30% 2% / 0.25);
   }
   .section-h {
@@ -615,9 +694,12 @@ html.bg-intense body::after {
       hsl(320 85% 60% / 0.6),
       hsl(262 83% 58% / 0)
     );
-    -webkit-mask: linear-gradient(#000 0 0) content-box,
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -629,7 +711,8 @@ html.bg-intense body::after {
   .bg-hero-soft {
     position: relative;
     border: 1px solid hsl(var(--card-hairline));
-    background: radial-gradient(
+    background:
+      radial-gradient(
         120% 200% at 0% 0%,
         hsl(var(--primary) / 0.18),
         transparent 60%
@@ -640,7 +723,8 @@ html.bg-intense body::after {
         transparent 60%
       ),
       linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
-    box-shadow: 0 1px 0 hsl(var(--foreground) / 0.08) inset,
+    box-shadow:
+      0 1px 0 hsl(var(--foreground) / 0.08) inset,
       0 0 0 1px hsl(var(--card-hairline) / 0.65),
       0 14px 40px hsl(var(--shadow-color) / 0.45);
   }
@@ -693,7 +777,6 @@ html.bg-intense body::after {
   }
 }
 
-
 /* ---------- Planner visuals ---------- */
 .bg-hero-soft-lite {
   position: relative;
@@ -710,7 +793,8 @@ html.bg-intense body::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       0deg,
       transparent 24%,
       hsl(var(--card-hairline) / 0.15) 25% 26%,
@@ -765,7 +849,8 @@ html.bg-intense body::after {
   );
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: glitchScan 1.6s steps(8, end) infinite,
+  animation:
+    glitchScan 1.6s steps(8, end) infinite,
     glitchJitter 0.8s steps(3, end) infinite;
 }
 .glitch-track.is-complete .glitch-fill {
@@ -798,7 +883,8 @@ html.bg-intense body::after {
 }
 .pill--trace {
   border-color: transparent;
-  background: linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+  background:
+    linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
     linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary))) border-box;
   color: hsl(var(--primary-foreground));
 }
@@ -839,7 +925,6 @@ html.bg-intense body::after {
   @apply h-12 flex items-center;
 }
 
-
 /* ---------- Animations ---------- */
 
 /* Reduced motion */
@@ -877,7 +962,8 @@ html.bg-intense body::after {
   position: relative;
   border: 0;
   border-radius: var(--radius-card);
-  background: radial-gradient(
+  background:
+    radial-gradient(
       120% 90% at 10% -20%,
       hsl(var(--accent) / 0.1),
       transparent 60%
@@ -888,7 +974,8 @@ html.bg-intense body::after {
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
-  box-shadow: 0 18px 48px hsl(var(--shadow-color) / 0.35),
+  box-shadow:
+    0 18px 48px hsl(var(--shadow-color) / 0.35),
     inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline));
   overflow: hidden;
 }
@@ -907,7 +994,9 @@ html.bg-intense body::after {
     hsl(320 85% 60% / 0.7),
     hsl(262 83% 58% / 0)
   );
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.55;
@@ -917,7 +1006,8 @@ html.bg-intense body::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: repeating-linear-gradient(
+  background:
+    repeating-linear-gradient(
       90deg,
       hsl(var(--accent) / 0.22) 0 1px,
       transparent 1px 26px
@@ -1000,10 +1090,14 @@ textarea:-webkit-autofill {
   letter-spacing: -0.01em;
   background: color-mix(in oklab, hsl(var(--muted)) 18%, transparent);
   border: 1px solid hsl(var(--card-hairline));
-  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.06),
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.06),
     0 0 0 0.5px hsl(var(--card-hairline) / 0.35),
     0 10px 20px hsl(var(--shadow-color) / 0.18);
-  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
 }
 .badge--xs {
   padding: 3px 8px;
@@ -1026,7 +1120,8 @@ textarea:-webkit-autofill {
 .badge[data-selected="true"] {
   background: color-mix(in oklab, hsl(var(--primary-soft)) 36%, transparent);
   border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 1px hsl(var(--ring) / 0.6) inset,
+  box-shadow:
+    0 0 0 1px hsl(var(--ring) / 0.6) inset,
     0 8px 22px hsl(var(--shadow-color) / 0.6);
 }
 .badge[data-tone="primary"] {
@@ -1069,7 +1164,8 @@ textarea:-webkit-autofill {
   );
   background-size: 100% 200%;
   animation: lg-railShift 5.5s ease-in-out infinite;
-  box-shadow: 0 0 14px hsl(var(--primary) / 0.35),
+  box-shadow:
+    0 0 14px hsl(var(--primary) / 0.35),
     0 0 28px hsl(var(--accent) / 0.25);
 }
 .glitch-card {
@@ -1077,9 +1173,13 @@ textarea:-webkit-autofill {
   border-radius: var(--radius-xl);
   border: 1px solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
-  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.05),
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.05),
     0 10px 24px hsl(var(--shadow-color) / 0.35);
-  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 .glitch-card:hover {
   box-shadow: 0 14px 30px hsl(var(--shadow-color) / 0.42);
@@ -1100,8 +1200,12 @@ textarea:-webkit-autofill {
     hsl(var(--primary) / 0.55)
   );
   background-size: 300% 100%;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: lg-holo 12s linear infinite;
@@ -1124,14 +1228,20 @@ textarea:-webkit-autofill {
 }
 .glitch-title {
   position: relative;
-  text-shadow: 0 0 6px hsl(var(--primary) / 0.45),
+  text-shadow:
+    0 0 6px hsl(var(--primary) / 0.45),
     0 0 18px hsl(var(--accent) / 0.35);
-  transition: text-shadow 0.18s ease, transform 0.12s ease;
+  transition:
+    text-shadow 0.18s ease,
+    transform 0.12s ease;
 }
 .glitch-title:hover,
 .glitch-title:focus-visible {
-  text-shadow: 1px 0 hsl(var(--accent) / 0.9), -1px 0 hsl(var(--primary) / 0.9),
-    0 0 12px hsl(var(--ring) / 0.6), 0 0 26px hsl(var(--accent) / 0.35);
+  text-shadow:
+    1px 0 hsl(var(--accent) / 0.9),
+    -1px 0 hsl(var(--primary) / 0.9),
+    0 0 12px hsl(var(--ring) / 0.6),
+    0 0 26px hsl(var(--accent) / 0.35);
 }
 .badge[data-glitch="true"] {
   background: linear-gradient(
@@ -1139,11 +1249,13 @@ textarea:-webkit-autofill {
     color-mix(in oklab, hsl(var(--muted)) 22%, transparent) 0%,
     color-mix(in oklab, hsl(var(--muted)) 34%, transparent) 100%
   );
-  box-shadow: 0 0 0 1px hsl(var(--card-hairline)) inset,
+  box-shadow:
+    0 0 0 1px hsl(var(--card-hairline)) inset,
     0 0 16px hsl(var(--accent) / 0.25);
 }
 .badge[data-glitch="true"]:hover {
-  box-shadow: 0 0 0 1px hsl(var(--ring)) inset,
+  box-shadow:
+    0 0 0 1px hsl(var(--ring)) inset,
     0 0 20px hsl(var(--accent) / 0.35);
 }
 
@@ -1183,8 +1295,8 @@ textarea:-webkit-autofill {
 /* ===== Design Tokens ===== */
 :root {
   /* Glow tokens */
-  --glow-strong: 260 85% 60% / .55;
-  --glow-soft: 260 85% 60% / .25;
+  --glow-strong: 260 85% 60% / 0.55;
+  --glow-soft: 260 85% 60% / 0.25;
 
   /* Radius tokens */
   --radius-md: 8px;
@@ -1288,8 +1400,10 @@ textarea:-webkit-autofill {
   font-size: 0.75rem;
   line-height: 1;
   white-space: nowrap;
-  transition: background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out), color 0.15s var(--ease-out);
+  transition:
+    background 0.15s var(--ease-out),
+    border-color 0.15s var(--ease-out),
+    color 0.15s var(--ease-out);
 }
 .champ-badge:hover {
   background: hsl(var(--primary-soft));
@@ -1308,7 +1422,8 @@ textarea:-webkit-autofill {
   --glitch-flicker: 4s;
   position: relative;
   display: inline-block;
-  text-shadow: 0 0 0.35rem hsl(var(--ring) / 0.45),
+  text-shadow:
+    0 0 0.35rem hsl(var(--ring) / 0.45),
     0 0 0.08rem hsl(var(--accent) / 0.3);
   animation: glitch-flicker var(--glitch-flicker) infinite steps(1, end);
 }
@@ -1323,13 +1438,15 @@ textarea:-webkit-autofill {
 .glitch-anim::before {
   color: hsl(var(--accent));
   clip-path: polygon(0 0, 100% 0, 100% 52%, 0 52%);
-  animation: glitch-shift var(--glitch-speed) infinite linear alternate-reverse,
+  animation:
+    glitch-shift var(--glitch-speed) infinite linear alternate-reverse,
     glitch-clip-1 calc(var(--glitch-speed) * 0.9) infinite steps(1, end);
 }
 .glitch-anim::after {
   color: hsl(var(--primary));
   clip-path: polygon(0 48%, 100% 48%, 100% 100%, 0 100%);
-  animation: glitch-shift calc(var(--glitch-speed) * 0.95) infinite linear,
+  animation:
+    glitch-shift calc(var(--glitch-speed) * 0.95) infinite linear,
     glitch-clip-2 calc(var(--glitch-speed) * 0.85) infinite steps(1, end);
 }
 .glitch-scan {
@@ -1473,9 +1590,10 @@ textarea:-webkit-autofill {
   border: 1px solid hsl(var(--card-hairline));
   border-radius: var(--gt-radius);
   background: linear-gradient(90deg, hsl(var(--card)), hsl(var(--card)));
-  box-shadow: 0 0 0 1px
-      color-mix(in oklab, hsl(var(--shadow-color)) 30%, transparent),
-    0 10px 30px -12px color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, hsl(var(--shadow-color)) 30%, transparent),
+    0 10px 30px -12px
+      color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent);
   isolation: isolate;
   cursor: pointer;
 }
@@ -1492,7 +1610,9 @@ textarea:-webkit-autofill {
     hsl(var(--primary)) 65%,
     transparent 100%
   );
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.85;
@@ -1514,7 +1634,8 @@ textarea:-webkit-autofill {
   opacity: 0.35;
 }
 .glitch-toggle--flash::before {
-  animation: glitch-border 2.2s linear infinite,
+  animation:
+    glitch-border 2.2s linear infinite,
     gtFlash 1.6s steps(8, end) infinite;
 }
 .glitch-toggle--flash .glitch-toggle__indicator {
@@ -1530,13 +1651,16 @@ textarea:-webkit-autofill {
   letter-spacing: 0.2px;
   color: hsl(var(--muted-foreground));
   border-radius: 9999px;
-  transition: color 0.18s ease, text-shadow 0.18s ease, transform 0.18s ease;
+  transition:
+    color 0.18s ease,
+    text-shadow 0.18s ease,
+    transform 0.18s ease;
   user-select: none;
 }
 .glitch-toggle__seg.is-active {
   color: hsl(var(--primary-foreground));
-  text-shadow: 0 0 10px
-      color-mix(in oklab, hsl(var(--primary)) 70%, transparent),
+  text-shadow:
+    0 0 10px color-mix(in oklab, hsl(var(--primary)) 70%, transparent),
     0 0 18px color-mix(in oklab, hsl(var(--accent)) 40%, transparent);
   transform: translateZ(0);
 }
@@ -1547,7 +1671,8 @@ textarea:-webkit-autofill {
   inset: 2px;
   width: calc(50% - 2px);
   border-radius: 9999px;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       120% 100% at 50% 0%,
       color-mix(in oklab, hsl(var(--primary-soft)) 80%, transparent),
       transparent 60%
@@ -1557,7 +1682,8 @@ textarea:-webkit-autofill {
       color-mix(in oklab, hsl(var(--primary)) 55%, transparent),
       color-mix(in oklab, hsl(var(--accent)) 55%, transparent)
     );
-  box-shadow: 0 0 18px color-mix(in oklab, hsl(var(--primary)) 50%, transparent),
+  box-shadow:
+    0 0 18px color-mix(in oklab, hsl(var(--primary)) 50%, transparent),
     inset 0 0 14px color-mix(in oklab, hsl(var(--primary)) 40%, transparent);
   transform: translateX(0%);
   transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -1601,11 +1727,13 @@ textarea:-webkit-autofill {
 @keyframes gtPulse {
   0%,
   100% {
-    box-shadow: 0 0 18px hsl(var(--foreground) / 0.18),
+    box-shadow:
+      0 0 18px hsl(var(--foreground) / 0.18),
       inset 0 0 14px hsl(var(--foreground) / 0.15);
   }
   50% {
-    box-shadow: 0 0 28px hsl(var(--foreground) / 0.28),
+    box-shadow:
+      0 0 28px hsl(var(--foreground) / 0.28),
       inset 0 0 18px hsl(var(--foreground) / 0.22);
   }
 }
@@ -1619,7 +1747,8 @@ textarea:-webkit-autofill {
     hsl(var(--ring)) 55%,
     hsl(var(--card-hairline))
   );
-  box-shadow: 0 0 0 1px hsl(var(--ring) / 0.28),
+  box-shadow:
+    0 0 0 1px hsl(var(--ring) / 0.28),
     0 12px 28px hsl(var(--shadow-color) / 0.28);
 }
 .btn-cta.is-active,
@@ -1627,106 +1756,21 @@ textarea:-webkit-autofill {
 .btn-cta:hover {
   background: var(--seg-active-grad);
   color: hsl(var(--primary-foreground));
-  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.38),
+  box-shadow:
+    0 0 0 2px hsl(var(--ring) / 0.38),
     0 16px 36px hsl(var(--shadow-color) / 0.35);
 }
 html.light .btn-cta {
-  box-shadow: 0 0 0 1px hsl(var(--ring) / 0.25),
+  box-shadow:
+    0 0 0 1px hsl(var(--ring) / 0.25),
     0 8px 20px hsl(var(--shadow-color) / 0.22);
-}
-
-/* === Glitch neon scanline effect for buttons === */
-.glitch-scanlines {
-  position: relative;
-  overflow: hidden;
-}
-.glitch-scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    hsl(var(--accent) / 0.08) 0 1px,
-    transparent 1px 3px
-  );
-  opacity: 0.12;
-  mix-blend-mode: overlay;
-  transition: opacity 200ms, filter 200ms;
-}
-.glitch-scanlines:hover::after {
-  opacity: 0.28;
-  filter: drop-shadow(0 0 6px hsl(var(--glow) / 0.5));
-  animation: crt-scan 4s linear infinite;
-}
-.glitch-scanlines:active::after,
-.glitch-scanlines[aria-pressed="true"]::after,
-.glitch-scanlines[data-selected="true"]::after {
-  opacity: 0.45;
-  filter: drop-shadow(0 0 8px hsl(var(--glow)));
-  animation: crt-scan 1s linear infinite, crt-jitter 200ms steps(2, end) infinite;
-}
-.glitch-scanlines::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(50% 50% at 50% 50%, hsl(var(--glow) / 0.35), transparent 70%);
-  opacity: 0;
-  transition: opacity 200ms;
-}
-.glitch-scanlines:hover::before {
-  opacity: 0.25;
-  animation: crt-glow 2.4s ease-in-out infinite alternate;
-}
-.glitch-scanlines:active::before,
-.glitch-scanlines[aria-pressed="true"]::before,
-.glitch-scanlines[data-selected="true"]::before {
-  opacity: 0.45;
-}
-@keyframes crt-scan {
-  0% {
-    background-position-y: 0;
-  }
-  100% {
-    background-position-y: 100%;
-  }
-}
-@keyframes crt-glow {
-  0% {
-    opacity: 0.2;
-  }
-  100% {
-    opacity: 0.4;
-  }
-}
-@keyframes crt-jitter {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(1px);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .glitch-scanlines:hover::after,
-  .glitch-scanlines:active::after,
-  .glitch-scanlines[aria-pressed="true"]::after,
-  .glitch-scanlines[data-selected="true"]::after,
-  .glitch-scanlines:hover::before,
-  .glitch-scanlines:active::before,
-  .glitch-scanlines[aria-pressed="true"]::before,
-  .glitch-scanlines[data-selected="true"]::before {
-    animation: none;
-  }
 }
 
 /* ---------- Icon styling ---------- */
 .lucide {
   color: hsl(var(--muted-foreground));
-  transition: color var(--dur-quick) var(--ease-out),
+  transition:
+    color var(--dur-quick) var(--ease-out),
     filter var(--dur-quick) var(--ease-out);
 }
 
@@ -1738,6 +1782,108 @@ a:hover .lucide,
 a:active .lucide {
   color: hsl(var(--accent));
   filter: drop-shadow(0 0 6px hsl(var(--accent) / 0.8));
+}
+
+@layer utilities {
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .sticky-blur {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: saturate(120%) blur(12px);
+    background: color-mix(in oklab, hsl(var(--background)) 65%, transparent);
+    border-bottom: 1px solid hsl(var(--card-hairline));
+  }
+
+  .r-card-sm {
+    --radius-card: var(--radius-md);
+  }
+  .r-card-md {
+    --radius-card: var(--radius-lg);
+  }
+  .r-card-lg {
+    --radius-card: var(--radius-xl);
+  }
+  .rounded-card {
+    border-radius: var(--radius-card) !important;
+  }
+
+  .anim-in {
+    animation: fadeSlideIn var(--dur-chill) var(--ease-out) both;
+  }
+  .anim-pop {
+    animation: popIn var(--dur-quick) var(--ease-out) both;
+  }
+
+  .animate-glx-flicker {
+    animation: glx-flicker 6s infinite;
+  }
+  .animate-glx-pulse {
+    animation: glx-pulse 10s ease-in-out infinite;
+  }
+  .animate-glx-scan {
+    animation: scan 2.2s linear infinite;
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--muted) / 0.6);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--foreground) / 0.08),
+      transparent
+    );
+    animation: shimmer var(--dur-slow) linear infinite;
+  }
+
+  .card-pad {
+    padding: 1.5rem;
+  }
+  .card-pad-lg {
+    padding: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .card-pad {
+      padding: 1rem;
+    }
+    .card-pad-lg {
+      padding: 2rem;
+    }
+  }
+
+  .toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .toolbar-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  @media (max-width: 640px) {
+    .toolbar {
+      grid-template-columns: 1fr;
+    }
+    .toolbar-right {
+      justify-content: flex-start;
+    }
+  }
+
+  .hairline {
+    border-top: 1px solid hsl(var(--card-hairline));
+  }
 }
 
 /* === Goals helpers === */
@@ -1786,12 +1932,226 @@ a:active .lucide {
     mix-blend-mode: overlay;
   }
 }
-
-@keyframes glitch-text {
-  0%, 100% {
-    text-shadow: 0.5px 0 hsl(var(--accent)), -0.5px 0 hsl(var(--accent-2));
+@layer utilities {
+  @keyframes glitchSheen {
+    0% {
+      background-position: 0% 50%;
+      filter: saturate(1);
+    }
+    50% {
+      background-position: 100% 50%;
+      filter: saturate(1.2);
+    }
+    100% {
+      background-position: 0% 50%;
+      filter: saturate(1);
+    }
   }
-  50% {
-    text-shadow: -0.5px 0 hsl(var(--accent)), 0.5px 0 hsl(var(--accent-2));
+
+  @keyframes glitchScan {
+    0%,
+    100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes glitchJitter {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-0.5px);
+    }
+    50% {
+      transform: translateY(0.5px);
+    }
+    75% {
+      transform: translateY(-0.25px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pill-pulse {
+    0% {
+      opacity: 0.7;
+      transform: scale(0.98);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes sheen-rotate {
+    to {
+      --a: 1turn;
+    }
+  }
+
+  @keyframes sheenSweep {
+    from {
+      transform: translateX(-40%) skewX(-20deg);
+    }
+    to {
+      transform: translateX(140%) skewX(-20deg);
+    }
+  }
+
+  @keyframes edgePulse {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes chromaJitter {
+    0%,
+    100% {
+      transform: translateZ(0);
+    }
+    25% {
+      transform: translateX(-0.25px);
+    }
+    50% {
+      transform: translateX(0.25px);
+    }
+    75% {
+      transform: translateX(-0.15px);
+    }
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes ghost {
+    0% {
+      transform: translate(0, 0);
+    }
+    20% {
+      transform: translate(0.4px, -0.2px);
+    }
+    40% {
+      transform: translate(-0.3px, 0.2px);
+    }
+    60% {
+      transform: translate(0.2px, 0.3px);
+    }
+    80% {
+      transform: translate(-0.2px, -0.1px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes glx-flicker {
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    24%,
+    55% {
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes glx-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes lg-grid-drift {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(26px, 26px, 0);
+    }
+  }
+
+  @keyframes lg-aurora-pan {
+    0% {
+      transform: translate3d(-2%, -1%, 0) scale(1.02);
+      opacity: 0.95;
+    }
+    50% {
+      transform: translate3d(1%, 0.5%, 0) scale(1.01);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(2%, 1%, 0) scale(1.02);
+      opacity: 0.95;
+    }
+  }
+
+  @keyframes glitch-text {
+    0%,
+    100% {
+      text-shadow:
+        0.5px 0 hsl(var(--accent)),
+        -0.5px 0 hsl(var(--accent-2));
+    }
+    50% {
+      text-shadow:
+        -0.5px 0 hsl(var(--accent)),
+        0.5px 0 hsl(var(--accent-2));
+    }
   }
 }
