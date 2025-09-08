@@ -3,6 +3,7 @@
 import * as React from "react";
 import { TabBar, Header, Hero, Button } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
+import { GoalsProgress } from "@/components/goals";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 
 export default function Page() {
@@ -19,6 +20,9 @@ export default function Page() {
         <Header heading="Header" sticky={false} />
         <Hero heading="Hero" sticky={false} />
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+        <div className="flex justify-center">
+          <GoalsProgress total={5} pct={60} />
+        </div>
       </div>
       <p className="mb-4 text-sm text-muted-foreground">
         Global styles are now modularized into <code>animations.css</code>,
