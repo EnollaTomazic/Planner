@@ -493,10 +493,13 @@ export default function ReviewEditor({
     onChangeTags?.(next);
   }
 
-  const canAddMarker = (useTimestamp ? parseTime(tTime) !== null : true) && tNote.trim().length > 0;
+  const parsedTime = parseTime(tTime);
+  const timeError = useTimestamp && parsedTime === null;
+  const canAddMarker = (useTimestamp ? parsedTime !== null : true) &&
+    tNote.trim().length > 0;
 
   function addMarker() {
-    const s = useTimestamp ? parseTime(tTime) : 0;
+    const s = useTimestamp ? parsedTime : 0;
     const safeS = s === null ? 0 : s;
     const m: Marker = {
       id: uid("mark"),
@@ -891,6 +894,8 @@ export default function ReviewEditor({
                 aria-label="Timestamp time in mm:ss"
                 inputMode="numeric"
                 pattern="^[0-9]?\d:[0-5]\d$"
+                aria-invalid={timeError ? "true" : undefined}
+                aria-describedby={timeError ? "tTime-error" : undefined}
                 style={{ width: "calc(5ch + 1.7rem)" }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && canAddMarker) {
@@ -939,6 +944,11 @@ export default function ReviewEditor({
               <Plus />
             </IconButton>
           </div>
+          {timeError && (
+            <p id="tTime-error" className="mt-1 text-xs text-danger">
+              Enter time as mm:ss
+            </p>
+          )}
 
           {sortedMarkers.length === 0 ? (
             <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
