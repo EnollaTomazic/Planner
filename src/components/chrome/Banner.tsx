@@ -1,10 +1,10 @@
-// src/components/chrome/Header.tsx
+// src/components/chrome/Banner.tsx
 "use client";
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export type HeaderProps = {
+export type BannerProps = {
   sticky?: boolean;
   title?: React.ReactNode;
   actions?: React.ReactNode;
@@ -13,17 +13,17 @@ export type HeaderProps = {
 };
 
 /**
- * Header — simple page header row.
+ * Banner — simple page header row.
  * - sticky uses .sticky-blur surface and a hairline.
  * - no mystery CSS variables; uses theme tokens.
  */
-export default function Header({
+export default function Banner({
   sticky = false,
   title,
   actions,
   children,
   className,
-}: HeaderProps) {
+}: BannerProps) {
   return (
     <header
       className={cn(

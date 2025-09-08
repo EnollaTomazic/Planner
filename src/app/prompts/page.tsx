@@ -41,6 +41,7 @@ import {
 } from "@/components/prompts";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
+import Banner from "@/components/chrome/Banner";
 import {
   DayCardHeader,
   ProjectList,
@@ -313,6 +314,14 @@ export default function Page() {
       element: (
         <div className="w-56">
           <TitleBar label="Navigation" />
+        </div>
+      ),
+    },
+    {
+      label: "Banner",
+      element: (
+        <div className="w-56">
+          <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
         </div>
       ),
     },
