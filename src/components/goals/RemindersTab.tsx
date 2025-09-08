@@ -500,7 +500,7 @@ function RemTile({
       </div>
 
       {/* Body + meta */}
-      <div className="mt-2 space-y-2.5">
+      <div className="mt-2 space-y-3">
         {editing ? (
           <>
             <label className="text-xs opacity-70">Note</label>

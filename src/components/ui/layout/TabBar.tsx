@@ -149,7 +149,7 @@ export default function TabBar({
         <div
           role="tablist"
           aria-orientation="horizontal"
-          className="relative flex items-center flex-wrap gap-1.5"
+          className="relative flex items-center flex-wrap gap-2"
         >
           {items.map((item) => {
             const active = item.key === activeKey;

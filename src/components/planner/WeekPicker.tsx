@@ -195,7 +195,7 @@ export default function WeekPicker() {
           <div className="flex items-center justify-between gap-3">
             <span
               className={cn(
-                "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
+                "inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm",
                 "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
               )}
               aria-label={`Week range ${rangeLabel}`}

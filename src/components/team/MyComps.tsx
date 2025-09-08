@@ -144,7 +144,7 @@ function ChampChips({
 
   if (!editing) {
     return (
-      <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+      <div className="champ-badges mt-1 flex flex-wrap gap-2">
         {(champs.length ? champs : ["-"]).map((c, i) => (
           <span key={i} className="champ-badge glitch-pill text-xs">
             <i className="dot" />
@@ -172,7 +172,7 @@ function ChampChips({
   }
 
   return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+    <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(champs.length ? champs : [""]).map((c, i) => (
         <span key={i} className="champ-badge glitch-pill text-xs">
           <i className="dot" />
@@ -357,7 +357,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                   </header>
 
                   {/* roles */}
-                  <div className="grid gap-2.5">
+                  <div className="grid gap-3">
                     {ROLES.map(r => {
                       const list = c.roles[r] ?? [];
                       const setList = (next: string[]) =>

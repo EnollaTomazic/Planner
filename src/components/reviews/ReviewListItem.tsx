@@ -95,7 +95,7 @@ export default function ReviewListItem({
               {resultTag ? (
                 <Badge
                   variant="neutral"
-                  className="px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
+                  className="px-2 py-1 text-[10px] tracking-wide rounded-md"
                 >
                   {resultTag}
                 </Badge>
