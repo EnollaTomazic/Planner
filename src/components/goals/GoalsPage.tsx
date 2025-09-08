@@ -174,7 +174,7 @@ export default function GoalsPage() {
 
   return (
     <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
-      {/* ======= HERO ======= */}
+      {/* ======= HEADER ======= */}
       <Header
         eyebrow="Goals"
         heading={
@@ -203,9 +203,9 @@ export default function GoalsPage() {
       />
 
       <Hero
-        eyebrow="Stats"
+        eyebrow="Guide"
         heading="Overview"
-        subtitle={summary}
+        subtitle="Track up to 3 active goals, pin quick cues, and focus with the timer."
         sticky={false}
       />
 
