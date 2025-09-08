@@ -47,7 +47,6 @@ export default function ReviewListItem({
   const untitled = !review?.title?.trim();
   const subline = review?.notes?.trim() || "";
   const score = review?.score;
-  const resultTag = review?.result ? review.result[0] : undefined;
   const dateStr = review?.createdAt
     ? shortDate.format(new Date(review.createdAt))
     : "";
@@ -86,18 +85,10 @@ export default function ReviewListItem({
             >
               {title}
             </div>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               {typeof score === "number" ? (
                 <Badge variant="accent" aria-label={`Rating ${score} out of 10`}>
                   {score}/10
-                </Badge>
-              ) : null}
-              {resultTag ? (
-                <Badge
-                  variant="neutral"
-                  className="px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
-                >
-                  {resultTag}
                 </Badge>
               ) : null}
               {subline ? (
