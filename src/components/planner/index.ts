@@ -20,12 +20,15 @@ export {
   PlannerProvider,
   todayISO,
   ensureDay,
-  type ISODate,
-  type DayRecord,
-  type Project,
-  type DayTask,
 } from "./plannerStore";
+export type {
+  ISODate,
+  DayRecord,
+  Project,
+  DayTask,
+  Selection,
+} from "./plannerStore";
+export { usePlannerStore } from "./usePlannerStore";
 export * from "./useDay";
-export * from "./usePlannerStore";
 export * from "./useFocusDate";
 export * from "./useSelection";

@@ -11,19 +11,19 @@ export const buttonSizes = {
   sm: {
     height: "h-9",
     padding: "px-4",
-    text: "text-[14px]",
+    text: "text-sm",
     gap: "gap-2",
   },
   md: {
     height: "h-10",
     padding: "px-5",
-    text: "text-[16px]",
+    text: "text-base",
     gap: "gap-2",
   },
   lg: {
     height: "h-11",
     padding: "px-6",
-    text: "text-[18px]",
+    text: "text-lg",
     gap: "gap-2",
   },
 } as const;
