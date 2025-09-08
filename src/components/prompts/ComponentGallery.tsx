@@ -33,7 +33,7 @@ import {
   Label,
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
-import { GoalsTabs, type FilterKey } from "@/components/goals";
+import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
@@ -224,6 +224,10 @@ export default function ComponentGallery() {
           <Progress value={50} />
         </div>
       ),
+    },
+    {
+      label: "GoalsProgress",
+      element: <GoalsProgress total={5} pct={60} maxWidth={200} />,
     },
     {
       label: "Spinner",
