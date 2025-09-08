@@ -124,7 +124,7 @@ export default function PromptsDemos() {
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">IconButton</h3>
         <div className="space-x-3">
-          <IconButton aria-label="Scroll to top">
+          <IconButton aria-label="Scroll to top" size="md">
             <ArrowUp />
           </IconButton>
         </div>
