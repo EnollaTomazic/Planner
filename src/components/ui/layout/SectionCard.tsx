@@ -2,11 +2,13 @@
 "use client";
 
 import * as React from "react";
+import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type RootProps = React.HTMLAttributes<HTMLDivElement>;
 export type HeaderProps = {
   sticky?: boolean;
+  topClassName?: string; // sticky top offset
   className?: string;
   children?: React.ReactNode; // if provided, we render this and ignore title/actions
   title?: React.ReactNode; // optional convenience API
@@ -25,9 +27,22 @@ function Root({ className, children, ...props }: RootProps) {
   );
 }
 
-function Header({ sticky, className, children, title, actions }: HeaderProps) {
+function Header({
+  sticky,
+  topClassName = "top-8",
+  className,
+  children,
+  title,
+  actions,
+}: HeaderProps) {
   return (
-    <div className={cn("section-h", sticky && "sticky", className)}>
+    <div
+      className={cn(
+        "section-h",
+        sticky && clsx("sticky", topClassName),
+        className
+      )}
+    >
       {children ?? (
         <div className="flex w-full items-center justify-between">
           <div>{title}</div>

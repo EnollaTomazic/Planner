@@ -161,7 +161,7 @@ export default function TimerTab() {
 
   return (
     <SectionCard className="goal-card no-hover">
-      <SectionCard.Header sticky>
+      <SectionCard.Header sticky topClassName="top-0">
         <TabBar
           items={tabItems}
           value={profile}

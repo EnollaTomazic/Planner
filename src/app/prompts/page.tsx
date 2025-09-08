@@ -533,7 +533,7 @@ export default function Page() {
       label: "Prompts Header",
       element: (
         <SectionCard className="w-full">
-          <SectionCard.Header>
+          <SectionCard.Header sticky topClassName="top-8">
             <PromptsHeader
               count={0}
               query=""

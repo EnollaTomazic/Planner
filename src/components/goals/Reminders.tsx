@@ -164,7 +164,7 @@ export default function Reminders() {
   return (
     <div className="grid gap-2.5">
       <SectionCard className="card-neo-soft">
-        <SectionCard.Header sticky>
+        <SectionCard.Header sticky topClassName="top-0">
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}

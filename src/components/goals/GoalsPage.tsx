@@ -204,7 +204,11 @@ export default function GoalsPage() {
                 />
               ) : (
                 <SectionCard className="card-neo-soft">
-                  <SectionCard.Header sticky className="flex items-center justify-between">
+                  <SectionCard.Header
+                    sticky
+                    topClassName="top-0"
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center gap-2 sm:gap-4">
                       <h2 className="text-lg font-semibold">Your Goals</h2>
                       <GoalsProgress total={totalCount} pct={pctDone} />
