@@ -3,7 +3,7 @@
 
 /**
  * GoalsPage — Lavender-Glitch, hydration-safe, accessible.
- * - Uses <Hero /> with right-aligned <HeroTabs />
+ * - Uses <Header /> with right-aligned <HeaderTabs />
  * - Tabs: Goals / Reminders / Timer
  * - Grid layout (no Split dependency)
  * - Cap: 3 active goals; remaining indicator
@@ -13,7 +13,7 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
-import Hero from "@/components/ui/layout/Hero";
+import Header from "@/components/ui/layout/Header";
 import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -175,7 +175,7 @@ export default function GoalsPage() {
   return (
     <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
       {/* ======= HERO ======= */}
-      <Hero
+      <Header
         eyebrow="Goals"
         heading={
           <>

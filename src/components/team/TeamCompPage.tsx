@@ -14,7 +14,7 @@ import "./style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Hero from "@/components/ui/layout/Hero";
+import Header from "@/components/ui/layout/Header";
 import Hero2 from "@/components/ui/layout/Hero2";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
@@ -49,7 +49,7 @@ export default function TeamCompPage() {
   return (
     <main className="page-shell py-6 space-y-6">
       <div className="space-y-2">
-        <Hero
+        <Header
           eyebrow="Comps"
           heading="Today"
           subtitle="Readable. Fast. On brand."
