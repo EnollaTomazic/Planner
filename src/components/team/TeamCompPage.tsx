@@ -35,7 +35,7 @@ export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
 
   return (
-    <main className="page-shell grid gap-4 py-6">
+    <main className="page-shell py-6 space-y-6">
       <Hero
         eyebrow="Comps"
         heading="Today"
