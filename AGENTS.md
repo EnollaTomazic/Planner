@@ -12,9 +12,6 @@ This file provides instructions for all contributors.
 - A future `npm run regen-feature` will update feature scaffolding; run it once available.
 
 ## Testing
-- Before committing, run and fix:
-  - `npm test`
-  - `npm run lint`
-  - `npm run typecheck`
+- Run `npm run check` before committing; it runs `npm test`, `npm run lint`, and `npm run typecheck`.
 - Only commit when all checks pass.
 
