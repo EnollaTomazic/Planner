@@ -3,7 +3,7 @@
 import * as React from "react";
 import {
   ensureDay,
-  usePlannerStore as useStore,
+  usePlannerContext as useStore,
   type DayRecord,
   type ISODate,
 } from "./plannerStore";

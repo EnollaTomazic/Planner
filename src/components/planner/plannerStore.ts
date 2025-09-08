@@ -79,7 +79,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function usePlannerStore(): PlannerState {
+export function usePlannerContext(): PlannerState {
   const ctx = React.useContext(PlannerCtx);
   if (!ctx)
     throw new Error(
