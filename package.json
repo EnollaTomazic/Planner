@@ -13,7 +13,7 @@
     "build": "npm run regen-ui && npm run regen-feature && next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "ts-node scripts/typecheck.ts",
     "test": "vitest",
     "format": "prettier --write .",
     "check-prompts": "ts-node scripts/check-prompts-updated.ts",
