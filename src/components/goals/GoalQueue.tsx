@@ -30,13 +30,13 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
     <SectionCard className="card-neo-soft">
       <SectionCard.Header title={<h2 className="text-lg font-semibold">Goal Queue</h2>} />
       <SectionCard.Body className="grid gap-6">
-          <ul className="divide-y divide-white/10">
+          <ul className="divide-y divide-[hsl(var(--border)/0.1)]">
             {items.length === 0 ? (
               <li className="py-3 text-sm text-[hsl(var(--muted-foreground))]">No queued goals</li>
             ) : (
               items.map((it) => (
                 <li key={it.id} className="group flex items-center gap-2 py-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--foreground)/0.4)]" aria-hidden />
                   <p className="flex-1 truncate text-sm">{it.text}</p>
                   <time
                     className="text-xs text-[hsl(var(--muted-foreground))] opacity-0 group-hover:opacity-100"
@@ -63,7 +63,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
           </ul>
 
           <form onSubmit={submit} className="flex items-center gap-2 pt-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-white/40" aria-hidden />
+            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--foreground)/0.4)]" aria-hidden />
             <Input
               tone="default"
               className="flex-1 h-9 text-sm"
