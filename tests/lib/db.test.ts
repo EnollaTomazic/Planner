@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
-import { readLocal, writeLocal, removeLocal, useLocalDB, uid } from '@/lib/db';
+import { readLocal, writeLocal, removeLocal, usePersistentState, uid } from '@/lib/db';
 
 // Tests for localStorage helpers
 
@@ -48,9 +48,9 @@ describe('localStorage helpers', () => {
   });
 });
 
-// Tests for useLocalDB hook
+// Tests for usePersistentState hook
 
-describe('useLocalDB', () => {
+describe('usePersistentState', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -58,13 +58,13 @@ describe('useLocalDB', () => {
   it('hydrates state from localStorage after mount', async () => {
     window.localStorage.setItem('13lr:state', JSON.stringify('stored'));
     const getSpy = vi.spyOn(window.localStorage.__proto__, 'getItem');
-    const { result } = renderHook(() => useLocalDB('state', 'initial'));
+    const { result } = renderHook(() => usePersistentState('state', 'initial'));
     await waitFor(() => expect(result.current[0]).toBe('stored'));
     expect(getSpy).toHaveBeenCalledWith('noxis-planner:state');
   });
 
   it('syncs state across tabs via storage events', async () => {
-    const { result } = renderHook(() => useLocalDB('sync', 'a'));
+    const { result } = renderHook(() => usePersistentState('sync', 'a'));
     await waitFor(() =>
       expect(window.localStorage.getItem('noxis-planner:sync')).toBe(
         JSON.stringify('a')
@@ -83,7 +83,7 @@ describe('useLocalDB', () => {
   });
 
   it('resets state to initial when storage key is removed', async () => {
-    const { result } = renderHook(() => useLocalDB('remove', 'init'));
+    const { result } = renderHook(() => usePersistentState('remove', 'init'));
     await waitFor(() =>
       expect(window.localStorage.getItem('noxis-planner:remove')).toBe(
         JSON.stringify('init')

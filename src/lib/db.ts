@@ -2,7 +2,6 @@
 // Local-first helpers for Noxis Planner
 // - Hydration-safe: first render returns `initial`; no localStorage read until after mount
 // - SSR-safe: never touches window/localStorage on the server
-// - Cross-tab sync: listens to `storage` and updates state if another tab writes
 // - Tiny and predictable
 
 "use client";
@@ -18,9 +17,12 @@ const OLD_STORAGE_PREFIX = "13lr:";
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
 
+let migrated = false;
+
 // Migrate any legacy keys from older builds
 function ensureMigration() {
-  if (!isBrowser) return;
+  if (!isBrowser || migrated) return;
+  migrated = true;
   try {
     const legacyKeys: string[] = [];
     for (let i = 0; i < window.localStorage.length; i++) {
@@ -40,8 +42,11 @@ function ensureMigration() {
   }
 }
 
-/** Build a fully namespaced key */
-const sk = (key: string) => `${STORAGE_PREFIX}${key}`;
+/** Build a fully namespaced key and ensure migrations */
+export function createStorageKey(key: string): string {
+  ensureMigration();
+  return `${STORAGE_PREFIX}${key}`;
+}
 
 /** Safe JSON parse */
 function parseJSON<T>(raw: string | null): T | null {
@@ -65,9 +70,8 @@ function toJSON(v: unknown): string {
 /** Read from localStorage without throwing on SSR or privacy modes */
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
-  ensureMigration();
   try {
-    return parseJSON<T>(window.localStorage.getItem(sk(key)));
+    return parseJSON<T>(window.localStorage.getItem(createStorageKey(key)));
   } catch {
     return null;
   }
@@ -76,9 +80,8 @@ export function readLocal<T>(key: string): T | null {
 /** Write to localStorage safely */
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
-  ensureMigration();
   try {
-    window.localStorage.setItem(sk(key), toJSON(value));
+    window.localStorage.setItem(createStorageKey(key), toJSON(value));
   } catch {
     // ignore quota/privacy errors
   }
@@ -87,79 +90,91 @@ export function writeLocal(key: string, value: unknown) {
 /** Remove a key from localStorage safely */
 export function removeLocal(key: string) {
   if (!isBrowser) return;
-  ensureMigration();
   try {
-    window.localStorage.removeItem(sk(key));
+    window.localStorage.removeItem(createStorageKey(key));
   } catch {
     // ignore
   }
 }
 
 /**
- * useLocalDB<T>(key, initial)
+ * Listen for changes to a localStorage key and notify via callback.
+ */
+export function useStorageSync(
+  key: string,
+  onChange: (raw: string | null) => void,
+) {
+  React.useEffect(() => {
+    if (!isBrowser) return;
+    const fullKey = createStorageKey(key);
+    const handler = (e: StorageEvent) => {
+      if (e.storageArea !== window.localStorage) return;
+      if (e.key !== fullKey) return;
+      onChange(e.newValue);
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, [key, onChange]);
+}
+
+/**
+ * usePersistentState<T>(key, initial)
  * Hydration-safe local state that:
  *  - Returns `initial` on first render (no storage reads during SSR/hydration)
  *  - After mount, loads from localStorage (if present) and replaces state.
  *  - Any change to state is persisted to localStorage.
- *  - Cross-tab: listens for `storage` events and replaces state when same key changes.
+ *  - Cross-tab: uses `useStorageSync` to stay in sync.
  */
-export function useLocalDB<T>(
+export function usePersistentState<T>(
   key: string,
-  initial: T
+  initial: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = React.useState<T>(initial);
 
-  // Keep the latest initial value for resets
   const initialRef = React.useRef(initial);
   React.useEffect(() => {
     initialRef.current = initial;
   }, [initial]);
 
-  // Track whether we've mounted and whether we performed the initial load
+  const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
-  const fullKeyRef = React.useRef(sk(key));
 
-  // If the caller passes a different key later, update the ref and trigger a reload
   React.useEffect(() => {
-    const nextFull = sk(key);
+    const nextFull = createStorageKey(key);
     if (fullKeyRef.current !== nextFull) {
       fullKeyRef.current = nextFull;
-      loadedRef.current = false; // force reload for new key
+      loadedRef.current = false;
     }
   }, [key]);
 
-  // After mount: load once, wire cross-tab sync
   React.useEffect(() => {
     if (!isBrowser) return;
-    ensureMigration();
-
-    // Load once after mount or after key change
     if (!loadedRef.current) {
-      const fromStorage = parseJSON<T>(window.localStorage.getItem(fullKeyRef.current));
+      const fromStorage = parseJSON<T>(
+        window.localStorage.getItem(fullKeyRef.current),
+      );
       if (fromStorage !== null) setState(fromStorage);
       loadedRef.current = true;
     }
+  }, [key]);
 
-    // Cross-tab sync
-    const onStorage = (e: StorageEvent) => {
-      if (e.storageArea !== window.localStorage) return;
-      if (e.key !== fullKeyRef.current) return;
-      if (e.newValue === null) {
+  const handleExternal = React.useCallback(
+    (raw: string | null) => {
+      if (raw === null) {
         setState(initialRef.current);
         return;
       }
-      const next = parseJSON<T>(e.newValue);
+      const next = parseJSON<T>(raw);
       if (next !== null) setState(next);
-    };
+    },
+    [],
+  );
 
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, [key]);
+  useStorageSync(key, handleExternal);
 
-  // Persist whenever state changes after the initial load
   React.useEffect(() => {
     if (!isBrowser) return;
-    if (!loadedRef.current) return; // do not write during the initial load window
+    if (!loadedRef.current) return;
     try {
       window.localStorage.setItem(fullKeyRef.current, toJSON(state));
     } catch {
@@ -185,3 +200,4 @@ export function uid(prefix = "id"): string {
         ).slice(0, 16);
   return `${prefix}_${id}`;
 }
+

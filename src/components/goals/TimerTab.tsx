@@ -17,7 +17,7 @@ import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
 } from "lucide-react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import DurationSelector from "./DurationSelector";
 
 /* profiles */
@@ -47,19 +47,25 @@ const parseMmSs = (v: string) => {
 };
 
 export default function TimerTab() {
-  const [profile, setProfile] = useLocalDB<ProfileKey>("goals.timer.profile.v1", "study");
-  const [personalMinutes, setPersonalMinutes] = useLocalDB<number>("goals.timer.personalMin.v1", 25);
+  const [profile, setProfile] = usePersistentState<ProfileKey>(
+    "goals.timer.profile.v1",
+    "study",
+  );
+  const [personalMinutes, setPersonalMinutes] = usePersistentState<number>(
+    "goals.timer.personalMin.v1",
+    25,
+  );
 
   const profileDef = React.useMemo(() => PROFILES.find(p => p.key === profile)!, [profile]);
   const isPersonal = profile === "personal";
   const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
 
   // remaining time
-  const [remaining, setRemaining] = useLocalDB<number>(
+  const [remaining, setRemaining] = usePersistentState<number>(
     "goals.timer.remaining.v1",
     minutes * 60_000,
   );
-  const [running, setRunning] = useLocalDB<boolean>(
+  const [running, setRunning] = usePersistentState<boolean>(
     "goals.timer.running.v1",
     false,
   );

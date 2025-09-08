@@ -6,7 +6,7 @@ vi.mock("@/lib/db", async () => {
   const actual: any = await vi.importActual("@/lib/db");
   return {
     ...actual,
-    useLocalDB: <T,>(key: string, initial: T) => React.useState(initial),
+    usePersistentState: <T,>(key: string, initial: T) => React.useState(initial),
   };
 });
 

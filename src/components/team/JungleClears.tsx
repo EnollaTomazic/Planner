@@ -16,7 +16,7 @@ import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
 import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";
 
@@ -41,7 +41,7 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 };
 
 export default function JungleClears() {
-  const [items, setItems] = useLocalDB<JunglerRow[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<{
     id: string;

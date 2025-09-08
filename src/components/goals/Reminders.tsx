@@ -3,7 +3,7 @@
 
 /**
  * Team Reminders (Lavender-Glitch, neon-outlined)
- * - Local-first via useLocalDB("team.reminders.v1")
+ * - Local-first via usePersistentState("team.reminders.v1")
  * - Search + group chips + pinned toggle
  * - Add / duplicate / delete / reset curated seeds
  * - Inline edit (Enter saves, Esc cancels)
@@ -19,7 +19,7 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
   Plus,
@@ -96,7 +96,7 @@ const GROUP_TABS: Array<{ key: Group | "all"; label: string }> = [
 /* ---------- component ---------- */
 
 export default function Reminders() {
-  const [items, setItems] = useLocalDB<Reminder[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
   const [onlyPinned, setOnlyPinned] = React.useState(false);
   const [group, setGroup] = React.useState<Group | "all">("all");

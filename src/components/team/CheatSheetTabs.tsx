@@ -4,7 +4,7 @@ import "./style.css";
 
 import * as React from "react";
 import { BookOpen, Users2 } from "lucide-react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import Hero2 from "@/components/ui/layout/Hero2";
 import CheatSheet from "./CheatSheet";
 import MyComps from "./MyComps";
@@ -16,8 +16,8 @@ const TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
 
 export default function CheatSheetTabs() {
-  const [tab, setTab] = useLocalDB<SubTab>(TAB_KEY, "sheet");
-  const [query, setQuery] = useLocalDB<string>(QUERY_KEY, "");
+  const [tab, setTab] = usePersistentState<SubTab>(TAB_KEY, "sheet");
+  const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
 
   const tabs = React.useMemo(
     () => [

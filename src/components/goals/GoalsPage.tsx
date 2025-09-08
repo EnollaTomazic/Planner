@@ -27,7 +27,7 @@ import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
 
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
 import { shortDate } from "@/lib/date";
 
@@ -69,11 +69,11 @@ const ACTIVE_CAP = 3;
 /* ====================================================================== */
 
 export default function GoalsPage() {
-  const [tab, setTab] = useLocalDB<Tab>("goals.tab.v2", "goals");
+  const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
 
   // stores
-  const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
-  const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
+  const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
+  const [filter, setFilter] = usePersistentState<FilterKey>("goals.filter.v1", "All");
 
   // add form
   const [title, setTitle] = React.useState("");

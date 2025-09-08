@@ -4,7 +4,7 @@ import "./style.css";
 
 /**
  * Builder — Allies vs Enemies with a center divider
- * - Local storage via useLocalDB
+ * - Local storage via usePersistentState
  * - Icon-only actions with tooltips (Swap / Copy)
  * - Glitch-styled titles and subtle neon rail
  * - Center spine shows on md+ only
@@ -26,7 +26,7 @@ import {
   Info,
   Copy,
 } from "lucide-react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import { copyText } from "@/lib/clipboard";
 
 /* ───────────────── types & constants ───────────────── */
@@ -90,7 +90,7 @@ function stringify(s: TeamState) {
 /* ───────────────── component ───────────────── */
 
 export default function Builder() {
-  const [state, setState] = useLocalDB<TeamState>(TEAM_KEY, {
+  const [state, setState] = usePersistentState<TeamState>(TEAM_KEY, {
     allies: { ...EMPTY_TEAM },
     enemies: { ...EMPTY_TEAM },
   });

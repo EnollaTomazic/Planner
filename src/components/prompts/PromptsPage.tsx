@@ -8,7 +8,7 @@
 
 import * as React from "react";
 import { SectionCard, Card } from "@/components/ui";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import { LOCALE } from "@/lib/utils";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
@@ -23,7 +23,7 @@ type Prompt = {
 
 export default function PromptsPage() {
   // Storage
-  const [prompts, setPrompts] = useLocalDB<Prompt[]>("prompts.v1", []);
+  const [prompts, setPrompts] = usePersistentState<Prompt[]>("prompts.v1", []);
 
   // Drafts
   const [titleDraft, setTitleDraft] = React.useState("");

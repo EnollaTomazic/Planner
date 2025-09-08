@@ -10,7 +10,7 @@ import "./style.css";
  */
 
 import * as React from "react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
@@ -396,7 +396,10 @@ export default function CheatSheet({
   data = DEFAULT_SHEET,
   query = "",
 }: CheatSheetProps) {
-  const [sheet, setSheet] = useLocalDB<Archetype[]>("team:cheatsheet.v2", data);
+  const [sheet, setSheet] = usePersistentState<Archetype[]>(
+    "team:cheatsheet.v2",
+    data,
+  );
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const filtered = React.useMemo(() => {

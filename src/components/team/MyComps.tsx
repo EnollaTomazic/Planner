@@ -6,14 +6,14 @@
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Hover-only actions: Copy / Edit / Delete; Save when editing
- * - Local-first via useLocalDB("team:mycomps.v1")
+ * - Local-first via usePersistentState("team:mycomps.v1")
  * - Scoped with data-scope="team" so glitch effects don't bleed globally
  */
 
 import "./style.css";
 
 import * as React from "react";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import { copyText } from "@/lib/clipboard";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -205,7 +205,7 @@ export type MyCompsProps = { query?: string };
 
 export default function MyComps({ query = "" }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
-  const [raw, setRaw] = useLocalDB<TeamComp[]>(DB_KEY, SEEDS);
+  const [raw, setRaw] = usePersistentState<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();

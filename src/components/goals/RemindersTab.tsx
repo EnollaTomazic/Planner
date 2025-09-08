@@ -23,7 +23,7 @@ import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
 import TabBar from "@/components/ui/layout/TabBar";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
   SlidersHorizontal,
@@ -143,12 +143,21 @@ const cap = (s: string) => s.slice(0, 1).toUpperCase() + s.slice(1);
 /* ───────── Page ───────── */
 
 export default function RemindersTab() {
-  const [items, setItems] = useLocalDB<Reminder[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
   const [onlyPinned, setOnlyPinned] = React.useState(false);
-  const [domain, setDomain] = useLocalDB<Domain>("goals.reminders.domain.v2", "League");
-  const [group, setGroup] = useLocalDB<Group>("goals.reminders.group.v1", "quick");
-  const [source, setSource] = useLocalDB<Source | "all">("goals.reminders.source.v1", "all");
+  const [domain, setDomain] = usePersistentState<Domain>(
+    "goals.reminders.domain.v2",
+    "League",
+  );
+  const [group, setGroup] = usePersistentState<Group>(
+    "goals.reminders.group.v1",
+    "quick",
+  );
+  const [source, setSource] = usePersistentState<Source | "all">(
+    "goals.reminders.source.v1",
+    "all",
+  );
   const [quickAdd, setQuickAdd] = React.useState("");
   const [showFilters, setShowFilters] = React.useState(false);
 
