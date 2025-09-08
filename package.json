@@ -7,15 +7,16 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "npm run regen-ui && next dev -p 3000",
+    "dev": "npm run regen-ui && npm run regen-feature && next dev -p 3000",
     "regen-ui": "ts-node scripts/generate-ui-index.ts",
-    "build": "npm run regen-ui && next build",
+    "regen-feature": "ts-node scripts/generate-feature-index.ts",
+    "build": "npm run regen-ui && npm run regen-feature && next build",
     "start": "next start -p 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "format": "prettier --write .",
-    "postinstall": "npm run regen-ui",
+    "postinstall": "npm run regen-ui && npm run regen-feature",
     "prepare": "husky"
   },
   "dependencies": {
