@@ -1,21 +1,28 @@
-import React from 'react';
-import { render, screen, fireEvent, cleanup, within, waitFor } from '@testing-library/react';
-import { describe, it, beforeEach, afterEach, expect } from 'vitest';
-import GoalsPage from '@/components/goals/GoalsPage';
+import React from "react";
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  within,
+  waitFor,
+} from "@testing-library/react";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { GoalsPage } from "@/components/goals";
 
 // Clean up DOM after each test
 afterEach(cleanup);
 
-describe('GoalsPage', () => {
+describe("GoalsPage", () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
 
-  it('handles adding goals, cap enforcement, completion toggles, and undo', async () => {
+  it("handles adding goals, cap enforcement, completion toggles, and undo", async () => {
     render(<GoalsPage />);
 
-    const titleInput = screen.getByRole('textbox', { name: 'Title' });
-    const addButton = screen.getByRole('button', { name: /add goal/i });
+    const titleInput = screen.getByRole("textbox", { name: "Title" });
+    const addButton = screen.getByRole("button", { name: /add goal/i });
 
     // Add three goals up to the active cap
     for (let i = 1; i <= 3; i++) {
@@ -27,35 +34,42 @@ describe('GoalsPage', () => {
     }
 
     // Attempt to add a fourth active goal, expect cap error
-    fireEvent.change(titleInput, { target: { value: 'Goal 4' } });
+    fireEvent.change(titleInput, { target: { value: "Goal 4" } });
     fireEvent.click(addButton);
-    expect(screen.getByRole('status')).toHaveTextContent('Cap reached');
+    expect(screen.getByRole("status")).toHaveTextContent("Cap reached");
 
     // Mark the first goal as done
-    const goal1Article = screen.getByText('Goal 1').closest('article') as HTMLElement;
-    const toggleBtn = within(goal1Article).getByRole('checkbox', { name: 'Mark done' });
+    const goal1Article = screen
+      .getByText("Goal 1")
+      .closest("article") as HTMLElement;
+    const toggleBtn = within(goal1Article).getByRole("checkbox", {
+      name: "Mark done",
+    });
     fireEvent.pointerDown(toggleBtn);
     fireEvent.click(toggleBtn);
     await waitFor(() => {
-      const goal1 = screen.getByText('Goal 1').closest('article') as HTMLElement;
-      expect(within(goal1).getByText('Done')).toBeInTheDocument();
+      const goal1 = screen
+        .getByText("Goal 1")
+        .closest("article") as HTMLElement;
+      expect(within(goal1).getByText("Done")).toBeInTheDocument();
     });
 
     // Now adding another goal should succeed
-    fireEvent.change(titleInput, { target: { value: 'Goal 4' } });
+    fireEvent.change(titleInput, { target: { value: "Goal 4" } });
     fireEvent.click(addButton);
-    await waitFor(() => expect(screen.queryByRole('status')).toBeNull());
-    const goal4 = await screen.findByText('Goal 4');
+    await waitFor(() => expect(screen.queryByRole("status")).toBeNull());
+    const goal4 = await screen.findByText("Goal 4");
     expect(goal4).toBeInTheDocument();
 
     // Remove the new goal and then undo
-    const goal4Article = goal4.closest('article') as HTMLElement;
-    const deleteButton = within(goal4Article).getByLabelText('Delete goal');
+    const goal4Article = goal4.closest("article") as HTMLElement;
+    const deleteButton = within(goal4Article).getByLabelText("Delete goal");
     fireEvent.click(deleteButton);
-    await waitFor(() => expect(screen.queryByText('Goal 4')).not.toBeInTheDocument());
-    const undoButton = screen.getByRole('button', { name: 'Undo' });
+    await waitFor(() =>
+      expect(screen.queryByText("Goal 4")).not.toBeInTheDocument(),
+    );
+    const undoButton = screen.getByRole("button", { name: "Undo" });
     fireEvent.click(undoButton);
-    expect(await screen.findByText('Goal 4')).toBeInTheDocument();
+    expect(await screen.findByText("Goal 4")).toBeInTheDocument();
   });
 });
-

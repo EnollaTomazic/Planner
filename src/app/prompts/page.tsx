@@ -33,7 +33,7 @@ import {
   Label,
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
-import GoalsTabs, { FilterKey } from "@/components/goals/GoalsTabs";
+import { GoalsTabs, type FilterKey } from "@/components/goals";
 import {
   PromptsHeader,
   PromptsComposePanel,
