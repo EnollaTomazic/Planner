@@ -283,7 +283,7 @@ export default function Page() {
       label: "CheckCircle",
       element: (
         <div className="w-56 flex justify-center">
-          <CheckCircle checked={checked} onChange={setChecked} />
+          <CheckCircle checked={checked} onChange={setChecked} colorVar="--accent" />
         </div>
       ),
     },

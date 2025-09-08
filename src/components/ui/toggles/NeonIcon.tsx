@@ -3,8 +3,8 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-type Phase = "steady-on" | "ignite" | "off" | "powerdown";
+import useNeonPhase from "../hooks/useNeonPhase";
+import styles from "./neonKeyframes.module.css";
 
 type NeonIconProps = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -36,27 +36,7 @@ export function NeonIcon({
   scanlines = true,
   aura = true,
 }: NeonIconProps) {
-  const prev = React.useRef(on);
-  const [phase, setPhase] = React.useState<Phase>(on ? "steady-on" : "off");
-
-  React.useEffect(() => {
-    if (on !== prev.current) {
-      if (on) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prev.current = on;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prev.current = on;
-        return () => clearTimeout(t);
-      }
-    }
-    prev.current = on;
-  }, [on]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
+  const { phase, lit } = useNeonPhase(on);
 
   const styleVars: NeonVars = {
     "--ni-size": `${size}px`,
@@ -69,7 +49,8 @@ export function NeonIcon({
       className={cn(
         "ni-root relative inline-grid place-items-center overflow-visible rounded-full border",
         "border-[hsl(var(--border))] bg-[hsl(var(--card)/.35)]",
-        className
+        styles.root,
+        className,
       )}
       style={styleVars}
       data-phase={phase}
@@ -178,27 +159,6 @@ export function NeonIcon({
           0% { opacity: .32 }
           50%{ opacity: .52 }
           100%{ opacity: .32 }
-        }
-        @keyframes niScan {
-          0% { transform: translateY(-28%) }
-          100%{ transform: translateY(28%) }
-        }
-        @keyframes niIgnite {
-          0%{ opacity:.1; filter:blur(.6px) }
-          8%{ opacity:1 }
-          12%{ opacity:.25 }
-          20%{ opacity:1 }
-          28%{ opacity:.35 }
-          40%{ opacity:1 }
-          55%{ opacity:.45; filter:blur(.2px) }
-          70%{ opacity:1 }
-          100%{ opacity:0 }
-        }
-        @keyframes niPowerDown {
-          0%{ opacity:.8; transform:scale(1) }
-          30%{ opacity:.35; transform:scale(.992) translateY(.2px) }
-          60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
-          100%{ opacity:0; transform:scale(.985) }
         }
       `}</style>
     </span>

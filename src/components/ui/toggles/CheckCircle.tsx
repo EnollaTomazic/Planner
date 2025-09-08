@@ -5,7 +5,7 @@
  * CheckCircle — Lavender-Glitch concentric checkbox
  * - Accessible (role="checkbox"), Space/Enter toggles
  * - Ignite / powerdown animation to match NeonIcon / Button
- * - --success / --success-glow tokens with fallbacks
+ * - color tokens via `colorVar` (e.g. `--success`, `--accent`)
  * - Deselect experience:
  *    • Any uncheck triggers a brief "justCleared" window that suppresses hover/focus glow,
  *      ensuring a visible power-down to the neutral state.
@@ -14,6 +14,8 @@
 
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import useNeonPhase from "../hooks/useNeonPhase";
+import styles from "./neonKeyframes.module.css";
 
 type CCVars = React.CSSProperties & {
   "--cc-color"?: string;
@@ -36,6 +38,7 @@ export default function CheckCircle({
   clearable = false,
   onClear,
   altClears = true,
+  colorVar = "--success",
   "aria-label": ariaLabel = "Toggle",
 }: {
   checked: boolean;
@@ -46,6 +49,7 @@ export default function CheckCircle({
   clearable?: boolean;
   onClear?: () => void;
   altClears?: boolean;
+  colorVar?: string;
   "aria-label"?: string;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -91,39 +95,14 @@ export default function CheckCircle({
   }, [checked, markJustCleared, justCleared]);
 
   // Theme-driven tones
-  const pink = "hsl(var(--success,316 92% 70%))";
-  const glow = "hsl(var(--success-glow,316 92% 52% / 0.6))";
+  const tone = `hsl(var(${colorVar}))`;
+  const glow = `hsl(var(${colorVar}-glow))`;
 
   // Neon phase: ignite / steady-on / powerdown / off
   const effectiveHoverOrFocus = (hovered || focused) && !justCleared;
   const wantsOn = checked || effectiveHoverOrFocus;
 
-  const prev = React.useRef(wantsOn);
-  const [phase, setPhase] = React.useState<"off" | "ignite" | "steady-on" | "powerdown">(
-    wantsOn ? "steady-on" : "off"
-  );
-
-  React.useEffect(() => {
-    if (wantsOn !== prev.current) {
-      if (wantsOn) {
-        setPhase("ignite");
-        const t = window.setTimeout(() => setPhase("steady-on"), 620);
-        prev.current = wantsOn;
-        return () => window.clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = window.setTimeout(() => setPhase("off"), 360);
-        prev.current = wantsOn;
-        return () => window.clearTimeout(t);
-      }
-    }
-    prev.current = wantsOn;
-  }, [wantsOn]);
-
-  function retriggerIgnite() {
-    setPhase("ignite");
-    window.setTimeout(() => setPhase(wantsOn ? "steady-on" : "off"), 620);
-  }
+  const { phase, lit, retrigger } = useNeonPhase(wantsOn);
 
   function clearSelection() {
     onClear?.();
@@ -145,14 +124,13 @@ export default function CheckCircle({
     }
   }
 
-  const lit = phase === "ignite" || phase === "steady-on";
   const ccStyle: CCVars | undefined = lit
-    ? { "--cc-color": pink, "--cc-glow": glow }
+    ? { "--cc-color": tone, "--cc-glow": glow }
     : undefined;
 
   return (
     <>
-      <span className={cn("relative inline-grid place-items-center", SIZE[size], className)}>
+      <span className={cn("relative inline-grid place-items-center", SIZE[size], styles.root, className)}>
         <button
           ref={btnRef}
           type="button"
@@ -174,7 +152,7 @@ export default function CheckCircle({
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          onPointerDown={retriggerIgnite}
+          onPointerDown={retrigger}
           className={cn(
             "relative inline-grid place-items-center rounded-full transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
@@ -197,7 +175,7 @@ export default function CheckCircle({
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
-              background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
+              background: `linear-gradient(90deg, ${tone}, hsl(var(--accent)), ${tone})`,
               backgroundSize: "200% 100%",
               WebkitMask:
                 "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
@@ -221,7 +199,7 @@ export default function CheckCircle({
           background:
             "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
               mixBlendMode: "overlay",
-              animation: !reduceMotion && lit ? "ccScan 2.1s linear infinite" : undefined,
+              animation: !reduceMotion && lit ? "niScan 2.1s linear infinite" : undefined,
             }}
           />
 
@@ -251,7 +229,7 @@ export default function CheckCircle({
               mixBlendMode: "screen",
               animation:
                 !reduceMotion && phase === "ignite"
-                  ? "igniteFlicker .62s steps(18,end) 1"
+                  ? "niIgnite .62s steps(18,end) 1"
                   : undefined,
             }}
           />
@@ -267,7 +245,7 @@ export default function CheckCircle({
               mixBlendMode: "screen",
               animation:
                 !reduceMotion && phase === "powerdown"
-                  ? "powerDown .36s linear 1"
+                  ? "niPowerDown .36s linear 1"
                   : undefined,
             }}
           />
@@ -331,27 +309,7 @@ export default function CheckCircle({
           0% { background-position: 0% 50%; }
           100% { background-position: 200% 50%; }
         }
-        @keyframes ccScan {
-          0% { transform: translateY(-28%); }
-          100% { transform: translateY(28%); }
-        }
-        @keyframes igniteFlicker {
-          0%{ opacity:.1; filter:blur(.6px) }
-          8%{ opacity:1 }
-          12%{ opacity:.25 }
-          20%{ opacity:1 }
-          28%{ opacity:.35 }
-          40%{ opacity:1 }
-          55%{ opacity:.45; filter:blur(.2px) }
-          70%{ opacity:1 }
-          100%{ opacity:0 }
-        }
-        @keyframes powerDown {
-          0%{ opacity:.8; transform:scale(1) }
-          30%{ opacity:.35; transform:scale(.992) translateY(.2px) }
-          60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
-          100%{ opacity:0; transform:scale(.985) }
-        }
+        
         .ccx-glow {
           position: absolute;
           inset: -2px;

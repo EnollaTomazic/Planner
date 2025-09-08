@@ -10,6 +10,8 @@ export * from "./Select";
 export { default as Progress } from "./feedback/Progress";
 export { default as Snackbar } from "./feedback/Snackbar";
 export { default as Spinner } from "./feedback/Spinner";
+export { default as UseNeonPhase } from "./hooks/useNeonPhase";
+export * from "./hooks/useNeonPhase";
 export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
 export { default as Hero2 } from "./layout/Hero2";
