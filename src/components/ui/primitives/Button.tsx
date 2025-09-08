@@ -36,7 +36,17 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, size = "md", variant = "secondary", children, ...rest }, ref) => {
+  (
+    {
+      className,
+      size = "md",
+      variant = "secondary",
+      children,
+      type = "button",
+      ...rest
+    },
+    ref
+  ) => {
     const s = buttonSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
@@ -100,6 +110,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
+        type={type}
         className={cn(base, variantClass)}
         whileHover={whileHover}
         whileTap={whileTap}
