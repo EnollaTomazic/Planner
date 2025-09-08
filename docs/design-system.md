@@ -9,6 +9,13 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
 
+### Effects tokens
+- `--edge-iris` – iridescent conic gradient for edges and focus rings. Defined in the dark base and re-colored for the Aurora theme ([themes.css](../src/app/themes.css#L69-L76), [Aurora override](../src/app/themes.css#L171-L178)).
+- `--seg-active-grad` – linear gradient for active segments such as tabs; the Aurora theme swaps in its green-purple spectrum ([themes.css](../src/app/themes.css#L77-L82), [Aurora override](../src/app/themes.css#L179-L184)).
+- `--neon` and `--neon-soft` – default glow color for buttons and accents. `--neon-soft` blends the tone for subtle backgrounds and upgrades via `color-mix` when supported ([themes.css](../src/app/themes.css#L48-L49), [color-mix](../src/app/themes.css#L92)).
+- `--card-hairline` – low-contrast border used on cards; gains an accent tint when `color-mix` is available ([themes.css](../src/app/themes.css#L55), [color-mix](../src/app/themes.css#L93-L97)).
+- `--shadow` – drop shadow for elevated surfaces; Aurora supplies a lighter variant ([themes.css](../src/app/themes.css#L83), [Aurora override](../src/app/themes.css#L185)).
+
 ## Layout and spacing
 - Use a 12‑column grid with 24px gutters.
 - Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
