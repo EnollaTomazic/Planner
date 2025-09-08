@@ -493,8 +493,8 @@ function GlitchStyles() {
           hsl(262 83% 58% / 0)
         );
         -webkit-mask:
-          linear-gradient(#000 0 0) content-box,
-          linear-gradient(#000 0 0);
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
         opacity: 0.32;
@@ -518,8 +518,8 @@ function GlitchStyles() {
           hsl(var(--primary) / 0)
         );
         -webkit-mask:
-          linear-gradient(#000 0 0) content-box,
-          linear-gradient(#000 0 0);
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
         mix-blend-mode: screen;
@@ -601,8 +601,8 @@ function GlitchStyles() {
       .gb-scan {
         padding: 1px;
         -webkit-mask:
-          linear-gradient(#000 0 0) content-box,
-          linear-gradient(#000 0 0);
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
         background: repeating-linear-gradient(
