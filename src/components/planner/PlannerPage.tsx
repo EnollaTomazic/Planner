@@ -16,7 +16,8 @@ import WeekNotes from "./WeekNotes";
 import WeekPicker from "./WeekPicker";
 import DayRow from "./DayRow";
 import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
-import { PlannerProvider, useFocusDate, useWeek, type ISODate } from "./usePlanner";
+import { useFocusDate, useWeek, type ISODate } from "./usePlanner";
+import { PlannerProvider } from "./plannerStore";
 
 /* ───────── Page body under provider ───────── */
 

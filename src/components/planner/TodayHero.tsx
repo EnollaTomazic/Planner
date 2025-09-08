@@ -8,7 +8,8 @@
 
 import { useMemo, useRef, useState, useEffect } from "react";
 import { toISODate, cn } from "@/lib/utils";
-import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
+import { useFocusDate, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
+import { useDay } from "./useDay";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";

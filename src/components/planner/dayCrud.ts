@@ -1,4 +1,4 @@
-import type { DayRecord } from "./usePlanner";
+import type { DayRecord } from "./plannerStore";
 
 export function addProject(day: DayRecord, id: string, name: string) {
   const title = name.trim();
