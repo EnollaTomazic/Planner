@@ -304,7 +304,7 @@ export default function Page() {
       label: "Review Layout",
       element: (
         <div className="grid w-full gap-4 md:grid-cols-12">
-          <div className="md:col-span-4 md:w-[240px] bg-secondary h-10 rounded" />
+          <div className="md:col-span-4 md:w-[240px] bg-[hsl(var(--panel))] h-10 rounded" />
           <div className="md:col-span-8 bg-muted h-10 rounded" />
         </div>
       ),
@@ -496,11 +496,11 @@ export default function Page() {
       element: (
         <div
           className={cn(
-            "w-56 h-8 flex items-center justify-center text-white bg-red-500",
-            "bg-blue-500"
+            "w-56 h-8 flex items-center justify-center text-foreground bg-danger",
+            "bg-accent-2"
           )}
         >
-          Blue wins
+          Accent wins
         </div>
       ),
     },
@@ -610,7 +610,7 @@ export default function Page() {
           </div>
           {COLOR_TOKENS.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-purple-300">{c}</span>
+              <span className="text-xs uppercase tracking-wide text-accent">{c}</span>
               <div
                 className="w-24 h-16 rounded-md border"
                 style={{ backgroundColor: `hsl(var(--${c}))` }}
