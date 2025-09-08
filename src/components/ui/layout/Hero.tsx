@@ -1,8 +1,8 @@
-// src/components/ui/layout/Hero2.tsx
+// src/components/ui/layout/Hero.tsx
 "use client";
 
 /**
- * Hero2 — HUD-glitch header with smooth tab slider transitions.
+ * Hero — HUD-glitch header with smooth tab slider transitions.
  * Default layout (if props provided):
  *   • Tabs in the top-right (align="end")
  *   • Pill search inside the neon bottom row
@@ -22,7 +22,7 @@ function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
 }
 
-export interface Hero2Props
+export interface HeroProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
   heading: React.ReactNode;
@@ -60,7 +60,7 @@ export interface Hero2Props
   search?: (SearchBarProps & { round?: boolean }) | null;
 }
 
-export default function Hero2({
+export default function Hero({
   eyebrow,
   heading,
   subtitle,
@@ -78,7 +78,7 @@ export default function Hero2({
   search,
   className,
   ...rest
-}: Hero2Props) {
+}: HeroProps) {
   const headingStr = typeof heading === "string" ? heading : undefined;
 
   // Compose right area: prefer built-in tabs if provided.
@@ -98,11 +98,11 @@ export default function Hero2({
   );
 
   // Compose bottom area: prefer built-in search if provided.
-  const bottomNode = search ? <Hero2SearchBar {...search} /> : bottom;
+  const bottomNode = search ? <HeroSearchBar {...search} /> : bottom;
 
   return (
     <section className={className} {...rest}>
-      <Hero2GlitchStyles />
+      <HeroGlitchStyles />
 
       <div
         className={cx(
@@ -176,8 +176,8 @@ export default function Hero2({
   );
 }
 
-/* ───────────── Adapter: Hero2Tabs (kept for parity) ───────── */
-export type Hero2Tab<K extends string> = {
+/* ───────────── Adapter: HeroTabs (kept for parity) ───────── */
+export type HeroTab<K extends string> = {
   key: K;
   label: React.ReactNode;
   hint?: string;
@@ -185,8 +185,8 @@ export type Hero2Tab<K extends string> = {
   disabled?: boolean;
   badge?: React.ReactNode;
 };
-export function Hero2Tabs<K extends string>(props: {
-  tabs: Array<Hero2Tab<K>>;
+export function HeroTabs<K extends string>(props: {
+  tabs: Array<HeroTab<K>>;
   activeKey: K;
   onChange: (k: K) => void;
   ariaLabel?: string;
@@ -235,8 +235,8 @@ export function Hero2Tabs<K extends string>(props: {
   );
 }
 
-/* ───────────── Reusable: Search inside Hero2 divider ───────── */
-export function Hero2SearchBar({
+/* ───────────── Reusable: Search inside Hero divider ───────── */
+export function HeroSearchBar({
   className,
   round,
   ...props
@@ -254,10 +254,10 @@ export function Hero2SearchBar({
 }
 
 /* ───────────── CSS injected globally via styled-jsx (unchanged) ─────────── */
-export function Hero2GlitchStyles() {
+export function HeroGlitchStyles() {
   return (
     <style jsx global>{`
-      /* === Hero2: header background layers =============================== */
+      /* === Hero: header background layers =============================== */
       .hero2-frame {
         --hero2-c1: hsl(var(--accent));
         --hero2-c2: hsl(var(--primary));

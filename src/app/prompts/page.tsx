@@ -18,7 +18,7 @@ import {
   SectionCard,
   TitleBar,
   Header,
-  Hero2,
+  Hero,
   SearchBar,
   Snackbar,
   Card,
@@ -477,27 +477,27 @@ export default function Page() {
       ),
     },
     {
-      label: "Hero2",
+      label: "Hero",
       element: (
         <div className="w-56">
-          <Hero2
-            heading="Hero2"
+          <Hero
+            heading="Hero"
             eyebrow="Eyebrow"
             subtitle="Subtitle"
             sticky={false}
             search={{ value: "", onValueChange: () => {}, round: true }}
           >
             <div className="text-sm text-muted-foreground">Body</div>
-          </Hero2>
+          </Hero>
         </div>
       ),
     },
     {
-      label: "Header + Hero2",
+      label: "Header + Hero",
       element: (
         <div className="w-56 h-56 overflow-auto space-y-6">
           <Header heading="Stacked" />
-          <Hero2 heading="Stacked" topClassName="top-24" />
+          <Hero heading="Stacked" topClassName="top-24" />
           <div className="h-96" />
         </div>
       ),

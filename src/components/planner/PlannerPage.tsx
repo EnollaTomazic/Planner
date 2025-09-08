@@ -5,7 +5,7 @@ import "./style.css";
 
 /**
  * PlannerPage — Week header + TodayHero + Focus/Notes + Day list.
- * - Full-width Hero2 bottom via WeekPicker (uses hero-bleed-row).
+ * - Full-width Hero bottom via WeekPicker (uses hero-bleed-row).
  * - 12-col layout: 8 main / 4 aside, aside is sticky.
  * - Day rows are focusable anchors so WeekPicker chips can smooth-scroll to them.
  */

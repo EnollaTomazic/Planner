@@ -14,7 +14,7 @@ import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
 import Header from "@/components/ui/layout/Header";
-import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
+import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -95,7 +95,7 @@ export default function ReviewsPage({
   return (
     <main className="page-shell py-6 space-y-6">
       <Header heading="Reviews" />
-      <Hero2
+      <Hero
         topClassName="top-24"
         heading={
           <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function ReviewsPage({
         right={null}
         bottom={
           <>
-            <Hero2SearchBar
+            <HeroSearchBar
               value={q}
               onValueChange={setQ}
               placeholder="Search title, tags, opponent, patch…"
