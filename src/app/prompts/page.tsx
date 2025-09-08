@@ -42,6 +42,7 @@ import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
 import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { COLOR_TOKENS } from "@/lib/theme";
 
 /**
  * Prompt component gallery.
@@ -71,35 +72,6 @@ export default function Page() {
     { key: "colors", label: "Colors" },
   ];
 
-  const colorList = [
-    "background",
-    "foreground",
-    "text",
-    "card",
-    "panel",
-    "border",
-    "line",
-    "input",
-    "ring",
-    "accent",
-    "accent-2",
-    "accent-foreground",
-    "muted",
-    "muted-foreground",
-    "surface",
-    "surface-2",
-    "surface-vhs",
-    "surface-streak",
-    "danger",
-    "success",
-    "glow-strong",
-    "glow-soft",
-    "aurora-g",
-    "aurora-g-light",
-    "aurora-p",
-    "aurora-p-light",
-    "icon-fg",
-  ];
 
   const [view, setView] = React.useState("components");
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
@@ -620,7 +592,7 @@ export default function Page() {
               Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>, and<code>auroraPLight</code> Tailwind classes for aurora effects.
             </p>
           </div>
-          {colorList.map((c) => (
+          {COLOR_TOKENS.map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
               <span className="text-xs uppercase tracking-wide text-purple-300">{c}</span>
               <div

@@ -13,6 +13,36 @@ export const THEME_STORAGE_KEY = "ui:theme";
 
 export const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-streak"] as const;
 
+export const COLOR_TOKENS = [
+  "background",
+  "foreground",
+  "text",
+  "card",
+  "panel",
+  "border",
+  "line",
+  "input",
+  "ring",
+  "accent",
+  "accent-2",
+  "accent-foreground",
+  "muted",
+  "muted-foreground",
+  "surface",
+  "surface-2",
+  "surface-vhs",
+  "surface-streak",
+  "danger",
+  "success",
+  "glow-strong",
+  "glow-soft",
+  "aurora-g",
+  "aurora-g-light",
+  "aurora-p",
+  "aurora-p-light",
+  "icon-fg",
+] as const;
+
 export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg", label: "Glitch" },
   { id: "aurora", label: "Aurora" },
