@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { TabBar } from "@/components/ui";
+import { TabBar, Header, Hero, Button } from "@/components/ui";
+import Banner from "@/components/chrome/Banner";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 
 export default function Page() {
@@ -14,6 +15,11 @@ export default function Page() {
 
   return (
     <main className="page-shell py-6">
+      <div className="mb-8 space-y-4">
+        <Header heading="Header" sticky={false} />
+        <Hero heading="Hero" sticky={false} />
+        <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+      </div>
       <p className="mb-4 text-sm text-muted-foreground">
         Global styles are now modularized into <code>animations.css</code>,
         <code>overlays.css</code>, and <code>utilities.css</code>.
