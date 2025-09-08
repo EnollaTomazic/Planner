@@ -50,7 +50,7 @@ import {
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
-import { Search as SearchIcon, Star, Plus, Sun, Users2 } from "lucide-react";
+import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { COLOR_TOKENS } from "@/lib/theme";
 
@@ -483,27 +483,10 @@ export default function Page() {
     {
       label: "Hero + Hero2",
       element: (
-        <div className="w-56 space-y-2">
-          <Hero
-            eyebrow="Comps"
-            heading="Today"
-            subtitle="Readable. Fast. On brand."
-            icon={<Users2 className="opacity-80" />}
-            sticky={false}
-          />
-          <Hero2
-            eyebrow="Comps"
-            heading="Today"
-            subtitle="Readable. Fast. On brand."
-            icon={<Users2 className="opacity-80" />}
-            sticky={false}
-            tabs={{
-              items: tabs,
-              value: "one",
-              onChange: () => {},
-              align: "end",
-            }}
-          />
+        <div className="w-56 h-56 overflow-auto space-y-6">
+          <Hero heading="Stacked" />
+          <Hero2 heading="Stacked" topClassName="top-24" />
+          <div className="h-96" />
         </div>
       ),
     },
