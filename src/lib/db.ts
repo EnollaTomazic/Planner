@@ -17,12 +17,9 @@ const OLD_STORAGE_PREFIX = "13lr:";
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
 
-let migrated = false;
-
 // Migrate any legacy keys from older builds
 function ensureMigration() {
-  if (!isBrowser || migrated) return;
-  migrated = true;
+  if (!isBrowser) return;
   try {
     const legacyKeys: string[] = [];
     for (let i = 0; i < window.localStorage.length; i++) {
