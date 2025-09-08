@@ -96,7 +96,7 @@ export default function ReviewsPage({
     <main className="page-shell py-6 space-y-6">
       <Header heading="Reviews" />
       <Hero
-        topClassName="top-24"
+        topClassName="top-20"
         heading={
           <div className="flex items-center gap-2">
             <h2 className="title-glow">Reviews</h2>

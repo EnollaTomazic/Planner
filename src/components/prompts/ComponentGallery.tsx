@@ -471,7 +471,7 @@ export default function ComponentGallery() {
       element: (
         <div className="w-56 h-56 overflow-auto space-y-6">
           <Header heading="Stacked" />
-          <Hero heading="Stacked" topClassName="top-24" />
+          <Hero heading="Stacked" topClassName="top-20" />
           <div className="h-96" />
         </div>
       ),
