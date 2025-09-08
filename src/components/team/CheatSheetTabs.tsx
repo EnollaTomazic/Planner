@@ -5,7 +5,7 @@ import "./style.css";
 import * as React from "react";
 import { BookOpen, Users2 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
-import Hero2 from "@/components/ui/layout/Hero2";
+import Hero from "@/components/ui/layout/Hero";
 import CheatSheet from "./CheatSheet";
 import MyComps from "./MyComps";
 
@@ -29,7 +29,7 @@ export default function CheatSheetTabs() {
 
   return (
     <div className="w-full">
-      <Hero2
+      <Hero
         eyebrow="Comps"
         heading="Cheat Sheet"
         subtitle={tab === "sheet" ? "Archetypes & tips" : "Your saved compositions"}

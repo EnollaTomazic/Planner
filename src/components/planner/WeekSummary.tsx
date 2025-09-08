@@ -21,7 +21,7 @@ import { cn, LOCALE } from "@/lib/utils";
  * - Calm zeros, tabular numbers
  *
  * Extras:
- * - bleed: when true, applies Hero2-compatible full-bleed so totals reach the edge
+ * - bleed: when true, applies Hero-compatible full-bleed so totals reach the edge
  */
 
 type Props = {
@@ -29,7 +29,7 @@ type Props = {
   variant?: "card" | "inline";
   className?: string;
   showLabel?: boolean;
-  /** Make content span to container edges (use inside Hero2.bottom). */
+  /** Make content span to container edges (use inside Hero.bottom). */
   bleed?: boolean;
 };
 
