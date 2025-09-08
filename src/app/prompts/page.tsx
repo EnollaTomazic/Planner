@@ -36,6 +36,10 @@ export default function Page() {
         Buttons now default to the 40px <code>md</code> size and follow a
         36/40/44px scale.
       </p>
+      <p className="mb-4 text-sm text-muted-foreground">
+        WeekPicker scrolls horizontally with snap points, showing 2–3 days at
+        a time on smaller screens.
+      </p>
         <div className="mb-8 flex flex-wrap gap-2">
           <Button tone="primary">Primary tone</Button>
           <Button tone="accent">Accent tone</Button>
