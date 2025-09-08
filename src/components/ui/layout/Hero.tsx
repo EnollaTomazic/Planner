@@ -66,7 +66,7 @@ export default function Hero({
       {/* Top bar */}
       <div
         className={cx(
-          "relative flex items-center justify-between gap-3",
+          "relative flex items-center",
           "px-3 sm:px-4 py-2 min-h-12",
           barClassName
         )}
@@ -101,7 +101,7 @@ export default function Hero({
         </div>
 
         {/* Right slot */}
-        {right ? <div className="shrink-0">{right}</div> : <div className="shrink-0" />}
+        {right ? <div className="ml-auto shrink-0">{right}</div> : null}
       </div>
 
       {/* Body under the bar */}
