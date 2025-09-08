@@ -10,11 +10,11 @@
  * - Undo snackbar with 5s timer
  */
 
-
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
 import Hero from "@/components/ui/layout/Hero";
+import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
@@ -38,10 +38,30 @@ import TimerTab from "./TimerTab";
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
 
-const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: string }> = [
-  { key: "goals", label: "Goals", icon: <Flag className="mr-1 h-4 w-4" />, hint: "Cap 3 active" },
-  { key: "reminders", label: "Reminders", icon: <ListChecks className="mr-1 h-4 w-4" />, hint: "Quick cues" },
-  { key: "timer", label: "Timer", icon: <TimerIcon className="mr-1 h-4 w-4" />, hint: "Focus sprints" },
+const TABS: Array<{
+  key: Tab;
+  label: string;
+  icon: React.ReactNode;
+  hint?: string;
+}> = [
+  {
+    key: "goals",
+    label: "Goals",
+    icon: <Flag className="mr-1 h-4 w-4" />,
+    hint: "Cap 3 active",
+  },
+  {
+    key: "reminders",
+    label: "Reminders",
+    icon: <ListChecks className="mr-1 h-4 w-4" />,
+    hint: "Quick cues",
+  },
+  {
+    key: "timer",
+    label: "Timer",
+    icon: <TimerIcon className="mr-1 h-4 w-4" />,
+    hint: "Focus sprints",
+  },
 ];
 
 const ACTIVE_CAP = 3;
@@ -99,7 +119,8 @@ export default function GoalsPage() {
     setErr(null);
     if (!title.trim()) return setErr("Title required.");
     const currentActive = goals.filter((g) => !g.done).length;
-    if (currentActive >= ACTIVE_CAP) return setErr("Cap reached. Mark something done first.");
+    if (currentActive >= ACTIVE_CAP)
+      return setErr("Cap reached. Mark something done first.");
 
     const g: Goal = {
       id: uid("goal"),
@@ -148,15 +169,11 @@ export default function GoalsPage() {
     tab === "goals"
       ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
       : tab === "reminders"
-      ? "Pin quick cues. Edit between queues."
-      : "Pick a duration and focus.";
+        ? "Pin quick cues. Edit between queues."
+        : "Pick a duration and focus.";
 
   return (
-    <main
-      id="goals-main"
-      role="main"
-      className="page-shell py-6 space-y-6"
-    >
+    <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
       {/* ======= HERO ======= */}
       <Hero
         eyebrow="Goals"
@@ -183,6 +200,13 @@ export default function GoalsPage() {
             ))}
           </GlitchSegmentedGroup>
         }
+      />
+
+      <Hero2
+        eyebrow="Stats"
+        heading="Overview"
+        subtitle={summary}
+        sticky={false}
       />
 
       <section className="grid gap-6">
@@ -229,7 +253,7 @@ export default function GoalsPage() {
                               "relative rounded-2xl p-6",
                               "card-neo transition",
                               "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_hsl(var(--shadow-color)/0.35)]",
-                                "min-h-8 flex flex-col",
+                              "min-h-8 flex flex-col",
                             ].join(" ")}
                           >
                             <span
@@ -242,7 +266,9 @@ export default function GoalsPage() {
                               </h3>
                               <div className="flex items-center gap-2">
                                 <CheckCircle
-                                  aria-label={g.done ? "Mark active" : "Mark done"}
+                                  aria-label={
+                                    g.done ? "Mark active" : "Mark done"
+                                  }
                                   checked={g.done}
                                   onChange={() => toggleDone(g.id)}
                                   size="lg"
@@ -260,23 +286,40 @@ export default function GoalsPage() {
                             <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))] space-y-2">
                               {g.metric ? (
                                 <div className="tabular-nums">
-                                  <span className="opacity-70">Metric:</span> {g.metric}
+                                  <span className="opacity-70">Metric:</span>{" "}
+                                  {g.metric}
                                 </div>
                               ) : null}
-                              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                              {g.notes ? (
+                                <p className="leading-relaxed">{g.notes}</p>
+                              ) : null}
                             </div>
                             <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]">
                               <span className="inline-flex items-center gap-2">
                                 <span
                                   aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
-                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
+                                  className={[
+                                    "h-2 w-2 rounded-full",
+                                    g.done ? "" : "bg-[hsl(var(--primary))]",
+                                  ].join(" ")}
+                                  style={
+                                    g.done
+                                      ? { background: "var(--accent-overlay)" }
+                                      : undefined
+                                  }
                                 />
-                                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
+                                <time
+                                  className="tabular-nums"
+                                  dateTime={new Date(g.createdAt).toISOString()}
+                                >
                                   {shortDate.format(new Date(g.createdAt))}
                                 </time>
                               </span>
-                              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
+                              <span
+                                className={
+                                  g.done ? "text-[hsl(var(--accent))]" : ""
+                                }
+                              >
                                 {g.done ? "Done" : "Active"}
                               </span>
                             </footer>
@@ -347,4 +390,3 @@ export default function GoalsPage() {
     </main>
   );
 }
-

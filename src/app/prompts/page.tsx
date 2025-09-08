@@ -481,6 +481,15 @@ export default function Page() {
       ),
     },
     {
+      label: "Hero + Hero2",
+      element: (
+        <div className="w-56 space-y-4">
+          <Hero heading="Hero" eyebrow="Top" sticky={false} />
+          <Hero2 heading="Hero2" eyebrow="Bottom" sticky={false} />
+        </div>
+      ),
+    },
+    {
       label: "Card Neo",
       element: (
         <div className="card-neo w-56 h-8 flex items-center justify-center">
