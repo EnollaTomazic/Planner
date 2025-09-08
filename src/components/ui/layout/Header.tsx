@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Hero — sticky, glow, and unapologetically on top.
+ * Header — sticky, glow, and unapologetically on top.
  * - Always sticky by default
  * - High z-index (z-[999]) so it doesn't hide behind random divs
  * - No border; soft neon glow
@@ -14,7 +14,7 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeroProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
+export interface HeaderProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -30,7 +30,7 @@ export interface HeroProps extends Omit<React.HTMLAttributes<HTMLElement>, "titl
   rail?: boolean;
 }
 
-export default function Hero({
+export default function Header({
   eyebrow,
   heading,
   subtitle,
@@ -44,7 +44,7 @@ export default function Hero({
   bodyClassName,
   rail = true,
   ...rest
-}: HeroProps) {
+}: HeaderProps) {
   return (
     <header
       className={cx(
@@ -73,7 +73,7 @@ export default function Hero({
       >
         {rail ? (
           <div
-            className="hero-rail pointer-events-none absolute left-0 top-1 bottom-1 w-1.5 rounded-l-2xl"
+            className="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-1.5 rounded-l-2xl"
             aria-hidden
           />
         ) : null}
@@ -118,20 +118,20 @@ export default function Hero({
 
 /* ================= Tabs helper (unchanged) ================= */
 
-export interface HeroTab<Key extends string = string> {
+export interface HeaderTab<Key extends string = string> {
   key: Key;
   label: string;
   hint?: string;
   icon?: React.ReactNode;
 }
 
-export function HeroTabs<Key extends string = string>({
+export function HeaderTabs<Key extends string = string>({
   tabs,
   activeKey,
   onChange,
   ariaLabel,
 }: {
-  tabs: HeroTab<Key>[];
+  tabs: HeaderTab<Key>[];
   activeKey: Key;
   onChange: (key: Key) => void;
   ariaLabel?: string;

@@ -13,7 +13,7 @@ import { Ghost, Plus } from "lucide-react";
 import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
-import Hero from "@/components/ui/layout/Hero";
+import Header from "@/components/ui/layout/Header";
 import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
 
 type SortKey = "newest" | "oldest" | "title";
@@ -94,7 +94,7 @@ export default function ReviewsPage({
 
   return (
     <main className="page-shell py-6 space-y-6">
-      <Hero heading="Reviews" />
+      <Header heading="Reviews" />
       <Hero2
         topClassName="top-24"
         heading={

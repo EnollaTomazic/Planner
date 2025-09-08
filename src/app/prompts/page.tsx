@@ -17,7 +17,7 @@ import {
   AnimationToggle,
   SectionCard,
   TitleBar,
-  Hero,
+  Header,
   Hero2,
   SearchBar,
   Snackbar,
@@ -464,11 +464,11 @@ export default function Page() {
       ),
     },
     {
-      label: "Hero",
+      label: "Header",
       element: (
         <div className="w-56">
-          <Hero
-            heading="Hero"
+          <Header
+            heading="Header"
             eyebrow="Eyebrow"
             subtitle="Subtitle"
             sticky={false}
@@ -493,10 +493,10 @@ export default function Page() {
       ),
     },
     {
-      label: "Hero + Hero2",
+      label: "Header + Hero2",
       element: (
         <div className="w-56 h-56 overflow-auto space-y-6">
-          <Hero heading="Stacked" />
+          <Header heading="Stacked" />
           <Hero2 heading="Stacked" topClassName="top-24" />
           <div className="h-96" />
         </div>
