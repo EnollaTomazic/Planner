@@ -50,9 +50,24 @@ export default function TodayHero({ iso }: Props) {
   const [projectName, setProjectName] = useState("");
 
   // Progress of selected project only (animated)
-  const scopedTasks = selProjectId ? tasks.filter(t => t.projectId === selProjectId) : [];
-  const done = scopedTasks.filter(t => t.done).length;
-  const total = scopedTasks.length;
+  const scopedTasks = useMemo(
+    () => (selProjectId ? tasks.filter(t => t.projectId === selProjectId) : []),
+    [tasks, selProjectId],
+  );
+  const { done, total } = useMemo(
+    () =>
+      tasks.reduce(
+        (acc, t) => {
+          if (t.projectId === selProjectId) {
+            acc.total += 1;
+            if (t.done) acc.done += 1;
+          }
+          return acc;
+        },
+        { done: 0, total: 0 },
+      ),
+    [tasks, selProjectId],
+  );
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
   // Date picker
