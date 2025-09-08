@@ -89,7 +89,10 @@ function Inner() {
 
   return (
     <>
-      <main className="page-shell py-6 space-y-6" aria-labelledby="planner-week-heading">
+      <main
+        className="page-shell py-6 space-y-6"
+        aria-labelledby="planner-week-heading"
+      >
       {/* Week header (range, nav, totals, day chips) */}
       <h1 id="planner-week-heading" className="sr-only">
         Weekly planner

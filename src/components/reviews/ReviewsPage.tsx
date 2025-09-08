@@ -92,7 +92,7 @@ export default function ReviewsPage({
   const active = base.find((r) => r.id === selectedId) || null;
 
   return (
-    <main className="page-shell space-y-6 py-6">
+    <main className="page-shell py-6 space-y-6">
       <Hero2
         heading={
           <div className="flex items-center gap-2">
