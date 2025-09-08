@@ -665,7 +665,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Win" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Win" ? "text-foreground/70" : "text-[hsl(var(--muted-foreground))]"
                 )}
               >
                 Win
@@ -673,7 +673,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Loss" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Loss" ? "text-foreground/70" : "text-[hsl(var(--muted-foreground))]"
                 )}
               >
                 Loss
@@ -898,7 +898,7 @@ export default function ReviewEditor({
               />
             ) : (
               <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-white/70"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-foreground/70"
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >

@@ -4,6 +4,7 @@ export const colorTokens = [
   "bg-accent-2",
   "bg-lavDeep",
   "bg-danger",
+  "bg-warning",
   "bg-success",
   "bg-glow",
 ];

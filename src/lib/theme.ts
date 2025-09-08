@@ -33,6 +33,7 @@ export const COLOR_TOKENS = [
   "surface-vhs",
   "surface-streak",
   "danger",
+  "warning",
   "success",
   "glow-strong",
   "glow-soft",

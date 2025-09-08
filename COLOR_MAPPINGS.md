@@ -31,7 +31,9 @@
 | `rgba(255, 255, 255, 0.10)` | `hsl(var(--foreground) / 0.10)` |
 | `rgba(255, 255, 255, 0.14)` | `hsl(var(--foreground) / 0.14)` |
 | `rgba(255, 255, 255, 0.16)` | `hsl(var(--foreground) / 0.16)` |
+| `rgba(255, 255, 255, 0.2)` | `hsl(var(--foreground) / 0.2)` |
 | `rgba(255, 255, 255, 0.25)` | `hsl(var(--foreground) / 0.25)` |
+| `rgba(255, 255, 255, 0.4)` | `hsl(var(--foreground) / 0.4)` |
 | `rgba(0, 0, 0, 0.18)` | `hsl(var(--shadow-color) / 0.18)` |
 | `rgba(0, 0, 0, 0.35)` | `hsl(var(--shadow-color) / 0.35)` |
 | `rgba(0, 0, 0, 0.42)` | `hsl(var(--shadow-color) / 0.42)` |
@@ -43,3 +45,14 @@
 | `rgba(255, 0, 200, 0.08)` | `hsl(var(--lav-deep) / 0.08)` |
 | `rgba(255, 77, 210, 0.65)` | `hsl(var(--lav-deep) / 0.65)` |
 | `rgba(255, 77, 210, 0.85)` | `hsl(var(--lav-deep) / 0.85)` |
+| `#ef4444` | `hsl(var(--danger))` |
+| `#3b82f6` | `hsl(var(--accent-2))` |
+| `#d8b4fe` | `hsl(var(--accent))` |
+| `rgba(192, 132, 252, 0.6)` | `hsl(var(--accent) / 0.6)` |
+| `rgba(168, 85, 247, 0.2)` | `hsl(var(--accent) / 0.2)` |
+| `rgba(255, 255, 255, 0.7)` | `hsl(var(--foreground) / 0.7)` |
+| `rgba(255, 255, 255, 0.05)` | `hsl(var(--foreground) / 0.05)` |
+| `#fb7185` | `hsl(var(--danger))` |
+| `#fbbf24` | `hsl(var(--warning))` |
+| `#34d399` | `hsl(var(--aurora-g))` |
+| `#6ee7b7` | `hsl(var(--aurora-g-light))` |

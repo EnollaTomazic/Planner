@@ -345,7 +345,7 @@ export default function AnimatedSelect({
                           disabledItem ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
-                            : "hover:bg-white/5",
+                            : "hover:bg-foreground/5",
                           "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}

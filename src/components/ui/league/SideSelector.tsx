@@ -92,7 +92,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            !isRight ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+            !isRight ? "text-foreground/70" : "text-[hsl(var(--muted-foreground))]"
           )}
           style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
         >
@@ -101,7 +101,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            isRight ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"
+            isRight ? "text-foreground/70" : "text-[hsl(var(--muted-foreground))]"
           )}
           style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
         >

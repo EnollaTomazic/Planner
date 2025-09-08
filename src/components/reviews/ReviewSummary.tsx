@@ -289,8 +289,8 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           {/* Left: Title */}
           <div className="min-w-0">
-            <div className="mb-0.5 text-xs text-white/25">Title</div>
-            <div className="truncate text-lg font-medium leading-7 text-white/70">
+            <div className="mb-0.5 text-xs text-foreground/25">Title</div>
+            <div className="truncate text-lg font-medium leading-7 text-foreground/70">
               {laneTitle || "Untitled review"}
             </div>
           </div>
@@ -377,7 +377,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
             <div className="mt-4 space-y-1.5">
               <div className="mb-2 flex items-center gap-2" aria-label="Focus">
                 <NeonIcon kind="brain" on={true} size={32} staticGlow />
-                <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
+                <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
               </div>
 
               <div className="relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
@@ -427,7 +427,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
           <div className="mb-2 flex items-center gap-2" aria-label="Timestamps">
             <NeonIcon kind="clock" on={!!hasTimed} size={32} staticGlow />
             <NeonIcon kind="file" on={!!hasNoteOnly} size={32} staticGlow />
-            <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
 
           {!markers.length ? (
@@ -465,7 +465,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
         {review.notes ? (
           <div>
             <SectionLabel>Notes</SectionLabel>
-            <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-sm leading-6 text-white/70">
+            <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-sm leading-6 text-foreground/70">
               {review.notes}
             </div>
           </div>

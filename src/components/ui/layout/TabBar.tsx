@@ -155,7 +155,7 @@ export default function TabBar({
                   "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-200",
                   "bg-transparent border-0",
                   s.h, s.px, s.text, size === "lg" ? "font-medium" : "font-normal",
-                  "text-white/70 hover:text-white/70 data-[active=true]:text-white/70",
+                  "text-foreground/70 hover:text-foreground/70 data-[active=true]:text-foreground/70",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className
@@ -166,7 +166,7 @@ export default function TabBar({
                 {item.icon && <span className={cn("mr-2 grid place-items-center", size !== "lg" ? "[&>svg]:h-4 [&>svg]:w-4" : "[&>svg]:h-5 [&>svg]:w-5")}>{item.icon}</span>}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-[10px] leading-none px-2 py-1 bg-[hsl(var(--primary-soft))] text-white/70">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-[10px] leading-none px-2 py-1 bg-[hsl(var(--primary-soft))] text-foreground/70">
                     {item.badge}
                   </span>
                 )}
