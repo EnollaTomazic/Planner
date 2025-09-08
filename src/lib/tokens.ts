@@ -1,11 +1,26 @@
 export const colorTokens = [
+  "bg-border",
+  "bg-input",
   "bg-ring",
+  "bg-background",
+  "bg-foreground",
+  "bg-card",
+  "bg-panel",
+  "bg-primary",
   "bg-accent",
   "bg-accent-2",
-  "bg-lavDeep",
+  "bg-glow",
+  "bg-ringMuted",
   "bg-danger",
   "bg-success",
-  "bg-glow",
+  "bg-auroraG",
+  "bg-auroraGLight",
+  "bg-auroraP",
+  "bg-auroraPLight",
+  "bg-muted",
+  "bg-lavDeep",
+  "bg-surfaceVhs",
+  "bg-surfaceStreak",
 ];
 
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
