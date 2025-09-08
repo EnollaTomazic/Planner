@@ -311,7 +311,7 @@ export default function AnimatedSelect({
                 className={[
                   "relative pointer-events-auto rounded-2xl overflow-hidden",
                   "bg-[hsl(var(--card))]/92 backdrop-blur-xl",
-                  "shadow-[0_12px_40px_rgba(0,0,0,.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
+                  "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
                   "p-1.5",
                   "max-h-[60vh] min-w-[220px] overflow-y-auto scrollbar-thin",
                   "scrollbar-thumb-[hsl(var(--foreground)/.12)] scrollbar-track-transparent",
@@ -501,7 +501,7 @@ function GlitchStyles() {
         -webkit-mask-composite: xor; mask-composite: exclude;
         background:
           repeating-linear-gradient(0deg,
-            rgba(255,255,255,.10) 0 1px,
+            hsl(var(--foreground)/0.10) 0 1px,
             transparent 2px 4px);
         mix-blend-mode: soft-light;
         opacity: .2;

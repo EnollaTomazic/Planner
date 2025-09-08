@@ -163,7 +163,7 @@ function NeonIcon({
         )}
         style={{
           background:
-            "repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 3px)",
+            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px)",
           transition: "opacity 220ms var(--ease-out)",
         }}
       />
@@ -174,7 +174,7 @@ function NeonIcon({
         )}
         style={{
           background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.25), transparent 60%)",
+            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.25), transparent 60%)",
           mixBlendMode: "screen",
           opacity: phase === "ignite" ? 0.85 : 0,
         }}
@@ -186,7 +186,7 @@ function NeonIcon({
         )}
         style={{
           background:
-            "radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,.16), transparent 60%)",
+            "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.16), transparent 60%)",
           mixBlendMode: "screen",
           opacity: phase === "powerdown" ? 0.6 : 0,
         }}
@@ -294,7 +294,7 @@ function NeonPillarChip({
         )}
         style={{
           background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.22), transparent 60%)",
+            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
           mixBlendMode: "screen",
           opacity: lit ? 0.8 : 0,
         }}

@@ -60,7 +60,7 @@ export default function NavBar() {
                   className="pointer-events-none absolute inset-0 rounded-xl opacity-20"
                   style={{
                     background:
-                      "repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)",
+                      "repeating-linear-gradient(0deg,hsl(var(--foreground)/0.04) 0 1px,transparent 1px 3px)",
                   }}
                 />
 

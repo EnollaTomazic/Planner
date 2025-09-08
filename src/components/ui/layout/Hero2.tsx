@@ -309,7 +309,7 @@ export function Hero2GlitchStyles() {
       /* === Glitch title ================================================== */
       .hero2-title {
         position: relative;
-        text-shadow: -0.02em 0 rgba(59, 237, 255, 0.65), 0.02em 0 rgba(255, 77, 210, 0.65),
+        text-shadow: -0.02em 0 hsl(var(--accent-2) / 0.65), 0.02em 0 hsl(var(--lav-deep) / 0.65),
           0 0 0.25em hsl(var(--foreground) / 0.35);
       }
       .hero2-title::before,
@@ -323,13 +323,13 @@ export function Hero2GlitchStyles() {
       }
       .hero2-title::before {
         transform: translate(0.5px, -0.5px);
-        color: rgba(59, 237, 255, 0.85);
+        color: hsl(var(--accent-2) / 0.85);
         mix-blend-mode: screen;
         animation: hero2-glitch-a 2.4s infinite steps(8, end);
       }
       .hero2-title::after {
         transform: translate(-0.5px, 0.5px);
-        color: rgba(255, 77, 210, 0.85);
+        color: hsl(var(--lav-deep) / 0.85);
         mix-blend-mode: screen;
         animation: hero2-glitch-b 2.4s infinite steps(9, end);
       }
