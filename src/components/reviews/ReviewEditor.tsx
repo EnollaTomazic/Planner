@@ -23,7 +23,7 @@ import {
   Brain,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   ALL_PILLARS,
   LAST_ROLE_KEY,
@@ -356,9 +356,15 @@ export default function ReviewEditor({
     Array.isArray(review.pillars) ? review.pillars : []
   );
 
-  const [lastRole, setLastRole] = useLocalDB<Role>(LAST_ROLE_KEY, "MID");
-  const [lastMarkerMode, setLastMarkerMode] = useLocalDB<boolean>(LAST_MARKER_MODE_KEY, true);
-  const [lastMarkerTime, setLastMarkerTime] = useLocalDB<string>(LAST_MARKER_TIME_KEY, "");
+  const [lastRole, setLastRole] = usePersistentState<Role>(LAST_ROLE_KEY, "MID");
+  const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
+    LAST_MARKER_MODE_KEY,
+    true,
+  );
+  const [lastMarkerTime, setLastMarkerTime] = usePersistentState<string>(
+    LAST_MARKER_TIME_KEY,
+    "",
+  );
   const ext0 = getExt(review);
   const initialRole: Role = ext0.role ?? lastRole ?? "MID";
   const [role, setRole] = React.useState<Role>(initialRole);

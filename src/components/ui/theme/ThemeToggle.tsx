@@ -4,7 +4,7 @@
 import * as React from "react";
 import { Sun, Moon, Image as ImageIcon } from "lucide-react";
 import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import {
   applyTheme,
   defaultTheme,
@@ -32,7 +32,10 @@ export default function ThemeToggle({
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
   const [mounted, setMounted] = React.useState(false);
-  const [state, setState] = useLocalDB<ThemeState>(THEME_STORAGE_KEY, defaultTheme());
+  const [state, setState] = usePersistentState<ThemeState>(
+    THEME_STORAGE_KEY,
+    defaultTheme(),
+  );
   const { variant, mode } = state;
 
   React.useEffect(() => {

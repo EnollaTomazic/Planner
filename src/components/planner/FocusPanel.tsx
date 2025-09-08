@@ -21,7 +21,7 @@ type Props = { iso: ISODate };
 export default function FocusPanel({ iso }: Props) {
   const { focus, setFocus, day, setNotes } = usePlanner();
 
-  // Initialize from current day.notes; safe because useLocalDB returns initial on first render.
+  // Initialize from current day.notes; safe because usePersistentState returns initial on first render.
   const [value, setValue] = React.useState<string>(day.notes ?? "");
 
   // Keep global focus aligned with the visible iso without causing loops.

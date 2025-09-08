@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { Zap, ZapOff } from "lucide-react";
-import { useLocalDB, readLocal, writeLocal } from "@/lib/db";
+import { usePersistentState, readLocal, writeLocal } from "@/lib/db";
 import { cn } from "@/lib/utils";
 
 const KEY = "ui:animations";
 
 export default function AnimationToggle() {
-  const [enabled, setEnabled] = useLocalDB<boolean>(KEY, true);
+  const [enabled, setEnabled] = usePersistentState<boolean>(KEY, true);
   const [showNotice, setShowNotice] = React.useState(false);
 
   React.useEffect(() => {

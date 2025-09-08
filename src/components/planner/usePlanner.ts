@@ -8,7 +8,7 @@
 
 import "./style.css";
 import * as React from "react";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import { toISO, addDays, weekRangeFromISO } from "@/lib/date";
 import {
   addProject as dayAddProject,
@@ -71,12 +71,15 @@ type PlannerState = {
 const PlannerCtx = React.createContext<PlannerState | null>(null);
 
 export function PlannerProvider({ children }: { children: React.ReactNode }) {
-  const [days, setDays] = useLocalDB<Record<ISODate, DayRecord>>(
+  const [days, setDays] = usePersistentState<Record<ISODate, DayRecord>>(
     "planner:days",
     {},
   );
-  const [focus, setFocus] = useLocalDB<ISODate>("planner:focus", todayISO());
-  const [selected, setSelected] = useLocalDB<Record<ISODate, Selection>>(
+  const [focus, setFocus] = usePersistentState<ISODate>(
+    "planner:focus",
+    todayISO(),
+  );
+  const [selected, setSelected] = usePersistentState<Record<ISODate, Selection>>(
     "planner:selected",
     {},
   );
