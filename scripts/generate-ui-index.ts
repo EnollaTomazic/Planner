@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
+import pLimit from "p-limit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,15 +74,24 @@ async function main() {
     "// Do not edit directly.",
   ];
   const used = new Set<string>();
-  for (const file of files.sort()) {
-    const rel = path.relative(uiDir, file).replace(/\\/g, "/");
-    const stat = await fs.stat(file);
-    let info = manifest[rel];
-    if (!info || info.mtimeMs !== stat.mtimeMs) {
-      const built = await buildExport(file);
-      info = { mtimeMs: stat.mtimeMs, ...built };
-    }
-    bar.increment();
+  const limit = pLimit(8);
+  const sortedFiles = files.sort();
+  const results = await Promise.all(
+    sortedFiles.map((file) =>
+      limit(async () => {
+        const rel = path.relative(uiDir, file).replace(/\\/g, "/");
+        const stat = await fs.stat(file);
+        let info = manifest[rel];
+        if (!info || info.mtimeMs !== stat.mtimeMs) {
+          const built = await buildExport(file);
+          info = { mtimeMs: stat.mtimeMs, ...built };
+        }
+        bar.increment();
+        return { rel, info };
+      }),
+    ),
+  );
+  for (const { rel, info } of results) {
     if (info.name && used.has(info.name)) {
       nextManifest[rel] = info;
       continue;
