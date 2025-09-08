@@ -150,6 +150,7 @@ export default function WeekPicker() {
     const el = document.getElementById(`day-${d}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      el.focus({ preventScroll: true });
       setShowTop(true);
     }
   };
