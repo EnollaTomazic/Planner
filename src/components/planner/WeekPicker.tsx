@@ -78,7 +78,7 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative w-full rounded-2xl border text-left px-3 py-2 transition",
+        "chip relative flex-none min-w-[min(160px,40%)] rounded-2xl border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-[hsl(var(--card-hairline))] bg-[hsl(var(--card)/0.75)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
@@ -213,7 +213,7 @@ export default function WeekPicker() {
           </div>
 
           {/* Day chips */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
             {days.map((d, i) => (
               <DayChip
                 key={d}
