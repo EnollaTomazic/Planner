@@ -7,22 +7,21 @@
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
- * Uses Hero for the main header with built-in tabs.
- * The Cheat Sheet tab itself renders a nested Hero internally.
+ * Header hosts the main tabs; the Cheat Sheet tab still renders its own
+ * nested Hero internally.
  */
 import "./style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Header from "@/components/ui/layout/Header";
-import Hero from "@/components/ui/layout/Hero";
+import Header, { HeaderTabs, type HeaderTab } from "@/components/ui/layout/Header";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
 
 type Tab = "cheat" | "builder" | "clears";
 
-const TABS = [
+const TABS: HeaderTab<Tab>[] = [
   {
     key: "cheat",
     label: "Cheat Sheet",
@@ -41,51 +40,52 @@ const TABS = [
     hint: "Relative buckets by speed",
     icon: <Timer />,
   },
-] as const;
+];
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
 
   return (
     <main className="page-shell py-6 space-y-6">
-      <div className="space-y-2">
-        <Header
-          eyebrow="Comps"
-          heading="Today"
-          subtitle="Readable. Fast. On brand."
-          icon={<Users2 className="opacity-80" />}
-        />
-        <Hero
-          eyebrow="Comps"
-          heading="Today"
-          subtitle="Readable. Fast. On brand."
-          icon={<Users2 className="opacity-80" />}
-          tabs={{
-            items: TABS.map((t) => ({
-              key: t.key,
-              label: t.label,
-              icon: t.icon,
-            })),
-            value: tab,
-            onChange: (k) => setTab(k as Tab),
-            align: "end",
-            className: "px-2",
-          }}
-          className="mb-1"
-          barClassName="gap-2 items-baseline"
-        />
-      </div>
+      <Header
+        eyebrow="Comps"
+        heading="Today"
+        subtitle="Readable. Fast. On brand."
+        icon={<Users2 className="opacity-80" />}
+        right={
+          <HeaderTabs
+            tabs={TABS}
+            activeKey={tab}
+            onChange={(k: Tab) => setTab(k)}
+          />
+        }
+      />
 
       <section className="grid gap-4">
-        <div role="tabpanel" hidden={tab !== "cheat"}>
+        <div
+          id="cheat-panel"
+          role="tabpanel"
+          aria-labelledby="cheat-tab"
+          hidden={tab !== "cheat"}
+        >
           {tab === "cheat" && <CheatSheetTabs />}
         </div>
 
-        <div role="tabpanel" hidden={tab !== "builder"}>
+        <div
+          id="builder-panel"
+          role="tabpanel"
+          aria-labelledby="builder-tab"
+          hidden={tab !== "builder"}
+        >
           {tab === "builder" && <Builder />}
         </div>
 
-        <div role="tabpanel" hidden={tab !== "clears"}>
+        <div
+          id="clears-panel"
+          role="tabpanel"
+          aria-labelledby="clears-tab"
+          hidden={tab !== "clears"}
+        >
           {tab === "clears" && <JungleClears />}
         </div>
       </section>
