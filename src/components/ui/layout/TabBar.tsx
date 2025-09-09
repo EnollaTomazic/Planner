@@ -141,13 +141,13 @@ export default function TabBar({
     <div
       className={cn("relative w-full", className)}
       ref={containerRef}
-      aria-label={ariaLabel}
       onKeyDown={onKeyDown}
     >
       <div className={cn("flex items-center", justify, "gap-3")}>
         {/* Tabs group */}
         <div
           role="tablist"
+          aria-label={ariaLabel}
           aria-orientation="horizontal"
           className="relative flex items-center flex-wrap gap-2"
         >

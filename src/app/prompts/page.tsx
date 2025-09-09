@@ -63,7 +63,12 @@ export default function Page() {
         </div>
         <p className="mb-4 text-xs text-danger">Example error message</p>
         <div className="mb-8">
-          <TabBar items={viewTabs} value={view} onValueChange={setView} />
+          <TabBar
+            items={viewTabs}
+            value={view}
+            onValueChange={setView}
+            ariaLabel="Prompts gallery view"
+          />
         </div>
       {view === "components" ? <ComponentGallery /> : <ColorGallery />}
     </main>
