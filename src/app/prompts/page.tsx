@@ -95,6 +95,7 @@ export default function Page() {
         <Button tone="danger" variant="primary">
           Danger primary
         </Button>
+        <Button disabled>Disabled</Button>
       </div>
       <div className="mb-8 flex gap-2">
         <IconButton aria-label="Add item" title="Add item">
