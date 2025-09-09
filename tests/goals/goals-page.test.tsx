@@ -57,6 +57,18 @@ describe("GoalsPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows timer hero with profile tabs", () => {
+    render(<GoalsPage />);
+    const timerTab = screen.getByRole("tab", { name: "Timer" });
+    fireEvent.click(timerTab);
+    expect(
+      screen.getByRole("heading", { name: "Timer" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("tablist", { name: "Timer profiles" }),
+    ).toBeInTheDocument();
+  });
+
   it("handles adding goals, cap enforcement, completion toggles, and undo", async () => {
     render(<GoalsPage />);
 
