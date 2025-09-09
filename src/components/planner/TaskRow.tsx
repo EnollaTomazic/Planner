@@ -114,7 +114,7 @@ export default function TaskRow({
             iconSize="xs"
             variant="ring"
           >
-            <Pencil />
+            <Pencil aria-hidden="true" />
           </IconButton>
           <IconButton
             aria-label="Delete task"
@@ -124,7 +124,7 @@ export default function TaskRow({
             iconSize="xs"
             variant="ring"
           >
-            <Trash2 />
+            <Trash2 aria-hidden="true" />
           </IconButton>
         </div>
       </div>

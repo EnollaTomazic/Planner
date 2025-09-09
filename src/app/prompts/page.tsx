@@ -12,7 +12,7 @@ import {
   AnimatedSelect,
 } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
-import { GoalsProgress, GoalList } from "@/components/goals";
+import { GoalsProgress } from "@/components/goals";
 import {
   RoleSelector,
   NeonIcon,
@@ -22,12 +22,12 @@ import {
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role, Goal } from "@/lib/types";
+import type { Role } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
 
-const VIEW_TABS: TabItem<View>[] = [
+const viewTabs: TabItem<View>[] = [
   { key: "components", label: "Components" },
   { key: "colors", label: "Colors" },
 ];
@@ -68,6 +68,8 @@ const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
+  <>Icons now use the <code>size-4</code> token instead of hardcoded 18px dimensions.</>,
+  <>Accent secondary and success colors updated for improved contrast.</>,
 ];
 
 const DEMO_SCORE = 7;
@@ -164,33 +166,6 @@ const IconButtonShowcase = () => (
   </div>
 );
 
-const GOAL_DEMO_ITEMS: Goal[] = [
-  { id: "g1", title: "Demo active goal", done: false, createdAt: Date.now() },
-  {
-    id: "g2",
-    title: "Demo done goal",
-    done: true,
-    createdAt: Date.now() - 86_400_000,
-  },
-];
-
-const GoalListDemo = () => {
-  const [items, setItems] = React.useState<Goal[]>(GOAL_DEMO_ITEMS);
-  return (
-    <div className="mb-8">
-      <GoalList
-        goals={items}
-        onToggleDone={(id) =>
-          setItems((prev) =>
-            prev.map((g) => (g.id === id ? { ...g, done: !g.done } : g)),
-          )
-        }
-        onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
-      />
-    </div>
-  );
-};
-
 export default function Page() {
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
@@ -207,14 +182,13 @@ export default function Page() {
       <UpdatesList />
       <ButtonShowcase />
       <IconButtonShowcase />
-      <GoalListDemo />
       <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
         <TabBar
-          items={VIEW_TABS}
+          items={viewTabs}
           value={view}
-          onValueChange={setView}
+          onValueChange={(k) => setView(k)}
           ariaLabel="Prompts gallery view"
         />
       </div>

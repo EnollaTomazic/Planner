@@ -21,8 +21,8 @@ export default function CheatSheetTabs() {
 
   const tabs = React.useMemo(
     () => [
-      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen /> },
-      { key: "comps", label: "My Comps", icon: <Users2 /> },
+      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen aria-hidden="true" /> },
+      { key: "comps", label: "My Comps", icon: <Users2 aria-hidden="true" /> },
     ],
     []
   );

@@ -37,7 +37,7 @@ export default function ScrollTopFloatingButton({
       onClick={scrollTop}
       className="fixed bottom-8 right-2 z-50"
     >
-      <ArrowUp />
+      <ArrowUp aria-hidden="true" />
     </IconButton>
   );
 }

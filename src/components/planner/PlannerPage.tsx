@@ -50,7 +50,7 @@ function Inner() {
         aria-label="Previous week"
         onClick={prevWeek}
       >
-        <ChevronLeft className="size-4" />
+        <ChevronLeft className="size-4" aria-hidden="true" />
         <span>Prev</span>
       </Button>
       <Button size="sm" aria-label="Jump to today" onClick={jumpToday}>
@@ -63,7 +63,7 @@ function Inner() {
         onClick={nextWeek}
       >
         <span>Next</span>
-        <ChevronRight className="size-4" />
+        <ChevronRight className="size-4" aria-hidden="true" />
       </Button>
     </div>
   );
@@ -81,7 +81,7 @@ function Inner() {
             eyebrow="Planner"
             heading="Today"
             subtitle="Plan your week"
-            icon={<CalendarDays className="opacity-80" />}
+            icon={<CalendarDays className="opacity-80" aria-hidden="true" />}
             right={right}
           />
           <WeekPicker />

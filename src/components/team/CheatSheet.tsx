@@ -236,7 +236,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[180px] text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
+      textareaClassName="min-h-44 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
       aria-label="Description"
     />
   );
@@ -451,7 +451,7 @@ export default function CheatSheet({
                   size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
-                  <Pencil />
+                  <Pencil aria-hidden="true" />
                 </IconButton>
               ) : (
                 <IconButton
@@ -460,7 +460,7 @@ export default function CheatSheet({
                   size="sm"
                   onClick={() => setEditingId(null)}
                 >
-                  <Check />
+                  <Check aria-hidden="true" />
                 </IconButton>
               )}
             </div>
