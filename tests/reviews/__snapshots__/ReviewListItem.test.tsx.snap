@@ -1,0 +1,178 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReviewListItem > renders default state 1`] = `
+<div>
+  <div
+    data-scope="reviews"
+  >
+    <button
+      aria-label="Open review: Sample Review"
+      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+      type="button"
+    >
+      <div
+        class="grid grid-cols-[20px_1fr_auto] gap-3"
+      >
+        <span
+          aria-hidden="true"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        />
+        <div
+          class="min-w-0 flex flex-col gap-1"
+        >
+          <div
+            class="truncate font-medium text-base"
+          >
+            Sample Review
+          </div>
+          <div
+            class="flex items-center gap-2 text-sm text-muted-foreground"
+          >
+            <span
+              aria-label="Rating 9 out of 10"
+              class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+            >
+              9
+              /10
+            </span>
+            <span
+              class="line-clamp-1 truncate"
+            >
+              Quick note
+            </span>
+          </div>
+        </div>
+        <span
+          class="self-start text-xs text-muted-foreground whitespace-nowrap"
+        >
+          11/14/2023
+        </span>
+      </div>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ReviewListItem > renders loading state 1`] = `
+<div>
+  <div
+    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none animate-pulse"
+    data-scope="reviews"
+  >
+    <div
+      class="h-3 rounded bg-muted w-3/5 mb-3"
+    />
+    <div
+      class="h-3 rounded bg-muted w-2/5"
+    />
+  </div>
+</div>
+`;
+
+exports[`ReviewListItem > renders selected state 1`] = `
+<div>
+  <div
+    data-scope="reviews"
+  >
+    <button
+      aria-label="Open review: Sample Review"
+      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none review-tile--active"
+      data-selected="true"
+      type="button"
+    >
+      <div
+        class="grid grid-cols-[20px_1fr_auto] gap-3"
+      >
+        <span
+          aria-hidden="true"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        />
+        <div
+          class="min-w-0 flex flex-col gap-1"
+        >
+          <div
+            class="truncate font-medium text-base"
+          >
+            Sample Review
+          </div>
+          <div
+            class="flex items-center gap-2 text-sm text-muted-foreground"
+          >
+            <span
+              aria-label="Rating 9 out of 10"
+              class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+            >
+              9
+              /10
+            </span>
+            <span
+              class="line-clamp-1 truncate"
+            >
+              Quick note
+            </span>
+          </div>
+        </div>
+        <span
+          class="self-start text-xs text-muted-foreground whitespace-nowrap"
+        >
+          11/14/2023
+        </span>
+      </div>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ReviewListItem > renders untitled state 1`] = `
+<div>
+  <div
+    data-scope="reviews"
+  >
+    <button
+      aria-label="Open review: Untitled Review"
+      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+      type="button"
+    >
+      <div
+        class="grid grid-cols-[20px_1fr_auto] gap-3"
+      >
+        <span
+          aria-hidden="true"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        />
+        <div
+          class="min-w-0 flex flex-col gap-1"
+        >
+          <div
+            aria-label="Untitled Review"
+            class="truncate font-medium text-base text-muted-foreground/70"
+          >
+            Untitled Review
+          </div>
+          <div
+            class="flex items-center gap-2 text-sm text-muted-foreground"
+          >
+            <span
+              aria-label="Rating 9 out of 10"
+              class="inline-flex items-center text-xs font-medium border rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]"
+            >
+              9
+              /10
+            </span>
+            <span
+              class="line-clamp-1 truncate"
+            >
+              Quick note
+            </span>
+          </div>
+        </div>
+        <span
+          class="self-start text-xs text-muted-foreground whitespace-nowrap"
+        >
+          11/14/2023
+        </span>
+      </div>
+    </button>
+  </div>
+</div>
+`;

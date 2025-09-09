@@ -1,0 +1,71 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import ts from "typescript";
+import { MultiBar, Presets } from "cli-progress";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+async function main(): Promise<void> {
+  const projectDir = path.resolve(__dirname, "..");
+  const configPath = path.resolve(projectDir, "tsconfig.json");
+  const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
+  const parsed = ts.parseJsonConfigFileContent(configFile.config, ts.sys, projectDir);
+
+  fs.mkdirSync(path.join(projectDir, ".cache"), { recursive: true });
+
+  const rootFiles = new Set(parsed.fileNames.map((f) => path.normalize(f)));
+  const total = rootFiles.size;
+  const bars = new MultiBar({ clearOnComplete: false, hideCursor: true }, Presets.shades_grey);
+  const bar = bars.create(total, 0);
+  let completed = 0;
+
+  const host = ts.createIncrementalCompilerHost(parsed.options);
+  const origGetSourceFile = host.getSourceFile;
+  host.getSourceFile = (fileName, languageVersion, onError, shouldCreateNewSourceFile) => {
+    const result = origGetSourceFile(
+      fileName,
+      languageVersion,
+      onError,
+      shouldCreateNewSourceFile,
+    );
+    const norm = path.normalize(fileName);
+    if (rootFiles.has(norm)) {
+      completed += 1;
+      bar.update(completed);
+      rootFiles.delete(norm);
+    }
+    return result;
+  };
+
+  const program = ts.createIncrementalProgram({
+    rootNames: parsed.fileNames,
+    options: {
+      ...parsed.options,
+      noEmit: true,
+      incremental: true,
+      tsBuildInfoFile: path.join(projectDir, ".cache/tsbuildinfo"),
+    },
+    host,
+  });
+
+  const diagnostics = ts.getPreEmitDiagnostics(program.getProgram());
+  bars.stop();
+
+  if (diagnostics.length) {
+    const formatHost: ts.FormatDiagnosticsHost = {
+      getCanonicalFileName: (f) => f,
+      getCurrentDirectory: () => projectDir,
+      getNewLine: () => ts.sys.newLine,
+    };
+    console.error(ts.formatDiagnosticsWithColorAndContext(diagnostics, formatHost));
+    process.exit(1);
+  }
+  console.log("Type check passed.");
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

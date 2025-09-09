@@ -8,17 +8,17 @@
  * - Digits centered; minus/plus on the sides
  * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
  */
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
+import Hero from "@/components/ui/layout/Hero";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
 } from "lucide-react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import DurationSelector from "./DurationSelector";
 
 /* profiles */
@@ -48,29 +48,40 @@ const parseMmSs = (v: string) => {
 };
 
 export default function TimerTab() {
-  const [profile, setProfile] = useLocalDB<ProfileKey>("goals.timer.profile.v1", "study");
-  const [personalMinutes, setPersonalMinutes] = useLocalDB<number>("goals.timer.personalMin.v1", 25);
+  const [profile, setProfile] = usePersistentState<ProfileKey>(
+    "goals.timer.profile.v1",
+    "study",
+  );
+  const [personalMinutes, setPersonalMinutes] = usePersistentState<number>(
+    "goals.timer.personalMin.v1",
+    25,
+  );
 
   const profileDef = React.useMemo(() => PROFILES.find(p => p.key === profile)!, [profile]);
   const isPersonal = profile === "personal";
   const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
 
   // remaining time
-  const [remaining, setRemaining] = useLocalDB<number>(
+  const [remaining, setRemaining] = usePersistentState<number>(
     "goals.timer.remaining.v1",
     minutes * 60_000,
   );
-  const [running, setRunning] = useLocalDB<boolean>(
+  const [running, setRunning] = usePersistentState<boolean>(
     "goals.timer.running.v1",
     false,
   );
 
+  const prevProfile = React.useRef<ProfileKey>(profile);
   // Reset timer when switching profiles (studying, cleaning, coding)
   React.useEffect(() => {
-    setRunning(false);
-    setRemaining((profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile]);
+    if (prevProfile.current !== profile) {
+      setRunning(false);
+      setRemaining(
+        (profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000,
+      );
+      prevProfile.current = profile;
+    }
+  }, [profile, personalMinutes, profileDef.defaultMin, setRunning, setRemaining]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -154,30 +165,36 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="btn-like-segmented btn-glitch w-20 text-center"
+        className="btn-like-segmented btn-glitch w-[5ch] text-center"
         type="text"
       />
     </div>
   ) : null;
 
   return (
-    <SectionCard className="card-neo-soft no-hover">
-      <SectionCard.Header sticky>
-        <TabBar
-          items={tabItems}
-          value={profile}
-          onValueChange={(k) => setProfile(k as ProfileKey)}
-          size="md"
-          align="between"
-          ariaLabel="Timer profiles"
-          right={rightSlot}
-          showBaseline
-        />
-      </SectionCard.Header>
+    <div className="grid gap-4">
+      <Hero
+        eyebrow="Focus"
+        heading="Timer"
+        subtitle="Pick a duration and focus."
+        right={
+          <TabBar
+            items={tabItems}
+            value={profile}
+            onValueChange={(k) => setProfile(k as ProfileKey)}
+            size="md"
+            align="between"
+            ariaLabel="Timer profiles"
+            right={rightSlot}
+            showBaseline
+          />
+        }
+      />
 
-      <SectionCard.Body>
-        {/* Stage row with side buttons and centered digits */}
-        <div className="relative rounded-2xl card-neo-soft p-5 sm:p-6 overflow-hidden">
+      <SectionCard className="goal-card no-hover">
+        <SectionCard.Body>
+          {/* Stage row with side buttons and centered digits */}
+          <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
@@ -204,7 +221,7 @@ export default function TimerTab() {
                       onChange={(e) => setTimeEdit(e.currentTarget.value)}
                       onBlur={commitEdit}
                       onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus:outline-none text-6xl sm:text-7xl font-bold tabular-nums"
+                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-6xl sm:text-7xl font-bold tabular-nums"
                     />
                   </div>
                 )}
@@ -231,8 +248,16 @@ export default function TimerTab() {
               {/* progress core */}
               <div className="lg-progress" style={pctStyle} aria-hidden />
               {/* rgb ghost trails */}
-              <div className="lg-progress rgb r" style={pctStyle} aria-hidden />
-              <div className="lg-progress rgb b" style={pctStyle} aria-hidden />
+              <div
+                className="lg-progress rgb r bg-gradient-to-r from-auroraG to-auroraGLight"
+                style={pctStyle}
+                aria-hidden
+              />
+              <div
+                className="lg-progress rgb b bg-gradient-to-r from-auroraP to-auroraPLight"
+                style={pctStyle}
+                aria-hidden
+              />
               {/* scanline sweep */}
               <div className="lg-scan" aria-hidden />
             </div>
@@ -289,13 +314,13 @@ export default function TimerTab() {
       {/* Local styles for neon pills, glitch loader, and complete state */}
       <style jsx>{`
         /* Disable card hover bloom */
-        .no-hover.card-neo-soft:hover {
+        .no-hover.goal-card:hover {
           box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
             inset 0 1px 0 hsl(var(--foreground) / 0.05),
             0 30px 60px hsl(250 30% 2% / 0.35);
         }
-        .no-hover.card-neo-soft:hover::before { opacity: 0.45; }
-        .no-hover.card-neo-soft:hover::after { opacity: 0; }
+        .no-hover.goal-card:hover::before { opacity: 0.45; }
+        .no-hover.goal-card:hover::after { opacity: 0; }
 
         /* Emphasize active tab text glow (works with TabBar) */
         [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
@@ -332,9 +357,9 @@ export default function TimerTab() {
             inset 0 0 16px hsl(var(--accent) / .6);
           border-right: 0 solid transparent;
           -webkit-mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           mask-image:
-            repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px);
+            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
           animation:
             widthEase 220ms ease,
             jitter 900ms steps(12) infinite;
@@ -346,14 +371,12 @@ export default function TimerTab() {
           filter: blur(1px);
         }
         .lg-progress.rgb.r {
-          background: linear-gradient(90deg, #ff2d75 0%, #ffc4f0 100%);
           transform: translateX(-1px);
           animation:
             widthEase 220ms ease,
             jitterX 900ms steps(12) infinite reverse;
         }
         .lg-progress.rgb.b {
-          background: linear-gradient(90deg, #3aa8ff 0%, #cde9ff 100%);
           transform: translateX(1px);
           animation:
             widthEase 220ms ease,
@@ -404,5 +427,6 @@ export default function TimerTab() {
         }
       `}</style>
     </SectionCard>
+  </div>
   );
 }

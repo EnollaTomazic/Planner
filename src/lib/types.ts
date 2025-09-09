@@ -40,12 +40,13 @@ export type Review = {
   focusOn?: boolean;
   focus?: number;            // 1..10
   markers?: ReviewMarker[];
+  status?: "new";           // transient UI flag
 };
 
 export type Goal = {
   id: string;
   title: string;
-  pillar: Pillar | "";
+  pillar?: Pillar;
   metric?: string;
   notes?: string;
   done: boolean;

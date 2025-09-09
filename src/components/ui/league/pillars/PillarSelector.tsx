@@ -30,7 +30,7 @@ export default function PillarSelector({
   return (
     <div className={cn("w-full", className)}>
       <div className="overline mb-2">{label}</div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {ORDER.map((p) => {
           const active = set.has(p);
           return (

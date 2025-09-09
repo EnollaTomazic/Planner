@@ -1,31 +1,57 @@
 // src/lib/db.ts
-// Local-first helpers for 13 League Review
+// Local-first helpers for Noxis Planner
 // - Hydration-safe: first render returns `initial`; no localStorage read until after mount
 // - SSR-safe: never touches window/localStorage on the server
-// - Cross-tab sync: listens to `storage` and updates state if another tab writes
 // - Tiny and predictable
 
 "use client";
 
 import * as React from "react";
+import {
+  parseJSON,
+  readLocal as baseReadLocal,
+  writeLocal as baseWriteLocal,
+} from "./local-bootstrap";
 
 /** Namespacing so we don't collide with other apps in the same domain */
-const STORAGE_PREFIX = "13lr:";
+const STORAGE_PREFIX = "noxis-planner:";
+
+// Previous prefix used in older builds; retained for migration
+const OLD_STORAGE_PREFIX = "13lr:";
 
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
 
-/** Build a fully namespaced key */
-const sk = (key: string) => `${STORAGE_PREFIX}${key}`;
+// Track whether legacy keys have been migrated
+let migrated = false;
 
-/** Safe JSON parse */
-function parseJSON<T>(raw: string | null): T | null {
-  if (!raw) return null;
+// Migrate any legacy keys from older builds
+function ensureMigration() {
+  if (!isBrowser || migrated) return;
   try {
-    return JSON.parse(raw) as T;
+    const legacyKeys: string[] = [];
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key?.startsWith(OLD_STORAGE_PREFIX)) legacyKeys.push(key);
+    }
+    for (const oldKey of legacyKeys) {
+      const newKey = `${STORAGE_PREFIX}${oldKey.slice(OLD_STORAGE_PREFIX.length)}`;
+      if (window.localStorage.getItem(newKey) === null) {
+        const value = window.localStorage.getItem(oldKey);
+        if (value !== null) window.localStorage.setItem(newKey, value);
+      }
+      window.localStorage.removeItem(oldKey);
+    }
   } catch {
-    return null;
+    // ignore
   }
+  migrated = true;
+}
+
+/** Build a fully namespaced key and ensure migrations */
+export function createStorageKey(key: string): string {
+  ensureMigration();
+  return `${STORAGE_PREFIX}${key}`;
 }
 
 /** Safe JSON stringify */
@@ -37,11 +63,50 @@ function toJSON(v: unknown): string {
   }
 }
 
+// Debounced write queue
+const writeQueue = new Map<string, unknown>();
+let writeTimer: ReturnType<typeof setTimeout> | null = null;
+
+export let writeLocalDelay = 50;
+export function setWriteLocalDelay(ms: number) {
+  writeLocalDelay = ms;
+}
+
+function flushWriteQueue() {
+  if (writeTimer) {
+    clearTimeout(writeTimer);
+    writeTimer = null;
+  }
+  for (const [k, v] of writeQueue) {
+    try {
+      baseWriteLocal(k, v);
+    } catch {
+      // ignore
+    }
+  }
+  writeQueue.clear();
+}
+
+export function flushWriteLocal() {
+  if (!isBrowser) return;
+  flushWriteQueue();
+}
+
+function scheduleWrite(key: string, value: unknown) {
+  writeQueue.set(key, value);
+  if (writeTimer) clearTimeout(writeTimer);
+  writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
+}
+
+if (isBrowser) {
+  window.addEventListener("beforeunload", flushWriteQueue);
+}
+
 /** Read from localStorage without throwing on SSR or privacy modes */
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
   try {
-    return parseJSON<T>(window.localStorage.getItem(sk(key)));
+    return baseReadLocal<T>(createStorageKey(key));
   } catch {
     return null;
   }
@@ -51,7 +116,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    window.localStorage.setItem(sk(key), toJSON(value));
+    scheduleWrite(createStorageKey(key), JSON.parse(toJSON(value)));
   } catch {
     // ignore quota/privacy errors
   }
@@ -61,68 +126,93 @@ export function writeLocal(key: string, value: unknown) {
 export function removeLocal(key: string) {
   if (!isBrowser) return;
   try {
-    window.localStorage.removeItem(sk(key));
+    window.localStorage.removeItem(createStorageKey(key));
   } catch {
     // ignore
   }
 }
 
 /**
- * useLocalDB<T>(key, initial)
+ * Listen for changes to a localStorage key and notify via callback.
+ */
+export function useStorageSync(
+  key: string,
+  onChange: (raw: string | null) => void,
+) {
+  React.useEffect(() => {
+    if (!isBrowser) return;
+    const fullKey = createStorageKey(key);
+    const handler = (e: StorageEvent) => {
+      if (e.storageArea !== window.localStorage) return;
+      if (e.key !== fullKey) return;
+      onChange(e.newValue);
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, [key, onChange]);
+}
+
+/**
+ * usePersistentState<T>(key, initial)
  * Hydration-safe local state that:
  *  - Returns `initial` on first render (no storage reads during SSR/hydration)
  *  - After mount, loads from localStorage (if present) and replaces state.
  *  - Any change to state is persisted to localStorage.
- *  - Cross-tab: listens for `storage` events and replaces state when same key changes.
+ *  - Cross-tab: uses `useStorageSync` to stay in sync.
  */
-export function useLocalDB<T>(
+export function usePersistentState<T>(
   key: string,
-  initial: T
+  initial: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = React.useState<T>(initial);
 
-  // Track whether we've mounted and whether we performed the initial load
-  const loadedRef = React.useRef(false);
-  const fullKeyRef = React.useRef(sk(key));
-
-  // If the caller passes a different key later, update the ref and trigger a reload
+  const initialRef = React.useRef(initial);
   React.useEffect(() => {
-    const nextFull = sk(key);
+    initialRef.current = initial;
+  }, [initial]);
+
+  const fullKeyRef = React.useRef(createStorageKey(key));
+  const loadedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    const nextFull = createStorageKey(key);
     if (fullKeyRef.current !== nextFull) {
       fullKeyRef.current = nextFull;
-      loadedRef.current = false; // force reload for new key
+      loadedRef.current = false;
     }
   }, [key]);
 
-  // After mount: load once, wire cross-tab sync
   React.useEffect(() => {
     if (!isBrowser) return;
-
-    // Load once after mount or after key change
     if (!loadedRef.current) {
-      const fromStorage = parseJSON<T>(window.localStorage.getItem(fullKeyRef.current));
+      let fromStorage = baseReadLocal<T>(fullKeyRef.current);
+      if (fromStorage === null) {
+        fromStorage = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
+      }
       if (fromStorage !== null) setState(fromStorage);
       loadedRef.current = true;
     }
-
-    // Cross-tab sync
-    const onStorage = (e: StorageEvent) => {
-      if (e.storageArea !== window.localStorage) return;
-      if (e.key !== fullKeyRef.current) return;
-      const next = parseJSON<T>(e.newValue);
-      if (next !== null) setState(next);
-    };
-
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
   }, [key]);
 
-  // Persist whenever state changes after the initial load
+  const handleExternal = React.useCallback(
+    (raw: string | null) => {
+      if (raw === null) {
+        setState(initialRef.current);
+        return;
+      }
+      const next = parseJSON<T>(raw);
+      if (next !== null) setState(next);
+    },
+    [],
+  );
+
+  useStorageSync(key, handleExternal);
+
   React.useEffect(() => {
     if (!isBrowser) return;
-    if (!loadedRef.current) return; // do not write during the initial load window
+    if (!loadedRef.current) return;
     try {
-      window.localStorage.setItem(fullKeyRef.current, toJSON(state));
+      scheduleWrite(fullKeyRef.current, JSON.parse(toJSON(state)));
     } catch {
       // ignore
     }
@@ -132,11 +222,11 @@ export function useLocalDB<T>(
 }
 
 /**
- * Tiny uid helper: collision-resistant enough for local-first lists.
- * Example: "review_mbb1r8i8_6p9x2y"
+ * Generates a unique identifier using `crypto.randomUUID`.
+ * If a prefix is provided, it is prepended followed by an underscore.
  */
-export function uid(prefix = "id"): string {
-  const time = Date.now().toString(36);
-  const rand = Math.random().toString(36).slice(2, 8);
-  return `${prefix}_${time}_${rand}`;
+export function uid(prefix = ""): string {
+  const id = crypto.randomUUID();
+  return prefix ? `${prefix}_${id}` : id;
 }
+

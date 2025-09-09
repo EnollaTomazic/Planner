@@ -1,21 +1,22 @@
 "use client";
 
 import * as React from "react";
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 
 interface GoalsProgressProps {
   total: number;
   pct: number; // 0..100
   onAddFirst?: () => void;
+  maxWidth?: number | string;
 }
 
-export default function GoalsProgress({ total, pct, onAddFirst }: GoalsProgressProps) {
+export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="border border-dashed border-white/20 rounded-2xl p-6 text-center">
-        <p className="text-sm text-white/60 mb-4">No goals yet.</p>
+      <div className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-6 text-center">
+        <p className="mb-4 text-sm text-[hsl(var(--fg-muted))]">No goals yet.</p>
         {onAddFirst && (
-          <Button onClick={onAddFirst} className="mx-auto" size="sm">
+          <Button onClick={onAddFirst} size="sm" className="mx-auto rounded-xl">
             Add a first goal
           </Button>
         )}
@@ -24,15 +25,24 @@ export default function GoalsProgress({ total, pct, onAddFirst }: GoalsProgressP
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
+  const style = maxWidth
+    ? ({
+        "--progress-max":
+          typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
+      } as React.CSSProperties)
+    : undefined;
   return (
-    <div className="flex items-center gap-2 min-w-[120px]" aria-label="Progress">
-      <div className="w-28 h-1.5 rounded-full bg-white/10 overflow-hidden">
+    <div className="flex min-w-[120px] items-center gap-2" aria-label="Progress">
+      <div
+        className="h-2 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-[hsl(var(--fg)/0.1)]"
+        style={style}
+      >
         <div
-          className="h-1.5 rounded-full bg-[hsl(var(--primary))] transition-[width]"
+          className="h-2 rounded-full bg-[hsl(var(--accent))] transition-[width]"
           style={{ width: `${v}%` }}
         />
       </div>
-      <span className="text-xs text-white/60 tabular-nums">{v}%</span>
+      <span className="tabular-nums text-xs text-[hsl(var(--fg)/0.6)]">{v}%</span>
     </div>
   );
 }

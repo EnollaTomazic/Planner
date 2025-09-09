@@ -129,8 +129,8 @@ export function NeonIcon({
             lit ? "opacity-35 animate-[niScan_2.1s_linear_infinite]" : "opacity-0"
           )}
           style={{
-            background:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 3px)",
+          background:
+            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px)",
             transition: "opacity 220ms var(--ease-out)",
           }}
           aria-hidden
@@ -144,8 +144,8 @@ export function NeonIcon({
           phase === "ignite" && "animate-[niIgnite_.62s_steps(18,end)_1]"
         )}
         style={{
-          background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.25), transparent 60%)",
+            background:
+              "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.25), transparent 60%)",
           mixBlendMode: "screen",
           opacity: phase === "ignite" ? 0.85 : 0,
         }}
@@ -157,8 +157,8 @@ export function NeonIcon({
           phase === "powerdown" && "animate-[niPowerDown_.36s_linear_1]"
         )}
         style={{
-          background:
-            "radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,.16), transparent 60%)",
+            background:
+              "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.16), transparent 60%)",
           mixBlendMode: "screen",
           opacity: phase === "powerdown" ? 0.6 : 0,
         }}

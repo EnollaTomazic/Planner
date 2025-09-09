@@ -2,27 +2,49 @@
 "use client";
 
 import * as React from "react";
+import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type RootProps = React.HTMLAttributes<HTMLDivElement>;
-export type HeaderProps = {
+export type SectionCardHeaderProps = {
   sticky?: boolean;
+  topClassName?: string; // sticky top offset
   className?: string;
-  children?: React.ReactNode;       // if provided, we render this and ignore title/actions
-  title?: React.ReactNode;          // optional convenience API
-  actions?: React.ReactNode;        // optional convenience API
+  children?: React.ReactNode; // if provided, we render this and ignore title/actions
+  title?: React.ReactNode; // optional convenience API
+  actions?: React.ReactNode; // optional convenience API
 };
 type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 
-function Root({ className, ...props }: RootProps) {
-  return <section className={cn("section rounded-card", className)} {...props} />;
+function Root({ className, children, ...props }: RootProps) {
+  return (
+    <section
+      className={cn("card-neo-soft shadow-neo-strong", className)}
+      {...props}
+    >
+      {children}
+    </section>
+  );
 }
 
-function Header({ sticky, className, children, title, actions }: HeaderProps) {
+function Header({
+  sticky,
+  topClassName = "top-8",
+  className,
+  children,
+  title,
+  actions,
+}: SectionCardHeaderProps) {
   return (
-    <div className={cn("section-h", sticky && "sticky", className)}>
+    <div
+      className={cn(
+        "section-h",
+        sticky && clsx("sticky", topClassName),
+        className
+      )}
+    >
       {children ?? (
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div>{title}</div>
           <div>{actions}</div>
         </div>

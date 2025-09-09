@@ -3,7 +3,7 @@
 
 /**
  * Team Reminders (Lavender-Glitch, neon-outlined)
- * - Local-first via useLocalDB("team.reminders.v1")
+ * - Local-first via usePersistentState("team.reminders.v1")
  * - Search + group chips + pinned toggle
  * - Add / duplicate / delete / reset curated seeds
  * - Inline edit (Enter saves, Esc cancels)
@@ -11,16 +11,15 @@
  * - Quick Add (input + button + neon quote) now lives in the SAME panel as the cards (SectionCard.Body)
  */
 
-import "../goals/style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Badge from "@/components/ui/primitives/badge";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
   Plus,
@@ -97,7 +96,7 @@ const GROUP_TABS: Array<{ key: Group | "all"; label: string }> = [
 /* ---------- component ---------- */
 
 export default function Reminders() {
-  const [items, setItems] = useLocalDB<Reminder[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
   const [onlyPinned, setOnlyPinned] = React.useState(false);
   const [group, setGroup] = React.useState<Group | "all">("all");
@@ -163,18 +162,18 @@ export default function Reminders() {
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-3">
       <SectionCard className="card-neo-soft">
-        <SectionCard.Header sticky>
+        <SectionCard.Header sticky topClassName="top-0">
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}
             <div className="relative flex-1 min-w-[220px]">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 opacity-70" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70" />
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
-                className="pl-9 h-10"
+                className="pl-6"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
@@ -212,7 +211,7 @@ export default function Reminders() {
         </SectionCard.Header>
 
         {/* Panel body now holds Quick Add + neon quote + cards grid */}
-        <SectionCard.Body className="grid gap-4">
+        <SectionCard.Body className="grid gap-3">
           {/* Quick Add row (in the SAME panel as cards) */}
           <div className="sm:p-4 flex items-center gap-4">
             <Input
@@ -221,9 +220,9 @@ export default function Reminders() {
               value={quickAdd}
               onChange={(e) => setQuickAdd(e.currentTarget.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
-              className="h-10 flex-1"
+              className="flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} circleSize="md" variant="solid">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="solid">
               <Plus />
             </IconButton>
             <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">
@@ -318,27 +317,63 @@ function ReminderCard({
         )}
 
         <div className="card-neo flex items-center gap-1">
-          <IconButton title={value.pinned ? "Unpin" : "Pin"} aria-label={value.pinned ? "Unpin" : "Pin"} onClick={() => onChange({ pinned: !value.pinned })}>
+          <IconButton
+            title={value.pinned ? "Unpin" : "Pin"}
+            aria-label={value.pinned ? "Unpin" : "Pin"}
+            onClick={() => onChange({ pinned: !value.pinned })}
+            size="sm"
+            iconSize="sm"
+          >
             {value.pinned ? <PinOff /> : <Pin />}
           </IconButton>
-          <IconButton title="Duplicate" aria-label="Duplicate" onClick={onDuplicate}>
+          <IconButton
+            title="Duplicate"
+            aria-label="Duplicate"
+            onClick={onDuplicate}
+            size="sm"
+            iconSize="sm"
+          >
             <Copy />
           </IconButton>
           {editing ? (
             <>
-              <IconButton title="Save (Enter)" aria-label="Save" onClick={save}>
+              <IconButton
+                title="Save (Enter)"
+                aria-label="Save"
+                onClick={save}
+                size="sm"
+                iconSize="sm"
+              >
                 <Check />
               </IconButton>
-              <IconButton title="Cancel (Esc)" aria-label="Cancel" onClick={cancel}>
+              <IconButton
+                title="Cancel (Esc)"
+                aria-label="Cancel"
+                onClick={cancel}
+                size="sm"
+                iconSize="sm"
+              >
                 <X />
               </IconButton>
             </>
           ) : (
             <>
-              <IconButton title="Edit" aria-label="Edit" onClick={() => setEditing(true)}>
+              <IconButton
+                title="Edit"
+                aria-label="Edit"
+                onClick={() => setEditing(true)}
+                size="sm"
+                iconSize="sm"
+              >
                 <Pencil />
               </IconButton>
-              <IconButton title="Delete" aria-label="Delete" onClick={onDelete}>
+              <IconButton
+                title="Delete"
+                aria-label="Delete"
+                onClick={onDelete}
+                size="sm"
+                iconSize="sm"
+              >
                 <Trash2 />
               </IconButton>
             </>
@@ -354,7 +389,7 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              className="min-h-[88px]"
+              textareaClassName="min-h-[88px]"
             />
             <Input
               aria-label="Tags (comma separated)"

@@ -1,10 +1,10 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 import type { Review } from "@/lib/types";
-import { cn, LOCALE } from "@/lib/utils";
-import Pill from "@/components/ui/primitives/pill";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { cn } from "@/lib/utils";
+import { shortDate } from "@/lib/date";
+import { Badge, IconButton } from "@/components/ui";
 import { Pencil } from "lucide-react";
 
 export default function ReviewCard({
@@ -19,14 +19,14 @@ export default function ReviewCard({
   const created = review.createdAt ? new Date(review.createdAt) : null;
 
   return (
-    <div className={cn("p-3 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))]/85", active && "shadow-lg")}>
+    <div className={cn("p-3 rounded-2xl border border-border bg-card/85", active && "shadow-lg")}> 
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
             <h3 className={cn("truncate font-semibold", active && "title-glow")}>{review.title || "Untitled Review"}</h3>
             <IconButton
               aria-label="Rename"
-              circleSize="sm"
+              size="sm"
               iconSize="sm"
               onClick={(e) => {
                 e.preventDefault();
@@ -44,15 +44,19 @@ export default function ReviewCard({
             <span>Side: {review.side || "—"}</span>
             <span>Patch: {review.patch || "—"}</span>
             <span>Duration: {review.duration || "—"}</span>
-            <span>{created ? created.toLocaleDateString(LOCALE) : "—"}</span>
+            <span>{created ? shortDate.format(created) : "—"}</span>
           </div>
 
           {Array.isArray(review.tags) && review.tags.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="mt-2 flex flex-wrap gap-2">
               {review.tags.slice(0, 6).map((t) => (
-                <Pill key={t}>{t}</Pill>
+                <Badge key={t} variant="pill">
+                  {t}
+                </Badge>
               ))}
-              {review.tags.length > 6 && <Pill>+{review.tags.length - 6}</Pill>}
+              {review.tags.length > 6 && (
+                <Badge variant="pill">+{review.tags.length - 6}</Badge>
+              )}
             </div>
           )}
         </div>

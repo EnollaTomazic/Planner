@@ -7,10 +7,14 @@
  */
 
 import { useMemo, useRef, useState, useEffect } from "react";
-import { toISODate, cn } from "@/lib/utils";
-import { useFocusDate, useDay, useSelectedProject, useSelectedTask, type ISODate } from "./usePlanner";
+import { cn } from "@/lib/utils";
+import { toISODate } from "@/lib/date";
+import { useFocusDate } from "./useFocusDate";
+import { useSelectedProject, useSelectedTask } from "./useSelection";
+import type { ISODate } from "./plannerStore";
+import { useDay } from "./useDay";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import Input from "@/components/ui/primitives/input";
+import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
@@ -49,9 +53,24 @@ export default function TodayHero({ iso }: Props) {
   const [projectName, setProjectName] = useState("");
 
   // Progress of selected project only (animated)
-  const scopedTasks = selProjectId ? tasks.filter(t => t.projectId === selProjectId) : [];
-  const done = scopedTasks.filter(t => t.done).length;
-  const total = scopedTasks.length;
+  const scopedTasks = useMemo(
+    () => (selProjectId ? tasks.filter(t => t.projectId === selProjectId) : []),
+    [tasks, selProjectId],
+  );
+  const { done, total } = useMemo(
+    () =>
+      tasks.reduce(
+        (acc, t) => {
+          if (t.projectId === selProjectId) {
+            acc.total += 1;
+            if (t.done) acc.done += 1;
+          }
+          return acc;
+        },
+        { done: 0, total: 0 },
+      ),
+    [tasks, selProjectId],
+  );
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
   // Date picker
@@ -81,7 +100,7 @@ export default function TodayHero({ iso }: Props) {
             aria-label="Open calendar"
             title={viewIso}
             onClick={openPicker}
-            circleSize="md"
+            size="md"
             variant="ring"
             iconSize="md"
           >
@@ -117,7 +136,7 @@ export default function TodayHero({ iso }: Props) {
             value={projectName}
             onChange={e => setProjectName(e.target.value)}
             aria-label="New project"
-            className="task-input w-full"
+            className="w-full"
           />
         </form>
 
@@ -147,7 +166,7 @@ export default function TodayHero({ iso }: Props) {
                         if (e.key === "Escape") setEditingProjectId(null);
                       }}
                       onBlur={() => { renameProject(p.id, editingProjectName || p.name); setEditingProjectId(null); }}
-                      className="h-8 text-sm" aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
+                      aria-label={`Rename project ${p.name}`} onClick={e => e.stopPropagation()}
                     />
                   ) : (
                     <div className="flex items-center gap-3 min-w-0">
@@ -159,10 +178,10 @@ export default function TodayHero({ iso }: Props) {
                   )}
 
                   <div className="flex items-center gap-2">
-                    <IconButton aria-label={`Edit project ${p.name}`} title="Edit" onClick={e => { e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }} circleSize="sm" variant="ring" iconSize="xs">
+                    <IconButton aria-label={`Edit project ${p.name}`} title="Edit" onClick={e => { e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }} size="sm" variant="ring" iconSize="xs">
                       <Pencil />
                     </IconButton>
-                    <IconButton aria-label={`Remove project ${p.name}`} title="Remove" onClick={e => { e.stopPropagation(); deleteProject(p.id); if (selProjectId === p.id) setSelProjectId(""); }} circleSize="sm" variant="ring" iconSize="xs">
+                    <IconButton aria-label={`Remove project ${p.name}`} title="Remove" onClick={e => { e.stopPropagation(); deleteProject(p.id); if (selProjectId === p.id) setSelProjectId(""); }} size="sm" variant="ring" iconSize="xs">
                       <Trash2 />
                     </IconButton>
                   </div>
@@ -193,7 +212,7 @@ export default function TodayHero({ iso }: Props) {
               name={`new-task-${selProjectId}`}
               placeholder={`> task for "${projects.find(p => p.id === selProjectId)?.name ?? "Project"}"`}
               aria-label="New task"
-              className="task-input w-full"
+              className="w-full"
             />
           </form>
 
@@ -224,20 +243,32 @@ export default function TodayHero({ iso }: Props) {
                             if (e.key === "Escape") setEditingTaskId(null);
                           }}
                           onBlur={() => { renameTask(t.id, editingTaskText || t.text); setEditingTaskId(null); }}
-                          className="h-8 text-sm" aria-label={`Rename task ${t.text}`}
+                          aria-label={`Rename task ${t.text}`}
                         />
                       ) : (
-                        <span className={cn("task-tile__text", t.done && "line-through-soft")} onClick={() => setEditingTaskId(t.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter") setEditingTaskId(t.id); }} aria-label={`Edit task ${t.text}`} title="Edit task">
+                        <button
+                          type="button"
+                          className={cn("task-tile__text", t.done && "line-through-soft")}
+                          onClick={() => setEditingTaskId(t.id)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setEditingTaskId(t.id);
+                            }
+                          }}
+                          aria-label={`Edit task ${t.text}`}
+                          title="Edit task"
+                        >
                           {t.text}
-                        </span>
+                        </button>
                       )}
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <IconButton aria-label={`Edit task ${t.text}`} title="Edit" onClick={() => { setEditingTaskId(t.id); setEditingTaskText(t.text); setSelTaskId(t.id); }} circleSize="sm" variant="ring" iconSize="xs">
+                      <IconButton aria-label={`Edit task ${t.text}`} title="Edit" onClick={() => { setEditingTaskId(t.id); setEditingTaskText(t.text); setSelTaskId(t.id); }} size="sm" variant="ring" iconSize="xs">
                         <Pencil />
                       </IconButton>
-                      <IconButton aria-label="Remove task" title="Remove" onClick={() => { deleteTask(t.id); setSelTaskId(""); }} circleSize="sm" variant="ring" iconSize="xs">
+                      <IconButton aria-label="Remove task" title="Remove" onClick={() => { deleteTask(t.id); setSelTaskId(""); }} size="sm" variant="ring" iconSize="xs">
                         <Trash2 />
                       </IconButton>
                     </div>

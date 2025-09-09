@@ -1,0 +1,50 @@
+import React from "react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { PromptsHeader } from "@/components/prompts";
+
+afterEach(cleanup);
+
+describe("PromptsHeader", () => {
+  it("renders count, search input, and disabled save button", () => {
+    const handleQuery = vi.fn();
+    const handleSave = vi.fn();
+    render(
+      <PromptsHeader
+        count={2}
+        query="hello"
+        onQueryChange={handleQuery}
+        onSave={handleSave}
+        disabled
+      />,
+    );
+
+    expect(screen.getByText("Prompts")).toBeInTheDocument();
+    expect(screen.getByText("2 saved")).toBeInTheDocument();
+    const search = screen.getByPlaceholderText(
+      "Search prompts…",
+    ) as HTMLInputElement;
+    expect(search.value).toBe("hello");
+    const save = screen.getByRole("button", { name: "Save" });
+    expect(save).toBeDisabled();
+
+    fireEvent.change(search, { target: { value: "changed" } });
+    expect(handleQuery).toHaveBeenCalledWith("changed");
+  });
+
+  it("calls onSave when save button clicked", () => {
+    const handleSave = vi.fn();
+    render(
+      <PromptsHeader
+        count={0}
+        query=""
+        onQueryChange={() => {}}
+        onSave={handleSave}
+        disabled={false}
+      />,
+    );
+    const save = screen.getByRole("button", { name: "Save" });
+    fireEvent.click(save);
+    expect(handleSave).toHaveBeenCalled();
+  });
+});

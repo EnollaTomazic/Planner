@@ -22,14 +22,14 @@ type CCVars = React.CSSProperties & {
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
-  sm: "h-6 w-6 [&_svg]:h-3.5 [&_svg]:w-3.5",
+  sm: "h-6 w-6 [&_svg]:h-4 [&_svg]:w-4",
   md: "h-7 w-7 [&_svg]:h-4   [&_svg]:w-4",
   lg: "h-9 w-9 [&_svg]:h-5   [&_svg]:w-5",
 };
 
 export default function CheckCircle({
   checked,
-  onChange,
+  onChange = () => {},
   size = "md",
   className,
   disabled = false,
@@ -39,7 +39,7 @@ export default function CheckCircle({
   "aria-label": ariaLabel = "Toggle",
 }: {
   checked: boolean;
-  onChange: (next: boolean) => void;
+  onChange?: (next: boolean) => void;
   size?: Size;
   className?: string;
   disabled?: boolean;
@@ -49,6 +49,17 @@ export default function CheckCircle({
   "aria-label"?: string;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
+
+  const [reduceMotion, setReduceMotion] = React.useState(false);
+  React.useEffect(() => {
+    const mq = typeof window.matchMedia === "function"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)")
+      : null;
+    const onChange = () => setReduceMotion(mq?.matches ?? false);
+    onChange();
+    mq?.addEventListener("change", onChange);
+    return () => mq?.removeEventListener("change", onChange);
+  }, []);
 
   // Hover/focus tracking
   const [hovered, setHovered] = React.useState(false);
@@ -165,8 +176,8 @@ export default function CheckCircle({
           onBlur={() => setFocused(false)}
           onPointerDown={retriggerIgnite}
           className={cn(
-            "relative inline-grid place-items-center rounded-full outline-none transition",
-            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            "relative inline-grid place-items-center rounded-full transition",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
             "disabled:opacity-50 disabled:pointer-events-none",
             "h-full w-full"
           )}
@@ -182,17 +193,20 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-[1.5px] pointer-events-none transition-opacity",
+              "absolute inset-0 rounded-full p-[2px] pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
               background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
               backgroundSize: "200% 100%",
               WebkitMask:
-                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
-              animation: lit ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite" : undefined,
+              animation:
+                !reduceMotion && lit
+                  ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite"
+                  : undefined,
             } as React.CSSProperties}
           />
 
@@ -204,10 +218,10 @@ export default function CheckCircle({
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
-              background:
-                "repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 3px)",
+          background:
+            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
               mixBlendMode: "overlay",
-              animation: lit ? "ccScan 2.1s linear infinite" : undefined,
+              animation: !reduceMotion && lit ? "ccScan 2.1s linear infinite" : undefined,
             }}
           />
 
@@ -233,9 +247,12 @@ export default function CheckCircle({
             )}
             style={{
               background:
-                "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.22), transparent 60%)",
+                "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
               mixBlendMode: "screen",
-              animation: phase === "ignite" ? "igniteFlicker .62s steps(18,end) 1" : undefined,
+              animation:
+                !reduceMotion && phase === "ignite"
+                  ? "igniteFlicker .62s steps(18,end) 1"
+                  : undefined,
             }}
           />
           <span
@@ -246,9 +263,12 @@ export default function CheckCircle({
             )}
             style={{
               background:
-                "radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,.14), transparent 60%)",
+                "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.14), transparent 60%)",
               mixBlendMode: "screen",
-              animation: phase === "powerdown" ? "powerDown .36s linear 1" : undefined,
+              animation:
+                !reduceMotion && phase === "powerdown"
+                  ? "powerDown .36s linear 1"
+                  : undefined,
             }}
           />
 
@@ -290,14 +310,18 @@ export default function CheckCircle({
               "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
               "border border-[hsl(var(--card-hairline))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))]",
               "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
             )}
           >
-            <svg viewBox="0 0 18 18" className="h-3.5 w-3.5" aria-hidden>
-              <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <svg viewBox="0 0 18 18" className="h-4 w-4" aria-hidden>
+              <path
+                d="M4 4l10 10M14 4L4 14"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
-            <span aria-hidden className="ccx-chroma" />
-            <span aria-hidden className="ccx-flicker" />
+            <span aria-hidden className="ccx-glow" />
           </button>
         )}
       </span>
@@ -328,14 +352,21 @@ export default function CheckCircle({
           60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
           100%{ opacity:0; transform:scale(.985) }
         }
-        .ccx-chroma,
-        .ccx-flicker {
+        .ccx-glow {
           position: absolute;
-          inset: -1px;
+          inset: -2px;
           border-radius: 9999px;
           pointer-events: none;
         }
-        .ccx-chroma {
+        .ccx-glow::before,
+        .ccx-glow::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+        }
+        .ccx-glow::before {
+          inset: 1px;
           padding: 1px;
           background: conic-gradient(
             from 180deg,
@@ -345,18 +376,23 @@ export default function CheckCircle({
             hsl(320 85% 60% / .6),
             hsl(262 83% 58% / .0)
           );
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           -webkit-mask-composite: xor; mask-composite: exclude;
           opacity: .5;
           animation: ccxHue 6s linear infinite, ccxJit 2s steps(6,end) infinite;
         }
-        .ccx-flicker {
-          inset: -2px;
+        .ccx-glow::after {
           background: radial-gradient(120% 120% at 50% 50%, hsl(var(--ring)/.18), transparent 60%);
           filter: blur(6px);
           mix-blend-mode: screen;
           opacity: .25;
           animation: ccxFlick 3s steps(20,end) infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ccx-glow::before,
+          .ccx-glow::after {
+            animation: none;
+          }
         }
         @keyframes ccxHue { to { filter: hue-rotate(360deg) } }
         @keyframes ccxJit {

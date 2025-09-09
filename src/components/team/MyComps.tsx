@@ -6,18 +6,19 @@
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Hover-only actions: Copy / Edit / Delete; Save when editing
- * - Local-first via useLocalDB("team:mycomps.v1")
+ * - Local-first via usePersistentState("team:mycomps.v1")
  * - Scoped with data-scope="team" so glitch effects don't bleed globally
  */
 
-import "../team/style.css";
+import "./style.css";
 
 import * as React from "react";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
+import { copyText } from "@/lib/clipboard";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import {
   Clipboard,
   ClipboardCheck,
@@ -27,6 +28,7 @@ import {
   NotebookPen,
   Plus,
 } from "lucide-react";
+import { sanitizeText } from "@/lib/utils";
 
 /* ───────────── Types ───────────── */
 
@@ -77,19 +79,6 @@ function isStringArray(v: unknown): v is string[] {
 function safeNumber(v: unknown, fallback: number): number {
   const n = typeof v === "number" ? v : Number.NaN;
   return Number.isFinite(n) ? n : fallback;
-}
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    ta.remove();
-  }
 }
 
 function stringify(c: TeamComp) {
@@ -156,7 +145,7 @@ function ChampChips({
 
   if (!editing) {
     return (
-      <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+      <div className="champ-badges mt-1 flex flex-wrap gap-2">
         {(champs.length ? champs : ["-"]).map((c, i) => (
           <span key={i} className="champ-badge glitch-pill text-xs">
             <i className="dot" />
@@ -169,22 +158,23 @@ function ChampChips({
 
   function setAt(i: number, next: string) {
     const arr = [...champs];
-    arr[i] = next;
-    onChange(arr.filter(s => s.trim().length));
+    arr[i] = sanitizeText(next);
+    onChange(arr.map(sanitizeText).filter(s => s.trim().length));
   }
   function insertAfter(i: number) {
     const arr = [...champs];
     arr.splice(i + 1, 0, "");
-    onChange(arr.length ? arr : [""]);
+    const nextArr = arr.length ? arr : [""];
+    onChange(nextArr.map(sanitizeText));
   }
   function removeAt(i: number) {
     const arr = [...champs];
     arr.splice(i, 1);
-    onChange(arr);
+    onChange(arr.map(sanitizeText));
   }
 
   return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+    <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(champs.length ? champs : [""]).map((c, i) => (
         <span key={i} className="champ-badge glitch-pill text-xs">
           <i className="dot" />
@@ -203,7 +193,9 @@ function ChampChips({
                 removeAt(i);
               }
             }}
-            className="bg-transparent outline-none border-none w-24"
+            aria-label="Champion name"
+            autoComplete="off"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
       ))}
@@ -217,7 +209,7 @@ export type MyCompsProps = { query?: string };
 
 export default function MyComps({ query = "" }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
-  const [raw, setRaw] = useLocalDB<TeamComp[]>(DB_KEY, SEEDS);
+  const [raw, setRaw] = usePersistentState<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -293,13 +285,13 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               onChange={e => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
               aria-label="New comp title"
-              className="h-10 flex-1"
+              className="flex-1"
             />
             <IconButton
               type="submit"
               title="Add comp"
               aria-label="Add comp"
-              circleSize="md"
+              size="md"
               className="shrink-0"
               variant="solid"
             >
@@ -324,23 +316,23 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               const editing = editingId === c.id;
 
               return (
-                <article key={c.id} className="group card-neo glitch-card relative p-12">
+                <article key={c.id} className="group card-neo glitch-card relative p-7">
                   {/* hover edit/save + delete + copy */}
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
                       <>
-                        <IconButton title="Copy" circleSize="sm" onClick={() => copyOne(c)}>
+                        <IconButton title="Copy" aria-label="Copy" size="sm" onClick={() => copyOne(c)}>
                           {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
                         </IconButton>
-                        <IconButton title="Edit" circleSize="sm" onClick={() => setEditingId(c.id)}>
+                        <IconButton title="Edit" aria-label="Edit" size="sm" onClick={() => setEditingId(c.id)}>
                           <Pencil />
                         </IconButton>
-                        <IconButton title="Delete" circleSize="sm" variant="ring" onClick={() => remove(c.id)}>
+                        <IconButton title="Delete" aria-label="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
                           <Trash2 />
                         </IconButton>
                       </>
                     ) : (
-                      <IconButton title="Save" circleSize="sm" onClick={() => setEditingId(null)}>
+                      <IconButton title="Save" aria-label="Save" size="sm" onClick={() => setEditingId(null)}>
                         <Check />
                       </IconButton>
                     )}
@@ -364,7 +356,6 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                         aria-label="Comp title"
                         value={c.title}
                         onChange={e => patch(c.id, { title: e.target.value })}
-                        className="h-9"
                       />
                     )}
                   </header>
@@ -392,7 +383,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                     })}
 
                     {/* notes */}
-                    <div className="grid gap-2">
+                    <div className="grid gap-3">
                       <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
@@ -405,7 +396,8 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           dir="ltr"
                           aria-label="Notes"
                           rows={4}
-                          className="planner-textarea"
+                          resize="resize-y"
+                          textareaClassName="min-h-44 leading-relaxed"
                           value={c.notes ?? ""}
                           onChange={e => patch(c.id, { notes: e.target.value })}
                         />

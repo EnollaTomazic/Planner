@@ -1,6 +1,8 @@
 // src/components/ui/TitleBar.tsx
 "use client";
 
+import * as React from "react";
+
 type Props = {
   label: string;
   idText?: string; // optional right-side pill (defaults to NOXI vibe)
@@ -9,7 +11,7 @@ type Props = {
 export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
-      <div className="term-mini">
+      <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full">
         <span className="term-mini__text">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>
@@ -17,12 +19,7 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
       {/* Scoped styles — no globals, no theme drift */}
       <style jsx>{`
         .term-mini {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.35rem 0.6rem;
           border: 1px solid hsl(var(--border));
-          border-radius: 9999px;
           background:
             linear-gradient(
               180deg,

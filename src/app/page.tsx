@@ -1,6 +1,6 @@
-// Root: "/" → Reviews
-import ReviewPage from "@/components/reviews/ReviewPage";
+// Root: "/" → Home
+import { HomePage } from "@/components/home";
 
 export default function Page() {
-  return <ReviewPage />;
+  return <HomePage />;
 }

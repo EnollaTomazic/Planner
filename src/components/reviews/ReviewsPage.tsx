@@ -1,19 +1,20 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
+import ReviewPanel from "./ReviewPanel";
 import { Ghost, Plus } from "lucide-react";
 
-import Button from "@/components/ui/primitives/button";
+import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
+import Header from "@/components/ui/layout/Header";
+import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -92,8 +93,10 @@ export default function ReviewsPage({
   const active = base.find((r) => r.id === selectedId) || null;
 
   return (
-    <div className="space-y-6">
-      <Hero2
+    <main className="page-shell py-6 space-y-6">
+      <Header heading="Reviews" />
+      <Hero
+        topClassName="top-20"
         heading={
           <div className="flex items-center gap-2">
             <h2 className="title-glow">Reviews</h2>
@@ -103,7 +106,7 @@ export default function ReviewsPage({
         right={null}
         bottom={
           <>
-            <Hero2SearchBar
+            <HeroSearchBar
               value={q}
               onValueChange={setQ}
               placeholder="Search title, tags, opponent, patch…"
@@ -120,39 +123,35 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-3.5"
+                  buttonClassName="h-10 px-4"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                pill
-                leftIcon={<Plus />}
-                className="btn-like-segmented px-3.5 whitespace-nowrap"
+                className="px-4 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setPanelMode("edit");
                   onCreate();
                 }}
               >
-                New Review
+                <Plus className="size-4" />
+                <span>New Review</span>
               </Button>
             </div>
           </>
         }
       />
 
-      <div
-        className={cn(
-          "grid items-start gap-6",
-          "grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr]"
-        )}
-      >
-        <aside>
-          <SectionCard className="overflow-hidden">
-            <SectionCard.Body>
-              <div className="mb-2 text-sm text-muted-foreground">{filtered.length} shown</div>
+      <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
+        <nav aria-label="Review list" className="md:col-span-4 lg:col-span-3">
+          <div className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong">
+            <div className="section-b">
+              <div className="mb-2 text-sm text-muted-foreground">
+                {filtered.length} shown
+              </div>
               <ReviewList
                 reviews={filtered}
                 selectedId={selectedId}
@@ -160,40 +159,45 @@ export default function ReviewsPage({
                   setPanelMode("summary");
                   onSelect(id);
                 }}
-                onRename={onRename}
-                onDelete={onDelete}
-                className="max-h-[66dvh] overflow-auto p-2"
+                onCreate={onCreate}
+                className="max-h-screen overflow-auto p-2"
               />
-            </SectionCard.Body>
-          </SectionCard>
-        </aside>
+            </div>
+          </div>
+        </nav>
 
-        <SectionCard className="overflow-hidden">
-          {!active ? (
-            <SectionCard.Body className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-              <Ghost className="h-6 w-6 opacity-60" />
-              <p>Select a review from the list or create a new one.</p>
-            </SectionCard.Body>
-          ) : panelMode === "summary" ? (
-            <ReviewSummary
-              key={`summary-${active.id}`}
-              review={active}
-              onEdit={() => setPanelMode("edit")}
-            />
-          ) : (
-            <ReviewEditor
-              key={`editor-${active.id}`}
-              review={active}
-              onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-              onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-              onRename={(title: string) => onRename(active.id, title)}
-              onChangeMeta={(partial) => onChangeMeta?.(active.id, partial as Partial<Review>)}
-              onDone={() => setPanelMode("summary")}
-              onDelete={onDelete ? () => onDelete(active.id) : undefined}
-            />
-          )}
-        </SectionCard>
+          <div className="md:col-span-8 lg:col-span-9 flex justify-center">
+            {!active ? (
+              <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+                <Ghost className="h-6 w-6 opacity-60" />
+                <p>Select a review from the list or create a new one.</p>
+              </ReviewPanel>
+            ) : panelMode === "summary" ? (
+              <ReviewPanel>
+                <ReviewSummary
+                  key={`summary-${active.id}`}
+                  review={active}
+                  onEdit={() => setPanelMode("edit")}
+                />
+              </ReviewPanel>
+            ) : (
+              <ReviewPanel>
+                <ReviewEditor
+                  key={`editor-${active.id}`}
+                  review={active}
+                  onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+                  onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                  onRename={(title: string) => onRename(active.id, title)}
+                  onChangeMeta={(partial: Partial<Review>) =>
+                    onChangeMeta?.(active.id, partial)
+                  }
+                  onDone={() => setPanelMode("summary")}
+                  onDelete={onDelete ? () => onDelete(active.id) : undefined}
+                />
+              </ReviewPanel>
+            )}
+          </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,13 +1,15 @@
 "use client";
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
-import "../reviews/style.css";
-import RoleSelector from "@/components/reviews/RoleSelector";
+import "./style.css";
+import { RoleSelector } from "@/components/reviews";
+import SectionLabel from "@/components/reviews/SectionLabel";
+import NeonIcon from "@/components/reviews/NeonIcon";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
 import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import {
@@ -19,10 +21,9 @@ import {
   Plus,
   Clock,
   FileText,
-  Brain,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   ALL_PILLARS,
   LAST_ROLE_KEY,
@@ -34,15 +35,6 @@ import {
   scoreIcon,
 } from "@/components/reviews/reviewData";
 
-/** Faint section label + rule used throughout the form. */
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-2 flex items-center gap-2">
-      <div className="text-xs tracking-wide text-white/20">{children}</div>
-      <div className="h-px flex-1 bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
-    </div>
-  );
-}
 
 /** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
 function parseTime(mmss: string): number | null {
@@ -79,162 +71,6 @@ type ExtendedProps = {
 
 type MetaPatch = Omit<Partial<Review>, "role"> & Partial<ExtendedProps>;
 
-function NeonIcon({
-  kind,
-  on,
-  size = 40,
-  title,
-}: {
-  kind: "clock" | "file" | "brain";
-  on: boolean;
-  size?: number;
-  title?: string;
-}) {
-  const Icon = kind === "clock" ? Clock : kind === "file" ? FileText : Brain;
-  const colorVar = kind === "clock" ? "--accent" : kind === "brain" ? "--primary" : "--ring";
-
-  const prevOn = React.useRef(on);
-  const [phase, setPhase] = React.useState<"steady-on" | "ignite" | "off" | "powerdown">(
-    on ? "steady-on" : "off"
-  );
-
-  React.useEffect(() => {
-    if (on !== prevOn.current) {
-      if (on) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prevOn.current = on;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prevOn.current = on;
-        return () => clearTimeout(t);
-      }
-    }
-    prevOn.current = on;
-  }, [on]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
-  const dimOpacity = lit ? 1 : 0.38;
-  const k = Math.round(size * 0.56);
-
-  return (
-    <span
-      className={cn(
-        "relative inline-grid place-items-center overflow-visible rounded-full border",
-        "border-[hsl(var(--border))] bg-[hsl(var(--card)/.35)]"
-      )}
-      style={{ width: size, height: size }}
-      aria-hidden
-      title={title}
-    >
-      <Icon
-        className="relative z-10"
-        style={{
-          width: k,
-          height: k,
-          strokeWidth: 2,
-          color: `hsl(var(${colorVar}))`,
-          opacity: dimOpacity,
-          transition: "opacity 220ms var(--ease-out), transform 220ms var(--ease-out)",
-          transform:
-            phase === "ignite" ? "scale(1.02)" : phase === "powerdown" ? "scale(0.985)" : "scale(1)",
-        }}
-      />
-      <Icon
-        className={cn("absolute", lit ? "animate-[neonCore_2.8s_ease-in-out_infinite]" : "")}
-        style={{
-          width: k,
-          height: k,
-          color: `hsl(var(${colorVar}))`,
-          opacity: lit ? 0.78 : 0.06,
-          filter: `blur(2.5px) drop-shadow(0 0 12px hsl(var(${colorVar})))`,
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <Icon
-        className={cn("absolute", lit ? "animate-[neonAura_3.6s_ease-in-out_infinite]" : "")}
-        style={{
-          width: k,
-          height: k,
-          color: `hsl(var(${colorVar}))`,
-          opacity: lit ? 0.42 : 0.04,
-          filter: `blur(7px) drop-shadow(0 0 22px hsl(var(${colorVar})))`,
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full mix-blend-overlay",
-          lit ? "opacity-35 animate-[crtScan_2.1s_linear_infinite]" : "opacity-0"
-        )}
-        style={{
-          background:
-            "repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 3px)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full",
-          phase === "ignite" && "animate-[igniteFlicker_.62s_steps(18,end)_1]"
-        )}
-        style={{
-          background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.25), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: phase === "ignite" ? 0.85 : 0,
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full",
-          phase === "powerdown" && "animate-[powerDown_.36s_linear_1]"
-        )}
-        style={{
-          background:
-            "radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,.16), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: phase === "powerdown" ? 0.6 : 0,
-        }}
-      />
-      <style jsx>{`
-        @keyframes neonCore {
-          0% { opacity:.66; transform:scale(1) }
-          50%{ opacity:.88; transform:scale(1.012) }
-          100%{ opacity:.66; transform:scale(1) }
-        }
-        @keyframes neonAura {
-          0% { opacity:.32 }
-          50%{ opacity:.52 }
-          100%{ opacity:.32 }
-        }
-        @keyframes crtScan {
-          0% { transform: translateY(-28%) }
-          100%{ transform: translateY(28%) }
-        }
-        @keyframes igniteFlicker {
-          0%{ opacity:.1; filter:blur(.6px) }
-          8%{ opacity:1 }
-          12%{ opacity:.25 }
-          20%{ opacity:1 }
-          28%{ opacity:.35 }
-          40%{ opacity:1 }
-          55%{ opacity:.45; filter:blur(.2px) }
-          70%{ opacity:1 }
-          100%{ opacity:0 }
-        }
-        @keyframes powerDown {
-          0%{ opacity:.8; transform:scale(1) }
-          30%{ opacity:.35; transform:scale(.992) translateY(.2px) }
-          60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
-          100%{ opacity:0; transform:scale(.985) }
-        }
-      `}</style>
-    </span>
-  );
-}
 
 function NeonPillarChip({
   active,
@@ -302,7 +138,7 @@ function NeonPillarChip({
         )}
         style={{
           background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(255,255,255,.22), transparent 60%)",
+            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
           mixBlendMode: "screen",
           opacity: lit ? 0.8 : 0,
         }}
@@ -364,9 +200,15 @@ export default function ReviewEditor({
     Array.isArray(review.pillars) ? review.pillars : []
   );
 
-  const [lastRole, setLastRole] = useLocalDB<Role>(LAST_ROLE_KEY, "MID");
-  const [lastMarkerMode, setLastMarkerMode] = useLocalDB<boolean>(LAST_MARKER_MODE_KEY, true);
-  const [lastMarkerTime, setLastMarkerTime] = useLocalDB<string>(LAST_MARKER_TIME_KEY, "");
+  const [lastRole, setLastRole] = usePersistentState<Role>(LAST_ROLE_KEY, "MID");
+  const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
+    LAST_MARKER_MODE_KEY,
+    true,
+  );
+  const [lastMarkerTime, setLastMarkerTime] = usePersistentState<string>(
+    LAST_MARKER_TIME_KEY,
+    "",
+  );
   const ext0 = getExt(review);
   const initialRole: Role = ext0.role ?? lastRole ?? "MID";
   const [role, setRole] = React.useState<Role>(initialRole);
@@ -495,10 +337,13 @@ export default function ReviewEditor({
     onChangeTags?.(next);
   }
 
-  const canAddMarker = (useTimestamp ? parseTime(tTime) !== null : true) && tNote.trim().length > 0;
+  const parsedTime = parseTime(tTime);
+  const timeError = useTimestamp && parsedTime === null;
+  const canAddMarker = (useTimestamp ? parsedTime !== null : true) &&
+    tNote.trim().length > 0;
 
   function addMarker() {
-    const s = useTimestamp ? parseTime(tTime) : 0;
+    const s = useTimestamp ? parsedTime : 0;
     const safeS = s === null ? 0 : s;
     const m: Marker = {
       id: uid("mark"),
@@ -555,7 +400,7 @@ export default function ReviewEditor({
 
             <div className="mb-2">
               <div className="relative">
-                <Target className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Target className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={laneRef}
                   value={lane}
@@ -568,7 +413,7 @@ export default function ReviewEditor({
                       go(opponentRef);
                     }
                   }}
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-6"
                   placeholder="Ashe/Lulu"
                   aria-label="Lane (used as Title)"
                 />
@@ -578,7 +423,7 @@ export default function ReviewEditor({
             <div>
               <SectionLabel>Opponent</SectionLabel>
               <div className="relative">
-                <Shield className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Shield className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={opponentRef}
                   value={opponent}
@@ -591,7 +436,7 @@ export default function ReviewEditor({
                     }
                   }}
                   placeholder="Draven/Thresh"
-                  className="h-10 rounded-2xl pl-9"
+                  className="pl-6"
                   aria-label="Opponent"
                 />
               </div>
@@ -603,7 +448,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Delete review"
                 title="Delete review"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={onDelete}
@@ -616,7 +461,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Done"
                 title="Save and close"
-                circleSize="md"
+                size="md"
                 iconSize="md"
                 variant="ring"
                 onClick={() => {
@@ -650,8 +495,8 @@ export default function ReviewEditor({
             }}
             className={cn(
               "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
-              "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "border border-border bg-card",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             )}
             title="Toggle Win/Loss"
           >
@@ -664,8 +509,8 @@ export default function ReviewEditor({
                 transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
                 background:
                   result === "Win"
-                    ? "linear-gradient(90deg, hsla(160,90%,45%,.32), hsla(190,90%,60%,.28))"
-                    : "linear-gradient(90deg, hsla(0,90%,55%,.30), hsla(320,90%,65%,.26))",
+                    ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
+                    : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
                 boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
               }}
             />
@@ -673,7 +518,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Win" ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Win" ? "text-foreground/70" : "text-muted-foreground"
                 )}
               >
                 Win
@@ -681,7 +526,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Loss" ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Loss" ? "text-foreground/70" : "text-muted-foreground"
                 )}
               >
                 Loss
@@ -693,7 +538,7 @@ export default function ReviewEditor({
         {/* Score */}
         <div>
           <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
+          <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
             <input
               ref={scoreRangeRef}
               type="range"
@@ -716,17 +561,13 @@ export default function ReviewEditor({
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+              <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full"
-                  style={{
-                    width: `calc(${(score / 10) * 100}% + 10px)`,
-                    background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))",
-                    boxShadow: "0 0 16px hsl(var(--primary)/.35)",
-                  }}
+                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
+                  style={{ width: `calc(${(score / 10) * 100}% + 10px)` }}
                 />
                 <div
-                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
                   style={{ left: `calc(${(score / 10) * 100}% - 10px)` }}
                 />
               </div>
@@ -746,7 +587,7 @@ export default function ReviewEditor({
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
@@ -768,7 +609,7 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-              <div className="mt-3 relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
+          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4">
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -785,18 +626,13 @@ export default function ReviewEditor({
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))]">
+                  <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                     <div
-                      className="absolute left-0 top-0 h-2 rounded-full"
-                      style={{
-                        width: `calc(${(focus / 10) * 100}% + 10px)`,
-                        background:
-                          "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))",
-                        boxShadow: "0 0 16px hsl(var(--accent)/.35)",
-                      }}
+                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
+                      style={{ width: `calc(${(focus / 10) * 100}% + 10px)` }}
                     />
                     <div
-                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
                       style={{ left: `calc(${(focus / 10) * 100}% - 10px)` }}
                     />
                   </div>
@@ -823,7 +659,7 @@ export default function ReviewEditor({
                   onClick={() => togglePillar(p)}
                   onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
                   aria-pressed={active}
-                  className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
@@ -842,7 +678,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 setUseTimestamp(true);
                 setLastMarkerMode(true);
@@ -864,7 +700,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
-              className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 setUseTimestamp(false);
                 setLastMarkerMode(false);
@@ -891,10 +727,12 @@ export default function ReviewEditor({
                   setLastMarkerTime(e.target.value);
                 }}
                 placeholder="00:00"
-                className="h-10 rounded-2xl text-center font-mono tabular-nums"
+                className="text-center font-mono tabular-nums"
                 aria-label="Timestamp time in mm:ss"
                 inputMode="numeric"
                 pattern="^[0-9]?\d:[0-5]\d$"
+                aria-invalid={timeError ? "true" : undefined}
+                aria-describedby={timeError ? "tTime-error" : undefined}
                 style={{ width: "calc(5ch + 1.7rem)" }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && canAddMarker) {
@@ -908,7 +746,7 @@ export default function ReviewEditor({
               />
             ) : (
               <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-white/80"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm text-foreground/70"
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >
@@ -927,7 +765,7 @@ export default function ReviewEditor({
                 }
               }}
               placeholder="Note"
-              className="h-10 rounded-2xl"
+              className="rounded-2xl"
               aria-label="Timestamp note"
             />
 
@@ -935,7 +773,7 @@ export default function ReviewEditor({
               aria-label="Add timestamp"
               title={canAddMarker ? "Add timestamp" : "Enter details"}
               disabled={!canAddMarker}
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={addMarker}
@@ -943,6 +781,11 @@ export default function ReviewEditor({
               <Plus />
             </IconButton>
           </div>
+          {timeError && (
+            <p id="tTime-error" className="mt-1 text-xs text-danger">
+              Enter time as mm:ss
+            </p>
+          )}
 
           {sortedMarkers.length === 0 ? (
             <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
@@ -951,14 +794,14 @@ export default function ReviewEditor({
               {sortedMarkers.map((m) => (
                 <li
                   key={m.id}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2"
+                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
                 >
                   {m.noteOnly ? (
                     <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">
                       <FileText size={14} className="opacity-80" />
                     </span>
                   ) : (
-                    <span className="pill h-7 min-w-[60px] px-2.5 text-[11px] font-mono tabular-nums text-center">
+                    <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
                       {m.time}
                     </span>
                   )}
@@ -967,7 +810,7 @@ export default function ReviewEditor({
                   <IconButton
                     aria-label="Delete timestamp"
                     title="Delete timestamp"
-                    circleSize="sm"
+                    size="sm"
                     iconSize="sm"
                     variant="ring"
                     onClick={() => removeMarker(m.id)}
@@ -985,12 +828,12 @@ export default function ReviewEditor({
           <SectionLabel>Tags</SectionLabel>
           <div className="mt-1 flex items-center gap-2">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Tag className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="h-10 rounded-2xl pl-9"
+                className="pl-6"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -1004,7 +847,7 @@ export default function ReviewEditor({
             <IconButton
               aria-label="Add tag"
               title="Add tag"
-              circleSize="md"
+              size="md"
               iconSize="sm"
               variant="solid"
               onClick={() => {
@@ -1024,7 +867,7 @@ export default function ReviewEditor({
                 <button
                   key={t}
                   type="button"
-                  className="chip h-9 px-3.5 text-sm group inline-flex items-center gap-1"
+                  className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >
@@ -1044,7 +887,9 @@ export default function ReviewEditor({
             onChange={(e) => setNotes(e.target.value)}
             onBlur={commitNotes}
             placeholder="Key moments, mistakes to fix, drills to run…"
-            className="textarea-base min-h-[180px]"
+            className="rounded-2xl"
+            resize="resize-y"
+            textareaClassName="min-h-44 leading-relaxed"
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 // src/components/team/CheatSheet.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 /**
  * CheatSheet — hover-only edit per card, write-through persistence.
@@ -10,9 +10,11 @@ import "../team/style.css";
  */
 
 import * as React from "react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
+import { sanitizeText } from "@/lib/utils";
 
 /* ───────────── types ───────────── */
 
@@ -209,8 +211,8 @@ function TitleEdit({
     <input
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
-      className="w-full bg-transparent border-none outline-none text-lg sm:text-xl font-semibold glitch-title title-glow"
+      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
+      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-lg sm:text-xl font-semibold glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -227,12 +229,14 @@ function ParagraphEdit({
       <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">{value}</p>
     );
   return (
-    <textarea
+    <Textarea
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
+      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
       rows={2}
-      className="mt-1 w-full resize-y bg-transparent border-none outline-none text-sm text-[hsl(var(--muted-foreground))] planner-textarea"
+      className="mt-1"
+      resize="resize-y"
+      textareaClassName="min-h-44 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
       aria-label="Description"
     />
   );
@@ -249,71 +253,54 @@ function BulletListEdit({
   editing: boolean;
   ariaLabel: string;
 }) {
-  const listRef = React.useRef<HTMLUListElement | null>(null);
+  const [list, setList] = React.useState<string[]>(
+    items.length ? items.map(sanitizeText) : [""]
+  );
+  const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   React.useEffect(() => {
-    if (!editing || !listRef.current) return;
-    if (!listRef.current.querySelector("li")) {
-      onChange([""]);
-    }
-  }, [editing, onChange]);
+    setList(items.length ? items.map(sanitizeText) : [""]);
+  }, [items]);
 
-  const handleInput = () => {
-    if (!listRef.current) return;
-    const liTexts = Array.from(listRef.current.querySelectorAll("li")).map(
-      (li) => li.textContent?.trim() ?? ""
-    );
-    const cleaned =
-      liTexts.filter(Boolean).length === 0 ? [""] : liTexts.filter((t) => t.length > 0);
-    onChange(cleaned);
-  };
+  function update(next: string[]) {
+    setList(next);
+    const cleaned = next.map((t) => sanitizeText(t).trim()).filter(Boolean);
+    onChange(cleaned.length ? cleaned : [""]);
+  }
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
-    if (!editing) return;
-    const sel = window.getSelection();
-    const target = e.target as HTMLElement;
-    const li = target.closest("li");
-    if (!li) return;
+  function handleItemInput(i: number, e: React.FormEvent<HTMLLIElement>) {
+    const el = e.currentTarget;
+    const text = sanitizeText(el.textContent ?? "");
+    el.textContent = text;
+    const next = [...list];
+    next[i] = text;
+    update(next);
+  }
 
+  function handleKeyDown(i: number, e: React.KeyboardEvent<HTMLLIElement>) {
     if (e.key === "Enter") {
       e.preventDefault();
-      const newLi = document.createElement("li");
-      newLi.contentEditable = "true";
-      newLi.dir = "ltr";
-      newLi.innerHTML = "";
-      li.after(newLi);
-      newLi.focus();
-      handleInput();
-      return;
+      const next = [...list];
+      next.splice(i + 1, 0, "");
+      update(next);
+      requestAnimationFrame(() => liRefs.current[i + 1]?.focus());
     }
-
-    if (e.key === "Backspace") {
-      const atStart =
-        sel && sel.anchorOffset === 0 && sel.focusOffset === 0 && (li.textContent ?? "") === "";
-      if (atStart) {
-        e.preventDefault();
-        const prev = li.previousElementSibling as HTMLLIElement | null;
-        const parent = li.parentElement;
-        li.remove();
-        if (prev) {
-          prev.focus();
-        } else if (parent && !parent.querySelector("li")) {
-          const seed = document.createElement("li");
-          seed.contentEditable = "true";
-          seed.dir = "ltr";
-          seed.innerHTML = "";
-          parent.appendChild(seed);
-          seed.focus();
-        }
-        handleInput();
-      }
+    if (e.key === "Backspace" && list[i] === "") {
+      e.preventDefault();
+      const next = [...list];
+      next.splice(i, 1);
+      update(next.length ? next : [""]);
+      requestAnimationFrame(() => {
+        const idx = i > 0 ? i - 1 : 0;
+        liRefs.current[idx]?.focus();
+      });
     }
-  };
+  }
 
   if (!editing) {
     return (
       <ul className="mt-1 list-disc list-inside space-y-1 text-sm leading-5">
-        {items.map((w, idx) => (
+        {list.filter((w) => w.trim().length).map((w, idx) => (
           <li key={idx}>{w}</li>
         ))}
       </ul>
@@ -322,14 +309,21 @@ function BulletListEdit({
 
   return (
     <ul
-      ref={listRef}
       className="mt-1 list-disc list-inside space-y-1 text-sm leading-5"
       aria-label={ariaLabel}
-      onInput={handleInput}
-      onKeyDown={onKeyDown}
     >
-      {(items.length ? items : [""]).map((w, idx) => (
-        <li key={idx} contentEditable dir="ltr" suppressContentEditableWarning>
+      {list.map((w, idx) => (
+        <li
+          key={idx}
+          ref={(el) => {
+            liRefs.current[idx] = el;
+          }}
+          contentEditable
+          dir="ltr"
+          suppressContentEditableWarning
+          onInput={(e) => handleItemInput(idx, e)}
+          onKeyDown={(e) => handleKeyDown(idx, e)}
+        >
           {w}
         </li>
       ))}
@@ -352,7 +346,7 @@ function ChampPillsEdit({
 
   function setAt(i: number, next: string) {
     const arr = [...list];
-    arr[i] = next;
+    arr[i] = sanitizeText(next);
     onChange(arr.filter((s) => s.trim().length));
   }
   function insertAfter(i: number) {
@@ -367,7 +361,7 @@ function ChampPillsEdit({
   }
 
   return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+    <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(list.length ? list : [""]).map((c, i) => (
         <span key={i} className="champ-badge text-xs">
           <i className="dot" />
@@ -386,7 +380,9 @@ function ChampPillsEdit({
                 removeAt(i);
               }
             }}
-            className="bg-transparent outline-none border-none w-24"
+            aria-label="Champion name"
+            autoComplete="off"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
       ))}
@@ -402,7 +398,10 @@ export default function CheatSheet({
   data = DEFAULT_SHEET,
   query = "",
 }: CheatSheetProps) {
-  const [sheet, setSheet] = useLocalDB<Archetype[]>("team:cheatsheet.v2", data);
+  const [sheet, setSheet] = usePersistentState<Archetype[]>(
+    "team:cheatsheet.v2",
+    data,
+  );
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const filtered = React.useMemo(() => {
@@ -448,7 +447,8 @@ export default function CheatSheet({
               {!isEditing ? (
                 <IconButton
                   title="Edit"
-                  circleSize="sm"
+                  aria-label="Edit"
+                  size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
                   <Pencil />
@@ -456,7 +456,8 @@ export default function CheatSheet({
               ) : (
                 <IconButton
                   title="Save"
-                  circleSize="sm"
+                  aria-label="Save"
+                  size="sm"
                   onClick={() => setEditingId(null)}
                 >
                   <Check />

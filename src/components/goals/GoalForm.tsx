@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
 
 interface GoalFormProps {
   title: string;
@@ -19,18 +19,30 @@ interface GoalFormProps {
   err?: string | null;
 }
 
-export default function GoalForm({
-  title,
-  metric,
-  notes,
-  onTitleChange,
-  onMetricChange,
-  onNotesChange,
-  onSubmit,
-  activeCount,
-  activeCap,
-  err,
-}: GoalFormProps) {
+export interface GoalFormHandle {
+  focus: (options?: FocusOptions) => void;
+}
+export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm(
+  {
+    title,
+    metric,
+    notes,
+    onTitleChange,
+    onMetricChange,
+    onNotesChange,
+    onSubmit,
+    activeCount,
+    activeCap,
+    err,
+  }: GoalFormProps,
+  ref
+) {
+  const titleRef = React.useRef<HTMLInputElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    focus: (options?: FocusOptions) => titleRef.current?.focus(options),
+  }));
+
   return (
     <form
       onSubmit={(e) => {
@@ -38,7 +50,7 @@ export default function GoalForm({
         onSubmit();
       }}
     >
-      <SectionCard>
+      <SectionCard className="card-neo-soft">
         <SectionCard.Header
           className="flex items-center justify-between"
           title={<h2 className="text-lg font-semibold">Add Goal</h2>}
@@ -49,38 +61,42 @@ export default function GoalForm({
           }
         />
         <SectionCard.Body className="grid gap-6">
-          <label className="grid gap-1">
-            <span className="text-xs text-white/60">Title</span>
+          <label className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Title</span>
             <Input
+              ref={titleRef}
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60"
+              className="h-10 text-sm"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label className="grid gap-1">
-            <span className="text-xs text-white/60">Metric (optional)</span>
+          <label className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Metric (optional)</span>
             <Input
               tone="default"
-              className="h-9 text-sm focus:ring-2 focus:ring-purple-400/60 tabular-nums"
+              className="h-10 text-sm tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <label className="grid gap-1">
-            <span className="text-xs text-white/60">Notes (optional)</span>
+          <label className="grid gap-2">
+            <span className="text-xs text-[hsl(var(--muted-foreground))]">Notes (optional)</span>
             <Textarea
               tone="default"
-              className="min-h-[96px] text-sm focus:ring-2 focus:ring-purple-400/60"
+              textareaClassName="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
+              aria-describedby="goal-form-help goal-form-error"
             />
           </label>
 
-          <div className="text-xs text-white/60">
+          <div className="text-xs text-[hsl(var(--muted-foreground))]">
             {activeCount >= activeCap ? (
               <span className="text-[hsl(var(--accent))]">
                 Cap reached. Finish one to add more.
@@ -102,5 +118,5 @@ export default function GoalForm({
       </SectionCard>
     </form>
   );
-}
+});
 

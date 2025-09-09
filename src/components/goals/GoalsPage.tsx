@@ -3,34 +3,31 @@
 
 /**
  * GoalsPage — Lavender-Glitch, hydration-safe, accessible.
- * - Uses <Hero /> with right-aligned <HeroTabs />
+ * - Uses <Header /> with right-aligned <HeaderTabs />
  * - Tabs: Goals / Reminders / Timer
  * - Grid layout (no Split dependency)
  * - Cap: 3 active goals; remaining indicator
  * - Undo snackbar with 5s timer
  */
 
-import "./style.css"; // scoped: .goals-cap, .goal-row, and terminal waitlist helpers
-
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
+import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import IconButton from "@/components/ui/primitives/IconButton";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import {
+import { 
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
+  Snackbar,
 } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
+import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
-import GoalForm from "./GoalForm";
-import GoalQueue, { WaitItem } from "./GoalQueue";
+import GoalList from "./GoalList";
 
-import { useLocalDB, uid } from "@/lib/db";
-import type { Goal } from "@/lib/types";
-import { LOCALE } from "@/lib/utils";
+import { usePersistentState } from "@/lib/db";
+import type { Goal, Pillar } from "@/lib/types";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -39,41 +36,55 @@ import TimerTab from "./TimerTab";
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
 
-const TABS: Array<{ key: Tab; label: string; icon: React.ReactNode; hint?: string }> = [
-  { key: "goals", label: "Goals", icon: <Flag className="mr-1 h-4 w-4" />, hint: "Cap 3 active" },
-  { key: "reminders", label: "Reminders", icon: <ListChecks className="mr-1 h-4 w-4" />, hint: "Quick cues" },
-  { key: "timer", label: "Timer", icon: <TimerIcon className="mr-1 h-4 w-4" />, hint: "Focus sprints" },
+const TABS: Array<{
+  key: Tab;
+  label: string;
+  icon: React.ReactNode;
+  hint?: string;
+}> = [
+  {
+    key: "goals",
+    label: "Goals",
+    icon: <Flag className="mr-1 h-4 w-4" />,
+    hint: "Cap 3 active",
+  },
+  {
+    key: "reminders",
+    label: "Reminders",
+    icon: <ListChecks className="mr-1 h-4 w-4" />,
+    hint: "Quick cues",
+  },
+  {
+    key: "timer",
+    label: "Timer",
+    icon: <TimerIcon className="mr-1 h-4 w-4" />,
+    hint: "Focus sprints",
+  },
 ];
 
 const ACTIVE_CAP = 3;
 
-/* ---------- Waitlist ---------- */
-const WAITLIST_SEEDS: WaitItem[] = [
-  { id: uid("wl"), text: "Fix wave-3 crash timing", createdAt: Date.now() - 86400000 },
-  { id: uid("wl"), text: "Early ward @2:30 then shove", createdAt: Date.now() - 860000 },
-  { id: uid("wl"), text: "Track jungle path till 3 camps", createdAt: Date.now() - 420000 },
-];
-
 /* ====================================================================== */
 
 export default function GoalsPage() {
-  const [tab, setTab] = useLocalDB<Tab>("goals.tab.v2", "goals");
+  const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
 
   // stores
-  const [goals, setGoals] = useLocalDB<Goal[]>("goals.v2", []);
-  const [filter, setFilter] = useLocalDB<FilterKey>("goals.filter.v1", "All");
-  const [waitlist, setWaitlist] = useLocalDB<WaitItem[]>("goals.waitlist.v1", WAITLIST_SEEDS);
+  const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
+  const [filter, setFilter] = usePersistentState<FilterKey>("goals.filter.v1", "All");
 
   // add form
   const [title, setTitle] = React.useState("");
   const [metric, setMetric] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [pillar, setPillar] = React.useState<Pillar | "">("");
   const [err, setErr] = React.useState<string | null>(null);
 
   // undo
   const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
   const undoTimer = React.useRef<number | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
+  const titleInputRef = React.useRef<GoalFormHandle>(null);
 
   // stats
   const totalCount = goals.length;
@@ -99,18 +110,20 @@ export default function GoalsPage() {
     setTitle("");
     setMetric("");
     setNotes("");
+    setPillar("");
   }
 
   function addGoal() {
     setErr(null);
     if (!title.trim()) return setErr("Title required.");
     const currentActive = goals.filter((g) => !g.done).length;
-    if (currentActive >= ACTIVE_CAP) return setErr("Cap reached. Mark something done first.");
+    if (currentActive >= ACTIVE_CAP)
+      return setErr("Cap reached. Mark something done first.");
 
     const g: Goal = {
-      id: uid("goal"),
+      id: crypto.randomUUID(),
       title: title.trim(),
-      pillar: "",
+      ...(pillar ? { pillar } : {}),
       metric: metric.trim() || undefined,
       notes: notes.trim() || undefined,
       done: false,
@@ -118,6 +131,7 @@ export default function GoalsPage() {
     };
     setGoals((prev) => [g, ...prev]);
     resetForm();
+    titleInputRef.current?.focus({ preventScroll: true });
   }
 
   function toggleDone(id: string) {
@@ -149,36 +163,22 @@ export default function GoalsPage() {
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
   }
 
-  // waitlist ops
-  function addWait(text: string) {
-    const t = text.trim();
-    if (!t) return;
-    setWaitlist((prev) => [{ id: uid("wl"), text: t, createdAt: Date.now() }, ...prev]);
-  }
-  function removeWait(id: string) {
-    setWaitlist((prev) => prev.filter((w) => w.id !== id));
-  }
-  function promoteWait(item: WaitItem) {
-    setTitle(item.text);
-    setWaitlist((prev) => prev.filter((w) => w.id !== item.id));
-  }
-
-  const heroSubtitle =
+  const summary =
     tab === "goals"
       ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
       : tab === "reminders"
-      ? "Pin quick cues. Edit between queues."
-      : "Pick a duration and focus.";
+        ? "Pin quick cues. Edit between queues."
+        : "Pick a duration and focus.";
 
   return (
-    <main className="grid gap-6">
-      {/* ======= HERO ======= */}
-      <Hero
-        eyebrow="GOALS"
+    <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
+      {/* ======= HEADER ======= */}
+      <Header
+        eyebrow="Goals"
         heading="Today"
-        subtitle={heroSubtitle}
+        subtitle={summary}
         sticky
-        barClassName="gap-2 items-baseline"
+        barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
         right={
           <GlitchSegmentedGroup
             value={tab}
@@ -202,7 +202,14 @@ export default function GoalsPage() {
           hidden={tab !== "goals"}
         >
           {tab === "goals" && (
-            <>
+            <div className="grid gap-4">
+              <Hero
+                eyebrow="Guide"
+                heading="Overview"
+                subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+                sticky={false}
+              />
+
               {totalCount === 0 ? (
                 <GoalsProgress
                   total={totalCount}
@@ -212,84 +219,31 @@ export default function GoalsPage() {
                   }
                 />
               ) : (
-                <SectionCard>
-                  <SectionCard.Header sticky className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3">
+                <SectionCard className="card-neo-soft">
+                  <SectionCard.Header
+                    sticky
+                    topClassName="top-0"
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2 sm:gap-4">
                       <h2 className="text-lg font-semibold">Your Goals</h2>
                       <GoalsProgress total={totalCount} pct={pctDone} />
                     </div>
                     <GoalsTabs value={filter} onChange={setFilter} />
                   </SectionCard.Header>
                   <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
-                      {filtered.length === 0 ? (
-                        <p className="text-sm text-white/60">
-                          No goals here. Add one simple, finishable thing.
-                        </p>
-                      ) : (
-                        filtered.map((g) => (
-                          <article
-                            key={g.id}
-                            className={["relative rounded-2xl p-6","card-neo transition","hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_rgba(0,0,0,.35)]","min-h-[152px] flex flex-col"].join(" ")}
-                          >
-                            <span
-                              aria-hidden
-                              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                            />
-                            <header className="flex items-start justify-between gap-2">
-                              <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
-                                {g.title}
-                              </h3>
-                              <div className="flex items-center gap-1">
-                                <CheckCircle
-                                  aria-label={g.done ? "Mark active" : "Mark done"}
-                                  checked={g.done}
-                                  onChange={() => toggleDone(g.id)}
-                                  size="lg"
-                                />
-                                <IconButton
-                                  title="Delete"
-                                  aria-label="Delete goal"
-                                  onClick={() => removeGoal(g.id)}
-                                  circleSize="sm"
-                                >
-                                  <Trash2 />
-                                </IconButton>
-                              </div>
-                            </header>
-                            <div className="mt-3 text-sm text-white/60 space-y-2">
-                              {g.metric ? (
-                                <div className="tabular-nums">
-                                  <span className="opacity-70">Metric:</span> {g.metric}
-                                </div>
-                              ) : null}
-                              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
-                            </div>
-                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-white/60">
-                              <span className="inline-flex items-center gap-2">
-                                <span
-                                  aria-hidden
-                                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
-                                  style={g.done ? { background: "var(--accent-overlay)" } : undefined}
-                                />
-                                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                                  {new Date(g.createdAt).toLocaleDateString(LOCALE)}
-                                </time>
-                              </span>
-                              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
-                                {g.done ? "Done" : "Active"}
-                              </span>
-                            </footer>
-                          </article>
-                        ))
-                      )}
-                    </div>
+                    <GoalList
+                      goals={filtered}
+                      onToggleDone={toggleDone}
+                      onRemove={removeGoal}
+                    />
                   </SectionCard.Body>
                 </SectionCard>
               )}
 
               <div ref={formRef}>
                 <GoalForm
+                  ref={titleInputRef}
                   title={title}
                   metric={metric}
                   notes={notes}
@@ -303,30 +257,18 @@ export default function GoalsPage() {
                 />
               </div>
 
-              <GoalQueue
-                items={waitlist}
-                onAdd={addWait}
-                onRemove={removeWait}
-                onPromote={promoteWait}
-              />
-
               {lastDeleted && (
-                <div className="mx-auto w-fit rounded-full px-4 py-2 text-sm bg-[hsl(var(--card))] border border-[hsl(var(--card-hairline))] shadow-sm">
-                  Deleted “{lastDeleted.title}”.{" "}
-                  <button
-                    type="button"
-                    className="underline underline-offset-2"
-                    onClick={() => {
-                      if (!lastDeleted) return;
-                      setGoals((prev) => [lastDeleted, ...prev]);
-                      setLastDeleted(null);
-                    }}
-                  >
-                    Undo
-                  </button>
-                </div>
+                <Snackbar
+                  message={<>Deleted “{lastDeleted.title}”.</>}
+                  actionLabel="Undo"
+                  onAction={() => {
+                    if (!lastDeleted) return;
+                    setGoals((prev) => [lastDeleted, ...prev]);
+                    setLastDeleted(null);
+                  }}
+                />
               )}
-            </>
+            </div>
           )}
         </div>
 
@@ -349,6 +291,7 @@ export default function GoalsPage() {
         </div>
       </section>
 
+      {/* Use boolean styled-jsx attribute to satisfy typings */}
       <style jsx>{`
         .tabular-nums {
           font-variant-numeric: tabular-nums;
@@ -357,4 +300,3 @@ export default function GoalsPage() {
     </main>
   );
 }
-

@@ -52,15 +52,15 @@ export default function PillarBadge({
     size === "lg"
       ? "h-10 px-4 text-base gap-2"
       : size === "sm"
-      ? "h-8 px-3 text-[13px] gap-1.5"
-      : "h-9 px-3.5 text-sm gap-2";
+      ? "h-8 px-3 text-[13px] gap-2"
+      : "h-9 px-4 text-sm gap-2";
 
   // Default element: "button" if interactive, else "span".
   const Tag: AsTag = as ?? (interactive ? "button" : "span");
 
   // Common class list
   const cls = [
-    "lg-pillar-badge",
+    "lg-pillar-badge rounded-full",
     sizeCls,
     interactive ? "cursor-pointer select-none" : "",
     active ? "active" : "",
@@ -120,7 +120,6 @@ export default function PillarBadge({
           position: relative;
           display: inline-flex;
           align-items: center;
-          border-radius: 9999px;
           line-height: 1;
           font-weight: 600;
 

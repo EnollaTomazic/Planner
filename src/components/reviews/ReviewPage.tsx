@@ -1,18 +1,25 @@
 "use client";
-import "../reviews/style.css";
+import "./style.css";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
-import { useLocalDB, uid } from "@/lib/db";
+import { usePersistentState, uid } from "@/lib/db";
 import ReviewsPage from "./ReviewsPage";
 
 /**
  * ReviewPage — container with local-first persistence.
- * Hydration-safe: useLocalDB returns initial value on first render, then loads.
- */
+ * Hydration-safe: usePersistentState returns initial value on first render, then loads.
+*/
 export default function ReviewPage() {
-  const [reviews, setReviews] = useLocalDB<Review[]>("reviews.v1", []);
+  const [reviews, setReviews] = usePersistentState<Review[]>("reviews.v1", []);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // After local DB hydration, select the first review if none is chosen
+  useEffect(() => {
+    if (!selectedId && reviews.length > 0) {
+      setSelectedId(reviews[0].id);
+    }
+  }, [reviews, selectedId]);
 
   // Auto-heal selection if the selected review gets deleted or doesn't exist yet
   useEffect(() => {

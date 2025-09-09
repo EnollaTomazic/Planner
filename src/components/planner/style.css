@@ -12,7 +12,7 @@
   --scroll-max: 420px;
   min-height: var(--scroll-min);
   max-height: clamp(var(--scroll-min), var(--scroll-ideal), var(--scroll-max));
-  border-radius: calc(var(--radius-2, 12px) - 4px);
+  border-radius: calc(var(--radius-lg, 12px) - 4px);
   background: hsl(var(--background) / .25);
   box-shadow: inset 0 0 0 1px hsl(var(--card-hairline) / .55);
 }
@@ -25,13 +25,11 @@
 
 /* ============ Row action buttons ============ */
 .daycard :where(.iconbtn) {
-  width: 32px;
-  height: 32px;
-  border-radius: 9999px;
-  opacity: 0;
-  transition: opacity .15s var(--ease-out);
+  @apply size-8 rounded-full opacity-0 transition-opacity duration-140 ease-out;
 }
-.daycard :where(.iconbtn > svg) { width: 14px; height: 14px; }
+.daycard :where(.iconbtn > svg) {
+  @apply size-3.5;
+}
 
 /* Reveal actions on hover or focus-within for a11y */
 .daycard .group:hover .iconbtn,
@@ -42,9 +40,11 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  min-height: 44px;
-  padding-left: .9rem;
-  padding-right: .6rem;
+  min-height: 48px;
+  padding-left: 1rem;
+  padding-right: .5rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
   border: 1px solid hsl(var(--card-hairline));
   background: hsl(var(--card) / .55);
   transition:
@@ -67,10 +67,10 @@
   content: "";
   position: absolute;
   inset: 1px;
-  border-radius: calc(var(--radius-2, 12px) - 2px);
+  border-radius: calc(var(--radius-lg, 12px) - 2px);
   background: var(--edge-iris, linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary))));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
+          mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   pointer-events: none;
@@ -90,12 +90,22 @@
 
 /* ============ Task rows (right column) ============ */
 .task-tile__text {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
   color: hsl(var(--foreground));
   transition: color .15s var(--ease-out), text-shadow .15s var(--ease-out);
 }
 .task-tile__text:hover {
   color: hsl(var(--primary-foreground));
   text-shadow: 0 0 10px hsl(var(--accent) / .18);
+}
+.task-tile__text:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius-md, 6px);
 }
 
 /* Soft, readable strike-through for completed tasks */
@@ -113,35 +123,9 @@
   min-height: 88px;
   padding: .75rem;
   border: 1px dashed hsl(var(--card-hairline) / .7);
-  border-radius: var(--radius-2, 12px);
+  border-radius: var(--radius-lg, 12px);
   color: hsl(var(--muted-foreground));
   background: linear-gradient(180deg, hsl(var(--card) / .65), hsl(var(--card) / .45));
-}
-
-/* Dark task input with subtle glitch lines */
-.task-input {
-  height: var(--control-h);
-  border-radius: var(--radius-2, 12px);
-  padding-inline: var(--control-px);
-  font-size: var(--control-fs);
-  background: repeating-linear-gradient(
-    to bottom,
-    hsl(var(--card) / .55) 0,
-    hsl(var(--card) / .55) 1px,
-    hsl(var(--card) / .50) 1px,
-    hsl(var(--card) / .50) 2px
-  );
-  border: 1px solid hsl(var(--card-hairline));
-  color: hsl(var(--foreground));
-  transition: box-shadow var(--dur-quick), border-color var(--dur-quick);
-}
-.task-input::placeholder {
-  color: hsl(var(--muted-foreground) / 0.8);
-}
-.task-input:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.35);
-  border-color: hsl(var(--ring));
 }
 
 /* ============ Week chips: hover flicker + active glitch ============ */
@@ -164,19 +148,31 @@
   isolation: isolate;
   contain: paint;
   will-change: box-shadow, background, border-color;
+  --neo-shadow:
+    -2px -2px 4px hsl(var(--background) / .6),
+    2px 2px 4px hsl(var(--shadow-color) / .3);
+  box-shadow: var(--neo-shadow);
 }
 .chip:hover {
   animation: chip-flicker 3.2s steps(1,end) infinite;
   background: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--primary)) 12% / .08);
   border-color: hsl(var(--primary) / .55);
   box-shadow:
-    inset 0 0 0 1px hsl(var(--primary) / .65),
-    0 8px 22px hsl(var(--shadow-color) / .25);
+    var(--neo-shadow),
+    0 6px 18px hsl(var(--shadow-color) / .18);
+}
+
+.chip[data-active] {
+  box-shadow:
+    var(--neo-shadow),
+    0 0 0 1px hsl(var(--primary) / .45),
+    0 8px 22px hsl(var(--shadow-color) / .22);
 }
 
 /* “Today” hint — faint ring and glow rail inside */
 .chip--today {
   box-shadow:
+    var(--neo-shadow),
     0 0 0 1px hsl(var(--ring) / .55) inset,
     0 0 0 2px hsl(var(--ring) / .15);
 }
@@ -187,6 +183,7 @@
   border-color: hsl(var(--ring));
   box-shadow:
     inset 0 0 0 2px hsl(var(--ring) / .35),
+    var(--neo-shadow),
     0 12px 28px hsl(var(--shadow-color) / .30);
 }
 .chip--active .chip__edge {
@@ -226,7 +223,7 @@
   background:
     repeating-linear-gradient(
       to bottom,
-      rgba(255,255,255,.06) 0 1px,
+      hsl(var(--foreground)/0.06) 0 1px,
       transparent 1px 3px
     );
   mix-blend-mode: overlay;
@@ -240,7 +237,7 @@
   content: "";
   position: absolute;
   inset: 1.5px;
-  border-radius: calc(var(--radius-2, 12px) - 1.5px);
+  border-radius: calc(var(--radius-lg, 12px) - 1.5px);
   padding: 1px;
   background: linear-gradient(
     90deg,
@@ -250,8 +247,8 @@
     hsl(var(--accent) / .45),
     hsl(var(--primary) / .55)
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
+          mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   opacity: 0;
