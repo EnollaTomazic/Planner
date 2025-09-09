@@ -81,7 +81,7 @@ export default function SearchBar({
         <Search
           size={18}
           className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-          aria-hidden
+          aria-hidden="true"
         />
 
         <Input
@@ -120,7 +120,7 @@ export default function SearchBar({
               inputRef.current?.focus();
             }}
           >
-            <X className="h-[18px] w-[18px]" />
+            <X className="size-4" />
           </button>
         )}
       </div>

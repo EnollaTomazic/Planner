@@ -104,7 +104,7 @@ export default function TodayHero({ iso }: Props) {
             variant="ring"
             iconSize="md"
           >
-            <Calendar />
+            <Calendar aria-hidden="true" />
           </IconButton>
         </div>
       </div>
@@ -179,10 +179,10 @@ export default function TodayHero({ iso }: Props) {
 
                   <div className="flex items-center gap-2">
                     <IconButton aria-label={`Edit project ${p.name}`} title="Edit" onClick={e => { e.stopPropagation(); setEditingProjectId(p.id); setEditingProjectName(p.name); }} size="sm" variant="ring" iconSize="xs">
-                      <Pencil />
+                    <Pencil aria-hidden="true" />
                     </IconButton>
                     <IconButton aria-label={`Remove project ${p.name}`} title="Remove" onClick={e => { e.stopPropagation(); deleteProject(p.id); if (selProjectId === p.id) setSelProjectId(""); }} size="sm" variant="ring" iconSize="xs">
-                      <Trash2 />
+                    <Trash2 aria-hidden="true" />
                     </IconButton>
                   </div>
                 </li>
@@ -266,10 +266,10 @@ export default function TodayHero({ iso }: Props) {
 
                     <div className="flex items-center gap-2">
                       <IconButton aria-label={`Edit task ${t.text}`} title="Edit" onClick={() => { setEditingTaskId(t.id); setEditingTaskText(t.text); setSelTaskId(t.id); }} size="sm" variant="ring" iconSize="xs">
-                        <Pencil />
+                        <Pencil aria-hidden="true" />
                       </IconButton>
                       <IconButton aria-label="Remove task" title="Remove" onClick={() => { deleteTask(t.id); setSelTaskId(""); }} size="sm" variant="ring" iconSize="xs">
-                        <Trash2 />
+                        <Trash2 aria-hidden="true" />
                       </IconButton>
                     </div>
                   </li>

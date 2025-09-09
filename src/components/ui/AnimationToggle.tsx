@@ -49,7 +49,11 @@ export default function AnimationToggle() {
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
         )}
       >
-        {enabled ? <Zap className="h-4 w-4" /> : <ZapOff className="h-4 w-4" />}
+        {enabled ? (
+          <Zap className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <ZapOff className="h-4 w-4" aria-hidden="true" />
+        )}
       </button>
       {showNotice && (
         <span className="text-xs text-[hsl(var(--muted-foreground))]">

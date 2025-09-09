@@ -9,60 +9,61 @@ const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: { DEFAULT: "hsl(var(--card))" },
-        panel: { DEFAULT: "hsl(var(--panel))" },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-          soft: "hsl(var(--primary-soft))",
+        colors: {
+          border: "var(--border)",
+          input: "var(--input)",
+          ring: "var(--ring)",
+          background: "var(--background)",
+          foreground: "var(--foreground)",
+          card: { DEFAULT: "var(--card)" },
+          panel: { DEFAULT: "var(--panel)" },
+          primary: {
+            DEFAULT: "var(--primary)",
+            foreground: "var(--primary-foreground)",
+            soft: "var(--primary-soft)",
+          },
+          accent: {
+            DEFAULT: "var(--accent)",
+            soft: "var(--accent-soft)",
+          },
+          "accent-2": "var(--accent-2)",
+          glow: "var(--glow)",
+          ringMuted: "var(--ring-muted)",
+          danger: "var(--danger)",
+          success: {
+            DEFAULT: "var(--success)",
+            glow: "var(--success-glow)",
+          },
+          auroraG: "var(--aurora-g)",
+          auroraGLight: "var(--aurora-g-light)",
+          auroraP: "var(--aurora-p)",
+          auroraPLight: "var(--aurora-p-light)",
+          muted: {
+            DEFAULT: "var(--muted)",
+            foreground: "var(--muted-foreground)",
+          },
+          lavDeep: "var(--lav-deep)",
+          surfaceVhs: "var(--surface-vhs)",
+          surfaceStreak: "var(--surface-streak)",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          soft: "hsl(var(--accent-soft))",
-        },
-        "accent-2": "hsl(var(--accent-2))",
-        glow: "hsl(var(--glow))",
-        ringMuted: "hsl(var(--ring-muted))",
-        danger: "hsl(var(--danger))",
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          glow: "hsl(var(--success-glow))",
-        },
-        auroraG: "hsl(var(--aurora-g))",
-        auroraGLight: "hsl(var(--aurora-g-light))",
-        auroraP: "hsl(var(--aurora-p))",
-        auroraPLight: "hsl(var(--aurora-p-light))",
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        lavDeep: "hsl(var(--lav-deep))",
-        surfaceVhs: "hsl(var(--surface-vhs))",
-        surfaceStreak: "hsl(var(--surface-streak))",
-      },
       borderRadius: {
         md: `var(${radiusTokens[0]})`,
         lg: `var(${radiusTokens[1]})`,
         xl: `var(${radiusTokens[2]})`,
         "2xl": `var(${radiusTokens[3]})`,
       },
-      boxShadow: {
-        "neo-sm":
-          "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",
-        neo: "12px 12px 24px hsl(var(--panel)/0.72), -12px -12px 24px hsl(var(--foreground)/0.06)",
-        "neo-strong":
-          "14px 14px 28px hsl(var(--panel)/0.72), -14px -14px 28px hsl(var(--foreground)/0.06)",
-        "neo-inset":
-          "inset 4px 4px 10px hsl(var(--panel)/0.85), inset -4px -4px 10px hsl(var(--foreground)/0.08)",
-        ring: "0 0 12px hsl(var(--ring))",
-        neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))",
-      },
+        boxShadow: {
+          "neo-sm":
+            "4px 4px 8px color-mix(in srgb, var(--panel) 72%, transparent), -4px -4px 8px color-mix(in srgb, var(--foreground) 6%, transparent)",
+          neo:
+            "12px 12px 24px color-mix(in srgb, var(--panel) 72%, transparent), -12px -12px 24px color-mix(in srgb, var(--foreground) 6%, transparent)",
+          "neo-strong":
+            "14px 14px 28px color-mix(in srgb, var(--panel) 72%, transparent), -14px -14px 28px color-mix(in srgb, var(--foreground) 6%, transparent)",
+          "neo-inset":
+            "inset 4px 4px 10px color-mix(in srgb, var(--panel) 85%, transparent), inset -4px -4px 10px color-mix(in srgb, var(--foreground) 8%, transparent)",
+          ring: "0 0 12px var(--ring)",
+          neoSoft: "0 3px 12px -4px var(--shadow-color)",
+        },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
         snap: "var(--ease-snap)",

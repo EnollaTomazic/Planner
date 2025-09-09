@@ -172,7 +172,7 @@ export default function WeekPicker() {
         onClick={jumpToTop}
         title="Jump to top"
       >
-        <ArrowUpToLine className="size-4" />
+        <ArrowUpToLine className="size-4" aria-hidden="true" />
         <span>Top</span>
       </Button>
     ) : undefined;
@@ -200,7 +200,7 @@ export default function WeekPicker() {
               )}
               aria-label={`Week range ${rangeLabel}`}
             >
-              <CalendarDays className="size-4 opacity-80" />
+              <CalendarDays className="size-4 opacity-80" aria-hidden="true" />
               <span className="opacity-90">{rangeLabel}</span>
             </span>
 

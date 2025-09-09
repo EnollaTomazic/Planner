@@ -34,7 +34,7 @@ export default function ReviewCard({
                 onRenameStart();
               }}
             >
-              <Pencil />
+              <Pencil aria-hidden="true" />
             </IconButton>
           </div>
 
