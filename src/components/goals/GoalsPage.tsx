@@ -3,7 +3,7 @@
 
 /**
  * GoalsPage — Lavender-Glitch, hydration-safe, accessible.
- * - Uses <Header /> with right-aligned <HeaderTabs />
+ * - Uses <Hero /> with top-right tabs
  * - Tabs: Goals / Reminders / Timer
  * - Grid layout (no Split dependency)
  * - Cap: 3 active goals; remaining indicator
@@ -13,16 +13,11 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
-import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import {
-  GlitchSegmentedGroup,
-  GlitchSegmentedButton,
-  Snackbar,
-} from "@/components/ui";
+import { Snackbar } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -42,25 +37,21 @@ const TABS: Array<{
   key: Tab;
   label: string;
   icon: React.ReactNode;
-  hint?: string;
 }> = [
   {
     key: "goals",
     label: "Goals",
     icon: <Flag className="mr-1 h-4 w-4" />,
-    hint: "Cap 3 active",
   },
   {
     key: "reminders",
     label: "Reminders",
     icon: <ListChecks className="mr-1 h-4 w-4" />,
-    hint: "Quick cues",
   },
   {
     key: "timer",
     label: "Timer",
     icon: <TimerIcon className="mr-1 h-4 w-4" />,
-    hint: "Focus sprints",
   },
 ];
 
@@ -174,32 +165,20 @@ export default function GoalsPage() {
 
   return (
     <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
-      {/* ======= HEADER ======= */}
-      <Header
+      <Hero
         eyebrow="Goals"
-        heading={
-          <>
-            <span className="sm:mr-2">Today</span>
-            <span className="block text-xs text-[hsl(var(--muted-foreground))] sm:inline">
-              {summary}
-            </span>
-          </>
-        }
-        sticky
-        barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
-        right={
-          <GlitchSegmentedGroup
-            value={tab}
-            onChange={(v) => setTab(v as Tab)}
-            ariaLabel="Goals header mode"
-          >
-            {TABS.map((t) => (
-              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
-                {t.label}
-              </GlitchSegmentedButton>
-            ))}
-          </GlitchSegmentedGroup>
-        }
+        heading="Today"
+        subtitle={summary}
+        barClassName="flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between"
+        tabs={{
+          items: TABS.map((t) => ({
+            key: t.key,
+            label: t.label,
+            icon: t.icon,
+          })),
+          value: tab,
+          onChange: (k) => setTab(k as Tab),
+        }}
       />
 
       <Hero
@@ -213,7 +192,6 @@ export default function GoalsPage() {
         <div
           role="tabpanel"
           id="goals-panel"
-          aria-labelledby="goals-tab"
           hidden={tab !== "goals"}
         >
           {tab === "goals" && (
@@ -365,7 +343,6 @@ export default function GoalsPage() {
         <div
           role="tabpanel"
           id="reminders-panel"
-          aria-labelledby="reminders-tab"
           hidden={tab !== "reminders"}
         >
           {tab === "reminders" && <RemindersTab />}
@@ -374,7 +351,6 @@ export default function GoalsPage() {
         <div
           role="tabpanel"
           id="timer-panel"
-          aria-labelledby="timer-tab"
           hidden={tab !== "timer"}
         >
           {tab === "timer" && <TimerTab />}
