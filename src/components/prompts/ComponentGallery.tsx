@@ -31,6 +31,7 @@ import {
   AnimatedSelect,
   FieldShell,
   Label,
+  type TabItem,
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
@@ -56,10 +57,14 @@ import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
 
-const tabs = [
-  { key: "one", label: "One" },
-  { key: "two", label: "Two" },
-  { key: "three", label: "Three" },
+type View = "buttons" | "inputs" | "prompts" | "planner" | "misc";
+
+const viewTabs: TabItem<View>[] = [
+  { key: "buttons", label: "Buttons" },
+  { key: "inputs", label: "Inputs" },
+  { key: "prompts", label: "Prompts" },
+  { key: "planner", label: "Planner" },
+  { key: "misc", label: "Misc" },
 ];
 
 const selectItems = [
@@ -98,8 +103,9 @@ export default function ComponentGallery() {
   const [side, setSide] = React.useState<GameSide>("Blue");
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
+  const [view, setView] = React.useState<View>("buttons");
 
-  const componentItems = React.useMemo(
+  const buttonItems = React.useMemo(
     () => [
     { label: "Button", element: <Button className="w-56">Click me</Button> },
     {
@@ -112,7 +118,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon aria-hidden="true" />
+            <SearchIcon />
           </IconButton>
           <IconButton
             variant="glow"
@@ -120,7 +126,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon aria-hidden="true" />
+            <SearchIcon />
           </IconButton>
           <IconButton
             variant="ring"
@@ -128,7 +134,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon aria-hidden="true" />
+            <SearchIcon />
           </IconButton>
         </div>
       ),
@@ -490,13 +496,13 @@ export default function ComponentGallery() {
       element: (
         <div className="w-56 flex justify-center gap-2">
           <IconButton aria-label="Add" title="Add">
-            <Plus aria-hidden="true" />
+            <Plus />
           </IconButton>
           <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
-            <Sun aria-hidden="true" />
+            <Sun />
           </IconButton>
           <IconButton size="xl" aria-label="Search" title="Search">
-            <SearchIcon aria-hidden="true" />
+            <SearchIcon />
           </IconButton>
         </div>
       ),
@@ -511,7 +517,7 @@ export default function ComponentGallery() {
           <Input height={12} placeholder="h-12" />
           <Input tone="pill" placeholder="Pill" />
           <Input placeholder="With icon" hasEndSlot>
-            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
+            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           </Input>
         </div>
       ),
@@ -742,12 +748,20 @@ export default function ComponentGallery() {
   );
 
   return (
-    <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-      {componentItems.map((item) => (
-        <GalleryItem key={item.label} label={item.label} className={item.className}>
-          {item.element}
-        </GalleryItem>
-      ))}
+    <div className="space-y-8">
+      <TabBar
+        items={viewTabs}
+        value={view}
+        onValueChange={setView}
+        ariaLabel="Component gallery"
+      />
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+        {itemsMap[view].map((item) => (
+          <GalleryItem key={item.label} label={item.label} className={item.className}>
+            {item.element}
+          </GalleryItem>
+        ))}
+      </div>
     </div>
   );
 }

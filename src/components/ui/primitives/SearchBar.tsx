@@ -120,7 +120,7 @@ export default function SearchBar({
               inputRef.current?.focus();
             }}
           >
-            <X className="h-[18px] w-[18px]" />
+            <X className="size-4" />
           </button>
         )}
       </div>

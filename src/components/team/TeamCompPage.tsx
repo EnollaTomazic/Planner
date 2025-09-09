@@ -12,7 +12,7 @@
  */
 import "./style.css";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
 import Header, { HeaderTabs, type HeaderTab } from "@/components/ui/layout/Header";
 import Builder from "./Builder";

@@ -8,16 +8,16 @@ import { Badge } from "@/components/ui";
 import { shortDate } from "@/lib/date";
 
 const itemBase =
-  "review-tile relative w-full text-left h-auto min-h-[76px] p-4 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none";
+  "review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none";
 const itemSelected = "review-tile--active";
 const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
-const statusDotWin = "bg-[hsl(var(--success))]";
-const statusDotLoss = "bg-[hsl(var(--destructive))]";
-const statusDotDefault = "bg-[hsl(var(--muted-foreground))]";
+const statusDotWin = "bg-success";
+const statusDotLoss = "bg-danger";
+const statusDotDefault = "bg-muted-foreground";
 const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
 const statusDotBlink = "animate-[blink_1s_steps(2)_infinite]";
 const itemLoading = cn(itemBase, "animate-pulse");
-const loadingLine = "h-3 rounded bg-[hsl(var(--muted))]";
+const loadingLine = "h-3 rounded bg-muted";
 
 export type ReviewListItemProps = {
   review?: Review;

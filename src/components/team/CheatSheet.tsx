@@ -236,7 +236,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[180px] text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
+      textareaClassName="min-h-44 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
       aria-label="Description"
     />
   );
@@ -380,6 +380,8 @@ function ChampPillsEdit({
                 removeAt(i);
               }
             }}
+            aria-label="Champion name"
+            autoComplete="off"
             className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>

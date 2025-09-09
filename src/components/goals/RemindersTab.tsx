@@ -9,10 +9,10 @@
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
  *
- * Notes:
- * - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
- * - Button/IconButton use canonical props; delete uses variant="destructive".
- * - Typings added to onChange handlers to avoid implicit any.
+* Notes:
+* - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
+* - Button/IconButton use canonical props; delete uses tone="danger".
+* - Typings added to onChange handlers to avoid implicit any.
  */
 
 import * as React from "react";
@@ -246,7 +246,7 @@ export default function RemindersTab() {
     <div className="grid gap-4">
       {/* Hero with domain TabBar and bottom search */}
       <Hero
-        eyebrow="GOALS"
+        eyebrow={domain}
         heading="Reminders"
         subtitle="Tiny brain pings you’ll totally ignore until 23:59."
         dividerTint={domain === "Life" ? "life" : "primary"}
@@ -322,7 +322,7 @@ export default function RemindersTab() {
                     title="Filters"
                     type="button"
                   >
-                    <SlidersHorizontal aria-hidden="true" />
+                    <SlidersHorizontal />
                     Filters
                   </button>
                 }

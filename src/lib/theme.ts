@@ -1,8 +1,4 @@
-import {
-  readLocal,
-  writeLocal,
-  localBootstrapScript,
-} from "./local-bootstrap";
+import { readLocal, writeLocal, localBootstrapScript } from "./local-bootstrap";
 
 const STORAGE_PREFIX = "noxis-planner:";
 function createStorageKey(key: string): string {
@@ -10,7 +6,14 @@ function createStorageKey(key: string): string {
 }
 
 export type Mode = "dark" | "light";
-export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose" | "hardstuck";
+export type Variant =
+  | "lg"
+  | "aurora"
+  | "citrus"
+  | "noir"
+  | "ocean"
+  | "kitten"
+  | "hardstuck";
 export type Background = 0 | 1 | 2 | 3 | 4 | 5;
 export interface ThemeState {
   variant: Variant;
@@ -20,42 +23,98 @@ export interface ThemeState {
 
 export const THEME_STORAGE_KEY = "ui:theme";
 
-export const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-streak"] as const;
+export const BG_CLASSES = [
+  "",
+  "bg-alt1",
+  "bg-alt2",
+  "bg-light",
+  "bg-vhs",
+  "bg-streak",
+] as const;
+
+export const COLOR_PALETTES = {
+  aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
+  neutrals: [
+    "background",
+    "foreground",
+    "text",
+    "card",
+    "panel",
+    "border",
+    "line",
+    "input",
+    "ring",
+    "muted",
+    "muted-foreground",
+    "surface",
+    "surface-2",
+    "surface-vhs",
+    "surface-streak",
+    "icon-fg",
+  ],
+  accents: [
+    "accent",
+    "accent-2",
+    "accent-foreground",
+    "danger",
+    "success",
+    "glow-strong",
+    "glow-soft",
+  ],
+} as const;
+
+export type ColorPalette = keyof typeof COLOR_PALETTES;
 
 export const COLOR_TOKENS = [
-  "background",
-  "foreground",
-  "text",
-  "card",
-  "panel",
-  "border",
-  "line",
-  "input",
-  "ring",
-  "accent",
-  "accent-2",
-  "accent-foreground",
-  "muted",
-  "muted-foreground",
-  "surface",
-  "surface-2",
-  "surface-vhs",
-  "surface-streak",
-  "danger",
-  "success",
-  "glow-strong",
-  "glow-soft",
-  "aurora-g",
-  "aurora-g-light",
-  "aurora-p",
-  "aurora-p-light",
-  "icon-fg",
+  ...COLOR_PALETTES.neutrals,
+  ...COLOR_PALETTES.accents,
+  ...COLOR_PALETTES.aurora,
 ] as const;
+
+export type ColorToken = typeof COLOR_TOKENS[number];
+export type ColorPalette = "aurora" | "neutrals" | "accents";
+
+export const COLOR_PALETTES: Record<ColorPalette, readonly ColorToken[]> = {
+  aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
+  neutrals: [
+    "background",
+    "foreground",
+    "text",
+    "card",
+    "panel",
+    "border",
+    "line",
+    "input",
+    "ring",
+    "muted",
+    "muted-foreground",
+    "surface",
+    "surface-2",
+    "surface-vhs",
+    "surface-streak",
+  ],
+  accents: [
+    "accent",
+    "accent-2",
+    "accent-foreground",
+    "danger",
+    "success",
+    "glow-strong",
+    "glow-soft",
+    "icon-fg",
+  ],
+};
+
+export const COLOR_PALETTE_TABS: { id: ColorPalette; label: string }[] = [
+  { id: "aurora", label: "Aurora" },
+  { id: "neutrals", label: "Neutrals" },
+  { id: "accents", label: "Accents" },
+];
 
 export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg", label: "Glitch" },
   { id: "aurora", label: "Aurora" },
-  { id: "rose", label: "Rose Quartz" },
+  { id: "kitten", label: "Kitten" },
   { id: "ocean", label: "Oceanic" },
   { id: "citrus", label: "Citrus" },
   { id: "noir", label: "Noir" },
@@ -71,8 +130,7 @@ export function defaultTheme(): ThemeState {
 
 export function readTheme(): ThemeState {
   return (
-    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ??
-    defaultTheme()
+    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ?? defaultTheme()
   );
 }
 
@@ -130,4 +188,3 @@ export function themeBootstrapScript(): string {
     } catch { }
   })())`;
 }
-

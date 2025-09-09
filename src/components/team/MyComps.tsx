@@ -193,6 +193,8 @@ function ChampChips({
                 removeAt(i);
               }
             }}
+            aria-label="Champion name"
+            autoComplete="off"
             className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>
@@ -399,7 +401,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           aria-label="Notes"
                           rows={4}
                           resize="resize-y"
-                          textareaClassName="min-h-[180px] leading-relaxed"
+                          textareaClassName="min-h-44 leading-relaxed"
                           value={c.notes ?? ""}
                           onChange={e => patch(c.id, { notes: e.target.value })}
                         />

@@ -28,10 +28,10 @@ export default function ReviewSummaryHeader({
       <span
         className={cn(
           "inline-flex h-10 items-center rounded-2xl border px-3 text-sm font-semibold",
-          "border-[hsl(var(--border))] bg-[hsl(var(--card))]",
+          "border-border bg-card",
           result === "Win"
-            ? "shadow-[0_0_0_1px_hsl(var(--ring)/.35)_inset] bg-[linear-gradient(90deg,hsla(160,90%,45%,.20),hsla(190,90%,60%,.16))]"
-            : "bg-[linear-gradient(90deg,hsla(0,90%,55%,.18),hsla(320,90%,65%,.16))]",
+            ? "shadow-[0_0_0_1px_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
+            : "bg-gradient-to-r from-danger/18 to-primary/16",
         )}
         aria-label={`Result: ${result}`}
         title={`Result: ${result}`}
@@ -44,8 +44,8 @@ export default function ReviewSummaryHeader({
     <div className="section-h sticky">
       <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
         <div className="min-w-0">
-          <div className="mb-1 text-xs text-[hsl(var(--foreground)/0.25)]">Title</div>
-          <div className="truncate text-lg font-medium leading-7 text-[hsl(var(--foreground)/0.7)]">
+          <div className="mb-1 text-xs text-foreground/25">Title</div>
+          <div className="truncate text-lg font-medium leading-7 text-foreground/70">
             {title || "Untitled review"}
           </div>
         </div>
@@ -53,8 +53,8 @@ export default function ReviewSummaryHeader({
           {role ? (
             <span
               className={cn(
-                "inline-flex h-10 items-center gap-2 rounded-2xl border border-[hsl(var(--border))]",
-                "bg-[hsl(var(--card))] px-3 text-sm font-semibold",
+                "inline-flex h-10 items-center gap-2 rounded-2xl border border-border",
+                "bg-card px-3 text-sm font-semibold",
               )}
               title={roleLabel}
             >
