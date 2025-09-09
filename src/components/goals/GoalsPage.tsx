@@ -202,12 +202,14 @@ export default function GoalsPage() {
         }
       />
 
-      <Hero
-        eyebrow="Guide"
-        heading="Overview"
-        subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-        sticky={false}
-      />
+      {tab === "goals" && (
+        <Hero
+          eyebrow="Guide"
+          heading="Overview"
+          subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+          sticky={false}
+        />
+      )}
 
       <section className="grid gap-6">
         <div
