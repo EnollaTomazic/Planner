@@ -18,7 +18,7 @@ export default function Split({
   className?: string;
 }) {
   return (
-    <div className={["grid gap-6 md:grid-cols-2", className].join(" ")}>
+    <div className={["grid gap-5 md:grid-cols-2", className].join(" ")}>
       <div className="min-w-0">{left}</div>
       <div className="min-w-0">{right}</div>
     </div>
