@@ -6,6 +6,7 @@
  * - No hover translate (calm UI).
  * - Active when pathname matches or is nested under the href.
  */
+import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
