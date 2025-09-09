@@ -16,6 +16,9 @@ import PromptList from "@/components/prompts/PromptList";
 import type { PromptWithTitle } from "@/components/prompts/usePrompts";
 import { Plus } from "lucide-react";
 import { DashboardCard } from "@/components/home";
+import { RoleSelector } from "@/components/reviews";
+import ReviewListItem from "@/components/reviews/ReviewListItem";
+import type { Review } from "@/lib/types";
 
 type View = "components" | "colors";
 type Section =
@@ -89,6 +92,17 @@ const demoPrompts: PromptWithTitle[] = [
     createdAt: Date.now(),
   },
 ];
+
+const demoReview: Review = {
+  id: "r1",
+  title: "Sample Review",
+  notes: "Quick note",
+  tags: [],
+  pillars: [],
+  createdAt: Date.now(),
+  score: 8,
+  result: "Win",
+};
 
 const SPEC_DATA: Record<Section, Spec[]> = {
   buttons: [
@@ -180,6 +194,18 @@ const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["status"],
+    },
+    {
+      id: "role-selector",
+      name: "RoleSelector",
+      element: <RoleSelector value="TOP" onChange={() => {}} />,
+      tags: ["control", "segmented"],
+    },
+    {
+      id: "review-list-item",
+      name: "ReviewListItem",
+      element: <ReviewListItem review={demoReview} />,
+      tags: ["review", "tile"],
     },
   ],
 };

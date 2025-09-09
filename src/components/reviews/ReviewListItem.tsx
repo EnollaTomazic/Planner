@@ -6,17 +6,25 @@ import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
 import { shortDate } from "@/lib/date";
+import styles from "./ReviewListItem.module.css";
 
-const itemBase =
-  "review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none";
-const itemSelected = "review-tile--active";
+const itemBase = cn(
+  styles.tile,
+  "relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
+);
+const itemSelected = styles.tileActive;
 const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
 const statusDotWin = "bg-success";
 const statusDotLoss = "bg-danger";
 const statusDotDefault = "bg-muted-foreground";
-const statusDotPulse = "animate-[pulse_2s_ease-in-out_infinite]";
-const statusDotBlink = "animate-[blink_1s_steps(2)_infinite]";
-const itemLoading = cn(itemBase, "animate-pulse");
+const statusDotPulse =
+  "motion-safe:animate-[pulse_2s_ease-in-out_infinite] motion-reduce:animate-none";
+const statusDotBlink =
+  "motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none";
+const itemLoading = cn(
+  itemBase,
+  "motion-safe:animate-pulse motion-reduce:animate-none",
+);
 const loadingLine = "h-3 rounded bg-muted";
 
 export type ReviewListItemProps = {

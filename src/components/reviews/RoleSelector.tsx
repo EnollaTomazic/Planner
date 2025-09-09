@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
+import styles from "./RoleSelector.module.css";
 
 type Props = {
   value: Role;
@@ -16,7 +17,7 @@ type CSSVars = React.CSSProperties & Record<`--${string}`, string | number>;
 
 /**
  * RoleSelector — segmented control with sliding pill animation.
- * Animation/colors are defined in reviews/style.css ('.seg' rules).
+ * Styles are scoped via RoleSelector.module.css.
  */
 export default function RoleSelector({ value, onChange, className }: Props) {
   const count = ROLE_OPTIONS.length;
@@ -47,7 +48,7 @@ export default function RoleSelector({ value, onChange, className }: Props) {
 
   return (
     <div
-      className={cn("seg seg--roles", className)}
+      className={cn(styles.seg, styles.roles, className)}
       role="radiogroup"
       aria-label="Select lane/role"
       tabIndex={0}
@@ -55,11 +56,11 @@ export default function RoleSelector({ value, onChange, className }: Props) {
       style={styleVars}
     >
       {/* Sliding pill / rail */}
-      <span aria-hidden className="seg__rail" />
+      <span aria-hidden className={styles.rail} />
 
       {/* Buttons */}
       <div
-        className="seg__list"
+        className={styles.list}
         style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
       >
         {ROLE_OPTIONS.map(({ value: v, Icon, label }) => {
@@ -71,7 +72,10 @@ export default function RoleSelector({ value, onChange, className }: Props) {
               role="radio"
               aria-checked={active}
               title={label}
-              className={cn("seg__btn", active ? "seg__btn--active" : "seg__btn--idle")}
+              className={cn(
+                styles.btn,
+                active ? styles.btnActive : styles.btnIdle,
+              )}
               onClick={() => select(v)}
             >
               <Icon className="h-5 w-5" />
