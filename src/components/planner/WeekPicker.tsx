@@ -172,7 +172,7 @@ export default function WeekPicker() {
         onClick={jumpToTop}
         title="Jump to top"
       >
-        <ArrowUpToLine className="size-4" />
+        <ArrowUpToLine />
         <span>Top</span>
       </Button>
     ) : undefined;
