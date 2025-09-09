@@ -193,7 +193,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-[2px] pointer-events-none transition-opacity",
+              "absolute inset-0 rounded-full p-0.5 pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
@@ -214,7 +214,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-[2px] rounded-full pointer-events-none transition-opacity",
+              "absolute inset-0.5 rounded-full pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{

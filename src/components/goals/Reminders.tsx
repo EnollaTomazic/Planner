@@ -288,7 +288,7 @@ function ReminderCard({
   return (
     <article className="card-neo rounded-card p-4 sm:p-5 relative">
       {value.pinned && (
-        <span aria-hidden className="absolute inset-y-3 left-0 w-[2px] rounded-full bg-[hsl(var(--primary)/.55)]" />
+        <span aria-hidden className="absolute inset-y-3 left-0 w-0.5 rounded-full bg-[hsl(var(--primary)/.55)]" />
       )}
 
       <div className="flex items-center justify-between gap-2 mb-2">

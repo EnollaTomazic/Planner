@@ -1061,7 +1061,7 @@ textarea:-webkit-autofill {
   @apply inline-flex items-center rounded-full
          border border-[hsl(var(--card-hairline))]
          bg-[hsl(var(--muted))/0.18]
-         px-2 py-[3px] text-[12px] leading-tight tracking-[-0.01em];
+        px-2 py-1 text-xs leading-tight tracking-[-0.01em];
 }
 .pill-compact:hover {
   @apply bg-[hsl(var(--muted))/0.28];

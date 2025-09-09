@@ -31,7 +31,7 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
                 className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
               >
                 {m.noteOnly ? (
-                  <span className="pill flex h-7 w-[56px] items-center justify-center px-0" title="Note" aria-label="Note">
+                  <span className="pill flex h-7 w-14 items-center justify-center px-0" title="Note" aria-label="Note">
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
