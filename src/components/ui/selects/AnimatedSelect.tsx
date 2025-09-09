@@ -81,22 +81,36 @@ export default function AnimatedSelect({
     if (matchTriggerWidth) setMenuW(r.width);
   }, [matchTriggerWidth]);
 
+  const rafId = React.useRef<number>();
+  const scheduleMeasure = React.useCallback(() => {
+    if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = undefined;
+      measure();
+    });
+  }, [measure]);
+
+  React.useEffect(() => {
+    return () => {
+      if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
+
   React.useLayoutEffect(() => {
     if (!open) return;
-    measure();
-  }, [open, measure]);
+    scheduleMeasure();
+  }, [open, scheduleMeasure]);
 
   React.useEffect(() => {
     if (!open) return;
-    const onResize = () => measure();
-    const onScroll = () => measure();
-    window.addEventListener("resize", onResize, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const handler = () => scheduleMeasure();
+    window.addEventListener("resize", handler, { passive: true });
+    window.addEventListener("scroll", handler, { passive: true });
     return () => {
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", handler);
+      window.removeEventListener("scroll", handler);
     };
-  }, [open, measure]);
+  }, [open, scheduleMeasure]);
 
   // Focus management
   React.useEffect(() => {
@@ -137,12 +151,12 @@ export default function AnimatedSelect({
   function onTriggerKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      measure();
+      scheduleMeasure();
       setOpen(true);
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      measure();
+      scheduleMeasure();
       setOpen(true);
     }
   }
@@ -267,7 +281,7 @@ export default function AnimatedSelect({
           type="button"
           disabled={disabled}
           onClick={() => {
-            measure();
+            scheduleMeasure();
             setOpen((v) => !v);
           }}
           onKeyDown={onTriggerKeyDown}
