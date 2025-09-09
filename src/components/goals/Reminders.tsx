@@ -19,6 +19,7 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
@@ -192,21 +193,21 @@ export default function Reminders() {
             />
 
             {/* pinned */}
-            <button
-              className={["btn-like-segmented h-10", onlyPinned && "is-active"].filter(Boolean).join(" ")}
-              onClick={() => setOnlyPinned(v => !v)}
-              aria-pressed={onlyPinned}
-              type="button"
-              title="Pinned only"
-            >
-              {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
-              {onlyPinned ? "Pinned only" : "Any pin"}
-            </button>
+              <SegmentedButton
+                className="h-10"
+                onClick={() => setOnlyPinned(v => !v)}
+                aria-pressed={onlyPinned}
+                title="Pinned only"
+                isActive={onlyPinned}
+              >
+                {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+                {onlyPinned ? "Pinned only" : "Any pin"}
+              </SegmentedButton>
 
             {/* actions */}
-            <button className="btn-like-segmented h-10" onClick={resetSeeds} type="button" title="Replace with curated seeds">
-              Reset
-            </button>
+              <SegmentedButton className="h-10" onClick={resetSeeds} title="Replace with curated seeds">
+                Reset
+              </SegmentedButton>
           </div>
         </SectionCard.Header>
 

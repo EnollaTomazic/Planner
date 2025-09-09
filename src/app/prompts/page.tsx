@@ -6,6 +6,7 @@ import {
   IconButton,
   Input,
   SearchBar,
+  SegmentedButton,
   TabBar,
   ThemeToggle,
   type TabItem,
@@ -118,6 +119,18 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["button", "action"],
       props: [{ label: "sizes", value: "sm md lg" }],
+    },
+    {
+      id: "segmented-button",
+      name: "SegmentedButton",
+      description: "Segmented control button",
+      element: (
+        <div className="flex gap-4">
+          <SegmentedButton>Default</SegmentedButton>
+          <SegmentedButton isActive>Active</SegmentedButton>
+        </div>
+      ),
+      tags: ["button", "segmented"],
     },
   ],
   iconButton: [
