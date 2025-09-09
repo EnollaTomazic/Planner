@@ -53,6 +53,7 @@ export const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
+  <>Prompts page refactored into playground.</>,
 ];
 
 export const GOAL_DEMO_ITEMS: Goal[] = [
