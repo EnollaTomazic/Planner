@@ -85,6 +85,9 @@ export default function Page() {
           Hero dividers now use <code>var(--space-4)</code> top padding and
           tokenized side offsets via <code>var(--space-2)</code>.
         </li>
+        <li className="text-sm text-muted-foreground">
+          IconButton adds a compact <code>xs</code> size.
+        </li>
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>
@@ -97,6 +100,9 @@ export default function Page() {
         </Button>
       </div>
       <div className="mb-8 flex gap-2">
+        <IconButton size="xs" aria-label="Add item xs" title="Add item xs">
+          <Plus size={16} aria-hidden />
+        </IconButton>
         <IconButton aria-label="Add item" title="Add item">
           <Plus size={16} aria-hidden />
         </IconButton>
