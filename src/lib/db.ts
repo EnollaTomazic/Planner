@@ -183,18 +183,11 @@ export function usePersistentState<T>(
 }
 
 /**
- * Tiny uid helper.
- * Uses `crypto.randomUUID` when available; falls back to `Math.random`.
- * Example: "review_123e4567e89b12d3"
+ * Generates a unique identifier using `crypto.randomUUID`.
+ * If a prefix is provided, it is prepended followed by an underscore.
  */
-export function uid(prefix = "id"): string {
-  const id =
-    typeof globalThis.crypto?.randomUUID === "function"
-      ? globalThis.crypto.randomUUID().replace(/-/g, "").slice(0, 16)
-      : (
-          Math.random().toString(36).slice(2) +
-          Math.random().toString(36).slice(2)
-        ).slice(0, 16);
-  return `${prefix}_${id}`;
+export function uid(prefix = ""): string {
+  const id = crypto.randomUUID();
+  return prefix ? `${prefix}_${id}` : id;
 }
 
