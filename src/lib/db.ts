@@ -22,9 +22,12 @@ const OLD_STORAGE_PREFIX = "13lr:";
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
 
+// Track whether legacy keys have been migrated
+let migrated = false;
+
 // Migrate any legacy keys from older builds
 function ensureMigration() {
-  if (!isBrowser) return;
+  if (!isBrowser || migrated) return;
   try {
     const legacyKeys: string[] = [];
     for (let i = 0; i < window.localStorage.length; i++) {
@@ -42,6 +45,7 @@ function ensureMigration() {
   } catch {
     // ignore
   }
+  migrated = true;
 }
 
 /** Build a fully namespaced key and ensure migrations */
