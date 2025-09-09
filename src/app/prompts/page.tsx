@@ -148,6 +148,22 @@ function DemoHeader({
           Hero dividers now use <code>var(--space-4)</code> top padding and
           tokenized side offsets via <code>var(--space-2)</code>.
         </li>
+<<<<<<< HEAD
+=======
+        <li className="text-sm text-muted-foreground">
+          IconButton adds a compact <code>xs</code> size.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          DurationSelector active state uses accent color tokens.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Color gallery groups tokens into Aurora, Neutrals, and Accents
+          palettes with tabs.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Themes now define <code>--glow</code> tokens aligned with their primary accents.
+        </li>
+>>>>>>> codex/add-glow-overrides-to-themes
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>

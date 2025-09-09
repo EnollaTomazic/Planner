@@ -153,6 +153,7 @@ html.theme-aurora {
   --panel: var(--card);
   --border: #32004d;
   --line: var(--border);
+<<<<<<< HEAD
   --input: #32004d;
   --ring: #33ff99;
   --theme-ring: var(--ring);
@@ -169,6 +170,25 @@ html.theme-aurora {
   --lav-deep: #9e47eb;
   --success: #f96cd3;
   --success-glow: #f514b999;
+=======
+  --input: 279 100% 15%;
+  --ring: 150 100% 60%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 150 100% 60%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 150 100% 20%;
+  --accent: 272 80% 60%;
+  --accent-2: 150 100% 60%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 272 80% 20%;
+  --glow: 272 80% 60%;
+  --muted: 279 100% 15%;
+  --muted-foreground: 279 20% 75%;
+  --shadow-color: 150 100% 60%;
+  --lav-deep: 272 80% 60%;
+  --success: 316 92% 70%;
+  --success-glow: 316 92% 52% / 0.6;
+>>>>>>> codex/add-glow-overrides-to-themes
   --edge-iris: conic-gradient(
     from 180deg,
     #33ff9900,
@@ -196,6 +216,7 @@ html.theme-citrus {
   --panel: var(--card);
   --border: #3b4654;
   --line: var(--border);
+<<<<<<< HEAD
   --input: #202832;
   --ring: #f96d10;
   --theme-ring: var(--ring);
@@ -212,6 +233,25 @@ html.theme-citrus {
   --lav-deep: #f96d10;
   --success: #22c373;
   --success-glow: #1b985999;
+=======
+  --input: 214 22% 16%;
+  --ring: 24 95% 52%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 24 95% 52%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 24 95% 22%;
+  --accent: 24 96% 35%;
+  --accent-2: 170 80% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 24 96% 15%;
+  --glow: 24 96% 35%;
+  --muted: 214 18% 24%;
+  --muted-foreground: 214 20% 72%;
+  --shadow-color: 24 95% 40%;
+  --lav-deep: 24 95% 52%;
+  --success: 150 70% 45%;
+  --success-glow: 150 70% 35% / 0.6;
+>>>>>>> codex/add-glow-overrides-to-themes
 }
 
 /* ---------- Noir ---------- */
@@ -223,6 +263,7 @@ html.theme-noir {
   --panel: var(--card);
   --border: #4f2229;
   --line: var(--border);
+<<<<<<< HEAD
   --input: #2c1115;
   --ring: #f53d3d;
   --theme-ring: var(--ring);
@@ -239,6 +280,25 @@ html.theme-noir {
   --lav-deep: #f65555;
   --success: #33cc66;
   --success-glow: #29a35299;
+=======
+  --input: 350 45% 12%;
+  --ring: 0 90% 60%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 0 90% 60%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 0 90% 24%;
+  --accent: 178 91% 25%;
+  --accent-2: 40 96% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 178 91% 10%;
+  --glow: 178 91% 25%;
+  --muted: 350 35% 18%;
+  --muted-foreground: 350 25% 65%;
+  --shadow-color: 0 90% 50%;
+  --lav-deep: 0 90% 65%;
+  --success: 140 60% 50%;
+  --success-glow: 140 60% 40% / 0.6;
+>>>>>>> codex/add-glow-overrides-to-themes
 }
 
 /* ---------- Oceanic ---------- */
@@ -250,6 +310,7 @@ html.theme-ocean {
   --panel: var(--card);
   --border: #313949;
   --line: var(--border);
+<<<<<<< HEAD
   --input: #1b212c;
   --ring: #2bbdee;
   --theme-ring: var(--ring);
@@ -268,6 +329,27 @@ html.theme-ocean {
   --success-glow: #1b986e99;
 }
 
+=======
+  --input: 220 24% 14%;
+  --ring: 195 85% 55%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 195 85% 55%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 195 85% 16%;
+  --accent: 199 100% 27%;
+  --accent-2: 225 85% 30%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 199 100% 12%;
+  --glow: 199 100% 27%;
+  --muted: 220 24% 16%;
+  --muted-foreground: 220 14% 72%;
+  --shadow-color: 200 90% 55%;
+  --lav-deep: 250 80% 65%;
+  --success: 160 70% 45%;
+  --success-glow: 160 70% 35% / 0.6;
+}
+
+>>>>>>> codex/add-glow-overrides-to-themes
 /* ---------- Kitten ---------- */
 html.theme-kitten {
   --background: #0a0005;
@@ -287,6 +369,7 @@ html.theme-kitten {
   --accent-2: 330 100% 40%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 336 100% 12%;
+  --glow: 336 100% 27%;
   --muted: 330 100% 20%;
   --muted-foreground: 330 20% 70%;
   --shadow-color: 330 100% 50%;
