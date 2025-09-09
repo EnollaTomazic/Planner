@@ -4,6 +4,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Check, ChevronDown } from "lucide-react";
 
 /** Option item */
 export type DropItem = {
@@ -312,14 +313,10 @@ export default function AnimatedSelect({
             )}
           </span>
 
-          <svg viewBox="0 0 20 20" className={caretCls} aria-hidden="true">
-            <path
-              d="M5 7l5 6 5-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+            <ChevronDown
+              className={caretCls}
+              aria-hidden="true"
             />
-          </svg>
 
           {/* ── glitch border stack (no whites) ── */}
           <span aria-hidden className="gb-iris" />
@@ -408,25 +405,15 @@ export default function AnimatedSelect({
                           <span className="text-sm leading-none glitch-text">
                             {it.label}
                           </span>
-                          <svg
-                            viewBox="0 0 20 20"
-                            className={[
-                              "size-4 shrink-0 transition-opacity",
-                              active
-                                ? "opacity-90"
-                                : "opacity-0 group-hover:opacity-30",
-                            ].join(" ")}
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M4 10.5l4 4 8-9"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
+                            <Check
+                              className={[
+                                "size-4 shrink-0 transition-opacity",
+                                active
+                                  ? "opacity-90"
+                                  : "opacity-0 group-hover:opacity-30",
+                              ].join(" ")}
+                              aria-hidden="true"
                             />
-                          </svg>
                         </div>
 
                         {/* Active left rail */}

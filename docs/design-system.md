@@ -37,6 +37,11 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - `src/app/globals.css` resets layout, sets typography and applies focus and selection styles.
 - Respect the `no-animations` class for reduced motion users. Avoid forcing animations when it is present.
 
+## Icons
+- Prefer icons from `lucide-react`.
+- Define any custom icons in `src/icons` and import them where needed.
+- Avoid embedding raw `<svg>` tags in components. An inline SVG remains in `Hero` for a noise texture background.
+
 ## Primitive components
 - Reusable building blocks live under `src/components/ui/primitives` (e.g. `Button`, `Badge`, `Input`).
 - Prefer composing these primitives rather than creating bespoke styles.
