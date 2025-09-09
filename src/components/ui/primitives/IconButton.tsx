@@ -10,12 +10,24 @@ type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
-export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  size?: IconButtonSize;
-  iconSize?: Icon;
-  tone?: Tone;
-  variant?: Variant;
-};
+type ButtonAttributes = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "aria-label" | "aria-labelledby" | "title"
+>;
+
+type AccessibleLabel =
+  | { "aria-label": string; "aria-labelledby"?: string; title?: string }
+  | { "aria-label"?: string; "aria-labelledby": string; title?: string }
+  | { "aria-label"?: string; "aria-labelledby"?: string; title: string };
+
+export type IconButtonProps = ButtonAttributes &
+  {
+    size?: IconButtonSize;
+    iconSize?: Icon;
+    tone?: Tone;
+    variant?: Variant;
+  } &
+  AccessibleLabel;
 
 const iconMap: Record<Icon, string> = {
   xs: "[&>svg]:h-5 [&>svg]:w-5",
@@ -73,9 +85,26 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "md", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
-    ref
+    {
+      size = "md",
+      iconSize = size as Icon,
+      className,
+      tone = "primary",
+      variant = "ring",
+      children,
+      ...rest
+    },
+    ref,
   ) => {
+    if (
+      !("aria-label" in rest) &&
+      !("aria-labelledby" in rest) &&
+      !("title" in rest)
+    ) {
+      console.warn(
+        "IconButton: Missing accessible label. Provide one of `aria-label`, `aria-labelledby`, or `title`.",
+      );
+    }
     const sizeClass = sizeMap[size];
     return (
       <button
@@ -87,14 +116,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           toneClasses[variant][tone],
           sizeClass,
           iconMap[iconSize],
-          className
+          className,
         )}
-        {...props}
+        {...rest}
       >
-        {props.children}
+        {children}
       </button>
     );
-  }
+  },
 );
 
 IconButton.displayName = "IconButton";
