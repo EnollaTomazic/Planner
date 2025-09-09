@@ -569,7 +569,7 @@ export default function ReviewEditor({
                       go(opponentRef);
                     }
                   }}
-                  className="pl-10"
+                  className="pl-6"
                   placeholder="Ashe/Lulu"
                   aria-label="Lane (used as Title)"
                 />
@@ -592,7 +592,7 @@ export default function ReviewEditor({
                     }
                   }}
                   placeholder="Draven/Thresh"
-                  className="pl-10"
+                  className="pl-6"
                   aria-label="Opponent"
                 />
               </div>
@@ -996,7 +996,7 @@ export default function ReviewEditor({
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="pl-10"
+                className="pl-6"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();

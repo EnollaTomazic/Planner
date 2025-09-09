@@ -19,5 +19,5 @@ export * from "./plannerCrud";
 export * from "./plannerStore";
 export * from "./useDay";
 export * from "./useFocusDate";
-export { usePlannerStore } from "./usePlannerStore";
+export * from "./usePlannerStore";
 export * from "./useSelection";
