@@ -113,6 +113,10 @@ export default function Page() {
         <li className="text-sm text-muted-foreground">
           DurationSelector active state uses accent color tokens.
         </li>
+        <li className="text-sm text-muted-foreground">
+          Color gallery groups tokens into Aurora, Neutrals, and Accents
+          palettes with tabs.
+        </li>
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>

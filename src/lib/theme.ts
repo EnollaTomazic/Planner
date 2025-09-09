@@ -32,34 +32,43 @@ export const BG_CLASSES = [
   "bg-streak",
 ] as const;
 
+export const COLOR_PALETTES = {
+  aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
+  neutrals: [
+    "background",
+    "foreground",
+    "text",
+    "card",
+    "panel",
+    "border",
+    "line",
+    "input",
+    "ring",
+    "muted",
+    "muted-foreground",
+    "surface",
+    "surface-2",
+    "surface-vhs",
+    "surface-streak",
+    "icon-fg",
+  ],
+  accents: [
+    "accent",
+    "accent-2",
+    "accent-foreground",
+    "danger",
+    "success",
+    "glow-strong",
+    "glow-soft",
+  ],
+} as const;
+
+export type ColorPalette = keyof typeof COLOR_PALETTES;
+
 export const COLOR_TOKENS = [
-  "background",
-  "foreground",
-  "text",
-  "card",
-  "panel",
-  "border",
-  "line",
-  "input",
-  "ring",
-  "accent",
-  "accent-2",
-  "accent-foreground",
-  "muted",
-  "muted-foreground",
-  "surface",
-  "surface-2",
-  "surface-vhs",
-  "surface-streak",
-  "danger",
-  "success",
-  "glow-strong",
-  "glow-soft",
-  "aurora-g",
-  "aurora-g-light",
-  "aurora-p",
-  "aurora-p-light",
-  "icon-fg",
+  ...COLOR_PALETTES.neutrals,
+  ...COLOR_PALETTES.accents,
+  ...COLOR_PALETTES.aurora,
 ] as const;
 
 export const VARIANTS: { id: Variant; label: string }[] = [

@@ -63,6 +63,45 @@ function toJSON(v: unknown): string {
   }
 }
 
+// Debounced write queue
+const writeQueue = new Map<string, unknown>();
+let writeTimer: ReturnType<typeof setTimeout> | null = null;
+
+export let writeLocalDelay = 50;
+export function setWriteLocalDelay(ms: number) {
+  writeLocalDelay = ms;
+}
+
+function flushWriteQueue() {
+  if (writeTimer) {
+    clearTimeout(writeTimer);
+    writeTimer = null;
+  }
+  for (const [k, v] of writeQueue) {
+    try {
+      baseWriteLocal(k, v);
+    } catch {
+      // ignore
+    }
+  }
+  writeQueue.clear();
+}
+
+export function flushWriteLocal() {
+  if (!isBrowser) return;
+  flushWriteQueue();
+}
+
+function scheduleWrite(key: string, value: unknown) {
+  writeQueue.set(key, value);
+  if (writeTimer) clearTimeout(writeTimer);
+  writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
+}
+
+if (isBrowser) {
+  window.addEventListener("beforeunload", flushWriteQueue);
+}
+
 /** Read from localStorage without throwing on SSR or privacy modes */
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
@@ -77,7 +116,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    baseWriteLocal(createStorageKey(key), JSON.parse(toJSON(value)));
+    scheduleWrite(createStorageKey(key), JSON.parse(toJSON(value)));
   } catch {
     // ignore quota/privacy errors
   }
@@ -173,7 +212,7 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
-      baseWriteLocal(fullKeyRef.current, JSON.parse(toJSON(state)));
+      scheduleWrite(fullKeyRef.current, JSON.parse(toJSON(state)));
     } catch {
       // ignore
     }
