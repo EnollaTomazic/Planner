@@ -12,7 +12,7 @@ import {
   AnimatedSelect,
 } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
-import { GoalsProgress } from "@/components/goals";
+import { GoalsProgress, GoalList } from "@/components/goals";
 import {
   RoleSelector,
   NeonIcon,
@@ -22,7 +22,7 @@ import {
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role } from "@/lib/types";
+import type { Role, Goal } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
@@ -164,6 +164,33 @@ const IconButtonShowcase = () => (
   </div>
 );
 
+const GOAL_DEMO_ITEMS: Goal[] = [
+  { id: "g1", title: "Demo active goal", done: false, createdAt: Date.now() },
+  {
+    id: "g2",
+    title: "Demo done goal",
+    done: true,
+    createdAt: Date.now() - 86_400_000,
+  },
+];
+
+const GoalListDemo = () => {
+  const [items, setItems] = React.useState<Goal[]>(GOAL_DEMO_ITEMS);
+  return (
+    <div className="mb-8">
+      <GoalList
+        goals={items}
+        onToggleDone={(id) =>
+          setItems((prev) =>
+            prev.map((g) => (g.id === id ? { ...g, done: !g.done } : g)),
+          )
+        }
+        onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
+      />
+    </div>
+  );
+};
+
 export default function Page() {
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
@@ -180,6 +207,7 @@ export default function Page() {
       <UpdatesList />
       <ButtonShowcase />
       <IconButtonShowcase />
+      <GoalListDemo />
       <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
