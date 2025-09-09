@@ -88,26 +88,31 @@ export default function PromptsPage() {
         />
 
         {/* List */}
-        <div className="mt-4 space-y-3">
+        <ul className="mt-4 space-y-3">
           {filtered.map((p) => (
-            <Card key={p.id} className="p-3">
-              <header className="flex items-center justify-between">
-                <h3 className="font-semibold">{p.title}</h3>
-                <time className="text-xs text-muted-foreground">
-                  {new Date(p.createdAt).toLocaleString(LOCALE)}
-                </time>
-              </header>
-              {p.text ? (
-                <p className="mt-1 whitespace-pre-wrap text-sm">{p.text}</p>
-              ) : null}
-            </Card>
+            <li key={p.id}>
+              <Card className="p-3">
+                <header className="flex items-center justify-between">
+                  <h3 className="font-semibold">{p.title}</h3>
+                  <time
+                    dateTime={new Date(p.createdAt).toISOString()}
+                    className="text-xs text-muted-foreground"
+                  >
+                    {new Date(p.createdAt).toLocaleString(LOCALE)}
+                  </time>
+                </header>
+                {p.text ? (
+                  <p className="mt-1 whitespace-pre-wrap text-sm">{p.text}</p>
+                ) : null}
+              </Card>
+            </li>
           ))}
           {filtered.length === 0 && (
-            <div className="text-muted-foreground">
+            <li className="text-muted-foreground">
               Nothing matches your search. Typical.
-            </div>
+            </li>
           )}
-        </div>
+        </ul>
 
         <PromptsDemos />
       </SectionCard.Body>
