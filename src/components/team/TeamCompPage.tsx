@@ -12,7 +12,7 @@
  */
 import "./style.css";
 
-import * as React from "react";
+import React, { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
 import Header, { HeaderTabs, type HeaderTab } from "@/components/ui/layout/Header";
 import Builder from "./Builder";
@@ -43,7 +43,7 @@ const TABS: HeaderTab<Tab>[] = [
 ];
 
 export default function TeamCompPage() {
-  const [tab, setTab] = React.useState<Tab>("cheat");
+  const [tab, setTab] = useState<Tab>("cheat");
 
   return (
     <main className="page-shell py-6 space-y-6">
