@@ -6,10 +6,10 @@ exports[`ReviewsPage > renders default state 1`] = `
     class="page-shell py-6 space-y-6"
   >
     <header
-      class="sticky top-8 z-[999] relative isolate rounded-2xl bg-[hsl(var(--card))]/70 backdrop-blur-md shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)] overflow-hidden"
+      class="z-[999] relative isolate rounded-2xl bg-[hsl(var(--card))]/70 backdrop-blur-md shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)] overflow-hidden"
     >
       <div
-        class="relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
+        class="sticky top-8 relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
       >
         <div
           aria-hidden="true"
