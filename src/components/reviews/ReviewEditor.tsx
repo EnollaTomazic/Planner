@@ -1,7 +1,6 @@
 "use client";
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
-import "./style.css";
 import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import NeonIcon from "@/components/reviews/NeonIcon";
@@ -121,7 +120,9 @@ function NeonPillarChip({
       <span
         className={cn(
           "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "opacity-40 animate-[neonAura_3.6s_ease-in-out_infinite]" : "opacity-0"
+          lit
+            ? "opacity-40 motion-safe:animate-[neonAura_3.6s_ease-in-out_infinite] motion-reduce:animate-none"
+            : "opacity-0"
         )}
         style={{
           filter: "blur(14px)",
@@ -134,7 +135,9 @@ function NeonPillarChip({
       <span
         className={cn(
           "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "animate-[igniteFlicker_.62s_steps(18,end)_1]" : ""
+          lit
+            ? "motion-safe:animate-[igniteFlicker_.62s_steps(18,end)_1] motion-reduce:animate-none"
+            : ""
         )}
         style={{
           background:

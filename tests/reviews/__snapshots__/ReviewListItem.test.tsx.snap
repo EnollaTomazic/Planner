@@ -4,7 +4,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
     data-scope="reviews"
     type="button"
   >
@@ -13,7 +13,7 @@ exports[`ReviewListItem > renders default state 1`] = `
     >
       <span
         aria-hidden="true"
-        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success"
       />
       <div
         class="min-w-0 flex flex-col gap-1"
@@ -53,7 +53,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 exports[`ReviewListItem > renders loading state 1`] = `
 <div>
   <div
-    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none animate-pulse"
+    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none motion-safe:animate-pulse motion-reduce:animate-none"
     data-scope="reviews"
   >
     <div
@@ -70,7 +70,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none review-tile--active"
+    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none _tileActive_d828d5"
     data-scope="reviews"
     data-selected="true"
     type="button"
@@ -80,7 +80,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
     >
       <span
         aria-hidden="true"
-        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success"
       />
       <div
         class="min-w-0 flex flex-col gap-1"
@@ -121,7 +121,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
 <div>
   <button
     aria-label="Open review: Untitled Review"
-    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
     data-scope="reviews"
     type="button"
   >
@@ -130,7 +130,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
     >
       <span
         aria-hidden="true"
-        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-success"
+        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success"
       />
       <div
         class="min-w-0 flex flex-col gap-1"

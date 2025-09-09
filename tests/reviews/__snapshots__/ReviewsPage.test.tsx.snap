@@ -770,7 +770,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Alpha"
-                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
                     type="button"
                   >
@@ -779,7 +779,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     >
                       <span
                         aria-hidden="true"
-                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
                       />
                       <div
                         class="min-w-0 flex flex-col gap-1"
@@ -804,7 +804,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Gamma"
-                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
                     type="button"
                   >
@@ -813,7 +813,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     >
                       <span
                         aria-hidden="true"
-                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
                       />
                       <div
                         class="min-w-0 flex flex-col gap-1"
@@ -838,7 +838,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Beta"
-                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                    class="_tile_d828d5 relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
                     type="button"
                   >
@@ -847,7 +847,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     >
                       <span
                         aria-hidden="true"
-                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                        class="self-center justify-self-center h-2 w-2 rounded-full motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
                       />
                       <div
                         class="min-w-0 flex flex-col gap-1"
