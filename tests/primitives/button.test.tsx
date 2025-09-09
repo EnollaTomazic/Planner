@@ -55,4 +55,18 @@ describe("Button", () => {
     );
     expect(getByRole("button")).toHaveClass(cls);
   });
+
+  it.each([
+    ["sm", "gap-1"],
+    ["md", "gap-2"],
+    ["lg", "gap-3"],
+  ])("applies %s gap spacing", (size, cls) => {
+    const { getByRole } = render(
+      <Button size={size as any}>
+        <svg />
+        Label
+      </Button>,
+    );
+    expect(getByRole("button")).toHaveClass(cls);
+  });
 });

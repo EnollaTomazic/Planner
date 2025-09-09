@@ -47,7 +47,8 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Control height is set via a `height` prop that accepts `"sm" | "md" | "lg"`
   or a numeric Tailwind token (e.g. `12` for `h-12`). The native `size`
   attribute remains available for setting character width.
- - `Button` automatically sizes any `svg` icons based on the `size` option.
+- `Button` automatically sizes any `svg` icons based on the `size` option
+  and sets icon gaps: `gap-1` for `sm`, `gap-2` for `md`, `gap-3` for `lg`.
 
 ```tsx
 import { Button } from "@/components/ui/primitives/Button";
