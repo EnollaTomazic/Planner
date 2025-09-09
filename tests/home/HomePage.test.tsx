@@ -1,16 +1,16 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import HomePage from "@/components/home/HomePage";
+import HomePage from "@/app/page";
 
 describe("HomePage", () => {
-  it("renders navigation links", () => {
+  it("renders quick action links", () => {
     render(<HomePage />);
-    const planner = screen.getByRole("link", { name: "Planner" });
-    const reviews = screen.getByRole("link", { name: "Reviews" });
-    const prompts = screen.getByRole("link", { name: "Prompts" });
+    const planner = screen.getByRole("link", { name: "Planner Today" });
+    const goal = screen.getByRole("link", { name: "New Goal" });
+    const review = screen.getByRole("link", { name: "New Review" });
     expect(planner).toHaveAttribute("href", "/planner");
-    expect(reviews).toHaveAttribute("href", "/reviews");
-    expect(prompts).toHaveAttribute("href", "/prompts");
+    expect(goal).toHaveAttribute("href", "/goals");
+    expect(review).toHaveAttribute("href", "/reviews");
   });
 });
