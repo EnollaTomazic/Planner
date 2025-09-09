@@ -429,24 +429,22 @@ export default function ReviewMetaControls({
         <div>
           <SectionLabel>Pillars</SectionLabel>
           <div className="flex flex-wrap gap-2">
-            {ALL_PILLARS.map((p) => {
-              const active = pillars.includes(p);
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => togglePillar(p)}
-                  onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
-                  aria-pressed={active}
-                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  title={active ? `${p} selected` : `Select ${p}`}
-                >
-                  <NeonPillarChip active={active}>
-                    <PillarBadge pillar={p} size="md" interactive active={active} />
+              {ALL_PILLARS.map((p) => {
+                const active = pillars.includes(p);
+                return (
+                  <NeonPillarChip key={p} active={active}>
+                    <PillarBadge
+                      pillar={p}
+                      size="md"
+                      interactive
+                      active={active}
+                      onClick={() => togglePillar(p)}
+                      className="focus-visible:ring-2 focus-visible:ring-ring"
+                      title={active ? `${p} selected` : `Select ${p}`}
+                    />
                   </NeonPillarChip>
-                </button>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
