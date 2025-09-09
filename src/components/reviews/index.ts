@@ -12,3 +12,7 @@ export { default as ReviewSummaryNotes } from "./ReviewSummaryNotes";
 export { default as RoleSelector } from "./RoleSelector";
 export { default as ReviewPanel } from "./ReviewPanel";
 export { default as NeonIcon } from "./NeonIcon";
+export { default as ReviewMetadata } from "./ReviewMetadata";
+export { default as ReviewNotesTags } from "./ReviewNotesTags";
+export { default as ReviewMarkerEditor } from "./ReviewMarkerEditor";
+export * from "./utils";

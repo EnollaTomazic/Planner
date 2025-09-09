@@ -12,22 +12,11 @@ import {
   AnimatedSelect,
 } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
-<<<<<<< HEAD
-import { GoalsProgress, GoalList } from "@/components/goals";
-import {
-  RoleSelector,
-  NeonIcon,
-  ReviewSummaryHeader,
-  ReviewSummaryScore,
-} from "@/components/reviews";
-=======
-import { GoalsProgress, GoalSlot } from "@/components/goals";
+import { GoalsProgress } from "@/components/goals";
 import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
->>>>>>> codex/replace-window.prompt-with-modal-ui
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
-import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role, Goal } from "@/lib/types";
+import type { Role } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
@@ -45,65 +34,16 @@ const FRUIT_ITEMS = [
 =======
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
-  const [demoGoal, setDemoGoal] = React.useState<Goal>({
-    id: "demo-goal",
-    title: "Demo goal",
-    done: false,
-    createdAt: Date.now(),
-  });
->>>>>>> codex/replace-window.prompt-with-modal-ui
+  const fruitItems = [
+    { value: "apple", label: "Apple" },
+    { value: "orange", label: "Orange" },
+  ];
+  const [fruit, setFruit] = React.useState(fruitItems[0].value);
 
-const NEON_ICONS = [
-  { kind: "clock", on: true },
-  { kind: "brain", on: true },
-  { kind: "file", on: false },
-] as const;
+  const demoScore = 7;
+  const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(demoScore);
+  const demoScoreMsg = SCORE_POOLS[demoScore][0];
 
-const UPDATES: React.ReactNode[] = [
-  <>
-    Global styles are now modularized into <code>animations.css</code>,<code>overlays.css</code>, and
-    <code>utilities.css</code>.
-  </>,
-  <>
-    Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
-  </>,
-  <>
-    Buttons now default to the 40px <code>md</code> size and follow a 36/40/44px scale.
-  </>,
-  <>
-    WeekPicker scrolls horizontally with snap points, showing 2–3 days at a time on smaller screens.
-  </>,
-  <>Review status dots blink to highlight wins and losses.</>,
-  <>
-    Hero dividers now use <code>var(--space-4)</code> top padding and tokenized side offsets via <code>var(--space-2)</code>.
-  </>,
-  <>
-    IconButton adds a compact <code>xs</code> size.
-  </>,
-  <>DurationSelector active state uses accent color tokens.</>,
-  <>
-    Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
-  </>,
-  <>
-    Textareas use <code>min-h-44</code> to align with spacing tokens instead of hardcoded heights.
-  </>,
-];
-
-const DEMO_SCORE = 7;
-const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(DEMO_SCORE);
-const DEMO_SCORE_MSG = SCORE_POOLS[DEMO_SCORE][0];
-
-function DemoHeader({
-  role,
-  onRoleChange,
-  fruit,
-  onFruitChange,
-}: {
-  role: Role;
-  onRoleChange: (r: Role) => void;
-  fruit: string;
-  onFruitChange: (f: string) => void;
-}) {
   return (
     <main className="page-shell py-6">
       <div className="mb-8 space-y-4">
@@ -143,6 +83,46 @@ function DemoHeader({
             className="btn-like-segmented btn-glitch w-[5ch]"
             inputClassName="text-center"
             type="text"
+          />
+        </div>
+        <div className="space-y-4">
+          <ReviewMetadata
+            result={metaResult}
+            onChangeResult={setMetaResult}
+            score={metaScore}
+            onChangeScore={setMetaScore}
+            focusOn={metaFocusOn}
+            onToggleFocus={setMetaFocusOn}
+            focus={metaFocus}
+            onChangeFocus={setMetaFocus}
+            pillars={metaPillars}
+            togglePillar={(p) =>
+              setMetaPillars((prev) =>
+                prev.includes(p) ? prev.filter((x) => x !== p) : prev.concat(p),
+              )
+            }
+            scoreMsg={metaScoreMsg}
+            ScoreIcon={metaScoreInfo.Icon}
+            scoreIconCls={metaScoreInfo.cls}
+            focusMsg={metaFocusMsg}
+            onScoreNext={() => markerTimeRef.current?.focus()}
+            resultRef={metaResultRef}
+          />
+          <ReviewMarkerEditor
+            markers={demoMarkers}
+            onChange={setDemoMarkers}
+            timeRef={markerTimeRef}
+            lastMarkerMode={demoMarkerMode}
+            setLastMarkerMode={setDemoMarkerMode}
+            lastMarkerTime={demoMarkerTime}
+            setLastMarkerTime={setDemoMarkerTime}
+          />
+          <ReviewNotesTags
+            notes={demoNotes}
+            onNotesChange={setDemoNotes}
+            onNotesBlur={() => {}}
+            tags={demoTags}
+            onTagsChange={setDemoTags}
           />
         </div>
       </div>
