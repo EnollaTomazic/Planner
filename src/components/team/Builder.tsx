@@ -10,7 +10,8 @@ import "./style.css";
  * - Center spine shows on md+ only
  */
 
-import { useMemo, useState } from "react";
+import * as React from "react";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
@@ -23,7 +24,6 @@ import {
   ClipboardCheck,
   Eraser,
   NotebookPen,
-  Info,
   Copy,
 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
@@ -94,9 +94,9 @@ export default function Builder() {
     allies: { ...EMPTY_TEAM },
     enemies: { ...EMPTY_TEAM },
   });
-  const [copied, setCopied] = useState<"all" | "allies" | "enemies" | null>(null);
+  const [copied, setCopied] = React.useState<"all" | "allies" | "enemies" | null>(null);
 
-  const filledCount = useMemo(() => {
+  const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
       [t.top, t.jungle, t.mid, t.adc, t.support].filter(Boolean).length;
     return { allies: countTeam(state.allies), enemies: countTeam(state.enemies) };
@@ -144,42 +144,38 @@ export default function Builder() {
   /* ─────────────── UI ─────────────── */
 
   return (
-    <div data-scope="team" className="grid gap-4">
-      <SectionCard className="card-neo-soft glitch-card">
-        <SectionCard.Header
-          sticky
-          title={
-            <div className="flex items-center gap-2">
-              <span className="pill">
-                <Info className="mr-1" /> Fill allies vs enemies. Swap in one click.
-              </span>
-            </div>
-          }
-          actions={
-            <div className="flex items-center gap-2">
-              <IconButton
-                title="Swap Allies ↔ Enemies"
-                aria-label="Swap Allies and Enemies"
-                onClick={swapSides}
-                size="sm"
-                iconSize="sm"
-              >
-                <Shuffle />
-              </IconButton>
-              <IconButton
-                title="Copy both sides"
-                aria-label="Copy both sides"
-                onClick={() => copy("all")}
-                size="sm"
-                iconSize="sm"
-              >
-                {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
-              </IconButton>
-            </div>
-          }
-        />
-        <SectionCard.Body>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
+    <div data-scope="team" className="w-full">
+      <Hero
+        eyebrow="Comps"
+        heading="Builder"
+        subtitle="Fill allies vs enemies. Swap in one click."
+        right={
+          <div className="flex items-center gap-2">
+            <IconButton
+              title="Swap Allies ↔ Enemies"
+              aria-label="Swap Allies and Enemies"
+              onClick={swapSides}
+              size="sm"
+              iconSize="sm"
+            >
+              <Shuffle />
+            </IconButton>
+            <IconButton
+              title="Copy both sides"
+              aria-label="Copy both sides"
+              onClick={() => copy("all")}
+              size="sm"
+              iconSize="sm"
+            >
+              {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
+            </IconButton>
+          </div>
+        }
+      />
+      <div className="mt-6">
+        <SectionCard className="card-neo-soft glitch-card">
+          <SectionCard.Body>
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
             {/* Allies */}
             <SideEditor
               title="Allies"
@@ -213,7 +209,8 @@ export default function Builder() {
             />
           </div>
         </SectionCard.Body>
-      </SectionCard>
+        </SectionCard>
+      </div>
     </div>
   );
 }
