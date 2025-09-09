@@ -11,6 +11,40 @@
   --panel: var(--card);
   --border: #312d43;
   --line: var(--border);
+<<<<<<< HEAD
+  --input: 250 22% 12%;
+  --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 262 83% 58%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 262 83% 18%;
+  --accent: 292 90% 35%;
+  --accent-2: 52 100% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 292 90% 15%;
+  --glow: 292 90% 35%;
+  --ring-muted: 248 20% 22%;
+  --danger: 0 84% 60%;
+  --muted: 248 26% 14%;
+  --muted-foreground: 250 15% 70%;
+  --surface: 248 24% 12%;
+  --surface-2: 248 24% 16%;
+  --surface-vhs: 210 27% 6%;
+  --surface-streak: 240 16% 12%;
+  --shadow-color: 262 83% 58%;
+  --lav-deep: 320 85% 60%;
+  --success: 142 72% 30%;
+  --success-glow: 142 72% 12% / 0.6;
+  --aurora-g: 150 100% 60%;
+  --aurora-g-light: 150 100% 85%;
+  --aurora-p: 272 80% 60%;
+  --aurora-p-light: 272 80% 85%;
+  --icon-fg: 247 100% 77%;
+  --accent-overlay: hsl(var(--accent));
+  --ring-contrast: hsl(var(--ring));
+  --glow-active: hsl(var(--glow));
+  --text-on-accent: hsl(var(--foreground));
+=======
   --input: #1a1825;
   --ring: #7c3bed;
   --theme-ring: var(--ring);
@@ -43,6 +77,7 @@
   --ring-contrast: var(--ring);
   --glow-active: var(--glow);
   --text-on-accent: var(--foreground);
+>>>>>>> main
 
   /* Default button tones */
   --neon: var(--glow);
