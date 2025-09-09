@@ -20,6 +20,7 @@ import { DashboardCard } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
+import { COLOR_PALETTES } from "@/lib/theme";
 
 type View = "components" | "colors";
 type Section =
@@ -53,36 +54,10 @@ const SECTION_TABS: TabItem<Section>[] = [
   { key: "misc", label: "Misc" },
 ];
 
-const AURORA_TOKENS = [
-  "bg-auroraG",
-  "bg-auroraGLight",
-  "bg-auroraP",
-  "bg-auroraPLight",
-];
-
-const NEUTRAL_TOKENS = [
-  "bg-border",
-  "bg-input",
-  "bg-ring",
-  "bg-background",
-  "bg-foreground",
-  "bg-card",
-  "bg-panel",
-  "bg-muted",
-  "bg-lavDeep",
-  "bg-surfaceVhs",
-  "bg-surfaceStreak",
-];
-
-const ACCENT_TOKENS = [
-  "bg-primary",
-  "bg-accent",
-  "bg-accent-2",
-  "bg-glow",
-  "bg-ringMuted",
-  "bg-danger",
-  "bg-warning",
-  "bg-success",
+const COLOR_SECTIONS = [
+  { title: "Aurora", tokens: COLOR_PALETTES.aurora },
+  { title: "Neutrals", tokens: COLOR_PALETTES.neutrals },
+  { title: "Accents", tokens: COLOR_PALETTES.accents },
 ];
 
 const demoPrompts: PromptWithTitle[] = [
@@ -254,7 +229,7 @@ function Swatch({ token }: SwatchProps) {
     <li className="col-span-3 flex flex-col items-center gap-3">
       <div
         className="h-16 w-full rounded-xl border border-[var(--card-hairline)]"
-        style={{ backgroundColor: `var(--${token})` }}
+        style={{ backgroundColor: `hsl(var(--${token}))` }}
       />
       <span className="text-xs font-medium">{token}</span>
     </li>
@@ -315,14 +290,9 @@ function ComponentsView({ query }: { query: string }) {
 }
 
 function ColorsView() {
-  const palettes = [
-    { title: "Aurora", tokens: AURORA_TOKENS },
-    { title: "Neutrals", tokens: NEUTRAL_TOKENS },
-    { title: "Accents", tokens: ACCENT_TOKENS },
-  ];
   return (
     <div className="space-y-8">
-      {palettes.map((p) => (
+      {COLOR_SECTIONS.map((p) => (
         <SectionCard key={p.title} title={p.title}>
           <ul className="grid grid-cols-12 gap-6">
             {p.tokens.map((t) => (
