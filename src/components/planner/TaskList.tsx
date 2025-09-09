@@ -52,7 +52,7 @@ export default function TaskList({
           aria-label="Add task"
         />
       )}
-      <div className="min-h-[120px] max-h-[320px] overflow-y-auto px-2 py-2">
+      <div className="min-h-32 max-h-80 overflow-y-auto px-2 py-2">
         {!selectedProjectId ? (
           <EmptyRow text="No task selected." />
         ) : tasksForSelected.length === 0 ? (

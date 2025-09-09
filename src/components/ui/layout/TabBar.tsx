@@ -211,7 +211,7 @@ export default function TabBar<K extends string = string>({
             ref={indicatorRef}
             aria-hidden
             className={cn(
-              "pointer-events-none absolute -bottom-1 h-[2px] rounded-full opacity-0",
+              "pointer-events-none absolute -bottom-1 h-0.5 rounded-full opacity-0",
               "[background:var(--seg-active-grad,linear-gradient(90deg,hsl(var(--primary))_0%,hsl(var(--accent))_100%))]",
               "transition-[transform,width,opacity] duration-200 ease-out",
               "shadow-ring",
@@ -229,7 +229,7 @@ export default function TabBar<K extends string = string>({
       {showBaseline && (
         <div
           aria-hidden
-          className="absolute -bottom-[9px] left-0 right-0 h-px opacity-70 [background:linear-gradient(90deg,transparent,hsla(var(--ring),0.5),transparent)]"
+          className="absolute -bottom-2.5 left-0 right-0 h-px opacity-70 [background:linear-gradient(90deg,transparent,hsla(var(--ring),0.5),transparent)]"
         />
       )}
     </div>

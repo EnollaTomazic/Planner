@@ -59,7 +59,7 @@ export default function Badge<T extends React.ElementType = "span">({
     <Comp
       data-selected={selected ? "true" : undefined}
       className={cn(
-        "inline-flex max-w-full items-center gap-[6px] whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
+        "inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
         "border bg-[color-mix(in_oklab,hsl(var(--muted))_18%,transparent)]",
         "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_hsl(var(--shadow-color)/.18)]",
         "transition-[background,box-shadow,transform] duration-140 ease-out",

@@ -8,6 +8,7 @@ import {
   SearchBar,
   SegmentedButton,
   TabBar,
+  Badge,
   ThemeToggle,
   type TabItem,
 } from "@/components/ui";
@@ -182,6 +183,12 @@ const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["status"],
+    },
+    {
+      id: "badge",
+      name: "Badge",
+      element: <Badge>Badge</Badge>,
+      tags: ["badge"],
     },
     {
       id: "role-selector",

@@ -318,7 +318,7 @@ export default function RemindersTab() {
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
-              <div className="flex flex-wrap items-center gap-4 pl-[2px]">
+              <div className="flex flex-wrap items-center gap-4 pl-0.5">
                 <TabBar
                   items={SOURCE_TABS}
                   value={source}
@@ -512,7 +512,7 @@ function RemTile({
               }
               className="rounded-2xl"
               resize="resize-y"
-              textareaClassName="min-h-[160px] leading-relaxed"
+              textareaClassName="min-h-40 leading-relaxed"
             />
 
             <label className="text-xs opacity-70">Tags</label>
