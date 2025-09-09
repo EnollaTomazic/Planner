@@ -50,7 +50,7 @@ describe('Textarea', () => {
       <Textarea aria-label="test" aria-invalid="false" />
     );
     expect(container.firstChild).not.toHaveClass(
-      'border-[hsl(var(--destructive)/0.6)]'
+      'border-[hsl(var(--danger)/0.6)]'
     );
   });
 
