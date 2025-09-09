@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { ButtonSize } from "./Button";
 
-type IconButtonSize = ButtonSize | "xl";
+export type IconButtonSize = ButtonSize | "xl" | "xs";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
@@ -26,6 +26,7 @@ const iconMap: Record<Icon, string> = {
 };
 
 const sizeMap: Record<IconButtonSize, string> = {
+  xs: "h-8 w-8",
   sm: "h-9 w-9",
   md: "h-10 w-10",
   lg: "h-11 w-11",
