@@ -159,7 +159,7 @@ export default function JungleClears() {
                 sticky
                 title={
                   <div className="flex items-center gap-2">
-                    <Timer className="opacity-80" />
+                    <Timer className="opacity-80" aria-hidden="true" />
                     {/* Glitch title + glow */}
                     <span
                       className="glitch-title glitch-flicker title-glow text-xl sm:text-2xl md:text-3xl font-semibold"
@@ -202,7 +202,7 @@ export default function JungleClears() {
 
                 <div className="mb-2 flex justify-end">
                   <IconButton size="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
-                    <Plus />
+                    <Plus aria-hidden="true" />
                   </IconButton>
                 </div>
 
@@ -251,7 +251,7 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
                                 <IconButton size="sm" iconSize="xs" aria-label="Save" onClick={saveEdit}>
-                                  <Check />
+                                  <Check aria-hidden="true" />
                                 </IconButton>
                                 <IconButton
                                   size="sm"
@@ -260,7 +260,7 @@ export default function JungleClears() {
                                   aria-label="Cancel"
                                   onClick={cancelEdit}
                                 >
-                                  <X />
+                                  <X aria-hidden="true" />
                                 </IconButton>
                               </div>
                             </td>
@@ -284,7 +284,7 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
                                 <IconButton size="sm" iconSize="xs" aria-label="Edit" onClick={() => startEdit(r)}>
-                                  <Pencil />
+                                  <Pencil aria-hidden="true" />
                                 </IconButton>
                                 <IconButton
                                   size="sm"
@@ -293,7 +293,7 @@ export default function JungleClears() {
                                   aria-label="Delete"
                                   onClick={() => deleteRow(r.id)}
                                 >
-                                  <Trash2 />
+                                  <Trash2 aria-hidden="true" />
                                 </IconButton>
                               </div>
                             </td>

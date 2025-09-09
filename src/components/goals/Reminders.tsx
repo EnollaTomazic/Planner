@@ -169,7 +169,11 @@ export default function Reminders() {
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}
             <div className="relative flex-1 min-w-[220px]">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70" />
+              <Search
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"
+                aria-hidden="true"
+              />
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
@@ -199,7 +203,11 @@ export default function Reminders() {
               type="button"
               title="Pinned only"
             >
-              {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+              {onlyPinned ? (
+                <PinOff className="mr-1" aria-hidden="true" />
+              ) : (
+                <Pin className="mr-1" aria-hidden="true" />
+              )}
               {onlyPinned ? "Pinned only" : "Any pin"}
             </button>
 
@@ -324,7 +332,11 @@ function ReminderCard({
             size="sm"
             iconSize="sm"
           >
-            {value.pinned ? <PinOff /> : <Pin />}
+            {value.pinned ? (
+              <PinOff aria-hidden="true" />
+            ) : (
+              <Pin aria-hidden="true" />
+            )}
           </IconButton>
           <IconButton
             title="Duplicate"
@@ -365,7 +377,7 @@ function ReminderCard({
                 size="sm"
                 iconSize="sm"
               >
-                <Pencil />
+            <Pencil aria-hidden="true" />
               </IconButton>
               <IconButton
                 title="Delete"
@@ -374,7 +386,7 @@ function ReminderCard({
                 size="sm"
                 iconSize="sm"
               >
-                <Trash2 />
+                <Trash2 aria-hidden="true" />
               </IconButton>
             </>
           )}
