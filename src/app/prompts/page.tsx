@@ -4,7 +4,10 @@ import * as React from "react";
 import { TabBar, Header, Hero, Button, type TabItem } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
+import { RoleSelector } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
+import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
+import type { Role } from "@/lib/types";
 
 type View = "components" | "colors";
 
@@ -15,6 +18,7 @@ export default function Page() {
   ];
 
   const [view, setView] = React.useState<View>("components");
+  const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
 
   return (
     <main className="page-shell py-6">
@@ -24,6 +28,9 @@ export default function Page() {
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
+        </div>
+        <div className="flex justify-center">
+          <RoleSelector value={role} onChange={setRole} />
         </div>
         <div className="flex justify-center">
           <input
