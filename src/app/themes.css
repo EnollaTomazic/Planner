@@ -136,8 +136,8 @@ html.light {
   --muted-foreground: 240 4% 35%;
   --surface: 240 7% 98%;
   --surface-2: 240 6% 96%;
-  --surface-vhs: 210 27% 6%;
-  --surface-streak: 240 16% 12%;
+  --surface-vhs: 210 27% 94%;
+  --surface-streak: 240 16% 92%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 86% 62%;
@@ -161,6 +161,7 @@ html.theme-aurora {
   --primary-soft: 150 100% 20%;
   --accent: 272 80% 60%;
   --accent-2: 150 100% 60%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 272 80% 20%;
   --muted: 279 100% 15%;
   --muted-foreground: 279 20% 75%;
@@ -203,6 +204,7 @@ html.theme-citrus {
   --primary-soft: 24 95% 22%;
   --accent: 24 96% 35%;
   --accent-2: 170 80% 25%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 24 96% 15%;
   --muted: 214 18% 24%;
   --muted-foreground: 214 20% 72%;
@@ -229,6 +231,7 @@ html.theme-noir {
   --primary-soft: 0 90% 24%;
   --accent: 178 91% 25%;
   --accent-2: 40 96% 25%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 178 91% 10%;
   --muted: 350 35% 18%;
   --muted-foreground: 350 25% 65%;
@@ -255,6 +258,7 @@ html.theme-ocean {
   --primary-soft: 195 85% 16%;
   --accent: 199 100% 27%;
   --accent-2: 225 85% 30%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 199 100% 12%;
   --muted: 220 24% 16%;
   --muted-foreground: 220 14% 72%;
@@ -264,8 +268,8 @@ html.theme-ocean {
   --success-glow: 160 70% 35% / 0.6;
 }
 
-/* ---------- Rose Quartz ---------- */
-html.theme-rose {
+/* ---------- Kitten ---------- */
+html.theme-kitten {
   --background: 330 100% 2%;
   --foreground: 330 20% 96%;
   --text: var(--foreground);
@@ -280,7 +284,8 @@ html.theme-rose {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 330 100% 24%;
   --accent: 336 100% 27%;
-  --accent-2: 330 100% 40%;
+  --accent-2: 196 100% 30%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 336 100% 12%;
   --muted: 330 100% 20%;
   --muted-foreground: 330 20% 70%;
@@ -292,36 +297,38 @@ html.theme-rose {
 
 /* ---------- Hardstuck ---------- */
 html.theme-hardstuck {
-  --background: 165 60% 3%;
-  --foreground: 160 12% 95%;
+  --background: 120 60% 2%;
+  --foreground: 120 100% 70%;
   --text: var(--foreground);
-  --card: 165 55% 7%;
+  --card: 120 55% 5%;
   --panel: var(--card);
-  --border: 165 40% 22%;
+  --border: 120 40% 20%;
   --line: var(--border);
-  --input: 165 45% 10%;
-  --ring: 160 100% 60%;
+  --input: 120 45% 8%;
+  --ring: 120 100% 60%;
   --theme-ring: hsl(var(--ring));
-  --primary: 160 100% 60%;
-  --primary-foreground: 0 0% 100%;
-  --primary-soft: 160 100% 24%;
-  --accent: 284 100% 24%;
-  --accent-2: 160 100% 20%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 284 100% 10%;
-  --glow: 160 100% 60%;
-  --ring-muted: 165 30% 20%;
+  --primary: 120 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --primary-soft: 120 100% 24%;
+  --accent: 120 100% 60%;
+  --accent-2: 120 100% 20%;
+  --accent-foreground: 0 0% 0%;
+  --text-on-accent: hsl(var(--background));
+  --accent-soft: 120 100% 12%;
+  --glow: 120 100% 60%;
+  --ring-muted: 120 30% 20%;
   --danger: 0 84% 60%;
-  --muted: 165 35% 14%;
-  --muted-foreground: 165 15% 70%;
-  --surface: 165 32% 12%;
-  --surface-2: 165 32% 16%;
-  --surface-vhs: 210 27% 6%;
-  --surface-streak: 240 16% 12%;
-  --shadow-color: 160 100% 40%;
-  --lav-deep: 300 90% 60%;
-  --success: 150 70% 50%;
-  --success-glow: 150 70% 40% / 0.6;
+  --muted: 120 35% 10%;
+  --muted-foreground: 120 15% 70%;
+  --surface: 120 32% 8%;
+  --surface-2: 120 32% 12%;
+  --surface-vhs: 120 27% 4%;
+  --surface-streak: 120 16% 10%;
+  --shadow-color: 120 100% 40%;
+  --lav-deep: 120 100% 50%;
+  --icon-fg: 120 100% 60%;
+  --success: 120 100% 50%;
+  --success-glow: 120 100% 40% / 0.6;
 }
 
 /* =========================================================
@@ -333,7 +340,7 @@ html.theme-hardstuck {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -343,7 +350,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -353,7 +360,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -459,50 +466,50 @@ html.theme-ocean body::after {
  100% { transform: translate3d( 2%,  1%, 0) scale(1.01); opacity:.95; }
 }
 
-/* Rose Quartz backdrop */
-html.theme-rose body {
+/* Kitten backdrop */
+html.theme-kitten body {
   background-image:
     radial-gradient(1100px 620px at 16% -8%,  hsl(343 100% 35% / 0.20), transparent 60%),
     radial-gradient(1000px 560px at 106% 14%, hsl(340 100% 45% / 0.16), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-rose body::before {
+html.theme-kitten body::before {
   content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
     repeating-linear-gradient(90deg, hsl(343 100% 35% / 0.30) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(0deg,  hsl(340 100% 45% / 0.26) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; opacity:.10; animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-rose body::after {
+html.theme-kitten body::after {
   content:""; position:fixed; inset:-10%; z-index:0; pointer-events:none;
   background:
     radial-gradient(60% 40% at 12% -6%, hsl(343 100% 35% / 0.18), transparent 60%),
     radial-gradient(55% 35% at 50% 116%, hsl(340 100% 45% / 0.12), transparent 65%),
     radial-gradient(50% 35% at 100% 8%,   hsl(347 100% 90% / 0.10), transparent 60%);
-  filter: blur(2px) saturate(112%); animation: rose-pan 27s ease-in-out infinite alternate;
+  filter: blur(2px) saturate(112%); animation: kitten-pan 27s ease-in-out infinite alternate;
 }
-@keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
+@keyframes kitten-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
 
 /* Hardstuck backdrop */
 html.theme-hardstuck body {
   background-image:
-    radial-gradient(1000px 520px at 20% -10%, hsl(160 100% 60% / 0.15), transparent 60%),
-    radial-gradient(900px 520px at 110% 15%, hsl(300 90% 60% / 0.12), transparent 60%),
+    radial-gradient(1000px 520px at 20% -10%, hsl(120 100% 60% / 0.15), transparent 60%),
+    radial-gradient(900px 520px at 110% 15%, hsl(120 80% 40% / 0.12), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-hardstuck body::before {
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background: repeating-linear-gradient(0deg, hsl(160 100% 60% / 0.05) 0 1px, transparent 1px 3px);
+  background: repeating-linear-gradient(0deg, hsl(120 100% 60% / 0.05) 0 1px, transparent 1px 3px);
   mix-blend-mode: screen; opacity:0.2; animation: hardstuck-scan 14s linear infinite;
 }
 html.theme-hardstuck body::after {
   content:""; position:fixed; inset:-12%; pointer-events:none; z-index:0;
   background:
-    radial-gradient(80% 60% at 50% 120%, hsl(160 90% 6% / 0.45), transparent 70%),
-    radial-gradient(40% 25% at 6% 4%,  hsl(160 100% 60% / 0.15), transparent 60%),
-    radial-gradient(40% 25% at 94% 10%, hsl(300 80% 60% / 0.12), transparent 60%);
+    radial-gradient(80% 60% at 50% 120%, hsl(120 90% 6% / 0.45), transparent 70%),
+    radial-gradient(40% 25% at 6% 4%,  hsl(120 100% 60% / 0.15), transparent 60%),
+    radial-gradient(40% 25% at 94% 10%, hsl(120 80% 40% / 0.12), transparent 60%);
   filter: blur(1.5px) saturate(110%); opacity:0.9; animation: hardstuck-drift 26s ease-in-out infinite alternate;
 }
 @keyframes hardstuck-scan { 0%{background-position-y:0} 100%{background-position-y:100%} }

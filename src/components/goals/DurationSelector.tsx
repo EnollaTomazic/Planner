@@ -38,7 +38,7 @@ export default function DurationSelector({
               "hover:bg-[hsl(var(--foreground)/0.10)] hover:text-[hsl(var(--foreground)/0.70)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
               active &&
-                "border-purple-400/60 bg-purple-500/20 text-[hsl(var(--foreground)/0.70)] font-semibold"
+                "border-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.2)] text-[hsl(var(--foreground)/0.70)] font-semibold"
             )}
           >
             {m}m

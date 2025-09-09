@@ -35,6 +35,40 @@ describe("GoalsPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows domain in reminders hero and updates on change", () => {
+    render(<GoalsPage />);
+
+    const remindersTab = screen.getByRole("tab", { name: "Reminders" });
+    fireEvent.click(remindersTab);
+
+    const heroSection = screen
+      .getByRole("heading", { name: "Reminders" })
+      .closest("section") as HTMLElement;
+    expect(
+      within(heroSection).getByText("League", { selector: "div" }),
+    ).toBeInTheDocument();
+
+    const domainTabs = screen.getByRole("tablist", {
+      name: "Reminder domain",
+    });
+    fireEvent.click(within(domainTabs).getByRole("tab", { name: "Life" }));
+    expect(
+      within(heroSection).getByText("Life", { selector: "div" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows timer hero with profile tabs", () => {
+    render(<GoalsPage />);
+    const timerTab = screen.getByRole("tab", { name: "Timer" });
+    fireEvent.click(timerTab);
+    expect(
+      screen.getByRole("heading", { name: "Timer" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("tablist", { name: "Timer profiles" }),
+    ).toBeInTheDocument();
+  });
+
   it("handles adding goals, cap enforcement, completion toggles, and undo", async () => {
     render(<GoalsPage />);
 

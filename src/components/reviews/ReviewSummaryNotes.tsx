@@ -9,7 +9,7 @@ export default function ReviewSummaryNotes({ notes }: ReviewSummaryNotesProps) {
   return (
     <div>
       <SectionLabel>Notes</SectionLabel>
-      <div className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-sm leading-6 text-[hsl(var(--foreground)/0.7)]">
+      <div className="rounded-2xl border border-border bg-card p-3 text-sm leading-6 text-foreground/70">
         {notes}
       </div>
     </div>
