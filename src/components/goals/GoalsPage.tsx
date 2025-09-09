@@ -45,19 +45,19 @@ const TABS: Array<{
   {
     key: "goals",
     label: "Goals",
-    icon: <Flag className="mr-1 h-4 w-4" />,
+    icon: <Flag />,
     hint: "Cap 3 active",
   },
   {
     key: "reminders",
     label: "Reminders",
-    icon: <ListChecks className="mr-1 h-4 w-4" />,
+    icon: <ListChecks />,
     hint: "Quick cues",
   },
   {
     key: "timer",
     label: "Timer",
-    icon: <TimerIcon className="mr-1 h-4 w-4" />,
+    icon: <TimerIcon />,
     hint: "Focus sprints",
   },
 ];
