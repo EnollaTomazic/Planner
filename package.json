@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "verify-prompts": "ts-node scripts/verify-prompts.ts",
     "check-prompts": "ts-node scripts/check-prompts-updated.ts",
-    "postinstall": "ts-node scripts/regen-if-needed.ts",
+    "postinstall": "node scripts/regen-if-needed.js",
     "prepare": "husky"
   },
   "dependencies": {
