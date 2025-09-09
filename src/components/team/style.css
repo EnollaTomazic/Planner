@@ -3,7 +3,7 @@
 /* Champ badges */
 .champ-badges { @apply flex flex-wrap gap-2; }
 .champ-badge{
-  @apply inline-flex items-center h-7 px-2.5 rounded-full border text-xs leading-none whitespace-nowrap;
+  @apply inline-flex items-center h-8 px-3 rounded-full border text-xs leading-none whitespace-nowrap;
   border-color: hsl(var(--border));
   background: hsl(var(--card)); color: hsl(var(--foreground));
   transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
