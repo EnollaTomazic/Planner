@@ -8,11 +8,11 @@ function StaticNeonWrap({ children }: { children: React.ReactNode }) {
     <span className="relative inline-flex">
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--primary)))] opacity-40 blur-[6px]"
+        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-accent to-primary opacity-40 blur-[6px]"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-[hsl(var(--ring)/.35)]"
+        className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-ring/35"
       />
       <span className="relative z-10">{children}</span>
     </span>

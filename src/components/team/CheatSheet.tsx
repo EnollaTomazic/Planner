@@ -236,7 +236,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[180px] text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
+      textareaClassName="min-h-44 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
       aria-label="Description"
     />
   );

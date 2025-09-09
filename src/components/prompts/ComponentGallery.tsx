@@ -188,6 +188,9 @@ export default function ComponentGallery() {
         label: "Icon Button",
         element: (
           <div className="w-56 flex justify-center gap-2">
+            <IconButton size="xs" aria-label="Add" title="Add">
+              <Plus />
+            </IconButton>
             <IconButton aria-label="Add" title="Add">
               <Plus />
             </IconButton>

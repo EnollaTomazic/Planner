@@ -13,6 +13,7 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
+import Hero from "@/components/ui/layout/Hero";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
@@ -70,12 +71,17 @@ export default function TimerTab() {
     false,
   );
 
+  const prevProfile = React.useRef<ProfileKey>(profile);
   // Reset timer when switching profiles (studying, cleaning, coding)
   React.useEffect(() => {
-    setRunning(false);
-    setRemaining((profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile]);
+    if (prevProfile.current !== profile) {
+      setRunning(false);
+      setRemaining(
+        (profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000,
+      );
+      prevProfile.current = profile;
+    }
+  }, [profile, personalMinutes, profileDef.defaultMin, setRunning, setRemaining]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -166,23 +172,29 @@ export default function TimerTab() {
   ) : null;
 
   return (
-    <SectionCard className="goal-card no-hover">
-      <SectionCard.Header sticky topClassName="top-0">
-        <TabBar
-          items={tabItems}
-          value={profile}
-          onValueChange={(k) => setProfile(k as ProfileKey)}
-          size="md"
-          align="between"
-          ariaLabel="Timer profiles"
-          right={rightSlot}
-          showBaseline
-        />
-      </SectionCard.Header>
+    <div className="grid gap-4">
+      <Hero
+        eyebrow="Focus"
+        heading="Timer"
+        subtitle="Pick a duration and focus."
+        right={
+          <TabBar
+            items={tabItems}
+            value={profile}
+            onValueChange={(k) => setProfile(k as ProfileKey)}
+            size="md"
+            align="between"
+            ariaLabel="Timer profiles"
+            right={rightSlot}
+            showBaseline
+          />
+        }
+      />
 
-      <SectionCard.Body>
-        {/* Stage row with side buttons and centered digits */}
-        <div className="goal-card p-5 sm:p-6 overflow-hidden">
+      <SectionCard className="goal-card no-hover">
+        <SectionCard.Body>
+          {/* Stage row with side buttons and centered digits */}
+          <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
@@ -415,5 +427,6 @@ export default function TimerTab() {
         }
       `}</style>
     </SectionCard>
+  </div>
   );
 }

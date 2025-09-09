@@ -6,6 +6,8 @@ import {
   removeLocal,
   usePersistentState,
   uid,
+  flushWriteLocal,
+  setWriteLocalDelay,
 } from "@/lib/db";
 
 // Tests for localStorage helpers
@@ -37,6 +39,8 @@ describe("localStorage helpers", () => {
       value: mockStorage,
       configurable: true,
     });
+    setWriteLocalDelay(0);
+    flushWriteLocal();
   });
 
   afterAll(() => {
@@ -45,6 +49,7 @@ describe("localStorage helpers", () => {
 
   it("writes and reads namespaced values", () => {
     writeLocal("foo", { bar: 1 });
+    flushWriteLocal();
     expect(mockStorage.setItem).toHaveBeenCalledWith(
       "noxis-planner:foo",
       JSON.stringify({ bar: 1 }),
@@ -54,6 +59,7 @@ describe("localStorage helpers", () => {
 
   it("removes values", () => {
     writeLocal("foo", "baz");
+    flushWriteLocal();
     removeLocal("foo");
     expect(mockStorage.removeItem).toHaveBeenCalledWith("noxis-planner:foo");
     expect(readLocal("foo")).toBeNull();
@@ -65,6 +71,8 @@ describe("localStorage helpers", () => {
 describe("usePersistentState", () => {
   beforeEach(() => {
     window.localStorage.clear();
+    setWriteLocalDelay(0);
+    flushWriteLocal();
   });
 
   it("hydrates state from localStorage after mount", async () => {

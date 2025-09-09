@@ -2,20 +2,32 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { ButtonSize } from "./Button";
+import { buttonSizes, type ButtonSize } from "./Button";
 
-type IconButtonSize = ButtonSize | "xl";
+export type IconButtonSize = ButtonSize | "xl" | "xs";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
-export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  size?: IconButtonSize;
-  iconSize?: Icon;
-  tone?: Tone;
-  variant?: Variant;
-};
+type ButtonAttributes = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "aria-label" | "aria-labelledby" | "title"
+>;
+
+type AccessibleLabel =
+  | { "aria-label": string; "aria-labelledby"?: string; title?: string }
+  | { "aria-label"?: string; "aria-labelledby": string; title?: string }
+  | { "aria-label"?: string; "aria-labelledby"?: string; title: string };
+
+export type IconButtonProps = ButtonAttributes &
+  {
+    size?: IconButtonSize;
+    iconSize?: Icon;
+    tone?: Tone;
+    variant?: Variant;
+  } &
+  AccessibleLabel;
 
 const iconMap: Record<Icon, string> = {
   xs: "[&>svg]:h-5 [&>svg]:w-5",
@@ -25,11 +37,18 @@ const iconMap: Record<Icon, string> = {
   xl: "[&>svg]:h-9 [&>svg]:w-9",
 };
 
-const sizeMap: Record<IconButtonSize, string> = {
-  sm: "h-9 w-9",
-  md: "h-10 w-10",
-  lg: "h-11 w-11",
-  xl: "h-12 w-12",
+const getSizeClass = (s: IconButtonSize) => {
+  const toNum = (h: string) => Number(h.replace("h-", ""));
+  if (s === "xs") {
+    const n = toNum(buttonSizes.sm.height) - 1;
+    return `h-${n} w-${n}`;
+  }
+  if (s === "xl") {
+    const n = toNum(buttonSizes.lg.height) + 1;
+    return `h-${n} w-${n}`;
+  }
+  const n = toNum(buttonSizes[s as ButtonSize].height);
+  return `h-${n} w-${n}`;
 };
 
 const variantBase: Record<Variant, string> = {
@@ -73,8 +92,16 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "md", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
-    ref
+    {
+      size = "md",
+      iconSize = size as Icon,
+      className,
+      tone = "primary",
+      variant = "ring",
+      children,
+      ...rest
+    },
+    ref,
   ) => {
     const sizeClass = sizeMap[size];
     return (
@@ -87,14 +114,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           toneClasses[variant][tone],
           sizeClass,
           iconMap[iconSize],
-          className
+          className,
         )}
-        {...props}
+        {...rest}
       >
-        {props.children}
+        {children}
       </button>
     );
-  }
+  },
 );
 
 IconButton.displayName = "IconButton";

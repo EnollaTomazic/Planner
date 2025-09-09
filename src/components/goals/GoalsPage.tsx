@@ -11,14 +11,12 @@
  */
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
+import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
 import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import IconButton from "@/components/ui/primitives/IconButton";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import {
+import { 
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   Snackbar,
@@ -26,10 +24,10 @@ import {
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
+import GoalList from "./GoalList";
 
 import { usePersistentState } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
-import { shortDate } from "@/lib/date";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -196,15 +194,6 @@ export default function GoalsPage() {
         }
       />
 
-      {tab === "goals" && (
-        <Hero
-          eyebrow="Guide"
-          heading="Overview"
-          subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-          sticky={false}
-        />
-      )}
-
       <section className="grid gap-6">
         <div
           role="tabpanel"
@@ -213,7 +202,14 @@ export default function GoalsPage() {
           hidden={tab !== "goals"}
         >
           {tab === "goals" && (
-            <>
+            <div className="grid gap-4">
+              <Hero
+                eyebrow="Guide"
+                heading="Overview"
+                subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+                sticky={false}
+              />
+
               {totalCount === 0 ? (
                 <GoalsProgress
                   total={totalCount}
@@ -236,93 +232,11 @@ export default function GoalsPage() {
                     <GoalsTabs value={filter} onChange={setFilter} />
                   </SectionCard.Header>
                   <SectionCard.Body>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
-                      {filtered.length === 0 ? (
-                        <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                          No goals here. Add one simple, finishable thing.
-                        </p>
-                      ) : (
-                        filtered.map((g) => (
-                          <article
-                            key={g.id}
-                            className={[
-                              "relative rounded-2xl p-6",
-                              "card-neo transition",
-                              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_hsl(var(--shadow-color)/0.35)]",
-                              "min-h-8 flex flex-col",
-                            ].join(" ")}
-                          >
-                            <span
-                              aria-hidden
-                              className="absolute inset-y-4 left-0 w-1 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
-                            />
-                            <header className="flex items-start justify-between gap-2">
-                              <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
-                                {g.title}
-                              </h3>
-                              <div className="flex items-center gap-2">
-                                <CheckCircle
-                                  aria-label={
-                                    g.done ? "Mark active" : "Mark done"
-                                  }
-                                  checked={g.done}
-                                  onChange={() => toggleDone(g.id)}
-                                  size="lg"
-                                />
-                                <IconButton
-                                  title="Delete"
-                                  aria-label="Delete goal"
-                                  onClick={() => removeGoal(g.id)}
-                                  size="sm"
-                                >
-                                  <Trash2 />
-                                </IconButton>
-                              </div>
-                            </header>
-                            <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))] space-y-2">
-                              {g.metric ? (
-                                <div className="tabular-nums">
-                                  <span className="opacity-70">Metric:</span>{" "}
-                                  {g.metric}
-                                </div>
-                              ) : null}
-                              {g.notes ? (
-                                <p className="leading-relaxed">{g.notes}</p>
-                              ) : null}
-                            </div>
-                            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]">
-                              <span className="inline-flex items-center gap-2">
-                                <span
-                                  aria-hidden
-                                  className={[
-                                    "h-2 w-2 rounded-full",
-                                    g.done ? "" : "bg-[hsl(var(--primary))]",
-                                  ].join(" ")}
-                                  style={
-                                    g.done
-                                      ? { background: "var(--accent-overlay)" }
-                                      : undefined
-                                  }
-                                />
-                                <time
-                                  className="tabular-nums"
-                                  dateTime={new Date(g.createdAt).toISOString()}
-                                >
-                                  {shortDate.format(new Date(g.createdAt))}
-                                </time>
-                              </span>
-                              <span
-                                className={
-                                  g.done ? "text-[hsl(var(--accent))]" : ""
-                                }
-                              >
-                                {g.done ? "Done" : "Active"}
-                              </span>
-                            </footer>
-                          </article>
-                        ))
-                      )}
-                    </div>
+                    <GoalList
+                      goals={filtered}
+                      onToggleDone={toggleDone}
+                      onRemove={removeGoal}
+                    />
                   </SectionCard.Body>
                 </SectionCard>
               )}
@@ -354,7 +268,7 @@ export default function GoalsPage() {
                   }}
                 />
               )}
-            </>
+            </div>
           )}
         </div>
 

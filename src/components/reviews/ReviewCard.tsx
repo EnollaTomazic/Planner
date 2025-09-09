@@ -19,7 +19,7 @@ export default function ReviewCard({
   const created = review.createdAt ? new Date(review.createdAt) : null;
 
   return (
-    <div className={cn("p-3 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))]/85", active && "shadow-lg")}>
+    <div className={cn("p-3 rounded-2xl border border-border bg-card/85", active && "shadow-lg")}> 
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
