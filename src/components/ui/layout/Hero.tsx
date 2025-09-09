@@ -454,12 +454,12 @@ export function HeroGlitchStyles() {
       }
       .hero2-sep {
         position: relative;
-        padding-top: var(--space-5);
+        padding-top: var(--space-4);
       }
       .hero2-neon-line {
         position: absolute;
-        left: -8px;
-        right: -8px;
+        left: calc(-1 * var(--space-2));
+        right: calc(-1 * var(--space-2));
         top: 0;
         height: 1px;
         pointer-events: none;

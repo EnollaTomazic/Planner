@@ -48,9 +48,13 @@ export default function Page() {
         WeekPicker scrolls horizontally with snap points, showing 2–3 days at
         a time on smaller screens.
       </p>
-      <p className="mb-4 text-sm text-muted-foreground">
-        Review status dots blink to highlight wins and losses.
-      </p>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Review status dots blink to highlight wins and losses.
+        </p>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Hero dividers now use <code>var(--space-4)</code> top padding and
+          tokenized side offsets via <code>var(--space-2)</code>.
+        </p>
         <div className="mb-8 flex flex-wrap gap-2">
           <Button tone="primary">Primary tone</Button>
           <Button tone="accent">Accent tone</Button>
