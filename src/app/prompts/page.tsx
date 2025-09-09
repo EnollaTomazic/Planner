@@ -68,6 +68,9 @@ const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
+  <>
+    Team Builder now features a Hero header with swap and copy actions.
+  </>,
 ];
 
 const DEMO_SCORE = 7;
