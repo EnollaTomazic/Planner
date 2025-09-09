@@ -1,7 +1,7 @@
 "use client";
 import "./style.css";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
