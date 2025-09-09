@@ -17,7 +17,7 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
       {goals.length === 0 ? (
-        <p className="text-sm text-[hsl(var(--muted-foreground))]">
+        <p className="text-sm text-muted-foreground">
           No goals here. Add one simple, finishable thing.
         </p>
       ) : (
@@ -33,7 +33,7 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
           >
             <span
               aria-hidden
-              className="absolute inset-y-4 left-0 w-1 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+              className="absolute inset-y-4 left-0 w-1 rounded-full bg-gradient-to-b from-primary via-accent to-transparent opacity-60"
             />
             <header className="flex items-start justify-between gap-2">
               <h3 className="font-semibold leading-tight pr-6 line-clamp-2">
@@ -56,7 +56,7 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
                 </IconButton>
               </div>
             </header>
-            <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))] space-y-2">
+            <div className="mt-4 text-sm text-muted-foreground space-y-2">
               {g.metric ? (
                 <div className="tabular-nums">
                   <span className="opacity-70">Metric:</span>{" "}
@@ -65,18 +65,18 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
               ) : null}
               {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
             </div>
-            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]">
+            <footer className="mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-2">
                 <span
                   aria-hidden
-                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-[hsl(var(--primary))]"].join(" ")}
+                  className={["h-2 w-2 rounded-full", g.done ? "" : "bg-primary"].join(" ")}
                   style={g.done ? { background: "var(--accent-overlay)" } : undefined}
                 />
                 <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
                   {shortDate.format(new Date(g.createdAt))}
                 </time>
               </span>
-              <span className={g.done ? "text-[hsl(var(--accent))]" : ""}>
+              <span className={g.done ? "text-accent" : ""}>
                 {g.done ? "Done" : "Active"}
               </span>
             </footer>

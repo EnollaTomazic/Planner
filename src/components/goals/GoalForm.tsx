@@ -62,7 +62,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
         />
         <SectionCard.Body className="grid gap-6">
           <label className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--muted-foreground))]">Title</span>
+            <span className="text-xs text-muted-foreground">Title</span>
             <Input
               ref={titleRef}
               tone="default"
@@ -75,7 +75,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </label>
 
           <label className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--muted-foreground))]">Metric (optional)</span>
+            <span className="text-xs text-muted-foreground">Metric (optional)</span>
             <Input
               tone="default"
               className="h-10 text-sm tabular-nums"
@@ -86,7 +86,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </label>
 
           <label className="grid gap-2">
-            <span className="text-xs text-[hsl(var(--muted-foreground))]">Notes (optional)</span>
+            <span className="text-xs text-muted-foreground">Notes (optional)</span>
             <Textarea
               tone="default"
               textareaClassName="min-h-24 text-sm"
@@ -96,9 +96,9 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             />
           </label>
 
-          <div className="text-xs text-[hsl(var(--muted-foreground))]">
+          <div className="text-xs text-muted-foreground">
             {activeCount >= activeCap ? (
-              <span className="text-[hsl(var(--accent))]">
+              <span className="text-accent">
                 Cap reached. Finish one to add more.
               </span>
             ) : (
@@ -110,7 +110,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </div>
 
           {err ? (
-            <p role="status" aria-live="polite" className="text-xs text-[hsl(var(--accent))]">
+            <p role="status" aria-live="polite" className="text-xs text-accent">
               {err}
             </p>
           ) : null}
