@@ -277,22 +277,22 @@ html.theme-kitten {
   --panel: var(--card);
   --border: #660033;
   --line: var(--border);
-  --input: #3d001f;
-  --ring: #ff0a85;
-  --theme-ring: var(--ring);
-  --primary: #ff0a85;
-  --primary-foreground: #ffffff;
-  --primary-soft: #7a003d;
-  --accent: #8a0037;
-  --accent-2: #cc0066;
-  --accent-foreground: #ffffff;
-  --accent-soft: #3d0018;
-  --muted: #660033;
-  --muted-foreground: #c2a3b3;
-  --shadow-color: #ff0080;
-  --lav-deep: #ff3399;
-  --success: #28bd73;
-  --success-glow: #20975c99;
+  --input: 330 100% 12%;
+  --ring: 330 100% 52%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 330 100% 52%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 330 100% 24%;
+  --accent: 336 100% 27%;
+  --accent-2: 330 100% 40%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 336 100% 12%;
+  --muted: 330 100% 20%;
+  --muted-foreground: 330 20% 70%;
+  --shadow-color: 330 100% 50%;
+  --lav-deep: 330 100% 60%;
+  --success: 150 65% 45%;
+  --success-glow: 150 65% 36% / 0.6;
 }
 
 /* ---------- Hardstuck ---------- */

@@ -68,8 +68,16 @@ export const GlitchSegmentedGroup = ({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
+<<<<<<< HEAD:src/components/ui/primitives/GlitchSegmented.tsx
         "inline-flex rounded-full bg-[var(--btn-bg)] p-1 gap-1",
         className,
+=======
+        "inline-flex rounded-full p-0.5 backdrop-blur-sm",
+        "bg-[hsl(var(--surface-2)/0.1)]",
+        "ring-1 ring-[var(--ring-contrast)]",
+        "shadow-[0_0_8px_var(--glow-active)]",
+        className
+>>>>>>> origin/final:src/components/ui/primitives/glitch-segmented.tsx
       )}
       onKeyDown={onKeyDown}
     >
@@ -107,6 +115,7 @@ export const GlitchSegmentedButton = React.forwardRef<
       data-selected={selected ? "true" : undefined}
       onClick={onSelect}
       className={cn(
+<<<<<<< HEAD:src/components/ui/primitives/GlitchSegmented.tsx
         styles.glitchScanlines,
         "flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none",
         "rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
@@ -117,6 +126,23 @@ export const GlitchSegmentedButton = React.forwardRef<
         "data-[selected=true]:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
         "disabled:opacity-50 disabled:pointer-events-none",
         className,
+=======
+        "relative flex-1 h-9 select-none whitespace-nowrap px-3 inline-flex items-center justify-center gap-2 text-sm font-medium",
+        "rounded-full first:rounded-l-full last:rounded-r-full",
+        "bg-[hsl(var(--surface-2)/0.15)] backdrop-blur-sm text-[hsl(var(--muted))]",
+        "ring-1 ring-[var(--ring-contrast)]",
+        "shadow-[inset_0_1px_rgba(255,255,255,0.15)]",
+        "motion-safe:transition-[background-color,color,box-shadow,transform] motion-safe:ease-[cubic-bezier(.2,.8,.2,1)] motion-safe:duration-[160ms]",
+        "hover:-translate-y-px hover:shadow-[0_0_6px_var(--glow-active)]",
+        "active:scale-[0.98] motion-safe:active:duration-[80ms] active:shadow-[0_0_6px_var(--glow-active)]",
+        "data-[selected=true]:bg-[hsl(var(--surface-2)/0.25)] data-[selected=true]:text-[var(--text-on-accent)]",
+        "data-[selected=true]:ring-[var(--ring-contrast)] data-[selected=true]:shadow-[0_0_8px_var(--glow-active)]",
+        "disabled:opacity-40 disabled:shadow-none",
+        "data-[selected=true]:focus-visible:ring-2 data-[selected=true]:focus-visible:ring-[var(--ring-contrast)] data-[selected=true]:focus-visible:ring-offset-2 data-[selected=true]:focus-visible:ring-offset-[hsl(var(--surface-2)/0.25)]",
+        "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+        "glitch-scanlines",
+        className
+>>>>>>> origin/final:src/components/ui/primitives/glitch-segmented.tsx
       )}
       {...rest}
     >
@@ -125,7 +151,57 @@ export const GlitchSegmentedButton = React.forwardRef<
           {icon}
         </span>
       ) : null}
-      <span className="truncate">{children}</span>
+      <span className="seg-label truncate">{children}</span>
+      <style jsx>{`
+        button[data-glitch="true"] .seg-label {
+          animation: seg-jitter 150ms steps(2, end);
+        }
+        button[data-glitch="true"] .seg-label::before,
+        button[data-glitch="true"] .seg-label::after {
+          opacity: 0.12;
+        }
+        .seg-label {
+          position: relative;
+        }
+        .seg-label::before,
+        .seg-label::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: var(--accent-overlay);
+          mix-blend-mode: screen;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 160ms;
+        }
+        button[data-glitch="true"] .seg-label::before {
+          transform: translate(calc(1px * var(--gi)), 0);
+        }
+        button[data-glitch="true"] .seg-label::after {
+          transform: translate(calc(-1px * var(--gi)), 0);
+        }
+        button[data-intensity="calm"] {
+          --gi: 0.5;
+        }
+        button[data-intensity="default"] {
+          --gi: 1;
+        }
+        button[data-intensity="feral"] {
+          --gi: 1.5;
+        }
+        @keyframes seg-jitter {
+          0% { transform: translate(0,0); }
+          25% { transform: translate(calc(1px * var(--gi)), 0); }
+          50% { transform: translate(calc(-1px * var(--gi)), 0); }
+          75% { transform: translate(calc(1px * var(--gi)), 0); }
+          100% { transform: translate(0,0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          button[data-glitch="true"] .seg-label {
+            animation: none;
+          }
+        }
+      `}</style>
     </button>
   );
 });
