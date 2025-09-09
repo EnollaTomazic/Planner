@@ -177,14 +177,8 @@ export default function GoalsPage() {
       {/* ======= HEADER ======= */}
       <Header
         eyebrow="Goals"
-        heading={
-          <>
-            <span className="sm:mr-2">Today</span>
-            <span className="block text-xs text-[hsl(var(--muted-foreground))] sm:inline">
-              {summary}
-            </span>
-          </>
-        }
+        heading="Today"
+        subtitle={summary}
         sticky
         barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
         right={

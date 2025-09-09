@@ -20,7 +20,7 @@ const FieldShell = React.forwardRef<HTMLDivElement, FieldShellProps>(
         FIELD_SHELL_BASE,
         tone === "pill" && "rounded-full",
         error &&
-          "border-[hsl(var(--destructive)/0.6)] focus-within:ring-[hsl(var(--destructive)/0.35)]",
+          "border-[hsl(var(--danger)/0.6)] focus-within:ring-[hsl(var(--danger)/0.35)]",
         disabled && "opacity-60 pointer-events-none",
         className
       )}

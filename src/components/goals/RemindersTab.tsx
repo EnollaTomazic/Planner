@@ -34,6 +34,7 @@ import {
   Gamepad2,
   GraduationCap,
   Pencil,
+  Plus,
 } from "lucide-react";
 
 /* ───────── Types & seeds ───────── */
@@ -283,7 +284,7 @@ export default function RemindersTab() {
                 className="flex-1"
               />
               <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+                <Plus size={16} aria-hidden />
               </IconButton>
               <div className={neonClass}>
                 <p className="neon-note text-xs italic">Stop procrastinating, do it now if you have time</p>
