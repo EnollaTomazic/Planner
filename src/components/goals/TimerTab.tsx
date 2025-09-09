@@ -25,10 +25,30 @@ import DurationSelector from "./DurationSelector";
 type ProfileKey = "study" | "clean" | "code" | "personal";
 type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
 const PROFILES: Profile[] = [
-  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
-  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 30 },
-  { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
-  { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
+  {
+    key: "study",
+    label: "Studying",
+    icon: <BookOpen className="mr-1" aria-hidden="true" />,
+    defaultMin: 45,
+  },
+  {
+    key: "clean",
+    label: "Cleaning",
+    icon: <Brush className="mr-1" aria-hidden="true" />,
+    defaultMin: 30,
+  },
+  {
+    key: "code",
+    label: "Coding",
+    icon: <Code2 className="mr-1" aria-hidden="true" />,
+    defaultMin: 60,
+  },
+  {
+    key: "personal",
+    label: "Personal",
+    icon: <User className="mr-1" aria-hidden="true" />,
+    defaultMin: 25,
+  },
 ];
 
 
@@ -204,7 +224,7 @@ export default function TimerTab() {
               disabled={!isPersonal || running || minutes <= 0}
               className="shrink-0"
             >
-              <Minus />
+              <Minus aria-hidden="true" />
             </IconButton>
 
             {/* digits */}
@@ -236,7 +256,7 @@ export default function TimerTab() {
               disabled={!isPersonal || running}
               className="shrink-0"
             >
-              <Plus />
+              <Plus aria-hidden="true" />
             </IconButton>
           </div>
 
@@ -277,7 +297,7 @@ export default function TimerTab() {
               type="button"
               title="Start"
             >
-              <Play />
+              <Play aria-hidden="true" />
               Start
             </button>
           ) : (
@@ -287,7 +307,7 @@ export default function TimerTab() {
               type="button"
               title="Pause"
             >
-              <Pause />
+              <Pause aria-hidden="true" />
               Pause
             </button>
           )}
@@ -297,7 +317,7 @@ export default function TimerTab() {
             type="button"
             title="Reset"
           >
-            <RotateCcw />
+            <RotateCcw aria-hidden="true" />
             Reset
           </button>
         </div>
