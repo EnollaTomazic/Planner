@@ -173,7 +173,7 @@ export default function TabBar<K extends string = string>({
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
                   "text-foreground hover:text-foreground data-[active=true]:text-foreground",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className,
                 )}
@@ -198,7 +198,7 @@ export default function TabBar<K extends string = string>({
                 )}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-xs leading-none px-2 py-1 bg-[hsl(var(--primary-soft))] text-foreground">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-xs leading-none px-2 py-1 bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}

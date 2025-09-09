@@ -35,7 +35,7 @@ export default function Banner({
       <div className="mx-auto max-w-6xl px-2 md:px-4 py-2">
         {title || actions ? (
           <div className="flex items-center justify-between gap-4">
-            <div className="font-mono text-sm text-[hsl(var(--muted-foreground))]">
+            <div className="font-mono text-sm text-muted-foreground">
               {title}
             </div>
             <div className="flex items-center gap-2">{actions}</div>

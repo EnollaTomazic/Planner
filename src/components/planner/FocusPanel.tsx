@@ -86,7 +86,7 @@ export default function FocusPanel({ iso }: Props) {
         </form>
 
         {/* Subtle status text without yelling at the user */}
-        <div className="mt-2 text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">
+        <div className="mt-2 text-xs text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty

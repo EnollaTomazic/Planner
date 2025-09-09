@@ -44,33 +44,33 @@ const variantBase: Record<Variant, string> = {
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ring: {
     primary:
-      "border-[hsl(var(--line)/0.35)] text-[hsl(var(--foreground))]",
+      "border-line/35 text-foreground",
     accent:
-      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
+      "border-accent/35 text-accent",
     info:
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
+      "border-accent-2/35 text-accent-2",
     danger:
-      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
+      "border-danger/35 text-danger",
   },
   solid: {
     primary:
-      "border-transparent bg-[hsl(var(--foreground)/0.15)] hover:bg-[hsl(var(--foreground)/0.25)] text-[hsl(var(--foreground))]",
+      "border-transparent bg-foreground/15 hover:bg-foreground/25 text-foreground",
     accent:
-      "border-transparent bg-[hsl(var(--accent)/0.15)] hover:bg-[hsl(var(--accent)/0.25)] text-[hsl(var(--accent))]",
+      "border-transparent bg-accent/15 hover:bg-accent/25 text-accent",
     info:
-      "border-transparent bg-[hsl(var(--accent-2)/0.15)] hover:bg-[hsl(var(--accent-2)/0.25)] text-[hsl(var(--accent-2))]",
+      "border-transparent bg-accent-2/15 hover:bg-accent-2/25 text-accent-2",
     danger:
-      "border-transparent bg-[hsl(var(--danger)/0.15)] hover:bg-[hsl(var(--danger)/0.25)] text-[hsl(var(--danger))]",
+      "border-transparent bg-danger/15 hover:bg-danger/25 text-danger",
   },
   glow: {
     primary:
-      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))]",
+      "border-foreground/35 text-foreground",
     accent:
-      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
+      "border-accent/35 text-accent",
     info:
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
+      "border-accent-2/35 text-accent-2",
     danger:
-      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
+      "border-danger/35 text-danger",
   },
 };
 

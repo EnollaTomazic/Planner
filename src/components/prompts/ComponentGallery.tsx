@@ -459,7 +459,7 @@ export default function ComponentGallery() {
       {
         label: "Accent Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-[hsl(var(--accent-foreground))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-accent-foreground">
             Overlay
           </div>
         ),
@@ -467,7 +467,7 @@ export default function ComponentGallery() {
       {
         label: "Foreground Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded border border-[hsl(var(--border)/0.1)] bg-[hsl(var(--foreground)/0.05)] text-[hsl(var(--foreground)/0.7)]">
+          <div className="w-56 h-6 flex items-center justify-center rounded border border-border/10 bg-foreground/5 text-foreground/70">
             FG Overlay
           </div>
         ),
@@ -475,7 +475,7 @@ export default function ComponentGallery() {
       {
         label: "Surface",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-surface">
             Surface
           </div>
         ),
@@ -483,7 +483,7 @@ export default function ComponentGallery() {
       {
         label: "Surface 2",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-[hsl(var(--surface-2))]">
+          <div className="w-56 h-6 flex items-center justify-center rounded bg-surface-2">
             Surface 2
           </div>
         ),
@@ -491,7 +491,7 @@ export default function ComponentGallery() {
       {
         label: "Ring Subtle",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded ring-1 ring-[hsl(var(--ring)/0.05)]">
+          <div className="w-56 h-6 flex items-center justify-center rounded ring-1 ring-ring/5">
             Ring 5%
           </div>
         ),

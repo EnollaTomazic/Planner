@@ -178,7 +178,7 @@ export default function Reminders() {
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[hsl(var(--muted-foreground))]">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
                 {filtered.length}
               </span>
             </div>
@@ -226,7 +226,7 @@ export default function Reminders() {
             <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="solid">
               <Plus />
             </IconButton>
-            <p className="text-xs sm:text-sm italic text-[hsl(var(--muted-foreground))]">
+            <p className="text-xs sm:text-sm italic text-muted-foreground">
               Stop procrastinating, do it now if you have time
             </p>
           </div>
@@ -244,7 +244,7 @@ export default function Reminders() {
             ))}
 
             {filtered.length === 0 && (
-              <p className="text-sm text-[hsl(var(--muted-foreground))]">
+              <p className="text-sm text-muted-foreground">
                 Nothing here. Add one or relax your filters.
               </p>
             )}
@@ -288,7 +288,7 @@ function ReminderCard({
   return (
     <article className="card-neo rounded-card p-4 sm:p-5 relative">
       {value.pinned && (
-        <span aria-hidden className="absolute inset-y-3 left-0 w-0.5 rounded-full bg-[hsl(var(--primary)/.55)]" />
+        <span aria-hidden className="absolute inset-y-3 left-0 w-0.5 rounded-full bg-primary/55" />
       )}
 
       <div className="flex items-center justify-between gap-2 mb-2">
@@ -417,9 +417,9 @@ function ReminderCard({
         ) : (
           <>
             {value.body ? (
-              <p className="text-sm leading-6 text-[hsl(var(--muted-foreground))]">{value.body}</p>
+              <p className="text-sm leading-6 text-muted-foreground">{value.body}</p>
             ) : (
-              <p className="text-sm text-[hsl(var(--muted-foreground))]/80">No text. Click to edit.</p>
+              <p className="text-sm text-muted-foreground/80">No text. Click to edit.</p>
             )}
             <div className="flex flex-wrap items-center gap-2 pt-1">
               {value.tags.map((t) => <span key={t} className="pill">{t}</span>)}

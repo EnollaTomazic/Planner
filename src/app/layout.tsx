@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: noFlash }}
         />
       </head>
-      <body className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] glitch-root">
+      <body className="min-h-screen bg-background text-foreground glitch-root">
         <SiteChrome />
         <div className="relative z-10">
           {children}

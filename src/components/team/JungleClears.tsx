@@ -141,7 +141,7 @@ export default function JungleClears() {
           right: <span className="text-xs opacity-80">{filtered.length} shown</span>,
         }}
       >
-        <p className="text-sm text-[hsl(var(--muted-foreground))]">
+        <p className="text-sm text-muted-foreground">
           If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>. Path for fights,
           ganks, or cross-map trades.
         </p>
@@ -183,19 +183,19 @@ export default function JungleClears() {
               />
               <SectionCard.Body>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2 py-1 text-xs tracking-wide uppercase">
+                  <span className="rounded-full border border-border bg-card px-2 py-1 text-xs tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
-                  <span className="text-sm text-[hsl(var(--muted-foreground))]">
+                  <span className="text-sm text-muted-foreground">
                     {SPEED_HINT[bucket]}
                   </span>
                 </div>
 
                 {/* Example row (canonical pills) */}
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="text-[hsl(var(--muted-foreground))] text-sm">Example:</span>
+                  <span className="text-muted-foreground text-sm">Example:</span>
                   <span className="pill pill-compact text-xs">{exampleByBucket[bucket]}</span>
-                  <span className="text-xs text-[hsl(var(--muted-foreground))]">
+                  <span className="text-xs text-muted-foreground">
                     ({rowsAll.length} total)
                   </span>
                 </div>
@@ -209,7 +209,7 @@ export default function JungleClears() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <caption className="sr-only">{bucket} junglers with types and notes</caption>
-                    <thead className="text-left text-[hsl(var(--muted-foreground))]">
+                    <thead className="text-left text-muted-foreground">
                       <tr className="h-9">
                         <th scope="col" className="pr-3">Champion</th>
                         <th scope="col" className="pr-3">Type</th>
@@ -224,7 +224,7 @@ export default function JungleClears() {
                         editing?.id === r.id ? (
                           <tr
                             key={r.id}
-                            className="h-10 border-t border-[hsl(var(--border))]/40 hover:bg-[hsl(var(--card))/0.45]"
+                            className="h-10 border-t border-border/40 hover:bg-card/45"
                           >
                             <td className="py-2 pr-3 font-medium">
                               <Input
@@ -268,7 +268,7 @@ export default function JungleClears() {
                         ) : (
                           <tr
                             key={r.id}
-                            className="h-10 border-t border-[hsl(var(--border))]/40 hover:bg-[hsl(var(--card))/0.45]"
+                            className="h-10 border-t border-border/40 hover:bg-card/45"
                           >
                             <td className="py-2 pr-3 font-medium">{r.champ}</td>
                             <td className="py-2 pr-3">

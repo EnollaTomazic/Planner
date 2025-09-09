@@ -68,9 +68,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-transparent hover:bg-panel/45");
-    expect(classes).toContain(
-      "border-[hsl(var(--line)/0.35)] text-[hsl(var(--foreground))]",
-    );
+    expect(classes).toContain("border-line/35 text-foreground");
   });
 
   it("applies solid variant with accent tone", () => {
@@ -80,7 +78,7 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain(
-      "border-transparent bg-[hsl(var(--accent)/0.15)] hover:bg-[hsl(var(--accent)/0.25)] text-[hsl(var(--accent))]",
+      "border-transparent bg-accent/15 hover:bg-accent/25 text-accent",
     );
   });
 
@@ -92,9 +90,7 @@ describe("IconButton", () => {
     expect(classes).toContain(
       "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
     );
-    expect(classes).toContain(
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
-    );
+    expect(classes).toContain("border-accent-2/35 text-accent-2");
   });
 
   it("applies ring variant with danger tone", () => {
@@ -103,9 +99,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-transparent hover:bg-panel/45");
-    expect(classes).toContain(
-      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
-    );
+    expect(classes).toContain("border-danger/35 text-danger");
     expect(classes).not.toContain("shadow-[0_0_8px_currentColor]");
   });
 });

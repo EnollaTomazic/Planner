@@ -13,8 +13,8 @@ interface GoalsProgressProps {
 export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--surface-2))] p-6 text-center">
-        <p className="mb-4 text-sm text-[hsl(var(--fg-muted))]">No goals yet.</p>
+      <div className="rounded-xl border border-border bg-surface-2 p-6 text-center">
+        <p className="mb-4 text-sm text-fg-muted">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto rounded-xl">
             Add a first goal
@@ -34,15 +34,15 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
   return (
     <div className="flex min-w-[120px] items-center gap-2" aria-label="Progress">
       <div
-        className="h-2 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-[hsl(var(--fg)/0.1)]"
+        className="h-2 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-fg/10"
         style={style}
       >
         <div
-          className="h-2 rounded-full bg-[hsl(var(--accent))] transition-[width]"
+          className="h-2 rounded-full bg-accent transition-[width]"
           style={{ width: `${v}%` }}
         />
       </div>
-      <span className="tabular-nums text-xs text-[hsl(var(--fg)/0.6)]">{v}%</span>
+      <span className="tabular-nums text-xs text-fg/60">{v}%</span>
     </div>
   );
 }

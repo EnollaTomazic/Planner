@@ -13,11 +13,11 @@ export default function Badge({ variant = "neutral", className, children, ...pro
   const base = "inline-flex items-center text-xs font-medium border";
   const variants: Record<BadgeVariant, string> = {
     neutral:
-      "rounded-md px-2 py-1 bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))]",
+      "rounded-md px-2 py-1 bg-muted/25 border-border/20 text-muted-foreground",
     accent:
-      "rounded-md px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
+      "rounded-md px-2 py-1 bg-accent/15 border-accent/35 text-accent shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
     pill:
-      "rounded-full px-2 py-1 bg-[hsl(var(--accent)/0.15)] border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
+      "rounded-full px-2 py-1 bg-accent/15 border-accent/35 text-accent",
   };
 
   return (

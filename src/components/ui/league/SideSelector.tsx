@@ -54,8 +54,8 @@ export default function SideSelector({
       onKeyDown={onKey}
       className={cn(
         "relative inline-flex select-none items-center overflow-hidden rounded-full",
-        "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+        "border border-border bg-card",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "min-w-[14rem] sm:min-w-[16rem] w-full max-w-xs h-10", // responsive default
         className
       )}
@@ -92,7 +92,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            !isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+            !isRight ? "text-foreground/70" : "text-muted-foreground"
           )}
           style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
         >
@@ -101,7 +101,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+            isRight ? "text-foreground/70" : "text-muted-foreground"
           )}
           style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
         >

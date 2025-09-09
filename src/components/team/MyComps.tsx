@@ -195,7 +195,7 @@ function ChampChips({
             }}
             aria-label="Champion name"
             autoComplete="off"
-            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
           />
         </span>
       ))}
@@ -301,11 +301,11 @@ export default function MyComps({ query = "" }: MyCompsProps) {
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
+            <div className="rounded-2xl p-6 text-sm text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-2xl p-6 text-sm text-[hsl(var(--muted-foreground))] border border-[hsl(var(--border))]">
+            <div className="rounded-2xl p-6 text-sm text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
@@ -370,7 +370,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                       return (
                         <div key={r} className="grid grid-cols-[88px_1fr] items-start gap-3">
                           <div
-                            className="glitch-title glitch-flicker text-xs font-medium text-[hsl(var(--muted-foreground))] pt-1"
+                            className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
                             data-text={r}
                           >
                             {r}
@@ -384,11 +384,11 @@ export default function MyComps({ query = "" }: MyCompsProps) {
 
                     {/* notes */}
                     <div className="grid gap-3">
-                      <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
+                      <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
                       {!editing ? (
-                        <p className="text-sm text-[hsl(var(--muted-foreground))]">
+                        <p className="text-sm text-muted-foreground">
                           {c.notes?.trim() || <span className="opacity-60">—</span>}
                         </p>
                       ) : (

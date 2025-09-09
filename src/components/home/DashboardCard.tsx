@@ -12,7 +12,7 @@ interface DashboardCardProps {
 
 export default function DashboardCard({ title, children, cta, actions }: DashboardCardProps) {
   return (
-    <div className="rounded-xl border border-[hsl(var(--card-hairline))] bg-[hsl(var(--surface-2))] p-4 space-y-4">
+    <div className="rounded-xl border border-card-hairline bg-surface-2 p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}

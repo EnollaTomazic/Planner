@@ -124,7 +124,7 @@ export default function Hero({
 
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="text-xs font-semibold tracking-[0.14em] uppercase text-[hsl(var(--muted-foreground))]">
+              <div className="text-xs font-semibold tracking-[0.14em] uppercase text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
@@ -137,7 +137,7 @@ export default function Hero({
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-xs sm:text-sm tracking-wide text-[hsl(var(--muted-foreground))] truncate">
+                <span className="text-xs sm:text-sm tracking-wide text-muted-foreground truncate">
                   {subtitle}
                 </span>
               ) : null}
@@ -169,7 +169,7 @@ export default function Hero({
         {/* subtle rim */}
         <div
           aria-hidden
-          className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-[hsl(var(--border)/0.55)]"
+          className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border/55"
         />
       </div>
     </section>

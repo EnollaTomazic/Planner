@@ -77,29 +77,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       Record<Tone, string>
     > = {
       primary: {
-        primary: "text-[hsl(var(--foreground))]",
-        accent: "text-[hsl(var(--accent))]",
-        info: "text-[hsl(var(--accent-2))]",
-        danger: "text-[hsl(var(--danger))]",
+        primary: "text-foreground",
+        accent: "text-accent",
+        info: "text-accent-2",
+        danger: "text-danger",
       },
       secondary: {
-        primary: "text-[hsl(var(--foreground))]",
+        primary: "text-foreground",
         accent:
-          "text-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.15)] hover:bg-[hsl(var(--accent)/0.25)]",
+          "text-accent bg-accent/15 hover:bg-accent/25",
         info:
-          "text-[hsl(var(--accent-2))] bg-[hsl(var(--accent-2)/0.15)] hover:bg-[hsl(var(--accent-2)/0.25)]",
+          "text-accent-2 bg-accent-2/15 hover:bg-accent-2/25",
         danger:
-          "text-[hsl(var(--danger))] bg-[hsl(var(--danger)/0.15)] hover:bg-[hsl(var(--danger)/0.25)]",
+          "text-danger bg-danger/15 hover:bg-danger/25",
       },
       ghost: {
         primary:
-          "text-[hsl(var(--foreground))] hover:bg-[hsl(var(--foreground)/0.1)]",
+          "text-foreground hover:bg-foreground/10",
         accent:
-          "text-[hsl(var(--accent))] hover:bg-[hsl(var(--accent)/0.1)]",
+          "text-accent hover:bg-accent/10",
         info:
-          "text-[hsl(var(--accent-2))] hover:bg-[hsl(var(--accent-2)/0.1)]",
+          "text-accent-2 hover:bg-accent-2/10",
         danger:
-          "text-[hsl(var(--danger))] hover:bg-[hsl(var(--danger)/0.1)]",
+          "text-danger hover:bg-danger/10",
       },
     };
 

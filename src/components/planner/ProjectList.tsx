@@ -93,11 +93,11 @@ export default function ProjectList({
                     }}
                     className={cn(
                       "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-4 pr-2 py-2",
-                      "bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)] transition",
+                      "bg-card/55 hover:bg-card/70 transition",
                       "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       active &&
-                        "proj-card--active ring-1 ring-[hsl(var(--ring))]",
+                        "proj-card--active ring-1 ring-ring",
                     )}
                   >
                     <span

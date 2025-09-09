@@ -97,7 +97,7 @@ export default function SearchBar({
           className={cn(
             "w-full",
             showClear && "pr-7",
-            "border-[hsl(var(--border))] bg-[hsl(var(--input))]"
+            "border-border bg-input"
           )}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
