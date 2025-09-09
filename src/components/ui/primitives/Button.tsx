@@ -13,18 +13,21 @@ export const buttonSizes = {
     padding: "px-4",
     text: "text-sm",
     gap: "gap-2",
+    icon: "[&>svg]:size-4",
   },
   md: {
     height: "h-10",
     padding: "px-5",
     text: "text-base",
     gap: "gap-2",
+    icon: "[&>svg]:size-5",
   },
   lg: {
     height: "h-11",
     padding: "px-6",
     text: "text-lg",
     gap: "gap-2",
+    icon: "[&>svg]:size-6",
   },
 } as const;
 
@@ -58,6 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       s.padding,
       s.text,
       s.gap,
+      s.icon,
       className,
     );
 

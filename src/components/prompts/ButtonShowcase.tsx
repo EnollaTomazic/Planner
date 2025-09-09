@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Button } from "@/components/ui";
+import { Plus } from "lucide-react";
 
 export default function ButtonShowcase() {
   return (
@@ -13,6 +14,10 @@ export default function ButtonShowcase() {
         Danger primary
       </Button>
       <Button disabled>Disabled</Button>
+      <Button size="sm">
+        <Plus />
+        Add item
+      </Button>
     </div>
   );
 }

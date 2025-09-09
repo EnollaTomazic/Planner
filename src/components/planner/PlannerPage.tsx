@@ -50,7 +50,7 @@ function Inner() {
         aria-label="Previous week"
         onClick={prevWeek}
       >
-        <ChevronLeft className="size-4" />
+        <ChevronLeft />
         <span>Prev</span>
       </Button>
       <Button size="sm" aria-label="Jump to today" onClick={jumpToday}>
@@ -63,7 +63,7 @@ function Inner() {
         onClick={nextWeek}
       >
         <span>Next</span>
-        <ChevronRight className="size-4" />
+        <ChevronRight />
       </Button>
     </div>
   );

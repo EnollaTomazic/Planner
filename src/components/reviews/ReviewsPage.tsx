@@ -138,7 +138,7 @@ export default function ReviewsPage({
                   onCreate();
                 }}
               >
-                <Plus className="size-4" />
+                <Plus />
                 <span>New Review</span>
               </Button>
             </div>

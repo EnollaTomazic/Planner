@@ -42,4 +42,17 @@ describe("Button", () => {
     fireEvent.click(btn);
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it.each([
+    ["sm", "[&>svg]:size-4"],
+    ["md", "[&>svg]:size-5"],
+    ["lg", "[&>svg]:size-6"],
+  ])("applies %s icon sizing", (size, cls) => {
+    const { getByRole } = render(
+      <Button size={size as any}>
+        <svg />
+      </Button>,
+    );
+    expect(getByRole("button")).toHaveClass(cls);
+  });
 });
