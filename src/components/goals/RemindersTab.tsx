@@ -234,7 +234,7 @@ export default function RemindersTab() {
     <div className="grid gap-4">
       {/* Hero with domain TabBar and bottom search */}
       <Hero
-        eyebrow="GOALS"
+        eyebrow={domain}
         heading="Reminders"
         subtitle="Tiny brain pings you’ll totally ignore until 23:59."
         dividerTint={domain === "Life" ? "life" : "primary"}
@@ -305,17 +305,17 @@ export default function RemindersTab() {
                     className={["btn-like-segmented inline-flex items-center gap-1", showFilters && "is-active"]
                       .filter(Boolean)
                       .join(" ")}
-                    onClick={() => setShowFilters((v) => !v)}
-                    aria-expanded={showFilters}
-                    title="Filters"
-                    type="button"
-                  >
-                    <SlidersHorizontal />
-                    Filters
-                  </button>
-                }
-              />
-            )}
+                  onClick={() => setShowFilters((v) => !v)}
+                  aria-expanded={showFilters}
+                  title="Filters"
+                  type="button"
+                >
+                    <SlidersHorizontal size={16} aria-hidden />
+                  Filters
+                </button>
+              }
+            />
+          )}
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
