@@ -28,7 +28,7 @@
   @apply size-8 rounded-full opacity-0 transition-opacity duration-140 ease-out;
 }
 .daycard :where(.iconbtn > svg) {
-  @apply size-3.5;
+  @apply size-4;
 }
 
 /* Reveal actions on hover or focus-within for a11y */
