@@ -3,13 +3,13 @@
 /* Champ badges */
 .champ-badges { @apply flex flex-wrap gap-2; }
 .champ-badge{
-  @apply inline-flex items-center h-8 px-3 rounded-full border text-xs leading-none whitespace-nowrap;
+  @apply inline-flex items-center h-6 px-2 rounded-full border text-xs leading-none whitespace-nowrap;
   border-color: hsl(var(--border));
   background: hsl(var(--card)); color: hsl(var(--foreground));
   transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
 }
 .champ-badge:hover{ background: hsl(var(--primary-soft)); border-color: hsl(var(--ring)); }
-.champ-badge--dense{ @apply h-6 px-2; }
+.champ-badge--dense{ @apply h-5 px-2; }
 
 /* Title flicker ONLY within the Team scope */
 [data-scope="team"] .glitch-title{ position: relative; display: inline-block; }
