@@ -17,7 +17,7 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
       <div className="mb-2 flex items-center gap-2" aria-label="Timestamps">
         <NeonIcon kind="clock" on={!!hasTimed} size={32} staticGlow />
         <NeonIcon kind="file" on={!!hasNoteOnly} size={32} staticGlow />
-        <div className="h-px flex-1 bg-gradient-to-r from-[hsl(var(--foreground)/0.20)] via-[hsl(var(--foreground)/0.05)] to-transparent" />
+        <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
       </div>
       {!markers.length ? (
         <div className="text-sm text-muted-foreground">No timestamps yet.</div>
@@ -28,7 +28,7 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
             .map((m) => (
               <li
                 key={m.id}
-                className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2"
+                className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
               >
                 {m.noteOnly ? (
                   <span className="pill flex h-7 w-[56px] items-center justify-center px-0" title="Note" aria-label="Note">
