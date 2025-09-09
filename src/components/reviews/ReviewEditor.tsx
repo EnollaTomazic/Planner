@@ -2,7 +2,7 @@
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import "./style.css";
-import RoleSelector from "@/components/reviews/RoleSelector";
+import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 
 import * as React from "react";
