@@ -43,3 +43,5 @@
 | `rgba(255, 0, 200, 0.08)` | `hsl(var(--lav-deep) / 0.08)` |
 | `rgba(255, 77, 210, 0.65)` | `hsl(var(--lav-deep) / 0.65)` |
 | `rgba(255, 77, 210, 0.85)` | `hsl(var(--lav-deep) / 0.85)` |
+| `rgba(192, 132, 252, 0.6)` | `hsl(var(--accent))` |
+| `rgba(168, 85, 247, 0.2)` | `hsl(var(--accent) / 0.2)` |
