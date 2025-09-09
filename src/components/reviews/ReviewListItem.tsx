@@ -52,55 +52,54 @@ export default function ReviewListItem({
     : "";
 
   return (
-    <div data-scope="reviews">
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={onClick}
-        aria-label={`Open review: ${title}`}
-        data-selected={selected ? "true" : undefined}
-        className={cn(itemBase, selected && itemSelected)}
-      >
-        <div className="grid grid-cols-[20px_1fr_auto] gap-3">
-          <span
-            aria-hidden
+    <button
+      data-scope="reviews"
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      aria-label={`Open review: ${title}`}
+      data-selected={selected ? "true" : undefined}
+      className={cn(itemBase, selected && itemSelected)}
+    >
+      <div className="grid grid-cols-[20px_1fr_auto] gap-3">
+        <span
+          aria-hidden
+          className={cn(
+            statusDotBase,
+            statusDotBlink,
+            review?.result === "Win"
+              ? statusDotWin
+              : review?.result === "Loss"
+              ? statusDotLoss
+              : statusDotDefault,
+            review?.status === "new" && statusDotPulse
+          )}
+        />
+        <div className="min-w-0 flex flex-col gap-1">
+          <div
             className={cn(
-              statusDotBase,
-              statusDotBlink,
-              review?.result === "Win"
-                ? statusDotWin
-                : review?.result === "Loss"
-                ? statusDotLoss
-                : statusDotDefault,
-              review?.status === "new" && statusDotPulse
+              "truncate font-medium text-base",
+              untitled && "text-muted-foreground/70"
             )}
-          />
-          <div className="min-w-0 flex flex-col gap-1">
-            <div
-              className={cn(
-                "truncate font-medium text-base",
-                untitled && "text-muted-foreground/70"
-              )}
-              aria-label={untitled ? "Untitled Review" : undefined}
-            >
-              {title}
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              {typeof score === "number" ? (
-                <Badge variant="accent" aria-label={`Rating ${score} out of 10`}>
-                  {score}/10
-                </Badge>
-              ) : null}
-              {subline ? (
-                <span className="line-clamp-1 truncate">{subline}</span>
-              ) : null}
-            </div>
+            aria-label={untitled ? "Untitled Review" : undefined}
+          >
+            {title}
           </div>
-          <span className="self-start text-xs text-muted-foreground whitespace-nowrap">
-            {dateStr}
-          </span>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {typeof score === "number" ? (
+              <Badge variant="accent" aria-label={`Rating ${score} out of 10`}>
+                {score}/10
+              </Badge>
+            ) : null}
+            {subline ? (
+              <span className="line-clamp-1 truncate">{subline}</span>
+            ) : null}
+          </div>
         </div>
-      </button>
-    </div>
+        <span className="self-start text-xs text-muted-foreground whitespace-nowrap">
+          {dateStr}
+        </span>
+      </div>
+    </button>
   );
 }
