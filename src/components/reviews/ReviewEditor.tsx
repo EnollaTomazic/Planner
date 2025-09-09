@@ -400,7 +400,10 @@ export default function ReviewEditor({
 
             <div className="mb-2">
               <div className="relative">
-                <Target className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                <Target
+                  className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground"
+                  aria-hidden="true"
+                />
                 <Input
                   ref={laneRef}
                   value={lane}
@@ -423,7 +426,10 @@ export default function ReviewEditor({
             <div>
               <SectionLabel>Opponent</SectionLabel>
               <div className="relative">
-                <Shield className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                <Shield
+                  className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground"
+                  aria-hidden="true"
+                />
                 <Input
                   ref={opponentRef}
                   value={opponent}
@@ -453,7 +459,7 @@ export default function ReviewEditor({
                 variant="ring"
                 onClick={onDelete}
               >
-                <Trash2 />
+                <Trash2 aria-hidden="true" />
               </IconButton>
             ) : null}
 
@@ -469,7 +475,7 @@ export default function ReviewEditor({
                   onDone?.();
                 }}
               >
-                <Check />
+                <Check aria-hidden="true" />
               </IconButton>
             ) : null}
           </div>
@@ -757,7 +763,7 @@ export default function ReviewEditor({
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >
-                <Clock className="h-4 w-4" /> —
+                <Clock className="h-4 w-4" aria-hidden="true" /> —
               </span>
             )}
 
@@ -785,7 +791,7 @@ export default function ReviewEditor({
               variant="solid"
               onClick={addMarker}
             >
-              <Plus />
+              <Plus aria-hidden="true" />
             </IconButton>
           </div>
           {timeError && (
@@ -805,7 +811,7 @@ export default function ReviewEditor({
                 >
                   {m.noteOnly ? (
                     <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">
-                      <FileText size={14} className="opacity-80" />
+                      <FileText size={14} className="opacity-80" aria-hidden="true" />
                     </span>
                   ) : (
                     <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
@@ -822,7 +828,7 @@ export default function ReviewEditor({
                     variant="ring"
                     onClick={() => removeMarker(m.id)}
                   >
-                    <Trash2 />
+                    <Trash2 aria-hidden="true" />
                   </IconButton>
                 </li>
               ))}
@@ -835,7 +841,10 @@ export default function ReviewEditor({
           <SectionLabel>Tags</SectionLabel>
           <div className="mt-1 flex items-center gap-2">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+              <Tag
+                className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
+              />
               <Input
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
@@ -862,7 +871,7 @@ export default function ReviewEditor({
                 setDraftTag("");
               }}
             >
-              <Plus />
+              <Plus aria-hidden="true" />
             </IconButton>
           </div>
 

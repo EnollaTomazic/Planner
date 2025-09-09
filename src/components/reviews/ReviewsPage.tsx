@@ -137,7 +137,7 @@ export default function ReviewsPage({
                   onCreate();
                 }}
               >
-                <Plus className="size-4" />
+                <Plus className="size-4" aria-hidden="true" />
                 <span>New Review</span>
               </Button>
             </div>
@@ -171,7 +171,7 @@ export default function ReviewsPage({
           <div className="md:col-span-7 lg:col-span-8 flex justify-center">
             {!active ? (
               <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-                <Ghost className="h-6 w-6 opacity-60" />
+                <Ghost className="h-6 w-6 opacity-60" aria-hidden="true" />
                 <p>Select a review from the list or create a new one.</p>
               </ReviewPanel>
             ) : panelMode === "summary" ? (

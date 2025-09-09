@@ -32,7 +32,7 @@ export default function ReviewList({
     return (
       <Card className={containerClass}>
         <div className="flex flex-col items-center justify-center gap-3 p-6 text-sm text-muted-foreground">
-          <Tv className="h-6 w-6 opacity-60" />
+          <Tv className="h-6 w-6 opacity-60" aria-hidden="true" />
           <p>No reviews yet</p>
           <Button variant="primary" onClick={onCreate}>
             New Review

@@ -58,7 +58,7 @@ export default function ReviewSummaryHeader({
               )}
               title={roleLabel}
             >
-              {RoleIcon ? <RoleIcon className="h-5 w-5" /> : null}
+              {RoleIcon ? <RoleIcon className="h-5 w-5" aria-hidden="true" /> : null}
               {roleLabel}
             </span>
           ) : null}
@@ -71,7 +71,7 @@ export default function ReviewSummaryHeader({
               title="Edit review"
               onClick={onEdit}
             >
-              <Pencil className="h-5 w-5" />
+              <Pencil className="h-5 w-5" aria-hidden="true" />
             </IconButton>
           ) : null}
         </div>

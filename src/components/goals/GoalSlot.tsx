@@ -49,7 +49,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
               aria-pressed={goal.done}
               onClick={() => onToggleDone?.(goal.id)}
             >
-              <Check className="h-4 w-4" />
+              <Check className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
@@ -57,7 +57,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
               aria-label="Edit goal"
               onClick={handleEdit}
             >
-              <Pencil className="h-4 w-4" />
+              <Pencil className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
@@ -65,7 +65,7 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
               aria-label="Delete goal"
               onClick={() => onDelete?.(goal.id)}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-4 w-4" aria-hidden="true" />
             </button>
           </>
         ) : (

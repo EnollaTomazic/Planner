@@ -449,7 +449,7 @@ export default function CheatSheet({
                   size="sm"
                   onClick={() => setEditingId(a.id)}
                 >
-                  <Pencil />
+                  <Pencil aria-hidden="true" />
                 </IconButton>
               ) : (
                 <IconButton
@@ -458,7 +458,7 @@ export default function CheatSheet({
                   size="sm"
                   onClick={() => setEditingId(null)}
                 >
-                  <Check />
+                  <Check aria-hidden="true" />
                 </IconButton>
               )}
             </div>

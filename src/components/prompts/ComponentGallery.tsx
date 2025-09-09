@@ -112,7 +112,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon />
+            <SearchIcon aria-hidden="true" />
           </IconButton>
           <IconButton
             variant="glow"
@@ -120,7 +120,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon />
+            <SearchIcon aria-hidden="true" />
           </IconButton>
           <IconButton
             variant="ring"
@@ -128,7 +128,7 @@ export default function ComponentGallery() {
             aria-label="Search"
             title="Search"
           >
-            <SearchIcon />
+            <SearchIcon aria-hidden="true" />
           </IconButton>
         </div>
       ),
@@ -490,13 +490,13 @@ export default function ComponentGallery() {
       element: (
         <div className="w-56 flex justify-center gap-2">
           <IconButton aria-label="Add" title="Add">
-            <Plus />
+            <Plus aria-hidden="true" />
           </IconButton>
           <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
-            <Sun />
+            <Sun aria-hidden="true" />
           </IconButton>
           <IconButton size="xl" aria-label="Search" title="Search">
-            <SearchIcon />
+            <SearchIcon aria-hidden="true" />
           </IconButton>
         </div>
       ),
@@ -511,7 +511,7 @@ export default function ComponentGallery() {
           <Input height={12} placeholder="h-12" />
           <Input tone="pill" placeholder="Pill" />
           <Input placeholder="With icon" hasEndSlot>
-            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
           </Input>
         </div>
       ),

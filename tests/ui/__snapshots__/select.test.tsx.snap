@@ -26,6 +26,7 @@ exports[`Select > renders default state 1`] = `
       </option>
     </select>
     <svg
+      aria-hidden="true"
       class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
@@ -67,6 +68,7 @@ exports[`Select > renders disabled state 1`] = `
       </option>
     </select>
     <svg
+      aria-hidden="true"
       class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
@@ -109,6 +111,7 @@ exports[`Select > renders error state 1`] = `
       </option>
     </select>
     <svg
+      aria-hidden="true"
       class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
@@ -160,6 +163,7 @@ exports[`Select > renders focus state 1`] = `
       </option>
     </select>
     <svg
+      aria-hidden="true"
       class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"
@@ -201,6 +205,7 @@ exports[`Select > renders success state 1`] = `
       </option>
     </select>
     <svg
+      aria-hidden="true"
       class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
       fill="none"
       height="24"

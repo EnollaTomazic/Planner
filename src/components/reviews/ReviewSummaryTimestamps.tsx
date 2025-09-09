@@ -32,7 +32,7 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
               >
                 {m.noteOnly ? (
                   <span className="pill flex h-7 w-[56px] items-center justify-center px-0" title="Note" aria-label="Note">
-                    <FileText size={14} className="opacity-80" />
+                    <FileText size={14} className="opacity-80" aria-hidden="true" />
                   </span>
                 ) : (
                   <span className="pill h-7 px-3 text-[11px] font-mono tabular-nums leading-none">{m.time ?? "00:00"}</span>

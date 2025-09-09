@@ -26,19 +26,19 @@ const TABS: HeaderTab<Tab>[] = [
     key: "cheat",
     label: "Cheat Sheet",
     hint: "Archetypes, counters, examples",
-    icon: <BookOpenText />,
+    icon: <BookOpenText aria-hidden="true" />,
   },
   {
     key: "builder",
     label: "Builder",
     hint: "Fill allies vs enemies",
-    icon: <Hammer />,
+    icon: <Hammer aria-hidden="true" />,
   },
   {
     key: "clears",
     label: "Jungle Clears",
     hint: "Relative buckets by speed",
-    icon: <Timer />,
+    icon: <Timer aria-hidden="true" />,
   },
 ];
 
@@ -51,7 +51,7 @@ export default function TeamCompPage() {
         eyebrow="Comps"
         heading="Today"
         subtitle="Readable. Fast. On brand."
-        icon={<Users2 className="opacity-80" />}
+        icon={<Users2 className="opacity-80" aria-hidden="true" />}
         right={
           <HeaderTabs
             tabs={TABS}
