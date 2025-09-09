@@ -264,8 +264,8 @@ html.theme-ocean {
   --success-glow: 160 70% 35% / 0.6;
 }
 
-/* ---------- Rose Quartz ---------- */
-html.theme-rose {
+/* ---------- Kitten ---------- */
+html.theme-kitten {
   --background: 330 100% 2%;
   --foreground: 330 20% 96%;
   --text: var(--foreground);
@@ -333,7 +333,7 @@ html.theme-hardstuck {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -343,7 +343,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -353,7 +353,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose):not(.theme-aurora):not(.theme-hardstuck) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -459,30 +459,30 @@ html.theme-ocean body::after {
  100% { transform: translate3d( 2%,  1%, 0) scale(1.01); opacity:.95; }
 }
 
-/* Rose Quartz backdrop */
-html.theme-rose body {
+/* Kitten backdrop */
+html.theme-kitten body {
   background-image:
     radial-gradient(1100px 620px at 16% -8%,  hsl(343 100% 35% / 0.20), transparent 60%),
     radial-gradient(1000px 560px at 106% 14%, hsl(340 100% 45% / 0.16), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-rose body::before {
+html.theme-kitten body::before {
   content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
     repeating-linear-gradient(90deg, hsl(343 100% 35% / 0.30) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(0deg,  hsl(340 100% 45% / 0.26) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; opacity:.10; animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-rose body::after {
+html.theme-kitten body::after {
   content:""; position:fixed; inset:-10%; z-index:0; pointer-events:none;
   background:
     radial-gradient(60% 40% at 12% -6%, hsl(343 100% 35% / 0.18), transparent 60%),
     radial-gradient(55% 35% at 50% 116%, hsl(340 100% 45% / 0.12), transparent 65%),
     radial-gradient(50% 35% at 100% 8%,   hsl(347 100% 90% / 0.10), transparent 60%);
-  filter: blur(2px) saturate(112%); animation: rose-pan 27s ease-in-out infinite alternate;
+  filter: blur(2px) saturate(112%); animation: kitten-pan 27s ease-in-out infinite alternate;
 }
-@keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
+@keyframes kitten-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
 
 /* Hardstuck backdrop */
 html.theme-hardstuck body {
