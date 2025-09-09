@@ -1,7 +1,10 @@
 "use client";
 
+import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
+import AnimationToggle from "@/components/ui/AnimationToggle";
+import Link from "next/link";
 import "@/app/globals.css";
 
 /**
@@ -14,24 +17,25 @@ export default function SiteChrome() {
   return (
     <header role="banner" className="sticky-blur top-0 z-50">
       {/* Bar content */}
-      <div className="page-shell h-14 flex items-center justify-between py-3">
-        <div className="flex items-center gap-3">
+      <div className="page-shell flex items-center justify-between py-2">
+        <Link href="/" className="flex items-center gap-2">
           <span
-            className="h-3 w-3 rounded-full animate-pulse"
-            style={{ background: "hsl(var(--accent))" }}
+            className="h-2 w-2 rounded-full animate-pulse"
+            style={{
+              background: "var(--accent-overlay)",
+              boxShadow: "0 0 6px var(--glow-active)",
+            }}
             aria-hidden
           />
           <span className="font-mono tracking-wide text-[hsl(var(--muted-foreground))]">
-            NOXIS PLANNER
+            noxi
           </span>
-        </div>
+        </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <NavBar />
           <ThemeToggle />
-          <div className="rounded-xl border px-2 py-[2px] text-[10px] text-[hsl(var(--muted-foreground))] opacity-80">
-            v1
-          </div>
+          <AnimationToggle />
         </div>
       </div>
 

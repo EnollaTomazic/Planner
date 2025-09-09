@@ -4,8 +4,10 @@ import "./style.css";
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { useWeek, usePlanner, type ISODate } from "./usePlanner";
-import { cn } from "@/lib/utils";
+import { useWeek } from "./useFocusDate";
+import { usePlannerStore } from "./usePlannerStore";
+import type { ISODate } from "./plannerStore";
+import { cn, LOCALE } from "@/lib/utils";
 
 /**
  * WeekSummary
@@ -19,7 +21,7 @@ import { cn } from "@/lib/utils";
  * - Calm zeros, tabular numbers
  *
  * Extras:
- * - bleed: when true, applies Hero2-compatible full-bleed so totals reach the edge
+ * - bleed: when true, applies Hero-compatible full-bleed so totals reach the edge
  */
 
 type Props = {
@@ -27,7 +29,7 @@ type Props = {
   variant?: "card" | "inline";
   className?: string;
   showLabel?: boolean;
-  /** Make content span to container edges (use inside Hero2.bottom). */
+  /** Make content span to container edges (use inside Hero.bottom). */
   bleed?: boolean;
 };
 
@@ -39,7 +41,7 @@ export default function WeekSummary({
   bleed = false,
 }: Props) {
   const { days: weekDays, isToday } = useWeek(iso);
-  const { getDay } = usePlanner();
+  const { getDay } = usePlannerStore();
 
   const stats = React.useMemo(() => {
     return weekDays.map(d => {
@@ -146,7 +148,7 @@ function fmtDay(iso: string) {
   try {
     const [y, m, d] = iso.split("-").map(Number);
     const dt = new Date(Date.UTC(y, m - 1, d));
-    return dt.toLocaleDateString(undefined, { day: "2-digit", month: "short" });
+    return dt.toLocaleDateString(LOCALE, { day: "2-digit", month: "short" });
   } catch {
     return iso;
   }

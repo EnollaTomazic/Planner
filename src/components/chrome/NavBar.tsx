@@ -6,16 +6,17 @@
  * - No hover translate (calm UI).
  * - Active when pathname matches or is nested under the href.
  */
+import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { href: "/", label: "Reviews" },
+  { href: "/reviews", label: "Reviews" },
   { href: "/planner", label: "Planner" },
   { href: "/goals", label: "Goals" },
-  { href: "/team", label: "Team Comp" },
+  { href: "/team", label: "Comps" },
   { href: "/prompts", label: "Prompts" },
 ];
 
@@ -27,9 +28,7 @@ export default function NavBar() {
       <ul className="flex items-center gap-2">
         {ITEMS.map((it) => {
           const active =
-            it.href === "/"
-              ? path === "/"
-              : path === it.href || path.startsWith(it.href + "/");
+            path === it.href || path.startsWith(it.href + "/");
 
           return (
             <li key={it.href} className="relative">
@@ -62,7 +61,7 @@ export default function NavBar() {
                   className="pointer-events-none absolute inset-0 rounded-xl opacity-20"
                   style={{
                     background:
-                      "repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)",
+                      "repeating-linear-gradient(0deg,hsl(var(--foreground)/0.04) 0 1px,transparent 1px 3px)",
                   }}
                 />
 
@@ -75,7 +74,7 @@ export default function NavBar() {
                       background:
                         "linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--primary)))",
                     }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
                   />
                 )}
               </Link>

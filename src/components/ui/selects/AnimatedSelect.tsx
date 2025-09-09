@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /** Option item */
 export type DropItem = {
@@ -55,16 +55,21 @@ export default function AnimatedSelect({
 
   const [open, setOpen] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState<number>(() =>
-    Math.max(0, items.findIndex((i) => i.value === value))
+    Math.max(
+      0,
+      items.findIndex((i) => i.value === value),
+    ),
   );
 
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const idBase = React.useId();
+  const labelId = `${idBase}-label`;
 
   // Positioning
   const [rect, setRect] = React.useState<DOMRect | null>(null);
   const [menuW, setMenuW] = React.useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
   const current = items.find((i) => i.value === value);
   const lit = !!current; // stay lit if a value is chosen
@@ -76,30 +81,49 @@ export default function AnimatedSelect({
     if (matchTriggerWidth) setMenuW(r.width);
   }, [matchTriggerWidth]);
 
+  const rafId = React.useRef<number>();
+  const scheduleMeasure = React.useCallback(() => {
+    if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = undefined;
+      measure();
+    });
+  }, [measure]);
+
+  React.useEffect(() => {
+    return () => {
+      if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
+
   React.useLayoutEffect(() => {
     if (!open) return;
-    measure();
-  }, [open, measure]);
+    scheduleMeasure();
+  }, [open, scheduleMeasure]);
 
   React.useEffect(() => {
     if (!open) return;
-    const onResize = () => measure();
-    const onScroll = () => measure();
-    window.addEventListener("resize", onResize, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const handler = () => scheduleMeasure();
+    window.addEventListener("resize", handler, { passive: true });
+    window.addEventListener("scroll", handler, { passive: true });
     return () => {
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", handler);
+      window.removeEventListener("scroll", handler);
     };
-  }, [open, measure]);
+  }, [open, scheduleMeasure]);
 
   // Focus management
   React.useEffect(() => {
     if (!open) return;
-    const idx = Math.max(0, items.findIndex((i) => i.value === value));
+    const idx = Math.max(
+      0,
+      items.findIndex((i) => i.value === value),
+    );
     setActiveIndex(idx);
     const t = setTimeout(() => {
-      listRef.current?.querySelector<HTMLElement>(`[data-index="${idx}"]`)?.focus();
+      listRef.current
+        ?.querySelector<HTMLElement>(`[data-index="${idx}"]`)
+        ?.focus();
     }, 0);
     return () => clearTimeout(t);
   }, [open, items, value]);
@@ -127,12 +151,12 @@ export default function AnimatedSelect({
   function onTriggerKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      measure();
+      scheduleMeasure();
       setOpen(true);
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      measure();
+      scheduleMeasure();
       setOpen(true);
     }
   }
@@ -182,7 +206,9 @@ export default function AnimatedSelect({
   }
 
   function focusItem(index: number) {
-    listRef.current?.querySelector<HTMLElement>(`[data-index="${index}"]`)?.focus();
+    listRef.current
+      ?.querySelector<HTMLElement>(`[data-index="${index}"]`)
+      ?.focus();
   }
 
   function selectByIndex(index: number) {
@@ -198,8 +224,12 @@ export default function AnimatedSelect({
     ? (() => {
         const gap = 8;
         const width = menuW ?? 0;
-        let left = align === "right" ? rect.right - (width || rect.width) : rect.left;
-        const maxLeft = Math.max(8, window.innerWidth - (width || rect.width) - 8);
+        let left =
+          align === "right" ? rect.right - (width || rect.width) : rect.left;
+        const maxLeft = Math.max(
+          8,
+          window.innerWidth - (width || rect.width) - 8,
+        );
         left = Math.min(Math.max(8, left), maxLeft);
         return {
           position: "fixed",
@@ -216,68 +246,88 @@ export default function AnimatedSelect({
     (typeof label === "string"
       ? label
       : typeof prefixLabel === "string"
-      ? prefixLabel
-      : "Select option");
+        ? prefixLabel
+        : "Select option");
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
-    "group glitch-trigger relative inline-flex items-center gap-2 rounded-2xl px-3 overflow-hidden",
+    "glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
-    "border border-[hsl(var(--ring)/.22)] data-[lit=true]:border-[hsl(var(--ring)/.38)] data-[open=true]:border-[hsl(var(--ring)/.38)]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+    "focus:[outline:none] focus-visible:[outline:none]",
     "transition",
     buttonClassName,
   ].join(" ");
 
-  const caretCls = `caret ml-1 size-4 opacity-75 ${open ? "caret-open" : ""}`;
+  const caretCls = `caret ml-auto size-4 shrink-0 opacity-75 ${open ? "caret-open" : ""}`;
 
   return (
     <div id={id} className={["glitch-wrap", className].join(" ")}>
       {label ? (
-        <div className={hideLabel ? "sr-only" : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"}>{label}</div>
+        <div
+          id={labelId}
+          className={
+            hideLabel
+              ? "sr-only"
+              : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"
+          }
+        >
+          {label}
+        </div>
       ) : null}
 
-      <button
-        ref={triggerRef}
-        type="button"
-        disabled={disabled}
-        onClick={() => {
-          measure();
-          setOpen((v) => !v);
-        }}
-        onKeyDown={onTriggerKeyDown}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={`${idBase}-listbox`}
-        aria-label={triggerAria}
-        className={triggerCls}
-        data-lit={lit ? "true" : "false"}
-        data-open={open ? "true" : "false"}
-      >
-        {prefixLabel ? <span className="opacity-70">❯</span> : null}
-
-        <span
-          className={[
-            "font-medium glitch-text",
-            lit ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]",
-            "group-hover:text-[hsl(var(--foreground))]",
-          ].join(" ")}
+      <div className="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0">
+        <button
+          ref={triggerRef}
+          type="button"
+          disabled={disabled}
+          onClick={() => {
+            scheduleMeasure();
+            setOpen((v) => !v);
+          }}
+          onKeyDown={onTriggerKeyDown}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-controls={`${idBase}-listbox`}
+          aria-labelledby={label ? labelId : undefined}
+          aria-label={label ? undefined : triggerAria}
+          className={triggerCls}
+          data-lit={lit ? "true" : "false"}
+          data-open={open ? "true" : "false"}
         >
-          {current ? current.label : <span className="opacity-70">{placeholder}</span>}
-        </span>
+          {prefixLabel ? <span className="opacity-70">❯</span> : null}
 
-        <svg viewBox="0 0 20 20" className={caretCls} aria-hidden="true">
-          <path d="M5 7l5 6 5-6" fill="none" stroke="currentColor" strokeWidth="2" />
-        </svg>
+          <span
+            className={[
+              "font-medium glitch-text",
+              lit
+                ? "text-[hsl(var(--foreground))]"
+                : "text-[hsl(var(--muted-foreground))]",
+              "group-hover:text-[hsl(var(--foreground))]",
+            ].join(" ")}
+          >
+            {current ? (
+              current.label
+            ) : (
+              <span className="opacity-70">{placeholder}</span>
+            )}
+          </span>
 
-        {/* ── glitch border stack (no whites) ── */}
-        <span aria-hidden className="gb-iris" />
-        <span aria-hidden className="gb-chroma" />
-        <span aria-hidden className="gb-flicker" />
-        <span aria-hidden className="gb-scan" />
-        <span aria-hidden className="gb-noise" />
-        <span aria-hidden className="gb-sparks" />
-      </button>
+          <svg viewBox="0 0 20 20" className={caretCls} aria-hidden="true">
+            <path
+              d="M5 7l5 6 5-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+
+          {/* ── glitch border stack (no whites) ── */}
+          <span aria-hidden className="gb-iris" />
+          <span aria-hidden className="gb-chroma" />
+          <span aria-hidden className="gb-flicker" />
+          <span aria-hidden className="gb-scan" />
+        </button>
+      </div>
 
       {/* Dropdown */}
       {mounted &&
@@ -290,18 +340,33 @@ export default function AnimatedSelect({
                 role="listbox"
                 id={`${idBase}-listbox`}
                 tabIndex={-1}
-                aria-label={triggerAria}
-                initial={{ opacity: 0, y: -4, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                transition={{ duration: 0.14, ease: "easeOut" }}
+                aria-labelledby={label ? labelId : undefined}
+                aria-label={label ? undefined : triggerAria}
+                initial={
+                  reduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: -4, scale: 0.98 }
+                }
+                animate={
+                  reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }
+                }
+                exit={
+                  reduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: -4, scale: 0.98 }
+                }
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.14, ease: "easeOut" }
+                }
                 style={fixedStyles}
                 onKeyDown={onListKeyDown}
                 className={[
                   "relative pointer-events-auto rounded-2xl overflow-hidden",
                   "bg-[hsl(var(--card))]/92 backdrop-blur-xl",
-                  "shadow-[0_12px_40px_rgba(0,0,0,.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
-                  "p-1.5",
+                  "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
+                  "p-2",
                   "max-h-[60vh] min-w-[220px] overflow-y-auto scrollbar-thin",
                   "scrollbar-thumb-[hsl(var(--foreground)/.12)] scrollbar-track-transparent",
                   dropdownClassName,
@@ -313,8 +378,6 @@ export default function AnimatedSelect({
                 <span aria-hidden className="gb-chroma" />
                 <span aria-hidden className="gb-flicker" />
                 <span aria-hidden className="gb-scan" />
-                <span aria-hidden className="gb-noise" />
-                <span aria-hidden className="gb-sparks" />
 
                 {items.map((it, idx) => {
                   const active = it.value === value;
@@ -330,22 +393,28 @@ export default function AnimatedSelect({
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-3.5 py-2.5 text-left outline-none transition",
-                          disabledItem ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+                          "group relative w-full rounded-xl px-4 py-3 text-left transition",
+                          disabledItem
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer",
                           active
                             ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
-                            : "hover:bg-white/5",
-                          "focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]/60",
+                            : "hover:bg-[hsl(var(--foreground)/0.05)]",
+                          "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <span className="text-sm leading-none glitch-text">{it.label}</span>
+                          <span className="text-sm leading-none glitch-text">
+                            {it.label}
+                          </span>
                           <svg
                             viewBox="0 0 20 20"
                             className={[
                               "size-4 shrink-0 transition-opacity",
-                              active ? "opacity-90" : "opacity-0 group-hover:opacity-30",
+                              active
+                                ? "opacity-90"
+                                : "opacity-0 group-hover:opacity-30",
                             ].join(" ")}
                             aria-hidden="true"
                           >
@@ -375,7 +444,7 @@ export default function AnimatedSelect({
               </motion.ul>
             )}
           </AnimatePresence>,
-          document.body
+          document.body,
         )}
 
       <GlitchStyles />
@@ -384,23 +453,34 @@ export default function AnimatedSelect({
 }
 
 /* ─────────────────────────────────────────────────────────
-   Scoped glitch styles: chroma/iris ring, flicker, scanlines,
-   noise + “sparks”. Boosted when [data-lit="true"] or [data-open="true"].
+   Scoped glitch styles: chroma/iris ring, flicker, scanlines.
+   Boosted when [data-lit="true"] or [data-open="true"].
    No white borders; all hues use theme tokens.
    ───────────────────────────────────────────────────────── */
 function GlitchStyles() {
   return (
     <style jsx>{`
       /* caret jitter */
-      .caret { transition: transform .18s var(--ease-out), filter .18s var(--ease-out); }
-      .caret-open { transform: rotate(180deg); }
+      .caret {
+        transition:
+          transform 0.18s var(--ease-out),
+          filter 0.18s var(--ease-out);
+      }
+      .caret-open {
+        transform: rotate(180deg);
+      }
       .glitch-trigger:hover .caret {
-        animation: caret-jitter .9s steps(2,end) infinite;
-        filter: drop-shadow(0 0 4px hsl(var(--ring)/.55));
+        animation: caret-jitter 0.9s steps(2, end) infinite;
+        filter: drop-shadow(0 0 4px hsl(var(--ring) / 0.55));
       }
       @keyframes caret-jitter {
-        0%,100% { transform: translateX(0) rotate(var(--rot,0deg)); }
-        50% { transform: translateX(.6px) rotate(var(--rot,0deg)); }
+        0%,
+        100% {
+          transform: translateX(0) rotate(var(--rot, 0deg));
+        }
+        50% {
+          transform: translateX(0.6px) rotate(var(--rot, 0deg));
+        }
       }
 
       /* ── border stack pieces (masked to border) ── */
@@ -408,158 +488,196 @@ function GlitchStyles() {
       .gb-iris,
       .gb-chroma,
       .gb-flicker,
-      .gb-scan,
-      .gb-noise,
-      .gb-sparks {
+      .gb-scan {
         position: absolute;
         inset: -1px;
-        border-radius: 1rem;
+        border-radius: var(--radius-2xl, 1.5rem);
         pointer-events: none;
       }
 
       /* Base iris sheen with subtle rotation */
       .gb-iris {
         padding: 1px;
-        background:
-          conic-gradient(from 180deg,
-            hsl(262 83% 58% / 0),
-            hsl(262 83% 58% / .55),
-            hsl(192 90% 50% / .55),
-            hsl(320 85% 60% / .55),
-            hsl(262 83% 58% / 0));
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude;
-        opacity: .32;
+        background: conic-gradient(
+          from 180deg,
+          hsl(262 83% 58% / 0),
+          hsl(262 83% 58% / 0.55),
+          hsl(192 90% 50% / 0.55),
+          hsl(320 85% 60% / 0.55),
+          hsl(262 83% 58% / 0)
+        );
+        -webkit-mask:
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.32;
         animation: iris-rotate 10s linear infinite;
       }
-      @keyframes iris-rotate { to { filter: hue-rotate(360deg); } }
+      @keyframes iris-rotate {
+        to {
+          filter: hue-rotate(360deg);
+        }
+      }
 
       /* Stronger chroma jitter (RGB split feel) */
       .gb-chroma {
         padding: 1px;
-        background:
-          conic-gradient(from 90deg,
-            hsl(var(--primary) / 0),
-            hsl(var(--primary) / .7),
-            hsl(var(--accent-2) / .65),
-            hsl(var(--accent) / .65),
-            hsl(var(--primary) / 0));
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude;
+        background: conic-gradient(
+          from 90deg,
+          hsl(var(--primary) / 0),
+          hsl(var(--primary) / 0.7),
+          hsl(var(--accent-2) / 0.65),
+          hsl(var(--accent) / 0.65),
+          hsl(var(--primary) / 0)
+        );
+        -webkit-mask:
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
         mix-blend-mode: screen;
-        opacity: .28;
-        animation: chroma-jitter 2.1s steps(6,end) infinite;
+        opacity: 0.28;
+        animation: chroma-jitter 2.1s steps(6, end) infinite;
       }
       @keyframes chroma-jitter {
-        0%,100% { transform: translate(0,0); }
-        20% { transform: translate(.25px,-.25px); }
-        40% { transform: translate(-.25px,.25px); }
-        60% { transform: translate(.15px,.15px); }
-        80% { transform: translate(-.15px,-.1px); }
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        20% {
+          transform: translate(0.25px, -0.25px);
+        }
+        40% {
+          transform: translate(-0.25px, 0.25px);
+        }
+        60% {
+          transform: translate(0.15px, 0.15px);
+        }
+        80% {
+          transform: translate(-0.15px, -0.1px);
+        }
       }
 
       /* Flickery aura hugging the border */
       .gb-flicker {
         inset: -2px;
-        border-radius: 1rem;
-        background:
-          radial-gradient(120% 120% at 50% 50%, hsl(var(--ring)/.18), transparent 60%);
+        border-radius: var(--radius-2xl, 1.5rem);
+        background: radial-gradient(
+          120% 120% at 50% 50%,
+          hsl(var(--ring) / 0.18),
+          transparent 60%
+        );
         filter: blur(7px) saturate(1.06);
         mix-blend-mode: screen;
-        opacity: .18;
-        animation: border-flicker 3.2s steps(24,end) infinite, border-pulse 6s ease-in-out infinite alternate;
+        opacity: 0.18;
+        animation:
+          border-flicker 3.2s steps(24, end) infinite,
+          border-pulse 6s ease-in-out infinite alternate;
       }
       @keyframes border-flicker {
-        0%, 7%, 9%, 100% { opacity:.16; }
-        8% { opacity:.46; }
-        31% { opacity:.22; }
-        33% { opacity:.4; }
-        54% { opacity:.2; }
-        55% { opacity:.46; }
-        78% { opacity:.24; }
+        0%,
+        7%,
+        9%,
+        100% {
+          opacity: 0.16;
+        }
+        8% {
+          opacity: 0.46;
+        }
+        31% {
+          opacity: 0.22;
+        }
+        33% {
+          opacity: 0.4;
+        }
+        54% {
+          opacity: 0.2;
+        }
+        55% {
+          opacity: 0.46;
+        }
+        78% {
+          opacity: 0.24;
+        }
       }
       @keyframes border-pulse {
-        0%,100% { filter: blur(7px) saturate(1.02); }
-        50% { filter: blur(8px) saturate(1.18); }
+        0%,
+        100% {
+          filter: blur(7px) saturate(1.02);
+        }
+        50% {
+          filter: blur(8px) saturate(1.18);
+        }
       }
 
       /* Thin scanlines constrained to the edge */
       .gb-scan {
         padding: 1px;
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude;
-        background:
-          repeating-linear-gradient(0deg,
-            rgba(255,255,255,.10) 0 1px,
-            transparent 2px 4px);
+        -webkit-mask:
+          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+          linear-gradient(hsl(var(--foreground)) 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        background: repeating-linear-gradient(
+          0deg,
+          hsl(var(--foreground) / 0.1) 0 1px,
+          transparent 2px 4px
+        );
         mix-blend-mode: soft-light;
-        opacity: .2;
+        opacity: 0.2;
         animation: scan-move 5.2s linear infinite;
       }
-      @keyframes scan-move { 0%{transform:translateY(-10%)} 100%{transform:translateY(10%)} }
-
-      /* Static/grain hugging the edge */
-      .gb-noise {
-        padding: 1px;
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude;
-        background:
-          url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'>\
-  <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='1' stitchTiles='stitch'/></filter>\
-  <rect width='160' height='160' filter='url(#n)' opacity='.08'/></svg>");
-        background-size: 160px 160px;
-        mix-blend-mode: overlay;
-        opacity: .24;
-        animation: static-fizz 1.6s steps(3,end) infinite;
-      }
-      @keyframes static-fizz { 50% { opacity: .16; } }
-
-      /* Little sparks running around the frame */
-      .gb-sparks {
-        padding: 1px;
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude;
-        background:
-          radial-gradient(8px 8px at 0% 50%, hsl(var(--accent)/.65), transparent 70%),
-          radial-gradient(6px 6px at 100% 50%, hsl(var(--primary)/.6), transparent 70%),
-          radial-gradient(10px 10px at 50% 0%, hsl(var(--accent-2)/.5), transparent 70%),
-          radial-gradient(10px 10px at 50% 100%, hsl(var(--ring)/.55), transparent 70%);
-        background-repeat: no-repeat;
-        background-size: 10px 10px, 8px 8px, 10px 10px, 10px 10px;
-        opacity: .22;
-        animation: sparks-run 2.8s linear infinite;
-      }
-      @keyframes sparks-run {
-        0%   { background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%; }
-        25%  { background-position: 25% 50%, 75% 50%, 50% 10%, 50% 90%; }
-        50%  { background-position: 50% 50%, 50% 50%, 50% 20%, 50% 80%; }
-        75%  { background-position: 75% 50%, 25% 50%, 50% 10%, 50% 90%; }
-        100% { background-position: 100% 50%, 0% 50%, 50% 0%, 50% 100%; }
+      @keyframes scan-move {
+        0% {
+          transform: translateY(-10%);
+        }
+        100% {
+          transform: translateY(10%);
+        }
       }
 
       /* Light up when selected or open */
       .glitch-trigger[data-lit="true"] .gb-iris,
-      .glitch-trigger[data-open="true"] .gb-iris { opacity: .45; }
+      .glitch-trigger[data-open="true"] .gb-iris {
+        opacity: 0.45;
+      }
       .glitch-trigger[data-lit="true"] .gb-chroma,
-      .glitch-trigger[data-open="true"] .gb-chroma { opacity: .48; }
+      .glitch-trigger[data-open="true"] .gb-chroma {
+        opacity: 0.48;
+      }
       .glitch-trigger[data-lit="true"] .gb-flicker,
-      .glitch-trigger[data-open="true"] .gb-flicker { opacity: .28; }
-      .glitch-trigger[data-lit="true"] .gb-sparks,
-      .glitch-trigger[data-open="true"] .gb-sparks { opacity: .3; }
+      .glitch-trigger[data-open="true"] .gb-flicker {
+        opacity: 0.28;
+      }
 
       /* Menu also glows a bit stronger */
-      [data-open="true"] .gb-iris { opacity: .38; }
-      [data-open="true"] .gb-chroma { opacity: .42; }
-      [data-open="true"] .gb-flicker { opacity: .26; }
+      [data-open="true"] .gb-iris {
+        opacity: 0.38;
+      }
+      [data-open="true"] .gb-chroma {
+        opacity: 0.42;
+      }
+      [data-open="true"] .gb-flicker {
+        opacity: 0.26;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .gb-iris,
+        .gb-chroma,
+        .gb-flicker,
+        .gb-scan,
+        .glitch-trigger:hover .caret {
+          animation: none;
+        }
+      }
 
       /* subtle label RGB split on hover */
       .glitch-text:hover {
         text-shadow:
-          0.6px 0 hsl(210 100% 60% / .45),
-         -0.6px 0 hsl(330 100% 60% / .45);
+          0.6px 0 hsl(210 100% 60% / 0.45),
+          -0.6px 0 hsl(330 100% 60% / 0.45);
       }
     `}</style>
   );
 }
-

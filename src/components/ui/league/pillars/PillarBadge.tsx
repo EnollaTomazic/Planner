@@ -52,15 +52,15 @@ export default function PillarBadge({
     size === "lg"
       ? "h-10 px-4 text-base gap-2"
       : size === "sm"
-      ? "h-8 px-3 text-[13px] gap-1.5"
-      : "h-9 px-3.5 text-sm gap-2";
+      ? "h-8 px-3 text-[13px] gap-2"
+      : "h-9 px-4 text-sm gap-2";
 
   // Default element: "button" if interactive, else "span".
   const Tag: AsTag = as ?? (interactive ? "button" : "span");
 
   // Common class list
   const cls = [
-    "lg-pillar-badge",
+    "lg-pillar-badge rounded-full",
     sizeCls,
     interactive ? "cursor-pointer select-none" : "",
     active ? "active" : "",
@@ -120,7 +120,6 @@ export default function PillarBadge({
           position: relative;
           display: inline-flex;
           align-items: center;
-          border-radius: 9999px;
           line-height: 1;
           font-weight: 600;
 
@@ -158,7 +157,9 @@ export default function PillarBadge({
           padding: 1px;
           border-radius: inherit;
           background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask:
+            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+            linear-gradient(hsl(var(--foreground)) 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           pointer-events: none;
@@ -173,7 +174,7 @@ export default function PillarBadge({
           position: relative;
           z-index: 1;
           letter-spacing: 0.2px;
-          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+          text-shadow: 0 1px 0 hsl(var(--shadow-color) / 0.05);
         }
 
         @media (prefers-reduced-motion: reduce) {

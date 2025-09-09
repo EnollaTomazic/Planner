@@ -1,19 +1,20 @@
 // src/components/team/Builder.tsx
 "use client";
-import "../team/style.css";
+import "./style.css";
 
 /**
  * Builder — Allies vs Enemies with a center divider
- * - Local storage via useLocalDB
+ * - Local storage via usePersistentState
  * - Icon-only actions with tooltips (Swap / Copy)
  * - Glitch-styled titles and subtle neon rail
  * - Center spine shows on md+ only
  */
 
-import { useMemo, useState } from "react";
+import * as React from "react";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
 import {
   Shield,
@@ -23,10 +24,10 @@ import {
   ClipboardCheck,
   Eraser,
   NotebookPen,
-  Info,
   Copy,
 } from "lucide-react";
-import { useLocalDB } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
+import { copyText } from "@/lib/clipboard";
 
 /* ───────────────── types & constants ───────────────── */
 
@@ -89,13 +90,13 @@ function stringify(s: TeamState) {
 /* ───────────────── component ───────────────── */
 
 export default function Builder() {
-  const [state, setState] = useLocalDB<TeamState>(TEAM_KEY, {
+  const [state, setState] = usePersistentState<TeamState>(TEAM_KEY, {
     allies: { ...EMPTY_TEAM },
     enemies: { ...EMPTY_TEAM },
   });
-  const [copied, setCopied] = useState<"all" | "allies" | "enemies" | null>(null);
+  const [copied, setCopied] = React.useState<"all" | "allies" | "enemies" | null>(null);
 
-  const filledCount = useMemo(() => {
+  const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
       [t.top, t.jungle, t.mid, t.adc, t.support].filter(Boolean).length;
     return { allies: countTeam(state.allies), enemies: countTeam(state.enemies) };
@@ -135,16 +136,7 @@ export default function Builder() {
             enemies: selection === "enemies" ? state.enemies : EMPTY_TEAM,
           });
 
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-    }
+    await copyText(text);
     setCopied(selection);
     setTimeout(() => setCopied(null), 1300);
   }
@@ -152,38 +144,38 @@ export default function Builder() {
   /* ─────────────── UI ─────────────── */
 
   return (
-    <div data-scope="team" className="grid gap-4">
-      <SectionCard className="card-neo-soft glitch-card">
-        <SectionCard.Header
-          sticky
-          title={
-            <div className="flex items-center gap-2">
-              <span className="pill">
-                <Info className="mr-1" /> Fill allies vs enemies. Swap in one click.
-              </span>
-            </div>
-          }
-          actions={
-            <div className="flex items-center gap-1.5">
-              <IconButton
-                title="Swap Allies ↔ Enemies"
-                aria-label="Swap Allies and Enemies"
-                onClick={swapSides}
-              >
-                <Shuffle />
-              </IconButton>
-              <IconButton
-                title="Copy both sides"
-                aria-label="Copy both sides"
-                onClick={() => copy("all")}
-              >
-                {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
-              </IconButton>
-            </div>
-          }
-        />
-        <SectionCard.Body>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
+    <div data-scope="team" className="w-full">
+      <Hero
+        eyebrow="Comps"
+        heading="Builder"
+        subtitle="Fill allies vs enemies. Swap in one click."
+        right={
+          <div className="flex items-center gap-2">
+            <IconButton
+              title="Swap Allies ↔ Enemies"
+              aria-label="Swap Allies and Enemies"
+              onClick={swapSides}
+              size="sm"
+              iconSize="sm"
+            >
+              <Shuffle />
+            </IconButton>
+            <IconButton
+              title="Copy both sides"
+              aria-label="Copy both sides"
+              onClick={() => copy("all")}
+              size="sm"
+              iconSize="sm"
+            >
+              {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
+            </IconButton>
+          </div>
+        }
+      />
+      <div className="mt-6">
+        <SectionCard className="card-neo-soft glitch-card">
+          <SectionCard.Body>
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
             {/* Allies */}
             <SideEditor
               title="Allies"
@@ -217,7 +209,8 @@ export default function Builder() {
             />
           </div>
         </SectionCard.Body>
-      </SectionCard>
+        </SectionCard>
+      </div>
     </div>
   );
 }
@@ -274,7 +267,7 @@ function SideEditor(props: {
           </div>
         ))}
 
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>
@@ -283,18 +276,21 @@ function SideEditor(props: {
             placeholder="Short plan, spikes, target calls…"
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
-            className="planner-textarea"
+            resize="resize-y"
+            textareaClassName="min-h-[180px] leading-relaxed"
             rows={4}
           />
         </div>
 
         {/* side actions: icon-only, same behavior */}
-        <div className="mt-1 flex items-center gap-1.5 justify-end">
+        <div className="mt-1 flex items-center gap-2 justify-end">
           <IconButton
             title={`Clear ${title}`}
             aria-label={`Clear ${title}`}
             variant="ring"
             onClick={onClear}
+            size="sm"
+            iconSize="sm"
           >
             <Eraser />
           </IconButton>
@@ -302,6 +298,8 @@ function SideEditor(props: {
             title={`Copy ${title}`}
             aria-label={`Copy ${title}`}
             onClick={onCopy}
+            size="sm"
+            iconSize="sm"
           >
             <Copy />
           </IconButton>

@@ -2,28 +2,28 @@
 "use client";
 
 /**
- * RemindersTab — Hero2 header + borderless TabBar everywhere
- * - Domain tabs in Hero2.right (Life | League | BLA), neon divider tint matches domain
- * - Bottom search stays in Hero2.bottom
+ * RemindersTab — Hero header + borderless TabBar everywhere
+ * - Domain tabs in Hero.right (Life | League | Learn), neon divider tint matches domain
+ * - Bottom search stays in Hero.bottom
  * - Quick Add row now lives inside the SAME panel as the cards (top of SectionCard.Body)
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
  *
- * Notes:
- * - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
- * - Button/IconButton use canonical props; delete uses variant="destructive".
- * - Typings added to onChange handlers to avoid implicit any.
+* Notes:
+* - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
+* - Button/IconButton use canonical props; delete uses tone="danger".
+* - Typings added to onChange handlers to avoid implicit any.
  */
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/input";
-import Textarea from "@/components/ui/primitives/textarea";
-import Button from "@/components/ui/primitives/button";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
+import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 import TabBar from "@/components/ui/layout/TabBar";
-import { uid, useLocalDB } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
   SlidersHorizontal,
@@ -34,11 +34,12 @@ import {
   Gamepad2,
   GraduationCap,
   Pencil,
+  Plus,
 } from "lucide-react";
 
 /* ───────── Types & seeds ───────── */
 
-type Domain = "Life" | "League" | "BLA";
+type Domain = "Life" | "League" | "Learn";
 type Source = "MLA" | "BLA" | "BrokenByConcept" | "Custom";
 type Group = "quick" | "pregame" | "laning" | "trading" | "tempo" | "review";
 
@@ -82,20 +83,44 @@ function R(
 }
 
 const SEEDS: Reminder[] = [
-  R("Hit 2 first", "Push 3 melees → step up or respect if losing push.", [], "BLA", "quick", true, "BLA"),
-  R("Jungle start check", "Track start → first gank lane → second spawn prio.", [], "BrokenByConcept", "quick", true, "BLA"),
+  R("Hit 2 first", "Push 3 melees → step up or respect if losing push.", [], "BLA", "quick", true, "Learn"),
+  R(
+    "Jungle start check",
+    "Track start → first gank lane → second spawn prio.",
+    [],
+    "BrokenByConcept",
+    "quick",
+    true,
+    "Learn"
+  ),
   R("3-wave plan", "Say it: slow then crash 3 OR hold then thin/freeze.", [], "MLA", "pregame", false, "League"),
-  R("Ward 2:30", "River/tri at 2:30. Sweep before shove.", [], "BrokenByConcept", "pregame", false, "BLA"),
+  R(
+    "Ward 2:30",
+    "River/tri at 2:30. Sweep before shove.",
+    [],
+    "BrokenByConcept",
+    "pregame",
+    false,
+    "Learn"
+  ),
   R("Space with casters", "Trade when your casters live; back off on enemy wave.", [], "MLA", "laning", false, "League"),
   R("CD punish", "Trade on enemy cooldown gaps; track sums.", [], "MLA", "trading", false, "League"),
-  R("Good recall", "Shove → recall on spike → arrive first to river.", [], "BrokenByConcept", "tempo", false, "BLA"),
-  R("Death audit", "Wave, vision, jungle, greed. Name the fix.", [], "BLA", "review", false, "BLA"),
+  R(
+    "Good recall",
+    "Shove → recall on spike → arrive first to river.",
+    [],
+    "BrokenByConcept",
+    "tempo",
+    false,
+    "Learn"
+  ),
+  R("Death audit", "Wave, vision, jungle, greed. Name the fix.", [], "BLA", "review", false, "Learn"),
 ];
 
 const DOMAIN_ITEMS: Array<{ key: Domain; label: string; icon: React.ReactNode }> = [
-  { key: "Life",   label: "Life",   icon: <Sparkles className="mr-1" /> },
+  { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
   { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
-  { key: "BLA",    label: "BLA",    icon: <GraduationCap className="mr-1" /> },
+  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
 ];
 
 const GROUPS: Array<{ key: Group; label: string; hint?: string }> = [
@@ -119,17 +144,26 @@ const cap = (s: string) => s.slice(0, 1).toUpperCase() + s.slice(1);
 /* ───────── Page ───────── */
 
 export default function RemindersTab() {
-  const [items, setItems] = useLocalDB<Reminder[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
   const [onlyPinned, setOnlyPinned] = React.useState(false);
-  const [domain, setDomain] = useLocalDB<Domain>("goals.reminders.domain.v2", "League");
-  const [group, setGroup] = useLocalDB<Group>("goals.reminders.group.v1", "quick");
-  const [source, setSource] = useLocalDB<Source | "all">("goals.reminders.source.v1", "all");
+  const [domain, setDomain] = usePersistentState<Domain>(
+    "goals.reminders.domain.v2",
+    "League",
+  );
+  const [group, setGroup] = usePersistentState<Group>(
+    "goals.reminders.group.v1",
+    "quick",
+  );
+  const [source, setSource] = usePersistentState<Source | "all">(
+    "goals.reminders.source.v1",
+    "all",
+  );
   const [quickAdd, setQuickAdd] = React.useState("");
   const [showFilters, setShowFilters] = React.useState(false);
 
   const inferDomain = (r: Reminder): Domain =>
-    r.domain ?? (r.source === "BLA" || r.source === "BrokenByConcept" ? "BLA" : "League");
+    r.domain ?? (r.source === "BLA" || r.source === "BrokenByConcept" ? "Learn" : "League");
 
   // counts for group badges (per current domain)
   const counts = React.useMemo(() => {
@@ -165,7 +199,7 @@ export default function RemindersTab() {
       title: (initialTitle ?? "New reminder").trim() || "New reminder",
       body: "",
       tags: [],
-      source: domain === "BLA" ? "BLA" : "Custom",
+      source: domain === "Learn" ? "BLA" : "Custom",
       group,
       domain,
       pinned: group === "quick",
@@ -181,7 +215,7 @@ export default function RemindersTab() {
 
   const remove = (id: string) => setItems((prev) => prev.filter((r) => r.id !== id));
 
-  const showGroups = domain === "League" || domain === "BLA";
+  const showGroups = domain === "League" || domain === "Learn";
   const neonClass = domain === "Life" ? "neon-life" : "neon-primary";
 
   // TabBar items
@@ -198,9 +232,9 @@ export default function RemindersTab() {
 
   return (
     <div className="grid gap-4">
-      {/* Hero2 with domain TabBar and bottom search */}
-      <Hero2
-        eyebrow="GOALS"
+      {/* Hero with domain TabBar and bottom search */}
+      <Hero
+        eyebrow={domain}
         heading="Reminders"
         subtitle="Tiny brain pings you’ll totally ignore until 23:59."
         dividerTint={domain === "Life" ? "life" : "primary"}
@@ -212,14 +246,14 @@ export default function RemindersTab() {
             align="end"
             size="md"
             ariaLabel="Reminder domain"
+            showBaseline
           />
         }
         bottom={
-          <Hero2SearchBar
+          <HeroSearchBar
             value={query}
             onValueChange={setQuery}
             placeholder="Search title, text, tags…"
-            size="md"
             debounceMs={80}
             right={
               <div className="flex items-center gap-2">
@@ -231,33 +265,33 @@ export default function RemindersTab() {
         }
       />
 
-      <SectionCard className="card-neo-soft">
+      <SectionCard className="goal-card">
         <SectionCard.Body>
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 if (quickAdd.trim()) addNew(quickAdd);
               }}
-              className=" rounded-card flex items-center gap-6 glitch"
+              className="rounded-card flex items-center gap-6 glitch"
             >
               <Input
                 aria-label="Quick add reminder"
                 placeholder={`Quick add to ${GROUPS.find((g) => g.key === group)?.label ?? "Group"}…`}
                 value={quickAdd}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuickAdd(e.currentTarget.value)}
-                className="h-10 flex-1"
+                className="flex-1"
               />
-              <IconButton title="Add quick" aria-label="Add quick" type="submit" circleSize="md">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+              <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
+                <Plus size={16} aria-hidden />
               </IconButton>
               <div className={neonClass}>
                 <p className="neon-note text-xs italic">Stop procrastinating, do it now if you have time</p>
               </div>
             </form>
 
-            {/* Groups row (League/BLA) with Filters toggle on the right */}
+            {/* Groups row (League/Learn) with Filters toggle on the right */}
             {showGroups && (
               <TabBar
                 items={GROUP_TABS}
@@ -271,17 +305,17 @@ export default function RemindersTab() {
                     className={["btn-like-segmented inline-flex items-center gap-1", showFilters && "is-active"]
                       .filter(Boolean)
                       .join(" ")}
-                    onClick={() => setShowFilters((v) => !v)}
-                    aria-expanded={showFilters}
-                    title="Filters"
-                    type="button"
-                  >
-                    <SlidersHorizontal />
-                    Filters
-                  </button>
-                }
-              />
-            )}
+                  onClick={() => setShowFilters((v) => !v)}
+                  aria-expanded={showFilters}
+                  title="Filters"
+                  type="button"
+                >
+                    <SlidersHorizontal size={16} aria-hidden />
+                  Filters
+                </button>
+              }
+            />
+          )}
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
@@ -318,11 +352,11 @@ export default function RemindersTab() {
               ))}
             </div>
 
-            {filtered.length === 0 && <EmptyState onAdd={() => addNew("One clear reminder")} />}
+            {filtered.length === 0 && <EmptyState />}
           </div>
         </SectionCard.Body>
 
-        {/* Local styles: keep neon-note flicker; divider is handled by Hero2 */}
+        {/* Local styles: keep neon-note flicker; divider is handled by Hero */}
         <style jsx>{`
           .neon-primary { --neon: var(--primary); }
           .neon-life { --neon: var(--accent); }
@@ -358,13 +392,10 @@ export default function RemindersTab() {
 
 /* ───────── UI bits ───────── */
 
-function EmptyState({ onAdd }: { onAdd: () => void }) {
+function EmptyState() {
   return (
-    <div className="card-neo-soft rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center gap-3">
+    <div className="goal-card rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
-      <Button onClick={onAdd} className="btn-like-segmented">
-        Add reminder
-      </Button>
     </div>
   );
 }
@@ -429,7 +460,7 @@ function RemTile({
           )}
         </div>
 
-        <div className=" flex items-center gap-1">
+        <div className="flex items-center gap-1">
           <IconButton
             title="Edit"
             aria-label="Edit"
@@ -437,7 +468,7 @@ function RemTile({
               setEditing(true);
               setTimeout(() => titleRef.current?.focus(), 0);
             }}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
           >
@@ -448,7 +479,7 @@ function RemTile({
             title="Delete"
             aria-label="Delete"
             onClick={onDelete}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
             variant="ring"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
@@ -461,7 +492,7 @@ function RemTile({
             title={pinned ? "Unpin" : "Pin"}
             aria-label={pinned ? "Unpin" : "Pin"}
             onClick={() => onChange({ pinned: !pinned })}
-            circleSize="sm"
+            size="sm"
             iconSize="sm"
           >
             {pinned ? <PinOff /> : <Pin />}
@@ -478,8 +509,12 @@ function RemTile({
               aria-label="Body"
               placeholder="Short, skimmable sentence."
               value={body}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.currentTarget.value)}
-              className="textarea-base"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setBody(e.currentTarget.value)
+              }
+              className="rounded-2xl"
+              resize="resize-y"
+              textareaClassName="min-h-[160px] leading-relaxed"
             />
 
             <label className="text-xs opacity-70">Tags</label>
@@ -517,7 +552,7 @@ function RemTile({
             </div>
 
             <div className="segmented inline-flex">
-              {(["Life", "League", "BLA"] as Domain[]).map((d) => (
+              {(["Life", "League", "Learn"] as Domain[]).map((d) => (
                 <button
                   key={d}
                   className={["btn-like-segmented", (value.domain ?? "League") === d && "is-active"].filter(Boolean).join(" ")}
@@ -530,9 +565,11 @@ function RemTile({
             </div>
 
             <div className="flex gap-2">
-              <Button className="h-8" onClick={save}>Save</Button>
+              <Button size="sm" onClick={save}>
+                Save
+              </Button>
               <Button
-                className="h-8"
+                size="sm"
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);
@@ -554,7 +591,10 @@ function RemTile({
 
             <div className="mt-1 flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
+                <span
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ background: "var(--accent-overlay)" }}
+                />
                 <span className="text-xs">{fmtDate(value.createdAt)}</span>
               </div>
 

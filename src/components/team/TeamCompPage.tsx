@@ -7,70 +7,83 @@
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
- * Uses Hero (v1) + HeroTabs for the main header.
- * The Cheat Sheet tab itself renders a nested Hero2 internally.
+ * Header hosts the main tabs; the Cheat Sheet tab still renders its own
+ * nested Hero internally.
  */
-import "../team/style.css";
+import "./style.css";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Hero, { HeroTabs, type HeroTab } from "@/components/ui/layout/Hero";
+import Header, { HeaderTabs, type HeaderTab } from "@/components/ui/layout/Header";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
 
 type Tab = "cheat" | "builder" | "clears";
 
-const TABS: HeroTab<Tab>[] = [
-  { key: "cheat",   label: "Cheat Sheet",   hint: "Archetypes, counters, examples", icon: <BookOpenText className="mr-1" /> },
-  { key: "builder", label: "Builder",       hint: "Fill allies vs enemies",         icon: <Hammer className="mr-1" /> },
-  { key: "clears",  label: "Jungle Clears", hint: "Relative buckets by speed",      icon: <Timer className="mr-1" /> },
-] as const;
+const TABS: HeaderTab<Tab>[] = [
+  {
+    key: "cheat",
+    label: "Cheat Sheet",
+    hint: "Archetypes, counters, examples",
+    icon: <BookOpenText />,
+  },
+  {
+    key: "builder",
+    label: "Builder",
+    hint: "Fill allies vs enemies",
+    icon: <Hammer />,
+  },
+  {
+    key: "clears",
+    label: "Jungle Clears",
+    hint: "Relative buckets by speed",
+    icon: <Timer />,
+  },
+];
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
 
   return (
-    <main className="grid gap-4">
-      <Hero
-        eyebrow="Team Comp"
+    <main className="page-shell py-6 space-y-6">
+      <Header
+        eyebrow="Comps"
         heading="Today"
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
         right={
-          <HeroTabs<Tab>
+          <HeaderTabs
             tabs={TABS}
             activeKey={tab}
             onChange={(k: Tab) => setTab(k)}
-            ariaLabel="Team Comp views"
           />
         }
-        className="mb-1"
       />
 
       <section className="grid gap-4">
         <div
+          id="cheat-panel"
           role="tabpanel"
-          id="hero-cheat-panel"
-          aria-labelledby="hero-cheat-tab"
+          aria-labelledby="cheat-tab"
           hidden={tab !== "cheat"}
         >
           {tab === "cheat" && <CheatSheetTabs />}
         </div>
 
         <div
+          id="builder-panel"
           role="tabpanel"
-          id="hero-builder-panel"
-          aria-labelledby="hero-builder-tab"
+          aria-labelledby="builder-tab"
           hidden={tab !== "builder"}
         >
           {tab === "builder" && <Builder />}
         </div>
 
         <div
+          id="clears-panel"
           role="tabpanel"
-          id="hero-clears-panel"
-          aria-labelledby="hero-clears-tab"
+          aria-labelledby="clears-tab"
           hidden={tab !== "clears"}
         >
           {tab === "clears" && <JungleClears />}

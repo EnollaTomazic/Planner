@@ -71,7 +71,7 @@ export default function SideSelector({
         )}
         style={{
           background:
-            "radial-gradient(120px 40px at 25% 50%, rgba(0,255,255,.08), transparent 60%), radial-gradient(120px 40px at 75% 50%, rgba(255,0,200,.08), transparent 60%)",
+            "radial-gradient(120px 40px at 25% 50%, hsl(var(--accent-2)/0.08), transparent 60%), radial-gradient(120px 40px at 75% 50%, hsl(var(--lav-deep)/0.08), transparent 60%)",
         }}
       />
 
@@ -92,7 +92,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            !isRight ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+            !isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
           )}
           style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
         >
@@ -101,7 +101,7 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            isRight ? "text-white" : "text-[hsl(var(--muted-foreground))]"
+            isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
           )}
           style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
         >

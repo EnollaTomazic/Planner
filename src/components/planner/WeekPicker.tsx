@@ -9,36 +9,17 @@
  */
 
 import * as React from "react";
-import Hero2 from "@/components/ui/layout/Hero2";
-import Button from "@/components/ui/primitives/button";
-import { useFocusDate, useDay, type ISODate } from "./usePlanner";
+import Hero from "@/components/ui/layout/Hero";
+import Button from "@/components/ui/primitives/Button";
+import { useFocusDate } from "./useFocusDate";
+import type { ISODate } from "./plannerStore";
+import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
-import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";
+import { CalendarDays, ArrowUpToLine } from "lucide-react";
+import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
-function isoToDate(iso: string) {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
-function toISO(d: Date) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-function addDays(d: Date, n: number) {
-  const x = new Date(d);
-  x.setDate(d.getDate() + n);
-  return x;
-}
-function mondayStart(d: Date) {
-  const shift = (d.getDay() + 6) % 7; // Mon=0..Sun=6
-  const s = new Date(d);
-  s.setDate(d.getDate() - shift);
-  s.setHours(0, 0, 0, 0);
-  return s;
-}
 const dmy = new Intl.DateTimeFormat(undefined, { day: "2-digit", month: "short" });
 
 /* ───────── safe week stats (7 fixed calls) ───────── */
@@ -97,18 +78,14 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative w-full rounded-2xl border text-left px-3 py-2 transition",
+        "chip relative flex-none min-w-[min(160px,40%)] rounded-2xl border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-[hsl(var(--card-hairline))] bg-[hsl(var(--card)/0.75)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
         today && "chip--today",
         selected
-          ? cn(
-              // “armed” personality: dashed, tinted border + subtle glow
-              "border-dashed border-[hsl(var(--primary)/.75)] shadow-[0_8px_22px_hsl(var(--shadow-color)/.22)]",
-              "ring-1 ring-[hsl(var(--primary)/.45)]"
-            )
-          : "hover:border-[hsl(var(--primary)/.4)] hover:shadow-[0_6px_18px_hsl(var(--shadow-color)/.18)]"
+          ? "border-dashed border-[hsl(var(--primary)/.75)]"
+          : "hover:border-[hsl(var(--primary)/.4)]"
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
@@ -138,26 +115,19 @@ function DayChip({
 export default function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { start, end, heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
-    const base = isoToDate(iso);
-    const s = mondayStart(base);
+  const { heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
+    const base = fromISODate(iso) ?? new Date();
+    const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
-    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISO(addDays(s, i)) as ISODate);
+    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISODate(addDays(s, i)) as ISODate);
     return {
-      start: s,
-      end: e,
       heading: `${dmy.format(s)} — ${dmy.format(e)}`,
       rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
-      isoStart: toISO(s),
-      isoEnd: toISO(e),
+      isoStart: toISODate(s),
+      isoEnd: toISODate(e),
       days: list,
     };
   }, [iso]);
-
-  const prevWeek = () => setIso(toISO(addDays(start, -7)));
-  const nextWeek = () => setIso(toISO(addDays(start, 7)));
-  const jumpToday = () => setIso(today);
 
   const { per, weekDone, weekTotal } = useWeekStats(days);
 
@@ -180,6 +150,7 @@ export default function WeekPicker() {
     const el = document.getElementById(`day-${d}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      el.focus({ preventScroll: true });
       setShowTop(true);
     }
   };
@@ -191,61 +162,23 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top-right controls go in Hero2.right */
-  const right = (
-    <div className="flex items-center gap-2">
+  /* Top button goes in Hero.right when applicable */
+  const right =
+    showTop ? (
       <Button
-        variant="ghost"
+        variant="primary"
         size="sm"
-        vibe="lift"
-        pill
-        aria-label="Previous week"
-        leftIcon={<ChevronLeft className="btn-icon" />}
-        onClick={prevWeek}
+        aria-label="Jump to top"
+        onClick={jumpToTop}
+        title="Jump to top"
       >
-        Prev
+        <ArrowUpToLine className="size-4" />
+        <span>Top</span>
       </Button>
-      <Button
-        variant="secondary"
-        size="sm"
-        vibe="glitch"
-        pill
-        aria-label="Jump to today"
-        onClick={jumpToday}
-      >
-        Today
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        vibe="lift"
-        pill
-        aria-label="Next week"
-        rightIcon={<ChevronRight className="btn-icon" />}
-        onClick={nextWeek}
-      >
-        Next
-      </Button>
-
-      {showTop && (
-        <Button
-          variant="destructive"
-          size="sm"
-          vibe="lift"
-          pill
-          aria-label="Jump to top"
-          leftIcon={<ArrowUpToLine className="btn-icon" />}
-          onClick={jumpToTop}
-          title="Jump to top"
-        >
-          Top
-        </Button>
-      )}
-    </div>
-  );
+    ) : undefined;
 
   return (
-    <Hero2
+    <Hero
       heading={
         <span className="hero2-title" data-text={heading}>
           {heading}
@@ -257,12 +190,12 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
       bottom={
-        <div className="grid gap-3">
+        <div className="grid gap-3 flex-1">
           {/* Range + totals */}
           <div className="flex items-center justify-between gap-3">
             <span
               className={cn(
-                "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
+                "inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm",
                 "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
               )}
               aria-label={`Week range ${rangeLabel}`}
@@ -280,7 +213,7 @@ export default function WeekPicker() {
           </div>
 
           {/* Day chips */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
             {days.map((d, i) => (
               <DayChip
                 key={d}

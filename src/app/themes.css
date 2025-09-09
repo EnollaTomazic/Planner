@@ -6,34 +6,64 @@
 :root {
   --background: 246 35% 7%;
   --foreground: 260 20% 96%;
+  --text: var(--foreground);
   --card: 248 30% 10%;
+  --panel: var(--card);
   --border: 252 20% 22%;
+  --line: var(--border);
   --input: 250 22% 12%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
-  --accent: 292 80% 60%;
-  --accent-2: 192 90% 50%;
-  --accent-soft: 292 80% 20%;
+  --accent: 292 90% 35%;
+  --accent-2: 192 100% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 292 90% 15%;
+  --glow: 292 90% 35%;
+  --ring-muted: 248 20% 22%;
+  --danger: 0 84% 60%;
   --muted: 248 26% 14%;
   --muted-foreground: 250 15% 70%;
+  --surface: 248 24% 12%;
+  --surface-2: 248 24% 16%;
+  --surface-vhs: 210 27% 6%;
+  --surface-streak: 240 16% 12%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --aurora-g: 150 100% 60%;
+  --aurora-g-light: 150 100% 85%;
+  --aurora-p: 272 80% 60%;
+  --aurora-p-light: 272 80% 85%;
+  --icon-fg: 247 100% 77%;
+  --accent-overlay: hsl(var(--accent));
+  --ring-contrast: hsl(var(--ring));
+  --glow-active: hsl(var(--glow));
+  --text-on-accent: hsl(var(--foreground));
+
+  /* Default button tones */
+  --neon: var(--glow);
+  --neon-soft: hsl(var(--neon));
+  --btn-bg: transparent;
+  --btn-fg: hsl(var(--foreground));
 
   /* Hairlines, radii, motion, control geometry, gradients */
   /* Fallback (works everywhere) */
   --card-hairline: hsl(var(--border));
 
   --hairline-w: 1px;
-  --radius-1: 8px; --radius-2: 12px; --radius-3: 16px;
-  --radius-card: var(--radius-3);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-card: var(--radius-xl);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms; --dur-chill: 220ms; --dur-slow: 420ms;
-  --control-h: 42px; --control-radius: var(--radius-2);
+  --control-h: 44px; --control-radius: var(--radius-xl);
   --control-fs: 0.9rem; --control-px: 1rem;
 
   --edge-iris: conic-gradient(
@@ -53,14 +83,25 @@
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
 }
 
-/* Upgrade hairline when color-mix(oklab) is supported */
+/* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
+    --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+    --ring-contrast: color-mix(in oklab, hsl(var(--ring)) 70%, hsl(var(--background)) 30%);
+    --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+    --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
     );
+  }
+}
+
+/* Upgrade contrast token when color-contrast is supported */
+@supports (color: color-contrast(white vs black)) {
+  :root {
+    --text-on-accent: color-contrast(var(--accent-overlay) vs hsl(var(--foreground)), hsl(var(--background)));
   }
 }
 
@@ -73,64 +114,129 @@
 html.light {
   --background: 0 0% 100%;
   --foreground: 240 10% 10%;
+  --text: var(--foreground);
   --card: 0 0% 100%;
+  --panel: var(--card);
   --border: 240 9% 90%;
+  --line: var(--border);
   --input: 240 9% 97%;
   --ring: 262 83% 58%;
+  --theme-ring: hsl(var(--ring));
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 92%;
   --accent: 292 80% 45%;
   --accent-2: 200 100% 50%;
+  --accent-foreground: 0 0% 100%;
   --accent-soft: 292 80% 94%;
+  --glow: 292 80% 45%;
+  --ring-muted: 240 9% 90%;
+  --danger: 0 84% 55%;
   --muted: 240 6% 96%;
   --muted-foreground: 240 4% 35%;
+  --surface: 240 7% 98%;
+  --surface-2: 240 6% 96%;
+  --surface-vhs: 210 27% 94%;
+  --surface-streak: 240 16% 92%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
   --success: 316 86% 62%;
   --success-glow: 316 86% 48% / 0.55;
 }
 
+/* ---------- Aurora ---------- */
+html.theme-aurora {
+  --background: 283 100% 4%;
+  --foreground: 260 20% 98%;
+  --text: var(--foreground);
+  --card: 281 100% 7%;
+  --panel: var(--card);
+  --border: 279 100% 15%;
+  --line: var(--border);
+  --input: 279 100% 15%;
+  --ring: 150 100% 60%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 150 100% 60%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 150 100% 20%;
+  --accent: 272 80% 60%;
+  --accent-2: 150 100% 60%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 272 80% 20%;
+  --muted: 279 100% 15%;
+  --muted-foreground: 279 20% 75%;
+  --shadow-color: 150 100% 60%;
+  --lav-deep: 272 80% 60%;
+  --success: 316 92% 70%;
+  --success-glow: 316 92% 52% / 0.6;
+  --edge-iris: conic-gradient(
+    from 180deg,
+    hsl(150 100% 60% / 0),
+    hsl(150 100% 60% / 0.7),
+    hsl(272 80% 60% / 0.7),
+    hsl(150 100% 60% / 0.7),
+    hsl(150 100% 60% / 0)
+  );
+  --seg-active-grad: linear-gradient(
+    90deg,
+    hsl(150 100% 60% / 0.95),
+    hsl(272 80% 60% / 0.95),
+    hsl(150 100% 60% / 0.95)
+  );
+  --shadow: 0 10px 30px hsl(279 30% 4% / 0.3);
+}
+
 /* ---------- Citrus ---------- */
 html.theme-citrus {
-  --background: 45 80% 96%;
-  --foreground: 35 40% 18%;
-  --card: 45 90% 98%;
-  --border: 40 20% 82%;
-  --input: 40 80% 92%;
-  --ring: 40 95% 50%;
-  --primary: 40 95% 50%;
+  /* Dark citrus palette inspired by industrial orange hardware */
+  --background: 216 15% 8%;
+  --foreground: 30 35% 96%;
+  --text: var(--foreground);
+  --card: 214 20% 12%;
+  --panel: var(--card);
+  --border: 214 18% 28%;
+  --line: var(--border);
+  --input: 214 22% 16%;
+  --ring: 24 95% 52%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 24 95% 52%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 40 90% 92%;
-  --accent: 20 90% 60%;
-  --accent-2: 15 85% 50%;
-  --accent-soft: 20 80% 94%;
-  --muted: 40 40% 90%;
-  --muted-foreground: 40 20% 40%;
-  --shadow-color: 35 90% 50%;
-  --lav-deep: 20 85% 50%;
-  --success: 150 70% 40%;
-  --success-glow: 150 70% 30% / 0.6;
+  --primary-soft: 24 95% 22%;
+  --accent: 24 96% 35%;
+  --accent-2: 170 80% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 24 96% 15%;
+  --muted: 214 18% 24%;
+  --muted-foreground: 214 20% 72%;
+  --shadow-color: 24 95% 40%;
+  --lav-deep: 24 95% 52%;
+  --success: 150 70% 45%;
+  --success-glow: 150 70% 35% / 0.6;
 }
 
 /* ---------- Noir ---------- */
 html.theme-noir {
-  --background: 0 0% 6%;
+  --background: 350 70% 4%;
   --foreground: 0 0% 92%;
-  --card: 0 0% 10%;
-  --border: 0 0% 20%;
-  --input: 0 0% 14%;
-  --ring: 0 0% 80%;
-  --primary: 0 0% 80%;
-  --primary-foreground: 0 0% 0%;
-  --primary-soft: 0 0% 30%;
-  --accent: 260 60% 60%;
-  --accent-2: 320 60% 55%;
-  --accent-soft: 260 30% 30%;
-  --muted: 0 0% 18%;
-  --muted-foreground: 0 0% 60%;
-  --shadow-color: 0 0% 100%;
-  --lav-deep: 260 60% 60%;
+  --text: var(--foreground);
+  --card: 350 65% 8%;
+  --panel: var(--card);
+  --border: 350 40% 22%;
+  --line: var(--border);
+  --input: 350 45% 12%;
+  --ring: 0 90% 60%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 0 90% 60%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 0 90% 24%;
+  --accent: 178 91% 25%;
+  --accent-2: 40 96% 25%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 178 91% 10%;
+  --muted: 350 35% 18%;
+  --muted-foreground: 350 25% 65%;
+  --shadow-color: 0 90% 50%;
+  --lav-deep: 0 90% 65%;
   --success: 140 60% 50%;
   --success-glow: 140 60% 40% / 0.6;
 }
@@ -139,16 +245,21 @@ html.theme-noir {
 html.theme-ocean {
   --background: 220 50% 8%;
   --foreground: 210 20% 96%;
+  --text: var(--foreground);
   --card: 220 35% 12%;
+  --panel: var(--card);
   --border: 220 20% 24%;
+  --line: var(--border);
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
+  --theme-ring: hsl(var(--ring));
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
-  --accent: 190 90% 55%;
-  --accent-2: 225 85% 60%;
-  --accent-soft: 190 80% 20%;
+  --accent: 199 100% 27%;
+  --accent-2: 225 85% 30%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 199 100% 12%;
   --muted: 220 24% 16%;
   --muted-foreground: 220 14% 72%;
   --shadow-color: 200 90% 55%;
@@ -157,26 +268,67 @@ html.theme-ocean {
   --success-glow: 160 70% 35% / 0.6;
 }
 
-/* ---------- Rose Quartz ---------- */
-html.theme-rose {
-  --background: 330 22% 10%;
+/* ---------- Kitten ---------- */
+html.theme-kitten {
+  --background: 330 100% 2%;
   --foreground: 330 20% 96%;
-  --card: 330 24% 14%;
-  --border: 330 14% 26%;
-  --input: 330 18% 16%;
-  --ring: 325 80% 62%;
-  --primary: 325 80% 62%;
+  --text: var(--foreground);
+  --card: 330 100% 6%;
+  --panel: var(--card);
+  --border: 330 100% 20%;
+  --line: var(--border);
+  --input: 330 100% 12%;
+  --ring: 330 100% 52%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 330 100% 52%;
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 325 80% 20%;
-  --accent: 280 70% 60%;
-  --accent-2: 200 80% 58%;
-  --accent-soft: 280 60% 22%;
-  --muted: 330 18% 18%;
-  --muted-foreground: 330 12% 72%;
-  --shadow-color: 325 80% 62%;
-  --lav-deep: 300 80% 64%;
+  --primary-soft: 330 100% 24%;
+  --accent: 336 100% 27%;
+  --accent-2: 196 100% 30%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 336 100% 12%;
+  --muted: 330 100% 20%;
+  --muted-foreground: 330 20% 70%;
+  --shadow-color: 330 100% 50%;
+  --lav-deep: 330 100% 60%;
   --success: 150 65% 45%;
   --success-glow: 150 65% 36% / 0.6;
+}
+
+/* ---------- Hardstuck ---------- */
+html.theme-hardstuck {
+  --background: 120 60% 2%;
+  --foreground: 120 100% 70%;
+  --text: var(--foreground);
+  --card: 120 55% 5%;
+  --panel: var(--card);
+  --border: 120 40% 20%;
+  --line: var(--border);
+  --input: 120 45% 8%;
+  --ring: 120 100% 60%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 120 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --primary-soft: 120 100% 24%;
+  --accent: 120 100% 60%;
+  --accent-2: 120 100% 20%;
+  --accent-foreground: 0 0% 0%;
+  --text-on-accent: hsl(var(--background));
+  --accent-soft: 120 100% 12%;
+  --glow: 120 100% 60%;
+  --ring-muted: 120 30% 20%;
+  --danger: 0 84% 60%;
+  --muted: 120 35% 10%;
+  --muted-foreground: 120 15% 70%;
+  --surface: 120 32% 8%;
+  --surface-2: 120 32% 12%;
+  --surface-vhs: 120 27% 4%;
+  --surface-streak: 120 16% 10%;
+  --shadow-color: 120 100% 40%;
+  --lav-deep: 120 100% 50%;
+  --icon-fg: 120 100% 60%;
+  --success: 120 100% 50%;
+  --success-glow: 120 100% 40% / 0.6;
 }
 
 /* =========================================================
@@ -188,7 +340,7 @@ html.theme-rose {
 html.theme-lg body,
 html.theme-lg-dark body,
 html.theme-lg-light body,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body {
   background-image:
     radial-gradient(1200px 700px at 18% -10%, hsl(262 83% 58% / 0.16), transparent 60%),
     radial-gradient(1100px 600px at 110% 18%, hsl(192 90% 50% / 0.14), transparent 60%),
@@ -198,7 +350,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::before,
 html.theme-lg-dark body::before,
 html.theme-lg-light body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::before {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1;
   background:
     repeating-linear-gradient(90deg, hsl(var(--accent)) 0 1px, transparent 1px 26px),
@@ -208,7 +360,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
 html.theme-lg-light body::after,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body::after {
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-kitten):not(.theme-aurora):not(.theme-hardstuck) body::after {
   content: ""; position: fixed; inset: -10%; pointer-events: none; z-index: 0;
   background:
     radial-gradient(60% 40% at 10% 0%,   hsl(262 83% 58% / 0.2), transparent 60%),
@@ -219,27 +371,39 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(.theme-rose) body
   animation: lg-aurora-pan 24s ease-in-out infinite alternate;
 }
 
+/* Aurora backdrop */
+html.theme-aurora body {
+  background-image:
+    radial-gradient(1000px 600px at 20% -10%, hsl(150 100% 60% / 0.2), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed;
+}
+html.theme-aurora body::before,
+html.theme-aurora body::after {
+  content: none;
+}
+
 /* Citrus backdrop */
 html.theme-citrus body {
   background-image:
-    radial-gradient(1200px 700px at 20% -10%, hsl(40 95% 50% / 0.22), transparent 60%),
-    radial-gradient(1200px 600px at 120% 10%, hsl(20 90% 60% / 0.18), transparent 60%),
+    radial-gradient(1200px 700px at 20% -10%, hsl(24 95% 52% / 0.22), transparent 60%),
+    radial-gradient(1200px 600px at 120% 10%, hsl(170 80% 45% / 0.18), transparent 60%),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-citrus body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.08;
   background:
-    repeating-linear-gradient(90deg, hsl(40 95% 50% / 0.35) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(20 90% 60% / 0.35) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(24 95% 52% / 0.25) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(170 80% 45% / 0.25) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; animation: citrus-grid 20s linear infinite;
 }
 html.theme-citrus body::after {
   content: ""; position: fixed; inset: -8%; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(60% 40% at 12% -5%,  hsl(40 95% 50% / 0.18), transparent 60%),
-    radial-gradient(50% 35% at 105% 10%, hsl(20 90% 60% / 0.16), transparent 60%),
-    radial-gradient(55% 35% at 50% 110%, hsl(150 70% 40% / 0.12), transparent 65%);
+    radial-gradient(60% 40% at 12% -5%,  hsl(24 95% 52% / 0.18), transparent 60%),
+    radial-gradient(50% 35% at 105% 10%, hsl(170 80% 45% / 0.16), transparent 60%),
+    radial-gradient(55% 35% at 50% 110%, hsl(24 95% 52% / 0.12), transparent 65%);
   filter: blur(2px) saturate(110%); animation: citrus-pan 28s ease-in-out infinite alternate;
 }
 @keyframes citrus-grid { to { transform: translate3d(26px, 26px, 0); } }
@@ -252,23 +416,23 @@ html.theme-citrus body::after {
 /* Noir backdrop */
 html.theme-noir body {
   background-image:
-    radial-gradient(1000px 520px at 15% -10%, hsl(0 0% 100% / 0.06), transparent 60%),
-    radial-gradient(900px 520px at 110% 15%, hsl(0 0% 100% / 0.05), transparent 60%),
+    radial-gradient(1000px 520px at 15% -10%, hsl(0 80% 60% / 0.15), transparent 60%),
+    radial-gradient(900px 520px at 110% 15%, hsl(0 70% 55% / 0.12), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
 html.theme-noir body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: repeating-linear-gradient(0deg, hsl(0 0% 100% / 0.045) 0 1px, transparent 1px 3px);
-  mix-blend-mode: soft-light; opacity: 0.25; animation: noir-scan 14s linear infinite;
+  background: repeating-linear-gradient(0deg, hsl(0 80% 60% / 0.05) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen; opacity: 0.2; animation: noir-scan 14s linear infinite;
 }
 html.theme-noir body::after {
   content: ""; position: fixed; inset: -12%; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(80% 60% at 50% 120%, hsl(0 0% 0% / 0.4), transparent 70%),
-    radial-gradient(40% 25% at 6% 4%,  hsl(260 60% 60% / 0.12), transparent 60%),
-    radial-gradient(40% 25% at 94% 10%, hsl(320 60% 55% / 0.10), transparent 60%);
-  filter: blur(1.5px) saturate(105%); opacity: 0.9; animation: noir-drift 26s ease-in-out infinite alternate;
+    radial-gradient(80% 60% at 50% 120%, hsl(0 90% 6% / 0.45), transparent 70%),
+    radial-gradient(40% 25% at 6% 4%,  hsl(0 80% 60% / 0.15), transparent 60%),
+    radial-gradient(40% 25% at 94% 10%, hsl(0 60% 50% / 0.12), transparent 60%);
+  filter: blur(1.5px) saturate(110%); opacity: 0.9; animation: noir-drift 26s ease-in-out infinite alternate;
 }
 @keyframes noir-scan { 0%{background-position-y:0} 100%{background-position-y:100%} }
 @keyframes noir-drift { 0%{transform:translate3d(-1%,0,0)} 100%{transform:translate3d(1%,0,0)} }
@@ -302,30 +466,127 @@ html.theme-ocean body::after {
  100% { transform: translate3d( 2%,  1%, 0) scale(1.01); opacity:.95; }
 }
 
-/* Rose Quartz backdrop */
-html.theme-rose body {
+/* Kitten backdrop */
+html.theme-kitten body {
   background-image:
-    radial-gradient(1100px 620px at 16% -8%,  hsl(325 80% 62% / 0.20), transparent 60%),
-    radial-gradient(1000px 560px at 106% 14%, hsl(280 70% 60% / 0.16), transparent 60%),
+    radial-gradient(1100px 620px at 16% -8%,  hsl(343 100% 35% / 0.20), transparent 60%),
+    radial-gradient(1000px 560px at 106% 14%, hsl(340 100% 45% / 0.16), transparent 60%),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-rose body::before {
+html.theme-kitten body::before {
   content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    repeating-linear-gradient(90deg, hsl(325 80% 62% / 0.30) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(0deg,  hsl(280 70% 60% / 0.26) 0 1px, transparent 1px 26px);
+    repeating-linear-gradient(90deg, hsl(343 100% 35% / 0.30) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg,  hsl(340 100% 45% / 0.26) 0 1px, transparent 1px 26px);
   mix-blend-mode: screen; opacity:.10; animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-rose body::after {
+html.theme-kitten body::after {
   content:""; position:fixed; inset:-10%; z-index:0; pointer-events:none;
   background:
-    radial-gradient(60% 40% at 12% -6%, hsl(325 80% 62% / 0.18), transparent 60%),
-    radial-gradient(55% 35% at 50% 116%, hsl(280 70% 60% / 0.12), transparent 65%),
-    radial-gradient(50% 35% at 100% 8%,   hsl(200 80% 58% / 0.10), transparent 60%);
-  filter: blur(2px) saturate(112%); animation: rose-pan 27s ease-in-out infinite alternate;
+    radial-gradient(60% 40% at 12% -6%, hsl(343 100% 35% / 0.18), transparent 60%),
+    radial-gradient(55% 35% at 50% 116%, hsl(340 100% 45% / 0.12), transparent 65%),
+    radial-gradient(50% 35% at 100% 8%,   hsl(347 100% 90% / 0.10), transparent 60%);
+  filter: blur(2px) saturate(112%); animation: kitten-pan 27s ease-in-out infinite alternate;
 }
-@keyframes rose-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
+@keyframes kitten-pan { 0% { transform: translate3d(-1%,-1%,0) } 100% { transform: translate3d(1%,1%,0) } }
+
+/* Hardstuck backdrop */
+html.theme-hardstuck body {
+  background-image:
+    radial-gradient(1000px 520px at 20% -10%, hsl(120 100% 60% / 0.15), transparent 60%),
+    radial-gradient(900px 520px at 110% 15%, hsl(120 80% 40% / 0.12), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-hardstuck body::before {
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background: repeating-linear-gradient(0deg, hsl(120 100% 60% / 0.05) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen; opacity:0.2; animation: hardstuck-scan 14s linear infinite;
+}
+html.theme-hardstuck body::after {
+  content:""; position:fixed; inset:-12%; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(80% 60% at 50% 120%, hsl(120 90% 6% / 0.45), transparent 70%),
+    radial-gradient(40% 25% at 6% 4%,  hsl(120 100% 60% / 0.15), transparent 60%),
+    radial-gradient(40% 25% at 94% 10%, hsl(120 80% 40% / 0.12), transparent 60%);
+  filter: blur(1.5px) saturate(110%); opacity:0.9; animation: hardstuck-drift 26s ease-in-out infinite alternate;
+}
+@keyframes hardstuck-scan { 0%{background-position-y:0} 100%{background-position-y:100%} }
+@keyframes hardstuck-drift { 0%{transform:translate3d(-1%,0,0)} 100%{transform:translate3d(1%,0,0)} }
+
+/* Additional background options */
+html.bg-alt1 body {
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, hsl(var(--accent) / 0.20), transparent 60%),
+    radial-gradient(900px 500px at 110% 20%, hsl(var(--accent-2) / 0.18), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt1 body::before,
+html.bg-alt1 body::after {
+  content: none;
+}
+
+html.bg-alt2 body {
+  background-image:
+    radial-gradient(1000px 600px at 50% 0%, hsl(var(--primary) / 0.18), transparent 60%),
+    radial-gradient(900px 500px at 50% 120%, hsl(var(--accent) / 0.16), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt2 body::before,
+html.bg-alt2 body::after {
+  content: none;
+}
+
+html.bg-light body {
+  background-image:
+    radial-gradient(1200px 700px at 50% -10%, hsl(var(--foreground) / 0.08), transparent 60%),
+    radial-gradient(1000px 600px at 50% 120%, hsl(var(--accent) / 0.06), transparent 60%),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-light body::before,
+html.bg-light body::after {
+  content: none;
+}
+
+html.bg-vhs body {
+  background-color: hsl(var(--surface-vhs));
+  background-image:
+    radial-gradient(circle at 20% 30%, hsl(var(--accent-2) / 0.15), transparent 60%),
+    repeating-linear-gradient(
+      to bottom,
+      hsl(var(--accent-2) / 0.15),
+      hsl(var(--accent-2) / 0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-blend-mode: screen;
+}
+html.bg-vhs body::before,
+html.bg-vhs body::after {
+  content: none;
+}
+
+html.bg-streak body {
+  background-color: hsl(var(--surface-streak));
+  background-image:
+    radial-gradient(circle at 70% 40%, hsl(var(--accent) / 0.25), transparent 40%),
+    repeating-linear-gradient(
+      to right,
+      hsl(var(--accent) / 0.2),
+      hsl(var(--accent) / 0.2) 6px,
+      transparent 6px,
+      transparent 20px
+    );
+  background-blend-mode: lighten;
+}
+html.bg-streak body::before,
+html.bg-streak body::after {
+  content: none;
+}
 
 /* ---------- Shared backdrop animations ---------- */
 @keyframes lg-grid-drift { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(26px,26px,0)} }
@@ -371,9 +632,9 @@ html.bg-intense body::after  { filter: blur(2px) saturate(120%); }
     hsl(262 83% 58% / 0)
   );
   /* mask to only show the ring, not fill the card */
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           mask-composite: exclude;
   opacity: .55;
   animation:

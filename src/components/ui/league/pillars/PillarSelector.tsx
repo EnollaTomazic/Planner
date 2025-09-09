@@ -30,7 +30,7 @@ export default function PillarSelector({
   return (
     <div className={cn("w-full", className)}>
       <div className="overline mb-2">{label}</div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {ORDER.map((p) => {
           const active = set.has(p);
           return (
@@ -54,8 +54,9 @@ export default function PillarSelector({
                 aria-hidden
                 className={cn(
                   "h-2 w-2 rounded-full",
-                  active ? "bg-[hsl(var(--accent))]" : "bg-[hsl(var(--muted-foreground))]"
+                  active ? "" : "bg-[hsl(var(--muted-foreground))]"
                 )}
+                style={active ? { background: "var(--accent-overlay)" } : undefined}
               />
               {p}
             </button>
