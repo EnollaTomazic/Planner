@@ -10,6 +10,8 @@ import {
   ButtonShowcase,
   IconButtonShowcase,
   GoalListDemo,
+  PromptList,
+  type PromptWithTitle,
 } from "@/components/prompts";
 import { FRUIT_ITEMS } from "@/components/prompts/demoData";
 import { HomePage } from "@/components/home";
@@ -27,6 +29,7 @@ export default function Page() {
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
   const [fruit, setFruit] = React.useState(FRUIT_ITEMS[0].value);
+  const demoPrompts: PromptWithTitle[] = [];
 
   return (
     <main className="page-shell py-6">
@@ -40,6 +43,7 @@ export default function Page() {
       <ButtonShowcase />
       <IconButtonShowcase />
       <GoalListDemo />
+      <PromptList prompts={demoPrompts} />
       <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
