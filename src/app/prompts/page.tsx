@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, Header, Hero, Button, type TabItem } from "@/components/ui";
+import { TabBar, Header, Hero, Button, type TabItem, Input } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import { RoleSelector, NeonIcon } from "@/components/reviews";
@@ -38,10 +38,11 @@ export default function Page() {
           <NeonIcon kind="file" on={false} />
         </div>
         <div className="flex justify-center">
-          <input
+          <Input
             aria-label="Timer demo"
             defaultValue="25:00"
-            className="btn-like-segmented btn-glitch w-[5ch] text-center"
+            className="btn-like-segmented btn-glitch w-[5ch]"
+            inputClassName="text-center"
             type="text"
           />
         </div>

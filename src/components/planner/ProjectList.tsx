@@ -33,6 +33,28 @@ export default function ProjectList({
   );
   const [editingProjectName, setEditingProjectName] = React.useState("");
   const projectsScrollable = projects.length > 3;
+  const multiple = projects.length > 1;
+
+  const onRowKey = React.useCallback(
+    (idx: number, p: Project) =>
+      (e: React.KeyboardEvent) => {
+        if (e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          setSelectedProjectId(p.id);
+        }
+        if (multiple && (e.key === "ArrowDown" || e.key === "ArrowRight")) {
+          e.preventDefault();
+          const next = (idx + 1) % projects.length;
+          setSelectedProjectId(projects[next].id);
+        }
+        if (multiple && (e.key === "ArrowUp" || e.key === "ArrowLeft")) {
+          e.preventDefault();
+          const prev = (idx - 1 + projects.length) % projects.length;
+          setSelectedProjectId(projects[prev].id);
+        }
+      },
+    [multiple, projects, setSelectedProjectId],
+  );
 
   return (
     <div className="flex flex-col gap-3 min-w-0">
@@ -54,29 +76,8 @@ export default function ProjectList({
           >
             {projects.map((p, idx) => {
               const active = p.id === selectedProjectId;
-              const onRowKey = (e: React.KeyboardEvent) => {
-                if (e.key === " " || e.key === "Enter") {
-                  e.preventDefault();
-                  setSelectedProjectId(p.id);
-                }
-                if (
-                  projects.length > 1 &&
-                  (e.key === "ArrowDown" || e.key === "ArrowRight")
-                ) {
-                  e.preventDefault();
-                  const next = (idx + 1) % projects.length;
-                  setSelectedProjectId(projects[next].id);
-                }
-                if (
-                  projects.length > 1 &&
-                  (e.key === "ArrowUp" || e.key === "ArrowLeft")
-                ) {
-                  e.preventDefault();
-                  const prev = (idx - 1 + projects.length) % projects.length;
-                  setSelectedProjectId(projects[prev].id);
-                }
-              };
               const isEditing = editingProjectId === p.id;
+              const handleRowKey = onRowKey(idx, p);
               return (
                 <li key={p.id} className="w-full">
                   <div
@@ -84,9 +85,7 @@ export default function ProjectList({
                     tabIndex={0}
                     aria-checked={active}
                     aria-label={p.name || "Untitled project"}
-                    onKeyDown={(e) => {
-                      if (!isEditing) onRowKey(e);
-                    }}
+                    onKeyDown={isEditing ? undefined : handleRowKey}
                     onClick={() => {
                       if (isEditing) return;
                       setSelectedProjectId(active ? "" : p.id);
