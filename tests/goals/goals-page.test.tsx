@@ -18,6 +18,16 @@ describe("GoalsPage", () => {
     window.localStorage.clear();
   });
 
+  it("renders hero heading and subtitle", () => {
+    render(<GoalsPage />);
+    expect(
+      screen.getByRole("heading", { name: "Overview" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
+    ).toBeInTheDocument();
+  });
+
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
     expect(
