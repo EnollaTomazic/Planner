@@ -51,14 +51,14 @@
 /* === RoleSelector (lane segmented control) =============================== */
 .role-sel {
   position: relative;
-  --rail-w: calc((100% - 8px) / var(--count));
+  --rail-w: calc((100% - var(--space-2)) / var(--count));
 }
 
 .role-sel__rail {
   position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  left: var(--space-1);
   width: var(--rail-w);
   border-radius: var(--radius-lg);
   background: linear-gradient(
@@ -92,8 +92,8 @@
 .role-sel::before {
   content: "";
   position: absolute;
-  inset: 2px;
-  border-radius: calc(var(--radius-2xl) - 2px);
+  inset: calc(var(--space-1) / 2);
+  border-radius: calc(var(--radius-2xl) - (var(--space-1) / 2));
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
@@ -113,12 +113,12 @@
   --seg-count: 5;
   --seg-idx: 0;
   position: relative;
-  padding: .25rem;                 /* p-1 */
+  padding: var(--space-1);                 /* p-1 */
   border-radius: var(--radius-2xl);            /* rounded-2xl */
   background: hsl(var(--surface-2) / .05);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(var(--space-1));
   border: 1px solid hsl(var(--accent) / .4);
-  box-shadow: inset 0 1px hsl(var(--foreground) / 0.06), 0 0 8px hsl(var(--accent) / 0.15);
+  box-shadow: inset 0 1px hsl(var(--foreground) / 0.06), 0 0 var(--space-2) hsl(var(--accent) / 0.15);
   overflow: hidden;                /* <-- keep the pill inside the border */
 }
 
@@ -126,7 +126,7 @@
   position: relative;
   z-index: 10;
   display: grid;
-  gap: .25rem;                     /* gap between segments */
+  gap: var(--space-1);                     /* gap between segments */
 }
 
 .seg__btn {
@@ -135,32 +135,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .375rem;
-  padding: 0 1rem;                 /* px-4 */
+  gap: calc(var(--space-1) * 1.5);
+  padding: 0 var(--space-4);                 /* px-4 */
   font-size: 11px;
   letter-spacing: .02em;
   color: hsl(var(--foreground));
   transition: opacity .18s ease;
 }
 .seg__btn--idle { opacity: .7; text-shadow: none; }
-.seg__btn--active { opacity: 1; text-shadow: 0 0 8px hsl(var(--glow-soft)); }
+.seg__btn--active { opacity: 1; text-shadow: 0 0 var(--space-2) hsl(var(--glow-soft)); }
 
 /* Sliding pill — width accounts for the gaps; translate includes gap each step */
 .seg__rail {
   position: absolute;
-  top: .25rem;
-  bottom: .25rem;
-  left: .25rem;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  left: var(--space-1);
   border-radius: var(--radius-lg);
   width: calc(
-    (100% - .5rem - (var(--seg-count) - 1) * .25rem) / var(--seg-count)
+    (100% - var(--space-2) - (var(--seg-count) - 1) * var(--space-1)) / var(--seg-count)
   );
-  transform: translateX(calc(var(--seg-idx) * (100% + .25rem)));
+  transform: translateX(calc(var(--seg-idx) * (100% + var(--space-1))));
   transition: transform .22s cubic-bezier(.22,1,.36,1);
   background: hsl(var(--surface-2) / .15);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(var(--space-1));
   border: 1px solid hsl(var(--accent) / .5);
-  box-shadow: inset 0 1px hsl(var(--foreground) / 0.15), 0 0 8px hsl(var(--accent) / 0.4);
+  box-shadow: inset 0 1px hsl(var(--foreground) / 0.15), 0 0 var(--space-2) hsl(var(--accent) / 0.4);
 }
 
 /* Optional subtle inner glow like the reference GIF */
