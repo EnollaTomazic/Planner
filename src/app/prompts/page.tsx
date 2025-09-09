@@ -12,6 +12,7 @@ import {
   AnimatedSelect,
 } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
+<<<<<<< HEAD
 import { GoalsProgress, GoalList } from "@/components/goals";
 import {
   RoleSelector,
@@ -19,6 +20,10 @@ import {
   ReviewSummaryHeader,
   ReviewSummaryScore,
 } from "@/components/reviews";
+=======
+import { GoalsProgress, GoalSlot } from "@/components/goals";
+import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
+>>>>>>> codex/replace-window.prompt-with-modal-ui
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
@@ -32,10 +37,21 @@ const VIEW_TABS: TabItem<View>[] = [
   { key: "colors", label: "Colors" },
 ];
 
+<<<<<<< HEAD
 const FRUIT_ITEMS = [
   { value: "apple", label: "Apple" },
   { value: "orange", label: "Orange" },
 ];
+=======
+  const [view, setView] = React.useState<View>("components");
+  const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
+  const [demoGoal, setDemoGoal] = React.useState<Goal>({
+    id: "demo-goal",
+    title: "Demo goal",
+    done: false,
+    createdAt: Date.now(),
+  });
+>>>>>>> codex/replace-window.prompt-with-modal-ui
 
 const NEON_ICONS = [
   { kind: "clock", on: true },
@@ -96,6 +112,12 @@ function DemoHeader({
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
+        </div>
+        <div className="flex justify-center">
+          <GoalSlot
+            goal={demoGoal}
+            onEdit={(_, t) => setDemoGoal((g) => ({ ...g, title: t }))}
+          />
         </div>
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
