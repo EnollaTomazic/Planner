@@ -2,7 +2,7 @@
 
 /**
  * Header — sticky, glow, and unapologetically on top.
- * - Always sticky by default
+ * - Top bar sticks while the body scrolls
  * - High z-index (z-[999]) so it doesn't hide behind random divs
  * - No border; soft neon glow
  * - Keep topClassName if you need offset (e.g., under the global navbar)
@@ -49,8 +49,6 @@ export default function Header({
   return (
     <header
       className={cx(
-        // Sticky + very high z-index + stacking context
-        sticky && cx("sticky", topClassName),
         "z-[999] relative isolate",
 
         // Card look: no border, soft glow
@@ -67,6 +65,7 @@ export default function Header({
       {/* Top bar */}
       <div
         className={cx(
+          sticky && cx("sticky", topClassName),
           "relative flex items-center",
           "px-3 sm:px-4 py-3 sm:py-4 min-h-12",
           barClassName
