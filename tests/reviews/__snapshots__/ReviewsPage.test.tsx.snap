@@ -773,7 +773,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <button
                       aria-label="Open review: Alpha"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                       type="button"
                     >
                       <div
@@ -781,7 +781,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       >
                         <span
                           aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--muted-foreground))]"
+                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
                         />
                         <div
                           class="min-w-0 flex flex-col gap-1"
@@ -810,7 +810,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <button
                       aria-label="Open review: Gamma"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                       type="button"
                     >
                       <div
@@ -818,7 +818,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       >
                         <span
                           aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--muted-foreground))]"
+                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
                         />
                         <div
                           class="min-w-0 flex flex-col gap-1"
@@ -847,7 +847,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <button
                       aria-label="Open review: Beta"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
+                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                       type="button"
                     >
                       <div
@@ -855,7 +855,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       >
                         <span
                           aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--muted-foreground))]"
+                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
                         />
                         <div
                           class="min-w-0 flex flex-col gap-1"
@@ -887,7 +887,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-7 lg:col-span-8 flex justify-center"
       >
         <div
-          class="max-w-[880px] w-full rounded-xl p-5 bg-[hsl(var(--card)/0.6)] ring-1 ring-[hsl(var(--ring)/0.05)] shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
+          class="max-w-[880px] w-full rounded-xl p-5 bg-card/60 ring-1 ring-ring/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
         >
           <svg
             class="lucide lucide-ghost h-6 w-6 opacity-60"
