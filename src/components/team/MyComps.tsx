@@ -295,7 +295,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               className="shrink-0"
               variant="solid"
             >
-              <Plus />
+              <Plus aria-hidden="true" />
             </IconButton>
           </form>
 
@@ -322,18 +322,22 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                     {!editing ? (
                       <>
                         <IconButton title="Copy" aria-label="Copy" size="sm" onClick={() => copyOne(c)}>
-                          {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
+                          {copiedId === c.id ? (
+                            <ClipboardCheck aria-hidden="true" />
+                          ) : (
+                            <Clipboard aria-hidden="true" />
+                          )}
                         </IconButton>
                         <IconButton title="Edit" aria-label="Edit" size="sm" onClick={() => setEditingId(c.id)}>
-                          <Pencil />
+                          <Pencil aria-hidden="true" />
                         </IconButton>
                         <IconButton title="Delete" aria-label="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
-                          <Trash2 />
+                          <Trash2 aria-hidden="true" />
                         </IconButton>
                       </>
                     ) : (
                       <IconButton title="Save" aria-label="Save" size="sm" onClick={() => setEditingId(null)}>
-                        <Check />
+                        <Check aria-hidden="true" />
                       </IconButton>
                     )}
                   </div>

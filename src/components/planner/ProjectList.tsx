@@ -154,7 +154,7 @@ export default function ProjectList({
                         iconSize="xs"
                         variant="ring"
                       >
-                        <Pencil />
+                        <Pencil aria-hidden="true" />
                       </IconButton>
                       <IconButton
                         aria-label="Delete project"
@@ -170,7 +170,7 @@ export default function ProjectList({
                         iconSize="xs"
                         variant="ring"
                       >
-                        <Trash2 />
+                        <Trash2 aria-hidden="true" />
                       </IconButton>
                     </div>
                   </div>

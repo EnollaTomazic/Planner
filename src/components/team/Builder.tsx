@@ -144,42 +144,46 @@ export default function Builder() {
   /* ─────────────── UI ─────────────── */
 
   return (
-    <div data-scope="team" className="w-full">
-      <Hero
-        eyebrow="Comps"
-        heading="Builder"
-        subtitle="Fill allies vs enemies. Swap in one click."
-        right={
-          <div className="flex items-center gap-2">
-            <IconButton
-              title="Swap Allies ↔ Enemies"
-              aria-label="Swap Allies and Enemies"
-              onClick={swapSides}
-              size="sm"
-              iconSize="sm"
-            >
-              <Shuffle />
-            </IconButton>
-            <IconButton
-              title="Copy both sides"
-              aria-label="Copy both sides"
-              onClick={() => copy("all")}
-              size="sm"
-              iconSize="sm"
-            >
-              {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
-            </IconButton>
-          </div>
-        }
-      />
-      <div className="mt-6">
-        <SectionCard className="card-neo-soft glitch-card">
-          <SectionCard.Body>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
+    <div data-scope="team" className="grid gap-4">
+      <SectionCard className="card-neo-soft glitch-card">
+        <SectionCard.Header
+          sticky
+          title={
+            <div className="flex items-center gap-2">
+              <span className="pill">
+                <Info className="mr-1" /> Fill allies vs enemies. Swap in one click.
+              </span>
+            </div>
+          }
+          actions={
+            <div className="flex items-center gap-2">
+              <IconButton
+                title="Swap Allies ↔ Enemies"
+                aria-label="Swap Allies and Enemies"
+                onClick={swapSides}
+                size="sm"
+                iconSize="sm"
+              >
+                <Shuffle />
+              </IconButton>
+              <IconButton
+                title="Copy both sides"
+                aria-label="Copy both sides"
+                onClick={() => copy("all")}
+                size="sm"
+                iconSize="sm"
+              >
+                {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
+              </IconButton>
+            </div>
+          }
+        />
+        <SectionCard.Body>
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
             {/* Allies */}
             <SideEditor
               title="Allies"
-              icon={<Shield />}
+              icon={<Shield aria-hidden="true" />}
               value={state.allies}
               onLane={(lane, v) => setLane("allies", lane, v)}
               onNotes={(v) => setNotes("allies", v)}
@@ -199,7 +203,7 @@ export default function Builder() {
             {/* Enemies */}
             <SideEditor
               title="Enemies"
-              icon={<Swords />}
+              icon={<Swords aria-hidden="true" />}
               value={state.enemies}
               onLane={(lane, v) => setLane("enemies", lane, v)}
               onNotes={(v) => setNotes("enemies", v)}
@@ -269,7 +273,7 @@ function SideEditor(props: {
 
         <div className="grid gap-3">
           <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
-            <NotebookPen className="opacity-80" /> Notes
+            <NotebookPen className="opacity-80" aria-hidden="true" /> Notes
           </label>
           <Textarea
             aria-label={`${title} notes`}
@@ -292,7 +296,7 @@ function SideEditor(props: {
             size="sm"
             iconSize="sm"
           >
-            <Eraser />
+            <Eraser aria-hidden="true" />
           </IconButton>
           <IconButton
             title={`Copy ${title}`}
@@ -301,7 +305,7 @@ function SideEditor(props: {
             size="sm"
             iconSize="sm"
           >
-            <Copy />
+            <Copy aria-hidden="true" />
           </IconButton>
         </div>
       </div>
