@@ -18,18 +18,8 @@ import {
   SCORE_POOLS,
   scoreIcon,
 } from "@/components/reviews/reviewData";
+import { FRUIT_ITEMS, NEON_ICONS } from "./demoData";
 import type { Role } from "@/lib/types";
-
-export const FRUIT_ITEMS = [
-  { value: "apple", label: "Apple" },
-  { value: "orange", label: "Orange" },
-];
-
-const NEON_ICONS = [
-  { kind: "clock", on: true },
-  { kind: "brain", on: true },
-  { kind: "file", on: false },
-] as const;
 
 const DEMO_SCORE = 7;
 const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(DEMO_SCORE);

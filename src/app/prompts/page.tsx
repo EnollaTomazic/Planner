@@ -10,8 +10,8 @@ import {
   ButtonShowcase,
   IconButtonShowcase,
   GoalListDemo,
-  FRUIT_ITEMS,
 } from "@/components/prompts";
+import { FRUIT_ITEMS } from "@/components/prompts/demoData";
 import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
