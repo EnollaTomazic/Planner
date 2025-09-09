@@ -18,7 +18,7 @@
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
   --accent: 292 90% 35%;
-  --accent-2: 192 100% 25%;
+  --accent-2: 52 100% 25%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 292 90% 15%;
   --glow: 292 90% 35%;
@@ -32,8 +32,8 @@
   --surface-streak: 240 16% 12%;
   --shadow-color: 262 83% 58%;
   --lav-deep: 320 85% 60%;
-  --success: 316 92% 70%;
-  --success-glow: 316 92% 52% / 0.6;
+  --success: 142 72% 30%;
+  --success-glow: 142 72% 12% / 0.6;
   --aurora-g: 150 100% 60%;
   --aurora-g-light: 150 100% 85%;
   --aurora-p: 272 80% 60%;
