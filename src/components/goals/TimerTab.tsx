@@ -70,12 +70,17 @@ export default function TimerTab() {
     false,
   );
 
+  const prevProfile = React.useRef<ProfileKey>(profile);
   // Reset timer when switching profiles (studying, cleaning, coding)
   React.useEffect(() => {
-    setRunning(false);
-    setRemaining((profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile]);
+    if (prevProfile.current !== profile) {
+      setRunning(false);
+      setRemaining(
+        (profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000,
+      );
+      prevProfile.current = profile;
+    }
+  }, [profile, personalMinutes, profileDef.defaultMin, setRunning, setRemaining]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
