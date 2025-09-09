@@ -6,3 +6,4 @@ export { default as ReviewList } from "./ReviewList";
 export { default as ReviewSummary } from "./ReviewSummary";
 export { default as RoleSelector } from "./RoleSelector";
 export { default as ReviewPanel } from "./ReviewPanel";
+export { default as NeonIcon } from "./NeonIcon";
