@@ -312,7 +312,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               const editing = editingId === c.id;
 
               return (
-                <article key={c.id} className="group card-neo glitch-card relative p-12">
+                <article key={c.id} className="group card-neo glitch-card relative p-7">
                   {/* hover edit/save + delete + copy */}
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
@@ -379,7 +379,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                     })}
 
                     {/* notes */}
-                    <div className="grid gap-2">
+                    <div className="grid gap-3">
                       <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
