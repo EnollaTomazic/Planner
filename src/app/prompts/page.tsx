@@ -100,6 +100,9 @@ export default function Page() {
         <IconButton aria-label="Add item" title="Add item">
           <Plus size={16} aria-hidden />
         </IconButton>
+        <IconButton variant="glow" aria-label="Add item glow" title="Add item glow">
+          <Plus size={16} aria-hidden />
+        </IconButton>
       </div>
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
