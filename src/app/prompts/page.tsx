@@ -68,6 +68,7 @@ const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
+  <>Icons now use the <code>size-4</code> token instead of hardcoded 18px dimensions.</>,
 ];
 
 const DEMO_SCORE = 7;
