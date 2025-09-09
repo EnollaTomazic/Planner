@@ -205,7 +205,7 @@ export default function GoalsPage() {
       <Hero
         eyebrow="Guide"
         heading="Overview"
-        subtitle="Track up to 3 active goals, pin quick cues, and focus with the timer."
+        subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
         sticky={false}
       />
 
