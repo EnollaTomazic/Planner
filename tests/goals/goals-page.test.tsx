@@ -18,6 +18,13 @@ describe("GoalsPage", () => {
     window.localStorage.clear();
   });
 
+  it("renders dynamic subtitle with counts", () => {
+    render(<GoalsPage />);
+    expect(
+      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
+    ).toBeInTheDocument();
+  });
+
   it("handles adding goals, cap enforcement, completion toggles, and undo", async () => {
     render(<GoalsPage />);
 
