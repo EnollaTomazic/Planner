@@ -91,6 +91,7 @@ export default function ReviewsPage({
   }, [base, q, sort]);
 
   const active = base.find((r) => r.id === selectedId) || null;
+  const panelClass = "md:col-span-8 lg:col-span-9 mx-auto";
 
   return (
     <main className="page-shell py-6 space-y-6">
@@ -165,38 +166,40 @@ export default function ReviewsPage({
             </div>
           </div>
         </nav>
-
-          <div className="md:col-span-8 lg:col-span-9 flex justify-center">
-            {!active ? (
-              <ReviewPanel className="flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-                <Ghost className="h-6 w-6 opacity-60" />
-                <p>Select a review from the list or create a new one.</p>
-              </ReviewPanel>
-            ) : panelMode === "summary" ? (
-              <ReviewPanel>
-                <ReviewSummary
-                  key={`summary-${active.id}`}
-                  review={active}
-                  onEdit={() => setPanelMode("edit")}
-                />
-              </ReviewPanel>
-            ) : (
-              <ReviewPanel>
-                <ReviewEditor
-                  key={`editor-${active.id}`}
-                  review={active}
-                  onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-                  onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-                  onRename={(title: string) => onRename(active.id, title)}
-                  onChangeMeta={(partial: Partial<Review>) =>
-                    onChangeMeta?.(active.id, partial)
-                  }
-                  onDone={() => setPanelMode("summary")}
-                  onDelete={onDelete ? () => onDelete(active.id) : undefined}
-                />
-              </ReviewPanel>
+        {!active ? (
+          <ReviewPanel
+            className={cn(
+              panelClass,
+              "flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
             )}
-          </div>
+          >
+            <Ghost className="h-6 w-6 opacity-60" />
+            <p>Select a review from the list or create a new one.</p>
+          </ReviewPanel>
+        ) : panelMode === "summary" ? (
+          <ReviewPanel className={panelClass}>
+            <ReviewSummary
+              key={`summary-${active.id}`}
+              review={active}
+              onEdit={() => setPanelMode("edit")}
+            />
+          </ReviewPanel>
+        ) : (
+          <ReviewPanel className={panelClass}>
+            <ReviewEditor
+              key={`editor-${active.id}`}
+              review={active}
+              onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+              onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+              onRename={(title: string) => onRename(active.id, title)}
+              onChangeMeta={(partial: Partial<Review>) =>
+                onChangeMeta?.(active.id, partial)
+              }
+              onDone={() => setPanelMode("summary")}
+              onDelete={onDelete ? () => onDelete(active.id) : undefined}
+            />
+          </ReviewPanel>
+        )}
       </div>
     </main>
   );
