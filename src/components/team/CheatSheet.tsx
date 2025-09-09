@@ -169,7 +169,7 @@ function Label({ children }: { children: React.ReactNode }) {
   const text = typeof children === "string" ? children : String(children ?? "");
   return (
     <div
-      className="glitch-anim glitch-label text-[10px] font-semibold tracking-wide uppercase text-[hsl(var(--muted-foreground))]"
+      className="glitch-anim glitch-label text-xs font-semibold tracking-wide uppercase text-[hsl(var(--muted-foreground))]"
       data-text={text}
     >
       {text}

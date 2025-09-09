@@ -244,7 +244,7 @@ function SideEditor(props: {
           <strong className="text-base sm:text-lg">{title}</strong>
         </span>
 
-        <span className="ml-auto pill pill-compact text-[10px] tracking-wide uppercase">
+        <span className="ml-auto pill pill-compact text-xs tracking-wide uppercase">
           {count}/5 filled
         </span>
       </header>

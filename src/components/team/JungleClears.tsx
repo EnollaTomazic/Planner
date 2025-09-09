@@ -183,7 +183,7 @@ export default function JungleClears() {
               />
               <SectionCard.Body>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2 py-1 text-[10px] tracking-wide uppercase">
+                  <span className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2 py-1 text-xs tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
                   <span className="text-sm text-[hsl(var(--muted-foreground))]">

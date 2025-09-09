@@ -124,7 +124,7 @@ export default function Hero({
 
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="text-[10px] font-semibold tracking-[0.14em] uppercase text-[hsl(var(--muted-foreground))]">
+              <div className="text-xs font-semibold tracking-[0.14em] uppercase text-[hsl(var(--muted-foreground))]">
                 {eyebrow}
               </div>
             ) : null}

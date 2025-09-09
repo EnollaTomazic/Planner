@@ -576,7 +576,7 @@ export default function ReviewEditor({
               </div>
             </div>
           </div>
-          <div className="mt-1 flex items-center gap-2 text-[13px] text-muted-foreground">
+          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
             <span className="pill h-6 px-2 text-xs">{score}/10</span>
             <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
             <span>{msg}</span>
@@ -641,7 +641,7 @@ export default function ReviewEditor({
                   </div>
                 </div>
               </div>
-              <div className="mt-1 flex items-center gap-2 text-[13px] text-muted-foreground">
+              <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="pill h-6 px-2 text-xs">{focus}/10</span>
                 <span>{focusMsg}</span>
               </div>
@@ -804,7 +804,7 @@ export default function ReviewEditor({
                       <FileText size={14} className="opacity-80" />
                     </span>
                   ) : (
-                    <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
+                    <span className="pill h-7 min-w-[60px] px-3 text-xs font-mono tabular-nums text-center">
                       {m.time}
                     </span>
                   )}
