@@ -10,7 +10,8 @@ import "./style.css";
  * - Center spine shows on md+ only
  */
 
-import { useMemo, useState } from "react";
+import * as React from "react";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
@@ -23,7 +24,6 @@ import {
   ClipboardCheck,
   Eraser,
   NotebookPen,
-  Info,
   Copy,
 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
@@ -94,9 +94,9 @@ export default function Builder() {
     allies: { ...EMPTY_TEAM },
     enemies: { ...EMPTY_TEAM },
   });
-  const [copied, setCopied] = useState<"all" | "allies" | "enemies" | null>(null);
+  const [copied, setCopied] = React.useState<"all" | "allies" | "enemies" | null>(null);
 
-  const filledCount = useMemo(() => {
+  const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
       [t.top, t.jungle, t.mid, t.adc, t.support].filter(Boolean).length;
     return { allies: countTeam(state.allies), enemies: countTeam(state.enemies) };
@@ -183,7 +183,7 @@ export default function Builder() {
             {/* Allies */}
             <SideEditor
               title="Allies"
-              icon={<Shield />}
+              icon={<Shield aria-hidden="true" />}
               value={state.allies}
               onLane={(lane, v) => setLane("allies", lane, v)}
               onNotes={(v) => setNotes("allies", v)}
@@ -203,7 +203,7 @@ export default function Builder() {
             {/* Enemies */}
             <SideEditor
               title="Enemies"
-              icon={<Swords />}
+              icon={<Swords aria-hidden="true" />}
               value={state.enemies}
               onLane={(lane, v) => setLane("enemies", lane, v)}
               onNotes={(v) => setNotes("enemies", v)}
@@ -213,7 +213,8 @@ export default function Builder() {
             />
           </div>
         </SectionCard.Body>
-      </SectionCard>
+        </SectionCard>
+      </div>
     </div>
   );
 }
@@ -272,7 +273,7 @@ function SideEditor(props: {
 
         <div className="grid gap-3">
           <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
-            <NotebookPen className="opacity-80" /> Notes
+            <NotebookPen className="opacity-80" aria-hidden="true" /> Notes
           </label>
           <Textarea
             aria-label={`${title} notes`}
@@ -280,7 +281,7 @@ function SideEditor(props: {
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-44 leading-relaxed"
             rows={4}
           />
         </div>
@@ -295,7 +296,7 @@ function SideEditor(props: {
             size="sm"
             iconSize="sm"
           >
-            <Eraser />
+            <Eraser aria-hidden="true" />
           </IconButton>
           <IconButton
             title={`Copy ${title}`}
@@ -304,7 +305,7 @@ function SideEditor(props: {
             size="sm"
             iconSize="sm"
           >
-            <Copy />
+            <Copy aria-hidden="true" />
           </IconButton>
         </div>
       </div>

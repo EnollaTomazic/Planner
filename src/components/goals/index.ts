@@ -7,6 +7,7 @@ export type { WaitItem } from "./GoalQueue";
 export { default as GoalSlot } from "./GoalSlot";
 export { default as GoalsPage } from "./GoalsPage";
 export { default as GoalsProgress } from "./GoalsProgress";
+export { default as GoalList } from "./GoalList";
 export { default as GoalsTabs } from "./GoalsTabs";
 export type { FilterKey } from "./GoalsTabs";
 export { default as Reminders } from "./Reminders";

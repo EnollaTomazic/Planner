@@ -13,6 +13,7 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
+import Hero from "@/components/ui/layout/Hero";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
@@ -24,10 +25,30 @@ import DurationSelector from "./DurationSelector";
 type ProfileKey = "study" | "clean" | "code" | "personal";
 type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
 const PROFILES: Profile[] = [
-  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
-  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 30 },
-  { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
-  { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
+  {
+    key: "study",
+    label: "Studying",
+    icon: <BookOpen className="mr-1" aria-hidden="true" />,
+    defaultMin: 45,
+  },
+  {
+    key: "clean",
+    label: "Cleaning",
+    icon: <Brush className="mr-1" aria-hidden="true" />,
+    defaultMin: 30,
+  },
+  {
+    key: "code",
+    label: "Coding",
+    icon: <Code2 className="mr-1" aria-hidden="true" />,
+    defaultMin: 60,
+  },
+  {
+    key: "personal",
+    label: "Personal",
+    icon: <User className="mr-1" aria-hidden="true" />,
+    defaultMin: 25,
+  },
 ];
 
 
@@ -171,23 +192,29 @@ export default function TimerTab() {
   ) : null;
 
   return (
-    <SectionCard className="goal-card no-hover">
-      <SectionCard.Header sticky topClassName="top-0">
-        <TabBar
-          items={tabItems}
-          value={profile}
-          onValueChange={(k) => setProfile(k as ProfileKey)}
-          size="md"
-          align="between"
-          ariaLabel="Timer profiles"
-          right={rightSlot}
-          showBaseline
-        />
-      </SectionCard.Header>
+    <div className="grid gap-4">
+      <Hero
+        eyebrow="Focus"
+        heading="Timer"
+        subtitle="Pick a duration and focus."
+        right={
+          <TabBar
+            items={tabItems}
+            value={profile}
+            onValueChange={(k) => setProfile(k as ProfileKey)}
+            size="md"
+            align="between"
+            ariaLabel="Timer profiles"
+            right={rightSlot}
+            showBaseline
+          />
+        }
+      />
 
-      <SectionCard.Body>
-        {/* Stage row with side buttons and centered digits */}
-        <div className="goal-card p-5 sm:p-6 overflow-hidden">
+      <SectionCard className="goal-card no-hover">
+        <SectionCard.Body>
+          {/* Stage row with side buttons and centered digits */}
+          <div className="goal-card p-5 sm:p-6 overflow-hidden">
           <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
             {/* minus */}
             <IconButton
@@ -197,7 +224,7 @@ export default function TimerTab() {
               disabled={!isPersonal || running || minutes <= 0}
               className="shrink-0"
             >
-              <Minus />
+              <Minus aria-hidden="true" />
             </IconButton>
 
             {/* digits */}
@@ -229,7 +256,7 @@ export default function TimerTab() {
               disabled={!isPersonal || running}
               className="shrink-0"
             >
-              <Plus />
+              <Plus aria-hidden="true" />
             </IconButton>
           </div>
 
@@ -270,7 +297,7 @@ export default function TimerTab() {
               type="button"
               title="Start"
             >
-              <Play />
+              <Play aria-hidden="true" />
               Start
             </button>
           ) : (
@@ -280,7 +307,7 @@ export default function TimerTab() {
               type="button"
               title="Pause"
             >
-              <Pause />
+              <Pause aria-hidden="true" />
               Pause
             </button>
           )}
@@ -290,7 +317,7 @@ export default function TimerTab() {
             type="button"
             title="Reset"
           >
-            <RotateCcw />
+            <RotateCcw aria-hidden="true" />
             Reset
           </button>
         </div>
@@ -420,5 +447,6 @@ export default function TimerTab() {
         }
       `}</style>
     </SectionCard>
+  </div>
   );
 }

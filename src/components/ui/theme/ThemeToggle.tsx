@@ -90,7 +90,11 @@ export default function ThemeToggle({
           modeDisabled ? "opacity-60 cursor-not-allowed" : "",
         ].join(" ")}
       >
-        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        {isDark ? (
+          <Sun className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <Moon className="h-4 w-4" aria-hidden="true" />
+        )}
       </button>
 
       {/* background cycle */}
@@ -101,7 +105,7 @@ export default function ThemeToggle({
         title="Change background"
         className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
       >
-        <ImageIcon className="h-4 w-4" />
+        <ImageIcon className="h-4 w-4" aria-hidden="true" />
       </button>
 
       {/* dropdown — no visible title; uses aria label */}

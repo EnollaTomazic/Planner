@@ -709,6 +709,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="relative z-10 inline-flex items-center gap-2"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-plus size-4"
                       fill="none"
                       height="24"
@@ -890,6 +891,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           class="max-w-[880px] w-full rounded-xl p-5 bg-card/60 ring-1 ring-ring/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
         >
           <svg
+            aria-hidden="true"
             class="lucide lucide-ghost h-6 w-6 opacity-60"
             fill="none"
             height="24"

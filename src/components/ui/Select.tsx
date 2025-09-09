@@ -71,7 +71,10 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
         >
           {children}
         </select>
-          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]" />
+          <ChevronDown
+            className="pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+            aria-hidden="true"
+          />
       </FieldShell>
       {success && (
         <p
