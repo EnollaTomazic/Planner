@@ -222,6 +222,15 @@ function Swatch({ token }: SwatchProps) {
   );
 }
 
+function GradientSwatch() {
+  return (
+    <li className="col-span-12 md:col-span-6 flex flex-col items-center gap-3">
+      <div className="h-16 w-full rounded-xl bg-gradient-to-r from-primary via-accent to-transparent" />
+      <span className="text-xs font-medium">from-primary via-accent to-transparent</span>
+    </li>
+  );
+}
+
 type SectionCardProps = {
   title: string;
   children: React.ReactNode;
@@ -283,6 +292,11 @@ function ColorsView() {
           </ul>
         </SectionCard>
       ))}
+      <SectionCard title="Gradients">
+        <ul className="grid grid-cols-12 gap-6">
+          <GradientSwatch />
+        </ul>
+      </SectionCard>
     </div>
   );
 }
