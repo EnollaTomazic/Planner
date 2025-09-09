@@ -4,9 +4,9 @@ import * as React from "react";
 import { TabBar, Header, Hero, Button, type TabItem, Input } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
-import { RoleSelector, NeonIcon } from "@/components/reviews";
+import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
-import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
+import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
 
 type View = "components" | "colors";
@@ -20,6 +20,10 @@ export default function Page() {
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
 
+  const demoScore = 7;
+  const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(demoScore);
+  const demoScoreMsg = SCORE_POOLS[demoScore][0];
+
   return (
     <main className="page-shell py-6">
       <div className="mb-8 space-y-4">
@@ -31,6 +35,15 @@ export default function Page() {
         </div>
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
+          <ReviewSummaryScore
+            score={demoScore}
+            msg={demoScoreMsg}
+            ScoreIcon={DemoScoreIcon}
+            scoreIconCls={demoScoreCls}
+          />
         </div>
         <div className="flex justify-center gap-4">
           <NeonIcon kind="clock" on={true} />
@@ -95,3 +108,4 @@ export default function Page() {
     </main>
   );
 }
+
