@@ -21,6 +21,21 @@ import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
 
+function ShowcaseSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mb-8">
+      <h2 className="mb-4 text-lg font-semibold tracking-tight">{title}</h2>
+      <div className="space-y-4">{children}</div>
+    </section>
+  );
+}
+
 const VIEW_TABS: TabItem<View>[] = [
   { key: "components", label: "Components" },
   { key: "colors", label: "Colors" },
@@ -46,10 +61,13 @@ const FRUIT_ITEMS = [
 
   return (
     <main className="page-shell py-6">
-      <div className="mb-8 space-y-4">
+      <ShowcaseSection title="Chrome">
         <Header heading="Header" sticky={false} />
         <Hero heading="Hero" sticky={false} />
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Progress & Selectors">
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
         </div>
@@ -62,6 +80,9 @@ const FRUIT_ITEMS = [
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Review Summary">
         <div className="flex flex-col items-center gap-4">
           <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
           <ReviewSummaryScore
@@ -71,11 +92,17 @@ const FRUIT_ITEMS = [
             scoreIconCls={demoScoreCls}
           />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Neon Icons">
         <div className="flex justify-center gap-4">
-          <NeonIcon kind="clock" on={true} />
-          <NeonIcon kind="brain" on={true} />
+          <NeonIcon kind="clock" on />
+          <NeonIcon kind="brain" on />
           <NeonIcon kind="file" on={false} />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Input">
         <div className="flex justify-center">
           <Input
             aria-label="Timer demo"
@@ -83,46 +110,6 @@ const FRUIT_ITEMS = [
             className="btn-like-segmented btn-glitch w-[5ch]"
             inputClassName="text-center"
             type="text"
-          />
-        </div>
-        <div className="space-y-4">
-          <ReviewMetadata
-            result={metaResult}
-            onChangeResult={setMetaResult}
-            score={metaScore}
-            onChangeScore={setMetaScore}
-            focusOn={metaFocusOn}
-            onToggleFocus={setMetaFocusOn}
-            focus={metaFocus}
-            onChangeFocus={setMetaFocus}
-            pillars={metaPillars}
-            togglePillar={(p) =>
-              setMetaPillars((prev) =>
-                prev.includes(p) ? prev.filter((x) => x !== p) : prev.concat(p),
-              )
-            }
-            scoreMsg={metaScoreMsg}
-            ScoreIcon={metaScoreInfo.Icon}
-            scoreIconCls={metaScoreInfo.cls}
-            focusMsg={metaFocusMsg}
-            onScoreNext={() => markerTimeRef.current?.focus()}
-            resultRef={metaResultRef}
-          />
-          <ReviewMarkerEditor
-            markers={demoMarkers}
-            onChange={setDemoMarkers}
-            timeRef={markerTimeRef}
-            lastMarkerMode={demoMarkerMode}
-            setLastMarkerMode={setDemoMarkerMode}
-            lastMarkerTime={demoMarkerTime}
-            setLastMarkerTime={setDemoMarkerTime}
-          />
-          <ReviewNotesTags
-            notes={demoNotes}
-            onNotesChange={setDemoNotes}
-            onNotesBlur={() => {}}
-            tags={demoTags}
-            onTagsChange={setDemoTags}
           />
         </div>
       </div>
@@ -150,8 +137,6 @@ const FRUIT_ITEMS = [
           Hero dividers now use <code>var(--space-4)</code> top padding and
           tokenized side offsets via <code>var(--space-2)</code>.
         </li>
-<<<<<<< HEAD
-=======
         <li className="text-sm text-muted-foreground">
           IconButton adds a compact <code>xs</code> size.
         </li>
@@ -162,10 +147,6 @@ const FRUIT_ITEMS = [
           Color gallery groups tokens into Aurora, Neutrals, and Accents
           palettes with tabs.
         </li>
-        <li className="text-sm text-muted-foreground">
-          Themes now define <code>--glow</code> tokens aligned with their primary accents.
-        </li>
->>>>>>> codex/add-glow-overrides-to-themes
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>
@@ -176,8 +157,12 @@ const FRUIT_ITEMS = [
         <Button tone="danger" variant="primary">
           Danger primary
         </Button>
+        <Button disabled>Disabled</Button>
       </div>
       <div className="mb-8 flex gap-2">
+        <IconButton size="xs" aria-label="Add item xs" title="Add item xs">
+          <Plus size={16} aria-hidden />
+        </IconButton>
         <IconButton aria-label="Add item" title="Add item">
           <Plus size={16} aria-hidden />
         </IconButton>
@@ -188,9 +173,9 @@ const FRUIT_ITEMS = [
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
         <TabBar
-          items={VIEW_TABS}
+          items={viewTabs}
           value={view}
-          onValueChange={setView}
+          onValueChange={(k) => setView(k)}
           ariaLabel="Prompts gallery view"
         />
       </div>
