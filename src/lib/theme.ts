@@ -62,6 +62,46 @@ export const COLOR_TOKENS = [
   "icon-fg",
 ] as const;
 
+export type ColorToken = typeof COLOR_TOKENS[number];
+export type ColorPalette = "aurora" | "neutrals" | "accents";
+
+export const COLOR_PALETTES: Record<ColorPalette, readonly ColorToken[]> = {
+  aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
+  neutrals: [
+    "background",
+    "foreground",
+    "text",
+    "card",
+    "panel",
+    "border",
+    "line",
+    "input",
+    "ring",
+    "muted",
+    "muted-foreground",
+    "surface",
+    "surface-2",
+    "surface-vhs",
+    "surface-streak",
+  ],
+  accents: [
+    "accent",
+    "accent-2",
+    "accent-foreground",
+    "danger",
+    "success",
+    "glow-strong",
+    "glow-soft",
+    "icon-fg",
+  ],
+};
+
+export const COLOR_PALETTE_TABS: { id: ColorPalette; label: string }[] = [
+  { id: "aurora", label: "Aurora" },
+  { id: "neutrals", label: "Neutrals" },
+  { id: "accents", label: "Accents" },
+];
+
 export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg", label: "Glitch" },
   { id: "aurora", label: "Aurora" },

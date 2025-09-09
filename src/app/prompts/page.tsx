@@ -85,6 +85,10 @@ export default function Page() {
           Hero dividers now use <code>var(--space-4)</code> top padding and
           tokenized side offsets via <code>var(--space-2)</code>.
         </li>
+        <li className="text-sm text-muted-foreground">
+          Color gallery groups tokens into aurora, neutrals, and accents
+          palettes.
+        </li>
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>
