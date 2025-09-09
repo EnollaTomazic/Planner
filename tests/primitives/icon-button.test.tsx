@@ -46,11 +46,11 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&>svg]:h-5 [&>svg]:w-5"],
-    ["sm", "[&>svg]:h-6 [&>svg]:w-6"],
-    ["md", "[&>svg]:h-7 [&>svg]:w-7"],
-    ["lg", "[&>svg]:h-8 [&>svg]:w-8"],
-    ["xl", "[&>svg]:h-9 [&>svg]:w-9"],
+    ["xs", "[&>svg]:h-6 [&>svg]:w-6"],
+    ["sm", "[&>svg]:h-7 [&>svg]:w-7"],
+    ["md", "[&>svg]:h-8 [&>svg]:w-8"],
+    ["lg", "[&>svg]:h-9 [&>svg]:w-9"],
+    ["xl", "[&>svg]:h-10 [&>svg]:w-10"],
   ] as const;
 
   iconCases.forEach(([iconSize, cls]) => {

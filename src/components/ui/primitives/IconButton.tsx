@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { buttonSizes, type ButtonSize } from "./Button";
+import type { ButtonSize } from "./Button";
 
 export type IconButtonSize = ButtonSize | "xl" | "xs";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
@@ -18,25 +18,21 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&>svg]:h-5 [&>svg]:w-5",
-  sm: "[&>svg]:h-6 [&>svg]:w-6",
-  md: "[&>svg]:h-7 [&>svg]:w-7",
-  lg: "[&>svg]:h-8 [&>svg]:w-8",
-  xl: "[&>svg]:h-9 [&>svg]:w-9",
+  xs: "[&>svg]:h-6 [&>svg]:w-6",
+  sm: "[&>svg]:h-7 [&>svg]:w-7",
+  md: "[&>svg]:h-8 [&>svg]:w-8",
+  lg: "[&>svg]:h-9 [&>svg]:w-9",
+  xl: "[&>svg]:h-10 [&>svg]:w-10",
 };
-
 const getSizeClass = (s: IconButtonSize) => {
-  const toNum = (h: string) => Number(h.replace("h-", ""));
-  if (s === "xs") {
-    const n = toNum(buttonSizes.sm.height) - 1;
-    return `h-${n} w-${n}`;
-  }
-  if (s === "xl") {
-    const n = toNum(buttonSizes.lg.height) + 1;
-    return `h-${n} w-${n}`;
-  }
-  const n = toNum(buttonSizes[s as ButtonSize].height);
-  return `h-${n} w-${n}`;
+  const sizeMap: Record<IconButtonSize, string> = {
+    xs: "h-8 w-8",
+    sm: "h-9 w-9",
+    md: "h-10 w-10",
+    lg: "h-11 w-11",
+    xl: "h-12 w-12",
+  };
+  return sizeMap[s];
 };
 
 const variantBase: Record<Variant, string> = {

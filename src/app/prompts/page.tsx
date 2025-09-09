@@ -41,6 +41,7 @@ export default function Page() {
       />
       <UpdatesList />
       <ButtonShowcase />
+      {/* IconButton now maintains 4px padding around icons */}
       <IconButtonShowcase />
       <GoalListDemo />
       <PromptList prompts={demoPrompts} />
