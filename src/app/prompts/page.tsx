@@ -15,6 +15,7 @@ import GoalListDemo from "@/components/prompts/GoalListDemo";
 import PromptList from "@/components/prompts/PromptList";
 import type { PromptWithTitle } from "@/components/prompts/usePrompts";
 import { Plus } from "lucide-react";
+import { DashboardCard } from "@/components/home";
 
 type View = "components" | "colors";
 type Section =
@@ -152,6 +153,17 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Demo goal list",
       element: <GoalListDemo />,
       tags: ["planner"],
+    },
+    {
+      id: "dashboard-card",
+      name: "DashboardCard",
+      description: "Home dashboard shell",
+      element: (
+        <DashboardCard title="Demo" cta={{ label: "Action", href: "#" }}>
+          <p className="text-sm">Content</p>
+        </DashboardCard>
+      ),
+      tags: ["home", "dashboard"],
     },
   ],
   misc: [
