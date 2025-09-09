@@ -20,6 +20,7 @@ import {
   ReviewSummaryScore,
 } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
+import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
 import { Plus } from "lucide-react";
@@ -179,6 +180,7 @@ export default function Page() {
       <UpdatesList />
       <ButtonShowcase />
       <IconButtonShowcase />
+      <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
         <TabBar
