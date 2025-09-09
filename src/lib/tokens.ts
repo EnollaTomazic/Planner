@@ -12,6 +12,7 @@ export const colorTokens = [
   "bg-glow",
   "bg-ringMuted",
   "bg-danger",
+  "bg-warning",
   "bg-success",
   "bg-auroraG",
   "bg-auroraGLight",

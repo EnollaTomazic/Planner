@@ -48,6 +48,8 @@ export default function Page() {
       <PromptList prompts={demoPrompts} />
       <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
+      <p className="mb-4 text-xs text-warning">Example warning message</p>
+      <p className="mb-4 text-xs text-success">Example success message</p>
       <div className="mb-8">
         <TabBar
           items={VIEW_TABS}

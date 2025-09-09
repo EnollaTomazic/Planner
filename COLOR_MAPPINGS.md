@@ -45,3 +45,7 @@
 | `rgba(255, 77, 210, 0.85)` | `hsl(var(--lav-deep) / 0.85)` |
 | `rgba(192, 132, 252, 0.6)` | `hsl(var(--accent))` |
 | `rgba(168, 85, 247, 0.2)` | `hsl(var(--accent) / 0.2)` |
+| `#fb7185` (`rose-400`) | `hsl(var(--danger))` |
+| `#fbbf24` (`amber-400`) | `hsl(var(--warning))` |
+| `#34d399` (`emerald-400`) | `hsl(var(--success))` |
+| `#6ee7b7` (`emerald-300`) | `hsl(var(--success))` |

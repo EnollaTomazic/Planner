@@ -57,10 +57,10 @@ export function scoreIcon(score: number): {
   Icon: ComponentType<{ className?: string }>;
   cls: string;
 } {
-  if (score <= 3) return { Icon: Skull, cls: "text-rose-400" };
-  if (score <= 6) return { Icon: Meh, cls: "text-amber-400" };
-  if (score >= 9) return { Icon: Trophy, cls: "text-emerald-400" };
-  return { Icon: Smile, cls: "text-emerald-300" };
+  if (score <= 3) return { Icon: Skull, cls: "text-danger" };
+  if (score <= 6) return { Icon: Meh, cls: "text-warning" };
+  if (score >= 9) return { Icon: Trophy, cls: "text-success" };
+  return { Icon: Smile, cls: "text-success/80" };
 }
 
 /** Short quips for performance score 0..10 (5 per tier) */
