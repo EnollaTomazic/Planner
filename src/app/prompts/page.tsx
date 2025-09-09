@@ -1,13 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, Header, Hero, Button, type TabItem, Input } from "@/components/ui";
+import { TabBar, Header, Hero, Button, IconButton, type TabItem, Input } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
+import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
 
@@ -94,6 +95,11 @@ export default function Page() {
         <Button tone="danger" variant="primary">
           Danger primary
         </Button>
+      </div>
+      <div className="mb-8 flex gap-2">
+        <IconButton aria-label="Add item" title="Add item">
+          <Plus size={16} aria-hidden />
+        </IconButton>
       </div>
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
