@@ -30,6 +30,7 @@ const config: Config = {
         glow: "hsl(var(--glow))",
         ringMuted: "hsl(var(--ring-muted))",
         danger: "hsl(var(--danger))",
+        warning: "hsl(var(--warning))",
         success: {
           DEFAULT: "hsl(var(--success))",
           glow: "hsl(var(--success-glow))",

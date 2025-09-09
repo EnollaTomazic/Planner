@@ -24,6 +24,7 @@
   --glow: 292 90% 35%;
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
+  --warning: 43 96% 56%;
   --muted: 248 26% 14%;
   --muted-foreground: 250 15% 70%;
   --surface: 248 24% 12%;
@@ -132,6 +133,7 @@ html.light {
   --glow: 292 80% 45%;
   --ring-muted: 240 9% 90%;
   --danger: 0 84% 55%;
+  --warning: 43 96% 50%;
   --muted: 240 6% 96%;
   --muted-foreground: 240 4% 35%;
   --surface: 240 7% 98%;
@@ -318,6 +320,7 @@ html.theme-hardstuck {
   --glow: 120 100% 60%;
   --ring-muted: 120 30% 20%;
   --danger: 0 84% 60%;
+  --warning: 43 96% 56%;
   --muted: 120 35% 10%;
   --muted-foreground: 120 15% 70%;
   --surface: 120 32% 8%;
