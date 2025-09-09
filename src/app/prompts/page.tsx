@@ -3,11 +3,11 @@
 import * as React from "react";
 import { TabBar, Header, Hero, Button, IconButton, type TabItem, Input } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
-import { GoalsProgress } from "@/components/goals";
+import { GoalsProgress, GoalSlot } from "@/components/goals";
 import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role } from "@/lib/types";
+import type { Role, Goal } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
@@ -20,6 +20,12 @@ export default function Page() {
 
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
+  const [demoGoal, setDemoGoal] = React.useState<Goal>({
+    id: "demo-goal",
+    title: "Demo goal",
+    done: false,
+    createdAt: Date.now(),
+  });
 
   const demoScore = 7;
   const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(demoScore);
@@ -33,6 +39,12 @@ export default function Page() {
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
+        </div>
+        <div className="flex justify-center">
+          <GoalSlot
+            goal={demoGoal}
+            onEdit={(_, t) => setDemoGoal((g) => ({ ...g, title: t }))}
+          />
         </div>
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
