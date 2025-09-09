@@ -13,10 +13,10 @@ import {
 } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
-import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
+import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore, ReviewMetadata, ReviewNotesTags, ReviewMarkerEditor, type Result } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
-import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role } from "@/lib/types";
+import { ROLE_OPTIONS, SCORE_POOLS, FOCUS_POOLS, scoreIcon } from "@/components/reviews/reviewData";
+import type { Role, Pillar, ReviewMarker } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
@@ -34,6 +34,24 @@ export default function Page() {
     { value: "orange", label: "Orange" },
   ];
   const [fruit, setFruit] = React.useState(fruitItems[0].value);
+
+  const [metaResult, setMetaResult] = React.useState<Result>("Win");
+  const [metaScore, setMetaScore] = React.useState(5);
+  const [metaFocusOn, setMetaFocusOn] = React.useState(false);
+  const [metaFocus, setMetaFocus] = React.useState(5);
+  const [metaPillars, setMetaPillars] = React.useState<Pillar[]>([]);
+  const metaScoreInfo = scoreIcon(metaScore);
+  const metaScoreMsg = SCORE_POOLS[metaScore][0];
+  const metaFocusMsg = (FOCUS_POOLS[metaFocus] ?? FOCUS_POOLS[5])[0];
+  const metaResultRef = React.useRef<HTMLButtonElement>(null);
+
+  const [demoMarkers, setDemoMarkers] = React.useState<ReviewMarker[]>([]);
+  const markerTimeRef = React.useRef<HTMLInputElement>(null);
+  const [demoMarkerMode, setDemoMarkerMode] = React.useState(true);
+  const [demoMarkerTime, setDemoMarkerTime] = React.useState("");
+
+  const [demoNotes, setDemoNotes] = React.useState("");
+  const [demoTags, setDemoTags] = React.useState<string[]>([]);
 
   const demoScore = 7;
   const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(demoScore);
@@ -80,6 +98,46 @@ export default function Page() {
             className="btn-like-segmented btn-glitch w-[5ch]"
             inputClassName="text-center"
             type="text"
+          />
+        </div>
+        <div className="space-y-4">
+          <ReviewMetadata
+            result={metaResult}
+            onChangeResult={setMetaResult}
+            score={metaScore}
+            onChangeScore={setMetaScore}
+            focusOn={metaFocusOn}
+            onToggleFocus={setMetaFocusOn}
+            focus={metaFocus}
+            onChangeFocus={setMetaFocus}
+            pillars={metaPillars}
+            togglePillar={(p) =>
+              setMetaPillars((prev) =>
+                prev.includes(p) ? prev.filter((x) => x !== p) : prev.concat(p),
+              )
+            }
+            scoreMsg={metaScoreMsg}
+            ScoreIcon={metaScoreInfo.Icon}
+            scoreIconCls={metaScoreInfo.cls}
+            focusMsg={metaFocusMsg}
+            onScoreNext={() => markerTimeRef.current?.focus()}
+            resultRef={metaResultRef}
+          />
+          <ReviewMarkerEditor
+            markers={demoMarkers}
+            onChange={setDemoMarkers}
+            timeRef={markerTimeRef}
+            lastMarkerMode={demoMarkerMode}
+            setLastMarkerMode={setDemoMarkerMode}
+            lastMarkerTime={demoMarkerTime}
+            setLastMarkerTime={setDemoMarkerTime}
+          />
+          <ReviewNotesTags
+            notes={demoNotes}
+            onNotesChange={setDemoNotes}
+            onNotesBlur={() => {}}
+            tags={demoTags}
+            onTagsChange={setDemoTags}
           />
         </div>
       </div>
