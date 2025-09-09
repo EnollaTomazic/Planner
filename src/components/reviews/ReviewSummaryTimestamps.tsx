@@ -35,7 +35,7 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-3 text-[11px] font-mono tabular-nums leading-none">{m.time ?? "00:00"}</span>
+                  <span className="pill h-7 px-3 text-xs font-mono tabular-nums leading-none">{m.time ?? "00:00"}</span>
                 )}
                 <span className="truncate text-sm">{m.note || "—"}</span>
               </li>

@@ -195,7 +195,7 @@ export default function TodayHero({ iso }: Props) {
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
-        <div className="mt-4 text-[13px] text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
+        <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
       ) : (
         <div className="mt-4 space-y-4">
           <form
