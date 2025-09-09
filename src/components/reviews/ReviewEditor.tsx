@@ -2,6 +2,11 @@
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import "./style.css";
+<<<<<<< HEAD
+
+import * as React from "react";
+import type { Review, Pillar, Role } from "@/lib/types";
+=======
 import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import ReviewMetadata from "@/components/reviews/ReviewMetadata";
@@ -13,17 +18,43 @@ import type { Review, Pillar, Role, ReviewMarker } from "@/lib/types";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Trash2, Check, Target, Shield } from "lucide-react";
+>>>>>>> main
 import { cn } from "@/lib/utils";
 import { uid, usePersistentState } from "@/lib/db";
 import {
   LAST_ROLE_KEY,
-  LAST_MARKER_MODE_KEY,
-  LAST_MARKER_TIME_KEY,
   SCORE_POOLS,
   FOCUS_POOLS,
   pickIndex,
   scoreIcon,
 } from "@/components/reviews/reviewData";
+<<<<<<< HEAD
+import ReviewMetaControls, {
+  MetaPatch,
+  Result,
+} from "@/components/reviews/ReviewMetaControls";
+import ReviewNotesTags from "@/components/reviews/ReviewNotesTags";
+import ReviewMarkerEditor, {
+  Marker,
+} from "@/components/reviews/ReviewMarkerEditor";
+import { parseTime, formatSeconds } from "@/components/reviews/utils";
+
+function getExt(r: Review) {
+  return r as unknown as Partial<{
+    result?: Result;
+    score?: number;
+    role?: Role;
+    markers?: Marker[];
+    focusOn?: boolean;
+    focus?: number;
+  }>;
+}
+function normalizeMarker(m: unknown): Marker {
+  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<
+    string,
+    unknown
+  >;
+=======
 import { parseTime, formatSeconds, type Result } from "@/components/reviews/utils";
 
 
@@ -43,6 +74,7 @@ function getExt(r: Review): Partial<ExtendedProps> {
 }
 function normalizeMarker(m: unknown): ReviewMarker {
   const obj = (typeof m === "object" && m !== null ? m : {}) as Record<string, unknown>;
+>>>>>>> main
   const asNum = (v: unknown) =>
     typeof v === "number" && Number.isFinite(v) ? v : undefined;
   const asStr = (v: unknown) => (typeof v === "string" ? v : undefined);
@@ -93,14 +125,6 @@ export default function ReviewEditor({
   );
 
   const [lastRole, setLastRole] = usePersistentState<Role>(LAST_ROLE_KEY, "MID");
-  const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
-    LAST_MARKER_MODE_KEY,
-    true,
-  );
-  const [lastMarkerTime, setLastMarkerTime] = usePersistentState<string>(
-    LAST_MARKER_TIME_KEY,
-    "",
-  );
   const ext0 = getExt(review);
   const initialRole: Role = ext0.role ?? lastRole ?? "MID";
   const [role, setRole] = React.useState<Role>(initialRole);
@@ -115,14 +139,23 @@ export default function ReviewEditor({
     Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5,
   );
 
+<<<<<<< HEAD
+  const [markers, setMarkers] = React.useState<Marker[]>(
+=======
   const [markers, setMarkers] = React.useState<ReviewMarker[]>(
+>>>>>>> main
     Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : [],
   );
 
   const laneRef = React.useRef<HTMLInputElement>(null);
   const opponentRef = React.useRef<HTMLInputElement>(null);
   const resultRef = React.useRef<HTMLButtonElement>(null);
+<<<<<<< HEAD
+  const scoreRangeRef = React.useRef<HTMLInputElement>(null);
+  const focusRangeRef = React.useRef<HTMLInputElement>(null);
+=======
   const timeRef = React.useRef<HTMLInputElement>(null);
+>>>>>>> main
 
   React.useEffect(() => {
     const ext = getExt(review);
@@ -196,6 +229,21 @@ export default function ReviewEditor({
       return next;
     });
   }
+<<<<<<< HEAD
+  function addTag(tagRaw: string) {
+    const t = tagRaw.trim().replace(/^#/, "");
+    if (!t || tags.includes(t)) return;
+    const next = [...tags, t];
+    setTags(next);
+    onChangeTags?.(next);
+  }
+  function removeTag(t: string) {
+    const next = tags.filter((x) => x !== t);
+    setTags(next);
+    onChangeTags?.(next);
+  }
+=======
+>>>>>>> main
 
   const msgIndex = pickIndex(String(review.id ?? "seed") + String(score), 5);
   const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
@@ -208,17 +256,71 @@ export default function ReviewEditor({
   );
   const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
-  const go = (ref: React.RefObject<HTMLElement>) => ref.current?.focus();
-
-  function selectRole(v: Role) {
+  const selectRole = (v: Role) => {
     setRole(v);
-    setLastRole(v); // persist globally
+    setLastRole(v);
     commitMeta({ role: v });
+<<<<<<< HEAD
+  };
+=======
   }
+>>>>>>> main
 
   return (
     <div
       ref={rootRef}
+<<<<<<< HEAD
+      className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}
+    >
+      <ReviewMetaControls
+        lane={lane}
+        setLane={setLane}
+        laneRef={laneRef}
+        commitLaneAndTitle={commitLaneAndTitle}
+        opponent={opponent}
+        setOpponent={setOpponent}
+        opponentRef={opponentRef}
+        commitMeta={commitMeta}
+        role={role}
+        selectRole={selectRole}
+        pillars={pillars}
+        togglePillar={togglePillar}
+        result={result}
+        setResult={setResult}
+        resultRef={resultRef}
+        score={score}
+        setScore={setScore}
+        scoreRangeRef={scoreRangeRef}
+        msg={msg}
+        ScoreIcon={ScoreIcon}
+        scoreIconCls={scoreIconCls}
+        focusOn={focusOn}
+        setFocusOn={setFocusOn}
+        focus={focus}
+        setFocus={setFocus}
+        focusRangeRef={focusRangeRef}
+        focusMsg={focusMsg}
+        onDelete={onDelete}
+        onDone={onDone}
+        saveAll={saveAll}
+      />
+      <div className="section-b ds-card-pad space-y-6">
+        <ReviewMarkerEditor
+          markers={markers}
+          onChange={(next) => {
+            setMarkers(next);
+            commitMeta({ markers: next });
+          }}
+        />
+        <ReviewNotesTags
+          notes={notes}
+          onNotesChange={setNotes}
+          onNotesBlur={commitNotes}
+          tags={tags}
+          onAddTag={addTag}
+          onRemoveTag={removeTag}
+        />
+=======
       className={cn(
         "card-neo-soft r-card-lg overflow-hidden transition-none",
         className,
@@ -733,6 +835,7 @@ export default function ReviewEditor({
             textareaClassName="min-h-[180px] leading-relaxed"
           />
         </div>
+>>>>>>> main
       </div>
     </div>
   );

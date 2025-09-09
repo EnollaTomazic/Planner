@@ -1,8 +1,18 @@
+<<<<<<< HEAD
+"use client";
+
+import * as React from "react";
+import SectionLabel from "@/components/reviews/SectionLabel";
+import Input from "@/components/ui/primitives/Input";
+import Textarea from "@/components/ui/primitives/Textarea";
+import IconButton from "@/components/ui/primitives/IconButton";
+=======
 import * as React from "react";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Textarea from "@/components/ui/primitives/Textarea";
+>>>>>>> main
 import { Tag, Plus } from "lucide-react";
 
 export default function ReviewNotesTags({
@@ -10,12 +20,26 @@ export default function ReviewNotesTags({
   onNotesChange,
   onNotesBlur,
   tags,
+<<<<<<< HEAD
+  onAddTag,
+  onRemoveTag,
+=======
   onTagsChange,
+>>>>>>> main
 }: {
   notes: string;
   onNotesChange: (v: string) => void;
   onNotesBlur: () => void;
   tags: string[];
+<<<<<<< HEAD
+  onAddTag: (tag: string) => void;
+  onRemoveTag: (tag: string) => void;
+}) {
+  const [draftTag, setDraftTag] = React.useState("");
+
+  return (
+    <>
+=======
   onTagsChange: (next: string[]) => void;
 }) {
   const [draftTag, setDraftTag] = React.useState("");
@@ -35,6 +59,7 @@ export default function ReviewNotesTags({
   return (
     <>
       {/* Tags */}
+>>>>>>> main
       <div>
         <SectionLabel>Tags</SectionLabel>
         <div className="mt-1 flex items-center gap-2">
@@ -48,7 +73,11 @@ export default function ReviewNotesTags({
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
+<<<<<<< HEAD
+                  onAddTag(draftTag);
+=======
                   addTag(draftTag);
+>>>>>>> main
                   setDraftTag("");
                 }
               }}
@@ -62,7 +91,11 @@ export default function ReviewNotesTags({
             iconSize="sm"
             variant="solid"
             onClick={() => {
+<<<<<<< HEAD
+              onAddTag(draftTag);
+=======
               addTag(draftTag);
+>>>>>>> main
               setDraftTag("");
             }}
           >
@@ -80,7 +113,11 @@ export default function ReviewNotesTags({
                 type="button"
                 className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
                 title="Remove tag"
+<<<<<<< HEAD
+                onClick={() => onRemoveTag(t)}
+=======
                 onClick={() => removeTag(t)}
+>>>>>>> main
               >
                 <span>#{t}</span>
                 <span className="opacity-0 transition-opacity group-hover:opacity-100">✕</span>
@@ -90,7 +127,10 @@ export default function ReviewNotesTags({
         )}
       </div>
 
+<<<<<<< HEAD
+=======
       {/* Notes */}
+>>>>>>> main
       <div>
         <SectionLabel>Notes</SectionLabel>
         <Textarea
