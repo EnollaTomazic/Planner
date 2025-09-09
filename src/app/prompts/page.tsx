@@ -4,7 +4,7 @@ import * as React from "react";
 import { TabBar, Header, Hero, Button, type TabItem } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
-import { RoleSelector } from "@/components/reviews";
+import { RoleSelector, NeonIcon } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
 import type { Role } from "@/lib/types";
@@ -31,6 +31,11 @@ export default function Page() {
         </div>
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
+        </div>
+        <div className="flex justify-center gap-4">
+          <NeonIcon kind="clock" on={true} />
+          <NeonIcon kind="brain" on={true} />
+          <NeonIcon kind="file" on={false} />
         </div>
         <div className="flex justify-center">
           <input

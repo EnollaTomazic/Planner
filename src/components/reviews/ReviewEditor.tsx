@@ -4,6 +4,7 @@
 import "./style.css";
 import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
+import NeonIcon from "@/components/reviews/NeonIcon";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
@@ -20,7 +21,6 @@ import {
   Plus,
   Clock,
   FileText,
-  Brain,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uid, usePersistentState } from "@/lib/db";
@@ -71,162 +71,6 @@ type ExtendedProps = {
 
 type MetaPatch = Omit<Partial<Review>, "role"> & Partial<ExtendedProps>;
 
-function NeonIcon({
-  kind,
-  on,
-  size = 40,
-  title,
-}: {
-  kind: "clock" | "file" | "brain";
-  on: boolean;
-  size?: number;
-  title?: string;
-}) {
-  const Icon = kind === "clock" ? Clock : kind === "file" ? FileText : Brain;
-  const colorVar = kind === "clock" ? "--accent" : kind === "brain" ? "--primary" : "--ring";
-
-  const prevOn = React.useRef(on);
-  const [phase, setPhase] = React.useState<"steady-on" | "ignite" | "off" | "powerdown">(
-    on ? "steady-on" : "off"
-  );
-
-  React.useEffect(() => {
-    if (on !== prevOn.current) {
-      if (on) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prevOn.current = on;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prevOn.current = on;
-        return () => clearTimeout(t);
-      }
-    }
-    prevOn.current = on;
-  }, [on]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
-  const dimOpacity = lit ? 1 : 0.38;
-  const k = Math.round(size * 0.56);
-
-  return (
-    <span
-      className={cn(
-        "relative inline-grid place-items-center overflow-visible rounded-full border",
-        "border-[hsl(var(--border))] bg-[hsl(var(--card)/.35)]"
-      )}
-      style={{ width: size, height: size }}
-      aria-hidden
-      title={title}
-    >
-      <Icon
-        className="relative z-10"
-        style={{
-          width: k,
-          height: k,
-          strokeWidth: 2,
-          color: `hsl(var(${colorVar}))`,
-          opacity: dimOpacity,
-          transition: "opacity 220ms var(--ease-out), transform 220ms var(--ease-out)",
-          transform:
-            phase === "ignite" ? "scale(1.02)" : phase === "powerdown" ? "scale(0.985)" : "scale(1)",
-        }}
-      />
-      <Icon
-        className={cn("absolute", lit ? "animate-[neonCore_2.8s_ease-in-out_infinite]" : "")}
-        style={{
-          width: k,
-          height: k,
-          color: `hsl(var(${colorVar}))`,
-          opacity: lit ? 0.78 : 0.06,
-          filter: `blur(2.5px) drop-shadow(0 0 12px hsl(var(${colorVar})))`,
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <Icon
-        className={cn("absolute", lit ? "animate-[neonAura_3.6s_ease-in-out_infinite]" : "")}
-        style={{
-          width: k,
-          height: k,
-          color: `hsl(var(${colorVar}))`,
-          opacity: lit ? 0.42 : 0.04,
-          filter: `blur(7px) drop-shadow(0 0 22px hsl(var(${colorVar})))`,
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full mix-blend-overlay",
-          lit ? "opacity-35 animate-[crtScan_2.1s_linear_infinite]" : "opacity-0"
-        )}
-        style={{
-          background:
-            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full",
-          phase === "ignite" && "animate-[igniteFlicker_.62s_steps(18,end)_1]"
-        )}
-        style={{
-          background:
-            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.25), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: phase === "ignite" ? 0.85 : 0,
-        }}
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-full",
-          phase === "powerdown" && "animate-[powerDown_.36s_linear_1]"
-        )}
-        style={{
-          background:
-            "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.16), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: phase === "powerdown" ? 0.6 : 0,
-        }}
-      />
-      <style jsx>{`
-        @keyframes neonCore {
-          0% { opacity:.66; transform:scale(1) }
-          50%{ opacity:.88; transform:scale(1.012) }
-          100%{ opacity:.66; transform:scale(1) }
-        }
-        @keyframes neonAura {
-          0% { opacity:.32 }
-          50%{ opacity:.52 }
-          100%{ opacity:.32 }
-        }
-        @keyframes crtScan {
-          0% { transform: translateY(-28%) }
-          100%{ transform: translateY(28%) }
-        }
-        @keyframes igniteFlicker {
-          0%{ opacity:.1; filter:blur(.6px) }
-          8%{ opacity:1 }
-          12%{ opacity:.25 }
-          20%{ opacity:1 }
-          28%{ opacity:.35 }
-          40%{ opacity:1 }
-          55%{ opacity:.45; filter:blur(.2px) }
-          70%{ opacity:1 }
-          100%{ opacity:0 }
-        }
-        @keyframes powerDown {
-          0%{ opacity:.8; transform:scale(1) }
-          30%{ opacity:.35; transform:scale(.992) translateY(.2px) }
-          60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
-          100%{ opacity:0; transform:scale(.985) }
-        }
-      `}</style>
-    </span>
-  );
-}
 
 function NeonPillarChip({
   active,

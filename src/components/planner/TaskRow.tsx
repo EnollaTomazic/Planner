@@ -28,9 +28,12 @@ export default function TaskRow({
   const [text, setText] = React.useState(task.text);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    if (editing) inputRef.current?.focus();
+  }, [editing]);
+
   function start() {
     setEditing(true);
-    setTimeout(() => inputRef.current?.focus(), 0);
   }
   function commit() {
     const v = text.trim();
