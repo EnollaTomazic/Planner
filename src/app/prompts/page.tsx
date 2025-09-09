@@ -169,6 +169,21 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["status"],
     },
+    {
+      id: "dashboard-card",
+      name: "DashboardCard",
+      description: "Home dashboard card",
+      element: (
+        <div className="flex flex-col gap-4 rounded-2xl border border-[var(--card-hairline)] bg-card p-5 shadow-neoSoft">
+          <header className="flex items-center justify-between">
+            <h3 className="text-xl font-semibold tracking-[-0.01em]">Card title</h3>
+            <Button size="sm">Action</Button>
+          </header>
+          <p className="text-sm">Card body</p>
+        </div>
+      ),
+      tags: ["home", "dashboard"],
+    },
   ],
 };
 

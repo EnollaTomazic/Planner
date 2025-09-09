@@ -1,16 +1,17 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import HomePage from "@/components/home/HomePage";
+import { describe, it, expect, vi } from "vitest";
+import HomePage from "@/app/page";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
 
 describe("HomePage", () => {
-  it("renders navigation links", () => {
+  it("renders quick action buttons", () => {
     render(<HomePage />);
-    const planner = screen.getByRole("link", { name: "Planner" });
-    const reviews = screen.getByRole("link", { name: "Reviews" });
-    const prompts = screen.getByRole("link", { name: "Prompts" });
-    expect(planner).toHaveAttribute("href", "/planner");
-    expect(reviews).toHaveAttribute("href", "/reviews");
-    expect(prompts).toHaveAttribute("href", "/prompts");
+    expect(screen.getByRole("button", { name: "Planner Today" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "New Goal" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "New Review" })).toBeInTheDocument();
   });
 });
