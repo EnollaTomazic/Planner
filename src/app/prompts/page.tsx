@@ -21,6 +21,21 @@ import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
 
+function ShowcaseSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mb-8">
+      <h2 className="mb-4 text-lg font-semibold tracking-tight">{title}</h2>
+      <div className="space-y-4">{children}</div>
+    </section>
+  );
+}
+
 export default function Page() {
   const viewTabs: TabItem<View>[] = [
     { key: "components", label: "Components" },
@@ -41,10 +56,13 @@ export default function Page() {
 
   return (
     <main className="page-shell py-6">
-      <div className="mb-8 space-y-4">
+      <ShowcaseSection title="Chrome">
         <Header heading="Header" sticky={false} />
         <Hero heading="Hero" sticky={false} />
         <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Progress & Selectors">
         <div className="flex justify-center">
           <GoalsProgress total={5} pct={60} />
         </div>
@@ -59,6 +77,9 @@ export default function Page() {
             onChange={setFruit}
           />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Review Summary">
         <div className="flex flex-col items-center gap-4">
           <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
           <ReviewSummaryScore
@@ -68,11 +89,17 @@ export default function Page() {
             scoreIconCls={demoScoreCls}
           />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Neon Icons">
         <div className="flex justify-center gap-4">
-          <NeonIcon kind="clock" on={true} />
-          <NeonIcon kind="brain" on={true} />
+          <NeonIcon kind="clock" on />
+          <NeonIcon kind="brain" on />
           <NeonIcon kind="file" on={false} />
         </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Input">
         <div className="flex justify-center">
           <Input
             aria-label="Timer demo"
@@ -82,70 +109,80 @@ export default function Page() {
             type="text"
           />
         </div>
-      </div>
-      <ul className="mb-4 space-y-4">
-        <li className="text-sm text-muted-foreground">
-          Global styles are now modularized into <code>animations.css</code>,
-          <code>overlays.css</code>, and <code>utilities.css</code>.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          Control height token <code>--control-h</code> now snaps to 44px to
-          align with the 4px spacing grid.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          Buttons now default to the 40px <code>md</code> size and follow a
-          36/40/44px scale.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          WeekPicker scrolls horizontally with snap points, showing 2–3 days at
-          a time on smaller screens.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          Review status dots blink to highlight wins and losses.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          Hero dividers now use <code>var(--space-4)</code> top padding and
-          tokenized side offsets via <code>var(--space-2)</code>.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          IconButton adds a compact <code>xs</code> size.
-        </li>
-        <li className="text-sm text-muted-foreground">
-          DurationSelector active state uses accent color tokens.
-        </li>
-      </ul>
-      <div className="mb-8 flex flex-wrap gap-2">
-        <Button tone="primary">Primary tone</Button>
-        <Button tone="accent">Accent tone</Button>
-        <Button tone="info" variant="ghost">
-          Info ghost
-        </Button>
-        <Button tone="danger" variant="primary">
-          Danger primary
-        </Button>
-        <Button disabled>Disabled</Button>
-      </div>
-      <div className="mb-8 flex gap-2">
-        <IconButton size="xs" aria-label="Add item xs" title="Add item xs">
-          <Plus size={16} aria-hidden />
-        </IconButton>
-        <IconButton aria-label="Add item" title="Add item">
-          <Plus size={16} aria-hidden />
-        </IconButton>
-        <IconButton variant="glow" aria-label="Add item glow" title="Add item glow">
-          <Plus size={16} aria-hidden />
-        </IconButton>
-      </div>
-      <p className="mb-4 text-xs text-danger">Example error message</p>
-      <div className="mb-8">
-        <TabBar
-          items={viewTabs}
-          value={view}
-          onValueChange={(k) => setView(k)}
-          ariaLabel="Prompts gallery view"
-        />
-      </div>
-      {view === "components" ? <ComponentGallery /> : <ColorGallery />}
+        <p className="text-xs text-danger">Example error message</p>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Updates">
+        <ul className="list-disc space-y-1 pl-4 text-sm text-muted-foreground">
+          <li>
+            Global styles are now modularized into <code>animations.css</code>,
+            <code>overlays.css</code>, and <code>utilities.css</code>.
+          </li>
+          <li>
+            Control height token <code>--control-h</code> now snaps to 44px to
+            align with the 4px spacing grid.
+          </li>
+          <li>
+            Buttons now default to the 40px <code>md</code> size and follow a
+            36/40/44px scale.
+          </li>
+          <li>
+            WeekPicker scrolls horizontally with snap points, showing 2–3 days
+            at a time on smaller screens.
+          </li>
+          <li>Review status dots blink to highlight wins and losses.</li>
+          <li>
+            Hero dividers now use <code>var(--space-4)</code> top padding and
+            tokenized side offsets via <code>var(--space-2)</code>.
+          </li>
+          <li>IconButton adds a compact <code>xs</code> size.</li>
+          <li>DurationSelector active state uses accent color tokens.</li>
+        </ul>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Buttons">
+        <div className="flex flex-wrap gap-2">
+          <Button tone="primary">Primary tone</Button>
+          <Button tone="accent">Accent tone</Button>
+          <Button tone="info" variant="ghost">
+            Info ghost
+          </Button>
+          <Button tone="danger" variant="primary">
+            Danger primary
+          </Button>
+          <Button disabled>Disabled</Button>
+        </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Icon Buttons">
+        <div className="flex gap-2">
+          <IconButton size="xs" aria-label="Add item xs" title="Add item xs">
+            <Plus size={16} aria-hidden />
+          </IconButton>
+          <IconButton aria-label="Add item" title="Add item">
+            <Plus size={16} aria-hidden />
+          </IconButton>
+          <IconButton
+            variant="glow"
+            aria-label="Add item glow"
+            title="Add item glow"
+          >
+            <Plus size={16} aria-hidden />
+          </IconButton>
+        </div>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Gallery">
+        <div className="mb-4">
+          <TabBar
+            items={viewTabs}
+            value={view}
+            onValueChange={(k) => setView(k)}
+            ariaLabel="Prompts gallery view"
+          />
+        </div>
+        {view === "components" ? <ComponentGallery /> : <ColorGallery />}
+      </ShowcaseSection>
     </main>
   );
 }
