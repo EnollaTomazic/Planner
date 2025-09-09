@@ -29,6 +29,7 @@ describe("IconButton", () => {
   });
 
   const sizeCases = [
+    ["xs", "h-8 w-8"],
     ["sm", "h-9 w-9"],
     ["md", "h-10 w-10"],
     ["lg", "h-11 w-11"],
