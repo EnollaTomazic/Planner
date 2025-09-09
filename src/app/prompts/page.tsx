@@ -88,6 +88,9 @@ export default function Page() {
         <li className="text-sm text-muted-foreground">
           IconButton adds a compact <code>xs</code> size.
         </li>
+        <li className="text-sm text-muted-foreground">
+          DurationSelector active state uses accent color tokens.
+        </li>
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>
