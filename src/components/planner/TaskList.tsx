@@ -32,13 +32,13 @@ export default function TaskList({
     [tasks, selectedProjectId],
   );
 
-  function addTaskCommit() {
+  const addTaskCommit = React.useCallback(() => {
     const v = draftTask.trim();
     if (!v || !selectedProjectId) return;
     const id = addTask(v, selectedProjectId);
     setDraftTask("");
     if (id) setSelectedTaskId(id);
-  }
+  }, [draftTask, selectedProjectId, addTask, setSelectedTaskId]);
 
   return (
     <div className="flex flex-col gap-3 min-w-0">
