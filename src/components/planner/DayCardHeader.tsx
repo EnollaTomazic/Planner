@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { ISODate } from "./usePlanner";
+import type { ISODate } from "./plannerStore";
 
 type Props = {
   iso: ISODate;

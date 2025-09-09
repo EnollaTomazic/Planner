@@ -197,7 +197,7 @@ html.bg-intense body::after {
 
 @layer components {
   /* Hero rail (Lavender-Glitch edge with bloom) */
-  .hero-rail {
+  .header-rail {
     position: absolute;
     background: linear-gradient(
       180deg,
@@ -206,8 +206,8 @@ html.bg-intense body::after {
       hsl(var(--primary) / 0.9)
     );
   }
-  .hero-rail::before,
-  .hero-rail::after {
+  .header-rail::before,
+  .header-rail::after {
     content: "";
     position: absolute;
     inset: -1px;
@@ -215,7 +215,7 @@ html.bg-intense body::after {
     pointer-events: none;
   }
   /* rotating chroma edge */
-  .hero-rail::before {
+  .header-rail::before {
     background: conic-gradient(
       from 180deg,
       hsl(262 83% 58% / 0),
@@ -231,7 +231,7 @@ html.bg-intense body::after {
     opacity: 0.6;
   }
   /* soft flicker bloom */
-  .hero-rail::after {
+  .header-rail::after {
     background: radial-gradient(
       60% 100% at 50% 50%,
       hsl(var(--ring) / 0.35),
@@ -289,8 +289,8 @@ html.bg-intense body::after {
     border-radius: calc(var(--_r) + 1px);
     background: var(--edge-iris);
     mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
+      linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+      linear-gradient(hsl(var(--foreground)) 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0.45;
@@ -695,11 +695,11 @@ html.bg-intense body::after {
       hsl(262 83% 58% / 0)
     );
     -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
+      linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+      linear-gradient(hsl(var(--foreground)) 0 0);
     mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
+      linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+      linear-gradient(hsl(var(--foreground)) 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -995,8 +995,8 @@ html.bg-intense body::after {
     hsl(262 83% 58% / 0)
   );
   mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.55;
@@ -1201,11 +1201,11 @@ textarea:-webkit-autofill {
   );
   background-size: 300% 100%;
   -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
   mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: lg-holo 12s linear infinite;
@@ -1611,8 +1611,8 @@ textarea:-webkit-autofill {
     transparent 100%
   );
   mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.85;

@@ -14,12 +14,13 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Button from "@/components/ui/primitives/Button";
-import { usePlanner, type ISODate } from "./usePlanner";
+import { usePlannerStore } from "./usePlannerStore";
+import type { ISODate } from "./plannerStore";
 
 type Props = { iso: ISODate };
 
 export default function FocusPanel({ iso }: Props) {
-  const { focus, setFocus, day, setNotes } = usePlanner();
+  const { focus, setFocus, day, setNotes } = usePlannerStore();
 
   // Initialize from current day.notes; safe because usePersistentState returns initial on first render.
   const [value, setValue] = React.useState<string>(day.notes ?? "");

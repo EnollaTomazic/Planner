@@ -132,10 +132,10 @@ export default function PromptsDemos() {
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Shadows</h3>
         <div className="flex flex-wrap gap-4">
-          <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo" />
-          <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-strong" />
-          <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-neo-inset" />
-          <div className="size-16 rounded-2xl bg-[hsl(var(--panel)/0.8)] shadow-ring" />
+          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo" />
+          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo-strong" />
+          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo-inset" />
+          <div className="size-16 rounded-2xl bg-panel/80 shadow-ring" />
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
@@ -181,7 +181,7 @@ export default function PromptsDemos() {
             {radiusClasses.map((cls) => (
               <div
                 key={cls}
-                className={`size-6 bg-[hsl(var(--panel)/0.8)] ${cls}`}
+                className={`size-6 bg-panel/80 ${cls}`}
               />
             ))}
           </div>

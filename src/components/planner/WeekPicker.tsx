@@ -9,13 +9,14 @@
  */
 
 import * as React from "react";
-import Hero2 from "@/components/ui/layout/Hero2";
+import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
-import { useFocusDate, type ISODate } from "./usePlanner";
+import { useFocusDate } from "./useFocusDate";
+import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
-import { CalendarDays, ChevronLeft, ChevronRight, ArrowUpToLine } from "lucide-react";
-import { isoToDate, toISO, addDays, mondayStartOfWeek } from "@/lib/date";
+import { CalendarDays, ArrowUpToLine } from "lucide-react";
+import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
@@ -77,7 +78,7 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative w-full rounded-2xl border text-left px-3 py-2 transition",
+        "chip relative flex-none min-w-[min(160px,40%)] rounded-2xl border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-[hsl(var(--card-hairline))] bg-[hsl(var(--card)/0.75)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
@@ -114,26 +115,19 @@ function DayChip({
 export default function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { start, end, heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
-    const base = isoToDate(iso);
+  const { heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
+    const base = fromISODate(iso) ?? new Date();
     const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
-    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISO(addDays(s, i)) as ISODate);
+    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISODate(addDays(s, i)) as ISODate);
     return {
-      start: s,
-      end: e,
       heading: `${dmy.format(s)} — ${dmy.format(e)}`,
       rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
-      isoStart: toISO(s),
-      isoEnd: toISO(e),
+      isoStart: toISODate(s),
+      isoEnd: toISODate(e),
       days: list,
     };
   }, [iso]);
-
-  const prevWeek = () => setIso(toISO(addDays(start, -7)));
-  const nextWeek = () => setIso(toISO(addDays(start, 7)));
-  const jumpToday = () => setIso(today);
 
   const { per, weekDone, weekTotal } = useWeekStats(days);
 
@@ -156,6 +150,7 @@ export default function WeekPicker() {
     const el = document.getElementById(`day-${d}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      el.focus({ preventScroll: true });
       setShowTop(true);
     }
   };
@@ -167,52 +162,23 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top-right controls go in Hero2.right */
-  const right = (
-    <div className="flex items-center gap-2">
+  /* Top button goes in Hero.right when applicable */
+  const right =
+    showTop ? (
       <Button
-        variant="ghost"
+        variant="primary"
         size="sm"
-        aria-label="Previous week"
-        onClick={prevWeek}
+        aria-label="Jump to top"
+        onClick={jumpToTop}
+        title="Jump to top"
       >
-        <ChevronLeft className="size-4" />
-        <span>Prev</span>
+        <ArrowUpToLine className="size-4" />
+        <span>Top</span>
       </Button>
-      <Button
-        size="sm"
-        aria-label="Jump to today"
-        onClick={jumpToday}
-      >
-        Today
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        aria-label="Next week"
-        onClick={nextWeek}
-      >
-        <span>Next</span>
-        <ChevronRight className="size-4" />
-      </Button>
-
-      {showTop && (
-        <Button
-          variant="primary"
-          size="sm"
-          aria-label="Jump to top"
-          onClick={jumpToTop}
-          title="Jump to top"
-        >
-          <ArrowUpToLine className="size-4" />
-          <span>Top</span>
-        </Button>
-      )}
-    </div>
-  );
+    ) : undefined;
 
   return (
-    <Hero2
+    <Hero
       heading={
         <span className="hero2-title" data-text={heading}>
           {heading}
@@ -229,7 +195,7 @@ export default function WeekPicker() {
           <div className="flex items-center justify-between gap-3">
             <span
               className={cn(
-                "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm",
+                "inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm",
                 "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
               )}
               aria-label={`Week range ${rangeLabel}`}
@@ -247,7 +213,7 @@ export default function WeekPicker() {
           </div>
 
           {/* Day chips */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
             {days.map((d, i) => (
               <DayChip
                 key={d}

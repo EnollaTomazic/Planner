@@ -493,10 +493,13 @@ export default function ReviewEditor({
     onChangeTags?.(next);
   }
 
-  const canAddMarker = (useTimestamp ? parseTime(tTime) !== null : true) && tNote.trim().length > 0;
+  const parsedTime = parseTime(tTime);
+  const timeError = useTimestamp && parsedTime === null;
+  const canAddMarker = (useTimestamp ? parsedTime !== null : true) &&
+    tNote.trim().length > 0;
 
   function addMarker() {
-    const s = useTimestamp ? parseTime(tTime) : 0;
+    const s = useTimestamp ? parsedTime : 0;
     const safeS = s === null ? 0 : s;
     const m: Marker = {
       id: uid("mark"),
@@ -891,6 +894,8 @@ export default function ReviewEditor({
                 aria-label="Timestamp time in mm:ss"
                 inputMode="numeric"
                 pattern="^[0-9]?\d:[0-5]\d$"
+                aria-invalid={timeError ? "true" : undefined}
+                aria-describedby={timeError ? "tTime-error" : undefined}
                 style={{ width: "calc(5ch + 1.7rem)" }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && canAddMarker) {
@@ -939,6 +944,11 @@ export default function ReviewEditor({
               <Plus />
             </IconButton>
           </div>
+          {timeError && (
+            <p id="tTime-error" className="mt-1 text-xs text-danger">
+              Enter time as mm:ss
+            </p>
+          )}
 
           {sortedMarkers.length === 0 ? (
             <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
@@ -954,7 +964,7 @@ export default function ReviewEditor({
                       <FileText size={14} className="opacity-80" />
                     </span>
                   ) : (
-                    <span className="pill h-7 min-w-[60px] px-2.5 text-[11px] font-mono tabular-nums text-center">
+                    <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
                       {m.time}
                     </span>
                   )}
@@ -1020,7 +1030,7 @@ export default function ReviewEditor({
                 <button
                   key={t}
                   type="button"
-                  className="chip h-9 px-3.5 text-sm group inline-flex items-center gap-1"
+                  className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >

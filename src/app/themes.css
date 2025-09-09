@@ -17,11 +17,11 @@
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
-  --accent: 292 80% 60%;
-  --accent-2: 192 90% 50%;
+  --accent: 292 90% 35%;
+  --accent-2: 192 100% 25%;
   --accent-foreground: 0 0% 100%;
-  --accent-soft: 292 80% 20%;
-  --glow: 292 80% 60%;
+  --accent-soft: 292 90% 15%;
+  --glow: 292 90% 35%;
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
   --muted: 248 26% 14%;
@@ -201,9 +201,9 @@ html.theme-citrus {
   --primary: 24 95% 52%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 24 95% 22%;
-  --accent: 24 95% 52%;
-  --accent-2: 170 80% 45%;
-  --accent-soft: 24 95% 22%;
+  --accent: 24 96% 35%;
+  --accent-2: 170 80% 25%;
+  --accent-soft: 24 96% 15%;
   --muted: 214 18% 24%;
   --muted-foreground: 214 20% 72%;
   --shadow-color: 24 95% 40%;
@@ -227,9 +227,9 @@ html.theme-noir {
   --primary: 0 90% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 0 90% 24%;
-  --accent: 178 90% 60%;
-  --accent-2: 40 96% 58%;
-  --accent-soft: 178 90% 20%;
+  --accent: 178 91% 25%;
+  --accent-2: 40 96% 25%;
+  --accent-soft: 178 91% 10%;
   --muted: 350 35% 18%;
   --muted-foreground: 350 25% 65%;
   --shadow-color: 0 90% 50%;
@@ -253,9 +253,9 @@ html.theme-ocean {
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
-  --accent: 190 90% 55%;
-  --accent-2: 225 85% 60%;
-  --accent-soft: 190 80% 20%;
+  --accent: 199 100% 27%;
+  --accent-2: 225 85% 30%;
+  --accent-soft: 199 100% 12%;
   --muted: 220 24% 16%;
   --muted-foreground: 220 14% 72%;
   --shadow-color: 200 90% 55%;
@@ -279,9 +279,9 @@ html.theme-rose {
   --primary: 330 100% 52%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 330 100% 24%;
-  --accent: 330 100% 60%;
-  --accent-2: 330 100% 90%;
-  --accent-soft: 330 100% 24%;
+  --accent: 336 100% 27%;
+  --accent-2: 330 100% 40%;
+  --accent-soft: 336 100% 12%;
   --muted: 330 100% 20%;
   --muted-foreground: 330 20% 70%;
   --shadow-color: 330 100% 50%;
@@ -305,10 +305,10 @@ html.theme-hardstuck {
   --primary: 160 100% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 160 100% 24%;
-  --accent: 300 90% 60%;
-  --accent-2: 160 100% 60%;
+  --accent: 284 100% 24%;
+  --accent-2: 160 100% 20%;
   --accent-foreground: 0 0% 100%;
-  --accent-soft: 300 90% 20%;
+  --accent-soft: 284 100% 10%;
   --glow: 160 100% 60%;
   --ring-muted: 165 30% 20%;
   --danger: 0 84% 60%;
@@ -625,9 +625,9 @@ html.bg-intense body::after  { filter: blur(2px) saturate(120%); }
     hsl(262 83% 58% / 0)
   );
   /* mask to only show the ring, not fill the card */
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor;
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           mask-composite: exclude;
   opacity: .55;
   animation:

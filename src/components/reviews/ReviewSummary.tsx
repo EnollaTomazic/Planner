@@ -289,7 +289,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           {/* Left: Title */}
           <div className="min-w-0">
-            <div className="mb-0.5 text-xs text-[hsl(var(--foreground)/0.25)]">Title</div>
+            <div className="mb-1 text-xs text-[hsl(var(--foreground)/0.25)]">Title</div>
             <div className="truncate text-lg font-medium leading-7 text-[hsl(var(--foreground)/0.7)]">
               {laneTitle || "Untitled review"}
             </div>
@@ -300,7 +300,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
             {role ? (
               <span
                 className={cn(
-                  "inline-flex h-10 items-center gap-1.5 rounded-2xl border border-[hsl(var(--border))]",
+                  "inline-flex h-10 items-center gap-2 rounded-2xl border border-[hsl(var(--border))]",
                   "bg-[hsl(var(--card))] px-3 text-sm font-semibold"
                 )}
                 title={roleLabel}
@@ -374,7 +374,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
 
           {/* Focus */}
           {focusOn && (
-            <div className="mt-4 space-y-1.5">
+            <div className="mt-4 space-y-2">
               <div className="mb-2 flex items-center gap-2" aria-label="Focus">
                 <NeonIcon kind="brain" on={true} size={32} staticGlow />
                 <div className="h-px flex-1 bg-gradient-to-r from-[hsl(var(--foreground)/0.20)] via-[hsl(var(--foreground)/0.05)] to-transparent" />

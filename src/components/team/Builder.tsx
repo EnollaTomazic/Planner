@@ -156,7 +156,7 @@ export default function Builder() {
             </div>
           }
           actions={
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <IconButton
                 title="Swap Allies ↔ Enemies"
                 aria-label="Swap Allies and Enemies"
@@ -252,7 +252,7 @@ function SideEditor(props: {
         </span>
       </header>
 
-      <div className="grid gap-2.5">
+      <div className="grid gap-3">
         {LANES.map(({ key, label }) => (
           <div key={key} className="grid grid-cols-[88px_1fr] items-center gap-3">
             <label
@@ -270,7 +270,7 @@ function SideEditor(props: {
           </div>
         ))}
 
-        <div className="grid gap-2.5">
+        <div className="grid gap-3">
           <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>
@@ -286,7 +286,7 @@ function SideEditor(props: {
         </div>
 
         {/* side actions: icon-only, same behavior */}
-        <div className="mt-1 flex items-center gap-1.5 justify-end">
+        <div className="mt-1 flex items-center gap-2 justify-end">
           <IconButton
             title={`Clear ${title}`}
             aria-label={`Clear ${title}`}

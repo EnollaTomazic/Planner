@@ -19,7 +19,7 @@ export default function PromptsComposePanel({
 }: PromptsComposePanelProps) {
   const titleId = React.useId();
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3">
       <Input
         id={titleId}
         placeholder="Title"

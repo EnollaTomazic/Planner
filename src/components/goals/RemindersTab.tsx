@@ -2,9 +2,9 @@
 "use client";
 
 /**
- * RemindersTab — Hero2 header + borderless TabBar everywhere
- * - Domain tabs in Hero2.right (Life | League | Learn), neon divider tint matches domain
- * - Bottom search stays in Hero2.bottom
+ * RemindersTab — Hero header + borderless TabBar everywhere
+ * - Domain tabs in Hero.right (Life | League | Learn), neon divider tint matches domain
+ * - Bottom search stays in Hero.bottom
  * - Quick Add row now lives inside the SAME panel as the cards (top of SectionCard.Body)
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
@@ -21,7 +21,7 @@ import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Hero2, { Hero2SearchBar } from "@/components/ui/layout/Hero2";
+import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 import TabBar from "@/components/ui/layout/TabBar";
 import { uid, usePersistentState } from "@/lib/db";
 import {
@@ -231,8 +231,8 @@ export default function RemindersTab() {
 
   return (
     <div className="grid gap-4">
-      {/* Hero2 with domain TabBar and bottom search */}
-      <Hero2
+      {/* Hero with domain TabBar and bottom search */}
+      <Hero
         eyebrow="GOALS"
         heading="Reminders"
         subtitle="Tiny brain pings you’ll totally ignore until 23:59."
@@ -249,7 +249,7 @@ export default function RemindersTab() {
           />
         }
         bottom={
-          <Hero2SearchBar
+          <HeroSearchBar
             value={query}
             onValueChange={setQuery}
             placeholder="Search title, text, tags…"
@@ -266,7 +266,7 @@ export default function RemindersTab() {
 
       <SectionCard className="goal-card">
         <SectionCard.Body>
-          <div className="grid gap-2.5">
+          <div className="grid gap-3">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
               onSubmit={(e) => {
@@ -355,7 +355,7 @@ export default function RemindersTab() {
           </div>
         </SectionCard.Body>
 
-        {/* Local styles: keep neon-note flicker; divider is handled by Hero2 */}
+        {/* Local styles: keep neon-note flicker; divider is handled by Hero */}
         <style jsx>{`
           .neon-primary { --neon: var(--primary); }
           .neon-life { --neon: var(--accent); }
@@ -500,7 +500,7 @@ function RemTile({
       </div>
 
       {/* Body + meta */}
-      <div className="mt-2 space-y-2.5">
+      <div className="mt-2 space-y-3">
         {editing ? (
           <>
             <label className="text-xs opacity-70">Note</label>

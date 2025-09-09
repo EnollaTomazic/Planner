@@ -361,7 +361,7 @@ function ChampPillsEdit({
   }
 
   return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-1.5">
+    <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(list.length ? list : [""]).map((c, i) => (
         <span key={i} className="champ-badge text-xs">
           <i className="dot" />

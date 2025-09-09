@@ -10,11 +10,9 @@ This file provides instructions for all contributors.
 ## Scripts
 - Regenerate the UI component index with `npm run regen-ui` after adding, removing, or renaming UI components.
 - A future `npm run regen-feature` will update feature scaffolding; run it once available.
+- For long-running scripts, use the progress helpers in `src/utils/progress.ts` to display CLI progress bars.
 
 ## Testing
-- Before committing, run and fix:
-  - `npm test`
-  - `npm run lint`
-  - `npm run typecheck`
+- Run `npm run check` before committing; it runs `npm test`, `npm run lint`, and `npm run typecheck`.
 - Only commit when all checks pass.
 

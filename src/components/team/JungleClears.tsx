@@ -4,15 +4,15 @@ import "./style.css";
 
 /**
  * JungleClears
- * - Top filter area uses <Hero2> with pill search and count.
- * - Hint text sits inside the Hero2 body.
+ * - Top filter area uses <Hero> with pill search and count.
+ * - Hint text sits inside the Hero body.
  * - Bucket cards are SectionCard-based with big time on the right.
  * - Two cards per row on md+.
  * - Titles and timers now use glitch-title + glitch-flicker + title-glow.
  */
 
 import { useMemo, useState } from "react";
-import Hero2 from "@/components/ui/layout/Hero2";
+import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -125,8 +125,8 @@ export default function JungleClears() {
 
   return (
     <div data-scope="team" className="grid gap-4 sm:gap-6">
-      {/* Top: Hero2 header with pill search (round) */}
-      <Hero2
+      {/* Top: Hero header with pill search (round) */}
+      <Hero
         sticky={false}
         topClassName="top-0"
         rail
@@ -145,7 +145,7 @@ export default function JungleClears() {
           If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>. Path for fights,
           ganks, or cross-map trades.
         </p>
-      </Hero2>
+      </Hero>
 
       {/* Buckets */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -183,7 +183,7 @@ export default function JungleClears() {
               />
               <SectionCard.Body>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2 py-0.5 text-[10px] tracking-wide uppercase">
+                  <span className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-2 py-1 text-[10px] tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
                   <span className="text-sm text-[hsl(var(--muted-foreground))]">
@@ -272,7 +272,7 @@ export default function JungleClears() {
                           >
                             <td className="py-2 pr-3 font-medium">{r.champ}</td>
                             <td className="py-2 pr-3">
-                              <div className="flex flex-wrap gap-1.5">
+                              <div className="flex flex-wrap gap-2">
                                 {(r.type ?? []).map((t) => (
                                   <span key={t} className="pill pill-compact text-xs">
                                     {t}

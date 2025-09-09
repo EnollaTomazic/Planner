@@ -7,15 +7,15 @@
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
- * Uses Hero2 for the main header with built-in tabs.
- * The Cheat Sheet tab itself renders a nested Hero2 internally.
+ * Uses Hero for the main header with built-in tabs.
+ * The Cheat Sheet tab itself renders a nested Hero internally.
  */
 import "./style.css";
 
 import { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
+import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
-import Hero2 from "@/components/ui/layout/Hero2";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
@@ -49,13 +49,13 @@ export default function TeamCompPage() {
   return (
     <main className="page-shell py-6 space-y-6">
       <div className="space-y-2">
-        <Hero
+        <Header
           eyebrow="Comps"
           heading="Today"
           subtitle="Readable. Fast. On brand."
           icon={<Users2 className="opacity-80" />}
         />
-        <Hero2
+        <Hero
           eyebrow="Comps"
           heading="Today"
           subtitle="Readable. Fast. On brand."

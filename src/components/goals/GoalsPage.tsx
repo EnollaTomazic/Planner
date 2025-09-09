@@ -3,7 +3,7 @@
 
 /**
  * GoalsPage — Lavender-Glitch, hydration-safe, accessible.
- * - Uses <Hero /> with right-aligned <HeroTabs />
+ * - Uses <Header /> with right-aligned <HeaderTabs />
  * - Tabs: Goals / Reminders / Timer
  * - Grid layout (no Split dependency)
  * - Cap: 3 active goals; remaining indicator
@@ -13,8 +13,8 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon, Trash2 } from "lucide-react";
 
+import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
-import Hero2 from "@/components/ui/layout/Hero2";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
@@ -174,8 +174,8 @@ export default function GoalsPage() {
 
   return (
     <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
-      {/* ======= HERO ======= */}
-      <Hero
+      {/* ======= HEADER ======= */}
+      <Header
         eyebrow="Goals"
         heading={
           <>
@@ -202,10 +202,10 @@ export default function GoalsPage() {
         }
       />
 
-      <Hero2
-        eyebrow="Stats"
+      <Hero
+        eyebrow="Guide"
         heading="Overview"
-        subtitle={summary}
+        subtitle="Track up to 3 active goals, pin quick cues, and focus with the timer."
         sticky={false}
       />
 
@@ -258,7 +258,7 @@ export default function GoalsPage() {
                           >
                             <span
                               aria-hidden
-                              className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
+                              className="absolute inset-y-4 left-0 w-1 rounded-full bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--accent))] to-transparent opacity-60"
                             />
                             <header className="flex items-start justify-between gap-2">
                               <h3 className="font-semibold leading-tight pr-6 line-clamp-2">

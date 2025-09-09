@@ -22,7 +22,7 @@ type CCVars = React.CSSProperties & {
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
-  sm: "h-6 w-6 [&_svg]:h-3.5 [&_svg]:w-3.5",
+  sm: "h-6 w-6 [&_svg]:h-4 [&_svg]:w-4",
   md: "h-7 w-7 [&_svg]:h-4   [&_svg]:w-4",
   lg: "h-9 w-9 [&_svg]:h-5   [&_svg]:w-5",
 };
@@ -193,14 +193,14 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-[1.5px] pointer-events-none transition-opacity",
+              "absolute inset-0 rounded-full p-[2px] pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0"
             )}
             style={{
               background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
               backgroundSize: "200% 100%",
               WebkitMask:
-                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               animation:
@@ -313,7 +313,7 @@ export default function CheckCircle({
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
             )}
           >
-            <svg viewBox="0 0 18 18" className="h-3.5 w-3.5" aria-hidden>
+            <svg viewBox="0 0 18 18" className="h-4 w-4" aria-hidden>
               <path
                 d="M4 4l10 10M14 4L4 14"
                 stroke="currentColor"
@@ -376,7 +376,7 @@ export default function CheckCircle({
             hsl(320 85% 60% / .6),
             hsl(262 83% 58% / .0)
           );
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
           -webkit-mask-composite: xor; mask-composite: exclude;
           opacity: .5;
           animation: ccxHue 6s linear infinite, ccxJit 2s steps(6,end) infinite;

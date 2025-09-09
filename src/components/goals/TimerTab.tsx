@@ -159,7 +159,7 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-          className="btn-like-segmented btn-glitch w-8 text-center"
+        className="btn-like-segmented btn-glitch w-[5ch] text-center"
         type="text"
       />
     </div>

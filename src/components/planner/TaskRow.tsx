@@ -52,7 +52,7 @@ export default function TaskRow({
         )}
         onClick={onSelect}
       >
-        <div className="shrink-0 ml-0.5">
+        <div className="shrink-0 ml-1">
           <CheckCircle
             checked={task.done}
             onChange={() => !editing && onToggle()}

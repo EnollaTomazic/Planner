@@ -47,5 +47,6 @@ Learn more about the components and guidelines in the [Design System](docs/desig
 
 ## Contributing
 
+- Run `npm run check` before committing to run tests, lint, and typecheck.
 - Run `npm run format` before committing to ensure code style consistency.
 - When introducing new styles or components, add them to the prompts page (`src/app/prompts/page.tsx`) so they can be previewed.

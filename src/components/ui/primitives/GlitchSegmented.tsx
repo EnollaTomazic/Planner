@@ -68,7 +68,7 @@ export const GlitchSegmentedGroup = ({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex rounded-full bg-[var(--btn-bg)] p-0.5 gap-0.5",
+        "inline-flex rounded-full bg-[var(--btn-bg)] p-1 gap-1",
         className,
       )}
       onKeyDown={onKeyDown}

@@ -23,7 +23,7 @@
 :where(.reviews-scope, [data-scope="reviews"]) .review-tile::after{
   content:""; position:absolute; inset:2px; padding:1px; border-radius: calc(var(--radius-lg) - 1px);
   pointer-events:none; background: var(--edge-iris);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
   opacity:0; transition: opacity var(--dur-quick) var(--ease-out), filter var(--dur-quick) var(--ease-out);
 }
@@ -42,6 +42,14 @@
 :where(.reviews-scope, [data-scope="reviews"]) .review-tile--active::after{ opacity:.35; }
 :where(.reviews-scope, [data-scope="reviews"]) .review-tile:focus-visible{
   outline: none; box-shadow: inset 0 0 0 2px hsl(var(--ring)/.45);
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 }
 
 

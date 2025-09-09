@@ -11,28 +11,31 @@ export const buttonSizes = {
   sm: {
     height: "h-9",
     padding: "px-4",
-    text: "text-[14px]",
+    text: "text-sm",
     gap: "gap-2",
   },
   md: {
     height: "h-10",
     padding: "px-5",
-    text: "text-[16px]",
+    text: "text-base",
     gap: "gap-2",
   },
   lg: {
     height: "h-11",
     padding: "px-6",
-    text: "text-[18px]",
+    text: "text-lg",
     gap: "gap-2",
   },
 } as const;
 
 export type ButtonSize = keyof typeof buttonSizes;
 
+type Tone = "primary" | "accent" | "info" | "danger";
+
 export type ButtonProps = React.ComponentProps<typeof motion.button> & {
   size?: ButtonSize;
   variant?: "primary" | "secondary" | "ghost";
+  tone?: Tone;
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -41,6 +44,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       size = "md",
       variant = "secondary",
+      tone = "primary",
       children,
       type = "button",
       ...rest
@@ -54,9 +58,46 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       s.padding,
       s.text,
       s.gap,
-      "text-[hsl(var(--foreground))]",
       className
     );
+
+    const colorVar: Record<Tone, string> = {
+      primary: "--foreground",
+      accent: "--accent",
+      info: "--accent-2",
+      danger: "--danger",
+    };
+
+    const toneClasses: Record<
+      NonNullable<ButtonProps["variant"]>,
+      Record<Tone, string>
+    > = {
+      primary: {
+        primary: "text-[hsl(var(--foreground))]",
+        accent: "text-[hsl(var(--accent))]",
+        info: "text-[hsl(var(--accent-2))]",
+        danger: "text-[hsl(var(--danger))]",
+      },
+      secondary: {
+        primary: "text-[hsl(var(--foreground))]",
+        accent:
+          "text-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.15)] hover:bg-[hsl(var(--accent)/0.25)]",
+        info:
+          "text-[hsl(var(--accent-2))] bg-[hsl(var(--accent-2)/0.15)] hover:bg-[hsl(var(--accent-2)/0.25)]",
+        danger:
+          "text-[hsl(var(--danger))] bg-[hsl(var(--danger)/0.15)] hover:bg-[hsl(var(--danger)/0.25)]",
+      },
+      ghost: {
+        primary:
+          "text-[hsl(var(--foreground))] hover:bg-[hsl(var(--foreground)/0.1)]",
+        accent:
+          "text-[hsl(var(--accent))] hover:bg-[hsl(var(--accent)/0.1)]",
+        info:
+          "text-[hsl(var(--accent-2))] hover:bg-[hsl(var(--accent-2)/0.1)]",
+        danger:
+          "text-[hsl(var(--danger))] hover:bg-[hsl(var(--danger)/0.1)]",
+      },
+    };
 
     const variants: Record<
       NonNullable<ButtonProps["variant"]>,
@@ -69,29 +110,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     > = {
       primary: {
-        className: "bg-[hsl(var(--panel)/0.85)] overflow-hidden shadow-neo",
-        whileHover: {
-          scale: 1.03,
-          boxShadow:
-            `${neuRaised(16)},0 0 8px hsl(var(--accent)/.3)` as CSSProperties["boxShadow"],
-        },
+        className: "bg-panel/85 overflow-hidden shadow-neo",
         whileTap: {
           scale: 0.96,
           boxShadow: neuInset(10) as CSSProperties["boxShadow"],
         },
-        overlay: (
-          <span
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            style={{
-              background:
-                "linear-gradient(90deg, hsl(var(--accent)/.18), hsl(var(--accent-2)/.18))",
-            }}
-          />
-        ),
         contentClass: "relative z-10 inline-flex items-center gap-2",
       },
       secondary: {
-        className: "bg-[hsl(var(--panel)/0.8)] shadow-neo",
+        className: "bg-panel/80 shadow-neo",
         whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
         whileTap: {
           scale: 0.97,
@@ -99,7 +126,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
       },
       ghost: {
-        className: "bg-transparent hover:bg-[hsl(var(--panel)/0.45)]",
+        className: "bg-transparent",
         whileTap: { scale: 0.97 },
       },
     } as const;
@@ -111,12 +138,28 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <motion.button
         ref={ref}
         type={type}
-        className={cn(base, variantClass)}
-        whileHover={whileHover}
+        className={cn(base, variantClass, toneClasses[variant][tone])}
+        whileHover={
+          variant === "primary"
+            ? {
+                scale: 1.03,
+                boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
+              }
+            : whileHover
+        }
         whileTap={whileTap}
         {...rest}
       >
-        {overlay}
+        {variant === "primary" ? (
+          <span
+            className="absolute inset-0 pointer-events-none rounded-2xl"
+            style={{
+              background: `linear-gradient(90deg, hsl(var(${colorVar[tone]})/.18), hsl(var(${colorVar[tone]})/.18))`,
+            }}
+          />
+        ) : (
+          overlay
+        )}
         {contentClass ? (
           <span className={contentClass}>{children as React.ReactNode}</span>
         ) : (

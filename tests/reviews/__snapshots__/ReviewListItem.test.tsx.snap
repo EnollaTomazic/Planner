@@ -15,7 +15,7 @@ exports[`ReviewListItem > renders default state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"
@@ -26,7 +26,7 @@ exports[`ReviewListItem > renders default state 1`] = `
             Sample Review
           </div>
           <div
-            class="flex items-center gap-1 text-sm text-muted-foreground"
+            class="flex items-center gap-2 text-sm text-muted-foreground"
           >
             <span
               aria-label="Rating 9 out of 10"
@@ -34,11 +34,6 @@ exports[`ReviewListItem > renders default state 1`] = `
             >
               9
               /10
-            </span>
-            <span
-              class="inline-flex items-center font-medium border bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
-            >
-              W
             </span>
             <span
               class="line-clamp-1 truncate"
@@ -90,7 +85,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"
@@ -101,7 +96,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
             Sample Review
           </div>
           <div
-            class="flex items-center gap-1 text-sm text-muted-foreground"
+            class="flex items-center gap-2 text-sm text-muted-foreground"
           >
             <span
               aria-label="Rating 9 out of 10"
@@ -109,11 +104,6 @@ exports[`ReviewListItem > renders selected state 1`] = `
             >
               9
               /10
-            </span>
-            <span
-              class="inline-flex items-center font-medium border bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
-            >
-              W
             </span>
             <span
               class="line-clamp-1 truncate"
@@ -148,7 +138,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
       >
         <span
           aria-hidden="true"
-          class="self-center justify-self-center h-2 w-2 rounded-full bg-[hsl(var(--success))]"
+          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-[hsl(var(--success))]"
         />
         <div
           class="min-w-0 flex flex-col gap-1"
@@ -160,7 +150,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
             Untitled Review
           </div>
           <div
-            class="flex items-center gap-1 text-sm text-muted-foreground"
+            class="flex items-center gap-2 text-sm text-muted-foreground"
           >
             <span
               aria-label="Rating 9 out of 10"
@@ -168,11 +158,6 @@ exports[`ReviewListItem > renders untitled state 1`] = `
             >
               9
               /10
-            </span>
-            <span
-              class="inline-flex items-center font-medium border bg-[hsl(var(--muted)/0.25)] border-[hsl(var(--border)/0.2)] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 text-[10px] tracking-wide rounded-md"
-            >
-              W
             </span>
             <span
               class="line-clamp-1 truncate"
