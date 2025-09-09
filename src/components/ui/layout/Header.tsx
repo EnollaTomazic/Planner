@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -177,26 +178,23 @@ export function HeaderTabs<Key extends string = string>({
     >
       {tabs.map((t, i) => {
         const active = activeKey === t.key;
-        return (
-          <button
-            key={t.key}
-            ref={setBtnRef(i)}
-            role="tab"
-            aria-selected={active}
-            aria-controls={`${t.key}-panel`}
-            id={`${t.key}-tab`}
-            title={t.hint}
-            onClick={() => onChange(t.key)}
-            className={[
-              "btn-like-segmented",
-              active ? "is-active" : "",
-              " h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-[hsl(var(--ghost))]",
-            ].join(" ")}
-          >
-            {t.icon}
-            {t.label}
-          </button>
-        );
+          return (
+            <SegmentedButton
+              key={t.key}
+              ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
+              role="tab"
+              aria-selected={active}
+              aria-controls={`${t.key}-panel`}
+              id={`${t.key}-tab`}
+              title={t.hint}
+              onClick={() => onChange(t.key)}
+              className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-[hsl(var(--ghost))]"
+              isActive={active}
+            >
+              {t.icon}
+              {t.label}
+            </SegmentedButton>
+          );
       })}
     </nav>
   );

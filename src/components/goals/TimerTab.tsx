@@ -14,6 +14,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import Hero from "@/components/ui/layout/Hero";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import {
   Play, Pause, RotateCcw, Plus, Minus,
   BookOpen, Brush, Code2, User,
@@ -270,37 +271,35 @@ export default function TimerTab() {
 
         {/* Controls row */}
         <div className="mt-4 flex items-center justify-center gap-2">
-          {!running ? (
-            <button
-              className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2"
-              onClick={start}
-              type="button"
-              title="Start"
+            {!running ? (
+              <SegmentedButton
+                className="inline-flex items-center gap-2 px-4 py-2"
+                onClick={start}
+                title="Start"
+              >
+                <Play />
+                Start
+              </SegmentedButton>
+            ) : (
+              <SegmentedButton
+                className="inline-flex items-center gap-2 px-4 py-2"
+                onClick={pause}
+                title="Pause"
+                isActive
+              >
+                <Pause />
+                Pause
+              </SegmentedButton>
+            )}
+            <SegmentedButton
+              className="inline-flex items-center gap-2 px-4 py-2"
+              onClick={reset}
+              title="Reset"
             >
-              <Play />
-              Start
-            </button>
-          ) : (
-            <button
-              className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2 is-active"
-              onClick={pause}
-              type="button"
-              title="Pause"
-            >
-              <Pause />
-              Pause
-            </button>
-          )}
-          <button
-            className="btn-like-segmented inline-flex items-center gap-2 px-4 py-2"
-            onClick={reset}
-            type="button"
-            title="Reset"
-          >
-            <RotateCcw />
-            Reset
-          </button>
-        </div>
+              <RotateCcw />
+              Reset
+            </SegmentedButton>
+          </div>
 
         {/* Complete state */}
         {finished && (

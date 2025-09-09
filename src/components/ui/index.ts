@@ -38,6 +38,8 @@ export * from "./primitives/Input";
 export * from "./primitives/Neu";
 export { default as SearchBar } from "./primitives/SearchBar";
 export * from "./primitives/SearchBar";
+export { default as SegmentedButton } from "./primitives/SegmentedButton";
+export * from "./primitives/SegmentedButton";
 export { default as Textarea } from "./primitives/Textarea";
 export * from "./primitives/Textarea";
 export { default as AnimatedSelect } from "./selects/AnimatedSelect";

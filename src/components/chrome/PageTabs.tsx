@@ -4,6 +4,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 
 type TabItem = { id: string; label: React.ReactNode; href?: string };
 
@@ -18,7 +19,7 @@ export interface PageTabsProps {
 
 /**
  * PageTabs — secondary tab row for a page section.
- * - Uses .btn-like-segmented tokened style.
+ * - Uses SegmentedButton tokened style.
  * - No hover translate.
  */
 export default function PageTabs({
@@ -51,47 +52,53 @@ export default function PageTabs({
     >
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex gap-2 py-2">
-          {tabs.map((t) => {
-            const active = t.id === value;
-            const classNames = [
-              "btn-like-segmented rounded-xl px-4 py-2 font-mono text-sm border relative",
-              active ? "is-active btn-glitch" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
+            {tabs.map((t) => {
+              const active = t.id === value;
+              const className = [
+                "rounded-xl px-4 py-2 font-mono text-sm border relative",
+                active ? "btn-glitch" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
 
-            const inner = (
-              <>
-                {t.label}
-                {active && (
-                  <motion.span
-                    layoutId="glitch-tabs-underline"
-                    className="absolute left-2 right-2 -bottom-1 h-px"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)))",
-                    }}
-                    transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-                  />
-                )}
-              </>
-            );
+              const inner = (
+                <>
+                  {t.label}
+                  {active && (
+                    <motion.span
+                      layoutId="glitch-tabs-underline"
+                      className="absolute left-2 right-2 -bottom-1 h-px"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)))",
+                      }}
+                      transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
+                    />
+                  )}
+                </>
+              );
 
-            return t.href ? (
-              <Link key={t.id} href={t.href} className={classNames}>
-                {inner}
-              </Link>
-            ) : (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => onChange?.(t.id)}
-                className={classNames}
-              >
-                {inner}
-              </button>
-            );
-          })}
+              return t.href ? (
+                <SegmentedButton
+                  as={Link}
+                  key={t.id}
+                  href={t.href}
+                  className={className}
+                  isActive={active}
+                >
+                  {inner}
+                </SegmentedButton>
+              ) : (
+                <SegmentedButton
+                  key={t.id}
+                  onClick={() => onChange?.(t.id)}
+                  className={className}
+                  isActive={active}
+                >
+                  {inner}
+                </SegmentedButton>
+              );
+            })}
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 import TabBar from "@/components/ui/layout/TabBar";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import {
   Search,
@@ -301,18 +302,16 @@ export default function RemindersTab() {
                 size="md"
                 align="between"
                 right={
-                  <button
-                    className={["btn-like-segmented inline-flex items-center gap-1", showFilters && "is-active"]
-                      .filter(Boolean)
-                      .join(" ")}
-                  onClick={() => setShowFilters((v) => !v)}
-                  aria-expanded={showFilters}
-                  title="Filters"
-                  type="button"
-                >
+                  <SegmentedButton
+                    className="inline-flex items-center gap-1"
+                    onClick={() => setShowFilters((v) => !v)}
+                    aria-expanded={showFilters}
+                    title="Filters"
+                    isActive={showFilters}
+                  >
                     <SlidersHorizontal size={16} aria-hidden />
-                  Filters
-                </button>
+                    Filters
+                  </SegmentedButton>
               }
             />
           )}
@@ -327,16 +326,15 @@ export default function RemindersTab() {
                   ariaLabel="Reminder source filter"
                   size="sm"
                 />
-                <button
-                  type="button"
-                  onClick={() => setOnlyPinned((v) => !v)}
-                  aria-pressed={onlyPinned}
-                  className={["btn-like-segmented", onlyPinned && "is-active"].filter(Boolean).join(" ")}
-                  title="Pinned only"
-                >
-                  {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
-                  {onlyPinned ? "Pinned only" : "Any pin"}
-                </button>
+                  <SegmentedButton
+                    onClick={() => setOnlyPinned((v) => !v)}
+                    aria-pressed={onlyPinned}
+                    title="Pinned only"
+                    isActive={onlyPinned}
+                  >
+                    {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+                    {onlyPinned ? "Pinned only" : "Any pin"}
+                  </SegmentedButton>
               </div>
             )}
 
@@ -526,42 +524,39 @@ function RemTile({
             />
 
             <div className="segmented inline-flex">
-              {(["pregame", "laning", "trading", "tempo", "review", "quick"] as Group[]).map((g) => (
-                <button
-                  key={g}
-                  className={["btn-like-segmented", value.group === g && "is-active"].filter(Boolean).join(" ")}
-                  onClick={() => onChange({ group: g })}
-                  type="button"
-                >
-                  {g === "pregame" ? "Pre-Game" : cap(g)}
-                </button>
-              ))}
+                {(["pregame", "laning", "trading", "tempo", "review", "quick"] as Group[]).map((g) => (
+                  <SegmentedButton
+                    key={g}
+                    onClick={() => onChange({ group: g })}
+                    isActive={value.group === g}
+                  >
+                    {g === "pregame" ? "Pre-Game" : cap(g)}
+                  </SegmentedButton>
+                ))}
             </div>
 
             <div className="segmented inline-flex">
-              {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map((s) => (
-                <button
-                  key={s}
-                  className={["btn-like-segmented", value.source === s && "is-active"].filter(Boolean).join(" ")}
-                  onClick={() => onChange({ source: s })}
-                  type="button"
-                >
-                  {s}
-                </button>
-              ))}
+                {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map((s) => (
+                  <SegmentedButton
+                    key={s}
+                    onClick={() => onChange({ source: s })}
+                    isActive={value.source === s}
+                  >
+                    {s}
+                  </SegmentedButton>
+                ))}
             </div>
 
             <div className="segmented inline-flex">
-              {(["Life", "League", "Learn"] as Domain[]).map((d) => (
-                <button
-                  key={d}
-                  className={["btn-like-segmented", (value.domain ?? "League") === d && "is-active"].filter(Boolean).join(" ")}
-                  onClick={() => onChange({ domain: d })}
-                  type="button"
-                >
-                  {d}
-                </button>
-              ))}
+                {(["Life", "League", "Learn"] as Domain[]).map((d) => (
+                  <SegmentedButton
+                    key={d}
+                    onClick={() => onChange({ domain: d })}
+                    isActive={(value.domain ?? "League") === d}
+                  >
+                    {d}
+                  </SegmentedButton>
+                ))}
             </div>
 
             <div className="flex gap-2">
