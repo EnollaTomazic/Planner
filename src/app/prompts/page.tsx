@@ -1,18 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, Header, Hero, Button } from "@/components/ui";
+import { TabBar, Header, Hero, Button, type TabItem } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 
+type View = "components" | "colors";
+
 export default function Page() {
-  const viewTabs = [
+  const viewTabs: TabItem<View>[] = [
     { key: "components", label: "Components" },
     { key: "colors", label: "Colors" },
   ];
 
-  const [view, setView] = React.useState("components");
+  const [view, setView] = React.useState<View>("components");
 
   return (
     <main className="page-shell py-6">
@@ -70,7 +72,7 @@ export default function Page() {
           <TabBar
             items={viewTabs}
             value={view}
-            onValueChange={setView}
+            onValueChange={(k) => setView(k)}
             ariaLabel="Prompts gallery view"
           />
         </div>

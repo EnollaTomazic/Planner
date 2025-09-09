@@ -10,8 +10,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export type TabItem = {
-  key: string;
+export type TabItem<K extends string = string> = {
+  key: K;
   label: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
@@ -22,11 +22,11 @@ export type TabItem = {
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
 
-export type TabBarProps = {
-  items: TabItem[];
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (key: string) => void;
+export type TabBarProps<K extends string = string> = {
+  items: TabItem<K>[];
+  value?: K;
+  defaultValue?: K;
+  onValueChange?: (key: K) => void;
   size?: Size;
   align?: Align;
   className?: string;
@@ -41,7 +41,7 @@ const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   lg: { h: "h-11", px: "px-5", text: "text-base" },
 };
 
-export default function TabBar({
+export default function TabBar<K extends string = string>({
   items,
   value,
   defaultValue,
@@ -52,29 +52,31 @@ export default function TabBar({
   right,
   ariaLabel,
   showBaseline = false,
-}: TabBarProps) {
+}: TabBarProps<K>) {
   const isControlled = value !== undefined;
-  const [internal, setInternal] = React.useState<string>(() => {
+  const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
     if (defaultValue) return defaultValue;
-    return items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? "";
+    return (
+      items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? ""
+    ) as K;
   });
 
-  const activeKey = isControlled ? (value as string) : internal;
+  const activeKey = isControlled ? (value as K) : internal;
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const tabRefs = React.useRef(new Map<string, HTMLButtonElement | null>());
+  const tabRefs = React.useRef(new Map<K, HTMLButtonElement | null>());
   const indicatorRef = React.useRef<HTMLDivElement | null>(null);
 
   const setTabRef = React.useCallback(
-    (key: string) => (el: HTMLButtonElement | null) => {
+    (key: K) => (el: HTMLButtonElement | null) => {
       tabRefs.current.set(key, el);
     },
     [],
   );
 
   const commitValue = React.useCallback(
-    (next: string) => {
+    (next: K) => {
       if (!isControlled) setInternal(next);
       onValueChange?.(next);
     },
