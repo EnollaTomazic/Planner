@@ -27,26 +27,10 @@ import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
 
-function ShowcaseSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="mb-8">
-      <h2 className="mb-4 text-lg font-semibold tracking-tight">{title}</h2>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
-export default function Page() {
-  const viewTabs: TabItem<View>[] = [
-    { key: "components", label: "Components" },
-    { key: "colors", label: "Colors" },
-  ];
+const viewTabs: TabItem<View>[] = [
+  { key: "components", label: "Components" },
+  { key: "colors", label: "Colors" },
+];
 
 const FRUIT_ITEMS = [
   { value: "apple", label: "Apple" },
@@ -84,11 +68,8 @@ const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
-<<<<<<< HEAD
   <>Icons now use the <code>size-4</code> token instead of hardcoded 18px dimensions.</>,
   <>Accent secondary and success colors updated for improved contrast.</>,
-=======
->>>>>>> main
 ];
 
 const DEMO_SCORE = 7;
