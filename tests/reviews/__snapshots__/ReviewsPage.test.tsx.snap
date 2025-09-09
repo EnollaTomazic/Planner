@@ -768,115 +768,106 @@ exports[`ReviewsPage > renders default state 1`] = `
                 class="flex flex-col gap-3"
               >
                 <li>
-                  <div
+                  <button
+                    aria-label="Open review: Alpha"
+                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
+                    type="button"
                   >
-                    <button
-                      aria-label="Open review: Alpha"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
-                      type="button"
+                    <div
+                      class="grid grid-cols-[20px_1fr_auto] gap-3"
                     >
+                      <span
+                        aria-hidden="true"
+                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                      />
                       <div
-                        class="grid grid-cols-[20px_1fr_auto] gap-3"
+                        class="min-w-0 flex flex-col gap-1"
                       >
-                        <span
-                          aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
-                        />
                         <div
-                          class="min-w-0 flex flex-col gap-1"
+                          class="truncate font-medium text-base"
                         >
-                          <div
-                            class="truncate font-medium text-base"
-                          >
-                            Alpha
-                          </div>
-                          <div
-                            class="flex items-center gap-2 text-sm text-muted-foreground"
-                          />
+                          Alpha
                         </div>
-                        <span
-                          class="self-start text-xs text-muted-foreground whitespace-nowrap"
-                        >
-                          1/1/1970
-                        </span>
+                        <div
+                          class="flex items-center gap-2 text-sm text-muted-foreground"
+                        />
                       </div>
-                    </button>
-                  </div>
+                      <span
+                        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+                      >
+                        1/1/1970
+                      </span>
+                    </div>
+                  </button>
                 </li>
                 <li>
-                  <div
+                  <button
+                    aria-label="Open review: Gamma"
+                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
+                    type="button"
                   >
-                    <button
-                      aria-label="Open review: Gamma"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
-                      type="button"
+                    <div
+                      class="grid grid-cols-[20px_1fr_auto] gap-3"
                     >
+                      <span
+                        aria-hidden="true"
+                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                      />
                       <div
-                        class="grid grid-cols-[20px_1fr_auto] gap-3"
+                        class="min-w-0 flex flex-col gap-1"
                       >
-                        <span
-                          aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
-                        />
                         <div
-                          class="min-w-0 flex flex-col gap-1"
+                          class="truncate font-medium text-base"
                         >
-                          <div
-                            class="truncate font-medium text-base"
-                          >
-                            Gamma
-                          </div>
-                          <div
-                            class="flex items-center gap-2 text-sm text-muted-foreground"
-                          />
+                          Gamma
                         </div>
-                        <span
-                          class="self-start text-xs text-muted-foreground whitespace-nowrap"
-                        >
-                          1/1/1970
-                        </span>
+                        <div
+                          class="flex items-center gap-2 text-sm text-muted-foreground"
+                        />
                       </div>
-                    </button>
-                  </div>
+                      <span
+                        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+                      >
+                        1/1/1970
+                      </span>
+                    </div>
+                  </button>
                 </li>
                 <li>
-                  <div
+                  <button
+                    aria-label="Open review: Beta"
+                    class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
                     data-scope="reviews"
+                    type="button"
                   >
-                    <button
-                      aria-label="Open review: Beta"
-                      class="review-tile relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none"
-                      type="button"
+                    <div
+                      class="grid grid-cols-[20px_1fr_auto] gap-3"
                     >
+                      <span
+                        aria-hidden="true"
+                        class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
+                      />
                       <div
-                        class="grid grid-cols-[20px_1fr_auto] gap-3"
+                        class="min-w-0 flex flex-col gap-1"
                       >
-                        <span
-                          aria-hidden="true"
-                          class="self-center justify-self-center h-2 w-2 rounded-full animate-[blink_1s_steps(2)_infinite] bg-muted-foreground"
-                        />
                         <div
-                          class="min-w-0 flex flex-col gap-1"
+                          class="truncate font-medium text-base"
                         >
-                          <div
-                            class="truncate font-medium text-base"
-                          >
-                            Beta
-                          </div>
-                          <div
-                            class="flex items-center gap-2 text-sm text-muted-foreground"
-                          />
+                          Beta
                         </div>
-                        <span
-                          class="self-start text-xs text-muted-foreground whitespace-nowrap"
-                        >
-                          1/1/1970
-                        </span>
+                        <div
+                          class="flex items-center gap-2 text-sm text-muted-foreground"
+                        />
                       </div>
-                    </button>
-                  </div>
+                      <span
+                        class="self-start text-xs text-muted-foreground whitespace-nowrap"
+                      >
+                        1/1/1970
+                      </span>
+                    </div>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -884,37 +875,33 @@ exports[`ReviewsPage > renders default state 1`] = `
         </div>
       </nav>
       <div
-        class="md:col-span-8 lg:col-span-9 flex justify-center"
+        class="max-w-[880px] w-full rounded-xl p-5 bg-card/60 ring-1 ring-ring/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] md:col-span-8 lg:col-span-9 mx-auto flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
       >
-        <div
-          class="max-w-[880px] w-full rounded-xl p-5 bg-card/60 ring-1 ring-ring/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
+        <svg
+          class="lucide lucide-ghost h-6 w-6 opacity-60"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="lucide lucide-ghost h-6 w-6 opacity-60"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M9 10h.01"
-            />
-            <path
-              d="M15 10h.01"
-            />
-            <path
-              d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"
-            />
-          </svg>
-          <p>
-            Select a review from the list or create a new one.
-          </p>
-        </div>
+          <path
+            d="M9 10h.01"
+          />
+          <path
+            d="M15 10h.01"
+          />
+          <path
+            d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"
+          />
+        </svg>
+        <p>
+          Select a review from the list or create a new one.
+        </p>
       </div>
     </div>
   </main>
