@@ -68,6 +68,9 @@ const UPDATES: React.ReactNode[] = [
   <>
     Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
   </>,
+  <>
+    Textareas use <code>min-h-44</code> to align with spacing tokens instead of hardcoded heights.
+  </>,
 ];
 
 const DEMO_SCORE = 7;

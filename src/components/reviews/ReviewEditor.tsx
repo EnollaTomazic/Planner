@@ -889,7 +889,7 @@ export default function ReviewEditor({
             placeholder="Key moments, mistakes to fix, drills to run…"
             className="rounded-2xl"
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-44 leading-relaxed"
           />
         </div>
       </div>

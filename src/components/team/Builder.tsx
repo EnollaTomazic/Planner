@@ -277,7 +277,7 @@ function SideEditor(props: {
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-44 leading-relaxed"
             rows={4}
           />
         </div>
