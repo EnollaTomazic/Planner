@@ -27,7 +27,7 @@ import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
 
-import { usePersistentState, uid } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
 import { shortDate } from "@/lib/date";
 
@@ -123,7 +123,7 @@ export default function GoalsPage() {
       return setErr("Cap reached. Mark something done first.");
 
     const g: Goal = {
-      id: uid("goal"),
+      id: crypto.randomUUID(),
       title: title.trim(),
       ...(pillar ? { pillar } : {}),
       metric: metric.trim() || undefined,
