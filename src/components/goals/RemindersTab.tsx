@@ -594,7 +594,7 @@ function RemTile({
               </div>
 
               <button
-                className="text-xs underline underline-offset-2 text-[hsl(var(--primary))] hover:brightness-75"
+                className="text-xs underline underline-offset-2 text-primary hover:brightness-75"
                 onClick={() => onChange({ pinned: !pinned })}
                 title={pinned ? "Unpin" : "Pin"}
                 type="button"

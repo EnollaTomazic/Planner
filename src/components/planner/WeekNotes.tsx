@@ -56,7 +56,7 @@ export default function WeekNotes({ iso }: Props) {
           textareaClassName="min-h-[180px] leading-relaxed"
           onBlur={commit}
         />
-        <div className="mt-2 text-xs text-[hsl(var(--muted-foreground))]" aria-live="polite">
+        <div className="mt-2 text-xs text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty

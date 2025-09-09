@@ -71,8 +71,8 @@ export default function DayCardHeader({
         </div>
       </div>
 
-      <div className="shrink-0 flex items-baseline gap-3 text-xs text-[hsl(var(--muted-foreground))]">
-        <span className="tabular-nums font-medium text-[hsl(var(--foreground))]">
+      <div className="shrink-0 flex items-baseline gap-3 text-xs text-muted-foreground">
+        <span className="tabular-nums font-medium text-foreground">
           {pctNum}%
         </span>
         <span className="hidden sm:inline">·</span>

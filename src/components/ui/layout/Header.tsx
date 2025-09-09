@@ -52,7 +52,7 @@ export default function Header({
         "z-[999] relative isolate",
 
         // Card look: no border, soft glow
-        "rounded-2xl bg-[hsl(var(--card))]/70 backdrop-blur-md",
+        "rounded-2xl bg-card/70 backdrop-blur-md",
         "shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)]",
 
         // Safety: never let children bleed outside
@@ -83,16 +83,16 @@ export default function Header({
           {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="mb-1 truncate text-[0.6875rem] uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+              <div className="mb-1 truncate text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
             <div className="flex min-w-0 items-baseline gap-2">
-              <h1 className="truncate text-base leading-tight text-[hsl(var(--foreground))] sm:text-lg title-glow">
+              <h1 className="truncate text-base leading-tight text-foreground sm:text-lg title-glow">
                 {heading}
               </h1>
               {subtitle ? (
-                <span className="hidden truncate text-xs text-[hsl(var(--muted-foreground))] sm:inline">
+                <span className="hidden truncate text-xs text-muted-foreground sm:inline">
                   {subtitle}
                 </span>
               ) : null}
@@ -187,7 +187,7 @@ export function HeaderTabs<Key extends string = string>({
               id={`${t.key}-tab`}
               title={t.hint}
               onClick={() => onChange(t.key)}
-              className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-[hsl(var(--ghost))]"
+              className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
               isActive={active}
             >
               {t.icon}

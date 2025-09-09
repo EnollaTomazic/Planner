@@ -71,7 +71,7 @@ export default function HomePage() {
             {activeGoals.map(g => (
               <li key={g.id}>
                 <p className="text-sm">{g.title}</p>
-                <div className="mt-1 h-2 w-full rounded-full bg-[hsl(var(--card-hairline))]">
+                <div className="mt-1 h-2 w-full rounded-full bg-card-hairline">
                   <div className="h-2 rounded-full" style={{ background: "var(--neon)", width: "0%" }} />
                 </div>
               </li>
@@ -112,13 +112,13 @@ export default function HomePage() {
 
         <DashboardCard title="Team quick actions">
           <div className="grid grid-cols-3 gap-2 text-sm">
-            <Link href="/team" className="rounded-md border border-[hsl(var(--card-hairline))] p-2 text-center hover:text-accent">
+            <Link href="/team" className="rounded-md border border-card-hairline p-2 text-center hover:text-accent">
               Archetypes
             </Link>
-            <Link href="/team" className="rounded-md border border-[hsl(var(--card-hairline))] p-2 text-center hover:text-accent">
+            <Link href="/team" className="rounded-md border border-card-hairline p-2 text-center hover:text-accent">
               Team Builder
             </Link>
-            <Link href="/team" className="rounded-md border border-[hsl(var(--card-hairline))] p-2 text-center hover:text-accent">
+            <Link href="/team" className="rounded-md border border-card-hairline p-2 text-center hover:text-accent">
               Jungle Clears
             </Link>
           </div>

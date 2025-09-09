@@ -178,7 +178,7 @@ export default function CheckCircle({
           onPointerDown={retriggerIgnite}
           className={cn(
             "relative inline-grid place-items-center rounded-full transition",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "disabled:opacity-50 disabled:pointer-events-none",
             "h-full w-full"
           )}
@@ -187,7 +187,7 @@ export default function CheckCircle({
           {/* Base */}
           <span
             aria-hidden
-            className="absolute inset-0 rounded-full ring-1 ring-[hsl(var(--border))] bg-[hsl(var(--card)/.35)]"
+            className="absolute inset-0 rounded-full ring-1 ring-border bg-card/35"
           />
 
           {/* Neon rim */}
@@ -300,9 +300,9 @@ export default function CheckCircle({
             }}
             className={cn(
               "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
-              "border border-[hsl(var(--card-hairline))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))]",
+              "border border-card-hairline bg-card text-foreground",
               "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             )}
           >
             <X aria-hidden className="h-4 w-4" />

@@ -192,7 +192,7 @@ export default function Builder() {
             <div className="hidden md:block relative">
               <span
                 aria-hidden
-                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-[hsl(var(--border))]"
+                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
               />
             </div>
 
@@ -253,7 +253,7 @@ function SideEditor(props: {
         {LANES.map(({ key, label }) => (
           <div key={key} className="grid grid-cols-[88px_1fr] items-center gap-3">
             <label
-              className="glitch-title glitch-flicker text-xs font-medium text-[hsl(var(--muted-foreground))]"
+              className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground"
               data-text={label}
             >
               {label}
@@ -268,7 +268,7 @@ function SideEditor(props: {
         ))}
 
         <div className="grid gap-3">
-          <label className="text-xs text-[hsl(var(--muted-foreground))] inline-flex items-center gap-2">
+          <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>
           <Textarea

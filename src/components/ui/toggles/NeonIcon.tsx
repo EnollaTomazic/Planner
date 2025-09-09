@@ -68,7 +68,7 @@ export function NeonIcon({
     <span
       className={cn(
         "ni-root relative inline-grid place-items-center overflow-visible rounded-full border",
-        "border-[hsl(var(--border))] bg-[hsl(var(--card)/.35)]",
+        "border-border bg-card/35",
         className
       )}
       style={styleVars}

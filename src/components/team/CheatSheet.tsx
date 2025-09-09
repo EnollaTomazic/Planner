@@ -169,7 +169,7 @@ function Label({ children }: { children: React.ReactNode }) {
   const text = typeof children === "string" ? children : String(children ?? "");
   return (
     <div
-      className="glitch-anim glitch-label text-xs font-semibold tracking-wide uppercase text-[hsl(var(--muted-foreground))]"
+      className="glitch-anim glitch-label text-xs font-semibold tracking-wide uppercase text-muted-foreground"
       data-text={text}
     >
       {text}
@@ -212,7 +212,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
-      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] text-lg sm:text-xl font-semibold glitch-title title-glow"
+      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-lg sm:text-xl font-semibold glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -226,7 +226,7 @@ function ParagraphEdit({
 }: { value: string; onChange: (v: string) => void; editing: boolean }) {
   if (!editing)
     return (
-      <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">{value}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{value}</p>
     );
   return (
     <Textarea
@@ -236,7 +236,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[180px] text-sm text-[hsl(var(--muted-foreground))] leading-relaxed"
+      textareaClassName="min-h-[180px] text-sm text-muted-foreground leading-relaxed"
       aria-label="Description"
     />
   );
@@ -382,7 +382,7 @@ function ChampPillsEdit({
             }}
             aria-label="Champion name"
             autoComplete="off"
-            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
+            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
           />
         </span>
       ))}
@@ -532,7 +532,7 @@ export default function CheatSheet({
                     return (
                       <div key={role} className="grid grid-cols-[88px_1fr] items-start gap-x-3">
                         <div
-                          className="glitch-title glitch-flicker text-xs font-medium text-[hsl(var(--muted-foreground))] pt-1"
+                          className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
                           data-text={role}
                         >
                           {role}

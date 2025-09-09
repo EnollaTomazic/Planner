@@ -150,8 +150,8 @@ export default function TodayHero({ iso }: Props) {
                   key={p.id}
                   className={cn(
                     "group flex select-none items-center justify-between rounded-2xl border px-3 py-2 text-sm transition",
-                    "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]",
-                    isSelected && "ring-1 ring-[hsl(var(--ring))]"
+                    "border-border bg-card/55 hover:bg-card/70",
+                    isSelected && "ring-1 ring-ring"
                   )}
                   onClick={() => !isEditing && setSelProjectId(p.id)}
                   title={isEditing ? "Editing…" : isSelected ? "Selected" : "Click to select"}
@@ -195,7 +195,7 @@ export default function TodayHero({ iso }: Props) {
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
-        <div className="mt-4 text-sm text-[hsl(var(--muted-foreground))]">Select a project to add and view tasks.</div>
+        <div className="mt-4 text-sm text-muted-foreground">Select a project to add and view tasks.</div>
       ) : (
         <div className="mt-4 space-y-4">
           <form
@@ -227,7 +227,7 @@ export default function TodayHero({ iso }: Props) {
                     key={t.id}
                     className={cn(
                       "task-tile flex items-center justify-between rounded-2xl border px-3 py-2",
-                      "border-[hsl(var(--border))] bg-[hsl(var(--card)/0.55)] hover:bg-[hsl(var(--card)/0.7)]"
+                      "border-border bg-card/55 hover:bg-card/70"
                     )}
                     role="listitem"
                     onClick={() => setSelTaskId(t.id)}

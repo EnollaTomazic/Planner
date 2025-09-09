@@ -43,8 +43,8 @@ export default function Toggle({
       onKeyDown={onKeyDown}
       className={cn(
         "relative inline-flex w-[16rem] h-10 items-center rounded-full border",
-        "border-[hsl(var(--border))] bg-[hsl(var(--card))] overflow-hidden",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+        "border-border bg-card overflow-hidden",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
       data-side={value}
@@ -65,7 +65,7 @@ export default function Toggle({
       <span
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
-          !isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+          !isRight ? "text-foreground/70" : "text-muted-foreground"
         )}
         style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
       >
@@ -74,7 +74,7 @@ export default function Toggle({
       <span
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
-          isRight ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+          isRight ? "text-foreground/70" : "text-muted-foreground"
         )}
         style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
       >

@@ -39,7 +39,7 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
                 "hover:-translate-y-px",
                 "border-none outline-none focus:outline-none focus-visible:outline-none",
                 active
-                  ? "font-semibold text-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.1)]"
+                  ? "font-semibold text-accent bg-accent/10"
                   : undefined,
               )}
             >

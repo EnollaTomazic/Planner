@@ -66,7 +66,7 @@ export default function PromptsDemos() {
             <button
               type="button"
               aria-label="Confirm"
-              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-[hsl(var(--accent)/0.45)] bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent))] shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-accent/45 bg-accent/12 text-accent shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
             >
               <CheckIcon className="size-4" />
             </button>
@@ -256,7 +256,7 @@ export default function PromptsDemos() {
         <div className="flex gap-2">
           <button
             type="button"
-            className="px-3 py-1 rounded bg-[hsl(var(--accent)/0.2)] transition-opacity duration-420 hover:opacity-60"
+            className="px-3 py-1 rounded bg-accent/20 transition-opacity duration-420 hover:opacity-60"
           >
             Slow fade
           </button>

@@ -1053,24 +1053,24 @@ textarea:-webkit-autofill {
 
 /* Hairline border that respects theme tokens */
 .card-hairline {
-  @apply border border-[hsl(var(--card-hairline))];
+  @apply border border-card-hairline;
 }
 
 /* Compact pill */
 .pill-compact {
   @apply inline-flex items-center rounded-full
-         border border-[hsl(var(--card-hairline))]
-         bg-[hsl(var(--muted))/0.18]
+        border border-card-hairline
+        bg-muted/18
         px-2 py-1 text-xs leading-tight tracking-[-0.01em];
 }
 .pill-compact:hover {
-  @apply bg-[hsl(var(--muted))/0.28];
+  @apply bg-muted/28;
 }
 .pill-compact--primary {
-  @apply border-[hsl(var(--ring))]   bg-[hsl(var(--primary-soft))/0.25];
+  @apply border-ring bg-primary-soft/25;
 }
 .pill-compact--accent {
-  @apply border-[hsl(var(--ring))]   bg-[hsl(var(--accent-soft))/0.25];
+  @apply border-ring bg-accent-soft/25;
 }
 
 /* Card padding rhythm */
@@ -1910,7 +1910,7 @@ a:active .lucide {
 
 @layer components {
   .goal-card {
-    @apply relative overflow-hidden rounded-xl border border-[hsl(var(--border))];
+    @apply relative overflow-hidden rounded-xl border border-border;
     background: linear-gradient(
       135deg,
       hsl(var(--surface-2)),

@@ -15,7 +15,7 @@ export default function Spinner({
       role="status"
       aria-label="Loading"
       className={cn(
-        "inline-block animate-spin rounded-full border-2 border-[hsl(var(--accent))] border-t-transparent",
+        "inline-block animate-spin rounded-full border-2 border-accent border-t-transparent",
         className
       )}
       style={{ width: size, height: size }}

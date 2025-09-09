@@ -64,9 +64,9 @@ export default function DayCard({ iso, isToday }: Props) {
         "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
         "grid gap-4 lg:gap-6",
         "grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1px_1fr]",
-        isToday && "ring-1 ring-[hsl(var(--ring)/0.65)] title-glow",
+        isToday && "ring-1 ring-ring/65 title-glow",
         "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r",
-        "before:from-transparent before:via-[hsl(var(--ring)/.45)] before:to-transparent",
+        "before:from-transparent before:via-ring/45 before:to-transparent",
         "after:pointer-events-none after:absolute after:-inset-px after:rounded-2xl after:bg-[radial-gradient(60%_40%_at_100%_0%,hsl(var(--ring)/.12),transparent_60%)]",
       )}
       aria-label={`Planner for ${iso}`}
@@ -105,7 +105,7 @@ export default function DayCard({ iso, isToday }: Props) {
       />
 
       <div
-        className="hidden lg:block w-px bg-[hsl(var(--card-hairline)/0.9)]/90 rounded-full self-stretch"
+        className="hidden lg:block w-px bg-card-hairline/90 rounded-full self-stretch"
         aria-hidden
       />
 

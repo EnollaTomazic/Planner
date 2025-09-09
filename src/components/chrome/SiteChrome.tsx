@@ -27,7 +27,7 @@ export default function SiteChrome() {
             }}
             aria-hidden
           />
-          <span className="font-mono tracking-wide text-[hsl(var(--muted-foreground))]">
+          <span className="font-mono tracking-wide text-muted-foreground">
             noxi
           </span>
         </Link>

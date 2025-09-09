@@ -253,7 +253,7 @@ export default function AnimatedSelect({
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
     "glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
-    "bg-[hsl(var(--muted)/.12)] hover:bg-[hsl(var(--muted)/.18)]",
+    "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
     "transition",
     buttonClassName,
@@ -269,7 +269,7 @@ export default function AnimatedSelect({
           className={
             hideLabel
               ? "sr-only"
-              : "mb-1 text-xs text-[hsl(var(--muted-foreground))]"
+              : "mb-1 text-xs text-muted-foreground"
           }
         >
           {label}
@@ -301,9 +301,9 @@ export default function AnimatedSelect({
             className={[
               "font-medium glitch-text",
               lit
-                ? "text-[hsl(var(--foreground))]"
-                : "text-[hsl(var(--muted-foreground))]",
-              "group-hover:text-[hsl(var(--foreground))]",
+                ? "text-foreground"
+                : "text-muted-foreground",
+              "group-hover:text-foreground",
             ].join(" ")}
           >
             {current ? (
@@ -361,11 +361,11 @@ export default function AnimatedSelect({
                 onKeyDown={onListKeyDown}
                 className={[
                   "relative pointer-events-auto rounded-2xl overflow-hidden",
-                  "bg-[hsl(var(--card))]/92 backdrop-blur-xl",
-                  "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-[hsl(var(--ring)/.18)]",
+                  "bg-card/92 backdrop-blur-xl",
+                  "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
                   "p-2",
                   "max-h-[60vh] min-w-[220px] overflow-y-auto scrollbar-thin",
-                  "scrollbar-thumb-[hsl(var(--foreground)/.12)] scrollbar-track-transparent",
+                  "scrollbar-thumb-foreground/12 scrollbar-track-transparent",
                   dropdownClassName,
                 ].join(" ")}
                 data-open="true"
@@ -395,8 +395,8 @@ export default function AnimatedSelect({
                             ? "opacity-50 cursor-not-allowed"
                             : "cursor-pointer",
                           active
-                            ? "bg-[hsl(var(--primary)/.14)] text-[hsl(var(--primary-foreground))]"
-                            : "hover:bg-[hsl(var(--foreground)/0.05)]",
+                            ? "bg-primary/14 text-primary-foreground"
+                            : "hover:bg-foreground/5",
                           "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
                           it.className ?? "",
                         ].join(" ")}
@@ -421,7 +421,7 @@ export default function AnimatedSelect({
                           aria-hidden
                           className={[
                             "pointer-events-none absolute left-0 top-1/2 h-[70%] w-[2px] -translate-y-1/2 rounded",
-                            active ? "bg-[hsl(var(--ring))]" : "bg-transparent",
+                            active ? "bg-ring" : "bg-transparent",
                           ].join(" ")}
                         />
                       </button>

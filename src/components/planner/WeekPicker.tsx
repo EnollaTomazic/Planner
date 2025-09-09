@@ -80,12 +80,12 @@ function DayChip({
       className={cn(
         "chip relative flex-none min-w-[min(160px,40%)] rounded-2xl border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
-        "border-[hsl(var(--card-hairline))] bg-[hsl(var(--card)/0.75)]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+        "border-card-hairline bg-card/75",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         today && "chip--today",
         selected
-          ? "border-dashed border-[hsl(var(--primary)/.75)]"
-          : "hover:border-[hsl(var(--primary)/.4)]"
+          ? "border-dashed border-primary/75"
+          : "hover:border-primary/40"
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
@@ -93,15 +93,15 @@ function DayChip({
       <div
         className={cn(
           "chip__date",
-          today ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--muted-foreground))]"
+          today ? "text-accent" : "text-muted-foreground"
         )}
         data-text={iso}
       >
         {iso}
       </div>
       <div className="chip__counts">
-        <span className="tabular-nums text-[hsl(var(--foreground))]">{done}</span>
-        <span className="text-[hsl(var(--muted-foreground))]"> / {total}</span>
+        <span className="tabular-nums text-foreground">{done}</span>
+        <span className="text-muted-foreground"> / {total}</span>
       </div>
       {/* decorative layers */}
       <span aria-hidden className="chip__scan" />
@@ -196,7 +196,7 @@ export default function WeekPicker() {
             <span
               className={cn(
                 "inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm",
-                "bg-[hsl(var(--card)/0.72)] ring-1 ring-[hsl(var(--border)/0.55)] backdrop-blur"
+                "bg-card/72 ring-1 ring-border/55 backdrop-blur"
               )}
               aria-label={`Week range ${rangeLabel}`}
             >
@@ -204,9 +204,9 @@ export default function WeekPicker() {
               <span className="opacity-90">{rangeLabel}</span>
             </span>
 
-            <span className="text-sm text-[hsl(var(--muted-foreground))]">
+            <span className="text-sm text-muted-foreground">
               <span className="opacity-70">Total tasks: </span>
-              <span className="font-medium tabular-nums text-[hsl(var(--foreground))]">
+              <span className="font-medium tabular-nums text-foreground">
                 {weekDone} / {weekTotal}
               </span>
             </span>

@@ -5,12 +5,12 @@ exports[`Select > renders default state 1`] = `
   class="space-y-1"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
     style="--theme-ring: hsl(var(--ring));"
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r0:"
       name="test"
     >
@@ -26,7 +26,7 @@ exports[`Select > renders default state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -50,12 +50,12 @@ exports[`Select > renders disabled state 1`] = `
   class="space-y-1"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-[--theme-ring] focus-within:ring-offset-0 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] opacity-60 pointer-events-none group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] cursor-not-allowed focus-within:ring-0 focus-within:shadow-none"
+    class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 focus-within:outline-none focus-within:ring-[--theme-ring] focus-within:ring-offset-0 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] opacity-60 pointer-events-none group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] cursor-not-allowed focus-within:ring-0 focus-within:shadow-none"
     style="--theme-ring: hsl(var(--ring));"
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       disabled=""
       id=":r4:"
       name="test"
@@ -67,7 +67,7 @@ exports[`Select > renders disabled state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -91,14 +91,14 @@ exports[`Select > renders error state 1`] = `
   class="space-y-1"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-xl border bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] border-[hsl(var(--danger)/0.6)] focus-within:ring-[hsl(var(--danger)/0.35)] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="relative inline-flex w-full items-center rounded-xl border bg-card/60 backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] border-danger/60 focus-within:ring-danger/35 group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
     style="--theme-ring: hsl(var(--ring));"
   >
     <select
       aria-describedby=":r2:-error"
       aria-invalid="true"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r2:"
       name="test"
     >
@@ -109,7 +109,7 @@ exports[`Select > renders error state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -139,12 +139,12 @@ exports[`Select > renders focus state 1`] = `
   class="space-y-1"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-xl border border-[hsl(var(--border)/0.28)] bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
     style="--theme-ring: hsl(var(--ring));"
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r1:"
       name="test"
     >
@@ -160,7 +160,7 @@ exports[`Select > renders focus state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -184,13 +184,13 @@ exports[`Select > renders success state 1`] = `
   class="space-y-1"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-xl border bg-[hsl(var(--card)/0.6)] backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[hsl(var(--border)/0.38)] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] border-[--theme-ring] focus-within:ring-[--theme-ring]"
+    class="relative inline-flex w-full items-center rounded-xl border bg-card/60 backdrop-blur-[2px] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] border-[--theme-ring] focus-within:ring-[--theme-ring]"
     style="--theme-ring: hsl(var(--ring));"
   >
     <select
       aria-describedby=":r3:-success"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))/0.8] caret-[hsl(var(--accent))] appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r3:"
       name="test"
     >
@@ -201,7 +201,7 @@ exports[`Select > renders success state 1`] = `
       </option>
     </select>
     <svg
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-[hsl(var(--muted-foreground))] group-focus-within:text-[hsl(var(--accent))]"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent"
       fill="none"
       height="24"
       stroke="currentColor"

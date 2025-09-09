@@ -32,14 +32,14 @@ const sizeMap: Record<Size, string> = {
 };
 
 const toneBorder: Record<Tone, string> = {
-  neutral: "border-[hsl(var(--card-hairline))]",
-  primary: "border-[hsl(var(--ring))]",
+  neutral: "border-card-hairline",
+  primary: "border-ring",
   accent: "border-[var(--accent-overlay)]",
-  top: "border-[hsl(var(--tone-top))]",
-  jungle: "border-[hsl(var(--tone-jg))]",
-  mid: "border-[hsl(var(--tone-mid))]",
-  adc: "border-[hsl(var(--tone-adc))]",
-  support: "border-[hsl(var(--tone-sup))]",
+  top: "border-tone-top",
+  jungle: "border-tone-jg",
+  mid: "border-tone-mid",
+  adc: "border-tone-adc",
+  support: "border-tone-sup",
 };
 
 export default function Badge<T extends React.ElementType = "span">({

@@ -44,15 +44,15 @@ export default function AnimationToggle() {
         onClick={toggle}
         className={cn(
           "inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0",
-          "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
+          "border border-border bg-card",
           "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)]",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         )}
       >
         {enabled ? <Zap className="h-4 w-4" /> : <ZapOff className="h-4 w-4" />}
       </button>
       {showNotice && (
-        <span className="text-xs text-[hsl(var(--muted-foreground))]">
+        <span className="text-xs text-muted-foreground">
           Animations disabled per OS preference
         </span>
       )}

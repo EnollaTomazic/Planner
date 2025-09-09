@@ -11,13 +11,13 @@ describe('Badge', () => {
   it('renders neutral variant by default', () => {
     const { getByText } = render(<Badge>Neutral</Badge>);
     const badge = getByText('Neutral');
-    expect(badge).toHaveClass('bg-[hsl(var(--muted)/0.25)]');
+    expect(badge).toHaveClass('bg-muted/25');
   });
 
   it('applies accent variant styles', () => {
     const { getByText } = render(<Badge variant="accent">Accent</Badge>);
     const badge = getByText('Accent');
-    expect(badge).toHaveClass('text-[hsl(var(--accent))]');
+    expect(badge).toHaveClass('text-accent');
   });
 
   it('applies pill variant styles', () => {

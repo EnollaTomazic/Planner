@@ -34,11 +34,11 @@ export default function DurationSelector({
             className={cn(
               "inline-flex items-center justify-center h-9 px-3 rounded-full text-center text-sm",
               "border transition-colors",
-              "border-[hsl(var(--border)/0.1)] bg-[hsl(var(--foreground)/0.05)] text-[hsl(var(--foreground)/0.7)]",
-              "hover:bg-[hsl(var(--foreground)/0.10)] hover:text-[hsl(var(--foreground)/0.70)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+              "border-border/10 bg-foreground/5 text-foreground/70",
+              "hover:bg-foreground/10 hover:text-foreground/70",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               active &&
-                "border-[hsl(var(--accent))] bg-[hsl(var(--accent)/0.2)] text-[hsl(var(--foreground)/0.70)] font-semibold"
+                "border-accent bg-accent/20 text-foreground/70 font-semibold"
             )}
           >
             {m}m
