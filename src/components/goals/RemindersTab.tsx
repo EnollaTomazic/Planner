@@ -9,10 +9,10 @@
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
  *
- * Notes:
- * - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
- * - Button/IconButton use canonical props; delete uses variant="destructive".
- * - Typings added to onChange handlers to avoid implicit any.
+* Notes:
+* - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
+* - Button/IconButton use canonical props; delete uses tone="danger".
+* - Typings added to onChange handlers to avoid implicit any.
  */
 
 import * as React from "react";
