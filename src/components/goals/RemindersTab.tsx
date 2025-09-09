@@ -305,17 +305,17 @@ export default function RemindersTab() {
                     className={["btn-like-segmented inline-flex items-center gap-1", showFilters && "is-active"]
                       .filter(Boolean)
                       .join(" ")}
-                    onClick={() => setShowFilters((v) => !v)}
-                    aria-expanded={showFilters}
-                    title="Filters"
-                    type="button"
-                  >
-                    <SlidersHorizontal />
-                    Filters
-                  </button>
-                }
-              />
-            )}
+                  onClick={() => setShowFilters((v) => !v)}
+                  aria-expanded={showFilters}
+                  title="Filters"
+                  type="button"
+                >
+                    <SlidersHorizontal size={16} aria-hidden />
+                  Filters
+                </button>
+              }
+            />
+          )}
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
