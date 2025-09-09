@@ -122,6 +122,14 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "IconButton Glow",
+        element: (
+          <IconButton variant="glow" size="md" aria-label="Star" title="Star">
+            <Star />
+          </IconButton>
+        ),
+      },
+      {
         label: "Segmented",
         element: (
           <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
