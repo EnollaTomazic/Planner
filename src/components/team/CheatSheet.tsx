@@ -380,6 +380,8 @@ function ChampPillsEdit({
                 removeAt(i);
               }
             }}
+            aria-label="Champion name"
+            autoComplete="off"
             className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] w-24"
           />
         </span>

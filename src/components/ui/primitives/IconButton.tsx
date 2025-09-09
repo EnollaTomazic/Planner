@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { ButtonSize } from "./Button";
+import { buttonSizes, type ButtonSize } from "./Button";
 
-type IconButtonSize = ButtonSize | "xl";
+export type IconButtonSize = ButtonSize | "xl" | "xs";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
@@ -25,17 +25,24 @@ const iconMap: Record<Icon, string> = {
   xl: "[&>svg]:h-9 [&>svg]:w-9",
 };
 
-const sizeMap: Record<IconButtonSize, string> = {
-  sm: "h-9 w-9",
-  md: "h-10 w-10",
-  lg: "h-11 w-11",
-  xl: "h-12 w-12",
+const getSizeClass = (s: IconButtonSize) => {
+  const toNum = (h: string) => Number(h.replace("h-", ""));
+  if (s === "xs") {
+    const n = toNum(buttonSizes.sm.height) - 1;
+    return `h-${n} w-${n}`;
+  }
+  if (s === "xl") {
+    const n = toNum(buttonSizes.lg.height) + 1;
+    return `h-${n} w-${n}`;
+  }
+  const n = toNum(buttonSizes[s as ButtonSize].height);
+  return `h-${n} w-${n}`;
 };
 
 const variantBase: Record<Variant, string> = {
   ring: "border bg-transparent hover:bg-panel/45",
   solid: "border",
-  glow: "border bg-transparent hover:bg-panel/45",
+  glow: "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -61,13 +68,13 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   glow: {
     primary:
-      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))] shadow-[0_0_8px_hsl(var(--foreground)/0.3)]",
+      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))]",
     accent:
-      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
+      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
     info:
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))] shadow-[0_0_8px_hsl(var(--accent-2)/0.3)]",
+      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
     danger:
-      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))] shadow-[0_0_8px_hsl(var(--danger)/0.3)]",
+      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
   },
 };
 
@@ -76,7 +83,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     { size = "md", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
     ref
   ) => {
-    const sizeClass = sizeMap[size];
+    const sizeClass = getSizeClass(size);
     return (
       <button
         ref={ref}

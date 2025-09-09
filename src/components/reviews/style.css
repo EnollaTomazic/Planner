@@ -1,10 +1,5 @@
 /* src/components/reviews/style.css */
 :where(.reviews-scope, [data-scope="reviews"]) .review-tile{
-  position: relative;
-  border-radius: var(--radius-lg);
-  background: hsl(var(--card)/.6);
-  border: 1px solid hsl(var(--border)/.5);
-  padding: .5rem;
   background-clip: padding-box;
   isolation: isolate;
   contain: paint;

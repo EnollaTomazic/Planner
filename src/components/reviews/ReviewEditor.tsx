@@ -495,8 +495,8 @@ export default function ReviewEditor({
             }}
             className={cn(
               "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
-              "border border-[hsl(var(--border))] bg-[hsl(var(--card))]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              "border border-border bg-card",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             )}
             title="Toggle Win/Loss"
           >
@@ -509,8 +509,8 @@ export default function ReviewEditor({
                 transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
                 background:
                   result === "Win"
-                    ? "linear-gradient(90deg, hsla(160,90%,45%,.32), hsla(190,90%,60%,.28))"
-                    : "linear-gradient(90deg, hsla(0,90%,55%,.30), hsla(320,90%,65%,.26))",
+                    ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
+                    : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
                 boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
               }}
             />
@@ -518,7 +518,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Win" ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Win" ? "text-foreground/70" : "text-muted-foreground"
                 )}
               >
                 Win
@@ -526,7 +526,7 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Loss" ? "text-[hsl(var(--foreground)/0.7)]" : "text-[hsl(var(--muted-foreground))]"
+                  result === "Loss" ? "text-foreground/70" : "text-muted-foreground"
                 )}
               >
                 Loss
@@ -538,7 +538,7 @@ export default function ReviewEditor({
         {/* Score */}
         <div>
           <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
+          <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
             <input
               ref={scoreRangeRef}
               type="range"
@@ -561,16 +561,13 @@ export default function ReviewEditor({
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
+              <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
-                  style={{
-                    width: `calc(${(score / 10) * 100}% + 10px)`,
-                    background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))",
-                  }}
+                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
+                  style={{ width: `calc(${(score / 10) * 100}% + 10px)` }}
                 />
                 <div
-                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
                   style={{ left: `calc(${(score / 10) * 100}% - 10px)` }}
                 />
               </div>
@@ -590,7 +587,7 @@ export default function ReviewEditor({
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
@@ -612,7 +609,7 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-              <div className="mt-3 relative h-12 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4">
+          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4">
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -629,17 +626,13 @@ export default function ReviewEditor({
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-[hsl(var(--muted))] shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
+                  <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                     <div
-                      className="absolute left-0 top-0 h-2 rounded-full shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
-                      style={{
-                        width: `calc(${(focus / 10) * 100}% + 10px)`,
-                        background:
-                          "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))",
-                      }}
+                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
+                      style={{ width: `calc(${(focus / 10) * 100}% + 10px)` }}
                     />
                     <div
-                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
                       style={{ left: `calc(${(focus / 10) * 100}% - 10px)` }}
                     />
                   </div>
@@ -666,7 +659,7 @@ export default function ReviewEditor({
                   onClick={() => togglePillar(p)}
                   onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
                   aria-pressed={active}
-                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
@@ -685,7 +678,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use timestamp"
               aria-pressed={useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 setUseTimestamp(true);
                 setLastMarkerMode(true);
@@ -707,7 +700,7 @@ export default function ReviewEditor({
               type="button"
               aria-label="Use note only"
               aria-pressed={!useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 setUseTimestamp(false);
                 setLastMarkerMode(false);
@@ -753,7 +746,7 @@ export default function ReviewEditor({
               />
             ) : (
               <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 text-sm text-[hsl(var(--foreground)/0.7)]"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm text-foreground/70"
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >
@@ -801,7 +794,7 @@ export default function ReviewEditor({
               {sortedMarkers.map((m) => (
                 <li
                   key={m.id}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2"
+                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
                 >
                   {m.noteOnly ? (
                     <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">

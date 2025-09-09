@@ -1,8 +1,4 @@
-import {
-  readLocal,
-  writeLocal,
-  localBootstrapScript,
-} from "./local-bootstrap";
+import { readLocal, writeLocal, localBootstrapScript } from "./local-bootstrap";
 
 const STORAGE_PREFIX = "noxis-planner:";
 function createStorageKey(key: string): string {
@@ -10,7 +6,14 @@ function createStorageKey(key: string): string {
 }
 
 export type Mode = "dark" | "light";
-export type Variant = "lg" | "aurora" | "citrus" | "noir" | "ocean" | "rose" | "hardstuck";
+export type Variant =
+  | "lg"
+  | "aurora"
+  | "citrus"
+  | "noir"
+  | "ocean"
+  | "kitten"
+  | "hardstuck";
 export type Background = 0 | 1 | 2 | 3 | 4 | 5;
 export interface ThemeState {
   variant: Variant;
@@ -20,7 +23,14 @@ export interface ThemeState {
 
 export const THEME_STORAGE_KEY = "ui:theme";
 
-export const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-light", "bg-vhs", "bg-streak"] as const;
+export const BG_CLASSES = [
+  "",
+  "bg-alt1",
+  "bg-alt2",
+  "bg-light",
+  "bg-vhs",
+  "bg-streak",
+] as const;
 
 export const COLOR_TOKENS = [
   "background",
@@ -55,7 +65,7 @@ export const COLOR_TOKENS = [
 export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "lg", label: "Glitch" },
   { id: "aurora", label: "Aurora" },
-  { id: "rose", label: "Rose Quartz" },
+  { id: "kitten", label: "Kitten" },
   { id: "ocean", label: "Oceanic" },
   { id: "citrus", label: "Citrus" },
   { id: "noir", label: "Noir" },
@@ -71,8 +81,7 @@ export function defaultTheme(): ThemeState {
 
 export function readTheme(): ThemeState {
   return (
-    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ??
-    defaultTheme()
+    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ?? defaultTheme()
   );
 }
 
@@ -130,4 +139,3 @@ export function themeBootstrapScript(): string {
     } catch { }
   })())`;
 }
-
