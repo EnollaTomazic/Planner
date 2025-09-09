@@ -1,5 +1,4 @@
 "use client";
-import "./style.css";
 
 import * as React from "react";
 import type { Review, Role, ReviewMarker, Pillar } from "@/lib/types";
