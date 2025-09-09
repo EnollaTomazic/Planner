@@ -118,9 +118,21 @@ const SEEDS: Reminder[] = [
 ];
 
 const DOMAIN_ITEMS: Array<{ key: Domain; label: string; icon: React.ReactNode }> = [
-  { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
-  { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
-  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
+  {
+    key: "Life",
+    label: "Life",
+    icon: <Sparkles className="mr-1" aria-hidden="true" />,
+  },
+  {
+    key: "League",
+    label: "League",
+    icon: <Gamepad2 className="mr-1" aria-hidden="true" />,
+  },
+  {
+    key: "Learn",
+    label: "Learn",
+    icon: <GraduationCap className="mr-1" aria-hidden="true" />,
+  },
 ];
 
 const GROUPS: Array<{ key: Group; label: string; hint?: string }> = [
@@ -258,7 +270,7 @@ export default function RemindersTab() {
             right={
               <div className="flex items-center gap-2">
                 <span className="text-xs opacity-75">{filtered.length}</span>
-                <Search className="opacity-80" size={16} />
+                <Search className="opacity-80" size={16} aria-hidden="true" />
               </div>
             }
           />
@@ -284,7 +296,7 @@ export default function RemindersTab() {
                 className="flex-1"
               />
               <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
-                <Plus size={16} aria-hidden />
+                <Plus size={16} aria-hidden="true" />
               </IconButton>
               <div className={neonClass}>
                 <p className="neon-note text-xs italic">Stop procrastinating, do it now if you have time</p>
@@ -305,17 +317,17 @@ export default function RemindersTab() {
                     className={["btn-like-segmented inline-flex items-center gap-1", showFilters && "is-active"]
                       .filter(Boolean)
                       .join(" ")}
-                  onClick={() => setShowFilters((v) => !v)}
-                  aria-expanded={showFilters}
-                  title="Filters"
-                  type="button"
-                >
-                    <SlidersHorizontal size={16} aria-hidden />
-                  Filters
-                </button>
-              }
-            />
-          )}
+                    onClick={() => setShowFilters((v) => !v)}
+                    aria-expanded={showFilters}
+                    title="Filters"
+                    type="button"
+                  >
+                    <SlidersHorizontal />
+                    Filters
+                  </button>
+                }
+              />
+            )}
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
@@ -334,7 +346,11 @@ export default function RemindersTab() {
                   className={["btn-like-segmented", onlyPinned && "is-active"].filter(Boolean).join(" ")}
                   title="Pinned only"
                 >
-                  {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+                  {onlyPinned ? (
+                    <PinOff className="mr-1" aria-hidden="true" />
+                  ) : (
+                    <Pin className="mr-1" aria-hidden="true" />
+                  )}
                   {onlyPinned ? "Pinned only" : "Any pin"}
                 </button>
               </div>
@@ -472,7 +488,7 @@ function RemTile({
             iconSize="sm"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
           >
-            <Pencil />
+            <Pencil aria-hidden="true" />
           </IconButton>
 
           <IconButton
@@ -484,7 +500,7 @@ function RemTile({
             variant="ring"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
           >
-            <Trash2 />
+            <Trash2 aria-hidden="true" />
           </IconButton>
 
           <IconButton
@@ -495,7 +511,11 @@ function RemTile({
             size="sm"
             iconSize="sm"
           >
-            {pinned ? <PinOff /> : <Pin />}
+            {pinned ? (
+              <PinOff aria-hidden="true" />
+            ) : (
+              <Pin aria-hidden="true" />
+            )}
           </IconButton>
         </div>
       </div>

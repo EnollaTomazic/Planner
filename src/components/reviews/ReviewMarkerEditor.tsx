@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import * as React from "react";
@@ -16,10 +17,21 @@ export type Marker = {
   note: string;
   noteOnly?: boolean;
 };
+=======
+import * as React from "react";
+import { uid } from "@/lib/db";
+import Input from "@/components/ui/primitives/Input";
+import IconButton from "@/components/ui/primitives/IconButton";
+import NeonIcon from "@/components/reviews/NeonIcon";
+import { onIconKey, parseTime } from "@/components/reviews/utils";
+import { Clock, FileText, Plus, Trash2 } from "lucide-react";
+import type { ReviewMarker } from "@/lib/types";
+>>>>>>> main
 
 export default function ReviewMarkerEditor({
   markers,
   onChange,
+<<<<<<< HEAD
 }: {
   markers: Marker[];
   onChange: (next: Marker[]) => void;
@@ -44,6 +56,49 @@ export default function ReviewMarkerEditor({
       id: uid("mark"),
       time: useTimestamp ? tTime.trim() || "00:00" : "00:00",
       seconds,
+=======
+  timeRef,
+  lastMarkerMode,
+  setLastMarkerMode,
+  lastMarkerTime,
+  setLastMarkerTime,
+}: {
+  markers: ReviewMarker[];
+  onChange: (next: ReviewMarker[]) => void;
+  timeRef: React.RefObject<HTMLInputElement>;
+  lastMarkerMode: boolean;
+  setLastMarkerMode: (v: boolean) => void;
+  lastMarkerTime: string;
+  setLastMarkerTime: (v: string) => void;
+}) {
+  const [useTimestamp, setUseTimestamp] = React.useState(lastMarkerMode);
+  const [tTime, setTTime] = React.useState(lastMarkerTime);
+  const [tNote, setTNote] = React.useState("");
+  const noteRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    setUseTimestamp(lastMarkerMode);
+    setTTime(lastMarkerTime);
+  }, [lastMarkerMode, lastMarkerTime]);
+
+  const sortedMarkers = React.useMemo(
+    () => [...markers].sort((a, b) => a.seconds - b.seconds),
+    [markers],
+  );
+
+  const parsedTime = parseTime(tTime);
+  const timeError = useTimestamp && parsedTime === null;
+  const canAddMarker =
+    (useTimestamp ? parsedTime !== null : true) && tNote.trim().length > 0;
+
+  function addMarker() {
+    const s = useTimestamp ? parsedTime : 0;
+    const safeS = s === null ? 0 : s;
+    const m: ReviewMarker = {
+      id: uid("mark"),
+      time: useTimestamp ? tTime.trim() || "00:00" : "00:00",
+      seconds: safeS,
+>>>>>>> main
       note: tNote.trim(),
       noteOnly: !useTimestamp,
     };
@@ -59,6 +114,7 @@ export default function ReviewMarkerEditor({
     onChange(next);
   }
 
+<<<<<<< HEAD
   const sortedMarkers = React.useMemo(
     () => [...markers].sort((a, b) => a.seconds - b.seconds),
     [markers],
@@ -75,13 +131,33 @@ export default function ReviewMarkerEditor({
     <div>
       <SectionLabel>Timestamps</SectionLabel>
       <div className="mb-4 flex items-center justify-end gap-2">
+=======
+  return (
+    <div>
+      <div className="mb-3 flex items-center gap-3">
+>>>>>>> main
         <button
           type="button"
           aria-label="Use timestamp"
           aria-pressed={useTimestamp}
           className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+<<<<<<< HEAD
           onClick={() => setUseTimestamp(true)}
           onKeyDown={(e) => onIconKey(e, () => setUseTimestamp(true))}
+=======
+          onClick={() => {
+            setUseTimestamp(true);
+            setLastMarkerMode(true);
+            setTTime(lastMarkerTime);
+          }}
+          onKeyDown={(e) =>
+            onIconKey(e, () => {
+              setUseTimestamp(true);
+              setLastMarkerMode(true);
+              setTTime(lastMarkerTime);
+            })
+          }
+>>>>>>> main
           title="Timestamp mode"
         >
           <NeonIcon kind="clock" on={useTimestamp} />
@@ -92,8 +168,21 @@ export default function ReviewMarkerEditor({
           aria-label="Use note only"
           aria-pressed={!useTimestamp}
           className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+<<<<<<< HEAD
           onClick={() => setUseTimestamp(false)}
           onKeyDown={(e) => onIconKey(e, () => setUseTimestamp(false))}
+=======
+          onClick={() => {
+            setUseTimestamp(false);
+            setLastMarkerMode(false);
+          }}
+          onKeyDown={(e) =>
+            onIconKey(e, () => {
+              setUseTimestamp(false);
+              setLastMarkerMode(false);
+            })
+          }
+>>>>>>> main
           title="Note-only mode"
         >
           <NeonIcon kind="file" on={!useTimestamp} />
@@ -105,7 +194,14 @@ export default function ReviewMarkerEditor({
           <Input
             ref={timeRef}
             value={tTime}
+<<<<<<< HEAD
             onChange={(e) => setTTime(e.target.value)}
+=======
+            onChange={(e) => {
+              setTTime(e.target.value);
+              setLastMarkerTime(e.target.value);
+            }}
+>>>>>>> main
             placeholder="00:00"
             className="text-center font-mono tabular-nums"
             aria-label="Timestamp time in mm:ss"
