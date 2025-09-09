@@ -88,9 +88,11 @@ describe("IconButton", () => {
       <IconButton variant="glow" tone="info" aria-label="gi" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-transparent hover:bg-panel/45");
     expect(classes).toContain(
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))] shadow-[0_0_8px_hsl(var(--accent-2)/0.3)]",
+      "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
+    );
+    expect(classes).toContain(
+      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
     );
   });
 
@@ -103,5 +105,6 @@ describe("IconButton", () => {
     expect(classes).toContain(
       "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
     );
+    expect(classes).not.toContain("shadow-[0_0_8px_currentColor]");
   });
 });

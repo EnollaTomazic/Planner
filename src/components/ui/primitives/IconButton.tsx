@@ -35,7 +35,7 @@ const sizeMap: Record<IconButtonSize, string> = {
 const variantBase: Record<Variant, string> = {
   ring: "border bg-transparent hover:bg-panel/45",
   solid: "border",
-  glow: "border bg-transparent hover:bg-panel/45",
+  glow: "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -61,13 +61,13 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   glow: {
     primary:
-      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))] shadow-[0_0_8px_hsl(var(--foreground)/0.3)]",
+      "border-[hsl(var(--foreground)/0.35)] text-[hsl(var(--foreground))]",
     accent:
-      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))] shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
+      "border-[hsl(var(--accent)/0.35)] text-[hsl(var(--accent))]",
     info:
-      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))] shadow-[0_0_8px_hsl(var(--accent-2)/0.3)]",
+      "border-[hsl(var(--accent-2)/0.35)] text-[hsl(var(--accent-2))]",
     danger:
-      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))] shadow-[0_0_8px_hsl(var(--danger)/0.3)]",
+      "border-[hsl(var(--danger)/0.35)] text-[hsl(var(--danger))]",
   },
 };
 
