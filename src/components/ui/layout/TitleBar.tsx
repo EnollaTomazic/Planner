@@ -1,6 +1,8 @@
 // src/components/ui/TitleBar.tsx
 "use client";
 
+import * as React from "react";
+
 type Props = {
   label: string;
   idText?: string; // optional right-side pill (defaults to NOXI vibe)

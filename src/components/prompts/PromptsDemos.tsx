@@ -11,8 +11,23 @@ import {
   FieldShell,
   Button,
   Label,
+  Badge,
+  Snackbar,
+  Spinner,
+  SectionCard,
+  TitleBar,
+  SideSelector,
+  PillarBadge,
+  PillarSelector,
+  SearchBar,
+  AnimatedSelect,
+  ThemeToggle,
+  AnimationToggle,
+  CheckCircle,
+  Toggle,
 } from "@/components/ui";
 import IconButton from "@/components/ui/primitives/IconButton";
+// Prompts components: GalleryItem, PromptsComposePanel, PromptsHeader
 import { ArrowUp, Check as CheckIcon } from "lucide-react";
 import {
   colorTokens,
@@ -128,6 +143,51 @@ export default function PromptsDemos() {
             <ArrowUp />
           </IconButton>
         </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Feedback</h3>
+        <div className="flex flex-wrap items-center gap-4">
+          <Spinner />
+          <Badge>Badge</Badge>
+          <Snackbar message="Saved" />
+        </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Toggles</h3>
+        <div className="flex flex-wrap items-center gap-4">
+          <AnimationToggle />
+          <ThemeToggle />
+          <CheckCircle checked={false} onChange={() => {}} />
+          <Toggle value="Left" onChange={() => {}} />
+          <SideSelector value="Blue" onChange={() => {}} />
+        </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Pillars</h3>
+        <div className="flex flex-wrap items-center gap-4">
+          <PillarBadge pillar="Wave" />
+          <PillarSelector value={[]} onChange={() => {}} />
+        </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Inputs</h3>
+        <div className="space-y-3">
+          <SearchBar value="" onValueChange={() => {}} />
+          <AnimatedSelect
+            items={[{ value: "a", label: "Apple" }]}
+            value="a"
+            onChange={() => {}}
+          />
+        </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Layout</h3>
+        <SectionCard>
+          <SectionCard.Header>
+            <TitleBar label="TitleBar" />
+          </SectionCard.Header>
+          <SectionCard.Body />
+        </SectionCard>
       </Card>
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Shadows</h3>
