@@ -56,6 +56,39 @@ import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
 
+const tabs = [
+  { key: "one", label: "One" },
+  { key: "two", label: "Two" },
+  { key: "three", label: "Three" },
+];
+
+const selectItems = [
+  { value: "apple", label: "Apple" },
+  { value: "orange", label: "Orange" },
+  { value: "pear", label: "Pear" },
+];
+
+const demoReview: Review = {
+  id: "demo",
+  title: "Demo Review",
+  notes: "Quick note",
+  tags: [],
+  pillars: [],
+  createdAt: Date.now(),
+  score: 8,
+  result: "Win",
+};
+
+const demoProjects = [
+  { id: "p1", name: "Alpha", done: false, createdAt: Date.now() },
+  { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
+];
+
+const demoTasks = [
+  { id: "t1", text: "Task A", done: false, projectId: "p1" },
+  { id: "t2", text: "Task B", done: true, projectId: "p1" },
+];
+
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
@@ -66,40 +99,8 @@ export default function ComponentGallery() {
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
 
-  const tabs = [
-    { key: "one", label: "One" },
-    { key: "two", label: "Two" },
-    { key: "three", label: "Three" },
-  ];
-
-  const selectItems = [
-    { value: "apple", label: "Apple" },
-    { value: "orange", label: "Orange" },
-    { value: "pear", label: "Pear" },
-  ];
-
-  const demoReview: Review = {
-    id: "demo",
-    title: "Demo Review",
-    notes: "Quick note",
-    tags: [],
-    pillars: [],
-    createdAt: Date.now(),
-    score: 8,
-    result: "Win",
-  };
-
-  const demoProjects = [
-    { id: "p1", name: "Alpha", done: false, createdAt: Date.now() },
-    { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
-  ];
-
-  const demoTasks = [
-    { id: "t1", text: "Task A", done: false, projectId: "p1" },
-    { id: "t2", text: "Task B", done: true, projectId: "p1" },
-  ];
-
-  const componentItems = [
+  const componentItems = React.useMemo(
+    () => [
     { label: "Button", element: <Button className="w-56">Click me</Button> },
     {
       label: "IconButton",
@@ -736,12 +737,14 @@ export default function ComponentGallery() {
         />
       ),
     },
-  ];
+    ],
+    [goalFilter, query, seg, checked, toggleSide, side, pillars, selectValue],
+  );
 
   return (
     <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-      {componentItems.map((item, idx) => (
-        <GalleryItem key={idx} label={item.label} className={item.className}>
+      {componentItems.map((item) => (
+        <GalleryItem key={item.label} label={item.label} className={item.className}>
           {item.element}
         </GalleryItem>
       ))}
