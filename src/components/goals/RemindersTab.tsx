@@ -273,7 +273,7 @@ export default function RemindersTab() {
                 e.preventDefault();
                 if (quickAdd.trim()) addNew(quickAdd);
               }}
-              className=" rounded-card flex items-center gap-6 glitch"
+              className="rounded-card flex items-center gap-6 glitch"
             >
               <Input
                 aria-label="Quick add reminder"
@@ -459,7 +459,7 @@ function RemTile({
           )}
         </div>
 
-        <div className=" flex items-center gap-1">
+        <div className="flex items-center gap-1">
           <IconButton
             title="Edit"
             aria-label="Edit"
