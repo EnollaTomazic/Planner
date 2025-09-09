@@ -196,15 +196,6 @@ export default function GoalsPage() {
         }
       />
 
-      {tab === "goals" && (
-        <Hero
-          eyebrow="Guide"
-          heading="Overview"
-          subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-          sticky={false}
-        />
-      )}
-
       <section className="grid gap-6">
         <div
           role="tabpanel"
@@ -213,7 +204,14 @@ export default function GoalsPage() {
           hidden={tab !== "goals"}
         >
           {tab === "goals" && (
-            <>
+            <div className="grid gap-4">
+              <Hero
+                eyebrow="Guide"
+                heading="Overview"
+                subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+                sticky={false}
+              />
+
               {totalCount === 0 ? (
                 <GoalsProgress
                   total={totalCount}
@@ -354,7 +352,7 @@ export default function GoalsPage() {
                   }}
                 />
               )}
-            </>
+            </div>
           )}
         </div>
 
