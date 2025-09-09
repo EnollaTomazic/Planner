@@ -1,7 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, Header, Hero, Button, IconButton, type TabItem, Input } from "@/components/ui";
+import {
+  TabBar,
+  Header,
+  Hero,
+  Button,
+  IconButton,
+  type TabItem,
+  Input,
+  AnimatedSelect,
+} from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import { RoleSelector, NeonIcon, ReviewSummaryHeader, ReviewSummaryScore } from "@/components/reviews";
@@ -20,6 +29,11 @@ export default function Page() {
 
   const [view, setView] = React.useState<View>("components");
   const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
+  const fruitItems = [
+    { value: "apple", label: "Apple" },
+    { value: "orange", label: "Orange" },
+  ];
+  const [fruit, setFruit] = React.useState(fruitItems[0].value);
 
   const demoScore = 7;
   const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(demoScore);
@@ -36,6 +50,14 @@ export default function Page() {
         </div>
         <div className="flex justify-center">
           <RoleSelector value={role} onChange={setRole} />
+        </div>
+        <div className="flex justify-center">
+          <AnimatedSelect
+            label="Fruit"
+            items={fruitItems}
+            value={fruit}
+            onChange={setFruit}
+          />
         </div>
         <div className="flex flex-col items-center gap-4">
           <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
