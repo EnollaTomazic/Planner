@@ -30,7 +30,7 @@ export default function IconButtonShowcase() {
     <div className="mb-8 flex gap-2">
       {ICON_BUTTONS.map((props) => (
         <IconButton key={props.title} {...props}>
-          <Plus size={16} aria-hidden />
+          <Plus aria-hidden />
         </IconButton>
       ))}
     </div>
