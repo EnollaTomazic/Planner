@@ -89,129 +89,84 @@ function DemoHeader({
   onFruitChange: (f: string) => void;
 }) {
   return (
-    <div className="mb-8 space-y-4">
-      <Header heading="Header" sticky={false} />
-      <Hero heading="Hero" sticky={false} />
-      <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
-      <div className="flex justify-center">
-        <GoalsProgress total={5} pct={60} />
-      </div>
-      <div className="flex justify-center">
-        <RoleSelector value={role} onChange={onRoleChange} />
-      </div>
-      <div className="flex justify-center">
-        <AnimatedSelect label="Fruit" items={FRUIT_ITEMS} value={fruit} onChange={onFruitChange} />
-      </div>
-      <div className="flex flex-col items-center gap-4">
-        <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
-        <ReviewSummaryScore
-          score={DEMO_SCORE}
-          msg={DEMO_SCORE_MSG}
-          ScoreIcon={DemoScoreIcon}
-          scoreIconCls={demoScoreCls}
-        />
-      </div>
-      <div className="flex justify-center gap-4">
-        {NEON_ICONS.map(({ kind, on }) => (
-          <NeonIcon key={kind} kind={kind} on={on} />
-        ))}
-      </div>
-      <div className="flex justify-center">
-        <Input
-          aria-label="Timer demo"
-          defaultValue="25:00"
-          className="btn-like-segmented btn-glitch w-[5ch]"
-          inputClassName="text-center"
-          type="text"
-        />
-      </div>
-    </div>
-  );
-}
-
-const UpdatesList = () => (
-  <ul className="mb-4 space-y-4">
-    {UPDATES.map((content, i) => (
-      <li key={i} className="text-sm text-muted-foreground">
-        {content}
-      </li>
-    ))}
-  </ul>
-);
-
-const ButtonShowcase = () => (
-  <div className="mb-8 flex flex-wrap gap-2">
-    <Button tone="primary">Primary tone</Button>
-    <Button tone="accent">Accent tone</Button>
-    <Button tone="info" variant="ghost">
-      Info ghost
-    </Button>
-    <Button tone="danger" variant="primary">
-      Danger primary
-    </Button>
-    <Button disabled>Disabled</Button>
-  </div>
-);
-
-const IconButtonShowcase = () => (
-  <div className="mb-8 flex gap-2">
-    <IconButton size="xs" aria-label="Add item xs" title="Add item xs">
-      <Plus size={16} aria-hidden />
-    </IconButton>
-    <IconButton aria-label="Add item" title="Add item">
-      <Plus size={16} aria-hidden />
-    </IconButton>
-    <IconButton variant="glow" aria-label="Add item glow" title="Add item glow">
-      <Plus size={16} aria-hidden />
-    </IconButton>
-  </div>
-);
-
-const GOAL_DEMO_ITEMS: Goal[] = [
-  { id: "g1", title: "Demo active goal", done: false, createdAt: Date.now() },
-  {
-    id: "g2",
-    title: "Demo done goal",
-    done: true,
-    createdAt: Date.now() - 86_400_000,
-  },
-];
-
-const GoalListDemo = () => {
-  const [items, setItems] = React.useState<Goal[]>(GOAL_DEMO_ITEMS);
-  return (
-    <div className="mb-8">
-      <GoalList
-        goals={items}
-        onToggleDone={(id) =>
-          setItems((prev) =>
-            prev.map((g) => (g.id === id ? { ...g, done: !g.done } : g)),
-          )
-        }
-        onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
-      />
-    </div>
-  );
-};
-
-export default function Page() {
-  const [view, setView] = React.useState<View>("components");
-  const [role, setRole] = React.useState<Role>(ROLE_OPTIONS[0].value);
-  const [fruit, setFruit] = React.useState(FRUIT_ITEMS[0].value);
-
-  return (
     <main className="page-shell py-6">
-      <DemoHeader
-        role={role}
-        onRoleChange={setRole}
-        fruit={fruit}
-        onFruitChange={setFruit}
-      />
-      <UpdatesList />
-      <ButtonShowcase />
-      <IconButtonShowcase />
-      <GoalListDemo />
-      <HomePage />
+      <div className="mb-8 space-y-4">
+        <Header heading="Header" sticky={false} />
+        <Hero heading="Hero" sticky={false} />
+        <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+        <div className="flex justify-center">
+          <GoalsProgress total={5} pct={60} />
+        </div>
+        <div className="flex justify-center">
+          <RoleSelector value={role} onChange={setRole} />
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
+          <ReviewSummaryScore
+            score={demoScore}
+            msg={demoScoreMsg}
+            ScoreIcon={DemoScoreIcon}
+            scoreIconCls={demoScoreCls}
+          />
+        </div>
+        <div className="flex justify-center gap-4">
+          <NeonIcon kind="clock" on={true} />
+          <NeonIcon kind="brain" on={true} />
+          <NeonIcon kind="file" on={false} />
+        </div>
+        <div className="flex justify-center">
+          <Input
+            aria-label="Timer demo"
+            defaultValue="25:00"
+            className="btn-like-segmented btn-glitch w-[5ch]"
+            inputClassName="text-center"
+            type="text"
+          />
+        </div>
+      </div>
+      <ul className="mb-4 space-y-4">
+        <li className="text-sm text-muted-foreground">
+          Global styles are now modularized into <code>animations.css</code>,
+          <code>overlays.css</code>, and <code>utilities.css</code>.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Control height token <code>--control-h</code> now snaps to 44px to
+          align with the 4px spacing grid.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Buttons now default to the 40px <code>md</code> size and follow a
+          36/40/44px scale.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          WeekPicker scrolls horizontally with snap points, showing 2–3 days at
+          a time on smaller screens.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Review status dots blink to highlight wins and losses.
+        </li>
+        <li className="text-sm text-muted-foreground">
+          Hero dividers now use <code>var(--space-4)</code> top padding and
+          tokenized side offsets via <code>var(--space-2)</code>.
+        </li>
+      </ul>
+      <div className="mb-8 flex flex-wrap gap-2">
+        <Button tone="primary">Primary tone</Button>
+        <Button tone="accent">Accent tone</Button>
+        <Button tone="info" variant="ghost">
+          Info ghost
+        </Button>
+        <Button tone="danger" variant="primary">
+          Danger primary
+        </Button>
+      </div>
+      <div className="mb-8 flex gap-2">
+        <IconButton aria-label="Add item" title="Add item">
+          <Plus size={16} aria-hidden />
+        </IconButton>
+        <IconButton variant="glow" aria-label="Add item glow" title="Add item glow">
+          <Plus size={16} aria-hidden />
+        </IconButton>
+      </div>
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
         <TabBar
