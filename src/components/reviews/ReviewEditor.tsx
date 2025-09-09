@@ -2,162 +2,49 @@
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import "./style.css";
-import { RoleSelector } from "@/components/reviews";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import NeonIcon from "@/components/reviews/NeonIcon";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
-import IconButton from "@/components/ui/primitives/IconButton";
-import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
-import {
-  Tag,
-  Trash2,
-  Check,
-  Target,
-  Shield,
-  Plus,
-  Clock,
-  FileText,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uid, usePersistentState } from "@/lib/db";
 import {
-  ALL_PILLARS,
   LAST_ROLE_KEY,
-  LAST_MARKER_MODE_KEY,
-  LAST_MARKER_TIME_KEY,
   SCORE_POOLS,
   FOCUS_POOLS,
   pickIndex,
   scoreIcon,
 } from "@/components/reviews/reviewData";
+import ReviewMetaControls, {
+  MetaPatch,
+  Result,
+} from "@/components/reviews/ReviewMetaControls";
+import ReviewNotesTags from "@/components/reviews/ReviewNotesTags";
+import ReviewMarkerEditor, {
+  Marker,
+} from "@/components/reviews/ReviewMarkerEditor";
+import { parseTime, formatSeconds } from "@/components/reviews/utils";
 
-
-/** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
-function parseTime(mmss: string): number | null {
-  const m = mmss.trim().match(/^(\d{1,2}):([0-5]\d)$/);
-  if (!m) return null;
-  return Number(m[1]) * 60 + Number(m[2]);
-}
-
-/** Convert seconds to "m:ss" with zero-padded seconds. */
-function formatSeconds(total: number): string {
-  const minutes = Math.max(0, Math.floor(total / 60));
-  const seconds = Math.max(0, total % 60);
-  return `${String(minutes)}:${String(seconds).padStart(2, "0")}`;
-}
-
-type Result = "Win" | "Loss";
-
-export type Marker = {
-  id: string;
-  time: string;
-  seconds: number;
-  note: string;
-  noteOnly?: boolean;
-};
-
-type ExtendedProps = {
-  result?: Result;
-  score?: number;
-  role?: Role;
-  markers?: Marker[];
-  focusOn?: boolean;
-  focus?: number;
-};
-
-type MetaPatch = Omit<Partial<Review>, "role"> & Partial<ExtendedProps>;
-
-
-function NeonPillarChip({
-  active,
-  children,
-}: {
-  active: boolean;
-  children: React.ReactNode;
-}) {
-  const prev = React.useRef(active);
-  const [phase, setPhase] = React.useState<"steady-on" | "ignite" | "off" | "powerdown">(
-    active ? "steady-on" : "off"
-  );
-
-  React.useEffect(() => {
-    if (active !== prev.current) {
-      if (active) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prev.current = active;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prev.current = active;
-        return () => clearTimeout(t);
-      }
-    }
-    prev.current = active;
-  }, [active]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
-
-  return (
-    <span className="relative inline-flex">
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "opacity-60" : "opacity-0"
-        )}
-        style={{
-          filter: "blur(10px)",
-          background:
-            "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "opacity-40 animate-[neonAura_3.6s_ease-in-out_infinite]" : "opacity-0"
-        )}
-        style={{
-          filter: "blur(14px)",
-          background:
-            "radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "animate-[igniteFlicker_.62s_steps(18,end)_1]" : ""
-        )}
-        style={{
-          background:
-            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: lit ? 0.8 : 0,
-        }}
-        aria-hidden
-      />
-      <span className="relative z-10">{children}</span>
-    </span>
-  );
-}
-
-function getExt(r: Review): Partial<ExtendedProps> {
-  return r as unknown as Partial<ExtendedProps>;
+function getExt(r: Review) {
+  return r as unknown as Partial<{
+    result?: Result;
+    score?: number;
+    role?: Role;
+    markers?: Marker[];
+    focusOn?: boolean;
+    focus?: number;
+  }>;
 }
 function normalizeMarker(m: unknown): Marker {
-  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<string, unknown>;
-  const asNum = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : undefined);
+  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<
+    string,
+    unknown
+  >;
+  const asNum = (v: unknown) =>
+    typeof v === "number" && Number.isFinite(v) ? v : undefined;
   const asStr = (v: unknown) => (typeof v === "string" ? v : undefined);
 
-  const seconds = asNum(obj.seconds) ?? (asStr(obj.time) ? parseTime(asStr(obj.time)!) ?? 0 : 0);
+  const seconds =
+    asNum(obj.seconds) ?? (asStr(obj.time) ? parseTime(asStr(obj.time)!) ?? 0 : 0);
 
   const timeStr = asStr(obj.time) ?? formatSeconds(seconds);
   return {
@@ -189,61 +76,47 @@ export default function ReviewEditor({
   className?: string;
 }) {
   const [notes, setNotes] = React.useState(review.notes ?? "");
-  const [tags, setTags] = React.useState<string[]>(Array.isArray(review.tags) ? review.tags : []);
-  const [draftTag, setDraftTag] = React.useState("");
+  const [tags, setTags] = React.useState<string[]>(
+    Array.isArray(review.tags) ? review.tags : [],
+  );
 
   const rootRef = React.useRef<HTMLDivElement>(null);
 
   const [opponent, setOpponent] = React.useState(review.opponent ?? "");
   const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
   const [pillars, setPillars] = React.useState<Pillar[]>(
-    Array.isArray(review.pillars) ? review.pillars : []
+    Array.isArray(review.pillars) ? review.pillars : [],
   );
 
   const [lastRole, setLastRole] = usePersistentState<Role>(LAST_ROLE_KEY, "MID");
-  const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
-    LAST_MARKER_MODE_KEY,
-    true,
-  );
-  const [lastMarkerTime, setLastMarkerTime] = usePersistentState<string>(
-    LAST_MARKER_TIME_KEY,
-    "",
-  );
   const ext0 = getExt(review);
   const initialRole: Role = ext0.role ?? lastRole ?? "MID";
   const [role, setRole] = React.useState<Role>(initialRole);
 
   const [result, setResult] = React.useState<Result>(ext0.result ?? "Win");
   const [score, setScore] = React.useState<number>(
-    Number.isFinite(ext0.score ?? NaN) ? Number(ext0.score) : 5
+    Number.isFinite(ext0.score ?? NaN) ? Number(ext0.score) : 5,
   );
 
   const [focusOn, setFocusOn] = React.useState<boolean>(Boolean(ext0.focusOn));
   const [focus, setFocus] = React.useState<number>(
-    Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5
+    Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5,
   );
 
   const [markers, setMarkers] = React.useState<Marker[]>(
-    Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : []
+    Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : [],
   );
-
-  const [useTimestamp, setUseTimestamp] = React.useState(lastMarkerMode);
-  const [tTime, setTTime] = React.useState(lastMarkerTime);
-  const [tNote, setTNote] = React.useState("");
 
   const laneRef = React.useRef<HTMLInputElement>(null);
   const opponentRef = React.useRef<HTMLInputElement>(null);
   const resultRef = React.useRef<HTMLButtonElement>(null);
   const scoreRangeRef = React.useRef<HTMLInputElement>(null);
   const focusRangeRef = React.useRef<HTMLInputElement>(null);
-  const timeRef = React.useRef<HTMLInputElement>(null);
-  const noteRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     const ext = getExt(review);
     setNotes(review.notes ?? "");
     setTags(Array.isArray(review.tags) ? review.tags : []);
-    setDraftTag("");
 
     setOpponent(review.opponent ?? "");
     setLane(review.lane ?? review.title ?? "");
@@ -254,10 +127,6 @@ export default function ReviewEditor({
 
     const r = ext.role ?? lastRole ?? "MID";
     setRole(r);
-
-    // Default new reviews to the previously selected role without
-    // overwriting the remembered role when opening existing reviews.
-    // Persisting happens only when the user explicitly selects a role.
     if (ext.role == null) {
       onChangeMeta?.({ role: r });
     }
@@ -266,9 +135,6 @@ export default function ReviewEditor({
     setFocus(Number.isFinite(ext.focus ?? NaN) ? Number(ext.focus) : 5);
 
     setMarkers(Array.isArray(ext.markers) ? ext.markers.map(normalizeMarker) : []);
-    setUseTimestamp(lastMarkerMode);
-    setTTime(lastMarkerTime);
-    setTNote("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review.id]);
 
@@ -311,11 +177,6 @@ export default function ReviewEditor({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [onDone]);
 
-  const sortedMarkers = React.useMemo(
-    () => [...markers].sort((a, b) => a.seconds - b.seconds),
-    [markers]
-  );
-
   function togglePillar(p: Pillar) {
     setPillars((prev) => {
       const has = prev.includes(p);
@@ -337,561 +198,76 @@ export default function ReviewEditor({
     onChangeTags?.(next);
   }
 
-  const parsedTime = parseTime(tTime);
-  const timeError = useTimestamp && parsedTime === null;
-  const canAddMarker = (useTimestamp ? parsedTime !== null : true) &&
-    tNote.trim().length > 0;
-
-  function addMarker() {
-    const s = useTimestamp ? parsedTime : 0;
-    const safeS = s === null ? 0 : s;
-    const m: Marker = {
-      id: uid("mark"),
-      time: useTimestamp ? tTime.trim() || "00:00" : "00:00",
-      seconds: safeS,
-      note: tNote.trim(),
-      noteOnly: !useTimestamp,
-    };
-    const next = [...markers, m];
-    setMarkers(next);
-    commitMeta({ markers: next });
-    setTTime("");
-    setTNote("");
-    (useTimestamp ? timeRef : noteRef).current?.focus();
-  }
-  function removeMarker(id: string) {
-    const next = markers.filter((m) => m.id !== id);
-    setMarkers(next);
-    commitMeta({ markers: next });
-  }
-
   const msgIndex = pickIndex(String(review.id ?? "seed") + String(score), 5);
   const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
   const msg = pool[msgIndex];
   const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
 
-  const focusMsgIndex = pickIndex(String(review.id ?? "seed-focus") + String(focus), 10);
+  const focusMsgIndex = pickIndex(
+    String(review.id ?? "seed-focus") + String(focus),
+    10,
+  );
   const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
-  const go = (ref: React.RefObject<HTMLElement>) => ref.current?.focus();
-
-  function selectRole(v: Role) {
+  const selectRole = (v: Role) => {
     setRole(v);
-    setLastRole(v); // persist globally
+    setLastRole(v);
     commitMeta({ role: v });
-  }
-
-  function onIconKey(e: React.KeyboardEvent, handler: () => void) {
-    if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
-      handler();
-    }
-  }
+  };
 
   return (
-    <div ref={rootRef} className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
-      <div className="section-h sticky">
-        <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
-          <div className="min-w-0">
-            <div className="mb-2">
-              <SectionLabel>Lane</SectionLabel>
-              <RoleSelector value={role} onChange={selectRole} />
-            </div>
-
-            <div className="mb-2">
-              <div className="relative">
-                <Target className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  ref={laneRef}
-                  value={lane}
-                  onChange={(e) => setLane(e.target.value)}
-                  onBlur={commitLaneAndTitle}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      commitLaneAndTitle();
-                      go(opponentRef);
-                    }
-                  }}
-                  className="pl-6"
-                  placeholder="Ashe/Lulu"
-                  aria-label="Lane (used as Title)"
-                />
-              </div>
-            </div>
-
-            <div>
-              <SectionLabel>Opponent</SectionLabel>
-              <div className="relative">
-                <Shield className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  ref={opponentRef}
-                  value={opponent}
-                  onChange={(e) => setOpponent(e.target.value)}
-                  onBlur={() => commitMeta({ opponent })}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      go(resultRef);
-                    }
-                  }}
-                  placeholder="Draven/Thresh"
-                  className="pl-6"
-                  aria-label="Opponent"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
-            {onDelete ? (
-              <IconButton
-                aria-label="Delete review"
-                title="Delete review"
-                size="md"
-                iconSize="md"
-                variant="ring"
-                onClick={onDelete}
-              >
-                <Trash2 />
-              </IconButton>
-            ) : null}
-
-            {onDone ? (
-              <IconButton
-                aria-label="Done"
-                title="Save and close"
-                size="md"
-                iconSize="md"
-                variant="ring"
-                onClick={() => {
-                  saveAll();
-                  onDone?.();
-                }}
-              >
-                <Check />
-              </IconButton>
-            ) : null}
-          </div>
-        </div>
-      </div>
-
+    <div
+      ref={rootRef}
+      className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}
+    >
+      <ReviewMetaControls
+        lane={lane}
+        setLane={setLane}
+        laneRef={laneRef}
+        commitLaneAndTitle={commitLaneAndTitle}
+        opponent={opponent}
+        setOpponent={setOpponent}
+        opponentRef={opponentRef}
+        commitMeta={commitMeta}
+        role={role}
+        selectRole={selectRole}
+        pillars={pillars}
+        togglePillar={togglePillar}
+        result={result}
+        setResult={setResult}
+        resultRef={resultRef}
+        score={score}
+        setScore={setScore}
+        scoreRangeRef={scoreRangeRef}
+        msg={msg}
+        ScoreIcon={ScoreIcon}
+        scoreIconCls={scoreIconCls}
+        focusOn={focusOn}
+        setFocusOn={setFocusOn}
+        focus={focus}
+        setFocus={setFocus}
+        focusRangeRef={focusRangeRef}
+        focusMsg={focusMsg}
+        onDelete={onDelete}
+        onDone={onDone}
+        saveAll={saveAll}
+      />
       <div className="section-b ds-card-pad space-y-6">
-        {/* Result */}
-        <div>
-          <SectionLabel>Result</SectionLabel>
-          <button
-            ref={resultRef}
-            type="button"
-            role="switch"
-            aria-checked={result === "Win"}
-            onClick={() => setResult((p) => (p === "Win" ? "Loss" : "Win"))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                setResult((p) => (p === "Win" ? "Loss" : "Win"));
-                go(scoreRangeRef);
-              }
-            }}
-            className={cn(
-              "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
-              "border border-border bg-card",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            )}
-            title="Toggle Win/Loss"
-          >
-            <span
-              aria-hidden
-              className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
-              style={{
-                width: "calc(50% - 4px)",
-                transform: `translate3d(${result === "Win" ? "0" : "calc(100% + 2px)"},0,0)`,
-                transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-                background:
-                  result === "Win"
-                    ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
-                    : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
-                boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-              }}
-            />
-            <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
-              <div
-                className={cn(
-                  "py-2 text-center",
-                  result === "Win" ? "text-foreground/70" : "text-muted-foreground"
-                )}
-              >
-                Win
-              </div>
-              <div
-                className={cn(
-                  "py-2 text-center",
-                  result === "Loss" ? "text-foreground/70" : "text-muted-foreground"
-                )}
-              >
-                Loss
-              </div>
-            </div>
-          </button>
-        </div>
-
-        {/* Score */}
-        <div>
-          <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
-            <input
-              ref={scoreRangeRef}
-              type="range"
-              min={0}
-              max={10}
-              step={1}
-              value={score}
-              onChange={(e) => {
-                const v = Number(e.target.value);
-                setScore(v);
-                commitMeta({ score: v });
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  go(timeRef);
-                }
-              }}
-              className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
-              aria-label="Score from 0 to 10"
-            />
-            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
-                <div
-                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
-                  style={{ width: `calc(${(score / 10) * 100}% + 10px)` }}
-                />
-                <div
-                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
-                  style={{ left: `calc(${(score / 10) * 100}% - 10px)` }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mt-1 flex items-center gap-2 text-[13px] text-muted-foreground">
-            <span className="pill h-6 px-2 text-xs">{score}/10</span>
-            <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
-            <span>{msg}</span>
-          </div>
-        </div>
-
-        {/* Focus */}
-        <div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label={focusOn ? "Brain light on" : "Brain light off"}
-              aria-pressed={focusOn}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => {
-                const v = !focusOn;
-                setFocusOn(v);
-                commitMeta({ focusOn: v });
-                if (v) focusRangeRef.current?.focus();
-              }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  const v = !focusOn;
-                  setFocusOn(v);
-                  commitMeta({ focusOn: v });
-                  if (v) focusRangeRef.current?.focus();
-                })
-              }
-            >
-              <NeonIcon kind="brain" on={focusOn} />
-            </button>
-          </div>
-
-          {focusOn && (
-            <>
-          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4">
-                <input
-                  ref={focusRangeRef}
-                  type="range"
-                  min={0}
-                  max={10}
-                  step={1}
-                  value={focus}
-                  onChange={(e) => {
-                    const v = Number(e.target.value);
-                    setFocus(v);
-                    commitMeta({ focus: v });
-                  }}
-                  className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
-                  aria-label="Focus from 0 to 10"
-                />
-                <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
-                    <div
-                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
-                      style={{ width: `calc(${(focus / 10) * 100}% + 10px)` }}
-                    />
-                    <div
-                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
-                      style={{ left: `calc(${(focus / 10) * 100}% - 10px)` }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-[13px] text-muted-foreground">
-                <span className="pill h-6 px-2 text-xs">{focus}/10</span>
-                <span>{focusMsg}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Pillars */}
-        <div>
-          <SectionLabel>Pillars</SectionLabel>
-          <div className="flex flex-wrap gap-2">
-            {ALL_PILLARS.map((p) => {
-              const active = pillars.includes(p);
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => togglePillar(p)}
-                  onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
-                  aria-pressed={active}
-                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  title={active ? `${p} selected` : `Select ${p}`}
-                >
-                  <NeonPillarChip active={active}>
-                    <PillarBadge pillar={p} size="md" interactive active={active} />
-                  </NeonPillarChip>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Timestamps */}
-        <div>
-          <div className="mb-3 flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Use timestamp"
-              aria-pressed={useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => {
-                setUseTimestamp(true);
-                setLastMarkerMode(true);
-                setTTime(lastMarkerTime);
-              }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  setUseTimestamp(true);
-                  setLastMarkerMode(true);
-                  setTTime(lastMarkerTime);
-                })
-              }
-              title="Timestamp mode"
-            >
-              <NeonIcon kind="clock" on={useTimestamp} />
-            </button>
-
-            <button
-              type="button"
-              aria-label="Use note only"
-              aria-pressed={!useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => {
-                setUseTimestamp(false);
-                setLastMarkerMode(false);
-              }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  setUseTimestamp(false);
-                  setLastMarkerMode(false);
-                })
-              }
-              title="Note-only mode"
-            >
-              <NeonIcon kind="file" on={!useTimestamp} />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2">
-            {useTimestamp ? (
-              <Input
-                ref={timeRef}
-                value={tTime}
-                onChange={(e) => {
-                  setTTime(e.target.value);
-                  setLastMarkerTime(e.target.value);
-                }}
-                placeholder="00:00"
-                className="text-center font-mono tabular-nums"
-                aria-label="Timestamp time in mm:ss"
-                inputMode="numeric"
-                pattern="^[0-9]?\d:[0-5]\d$"
-                aria-invalid={timeError ? "true" : undefined}
-                aria-describedby={timeError ? "tTime-error" : undefined}
-                style={{ width: "calc(5ch + 1.7rem)" }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && canAddMarker) {
-                    e.preventDefault();
-                    addMarker();
-                  } else if (e.key === "Enter") {
-                    e.preventDefault();
-                    noteRef.current?.focus();
-                  }
-                }}
-              />
-            ) : (
-              <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm text-foreground/70"
-                style={{ width: "calc(5ch + 1.5rem)" }}
-                title="Timestamp disabled"
-              >
-                <Clock className="h-4 w-4" /> —
-              </span>
-            )}
-
-            <Input
-              ref={noteRef}
-              value={tNote}
-              onChange={(e) => setTNote(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && canAddMarker) {
-                  e.preventDefault();
-                  addMarker();
-                }
-              }}
-              placeholder="Note"
-              className="rounded-2xl"
-              aria-label="Timestamp note"
-            />
-
-            <IconButton
-              aria-label="Add timestamp"
-              title={canAddMarker ? "Add timestamp" : "Enter details"}
-              disabled={!canAddMarker}
-              size="md"
-              iconSize="sm"
-              variant="solid"
-              onClick={addMarker}
-            >
-              <Plus />
-            </IconButton>
-          </div>
-          {timeError && (
-            <p id="tTime-error" className="mt-1 text-xs text-danger">
-              Enter time as mm:ss
-            </p>
-          )}
-
-          {sortedMarkers.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
-          ) : (
-            <ul className="mt-3 space-y-2">
-              {sortedMarkers.map((m) => (
-                <li
-                  key={m.id}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
-                >
-                  {m.noteOnly ? (
-                    <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">
-                      <FileText size={14} className="opacity-80" />
-                    </span>
-                  ) : (
-                    <span className="pill h-7 min-w-[60px] px-3 text-[11px] font-mono tabular-nums text-center">
-                      {m.time}
-                    </span>
-                  )}
-
-                  <span className="truncate text-sm">{m.note}</span>
-                  <IconButton
-                    aria-label="Delete timestamp"
-                    title="Delete timestamp"
-                    size="sm"
-                    iconSize="sm"
-                    variant="ring"
-                    onClick={() => removeMarker(m.id)}
-                  >
-                    <Trash2 />
-                  </IconButton>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Tags */}
-        <div>
-          <SectionLabel>Tags</SectionLabel>
-          <div className="mt-1 flex items-center gap-2">
-            <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-              <Input
-                value={draftTag}
-                onChange={(e) => setDraftTag(e.target.value)}
-                placeholder="Add tag and press Enter"
-                className="pl-6"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTag(draftTag);
-                    setDraftTag("");
-                  }
-                }}
-              />
-            </div>
-
-            <IconButton
-              aria-label="Add tag"
-              title="Add tag"
-              size="md"
-              iconSize="sm"
-              variant="solid"
-              onClick={() => {
-                addTag(draftTag);
-                setDraftTag("");
-              }}
-            >
-              <Plus />
-            </IconButton>
-          </div>
-
-          {tags.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground/80">No tags yet.</div>
-          ) : (
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              {tags.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
-                  title="Remove tag"
-                  onClick={() => removeTag(t)}
-                >
-                  <span>#{t}</span>
-                  <span className="opacity-0 transition-opacity group-hover:opacity-100">✕</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Notes */}
-        <div>
-          <SectionLabel>Notes</SectionLabel>
-          <Textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            onBlur={commitNotes}
-            placeholder="Key moments, mistakes to fix, drills to run…"
-            className="rounded-2xl"
-            resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
-          />
-        </div>
+        <ReviewMarkerEditor
+          markers={markers}
+          onChange={(next) => {
+            setMarkers(next);
+            commitMeta({ markers: next });
+          }}
+        />
+        <ReviewNotesTags
+          notes={notes}
+          onNotesChange={setNotes}
+          onNotesBlur={commitNotes}
+          tags={tags}
+          onAddTag={addTag}
+          onRemoveTag={removeTag}
+        />
       </div>
     </div>
   );

@@ -18,11 +18,12 @@ import {
   NeonIcon,
   ReviewSummaryHeader,
   ReviewSummaryScore,
+  ReviewEditor,
 } from "@/components/reviews";
 import { ComponentGallery, ColorGallery } from "@/components/prompts";
 import { HomePage } from "@/components/home";
 import { ROLE_OPTIONS, SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
-import type { Role } from "@/lib/types";
+import type { Role, Review } from "@/lib/types";
 import { Plus } from "lucide-react";
 
 type View = "components" | "colors";
@@ -73,6 +74,7 @@ const UPDATES: React.ReactNode[] = [
 const DEMO_SCORE = 7;
 const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(DEMO_SCORE);
 const DEMO_SCORE_MSG = SCORE_POOLS[DEMO_SCORE][0];
+const DEMO_REVIEW: Review = { id: "demo-review", title: "Demo Review", createdAt: Date.now(), notes: "", tags: [], pillars: [], score: 5, result: "Win" };
 
 function DemoHeader({
   role,
@@ -180,6 +182,7 @@ export default function Page() {
       <UpdatesList />
       <ButtonShowcase />
       <IconButtonShowcase />
+      <ReviewEditor review={DEMO_REVIEW} />
       <HomePage />
       <p className="mb-4 text-xs text-danger">Example error message</p>
       <div className="mb-8">
