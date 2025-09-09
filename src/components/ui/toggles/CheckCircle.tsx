@@ -13,6 +13,7 @@
  */
 
 import { cn } from "@/lib/utils";
+import { Check, X } from "lucide-react";
 import * as React from "react";
 
 type CCVars = React.CSSProperties & {
@@ -272,27 +273,18 @@ export default function CheckCircle({
             }}
           />
 
-          {/* Tick glyph */}
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden
-            className={cn(
-              "relative z-[1] transition-all duration-200",
-              lit
-                ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
-                : "text-muted-foreground/60 opacity-80"
-            )}
-            style={ccStyle}
-          >
-            <path
-              d="M20 7L10 17l-4-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {/* Tick glyph */}
+            <Check
+              aria-hidden
+              className={cn(
+                "relative z-[1] transition-all duration-200",
+                lit
+                  ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
+                  : "text-muted-foreground/60 opacity-80",
+              )}
+              style={ccStyle}
+              strokeWidth={2.5}
             />
-          </svg>
         </button>
 
         {/* Mini clear button */}
@@ -313,14 +305,7 @@ export default function CheckCircle({
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
             )}
           >
-            <svg viewBox="0 0 18 18" className="h-4 w-4" aria-hidden>
-              <path
-                d="M4 4l10 10M14 4L4 14"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <X aria-hidden className="h-4 w-4" />
             <span aria-hidden className="ccx-glow" />
           </button>
         )}
