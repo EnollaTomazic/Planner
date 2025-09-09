@@ -40,7 +40,7 @@ export default function Page() {
         onFruitChange={setFruit}
       />
       <UpdatesList />
-      {/* Buttons now auto-size svg icons */}
+      {/* Buttons now auto-size svg icons and gaps per size */}
       <ButtonShowcase />
       {/* IconButton now maintains 4px padding around icons */}
       <IconButtonShowcase />

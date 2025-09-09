@@ -12,7 +12,7 @@ export const buttonSizes = {
     height: "h-9",
     padding: "px-4",
     text: "text-sm",
-    gap: "gap-2",
+    gap: "gap-1",
     icon: "[&>svg]:size-4",
   },
   md: {
@@ -26,7 +26,7 @@ export const buttonSizes = {
     height: "h-11",
     padding: "px-6",
     text: "text-lg",
-    gap: "gap-2",
+    gap: "gap-3",
     icon: "[&>svg]:size-6",
   },
 } as const;
