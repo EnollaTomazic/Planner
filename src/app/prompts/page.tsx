@@ -117,6 +117,9 @@ export default function Page() {
           Color gallery groups tokens into Aurora, Neutrals, and Accents
           palettes with tabs.
         </li>
+        <li className="text-sm text-muted-foreground">
+          Themes now define <code>--glow</code> tokens aligned with their primary accents.
+        </li>
       </ul>
       <div className="mb-8 flex flex-wrap gap-2">
         <Button tone="primary">Primary tone</Button>
