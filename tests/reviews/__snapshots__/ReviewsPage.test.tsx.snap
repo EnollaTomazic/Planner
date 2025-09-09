@@ -875,7 +875,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         </div>
       </nav>
       <div
-        class="max-w-[880px] w-full rounded-xl p-5 bg-card/60 ring-1 ring-ring/5 shadow-[0_0_40px_-12px_hsl(var(--glow-soft))] md:col-span-8 lg:col-span-9 mx-auto flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
+        class="rounded-xl border border-[hsl(var(--border)/0.25)] bg-[hsl(var(--card)/0.6)] shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-5 md:col-span-8 lg:col-span-9 mx-auto flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
       >
         <svg
           class="lucide lucide-ghost h-6 w-6 opacity-60"
