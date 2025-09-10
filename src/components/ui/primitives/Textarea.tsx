@@ -5,13 +5,11 @@ import { cn, slugify } from "@/lib/utils";
 import FieldShell from "./FieldShell";
 
 /**
- * Textarea primitive with optional pill tone.
+ * Textarea primitive.
  * No default `resize-*` utility is applied; use the `resize` prop or
  * `textareaClassName` to control resizing behavior.
  */
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-  /** Rounded look without needing a global .planner-textarea class. */
-  tone?: "default" | "pill";
   /** Optional className for the outer wrapper */
   className?: string;
   /** Optional className for the inner <textarea> element */
@@ -33,10 +31,9 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
     id,
     name,
     "aria-label": ariaLabel,
-    tone = "default",
     ...props
   },
-  ref
+  ref,
 ) {
   const auto = React.useId();
   const fromAria = slugify(ariaLabel as string | undefined);
@@ -50,7 +47,6 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
 
   return (
     <FieldShell
-      tone={tone}
       error={error}
       disabled={props.disabled}
       className={className}
@@ -59,12 +55,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
         ref={ref}
         id={finalId}
         name={finalName}
-        className={cn(
-          INNER,
-          tone === "pill" && "rounded-full min-h-6",
-          resize,
-          textareaClassName,
-        )}
+        className={cn(INNER, resize, textareaClassName)}
         {...props}
       />
     </FieldShell>

@@ -273,7 +273,6 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56 space-y-2">
             <Textarea placeholder="Default" />
-            <Textarea tone="pill" placeholder="Pill" />
           </div>
         ),
       },
@@ -285,7 +284,6 @@ export default function ComponentGallery() {
             <Input placeholder="Medium" />
             <Input height="lg" placeholder="Large" />
             <Input height={12} placeholder="h-12" />
-            <Input tone="pill" placeholder="Pill" />
             <Input placeholder="With icon" hasEndSlot>
               <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             </Input>

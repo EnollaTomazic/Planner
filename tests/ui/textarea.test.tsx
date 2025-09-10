@@ -23,21 +23,6 @@ describe('Textarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('renders pill tone', () => {
-    const { container } = render(<Textarea aria-label="test" tone="pill" />);
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('applies rounded-full on pill tone', () => {
-    const { container, getByRole } = render(
-      <Textarea aria-label="pill" tone="pill" />
-    );
-    const wrapper = container.firstChild as HTMLElement;
-    const textarea = getByRole('textbox');
-    expect(wrapper).toHaveClass('rounded-full');
-    expect(textarea).toHaveClass('rounded-full');
-  });
-
   it('renders error state', () => {
     const { container } = render(
       <Textarea aria-label="test" aria-invalid="true" />

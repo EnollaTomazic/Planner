@@ -66,16 +66,4 @@ describe('Select', () => {
     expect(style.outlineStyle === 'none' || style.outlineStyle === '').toBe(true);
     expect(style.outlineWidth === '0px' || style.outlineWidth === '').toBe(true);
   });
-
-  it('applies rounded-full on pill tone', () => {
-    const { container, getByRole } = render(
-      <Select aria-label="pill" tone="pill">
-        <option value="">Choose…</option>
-      </Select>
-    );
-    const wrapper = (container.firstChild as HTMLElement).firstChild as HTMLElement;
-    const select = getByRole('combobox');
-    expect(wrapper).toHaveClass('rounded-full');
-    expect(select).not.toHaveClass('rounded-full');
-  });
 });

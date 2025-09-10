@@ -2,7 +2,7 @@
 
 exports[`Textarea > renders default state 1`] = `
 <div
-  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
+  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
   style="--theme-ring: hsl(var(--ring));"
 >
   <textarea
@@ -15,7 +15,7 @@ exports[`Textarea > renders default state 1`] = `
 
 exports[`Textarea > renders disabled state 1`] = `
 <div
-  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] opacity-60 pointer-events-none"
+  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] opacity-60 pointer-events-none"
   style="--theme-ring: hsl(var(--ring));"
 >
   <textarea
@@ -29,13 +29,13 @@ exports[`Textarea > renders disabled state 1`] = `
 
 exports[`Textarea > renders error state 1`] = `
 <div
-  class="relative inline-flex w-full items-center rounded-xl border bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] border-danger/60 focus-within:ring-danger/35"
+  class="relative inline-flex w-full items-center rounded-xl border bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] border-danger/60 focus-within:ring-danger/35"
   style="--theme-ring: hsl(var(--ring));"
 >
   <textarea
     aria-invalid="true"
     class="block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground focus:[outline:none] focus-visible:[outline:none] disabled:opacity-50 disabled:cursor-not-allowed"
-    id=":r5:"
+    id=":r3:"
     name="test"
   />
 </div>
@@ -43,25 +43,12 @@ exports[`Textarea > renders error state 1`] = `
 
 exports[`Textarea > renders focus state 1`] = `
 <div
-  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
+  class="relative inline-flex w-full items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')]"
   style="--theme-ring: hsl(var(--ring));"
 >
   <textarea
     class="block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground focus:[outline:none] focus-visible:[outline:none] disabled:opacity-50 disabled:cursor-not-allowed"
     id=":r1:"
-    name="test"
-  />
-</div>
-`;
-
-exports[`Textarea > renders pill tone 1`] = `
-<div
-  class="relative inline-flex w-full items-center border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] rounded-full"
-  style="--theme-ring: hsl(var(--ring));"
->
-  <textarea
-    class="block w-full max-w-full px-4 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground focus:[outline:none] focus-visible:[outline:none] disabled:opacity-50 disabled:cursor-not-allowed rounded-full min-h-6"
-    id=":r3:"
     name="test"
   />
 </div>

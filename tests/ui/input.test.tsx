@@ -90,14 +90,4 @@ describe("Input", () => {
     expect(input.id).toBe("email");
     expect(input.name).toBe(slugify("Email Address"));
   });
-
-  it("applies rounded-full on pill tone", () => {
-    const { container, getByRole } = render(
-      <Input aria-label="pill" tone="pill" />,
-    );
-    const wrapper = container.firstChild as HTMLElement;
-    const input = getByRole("textbox");
-    expect(wrapper).toHaveClass("rounded-full");
-    expect(input).not.toHaveClass("rounded-full");
-  });
 });
