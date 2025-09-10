@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Suspense } from "react";
 import {
   QuickActions,
   TodayCard,
@@ -22,7 +23,7 @@ import {
   type Background,
 } from "@/lib/theme";
 
-export default function Page() {
+function HomePageContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -89,5 +90,13 @@ export default function Page() {
       </section>
       <BottomNav />
     </main>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageContent />
+    </Suspense>
   );
 }

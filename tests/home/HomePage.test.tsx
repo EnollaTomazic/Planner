@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Suspense } from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
@@ -10,7 +11,11 @@ vi.mock("next/navigation", () => ({
 
 describe("Home page", () => {
   it("renders navigation links", () => {
-    render(<Page />);
+    render(
+      <Suspense fallback="loading">
+        <Page />
+      </Suspense>,
+    );
     const goals = screen.getByRole("link", { name: "Goals" });
     const reviews = screen.getByRole("link", { name: "Reviews" });
     const team = screen.getByRole("link", { name: "Team" });
