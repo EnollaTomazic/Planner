@@ -6,6 +6,7 @@ export const colorTokens = [
   "bg-foreground",
   "bg-card",
   "bg-panel",
+  "bg-card-hairline",
   "bg-primary",
   "bg-accent",
   "bg-accent-2",
