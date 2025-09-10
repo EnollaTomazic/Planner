@@ -60,15 +60,15 @@ export default function Badge<T extends React.ElementType = "span">({
       data-selected={selected ? "true" : undefined}
       className={cn(
         "inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
-        "border bg-[color-mix(in_oklab,hsl(var(--muted))_18%,transparent)]",
+        "border bg-muted/18",
         "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_hsl(var(--shadow-color)/.18)]",
         "transition-[background,box-shadow,transform] duration-140 ease-out",
         sizeMap[size],
         toneBorder[tone],
         interactive && "cursor-pointer",
-        interactive && "hover:bg-[color-mix(in_oklab,hsl(var(--muted))_28%,transparent)]",
+        interactive && "hover:bg-muted/28",
         selected &&
-          "bg-[color-mix(in_oklab,hsl(var(--primary-soft))_36%,transparent)] border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_8px_22px_var(--glow-active)] text-[var(--text-on-accent)]",
+          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_8px_22px_var(--glow-active)] text-[var(--text-on-accent)]",
         glitch &&
           "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset,0_0_16px_var(--glow-active)] hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_0_20px_var(--glow-active)]",
         className

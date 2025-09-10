@@ -12,7 +12,7 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
       <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full">
-        <span className="term-mini__text">{label}</span>
+        <span className="term-mini__text text-muted-foreground">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>
 
@@ -37,7 +37,6 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
             "Liberation Mono", "Courier New", monospace;
           font-size: 0.95rem;
           letter-spacing: 0.3px;
-          color: hsl(var(--muted-foreground));
         }
       `}</style>
     </>
