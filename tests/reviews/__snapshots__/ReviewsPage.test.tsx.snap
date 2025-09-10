@@ -775,10 +775,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <span
                             aria-hidden="true"
-                            class="h-2 w-2 rounded-full shadow-[0_0_4px_currentColor] motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
+                            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-[10px]"
+                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
                           >
                             MID
                           </span>
@@ -819,10 +819,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <span
                             aria-hidden="true"
-                            class="h-2 w-2 rounded-full shadow-[0_0_4px_currentColor] motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
+                            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-[10px]"
+                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
                           >
                             ADC
                           </span>
@@ -863,10 +863,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <span
                             aria-hidden="true"
-                            class="h-2 w-2 rounded-full shadow-[0_0_4px_currentColor] motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground"
+                            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-[10px]"
+                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
                           >
                             TOP
                           </span>
