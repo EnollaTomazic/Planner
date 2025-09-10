@@ -18,6 +18,7 @@ import {
 import UpdatesList from "@/components/prompts/UpdatesList";
 import GoalListDemo from "@/components/prompts/GoalListDemo";
 import PromptList from "@/components/prompts/PromptList";
+import OnboardingTabs from "@/components/prompts/OnboardingTabs";
 import type { PromptWithTitle } from "@/components/prompts/usePrompts";
 import { Plus } from "lucide-react";
 import { DashboardCard } from "@/components/home";
@@ -27,7 +28,7 @@ import type { Review } from "@/lib/types";
 import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
 import { GoalsProgress, RemindersTab, TimerRing, TimerTab } from "@/components/goals";
 
-type View = "components" | "colors";
+type View = "components" | "colors" | "onboarding";
 type Section =
   | "buttons"
   | "iconButton"
@@ -48,6 +49,7 @@ type Spec = {
 const VIEW_TABS: TabItem<View>[] = [
   { key: "components", label: "Components" },
   { key: "colors", label: "Colors" },
+  { key: "onboarding", label: "Onboarding" },
 ];
 
 const SECTION_TABS: TabItem<Section>[] = [
@@ -422,8 +424,10 @@ export default function Page() {
       <div className="col-span-12">
         {view === "components" ? (
           <ComponentsView query={query} />
-        ) : (
+        ) : view === "colors" ? (
           <ColorsView />
+        ) : (
+          <OnboardingTabs />
         )}
       </div>
     </main>
