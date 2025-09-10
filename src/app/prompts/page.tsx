@@ -41,6 +41,8 @@ import {
   TimerRing,
   TimerTab,
 } from "@/components/goals";
+import Fuse from "fuse.js";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type View = "components" | "colors" | "onboarding";
 type Section =
@@ -532,14 +534,38 @@ function SectionCard({ title, children }: SectionCardProps) {
 }
 
 function ComponentsView({ query }: { query: string }) {
-  const [section, setSection] = React.useState<Section>("buttons");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [section, setSection] = React.useState<Section>(
+    () => (searchParams.get("section") as Section) || "buttons",
+  );
+
+  React.useEffect(() => {
+    const s = (searchParams.get("section") as Section) || "buttons";
+    if (s !== section) setSection(s);
+  }, [searchParams, section]);
+
+  React.useEffect(() => {
+    const current = searchParams.get("section");
+    if (current === section) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("section", section);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [section, router, searchParams]);
+
+  const fuse = React.useMemo(
+    () =>
+      new Fuse(SPEC_DATA[section], {
+        keys: ["name", "tags", "props.value"],
+        threshold: 0.3,
+      }),
+    [section],
+  );
+
   const specs = React.useMemo(() => {
-    const q = query.toLowerCase();
-    return SPEC_DATA[section].filter(
-      (s) =>
-        s.name.toLowerCase().includes(q) || s.tags.some((t) => t.includes(q)),
-    );
-  }, [section, query]);
+    if (!query) return SPEC_DATA[section];
+    return fuse.search(query).map((r) => r.item);
+  }, [query, fuse, section]);
 
   return (
     <div className="space-y-8">
@@ -550,11 +576,19 @@ function ComponentsView({ query }: { query: string }) {
         ariaLabel="Component groups"
       />
       <ul className="grid grid-cols-12 gap-6">
-        {specs.map((spec) => (
-          <li key={spec.id} className="col-span-12 md:col-span-6">
-            <SpecCard {...spec} />
+        {specs.length === 0 ? (
+          <li className="col-span-12">
+            <Card>
+              <CardContent>No results found</CardContent>
+            </Card>
           </li>
-        ))}
+        ) : (
+          specs.map((spec) => (
+            <li key={spec.id} className="col-span-12 md:col-span-6">
+              <SpecCard {...spec} />
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
@@ -582,8 +616,43 @@ function ColorsView() {
 }
 
 export default function Page() {
-  const [view, setView] = React.useState<View>("components");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [view, setView] = React.useState<View>(
+    () => (searchParams.get("view") as View) || "components",
+  );
   const [query, setQuery] = React.useState("");
+
+  React.useEffect(() => {
+    const v = (searchParams.get("view") as View) || "components";
+    setView(v);
+    const qParam = searchParams.get("q");
+    const stored =
+      typeof window !== "undefined"
+        ? localStorage.getItem("prompts-query")
+        : "";
+    setQuery(qParam ?? stored ?? "");
+  }, [searchParams]);
+
+  React.useEffect(() => {
+    const current = searchParams.get("view");
+    if (current === view) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", view);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [view, router, searchParams]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("prompts-query", query);
+    }
+    const current = searchParams.get("q") ?? "";
+    if (current === query) return;
+    const params = new URLSearchParams(searchParams.toString());
+    if (query) params.set("q", query);
+    else params.delete("q");
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [query, router, searchParams]);
 
   return (
     <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
@@ -599,7 +668,15 @@ export default function Page() {
         <ThemeToggle />
       </header>
       <div className="col-span-12">
-        <SearchBar value={query} onValueChange={setQuery} />
+        <label htmlFor="playground-search" className="sr-only">
+          Search components
+        </label>
+        <SearchBar
+          id="playground-search"
+          value={query}
+          onValueChange={setQuery}
+          debounceMs={300}
+        />
       </div>
       <div className="col-span-12">
         <UpdatesList />
