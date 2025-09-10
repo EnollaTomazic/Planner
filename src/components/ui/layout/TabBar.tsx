@@ -106,13 +106,13 @@ export default function TabBar<K extends string = string>({
 
   return (
     <div className={cn("relative w-full", className)} onKeyDown={onKeyDown}>
-      <div className={cn("flex items-center", justify, "gap-3")}>
+      <div className={cn("flex flex-wrap items-center", justify, "gap-3")}>
         {/* Tabs group */}
         <div
           role="tablist"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
-          className="inline-flex items-center gap-1 rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
+          className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
         >
           {items.map((item) => {
             const active = item.key === activeKey;
