@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Card } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import { LOCALE } from "@/lib/utils";
 import type { PromptWithTitle } from "./usePrompts";
 
 export type PromptListProps = {
   prompts: PromptWithTitle[];
+  query: string;
 };
 
-export default function PromptList({ prompts }: PromptListProps) {
+export default function PromptList({ prompts, query }: PromptListProps) {
   return (
     <ul className="mt-4 space-y-3">
       {prompts.map((p) => (
@@ -29,8 +31,11 @@ export default function PromptList({ prompts }: PromptListProps) {
         </li>
       ))}
       {prompts.length === 0 ? (
-        <li className="text-muted-foreground">
-          Nothing matches your search. Typical.
+        <li className="text-muted-foreground flex items-center gap-1">
+          No prompts match
+          <Badge size="xs" tone="neutral">
+            {query || ""}
+          </Badge>
         </li>
       ) : null}
     </ul>

@@ -47,7 +47,7 @@ export default function PromptsPage() {
           onTextChange={setTextDraft}
         />
 
-        <PromptList prompts={filtered} />
+        <PromptList prompts={filtered} query={query} />
 
         <PromptsDemos />
       </SectionCard.Body>
