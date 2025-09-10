@@ -22,7 +22,7 @@ const FieldShell = React.forwardRef<HTMLDivElement, FieldShellProps>(
         disabled && "opacity-[var(--disabled)] pointer-events-none",
         className,
       )}
-      style={{ "--focus": "hsl(var(--ring))", ...style } as React.CSSProperties}
+      style={{ "--focus": "var(--theme-ring)", ...style } as React.CSSProperties}
       {...props}
     />
   ),

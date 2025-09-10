@@ -10,9 +10,9 @@ const __dirname = path.dirname(__filename);
 
 StyleDictionary.registerFormat({
   name: "tokens/markdown",
-  format: ({ dictionary }) => {
+  format: ({ dictionary }: { dictionary: any }) => {
     const lines = dictionary.allTokens.map(
-      (t) => `| ${t.name} | ${t.value} |`,
+      (t: any) => `| ${t.name} | ${t.value} |`,
     );
     return ["| Token | Value |", "| --- | --- |", ...lines].join("\n");
   },
