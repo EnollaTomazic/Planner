@@ -12,10 +12,10 @@ const shellBase = cn(
   "data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]",
 );
 
-const statusDotBase = "h-2 w-2 rounded-full shadow-[0_0_4px_currentColor]";
-const statusDotWin = "bg-success";
-const statusDotLoss = "bg-danger";
-const statusDotDefault = "bg-muted-foreground";
+const statusDotBase = "h-2 w-2 rounded-full ring-2";
+const statusDotWin = "bg-success ring-success";
+const statusDotLoss = "bg-danger ring-danger";
+const statusDotDefault = "bg-muted-foreground ring-muted-foreground";
 const statusDotPulse =
   "motion-safe:animate-[pulse_2s_ease-in-out_infinite] motion-reduce:animate-none";
 const statusDotBlink =
@@ -26,7 +26,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded bg-muted";
 const scoreBadge =
-  "px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] shadow-[0_0_6px_var(--theme-accent)]";
+  "px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent]";
 
 export type ReviewListItemProps = {
   review?: Review;
@@ -95,19 +95,22 @@ export default function ReviewListItem({
                 review?.result === "Win"
                   ? statusDotWin
                   : review?.result === "Loss"
-                  ? statusDotLoss
-                  : statusDotDefault,
+                    ? statusDotLoss
+                    : statusDotDefault,
                 review?.status === "new" && statusDotPulse,
               )}
             />
             {role ? (
-              <Badge variant="neutral" className="px-1 py-0 text-[10px]">
+              <Badge variant="neutral" className="px-1 py-0 text-xs">
                 {role}
               </Badge>
             ) : null}
           </div>
           {typeof score === "number" ? (
-            <span className={scoreBadge} aria-label={`Rating ${score} out of 10`}>
+            <span
+              className={scoreBadge}
+              aria-label={`Rating ${score} out of 10`}
+            >
               {score}/10
             </span>
           ) : null}
