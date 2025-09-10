@@ -12,7 +12,6 @@ import { Ghost, Plus } from "lucide-react";
 import Button from "@/components/ui/primitives/Button";
 // ⬇️ use the new AnimatedSelect location
 import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
-import Header from "@/components/ui/layout/Header";
 import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
 
 type SortKey = "newest" | "oldest" | "title";
@@ -90,11 +89,10 @@ export default function ReviewsPage({
   }, [base, q, sort]);
 
   const active = base.find((r) => r.id === selectedId) || null;
-  const panelClass = "md:col-span-8 lg:col-span-9 mx-auto";
+  const panelClass = "md:col-span-9 mx-auto";
 
   return (
     <main className="page-shell py-6 space-y-6">
-      <Header heading="Reviews" />
       <Hero
         topClassName="top-20"
         heading={
@@ -145,8 +143,8 @@ export default function ReviewsPage({
         }
       />
 
-      <div className={cn("grid items-start gap-6 md:grid-cols-12")}>
-        <nav aria-label="Review list" className="md:col-span-4 lg:col-span-3">
+      <div className={cn("grid grid-cols-1 items-start gap-6 md:grid-cols-12")}>
+        <nav aria-label="Review list" className="md:col-span-3">
           <div className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
               <div className="mb-2 text-sm text-muted-foreground">
@@ -169,7 +167,7 @@ export default function ReviewsPage({
           <ReviewPanel
             className={cn(
               panelClass,
-              "flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
+              "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
             )}
           >
             <Ghost className="h-6 w-6 opacity-60" />
