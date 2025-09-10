@@ -43,7 +43,7 @@ export type TabBarProps<K extends string = string> = {
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   sm: { h: "h-8", px: "px-3", text: "text-sm" },
   md: { h: "h-10", px: "px-4", text: "text-sm" },
-  lg: { h: "h-11", px: "px-5", text: "text-base" },
+  lg: { h: "h-11", px: "px-8", text: "text-base" },
 };
 
 export default function TabBar<K extends string = string>({
@@ -62,9 +62,7 @@ export default function TabBar<K extends string = string>({
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
     if (defaultValue) return defaultValue;
-    return (
-      items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? ""
-    ) as K;
+    return (items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? "") as K;
   });
 
   const activeKey = isControlled ? (value as K) : internal;

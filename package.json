@@ -21,6 +21,7 @@
     "format": "prettier --write .",
     "verify-prompts": "ts-node --esm scripts/verify-prompts.ts",
     "check-prompts": "ts-node --esm scripts/check-prompts-updated.ts",
+    "design-lint": "ts-node --esm scripts/design-lint.ts",
     "postinstall": "node scripts/regen-if-needed.js",
     "prepare": "husky"
   },
