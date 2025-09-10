@@ -56,7 +56,6 @@ export default function PromptsDemos() {
           <Input placeholder="Medium" />
           <Input height="lg" placeholder="Large" />
           <Input height={12} placeholder="h-12" />
-          <Input placeholder="Pill" tone="pill" />
           <Input placeholder="Error" aria-invalid="true" />
           <Input
             placeholder="Custom ring"
@@ -80,10 +79,6 @@ export default function PromptsDemos() {
             <option value="">Choose…</option>
             <option value="a">A</option>
           </Select>
-          <Select aria-label="Pill" tone="pill">
-            <option value="">Choose…</option>
-            <option value="a">A</option>
-          </Select>
           <Select aria-label="Error" errorText="Error">
             <option value="">Choose…</option>
             <option value="a">A</option>
@@ -94,7 +89,6 @@ export default function PromptsDemos() {
         <h3 className="type-title">Textarea</h3>
         <div className="space-y-3">
           <Textarea placeholder="Default" resize="resize-y" />
-          <Textarea placeholder="Pill" tone="pill" resize="resize-y" />
         </div>
       </Card>
       <Card className="mt-8 space-y-4">

@@ -11,8 +11,6 @@ export interface SelectProps
   helperText?: string;
   errorText?: string;
   success?: boolean;
-  /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
-  tone?: "default" | "pill";
   /** Optional className for the inner <select> element */
   selectClassName?: string;
 }
@@ -24,7 +22,6 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
     helperText,
     errorText,
     success,
-    tone = "default",
     disabled,
     id,
     children,
@@ -52,7 +49,6 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
           disabled && "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
           className
         )}
-        tone={tone}
         error={!!errorText}
         disabled={disabled}
       >

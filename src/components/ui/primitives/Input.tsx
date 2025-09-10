@@ -11,8 +11,6 @@ export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "height"
 > & {
-  /** Rounded look: "pill" = capsule, "default" = 16px corners (default) */
-  tone?: "default" | "pill";
   /** Visual height of the control (defaults to medium) */
   height?: InputSize | number;
   /** When true, increases left padding for icons */
@@ -31,7 +29,6 @@ const HEIGHT: Record<InputSize, string> = {
 
 /**
  * Input — Matte field with optional trailing slot.
- * - Defaults to `tone="default"` (16px corners)
  * - Accepts className overrides and passes all standard <input> props
  * - Auto-generates a stable `id`; if no `name` is supplied, the generated id is
  *   reused to ensure uniqueness. The `aria-label` is only slugified when a
@@ -45,7 +42,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     id,
     name,
     "aria-label": ariaLabel,
-    tone = "default",
     height = "md",
     indent = false,
     children,
@@ -74,7 +70,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 
   return (
     <FieldShell
-      tone={tone}
       error={error}
       disabled={disabled}
       className={className}

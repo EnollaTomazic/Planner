@@ -94,7 +94,6 @@ export default function SearchBar({
           placeholder={placeholder}
           indent
           height={height}
-          tone="pill"
           className={cn("w-full", showClear && "pr-7")}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
