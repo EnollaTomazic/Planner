@@ -19,13 +19,19 @@ export default function Toast({
   children,
   ...props
 }: ToastProps) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   React.useEffect(() => {
     if (!open) return;
     const timer = setTimeout(() => onOpenChange(false), duration);
     return () => clearTimeout(timer);
   }, [open, duration, onOpenChange]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed bottom-4 right-4 z-50">
       <PrimitiveCard className={cn(className)} {...props}>
