@@ -18,6 +18,8 @@ export type SearchBarProps = Omit<
   debounceMs?: number;
   /** Visual height of the control */
   height?: InputSize | number;
+  /** Additional classes for the outer FieldShell */
+  fieldClassName?: string;
 };
 
 export default function SearchBar({
@@ -35,6 +37,7 @@ export default function SearchBar({
   spellCheck = false,
   autoCapitalize = "none",
   height,
+  fieldClassName,
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
@@ -94,7 +97,7 @@ export default function SearchBar({
           placeholder={placeholder}
           indent
           height={height}
-          className={cn("w-full", showClear && "pr-7")}
+          className={cn("w-full", showClear && "pr-7", fieldClassName)}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
           autoComplete={autoComplete}
