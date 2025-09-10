@@ -27,7 +27,7 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
             className={[
               "relative rounded-2xl p-6",
               "card-neo transition",
-              "hover:shadow-[0_0_0_1px_hsl(var(--primary)/.25),0_12px_40px_hsl(var(--shadow-color)/0.35)]",
+              "hover:shadow-neoSoft",
               "min-h-8 flex flex-col",
             ].join(" ")}
           >
