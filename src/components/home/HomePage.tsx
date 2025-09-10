@@ -3,17 +3,19 @@
 import * as React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/primitives/Button";
-import { SearchBar } from "@/components/ui";
-import { useRouter } from "next/navigation";
+import { SearchBar, Progress } from "@/components/ui";
+import { usePathname, useRouter } from "next/navigation";
 import DashboardCard from "./DashboardCard";
 import { usePersistentState } from "@/lib/db";
 import { todayISO, type DayRecord, type ISODate } from "@/components/planner/plannerStore";
 import type { Goal, Review } from "@/lib/types";
-import { LOCALE } from "@/lib/utils";
+import { LOCALE, cn } from "@/lib/utils";
+import { CircleSlash } from "lucide-react";
 
 export default function HomePage() {
   const [query, setQuery] = React.useState("");
   const router = useRouter();
+  const pathname = usePathname();
   const [days] = usePersistentState<Record<ISODate, DayRecord>>("planner:days", {});
   const [goals] = usePersistentState<Goal[]>("goals.v2", []);
   const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
@@ -40,12 +42,34 @@ export default function HomePage() {
       {/* Hero */}
       <section aria-label="Quick actions" className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="flex flex-wrap gap-4">
-          <Button onClick={() => router.push("/planner")}>Planner Today</Button>
-          <Button variant="ghost" onClick={() => router.push("/goals")}>New Goal</Button>
-          <Button variant="ghost" onClick={() => router.push("/reviews")}>New Review</Button>
+          <Button
+            className="rounded-full shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris]"
+            onClick={() => router.push("/planner")}
+          >
+            Planner Today
+          </Button>
+          <Button
+            className="rounded-full shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris]"
+            tone="accent"
+            onClick={() => router.push("/goals")}
+          >
+            New Goal
+          </Button>
+          <Button
+            className="rounded-full shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris]"
+            tone="accent"
+            onClick={() => router.push("/reviews")}
+          >
+            New Review
+          </Button>
         </div>
         <div className="md:justify-self-end">
-          <SearchBar role="search" value={query} onValueChange={setQuery} />
+          <SearchBar
+            role="search"
+            value={query}
+            onValueChange={setQuery}
+            className="[&>div>div]:rounded-full [&>div>div]:shadow-neo-inset [&>div>div]:[--theme-ring:var(--edge-iris)]"
+          />
         </div>
       </section>
       <div className="h-1 w-full rounded-full" style={{ background: "var(--edge-iris)" }} />
@@ -61,7 +85,12 @@ export default function HomePage() {
               </li>
             ))}
             {topTasks.length === 0 && (
-              <li className="text-sm text-muted-foreground">No tasks</li>
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="rounded-full p-1 shadow-neo-inset">
+                  <CircleSlash className="size-3" />
+                </span>
+                No tasks
+              </li>
             )}
           </ul>
         </DashboardCard>
@@ -71,13 +100,18 @@ export default function HomePage() {
             {activeGoals.map(g => (
               <li key={g.id}>
                 <p className="text-sm">{g.title}</p>
-                <div className="mt-1 h-2 w-full rounded-full bg-card-hairline">
-                  <div className="h-2 rounded-full" style={{ background: "var(--neon)", width: "0%" }} />
+                <div className="mt-1">
+                  <Progress value={0} />
                 </div>
               </li>
             ))}
             {activeGoals.length === 0 && (
-              <li className="text-sm text-muted-foreground">No active goals</li>
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="rounded-full p-1 shadow-neo-inset">
+                  <CircleSlash className="size-3" />
+                </span>
+                No active goals
+              </li>
             )}
           </ul>
         </DashboardCard>
@@ -105,7 +139,12 @@ export default function HomePage() {
               </li>
             ))}
             {recentReviews.length === 0 && (
-              <li className="text-sm text-muted-foreground">No reviews yet</li>
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="rounded-full p-1 shadow-neo-inset">
+                  <CircleSlash className="size-3" />
+                </span>
+                No reviews yet
+              </li>
             )}
           </ul>
         </DashboardCard>
@@ -136,21 +175,28 @@ export default function HomePage() {
 
       {/* Bottom links */}
       <nav className="flex justify-center gap-4 pt-4">
-        <Link className="text-accent underline" href="/goals">
-          Goals
-        </Link>
-        <Link className="text-accent underline" href="/planner">
-          Planner
-        </Link>
-        <Link className="text-accent underline" href="/reviews">
-          Reviews
-        </Link>
-        <Link className="text-accent underline" href="/team">
-          Team
-        </Link>
-        <Link className="text-accent underline" href="/prompts">
-          Prompts
-        </Link>
+        {[
+          { href: "/goals", label: "Goals" },
+          { href: "/planner", label: "Planner" },
+          { href: "/reviews", label: "Reviews" },
+          { href: "/team", label: "Team" },
+          { href: "/prompts", label: "Prompts" },
+        ].map(link => {
+          const active = pathname.startsWith(link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "px-3 py-1 rounded-full text-sm shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris]",
+                active &&
+                  "[background:var(--seg-active-grad)] text-[var(--neon-soft)] shadow-neo shadow-[0_0_8px_hsl(var(--neon)/0.6)]",
+              )}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
     </main>
   );

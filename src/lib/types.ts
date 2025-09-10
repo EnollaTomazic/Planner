@@ -28,6 +28,7 @@ export type Review = {
   side?: Side;
   patch?: string;
   duration?: string;
+  matchup?: string;
   tags: string[];
   pillars: Pillar[];
   notes?: string;
