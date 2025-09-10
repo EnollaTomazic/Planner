@@ -1,4 +1,7 @@
-import StyleDictionary from "style-dictionary";
+import StyleDictionary, {
+  type FormatFnArguments,
+  type TransformedToken,
+} from "style-dictionary";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,9 +13,9 @@ const __dirname = path.dirname(__filename);
 
 StyleDictionary.registerFormat({
   name: "tokens/markdown",
-  format: ({ dictionary }: { dictionary: any }) => {
+  format: ({ dictionary }: FormatFnArguments): string => {
     const lines = dictionary.allTokens.map(
-      (t: any) => `| ${t.name} | ${t.value} |`,
+      (t: TransformedToken) => `| ${t.name} | ${t.value} |`,
     );
     return ["| Token | Value |", "| --- | --- |", ...lines].join("\n");
   },
