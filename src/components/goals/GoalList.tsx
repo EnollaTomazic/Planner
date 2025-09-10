@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import IconButton from "@/components/ui/primitives/IconButton";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import { Trash2, Flag } from "lucide-react";
+import { IconButton, Input, Textarea, CheckCircle } from "@/components/ui";
+import { Trash2, Flag, Pencil, X, Check } from "lucide-react";
 import { shortDate } from "@/lib/date";
 import type { Goal } from "@/lib/types";
 
@@ -11,9 +10,47 @@ interface GoalListProps {
   goals: Goal[];
   onToggleDone: (id: string) => void;
   onRemove: (id: string) => void;
+  onUpdate: (
+    id: string,
+    updates: Pick<Goal, "title" | "metric" | "notes">,
+  ) => void;
 }
 
-export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProps) {
+export default function GoalList({
+  goals,
+  onToggleDone,
+  onRemove,
+  onUpdate,
+}: GoalListProps) {
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+  const [draft, setDraft] = React.useState({
+    title: "",
+    metric: "",
+    notes: "",
+  });
+
+  function startEdit(g: Goal) {
+    setEditingId(g.id);
+    setDraft({
+      title: g.title,
+      metric: g.metric ?? "",
+      notes: g.notes ?? "",
+    });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+  }
+
+  function saveEdit(id: string) {
+    onUpdate(id, {
+      title: draft.title,
+      metric: draft.metric || undefined,
+      notes: draft.notes || undefined,
+    });
+    setEditingId(null);
+  }
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
       {goals.length === 0 ? (
@@ -22,75 +59,156 @@ export default function GoalList({ goals, onToggleDone, onRemove }: GoalListProp
           <p>No goals here. Add one simple, finishable thing.</p>
         </div>
       ) : (
-        goals.map((g) => (
-          <article
-            key={g.id}
-            className={[
-              "relative overflow-hidden rounded-2xl p-6 min-h-8 flex flex-col",
-              "bg-card/30 backdrop-blur-md",
-              "shadow-[inset_0_0_8px_hsl(var(--accent)/.15),0_0_12px_hsl(var(--accent)/.25)]",
-              "transition-all duration-150 hover:-translate-y-1 hover:shadow-[inset_0_0_8px_hsl(var(--accent)/.25),0_0_24px_hsl(var(--accent)/.4)]",
-            ].join(" ")}
-          >
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-2xl p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(#000,#000)_content-box,linear-gradient(#000,#000)] [mask-composite:exclude]"
-            />
-            <header className="relative z-[1] flex items-start justify-between gap-2">
-              <h3 className="pr-6 font-semibold leading-tight line-clamp-2">
-                {g.title}
-              </h3>
-              <div className="flex items-center gap-2">
-                <CheckCircle
-                  aria-label={g.done ? "Mark active" : "Mark done"}
-                  checked={g.done}
-                  onChange={() => onToggleDone(g.id)}
-                  size="lg"
-                  className="transition-transform shadow-[0_0_6px_var(--neon-soft)] hover:-translate-y-0.5 hover:shadow-[0_0_10px_var(--neon)]"
-                />
-                <IconButton
-                  title="Delete"
-                  aria-label="Delete goal"
-                  onClick={() => onRemove(g.id)}
-                  size="sm"
-                  variant="glow"
-                  tone="accent"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
-                  <Trash2 />
-                </IconButton>
-              </div>
-            </header>
-            <div className="relative z-[1] mt-4 space-y-2 text-sm text-muted-foreground">
-              {g.metric ? (
-                <div className="tabular-nums">
-                  <span className="opacity-70">Metric:</span>{" "}
-                  {g.metric}
+        goals.map((g) => {
+          const isEditing = editingId === g.id;
+          return (
+            <article
+              key={g.id}
+              className={[
+                "relative overflow-hidden rounded-2xl p-6 min-h-8 flex flex-col",
+                "bg-card/30 backdrop-blur-md",
+                "shadow-[inset_0_0_8px_hsl(var(--accent)/.15),0_0_12px_hsl(var(--accent)/.25)]",
+                "transition-all duration-150 hover:-translate-y-1 hover:shadow-[inset_0_0_8px_hsl(var(--accent)/.25),0_0_24px_hsl(var(--accent)/.4)]",
+              ].join(" ")}
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-2xl p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(#000,#000)_content-box,linear-gradient(#000,#000)] [mask-composite:exclude]"
+              />
+              <header className="relative z-[1] flex items-start justify-between gap-2">
+                {isEditing ? (
+                  <Input
+                    value={draft.title}
+                    onChange={(e) =>
+                      setDraft((d) => ({ ...d, title: e.target.value }))
+                    }
+                    className="pr-6 font-semibold"
+                    placeholder="Title"
+                  />
+                ) : (
+                  <h3 className="pr-6 font-semibold leading-tight line-clamp-2">
+                    {g.title}
+                  </h3>
+                )}
+                <div className="flex items-center gap-2">
+                  {isEditing ? (
+                    <>
+                      <IconButton
+                        aria-label="Cancel"
+                        onClick={cancelEdit}
+                        size="sm"
+                        variant="ring"
+                        tone="accent"
+                        className="transition-transform hover:-translate-y-0.5"
+                      >
+                        <X />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Save"
+                        onClick={() => saveEdit(g.id)}
+                        size="sm"
+                        variant="glow"
+                        tone="accent"
+                        className="transition-transform hover:-translate-y-0.5"
+                      >
+                        <Check />
+                      </IconButton>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle
+                        aria-label={g.done ? "Mark active" : "Mark done"}
+                        checked={g.done}
+                        onChange={() => onToggleDone(g.id)}
+                        size="lg"
+                        className="transition-transform shadow-[0_0_6px_var(--neon-soft)] hover:-translate-y-0.5 hover:shadow-[0_0_10px_var(--neon)]"
+                      />
+                      <IconButton
+                        title="Edit"
+                        aria-label="Edit goal"
+                        onClick={() => startEdit(g)}
+                        size="sm"
+                        variant="ring"
+                        tone="accent"
+                        className="transition-transform hover:-translate-y-0.5"
+                      >
+                        <Pencil />
+                      </IconButton>
+                      <IconButton
+                        title="Delete"
+                        aria-label="Delete goal"
+                        onClick={() => onRemove(g.id)}
+                        size="sm"
+                        variant="glow"
+                        tone="accent"
+                        className="transition-transform hover:-translate-y-0.5"
+                      >
+                        <Trash2 />
+                      </IconButton>
+                    </>
+                  )}
                 </div>
-              ) : null}
-              {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
-            </div>
-            <footer className="relative z-[1] mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
-              <span className="inline-flex items-center gap-2">
-                <span
-                  aria-hidden
-                  className={[
-                    "h-2 w-2 rounded-full transition-all",
-                    g.done
-                      ? "bg-muted-foreground/40"
-                      : "bg-accent shadow-[0_0_6px_hsl(var(--accent))] animate-pulse",
-                  ].join(" ")}
-                />
-                <time className="tabular-nums" dateTime={new Date(g.createdAt).toISOString()}>
-                  {shortDate.format(new Date(g.createdAt))}
-                </time>
-              </span>
-              <span className={g.done ? "text-muted-foreground" : "text-accent"}>
-                {g.done ? "Done" : "Active"}
-              </span>
-            </footer>
-          </article>
-        ))
+              </header>
+              <div className="relative z-[1] mt-4 space-y-2 text-sm text-muted-foreground">
+                {isEditing ? (
+                  <div className="space-y-2">
+                    <Input
+                      aria-label="Metric"
+                      value={draft.metric}
+                      onChange={(e) =>
+                        setDraft((d) => ({ ...d, metric: e.target.value }))
+                      }
+                      className="tabular-nums"
+                      placeholder="Metric"
+                    />
+                    <Textarea
+                      aria-label="Notes"
+                      value={draft.notes}
+                      onChange={(e) =>
+                        setDraft((d) => ({ ...d, notes: e.target.value }))
+                      }
+                      placeholder="Notes"
+                      className="resize-none"
+                      rows={3}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    {g.metric ? (
+                      <div className="tabular-nums">
+                        <span className="opacity-70">Metric:</span>{" "}
+                        {g.metric}
+                      </div>
+                    ) : null}
+                    {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                  </>
+                )}
+              </div>
+              <footer className="relative z-[1] mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className={[
+                      "h-2 w-2 rounded-full transition-all",
+                      g.done
+                        ? "bg-muted-foreground/40"
+                        : "bg-accent shadow-[0_0_6px_hsl(var(--accent))] animate-pulse",
+                    ].join(" ")}
+                  />
+                  <time
+                    className="tabular-nums"
+                    dateTime={new Date(g.createdAt).toISOString()}
+                  >
+                    {shortDate.format(new Date(g.createdAt))}
+                  </time>
+                </span>
+                <span className={g.done ? "text-muted-foreground" : "text-accent"}>
+                  {g.done ? "Done" : "Active"}
+                </span>
+              </footer>
+            </article>
+          );
+        })
       )}
     </div>
   );

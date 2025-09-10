@@ -15,6 +15,11 @@ export default function GoalListDemo() {
           )
         }
         onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
+        onUpdate={(id, updates) =>
+          setItems((prev) =>
+            prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
+          )
+        }
       />
     </div>
   );
