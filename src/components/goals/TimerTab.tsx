@@ -243,7 +243,7 @@ export default function TimerTab() {
 
           {/* GLITCH loader */}
           <div className="mt-6">
-            <div className="lg-loader">
+            <div className="lg-loader bg-gradient-to-r from-muted/25 to-muted/15">
               {/* track texture */}
               <div className="lg-noise" aria-hidden />
               {/* progress core */}
@@ -304,8 +304,8 @@ export default function TimerTab() {
         {/* Complete state */}
         {finished && (
           <div className="mt-6 grid place-items-center">
-            <div className="complete text-sm px-3 py-1 rounded-full">Complete</div>
-            <div className="complete-text mt-2 text-xs">Good. Now do the review, not Twitter.</div>
+            <div className="complete text-sm px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground">Complete</div>
+            <div className="mt-2 text-xs text-muted-foreground complete-text">Good. Now do the review, not Twitter.</div>
           </div>
         )}
       </SectionCard.Body>
@@ -330,7 +330,6 @@ export default function TimerTab() {
           height: 12px;
           border-radius: 9999px;
           overflow: hidden;
-          background: linear-gradient(90deg, hsl(var(--muted) / .25), hsl(var(--muted) / .15));
           box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
           isolation: isolate;
         }
@@ -408,13 +407,10 @@ export default function TimerTab() {
         }
 
         .complete {
-          background: linear-gradient(90deg,hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-          color: hsl(var(--primary-foreground));
           box-shadow: 0 0 12px hsl(var(--ring)/.25);
           animation: softPulse 2.4s ease-in-out infinite;
         }
         .complete-text {
-          color: hsl(var(--muted-foreground));
           text-shadow: 0 0 8px hsl(var(--ring)/.25);
           animation: flicker .2s steps(2) 12, glow 2.4s ease-in-out infinite 2.4s;
         }
