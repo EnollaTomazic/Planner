@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import HomePage from "@/components/home/HomePage";
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => "/",
 }));
 
 describe("HomePage", () => {
