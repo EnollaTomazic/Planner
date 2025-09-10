@@ -281,6 +281,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
           >
             <Input
               dir="ltr"
+              name="comp-title"
               value={draft}
               onChange={e => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
@@ -353,9 +354,10 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                     ) : (
                       <Input
                         dir="ltr"
+                        name="comp-title-edit"
                         aria-label="Comp title"
                         value={c.title}
-                        onChange={e => patch(c.id, { title: e.target.value })}
+                        onChange={e => patch(c.id, { title: e.currentTarget.value })}
                       />
                     )}
                   </header>
