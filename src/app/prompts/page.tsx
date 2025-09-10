@@ -25,7 +25,7 @@ import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
-import { GoalsProgress, TimerRing } from "@/components/goals";
+import { GoalsProgress, RemindersTab, TimerRing, TimerTab } from "@/components/goals";
 
 type View = "components" | "colors";
 type Section =
@@ -196,6 +196,20 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Radial neon progress",
       element: <GoalsProgress total={5} pct={60} />,
       tags: ["progress", "goals"],
+    },
+    {
+      id: "reminders-tab",
+      name: "RemindersTab",
+      description: "Reminders tab layout",
+      element: <RemindersTab />,
+      tags: ["reminders", "planner"],
+    },
+    {
+      id: "timer-tab",
+      name: "TimerTab",
+      description: "Timer tab layout",
+      element: <TimerTab />,
+      tags: ["timer", "planner"],
     },
     {
       id: "timer-ring",
