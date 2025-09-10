@@ -58,6 +58,9 @@ export default function Header({
         // Safety: never let children bleed outside
         "overflow-hidden",
 
+        // Neon underline
+        "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent",
+
         className
       )}
       {...rest}
