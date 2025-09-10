@@ -17,17 +17,17 @@ export const buttonSizes = {
   },
   md: {
     height: "h-10",
-    padding: "px-5",
+    padding: "px-4",
     text: "text-base",
     gap: "gap-2",
     icon: "[&>svg]:size-5",
   },
   lg: {
     height: "h-11",
-    padding: "px-6",
+    padding: "px-8",
     text: "text-lg",
-    gap: "gap-3",
-    icon: "[&>svg]:size-6",
+    gap: "gap-4",
+    icon: "[&>svg]:size-8",
   },
 } as const;
 
@@ -52,7 +52,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       type = "button",
       ...rest
     },
-    ref
+    ref,
   ) => {
     const s = buttonSizes[size];
     const base = cn(
@@ -86,8 +86,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         primary: "text-foreground",
         accent:
           "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-        info:
-          "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+        info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
         danger:
           "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
       },
@@ -96,8 +95,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
         accent:
           "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
-        info:
-          "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
+        info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
         danger:
           "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
       },
@@ -135,8 +133,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       },
     } as const;
 
-    const { className: variantClass, whileHover, whileTap, overlay, contentClass } =
-      variants[variant];
+    const {
+      className: variantClass,
+      whileHover,
+      whileTap,
+      overlay,
+      contentClass,
+    } = variants[variant];
 
     return (
       <motion.button
@@ -167,11 +170,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {contentClass ? (
           <span className={contentClass}>{children as React.ReactNode}</span>
         ) : (
-          children as React.ReactNode
+          (children as React.ReactNode)
         )}
       </motion.button>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

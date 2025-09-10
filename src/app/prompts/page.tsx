@@ -35,7 +35,12 @@ import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
-import { GoalsProgress, RemindersTab, TimerRing, TimerTab } from "@/components/goals";
+import {
+  GoalsProgress,
+  RemindersTab,
+  TimerRing,
+  TimerTab,
+} from "@/components/goals";
 
 type View = "components" | "colors" | "onboarding";
 type Section =
@@ -103,7 +108,7 @@ function ThemePickerDemo() {
   return (
     <ThemePicker
       variant={t.variant}
-      onVariantChange={v => setT(prev => ({ ...prev, variant: v }))}
+      onVariantChange={(v) => setT((prev) => ({ ...prev, variant: v }))}
     />
   );
 }
@@ -113,7 +118,7 @@ function BackgroundPickerDemo() {
   return (
     <BackgroundPicker
       bg={t.bg}
-      onBgChange={b => setT(prev => ({ ...prev, bg: b }))}
+      onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
     />
   );
 }
@@ -468,7 +473,9 @@ function SpecCard({ name, description, element, props }: Spec) {
         <h3 className="text-base font-semibold tracking-[-0.01em]">{name}</h3>
       </header>
       {description ? (
-        <p className="text-sm font-medium text-muted-foreground">{description}</p>
+        <p className="text-sm font-medium text-muted-foreground">
+          {description}
+        </p>
       ) : null}
       <div className="rounded-xl bg-background p-4">{element}</div>
       {props ? (
@@ -503,7 +510,9 @@ function GradientSwatch() {
   return (
     <li className="col-span-12 md:col-span-6 flex flex-col items-center gap-3">
       <div className="h-16 w-full rounded-xl bg-gradient-to-r from-primary via-accent to-transparent" />
-      <span className="text-xs font-medium">from-primary via-accent to-transparent</span>
+      <span className="text-xs font-medium">
+        from-primary via-accent to-transparent
+      </span>
     </li>
   );
 }
@@ -528,8 +537,7 @@ function ComponentsView({ query }: { query: string }) {
     const q = query.toLowerCase();
     return SPEC_DATA[section].filter(
       (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.tags.some((t) => t.includes(q)),
+        s.name.toLowerCase().includes(q) || s.tags.some((t) => t.includes(q)),
     );
   }, [section, query]);
 
@@ -578,10 +586,12 @@ export default function Page() {
   const [query, setQuery] = React.useState("");
 
   return (
-    <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-6 py-8">
+    <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
       <header className="col-span-12 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-[-0.01em]">Prompts Playground</h1>
+          <h1 className="text-2xl font-semibold tracking-[-0.01em]">
+            Prompts Playground
+          </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Explore components and tokens
           </p>
@@ -631,4 +641,3 @@ export default function Page() {
     </main>
   );
 }
-

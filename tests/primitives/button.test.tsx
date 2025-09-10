@@ -2,6 +2,7 @@ import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { Button } from "../../src/components/ui/primitives/Button";
+import fs from "fs";
 
 afterEach(cleanup);
 
@@ -23,8 +24,12 @@ describe("Button", () => {
     const btn = getByRole("button");
     btn.focus();
     const style = getComputedStyle(btn);
-    expect(style.outlineStyle === "none" || style.outlineStyle === "").toBe(true);
-    expect(style.outlineWidth === "0px" || style.outlineWidth === "").toBe(true);
+    expect(style.outlineStyle === "none" || style.outlineStyle === "").toBe(
+      true,
+    );
+    expect(style.outlineWidth === "0px" || style.outlineWidth === "").toBe(
+      true,
+    );
   });
 
   it("has reduced opacity and no pointer events when disabled", () => {
@@ -46,7 +51,7 @@ describe("Button", () => {
   it.each([
     ["sm", "[&>svg]:size-4"],
     ["md", "[&>svg]:size-5"],
-    ["lg", "[&>svg]:size-6"],
+    ["lg", "[&>svg]:size-8"],
   ])("applies %s icon sizing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size as any}>
@@ -59,7 +64,7 @@ describe("Button", () => {
   it.each([
     ["sm", "gap-1"],
     ["md", "gap-2"],
-    ["lg", "gap-3"],
+    ["lg", "gap-4"],
   ])("applies %s gap spacing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size as any}>
@@ -68,5 +73,13 @@ describe("Button", () => {
       </Button>,
     );
     expect(getByRole("button")).toHaveClass(cls);
+  });
+
+  it("avoids disallowed px spacing", () => {
+    const content = fs.readFileSync(
+      "src/components/ui/primitives/Button.tsx",
+      "utf8",
+    );
+    expect(content).not.toMatch(/\bpx-(5|6)\b/);
   });
 });

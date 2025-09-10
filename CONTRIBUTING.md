@@ -48,3 +48,7 @@ Rebase your branch on top of `main` before merging to maintain a clean, linear c
 
 - Keep pull requests manageable, ideally under about 300 lines of changes.
 - Open draft PRs early when you want feedback before the work is finished.
+
+## Manual QA
+
+Before submitting significant UI work, run through the [manual QA checklist](docs/qa-manual.md).

@@ -107,7 +107,7 @@ export default function Hero({
       <div
         className={cx(
           sticky ? "sticky-blur" : "",
-          "hero2-frame relative overflow-hidden rounded-2xl px-4 sm:px-5 py-4",
+          "hero2-frame relative overflow-hidden rounded-2xl px-4 py-4",
           topClassName,
         )}
       >
