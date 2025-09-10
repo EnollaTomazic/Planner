@@ -44,10 +44,10 @@ export default function WeekSummary({
   const { getDay } = usePlannerStore();
 
   const stats = React.useMemo(() => {
-    return weekDays.map(d => {
+    return weekDays.map((d) => {
       const rec = getDay(d);
       const total = rec.tasks.length;
-      const done = rec.tasks.filter(t => t.done).length;
+      const done = rec.tasks.filter((t) => t.done).length;
       return { iso: d, done, total };
     });
   }, [weekDays, getDay]);
@@ -56,7 +56,9 @@ export default function WeekSummary({
   const doneAll = stats.reduce((a, s) => a + s.done, 0);
 
   const rangeLabel =
-    weekDays.length === 7 ? `${fmtDay(weekDays[0])} — ${fmtDay(weekDays[6])}` : "";
+    weekDays.length === 7
+      ? `${fmtDay(weekDays[0])} — ${fmtDay(weekDays[6])}`
+      : "";
 
   const grid =
     variant === "inline"
@@ -96,7 +98,7 @@ export default function WeekSummary({
 
   const tiles = (
     <div className={grid} role="list" aria-label="Week days summary">
-      {stats.map(s => {
+      {stats.map((s) => {
         const today = isToday(s.iso);
         const empty = s.total === 0;
         return (
@@ -105,16 +107,21 @@ export default function WeekSummary({
             role="listitem"
             className={cn(
               "ws-tile group",
-              variant === "inline" ? "p-2 rounded-lg" : "p-3 rounded-xl",
+              variant === "inline" ? "p-2 rounded-2xl" : "p-3 rounded-2xl",
               today && "ws-tile--today",
-              empty && "ws-tile--empty"
+              empty && "ws-tile--empty",
             )}
             data-today={today || undefined}
             tabIndex={0}
             aria-label={`${s.iso}: ${s.done} of ${s.total} done`}
           >
             <div className="ws-tile__date">{s.iso}</div>
-            <div className={cn("ws-tile__counts", variant === "inline" ? "text-base" : "text-lg")}>
+            <div
+              className={cn(
+                "ws-tile__counts",
+                variant === "inline" ? "text-base" : "text-lg",
+              )}
+            >
               <span className="tabular-nums">{s.done}</span>
               <span className="opacity-60"> / </span>
               <span className="tabular-nums">{s.total}</span>

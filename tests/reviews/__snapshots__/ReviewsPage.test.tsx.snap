@@ -738,7 +738,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                shown
             </div>
             <div
-              class="rounded-xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full mx-auto backdrop-blur-sm max-h-screen overflow-auto p-2"
+              class="rounded-2xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full mx-auto backdrop-blur-sm max-h-screen overflow-auto p-2"
             >
               <ul
                 class="flex flex-col gap-3"
@@ -778,7 +778,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             MID
                           </span>
@@ -822,7 +822,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             ADC
                           </span>
@@ -866,7 +866,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             TOP
                           </span>
@@ -885,7 +885,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       >
         <div
           aria-live="polite"
-          class="rounded-xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-5 mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
+          class="rounded-2xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-5 mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
         >
           <svg
             class="lucide lucide-ghost h-6 w-6 opacity-60"
