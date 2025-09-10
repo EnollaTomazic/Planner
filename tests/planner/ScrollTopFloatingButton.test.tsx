@@ -46,7 +46,7 @@ describe("ScrollTopFloatingButton", () => {
       const entry = {
         target: first,
         isIntersecting: false,
-      } as IntersectionObserverEntry;
+      } as unknown as IntersectionObserverEntry;
       observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).not.toBeNull();
@@ -56,7 +56,7 @@ describe("ScrollTopFloatingButton", () => {
       const entry = {
         target: second,
         isIntersecting: true,
-      } as IntersectionObserverEntry;
+      } as unknown as IntersectionObserverEntry;
       observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).toBeNull();
@@ -64,7 +64,7 @@ describe("ScrollTopFloatingButton", () => {
       const entry = {
         target: second,
         isIntersecting: false,
-      } as IntersectionObserverEntry;
+      } as unknown as IntersectionObserverEntry;
       observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).not.toBeNull();

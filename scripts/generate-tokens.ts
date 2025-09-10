@@ -1,7 +1,8 @@
-import StyleDictionary, {
-  type FormatFnArguments,
-  type TransformedToken,
-} from "style-dictionary";
+import StyleDictionary from "style-dictionary";
+import type {
+  FormatFnArguments,
+  TransformedToken,
+} from "style-dictionary/types";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
