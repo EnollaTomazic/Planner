@@ -171,7 +171,7 @@ export default function GoalsPage() {
         : "Pick a duration and focus.";
 
   return (
-    <main id="goals-main" role="main" className="page-shell py-6 space-y-6">
+    <main id="goals-main" className="page-shell py-6 space-y-6">
       {/* ======= HEADER ======= */}
       <Header
         eyebrow="Goals"
