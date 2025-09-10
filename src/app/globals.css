@@ -588,7 +588,7 @@ html.bg-intense body::after {
   }
 
   .btn-glitch {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-2xl);
     color: hsl(var(--primary-foreground));
     background: var(--seg-active-grad);
     box-shadow:
@@ -603,7 +603,7 @@ html.bg-intense body::after {
   }
 
   .btn-lift {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-2xl);
     background: hsl(var(--card));
     border: 1px solid hsl(var(--card-hairline));
     box-shadow: 0 6px 18px hsl(var(--shadow-color) / 0.18);
@@ -617,7 +617,7 @@ html.bg-intense body::after {
 
   /* Inputs */
   .input-base {
-    @apply rounded-xl border text-sm;
+    @apply rounded-2xl border text-sm;
     height: var(--control-h);
     padding: 0 var(--control-px);
     font-size: var(--control-fs);
@@ -1302,9 +1302,7 @@ textarea:-webkit-autofill {
 
   /* Radius tokens */
   --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px; /* 24px */
+  --radius-2xl: 16px;
 }
 
 @layer components {
@@ -1798,7 +1796,7 @@ a:active .lucide {
     --radius-card: var(--radius-md);
   }
   .r-card-md {
-    --radius-card: var(--radius-lg);
+    --radius-card: var(--radius-2xl);
   }
   .r-card-lg {
     --radius-card: var(--radius-xl);
@@ -1906,7 +1904,7 @@ a:active .lucide {
 
 @layer components {
   .goal-card {
-    @apply relative overflow-hidden rounded-xl border border-border;
+    @apply relative overflow-hidden rounded-2xl border border-border;
     background: linear-gradient(
       135deg,
       hsl(var(--surface-2)),

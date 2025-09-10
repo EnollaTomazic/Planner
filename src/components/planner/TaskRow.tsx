@@ -67,7 +67,7 @@ export default function TaskRow({
         <div className="flex-1 min-w-0 px-1">
           {!editing ? (
             <button
-              className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
+              className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-2xl"
               onClick={onToggle}
               onDoubleClick={start}
               aria-pressed={task.done}

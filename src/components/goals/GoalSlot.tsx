@@ -13,7 +13,12 @@ interface GoalSlotProps {
   onDelete?: (id: string) => void;
 }
 
-export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalSlotProps) {
+export default function GoalSlot({
+  goal,
+  onToggleDone,
+  onEdit,
+  onDelete,
+}: GoalSlotProps) {
   function handleEdit() {
     if (!goal || !onEdit) return;
     const t = window.prompt("Edit goal title", goal.title);
@@ -24,19 +29,26 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
   }
 
   return (
-    <div className="group relative rounded-lg border-4 border-border bg-surface p-1 shadow-neoSoft">
+    <div className="group relative rounded-2xl border-4 border-border bg-surface p-1 shadow-neoSoft">
       <div
         className={cn(
-          "relative flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-surface-2 font-mono text-center text-sm text-foreground",
+          "relative flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-surface-2 font-mono text-center text-sm text-foreground",
           goal?.done && "bg-muted text-muted-foreground",
         )}
       >
         {goal ? (
           <>
             <div className="flex flex-col items-center">
-              <span className={cn("block", goal?.done && "line-through")}>{goal.title}</span>
+              <span className={cn("block", goal?.done && "line-through")}>
+                {goal.title}
+              </span>
               {goal.pillar && (
-                <PillarBadge pillar={goal.pillar} size="sm" className="mt-1" as="span" />
+                <PillarBadge
+                  pillar={goal.pillar}
+                  size="sm"
+                  className="mt-1"
+                  as="span"
+                />
               )}
             </div>
             <button
@@ -75,4 +87,3 @@ export default function GoalSlot({ goal, onToggleDone, onEdit, onDelete }: GoalS
     </div>
   );
 }
-
