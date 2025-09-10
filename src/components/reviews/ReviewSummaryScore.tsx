@@ -26,16 +26,13 @@ export default function ReviewSummaryScore({
     <div>
       <SectionLabel>Score</SectionLabel>
       <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
-        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-          <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
-            <div
-              className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]"
-              style={{ width: `calc(${score * 10}% + 10px)` }}
-            />
-            <div
-              className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-              style={{ left: `calc(${score * 10}% - 10px)` }}
-            />
+        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
+          <div
+            className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
+            style={{ "--progress": `${score * 10}%` } as React.CSSProperties}
+          >
+            <div className="absolute left-0 top-0 h-2 w-[var(--progress)] rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]" />
+            <div className="absolute left-[var(--progress)] top-1/2 h-5 w-5 -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft" />
           </div>
         </div>
       </div>
@@ -51,17 +48,14 @@ export default function ReviewSummaryScore({
             <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
           <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
-            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-          <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
-            <div
-              className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]"
-              style={{ width: `calc(${(focus / 10) * 100}% + 10px)` }}
-            />
-            <div
-              className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-              style={{ left: `calc(${(focus / 10) * 100}% - 10px)` }}
-            />
-          </div>
+            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
+              <div
+                className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
+                style={{ "--progress": `${(focus / 10) * 100}%` } as React.CSSProperties}
+              >
+                <div className="absolute left-0 top-0 h-2 w-[var(--progress)] rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]" />
+                <div className="absolute left-[var(--progress)] top-1/2 h-5 w-5 -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft" />
+              </div>
             </div>
           </div>
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
