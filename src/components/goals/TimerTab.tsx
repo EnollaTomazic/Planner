@@ -197,6 +197,15 @@ export default function TimerTab() {
   }, [running, isPersonal, pause, start, reset, setPersonalMinutes, setRemaining]);
 
   const pct = Math.round(progress * 100);
+  const [ringSize, setRingSize] = React.useState(224);
+  React.useEffect(() => {
+    function update() {
+      setRingSize(Math.min(224, window.innerWidth - 64));
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   return (
     <div className="grid gap-4">
@@ -214,6 +223,7 @@ export default function TimerTab() {
             ariaLabel="Timer profiles"
             right={rightSlot}
             showBaseline
+            className="overflow-x-auto"
           />
         }
       />
@@ -227,7 +237,7 @@ export default function TimerTab() {
               title="Minus 1 minute"
               onClick={() => adjust(-1)}
               disabled={!isPersonal || running || minutes <= 0}
-              className="absolute -top-4 -left-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              className="absolute top-2 left-2 sm:-top-4 sm:-left-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Minus />
             </IconButton>
@@ -236,16 +246,19 @@ export default function TimerTab() {
               title="Plus 1 minute"
               onClick={() => adjust(1)}
               disabled={!isPersonal || running}
-              className="absolute -top-4 -right-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              className="absolute top-2 right-2 sm:-top-4 sm:-right-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Plus />
             </IconButton>
 
             {/* ring + digits */}
-            <div className="group relative mx-auto flex h-56 w-56 items-center justify-center">
-              <TimerRing pct={pct} size={224} />
+            <div
+              className="group relative mx-auto flex items-center justify-center"
+              style={{ width: ringSize, height: ringSize }}
+            >
+              <TimerRing pct={pct} size={ringSize} />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                <div className="text-6xl font-bold tabular-nums text-foreground drop-shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5">
+                <div className="text-5xl font-bold tabular-nums text-foreground drop-shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5 sm:text-6xl">
                   {fmt(remaining)}
                 </div>
                 {isPersonal && !running && (
@@ -255,7 +268,7 @@ export default function TimerTab() {
                     onChange={(e) => setTimeEdit(e.currentTarget.value)}
                     onBlur={commitEdit}
                     onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                    className="absolute w-full max-w-[7ch] bg-transparent text-center text-6xl font-bold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="absolute w-full max-w-[7ch] bg-transparent text-center text-5xl font-bold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-6xl"
                   />
                 )}
               </div>
@@ -274,7 +287,7 @@ export default function TimerTab() {
             </div>
 
             {/* controls */}
-            <div className="mt-6 flex justify-center gap-2">
+            <div className="mt-6 flex w-full flex-wrap justify-center gap-2 overflow-x-auto">
               {!running ? (
                 <SegmentedButton
                   className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
