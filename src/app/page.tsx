@@ -33,26 +33,23 @@ function HomePageContent() {
   );
 
   React.useEffect(() => {
-    const t = setTimeout(() => {
-      const themeParam = searchParams.get("theme");
-      const bgParam = searchParams.get("bg");
-      setTheme(prev => {
-        const next = { ...prev };
-        if (themeParam && VARIANTS.some(v => v.id === themeParam)) {
-          next.variant = themeParam as Variant;
+    if (typeof window === "undefined") return;
+    const themeParam = searchParams.get("theme");
+    const bgParam = searchParams.get("bg");
+    setTheme(prev => {
+      const next = { ...prev };
+      if (themeParam && VARIANTS.some(v => v.id === themeParam)) {
+        next.variant = themeParam as Variant;
+      }
+      if (bgParam) {
+        const idx = Number(bgParam);
+        if (!Number.isNaN(idx) && idx >= 0 && idx < BG_CLASSES.length) {
+          next.bg = idx as Background;
         }
-        if (bgParam) {
-          const idx = Number(bgParam);
-          if (!Number.isNaN(idx) && idx >= 0 && idx < BG_CLASSES.length) {
-            next.bg = idx as Background;
-          }
-        }
-        return next;
-      });
-    }, 0);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      }
+      return next;
+    });
+  }, [searchParams, setTheme]);
 
   React.useEffect(() => {
     applyTheme(theme);

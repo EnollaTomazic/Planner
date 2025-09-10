@@ -24,7 +24,7 @@ export default function ScrollTopFloatingButton({
       obs.unobserve(target);
       obs.disconnect();
     };
-  }, [watchRef.current, watchRef]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [watchRef]);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
