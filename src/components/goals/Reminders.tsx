@@ -174,6 +174,7 @@ export default function Reminders() {
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
+                name="search-reminders"
                 className="pl-6"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
@@ -218,6 +219,7 @@ export default function Reminders() {
             <Input
               aria-label="Quick add"
               placeholder={`Quick add to ${group === "all" ? "Pre-Game" : group.charAt(0).toUpperCase() + group.slice(1)}…`}
+              name="quick-reminder"
               value={quickAdd}
               onChange={(e) => setQuickAdd(e.currentTarget.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
