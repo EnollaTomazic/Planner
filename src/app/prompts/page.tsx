@@ -117,7 +117,7 @@ const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "icon-button",
       name: "IconButton",
-      description: "Size variants",
+      description: "Size variants (neon proportions)",
       element: (
         <div className="flex items-center gap-4">
           <IconButton size="xs" aria-label="Add">

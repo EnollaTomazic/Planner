@@ -18,11 +18,11 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&>svg]:h-6 [&>svg]:w-6",
-  sm: "[&>svg]:h-7 [&>svg]:w-7",
-  md: "[&>svg]:h-8 [&>svg]:w-8",
-  lg: "[&>svg]:h-9 [&>svg]:w-9",
-  xl: "[&>svg]:h-10 [&>svg]:w-10",
+  xs: "[&>svg]:h-[18px] [&>svg]:w-[18px]",
+  sm: "[&>svg]:h-[20px] [&>svg]:w-[20px]",
+  md: "[&>svg]:h-[22px] [&>svg]:w-[22px]",
+  lg: "[&>svg]:h-[25px] [&>svg]:w-[25px]",
+  xl: "[&>svg]:h-[27px] [&>svg]:w-[27px]",
 };
 const getSizeClass = (s: IconButtonSize) => {
   const sizeMap: Record<IconButtonSize, string> = {
@@ -36,9 +36,9 @@ const getSizeClass = (s: IconButtonSize) => {
 };
 
 const variantBase: Record<Variant, string> = {
-  ring: "border bg-transparent hover:bg-panel/45",
+  ring: "border bg-card/35 hover:bg-panel/45",
   solid: "border",
-  glow: "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
+  glow: "border bg-card/35 hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {

@@ -46,11 +46,11 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&>svg]:h-6 [&>svg]:w-6"],
-    ["sm", "[&>svg]:h-7 [&>svg]:w-7"],
-    ["md", "[&>svg]:h-8 [&>svg]:w-8"],
-    ["lg", "[&>svg]:h-9 [&>svg]:w-9"],
-    ["xl", "[&>svg]:h-10 [&>svg]:w-10"],
+    ["xs", "[&>svg]:h-[18px] [&>svg]:w-[18px]"],
+    ["sm", "[&>svg]:h-[20px] [&>svg]:w-[20px]"],
+    ["md", "[&>svg]:h-[22px] [&>svg]:w-[22px]"],
+    ["lg", "[&>svg]:h-[25px] [&>svg]:w-[25px]"],
+    ["xl", "[&>svg]:h-[27px] [&>svg]:w-[27px]"],
   ] as const;
 
   iconCases.forEach(([iconSize, cls]) => {
@@ -67,7 +67,7 @@ describe("IconButton", () => {
       <IconButton variant="ring" tone="primary" aria-label="rp" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-transparent hover:bg-panel/45");
+    expect(classes).toContain("border bg-card/35 hover:bg-panel/45");
     expect(classes).toContain("border-line/35 text-foreground");
   });
 
@@ -88,7 +88,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain(
-      "border bg-transparent hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
+      "border bg-card/35 hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
     );
     expect(classes).toContain("border-accent-2/35 text-accent-2");
   });
@@ -98,7 +98,7 @@ describe("IconButton", () => {
       <IconButton variant="ring" tone="danger" aria-label="rd" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-transparent hover:bg-panel/45");
+    expect(classes).toContain("border bg-card/35 hover:bg-panel/45");
     expect(classes).toContain("border-danger/35 text-danger");
     expect(classes).not.toContain("shadow-[0_0_8px_currentColor]");
   });
