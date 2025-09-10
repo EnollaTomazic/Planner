@@ -56,7 +56,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring] disabled:opacity-50 disabled:pointer-events-none",
+      "relative inline-flex items-center justify-center rounded-2xl border border-accent-strong font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-accent-strong disabled:opacity-50 disabled:pointer-events-none",
       s.height,
       s.padding,
       s.text,
@@ -66,10 +66,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     const colorVar: Record<Tone, string> = {
-      primary: "--foreground",
+      primary: "--text",
       accent: "--accent",
-      info: "--accent-2",
-      danger: "--danger",
+      info: "--accent-weak",
+      danger: "--status-error",
     };
 
     const toneClasses: Record<
@@ -77,29 +77,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       Record<Tone, string>
     > = {
       primary: {
-        primary: "text-foreground",
+        primary: "text-text",
         accent: "text-accent",
-        info: "text-accent-2",
-        danger: "text-danger",
+        info: "text-accent-weak",
+        danger: "text-status-error",
       },
       secondary: {
-        primary: "text-foreground",
+        primary: "text-text",
         accent:
           "text-accent bg-accent/15 hover:bg-accent/25",
         info:
-          "text-accent-2 bg-accent-2/15 hover:bg-accent-2/25",
+          "text-accent-weak bg-accent-weak/15 hover:bg-accent-weak/25",
         danger:
-          "text-danger bg-danger/15 hover:bg-danger/25",
+          "text-status-error bg-status-error/15 hover:bg-status-error/25",
       },
       ghost: {
         primary:
-          "text-foreground hover:bg-foreground/10",
+          "text-text hover:bg-text/10",
         accent:
           "text-accent hover:bg-accent/10",
         info:
-          "text-accent-2 hover:bg-accent-2/10",
+          "text-accent-weak hover:bg-accent-weak/10",
         danger:
-          "text-danger hover:bg-danger/10",
+          "text-status-error hover:bg-status-error/10",
       },
     };
 
@@ -114,7 +114,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     > = {
       primary: {
-        className: "bg-panel/85 overflow-hidden shadow-neo",
+        className: "bg-surface-alt/85 overflow-hidden shadow-neo",
         whileTap: {
           scale: 0.96,
           boxShadow: neuInset(10) as CSSProperties["boxShadow"],
@@ -122,7 +122,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         contentClass: "relative z-10 inline-flex items-center gap-2",
       },
       secondary: {
-        className: "bg-panel/80 shadow-neo",
+        className: "bg-surface-alt/80 shadow-neo",
         whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
         whileTap: {
           scale: 0.97,

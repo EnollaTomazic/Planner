@@ -10,43 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: { DEFAULT: "hsl(var(--card))" },
-        panel: { DEFAULT: "hsl(var(--panel))" },
-        "card-hairline": "hsl(var(--card-hairline))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-          soft: "hsl(var(--primary-soft))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          soft: "hsl(var(--accent-soft))",
-        },
-        "accent-2": "hsl(var(--accent-2))",
-        glow: "hsl(var(--glow))",
-        ringMuted: "hsl(var(--ring-muted))",
-        danger: "hsl(var(--danger))",
-        warning: "hsl(var(--warning))",
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          glow: "hsl(var(--success-glow))",
-        },
-        auroraG: "hsl(var(--aurora-g))",
-        auroraGLight: "hsl(var(--aurora-g-light))",
-        auroraP: "hsl(var(--aurora-p))",
-        auroraPLight: "hsl(var(--aurora-p-light))",
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        lavDeep: "hsl(var(--lav-deep))",
-        surfaceVhs: "hsl(var(--surface-vhs))",
-        surfaceStreak: "hsl(var(--surface-streak))",
+        surface: "hsl(var(--surface))",
+        "surface-alt": "hsl(var(--surface-alt))",
+        text: "hsl(var(--text))",
+        accent: "hsl(var(--accent))",
+        "accent-strong": "hsl(var(--accent-strong))",
+        "accent-weak": "hsl(var(--accent-weak))",
+        "status-success": "hsl(var(--status-success))",
+        "status-warning": "hsl(var(--status-warning))",
+        "status-error": "hsl(var(--status-error))",
       },
       borderRadius: {
         md: `var(${radiusTokens[0]})`,
@@ -56,14 +28,14 @@ const config: Config = {
       },
       boxShadow: {
         "neo-sm":
-          "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",
-        neo: "12px 12px 24px hsl(var(--panel)/0.72), -12px -12px 24px hsl(var(--foreground)/0.06)",
+          "4px 4px 8px hsl(var(--surface-alt)/0.72), -4px -4px 8px hsl(var(--text)/0.06)",
+        neo: "12px 12px 24px hsl(var(--surface-alt)/0.72), -12px -12px 24px hsl(var(--text)/0.06)",
         "neo-strong":
-          "14px 14px 28px hsl(var(--panel)/0.72), -14px -14px 28px hsl(var(--foreground)/0.06)",
+          "14px 14px 28px hsl(var(--surface-alt)/0.72), -14px -14px 28px hsl(var(--text)/0.06)",
         "neo-inset":
-          "inset 4px 4px 10px hsl(var(--panel)/0.85), inset -4px -4px 10px hsl(var(--foreground)/0.08)",
-        ring: "0 0 12px hsl(var(--ring))",
-        neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))",
+          "inset 4px 4px 10px hsl(var(--surface-alt)/0.85), inset -4px -4px 10px hsl(var(--text)/0.08)",
+        ring: "0 0 12px hsl(var(--accent))",
+        neoSoft: "0 3px 12px -4px hsl(var(--accent))",
       },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",

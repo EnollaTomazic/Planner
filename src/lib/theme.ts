@@ -33,42 +33,17 @@ export const BG_CLASSES = [
 ] as const;
 
 export const COLOR_PALETTES = {
-  aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
-  neutrals: [
-    "background",
-    "foreground",
-    "text",
-    "card",
-    "panel",
-    "border",
-    "line",
-    "input",
-    "ring",
-    "muted",
-    "muted-foreground",
-    "surface",
-    "surface-2",
-    "surface-vhs",
-    "surface-streak",
-    "icon-fg",
-  ],
-  accents: [
-    "accent",
-    "accent-2",
-    "accent-foreground",
-    "danger",
-    "success",
-    "glow-strong",
-    "glow-soft",
-  ],
+  core: ["surface", "surface-alt", "text"],
+  accent: ["accent", "accent-strong", "accent-weak"],
+  status: ["status-success", "status-warning", "status-error"],
 } as const;
 
 export type ColorPalette = keyof typeof COLOR_PALETTES;
 
 export const COLOR_TOKENS = [
-  ...COLOR_PALETTES.neutrals,
-  ...COLOR_PALETTES.accents,
-  ...COLOR_PALETTES.aurora,
+  ...COLOR_PALETTES.core,
+  ...COLOR_PALETTES.accent,
+  ...COLOR_PALETTES.status,
 ] as const;
 
 export const VARIANTS: { id: Variant; label: string }[] = [
@@ -84,7 +59,7 @@ export const VARIANTS: { id: Variant; label: string }[] = [
 export function defaultTheme(): ThemeState {
   const prefersDark =
     typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
   return { variant: "lg", mode: prefersDark ? "dark" : "light", bg: 0 };
 }
 

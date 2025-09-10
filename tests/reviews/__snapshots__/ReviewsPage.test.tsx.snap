@@ -673,13 +673,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                   </div>
                 </div>
                 <button
-                  class="relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring] disabled:opacity-50 disabled:pointer-events-none h-10 text-base gap-2 [&>svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                  class="relative inline-flex items-center justify-center rounded-2xl border border-accent-strong font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-accent-strong disabled:opacity-50 disabled:pointer-events-none h-10 text-base gap-2 [&>svg]:size-5 px-4 whitespace-nowrap bg-surface-alt/85 overflow-hidden shadow-neo text-text"
                   tabindex="0"
                   type="button"
                 >
                   <span
                     class="absolute inset-0 pointer-events-none rounded-2xl"
-                    style="background: linear-gradient(90deg, hsl(var(--foreground)/.18), hsl(var(--foreground)/.18));"
+                    style="background: linear-gradient(90deg, hsl(var(--text)/.18), hsl(var(--text)/.18));"
                   />
                   <span
                     class="relative z-10 inline-flex items-center gap-2"

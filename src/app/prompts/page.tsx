@@ -60,9 +60,9 @@ const SECTION_TABS: TabItem<Section>[] = [
 ];
 
 const COLOR_SECTIONS = [
-  { title: "Aurora", tokens: COLOR_PALETTES.aurora },
-  { title: "Neutrals", tokens: COLOR_PALETTES.neutrals },
-  { title: "Accents", tokens: COLOR_PALETTES.accents },
+  { title: "Core", tokens: COLOR_PALETTES.core },
+  { title: "Accent", tokens: COLOR_PALETTES.accent },
+  { title: "Status", tokens: COLOR_PALETTES.status },
 ];
 
 const demoPrompts: PromptWithTitle[] = [
