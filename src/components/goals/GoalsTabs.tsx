@@ -16,7 +16,7 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
     <div
       role="tablist"
       aria-label="Filter goals"
-      className="flex flex-col gap-2"
+      className="flex flex-row gap-3"
     >
       {FILTERS.map((f) => {
         const active = value === f;
