@@ -21,7 +21,7 @@ export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & 
 const INNER =
   "block w-full max-w-full min-h-7 px-4 py-3 text-base bg-transparent " +
   "text-foreground placeholder:text-muted-foreground " +
-  "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-50 disabled:cursor-not-allowed";
+  "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default";
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   {
@@ -49,6 +49,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Tex
     <FieldShell
       error={error}
       disabled={props.disabled}
+      readOnly={props.readOnly}
       className={className}
     >
       <textarea
