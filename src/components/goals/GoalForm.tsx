@@ -39,6 +39,9 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
   ref
 ) {
   const titleRef = React.useRef<HTMLInputElement>(null);
+  const helpId = "goal-form-help";
+  const errorId = "goal-form-error";
+  const describedBy = [helpId, err ? errorId : null].filter(Boolean).join(" ");
 
   React.useImperativeHandle(ref, () => ({
     focus: (options?: FocusOptions) => titleRef.current?.focus(options),
@@ -71,7 +74,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
-              aria-describedby="goal-form-help goal-form-error"
+              aria-describedby={describedBy || undefined}
             />
           </Label>
 
@@ -82,7 +85,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
               className="h-10 text-sm tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
-              aria-describedby="goal-form-help goal-form-error"
+              aria-describedby={describedBy || undefined}
             />
           </Label>
 
@@ -93,13 +96,13 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
               textareaClassName="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
-              aria-describedby="goal-form-help goal-form-error"
+              aria-describedby={describedBy || undefined}
             />
           </Label>
 
-          <div className="text-xs text-muted-foreground">
+          <div id={helpId} className="text-xs text-muted-foreground">
             {activeCount >= activeCap ? (
-              <span className="text-accent">
+              <span className="text-danger">
                 Cap reached. Finish one to add more.
               </span>
             ) : (
@@ -111,7 +114,12 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </div>
 
           {err ? (
-            <p role="status" aria-live="polite" className="text-xs text-accent">
+            <p
+              id={errorId}
+              role="status"
+              aria-live="polite"
+              className="text-xs text-danger"
+            >
               {err}
             </p>
           ) : null}
