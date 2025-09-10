@@ -20,15 +20,10 @@ import type { ISODate } from "./plannerStore";
 type Props = { iso: ISODate };
 
 export default function FocusPanel({ iso }: Props) {
-  const { focus, setFocus, day, setNotes } = usePlannerStore();
+  const { day, setNotes } = usePlannerStore();
 
   // Initialize from current day.notes; safe because usePersistentState returns initial on first render.
   const [value, setValue] = React.useState<string>(day.notes ?? "");
-
-  // Keep global focus aligned with the visible iso without causing loops.
-  React.useEffect(() => {
-    if (focus !== iso) setFocus(iso);
-  }, [focus, iso, setFocus]);
 
   // When the underlying day notes change (due to iso switch or cross-tab sync), refresh local state.
   React.useEffect(() => {

@@ -16,7 +16,7 @@ import type { ISODate } from "./plannerStore";
 type Props = { iso: ISODate };
 
 export default function WeekNotes({ iso }: Props) {
-  const { focus, setFocus, day, setNotes } = usePlannerStore();
+  const { day, setNotes } = usePlannerStore();
   const [value, setValue] = React.useState(day.notes ?? "");
   const trimmed = value.trim();
   const original = (day.notes ?? "").trim();
@@ -34,10 +34,6 @@ export default function WeekNotes({ iso }: Props) {
       setSaving(false);
     }
   }, [isDirty, setNotes, trimmed]);
-
-  React.useEffect(() => {
-    if (focus !== iso) setFocus(iso);
-  }, [focus, iso, setFocus]);
 
   React.useEffect(() => {
     setValue(day.notes ?? "");
