@@ -212,7 +212,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
-      className="w-full bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-lg sm:text-xl font-semibold glitch-title title-glow"
+      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-lg sm:text-xl font-semibold glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -370,23 +370,23 @@ function ChampPillsEdit({
             dir="ltr"
             value={c}
             onChange={(e) => setAt(i, e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === ",") {
-                e.preventDefault();
-                insertAfter(i);
-              }
-              if (e.key === "Backspace" && !e.currentTarget.value) {
-                e.preventDefault();
-                removeAt(i);
-              }
-            }}
-            aria-label="Champion name"
-            autoComplete="off"
-            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
-          />
-        </span>
-      ))}
-    </div>
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === ",") {
+              e.preventDefault();
+              insertAfter(i);
+            }
+            if (e.key === "Backspace" && !e.currentTarget.value) {
+              e.preventDefault();
+              removeAt(i);
+            }
+          }}
+          aria-label="Champion name"
+          autoComplete="off"
+          className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
+        />
+      </span>
+    ))}
+  </div>
   );
 }
 

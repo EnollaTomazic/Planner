@@ -543,7 +543,7 @@ export default function ReviewEditor({
         {/* Score */}
         <div>
           <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
+          <div className="relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
             <input
               ref={scoreRangeRef}
               type="range"
@@ -562,7 +562,7 @@ export default function ReviewEditor({
                   go(timeRef);
                 }
               }}
-              className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
+              className="absolute inset-0 z-10 cursor-pointer rounded-2xl opacity-0 [appearance:none]"
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
@@ -614,7 +614,7 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4">
+          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -627,7 +627,7 @@ export default function ReviewEditor({
                     setFocus(v);
                     commitMeta({ focus: v });
                   }}
-                  className="absolute inset-0 z-10 cursor-pointer opacity-0 [appearance:none]"
+                  className="absolute inset-0 z-10 cursor-pointer rounded-2xl opacity-0 [appearance:none]"
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
