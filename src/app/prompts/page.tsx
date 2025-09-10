@@ -153,7 +153,7 @@ const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "goal-list",
       name: "GoalList",
-      description: "Demo goal list",
+      description: "Demo goal list with tokenized hover shadow",
       element: <GoalListDemo />,
       tags: ["planner"],
     },
