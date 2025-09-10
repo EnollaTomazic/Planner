@@ -30,7 +30,7 @@ import PromptList from "@/components/prompts/PromptList";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
 import type { PromptWithTitle } from "@/components/prompts/usePrompts";
 import { Plus } from "lucide-react";
-import { DashboardCard } from "@/components/home";
+import { DashboardCard, BottomNav } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
@@ -433,6 +433,12 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       name: "BackgroundPicker",
       element: <BackgroundPickerDemo />,
       tags: ["control", "theme"],
+    },
+    {
+      id: "bottom-nav",
+      name: "BottomNav",
+      element: <BottomNav />,
+      tags: ["navigation", "home"],
     },
     {
       id: "card",
