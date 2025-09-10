@@ -5,35 +5,6 @@ exports[`ReviewsPage > renders default state 1`] = `
   <main
     class="page-shell py-6 space-y-6"
   >
-    <header
-      class="z-[999] relative isolate rounded-2xl bg-card/70 backdrop-blur-md shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)] overflow-hidden"
-    >
-      <div
-        class="sticky top-8 relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
-      >
-        <div
-          aria-hidden="true"
-          class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
-        />
-        <div
-          class="flex min-w-0 items-center gap-2 sm:gap-3"
-        >
-          <div
-            class="min-w-0"
-          >
-            <div
-              class="flex min-w-0 items-baseline gap-2"
-            >
-              <h1
-                class="truncate text-base leading-tight text-foreground sm:text-lg title-glow"
-              >
-                Reviews
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
     <section>
       <style>
         
@@ -748,11 +719,11 @@ exports[`ReviewsPage > renders default state 1`] = `
       </div>
     </section>
     <div
-      class="grid items-start gap-6 md:grid-cols-12"
+      class="grid grid-cols-1 items-start gap-6 md:grid-cols-12"
     >
       <nav
         aria-label="Review list"
-        class="md:col-span-4 lg:col-span-3"
+        class="md:col-span-3"
       >
         <div
           class="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong"
@@ -880,7 +851,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         </div>
       </nav>
       <div
-        class="rounded-xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-5 md:col-span-8 lg:col-span-9 mx-auto flex flex-col items-center justify-center gap-2 py-12 text-sm text-muted-foreground"
+        class="rounded-xl border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-5 md:col-span-9 mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
       >
         <svg
           class="lucide lucide-ghost h-6 w-6 opacity-60"
