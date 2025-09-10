@@ -275,7 +275,7 @@ export default function RemindersTab() {
                 e.preventDefault();
                 if (quickAdd.trim()) addNew(quickAdd);
               }}
-              className="rounded-card flex items-center gap-6 glitch"
+              className="rounded-card flex items-center gap-2 sm:gap-6 glitch"
             >
               <Input
                 aria-label="Quick add reminder"
@@ -287,7 +287,7 @@ export default function RemindersTab() {
               <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
                 <Plus size={16} aria-hidden />
               </IconButton>
-              <div className={neonClass}>
+              <div className={`${neonClass} hidden sm:block`}>
                 <p className="neon-note text-xs italic">Stop procrastinating, do it now if you have time</p>
               </div>
             </form>
@@ -301,6 +301,7 @@ export default function RemindersTab() {
                 ariaLabel="Reminder group"
                 size="md"
                 align="between"
+                className="overflow-x-auto"
                 right={
                   <SegmentedButton
                     className="inline-flex items-center gap-1"
@@ -339,7 +340,7 @@ export default function RemindersTab() {
             )}
 
             {/* Cards grid */}
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {filtered.map((r) => (
                 <RemTile
                   key={r.id}
@@ -443,7 +444,7 @@ function RemTile({
             />
           ) : (
             <h4
-              className="font-semibold uppercase tracking-wide pr-2 title-glow glitch cursor-text leading-6"
+              className="font-semibold uppercase tracking-wide pr-2 title-glow glitch cursor-text leading-6 truncate"
               onClick={() => {
                 setEditing(true);
                 setTimeout(() => titleRef.current?.focus(), 0);
@@ -523,36 +524,39 @@ function RemTile({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTagsText(e.currentTarget.value)}
             />
 
-            <div className="segmented inline-flex">
+            <div className="segmented flex flex-wrap -m-1">
                 {(["pregame", "laning", "trading", "tempo", "review", "quick"] as Group[]).map((g) => (
                   <SegmentedButton
                     key={g}
                     onClick={() => onChange({ group: g })}
                     isActive={value.group === g}
+                    className="m-1"
                   >
                     {g === "pregame" ? "Pre-Game" : cap(g)}
                   </SegmentedButton>
                 ))}
             </div>
 
-            <div className="segmented inline-flex">
+            <div className="segmented flex flex-wrap -m-1">
                 {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map((s) => (
                   <SegmentedButton
                     key={s}
                     onClick={() => onChange({ source: s })}
                     isActive={value.source === s}
+                    className="m-1"
                   >
                     {s}
                   </SegmentedButton>
                 ))}
             </div>
 
-            <div className="segmented inline-flex">
+            <div className="segmented flex flex-wrap -m-1">
                 {(["Life", "League", "Learn"] as Domain[]).map((d) => (
                   <SegmentedButton
                     key={d}
                     onClick={() => onChange({ domain: d })}
                     isActive={(value.domain ?? "League") === d}
+                    className="m-1"
                   >
                     {d}
                   </SegmentedButton>
