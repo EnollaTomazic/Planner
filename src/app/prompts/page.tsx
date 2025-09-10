@@ -11,6 +11,7 @@ import {
   Badge,
   ThemeToggle,
   type TabItem,
+  Progress,
 } from "@/components/ui";
 import UpdatesList from "@/components/prompts/UpdatesList";
 import GoalListDemo from "@/components/prompts/GoalListDemo";
@@ -158,6 +159,13 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Demo goal list with tokenized hover shadow",
       element: <GoalListDemo />,
       tags: ["planner"],
+    },
+    {
+      id: "progress",
+      name: "Progress",
+      description: "Neon gradient bar",
+      element: <Progress value={50} />,
+      tags: ["progress", "feedback"],
     },
     {
       id: "dashboard-card",
