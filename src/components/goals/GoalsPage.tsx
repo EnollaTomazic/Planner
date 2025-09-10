@@ -277,6 +277,7 @@ export default function GoalsPage() {
           id="reminders-panel"
           aria-labelledby="reminders-tab"
           hidden={tab !== "reminders"}
+          className="grid gap-4"
         >
           {tab === "reminders" && <RemindersTab />}
         </div>
@@ -286,6 +287,7 @@ export default function GoalsPage() {
           id="timer-panel"
           aria-labelledby="timer-tab"
           hidden={tab !== "timer"}
+          className="grid gap-4"
         >
           {tab === "timer" && <TimerTab />}
         </div>
