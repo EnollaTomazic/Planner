@@ -29,7 +29,7 @@ export default function SearchBar({
   placeholder = "Search…",
   className,
   clearable = true,
-  debounceMs = 0,
+  debounceMs = 200,
   autoComplete = "off",
   autoCorrect = "off",
   spellCheck = false,
@@ -94,11 +94,8 @@ export default function SearchBar({
           placeholder={placeholder}
           indent
           height={height}
-          className={cn(
-            "w-full",
-            showClear && "pr-7",
-            "border-border bg-input"
-          )}
+          tone="pill"
+          className={cn("w-full", showClear && "pr-7")}
           aria-label={rest["aria-label"] ?? "Search"}
           type="search"
           autoComplete={autoComplete}

@@ -2,9 +2,9 @@
 "use client";
 
 /**
- * TabBar — Lavender-Glitch borderless tabs with neon text and sliding indicator
- * - Text-only buttons (white/70 default and active) with neon glow.
- * - Smooth indicator; keyboard: ← → Home End; role="tablist".
+ * TabBar — segmented pills with soft depth
+ * - Inset shadow segments; active uses accent gradient with glow.
+ * - Keyboard: ← → Home End; role="tablist".
  */
 
 import * as React from "react";
@@ -64,17 +64,6 @@ export default function TabBar<K extends string = string>({
 
   const activeKey = isControlled ? (value as K) : internal;
 
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const tabRefs = React.useRef(new Map<K, HTMLButtonElement | null>());
-  const indicatorRef = React.useRef<HTMLDivElement | null>(null);
-
-  const setTabRef = React.useCallback(
-    (key: K) => (el: HTMLButtonElement | null) => {
-      tabRefs.current.set(key, el);
-    },
-    [],
-  );
-
   const commitValue = React.useCallback(
     (next: K) => {
       if (!isControlled) setInternal(next);
@@ -82,32 +71,6 @@ export default function TabBar<K extends string = string>({
     },
     [isControlled, onValueChange],
   );
-
-  const recalcIndicator = React.useCallback(() => {
-    const el = tabRefs.current.get(activeKey);
-    const bar = indicatorRef.current;
-    const wrap = containerRef.current;
-    if (!el || !bar || !wrap) return;
-
-    const wrapRect = wrap.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
-
-    const left = elRect.left - wrapRect.left;
-    const width = elRect.width;
-
-    bar.style.transform = `translateX(${left}px)`;
-    bar.style.width = `${Math.max(0, width)}px`;
-    bar.style.opacity = "1";
-  }, [activeKey]);
-
-  React.useEffect(() => {
-    recalcIndicator();
-  }, [activeKey, recalcIndicator, items.length]);
-  React.useEffect(() => {
-    const onResize = () => recalcIndicator();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [recalcIndicator]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
@@ -140,25 +103,20 @@ export default function TabBar<K extends string = string>({
   const s = sizeMap[size];
 
   return (
-    <div
-      className={cn("relative w-full", className)}
-      ref={containerRef}
-      onKeyDown={onKeyDown}
-    >
+    <div className={cn("relative w-full", className)} onKeyDown={onKeyDown}>
       <div className={cn("flex items-center", justify, "gap-3")}>
         {/* Tabs group */}
         <div
           role="tablist"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
-          className="relative flex items-center flex-wrap gap-2"
+          className="inline-flex items-center gap-1 rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
         >
           {items.map((item) => {
             const active = item.key === activeKey;
             return (
               <button
                 key={item.key}
-                ref={setTabRef(item.key)}
                 role="tab"
                 type="button"
                 aria-selected={active}
@@ -166,23 +124,18 @@ export default function TabBar<K extends string = string>({
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
-                  "relative inline-flex items-center select-none rounded-full transition-[color,opacity,text-shadow] duration-200",
-                  "bg-transparent border-0",
+                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-150 ease-out",
                   s.h,
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground hover:text-foreground data-[active=true]:text-foreground",
+                  "text-foreground/70 hover:text-foreground shadow-[inset_0_1px_0_hsl(var(--border)/0.2)]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:shadow-ring",
                   item.disabled && "opacity-40 pointer-events-none",
                   item.className,
                 )}
                 data-active={active || undefined}
-                style={
-                  active
-                    ? { textShadow: "0 0 10px hsl(var(--ring))" }
-                    : undefined
-                }
               >
                 {item.icon && (
                   <span
@@ -198,25 +151,13 @@ export default function TabBar<K extends string = string>({
                 )}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full text-xs leading-none px-2 py-1 bg-primary-soft text-foreground">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full px-2 py-1 text-xs leading-none bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}
               </button>
             );
           })}
-
-          {/* Sliding indicator */}
-          <div
-            ref={indicatorRef}
-            aria-hidden
-            className={cn(
-              "pointer-events-none absolute -bottom-1 h-0.5 rounded-full opacity-0",
-              "[background:var(--seg-active-grad,linear-gradient(90deg,hsl(var(--primary))_0%,hsl(var(--accent))_100%))]",
-              "transition-[transform,width,opacity] duration-200 ease-out",
-              "shadow-ring",
-            )}
-          />
         </div>
 
         {/* Right slot */}

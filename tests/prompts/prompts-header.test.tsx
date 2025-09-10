@@ -3,7 +3,10 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { PromptsHeader } from "@/components/prompts";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 
 describe("PromptsHeader", () => {
   it("renders count, search input, and disabled save button", () => {
@@ -28,8 +31,11 @@ describe("PromptsHeader", () => {
     const save = screen.getByRole("button", { name: "Save" });
     expect(save).toBeDisabled();
 
+    vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "changed" } });
+    vi.advanceTimersByTime(250);
     expect(handleQuery).toHaveBeenCalledWith("changed");
+    vi.useRealTimers();
   });
 
   it("calls onSave when save button clicked", () => {
