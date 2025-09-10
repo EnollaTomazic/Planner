@@ -26,7 +26,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded bg-muted";
 const scoreBadge =
-  "px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent]";
+  "px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] shadow-ring [--ring:var(--theme-accent)]";
 
 export type ReviewListItemProps = {
   review?: Review;
@@ -101,7 +101,7 @@ export default function ReviewListItem({
               )}
             />
             {role ? (
-              <Badge variant="neutral" className="px-1 py-0 text-xs">
+              <Badge variant="neutral" className="px-1 py-0 text-xs leading-none">
                 {role}
               </Badge>
             ) : null}
