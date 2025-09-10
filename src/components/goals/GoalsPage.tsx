@@ -163,6 +163,15 @@ export default function GoalsPage() {
     undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
   }
 
+  function updateGoal(
+    id: string,
+    updates: Pick<Goal, "title" | "metric" | "notes">,
+  ) {
+    setGoals((prev) =>
+      prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
+    );
+  }
+
   const summary =
     tab === "goals"
       ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
@@ -236,6 +245,7 @@ export default function GoalsPage() {
                       goals={filtered}
                       onToggleDone={toggleDone}
                       onRemove={removeGoal}
+                      onUpdate={updateGoal}
                     />
                   </SectionCard.Body>
                 </SectionCard>

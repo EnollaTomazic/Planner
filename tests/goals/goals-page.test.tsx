@@ -28,6 +28,36 @@ describe("GoalsPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("allows editing goal fields", async () => {
+    render(<GoalsPage />);
+
+    const titleInput = screen.getByRole("textbox", { name: "Title" });
+    const metricInput = screen.getByRole("textbox", { name: "Metric (optional)" });
+    const addButton = screen.getByRole("button", { name: /add goal/i });
+
+    fireEvent.change(titleInput, { target: { value: "Initial" } });
+    fireEvent.change(metricInput, { target: { value: "5" } });
+    fireEvent.click(addButton);
+
+    const goalTitle = await screen.findByText("Initial");
+    const article = goalTitle.closest("article") as HTMLElement;
+
+    const editButton = within(article).getByRole("button", { name: "Edit goal" });
+    fireEvent.click(editButton);
+
+    const editTitle = await within(article).findByPlaceholderText("Title");
+    fireEvent.change(editTitle, { target: { value: "Updated" } });
+    const editMetric = await within(article).findByPlaceholderText("Metric");
+    fireEvent.change(editMetric, { target: { value: "10" } });
+
+    const saveButton = within(article).getByRole("button", { name: "Save" });
+    fireEvent.click(saveButton);
+
+    expect(await screen.findByText("Updated")).toBeInTheDocument();
+    const metricLabel = within(article).getByText("Metric:");
+    expect(metricLabel.parentElement?.textContent).toBe("Metric: 10");
+  });
+
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
     expect(
