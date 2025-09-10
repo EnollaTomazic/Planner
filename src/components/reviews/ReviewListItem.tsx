@@ -5,15 +5,14 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
-import { shortDate } from "@/lib/date";
-import styles from "./ReviewListItem.module.css";
 
-const itemBase = cn(
-  styles.tile,
-  "relative w-full text-left h-auto min-h-[76px] p-4 rounded-lg border border-border/50 bg-card/60 scanlines noise jitter transition-all duration-200 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
+const shellBase = cn(
+  "relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
+  "hover:ring-2 hover:ring-[--theme-ring]",
+  "data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]",
 );
-const itemSelected = styles.tileActive;
-const statusDotBase = "self-center justify-self-center h-2 w-2 rounded-full";
+
+const statusDotBase = "h-2 w-2 rounded-full shadow-[0_0_4px_currentColor]";
 const statusDotWin = "bg-success";
 const statusDotLoss = "bg-danger";
 const statusDotDefault = "bg-muted-foreground";
@@ -22,10 +21,12 @@ const statusDotPulse =
 const statusDotBlink =
   "motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none";
 const itemLoading = cn(
-  itemBase,
+  shellBase,
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
 const loadingLine = "h-3 rounded bg-muted";
+const scoreBadge =
+  "px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] shadow-[0_0_6px_var(--theme-accent)]";
 
 export type ReviewListItemProps = {
   review?: Review;
@@ -53,11 +54,9 @@ export default function ReviewListItem({
 
   const title = review?.title?.trim() || "Untitled Review";
   const untitled = !review?.title?.trim();
-  const subline = review?.notes?.trim() || "";
+  const matchup = review?.matchup?.trim() || "";
   const score = review?.score;
-  const dateStr = review?.createdAt
-    ? shortDate.format(new Date(review.createdAt))
-    : "";
+  const role = review?.role;
 
   return (
     <button
@@ -67,46 +66,52 @@ export default function ReviewListItem({
       onClick={onClick}
       aria-label={`Open review: ${title}`}
       data-selected={selected ? "true" : undefined}
-      className={cn(itemBase, selected && itemSelected)}
+      className={shellBase}
     >
-      <div className="grid grid-cols-[20px_1fr_auto] gap-3">
-        <span
-          aria-hidden
-          className={cn(
-            statusDotBase,
-            statusDotBlink,
-            review?.result === "Win"
-              ? statusDotWin
-              : review?.result === "Loss"
-              ? statusDotLoss
-              : statusDotDefault,
-            review?.status === "new" && statusDotPulse
-          )}
-        />
-        <div className="min-w-0 flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-start justify-between gap-2">
           <div
             className={cn(
               "truncate font-medium text-base",
-              untitled && "text-muted-foreground/70"
+              untitled && "text-muted-foreground/70",
             )}
             aria-label={untitled ? "Untitled Review" : undefined}
           >
             {title}
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {typeof score === "number" ? (
-              <Badge variant="accent" aria-label={`Rating ${score} out of 10`}>
-                {score}/10
+          {matchup ? (
+            <div className="truncate text-sm text-muted-foreground">
+              {matchup}
+            </div>
+          ) : null}
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className={cn(
+                statusDotBase,
+                statusDotBlink,
+                review?.result === "Win"
+                  ? statusDotWin
+                  : review?.result === "Loss"
+                  ? statusDotLoss
+                  : statusDotDefault,
+                review?.status === "new" && statusDotPulse,
+              )}
+            />
+            {role ? (
+              <Badge variant="neutral" className="px-1 py-0 text-[10px]">
+                {role}
               </Badge>
             ) : null}
-            {subline ? (
-              <span className="line-clamp-1 truncate">{subline}</span>
-            ) : null}
           </div>
+          {typeof score === "number" ? (
+            <span className={scoreBadge} aria-label={`Rating ${score} out of 10`}>
+              {score}/10
+            </span>
+          ) : null}
         </div>
-        <span className="self-start text-xs text-muted-foreground whitespace-nowrap">
-          {dateStr}
-        </span>
       </div>
     </button>
   );

@@ -80,6 +80,8 @@ const demoReview: Review = {
   tags: [],
   pillars: [],
   createdAt: Date.now(),
+  matchup: "Lux vs Ahri",
+  role: "MID",
   score: 8,
   result: "Win",
 };
