@@ -20,8 +20,11 @@ export default function ScrollTopFloatingButton({
       entries.forEach(e => setVisible(!e.isIntersecting));
     });
     obs.observe(target);
-    return () => obs.disconnect();
-  }, [watchRef]);
+    return () => {
+      obs.unobserve(target);
+      obs.disconnect();
+    };
+  }, [watchRef.current, watchRef]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
