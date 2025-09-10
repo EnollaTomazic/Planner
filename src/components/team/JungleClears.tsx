@@ -229,6 +229,7 @@ export default function JungleClears() {
                             <td className="py-2 pr-3 font-medium">
                               <Input
                                 aria-label="Champion"
+                                name="champion"
                                 value={editing.champ}
                                 onChange={(e) => setEditing({ ...editing, champ: e.currentTarget.value })}
                               />
@@ -237,6 +238,7 @@ export default function JungleClears() {
                               <Input
                                 aria-label="Type"
                                 placeholder="AD, Assassin"
+                                name="type"
                                 value={editing.type}
                                 onChange={(e) => setEditing({ ...editing, type: e.currentTarget.value })}
                               />
@@ -244,6 +246,7 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">
                               <Input
                                 aria-label="Notes"
+                                name="notes"
                                 value={editing.notes}
                                 onChange={(e) => setEditing({ ...editing, notes: e.currentTarget.value })}
                               />
