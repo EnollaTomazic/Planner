@@ -56,9 +56,19 @@ type Spec = {
 };
 
 const VIEW_TABS: TabItem<View>[] = [
-  { key: "components", label: "Components" },
-  { key: "colors", label: "Colors" },
-  { key: "onboarding", label: "Onboarding" },
+  {
+    key: "components",
+    label: "Components",
+    id: "components-tab",
+    controls: "components-panel",
+  },
+  { key: "colors", label: "Colors", id: "colors-tab", controls: "colors-panel" },
+  {
+    key: "onboarding",
+    label: "Onboarding",
+    id: "onboarding-tab",
+    controls: "onboarding-panel",
+  },
 ];
 
 const SECTION_TABS: TabItem<Section>[] = [
@@ -597,13 +607,30 @@ export default function Page() {
         />
       </div>
       <div className="col-span-12">
-        {view === "components" ? (
+        <div
+          role="tabpanel"
+          id="components-panel"
+          aria-labelledby="components-tab"
+          hidden={view !== "components"}
+        >
           <ComponentsView query={query} />
-        ) : view === "colors" ? (
+        </div>
+        <div
+          role="tabpanel"
+          id="colors-panel"
+          aria-labelledby="colors-tab"
+          hidden={view !== "colors"}
+        >
           <ColorsView />
-        ) : (
+        </div>
+        <div
+          role="tabpanel"
+          id="onboarding-panel"
+          aria-labelledby="onboarding-tab"
+          hidden={view !== "onboarding"}
+        >
           <OnboardingTabs />
-        )}
+        </div>
       </div>
     </main>
   );

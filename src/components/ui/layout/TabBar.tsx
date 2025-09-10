@@ -17,6 +17,8 @@ export type TabItem<K extends string = string> = {
   disabled?: boolean;
   badge?: React.ReactNode;
   className?: string;
+  id?: string;
+  controls?: string;
 };
 
 type Align = "start" | "center" | "end" | "between";
@@ -117,10 +119,12 @@ export default function TabBar<K extends string = string>({
             return (
               <button
                 key={item.key}
+                id={item.id}
                 role="tab"
                 type="button"
                 aria-selected={active}
                 aria-disabled={item.disabled || undefined}
+                aria-controls={item.controls}
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
