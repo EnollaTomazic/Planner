@@ -11,6 +11,8 @@ const baseReview: Review = {
   title: 'Sample Review',
   notes: 'Quick note',
   createdAt: 1700000000000,
+  matchup: 'Lux vs Ahri',
+  role: 'MID',
   score: 9,
   result: 'Win',
   tags: [],

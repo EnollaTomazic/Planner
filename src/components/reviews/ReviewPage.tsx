@@ -37,6 +37,7 @@ export default function ReviewPage() {
       side: "Blue",
       patch: "",
       duration: "",
+      matchup: "",
       tags: [],
       pillars: [],
       markers: [],        // required by type

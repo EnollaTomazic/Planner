@@ -13,9 +13,33 @@ import type { Review } from "@/lib/types";
 afterEach(cleanup);
 
 const baseReviews: Review[] = [
-  { id: "1", title: "Alpha", tags: [], pillars: [], createdAt: 3000 },
-  { id: "2", title: "Beta", tags: [], pillars: [], createdAt: 1000 },
-  { id: "3", title: "Gamma", tags: [], pillars: [], createdAt: 2000 },
+  {
+    id: "1",
+    title: "Alpha",
+    tags: [],
+    pillars: [],
+    createdAt: 3000,
+    matchup: "Lux vs Ahri",
+    role: "MID",
+  },
+  {
+    id: "2",
+    title: "Beta",
+    tags: [],
+    pillars: [],
+    createdAt: 1000,
+    matchup: "Garen vs Darius",
+    role: "TOP",
+  },
+  {
+    id: "3",
+    title: "Gamma",
+    tags: [],
+    pillars: [],
+    createdAt: 2000,
+    matchup: "Ashe vs Cait",
+    role: "ADC",
+  },
 ];
 
 describe("ReviewsPage", () => {
