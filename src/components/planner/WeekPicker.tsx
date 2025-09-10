@@ -13,7 +13,7 @@ import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
 import { useFocusDate } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
-import { useDay } from "./useDay";
+import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
 import { CalendarDays, ArrowUpToLine } from "lucide-react";
 import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
@@ -21,34 +21,6 @@ import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 /* ───────── date helpers ───────── */
 
 const dmy = new Intl.DateTimeFormat(undefined, { day: "2-digit", month: "short" });
-
-/* ───────── safe week stats (7 fixed calls) ───────── */
-
-function useWeekStats(days: ISODate[]) {
-  const d0 = useDay(days[0]);
-  const d1 = useDay(days[1]);
-  const d2 = useDay(days[2]);
-  const d3 = useDay(days[3]);
-  const d4 = useDay(days[4]);
-  const d5 = useDay(days[5]);
-  const d6 = useDay(days[6]);
-
-  const buckets = [d0, d1, d2, d3, d4, d5, d6];
-
-  const per = buckets.map((b, i) => {
-    const projects = b.projects ?? [];
-    const tasks = b.tasks ?? [];
-    const pDone = projects.filter(p => p?.done).length;
-    const tDone = tasks.filter(t => t?.done).length;
-    const total = projects.length + tasks.length;
-    return { iso: days[i], done: pDone + tDone, total };
-  });
-
-  const weekDone = per.reduce((a, b) => a + b.done, 0);
-  const weekTotal = per.reduce((a, b) => a + b.total, 0);
-
-  return { per, weekDone, weekTotal };
-}
 
 /* ───────── presentational chip (no hooks) ───────── */
 
@@ -129,7 +101,7 @@ export default function WeekPicker() {
     };
   }, [iso]);
 
-  const { per, weekDone, weekTotal } = useWeekStats(days);
+  const { per, weekDone, weekTotal } = useWeekData(days);
 
   // Show "Jump to top" button after a double-click jump; hide when back at top
   const [showTop, setShowTop] = React.useState(false);
