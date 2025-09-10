@@ -392,7 +392,7 @@ export default function ReviewEditor({
   }
 
   return (
-    <div ref={rootRef} className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
+    <div ref={rootRef} className={cn("card-neo-soft r-card-lg transition-none", className)}>
       <div className="section-h sticky">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           <div className="min-w-0">
