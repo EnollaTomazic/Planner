@@ -4,21 +4,38 @@ import * as React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/primitives/Button";
 import { SearchBar, Progress } from "@/components/ui";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import DashboardCard from "./DashboardCard";
 import { usePersistentState } from "@/lib/db";
 import { todayISO, type DayRecord, type ISODate } from "@/components/planner/plannerStore";
 import type { Goal, Review } from "@/lib/types";
 import { LOCALE, cn } from "@/lib/utils";
 import { CircleSlash } from "lucide-react";
+import {
+  applyTheme,
+  defaultTheme,
+  THEME_STORAGE_KEY,
+  VARIANTS,
+  BG_CLASSES,
+  type ThemeState,
+  type Variant,
+  type Background,
+} from "@/lib/theme";
+import ThemePicker from "@/components/ui/theme/ThemePicker";
+import BackgroundPicker from "@/components/ui/theme/BackgroundPicker";
 
 export default function HomePage() {
   const [query, setQuery] = React.useState("");
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [days] = usePersistentState<Record<ISODate, DayRecord>>("planner:days", {});
   const [goals] = usePersistentState<Goal[]>("goals.v2", []);
   const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
+  const [theme, setTheme] = usePersistentState<ThemeState>(
+    THEME_STORAGE_KEY,
+    defaultTheme(),
+  );
 
   const iso = todayISO();
   const tasks = React.useMemo(() => days[iso]?.tasks ?? [], [days, iso]);
@@ -30,6 +47,43 @@ export default function HomePage() {
     () => [...reviews].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
     [reviews],
   );
+
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      const themeParam = searchParams.get("theme");
+      const bgParam = searchParams.get("bg");
+      setTheme(prev => {
+        const next = { ...prev };
+        if (themeParam && VARIANTS.some(v => v.id === themeParam)) {
+          next.variant = themeParam as Variant;
+        }
+        if (bgParam) {
+          const idx = Number(bgParam);
+          if (!Number.isNaN(idx) && idx >= 0 && idx < BG_CLASSES.length) {
+            next.bg = idx as Background;
+          }
+        }
+        return next;
+      });
+    }, 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("theme", theme.variant);
+    params.set("bg", String(theme.bg));
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [theme, router, pathname, searchParams]);
+
+  function resetTheme() {
+    setTheme(defaultTheme());
+  }
 
   return (
     <main className="page-shell py-6 space-y-8">
@@ -61,6 +115,23 @@ export default function HomePage() {
             onClick={() => router.push("/reviews")}
           >
             New Review
+          </Button>
+          <ThemePicker
+            variant={theme.variant}
+            onVariantChange={v => setTheme(prev => ({ ...prev, variant: v }))}
+            className="shrink-0"
+          />
+          <BackgroundPicker
+            bg={theme.bg}
+            onBgChange={b => setTheme(prev => ({ ...prev, bg: b }))}
+            className="shrink-0"
+          />
+          <Button
+            className="rounded-full shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris]"
+            variant="ghost"
+            onClick={resetTheme}
+          >
+            Reset
           </Button>
         </div>
         <div className="md:justify-self-end">

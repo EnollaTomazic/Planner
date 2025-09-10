@@ -10,6 +10,8 @@ import {
   TabBar,
   Badge,
   ThemeToggle,
+  ThemePicker,
+  BackgroundPicker,
   type TabItem,
   Progress,
 } from "@/components/ui";
@@ -22,7 +24,7 @@ import { DashboardCard } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
-import { COLOR_PALETTES } from "@/lib/theme";
+import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
 import { GoalsProgress, TimerRing } from "@/components/goals";
 
 type View = "components" | "colors";
@@ -84,6 +86,26 @@ const demoReview: Review = {
   score: 8,
   result: "Win",
 };
+
+function ThemePickerDemo() {
+  const [t, setT] = React.useState(defaultTheme());
+  return (
+    <ThemePicker
+      variant={t.variant}
+      onVariantChange={v => setT(prev => ({ ...prev, variant: v }))}
+    />
+  );
+}
+
+function BackgroundPickerDemo() {
+  const [t, setT] = React.useState(defaultTheme());
+  return (
+    <BackgroundPicker
+      bg={t.bg}
+      onBgChange={b => setT(prev => ({ ...prev, bg: b }))}
+    />
+  );
+}
 
 const SPEC_DATA: Record<Section, Spec[]> = {
   buttons: [
@@ -226,6 +248,18 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       name: "ReviewListItem",
       element: <ReviewListItem review={demoReview} />,
       tags: ["review", "tile"],
+    },
+    {
+      id: "theme-picker",
+      name: "ThemePicker",
+      element: <ThemePickerDemo />,
+      tags: ["control", "theme"],
+    },
+    {
+      id: "background-picker",
+      name: "BackgroundPicker",
+      element: <BackgroundPickerDemo />,
+      tags: ["control", "theme"],
     },
   ],
 };
