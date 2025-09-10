@@ -84,7 +84,7 @@ export const VARIANTS: { id: Variant; label: string }[] = [
 export function defaultTheme(): ThemeState {
   const prefersDark =
     typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
   return { variant: "lg", mode: prefersDark ? "dark" : "light", bg: 0 };
 }
 
