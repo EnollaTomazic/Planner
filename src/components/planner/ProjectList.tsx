@@ -115,6 +115,7 @@ export default function ProjectList({
 
                     {isEditing ? (
                       <Input
+                        name={`rename-project-${p.id}`}
                         autoFocus
                         value={editingProjectName}
                         onChange={(e) => setEditingProjectName(e.target.value)}
