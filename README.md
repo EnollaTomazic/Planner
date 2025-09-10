@@ -45,6 +45,16 @@ This app respects your operating system's "reduced motion" setting. If reduced m
 
 Learn more about the components and guidelines in the [Design System](docs/design-system.md).
 
+## Tokens
+
+Generate design tokens as CSS variables, a JavaScript module, and a Markdown reference with:
+
+```bash
+npm run generate-tokens
+```
+
+The script shows a progress bar and runs automatically before `npm run build`.
+
 ## Contributing
 
 - Run `npm run check` before committing to run tests, lint, and typecheck.
