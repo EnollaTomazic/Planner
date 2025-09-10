@@ -4,16 +4,19 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import ScrollTopFloatingButton from "@/components/planner/ScrollTopFloatingButton";
 
 describe("ScrollTopFloatingButton", () => {
-  let observerCallback: (entries: any[]) => void;
+  let observerCallback: IntersectionObserverCallback;
   beforeEach(() => {
-    (window as any).IntersectionObserver = class {
-      constructor(cb: any) {
+    const w = window as unknown as {
+      IntersectionObserver: typeof IntersectionObserver;
+    };
+    w.IntersectionObserver = class {
+      constructor(cb: IntersectionObserverCallback) {
         observerCallback = cb;
       }
       observe() {}
       unobserve() {}
       disconnect() {}
-    };
+    } as unknown as typeof IntersectionObserver;
   });
 
   afterEach(() => {
@@ -21,8 +24,8 @@ describe("ScrollTopFloatingButton", () => {
   });
 
   it("scrolls to top when clicked", () => {
-    const scrollTo = vi.fn();
-    (window as any).scrollTo = scrollTo;
+    const scrollTo = vi.fn() as unknown as typeof window.scrollTo;
+    window.scrollTo = scrollTo;
     const ref = React.createRef<HTMLElement>();
     const { getByRole } = render(
       <ScrollTopFloatingButton watchRef={ref} forceVisible />,
@@ -40,17 +43,29 @@ describe("ScrollTopFloatingButton", () => {
       <ScrollTopFloatingButton watchRef={ref} />,
     );
     act(() => {
-      observerCallback([{ target: first, isIntersecting: false }]);
+      const entry = {
+        target: first,
+        isIntersecting: false,
+      } as IntersectionObserverEntry;
+      observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).not.toBeNull();
     ref.current = second;
     rerender(<ScrollTopFloatingButton watchRef={ref} />);
     act(() => {
-      observerCallback([{ target: second, isIntersecting: true }]);
+      const entry = {
+        target: second,
+        isIntersecting: true,
+      } as IntersectionObserverEntry;
+      observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).toBeNull();
     act(() => {
-      observerCallback([{ target: second, isIntersecting: false }]);
+      const entry = {
+        target: second,
+        isIntersecting: false,
+      } as IntersectionObserverEntry;
+      observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).not.toBeNull();
   });
