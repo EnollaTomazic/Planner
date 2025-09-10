@@ -105,6 +105,7 @@ export default function ReviewsPage({
         bottom={
           <>
             <HeroSearchBar
+              round
               value={q}
               onValueChange={setQ}
               placeholder="Search title, tags, opponent, patch…"
@@ -131,6 +132,7 @@ export default function ReviewsPage({
                 className="px-4 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
+                  setSort("newest");
                   setPanelMode("edit");
                   onCreate();
                 }}
@@ -163,40 +165,42 @@ export default function ReviewsPage({
             </div>
           </div>
         </nav>
-        {!active ? (
-          <ReviewPanel
-            className={cn(
-              panelClass,
-              "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
-            )}
-          >
-            <Ghost className="h-6 w-6 opacity-60" />
-            <p>Select a review from the list or create a new one.</p>
-          </ReviewPanel>
-        ) : panelMode === "summary" ? (
-          <ReviewPanel className={panelClass}>
-            <ReviewSummary
-              key={`summary-${active.id}`}
-              review={active}
-              onEdit={() => setPanelMode("edit")}
-            />
-          </ReviewPanel>
-        ) : (
-          <ReviewPanel className={panelClass}>
-            <ReviewEditor
-              key={`editor-${active.id}`}
-              review={active}
-              onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-              onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
-              onRename={(title: string) => onRename(active.id, title)}
-              onChangeMeta={(partial: Partial<Review>) =>
-                onChangeMeta?.(active.id, partial)
-              }
-              onDone={() => setPanelMode("summary")}
-              onDelete={onDelete ? () => onDelete(active.id) : undefined}
-            />
-          </ReviewPanel>
-        )}
+        <div aria-live="polite">
+          {!active ? (
+            <ReviewPanel
+              className={cn(
+                panelClass,
+                "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
+              )}
+            >
+              <Ghost className="h-6 w-6 opacity-60" />
+              <p>Select a review from the list or create a new one.</p>
+            </ReviewPanel>
+          ) : panelMode === "summary" ? (
+            <ReviewPanel className={panelClass}>
+              <ReviewSummary
+                key={`summary-${active.id}`}
+                review={active}
+                onEdit={() => setPanelMode("edit")}
+              />
+            </ReviewPanel>
+          ) : (
+            <ReviewPanel className={panelClass}>
+              <ReviewEditor
+                key={`editor-${active.id}`}
+                review={active}
+                onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
+                onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                onRename={(title: string) => onRename(active.id, title)}
+                onChangeMeta={(partial: Partial<Review>) =>
+                  onChangeMeta?.(active.id, partial)
+                }
+                onDone={() => setPanelMode("summary")}
+                onDelete={onDelete ? () => onDelete(active.id) : undefined}
+              />
+            </ReviewPanel>
+          )}
+        </div>
       </div>
     </main>
   );

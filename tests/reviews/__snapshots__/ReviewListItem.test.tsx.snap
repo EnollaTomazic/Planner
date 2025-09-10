@@ -36,14 +36,14 @@ exports[`ReviewListItem > renders default state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
+            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent]"
+          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] shadow-ring [--ring:var(--theme-accent)]"
         >
           9
           /10
@@ -107,14 +107,14 @@ exports[`ReviewListItem > renders selected state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
+            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent]"
+          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] shadow-ring [--ring:var(--theme-accent)]"
         >
           9
           /10
@@ -162,14 +162,14 @@ exports[`ReviewListItem > renders untitled state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs"
+            class="inline-flex items-center font-medium border rounded-md bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent]"
+          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] shadow-ring [--ring:var(--theme-accent)]"
         >
           9
           /10
