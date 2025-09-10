@@ -17,7 +17,7 @@ const LINKS = [
 export default function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav className="border-t border-[hsl(var(--border))] pt-4">
+    <nav aria-label="Primary" className="border-t border-[hsl(var(--border))] pt-4">
       <ul className="flex justify-around">
         {LINKS.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);
@@ -25,6 +25,7 @@ export default function BottomNav() {
             <li key={href}>
               <Link
                 href={href}
+                aria-current={active ? "page" : undefined}
                 data-active={active}
                 className={cn(
                   "group flex flex-col items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",

@@ -6,7 +6,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 
-type TabItem = { id: string; label: React.ReactNode; href?: string };
+type TabItem = {
+  id: string;
+  label: React.ReactNode;
+  href?: string;
+  controls?: string;
+};
 
 export interface PageTabsProps {
   tabs: TabItem[];
@@ -15,6 +20,7 @@ export interface PageTabsProps {
   className?: string;
   sticky?: boolean;
   topOffset?: number; // px from top when sticky
+  ariaLabel?: string;
 }
 
 /**
@@ -29,7 +35,25 @@ export default function PageTabs({
   className = "",
   sticky = true,
   topOffset = 56,
+  ariaLabel,
 }: PageTabsProps) {
+  const tabRefs = React.useRef<(HTMLElement | null)[]>([]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    const idx = tabs.findIndex(t => t.id === value);
+    if (idx === -1) return;
+    let nextIdx = idx;
+    if (e.key === "ArrowRight") nextIdx = idx === tabs.length - 1 ? 0 : idx + 1;
+    if (e.key === "ArrowLeft") nextIdx = idx === 0 ? tabs.length - 1 : idx - 1;
+    if (e.key === "Home") nextIdx = 0;
+    if (e.key === "End") nextIdx = tabs.length - 1;
+    const next = tabs[nextIdx];
+    tabRefs.current[nextIdx]?.focus();
+    onChange?.(next.id);
+  };
+
   return (
     <div
       className={[
@@ -51,9 +75,15 @@ export default function PageTabs({
       }
     >
       <div className="mx-auto max-w-6xl px-4">
-        <div className="flex gap-2 py-2">
-            {tabs.map((t) => {
+        <div
+          role="tablist"
+          aria-label={ariaLabel}
+          className="flex gap-2 py-2"
+          onKeyDown={handleKeyDown}
+        >
+            {tabs.map((t, i) => {
               const active = t.id === value;
+              const controls = t.controls ?? `${t.id}-panel`;
               const className = [
                 "rounded-xl px-4 py-2 font-mono text-sm border relative",
                 active ? "btn-glitch" : "",
@@ -78,13 +108,26 @@ export default function PageTabs({
                 </>
               );
 
+              const commonProps = {
+                role: "tab",
+                id: t.id,
+                "aria-selected": active,
+                "aria-controls": controls,
+                tabIndex: active ? 0 : -1,
+                ref: (el: HTMLElement | null) => {
+                  tabRefs.current[i] = el;
+                },
+                className,
+                isActive: active,
+              } as const;
+
               return t.href ? (
                 <SegmentedButton
                   as={Link}
                   key={t.id}
                   href={t.href}
-                  className={className}
-                  isActive={active}
+                  onClick={() => onChange?.(t.id)}
+                  {...commonProps}
                 >
                   {inner}
                 </SegmentedButton>
@@ -92,8 +135,7 @@ export default function PageTabs({
                 <SegmentedButton
                   key={t.id}
                   onClick={() => onChange?.(t.id)}
-                  className={className}
-                  isActive={active}
+                  {...commonProps}
                 >
                   {inner}
                 </SegmentedButton>

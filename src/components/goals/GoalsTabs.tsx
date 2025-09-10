@@ -14,7 +14,7 @@ interface GoalsTabsProps {
 export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
   return (
     <div
-      role="tablist"
+      role="radiogroup"
       aria-label="Filter goals"
       className="flex flex-row gap-3"
     >
@@ -30,8 +30,8 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
           >
             <button
               type="button"
-              role="tab"
-              aria-selected={active}
+              role="radio"
+              aria-checked={active}
               onClick={() => onChange(f)}
               className={cn(
                 "text-left font-mono text-sm transition",
