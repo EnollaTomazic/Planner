@@ -10,7 +10,10 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import { ReviewsPage } from "@/components/reviews";
 import type { Review } from "@/lib/types";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 
 const baseReviews: Review[] = [
   { id: "1", title: "Alpha", tags: [], pillars: [], createdAt: 3000 },
@@ -32,7 +35,7 @@ describe("ReviewsPage", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("filters reviews by search query", () => {
+  it("filters reviews by search query", async () => {
     render(
       <ReviewsPage
         reviews={baseReviews}
@@ -44,10 +47,14 @@ describe("ReviewsPage", () => {
     );
 
     const search = screen.getByRole("searchbox");
+    vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "Gamma" } });
+    vi.advanceTimersByTime(250);
+    await Promise.resolve();
     expect(screen.getByText("Gamma")).toBeInTheDocument();
     expect(screen.queryByText("Alpha")).toBeNull();
     expect(screen.queryByText("Beta")).toBeNull();
+    vi.useRealTimers();
   });
 
   it("sorts reviews by title", () => {

@@ -1,16 +1,13 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  cleanup,
-} from "@testing-library/react";
-import { describe, it, beforeEach, expect, afterEach } from "vitest";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
 import { resetLocalStorage } from "../setup";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 
 describe("PromptsPage", () => {
   beforeEach(() => {
@@ -39,14 +36,20 @@ describe("PromptsPage", () => {
     expect(screen.getByText("2 saved")).toBeInTheDocument();
 
     const search = screen.getByPlaceholderText("Search prompts…");
+    vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "second" } });
+    vi.advanceTimersByTime(250);
+    await Promise.resolve();
     expect(screen.getByText("Second line")).toBeInTheDocument();
     expect(screen.queryByText("First")).not.toBeInTheDocument();
 
     fireEvent.change(search, { target: { value: "zzz" } });
+    vi.advanceTimersByTime(250);
+    await Promise.resolve();
     expect(
       screen.getByText("Nothing matches your search. Typical."),
     ).toBeInTheDocument();
+    vi.useRealTimers();
   });
 
   it("ignores empty saves", async () => {
