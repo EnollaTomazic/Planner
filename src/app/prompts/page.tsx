@@ -23,6 +23,7 @@ import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES } from "@/lib/theme";
+import { GoalsProgress } from "@/components/goals";
 
 type View = "components" | "colors";
 type Section =
@@ -166,6 +167,13 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Neon gradient bar",
       element: <Progress value={50} />,
       tags: ["progress", "feedback"],
+    },
+    {
+      id: "goals-progress",
+      name: "GoalsProgress",
+      description: "Radial neon progress",
+      element: <GoalsProgress total={5} pct={60} />,
+      tags: ["progress", "goals"],
     },
     {
       id: "dashboard-card",

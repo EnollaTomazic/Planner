@@ -67,7 +67,6 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             <Input
               ref={titleRef}
               id="goal-title"
-              tone="default"
               className="h-10 text-sm"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
@@ -80,7 +79,6 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Metric (optional)
             <Input
               id="goal-metric"
-              tone="default"
               className="h-10 text-sm tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
@@ -92,7 +90,6 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Notes (optional)
             <Textarea
               id="goal-notes"
-              tone="default"
               textareaClassName="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
