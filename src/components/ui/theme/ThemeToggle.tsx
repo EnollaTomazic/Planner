@@ -2,8 +2,10 @@
 "use client";
 
 import * as React from "react";
-import { Sun, Moon, Image as ImageIcon } from "lucide-react";
-import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect";
+import { Image as ImageIcon } from "lucide-react";
+import AnimatedSelect, {
+  DropItem,
+} from "@/components/ui/selects/AnimatedSelect";
 import { usePersistentState } from "@/lib/db";
 import {
   applyTheme,
@@ -36,7 +38,7 @@ export default function ThemeToggle({
     THEME_STORAGE_KEY,
     defaultTheme(),
   );
-  const { variant, mode } = state;
+  const { variant } = state;
 
   React.useEffect(() => {
     setMounted(true);
@@ -46,18 +48,14 @@ export default function ThemeToggle({
     applyTheme(state);
   }, [state]);
 
-  const modeDisabled = variant !== "lg";
-  const isDark = mode === "dark";
-
   function setVariantPersist(v: Variant) {
-    setState((prev) => ({ variant: v, mode: v === "lg" ? prev.mode : "dark", bg: prev.bg }));
-  }
-  function toggleMode() {
-    if (modeDisabled) return;
-    setState((prev) => ({ ...prev, mode: prev.mode === "dark" ? "light" : "dark" }));
+    setState((prev) => ({ variant: v, bg: prev.bg }));
   }
   function cycleBg() {
-    setState((prev) => ({ ...prev, bg: ((prev.bg + 1) % BG_CLASSES.length) as Background }));
+    setState((prev) => ({
+      ...prev,
+      bg: ((prev.bg + 1) % BG_CLASSES.length) as Background,
+    }));
   }
 
   if (!mounted) {
@@ -69,32 +67,16 @@ export default function ThemeToggle({
     );
   }
 
-  const items: DropItem[] = VARIANTS.map((v) => ({ value: v.id, label: v.label }));
+  const items: DropItem[] = VARIANTS.map((v) => ({
+    value: v.id,
+    label: v.label,
+  }));
 
   return (
     <div className={`flex items-center gap-2 whitespace-nowrap ${className}`}>
-      {/* compact mode toggle */}
-      <button
-        id={id}
-        type="button"
-        aria-label={modeDisabled ? `${aria} mode (fixed)` : `${aria}: toggle light/dark`}
-        aria-pressed={isDark}
-        disabled={modeDisabled}
-        onClick={toggleMode}
-        title={modeDisabled ? "This palette uses dark tokens" : isDark ? "Dark → Light" : "Light → Dark"}
-        className={[
-          "inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0",
-          "border border-border bg-card",
-          "hover:shadow-[0_0_12px_hsl(var(--ring)/.35)]",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          modeDisabled ? "opacity-60 cursor-not-allowed" : "",
-        ].join(" ")}
-      >
-        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      </button>
-
       {/* background cycle */}
       <button
+        id={id}
         type="button"
         aria-label={`${aria}: cycle background`}
         onClick={cycleBg}
@@ -118,4 +100,3 @@ export default function ThemeToggle({
     </div>
   );
 }
-
