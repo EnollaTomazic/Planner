@@ -1,37 +1,36 @@
 // src/components/goals/TimerTab.tsx
 "use client";
 
-/**
- * TimerTab — Lavender-Glitch timer with a glitchy progress bar
- * - Top tabs use TabBar (borderless neon) for profiles
- * - Right slot shows Quick presets + custom time when profile = Personal
- * - Digits centered; minus/plus on the sides
- * - Loader: neon gradient + scanlines + RGB split + pixel slices + jitter
- */
-
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import Hero from "@/components/ui/layout/Hero";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import TimerRing from "./TimerRing";
+import DurationSelector from "./DurationSelector";
 import {
-  Play, Pause, RotateCcw, Plus, Minus,
-  BookOpen, Brush, Code2, User,
+  Play,
+  Pause,
+  RotateCcw,
+  Plus,
+  Minus,
+  BookOpen,
+  Brush,
+  Code2,
+  User,
 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
-import DurationSelector from "./DurationSelector";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
 type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
 const PROFILES: Profile[] = [
-  { key: "study",    label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
-  { key: "clean",    label: "Cleaning", icon: <Brush className="mr-1" />,    defaultMin: 30 },
-  { key: "code",     label: "Coding",   icon: <Code2 className="mr-1" />,    defaultMin: 60 },
-  { key: "personal", label: "Personal", icon: <User className="mr-1" />,     defaultMin: 25 },
+  { key: "study", label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
+  { key: "clean", label: "Cleaning", icon: <Brush className="mr-1" />, defaultMin: 30 },
+  { key: "code", label: "Coding", icon: <Code2 className="mr-1" />, defaultMin: 60 },
+  { key: "personal", label: "Personal", icon: <User className="mr-1" />, defaultMin: 25 },
 ];
-
 
 /* helpers */
 const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
@@ -73,7 +72,7 @@ export default function TimerTab() {
   );
 
   const prevProfile = React.useRef<ProfileKey>(profile);
-  // Reset timer when switching profiles (studying, cleaning, coding)
+  // Reset timer when switching profiles
   React.useEffect(() => {
     if (prevProfile.current !== profile) {
       setRunning(false);
@@ -108,9 +107,17 @@ export default function TimerTab() {
     setRemaining(next * 60_000 + secs * 1000);
   }
 
-  function start() { if (remaining <= 0) setRemaining(minutes * 60_000); setRunning(true); }
-  function pause() { setRunning(false); }
-  function reset() { setRunning(false); setRemaining(minutes * 60_000); }
+  const start = React.useCallback(() => {
+    setRemaining(r => (r <= 0 ? minutes * 60_000 : r));
+    setRunning(true);
+  }, [minutes, setRemaining, setRunning]);
+  const pause = React.useCallback(() => {
+    setRunning(false);
+  }, [setRunning]);
+  const reset = React.useCallback(() => {
+    setRunning(false);
+    setRemaining(minutes * 60_000);
+  }, [minutes, setRunning, setRemaining]);
   function commitEdit() {
     if (!isPersonal || running) return;
     const ms = parseMmSs(timeEdit);
@@ -124,13 +131,6 @@ export default function TimerTab() {
   const progress = Math.max(0, Math.min(1, 1 - remaining / Math.max(1, totalMs)));
   const finished = remaining <= 0;
 
-  // Typed CSS var style for glitch bar width
-  type PctStyle = React.CSSProperties & { ["--pct"]: string };
-  const pctStyle: PctStyle = React.useMemo(
-    () => ({ ["--pct"]: `${Math.round(progress * 100)}%` }),
-    [progress]
-  );
-
   // Tab items map
   const tabItems = React.useMemo(
     () =>
@@ -143,7 +143,7 @@ export default function TimerTab() {
           </span>
         ),
       })),
-    []
+    [],
   );
 
   // Right slot content for Personal: quick duration chips + custom time field
@@ -166,11 +166,37 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="btn-like-segmented btn-glitch w-[5ch] text-center"
+        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         type="text"
       />
     </div>
   ) : null;
+
+  // keyboard shortcuts
+  React.useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === " ") {
+        e.preventDefault();
+        if (running) pause();
+        else start();
+      }
+      else if (e.key === "r" || e.key === "R") { e.preventDefault(); reset(); }
+      else if (isPersonal && !running && /^[1-6]$/.test(e.key)) {
+        const opts = [10, 15, 20, 25, 30, 45];
+        const idx = Number(e.key) - 1;
+        const m = opts[idx];
+        if (m != null) {
+          setPersonalMinutes(m);
+          setRemaining(m * 60_000);
+        }
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [running, isPersonal, pause, start, reset, setPersonalMinutes, setRemaining]);
+
+  const pct = Math.round(progress * 100);
 
   return (
     <div className="grid gap-4">
@@ -194,234 +220,104 @@ export default function TimerTab() {
 
       <SectionCard className="goal-card no-hover">
         <SectionCard.Body>
-          {/* Stage row with side buttons and centered digits */}
-          <div className="goal-card p-5 sm:p-6 overflow-hidden">
-          <div className="relative grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4">
-            {/* minus */}
+          <div className="relative mx-auto w-full max-w-sm rounded-3xl border border-card-hairline/60 bg-background/30 p-8 backdrop-blur-xl shadow-[0_0_30px_hsl(var(--shadow)/0.25)]">
+            {/* plus/minus */}
             <IconButton
-              title="Minus 1 minute"
               aria-label="Minus 1 minute"
+              title="Minus 1 minute"
               onClick={() => adjust(-1)}
               disabled={!isPersonal || running || minutes <= 0}
-              className="shrink-0"
+              className="absolute -top-4 -left-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Minus />
             </IconButton>
+            <IconButton
+              aria-label="Plus 1 minute"
+              title="Plus 1 minute"
+              onClick={() => adjust(1)}
+              disabled={!isPersonal || running}
+              className="absolute -top-4 -right-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Plus />
+            </IconButton>
 
-            {/* digits */}
-            <div className="relative grid place-items-center py-6">
-              <div className="relative">
-                <div className="text-6xl sm:text-7xl font-bold tabular-nums select-none title-glow">
+            {/* ring + digits */}
+            <div className="group relative mx-auto flex h-56 w-56 items-center justify-center">
+              <TimerRing pct={pct} size={224} />
+              <div className="pointer-events-none absolute inset-0 grid place-items-center">
+                <div className="text-6xl font-bold tabular-nums text-foreground drop-shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5">
                   {fmt(remaining)}
                 </div>
                 {isPersonal && !running && (
-                  <div className="absolute inset-0 grid place-items-center pointer-events-none">
-                    <input
-                      aria-label="Edit minutes and seconds"
-                      value={timeEdit}
-                      onChange={(e) => setTimeEdit(e.currentTarget.value)}
-                      onBlur={commitEdit}
-                      onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                      className="bg-transparent text-center opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-6xl sm:text-7xl font-bold tabular-nums"
-                    />
-                  </div>
+                  <input
+                    aria-label="Edit minutes and seconds"
+                    value={timeEdit}
+                    onChange={(e) => setTimeEdit(e.currentTarget.value)}
+                    onBlur={commitEdit}
+                    onKeyDown={(e) => e.key === "Enter" && commitEdit()}
+                    className="absolute w-full max-w-[7ch] bg-transparent text-center text-6xl font-bold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  />
                 )}
               </div>
             </div>
 
-            {/* plus */}
-            <IconButton
-              title="Plus 1 minute"
-              aria-label="Plus 1 minute"
-              onClick={() => adjust(+1)}
-              disabled={!isPersonal || running}
-              className="shrink-0"
-            >
-              <Plus />
-            </IconButton>
-          </div>
-
-          {/* GLITCH loader */}
-          <div className="mt-6">
-            <div className="lg-loader bg-gradient-to-r from-muted/25 to-muted/15">
-              {/* track texture */}
-              <div className="lg-noise" aria-hidden />
-              {/* progress core */}
-              <div className="lg-progress" style={pctStyle} aria-hidden />
-              {/* rgb ghost trails */}
-              <div
-                className="lg-progress rgb r bg-gradient-to-r from-auroraG to-auroraGLight"
-                style={pctStyle}
-                aria-hidden
-              />
-              <div
-                className="lg-progress rgb b bg-gradient-to-r from-auroraP to-auroraPLight"
-                style={pctStyle}
-                aria-hidden
-              />
-              {/* scanline sweep */}
-              <div className="lg-scan" aria-hidden />
+            {/* progress bar */}
+            <div className="mt-6 w-full">
+              <div className="relative h-2 w-full rounded-full bg-background/20 shadow-[inset_0_0_4px_hsl(var(--shadow)/0.4)]">
+                <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
+                <div
+                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[0_0_6px_hsl(var(--neon))] transition-[width] duration-150 ease-linear"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              <div className="mt-1 text-right text-xs text-muted-foreground tabular-nums">{pct}%</div>
             </div>
 
-            <div className="mt-2 text-xs text-muted-foreground tabular-nums">
-              {Math.round(progress * 100)}%
+            {/* controls */}
+            <div className="mt-6 flex justify-center gap-2">
+              {!running ? (
+                <SegmentedButton
+                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                  onClick={start}
+                  title="Start"
+                >
+                  <Play />
+                  Start
+                </SegmentedButton>
+              ) : (
+                <SegmentedButton
+                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                  onClick={pause}
+                  title="Pause"
+                  isActive
+                >
+                  <Pause />
+                  Pause
+                </SegmentedButton>
+              )}
+              <SegmentedButton
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                onClick={reset}
+                title="Reset"
+              >
+                <RotateCcw />
+                Reset
+              </SegmentedButton>
             </div>
-          </div>
-        </div>
 
-        {/* Controls row */}
-        <div className="mt-4 flex items-center justify-center gap-2">
-            {!running ? (
-              <SegmentedButton
-                className="inline-flex items-center gap-2 px-4 py-2"
-                onClick={start}
-                title="Start"
-              >
-                <Play />
-                Start
-              </SegmentedButton>
-            ) : (
-              <SegmentedButton
-                className="inline-flex items-center gap-2 px-4 py-2"
-                onClick={pause}
-                title="Pause"
-                isActive
-              >
-                <Pause />
-                Pause
-              </SegmentedButton>
+            {/* Complete state */}
+            {finished && (
+              <div className="mt-6 grid place-items-center">
+                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-sm text-foreground shadow-[0_0_8px_hsl(var(--neon-soft))] animate-pulse">
+                  Complete
+                </div>
+                <div className="mt-2 text-xs text-muted-foreground">Good. Now do the review, not Twitter.</div>
+              </div>
             )}
-            <SegmentedButton
-              className="inline-flex items-center gap-2 px-4 py-2"
-              onClick={reset}
-              title="Reset"
-            >
-              <RotateCcw />
-              Reset
-            </SegmentedButton>
           </div>
-
-        {/* Complete state */}
-        {finished && (
-          <div className="mt-6 grid place-items-center">
-            <div className="complete text-sm px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground">Complete</div>
-            <div className="mt-2 text-xs text-muted-foreground complete-text">Good. Now do the review, not Twitter.</div>
-          </div>
-        )}
-      </SectionCard.Body>
-
-      {/* Local styles for neon pills, glitch loader, and complete state */}
-      <style jsx>{`
-        /* Disable card hover bloom */
-        .no-hover.goal-card:hover {
-          box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-            inset 0 1px 0 hsl(var(--foreground) / 0.05),
-            0 30px 60px hsl(250 30% 2% / 0.35);
-        }
-        .no-hover.goal-card:hover::before { opacity: 0.45; }
-        .no-hover.goal-card:hover::after { opacity: 0; }
-
-        /* Emphasize active tab text glow (works with TabBar) */
-        [role="tab"][data-active="true"] { text-shadow: 0 0 10px hsl(var(--ring)); }
-
-        /* === GLITCH BAR === */
-        .lg-loader {
-          position: relative;
-          height: 12px;
-          border-radius: 9999px;
-          overflow: hidden;
-          box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
-          isolation: isolate;
-        }
-
-        .lg-noise {
-          position: absolute; inset: 0;
-          background:
-            repeating-linear-gradient(90deg, transparent 0 8px, hsl(var(--foreground) / .03) 8px 9px),
-            repeating-linear-gradient(180deg, hsl(var(--foreground) / .02) 0 1px, transparent 1px 3px);
-          mix-blend-mode: overlay;
-          pointer-events: none;
-          opacity: .8;
-          animation: glitchNoise 1600ms steps(16) infinite;
-        }
-
-        .lg-progress {
-          position: absolute; inset: 0;
-          width: var(--pct);
-          background:
-            linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-          box-shadow:
-            inset 0 0 10px hsl(var(--primary) / .7),
-            inset 0 0 16px hsl(var(--accent) / .6);
-          border-right: 0 solid transparent;
-          -webkit-mask-image:
-            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
-          mask-image:
-            repeating-linear-gradient(180deg, hsl(var(--foreground)) 0 3px, transparent 3px 5px);
-          animation:
-            widthEase 220ms ease,
-            jitter 900ms steps(12) infinite;
-        }
-
-        .lg-progress.rgb {
-          mix-blend-mode: screen;
-          opacity: .5;
-          filter: blur(1px);
-        }
-        .lg-progress.rgb.r {
-          transform: translateX(-1px);
-          animation:
-            widthEase 220ms ease,
-            jitterX 900ms steps(12) infinite reverse;
-        }
-        .lg-progress.rgb.b {
-          transform: translateX(1px);
-          animation:
-            widthEase 220ms ease,
-            jitterX 900ms steps(12) infinite;
-        }
-
-        .lg-scan {
-          position: absolute; inset: 0;
-          background: linear-gradient(90deg, transparent, hsl(var(--ring) / .22), transparent);
-          mix-blend-mode: screen;
-          pointer-events: none;
-          animation: scan 2.2s linear infinite;
-        }
-
-        @keyframes widthEase { from { width: calc(var(--pct) * .985); } to { width: var(--pct); } }
-        @keyframes scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes jitter {
-          0%{ transform: translateY(0) }
-          50%{ transform: translateY(-0.5px) }
-          100%{ transform: translateY(0) }
-        }
-        @keyframes jitterX {
-          0%{ transform: translateX(0) }
-          50%{ transform: translateX(1px) }
-          100%{ transform: translateX(0) }
-        }
-        @keyframes glitchNoise {
-          0%{ background-position: 0 0, 0 0 }
-          100%{ background-position: 16px 0, 0 8px }
-        }
-
-        .complete {
-          box-shadow: 0 0 12px hsl(var(--ring)/.25);
-          animation: softPulse 2.4s ease-in-out infinite;
-        }
-        .complete-text {
-          text-shadow: 0 0 8px hsl(var(--ring)/.25);
-          animation: flicker .2s steps(2) 12, glow 2.4s ease-in-out infinite 2.4s;
-        }
-        @keyframes softPulse { 0%,100%{opacity:.6} 50%{opacity:1} }
-        @keyframes flicker { 0%{opacity:.2} 50%{opacity:1} 100%{opacity:.4} }
-        @keyframes glow {
-          0%,100%{ text-shadow: 0 0 12px hsla(var(--primary), .35) }
-          50%{ text-shadow: 0 0 24px hsla(var(--accent), .65) }
-        }
-      `}</style>
-    </SectionCard>
-  </div>
+        </SectionCard.Body>
+      </SectionCard>
+    </div>
   );
 }
+
