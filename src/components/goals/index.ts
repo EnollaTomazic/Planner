@@ -13,3 +13,4 @@ export type { FilterKey } from "./GoalsTabs";
 export { default as Reminders } from "./Reminders";
 export { default as RemindersTab } from "./RemindersTab";
 export { default as TimerTab } from "./TimerTab";
+export { default as TimerRing } from "./TimerRing";

@@ -23,7 +23,7 @@ import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES } from "@/lib/theme";
-import { GoalsProgress } from "@/components/goals";
+import { GoalsProgress, TimerRing } from "@/components/goals";
 
 type View = "components" | "colors";
 type Section =
@@ -174,6 +174,13 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Radial neon progress",
       element: <GoalsProgress total={5} pct={60} />,
       tags: ["progress", "goals"],
+    },
+    {
+      id: "timer-ring",
+      name: "TimerRing",
+      description: "Radial timer ring",
+      element: <TimerRing pct={75} />,
+      tags: ["progress", "timer"],
     },
     {
       id: "dashboard-card",
