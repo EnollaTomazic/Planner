@@ -39,7 +39,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
   const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
   return (
-    <div className={cn("card-neo-soft r-card-lg overflow-hidden transition-none", className)}>
+    <div className={cn("card-neo-soft r-card-lg transition-none", className)}>
       <ReviewSummaryHeader title={laneTitle} role={role} result={result} onEdit={onEdit} />
       <ReviewSummaryScore
         score={score}
