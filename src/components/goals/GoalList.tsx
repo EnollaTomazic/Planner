@@ -54,8 +54,8 @@ export default function GoalList({
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
       {goals.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-accent/40 bg-card/20 p-6 text-center text-sm text-muted-foreground backdrop-blur-md shadow-[0_0_16px_hsl(var(--accent)/.2)]">
-          <Flag aria-hidden className="mb-2 h-6 w-6 text-accent drop-shadow-[0_0_8px_var(--neon)] animate-bounce" />
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-accent/40 bg-card/20 p-6 text-center text-sm text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
+          <Flag aria-hidden className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]" />
           <p>No goals here. Add one simple, finishable thing.</p>
         </div>
       ) : (
@@ -67,8 +67,8 @@ export default function GoalList({
               className={[
                 "relative overflow-hidden rounded-2xl p-6 min-h-8 flex flex-col",
                 "bg-card/30 backdrop-blur-md",
-                "shadow-[inset_0_0_8px_hsl(var(--accent)/.15),0_0_12px_hsl(var(--accent)/.25)]",
-                "transition-all duration-150 hover:-translate-y-1 hover:shadow-[inset_0_0_8px_hsl(var(--accent)/.25),0_0_24px_hsl(var(--accent)/.4)]",
+                "shadow-ring [--ring:var(--accent)]",
+                "transition-all duration-150 hover:-translate-y-1 hover:shadow-ring",
               ].join(" ")}
             >
               <span
@@ -121,7 +121,7 @@ export default function GoalList({
                         checked={g.done}
                         onChange={() => onToggleDone(g.id)}
                         size="lg"
-                        className="transition-transform shadow-[0_0_6px_var(--neon-soft)] hover:-translate-y-0.5 hover:shadow-[0_0_10px_var(--neon)]"
+                        className="transition-transform shadow-ring hover:-translate-y-0.5 hover:shadow-ring [--ring:var(--accent)]"
                       />
                       <IconButton
                         title="Edit"
@@ -192,7 +192,7 @@ export default function GoalList({
                       "h-2 w-2 rounded-full transition-all",
                       g.done
                         ? "bg-muted-foreground/40"
-                        : "bg-accent shadow-[0_0_6px_hsl(var(--accent))] animate-pulse",
+                        : "bg-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]",
                     ].join(" ")}
                   />
                   <time

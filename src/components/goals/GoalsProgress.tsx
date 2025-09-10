@@ -30,8 +30,12 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (v / 100) * circumference;
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }} aria-label="Progress">
-      <svg className="h-full w-full rotate-[-90deg]" viewBox={`0 0 ${size} ${size}`}> 
+    <div
+      className="relative inline-flex items-center justify-center"
+      style={{ width: size, height: size }}
+      aria-label="Progress"
+    >
+      <svg className="h-full w-full rotate-[-90deg]" viewBox={`0 0 ${size} ${size}`}>
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -50,11 +54,14 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          className="text-accent drop-shadow-[0_0_6px_var(--neon)] animate-pulse"
+          className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
           fill="none"
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-xs font-medium tabular-nums">
+      <span
+        aria-live="polite"
+        className="absolute inset-0 flex items-center justify-center text-xs font-medium tabular-nums"
+      >
         {v}%
       </span>
     </div>

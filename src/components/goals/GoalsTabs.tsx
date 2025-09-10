@@ -36,7 +36,7 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
               className={cn(
                 "text-left font-mono text-sm transition",
                 "px-3 py-2 rounded-2xl",
-                "hover:-translate-y-px",
+                "motion-safe:hover:-translate-y-px",
                 "border-none outline-none focus:outline-none focus-visible:outline-none",
                 active
                   ? "font-semibold text-accent bg-accent/10"
