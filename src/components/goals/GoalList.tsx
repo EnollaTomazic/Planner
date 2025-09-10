@@ -73,7 +73,7 @@ export default function GoalList({
             >
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-2xl p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(#000,#000)_content-box,linear-gradient(#000,#000)] [mask-composite:exclude]"
+                className="pointer-events-none absolute inset-0 rounded-2xl p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] [mask-composite:exclude]"
               />
               <header className="relative z-[1] flex items-start justify-between gap-2">
                 {isEditing ? (

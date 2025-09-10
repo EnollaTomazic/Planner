@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Fuse from "fuse.js";
 import { usePersistentState, uid } from "@/lib/db";
 
 export type Prompt = {
@@ -22,17 +23,21 @@ export function usePrompts() {
     return firstLine || "Untitled";
   }, []);
 
+  const withTitles = React.useMemo(
+    () => prompts.map((p) => ({ ...p, title: deriveTitle(p) })),
+    [prompts, deriveTitle],
+  );
+
+  const fuse = React.useMemo(
+    () => new Fuse(withTitles, { keys: ["title", "text"], threshold: 0.3 }),
+    [withTitles],
+  );
+
   const filtered: PromptWithTitle[] = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return prompts.reduce<PromptWithTitle[]>((acc, p) => {
-      const title = deriveTitle(p);
-      const text = p.text || "";
-      if (!q || title.toLowerCase().includes(q) || text.toLowerCase().includes(q)) {
-        acc.push({ ...p, title });
-      }
-      return acc;
-    }, []);
-  }, [prompts, query, deriveTitle]);
+    const q = query.trim();
+    if (!q) return withTitles;
+    return fuse.search(q).map((res) => res.item);
+  }, [fuse, query, withTitles]);
 
   const save = React.useCallback(
     (titleDraft: string, textDraft: string) => {
