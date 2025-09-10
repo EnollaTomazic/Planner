@@ -47,6 +47,9 @@ function HomePageContent() {
           next.bg = idx as Background;
         }
       }
+      if (next.variant === prev.variant && next.bg === prev.bg) {
+        return prev;
+      }
       return next;
     });
   }, [searchParams, setTheme]);
@@ -56,6 +59,14 @@ function HomePageContent() {
   }, [theme]);
 
   React.useEffect(() => {
+    const currentTheme = searchParams.get("theme");
+    const currentBg = searchParams.get("bg");
+    if (
+      currentTheme === theme.variant &&
+      currentBg === String(theme.bg)
+    ) {
+      return;
+    }
     const params = new URLSearchParams(searchParams.toString());
     params.set("theme", theme.variant);
     params.set("bg", String(theme.bg));
