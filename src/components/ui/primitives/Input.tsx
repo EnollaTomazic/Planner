@@ -80,7 +80,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         id={finalId}
         name={finalName}
         className={cn(
-          "w-full bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/80 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)]",
+          "w-full bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/80 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed data-[loading=true]:opacity-[var(--loading)]",
           indent && "pl-7",
           showEndSlot && "pr-7",
           inputClassName

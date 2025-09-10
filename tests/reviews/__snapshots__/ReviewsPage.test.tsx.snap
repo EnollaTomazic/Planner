@@ -365,14 +365,14 @@ exports[`ReviewsPage > renders default state 1`] = `
                     />
                   </svg>
                   <div
-                    class="relative inline-flex items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-border/38 hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] w-full"
-                    style="--theme-ring: hsl(var(--ring)); --control-h: 2.5rem;"
+                    class="relative inline-flex items-center rounded-xl border border-border/28 bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:border-[--hover] [--hover:hsl(var(--border)/0.38)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[--focus] focus-within:ring-offset-0 focus-within:shadow-[0_0_24px_hsl(var(--accent)/0.14)] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-[0.04] after:bg-[url('/noise.svg')] w-full"
+                    style="--focus: hsl(var(--ring)); --control-h: 2.5rem;"
                   >
                     <input
                       autocapitalize="none"
                       autocomplete="off"
                       autocorrect="off"
-                      class="w-full bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/80 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] pl-7"
+                      class="w-full bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/80 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed data-[loading=true]:opacity-[var(--loading)] pl-7"
                       id=":r0:"
                       name=":r0:"
                       placeholder="Search title, tags, opponent, patch…"
@@ -673,7 +673,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   </div>
                 </div>
                 <button
-                  class="relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring] disabled:opacity-50 disabled:pointer-events-none h-10 text-base gap-2 [&>svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                  class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-base gap-2 [&>svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
                   tabindex="0"
                   type="button"
                 >
