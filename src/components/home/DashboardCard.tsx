@@ -12,12 +12,14 @@ interface DashboardCardProps {
 
 export default function DashboardCard({ title, children, cta, actions }: DashboardCardProps) {
   return (
-    <div className="card-neo-soft shadow-neo-strong p-4 space-y-4">
+    <div className="card-neo-soft rounded-2xl border border-[hsl(var(--border))] p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold tracking-[-0.01em]">{title}</h2>
+        <h2 className="text-base font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}
       </div>
-      {children}
+      {children && (
+        <div className="border-t border-[hsl(var(--border))] pt-4 space-y-4">{children}</div>
+      )}
       {cta && (
         <Link href={cta.href} className="text-sm font-medium text-accent underline">
           {cta.label}
