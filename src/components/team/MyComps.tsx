@@ -195,7 +195,7 @@ function ChampChips({
             }}
             aria-label="Champion name"
             autoComplete="off"
-            className="bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
+            className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
           />
         </span>
       ))}
