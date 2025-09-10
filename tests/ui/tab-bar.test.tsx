@@ -20,4 +20,22 @@ describe("TabBar", () => {
       screen.getByRole("tablist", { name: "Prompts gallery view" }),
     ).toBeInTheDocument();
   });
+
+  it("links tabs to panels via aria-controls", () => {
+    render(
+      <TabBar
+        items={[
+          {
+            key: "components",
+            label: "Components",
+            id: "components-tab",
+            controls: "components-panel",
+          },
+        ]}
+      />
+    );
+    const tab = screen.getByRole("tab", { name: "Components" });
+    expect(tab).toHaveAttribute("id", "components-tab");
+    expect(tab).toHaveAttribute("aria-controls", "components-panel");
+  });
 });
