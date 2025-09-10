@@ -11,7 +11,10 @@ export interface ModalProps extends React.ComponentProps<typeof PrimitiveCard> {
 }
 
 export default function Modal({ open, onClose, className, children, ...props }: ModalProps) {
-  if (!open) return null;
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
+  if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-background/80" onClick={onClose} />

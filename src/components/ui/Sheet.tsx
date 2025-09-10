@@ -19,13 +19,16 @@ export default function Sheet({
   children,
   ...props
 }: SheetProps) {
-  if (!open) return null;
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
+  if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-background/80" onClick={onClose} />
       <PrimitiveCard
         className={cn(
-          "fixed top-0 h-full w-80 overflow-y-auto", 
+          "fixed top-0 h-full w-80 overflow-y-auto",
           side === "right" ? "right-0" : "left-0",
           className,
         )}
