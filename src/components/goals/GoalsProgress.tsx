@@ -25,25 +25,38 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const style = maxWidth
-    ? ({
-        "--progress-max":
-          typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
-      } as React.CSSProperties)
-    : undefined;
+  const size = maxWidth ? (typeof maxWidth === "number" ? maxWidth : parseInt(maxWidth, 10)) : 64;
+  const radius = size / 2 - 6;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (v / 100) * circumference;
   return (
-    <div className="flex min-w-[120px] items-center gap-2" aria-label="Progress">
-      <div
-        className="h-2 w-full flex-1 max-w-[var(--progress-max,160px)] overflow-hidden rounded-full bg-fg/10"
-        style={style}
-      >
-        <div
-          className="h-2 rounded-full bg-accent transition-[width]"
-          style={{ width: `${v}%` }}
+    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }} aria-label="Progress">
+      <svg className="h-full w-full rotate-[-90deg]" viewBox={`0 0 ${size} ${size}`}> 
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="currentColor"
+          strokeWidth={4}
+          className="text-fg/20"
+          fill="none"
         />
-      </div>
-      <span className="tabular-nums text-xs text-fg/60">{v}%</span>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="currentColor"
+          strokeWidth={4}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          className="text-accent drop-shadow-[0_0_6px_var(--neon)] animate-pulse"
+          fill="none"
+        />
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-xs font-medium tabular-nums">
+        {v}%
+      </span>
     </div>
   );
 }
-
