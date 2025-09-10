@@ -5,6 +5,7 @@ import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import Button from "@/components/ui/primitives/Button";
 import SectionCard from "@/components/ui/layout/SectionCard";
+import Label from "@/components/ui/Label";
 
 interface GoalFormProps {
   title: string;
@@ -61,10 +62,11 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           }
         />
         <SectionCard.Body className="grid gap-6">
-          <label className="grid gap-2">
-            <span className="text-xs text-muted-foreground">Title</span>
+          <Label htmlFor="goal-title" className="mb-0 grid gap-2">
+            Title
             <Input
               ref={titleRef}
+              id="goal-title"
               tone="default"
               className="h-10 text-sm"
               value={title}
@@ -72,29 +74,31 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
               aria-required="true"
               aria-describedby="goal-form-help goal-form-error"
             />
-          </label>
+          </Label>
 
-          <label className="grid gap-2">
-            <span className="text-xs text-muted-foreground">Metric (optional)</span>
+          <Label htmlFor="goal-metric" className="mb-0 grid gap-2">
+            Metric (optional)
             <Input
+              id="goal-metric"
               tone="default"
               className="h-10 text-sm tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
-          </label>
+          </Label>
 
-          <label className="grid gap-2">
-            <span className="text-xs text-muted-foreground">Notes (optional)</span>
+          <Label htmlFor="goal-notes" className="mb-0 grid gap-2">
+            Notes (optional)
             <Textarea
+              id="goal-notes"
               tone="default"
               textareaClassName="min-h-24 text-sm"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby="goal-form-help goal-form-error"
             />
-          </label>
+          </Label>
 
           <div className="text-xs text-muted-foreground">
             {activeCount >= activeCap ? (
