@@ -1762,12 +1762,6 @@ textarea:-webkit-autofill {
     0 0 0 2px hsl(var(--ring) / 0.38),
     0 16px 36px hsl(var(--shadow-color) / 0.35);
 }
-html.light .btn-cta {
-  box-shadow:
-    0 0 0 1px hsl(var(--ring) / 0.25),
-    0 8px 20px hsl(var(--shadow-color) / 0.22);
-}
-
 /* ---------- Icon styling ---------- */
 .lucide {
   color: hsl(var(--muted-foreground));

@@ -5,7 +5,6 @@ function createStorageKey(key: string): string {
   return `${STORAGE_PREFIX}${key}`;
 }
 
-export type Mode = "dark" | "light";
 export type Variant =
   | "lg"
   | "aurora"
@@ -14,10 +13,9 @@ export type Variant =
   | "ocean"
   | "kitten"
   | "hardstuck";
-export type Background = 0 | 1 | 2 | 3 | 4 | 5;
+export type Background = 0 | 1 | 2 | 3 | 4;
 export interface ThemeState {
   variant: Variant;
-  mode: Mode;
   bg: Background;
 }
 
@@ -27,7 +25,6 @@ export const BG_CLASSES = [
   "",
   "bg-alt1",
   "bg-alt2",
-  "bg-light",
   "bg-vhs",
   "bg-streak",
 ] as const;
@@ -82,23 +79,19 @@ export const VARIANTS: { id: Variant; label: string }[] = [
 ];
 
 export function defaultTheme(): ThemeState {
-  const prefersDark =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
-  return { variant: "lg", mode: prefersDark ? "dark" : "light", bg: 0 };
+  return { variant: "lg", bg: 0 };
 }
 
 export function readTheme(): ThemeState {
-  return (
-    readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY)) ?? defaultTheme()
-  );
+  const data = readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY));
+  return data ? { variant: data.variant, bg: data.bg } : defaultTheme();
 }
 
 export function writeTheme(state: ThemeState) {
   writeLocal(createStorageKey(THEME_STORAGE_KEY), state);
 }
 
-export function applyTheme({ variant, mode, bg }: ThemeState) {
+export function applyTheme({ variant, bg }: ThemeState) {
   const cl = document.documentElement.classList;
   cl.forEach((n) => {
     if (n.startsWith("theme-")) cl.remove(n);
@@ -109,16 +102,7 @@ export function applyTheme({ variant, mode, bg }: ThemeState) {
     if (c) cl.remove(c);
   });
   if (bg > 0) cl.add(BG_CLASSES[bg]);
-
-  if (variant === "lg") {
-    if (mode === "dark") cl.add("dark");
-    else cl.remove("dark");
-    if (mode === "light") cl.add("light");
-    else cl.remove("light");
-  } else {
-    cl.add("dark");
-    cl.remove("light");
-  }
+  cl.add("dark");
 }
 
 export function themeBootstrapScript(): string {
@@ -128,8 +112,7 @@ export function themeBootstrapScript(): string {
       var key = "${createStorageKey(THEME_STORAGE_KEY)}";
       var data = readLocal(key);
       if(!data){
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        data = { variant: 'lg', mode: prefersDark ? 'dark' : 'light', bg: 0 };
+        data = { variant: 'lg', bg: 0 };
         writeLocal(key, data);
       }
       var BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
@@ -138,13 +121,7 @@ export function themeBootstrapScript(): string {
       cl.add('theme-' + data.variant);
       BG_CLASSES.forEach(function(c){ if(c) cl.remove(c); });
       if(data.bg>0) cl.add(BG_CLASSES[data.bg]);
-      if(data.variant==='lg'){
-        if(data.mode==='dark') cl.add('dark'); else cl.remove('dark');
-        if(data.mode==='light') cl.add('light'); else cl.remove('light');
-      } else {
-        cl.add('dark');
-        cl.remove('light');
-      }
+      cl.add('dark');
     } catch { }
   })())`;
 }
