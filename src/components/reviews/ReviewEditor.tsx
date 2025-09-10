@@ -406,6 +406,7 @@ export default function ReviewEditor({
                 <Target className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={laneRef}
+                  name="lane"
                   value={lane}
                   onChange={(e) => setLane(e.target.value)}
                   onBlur={commitLaneAndTitle}
@@ -429,6 +430,7 @@ export default function ReviewEditor({
                 <Shield className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={opponentRef}
+                  name="opponent"
                   value={opponent}
                   onChange={(e) => setOpponent(e.target.value)}
                   onBlur={() => commitMeta({ opponent })}
@@ -724,6 +726,7 @@ export default function ReviewEditor({
             {useTimestamp ? (
               <Input
                 ref={timeRef}
+                name="timestamp-time"
                 value={tTime}
                 onChange={(e) => {
                   setTTime(e.target.value);
@@ -759,6 +762,7 @@ export default function ReviewEditor({
 
             <Input
               ref={noteRef}
+              name="timestamp-note"
               value={tNote}
               onChange={(e) => setTNote(e.target.value)}
               onKeyDown={(e) => {
@@ -833,6 +837,7 @@ export default function ReviewEditor({
             <div className="relative flex-1">
               <Tag className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
+                name="tag-input"
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
