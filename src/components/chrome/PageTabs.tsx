@@ -4,6 +4,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 
 type TabItem = {
@@ -38,6 +39,21 @@ export default function PageTabs({
   ariaLabel,
 }: PageTabsProps) {
   const tabRefs = React.useRef<(HTMLElement | null)[]>([]);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Restore tab from hash on load
+  React.useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash && tabs.some(t => t.id === hash)) {
+      onChange?.(hash);
+    }
+  }, [tabs, onChange]);
+
+  // Sync active tab to URL hash
+  React.useEffect(() => {
+    router.replace(`${pathname}#${value}`, { scroll: false });
+  }, [value, router, pathname]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
@@ -85,7 +101,7 @@ export default function PageTabs({
               const active = t.id === value;
               const controls = t.controls ?? `${t.id}-panel`;
               const className = [
-                "rounded-xl px-4 py-2 font-mono text-sm border relative",
+                "rounded-[var(--control-radius)] px-4 py-2 font-mono text-sm border relative",
                 active ? "btn-glitch" : "",
               ]
                 .filter(Boolean)

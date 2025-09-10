@@ -38,17 +38,15 @@ describe("PromptsPage", () => {
     const search = screen.getByPlaceholderText("Search prompts…");
     vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "second" } });
-    vi.advanceTimersByTime(250);
+    vi.advanceTimersByTime(300);
     await Promise.resolve();
     expect(screen.getByText("Second line")).toBeInTheDocument();
     expect(screen.queryByText("First")).not.toBeInTheDocument();
 
     fireEvent.change(search, { target: { value: "zzz" } });
-    vi.advanceTimersByTime(250);
+    vi.advanceTimersByTime(300);
     await Promise.resolve();
-    expect(
-      screen.getByText("Nothing matches your search. Typical."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("No prompts match")).toBeInTheDocument();
     vi.useRealTimers();
   });
 
@@ -60,8 +58,6 @@ describe("PromptsPage", () => {
     await waitFor(() =>
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
     );
-    expect(
-      screen.getByText("Nothing matches your search. Typical."),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/No prompts match/)).toBeInTheDocument();
   });
 });

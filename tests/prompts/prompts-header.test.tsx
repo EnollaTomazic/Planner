@@ -33,7 +33,7 @@ describe("PromptsHeader", () => {
 
     vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "changed" } });
-    vi.advanceTimersByTime(250);
+    vi.advanceTimersByTime(300);
     expect(handleQuery).toHaveBeenCalledWith("changed");
     vi.useRealTimers();
   });

@@ -22,9 +22,9 @@ export type InputProps = Omit<
 };
 
 const HEIGHT: Record<InputSize, string> = {
-  sm: "2.25rem", // h-9
-  md: "2.5rem", // h-10
-  lg: "2.75rem", // h-11
+  sm: "var(--control-h-sm)",
+  md: "var(--control-h-md)",
+  lg: "var(--control-h-lg)",
 };
 
 /**

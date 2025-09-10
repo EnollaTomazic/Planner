@@ -320,7 +320,7 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       id: "prompt-list",
       name: "PromptList",
       description: "Sample prompts",
-      element: <PromptList prompts={demoPrompts} />,
+      element: <PromptList prompts={demoPrompts} query="" />,
       tags: ["prompts"],
     },
   ],
