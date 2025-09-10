@@ -9,6 +9,15 @@ import {
   SegmentedButton,
   TabBar,
   Badge,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  Sheet,
+  Modal,
+  Toast,
   ThemeToggle,
   ThemePicker,
   BackgroundPicker,
@@ -106,6 +115,84 @@ function BackgroundPickerDemo() {
       bg={t.bg}
       onBgChange={b => setT(prev => ({ ...prev, bg: b }))}
     />
+  );
+}
+
+function CardDemo() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Title</CardTitle>
+        <CardDescription>Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">Body</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm">Action</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function SheetDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Button size="sm" onClick={() => setOpen(true)}>
+        Open
+      </Button>
+      <Sheet open={open} onClose={() => setOpen(false)}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sheet</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">Content</p>
+          </CardContent>
+        </Card>
+      </Sheet>
+    </>
+  );
+}
+
+function ModalDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Button size="sm" onClick={() => setOpen(true)}>
+        Open
+      </Button>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Modal</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">Content</p>
+          </CardContent>
+          <CardFooter>
+            <Button size="sm" onClick={() => setOpen(false)}>
+              Close
+            </Button>
+          </CardFooter>
+        </Card>
+      </Modal>
+    </>
+  );
+}
+
+function ToastDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Button size="sm" onClick={() => setOpen(true)}>
+        Show
+      </Button>
+      <Toast open={open} onOpenChange={setOpen}>
+        <p className="text-sm">Toast message</p>
+      </Toast>
+    </>
   );
 }
 
@@ -336,6 +423,34 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       name: "BackgroundPicker",
       element: <BackgroundPickerDemo />,
       tags: ["control", "theme"],
+    },
+    {
+      id: "card",
+      name: "Card",
+      description: "Surface container",
+      element: <CardDemo />,
+      tags: ["card"],
+    },
+    {
+      id: "sheet",
+      name: "Sheet",
+      description: "Slide-over panel",
+      element: <SheetDemo />,
+      tags: ["overlay", "sheet"],
+    },
+    {
+      id: "modal",
+      name: "Modal",
+      description: "Centered overlay",
+      element: <ModalDemo />,
+      tags: ["overlay", "modal"],
+    },
+    {
+      id: "toast",
+      name: "Toast",
+      description: "Transient message",
+      element: <ToastDemo />,
+      tags: ["toast", "feedback"],
     },
   ],
 };
