@@ -5,6 +5,7 @@
  * TabBar — segmented pills with soft depth
  * - Inset shadow segments; active uses accent gradient with glow.
  * - Keyboard: ← → Home End; role="tablist".
+ * - Panels should set `aria-labelledby` to the controlling tab id.
  */
 
 import * as React from "react";
@@ -17,7 +18,9 @@ export type TabItem<K extends string = string> = {
   disabled?: boolean;
   badge?: React.ReactNode;
   className?: string;
+  /** Optional explicit id for the tab button; defaults to `${key}-tab`. */
   id?: string;
+  /** Optional override for associated panel id; defaults to `${key}-panel`. */
   controls?: string;
 };
 
@@ -116,15 +119,17 @@ export default function TabBar<K extends string = string>({
         >
           {items.map((item) => {
             const active = item.key === activeKey;
+            const tabId = item.id ?? `${item.key}-tab`;
+            const panelId = item.controls ?? `${item.key}-panel`;
             return (
               <button
                 key={item.key}
-                id={item.id}
+                id={tabId}
                 role="tab"
                 type="button"
                 aria-selected={active}
                 aria-disabled={item.disabled || undefined}
-                aria-controls={item.controls}
+                aria-controls={panelId}
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(

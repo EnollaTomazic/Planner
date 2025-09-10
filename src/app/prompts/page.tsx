@@ -56,19 +56,9 @@ type Spec = {
 };
 
 const VIEW_TABS: TabItem<View>[] = [
-  {
-    key: "components",
-    label: "Components",
-    id: "components-tab",
-    controls: "components-panel",
-  },
-  { key: "colors", label: "Colors", id: "colors-tab", controls: "colors-panel" },
-  {
-    key: "onboarding",
-    label: "Onboarding",
-    id: "onboarding-tab",
-    controls: "onboarding-panel",
-  },
+  { key: "components", label: "Components" },
+  { key: "colors", label: "Colors" },
+  { key: "onboarding", label: "Onboarding" },
 ];
 
 const SECTION_TABS: TabItem<Section>[] = [
