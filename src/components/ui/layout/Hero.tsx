@@ -244,11 +244,8 @@ export function HeroSearchBar({
   return (
     <SearchBar
       {...props}
-      className={cx(
-        "w-full max-w-[640px]",
-        round && "rounded-full [&>input]:rounded-full",
-        className,
-      )}
+      className={cx("w-full max-w-[640px]", round && "rounded-full", className)}
+      fieldClassName={round ? "rounded-full [&>input]:rounded-full" : undefined}
     />
   );
 }
