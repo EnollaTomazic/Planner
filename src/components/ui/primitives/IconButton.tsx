@@ -36,9 +36,9 @@ const getSizeClass = (s: IconButtonSize) => {
 };
 
 const variantBase: Record<Variant, string> = {
-  ring: "border bg-card/35 hover:bg-panel/45",
+  ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)]",
   solid: "border",
-  glow: "border bg-card/35 hover:bg-panel/45 shadow-[0_0_8px_currentColor]",
+  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] shadow-[0_0_8px_currentColor]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -54,13 +54,13 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   solid: {
     primary:
-      "border-transparent bg-foreground/15 hover:bg-foreground/25 text-foreground",
+      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
     accent:
-      "border-transparent bg-accent/15 hover:bg-accent/25 text-accent",
+      "border-transparent bg-accent/15 text-accent [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
     info:
-      "border-transparent bg-accent-2/15 hover:bg-accent-2/25 text-accent-2",
+      "border-transparent bg-accent-2/15 text-accent-2 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
     danger:
-      "border-transparent bg-danger/15 hover:bg-danger/25 text-danger",
+      "border-transparent bg-danger/15 text-danger [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
   },
   glow: {
     primary:
@@ -85,7 +85,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type="button"
         className={cn(
-          "inline-flex items-center justify-center select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring] active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center select-none rounded-full transition hover:bg-[--hover] active:bg-[--active] active:scale-95 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
           variantBase[variant],
           toneClasses[variant][tone],
           sizeClass,

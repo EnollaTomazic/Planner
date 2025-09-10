@@ -123,6 +123,22 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       props: [{ label: "sizes", value: "sm md lg" }],
     },
     {
+      id: "button-states",
+      name: "Button States",
+      description: "State tokens",
+      element: (
+        <div className="flex flex-wrap gap-4">
+          <Button>Default</Button>
+          <Button className="bg-[--hover]">Hover</Button>
+          <Button className="ring-2 ring-[--focus]">Focus</Button>
+          <Button className="bg-[--active]">Active</Button>
+          <Button disabled>Disabled</Button>
+          <Button data-loading="true">Loading</Button>
+        </div>
+      ),
+      tags: ["button", "states"],
+    },
+    {
       id: "segmented-button",
       name: "SegmentedButton",
       description: "Segmented control button",
@@ -156,6 +172,34 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["icon", "button"],
       props: [{ label: "sizes", value: "xs sm md" }],
     },
+    {
+      id: "icon-button-states",
+      name: "IconButton States",
+      description: "State tokens",
+      element: (
+        <div className="flex items-center gap-4">
+          <IconButton aria-label="Default">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Hover" className="bg-[--hover]">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Focus" className="ring-2 ring-[--focus]">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Active" className="bg-[--active]">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Disabled" disabled>
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Loading" data-loading="true">
+            <Plus />
+          </IconButton>
+        </div>
+      ),
+      tags: ["icon", "button", "states"],
+    },
   ],
   inputs: [
     {
@@ -164,6 +208,22 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Text input field",
       element: <Input placeholder="Type here" />,
       tags: ["input", "text"],
+    },
+    {
+      id: "input-states",
+      name: "Input States",
+      description: "State tokens",
+      element: (
+        <div className="flex flex-col gap-4">
+          <Input placeholder="Default" />
+          <Input placeholder="Hover" className="bg-[--hover]" />
+          <Input placeholder="Focus" className="ring-2 ring-[--focus]" />
+          <Input placeholder="Active" className="bg-[--active]" />
+          <Input placeholder="Disabled" disabled />
+          <Input placeholder="Loading" data-loading="true" />
+        </div>
+      ),
+      tags: ["input", "states"],
     },
   ],
   prompts: [

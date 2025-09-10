@@ -51,6 +51,13 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
 
+  /* Interaction states */
+  --hover: hsl(var(--foreground) / 0.08);
+  --focus: hsl(var(--ring));
+  --active: hsl(var(--foreground) / 0.12);
+  --disabled: 0.5;
+  --loading: 0.6;
+
   /* Hairlines, radii, motion, control geometry, gradients */
   /* Fallback (works everywhere) */
   --card-hairline: hsl(var(--border));

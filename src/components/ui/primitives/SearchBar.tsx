@@ -112,7 +112,7 @@ export default function SearchBar({
             type="button"
             aria-label="Clear"
             title="Clear"
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)]"
             onClick={() => {
               setQuery("");
               onValueChange?.("");

@@ -56,7 +56,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[--theme-ring] font-medium transition-all duration-200 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--theme-ring] disabled:opacity-50 disabled:pointer-events-none",
+      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
@@ -85,21 +85,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       secondary: {
         primary: "text-foreground",
         accent:
-          "text-accent bg-accent/15 hover:bg-accent/25",
+          "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
         info:
-          "text-accent-2 bg-accent-2/15 hover:bg-accent-2/25",
+          "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
         danger:
-          "text-danger bg-danger/15 hover:bg-danger/25",
+          "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
       },
       ghost: {
         primary:
-          "text-foreground hover:bg-foreground/10",
+          "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
         accent:
-          "text-accent hover:bg-accent/10",
+          "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
         info:
-          "text-accent-2 hover:bg-accent-2/10",
+          "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
         danger:
-          "text-danger hover:bg-danger/10",
+          "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
       },
     };
 
