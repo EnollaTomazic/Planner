@@ -9,13 +9,13 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-xl p-4 border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)]",
-          className
+          "rounded-2xl p-4 border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)]",
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );
 Card.displayName = "Card";
 
