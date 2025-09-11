@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Input, Textarea } from "@/components/ui";
+import IconButton from "@/components/ui/primitives/IconButton";
 import { Check as CheckIcon } from "lucide-react";
 
 interface PromptsComposePanelProps {
@@ -27,13 +28,13 @@ export default function PromptsComposePanel({
         onChange={(e) => onTitleChange(e.target.value)}
         aria-describedby={`${titleId}-help`}
       >
-        <button
-          type="button"
+        <IconButton
+          size="sm"
           aria-label="Confirm"
-          className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-accent/45 bg-accent/12 text-accent shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+          className="absolute right-2 top-1/2 -translate-y-1/2"
         >
-          <CheckIcon className="size-4" />
-        </button>
+          <CheckIcon aria-hidden />
+        </IconButton>
       </Input>
       <p id={`${titleId}-help`} className="mt-1 text-xs text-muted-foreground">
         Add a short title
@@ -47,4 +48,3 @@ export default function PromptsComposePanel({
     </div>
   );
 }
-

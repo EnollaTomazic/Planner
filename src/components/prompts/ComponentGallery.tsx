@@ -38,6 +38,7 @@ import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
+import UpdatesList from "./UpdatesList";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import Banner from "@/components/chrome/Banner";
@@ -54,7 +55,13 @@ import {
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
-import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
+import {
+  Search as SearchIcon,
+  Star,
+  Plus,
+  Sun,
+  Check as CheckIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
 
@@ -130,6 +137,9 @@ export default function ComponentGallery() {
               title="Search"
             >
               <SearchIcon />
+            </IconButton>
+            <IconButton size="sm" aria-label="Confirm" title="Confirm">
+              <CheckIcon />
             </IconButton>
           </div>
         ),
@@ -390,6 +400,29 @@ export default function ComponentGallery() {
         element: (
           <div className="w-full">
             <PromptsDemos />
+          </div>
+        ),
+        className: "sm:col-span-2 md:col-span-3 w-full",
+      },
+      {
+        label: "Prompts Layout",
+        element: (
+          <div className="w-full">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 lg:col-span-8 space-y-6">
+                <SearchBar value="" onValueChange={() => {}} />
+                <TabBar
+                  items={[{ key: "demo", label: "Demo" }]}
+                  value="demo"
+                  onValueChange={() => {}}
+                  ariaLabel="Demo tabs"
+                />
+                <Card className="h-24" />
+              </div>
+              <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-8">
+                <UpdatesList />
+              </div>
+            </div>
           </div>
         ),
         className: "sm:col-span-2 md:col-span-3 w-full",

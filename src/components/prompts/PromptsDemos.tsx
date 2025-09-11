@@ -66,13 +66,13 @@ export default function PromptsDemos() {
             }
           />
           <Input placeholder="With action">
-            <button
-              type="button"
+            <IconButton
+              size="sm"
               aria-label="Confirm"
-              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-accent/45 bg-accent/12 text-accent shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
             >
-              <CheckIcon className="size-4" />
-            </button>
+              <CheckIcon aria-hidden />
+            </IconButton>
           </Input>
         </div>
       </Card>
