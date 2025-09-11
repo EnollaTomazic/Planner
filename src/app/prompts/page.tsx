@@ -48,7 +48,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 type View = "components" | "colors" | "onboarding";
 type Section =
   | "buttons"
-  | "iconButton"
   | "inputs"
   | "prompts"
   | "planner"
@@ -69,14 +68,6 @@ const VIEW_TABS: TabItem<View>[] = [
   { key: "onboarding", label: "Onboarding" },
 ];
 
-const SECTION_TABS: TabItem<Section>[] = [
-  { key: "buttons", label: "Buttons" },
-  { key: "iconButton", label: "IconButton" },
-  { key: "inputs", label: "Inputs" },
-  { key: "prompts", label: "Prompts" },
-  { key: "planner", label: "Planner" },
-  { key: "misc", label: "Misc" },
-];
 
 const COLOR_SECTIONS = [
   { title: "Aurora", tokens: COLOR_PALETTES.aurora },
@@ -247,8 +238,6 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["button", "segmented"],
     },
-  ],
-  iconButton: [
     {
       id: "icon-button",
       name: "IconButton",
@@ -487,6 +476,13 @@ function getValidSection(value: string | null): Section {
   return value && value in SPEC_DATA ? (value as Section) : "buttons";
 }
 
+function getSectionTabs(): TabItem<Section>[] {
+  return (Object.keys(SPEC_DATA) as Section[]).map((key) => ({
+    key,
+    label: key.charAt(0).toUpperCase() + key.slice(1),
+  }));
+}
+
 function SpecCard({ name, description, element, props }: Spec) {
   return (
     <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
@@ -559,6 +555,7 @@ function ComponentsView({ query }: { query: string }) {
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(searchParams.get("section")),
   );
+  const sectionTabs = React.useMemo(getSectionTabs, []);
 
   React.useEffect(() => {
     const sp = new URLSearchParams(paramsString);
@@ -591,7 +588,7 @@ function ComponentsView({ query }: { query: string }) {
   return (
     <div className="space-y-8">
       <TabBar
-        items={SECTION_TABS}
+        items={sectionTabs}
         value={section}
         onValueChange={setSection}
         ariaLabel="Component groups"
@@ -648,43 +645,49 @@ export default function Page() {
 function PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const paramsString = searchParams.toString();
+  const viewParam = searchParams.get("view");
+  const queryParam = searchParams.get("q");
   const [view, setView] = React.useState<View>(
-    () => (searchParams.get("view") as View) || "components",
+    () => (viewParam as View) || "components",
   );
   const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
-    const sp = new URLSearchParams(paramsString);
-    const v = (sp.get("view") as View) || "components";
-    setView(v);
-    const qParam = sp.get("q");
-    const stored =
-      typeof window !== "undefined"
-        ? localStorage.getItem("prompts-query")
-        : "";
-    setQuery(qParam ?? stored ?? "");
-  }, [paramsString]);
+    const v = (viewParam as View) || "components";
+    if (v !== view) setView(v);
+  }, [viewParam, view]);
 
   React.useEffect(() => {
-    const sp = new URLSearchParams(paramsString);
+    const q = queryParam ?? "";
+    if (q !== query) setQuery(q);
+  }, [queryParam, query]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("prompts-query");
+      if (stored) setQuery(stored);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const sp = new URLSearchParams(searchParams.toString());
     const current = sp.get("view");
     if (current === view) return;
     sp.set("view", view);
     router.replace(`?${sp.toString()}`, { scroll: false });
-  }, [view, router, paramsString]);
+  }, [view, router, searchParams]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("prompts-query", query);
     }
-    const sp = new URLSearchParams(paramsString);
+    const sp = new URLSearchParams(searchParams.toString());
     const current = sp.get("q") ?? "";
     if (current === query) return;
     if (query) sp.set("q", query);
     else sp.delete("q");
     router.replace(`?${sp.toString()}`, { scroll: false });
-  }, [query, router, paramsString]);
+  }, [query, router, searchParams]);
 
   return (
     <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
