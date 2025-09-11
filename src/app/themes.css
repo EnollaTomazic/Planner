@@ -5,10 +5,10 @@
 @import "../../tokens/tokens.css";
 
 :root {
-  --lg-violet: 262 83% 58%;
-  --lg-cyan: 192 90% 50%;
-  --lg-pink: 320 85% 60%;
-  --lg-black: 0 0% 0%;
+  --lg-violet: var(--ring);
+  --lg-cyan: var(--accent-2);
+  --lg-pink: var(--lav-deep);
+  --lg-black: var(--background);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
 }
 
