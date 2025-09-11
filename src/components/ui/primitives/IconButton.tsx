@@ -18,11 +18,11 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&>svg]:h-[18px] [&>svg]:w-[18px]",
-  sm: "[&>svg]:h-[20px] [&>svg]:w-[20px]",
-  md: "[&>svg]:h-[22px] [&>svg]:w-[22px]",
-  lg: "[&>svg]:h-[25px] [&>svg]:w-[25px]",
-  xl: "[&>svg]:h-[27px] [&>svg]:w-[27px]",
+  xs: "[&>svg]:size-4",
+  sm: "[&>svg]:size-5",
+  md: "[&>svg]:size-6",
+  lg: "[&>svg]:size-7",
+  xl: "[&>svg]:size-8",
 };
 const getSizeClass = (s: IconButtonSize) => {
   const sizeMap: Record<IconButtonSize, string> = {
@@ -43,41 +43,39 @@ const variantBase: Record<Variant, string> = {
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ring: {
-    primary:
-      "border-line/35 text-foreground",
-    accent:
-      "border-accent/35 text-accent",
-    info:
-      "border-accent-2/35 text-accent-2",
-    danger:
-      "border-danger/35 text-danger",
+    primary: "border-line/35 text-foreground",
+    accent: "border-accent/35 text-accent",
+    info: "border-accent-2/35 text-accent-2",
+    danger: "border-danger/35 text-danger",
   },
   solid: {
     primary:
       "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
     accent:
       "border-transparent bg-accent/15 text-accent [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-    info:
-      "border-transparent bg-accent-2/15 text-accent-2 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+    info: "border-transparent bg-accent-2/15 text-accent-2 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
     danger:
       "border-transparent bg-danger/15 text-danger [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
   },
   glow: {
-    primary:
-      "border-foreground/35 text-foreground",
-    accent:
-      "border-accent/35 text-accent",
-    info:
-      "border-accent-2/35 text-accent-2",
-    danger:
-      "border-danger/35 text-danger",
+    primary: "border-foreground/35 text-foreground",
+    accent: "border-accent/35 text-accent",
+    info: "border-accent-2/35 text-accent-2",
+    danger: "border-danger/35 text-danger",
   },
 };
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { size = "md", iconSize = size as Icon, className, tone = "primary", variant = "ring", ...props },
-    ref
+    {
+      size = "md",
+      iconSize = size as Icon,
+      className,
+      tone = "primary",
+      variant = "ring",
+      ...props
+    },
+    ref,
   ) => {
     const sizeClass = getSizeClass(size);
     return (
@@ -90,14 +88,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           toneClasses[variant][tone],
           sizeClass,
           iconMap[iconSize],
-          className
+          className,
         )}
         {...props}
       >
         {props.children}
       </button>
     );
-  }
+  },
 );
 
 IconButton.displayName = "IconButton";

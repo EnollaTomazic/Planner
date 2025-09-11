@@ -7,16 +7,12 @@ afterEach(cleanup);
 
 describe("IconButton", () => {
   it("renders children", () => {
-    const { getByRole } = render(
-      <IconButton aria-label="up">up</IconButton>,
-    );
+    const { getByRole } = render(<IconButton aria-label="up">up</IconButton>);
     expect(getByRole("button")).toHaveTextContent("up");
   });
 
   it("has no outline when focused", () => {
-    const { getByRole } = render(
-      <IconButton aria-label="focus">X</IconButton>,
-    );
+    const { getByRole } = render(<IconButton aria-label="focus">X</IconButton>);
     const btn = getByRole("button");
     btn.focus();
     const style = getComputedStyle(btn);
@@ -46,11 +42,11 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&>svg]:h-[18px] [&>svg]:w-[18px]"],
-    ["sm", "[&>svg]:h-[20px] [&>svg]:w-[20px]"],
-    ["md", "[&>svg]:h-[22px] [&>svg]:w-[22px]"],
-    ["lg", "[&>svg]:h-[25px] [&>svg]:w-[25px]"],
-    ["xl", "[&>svg]:h-[27px] [&>svg]:w-[27px]"],
+    ["xs", "[&>svg]:size-4"],
+    ["sm", "[&>svg]:size-5"],
+    ["md", "[&>svg]:size-6"],
+    ["lg", "[&>svg]:size-7"],
+    ["xl", "[&>svg]:size-8"],
   ] as const;
 
   iconCases.forEach(([iconSize, cls]) => {
@@ -78,9 +74,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain(
-      "border-transparent bg-accent/15 text-accent",
-    );
+    expect(classes).toContain("border-transparent bg-accent/15 text-accent");
     expect(classes).toContain("[--hover:hsl(var(--accent)/0.25)]");
   });
 
