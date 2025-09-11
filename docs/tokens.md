@@ -90,3 +90,4 @@ hsl(192 90% 50% / 0.95)
 | radius-lg | 12px |
 | radius-xl | 16px |
 | radius-2xl | 24px |
+| radius-full | 9999px |
