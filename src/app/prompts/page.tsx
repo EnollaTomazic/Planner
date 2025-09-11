@@ -468,6 +468,10 @@ const SPEC_DATA: Record<Section, Spec[]> = {
   ],
 };
 
+function getValidSection(value: string | null): Section {
+  return value && value in SPEC_DATA ? (value as Section) : "buttons";
+}
+
 function SpecCard({ name, description, element, props }: Spec) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
@@ -536,12 +540,12 @@ function SectionCard({ title, children }: SectionCardProps) {
 function ComponentsView({ query }: { query: string }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [section, setSection] = React.useState<Section>(
-    () => (searchParams.get("section") as Section) || "buttons",
+  const [section, setSection] = React.useState<Section>(() =>
+    getValidSection(searchParams.get("section")),
   );
 
   React.useEffect(() => {
-    const s = (searchParams.get("section") as Section) || "buttons";
+    const s = getValidSection(searchParams.get("section"));
     if (s !== section) setSection(s);
   }, [searchParams, section]);
 
