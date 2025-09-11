@@ -8,15 +8,24 @@ export function useWeekData(days: ISODate[]) {
   const { days: map } = usePlannerStore();
 
   return React.useMemo(() => {
+    let weekDone = 0;
+    let weekTotal = 0;
     const per = days.map((iso) => {
       const rec = ensureDay(map, iso);
-      const pDone = rec.projects.filter((p) => p?.done).length;
-      const tDone = rec.tasks.filter((t) => t?.done).length;
-      const total = rec.projects.length + rec.tasks.length;
-      return { iso, done: pDone + tDone, total };
+      let done = 0;
+      let total = 0;
+      for (const p of rec.projects) {
+        total++;
+        if (p?.done) done++;
+      }
+      for (const t of rec.tasks) {
+        total++;
+        if (t?.done) done++;
+      }
+      weekDone += done;
+      weekTotal += total;
+      return { iso, done, total };
     });
-    const weekDone = per.reduce((a, b) => a + b.done, 0);
-    const weekTotal = per.reduce((a, b) => a + b.total, 0);
     return { per, weekDone, weekTotal };
   }, [days, map]);
 }

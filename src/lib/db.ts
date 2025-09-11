@@ -12,6 +12,7 @@ import {
   readLocal as baseReadLocal,
   writeLocal as baseWriteLocal,
 } from "./local-bootstrap";
+import { safeClone } from "./utils";
 
 /** Namespacing so we don't collide with other apps in the same domain */
 const STORAGE_PREFIX = "noxis-planner:";
@@ -58,15 +59,6 @@ function ensureMigration() {
 export function createStorageKey(key: string): string {
   ensureMigration();
   return `${STORAGE_PREFIX}${key}`;
-}
-
-/** Safe JSON stringify */
-function toJSON(v: unknown): string {
-  try {
-    return JSON.stringify(v);
-  } catch {
-    return JSON.stringify({ __unserializable: true, at: Date.now() });
-  }
 }
 
 // Debounced write queue
@@ -123,7 +115,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    scheduleWrite(createStorageKey(key), JSON.parse(toJSON(value)));
+    scheduleWrite(createStorageKey(key), safeClone(value));
   } catch {
     // ignore quota/privacy errors
   }
@@ -216,15 +208,15 @@ export function usePersistentState<T>(
 
   useStorageSync(key, handleExternal);
 
-  React.useEffect(() => {
-    if (!isBrowser) return;
-    if (!loadedRef.current) return;
-    try {
-      scheduleWrite(fullKeyRef.current, JSON.parse(toJSON(state)));
-    } catch {
-      // ignore
-    }
-  }, [state]);
+    React.useEffect(() => {
+      if (!isBrowser) return;
+      if (!loadedRef.current) return;
+      try {
+        scheduleWrite(fullKeyRef.current, safeClone(state));
+      } catch {
+        // ignore
+      }
+    }, [state]);
 
   return [state, setState];
 }
