@@ -52,7 +52,9 @@ export default function PageTabs({
 
   // Sync active tab to URL hash
   React.useEffect(() => {
-    router.replace(`${pathname}#${value}`, { scroll: false });
+    if (window.location.hash !== `#${value}`) {
+      router.replace(`${pathname}#${value}`, { scroll: false });
+    }
   }, [value, router, pathname]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
