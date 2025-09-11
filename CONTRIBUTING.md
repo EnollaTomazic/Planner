@@ -51,4 +51,4 @@ Rebase your branch on top of `main` before merging to maintain a clean, linear c
 
 ## Manual QA
 
-Before submitting significant UI work, run through the [manual QA checklist](docs/qa-manual.md).
+Every page must pass the [manual QA checklist](docs/qa-manual.md) before merging.
