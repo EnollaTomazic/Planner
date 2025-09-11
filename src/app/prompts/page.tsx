@@ -21,6 +21,8 @@ import {
   ThemeToggle,
   ThemePicker,
   BackgroundPicker,
+  Hero,
+  Hero2,
   type TabItem,
   Progress,
 } from "@/components/ui";
@@ -46,12 +48,7 @@ import Fuse from "fuse.js";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type View = "components" | "colors" | "onboarding";
-type Section =
-  | "buttons"
-  | "inputs"
-  | "prompts"
-  | "planner"
-  | "misc";
+type Section = "buttons" | "inputs" | "prompts" | "planner" | "layout" | "misc";
 
 type Spec = {
   id: string;
@@ -67,7 +64,6 @@ const VIEW_TABS: TabItem<View>[] = [
   { key: "colors", label: "Colors" },
   { key: "onboarding", label: "Onboarding" },
 ];
-
 
 const COLOR_SECTIONS = [
   { title: "Aurora", tokens: COLOR_PALETTES.aurora },
@@ -388,6 +384,57 @@ const SPEC_DATA: Record<Section, Spec[]> = {
         </DashboardCard>
       ),
       tags: ["home", "dashboard"],
+    },
+  ],
+  layout: [
+    {
+      id: "hero",
+      name: "Hero",
+      description: "Default Hero layout",
+      element: (
+        <Hero
+          heading="Heading"
+          eyebrow="Eyebrow"
+          subtitle="Subtitle"
+          search={{ value: "", onValueChange: () => {}, round: true }}
+          tabs={{
+            items: [
+              { key: "one", label: "One" },
+              { key: "two", label: "Two" },
+            ],
+            value: "one",
+            onChange: () => {},
+          }}
+        />
+      ),
+      tags: ["hero", "layout"],
+    },
+    {
+      id: "hero2",
+      name: "Hero2",
+      description: "Glitch Hero layout",
+      element: (
+        <Hero2
+          heading="Heading"
+          eyebrow="Eyebrow"
+          subtitle="Subtitle"
+          search={{
+            value: "",
+            onValueChange: () => {},
+            round: true,
+            disabled: true,
+          }}
+          tabs={{
+            items: [
+              { key: "one", label: "One" },
+              { key: "two", label: "Two" },
+            ],
+            value: "one",
+            onChange: () => {},
+          }}
+        />
+      ),
+      tags: ["hero", "layout"],
     },
   ],
   misc: [

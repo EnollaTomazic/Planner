@@ -20,7 +20,7 @@ export { default as Snackbar } from "./feedback/Snackbar";
 export { default as Spinner } from "./feedback/Spinner";
 export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
-export { default as Hero } from "./layout/Hero";
+export { default as Hero, Hero2 } from "./layout/Hero";
 export * from "./layout/Hero";
 export { default as SectionCard } from "./layout/SectionCard";
 export * from "./layout/SectionCard";
