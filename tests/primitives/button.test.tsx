@@ -1,7 +1,7 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { Button } from "../../src/components/ui/primitives/Button";
+import { Button, type ButtonSize } from "../../src/components/ui/primitives/Button";
 import fs from "fs";
 
 afterEach(cleanup);
@@ -48,26 +48,26 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it.each([
+  it.each<[ButtonSize, string]>([
     ["sm", "[&>svg]:size-4"],
     ["md", "[&>svg]:size-5"],
     ["lg", "[&>svg]:size-8"],
   ])("applies %s icon sizing", (size, cls) => {
     const { getByRole } = render(
-      <Button size={size as any}>
+      <Button size={size}>
         <svg />
       </Button>,
     );
     expect(getByRole("button")).toHaveClass(cls);
   });
 
-  it.each([
+  it.each<[ButtonSize, string]>([
     ["sm", "gap-1"],
     ["md", "gap-2"],
     ["lg", "gap-4"],
   ])("applies %s gap spacing", (size, cls) => {
     const { getByRole } = render(
-      <Button size={size as any}>
+      <Button size={size}>
         <svg />
         Label
       </Button>,
