@@ -20,7 +20,6 @@ import {
   PillarBadge,
   PillarSelector,
   SearchBar,
-  AnimatedSelect,
   ThemeToggle,
   AnimationToggle,
   CheckCircle,
@@ -66,27 +65,38 @@ export default function PromptsDemos() {
             }
           />
           <Input placeholder="With action">
-            <button
-              type="button"
+            <IconButton
+              size="sm"
               aria-label="Confirm"
-              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full grid place-items-center border border-accent/45 bg-accent/12 text-accent shadow-[0_0_0_1px_hsl(var(--accent)/0.25)] hover:shadow-[0_0_16px_hsl(var(--accent)/0.22)]"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
             >
-              <CheckIcon className="size-4" />
-            </button>
+              <CheckIcon aria-hidden />
+            </IconButton>
           </Input>
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Select</h3>
         <div className="space-y-3">
-          <Select aria-label="Default">
-            <option value="">Choose…</option>
-            <option value="a">A</option>
-          </Select>
-          <Select aria-label="Error" errorText="Error">
-            <option value="">Choose…</option>
-            <option value="a">A</option>
-          </Select>
+          <Select
+            variant="native"
+            aria-label="Default"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "a", label: "A" },
+            ]}
+            value=""
+          />
+          <Select
+            variant="native"
+            aria-label="Error"
+            errorText="Error"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "a", label: "A" },
+            ]}
+            value=""
+          />
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
@@ -171,7 +181,8 @@ export default function PromptsDemos() {
         <h3 className="type-title">Inputs</h3>
         <div className="space-y-3">
           <SearchBar value="" onValueChange={() => {}} />
-          <AnimatedSelect
+          <Select
+            variant="animated"
             items={[{ value: "a", label: "Apple" }]}
             value="a"
             onChange={() => {}}

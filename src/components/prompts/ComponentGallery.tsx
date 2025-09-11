@@ -28,7 +28,6 @@ import {
   SideSelector,
   PillarBadge,
   PillarSelector,
-  AnimatedSelect,
   FieldShell,
   Label,
   type TabItem,
@@ -38,6 +37,7 @@ import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
+import UpdatesList from "./UpdatesList";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import Banner from "@/components/chrome/Banner";
@@ -54,7 +54,13 @@ import {
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
-import { Search as SearchIcon, Star, Plus, Sun } from "lucide-react";
+import {
+  Search as SearchIcon,
+  Star,
+  Plus,
+  Sun,
+  Check as CheckIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
 
@@ -130,6 +136,9 @@ export default function ComponentGallery() {
               title="Search"
             >
               <SearchIcon />
+            </IconButton>
+            <IconButton size="sm" aria-label="Confirm" title="Confirm">
+              <CheckIcon />
             </IconButton>
           </div>
         ),
@@ -272,33 +281,42 @@ export default function ComponentGallery() {
       {
         label: "Select",
         element: (
-          <Select aria-label="Fruit" defaultValue="" className="w-56">
-            <option value="" disabled hidden>
-              Choose…
-            </option>
-            <option value="apple">Apple</option>
-            <option value="orange">Orange</option>
-            <option value="pear">Pear</option>
-          </Select>
+          <Select
+            variant="native"
+            aria-label="Fruit"
+            className="w-56"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "apple", label: "Apple" },
+              { value: "orange", label: "Orange" },
+              { value: "pear", label: "Pear" },
+            ]}
+            value=""
+          />
         ),
       },
       {
         label: "Select Variants",
         element: (
           <div className="w-56 space-y-2">
-            <Select defaultValue="">
-              <option value="" disabled hidden>
-                Choose…
-              </option>
-              <option value="a">A</option>
-              <option value="b">B</option>
-            </Select>
-            <Select success defaultValue="">
-              <option value="" disabled hidden>
-                Choose…
-              </option>
-              <option value="a">A</option>
-            </Select>
+            <Select
+              variant="native"
+              items={[
+                { value: "", label: "Choose…" },
+                { value: "a", label: "A" },
+                { value: "b", label: "B" },
+              ]}
+              value=""
+            />
+            <Select
+              variant="native"
+              success
+              items={[
+                { value: "", label: "Choose…" },
+                { value: "a", label: "A" },
+              ]}
+              value=""
+            />
           </div>
         ),
         className: "sm:col-span-2 md:col-span-3",
@@ -329,7 +347,8 @@ export default function ComponentGallery() {
       {
         label: "AnimatedSelect",
         element: (
-          <AnimatedSelect
+          <Select
+            variant="animated"
             items={selectItems}
             value={selectValue}
             onChange={setSelectValue}
@@ -390,6 +409,29 @@ export default function ComponentGallery() {
         element: (
           <div className="w-full">
             <PromptsDemos />
+          </div>
+        ),
+        className: "sm:col-span-2 md:col-span-3 w-full",
+      },
+      {
+        label: "Prompts Layout",
+        element: (
+          <div className="w-full">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 lg:col-span-8 space-y-6">
+                <SearchBar value="" onValueChange={() => {}} />
+                <TabBar
+                  items={[{ key: "demo", label: "Demo" }]}
+                  value="demo"
+                  onValueChange={() => {}}
+                  ariaLabel="Demo tabs"
+                />
+                <Card className="h-24" />
+              </div>
+              <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-8">
+                <UpdatesList />
+              </div>
+            </div>
           </div>
         ),
         className: "sm:col-span-2 md:col-span-3 w-full",

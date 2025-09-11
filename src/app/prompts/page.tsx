@@ -5,7 +5,6 @@ import {
   Button,
   IconButton,
   Input,
-  SearchBar,
   SegmentedButton,
   TabBar,
   Badge,
@@ -21,6 +20,7 @@ import {
   ThemeToggle,
   ThemePicker,
   BackgroundPicker,
+  Header,
   Hero,
   Hero2,
   type TabItem,
@@ -737,69 +737,75 @@ function PageContent() {
   }, [query, router, searchParams]);
 
   return (
-    <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
-      <header className="col-span-12 flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-[-0.01em]">
-            Prompts Playground
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Explore components and tokens
-          </p>
+    <main
+      className="page-shell py-6 space-y-6"
+      aria-labelledby="prompts-header"
+    >
+      <Header
+        id="prompts-header"
+        heading="Prompts Playground"
+        subtitle="Explore components and tokens"
+        right={<ThemeToggle />}
+      />
+      <Hero
+        topClassName="top-[var(--header-stack)]"
+        heading={
+          view === "components"
+            ? "Components"
+            : view === "colors"
+              ? "Colors"
+              : "Onboarding"
+        }
+        tabs={{
+          items: VIEW_TABS,
+          value: view,
+          onChange: (k) => setView(k as View),
+        }}
+        search={{
+          id: "playground-search",
+          value: query,
+          onValueChange: setQuery,
+          debounceMs: 300,
+          round: true,
+          "aria-label": "Search components",
+        }}
+      />
+      <section className="grid gap-6 lg:grid-cols-12">
+        <div className="space-y-6 lg:col-span-8">
+          <div>
+            <div
+              role="tabpanel"
+              id="components-panel"
+              aria-labelledby="components-tab"
+              hidden={view !== "components"}
+              tabIndex={0}
+            >
+              <ComponentsView query={query} />
+            </div>
+            <div
+              role="tabpanel"
+              id="colors-panel"
+              aria-labelledby="colors-tab"
+              hidden={view !== "colors"}
+              tabIndex={0}
+            >
+              <ColorsView />
+            </div>
+            <div
+              role="tabpanel"
+              id="onboarding-panel"
+              aria-labelledby="onboarding-tab"
+              hidden={view !== "onboarding"}
+              tabIndex={0}
+            >
+              <OnboardingTabs />
+            </div>
+          </div>
         </div>
-        <ThemeToggle />
-      </header>
-      <div className="col-span-12">
-        <label htmlFor="playground-search" className="sr-only">
-          Search components
-        </label>
-        <SearchBar
-          id="playground-search"
-          value={query}
-          onValueChange={setQuery}
-          debounceMs={300}
-        />
-      </div>
-      <div className="col-span-12">
-        <UpdatesList />
-      </div>
-      <div className="col-span-12">
-        <TabBar
-          items={VIEW_TABS}
-          value={view}
-          onValueChange={setView}
-          ariaLabel="Playground views"
-        />
-      </div>
-      <div className="col-span-12">
-        <div
-          role="tabpanel"
-          id="components-panel"
-          aria-labelledby="components-tab"
-          hidden={view !== "components"}
-          tabIndex={0}
-        >
-          <ComponentsView query={query} />
+        <div className="lg:col-span-4 lg:sticky lg:top-8">
+          <UpdatesList />
         </div>
-        <div
-          role="tabpanel"
-          id="colors-panel"
-          aria-labelledby="colors-tab"
-          hidden={view !== "colors"}
-          tabIndex={0}
-        >
-          <ColorsView />
-        </div>
-        <div
-          role="tabpanel"
-          id="onboarding-panel"
-          aria-labelledby="onboarding-tab"
-          hidden={view !== "onboarding"}
-          tabIndex={0}
-        >
-          <OnboardingTabs />
-        </div>
-      </div>
+      </section>
     </main>
   );
 }

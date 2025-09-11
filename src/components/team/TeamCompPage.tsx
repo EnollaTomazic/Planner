@@ -9,12 +9,17 @@
  *
  * Header hosts the main tabs; the Cheat Sheet tab still renders its own
  * nested Hero internally.
+ * A top-level Hero summarizes the active tab.
  */
 import "./style.css";
 
 import React, { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Header, { HeaderTabs, type HeaderTab } from "@/components/ui/layout/Header";
+import Header, {
+  HeaderTabs,
+  type HeaderTab,
+} from "@/components/ui/layout/Header";
+import Hero from "@/components/ui/layout/Hero";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
 import CheatSheetTabs from "./CheatSheetTabs";
@@ -44,10 +49,15 @@ const TABS: HeaderTab<Tab>[] = [
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
+  const active = TABS.find(t => t.key === tab);
 
   return (
-    <main className="page-shell py-6 space-y-6">
+    <main
+      className="page-shell py-6 space-y-6"
+      aria-labelledby="teamcomp-header"
+    >
       <Header
+        id="teamcomp-header"
         eyebrow="Comps"
         heading="Today"
         subtitle="Readable. Fast. On brand."
@@ -59,6 +69,12 @@ export default function TeamCompPage() {
             onChange={(k: Tab) => setTab(k)}
           />
         }
+      />
+      <Hero
+        topClassName="top-[var(--header-stack)]"
+        eyebrow={active?.label}
+        heading="Comps"
+        subtitle={active?.hint}
       />
 
       <section className="grid gap-4">

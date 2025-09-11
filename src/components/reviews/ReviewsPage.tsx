@@ -9,10 +9,9 @@ import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
 import { Ghost, Plus } from "lucide-react";
 
-import Button from "@/components/ui/primitives/Button";
-// ⬇️ use the new AnimatedSelect location
-import AnimatedSelect from "@/components/ui/selects/AnimatedSelect";
+import { Button, Select } from "@/components/ui";
 import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
+import Header from "@/components/ui/layout/Header";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -99,7 +98,15 @@ export default function ReviewsPage({
   const panelClass = "mx-auto";
 
   return (
-    <main className="page-shell py-6 space-y-6">
+    <main
+      className="page-shell py-6 space-y-6"
+      aria-labelledby="reviews-header"
+    >
+      <Header
+        id="reviews-header"
+        heading="Reviews"
+        topClassName="top-[var(--header-stack)]"
+      />
       <Hero
         topClassName="top-[var(--header-stack)]"
         heading={
@@ -121,7 +128,8 @@ export default function ReviewsPage({
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
                 <span>Sort</span>
-                <AnimatedSelect
+                <Select
+                  variant="animated"
                   value={sort}
                   onChange={(v) => setSort(v as SortKey)}
                   items={[

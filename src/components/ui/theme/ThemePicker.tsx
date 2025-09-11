@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import AnimatedSelect, { DropItem } from "@/components/ui/selects/AnimatedSelect";
+import { Select, type SelectItem } from "@/components/ui";
 import { VARIANTS, Variant } from "@/lib/theme";
 
 export type ThemePickerProps = {
@@ -11,9 +11,10 @@ export type ThemePickerProps = {
 };
 
 export default function ThemePicker({ variant, onVariantChange, className = "" }: ThemePickerProps) {
-  const items: DropItem[] = React.useMemo(() => VARIANTS.map(v => ({ value: v.id, label: v.label })), []);
+  const items: SelectItem[] = React.useMemo(() => VARIANTS.map(v => ({ value: v.id, label: v.label })), []);
   return (
-    <AnimatedSelect
+    <Select
+      variant="animated"
       ariaLabel="Theme"
       prefixLabel="Theme"
       items={items}

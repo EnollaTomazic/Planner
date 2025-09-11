@@ -84,6 +84,12 @@
     hsl(192 90% 50% / 0.95)
   );
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
+  --lg-violet: var(--ring);
+  --lg-cyan: var(--accent-2);
+  --lg-pink: var(--lav-deep);
+  --lg-black: var(--background);
+  --glow-strong: 260 85% 60% / 0.55;
+  --glow-soft: 260 85% 60% / 0.25;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
