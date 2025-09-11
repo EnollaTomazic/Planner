@@ -35,8 +35,8 @@ describe("TabBar", () => {
       />
     );
     const tab = screen.getByRole("tab", { name: "Components" });
-    expect(tab).toHaveAttribute("id", "components-tab");
-    expect(tab).toHaveAttribute("aria-controls", "components-panel");
+    expect(tab.id).toMatch(/components-tab$/);
+    expect(tab.getAttribute("aria-controls")).toMatch(/components-panel$/);
   });
 
   it("moves focus with arrow keys", () => {

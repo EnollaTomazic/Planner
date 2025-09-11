@@ -539,23 +539,25 @@ function SectionCard({ title, children }: SectionCardProps) {
 
 function ComponentsView({ query }: { query: string }) {
   const searchParams = useSearchParams();
+  const paramsString = searchParams.toString();
   const router = useRouter();
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(searchParams.get("section")),
   );
 
   React.useEffect(() => {
-    const s = getValidSection(searchParams.get("section"));
+    const sp = new URLSearchParams(paramsString);
+    const s = getValidSection(sp.get("section"));
     if (s !== section) setSection(s);
-  }, [searchParams, section]);
+  }, [paramsString, section]);
 
   React.useEffect(() => {
-    const current = searchParams.get("section");
+    const sp = new URLSearchParams(paramsString);
+    const current = sp.get("section");
     if (current === section) return;
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("section", section);
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [section, router, searchParams]);
+    sp.set("section", section);
+    router.replace(`?${sp.toString()}`, { scroll: false });
+  }, [section, router, paramsString]);
 
   const fuse = React.useMemo(
     () =>
@@ -578,6 +580,7 @@ function ComponentsView({ query }: { query: string }) {
         value={section}
         onValueChange={setSection}
         ariaLabel="Component groups"
+        linkPanels={false}
       />
       <ul className="grid grid-cols-12 gap-6">
         {specs.length === 0 ? (
@@ -630,41 +633,43 @@ export default function Page() {
 function PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const paramsString = searchParams.toString();
   const [view, setView] = React.useState<View>(
     () => (searchParams.get("view") as View) || "components",
   );
   const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
-    const v = (searchParams.get("view") as View) || "components";
+    const sp = new URLSearchParams(paramsString);
+    const v = (sp.get("view") as View) || "components";
     setView(v);
-    const qParam = searchParams.get("q");
+    const qParam = sp.get("q");
     const stored =
       typeof window !== "undefined"
         ? localStorage.getItem("prompts-query")
         : "";
     setQuery(qParam ?? stored ?? "");
-  }, [searchParams]);
+  }, [paramsString]);
 
   React.useEffect(() => {
-    const current = searchParams.get("view");
+    const sp = new URLSearchParams(paramsString);
+    const current = sp.get("view");
     if (current === view) return;
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("view", view);
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [view, router, searchParams]);
+    sp.set("view", view);
+    router.replace(`?${sp.toString()}`, { scroll: false });
+  }, [view, router, paramsString]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("prompts-query", query);
     }
-    const current = searchParams.get("q") ?? "";
+    const sp = new URLSearchParams(paramsString);
+    const current = sp.get("q") ?? "";
     if (current === query) return;
-    const params = new URLSearchParams(searchParams.toString());
-    if (query) params.set("q", query);
-    else params.delete("q");
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [query, router, searchParams]);
+    if (query) sp.set("q", query);
+    else sp.delete("q");
+    router.replace(`?${sp.toString()}`, { scroll: false });
+  }, [query, router, paramsString]);
 
   return (
     <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
