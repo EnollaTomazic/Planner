@@ -87,8 +87,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
         <FieldShell
           className={cn(
             "group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]",
-            success &&
-              "border-[--theme-ring] focus-within:ring-[--theme-ring]",
+            success && "border-[--theme-ring] focus-within:ring-[--theme-ring]",
             disabled &&
               "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
             className,
@@ -145,23 +144,29 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
   },
 );
 
-function AnimatedSelectImpl({
-  id,
-  label,
-  prefixLabel,
-  items,
-  value,
-  onChange,
-  className = "",
-  dropdownClassName = "",
-  buttonClassName = "",
-  placeholder = "Select…",
-  disabled = false,
-  hideLabel = false,
-  ariaLabel,
-  align = "left",
-  matchTriggerWidth = true,
-}: AnimatedSelectProps) {
+const AnimatedSelectImpl = React.forwardRef<
+  HTMLButtonElement,
+  AnimatedSelectProps
+>(function AnimatedSelectImpl(
+  {
+    id,
+    label,
+    prefixLabel,
+    items,
+    value,
+    onChange,
+    className = "",
+    dropdownClassName = "",
+    buttonClassName = "",
+    placeholder = "Select…",
+    disabled = false,
+    hideLabel = false,
+    ariaLabel,
+    align = "left",
+    matchTriggerWidth = true,
+  }: AnimatedSelectProps,
+  ref,
+) {
   // Hydration-safe portal
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
@@ -175,6 +180,7 @@ function AnimatedSelectImpl({
   );
 
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+  React.useImperativeHandle(ref, () => triggerRef.current!);
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const idBase = React.useId();
   const labelId = `${idBase}-label`;
@@ -379,9 +385,7 @@ function AnimatedSelectImpl({
         <div
           id={labelId}
           className={
-            hideLabel
-              ? "sr-only"
-              : "mb-1 text-xs text-muted-foreground"
+            hideLabel ? "sr-only" : "mb-1 text-xs text-muted-foreground"
           }
         >
           {label}
@@ -412,9 +416,7 @@ function AnimatedSelectImpl({
           <span
             className={[
               "font-medium glitch-text",
-              lit
-                ? "text-foreground"
-                : "text-muted-foreground",
+              lit ? "text-foreground" : "text-muted-foreground",
               "group-hover:text-foreground",
             ].join(" ")}
           >
@@ -425,10 +427,7 @@ function AnimatedSelectImpl({
             )}
           </span>
 
-            <ChevronDown
-              className={caretCls}
-              aria-hidden="true"
-            />
+          <ChevronDown className={caretCls} aria-hidden="true" />
 
           {/* ── glitch border stack (no whites) ── */}
           <span aria-hidden className="gb-iris" />
@@ -517,15 +516,15 @@ function AnimatedSelectImpl({
                           <span className="text-sm leading-none glitch-text">
                             {it.label}
                           </span>
-                            <Check
-                              className={[
-                                "size-4 shrink-0 transition-opacity",
-                                active
-                                  ? "opacity-90"
-                                  : "opacity-0 group-hover:opacity-30",
-                              ].join(" ")}
-                              aria-hidden="true"
-                            />
+                          <Check
+                            className={[
+                              "size-4 shrink-0 transition-opacity",
+                              active
+                                ? "opacity-90"
+                                : "opacity-0 group-hover:opacity-30",
+                            ].join(" ")}
+                            aria-hidden="true"
+                          />
                         </div>
 
                         {/* Active left rail */}
@@ -549,7 +548,7 @@ function AnimatedSelectImpl({
       <GlitchStyles />
     </div>
   );
-}
+});
 
 /* ─────────────────────────────────────────────────────────
    Scoped glitch styles: chroma/iris ring, flicker, scanlines.
@@ -781,17 +780,24 @@ function GlitchStyles() {
   );
 }
 
-export default function Select(props: SelectProps) {
+const Select = React.forwardRef<
+  HTMLSelectElement | HTMLButtonElement,
+  SelectProps
+>(function Select(props, ref) {
   if (props.variant === "native") {
     const { variant, ...rest } = props as NativeSelectProps & {
       variant: "native";
     };
     void variant;
-    return <NativeSelect {...rest} />;
+    return <NativeSelect {...rest} ref={ref as React.Ref<HTMLSelectElement>} />;
   }
   const { variant, ...rest } = props as AnimatedSelectProps & {
     variant?: "animated";
   };
   void variant;
-  return <AnimatedSelectImpl {...rest} />;
-}
+  return (
+    <AnimatedSelectImpl {...rest} ref={ref as React.Ref<HTMLButtonElement>} />
+  );
+});
+
+export default Select;
