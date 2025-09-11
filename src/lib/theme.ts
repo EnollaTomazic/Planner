@@ -106,22 +106,26 @@ export function applyTheme({ variant, bg }: ThemeState) {
 }
 
 export function themeBootstrapScript(): string {
-  return `((function(){
+  return `((() => {
     try {
       ${localBootstrapScript()}
-      var key = "${createStorageKey(THEME_STORAGE_KEY)}";
-      var data = readLocal(key);
-      if(!data){
-        data = { variant: 'lg', bg: 0 };
+      const key = "${createStorageKey(THEME_STORAGE_KEY)}";
+      let data = readLocal(key);
+      if (!data) {
+        data = { variant: "lg", bg: 0 };
         writeLocal(key, data);
       }
-      var BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
-      var cl = document.documentElement.classList;
-      Array.from(cl).forEach(function(n){ if(n.indexOf('theme-')===0) cl.remove(n); });
-      cl.add('theme-' + data.variant);
-      BG_CLASSES.forEach(function(c){ if(c) cl.remove(c); });
-      if(data.bg>0) cl.add(BG_CLASSES[data.bg]);
-      cl.add('dark');
-    } catch { }
+      const BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
+      const cl = document.documentElement.classList;
+      Array.from(cl).forEach((n) => {
+        if (n.indexOf("theme-") === 0) cl.remove(n);
+      });
+      cl.add("theme-" + data.variant);
+      BG_CLASSES.forEach((c) => {
+        if (c) cl.remove(c);
+      });
+      if (data.bg > 0) cl.add(BG_CLASSES[data.bg]);
+      cl.add("dark");
+    } catch {}
   })())`;
 }
