@@ -737,7 +737,7 @@ function PageContent() {
   }, [query, router, searchParams]);
 
   return (
-    <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-x-6 px-8 py-8">
+    <main className="mx-auto max-w-screen-xl grid grid-cols-12 gap-6 px-8 py-8">
       <header className="col-span-12 flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-[-0.01em]">
@@ -749,56 +749,56 @@ function PageContent() {
         </div>
         <ThemeToggle />
       </header>
-      <div className="col-span-12">
-        <label htmlFor="playground-search" className="sr-only">
-          Search components
-        </label>
-        <SearchBar
-          id="playground-search"
-          value={query}
-          onValueChange={setQuery}
-          debounceMs={300}
-        />
-      </div>
-      <div className="col-span-12">
-        <UpdatesList />
-      </div>
-      <div className="col-span-12">
+      <div className="col-span-12 lg:col-span-8 space-y-6">
+        <div>
+          <label htmlFor="playground-search" className="sr-only">
+            Search components
+          </label>
+          <SearchBar
+            id="playground-search"
+            value={query}
+            onValueChange={setQuery}
+            debounceMs={300}
+          />
+        </div>
         <TabBar
           items={VIEW_TABS}
           value={view}
           onValueChange={setView}
           ariaLabel="Playground views"
         />
+        <div>
+          <div
+            role="tabpanel"
+            id="components-panel"
+            aria-labelledby="components-tab"
+            hidden={view !== "components"}
+            tabIndex={0}
+          >
+            <ComponentsView query={query} />
+          </div>
+          <div
+            role="tabpanel"
+            id="colors-panel"
+            aria-labelledby="colors-tab"
+            hidden={view !== "colors"}
+            tabIndex={0}
+          >
+            <ColorsView />
+          </div>
+          <div
+            role="tabpanel"
+            id="onboarding-panel"
+            aria-labelledby="onboarding-tab"
+            hidden={view !== "onboarding"}
+            tabIndex={0}
+          >
+            <OnboardingTabs />
+          </div>
+        </div>
       </div>
-      <div className="col-span-12">
-        <div
-          role="tabpanel"
-          id="components-panel"
-          aria-labelledby="components-tab"
-          hidden={view !== "components"}
-          tabIndex={0}
-        >
-          <ComponentsView query={query} />
-        </div>
-        <div
-          role="tabpanel"
-          id="colors-panel"
-          aria-labelledby="colors-tab"
-          hidden={view !== "colors"}
-          tabIndex={0}
-        >
-          <ColorsView />
-        </div>
-        <div
-          role="tabpanel"
-          id="onboarding-panel"
-          aria-labelledby="onboarding-tab"
-          hidden={view !== "onboarding"}
-          tabIndex={0}
-        >
-          <OnboardingTabs />
-        </div>
+      <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-8">
+        <UpdatesList />
       </div>
     </main>
   );
