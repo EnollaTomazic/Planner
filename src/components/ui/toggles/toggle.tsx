@@ -66,8 +66,10 @@ export default function Toggle({
         aria-hidden
         className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out,cubic-bezier(.2,.8,.2,1))]"
         style={{
-          width: "calc(50% - 4px)",
-          transform: `translateX(${isRight ? "calc(100% + 2px)" : "0"})`,
+          width: "calc(50% - var(--space-1))",
+          transform: `translateX(${
+            isRight ? "calc(100% + var(--space-1) / 2)" : "0"
+          })`,
           background:
             "linear-gradient(90deg, hsl(var(--primary)/.35), hsl(var(--accent)/.35))",
           boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
