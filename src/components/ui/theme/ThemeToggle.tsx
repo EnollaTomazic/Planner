@@ -6,16 +6,12 @@ import { Image as ImageIcon } from "lucide-react";
 import AnimatedSelect, {
   DropItem,
 } from "@/components/ui/selects/AnimatedSelect";
-import { usePersistentState } from "@/lib/db";
+import { useTheme } from "@/lib/theme-context";
 import {
-  applyTheme,
-  defaultTheme,
-  THEME_STORAGE_KEY,
   VARIANTS,
   BG_CLASSES,
-  ThemeState,
-  Variant,
-  Background,
+  type Variant,
+  type Background,
 } from "@/lib/theme";
 
 type ThemeToggleProps = {
@@ -34,19 +30,12 @@ export default function ThemeToggle({
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
   const [mounted, setMounted] = React.useState(false);
-  const [state, setState] = usePersistentState<ThemeState>(
-    THEME_STORAGE_KEY,
-    defaultTheme(),
-  );
+  const [state, setState] = useTheme();
   const { variant } = state;
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
-
-  React.useEffect(() => {
-    applyTheme(state);
-  }, [state]);
 
   function setVariantPersist(v: Variant) {
     setState((prev) => ({ variant: v, bg: prev.bg }));
