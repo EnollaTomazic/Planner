@@ -10,6 +10,7 @@ import {
   TeamPromptsCard,
   BottomNav,
 } from "@/components/home";
+import Hero from "@/components/ui/layout/Hero";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
 import {
@@ -60,13 +61,17 @@ function HomePageContent() {
   }, [theme, router, pathname, searchParams]);
 
   return (
-    <main className="page-shell py-6 space-y-6 md:space-y-8">
-      <header className="space-y-1">
+    <main
+      aria-labelledby="home-header"
+      className="page-shell py-6 space-y-6 md:space-y-8"
+    >
+      <header id="home-header" className="space-y-1">
         <h1 className="text-2xl font-semibold">Welcome to Planner</h1>
         <p className="text-sm text-muted-foreground">
           Plan your day, track goals, and review games.
         </p>
       </header>
+      <Hero heading="Hero" />
       <QuickActions theme={theme} setTheme={setTheme} />
       <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="md:col-span-4">
