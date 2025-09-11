@@ -56,6 +56,8 @@ export default function PromptsDemos() {
           <Input placeholder="Medium" />
           <Input height="lg" placeholder="Large" />
           <Input height={12} placeholder="h-12" />
+          <Input className="rounded-full" placeholder="Rounded" />
+          <Input placeholder="Disabled" disabled />
           <Input placeholder="Error" aria-invalid="true" />
           <Input
             placeholder="Custom ring"
