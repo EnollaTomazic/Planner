@@ -20,7 +20,6 @@ import {
   PillarBadge,
   PillarSelector,
   SearchBar,
-  AnimatedSelect,
   ThemeToggle,
   AnimationToggle,
   CheckCircle,
@@ -79,14 +78,25 @@ export default function PromptsDemos() {
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Select</h3>
         <div className="space-y-3">
-          <Select aria-label="Default">
-            <option value="">Choose…</option>
-            <option value="a">A</option>
-          </Select>
-          <Select aria-label="Error" errorText="Error">
-            <option value="">Choose…</option>
-            <option value="a">A</option>
-          </Select>
+          <Select
+            variant="native"
+            aria-label="Default"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "a", label: "A" },
+            ]}
+            value=""
+          />
+          <Select
+            variant="native"
+            aria-label="Error"
+            errorText="Error"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "a", label: "A" },
+            ]}
+            value=""
+          />
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
@@ -171,7 +181,8 @@ export default function PromptsDemos() {
         <h3 className="type-title">Inputs</h3>
         <div className="space-y-3">
           <SearchBar value="" onValueChange={() => {}} />
-          <AnimatedSelect
+          <Select
+            variant="animated"
             items={[{ value: "a", label: "Apple" }]}
             value="a"
             onChange={() => {}}

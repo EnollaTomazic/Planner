@@ -28,7 +28,6 @@ import {
   SideSelector,
   PillarBadge,
   PillarSelector,
-  AnimatedSelect,
   FieldShell,
   Label,
   type TabItem,
@@ -282,33 +281,42 @@ export default function ComponentGallery() {
       {
         label: "Select",
         element: (
-          <Select aria-label="Fruit" defaultValue="" className="w-56">
-            <option value="" disabled hidden>
-              Choose…
-            </option>
-            <option value="apple">Apple</option>
-            <option value="orange">Orange</option>
-            <option value="pear">Pear</option>
-          </Select>
+          <Select
+            variant="native"
+            aria-label="Fruit"
+            className="w-56"
+            items={[
+              { value: "", label: "Choose…" },
+              { value: "apple", label: "Apple" },
+              { value: "orange", label: "Orange" },
+              { value: "pear", label: "Pear" },
+            ]}
+            value=""
+          />
         ),
       },
       {
         label: "Select Variants",
         element: (
           <div className="w-56 space-y-2">
-            <Select defaultValue="">
-              <option value="" disabled hidden>
-                Choose…
-              </option>
-              <option value="a">A</option>
-              <option value="b">B</option>
-            </Select>
-            <Select success defaultValue="">
-              <option value="" disabled hidden>
-                Choose…
-              </option>
-              <option value="a">A</option>
-            </Select>
+            <Select
+              variant="native"
+              items={[
+                { value: "", label: "Choose…" },
+                { value: "a", label: "A" },
+                { value: "b", label: "B" },
+              ]}
+              value=""
+            />
+            <Select
+              variant="native"
+              success
+              items={[
+                { value: "", label: "Choose…" },
+                { value: "a", label: "A" },
+              ]}
+              value=""
+            />
           </div>
         ),
         className: "sm:col-span-2 md:col-span-3",
@@ -339,7 +347,8 @@ export default function ComponentGallery() {
       {
         label: "AnimatedSelect",
         element: (
-          <AnimatedSelect
+          <Select
+            variant="animated"
             items={selectItems}
             value={selectValue}
             onChange={setSelectValue}

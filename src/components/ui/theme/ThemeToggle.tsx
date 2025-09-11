@@ -3,9 +3,7 @@
 
 import * as React from "react";
 import { Image as ImageIcon } from "lucide-react";
-import AnimatedSelect, {
-  DropItem,
-} from "@/components/ui/selects/AnimatedSelect";
+import { Select, type SelectItem } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import {
   VARIANTS,
@@ -56,7 +54,7 @@ export default function ThemeToggle({
     );
   }
 
-  const items: DropItem[] = VARIANTS.map((v) => ({
+  const items: SelectItem[] = VARIANTS.map((v) => ({
     value: v.id,
     label: v.label,
   }));
@@ -76,7 +74,8 @@ export default function ThemeToggle({
       </button>
 
       {/* dropdown — no visible title; uses aria label */}
-      <AnimatedSelect
+      <Select
+        variant="animated"
         ariaLabel={aria}
         items={items}
         value={variant}
