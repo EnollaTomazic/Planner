@@ -23,8 +23,8 @@ StyleDictionary.registerFormat({
 });
 
 async function loadRadiusValues(): Promise<Record<string, string>> {
-  const themePath = path.resolve(__dirname, "../src/app/themes.css");
-  const css = await fs.readFile(themePath, "utf8");
+  const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
+  const css = await fs.readFile(globalsPath, "utf8");
   const values: Record<string, string> = {};
   for (const token of radiusTokens) {
     const regex = new RegExp(`${token}:\\s*([^;]+);`);
@@ -34,6 +34,20 @@ async function loadRadiusValues(): Promise<Record<string, string>> {
     }
   }
   return values;
+}
+
+async function loadBaseColors(): Promise<Record<string, { value: string }>> {
+  const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
+  const css = await fs.readFile(tokensPath, "utf8");
+  const colorRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
+  const colors: Record<string, { value: string }> = {};
+  let match: RegExpExecArray | null;
+  while ((match = colorRegex.exec(css))) {
+    const name = match[1];
+    if (name.startsWith("spacing-") || name.startsWith("radius-")) continue;
+    colors[name] = { value: match[2].trim() };
+  }
+  return colors;
 }
 
 async function buildTokens(): Promise<void> {
@@ -53,17 +67,28 @@ async function buildTokens(): Promise<void> {
     return acc;
   }, {});
 
-  const themePath = path.resolve(__dirname, "../src/app/themes.css");
-  const css = await fs.readFile(themePath, "utf8");
-  const rootMatch = css.match(/:root\s*{([^}]*)}/);
-  const baseCss = rootMatch ? rootMatch[1] : css;
   const colorRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
-  const colors: Record<string, { value: string }> = {};
+  const colors: Record<string, { value: string }> = await loadBaseColors();
+  const themePath = path.resolve(__dirname, "../src/app/themes.css");
+  const themeCss = await fs.readFile(themePath, "utf8");
+  const themeRoot = themeCss.match(/:root\s*{([^}]*)}/);
+  const themeBase = themeRoot ? themeRoot[1] : themeCss;
   let match: RegExpExecArray | null;
-  while ((match = colorRegex.exec(baseCss))) {
+  while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
     if (name.startsWith("radius-")) continue;
     colors[name] = { value: match[2].trim() };
+  }
+  const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
+  const globalsCss = await fs.readFile(globalsPath, "utf8");
+  const glowTokens = ["--glow-strong", "--glow-soft"];
+  for (const token of glowTokens) {
+    const regex = new RegExp(`${token}:\\s*([^;]+);`);
+    const m = globalsCss.match(regex);
+    if (m) {
+      const name = token.replace(/^--/, "");
+      colors[name] = { value: m[1].trim() };
+    }
   }
 
   const sd = new StyleDictionary({
