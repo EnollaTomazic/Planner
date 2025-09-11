@@ -1,7 +1,14 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
+import { ThemeProvider } from "@/lib/theme-context";
 import { resetLocalStorage } from "../setup";
 
 afterEach(() => {
@@ -15,7 +22,11 @@ describe("PromptsPage", () => {
   });
 
   it("saves prompts and filters results", async () => {
-    render(<PromptsPage />);
+    render(
+      <ThemeProvider>
+        <PromptsPage />
+      </ThemeProvider>,
+    );
 
     const titleInput = screen.getByPlaceholderText("Title");
     const textArea = screen.getByPlaceholderText(
@@ -51,7 +62,11 @@ describe("PromptsPage", () => {
   });
 
   it("ignores empty saves", async () => {
-    render(<PromptsPage />);
+    render(
+      <ThemeProvider>
+        <PromptsPage />
+      </ThemeProvider>,
+    );
     const saveButton = screen.getByRole("button", { name: "Save" });
     expect(saveButton).toBeDisabled();
     fireEvent.click(saveButton);
