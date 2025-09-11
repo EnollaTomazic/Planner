@@ -61,10 +61,10 @@ exports[`ReviewListItem > renders loading state 1`] = `
     data-scope="reviews"
   >
     <div
-      class="h-3 rounded bg-muted w-3/5 mb-3"
+      class="h-3 rounded-md bg-muted w-3/5 mb-3"
     />
     <div
-      class="h-3 rounded bg-muted w-2/5"
+      class="h-3 rounded-md bg-muted w-2/5"
     />
   </div>
 </div>

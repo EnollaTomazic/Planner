@@ -542,7 +542,7 @@ const AnimatedSelectImpl = React.forwardRef<
                         <span
                           aria-hidden
                           className={[
-                            "pointer-events-none absolute left-0 top-1/2 h-[70%] w-[2px] -translate-y-1/2 rounded",
+                            "pointer-events-none absolute left-0 top-1/2 h-[70%] w-[2px] -translate-y-1/2 rounded-md",
                             active ? "bg-ring" : "bg-transparent",
                           ].join(" ")}
                         />

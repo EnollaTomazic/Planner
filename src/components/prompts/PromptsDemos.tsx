@@ -224,7 +224,7 @@ export default function PromptsDemos() {
           <h4 className="type-subtitle">Colors</h4>
           <div className="flex gap-2">
             {colorTokens.map((c) => (
-              <div key={c} className={`size-6 rounded ${c}`} />
+              <div key={c} className={`size-6 rounded-md ${c}`} />
             ))}
           </div>
         </div>
@@ -261,7 +261,7 @@ export default function PromptsDemos() {
         <div className="flex gap-2">
           <button
             type="button"
-            className="px-3 py-1 rounded bg-accent/20 transition-opacity duration-420 hover:opacity-60"
+            className="px-3 py-1 rounded-md bg-accent/20 transition-opacity duration-420 hover:opacity-60"
           >
             Slow fade
           </button>

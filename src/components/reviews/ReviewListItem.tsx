@@ -24,7 +24,7 @@ const itemLoading = cn(
   shellBase,
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
-const loadingLine = "h-3 rounded bg-muted";
+const loadingLine = "h-3 rounded-md bg-muted";
 const scoreBadge =
   "px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] shadow-ring [--ring:var(--theme-accent)]";
 
