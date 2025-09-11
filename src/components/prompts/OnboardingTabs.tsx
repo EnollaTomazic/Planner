@@ -31,19 +31,32 @@ export default function OnboardingTabs() {
       <p className="text-sm text-muted-foreground">
         Last updated {new Date(updatedAt).toLocaleTimeString()}
       </p>
-      {role === "designer" ? (
+      <div
+        role="tabpanel"
+        id="designer-panel"
+        aria-labelledby="designer-tab"
+        hidden={role !== "designer"}
+        tabIndex={0}
+      >
         <ul className="list-disc pl-6 space-y-1">
           <li>Review design system guidelines</li>
           <li>Audit existing components for consistency</li>
           <li>Collaborate with developers on UI implementation</li>
         </ul>
-      ) : (
+      </div>
+      <div
+        role="tabpanel"
+        id="developer-panel"
+        aria-labelledby="developer-tab"
+        hidden={role !== "developer"}
+        tabIndex={0}
+      >
         <ul className="list-disc pl-6 space-y-1">
           <li>Set up local development environment</li>
           <li>Follow project coding standards and lint rules</li>
           <li>Coordinate with designers on features</li>
         </ul>
-      )}
+      </div>
     </div>
   );
 }

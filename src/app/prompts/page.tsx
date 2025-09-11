@@ -707,6 +707,7 @@ function PageContent() {
           id="components-panel"
           aria-labelledby="components-tab"
           hidden={view !== "components"}
+          tabIndex={0}
         >
           <ComponentsView query={query} />
         </div>
@@ -715,6 +716,7 @@ function PageContent() {
           id="colors-panel"
           aria-labelledby="colors-tab"
           hidden={view !== "colors"}
+          tabIndex={0}
         >
           <ColorsView />
         </div>
@@ -723,6 +725,7 @@ function PageContent() {
           id="onboarding-panel"
           aria-labelledby="onboarding-tab"
           hidden={view !== "onboarding"}
+          tabIndex={0}
         >
           <OnboardingTabs />
         </div>

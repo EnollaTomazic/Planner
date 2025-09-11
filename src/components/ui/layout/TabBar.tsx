@@ -75,6 +75,19 @@ export default function TabBar<K extends string = string>({
     [isControlled, onValueChange],
   );
 
+  const tabRefs = React.useRef<Record<K, HTMLButtonElement | null>>({} as Record<
+    K,
+    HTMLButtonElement | null
+  >);
+
+  const commitAndFocus = React.useCallback(
+    (next: K) => {
+      commitValue(next);
+      tabRefs.current[next]?.focus();
+    },
+    [commitValue],
+  );
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
@@ -83,16 +96,17 @@ export default function TabBar<K extends string = string>({
     const curIndex = enabled.findIndex((i) => i.key === activeKey);
     if (enabled.length === 0) return;
 
-    if (e.key === "Home") return commitValue(enabled[0].key);
-    if (e.key === "End") return commitValue(enabled[enabled.length - 1].key);
+    if (e.key === "Home") return commitAndFocus(enabled[0].key);
+    if (e.key === "End")
+      return commitAndFocus(enabled[enabled.length - 1].key);
 
     if (e.key === "ArrowLeft") {
       const next = curIndex <= 0 ? enabled.length - 1 : curIndex - 1;
-      return commitValue(enabled[next].key);
+      return commitAndFocus(enabled[next].key);
     }
     if (e.key === "ArrowRight") {
       const next = curIndex >= enabled.length - 1 ? 0 : curIndex + 1;
-      return commitValue(enabled[next].key);
+      return commitAndFocus(enabled[next].key);
     }
   };
 
@@ -106,13 +120,14 @@ export default function TabBar<K extends string = string>({
   const s = sizeMap[size];
 
   return (
-    <div className={cn("relative w-full", className)} onKeyDown={onKeyDown}>
+    <div className={cn("relative w-full", className)}>
       <div className={cn("flex flex-wrap items-center", justify, "gap-3")}>
         {/* Tabs group */}
         <div
           role="tablist"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
+          onKeyDown={onKeyDown}
           className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
         >
           {items.map((item) => {
@@ -129,6 +144,9 @@ export default function TabBar<K extends string = string>({
                 aria-disabled={item.disabled || undefined}
                 aria-controls={panelId}
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
+                ref={(el) => {
+                  tabRefs.current[item.key] = el;
+                }}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
                   "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-150 ease-out",
