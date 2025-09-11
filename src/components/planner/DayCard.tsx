@@ -61,13 +61,13 @@ export default function DayCard({ iso, isToday }: Props) {
   return (
     <section
       className={cn(
-        "daycard relative overflow-hidden card-neo-soft rounded-2xl border card-pad",
+        "daycard relative overflow-hidden card-neo-soft rounded-card r-card-lg border card-pad",
         "grid gap-4 lg:gap-6",
         "grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1px_1fr]",
         isToday && "ring-1 ring-ring/65 title-glow",
         "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r",
         "before:from-transparent before:via-ring/45 before:to-transparent",
-        "after:pointer-events-none after:absolute after:-inset-px after:rounded-2xl after:bg-[radial-gradient(60%_40%_at_100%_0%,hsl(var(--ring)/.12),transparent_60%)]",
+        "after:pointer-events-none after:absolute after:-inset-px after:[border-radius:var(--radius-card)] after:bg-[radial-gradient(60%_40%_at_100%_0%,hsl(var(--ring)/.12),transparent_60%)]",
       )}
       aria-label={`Planner for ${iso}`}
     >

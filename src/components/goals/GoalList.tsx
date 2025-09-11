@@ -54,8 +54,11 @@ export default function GoalList({
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:minmax(0,1fr)]">
       {goals.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-accent/40 bg-card/20 p-6 text-center text-sm text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
-          <Flag aria-hidden className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]" />
+        <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-sm text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
+          <Flag
+            aria-hidden
+            className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]"
+          />
           <p>No goals here. Add one simple, finishable thing.</p>
         </div>
       ) : (
@@ -65,7 +68,7 @@ export default function GoalList({
             <article
               key={g.id}
               className={[
-                "relative overflow-hidden rounded-2xl p-6 min-h-8 flex flex-col",
+                "relative overflow-hidden rounded-card r-card-lg p-6 min-h-8 flex flex-col",
                 "bg-card/30 backdrop-blur-md",
                 "shadow-ring [--ring:var(--accent)]",
                 "transition-all duration-150 hover:-translate-y-1 hover:shadow-ring",
@@ -73,7 +76,7 @@ export default function GoalList({
             >
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-2xl p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] [mask-composite:exclude]"
+                className="pointer-events-none absolute inset-0 rounded-card r-card-lg p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] [mask-composite:exclude]"
               />
               <header className="relative z-[1] flex items-start justify-between gap-2">
                 {isEditing ? (
@@ -176,11 +179,12 @@ export default function GoalList({
                   <>
                     {g.metric ? (
                       <div className="tabular-nums">
-                        <span className="opacity-70">Metric:</span>{" "}
-                        {g.metric}
+                        <span className="opacity-70">Metric:</span> {g.metric}
                       </div>
                     ) : null}
-                    {g.notes ? <p className="leading-relaxed">{g.notes}</p> : null}
+                    {g.notes ? (
+                      <p className="leading-relaxed">{g.notes}</p>
+                    ) : null}
                   </>
                 )}
               </div>
@@ -202,7 +206,9 @@ export default function GoalList({
                     {shortDate.format(new Date(g.createdAt))}
                   </time>
                 </span>
-                <span className={g.done ? "text-muted-foreground" : "text-accent"}>
+                <span
+                  className={g.done ? "text-muted-foreground" : "text-accent"}
+                >
                   {g.done ? "Done" : "Active"}
                 </span>
               </footer>

@@ -49,7 +49,7 @@ export default function TaskRow({
     <li className="group">
       <div
         className={cn(
-          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-2xl border pl-4 pr-2 py-2",
+          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-card r-card-lg border pl-4 pr-2 py-2",
           "bg-card/55 hover:bg-card/70",
           "focus-within:ring-2 focus-within:ring-ring",
         )}
@@ -67,7 +67,7 @@ export default function TaskRow({
         <div className="flex-1 min-w-0 px-1">
           {!editing ? (
             <button
-              className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-2xl"
+              className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
               onClick={onToggle}
               onDoubleClick={start}
               aria-pressed={task.done}

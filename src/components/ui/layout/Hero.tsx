@@ -107,7 +107,7 @@ export default function Hero({
       <div
         className={cx(
           sticky ? "sticky-blur" : "",
-          "hero2-frame relative overflow-hidden rounded-2xl px-4 py-4",
+          "hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4",
           topClassName,
         )}
       >
@@ -169,7 +169,7 @@ export default function Hero({
         {/* subtle rim */}
         <div
           aria-hidden
-          className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border/55"
+          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
         />
       </div>
     </section>

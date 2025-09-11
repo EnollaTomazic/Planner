@@ -4,7 +4,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
     data-scope="reviews"
     type="button"
   >
@@ -57,7 +57,7 @@ exports[`ReviewListItem > renders default state 1`] = `
 exports[`ReviewListItem > renders loading state 1`] = `
 <div>
   <div
-    class="relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent] motion-safe:animate-pulse motion-reduce:animate-none"
+    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent] motion-safe:animate-pulse motion-reduce:animate-none"
     data-scope="reviews"
   >
     <div
@@ -74,7 +74,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
-    class="relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
     data-scope="reviews"
     data-selected="true"
     type="button"
@@ -129,7 +129,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
 <div>
   <button
     aria-label="Open review: Untitled Review"
-    class="relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
     data-scope="reviews"
     type="button"
   >

@@ -104,7 +104,7 @@ function NeonPillarChip({
     <span className="relative inline-flex">
       <span
         className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
+          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
           lit ? "opacity-60" : "opacity-0",
         )}
         style={{
@@ -117,7 +117,7 @@ function NeonPillarChip({
       />
       <span
         className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
+          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
           lit
             ? "opacity-40 motion-safe:animate-[neonAura_3.6s_ease-in-out_infinite] motion-reduce:animate-none"
             : "opacity-0",
@@ -132,7 +132,7 @@ function NeonPillarChip({
       />
       <span
         className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
+          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
           lit
             ? "motion-safe:animate-[igniteFlicker_.62s_steps(18,end)_1] motion-reduce:animate-none"
             : "",
@@ -516,7 +516,7 @@ export default function ReviewEditor({
               }
             }}
             className={cn(
-              "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
+              "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg",
               "border border-border bg-card",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             )}
@@ -564,7 +564,7 @@ export default function ReviewEditor({
         {/* Score */}
         <div>
           <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+          <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
             <input
               ref={scoreRangeRef}
               type="range"
@@ -583,7 +583,7 @@ export default function ReviewEditor({
                   go(timeRef);
                 }
               }}
-              className="absolute inset-0 z-10 cursor-pointer rounded-2xl opacity-0 [appearance:none]"
+              className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
@@ -639,7 +639,7 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-              <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+              <div className="mt-3 relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -652,7 +652,7 @@ export default function ReviewEditor({
                     setFocus(v);
                     commitMeta({ focus: v });
                   }}
-                  className="absolute inset-0 z-10 cursor-pointer rounded-2xl opacity-0 [appearance:none]"
+                  className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
@@ -786,7 +786,7 @@ export default function ReviewEditor({
               />
             ) : (
               <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm text-foreground/70"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 text-sm text-foreground/70"
                 style={{ width: "calc(5ch + 1.5rem)" }}
                 title="Timestamp disabled"
               >
@@ -837,7 +837,7 @@ export default function ReviewEditor({
               {sortedMarkers.map((m) => (
                 <li
                   key={m.id}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
+                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
                 >
                   {m.noteOnly ? (
                     <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">

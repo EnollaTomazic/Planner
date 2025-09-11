@@ -8,11 +8,11 @@ function StaticNeonWrap({ children }: { children: React.ReactNode }) {
     <span className="relative inline-flex">
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-accent to-primary opacity-40 blur-[6px]"
+        className="pointer-events-none absolute inset-0 rounded-card r-card-lg bg-gradient-to-r from-accent to-primary opacity-40 blur-[6px]"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-ring/35"
+        className="pointer-events-none absolute inset-0 rounded-card r-card-lg ring-1 ring-ring/35"
       />
       <span className="relative z-10">{children}</span>
     </span>
@@ -23,7 +23,9 @@ export type ReviewSummaryPillarsProps = {
   pillars?: Pillar[];
 };
 
-export default function ReviewSummaryPillars({ pillars }: ReviewSummaryPillarsProps) {
+export default function ReviewSummaryPillars({
+  pillars,
+}: ReviewSummaryPillarsProps) {
   return (
     <div>
       <SectionLabel>Pillars</SectionLabel>
@@ -36,9 +38,10 @@ export default function ReviewSummaryPillars({ pillars }: ReviewSummaryPillarsPr
           ))}
         </div>
       ) : (
-        <div className="text-sm text-muted-foreground">No pillars selected.</div>
+        <div className="text-sm text-muted-foreground">
+          No pillars selected.
+        </div>
       )}
     </div>
   );
 }
-

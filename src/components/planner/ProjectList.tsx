@@ -36,23 +36,22 @@ export default function ProjectList({
   const multiple = projects.length > 1;
 
   const onRowKey = React.useCallback(
-    (idx: number, p: Project) =>
-      (e: React.KeyboardEvent) => {
-        if (e.key === " " || e.key === "Enter") {
-          e.preventDefault();
-          setSelectedProjectId(p.id);
-        }
-        if (multiple && (e.key === "ArrowDown" || e.key === "ArrowRight")) {
-          e.preventDefault();
-          const next = (idx + 1) % projects.length;
-          setSelectedProjectId(projects[next].id);
-        }
-        if (multiple && (e.key === "ArrowUp" || e.key === "ArrowLeft")) {
-          e.preventDefault();
-          const prev = (idx - 1 + projects.length) % projects.length;
-          setSelectedProjectId(projects[prev].id);
-        }
-      },
+    (idx: number, p: Project) => (e: React.KeyboardEvent) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        setSelectedProjectId(p.id);
+      }
+      if (multiple && (e.key === "ArrowDown" || e.key === "ArrowRight")) {
+        e.preventDefault();
+        const next = (idx + 1) % projects.length;
+        setSelectedProjectId(projects[next].id);
+      }
+      if (multiple && (e.key === "ArrowUp" || e.key === "ArrowLeft")) {
+        e.preventDefault();
+        const prev = (idx - 1 + projects.length) % projects.length;
+        setSelectedProjectId(projects[prev].id);
+      }
+    },
     [multiple, projects, setSelectedProjectId],
   );
 
@@ -92,12 +91,11 @@ export default function ProjectList({
                       if (active) setSelectedTaskId("");
                     }}
                     className={cn(
-                      "proj-card group relative [overflow:visible] w-full text-left rounded-2xl border pl-4 pr-2 py-2",
+                      "proj-card group relative [overflow:visible] w-full text-left rounded-card r-card-lg border pl-4 pr-2 py-2",
                       "bg-card/55 hover:bg-card/70 transition",
                       "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      active &&
-                        "proj-card--active ring-1 ring-ring",
+                      active && "proj-card--active ring-1 ring-ring",
                     )}
                   >
                     <span

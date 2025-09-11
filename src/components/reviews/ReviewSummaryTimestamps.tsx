@@ -7,7 +7,9 @@ export type ReviewSummaryTimestampsProps = {
   markers: ReviewMarker[];
 };
 
-export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimestampsProps) {
+export default function ReviewSummaryTimestamps({
+  markers,
+}: ReviewSummaryTimestampsProps) {
   const hasAny = markers.length > 0;
   const hasTimed = hasAny && markers.some((m) => !m.noteOnly);
   const hasNoteOnly = hasAny && markers.every((m) => m.noteOnly);
@@ -28,14 +30,20 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
             .map((m) => (
               <li
                 key={m.id}
-                className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2"
+                className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
               >
                 {m.noteOnly ? (
-                  <span className="pill flex h-7 w-14 items-center justify-center px-0" title="Note" aria-label="Note">
+                  <span
+                    className="pill flex h-7 w-14 items-center justify-center px-0"
+                    title="Note"
+                    aria-label="Note"
+                  >
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-3 text-xs font-mono tabular-nums leading-none">{m.time ?? "00:00"}</span>
+                  <span className="pill h-7 px-3 text-xs font-mono tabular-nums leading-none">
+                    {m.time ?? "00:00"}
+                  </span>
                 )}
                 <span className="truncate text-sm">{m.note || "—"}</span>
               </li>
@@ -45,4 +53,3 @@ export default function ReviewSummaryTimestamps({ markers }: ReviewSummaryTimest
     </div>
   );
 }
-
