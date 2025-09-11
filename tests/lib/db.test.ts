@@ -135,6 +135,30 @@ describe("usePersistentState", () => {
 
     expect(result.current[0]).toBe("init");
   });
+
+  it("resets state when key changes with no stored data", async () => {
+    const { result, rerender } = renderHook(
+      ({ key }) => usePersistentState(key, "init"),
+      { initialProps: { key: "one" } },
+    );
+
+    await waitFor(() =>
+      expect(window.localStorage.getItem("noxis-planner:one")).toBe(
+        JSON.stringify("init"),
+      ),
+    );
+
+    act(() => result.current[1]("changed"));
+
+    rerender({ key: "two" });
+
+    await waitFor(() => expect(result.current[0]).toBe("init"));
+    await waitFor(() =>
+      expect(window.localStorage.getItem("noxis-planner:two")).toBe(
+        JSON.stringify("init"),
+      ),
+    );
+  });
 });
 
 // Tests for uid
@@ -150,5 +174,23 @@ describe("uid", () => {
     const sample = uid("test");
     expect(sample.startsWith("test_")).toBe(true);
     expect(sample.slice("test_".length).length).toBeGreaterThanOrEqual(16);
+  });
+
+  it("falls back to Math.random when crypto.randomUUID is unavailable", () => {
+    const originalCrypto = globalThis.crypto;
+    Object.defineProperty(globalThis, "crypto", {
+      value: undefined,
+      configurable: true,
+    });
+    const randSpy = vi.spyOn(Math, "random").mockReturnValue(0.123456789);
+    const id = uid("test");
+    expect(randSpy).toHaveBeenCalled();
+    expect(id.startsWith("test_")).toBe(true);
+    expect(id.length).toBeGreaterThan("test_".length);
+    randSpy.mockRestore();
+    Object.defineProperty(globalThis, "crypto", {
+      value: originalCrypto,
+      configurable: true,
+    });
   });
 });

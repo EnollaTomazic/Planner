@@ -189,22 +189,23 @@ export function usePersistentState<T>(
       if (fromStorage === null) {
         fromStorage = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
       }
-      if (fromStorage !== null) setState(fromStorage);
+      if (fromStorage !== null) {
+        setState(fromStorage);
+      } else {
+        setState(initialRef.current);
+      }
       loadedRef.current = true;
     }
   }, [key]);
 
-  const handleExternal = React.useCallback(
-    (raw: string | null) => {
-      if (raw === null) {
-        setState(initialRef.current);
-        return;
-      }
-      const next = parseJSON<T>(raw);
-      if (next !== null) setState(next);
-    },
-    [],
-  );
+  const handleExternal = React.useCallback((raw: string | null) => {
+    if (raw === null) {
+      setState(initialRef.current);
+      return;
+    }
+    const next = parseJSON<T>(raw);
+    if (next !== null) setState(next);
+  }, []);
 
   useStorageSync(key, handleExternal);
 
@@ -226,7 +227,10 @@ export function usePersistentState<T>(
  * If a prefix is provided, it is prepended followed by an underscore.
  */
 export function uid(prefix = ""): string {
-  const id = crypto.randomUUID();
+  const id =
+    globalThis.crypto?.randomUUID?.() ??
+    `${Math.random().toString(36).slice(2)}${Math.random()
+      .toString(36)
+      .slice(2)}`;
   return prefix ? `${prefix}_${id}` : id;
 }
-
