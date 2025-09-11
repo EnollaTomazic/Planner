@@ -17,13 +17,13 @@ export default function DashboardCard({
   actions,
 }: DashboardCardProps) {
   return (
-    <div className="card-neo-soft rounded-card r-card-lg border border-[hsl(var(--border))] p-4 md:p-6 space-y-4">
+    <div className="card-neo-soft rounded-card r-card-lg border border-border p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}
       </div>
       {children && (
-        <div className="border-t border-[hsl(var(--border))] pt-4 space-y-4">
+        <div className="border-t border-border pt-4 space-y-4">
           {children}
         </div>
       )}

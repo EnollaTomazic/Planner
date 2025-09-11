@@ -340,7 +340,7 @@ export default function CheckCircle({
         .ccx-glow {
           position: absolute;
           inset: -2px;
-          border-radius: 9999px;
+          border-radius: inherit;
           pointer-events: none;
         }
         .ccx-glow::before,
