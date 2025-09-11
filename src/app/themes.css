@@ -9,6 +9,7 @@
   --lg-cyan: 192 90% 50%;
   --lg-pink: 320 85% 60%;
   --lg-black: 0 0% 0%;
+  --header-stack: calc(var(--spacing-8) + var(--spacing-4));
 }
 
 /* Upgrade tokens when color-mix(oklab) is supported */
@@ -316,7 +317,11 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(60% 40% at 10% 0%, hsl(var(--lg-violet) / 0.2), transparent 60%),
+    radial-gradient(
+      60% 40% at 10% 0%,
+      hsl(var(--lg-violet) / 0.2),
+      transparent 60%
+    ),
     radial-gradient(
       50% 35% at 100% 5%,
       hsl(var(--lg-cyan) / 0.18),
@@ -327,7 +332,11 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
       hsl(var(--lg-pink) / 0.14),
       transparent 65%
     ),
-    radial-gradient(120% 100% at 50% 100%, hsl(var(--lg-black) / 0.35), transparent 70%);
+    radial-gradient(
+      120% 100% at 50% 100%,
+      hsl(var(--lg-black) / 0.35),
+      transparent 70%
+    );
   filter: blur(2px) saturate(110%);
   animation: lg-aurora-pan 24s ease-in-out infinite alternate;
 }
@@ -468,9 +477,21 @@ html.theme-noir body::after {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(80% 60% at 50% 120%, hsl(var(--noir-ink) / 0.45), transparent 70%),
-    radial-gradient(40% 25% at 6% 4%, hsl(var(--noir-red) / 0.15), transparent 60%),
-    radial-gradient(40% 25% at 94% 10%, hsl(var(--noir-ruby) / 0.12), transparent 60%);
+    radial-gradient(
+      80% 60% at 50% 120%,
+      hsl(var(--noir-ink) / 0.45),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 25% at 6% 4%,
+      hsl(var(--noir-red) / 0.15),
+      transparent 60%
+    ),
+    radial-gradient(
+      40% 25% at 94% 10%,
+      hsl(var(--noir-ruby) / 0.12),
+      transparent 60%
+    );
   filter: blur(1.5px) saturate(110%);
   opacity: 0.9;
   animation: noir-drift 26s ease-in-out infinite alternate;
@@ -546,7 +567,11 @@ html.theme-ocean body::after {
       hsl(var(--ocean-indigo) / 0.12),
       transparent 65%
     ),
-    radial-gradient(50% 35% at 102% 8%, hsl(var(--success) / 0.1), transparent 60%);
+    radial-gradient(
+      50% 35% at 102% 8%,
+      hsl(var(--success) / 0.1),
+      transparent 60%
+    );
   filter: blur(2px) saturate(112%);
   animation: ocean-pan 26s ease-in-out infinite alternate;
 }
@@ -679,11 +704,7 @@ html.theme-hardstuck body::after {
       hsl(var(--hardstuck-deep) / 0.45),
       transparent 70%
     ),
-    radial-gradient(
-      40% 25% at 6% 4%,
-      hsl(var(--ring) / 0.15),
-      transparent 60%
-    ),
+    radial-gradient(40% 25% at 6% 4%, hsl(var(--ring) / 0.15), transparent 60%),
     radial-gradient(
       40% 25% at 94% 10%,
       hsl(var(--hardstuck-forest) / 0.12),

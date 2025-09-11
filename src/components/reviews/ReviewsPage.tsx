@@ -43,7 +43,10 @@ export default function ReviewsPage({
   const [sort, setSort] = useState<SortKey>("newest");
   const [panelMode, setPanelMode] = useState<"summary" | "edit">("summary");
 
-  const base = useMemo<Review[]>(() => (Array.isArray(reviews) ? reviews : []), [reviews]);
+  const base = useMemo<Review[]>(
+    () => (Array.isArray(reviews) ? reviews : []),
+    [reviews],
+  );
 
   const filtered = useMemo(() => {
     const ts = (v: unknown): number => {
@@ -78,11 +81,15 @@ export default function ReviewsPage({
             return blob.includes(needle);
           });
 
-    if (sort === "newest") list.sort((a, b) => ts(b?.createdAt) - ts(a?.createdAt));
-    if (sort === "oldest") list.sort((a, b) => ts(a?.createdAt) - ts(b?.createdAt));
+    if (sort === "newest")
+      list.sort((a, b) => ts(b?.createdAt) - ts(a?.createdAt));
+    if (sort === "oldest")
+      list.sort((a, b) => ts(a?.createdAt) - ts(b?.createdAt));
     if (sort === "title")
       list.sort((a, b) =>
-        (a?.title || "").localeCompare(b?.title || "", undefined, { sensitivity: "base" })
+        (a?.title || "").localeCompare(b?.title || "", undefined, {
+          sensitivity: "base",
+        }),
       );
 
     return list;
@@ -94,7 +101,7 @@ export default function ReviewsPage({
   return (
     <main className="page-shell py-6 space-y-6">
       <Hero
-        topClassName="top-20"
+        topClassName="top-[var(--header-stack)]"
         heading={
           <div className="flex items-center gap-2">
             <h2 className="title-glow">Reviews</h2>
@@ -145,7 +152,11 @@ export default function ReviewsPage({
         }
       />
 
-      <div className={cn("grid grid-cols-1 items-start gap-6 md:grid-cols-[24rem_1fr]")}>
+      <div
+        className={cn(
+          "grid grid-cols-1 items-start gap-6 md:grid-cols-[24rem_1fr]",
+        )}
+      >
         <nav aria-label="Review list" className="md:w-96">
           <div className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
@@ -170,7 +181,7 @@ export default function ReviewsPage({
             <ReviewPanel
               className={cn(
                 panelClass,
-                "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
+                "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground",
               )}
             >
               <Ghost className="h-6 w-6 opacity-60" />
@@ -189,8 +200,12 @@ export default function ReviewsPage({
               <ReviewEditor
                 key={`editor-${active.id}`}
                 review={active}
-                onChangeNotes={(value: string) => onChangeNotes?.(active.id, value)}
-                onChangeTags={(values: string[]) => onChangeTags?.(active.id, values)}
+                onChangeNotes={(value: string) =>
+                  onChangeNotes?.(active.id, value)
+                }
+                onChangeTags={(values: string[]) =>
+                  onChangeTags?.(active.id, values)
+                }
                 onRename={(title: string) => onRename(active.id, title)}
                 onChangeMeta={(partial: Partial<Review>) =>
                   onChangeMeta?.(active.id, partial)

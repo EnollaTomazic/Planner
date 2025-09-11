@@ -115,10 +115,20 @@ export default function ComponentGallery() {
         label: "IconButton",
         element: (
           <div className="flex gap-2">
-            <IconButton variant="ring" size="md" aria-label="Search" title="Search">
+            <IconButton
+              variant="ring"
+              size="md"
+              aria-label="Search"
+              title="Search"
+            >
               <SearchIcon />
             </IconButton>
-            <IconButton variant="glow" size="md" aria-label="Search" title="Search">
+            <IconButton
+              variant="glow"
+              size="md"
+              aria-label="Search"
+              title="Search"
+            >
               <SearchIcon />
             </IconButton>
           </div>
@@ -168,7 +178,13 @@ export default function ComponentGallery() {
       },
       {
         label: "Toggle",
-        element: <Toggle value={toggleSide} onChange={setToggleSide} className="w-56" />,
+        element: (
+          <Toggle
+            value={toggleSide}
+            onChange={setToggleSide}
+            className="w-56"
+          />
+        ),
       },
       {
         label: "Tabs",
@@ -185,7 +201,9 @@ export default function ComponentGallery() {
       },
       {
         label: "SideSelector",
-        element: <SideSelector value={side} onChange={setSide} className="w-56" />,
+        element: (
+          <SideSelector value={side} onChange={setSide} className="w-56" />
+        ),
       },
       {
         label: "Icon Button",
@@ -197,7 +215,11 @@ export default function ComponentGallery() {
             <IconButton aria-label="Add" title="Add">
               <Plus />
             </IconButton>
-            <IconButton size="lg" aria-label="Toggle theme" title="Toggle theme">
+            <IconButton
+              size="lg"
+              aria-label="Toggle theme"
+              title="Toggle theme"
+            >
               <Sun />
             </IconButton>
             <IconButton size="xl" aria-label="Search" title="Search">
@@ -212,13 +234,23 @@ export default function ComponentGallery() {
 
   const inputItems = React.useMemo(
     () => [
-      { label: "Input", element: <Input placeholder="Type here" className="w-56 rounded-full" /> },
-      { label: "Textarea", element: <Textarea placeholder="Write here" className="w-56" /> },
+      {
+        label: "Input",
+        element: (
+          <Input placeholder="Type here" className="w-56 rounded-full" />
+        ),
+      },
+      {
+        label: "Textarea",
+        element: <Textarea placeholder="Write here" className="w-56" />,
+      },
       {
         label: "FieldShell",
         element: (
           <FieldShell className="w-56">
-            <div className="px-4 py-2 text-sm text-muted-foreground">Custom content</div>
+            <div className="px-4 py-2 text-sm text-muted-foreground">
+              Custom content
+            </div>
           </FieldShell>
         ),
       },
@@ -233,7 +265,9 @@ export default function ComponentGallery() {
       },
       {
         label: "SearchBar",
-        element: <SearchBar value={query} onValueChange={setQuery} className="w-56" />,
+        element: (
+          <SearchBar value={query} onValueChange={setQuery} className="w-56" />
+        ),
       },
       {
         label: "Select",
@@ -366,7 +400,10 @@ export default function ComponentGallery() {
 
   const plannerItems = React.useMemo(
     () => [
-      { label: "GoalsProgress", element: <GoalsProgress total={5} pct={60} maxWidth={200} /> },
+      {
+        label: "GoalsProgress",
+        element: <GoalsProgress total={5} pct={60} maxWidth={200} />,
+      },
       {
         label: "Goals Tabs",
         element: (
@@ -524,7 +561,9 @@ export default function ComponentGallery() {
       {
         label: "Card",
         element: (
-          <Card className="w-56 h-8 flex items-center justify-center">Card content</Card>
+          <Card className="w-56 h-8 flex items-center justify-center">
+            Card content
+          </Card>
         ),
       },
       {
@@ -539,7 +578,10 @@ export default function ComponentGallery() {
         label: "Banner",
         element: (
           <div className="w-56">
-            <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
+            <Banner
+              title="Banner"
+              actions={<Button size="sm">Action</Button>}
+            />
           </div>
         ),
       },
@@ -583,9 +625,18 @@ export default function ComponentGallery() {
           </div>
         ),
       },
-      { label: "Title Ghost", element: <h2 className="title-ghost">Ghost Title</h2> },
-      { label: "Title Glow", element: <h2 className="title-glow">Glowing Title</h2> },
-      { label: "Glitch Text", element: <div className="glitch text-lg font-semibold">Glitch</div> },
+      {
+        label: "Title Ghost",
+        element: <h2 className="title-ghost">Ghost Title</h2>,
+      },
+      {
+        label: "Title Glow",
+        element: <h2 className="title-glow">Glowing Title</h2>,
+      },
+      {
+        label: "Glitch Text",
+        element: <div className="glitch text-lg font-semibold">Glitch</div>,
+      },
       {
         label: "Aurora Background",
         element: (
@@ -628,7 +679,12 @@ export default function ComponentGallery() {
         label: "Header",
         element: (
           <div className="w-56">
-            <Header heading="Header" eyebrow="Eyebrow" subtitle="Subtitle" sticky={false} />
+            <Header
+              heading="Header"
+              eyebrow="Eyebrow"
+              subtitle="Subtitle"
+              sticky={false}
+            />
           </div>
         ),
       },
@@ -641,6 +697,7 @@ export default function ComponentGallery() {
               eyebrow="Eyebrow"
               subtitle="Subtitle"
               sticky={false}
+              topClassName="top-0"
               search={{ value: "", onValueChange: () => {}, round: true }}
             >
               <div className="text-sm text-muted-foreground">Body</div>
@@ -653,7 +710,7 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56 h-56 overflow-auto space-y-6">
             <Header heading="Stacked" />
-            <Hero heading="Stacked" topClassName="top-20" />
+            <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
             <div className="h-96" />
           </div>
         ),
@@ -661,7 +718,9 @@ export default function ComponentGallery() {
       {
         label: "Card Neo",
         element: (
-          <div className="card-neo w-56 h-8 flex items-center justify-center">Card Neo</div>
+          <div className="card-neo w-56 h-8 flex items-center justify-center">
+            Card Neo
+          </div>
         ),
       },
       {
@@ -764,7 +823,11 @@ export default function ComponentGallery() {
       />
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {itemsMap[view].map((item) => (
-          <GalleryItem key={item.label} label={item.label} className={item.className}>
+          <GalleryItem
+            key={item.label}
+            label={item.label}
+            className={item.className}
+          >
             {item.element}
           </GalleryItem>
         ))}
@@ -772,4 +835,3 @@ export default function ComponentGallery() {
     </div>
   );
 }
-
