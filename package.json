@@ -7,7 +7,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "node scripts/regen-if-needed.js && next dev -p 3000",
+    "dev": "node scripts/regen-if-needed.js && npm run generate-tokens && next dev -p 3000",
     "regen-ui": "ts-node --esm scripts/generate-ui-index.ts",
     "regen-feature": "ts-node --esm scripts/generate-feature-index.ts",
     "generate-tokens": "ts-node --esm scripts/generate-tokens.ts",
