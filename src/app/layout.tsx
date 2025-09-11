@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { themeBootstrapScript } from "@/lib/theme";
 import Script from "next/script";
+import ThemeProvider from "@/lib/theme-context";
 
 export const metadata: Metadata = {
   title: "13 League Review",
@@ -21,7 +22,11 @@ export const metadata: Metadata = {
  */
 const noFlash = themeBootstrapScript();
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
     <html lang="en" className="theme-lg" suppressHydrationWarning>
@@ -33,10 +38,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-background text-foreground glitch-root">
-        <SiteChrome />
-        <div className="relative z-10">
-          {children}
-        </div>
+        <ThemeProvider>
+          <SiteChrome />
+          <div className="relative z-10">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

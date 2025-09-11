@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
+import { ThemeProvider } from "@/lib/theme-context";
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
   usePathname: () => "/",
@@ -12,9 +13,11 @@ vi.mock("next/navigation", () => ({
 describe("Home page", () => {
   it("renders navigation links", () => {
     render(
-      <Suspense fallback="loading">
-        <Page />
-      </Suspense>,
+      <ThemeProvider>
+        <Suspense fallback="loading">
+          <Page />
+        </Suspense>
+      </ThemeProvider>,
     );
     const goals = screen.getByRole("link", { name: "Goals" });
     const reviews = screen.getByRole("link", { name: "Reviews" });
@@ -22,7 +25,7 @@ describe("Home page", () => {
     const prompts = screen.getByRole("link", { name: "Prompts" });
     const planner = screen
       .getAllByRole("link", { name: "Planner" })
-      .find(l => l.getAttribute("href") === "/planner");
+      .find((l) => l.getAttribute("href") === "/planner");
     expect(goals).toHaveAttribute("href", "/goals");
     expect(planner).toHaveAttribute("href", "/planner");
     expect(reviews).toHaveAttribute("href", "/reviews");
