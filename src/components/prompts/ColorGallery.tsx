@@ -34,10 +34,10 @@ export default function ColorGallery() {
             <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
               <span className="text-sm font-medium">Aurora Palette</span>
               <div className="flex gap-2">
-                <div className="w-10 h-10 rounded bg-aurora-g" />
-                <div className="w-10 h-10 rounded bg-aurora-g-light" />
-                <div className="w-10 h-10 rounded bg-aurora-p" />
-                <div className="w-10 h-10 rounded bg-aurora-p-light" />
+                <div className="w-10 h-10 rounded-md bg-aurora-g" />
+                <div className="w-10 h-10 rounded-md bg-aurora-g-light" />
+                <div className="w-10 h-10 rounded-md bg-aurora-p" />
+                <div className="w-10 h-10 rounded-md bg-aurora-p-light" />
               </div>
               <p className="mt-2 text-center text-xs text-muted-foreground">
                 Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
