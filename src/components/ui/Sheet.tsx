@@ -3,10 +3,10 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import PrimitiveCard from "./primitives/Card";
+import Card from "./primitives/Card";
 import { cn } from "@/lib/utils";
 
-export interface SheetProps extends React.ComponentProps<typeof PrimitiveCard> {
+export interface SheetProps extends React.ComponentProps<typeof Card> {
   open: boolean;
   onClose: () => void;
   side?: "left" | "right";
@@ -75,7 +75,7 @@ export default function Sheet({
           duration: reduceMotion ? 0 : 0.2,
         }}
       >
-        <PrimitiveCard
+        <Card
           ref={dialogRef}
           role="dialog"
           aria-modal="true"
@@ -87,7 +87,7 @@ export default function Sheet({
           {...props}
         >
           {children}
-        </PrimitiveCard>
+        </Card>
       </motion.div>
     </div>,
     document.body,

@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import PrimitiveCard from "./primitives/Card";
+import Card from "./primitives/Card";
 import IconButton from "./primitives/IconButton";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface ToastProps extends React.ComponentProps<typeof PrimitiveCard> {
+export interface ToastProps extends React.ComponentProps<typeof Card> {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   duration?: number;
@@ -35,7 +35,7 @@ export default function Toast({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed bottom-4 right-4 z-50">
-      <PrimitiveCard
+      <Card
         role="status"
         aria-live="polite"
         className={cn(className)}
@@ -53,7 +53,7 @@ export default function Toast({
             </IconButton>
           )}
         </div>
-      </PrimitiveCard>
+      </Card>
     </div>,
     document.body,
   );
