@@ -3,8 +3,6 @@
 export { default as AnimationToggle } from "./AnimationToggle";
 export { default as Badge } from "./Badge";
 export * from "./Badge";
-export { default as Card } from "./Card";
-export * from "./Card";
 export { default as Label } from "./Label";
 export * from "./Label";
 export { default as Modal } from "./Modal";
@@ -34,6 +32,8 @@ export { default as PillarBadge } from "./league/pillars/PillarBadge";
 export { default as PillarSelector } from "./league/pillars/PillarSelector";
 export { default as Button } from "./primitives/Button";
 export * from "./primitives/Button";
+export { default as Card } from "./primitives/Card";
+export * from "./primitives/Card";
 export { default as FieldShell } from "./primitives/FieldShell";
 export * from "./primitives/FieldShell";
 export * from "./primitives/GlitchSegmented";

@@ -11,6 +11,7 @@ import { Ghost, Plus } from "lucide-react";
 
 import { Button, Select } from "@/components/ui";
 import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
+import Header from "@/components/ui/layout/Header";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -97,7 +98,15 @@ export default function ReviewsPage({
   const panelClass = "mx-auto";
 
   return (
-    <main className="page-shell py-6 space-y-6">
+    <main
+      className="page-shell py-6 space-y-6"
+      aria-labelledby="reviews-header"
+    >
+      <Header
+        id="reviews-header"
+        heading="Reviews"
+        topClassName="top-[var(--header-stack)]"
+      />
       <Hero
         topClassName="top-[var(--header-stack)]"
         heading={
