@@ -60,7 +60,7 @@ export interface HeroProps
   search?: (SearchBarProps & { round?: boolean }) | null;
 }
 
-export default function Hero({
+function Hero({
   eyebrow,
   heading,
   subtitle,
@@ -175,6 +175,9 @@ export default function Hero({
     </section>
   );
 }
+
+export default Hero;
+export const Hero2 = Hero;
 
 /* ───────────── Adapter: HeroTabs (kept for parity) ───────── */
 export type HeroTab<K extends string> = {
