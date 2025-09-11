@@ -34,7 +34,6 @@ import {
   scoreIcon,
 } from "@/components/reviews/reviewData";
 
-
 /** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
 function parseTime(mmss: string): number | null {
   const m = mmss.trim().match(/^(\d{1,2}):([0-5]\d)$/);
@@ -70,7 +69,6 @@ type ExtendedProps = {
 
 type MetaPatch = Omit<Partial<Review>, "role"> & Partial<ExtendedProps>;
 
-
 function NeonPillarChip({
   active,
   children,
@@ -79,9 +77,9 @@ function NeonPillarChip({
   children: React.ReactNode;
 }) {
   const prev = React.useRef(active);
-  const [phase, setPhase] = React.useState<"steady-on" | "ignite" | "off" | "powerdown">(
-    active ? "steady-on" : "off"
-  );
+  const [phase, setPhase] = React.useState<
+    "steady-on" | "ignite" | "off" | "powerdown"
+  >(active ? "steady-on" : "off");
 
   React.useEffect(() => {
     if (active !== prev.current) {
@@ -107,7 +105,7 @@ function NeonPillarChip({
       <span
         className={cn(
           "pointer-events-none absolute inset-0 rounded-2xl",
-          lit ? "opacity-60" : "opacity-0"
+          lit ? "opacity-60" : "opacity-0",
         )}
         style={{
           filter: "blur(10px)",
@@ -122,7 +120,7 @@ function NeonPillarChip({
           "pointer-events-none absolute inset-0 rounded-2xl",
           lit
             ? "opacity-40 motion-safe:animate-[neonAura_3.6s_ease-in-out_infinite] motion-reduce:animate-none"
-            : "opacity-0"
+            : "opacity-0",
         )}
         style={{
           filter: "blur(14px)",
@@ -137,7 +135,7 @@ function NeonPillarChip({
           "pointer-events-none absolute inset-0 rounded-2xl",
           lit
             ? "motion-safe:animate-[igniteFlicker_.62s_steps(18,end)_1] motion-reduce:animate-none"
-            : ""
+            : "",
         )}
         style={{
           background:
@@ -156,11 +154,17 @@ function getExt(r: Review): Partial<ExtendedProps> {
   return r as unknown as Partial<ExtendedProps>;
 }
 function normalizeMarker(m: unknown): Marker {
-  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<string, unknown>;
-  const asNum = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : undefined);
+  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<
+    string,
+    unknown
+  >;
+  const asNum = (v: unknown) =>
+    typeof v === "number" && Number.isFinite(v) ? v : undefined;
   const asStr = (v: unknown) => (typeof v === "string" ? v : undefined);
 
-  const seconds = asNum(obj.seconds) ?? (asStr(obj.time) ? parseTime(asStr(obj.time)!) ?? 0 : 0);
+  const seconds =
+    asNum(obj.seconds) ??
+    (asStr(obj.time) ? (parseTime(asStr(obj.time)!) ?? 0) : 0);
 
   const timeStr = asStr(obj.time) ?? formatSeconds(seconds);
   return {
@@ -192,7 +196,9 @@ export default function ReviewEditor({
   className?: string;
 }) {
   const [notes, setNotes] = React.useState(review.notes ?? "");
-  const [tags, setTags] = React.useState<string[]>(Array.isArray(review.tags) ? review.tags : []);
+  const [tags, setTags] = React.useState<string[]>(
+    Array.isArray(review.tags) ? review.tags : [],
+  );
   const [draftTag, setDraftTag] = React.useState("");
 
   const rootRef = React.useRef<HTMLDivElement>(null);
@@ -200,10 +206,13 @@ export default function ReviewEditor({
   const [opponent, setOpponent] = React.useState(review.opponent ?? "");
   const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
   const [pillars, setPillars] = React.useState<Pillar[]>(
-    Array.isArray(review.pillars) ? review.pillars : []
+    Array.isArray(review.pillars) ? review.pillars : [],
   );
 
-  const [lastRole, setLastRole] = usePersistentState<Role>(LAST_ROLE_KEY, "MID");
+  const [lastRole, setLastRole] = usePersistentState<Role>(
+    LAST_ROLE_KEY,
+    "MID",
+  );
   const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
     LAST_MARKER_MODE_KEY,
     true,
@@ -218,16 +227,16 @@ export default function ReviewEditor({
 
   const [result, setResult] = React.useState<Result>(ext0.result ?? "Win");
   const [score, setScore] = React.useState<number>(
-    Number.isFinite(ext0.score ?? NaN) ? Number(ext0.score) : 5
+    Number.isFinite(ext0.score ?? NaN) ? Number(ext0.score) : 5,
   );
 
   const [focusOn, setFocusOn] = React.useState<boolean>(Boolean(ext0.focusOn));
   const [focus, setFocus] = React.useState<number>(
-    Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5
+    Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5,
   );
 
   const [markers, setMarkers] = React.useState<Marker[]>(
-    Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : []
+    Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : [],
   );
 
   const [useTimestamp, setUseTimestamp] = React.useState(lastMarkerMode);
@@ -268,7 +277,9 @@ export default function ReviewEditor({
     setFocusOn(Boolean(ext.focusOn));
     setFocus(Number.isFinite(ext.focus ?? NaN) ? Number(ext.focus) : 5);
 
-    setMarkers(Array.isArray(ext.markers) ? ext.markers.map(normalizeMarker) : []);
+    setMarkers(
+      Array.isArray(ext.markers) ? ext.markers.map(normalizeMarker) : [],
+    );
     setUseTimestamp(lastMarkerMode);
     setTTime(lastMarkerTime);
     setTNote("");
@@ -316,7 +327,7 @@ export default function ReviewEditor({
 
   const sortedMarkers = React.useMemo(
     () => [...markers].sort((a, b) => a.seconds - b.seconds),
-    [markers]
+    [markers],
   );
 
   function togglePillar(p: Pillar) {
@@ -342,8 +353,8 @@ export default function ReviewEditor({
 
   const parsedTime = parseTime(tTime);
   const timeError = useTimestamp && parsedTime === null;
-  const canAddMarker = (useTimestamp ? parsedTime !== null : true) &&
-    tNote.trim().length > 0;
+  const canAddMarker =
+    (useTimestamp ? parsedTime !== null : true) && tNote.trim().length > 0;
 
   function addMarker() {
     const s = useTimestamp ? parsedTime : 0;
@@ -373,7 +384,10 @@ export default function ReviewEditor({
   const msg = pool[msgIndex];
   const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
 
-  const focusMsgIndex = pickIndex(String(review.id ?? "seed-focus") + String(focus), 10);
+  const focusMsgIndex = pickIndex(
+    String(review.id ?? "seed-focus") + String(focus),
+    10,
+  );
   const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
   const go = (ref: React.RefObject<HTMLElement>) => ref.current?.focus();
@@ -392,7 +406,10 @@ export default function ReviewEditor({
   }
 
   return (
-    <div ref={rootRef} className={cn("card-neo-soft r-card-lg transition-none", className)}>
+    <div
+      ref={rootRef}
+      className={cn("card-neo-soft r-card-lg transition-none", className)}
+    >
       <div className="section-h sticky">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           <div className="min-w-0">
@@ -501,7 +518,7 @@ export default function ReviewEditor({
             className={cn(
               "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-2xl",
               "border border-border bg-card",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             )}
             title="Toggle Win/Loss"
           >
@@ -523,7 +540,9 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Win" ? "text-foreground/70" : "text-muted-foreground"
+                  result === "Win"
+                    ? "text-foreground/70"
+                    : "text-muted-foreground",
                 )}
               >
                 Win
@@ -531,7 +550,9 @@ export default function ReviewEditor({
               <div
                 className={cn(
                   "py-2 text-center",
-                  result === "Loss" ? "text-foreground/70" : "text-muted-foreground"
+                  result === "Loss"
+                    ? "text-foreground/70"
+                    : "text-muted-foreground",
                 )}
               >
                 Loss
@@ -569,11 +590,15 @@ export default function ReviewEditor({
               <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                 <div
                   className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
-                  style={{ width: `calc(${(score / 10) * 100}% + 10px)` }}
+                  style={{
+                    width: `calc(${(score / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
+                  }}
                 />
                 <div
                   className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
-                  style={{ left: `calc(${(score / 10) * 100}% - 10px)` }}
+                  style={{
+                    left: `calc(${(score / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
+                  }}
                 />
               </div>
             </div>
@@ -614,7 +639,7 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-          <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+              <div className="mt-3 relative h-12 rounded-2xl border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -634,11 +659,15 @@ export default function ReviewEditor({
                   <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
                     <div
                       className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
-                      style={{ width: `calc(${(focus / 10) * 100}% + 10px)` }}
+                      style={{
+                        width: `calc(${(focus / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
+                      }}
                     />
                     <div
                       className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
-                      style={{ left: `calc(${(focus / 10) * 100}% - 10px)` }}
+                      style={{
+                        left: `calc(${(focus / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
+                      }}
                     />
                   </div>
                 </div>
@@ -668,7 +697,12 @@ export default function ReviewEditor({
                   title={active ? `${p} selected` : `Select ${p}`}
                 >
                   <NeonPillarChip active={active}>
-                    <PillarBadge pillar={p} size="md" interactive active={active} />
+                    <PillarBadge
+                      pillar={p}
+                      size="md"
+                      interactive
+                      active={active}
+                    />
                   </NeonPillarChip>
                 </button>
               );
@@ -795,7 +829,9 @@ export default function ReviewEditor({
           )}
 
           {sortedMarkers.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
+            <div className="mt-2 text-sm text-muted-foreground">
+              No timestamps yet.
+            </div>
           ) : (
             <ul className="mt-3 space-y-2">
               {sortedMarkers.map((m) => (
@@ -868,7 +904,9 @@ export default function ReviewEditor({
           </div>
 
           {tags.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground/80">No tags yet.</div>
+            <div className="mt-2 text-sm text-muted-foreground/80">
+              No tags yet.
+            </div>
           ) : (
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {tags.map((t) => (
@@ -880,7 +918,9 @@ export default function ReviewEditor({
                   onClick={() => removeTag(t)}
                 >
                   <span>#{t}</span>
-                  <span className="opacity-0 transition-opacity group-hover:opacity-100">✕</span>
+                  <span className="opacity-0 transition-opacity group-hover:opacity-100">
+                    ✕
+                  </span>
                 </button>
               ))}
             </div>
