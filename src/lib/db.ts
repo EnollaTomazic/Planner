@@ -22,6 +22,12 @@ const OLD_STORAGE_PREFIX = "13lr:";
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
 
+declare global {
+  interface Window {
+    __planner_flush_bound?: boolean;
+  }
+}
+
 // Track whether legacy keys have been migrated
 let migrated = false;
 
@@ -98,8 +104,9 @@ function scheduleWrite(key: string, value: unknown) {
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
 }
 
-if (isBrowser) {
+if (isBrowser && !window.__planner_flush_bound) {
   window.addEventListener("beforeunload", flushWriteQueue);
+  window.__planner_flush_bound = true;
 }
 
 /** Read from localStorage without throwing on SSR or privacy modes */

@@ -3,18 +3,22 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import PrimitiveCard from "./primitives/Card";
+import IconButton from "./primitives/IconButton";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ToastProps extends React.ComponentProps<typeof PrimitiveCard> {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   duration?: number;
+  closable?: boolean;
 }
 
 export default function Toast({
   open,
   onOpenChange,
   duration = 3000,
+  closable = false,
   className,
   children,
   ...props
@@ -31,8 +35,24 @@ export default function Toast({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed bottom-4 right-4 z-50">
-      <PrimitiveCard className={cn(className)} {...props}>
-        {children}
+      <PrimitiveCard
+        role="status"
+        aria-live="polite"
+        className={cn(className)}
+        {...props}
+      >
+        <div className="flex items-start gap-2">
+          <div className="flex-1">{children}</div>
+          {closable && (
+            <IconButton
+              aria-label="Close"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+            >
+              <X />
+            </IconButton>
+          )}
+        </div>
       </PrimitiveCard>
     </div>,
     document.body,
