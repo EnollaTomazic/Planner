@@ -86,7 +86,7 @@ export default function Header({
           {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="mb-1 truncate text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
+              <div className="mb-1 truncate text-xs uppercase tracking-wide text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
