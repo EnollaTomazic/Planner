@@ -23,7 +23,8 @@
     "check-prompts": "ts-node --esm scripts/check-prompts-updated.ts",
     "design-lint": "ts-node --esm scripts/design-lint.ts",
     "postinstall": "node scripts/regen-if-needed.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "launch": "ts-node --esm scripts/launcher.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
