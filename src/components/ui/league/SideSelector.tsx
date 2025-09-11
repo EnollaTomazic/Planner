@@ -111,7 +111,7 @@ export default function SideSelector({
           )}
           style={{
             textShadow: !isRight
-              ? "0 0 10px hsl(200 100% 60% / .35)"
+              ? "0 0 10px hsl(var(--team-blue) / .35)"
               : undefined,
           }}
         >
@@ -123,7 +123,9 @@ export default function SideSelector({
             isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
           style={{
-            textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined,
+            textShadow: isRight
+              ? "0 0 10px hsl(var(--team-red) / .35)"
+              : undefined,
           }}
         >
           {rightLabel}
