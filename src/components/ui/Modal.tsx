@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import PrimitiveCard from "./primitives/Card";
+import Card from "./primitives/Card";
 import { cn } from "@/lib/utils";
 
-export interface ModalProps extends React.ComponentProps<typeof PrimitiveCard> {
+export interface ModalProps extends React.ComponentProps<typeof Card> {
   open: boolean;
   onClose: () => void;
 }
@@ -63,7 +63,7 @@ export default function Modal({
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-background/80" onClick={onClose} />
-      <PrimitiveCard
+      <Card
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
@@ -71,7 +71,7 @@ export default function Modal({
         {...props}
       >
         {children}
-      </PrimitiveCard>
+      </Card>
     </div>,
     document.body,
   );
