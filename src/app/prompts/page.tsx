@@ -616,6 +616,14 @@ function ColorsView() {
 }
 
 export default function Page() {
+  return (
+    <React.Suspense fallback={<p className="p-4 text-sm">Loading...</p>}>
+      <PageContent />
+    </React.Suspense>
+  );
+}
+
+function PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [view, setView] = React.useState<View>(
