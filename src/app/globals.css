@@ -873,7 +873,7 @@ html.bg-intense body::after {
   font-size: 10px;
   line-height: 1;
   padding: 0.45rem 0.55rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--b);
   background: linear-gradient(180deg, var(--bg), hsl(var(--card)));
   color: hsl(var(--muted-foreground));
@@ -1303,6 +1303,7 @@ textarea:-webkit-autofill {
   /* Radius tokens */
   --radius-md: 8px;
   --radius-2xl: 16px;
+  --radius-full: 9999px;
 }
 
 @layer components {
