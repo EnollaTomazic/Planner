@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Header, Hero, Button, Input, AnimatedSelect } from "@/components/ui";
+import { Header, Hero, Button, Input, Select } from "@/components/ui";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import {
@@ -39,7 +39,8 @@ export default function DemoHeader({
         <RoleSelector value={role} onChange={onRoleChange} />
       </div>
       <div className="flex justify-center">
-        <AnimatedSelect
+        <Select
+          variant="animated"
           label="Fruit"
           items={FRUIT_ITEMS}
           value={fruit}

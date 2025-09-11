@@ -8,20 +8,30 @@ afterEach(cleanup);
 describe('Select', () => {
   it('renders default state', () => {
     const { container } = render(
-      <Select aria-label="test">
-        <option value="">Choose…</option>
-        <option value="a">A</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="test"
+        items={[
+          { value: '', label: 'Choose…' },
+          { value: 'a', label: 'A' },
+        ]}
+        value=""
+      />
     );
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders focus state', () => {
     const { container, getByRole } = render(
-      <Select aria-label="test">
-        <option value="">Choose…</option>
-        <option value="a">A</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="test"
+        items={[
+          { value: '', label: 'Choose…' },
+          { value: 'a', label: 'A' },
+        ]}
+        value=""
+      />
     );
     fireEvent.focus(getByRole('combobox'));
     expect(container.firstChild).toMatchSnapshot();
@@ -29,36 +39,51 @@ describe('Select', () => {
 
   it('renders error state', () => {
     const { container } = render(
-      <Select aria-label="test" errorText="Error">
-        <option value="">Choose…</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="test"
+        errorText="Error"
+        items={[{ value: '', label: 'Choose…' }]}
+        value=""
+      />
     );
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders success state', () => {
     const { container } = render(
-      <Select aria-label="test" success>
-        <option value="">Choose…</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="test"
+        success
+        items={[{ value: '', label: 'Choose…' }]}
+        value=""
+      />
     );
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders disabled state', () => {
     const { container } = render(
-      <Select aria-label="test" disabled>
-        <option value="">Choose…</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="test"
+        disabled
+        items={[{ value: '', label: 'Choose…' }]}
+        value=""
+      />
     );
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('has no outline when focused', () => {
     const { getByRole } = render(
-      <Select aria-label="outline">
-        <option value="">Choose…</option>
-      </Select>
+      <Select
+        variant="native"
+        aria-label="outline"
+        items={[{ value: '', label: 'Choose…' }]}
+        value=""
+      />
     );
     const select = getByRole('combobox');
     fireEvent.focus(select);

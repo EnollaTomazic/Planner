@@ -48,8 +48,6 @@ export { default as SegmentedButton } from "./primitives/SegmentedButton";
 export * from "./primitives/SegmentedButton";
 export { default as Textarea } from "./primitives/Textarea";
 export * from "./primitives/Textarea";
-export { default as AnimatedSelect } from "./selects/AnimatedSelect";
-export * from "./selects/AnimatedSelect";
 export { default as BackgroundPicker } from "./theme/BackgroundPicker";
 export * from "./theme/BackgroundPicker";
 export { default as ThemePicker } from "./theme/ThemePicker";

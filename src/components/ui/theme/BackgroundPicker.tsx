@@ -1,9 +1,7 @@
 "use client";
 
 import * as React from "react";
-import AnimatedSelect, {
-  DropItem,
-} from "@/components/ui/selects/AnimatedSelect";
+import { Select, type SelectItem } from "@/components/ui";
 import { BG_CLASSES, Background } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +28,7 @@ export default function BackgroundPicker({
   onBgChange,
   className = "",
 }: BackgroundPickerProps) {
-  const items: DropItem[] = React.useMemo(
+  const items: SelectItem[] = React.useMemo(
     () =>
       BG_CLASSES.map((cls, idx) => ({
         value: String(idx),
@@ -44,7 +42,8 @@ export default function BackgroundPicker({
     [],
   );
   return (
-    <AnimatedSelect
+    <Select
+      variant="animated"
       ariaLabel="Background"
       prefixLabel="Background"
       items={items}

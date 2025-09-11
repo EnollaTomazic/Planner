@@ -1,18 +1,18 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import AnimatedSelect from '../../src/components/ui/selects/AnimatedSelect';
+import Select from '../../src/components/ui/Select';
 
 afterEach(cleanup);
 
-describe('AnimatedSelect', () => {
+describe('Select animated variant', () => {
   it('associates label and trigger via aria-labelledby', () => {
     const items = [
       { value: 'apple', label: 'Apple' },
       { value: 'orange', label: 'Orange' },
     ];
     const { getByText, getByRole } = render(
-      <AnimatedSelect label="Fruit" items={items} />
+      <Select variant="animated" label="Fruit" items={items} />
     );
 
     const labelEl = getByText('Fruit');
@@ -32,7 +32,7 @@ describe('AnimatedSelect', () => {
       { value: 'orange', label: 'Orange' },
     ];
     const { getByRole } = render(
-      <AnimatedSelect ariaLabel="Fruit" items={items} />
+      <Select variant="animated" ariaLabel="Fruit" items={items} />
     );
     const button = getByRole('button');
     fireEvent.focus(button);
