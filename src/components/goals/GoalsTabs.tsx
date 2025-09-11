@@ -21,34 +21,27 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
       {FILTERS.map((f) => {
         const active = value === f;
         return (
-          <div
+          <button
             key={f}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            onClick={() => onChange(f)}
             className={cn(
-              "rounded-2xl",
-              "focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
+              "text-left font-mono text-sm transition",
+              "px-3 py-2 rounded-2xl",
+              "motion-safe:hover:-translate-y-px",
+              "border-none outline-none focus:outline-none focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
+              active
+                ? "font-semibold text-accent bg-accent/10"
+                : undefined,
             )}
           >
-            <button
-              type="button"
-              role="radio"
-              aria-checked={active}
-              onClick={() => onChange(f)}
-              className={cn(
-                "text-left font-mono text-sm transition",
-                "px-3 py-2 rounded-2xl",
-                "motion-safe:hover:-translate-y-px",
-                "border-none outline-none focus:outline-none focus-visible:outline-none",
-                active
-                  ? "font-semibold text-accent bg-accent/10"
-                  : undefined,
-              )}
-            >
-              {f}
-            </button>
-          </div>
+            {f}
+          </button>
         );
       })}
     </div>
   );
 }
-
