@@ -497,7 +497,7 @@ export default function ComponentGallery() {
       {
         label: "Accent Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-[var(--accent-overlay)] text-accent-foreground">
+          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-[var(--accent-overlay)] text-accent-foreground">
             Overlay
           </div>
         ),
@@ -505,7 +505,7 @@ export default function ComponentGallery() {
       {
         label: "Foreground Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded border border-border/10 bg-foreground/5 text-foreground/70">
+          <div className="w-56 h-6 flex items-center justify-center rounded-md border border-border/10 bg-foreground/5 text-foreground/70">
             FG Overlay
           </div>
         ),
@@ -513,7 +513,7 @@ export default function ComponentGallery() {
       {
         label: "Surface",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-surface">
+          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-surface">
             Surface
           </div>
         ),
@@ -521,7 +521,7 @@ export default function ComponentGallery() {
       {
         label: "Surface 2",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded bg-surface-2">
+          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-surface-2">
             Surface 2
           </div>
         ),
@@ -529,7 +529,7 @@ export default function ComponentGallery() {
       {
         label: "Ring Subtle",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded ring-1 ring-ring/5">
+          <div className="w-56 h-6 flex items-center justify-center rounded-md ring-1 ring-ring/5">
             Ring 5%
           </div>
         ),
@@ -611,8 +611,8 @@ export default function ComponentGallery() {
         label: "Review Layout",
         element: (
           <div className="grid w-full gap-4 md:grid-cols-12">
-            <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded" />
-            <div className="md:col-span-8 bg-muted h-10 rounded" />
+            <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-md" />
+            <div className="md:col-span-8 bg-muted h-10 rounded-md" />
           </div>
         ),
         className: "sm:col-span-2 md:col-span-3 w-full",
