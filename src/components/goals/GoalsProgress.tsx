@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Button from "@/components/ui/primitives/Button";
+import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 interface GoalsProgressProps {
   total: number;
@@ -35,41 +36,13 @@ export default function GoalsProgress({
       ? maxWidth
       : parseInt(maxWidth, 10)
     : 64;
-  const radius = size / 2 - 6;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (v / 100) * circumference;
   return (
     <div
       className="relative inline-flex items-center justify-center"
       style={{ width: size, height: size }}
       aria-label="Progress"
     >
-      <svg
-        className="h-full w-full rotate-[-90deg]"
-        viewBox={`0 0 ${size} ${size}`}
-      >
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="currentColor"
-          strokeWidth={4}
-          className="text-fg/20"
-          fill="none"
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="currentColor"
-          strokeWidth={4}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
-          fill="none"
-        />
-      </svg>
+      <ProgressRingIcon pct={v} size={size} />
       <span
         aria-live="polite"
         className="absolute inset-0 flex items-center justify-center text-xs font-medium tabular-nums"

@@ -41,6 +41,7 @@ import {
   TimerRing,
   TimerTab,
 } from "@/components/goals";
+import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import Fuse from "fuse.js";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -373,6 +374,20 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Radial timer ring",
       element: <TimerRing pct={75} />,
       tags: ["progress", "timer"],
+    },
+    {
+      id: "progress-ring-icon",
+      name: "ProgressRingIcon",
+      description: "SVG ring for goals progress",
+      element: <ProgressRingIcon pct={60} />,
+      tags: ["progress", "icon"],
+    },
+    {
+      id: "timer-ring-icon",
+      name: "TimerRingIcon",
+      description: "SVG ring for timer",
+      element: <TimerRingIcon pct={75} size={200} />,
+      tags: ["progress", "icon", "timer"],
     },
     {
       id: "dashboard-card",
