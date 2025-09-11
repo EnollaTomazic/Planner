@@ -11,7 +11,7 @@ type Props = {
 export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
-      <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full">
+      <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full border border-border">
         <span className="term-mini__text text-muted-foreground">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>
@@ -19,7 +19,6 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
       {/* Scoped styles — no globals, no theme drift */}
       <style jsx>{`
         .term-mini {
-          border: 1px solid hsl(var(--border));
           background:
             linear-gradient(
               180deg,
@@ -28,12 +27,15 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
             ),
             hsl(var(--card));
           box-shadow:
-            0 0 0 1px color-mix(in oklab, hsl(var(--shadow-color)) 28%, transparent),
-            0 10px 20px -14px color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent),
+            0 0 0 1px
+              color-mix(in oklab, hsl(var(--shadow-color)) 28%, transparent),
+            0 10px 20px -14px
+              color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent),
             inset 0 1px 0 hsl(var(--foreground) / 0.03);
         }
         .term-mini__text {
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          font-family:
+            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
             "Liberation Mono", "Courier New", monospace;
           font-size: 0.95rem;
           letter-spacing: 0.3px;
