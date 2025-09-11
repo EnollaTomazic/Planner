@@ -56,6 +56,9 @@
 | dur-quick          | 140ms                                     |
 | dur-chill          | 220ms                                     |
 | dur-slow           | 420ms                                     |
+| control-h-sm       | 36px                                      |
+| control-h-md       | 40px                                      |
+| control-h-lg       | 44px                                      |
 | control-h          | var(--control-h-md) (40px)                |
 | control-radius     | var(--radius-xl)                          |
 | control-fs         | 0.9rem                                    |
