@@ -11,14 +11,10 @@ import {
   BottomNav,
 } from "@/components/home";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { usePersistentState } from "@/lib/db";
+import { useTheme } from "@/lib/theme-context";
 import {
-  applyTheme,
-  defaultTheme,
-  THEME_STORAGE_KEY,
   VARIANTS,
   BG_CLASSES,
-  type ThemeState,
   type Variant,
   type Background,
 } from "@/lib/theme";
@@ -27,18 +23,15 @@ function HomePageContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [theme, setTheme] = usePersistentState<ThemeState>(
-    THEME_STORAGE_KEY,
-    defaultTheme(),
-  );
+  const [theme, setTheme] = useTheme();
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     const themeParam = searchParams.get("theme");
     const bgParam = searchParams.get("bg");
-    setTheme(prev => {
+    setTheme((prev) => {
       const next = { ...prev };
-      if (themeParam && VARIANTS.some(v => v.id === themeParam)) {
+      if (themeParam && VARIANTS.some((v) => v.id === themeParam)) {
         next.variant = themeParam as Variant;
       }
       if (bgParam) {
@@ -55,16 +48,9 @@ function HomePageContent() {
   }, [searchParams, setTheme]);
 
   React.useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
-
-  React.useEffect(() => {
     const currentTheme = searchParams.get("theme");
     const currentBg = searchParams.get("bg");
-    if (
-      currentTheme === theme.variant &&
-      currentBg === String(theme.bg)
-    ) {
+    if (currentTheme === theme.variant && currentBg === String(theme.bg)) {
       return;
     }
     const params = new URLSearchParams(searchParams.toString());
