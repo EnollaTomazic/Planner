@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import TaskRow from "@/components/planner/TaskRow";
 
 const noop = (): void => {};
@@ -22,5 +22,24 @@ describe("TaskRow", () => {
     await waitFor(() => {
       expect(input).toHaveFocus();
     });
+  });
+
+  it("does not propagate row selection from inner controls", () => {
+    const onSelect = vi.fn();
+    const onToggle = vi.fn();
+    const onDelete = vi.fn();
+    render(
+      <TaskRow
+        task={{ id: "1", text: "Test task", done: false }}
+        onToggle={onToggle}
+        onDelete={onDelete}
+        onEdit={noop}
+        onSelect={onSelect}
+      />,
+    );
+    fireEvent.click(screen.getAllByLabelText("Toggle task done")[0]);
+    fireEvent.click(screen.getAllByLabelText("Edit task")[0]);
+    fireEvent.click(screen.getAllByLabelText("Delete task")[0]);
+    expect(onSelect).not.toHaveBeenCalled();
   });
 });

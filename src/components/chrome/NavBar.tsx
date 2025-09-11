@@ -9,7 +9,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
@@ -22,6 +22,7 @@ const ITEMS = [
 
 export default function NavBar() {
   const path = usePathname() ?? "/";
+  const reduceMotion = useReducedMotion();
 
   return (
     <nav aria-label="Primary">
@@ -67,6 +68,7 @@ export default function NavBar() {
                 {/* animated underline shared across tabs */}
                 {active && (
                   <motion.span
+                    data-testid="nav-underline"
                     layoutId="nav-underline"
                     className="absolute left-2 right-2 -bottom-1 h-px"
                     style={{
@@ -75,7 +77,7 @@ export default function NavBar() {
                     }}
                     transition={{
                       type: "tween",
-                      duration: 0.25,
+                      duration: reduceMotion ? 0 : 0.25,
                       ease: "easeOut",
                     }}
                   />

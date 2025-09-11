@@ -41,6 +41,7 @@ import PromptsDemos from "./PromptsDemos";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import Banner from "@/components/chrome/Banner";
+import NavBar from "@/components/chrome/NavBar";
 import {
   DayCardHeader,
   ProjectList,
@@ -542,6 +543,7 @@ export default function ComponentGallery() {
           </div>
         ),
       },
+      { label: "NavBar", element: <NavBar /> },
       {
         label: "ReviewListItem",
         element: (

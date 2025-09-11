@@ -55,10 +55,12 @@ export default function TaskRow({
         )}
         onClick={onSelect}
       >
-        <div className="shrink-0 ml-1">
+        <div className="shrink-0 ml-1" onClick={(e) => e.stopPropagation()}>
           <CheckCircle
             checked={task.done}
-            onChange={() => !editing && onToggle()}
+            onChange={() => {
+              if (!editing) onToggle();
+            }}
             aria-label="Toggle task done"
             size="md"
           />
@@ -68,8 +70,14 @@ export default function TaskRow({
           {!editing ? (
             <button
               className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
-              onClick={onToggle}
-              onDoubleClick={start}
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggle();
+              }}
+              onDoubleClick={(e) => {
+                e.stopPropagation();
+                start();
+              }}
               aria-pressed={task.done}
               title="Click to toggle; double-click to edit"
             >
@@ -109,7 +117,10 @@ export default function TaskRow({
           <IconButton
             aria-label="Edit task"
             title="Edit"
-            onClick={start}
+            onClick={(e) => {
+              e.stopPropagation();
+              start();
+            }}
             size="sm"
             iconSize="xs"
             variant="ring"
@@ -119,7 +130,10 @@ export default function TaskRow({
           <IconButton
             aria-label="Delete task"
             title="Delete"
-            onClick={onDelete}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
             size="sm"
             iconSize="xs"
             variant="ring"
