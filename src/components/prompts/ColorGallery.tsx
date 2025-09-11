@@ -34,20 +34,23 @@ export default function ColorGallery() {
             <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
               <span className="text-sm font-medium">Aurora Palette</span>
               <div className="flex gap-2">
-                <div className="w-10 h-10 rounded bg-auroraG" />
-                <div className="w-10 h-10 rounded bg-auroraGLight" />
-                <div className="w-10 h-10 rounded bg-auroraP" />
-                <div className="w-10 h-10 rounded bg-auroraPLight" />
+                <div className="w-10 h-10 rounded bg-aurora-g" />
+                <div className="w-10 h-10 rounded bg-aurora-g-light" />
+                <div className="w-10 h-10 rounded bg-aurora-p" />
+                <div className="w-10 h-10 rounded bg-aurora-p-light" />
               </div>
               <p className="mt-2 text-center text-xs text-muted-foreground">
-                Use <code>auroraG</code>, <code>auroraGLight</code>, <code>auroraP</code>,
-                and <code>auroraPLight</code> Tailwind classes for aurora effects.
+                Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
+                <code>aurora-p</code>, and <code>aurora-p-light</code> Tailwind
+                classes for aurora effects.
               </p>
             </div>
           )}
           {COLOR_PALETTES[p.key].map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-accent">{c}</span>
+              <span className="text-xs uppercase tracking-wide text-accent">
+                {c}
+              </span>
               <div
                 className="h-16 w-24 rounded-md border"
                 style={{ backgroundColor: `hsl(var(--${c}))` }}
@@ -59,4 +62,3 @@ export default function ColorGallery() {
     </div>
   );
 }
-
