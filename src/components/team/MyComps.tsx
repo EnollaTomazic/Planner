@@ -51,7 +51,13 @@ const SEEDS: TeamComp[] = [
   {
     id: uid("comp"),
     title: "Protect Jinx",
-    roles: { Top: ["Sion"], Jungle: ["Sejuani"], Mid: ["Orianna"], ADC: ["Jinx"], Support: ["Lulu"] },
+    roles: {
+      Top: ["Sion"],
+      Jungle: ["Sejuani"],
+      Mid: ["Orianna"],
+      ADC: ["Jinx"],
+      Support: ["Lulu"],
+    },
     notes: "Front-to-back. Track flank TPs, save Lulu ult for diver.",
     createdAt: Date.now(),
     updatedAt: Date.now(),
@@ -59,7 +65,12 @@ const SEEDS: TeamComp[] = [
   {
     id: uid("comp"),
     title: "Fog Pick Traps",
-    roles: { Jungle: ["Rengar"], Mid: ["Ahri"], ADC: ["Ashe"], Support: ["Thresh", "Pyke"] },
+    roles: {
+      Jungle: ["Rengar"],
+      Mid: ["Ahri"],
+      ADC: ["Ashe"],
+      Support: ["Thresh", "Pyke"],
+    },
     notes: "Sweep chokes first, convert pick into fast objective start.",
     createdAt: Date.now(),
     updatedAt: Date.now(),
@@ -74,7 +85,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 function isStringArray(v: unknown): v is string[] {
-  return Array.isArray(v) && v.every(x => typeof x === "string");
+  return Array.isArray(v) && v.every((x) => typeof x === "string");
 }
 function safeNumber(v: unknown, fallback: number): number {
   const n = typeof v === "number" ? v : Number.NaN;
@@ -82,7 +93,9 @@ function safeNumber(v: unknown, fallback: number): number {
 }
 
 function stringify(c: TeamComp) {
-  const body = ROLES.map(r => `${r}: ${c.roles[r]?.join(", ") || "-"}`).join("\n");
+  const body = ROLES.map((r) => `${r}: ${c.roles[r]?.join(", ") || "-"}`).join(
+    "\n",
+  );
   return [
     c.title,
     "-----------",
@@ -106,7 +119,10 @@ function normalize(list: unknown[]): TeamComp[] {
         updatedAt: Date.now(),
       };
     }
-    const title = typeof raw.title === "string" && raw.title.trim() ? raw.title : "Untitled";
+    const title =
+      typeof raw.title === "string" && raw.title.trim()
+        ? raw.title
+        : "Untitled";
     let roles: Partial<Record<Role, string[]>>;
     if (isRecord(raw.roles)) {
       const next: Partial<Record<Role, string[]>> = {};
@@ -159,7 +175,7 @@ function ChampChips({
   function setAt(i: number, next: string) {
     const arr = [...champs];
     arr[i] = sanitizeText(next);
-    onChange(arr.map(sanitizeText).filter(s => s.trim().length));
+    onChange(arr.map(sanitizeText).filter((s) => s.trim().length));
   }
   function insertAfter(i: number) {
     const arr = [...champs];
@@ -182,8 +198,8 @@ function ChampChips({
             type="text"
             dir="ltr"
             value={c}
-            onChange={e => setAt(i, e.currentTarget.value)}
-            onKeyDown={e => {
+            onChange={(e) => setAt(i, e.currentTarget.value)}
+            onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === ",") {
                 e.preventDefault();
                 insertAfter(i);
@@ -236,10 +252,14 @@ export default function MyComps({ query = "" }: MyCompsProps) {
     setRaw(next);
   }
   function remove(id: string) {
-    setItems(items.filter(x => x.id !== id));
+    setItems(items.filter((x) => x.id !== id));
   }
   function patch(id: string, partial: Partial<TeamComp>) {
-    setItems(items.map(x => (x.id === id ? { ...x, ...partial, updatedAt: Date.now() } : x)));
+    setItems(
+      items.map((x) =>
+        x.id === id ? { ...x, ...partial, updatedAt: Date.now() } : x,
+      ),
+    );
   }
 
   async function copyOne(c: TeamComp) {
@@ -283,7 +303,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
               dir="ltr"
               name="comp-title"
               value={draft}
-              onChange={e => setDraft(e.currentTarget.value)}
+              onChange={(e) => setDraft(e.currentTarget.value)}
               placeholder="New comp title…"
               aria-label="New comp title"
               className="flex-1"
@@ -302,38 +322,66 @@ export default function MyComps({ query = "" }: MyCompsProps) {
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-2xl p-6 text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-6 text-sm text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-2xl p-6 text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-6 text-sm text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {filtered.map(c => {
+            {filtered.map((c) => {
               const editing = editingId === c.id;
 
               return (
-                <article key={c.id} className="group card-neo glitch-card relative p-7">
+                <article
+                  key={c.id}
+                  className="group card-neo glitch-card relative p-7"
+                >
                   {/* hover edit/save + delete + copy */}
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editing ? (
                       <>
-                        <IconButton title="Copy" aria-label="Copy" size="sm" onClick={() => copyOne(c)}>
-                          {copiedId === c.id ? <ClipboardCheck /> : <Clipboard />}
+                        <IconButton
+                          title="Copy"
+                          aria-label="Copy"
+                          size="sm"
+                          onClick={() => copyOne(c)}
+                        >
+                          {copiedId === c.id ? (
+                            <ClipboardCheck />
+                          ) : (
+                            <Clipboard />
+                          )}
                         </IconButton>
-                        <IconButton title="Edit" aria-label="Edit" size="sm" onClick={() => setEditingId(c.id)}>
+                        <IconButton
+                          title="Edit"
+                          aria-label="Edit"
+                          size="sm"
+                          onClick={() => setEditingId(c.id)}
+                        >
                           <Pencil />
                         </IconButton>
-                        <IconButton title="Delete" aria-label="Delete" size="sm" variant="ring" onClick={() => remove(c.id)}>
+                        <IconButton
+                          title="Delete"
+                          aria-label="Delete"
+                          size="sm"
+                          variant="ring"
+                          onClick={() => remove(c.id)}
+                        >
                           <Trash2 />
                         </IconButton>
                       </>
                     ) : (
-                      <IconButton title="Save" aria-label="Save" size="sm" onClick={() => setEditingId(null)}>
+                      <IconButton
+                        title="Save"
+                        aria-label="Save"
+                        size="sm"
+                        onClick={() => setEditingId(null)}
+                      >
                         <Check />
                       </IconButton>
                     )}
@@ -357,20 +405,25 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                         name="comp-title-edit"
                         aria-label="Comp title"
                         value={c.title}
-                        onChange={e => patch(c.id, { title: e.currentTarget.value })}
+                        onChange={(e) =>
+                          patch(c.id, { title: e.currentTarget.value })
+                        }
                       />
                     )}
                   </header>
 
                   {/* roles */}
                   <div className="grid gap-3">
-                    {ROLES.map(r => {
+                    {ROLES.map((r) => {
                       const list = c.roles[r] ?? [];
                       const setList = (next: string[]) =>
                         patch(c.id, { roles: { ...c.roles, [r]: next } });
 
                       return (
-                        <div key={r} className="grid grid-cols-[88px_1fr] items-start gap-3">
+                        <div
+                          key={r}
+                          className="grid grid-cols-[88px_1fr] items-start gap-3"
+                        >
                           <div
                             className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
                             data-text={r}
@@ -379,7 +432,11 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           </div>
 
                           {/* chips editor/view */}
-                          <ChampChips list={list} onChange={setList} editing={editing} />
+                          <ChampChips
+                            list={list}
+                            onChange={setList}
+                            editing={editing}
+                          />
                         </div>
                       );
                     })}
@@ -391,7 +448,9 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                       </label>
                       {!editing ? (
                         <p className="text-sm text-muted-foreground">
-                          {c.notes?.trim() || <span className="opacity-60">—</span>}
+                          {c.notes?.trim() || (
+                            <span className="opacity-60">—</span>
+                          )}
                         </p>
                       ) : (
                         <Textarea
@@ -401,7 +460,9 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           resize="resize-y"
                           textareaClassName="min-h-[180px] leading-relaxed"
                           value={c.notes ?? ""}
-                          onChange={e => patch(c.id, { notes: e.target.value })}
+                          onChange={(e) =>
+                            patch(c.id, { notes: e.target.value })
+                          }
                         />
                       )}
                     </div>

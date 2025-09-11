@@ -10,10 +10,15 @@ interface GoalsProgressProps {
   maxWidth?: number | string;
 }
 
-export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: GoalsProgressProps) {
+export default function GoalsProgress({
+  total,
+  pct,
+  onAddFirst,
+  maxWidth,
+}: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="rounded-xl border border-border bg-surface-2 p-6 text-center">
+      <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
         <p className="mb-4 text-sm text-fg-muted">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto rounded-xl">
@@ -25,7 +30,11 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const size = maxWidth ? (typeof maxWidth === "number" ? maxWidth : parseInt(maxWidth, 10)) : 64;
+  const size = maxWidth
+    ? typeof maxWidth === "number"
+      ? maxWidth
+      : parseInt(maxWidth, 10)
+    : 64;
   const radius = size / 2 - 6;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (v / 100) * circumference;
@@ -35,7 +44,10 @@ export default function GoalsProgress({ total, pct, onAddFirst, maxWidth }: Goal
       style={{ width: size, height: size }}
       aria-label="Progress"
     >
-      <svg className="h-full w-full rotate-[-90deg]" viewBox={`0 0 ${size} ${size}`}>
+      <svg
+        className="h-full w-full rotate-[-90deg]"
+        viewBox={`0 0 ${size} ${size}`}
+      >
         <circle
           cx={size / 2}
           cy={size / 2}

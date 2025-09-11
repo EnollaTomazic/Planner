@@ -1796,10 +1796,10 @@ a:active .lucide {
     --radius-card: var(--radius-md);
   }
   .r-card-md {
-    --radius-card: var(--radius-2xl);
+    --radius-card: var(--radius-xl);
   }
   .r-card-lg {
-    --radius-card: var(--radius-xl);
+    --radius-card: var(--radius-2xl);
   }
   .rounded-card {
     border-radius: var(--radius-card) !important;

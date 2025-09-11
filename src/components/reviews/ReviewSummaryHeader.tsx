@@ -20,25 +20,28 @@ export default function ReviewSummaryHeader({
   result,
   onEdit,
 }: ReviewSummaryHeaderProps) {
-  const RoleIcon = role ? ROLE_OPTIONS.find((r) => r.value === role)?.Icon : undefined;
-  const roleLabel = role ? ROLE_OPTIONS.find((r) => r.value === role)?.label : undefined;
+  const RoleIcon = role
+    ? ROLE_OPTIONS.find((r) => r.value === role)?.Icon
+    : undefined;
+  const roleLabel = role
+    ? ROLE_OPTIONS.find((r) => r.value === role)?.label
+    : undefined;
 
-  const ResultBadge =
-    result && (
-      <span
-        className={cn(
-          "inline-flex h-10 items-center rounded-2xl border px-3 text-sm font-semibold",
-          "border-border bg-card",
-          result === "Win"
-            ? "shadow-[0_0_0_1px_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
-            : "bg-gradient-to-r from-danger/18 to-primary/16",
-        )}
-        aria-label={`Result: ${result}`}
-        title={`Result: ${result}`}
-      >
-        {result}
-      </span>
-    );
+  const ResultBadge = result && (
+    <span
+      className={cn(
+        "inline-flex h-10 items-center rounded-card r-card-lg border px-3 text-sm font-semibold",
+        "border-border bg-card",
+        result === "Win"
+          ? "shadow-[0_0_0_1px_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
+          : "bg-gradient-to-r from-danger/18 to-primary/16",
+      )}
+      aria-label={`Result: ${result}`}
+      title={`Result: ${result}`}
+    >
+      {result}
+    </span>
+  );
 
   return (
     <div className="section-h sticky">
@@ -53,7 +56,7 @@ export default function ReviewSummaryHeader({
           {role ? (
             <span
               className={cn(
-                "inline-flex h-10 items-center gap-2 rounded-2xl border border-border",
+                "inline-flex h-10 items-center gap-2 rounded-card r-card-lg border border-border",
                 "bg-card px-3 text-sm font-semibold",
               )}
               title={roleLabel}
@@ -79,4 +82,3 @@ export default function ReviewSummaryHeader({
     </div>
   );
 }
-

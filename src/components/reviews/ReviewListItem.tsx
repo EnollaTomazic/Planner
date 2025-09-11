@@ -7,7 +7,7 @@ import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
 
 const shellBase = cn(
-  "relative w-full text-left rounded-2xl p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
+  "relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
   "hover:ring-2 hover:ring-[--theme-ring]",
   "data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]",
 );
@@ -101,7 +101,10 @@ export default function ReviewListItem({
               )}
             />
             {role ? (
-              <Badge variant="neutral" className="px-1 py-0 text-xs leading-none">
+              <Badge
+                variant="neutral"
+                className="px-1 py-0 text-xs leading-none"
+              >
                 {role}
               </Badge>
             ) : null}

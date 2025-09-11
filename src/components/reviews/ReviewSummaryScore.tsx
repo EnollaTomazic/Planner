@@ -25,7 +25,7 @@ export default function ReviewSummaryScore({
   return (
     <div>
       <SectionLabel>Score</SectionLabel>
-      <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
+      <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4">
         <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
           <div
             className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
@@ -47,11 +47,15 @@ export default function ReviewSummaryScore({
             <NeonIcon kind="brain" on={true} size={32} staticGlow />
             <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
-          <div className="relative h-12 rounded-2xl border border-border bg-card px-4">
+          <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4">
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
               <div
                 className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
-                style={{ "--progress": `${(focus / 10) * 100}%` } as React.CSSProperties}
+                style={
+                  {
+                    "--progress": `${(focus / 10) * 100}%`,
+                  } as React.CSSProperties
+                }
               >
                 <div className="absolute left-0 top-0 h-2 w-[var(--progress)] rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]" />
                 <div className="absolute left-[var(--progress)] top-1/2 h-5 w-5 -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft" />
@@ -67,4 +71,3 @@ export default function ReviewSummaryScore({
     </div>
   );
 }
-

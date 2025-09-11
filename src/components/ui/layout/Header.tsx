@@ -15,7 +15,8 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeaderProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
+export interface HeaderProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -52,7 +53,7 @@ export default function Header({
         "z-[999] relative isolate",
 
         // Card look: no border, soft glow
-        "rounded-2xl bg-card/70 backdrop-blur-md",
+        "rounded-card r-card-lg bg-card/70 backdrop-blur-md",
         "shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)]",
 
         // Safety: never let children bleed outside
@@ -61,7 +62,7 @@ export default function Header({
         // Neon underline
         "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent",
 
-        className
+        className,
       )}
       {...rest}
     >
@@ -71,7 +72,7 @@ export default function Header({
           sticky && cx("sticky", topClassName),
           "relative flex items-center",
           "px-3 sm:px-4 py-3 sm:py-4 min-h-12",
-          barClassName
+          barClassName,
         )}
       >
         {rail ? (
@@ -144,7 +145,7 @@ export function HeaderTabs<Key extends string = string>({
     (index: number) => (el: HTMLButtonElement | null) => {
       btnRefs.current[index] = el;
     },
-    []
+    [],
   );
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -180,23 +181,23 @@ export function HeaderTabs<Key extends string = string>({
     >
       {tabs.map((t, i) => {
         const active = activeKey === t.key;
-          return (
-            <SegmentedButton
-              key={t.key}
-              ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
-              role="tab"
-              aria-selected={active}
-              aria-controls={`${t.key}-panel`}
-              id={`${t.key}-tab`}
-              title={t.hint}
-              onClick={() => onChange(t.key)}
-              className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
-              isActive={active}
-            >
-              {t.icon}
-              {t.label}
-            </SegmentedButton>
-          );
+        return (
+          <SegmentedButton
+            key={t.key}
+            ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
+            role="tab"
+            aria-selected={active}
+            aria-controls={`${t.key}-panel`}
+            id={`${t.key}-tab`}
+            title={t.hint}
+            onClick={() => onChange(t.key)}
+            className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
+            isActive={active}
+          >
+            {t.icon}
+            {t.label}
+          </SegmentedButton>
+        );
       })}
     </nav>
   );

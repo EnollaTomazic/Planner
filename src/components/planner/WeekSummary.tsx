@@ -107,7 +107,9 @@ export default function WeekSummary({
             role="listitem"
             className={cn(
               "ws-tile group",
-              variant === "inline" ? "p-2 rounded-2xl" : "p-3 rounded-2xl",
+              variant === "inline"
+                ? "p-2 rounded-card r-card-lg"
+                : "p-3 rounded-card r-card-lg",
               today && "ws-tile--today",
               empty && "ws-tile--empty",
             )}

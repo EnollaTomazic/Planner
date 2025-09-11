@@ -474,7 +474,7 @@ function getValidSection(value: string | null): Section {
 
 function SpecCard({ name, description, element, props }: Spec) {
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
+    <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
       <header className="flex items-center justify-between">
         <h3 className="text-base font-semibold tracking-[-0.01em]">{name}</h3>
       </header>
@@ -483,7 +483,7 @@ function SpecCard({ name, description, element, props }: Spec) {
           {description}
         </p>
       ) : null}
-      <div className="rounded-xl bg-background p-4">{element}</div>
+      <div className="rounded-card r-card-md bg-background p-4">{element}</div>
       {props ? (
         <ul className="flex flex-wrap gap-3 text-xs">
           {props.map((p) => (
@@ -504,7 +504,7 @@ function Swatch({ token }: SwatchProps) {
   return (
     <li className="col-span-3 flex flex-col items-center gap-3">
       <div
-        className="h-16 w-full rounded-xl border border-[var(--card-hairline)]"
+        className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
       />
       <span className="text-xs font-medium">{token}</span>
@@ -515,7 +515,7 @@ function Swatch({ token }: SwatchProps) {
 function GradientSwatch() {
   return (
     <li className="col-span-12 md:col-span-6 flex flex-col items-center gap-3">
-      <div className="h-16 w-full rounded-xl bg-gradient-to-r from-primary via-accent to-transparent" />
+      <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-transparent" />
       <span className="text-xs font-medium">
         from-primary via-accent to-transparent
       </span>

@@ -59,7 +59,9 @@ export default function PromptsDemos() {
           <Input placeholder="Error" aria-invalid="true" />
           <Input
             placeholder="Custom ring"
-            style={{ '--theme-ring': 'hsl(var(--danger))' } as React.CSSProperties}
+            style={
+              { "--theme-ring": "hsl(var(--danger))" } as React.CSSProperties
+            }
           />
           <Input placeholder="With action">
             <button
@@ -186,10 +188,10 @@ export default function PromptsDemos() {
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Shadows</h3>
         <div className="flex flex-wrap gap-4">
-          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo" />
-          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo-strong" />
-          <div className="size-16 rounded-2xl bg-panel/80 shadow-neo-inset" />
-          <div className="size-16 rounded-2xl bg-panel/80 shadow-ring" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-strong" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-inset" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-ring" />
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
@@ -198,10 +200,7 @@ export default function PromptsDemos() {
           <button type="button" className="task-tile__text">
             Editable task
           </button>
-          <button
-            type="button"
-            className="task-tile__text line-through-soft"
-          >
+          <button type="button" className="task-tile__text line-through-soft">
             Completed task
           </button>
         </div>
@@ -218,31 +217,30 @@ export default function PromptsDemos() {
         </div>
         <div>
           <h4 className="type-subtitle">Spacing</h4>
-          <p className="type-body">{spacingTokens.join(', ')}</p>
+          <p className="type-body">{spacingTokens.join(", ")}</p>
         </div>
         <div>
           <h4 className="type-subtitle">Glow</h4>
-          <p className="type-body">{glowTokens.join(', ')}</p>
+          <p className="type-body">{glowTokens.join(", ")}</p>
         </div>
         <div>
           <h4 className="type-subtitle">Focus Ring</h4>
-          <p className="type-body">{focusRingToken} for theme-aware ring color</p>
+          <p className="type-body">
+            {focusRingToken} for theme-aware ring color
+          </p>
         </div>
         <div>
           <h4 className="type-subtitle">Radius</h4>
-          <p className="type-body">{radiusTokens.join(', ')}</p>
+          <p className="type-body">{radiusTokens.join(", ")}</p>
           <div className="mt-2 flex gap-2">
             {radiusClasses.map((cls) => (
-              <div
-                key={cls}
-                className={`size-6 bg-panel/80 ${cls}`}
-              />
+              <div key={cls} className={`size-6 bg-panel/80 ${cls}`} />
             ))}
           </div>
         </div>
         <div>
           <h4 className="type-subtitle">Type Ramp</h4>
-          <p className="type-body">{typeRamp.join(', ')}</p>
+          <p className="type-body">{typeRamp.join(", ")}</p>
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
@@ -259,4 +257,3 @@ export default function PromptsDemos() {
     </>
   );
 }
-

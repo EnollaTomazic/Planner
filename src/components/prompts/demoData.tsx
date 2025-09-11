@@ -11,8 +11,8 @@ export const focusRingToken = "--theme-ring";
 export const radiusClasses = [
   "rounded-md",
   "rounded-lg",
-  "rounded-xl",
-  "rounded-2xl",
+  "rounded-card r-card-md",
+  "rounded-card r-card-lg",
 ];
 
 export const typeRamp = ["eyebrow", "title", "subtitle", "body", "caption"];
@@ -30,28 +30,34 @@ export const NEON_ICONS = [
 
 export const UPDATES: React.ReactNode[] = [
   <>
-    Global styles are now modularized into <code>animations.css</code>,<code>overlays.css</code>, and
+    Global styles are now modularized into <code>animations.css</code>,
+    <code>overlays.css</code>, and
     <code>utilities.css</code>.
   </>,
   <>
-    Control height token <code>--control-h</code> now snaps to 44px to align with the 4px spacing grid.
+    Control height token <code>--control-h</code> now snaps to 44px to align
+    with the 4px spacing grid.
   </>,
   <>
-    Buttons now default to the 40px <code>md</code> size and follow a 36/40/44px scale.
+    Buttons now default to the 40px <code>md</code> size and follow a 36/40/44px
+    scale.
   </>,
   <>
-    WeekPicker scrolls horizontally with snap points, showing 2–3 days at a time on smaller screens.
+    WeekPicker scrolls horizontally with snap points, showing 2–3 days at a time
+    on smaller screens.
   </>,
   <>Review status dots blink to highlight wins and losses.</>,
   <>
-    Hero dividers now use <code>var(--space-4)</code> top padding and tokenized side offsets via <code>var(--space-2)</code>.
+    Hero dividers now use <code>var(--space-4)</code> top padding and tokenized
+    side offsets via <code>var(--space-2)</code>.
   </>,
   <>
     IconButton adds a compact <code>xs</code> size.
   </>,
   <>DurationSelector active state uses accent color tokens.</>,
   <>
-    Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with tabs.
+    Color gallery groups tokens into Aurora, Neutrals, and Accents palettes with
+    tabs.
   </>,
   <>Prompts page refactored into playground.</>,
 ];

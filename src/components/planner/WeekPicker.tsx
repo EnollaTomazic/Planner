@@ -20,7 +20,10 @@ import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
-const dmy = new Intl.DateTimeFormat(undefined, { day: "2-digit", month: "short" });
+const dmy = new Intl.DateTimeFormat(undefined, {
+  day: "2-digit",
+  month: "short",
+});
 
 /* ───────── presentational chip (no hooks) ───────── */
 
@@ -50,14 +53,15 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative flex-none min-w-[min(160px,40%)] rounded-2xl border text-left px-3 py-2 transition snap-start",
+        "chip relative flex-none min-w-[min(160px,40%)] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline bg-card/75",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "active:border-primary/60 active:bg-card/85",
         today && "chip--today",
         selected
           ? "border-dashed border-primary/75"
-          : "hover:border-primary/40"
+          : "hover:border-primary/40",
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
@@ -65,7 +69,7 @@ function DayChip({
       <div
         className={cn(
           "chip__date",
-          today ? "text-accent" : "text-muted-foreground"
+          today ? "text-accent" : "text-muted-foreground",
         )}
         data-text={iso}
       >
@@ -91,7 +95,10 @@ export default function WeekPicker() {
     const base = fromISODate(iso) ?? new Date();
     const s = mondayStartOfWeek(base);
     const e = addDays(s, 6);
-    const list: ISODate[] = Array.from({ length: 7 }, (_, i) => toISODate(addDays(s, i)) as ISODate);
+    const list: ISODate[] = Array.from(
+      { length: 7 },
+      (_, i) => toISODate(addDays(s, i)) as ISODate,
+    );
     return {
       heading: `${dmy.format(s)} — ${dmy.format(e)}`,
       rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
@@ -109,7 +116,7 @@ export default function WeekPicker() {
     const onScroll = () => {
       if (typeof window === "undefined") return;
       const atTop = window.scrollY <= 4;
-      setShowTop(prev => (atTop ? false : prev));
+      setShowTop((prev) => (atTop ? false : prev));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -121,7 +128,11 @@ export default function WeekPicker() {
     setIso(d);
     const el = document.getElementById(`day-${d}`);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
       el.focus({ preventScroll: true });
       setShowTop(true);
     }
@@ -135,19 +146,18 @@ export default function WeekPicker() {
   };
 
   /* Top button goes in Hero.right when applicable */
-  const right =
-    showTop ? (
-      <Button
-        variant="primary"
-        size="sm"
-        aria-label="Jump to top"
-        onClick={jumpToTop}
-        title="Jump to top"
-      >
-        <ArrowUpToLine />
-        <span>Top</span>
-      </Button>
-    ) : undefined;
+  const right = showTop ? (
+    <Button
+      variant="primary"
+      size="sm"
+      aria-label="Jump to top"
+      onClick={jumpToTop}
+      title="Jump to top"
+    >
+      <ArrowUpToLine />
+      <span>Top</span>
+    </Button>
+  ) : undefined;
 
   return (
     <Hero
@@ -167,8 +177,8 @@ export default function WeekPicker() {
           <div className="flex items-center justify-between gap-3">
             <span
               className={cn(
-                "inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm",
-                "bg-card/72 ring-1 ring-border/55 backdrop-blur"
+                "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
+                "bg-card/72 ring-1 ring-border/55 backdrop-blur",
               )}
               aria-label={`Week range ${rangeLabel}`}
             >
