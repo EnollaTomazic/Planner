@@ -10,7 +10,13 @@ export interface ModalProps extends React.ComponentProps<typeof PrimitiveCard> {
   onClose: () => void;
 }
 
-export default function Modal({ open, onClose, className, children, ...props }: ModalProps) {
+export default function Modal({
+  open,
+  onClose,
+  className,
+  children,
+  ...props
+}: ModalProps) {
   const [mounted, setMounted] = React.useState(false);
   const dialogRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => setMounted(true), []);
@@ -20,15 +26,15 @@ export default function Modal({ open, onClose, className, children, ...props }: 
     const prevActive = document.activeElement as HTMLElement | null;
     const el = dialogRef.current;
     const selectors =
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
+      "a[href], button, textarea, input, select, [tabindex]:not([tabindex='-1'])";
     const nodes = el?.querySelectorAll<HTMLElement>(selectors) ?? [];
     const first = nodes[0] ?? el;
     const last = nodes[nodes.length - 1] ?? el;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         onClose();
-      } else if (e.key === 'Tab') {
+      } else if (e.key === "Tab") {
         if (nodes.length === 0) {
           e.preventDefault();
           return;
@@ -42,12 +48,12 @@ export default function Modal({ open, onClose, className, children, ...props }: 
         }
       }
     };
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
     const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     first?.focus();
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = prevOverflow;
       prevActive?.focus?.();
     };
@@ -61,7 +67,7 @@ export default function Modal({ open, onClose, className, children, ...props }: 
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        className={cn('relative w-full max-w-sm', className)}
+        className={cn("relative w-full max-w-sm", className)}
         {...props}
       >
         {children}
