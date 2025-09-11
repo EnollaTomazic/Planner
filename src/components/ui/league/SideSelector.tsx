@@ -10,8 +10,10 @@ type Props = {
   value?: GameSide;
   onChange?: (v: GameSide) => void;
   className?: string;
-  leftLabel?: string;  // defaults "Blue"
+  leftLabel?: string; // defaults "Blue"
   rightLabel?: string; // defaults "Red"
+  disabled?: boolean;
+  loading?: boolean;
 };
 
 /**
@@ -25,17 +27,21 @@ export default function SideSelector({
   className,
   leftLabel = "Blue",
   rightLabel = "Red",
+  disabled = false,
+  loading = false,
 }: Props) {
   const isRight = value === "Red";
   const [flick, setFlick] = React.useState(false);
 
   function toggle() {
+    if (disabled || loading) return;
     onChange?.(isRight ? "Blue" : "Red");
     setFlick(true);
     window.setTimeout(() => setFlick(false), 220);
   }
 
   function onKey(e: React.KeyboardEvent<HTMLButtonElement>) {
+    if (disabled || loading) return;
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
       toggle();
@@ -50,14 +56,20 @@ export default function SideSelector({
       role="switch"
       aria-checked={isRight}
       aria-label="Select side"
+      disabled={disabled}
+      data-loading={loading || undefined}
       onClick={toggle}
       onKeyDown={onKey}
       className={cn(
         "relative inline-flex select-none items-center overflow-hidden rounded-full",
         "border border-border bg-card",
+        "hover:bg-[--hover] active:bg-[--active]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+        "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+        "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
         "min-w-[14rem] sm:min-w-[16rem] w-full max-w-xs h-10", // responsive default
-        className
+        className,
       )}
       data-side={value}
     >
@@ -67,7 +79,7 @@ export default function SideSelector({
         className={cn(
           "pointer-events-none absolute inset-0 opacity-0",
           "mix-blend-screen",
-          flick && "opacity-100 animate-pulse"
+          flick && "opacity-100 animate-pulse",
         )}
         style={{
           background:
@@ -82,7 +94,8 @@ export default function SideSelector({
         style={{
           width: "calc(50% - 4px)",
           transform: `translateX(${isRight ? "calc(100% + 2px)" : "0"})`,
-          background: "linear-gradient(90deg, hsl(var(--primary)/.35), hsl(var(--accent)/.35))",
+          background:
+            "linear-gradient(90deg, hsl(var(--primary)/.35), hsl(var(--accent)/.35))",
           boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
         }}
       />
@@ -92,18 +105,24 @@ export default function SideSelector({
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            !isRight ? "text-foreground/70" : "text-muted-foreground"
+            !isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
-          style={{ textShadow: !isRight ? "0 0 10px hsl(200 100% 60% / .35)" : undefined }}
+          style={{
+            textShadow: !isRight
+              ? "0 0 10px hsl(200 100% 60% / .35)"
+              : undefined,
+          }}
         >
           {leftLabel}
         </div>
         <div
           className={cn(
             "py-2 text-center transition-colors",
-            isRight ? "text-foreground/70" : "text-muted-foreground"
+            isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
-          style={{ textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined }}
+          style={{
+            textShadow: isRight ? "0 0 10px hsl(0 85% 60% / .35)" : undefined,
+          }}
         >
           {rightLabel}
         </div>
