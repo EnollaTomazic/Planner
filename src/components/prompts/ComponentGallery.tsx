@@ -212,7 +212,7 @@ export default function ComponentGallery() {
 
   const inputItems = React.useMemo(
     () => [
-      { label: "Input", element: <Input placeholder="Type here" className="w-56" /> },
+      { label: "Input", element: <Input placeholder="Type here" className="w-56 rounded-full" /> },
       { label: "Textarea", element: <Textarea placeholder="Write here" className="w-56" /> },
       {
         label: "FieldShell",
