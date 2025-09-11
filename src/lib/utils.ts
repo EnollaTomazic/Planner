@@ -35,10 +35,16 @@ export function slugify(s?: string): string {
 }
 
 /**
- * sanitizeText — remove HTML brackets to prevent node injection.
+ * sanitizeText — escape HTML-unsafe characters to prevent node injection.
  * Minimal on purpose; more heavy sanitizers can be added if needed.
  */
 export function sanitizeText(input: string): string {
-  return input.replace(/[<>]/g, "");
+  const map: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return input.replace(/[&<>"']/g, (c) => map[c]);
 }
-
