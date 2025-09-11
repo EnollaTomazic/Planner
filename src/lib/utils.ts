@@ -39,7 +39,7 @@ const HTML_ESCAPE_MAP: Record<string, string> = {
   "&": "&amp;",
   "<": "&lt;",
   ">": "&gt;",
-  '"': "&quot;",
+  "\u0022": "&quot;",
   "'": "&#39;",
 };
 
