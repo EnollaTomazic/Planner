@@ -22,7 +22,7 @@ export default function GoalsProgress({
       <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
         <p className="mb-4 text-sm text-fg-muted">No goals yet.</p>
         {onAddFirst && (
-          <Button onClick={onAddFirst} size="sm" className="mx-auto rounded-xl">
+          <Button onClick={onAddFirst} size="sm" className="mx-auto">
             Add a first goal
           </Button>
         )}
