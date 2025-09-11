@@ -108,7 +108,7 @@ export default function Hero({
         className={cx(
           sticky ? "sticky-blur" : "",
           "hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4",
-          topClassName,
+          sticky && topClassName,
         )}
       >
         {/* decorative layers */}

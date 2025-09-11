@@ -16,7 +16,7 @@ import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 import Header from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { 
+import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   Snackbar,
@@ -71,7 +71,10 @@ export default function GoalsPage() {
 
   // stores
   const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
-  const [filter, setFilter] = usePersistentState<FilterKey>("goals.filter.v1", "All");
+  const [filter, setFilter] = usePersistentState<FilterKey>(
+    "goals.filter.v1",
+    "All",
+  );
 
   // add form
   const [title, setTitle] = React.useState("");
@@ -217,6 +220,7 @@ export default function GoalsPage() {
                 heading="Overview"
                 subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
                 sticky={false}
+                topClassName="top-0"
               />
 
               {totalCount === 0 ? (

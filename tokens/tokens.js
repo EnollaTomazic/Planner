@@ -68,6 +68,7 @@ export default {
   "control-radius": "var(--radius-xl)",
   "control-fs": "0.9rem",
   "control-px": "1rem",
+  "header-stack": "calc(var(--spacing-8) + var(--spacing-4))",
   "edge-iris":
     "conic-gradient(\r\n    from 180deg,\r\n    hsl(262 83% 58% / 0),\r\n    hsl(262 83% 58% / 0.7),\r\n    hsl(192 90% 50% / 0.7),\r\n    hsl(320 85% 60% / 0.7),\r\n    hsl(262 83% 58% / 0)\r\n  )",
   "seg-active-grad":

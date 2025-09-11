@@ -68,6 +68,7 @@
   --control-radius: var(--radius-xl);
   --control-fs: 0.9rem;
   --control-px: 1rem;
+  --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --edge-iris: conic-gradient(
     from 180deg,
     hsl(262 83% 58% / 0),
