@@ -34,17 +34,37 @@ export function slugify(s?: string): string {
     .slice(0, 64);
 }
 
+/** Escape mappings for sanitizeText */
+const HTML_ESCAPE_MAP: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+};
+
+/**
+ * Clone data using structuredClone with JSON fallback.
+ */
+export function safeClone<T>(value: T): T {
+  if (typeof structuredClone === "function") {
+    try {
+      return structuredClone(value);
+    } catch {
+      // fall through to JSON
+    }
+  }
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return value;
+  }
+}
+
 /**
  * sanitizeText — escape HTML-unsafe characters to prevent node injection.
  * Minimal on purpose; more heavy sanitizers can be added if needed.
  */
 export function sanitizeText(input: string): string {
-  const map: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  };
-  return input.replace(/[&<>"']/g, (c) => map[c]);
+  return input.replace(/[&<>"']/g, (c) => HTML_ESCAPE_MAP[c]);
 }
