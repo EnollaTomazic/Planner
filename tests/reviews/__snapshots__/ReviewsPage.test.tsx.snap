@@ -673,7 +673,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   </div>
                 </div>
                 <button
-                  class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-base gap-2 [&>svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                  class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-base gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
                   tabindex="0"
                   type="button"
                 >
