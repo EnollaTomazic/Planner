@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 export type TabItem<K extends string = string> = {
@@ -38,6 +39,7 @@ export type TabBarProps<K extends string = string> = {
   right?: React.ReactNode;
   ariaLabel?: string;
   showBaseline?: boolean;
+  linkPanels?: boolean;
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
@@ -57,7 +59,9 @@ export default function TabBar<K extends string = string>({
   right,
   ariaLabel,
   showBaseline = false,
+  linkPanels = true,
 }: TabBarProps<K>) {
+  const uid = useId();
   const isControlled = value !== undefined;
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
@@ -132,17 +136,17 @@ export default function TabBar<K extends string = string>({
         >
           {items.map((item) => {
             const active = item.key === activeKey;
-            const tabId = item.id ?? `${item.key}-tab`;
-            const panelId = item.controls ?? `${item.key}-panel`;
+            const tabId = `${uid}-${item.id ?? `${item.key}-tab`}`;
+            const panelId = `${uid}-${item.controls ?? `${item.key}-panel`}`;
             return (
               <button
                 key={item.key}
-                id={tabId}
+                id={linkPanels ? tabId : undefined}
                 role="tab"
                 type="button"
                 aria-selected={active}
                 aria-disabled={item.disabled || undefined}
-                aria-controls={panelId}
+                aria-controls={linkPanels ? panelId : undefined}
                 tabIndex={item.disabled ? -1 : active ? 0 : -1}
                 ref={(el) => {
                   tabRefs.current[item.key] = el;
