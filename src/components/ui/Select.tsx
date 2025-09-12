@@ -13,6 +13,7 @@ export type SelectItem = {
   value: string;
   label: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
   className?: string;
   onSelect?: () => void;
 };
@@ -198,6 +199,13 @@ const AnimatedSelectImpl = React.forwardRef<
 
   // Positioning
   const [rect, setRect] = React.useState<DOMRect | null>(null);
+  const durQuick = React.useMemo(() => {
+    if (typeof window === "undefined") return 0.14;
+    const v = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--dur-quick"),
+    );
+    return (Number.isNaN(v) ? 140 : v) / 1000;
+  }, []);
   const [menuW, setMenuW] = React.useState<number | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -384,7 +392,7 @@ const AnimatedSelectImpl = React.forwardRef<
     "glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
     "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
-    "transition",
+    "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
     buttonClassName,
   ].join(" ");
 
@@ -477,7 +485,7 @@ const AnimatedSelectImpl = React.forwardRef<
                 transition={
                   reduceMotion
                     ? { duration: 0 }
-                    : { duration: 0.14, ease: "easeOut" }
+                    : { duration: durQuick, ease: "easeOut" }
                 }
                 style={fixedStyles}
                 onKeyDown={onListKeyDown}
@@ -512,16 +520,16 @@ const AnimatedSelectImpl = React.forwardRef<
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-4 py-3 text-left transition",
-                          disabledItem
-                            ? "opacity-50 cursor-not-allowed"
-                            : "cursor-pointer",
+                          "group relative w-full rounded-xl px-4 py-3 text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                          disabledItem ? "cursor-not-allowed" : "cursor-pointer",
+                          "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
                           active
-                            ? "bg-primary/14 text-primary-foreground"
-                            : "hover:bg-foreground/5",
-                          "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0",
+                            ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
+                            : "",
+                          "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
                           it.className ?? "",
                         ].join(" ")}
+                        data-loading={it.loading}
                       >
                         <div className="flex items-center justify-between gap-3">
                           <span className="text-sm leading-none glitch-text">
@@ -529,7 +537,7 @@ const AnimatedSelectImpl = React.forwardRef<
                           </span>
                           <Check
                             className={[
-                              "size-4 shrink-0 transition-opacity",
+                              "size-4 shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
                               active
                                 ? "opacity-90"
                                 : "opacity-0 group-hover:opacity-30",
@@ -572,8 +580,8 @@ function GlitchStyles() {
       /* caret jitter */
       .caret {
         transition:
-          transform 0.18s var(--ease-out),
-          filter 0.18s var(--ease-out);
+          transform var(--dur-quick) var(--ease-out),
+          filter var(--dur-quick) var(--ease-out);
       }
       .caret-open {
         transform: rotate(180deg);
@@ -581,6 +589,16 @@ function GlitchStyles() {
       .glitch-trigger:hover .caret {
         animation: caret-jitter 0.9s steps(2, end) infinite;
         filter: drop-shadow(0 0 4px hsl(var(--ring) / 0.55));
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .caret {
+          transition: none;
+        }
+        .glitch-trigger:hover .caret {
+          animation: none;
+          filter: none;
+        }
       }
       @keyframes caret-jitter {
         0%,

@@ -53,7 +53,7 @@ export default function Toggle({
       onClick={toggle}
       onKeyDown={onKeyDown}
       className={cn(
-        "relative inline-flex h-10 items-center rounded-full border",
+        "group relative inline-flex h-10 items-center rounded-full border",
         "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
         "hover:bg-[--hover] active:bg-[--active]",
@@ -68,7 +68,7 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out,cubic-bezier(.2,.8,.2,1))] bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
+        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
         style={{
           width: "calc(50% - var(--space-1))",
           transform: `translateX(${isRight ? "calc(100% + var(--space-1) / 2)" : "0"})`,

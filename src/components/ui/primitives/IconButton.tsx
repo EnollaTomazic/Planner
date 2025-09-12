@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { ButtonSize } from "./Button";
 
@@ -14,7 +15,7 @@ type Variant = "ring" | "glow" | "solid";
  * Props for the {@link IconButton} component.
  * @property loading - When `true`, the button is disabled and `data-loading` is set.
  */
-export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type IconButtonProps = React.ComponentProps<typeof motion.button> & {
   size?: IconButtonSize;
   iconSize?: Icon;
   tone?: Tone;
@@ -84,13 +85,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref,
   ) => {
+    const reduceMotion = useReducedMotion();
     const sizeClass = getSizeClass(size);
     return (
-      <button
+      <motion.button
         ref={ref}
         type="button"
         className={cn(
-          "inline-flex items-center justify-center select-none rounded-full transition hover:bg-[--hover] active:bg-[--active] active:scale-95 focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+          "inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
           variantBase[variant],
           toneClasses[variant][tone],
           sizeClass,
@@ -99,10 +101,12 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         )}
         data-loading={loading}
         disabled={disabled || loading}
+        whileHover={reduceMotion ? undefined : { scale: 1.05 }}
+        whileTap={reduceMotion ? undefined : { scale: 0.95 }}
         {...props}
       >
         {props.children}
-      </button>
+      </motion.button>
     );
   },
 );

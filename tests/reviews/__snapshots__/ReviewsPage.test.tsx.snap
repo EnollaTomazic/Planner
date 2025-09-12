@@ -416,7 +416,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       />
                     </svg>
                     <div
-                      class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-150 ease-out hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
+                      class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
                       style="--control-h: var(--control-h-md);"
                     >
                       <input
@@ -457,7 +457,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             aria-expanded="false"
                             aria-haspopup="listbox"
                             aria-label="Select option"
-                            class="glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition h-10 px-[var(--spacing-4)]"
+                            class="glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-[var(--spacing-4)]"
                             data-lit="true"
                             data-open="false"
                             type="button"
@@ -507,8 +507,8 @@ exports[`ReviewsPage > renders default state 1`] = `
       /* caret jitter */
       .caret {
         transition:
-          transform 0.18s var(--ease-out),
-          filter 0.18s var(--ease-out);
+          transform var(--dur-quick) var(--ease-out),
+          filter var(--dur-quick) var(--ease-out);
       }
       .caret-open {
         transform: rotate(180deg);
@@ -516,6 +516,16 @@ exports[`ReviewsPage > renders default state 1`] = `
       .glitch-trigger:hover .caret {
         animation: caret-jitter 0.9s steps(2, end) infinite;
         filter: drop-shadow(0 0 4px hsl(var(--ring) / 0.55));
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .caret {
+          transition: none;
+        }
+        .glitch-trigger:hover .caret {
+          animation: none;
+          filter: none;
+        }
       }
       @keyframes caret-jitter {
         0%,
@@ -727,7 +737,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       </div>
                     </div>
                     <button
-                      class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-base gap-2 [&_svg]:size-5 px-[var(--spacing-4)] whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                      class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-base gap-2 [&_svg]:size-5 px-[var(--spacing-4)] whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
                       tabindex="0"
                       type="button"
                     >

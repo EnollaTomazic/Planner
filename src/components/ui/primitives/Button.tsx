@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import type { CSSProperties } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { neuRaised, neuInset } from "./Neu";
@@ -129,10 +129,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
+    const reduceMotion = useReducedMotion();
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
@@ -157,14 +158,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-loading={loading}
         disabled={isDisabled}
         whileHover={
-          variant === "primary"
-            ? {
-                scale: 1.03,
-                boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
-              }
-            : whileHover
+          reduceMotion
+            ? undefined
+            : variant === "primary"
+                ? {
+                    scale: 1.03,
+                    boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
+                  }
+                : whileHover
         }
-        whileTap={whileTap}
+        whileTap={reduceMotion ? undefined : whileTap}
         {...rest}
       >
         {variant === "primary" ? (
