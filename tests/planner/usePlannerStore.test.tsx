@@ -6,7 +6,7 @@ vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
   return {
     ...actual,
-    usePersistentState: <T,>(key: string, initial: T) =>
+    usePersistentState: <T,>(_key: string, initial: T) =>
       React.useState(initial),
   };
 });
@@ -73,10 +73,9 @@ describe("usePlannerStore", () => {
     );
 
     let t1 = "";
-    let t2 = "";
     act(() => {
       t1 = result.current.addTask("First");
-      t2 = result.current.addTask("Second");
+      result.current.addTask("Second");
     });
     expect(result.current.totalTasks).toBe(2);
     expect(result.current.doneTasks).toBe(0);
