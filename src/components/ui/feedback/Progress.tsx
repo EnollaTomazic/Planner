@@ -1,4 +1,3 @@
-// src/components/ui/Progress.tsx
 "use client";
 
 /** Simple progress bar (0..100), with SR label */

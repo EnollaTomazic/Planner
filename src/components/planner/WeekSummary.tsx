@@ -1,4 +1,3 @@
-// src/components/planner/WeekSummary.tsx
 "use client";
 import "./style.css";
 

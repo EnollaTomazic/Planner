@@ -1,4 +1,3 @@
-// src/components/ui/layout/Hero.tsx
 "use client";
 
 /**

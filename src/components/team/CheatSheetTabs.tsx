@@ -1,4 +1,3 @@
-// src/components/team/CheatSheetTabs.tsx
 "use client";
 import "./style.css";
 

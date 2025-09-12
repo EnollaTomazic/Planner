@@ -1,4 +1,3 @@
-// src/components/team/Builder.tsx
 "use client";
 import "./style.css";
 

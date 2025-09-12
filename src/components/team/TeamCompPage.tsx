@@ -1,4 +1,3 @@
-// src/components/team/TeamCompPage.tsx
 "use client";
 
 /**

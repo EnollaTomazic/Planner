@@ -1,4 +1,3 @@
-// src/components/ui/theme/ThemeToggle.tsx
 "use client";
 
 import * as React from "react";

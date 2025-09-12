@@ -1,4 +1,3 @@
-// src/components/team/JungleClears.tsx
 "use client";
 import "./style.css";
 

@@ -1,4 +1,3 @@
-// src/app/reviews/page.tsx
 import type { Metadata } from "next";
 import { ReviewPage } from "@/components/reviews";
 

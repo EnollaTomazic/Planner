@@ -1,4 +1,3 @@
-// src/components/ui/layout/TabBar.tsx
 "use client";
 
 /**

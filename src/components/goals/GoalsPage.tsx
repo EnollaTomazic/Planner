@@ -1,4 +1,3 @@
-// src/components/goals/GoalsPage.tsx
 "use client";
 
 /**

@@ -1,4 +1,3 @@
-// src/components/planner/PlannerPage.tsx
 "use client";
 
 import "./style.css";

@@ -1,4 +1,3 @@
-// src/app/layout.tsx
 import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";

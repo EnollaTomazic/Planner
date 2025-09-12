@@ -1,4 +1,3 @@
-// src/lib/clipboard.ts
 // Shared clipboard helper with textarea fallback.
 
 export async function copyText(text: string): Promise<void> {

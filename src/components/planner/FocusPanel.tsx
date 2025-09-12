@@ -1,4 +1,3 @@
-// src/components/planner/FocusPanel.tsx
 "use client";
 
 /**

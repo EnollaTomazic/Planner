@@ -1,4 +1,3 @@
-// src/components/ui/primitives/Input.tsx
 "use client";
 
 import * as React from "react";

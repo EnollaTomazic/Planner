@@ -1,4 +1,3 @@
-// src/components/team/Reminders.tsx
 "use client";
 
 /**

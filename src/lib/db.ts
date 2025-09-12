@@ -1,4 +1,3 @@
-// src/lib/db.ts
 // Local-first helpers for Noxis Planner
 // - Hydration-safe: first render returns `initial`; no localStorage read until after mount
 // - SSR-safe: never touches window/localStorage on the server

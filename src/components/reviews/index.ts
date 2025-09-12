@@ -1,4 +1,3 @@
-// src/components/reviews/index.ts
 export { default as ReviewPage } from "./ReviewPage";
 export { default as ReviewsPage } from "./ReviewsPage";
 export { default as ReviewEditor } from "./ReviewEditor";

@@ -1,4 +1,3 @@
-// src/components/ui/PillarBadge.tsx
 "use client";
 
 import * as React from "react";

@@ -1,4 +1,3 @@
-// src/components/ui/CheckCircle.tsx
 "use client";
 
 /**

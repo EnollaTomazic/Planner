@@ -1,4 +1,3 @@
-// src/components/chrome/NavBar.tsx
 "use client";
 
 /**

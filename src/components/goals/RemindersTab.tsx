@@ -1,4 +1,3 @@
-// src/components/goals/RemindersTab.tsx
 "use client";
 
 /**

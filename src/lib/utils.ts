@@ -1,4 +1,3 @@
-// src/lib/utils.ts
 // Tiny helpers. Keep dependencies minimal and SSR-safe.
 
 import { type ClassValue, clsx } from "clsx";

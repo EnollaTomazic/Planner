@@ -1,4 +1,3 @@
-// src/components/team/MyComps.tsx
 "use client";
 
 /**

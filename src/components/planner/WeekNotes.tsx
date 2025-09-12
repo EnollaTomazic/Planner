@@ -1,4 +1,3 @@
-// src/components/planner/WeekNotes.tsx
 "use client";
 import "./style.css";
 

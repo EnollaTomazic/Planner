@@ -1,4 +1,3 @@
-// src/components/team/data.ts
 // Source: union of current jungle tier lists and role tags (see notes in file).
 export type ClearSpeed = "Very Fast" | "Fast" | "Medium" | "Slow";
 

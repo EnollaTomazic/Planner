@@ -1,4 +1,3 @@
-// src/components/reviews/ReviewList.tsx
 "use client";
 
 import React from "react";

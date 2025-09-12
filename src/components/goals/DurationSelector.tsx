@@ -1,4 +1,3 @@
-// src/components/goals/DurationSelector.tsx
 "use client";
 
 import * as React from "react";

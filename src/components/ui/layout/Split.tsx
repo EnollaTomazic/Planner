@@ -1,4 +1,3 @@
-// src/components/layout/Split.tsx
 "use client";
 
 import * as React from "react";
