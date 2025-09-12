@@ -77,6 +77,10 @@ html.theme-aurora {
   --lav-deep: 272 80% 60%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
+  --aurora-g: var(--accent-2);
+  --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+  --aurora-p: var(--accent);
+  --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
   --shadow-base: 279 30% 4%;
   --edge-iris: conic-gradient(
     from 180deg,
