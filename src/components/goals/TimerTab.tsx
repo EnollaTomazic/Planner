@@ -23,7 +23,7 @@ import { usePersistentState } from "@/lib/db";
 import { clamp } from "@/lib/utils";
 
 /* profiles */
-type ProfileKey = "study" | "clean" | "code" | "personal";
+type ProfileKey = "study" | "clean" | "code" | "custom";
 type Profile = {
   key: ProfileKey;
   label: string;
@@ -50,8 +50,8 @@ const PROFILES: Profile[] = [
     defaultMin: 60,
   },
   {
-    key: "personal",
-    label: "Personal",
+    key: "custom",
+    label: "Custom",
     icon: <User className="mr-1" />,
     defaultMin: 25,
   },
@@ -72,13 +72,16 @@ const parseMmSs = (v: string) => {
   return mm * 60_000 + ss * 1000;
 };
 
+const ADJUST_BTN_CLASS =
+  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
+
 export default function TimerTab() {
   const [profile, setProfile] = usePersistentState<ProfileKey>(
     "goals.timer.profile.v1",
     "study",
   );
-  const [personalMinutes, setPersonalMinutes] = usePersistentState<number>(
-    "goals.timer.personalMin.v1",
+  const [customMinutes, setCustomMinutes] = usePersistentState<number>(
+    "goals.timer.customMin.v1",
     25,
   );
 
@@ -86,8 +89,8 @@ export default function TimerTab() {
     () => PROFILES.find((p) => p.key === profile)!,
     [profile],
   );
-  const isPersonal = profile === "personal";
-  const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
+  const isCustom = profile === "custom";
+  const minutes = isCustom ? customMinutes : profileDef.defaultMin;
 
   // remaining time
   const [remaining, setRemaining] = usePersistentState<number>(
@@ -105,14 +108,14 @@ export default function TimerTab() {
     if (prevProfile.current !== profile) {
       setRunning(false);
       setRemaining(
-        (profile === "personal" ? personalMinutes : profileDef.defaultMin) *
+        (profile === "custom" ? customMinutes : profileDef.defaultMin) *
           60_000,
       );
       prevProfile.current = profile;
     }
   }, [
     profile,
-    personalMinutes,
+    customMinutes,
     profileDef.defaultMin,
     setRunning,
     setRemaining,
@@ -133,14 +136,14 @@ export default function TimerTab() {
     return () => window.clearInterval(id);
   }, [running, setRemaining]);
 
-  // adjust minutes for personal
+  // adjust minutes for custom
   function adjust(delta: number) {
-    if (!isPersonal) return;
+    if (!isCustom) return;
     if (running) return;
     const ms = remaining;
     const secs = Math.floor((ms % 60_000) / 1000);
     const next = clamp(minutes + delta, 0, 180);
-    setPersonalMinutes(next);
+    setCustomMinutes(next);
     setRemaining(next * 60_000 + secs * 1000);
   }
 
@@ -156,7 +159,7 @@ export default function TimerTab() {
     setRemaining(minutes * 60_000);
   }, [minutes, setRunning, setRemaining]);
   function commitEdit() {
-    if (!isPersonal || running) return;
+    if (!isCustom || running) return;
     const ms = parseMmSs(timeEdit);
     if (ms == null) {
       setTimeEdit(fmt(remaining));
@@ -164,7 +167,7 @@ export default function TimerTab() {
     }
     const mm = Math.floor(ms / 60_000),
       ss = Math.floor((ms % 60_000) / 1000);
-    setPersonalMinutes(mm);
+    setCustomMinutes(mm);
     setRemaining(mm * 60_000 + ss * 1000);
   }
 
@@ -190,14 +193,14 @@ export default function TimerTab() {
     [],
   );
 
-  // Right slot content for Personal: quick duration chips + custom time field
-  const rightSlot = isPersonal ? (
+  // Right slot content for Custom: quick duration chips + custom time field
+  const rightSlot = isCustom ? (
     <div className="flex items-center flex-wrap gap-2">
       <DurationSelector
         value={minutes}
         onChange={(m) => {
           if (running) return;
-          setPersonalMinutes(m);
+          setCustomMinutes(m);
           setRemaining(m * 60_000);
         }}
         disabled={running}
@@ -231,27 +234,19 @@ export default function TimerTab() {
       } else if (e.key === "r" || e.key === "R") {
         e.preventDefault();
         reset();
-      } else if (isPersonal && !running && /^[1-6]$/.test(e.key)) {
+      } else if (isCustom && !running && /^[1-6]$/.test(e.key)) {
         const opts = [10, 15, 20, 25, 30, 45];
         const idx = Number(e.key) - 1;
         const m = opts[idx];
         if (m != null) {
-          setPersonalMinutes(m);
+          setCustomMinutes(m);
           setRemaining(m * 60_000);
         }
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [
-    running,
-    isPersonal,
-    pause,
-    start,
-    reset,
-    setPersonalMinutes,
-    setRemaining,
-  ]);
+  }, [running, isCustom, pause, start, reset, setCustomMinutes, setRemaining]);
 
   const pct = Math.round(progress * 100);
   const [ringSize, setRingSize] = React.useState(224);
@@ -291,8 +286,8 @@ export default function TimerTab() {
               aria-label="Minus 1 minute"
               title="Minus 1 minute"
               onClick={() => adjust(-1)}
-              disabled={!isPersonal || running || minutes <= 0}
-              className="absolute top-[var(--space-2)] left-[var(--space-2)] sm:-top-[var(--space-4)] sm:-left-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              disabled={!isCustom || running || minutes <= 0}
+              className={`${ADJUST_BTN_CLASS} left-[var(--space-2)] sm:-left-[var(--space-4)]`}
             >
               <Minus />
             </IconButton>
@@ -300,8 +295,8 @@ export default function TimerTab() {
               aria-label="Plus 1 minute"
               title="Plus 1 minute"
               onClick={() => adjust(1)}
-              disabled={!isPersonal || running}
-              className="absolute top-[var(--space-2)] right-[var(--space-2)] sm:-top-[var(--space-4)] sm:-right-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              disabled={!isCustom || running}
+              className={`${ADJUST_BTN_CLASS} right-[var(--space-2)] sm:-right-[var(--space-4)]`}
             >
               <Plus />
             </IconButton>
@@ -316,7 +311,7 @@ export default function TimerTab() {
                 <div className="text-5xl font-bold tabular-nums text-foreground drop-shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5 sm:text-6xl">
                   {fmt(remaining)}
                 </div>
-                {isPersonal && !running && (
+                {isCustom && !running && (
                   <input
                     aria-label="Edit minutes and seconds"
                     value={timeEdit}
