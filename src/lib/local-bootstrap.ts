@@ -20,7 +20,11 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   try {
     if (typeof window === "undefined") return;
-    window.localStorage.setItem(key, JSON.stringify(value));
+    if (value === undefined || value === null) {
+      window.localStorage.removeItem(key);
+    } else {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    }
   } catch {
     // ignore
   }

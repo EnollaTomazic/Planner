@@ -111,6 +111,10 @@ export function scheduleWrite(key: string, value: unknown) {
 
 if (isBrowser && !window.__planner_flush_bound) {
   window.addEventListener("beforeunload", flushWriteQueue);
+  window.addEventListener("pagehide", flushWriteQueue);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushWriteQueue();
+  });
   window.__planner_flush_bound = true;
 }
 
@@ -244,11 +248,12 @@ export function usePersistentState<T>(
  * Generates a unique identifier using `crypto.randomUUID`.
  * If a prefix is provided, it is prepended followed by an underscore.
  */
+let uidCounter = 0;
 export function uid(prefix = ""): string {
   const id =
     globalThis.crypto?.randomUUID?.() ??
-    `${Math.random().toString(36).slice(2)}${Math.random()
-      .toString(36)
-      .slice(2)}`;
+    `${Date.now().toString(36)}${(uidCounter++).toString(
+      36,
+    )}${Math.random().toString(36).slice(2)}`;
   return prefix ? `${prefix}_${id}` : id;
 }
