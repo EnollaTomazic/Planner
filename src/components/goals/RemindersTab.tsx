@@ -593,8 +593,7 @@ function RemTile({
             <div className="mt-1 flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
                 <span
-                  className="inline-block h-2 w-2 rounded-full"
-                  style={{ background: "var(--accent-overlay)" }}
+                  className="inline-block h-2 w-2 rounded-full bg-[hsl(var(--accent-overlay))]"
                 />
                 <span className="text-xs">{fmtDate(value.createdAt)}</span>
               </div>

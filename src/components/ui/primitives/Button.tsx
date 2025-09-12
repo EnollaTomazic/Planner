@@ -172,10 +172,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {variant === "primary" ? (
           <span
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            style={{
-              background: `linear-gradient(90deg, hsl(var(${colorVar[tone]})/.18), hsl(var(${colorVar[tone]})/.18))`,
-            }}
+            className="absolute inset-0 pointer-events-none rounded-2xl bg-[linear-gradient(90deg,hsl(var(--btn-tone)/.18),hsl(var(--btn-tone)/.18))]"
+            style={{ "--btn-tone": `var(${colorVar[tone]})` } as React.CSSProperties}
           />
         ) : (
           overlay

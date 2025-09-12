@@ -20,11 +20,7 @@ export default function SiteChrome() {
       <div className="page-shell flex items-center justify-between py-2">
         <Link href="/" aria-label="Home" className="flex items-center gap-2">
           <span
-            className="h-2 w-2 rounded-full animate-pulse"
-            style={{
-              background: "var(--accent-overlay)",
-              boxShadow: "0 0 6px var(--glow-active)",
-            }}
+            className="h-2 w-2 rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
             aria-hidden
           />
           <span className="font-mono tracking-wide text-muted-foreground">
@@ -42,11 +38,7 @@ export default function SiteChrome() {
       {/* Hairline (neon-friendly, non-interactive) */}
       <div
         aria-hidden
-        className="pointer-events-none h-px w-full"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, hsl(var(--border)), transparent)",
-        }}
+        className="pointer-events-none h-px w-full bg-[linear-gradient(90deg,transparent,hsl(var(--border)),transparent)]"
       />
     </header>
   );

@@ -629,7 +629,7 @@ function GlitchStyles() {
           from 180deg,
           hsl(var(--ring) / 0),
           hsl(var(--ring) / 0.55),
-          hsl(var(--iris-cyan) / 0.55),
+          hsl(var(--accent-2) / 0.55),
           hsl(var(--lav-deep) / 0.55),
           hsl(var(--ring) / 0)
         );
@@ -802,8 +802,8 @@ function GlitchStyles() {
       /* subtle label RGB split on hover */
       .glitch-text:hover {
         text-shadow:
-          0.6px 0 hsl(210 100% 60% / 0.45),
-          -0.6px 0 hsl(330 100% 60% / 0.45);
+          0.6px 0 hsl(var(--accent-2) / 0.45),
+          -0.6px 0 hsl(var(--lav-deep) / 0.45);
       }
     `}</style>
   );

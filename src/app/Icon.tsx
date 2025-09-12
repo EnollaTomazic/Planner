@@ -8,16 +8,10 @@ export default function Icon() {
   return new ImageResponse(
     (
       <div
+        className="flex h-full w-full items-center justify-center bg-[hsl(var(--background))] text-[hsl(var(--icon-fg))]"
         style={{
           fontSize: "var(--font-size-md)",
           fontWeight: "var(--font-weight-bold)",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "hsl(var(--background))",
-          color: "hsl(var(--icon-fg))",
         }}
       >
         13

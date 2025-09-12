@@ -82,11 +82,11 @@
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --edge-iris: conic-gradient(
     from 180deg,
-    hsl(262 83% 58% / 0),
-    hsl(262 83% 58% / 0.7),
-    hsl(192 90% 50% / 0.7),
-    hsl(320 85% 60% / 0.7),
-    hsl(262 83% 58% / 0)
+    hsl(var(--ring) / 0),
+    hsl(var(--ring) / 0.7),
+    hsl(var(--accent-2) / 0.7),
+    hsl(var(--lav-deep) / 0.7),
+    hsl(var(--ring) / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
@@ -94,13 +94,13 @@
     hsl(292 80% 60% / 0.95),
     hsl(192 90% 50% / 0.95)
   );
-  --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
+  --shadow: 0 10px 30px hsl(var(--shadow-base) / 0.35);
   --lg-violet: var(--ring);
   --lg-cyan: var(--accent-2);
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
-  --glow-strong: 260 85% 60% / 0.55;
-  --glow-soft: 260 85% 60% / 0.25;
+  --glow-strong: var(--ring) / 0.55;
+  --glow-soft: var(--accent) / 0.25;
   --space-1: var(--spacing-1);
   --space-2: var(--spacing-2);
   --space-3: var(--spacing-3);

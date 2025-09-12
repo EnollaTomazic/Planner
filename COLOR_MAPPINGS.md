@@ -59,3 +59,15 @@
 | `hsl(165 60% 3%)`                   | `hsl(var(--hardstuck-background))` |
 | `hsl(160 12% 95%)`                  | `hsl(var(--hardstuck-foreground))` |
 | `hsl(165 40% 22%)`                  | `hsl(var(--hardstuck-border))`    |
+| `hsl(250 30% 2% / 0.35)`            | `hsl(var(--shadow-base) / 0.35)`  |
+| `hsl(250 30% 2% / 0.25)`            | `hsl(var(--shadow-base) / 0.25)`  |
+| `hsl(291 89% 61% / 0.6)`            | `hsl(var(--accent) / 0.6)`        |
+| `hsl(192 91% 46% / 0.4)`            | `hsl(var(--accent-2) / 0.4)`      |
+| `hsl(262 83% 58% / 0.6)`            | `hsl(var(--ring) / 0.6)`          |
+| `hsl(192 90% 50% / 0.6)`            | `hsl(var(--accent-2) / 0.6)`      |
+| `hsl(320 85% 60% / 0.6)`            | `hsl(var(--lav-deep) / 0.6)`      |
+| `hsl(248 30% 10%)`                  | `hsl(var(--card))`                |
+| `hsl(210 100% 60% / 0.45)`          | `hsl(var(--accent-2) / 0.45)`     |
+| `hsl(330 100% 60% / 0.45)`          | `hsl(var(--lav-deep) / 0.45)`     |
+| `hsl(260 85% 60% / 0.55)`           | `hsl(var(--ring) / 0.55)`         |
+| `hsl(260 85% 60% / 0.25)`           | `hsl(var(--accent) / 0.25)`       |
