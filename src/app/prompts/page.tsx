@@ -614,7 +614,7 @@ function SectionCard({ title, children }: SectionCardProps) {
   );
 }
 
-function ComponentsView({ query }: { query: string }) {
+function ComponentsView({ query, active }: { query: string; active: boolean }) {
   const searchParams = useSearchParams();
   const paramsString = searchParams.toString();
   const router = useRouter();
@@ -631,6 +631,7 @@ function ComponentsView({ query }: { query: string }) {
   }, [paramsString]);
 
   React.useEffect(() => {
+    if (!active) return;
     const sp = new URLSearchParams(paramsString);
     const current = sp.get("section");
     if (current === section) return;
@@ -638,7 +639,7 @@ function ComponentsView({ query }: { query: string }) {
     startTransition(() =>
       router.replace(`?${sp.toString()}`, { scroll: false }),
     );
-  }, [section, router, paramsString, startTransition]);
+  }, [active, section, router, paramsString, startTransition]);
 
   const fuse = React.useMemo(
     () =>
@@ -807,7 +808,7 @@ function PageContent() {
               hidden={view !== "components"}
               tabIndex={0}
             >
-              <ComponentsView query={query} />
+              <ComponentsView query={query} active={view === "components"} />
             </div>
             <div
               role="tabpanel"
