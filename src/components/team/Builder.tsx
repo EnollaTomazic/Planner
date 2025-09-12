@@ -228,10 +228,10 @@ function SideEditor(props: {
           data-text={title}
         >
           {icon}
-          <strong className="text-base sm:text-lg">{title}</strong>
+          <strong className="text-body sm:text-title font-semibold tracking-[-0.01em]">{title}</strong>
         </span>
 
-        <span className="ml-auto pill pill-compact text-xs tracking-wide uppercase">
+        <span className="ml-auto pill pill-compact text-label font-medium tracking-[0.02em] uppercase">
           {count}/5 filled
         </span>
       </header>
@@ -243,7 +243,7 @@ function SideEditor(props: {
             className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-[var(--spacing-3)]"
           >
             <label
-              className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground"
+              className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
               data-text={label}
             >
               {label}
@@ -258,7 +258,7 @@ function SideEditor(props: {
         ))}
 
         <div className="grid gap-[var(--spacing-3)]">
-          <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
+          <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>
           <Textarea

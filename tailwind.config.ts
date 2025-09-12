@@ -95,6 +95,13 @@ const config: Config = {
       animation: {
         shimmer: "shimmer 120ms linear",
       },
+      fontSize: {
+        label: "var(--font-label)",
+        ui: "var(--font-ui)",
+        body: "var(--font-body)",
+        title: "var(--font-title)",
+        "title-lg": "var(--font-title-lg)",
+      },
     },
   },
   plugins: [],

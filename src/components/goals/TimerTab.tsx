@@ -213,7 +213,7 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-ui font-medium backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         type="text"
       />
     </div>
@@ -333,7 +333,7 @@ export default function TimerTab() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <div className="mt-1 text-right text-xs text-muted-foreground tabular-nums">
+              <div className="mt-1 text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
                 {pct}%
               </div>
             </div>
@@ -373,10 +373,10 @@ export default function TimerTab() {
             {/* Complete state */}
             {finished && (
               <div className="mt-6 grid place-items-center">
-                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-sm text-foreground shadow-glow animate-pulse">
+                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-ui font-medium text-foreground shadow-glow animate-pulse">
                   Complete
                 </div>
-                <div className="mt-2 text-xs text-muted-foreground">
+                <div className="mt-2 text-label font-medium tracking-[0.02em] text-muted-foreground">
                   Good. Now do the review, not Twitter.
                 </div>
               </div>

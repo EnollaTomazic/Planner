@@ -179,7 +179,7 @@ export default function Reminders() {
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-label font-medium tracking-[0.02em] text-muted-foreground">
                 {filtered.length}
               </span>
             </div>
@@ -228,7 +228,7 @@ export default function Reminders() {
             <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="solid">
               <Plus />
             </IconButton>
-            <p className="text-xs sm:text-sm italic text-muted-foreground">
+            <p className="text-label sm:text-ui font-medium tracking-[0.02em] italic text-muted-foreground">
               Stop procrastinating, do it now if you have time
             </p>
           </div>
@@ -247,7 +247,7 @@ export default function Reminders() {
             ))}
 
             {filtered.length === 0 && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-ui font-medium text-muted-foreground">
                 Nothing here. Add one or relax your filters.
               </p>
             )}
@@ -420,9 +420,9 @@ function ReminderCard({
         ) : (
           <>
             {value.body ? (
-              <p className="text-sm leading-6 text-muted-foreground">{value.body}</p>
+              <p className="text-ui font-medium leading-6 text-muted-foreground">{value.body}</p>
             ) : (
-              <p className="text-sm text-muted-foreground/80">No text. Click to edit.</p>
+              <p className="text-ui font-medium text-muted-foreground/80">No text. Click to edit.</p>
             )}
             <div className="flex flex-wrap items-center gap-2 pt-1">
               {value.tags.map((t) => <span key={t} className="pill">{t}</span>)}

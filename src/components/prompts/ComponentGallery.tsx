@@ -269,7 +269,7 @@ export default function ComponentGallery() {
         label: "FieldShell",
         element: (
           <FieldShell className="w-56">
-            <div className="px-4 py-2 text-sm text-muted-foreground">
+            <div className="px-4 py-2 text-ui font-medium text-muted-foreground">
               Custom content
             </div>
           </FieldShell>
@@ -703,7 +703,7 @@ export default function ComponentGallery() {
       },
       {
         label: "Glitch Text",
-        element: <div className="glitch text-lg font-semibold">Glitch</div>,
+        element: <div className="glitch text-title font-semibold tracking-[-0.01em]">Glitch</div>,
       },
       {
         label: "Aurora Background",
@@ -786,7 +786,7 @@ export default function ComponentGallery() {
               search={{ value: "", onValueChange: () => {}, round: true }}
               actions={<Button size="sm">Action</Button>}
             >
-              <div className="text-sm text-muted-foreground">Body</div>
+              <div className="text-ui font-medium text-muted-foreground">Body</div>
             </Hero>
           </div>
         ),
@@ -813,7 +813,7 @@ export default function ComponentGallery() {
         label: "Save Status",
         element: (
           <div className="w-56">
-            <div className="text-xs text-muted-foreground" aria-live="polite">
+            <div className="text-label font-medium tracking-[0.02em] text-muted-foreground" aria-live="polite">
               All changes saved
             </div>
           </div>
@@ -822,7 +822,7 @@ export default function ComponentGallery() {
       {
         label: "Muted Text",
         element: (
-          <p className="w-56 text-sm text-muted-foreground text-center">
+          <p className="w-56 text-ui font-medium text-muted-foreground text-center">
             Example of muted foreground text
           </p>
         ),
@@ -874,10 +874,10 @@ export default function ComponentGallery() {
         label: "Widths",
         element: (
           <div className="flex gap-2">
-            <div className="h-10 w-72 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+            <div className="h-10 w-72 border rounded-md flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
               w-72
             </div>
-            <div className="h-10 w-80 border rounded-md flex items-center justify-center text-xs text-muted-foreground">
+            <div className="h-10 w-80 border rounded-md flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
               w-80
             </div>
           </div>

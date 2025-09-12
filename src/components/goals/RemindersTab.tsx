@@ -315,7 +315,7 @@ export default function RemindersTab() {
           debounceMs: 80,
           right: (
             <div className="flex items-center gap-2">
-              <span className="text-xs opacity-75">{filtered.length}</span>
+              <span className="text-label font-medium tracking-[0.02em] opacity-75">{filtered.length}</span>
               <Search className="opacity-80" size={16} />
             </div>
           ),
@@ -363,7 +363,7 @@ export default function RemindersTab() {
                 <Plus size={16} aria-hidden />
               </IconButton>
               <div className={`${neonClass} hidden sm:block`}>
-                <p className="neon-note neon-glow text-xs italic">
+                <p className="neon-note neon-glow text-label font-medium tracking-[0.02em] italic">
                   Stop procrastinating, do it now if you have time
                 </p>
               </div>
@@ -496,7 +496,7 @@ export default function RemindersTab() {
 
 function EmptyState() {
   return (
-    <div className="goal-card rounded-card ds-card-pad text-sm text-muted-foreground grid place-items-center">
+    <div className="goal-card rounded-card ds-card-pad text-ui font-medium text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );
@@ -617,7 +617,7 @@ function RemTile({
       <div className="mt-2 space-y-3">
         {editing ? (
           <>
-            <label className="text-xs opacity-70">Note</label>
+            <label className="text-label font-medium tracking-[0.02em] opacity-70">Note</label>
             <Textarea
               aria-label="Body"
               placeholder="Short, skimmable sentence."
@@ -630,7 +630,7 @@ function RemTile({
               textareaClassName="min-h-40 leading-relaxed"
             />
 
-            <label className="text-xs opacity-70">Tags</label>
+            <label className="text-label font-medium tracking-[0.02em] opacity-70">Tags</label>
             <Input
               aria-label="Tags (comma separated)"
               placeholder="tags, comma, separated"
@@ -710,7 +710,7 @@ function RemTile({
           </>
         ) : (
           <>
-            <p className="text-sm">
+            <p className="text-ui font-medium">
               <span className="opacity-70">Note:</span>{" "}
               {value.body || (
                 <span className="opacity-60">
@@ -719,14 +719,14 @@ function RemTile({
               )}
             </p>
 
-            <div className="mt-1 flex items-center justify-between text-sm">
+            <div className="mt-1 flex items-center justify-between text-ui font-medium">
               <div className="flex items-center gap-2">
                 <span className="inline-block h-2 w-2 rounded-full bg-[hsl(var(--accent-overlay))]" />
-                <span className="text-xs">{fmtDate(value.createdAt)}</span>
+                <span className="text-label font-medium tracking-[0.02em]">{fmtDate(value.createdAt)}</span>
               </div>
 
               <button
-                className="text-xs underline underline-offset-2 text-primary hover:brightness-75"
+                className="text-label font-medium tracking-[0.02em] underline underline-offset-2 text-primary hover:brightness-75"
                 onClick={() => onChange({ pinned: !pinned })}
                 title={pinned ? "Unpin" : "Pin"}
                 type="button"

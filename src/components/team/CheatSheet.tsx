@@ -170,7 +170,7 @@ function Label({ children }: { children: React.ReactNode }) {
   const text = typeof children === "string" ? children : String(children ?? "");
   return (
     <div
-      className="glitch-anim glitch-label text-xs font-semibold tracking-wide uppercase text-muted-foreground"
+      className="glitch-anim glitch-label text-label font-medium tracking-[0.02em] uppercase text-muted-foreground"
       data-text={text}
     >
       {text}
@@ -183,7 +183,7 @@ function ChampPillsView({ champs }: { champs?: string[] }) {
   return (
     <div className="champ-badges mt-1">
       {champs.map((c) => (
-        <span key={c} className="champ-badge glitch-pill text-xs">
+        <span key={c} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
           <i className="dot" />
           {c}
         </span>
@@ -206,7 +206,7 @@ function TitleEdit({
   if (!editing)
     return (
       <h3
-        className="glitch-title glitch-flicker title-glow text-lg sm:text-xl font-semibold"
+        className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg font-semibold tracking-[-0.01em]"
         data-text={value}
       >
         {value}
@@ -217,7 +217,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
-      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-lg sm:text-xl font-semibold glitch-title title-glow"
+      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />
@@ -234,7 +234,7 @@ function ParagraphEdit({
   editing: boolean;
 }) {
   if (!editing)
-    return <p className="mt-1 text-sm text-muted-foreground">{value}</p>;
+    return <p className="mt-1 text-ui font-medium text-muted-foreground">{value}</p>;
   return (
     <Textarea
       dir="ltr"
@@ -243,7 +243,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-sm text-muted-foreground leading-relaxed"
+      textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-ui font-medium text-muted-foreground leading-relaxed"
       aria-label="Description"
     />
   );
@@ -306,7 +306,7 @@ function BulletListEdit({
 
   if (!editing) {
     return (
-      <ul className="mt-1 list-none pl-6 space-y-1 text-sm leading-5 text-foreground">
+      <ul className="mt-1 list-none pl-6 space-y-1 text-ui font-medium leading-5 text-foreground">
         {list
           .filter((w) => w.trim().length)
           .map((w, idx) => (
@@ -323,7 +323,7 @@ function BulletListEdit({
 
   return (
     <ul
-      className="mt-1 list-none pl-6 space-y-1 text-sm leading-5 text-foreground"
+      className="mt-1 list-none pl-6 space-y-1 text-ui font-medium leading-5 text-foreground"
       aria-label={ariaLabel}
     >
       {list.map((w, idx) => (
@@ -378,7 +378,7 @@ function ChampPillsEdit({
   return (
     <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(list.length ? list : [""]).map((c, i) => (
-        <span key={i} className="champ-badge text-xs">
+        <span key={i} className="champ-badge text-label font-medium tracking-[0.02em]">
           <i className="dot" />
           <input
             type="text"
@@ -570,7 +570,7 @@ export default function CheatSheet({
                           className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-3"
                         >
                           <div
-                            className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
+                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-1"
                             data-text={role}
                           >
                             {role}
