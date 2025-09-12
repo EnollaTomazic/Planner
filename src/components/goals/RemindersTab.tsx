@@ -340,14 +340,15 @@ export default function RemindersTab() {
             )}
 
             {/* Cards grid */}
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-12 gap-3">
               {filtered.map((r) => (
-                <RemTile
-                  key={r.id}
-                  value={r}
-                  onChange={(p) => update(r.id, p)}
-                  onDelete={() => remove(r.id)}
-                />
+                <div key={r.id} className="col-span-12 md:col-span-6 lg:col-span-4">
+                  <RemTile
+                    value={r}
+                    onChange={(p) => update(r.id, p)}
+                    onDelete={() => remove(r.id)}
+                  />
+                </div>
               ))}
             </div>
 

@@ -53,7 +53,7 @@ function DayChip({
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
       title={selected ? "Double-click to jump" : "Click to focus"}
       className={cn(
-        "chip relative flex-none min-w-[min(160px,40%)] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
+        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline bg-card/75",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
