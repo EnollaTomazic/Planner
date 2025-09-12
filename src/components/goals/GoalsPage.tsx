@@ -204,7 +204,7 @@ export default function GoalsPage() {
       <Header
         id="goals-header"
         eyebrow="Goals"
-        heading="Today"
+        heading="Today’s Goals"
         subtitle={summary}
         icon={<Flag className="opacity-80" />}
         sticky
@@ -247,9 +247,14 @@ export default function GoalsPage() {
                 <GoalsProgress
                   total={totalCount}
                   pct={pctDone}
-                  onAddFirst={() =>
-                    formRef.current?.scrollIntoView({ behavior: "smooth" })
-                  }
+                  onAddFirst={() => {
+                    const behavior: ScrollBehavior = window.matchMedia(
+                      "(prefers-reduced-motion: reduce)",
+                    ).matches
+                      ? "auto"
+                      : "smooth";
+                    formRef.current?.scrollIntoView({ behavior });
+                  }}
                 />
               ) : (
                 <SectionCard className="card-neo-soft">

@@ -11,10 +11,10 @@ import ThemeProvider from "@/lib/theme-context";
 
 export const metadata: Metadata = {
   title: {
-    default: "13 League Review",
-    template: "%s · 13 League Review",
+    default: "Planner",
+    template: "%s · Planner",
   },
-  description: "Local-first League review with a Lavender-Glitch personality",
+  description: "Local-first planner for organizing tasks and goals",
 };
 
 /**
