@@ -94,15 +94,24 @@ export default function Builder() {
     allies: { ...EMPTY_TEAM },
     enemies: { ...EMPTY_TEAM },
   });
-  const [copied, setCopied] = React.useState<"all" | "allies" | "enemies" | null>(null);
+  const [copied, setCopied] = React.useState<
+    "all" | "allies" | "enemies" | null
+  >(null);
 
   const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
       [t.top, t.jungle, t.mid, t.adc, t.support].filter(Boolean).length;
-    return { allies: countTeam(state.allies), enemies: countTeam(state.enemies) };
+    return {
+      allies: countTeam(state.allies),
+      enemies: countTeam(state.enemies),
+    };
   }, [state]);
 
-  function setLane(side: "allies" | "enemies", lane: keyof Team, value: string) {
+  function setLane(
+    side: "allies" | "enemies",
+    lane: keyof Team,
+    value: string,
+  ) {
     setState({
       ...state,
       [side]: { ...state[side], [lane]: value },
@@ -175,40 +184,40 @@ export default function Builder() {
       <div className="mt-6">
         <SectionCard className="card-neo-soft glitch-card">
           <SectionCard.Body>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_12px_1fr] gap-6">
-            {/* Allies */}
-            <SideEditor
-              title="Allies"
-              icon={<Shield />}
-              value={state.allies}
-              onLane={(lane, v) => setLane("allies", lane, v)}
-              onNotes={(v) => setNotes("allies", v)}
-              onClear={() => clearSide("allies")}
-              onCopy={() => copy("allies")}
-              count={filledCount.allies}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_var(--spacing-3)_1fr] gap-6">
+              {/* Allies */}
+              <SideEditor
+                title="Allies"
+                icon={<Shield />}
+                value={state.allies}
+                onLane={(lane, v) => setLane("allies", lane, v)}
+                onNotes={(v) => setNotes("allies", v)}
+                onClear={() => clearSide("allies")}
+                onCopy={() => copy("allies")}
+                count={filledCount.allies}
+              />
 
-            {/* Center spine (md+) */}
-            <div className="hidden md:block relative">
-              <span
-                aria-hidden
-                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
+              {/* Center spine (md+) */}
+              <div className="hidden md:block relative">
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
+                />
+              </div>
+
+              {/* Enemies */}
+              <SideEditor
+                title="Enemies"
+                icon={<Swords />}
+                value={state.enemies}
+                onLane={(lane, v) => setLane("enemies", lane, v)}
+                onNotes={(v) => setNotes("enemies", v)}
+                onClear={() => clearSide("enemies")}
+                onCopy={() => copy("enemies")}
+                count={filledCount.enemies}
               />
             </div>
-
-            {/* Enemies */}
-            <SideEditor
-              title="Enemies"
-              icon={<Swords />}
-              value={state.enemies}
-              onLane={(lane, v) => setLane("enemies", lane, v)}
-              onNotes={(v) => setNotes("enemies", v)}
-              onClear={() => clearSide("enemies")}
-              onCopy={() => copy("enemies")}
-              count={filledCount.enemies}
-            />
-          </div>
-        </SectionCard.Body>
+          </SectionCard.Body>
         </SectionCard>
       </div>
     </div>
@@ -251,7 +260,10 @@ function SideEditor(props: {
 
       <div className="grid gap-3">
         {LANES.map(({ key, label }) => (
-          <div key={key} className="grid grid-cols-[88px_1fr] items-center gap-3">
+          <div
+            key={key}
+            className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
+          >
             <label
               className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground"
               data-text={label}
@@ -277,7 +289,7 @@ function SideEditor(props: {
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] leading-relaxed"
             rows={4}
           />
         </div>
