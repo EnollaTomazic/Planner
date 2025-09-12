@@ -17,7 +17,6 @@
     "typecheck": "ts-node --esm scripts/typecheck.ts",
     "test": "vitest",
     "check": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run typecheck\"",
-    "check-all": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run typecheck\"",
     "format": "prettier --write .",
     "verify-prompts": "ts-node --esm scripts/verify-prompts.ts",
     "check-prompts": "ts-node --esm scripts/check-prompts-updated.ts",
