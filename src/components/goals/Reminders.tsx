@@ -169,7 +169,7 @@ export default function Reminders() {
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}
-            <div className="relative flex-1 min-w-[220px]">
+            <div className="relative flex-1 min-w-56">
               <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70" />
               <Input
                 aria-label="Search reminders"
@@ -392,7 +392,7 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              textareaClassName="min-h-[88px]"
+              textareaClassName="min-h-24"
             />
             <Input
               aria-label="Tags (comma separated)"
