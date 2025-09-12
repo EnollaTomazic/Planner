@@ -63,7 +63,7 @@ export default function DayCard({ iso, isToday }: Props) {
       className={cn(
         "daycard relative overflow-hidden card-neo-soft rounded-card r-card-lg border card-pad",
         "grid gap-4 lg:gap-6",
-        "grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1px_1fr]",
+        "grid-cols-1 lg:grid-cols-12",
         isToday && "ring-1 ring-ring/65 title-glow",
         "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r",
         "before:from-transparent before:via-ring/45 before:to-transparent",
@@ -71,12 +71,14 @@ export default function DayCard({ iso, isToday }: Props) {
       )}
       aria-label={`Planner for ${iso}`}
     >
-      <DayCardHeader
-        iso={iso}
-        projectCount={projects.length}
-        doneTasks={doneTasks}
-        totalTasks={totalTasks}
-      />
+      <div className="col-span-1 lg:col-span-12">
+        <DayCardHeader
+          iso={iso}
+          projectCount={projects.length}
+          doneTasks={doneTasks}
+          totalTasks={totalTasks}
+        />
+      </div>
 
       <form
         className="col-span-1 lg:col-span-3"
@@ -94,30 +96,34 @@ export default function DayCard({ iso, isToday }: Props) {
         />
       </form>
 
-      <ProjectList
-        projects={projects}
-        selectedProjectId={selectedProjectId}
-        setSelectedProjectId={setSelectedProjectId}
-        setSelectedTaskId={setSelectedTaskId}
-        toggleProject={toggleProject}
-        renameProject={renameProject}
-        deleteProject={deleteProject}
-      />
+      <div className="col-span-1 lg:col-span-3">
+        <ProjectList
+          projects={projects}
+          selectedProjectId={selectedProjectId}
+          setSelectedProjectId={setSelectedProjectId}
+          setSelectedTaskId={setSelectedTaskId}
+          toggleProject={toggleProject}
+          renameProject={renameProject}
+          deleteProject={deleteProject}
+        />
+      </div>
 
       <div
-        className="hidden lg:block w-px bg-card-hairline/90 rounded-full self-stretch"
+        className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline/90 rounded-full self-stretch"
         aria-hidden
       />
 
-      <TaskList
-        tasks={tasks}
-        selectedProjectId={selectedProjectId}
-        addTask={addTask}
-        renameTask={renameTask}
-        toggleTask={toggleTask}
-        deleteTask={deleteTask}
-        setSelectedTaskId={setSelectedTaskId}
-      />
+      <div className="col-span-1 lg:col-span-8">
+        <TaskList
+          tasks={tasks}
+          selectedProjectId={selectedProjectId}
+          addTask={addTask}
+          renameTask={renameTask}
+          toggleTask={toggleTask}
+          deleteTask={deleteTask}
+          setSelectedTaskId={setSelectedTaskId}
+        />
+      </div>
     </section>
   );
 }

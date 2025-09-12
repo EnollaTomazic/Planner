@@ -773,11 +773,11 @@ exports[`ReviewsPage > renders default state 1`] = `
       </div>
     </section>
     <div
-      class="grid grid-cols-1 items-start gap-6 md:grid-cols-[24rem_1fr]"
+      class="grid grid-cols-1 items-start gap-6 md:grid-cols-12"
     >
       <nav
         aria-label="Review list"
-        class="md:w-96"
+        class="md:col-span-4"
       >
         <div
           class="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong"
@@ -936,6 +936,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       </nav>
       <div
         aria-live="polite"
+        class="md:col-span-8"
       >
         <div
           aria-live="polite"
