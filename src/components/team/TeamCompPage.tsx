@@ -49,7 +49,7 @@ const TABS: HeaderTab<Tab>[] = [
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
-  const active = TABS.find(t => t.key === tab);
+  const active = TABS.find((t) => t.key === tab);
 
   return (
     <main
@@ -70,7 +70,7 @@ export default function TeamCompPage() {
           />
         }
       />
-      {tab !== "clears" && (
+      {tab === "cheat" && (
         <Hero
           topClassName="top-[var(--header-stack)]"
           eyebrow={active?.label}
