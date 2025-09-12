@@ -3,7 +3,7 @@
 
 /**
  * GoalsPage — Lavender-Glitch, hydration-safe, accessible.
- * - Uses <Header /> with right-aligned <HeaderTabs />
+ * - Uses <Header tabs={…} /> with built-in segmented tabs
  * - Tabs: Goals / Reminders / Timer
  * - Grid layout (no Split dependency)
  * - Cap: 3 active goals; remaining indicator
@@ -13,14 +13,10 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
-import Header from "@/components/ui/layout/Header";
+import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import {
-  GlitchSegmentedGroup,
-  GlitchSegmentedButton,
-  Snackbar,
-} from "@/components/ui";
+import { Snackbar } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -37,12 +33,7 @@ import TimerTab from "./TimerTab";
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
 
-const TABS: Array<{
-  key: Tab;
-  label: string;
-  icon: React.ReactNode;
-  hint?: string;
-}> = [
+const TABS: HeaderTab<Tab>[] = [
   {
     key: "goals",
     label: "Goals",
@@ -72,8 +63,16 @@ export default function GoalsPage() {
     "goals.filter.v1",
     "All",
   );
-  const { goals, err, lastDeleted, addGoal, toggleDone, removeGoal, updateGoal, undoRemove } =
-    useGoals();
+  const {
+    goals,
+    err,
+    lastDeleted,
+    addGoal,
+    toggleDone,
+    removeGoal,
+    updateGoal,
+    undoRemove,
+  } = useGoals();
 
   // add form
   const [title, setTitle] = React.useState("");
@@ -170,19 +169,12 @@ export default function GoalsPage() {
         icon={<Flag className="opacity-80" />}
         sticky
         barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
-        right={
-          <GlitchSegmentedGroup
-            value={tab}
-            onChange={handleTabChange}
-            ariaLabel="Goals header mode"
-          >
-            {TABS.map((t) => (
-              <GlitchSegmentedButton key={t.key} value={t.key} icon={t.icon}>
-                {t.label}
-              </GlitchSegmentedButton>
-            ))}
-          </GlitchSegmentedGroup>
-        }
+        tabs={{
+          items: TABS,
+          value: tab,
+          onChange: handleTabChange,
+          ariaLabel: "Goals header mode",
+        }}
       />
 
       <section className="grid gap-6">

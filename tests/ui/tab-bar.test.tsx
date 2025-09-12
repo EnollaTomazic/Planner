@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
-import { Header, HeaderTabs, Hero } from "@/components/ui";
+import { Header, Hero } from "@/components/ui";
 
 afterEach(cleanup);
 
@@ -10,16 +10,17 @@ describe("navigation tabs", () => {
     function Wrapper() {
       const [view, setView] = React.useState("components");
       return (
-        <Header heading="Playground">
-          <HeaderTabs
-            tabs={[
+        <Header
+          heading="Playground"
+          tabs={{
+            items: [
               { key: "components", label: "Components" },
               { key: "colors", label: "Colors" },
-            ]}
-            activeKey={view}
-            onChange={setView}
-          />
-        </Header>
+            ],
+            value: view,
+            onChange: setView,
+          }}
+        />
       );
     }
     render(<Wrapper />);
@@ -47,7 +48,7 @@ describe("navigation tabs", () => {
           value: "buttons",
           onChange: () => {},
         }}
-      />
+      />,
     );
     expect(screen.getByRole("tab", { name: "Buttons" })).toBeInTheDocument();
   });

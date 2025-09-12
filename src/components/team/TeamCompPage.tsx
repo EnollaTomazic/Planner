@@ -15,10 +15,7 @@ import "./style.css";
 
 import React, { useState } from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
-import Header, {
-  HeaderTabs,
-  type HeaderTab,
-} from "@/components/ui/layout/Header";
+import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
@@ -81,13 +78,7 @@ export default function TeamCompPage() {
         heading="Team Comps Today"
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
-        right={
-          <HeaderTabs
-            tabs={TABS}
-            activeKey={tab}
-            onChange={(k: Tab) => setTab(k)}
-          />
-        }
+        tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
         className="md:col-span-12"
       />
       {tab === "cheat" && (
