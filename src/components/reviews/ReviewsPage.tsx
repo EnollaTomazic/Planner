@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
@@ -38,16 +38,16 @@ export default function ReviewsPage({
   onChangeTags,
   onChangeMeta,
 }: ReviewsPageProps) {
-  const [q, setQ] = useState("");
-  const [sort, setSort] = useState<SortKey>("newest");
-  const [panelMode, setPanelMode] = useState<"summary" | "edit">("summary");
+  const [q, setQ] = React.useState("");
+  const [sort, setSort] = React.useState<SortKey>("newest");
+  const [panelMode, setPanelMode] = React.useState<"summary" | "edit">("summary");
 
-  const base = useMemo<Review[]>(
+  const base = React.useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),
     [reviews],
   );
 
-  const filtered = useMemo(() => {
+  const filtered = React.useMemo(() => {
     const ts = (v: unknown): number => {
       if (typeof v === "number") return v;
       if (v instanceof Date) return +v;

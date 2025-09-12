@@ -1,7 +1,7 @@
 // src/components/reviews/ReviewList.tsx
 "use client";
 
-import React from "react";
+import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";

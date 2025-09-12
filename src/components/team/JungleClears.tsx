@@ -11,7 +11,7 @@ import "./style.css";
  * - Titles and timers now use glitch-title + glitch-flicker + title-glow.
  */
 
-import React, { useMemo, useState } from "react";
+import * as React from "react";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -42,15 +42,15 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 
 export default function JungleClears() {
   const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS);
-  const [query, setQuery] = useState("");
-  const [editing, setEditing] = useState<{
+  const [query, setQuery] = React.useState("");
+  const [editing, setEditing] = React.useState<{
     id: string;
     champ: string;
     type: string;
     notes: string;
   } | null>(null);
 
-  const filtered = useMemo(() => {
+  const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     return items.filter((r) => {
       if (!q) return true;
@@ -59,7 +59,7 @@ export default function JungleClears() {
     });
   }, [query, items]);
 
-  const exampleByBucket = useMemo(() => {
+  const exampleByBucket = React.useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
       const row = items.find((r) => r.speed === b && r.champ.trim());

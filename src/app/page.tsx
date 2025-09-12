@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Home } from "lucide-react";
 import {
@@ -110,7 +109,7 @@ function HomePageContent() {
 
 export default function Page() {
   return (
-    <Suspense
+    <React.Suspense
       fallback={
         <div className="flex justify-center p-6">
           <Spinner />
@@ -118,6 +117,6 @@ export default function Page() {
       }
     >
       <HomePageContent />
-    </Suspense>
+    </React.Suspense>
   );
 }

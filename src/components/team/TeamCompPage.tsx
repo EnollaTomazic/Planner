@@ -13,7 +13,7 @@
  */
 import "./style.css";
 
-import React, { useState } from "react";
+import * as React from "react";
 import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
 import Header, {
   HeaderTabs,
@@ -48,7 +48,7 @@ const TABS: HeaderTab<Tab>[] = [
 ];
 
 export default function TeamCompPage() {
-  const [tab, setTab] = useState<Tab>("cheat");
+  const [tab, setTab] = React.useState<Tab>("cheat");
   const active = TABS.find((t) => t.key === tab);
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);

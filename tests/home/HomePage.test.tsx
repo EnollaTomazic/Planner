@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Suspense } from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
@@ -14,9 +13,9 @@ describe("Home page", () => {
   it("renders navigation links", () => {
     render(
       <ThemeProvider>
-        <Suspense fallback="loading">
+        <React.Suspense fallback="loading">
           <Page />
-        </Suspense>
+        </React.Suspense>
       </ThemeProvider>,
     );
     const goals = screen.getByRole("link", { name: "Goals" });

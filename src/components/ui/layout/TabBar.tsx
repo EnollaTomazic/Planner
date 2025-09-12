@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 export type TabItem<K extends string = string> = {
@@ -61,7 +60,7 @@ export default function TabBar<K extends string = string>({
   showBaseline = false,
   linkPanels = true,
 }: TabBarProps<K>) {
-  const uid = useId();
+  const uid = React.useId();
   const isControlled = value !== undefined;
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;

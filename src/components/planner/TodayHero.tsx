@@ -6,7 +6,7 @@
  * - Animated progress bar for the selected project's tasks.
  */
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 import { toISODate } from "@/lib/date";
 import { useFocusDate } from "./useFocusDate";
@@ -17,18 +17,17 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Pencil, Trash2, Calendar } from "lucide-react";
-import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
 
 export default function TodayHero({ iso }: Props) {
-  const nowISO = useMemo(() => toISODate(), []);
+  const nowISO = React.useMemo(() => toISODate(), []);
   const { iso: isoActive, setIso, today } = useFocusDate();
   const viewIso = iso ?? isoActive;
   const isToday = viewIso === today;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (iso && iso !== isoActive) setIso(iso);
   }, [iso, isoActive, setIso]);
 
@@ -50,26 +49,26 @@ export default function TodayHero({ iso }: Props) {
   const [, setSelTaskId] = useSelectedTask(viewIso);
 
   // If selected project disappears, clear selection
-  useEffect(() => {
+  React.useEffect(() => {
     if (selProjectId && !projects.some((p) => p.id === selProjectId))
       setSelProjectId("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects.length, viewIso]);
 
   // Local edit state
-  const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [editingProjectName, setEditingProjectName] = useState("");
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
-  const [editingTaskText, setEditingTaskText] = useState("");
-  const [projectName, setProjectName] = useState("");
+  const [editingProjectId, setEditingProjectId] = React.useState<string | null>(null);
+  const [editingProjectName, setEditingProjectName] = React.useState("");
+  const [editingTaskId, setEditingTaskId] = React.useState<string | null>(null);
+  const [editingTaskText, setEditingTaskText] = React.useState("");
+  const [projectName, setProjectName] = React.useState("");
 
   // Progress of selected project only (animated)
-  const scopedTasks = useMemo(
+  const scopedTasks = React.useMemo(
     () =>
       selProjectId ? tasks.filter((t) => t.projectId === selProjectId) : [],
     [tasks, selProjectId],
   );
-  const { done, total } = useMemo(
+  const { done, total } = React.useMemo(
     () =>
       tasks.reduce(
         (acc, t) => {
@@ -86,7 +85,7 @@ export default function TodayHero({ iso }: Props) {
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
   // Date picker
-  const dateRef = useRef<HTMLInputElement>(null);
+  const dateRef = React.useRef<HTMLInputElement>(null);
   const openPicker = () => {
     const el = dateRef.current as DateInputWithPicker | null;
     if (el?.showPicker) el.showPicker();

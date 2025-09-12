@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import * as React from "react";
 import type { Review } from "@/lib/types";
 import { usePersistentState, uid } from "@/lib/db";
 import ReviewsPage from "./ReviewsPage";
@@ -11,23 +11,23 @@ import ReviewsPage from "./ReviewsPage";
 */
 export default function ReviewPage() {
   const [reviews, setReviews] = usePersistentState<Review[]>("reviews.v1", []);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
   // After local DB hydration, select the first review if none is chosen
-  useEffect(() => {
+  React.useEffect(() => {
     if (!selectedId && reviews.length > 0) {
       setSelectedId(reviews[0].id);
     }
   }, [reviews, selectedId]);
 
   // Auto-heal selection if the selected review gets deleted or doesn't exist yet
-  useEffect(() => {
+  React.useEffect(() => {
     if (selectedId && !reviews.some(r => r.id === selectedId)) {
       setSelectedId(reviews[0]?.id ?? null);
     }
   }, [reviews, selectedId]);
 
-  const onCreate = useCallback(() => {
+  const onCreate = React.useCallback(() => {
     const now = Date.now();
     const fresh: Review = {
       id: uid("rev"),
@@ -48,34 +48,34 @@ export default function ReviewPage() {
     setSelectedId(fresh.id);
   }, [setReviews]);
 
-  const onSelect = useCallback((id: string) => setSelectedId(id), []);
+  const onSelect = React.useCallback((id: string) => setSelectedId(id), []);
 
-  const patchById = useCallback((id: string, patch: Partial<Review>) => {
+  const patchById = React.useCallback((id: string, patch: Partial<Review>) => {
     setReviews(prev => prev.map(r => (r.id === id ? { ...r, ...patch } : r)));
   }, [setReviews]);
 
-  const onRename = useCallback((id: string, nextTitle: string) => {
+  const onRename = React.useCallback((id: string, nextTitle: string) => {
     patchById(id, { title: (nextTitle || "").trim() || "Untitled Review" });
   }, [patchById]);
 
-  const onDelete = useCallback((id: string) => {
+  const onDelete = React.useCallback((id: string) => {
     setReviews(prev => prev.filter(r => r.id !== id));
     setSelectedId(prev => (prev === id ? null : prev));
   }, [setReviews]);
 
-  const onChangeNotes = useCallback((id: string, nextNotes: string) => {
+  const onChangeNotes = React.useCallback((id: string, nextNotes: string) => {
     patchById(id, { notes: nextNotes });
   }, [patchById]);
 
-  const onChangeTags = useCallback((id: string, nextTags: string[]) => {
+  const onChangeTags = React.useCallback((id: string, nextTags: string[]) => {
     patchById(id, { tags: nextTags });
   }, [patchById]);
 
-  const onChangeMeta = useCallback((id: string, patch: Partial<Review>) => {
+  const onChangeMeta = React.useCallback((id: string, patch: Partial<Review>) => {
     patchById(id, patch);
   }, [patchById]);
 
-  const safeSelectedId = useMemo(
+  const safeSelectedId = React.useMemo(
     () => (reviews.some(r => r.id === selectedId) ? selectedId : null),
     [reviews, selectedId]
   );
