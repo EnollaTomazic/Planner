@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ThemeToggle, Header, HeaderTabs, Hero } from "@/components/ui";
+import { Header, Hero } from "@/components/ui";
 import { Sparkles } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -67,20 +67,21 @@ function PageContent() {
   }, [view]);
 
   return (
-    <main className="page-shell py-6 space-y-6" aria-labelledby="prompts-header">
+    <main
+      className="page-shell py-6 space-y-6"
+      aria-labelledby="prompts-header"
+    >
       <Header
         id="prompts-header"
         heading="Prompts Playground"
         subtitle="Explore components and tokens"
         icon={<Sparkles className="opacity-80" />}
-        right={<ThemeToggle />}
-      >
-        <HeaderTabs
-          tabs={VIEW_TABS}
-          activeKey={view}
-          onChange={(k) => setView(k as View)}
-        />
-      </Header>
+        tabs={{
+          items: VIEW_TABS,
+          value: view,
+          onChange: (k) => setView(k as View),
+        }}
+      />
       <Hero
         topClassName="top-[var(--header-stack)]"
         heading={
