@@ -39,7 +39,7 @@ export default {
   toneTop: "38 92% 60%",
   toneJg: "152 52% 44%",
   toneMid: "265 72% 62%",
-  toneAdc: "195 75% 56%",
+  toneBot: "195 75% 56%",
   toneSup: "320 72% 60%",
   auroraG: "150 100% 60%",
   auroraGLight: "150 100% 85%",

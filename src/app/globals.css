@@ -1151,8 +1151,8 @@ textarea:-webkit-autofill {
 .badge[data-tone="mid"] {
   border-color: hsl(var(--tone-mid));
 }
-.badge[data-tone="adc"] {
-  border-color: hsl(var(--tone-adc));
+.badge[data-tone="bot"] {
+  border-color: hsl(var(--tone-bot));
 }
 .badge[data-tone="support"] {
   border-color: hsl(var(--tone-sup));
