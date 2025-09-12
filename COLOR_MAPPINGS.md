@@ -8,10 +8,10 @@
 | `#000`                              | `hsl(var(--foreground))`           |
 | `rgba(0, 0, 0, 0.05)` (text-shadow) | `hsl(var(--shadow-color) / 0.05)`  |
 | `rgb(0 0 0 / .18)`                  | `hsl(var(--shadow-color) / 0.18)`  |
-| `#33ff99`                           | `hsl(var(--aurora-g))`             |
-| `#b3ffd9`                           | `hsl(var(--aurora-g-light))`       |
-| `#9e47eb`                           | `hsl(var(--aurora-p))`             |
-| `#dbbaf7`                           | `hsl(var(--aurora-p-light))`       |
+| `#33ff99`                           | `hsl(var(--accent-2))`             |
+| `#b3ffd9`                           | `color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white)` |
+| `#9e47eb`                           | `hsl(var(--accent))`               |
+| `#dbbaf7`                           | `color-mix(in oklab, hsl(var(--accent)) 37.5%, white)`   |
 | `#0b0b12`                           | `hsl(var(--background))`           |
 | `#9a8cff`                           | `hsl(var(--icon-fg))`              |
 | `#0b0f13`                           | `hsl(var(--surface-vhs))`          |
