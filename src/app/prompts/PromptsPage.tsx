@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Header, Hero } from "@/components/ui";
-import { Sparkles } from "lucide-react";
+import { Header, Hero, Button, IconButton } from "@/components/ui";
+import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
@@ -108,6 +108,14 @@ function PageContent() {
           round: true,
           "aria-label": "Search components",
         }}
+        actions={
+          <div className="flex items-center gap-2">
+            <Button size="sm">Action</Button>
+            <IconButton size="sm" aria-label="Add">
+              <Plus />
+            </IconButton>
+          </div>
+        }
       />
       <section className="grid gap-6 lg:grid-cols-1">
         <div className="space-y-6 lg:col-span-full">

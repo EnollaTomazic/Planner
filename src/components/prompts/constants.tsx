@@ -17,6 +17,8 @@ import {
   ThemePicker,
   BackgroundPicker,
   Progress,
+  Header,
+  Hero,
   Hero2,
   SectionCard as UiSectionCard,
   type HeaderTab,
@@ -105,6 +107,54 @@ function BackgroundPickerDemo() {
     <BackgroundPicker
       bg={t.bg}
       onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
+    />
+  );
+}
+
+function HeaderTabsDemo() {
+  const [tab, setTab] = React.useState("one");
+  const tabs: HeaderTab<string>[] = [
+    { key: "one", label: "One" },
+    { key: "two", label: "Two" },
+  ];
+  return (
+    <Header
+      heading="Header"
+      tabs={{ items: tabs, value: tab, onChange: setTab }}
+      sticky={false}
+      topClassName="top-0"
+    />
+  );
+}
+
+function HeroDemo() {
+  const [sub, setSub] = React.useState("one");
+  const [query, setQuery] = React.useState("");
+  const subTabs: HeaderTab<string>[] = [
+    { key: "one", label: "One" },
+    { key: "two", label: "Two" },
+  ];
+  return (
+    <Hero
+      heading="Hero"
+      subTabs={{ items: subTabs, value: sub, onChange: setSub }}
+      search={{
+        id: "hero-demo-search",
+        value: query,
+        onValueChange: setQuery,
+        round: true,
+        "aria-label": "Search",
+      }}
+      actions={
+        <div className="flex items-center gap-2">
+          <Button size="sm">Action</Button>
+          <IconButton size="sm" aria-label="Add">
+            <Plus />
+          </IconButton>
+        </div>
+      }
+      sticky={false}
+      topClassName="top-0"
     />
   );
 }
@@ -375,6 +425,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     },
   ],
   layout: [
+    {
+      id: "header-tabs",
+      name: "Header Tabs",
+      description: "Header with segmented tabs",
+      element: <HeaderTabsDemo />,
+      tags: ["header", "tabs"],
+    },
+    {
+      id: "hero-demo",
+      name: "Hero",
+      description: "Hero with sub-tabs, search, and actions",
+      element: <HeroDemo />,
+      tags: ["hero"],
+    },
     {
       id: "card-demo",
       name: "Card",
