@@ -1,0 +1,117 @@
+"use client";
+
+import * as React from "react";
+import { usePersistentState } from "@/lib/db";
+import type { Goal, Pillar } from "@/lib/types";
+
+export const ACTIVE_CAP = 3;
+
+type AddGoalInput = {
+  title: string;
+  metric: string;
+  notes: string;
+  pillar: Pillar | "";
+};
+
+export function useGoals() {
+  const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
+  const [err, setErr] = React.useState<string | null>(null);
+  const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
+  const undoTimer = React.useRef<number | null>(null);
+
+  const addGoal = React.useCallback(
+    ({ title, metric, notes, pillar }: AddGoalInput) => {
+      setErr(null);
+      if (!title.trim()) {
+        setErr("Title required.");
+        return false;
+      }
+      const currentActive = goals.filter((g) => !g.done).length;
+      if (currentActive >= ACTIVE_CAP) {
+        setErr("Cap reached. Mark something done first.");
+        return false;
+      }
+      const g: Goal = {
+        id: crypto.randomUUID(),
+        title: title.trim(),
+        ...(pillar ? { pillar } : {}),
+        metric: metric.trim() || undefined,
+        notes: notes.trim() || undefined,
+        done: false,
+        createdAt: Date.now(),
+      };
+      setGoals((prev) => [g, ...prev]);
+      return true;
+    },
+    [goals, setGoals],
+  );
+
+  const toggleDone = React.useCallback(
+    (id: string) => {
+      setErr(null);
+      setGoals((prev) => {
+        const next = prev.map((g) => ({ ...g }));
+        const i = next.findIndex((g) => g.id === id);
+        if (i === -1) return prev;
+
+        const willActivate = next[i].done;
+        if (willActivate) {
+          const activeNow = next.filter((g) => !g.done).length;
+          if (activeNow >= ACTIVE_CAP) {
+            setErr("Cap is 3 active. Complete or delete another first.");
+            return prev;
+          }
+        }
+        next[i].done = !next[i].done;
+        return next;
+      });
+    },
+    [setGoals],
+  );
+
+  const removeGoal = React.useCallback(
+    (id: string) => {
+      setErr(null);
+      const g = goals.find((x) => x.id === id) || null;
+      setGoals((prev) => prev.filter((x) => x.id !== id));
+      setLastDeleted(g);
+      if (undoTimer.current) window.clearTimeout(undoTimer.current);
+      undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
+    },
+    [goals, setGoals],
+  );
+
+  const updateGoal = React.useCallback(
+    (id: string, updates: Pick<Goal, "title" | "metric" | "notes">) => {
+      setGoals((prev) =>
+        prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
+      );
+    },
+    [setGoals],
+  );
+
+  const undoRemove = React.useCallback(() => {
+    if (!lastDeleted) return;
+    setGoals((prev) => [lastDeleted, ...prev]);
+    setLastDeleted(null);
+  }, [lastDeleted, setGoals]);
+
+  React.useEffect(() => {
+    return () => {
+      if (undoTimer.current) window.clearTimeout(undoTimer.current);
+    };
+  }, []);
+
+  return {
+    goals,
+    err,
+    setErr,
+    lastDeleted,
+    addGoal,
+    toggleDone,
+    removeGoal,
+    updateGoal,
+    undoRemove,
+  } as const;
+}
+

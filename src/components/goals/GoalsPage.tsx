@@ -27,7 +27,8 @@ import GoalsProgress from "./GoalsProgress";
 import GoalList from "./GoalList";
 
 import { usePersistentState } from "@/lib/db";
-import type { Goal, Pillar } from "@/lib/types";
+import type { Pillar } from "@/lib/types";
+import { useGoals, ACTIVE_CAP } from "./useGoals";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -62,35 +63,62 @@ const TABS: Array<{
   },
 ];
 
-const ACTIVE_CAP = 3;
-
 /* ====================================================================== */
 
 export default function GoalsPage() {
   const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
 
-  // stores
-  const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
   const [filter, setFilter] = usePersistentState<FilterKey>(
     "goals.filter.v1",
     "All",
   );
+  const { goals, err, lastDeleted, addGoal, toggleDone, removeGoal, updateGoal, undoRemove } =
+    useGoals();
 
   // add form
   const [title, setTitle] = React.useState("");
   const [metric, setMetric] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [pillar, setPillar] = React.useState<Pillar | "">("");
-  const [err, setErr] = React.useState<string | null>(null);
 
-  // undo
-  const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
-  const undoTimer = React.useRef<number | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
   const titleInputRef = React.useRef<GoalFormHandle>(null);
   const goalsRef = React.useRef<HTMLDivElement>(null);
   const remindersRef = React.useRef<HTMLDivElement>(null);
   const timerRef = React.useRef<HTMLDivElement>(null);
+
+  const resetForm = React.useCallback(() => {
+    setTitle("");
+    setMetric("");
+    setNotes("");
+    setPillar("");
+  }, []);
+
+  const handleAddGoal = React.useCallback(() => {
+    const ok = addGoal({ title, metric, notes, pillar });
+    if (ok) {
+      resetForm();
+      titleInputRef.current?.focus({ preventScroll: true });
+    }
+  }, [addGoal, title, metric, notes, pillar, resetForm]);
+
+  const handleTabChange = React.useCallback(
+    (v: string) => setTab(v as Tab),
+    [setTab],
+  );
+
+  const handleAddFirst = React.useCallback(() => {
+    const behavior: ScrollBehavior = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches
+      ? "auto"
+      : "smooth";
+    formRef.current?.scrollIntoView({ behavior });
+  }, []);
+
+  const handleUndo = React.useCallback(() => {
+    undoRemove();
+  }, [undoRemove]);
 
   // stats
   const totalCount = goals.length;
@@ -111,35 +139,6 @@ export default function GoalsPage() {
     if (filter === "Done") return sorted.filter((g) => g.done);
     return sorted;
   }, [sorted, filter]);
-
-  function resetForm() {
-    setTitle("");
-    setMetric("");
-    setNotes("");
-    setPillar("");
-  }
-
-  function addGoal() {
-    setErr(null);
-    if (!title.trim()) return setErr("Title required.");
-    const currentActive = goals.filter((g) => !g.done).length;
-    if (currentActive >= ACTIVE_CAP)
-      return setErr("Cap reached. Mark something done first.");
-
-    const g: Goal = {
-      id: crypto.randomUUID(),
-      title: title.trim(),
-      ...(pillar ? { pillar } : {}),
-      metric: metric.trim() || undefined,
-      notes: notes.trim() || undefined,
-      done: false,
-      createdAt: Date.now(),
-    };
-    setGoals((prev) => [g, ...prev]);
-    resetForm();
-    titleInputRef.current?.focus({ preventScroll: true });
-  }
-
   React.useEffect(() => {
     const map: Record<Tab, React.RefObject<HTMLDivElement>> = {
       goals: goalsRef,
@@ -148,44 +147,6 @@ export default function GoalsPage() {
     };
     map[tab].current?.focus();
   }, [tab]);
-
-  function toggleDone(id: string) {
-    setErr(null);
-    setGoals((prev) => {
-      const next = prev.map((g) => ({ ...g }));
-      const i = next.findIndex((g) => g.id === id);
-      if (i === -1) return prev;
-
-      const willActivate = next[i].done; // switching done -> active
-      if (willActivate) {
-        const activeNow = next.filter((g) => !g.done).length;
-        if (activeNow >= ACTIVE_CAP) {
-          setErr("Cap is 3 active. Complete or delete another first.");
-          return prev;
-        }
-      }
-      next[i].done = !next[i].done;
-      return next;
-    });
-  }
-
-  function removeGoal(id: string) {
-    setErr(null);
-    const g = goals.find((x) => x.id === id) || null;
-    setGoals((prev) => prev.filter((x) => x.id !== id));
-    setLastDeleted(g);
-    if (undoTimer.current) window.clearTimeout(undoTimer.current);
-    undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
-  }
-
-  function updateGoal(
-    id: string,
-    updates: Pick<Goal, "title" | "metric" | "notes">,
-  ) {
-    setGoals((prev) =>
-      prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
-    );
-  }
 
   const summary =
     tab === "goals"
@@ -212,7 +173,7 @@ export default function GoalsPage() {
         right={
           <GlitchSegmentedGroup
             value={tab}
-            onChange={(v) => setTab(v as Tab)}
+            onChange={handleTabChange}
             ariaLabel="Goals header mode"
           >
             {TABS.map((t) => (
@@ -247,14 +208,7 @@ export default function GoalsPage() {
                 <GoalsProgress
                   total={totalCount}
                   pct={pctDone}
-                  onAddFirst={() => {
-                    const behavior: ScrollBehavior = window.matchMedia(
-                      "(prefers-reduced-motion: reduce)",
-                    ).matches
-                      ? "auto"
-                      : "smooth";
-                    formRef.current?.scrollIntoView({ behavior });
-                  }}
+                  onAddFirst={handleAddFirst}
                 />
               ) : (
                 <SectionCard className="card-neo-soft">
@@ -289,7 +243,7 @@ export default function GoalsPage() {
                   onTitleChange={setTitle}
                   onMetricChange={setMetric}
                   onNotesChange={setNotes}
-                  onSubmit={addGoal}
+                  onSubmit={handleAddGoal}
                   activeCount={activeCount}
                   activeCap={ACTIVE_CAP}
                   err={err}
@@ -300,11 +254,7 @@ export default function GoalsPage() {
                 <Snackbar
                   message={<>Deleted “{lastDeleted.title}”.</>}
                   actionLabel="Undo"
-                  onAction={() => {
-                    if (!lastDeleted) return;
-                    setGoals((prev) => [lastDeleted, ...prev]);
-                    setLastDeleted(null);
-                  }}
+                  onAction={handleUndo}
                 />
               )}
             </div>
