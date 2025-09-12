@@ -407,11 +407,11 @@ export default function CheckCircle({
           padding: 1px;
           background: conic-gradient(
             from 180deg,
-            hsl(262 83% 58% / 0),
-            hsl(262 83% 58% / 0.6),
-            hsl(192 90% 50% / 0.6),
-            hsl(320 85% 60% / 0.6),
-            hsl(262 83% 58% / 0)
+            hsl(var(--ring) / 0),
+            hsl(var(--ring) / 0.6),
+            hsl(var(--accent-2) / 0.6),
+            hsl(var(--lav-deep) / 0.6),
+            hsl(var(--ring) / 0)
           );
           -webkit-mask:
             linear-gradient(hsl(var(--foreground)) 0 0) content-box,

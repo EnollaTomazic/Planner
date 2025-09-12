@@ -161,21 +161,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           reduceMotion
             ? undefined
             : variant === "primary"
-                ? {
-                    scale: 1.03,
-                    boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
-                  }
-                : whileHover
+              ? {
+                  scale: 1.03,
+                  boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
+                }
+              : whileHover
         }
         whileTap={reduceMotion ? undefined : whileTap}
         {...rest}
       >
         {variant === "primary" ? (
           <span
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            style={{
-              background: `linear-gradient(90deg, hsl(var(${colorVar[tone]})/.18), hsl(var(${colorVar[tone]})/.18))`,
-            }}
+            className={cn(
+              "absolute inset-0 pointer-events-none rounded-2xl",
+              `bg-[linear-gradient(90deg,hsl(var(${colorVar[tone]})/.18),hsl(var(${colorVar[tone]})/.18))]`,
+            )}
           />
         ) : (
           overlay

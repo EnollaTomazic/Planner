@@ -99,8 +99,8 @@
   --lg-cyan: var(--accent-2);
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
-  --glow-strong: 260 85% 60% / 0.55;
-  --glow-soft: 260 85% 60% / 0.25;
+  --glow-strong: var(--ring) / 0.55;
+  --glow-soft: var(--accent) / 0.25;
   --space-1: var(--spacing-1);
   --space-2: var(--spacing-2);
   --space-3: var(--spacing-3);

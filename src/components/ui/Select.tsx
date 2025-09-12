@@ -202,7 +202,9 @@ const AnimatedSelectImpl = React.forwardRef<
   const durQuick = React.useMemo(() => {
     if (typeof window === "undefined") return 0.14;
     const v = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue("--dur-quick"),
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--dur-quick",
+      ),
     );
     return (Number.isNaN(v) ? 140 : v) / 1000;
   }, []);
@@ -521,7 +523,9 @@ const AnimatedSelectImpl = React.forwardRef<
                         onFocus={() => setActiveIndex(idx)}
                         className={[
                           "group relative w-full rounded-xl px-4 py-3 text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
-                          disabledItem ? "cursor-not-allowed" : "cursor-pointer",
+                          disabledItem
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer",
                           "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
                           active
                             ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
@@ -629,7 +633,7 @@ function GlitchStyles() {
           from 180deg,
           hsl(var(--ring) / 0),
           hsl(var(--ring) / 0.55),
-          hsl(var(--iris-cyan) / 0.55),
+          hsl(var(--accent-2) / 0.55),
           hsl(var(--lav-deep) / 0.55),
           hsl(var(--ring) / 0)
         );
@@ -652,11 +656,11 @@ function GlitchStyles() {
         padding: 1px;
         background: conic-gradient(
           from 90deg,
-          hsl(var(--primary) / 0),
-          hsl(var(--primary) / 0.7),
+          hsl(var(--ring) / 0),
+          hsl(var(--ring) / 0.7),
           hsl(var(--accent-2) / 0.65),
           hsl(var(--accent) / 0.65),
-          hsl(var(--primary) / 0)
+          hsl(var(--ring) / 0)
         );
         -webkit-mask:
           linear-gradient(hsl(var(--foreground)) 0 0) content-box,
@@ -802,8 +806,8 @@ function GlitchStyles() {
       /* subtle label RGB split on hover */
       .glitch-text:hover {
         text-shadow:
-          0.6px 0 hsl(210 100% 60% / 0.45),
-          -0.6px 0 hsl(330 100% 60% / 0.45);
+          0.6px 0 hsl(var(--accent-2) / 0.45),
+          -0.6px 0 hsl(var(--lav-deep) / 0.45);
       }
     `}</style>
   );
