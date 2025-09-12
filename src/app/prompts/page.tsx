@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import type { Metadata } from "next";
 import {
   Button,
   IconButton,
@@ -47,6 +48,11 @@ import {
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import Fuse from "fuse.js";
 import { useRouter, useSearchParams } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Component Gallery",
+  description: "Browse and explore UI components.",
+};
 
 type View = "components" | "colors" | "onboarding";
 type Section = "buttons" | "inputs" | "prompts" | "planner" | "layout" | "misc";
