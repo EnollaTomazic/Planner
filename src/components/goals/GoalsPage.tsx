@@ -204,7 +204,7 @@ export default function GoalsPage() {
       <Header
         id="goals-header"
         eyebrow="Goals"
-        heading="Today"
+        heading="Today’s Goals"
         subtitle={summary}
         icon={<Flag className="opacity-80" />}
         sticky
