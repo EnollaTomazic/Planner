@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
-const pageFile = path.resolve(__dirname, "../src/app/prompts/page.tsx");
+const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
 
 const ignore = new Set(["Split"]);
 
@@ -47,11 +47,15 @@ async function getUiComponents(): Promise<string[]> {
 }
 
 async function getPromptContents(): Promise<string[]> {
-  const files = await fg(["**/*.tsx"], {
+  const appFiles = await fg(["**/*.tsx"], {
+    cwd: appPromptsDir,
+    absolute: true,
+  });
+  const componentFiles = await fg(["**/*.tsx"], {
     cwd: promptsDir,
     absolute: true,
   });
-  const targets = [pageFile, ...files];
+  const targets = [...appFiles, ...componentFiles];
   return Promise.all(targets.map((f) => fs.readFile(f, "utf8")));
 }
 
