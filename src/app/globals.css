@@ -1381,7 +1381,16 @@ textarea:-webkit-autofill {
   }
 }
 .ds-list {
-  @apply list-disc pl-5 space-y-2;
+  @apply list-none pl-5 space-y-2 text-foreground;
+}
+
+.ds-list li {
+  @apply relative pl-4;
+}
+
+.ds-list li::before {
+  content: "";
+  @apply absolute left-0 top-2 h-2 w-2 rounded-full bg-current;
 }
 
 /* === Champ badges ===================================== */
