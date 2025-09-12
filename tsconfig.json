@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "preserve",
     "strict": true,

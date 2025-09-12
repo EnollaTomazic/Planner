@@ -9,7 +9,7 @@ export default function ReviewPanel({
   return (
     <Card
       aria-live="polite"
-      className={cn("w-full max-w-[880px] p-5", className)}
+      className={cn("w-full max-w-[880px] p-[var(--spacing-5)]", className)}
       {...props}
     />
   );
