@@ -7,7 +7,7 @@ import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
-import { Ghost, Plus } from "lucide-react";
+import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import { Button, Select } from "@/components/ui";
 import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
@@ -105,6 +105,7 @@ export default function ReviewsPage({
       <Header
         id="reviews-header"
         heading="Reviews"
+        icon={<BookOpen className="opacity-80" />}
         topClassName="top-[var(--header-stack)]"
       />
       <Hero
