@@ -95,6 +95,14 @@
 | spacing-6 | 32px |
 | spacing-7 | 48px |
 | spacing-8 | 64px |
+| space-1 | var(--spacing-1) |
+| space-2 | var(--spacing-2) |
+| space-3 | var(--spacing-3) |
+| space-4 | var(--spacing-4) |
+| space-5 | var(--spacing-5) |
+| space-6 | var(--spacing-6) |
+| space-7 | var(--spacing-7) |
+| space-8 | var(--spacing-8) |
 | radius-md | 8px |
 | radius-lg | 12px |
 | radius-xl | 16px |
