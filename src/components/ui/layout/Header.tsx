@@ -6,6 +6,7 @@
  * - High z-index (z-[999]) so it doesn't hide behind random divs
  * - No border; soft neon glow
  * - Keep topClassName (`top-[var(--header-stack)]`) if you need offset under the global navbar
+ * - Optional segmented tabs via `tabs`
  */
 
 import * as React from "react";
@@ -15,12 +16,27 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeaderProps
+export interface HeaderTab<Key extends string = string> {
+  key: Key;
+  label: React.ReactNode;
+  hint?: string;
+  icon?: React.ReactNode;
+}
+
+export interface HeaderTabsProps<Key extends string = string> {
+  items: HeaderTab<Key>[];
+  value: Key;
+  onChange: (key: Key) => void;
+  ariaLabel?: string;
+}
+
+export interface HeaderProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
+  /** Right slot (legacy). Ignored if `tabs` is provided. */
   right?: React.ReactNode;
   children?: React.ReactNode;
   /** Still overridable, but true by default */
@@ -30,9 +46,11 @@ export interface HeaderProps
   barClassName?: string;
   bodyClassName?: string;
   rail?: boolean;
+  /** Built-in top-right segmented tabs (preferred). */
+  tabs?: HeaderTabsProps<Key>;
 }
 
-export default function Header({
+export default function Header<Key extends string = string>({
   eyebrow,
   heading,
   subtitle,
@@ -45,8 +63,9 @@ export default function Header({
   barClassName,
   bodyClassName,
   rail = true,
+  tabs,
   ...rest
-}: HeaderProps) {
+}: HeaderProps<Key>) {
   return (
     <header
       className={cx(
@@ -104,8 +123,19 @@ export default function Header({
           </div>
         </div>
 
-        {/* Right slot */}
-        {right ? <div className="ml-auto shrink-0">{right}</div> : null}
+        {/* Right slot / tabs */}
+        {tabs ? (
+          <div className="ml-auto shrink-0">
+            <TabsNav
+              items={tabs.items}
+              value={tabs.value}
+              onChange={tabs.onChange}
+              ariaLabel={tabs.ariaLabel}
+            />
+          </div>
+        ) : right ? (
+          <div className="ml-auto shrink-0">{right}</div>
+        ) : null}
       </div>
 
       {/* Body under the bar */}
@@ -120,26 +150,14 @@ export default function Header({
   );
 }
 
-/* ================= Tabs helper (unchanged) ================= */
+/* ================= Tabs helper ================= */
 
-export interface HeaderTab<Key extends string = string> {
-  key: Key;
-  label: React.ReactNode;
-  hint?: string;
-  icon?: React.ReactNode;
-}
-
-export function HeaderTabs<Key extends string = string>({
-  tabs,
-  activeKey,
+function TabsNav<Key extends string = string>({
+  items,
+  value,
   onChange,
   ariaLabel,
-}: {
-  tabs: HeaderTab<Key>[];
-  activeKey: Key;
-  onChange: (key: Key) => void;
-  ariaLabel?: string;
-}) {
+}: HeaderTabsProps<Key>) {
   const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const setBtnRef = React.useCallback(
     (index: number) => (el: HTMLButtonElement | null) => {
@@ -149,25 +167,25 @@ export function HeaderTabs<Key extends string = string>({
   );
 
   function onKeyDown(e: React.KeyboardEvent) {
-    const idx = tabs.findIndex((t) => t.key === activeKey);
+    const idx = items.findIndex((t) => t.key === value);
     if (idx < 0) return;
     if (e.key === "ArrowRight") {
-      const next = (idx + 1) % tabs.length;
-      onChange(tabs[next].key);
+      const next = (idx + 1) % items.length;
+      onChange(items[next].key);
       btnRefs.current[next]?.focus();
       e.preventDefault();
     } else if (e.key === "ArrowLeft") {
-      const prev = (idx - 1 + tabs.length) % tabs.length;
-      onChange(tabs[prev].key);
+      const prev = (idx - 1 + items.length) % items.length;
+      onChange(items[prev].key);
       btnRefs.current[prev]?.focus();
       e.preventDefault();
     } else if (e.key === "Home") {
-      onChange(tabs[0].key);
+      onChange(items[0].key);
       btnRefs.current[0]?.focus();
       e.preventDefault();
     } else if (e.key === "End") {
-      onChange(tabs[tabs.length - 1].key);
-      btnRefs.current[tabs.length - 1]?.focus();
+      onChange(items[items.length - 1].key);
+      btnRefs.current[items.length - 1]?.focus();
       e.preventDefault();
     }
   }
@@ -179,8 +197,8 @@ export function HeaderTabs<Key extends string = string>({
       className="flex items-center gap-1 sm:gap-2"
       onKeyDown={onKeyDown}
     >
-      {tabs.map((t, i) => {
-        const active = activeKey === t.key;
+      {items.map((t, i) => {
+        const active = value === t.key;
         return (
           <SegmentedButton
             key={t.key}
@@ -200,5 +218,27 @@ export function HeaderTabs<Key extends string = string>({
         );
       })}
     </nav>
+  );
+}
+
+/** @deprecated Use the `tabs` prop on `Header` instead. */
+export function HeaderTabs<Key extends string = string>({
+  tabs,
+  activeKey,
+  onChange,
+  ariaLabel,
+}: {
+  tabs: HeaderTab<Key>[];
+  activeKey: Key;
+  onChange: (key: Key) => void;
+  ariaLabel?: string;
+}) {
+  return (
+    <TabsNav
+      items={tabs}
+      value={activeKey}
+      onChange={onChange}
+      ariaLabel={ariaLabel}
+    />
   );
 }

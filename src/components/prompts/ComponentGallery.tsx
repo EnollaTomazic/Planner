@@ -124,6 +124,7 @@ export default function ComponentGallery() {
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
   const [view, setView] = React.useState<View>("buttons");
+  const [headerTab, setHeaderTab] = React.useState("one");
 
   const buttonItems = React.useMemo(
     () => [
@@ -740,6 +741,14 @@ export default function ComponentGallery() {
               subtitle="Subtitle"
               sticky={false}
               icon={<Star className="opacity-80" />}
+              tabs={{
+                items: [
+                  { key: "one", label: "One" },
+                  { key: "two", label: "Two" },
+                ],
+                value: headerTab,
+                onChange: setHeaderTab,
+              }}
             />
           </div>
         ),
@@ -855,7 +864,7 @@ export default function ComponentGallery() {
         className: "sm:col-span-2 md:col-span-3",
       },
     ],
-    [],
+    [headerTab],
   );
 
   const itemsMap: Record<
