@@ -26,7 +26,6 @@ import {
   type TabItem,
   Progress,
 } from "@/components/ui";
-import UpdatesList from "@/components/prompts/UpdatesList";
 import GoalListDemo from "@/components/prompts/GoalListDemo";
 import PromptList from "@/components/prompts/PromptList";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
@@ -830,9 +829,6 @@ function PageContent() {
               <OnboardingTabs />
             </div>
           </div>
-        </div>
-        <div className="lg:col-span-4 lg:sticky lg:top-8">
-          <UpdatesList />
         </div>
       </section>
     </main>
