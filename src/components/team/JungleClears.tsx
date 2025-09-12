@@ -148,13 +148,13 @@ export default function JungleClears() {
       </Hero>
 
       {/* Buckets */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-12 gap-6">
         {BUCKETS.map((bucket) => {
           const rowsAll = items.filter((r) => r.speed === bucket);
           const rows = filtered.filter((r) => r.speed === bucket);
 
           return (
-            <SectionCard key={bucket}>
+            <SectionCard key={bucket} className="col-span-12 md:col-span-6">
               <SectionCard.Header
                 sticky
                 title={
