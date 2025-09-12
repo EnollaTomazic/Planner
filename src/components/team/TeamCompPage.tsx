@@ -26,42 +26,49 @@ import CheatSheetTabs from "./CheatSheetTabs";
 
 type Tab = "cheat" | "builder" | "clears";
 
-const TABS: HeaderTab<Tab>[] = [
-  {
-    key: "cheat",
-    label: "Cheat Sheet",
-    hint: "Archetypes, counters, examples",
-    icon: <BookOpenText />,
-  },
-  {
-    key: "builder",
-    label: "Builder",
-    hint: "Fill allies vs enemies",
-    icon: <Hammer />,
-  },
-  {
-    key: "clears",
-    label: "Jungle Clears",
-    hint: "Relative buckets by speed",
-    icon: <Timer />,
-  },
-];
-
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
-  const active = TABS.find((t) => t.key === tab);
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
   const clearsRef = React.useRef<HTMLDivElement>(null);
-
+  const TABS = React.useMemo(
+    (): Array<
+      HeaderTab<Tab> & {
+        render: () => React.ReactNode;
+        ref: React.RefObject<HTMLDivElement>;
+      }
+    > => [
+      {
+        key: "cheat",
+        label: "Cheat Sheet",
+        hint: "Archetypes, counters, examples",
+        icon: <BookOpenText />,
+        render: () => <CheatSheetTabs />,
+        ref: cheatRef,
+      },
+      {
+        key: "builder",
+        label: "Builder",
+        hint: "Fill allies vs enemies",
+        icon: <Hammer />,
+        render: () => <Builder />,
+        ref: builderRef,
+      },
+      {
+        key: "clears",
+        label: "Jungle Clears",
+        hint: "Relative buckets by speed",
+        icon: <Timer />,
+        render: () => <JungleClears />,
+        ref: clearsRef,
+      },
+    ],
+    [],
+  );
+  const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
-    const map: Record<Tab, React.RefObject<HTMLDivElement>> = {
-      cheat: cheatRef,
-      builder: builderRef,
-      clears: clearsRef,
-    };
-    map[tab].current?.focus();
-  }, [tab]);
+    TABS.find((t) => t.key === tab)?.ref.current?.focus();
+  }, [tab, TABS]);
 
   return (
     <main
@@ -94,41 +101,20 @@ export default function TeamCompPage() {
       )}
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
-        <div
-          id="cheat-panel"
-          role="tabpanel"
-          aria-labelledby="cheat-tab"
-          hidden={tab !== "cheat"}
-          tabIndex={tab === "cheat" ? 0 : -1}
-          ref={cheatRef}
-          className="md:col-span-12"
-        >
-          {tab === "cheat" && <CheatSheetTabs />}
-        </div>
-
-        <div
-          id="builder-panel"
-          role="tabpanel"
-          aria-labelledby="builder-tab"
-          hidden={tab !== "builder"}
-          tabIndex={tab === "builder" ? 0 : -1}
-          ref={builderRef}
-          className="md:col-span-12"
-        >
-          {tab === "builder" && <Builder />}
-        </div>
-
-        <div
-          id="clears-panel"
-          role="tabpanel"
-          aria-labelledby="clears-tab"
-          hidden={tab !== "clears"}
-          tabIndex={tab === "clears" ? 0 : -1}
-          ref={clearsRef}
-          className="md:col-span-12"
-        >
-          {tab === "clears" && <JungleClears />}
-        </div>
+        {TABS.map((t) => (
+          <div
+            key={t.key}
+            id={`${t.key}-panel`}
+            role="tabpanel"
+            aria-labelledby={`${t.key}-tab`}
+            hidden={tab !== t.key}
+            tabIndex={tab === t.key ? 0 : -1}
+            ref={t.ref}
+            className="md:col-span-12"
+          >
+            {tab === t.key && t.render()}
+          </div>
+        ))}
       </section>
     </main>
   );
