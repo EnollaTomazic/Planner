@@ -99,7 +99,7 @@ export default function ReviewsPage({
 
   return (
     <main
-      className="page-shell py-6 space-y-6"
+      className="page-shell p-[var(--spacing-6)] space-y-[var(--spacing-6)]"
       aria-labelledby="reviews-header"
     >
       <Header
@@ -138,14 +138,14 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-4"
+                  buttonClassName="h-10 px-[var(--spacing-4)]"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-4 whitespace-nowrap"
+                className="px-[var(--spacing-4)] whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setSort("newest");
@@ -163,7 +163,7 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-6 md:grid-cols-12",
+          "grid grid-cols-1 items-start gap-[var(--spacing-6)] md:grid-cols-12",
         )}
       >
         <nav aria-label="Review list" className="md:col-span-4">
