@@ -43,7 +43,7 @@ exports[`ReviewListItem > renders default state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -98,7 +98,7 @@ exports[`ReviewListItem > renders disabled state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -169,7 +169,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -224,7 +224,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
