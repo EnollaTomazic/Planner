@@ -51,10 +51,10 @@ export default function TodayHero({ iso }: Props) {
 
   // If selected project disappears, clear selection
   useEffect(() => {
-    if (selProjectId && !projects.some((p) => p.id === selProjectId))
+    if (selProjectId && !projects.some((p) => p.id === selProjectId)) {
       setSelProjectId("");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projects.length, viewIso]);
+    }
+  }, [projects, selProjectId, setSelProjectId]);
 
   // Local edit state
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
