@@ -78,6 +78,14 @@ export const VARIANTS: { id: Variant; label: string }[] = [
   { id: "hardstuck", label: "Hardstuck" },
 ];
 
+export const VARIANT_LABELS: Record<Variant, string> = VARIANTS.reduce(
+  (acc, { id, label }) => {
+    acc[id] = label;
+    return acc;
+  },
+  {} as Record<Variant, string>,
+);
+
 export function defaultTheme(): ThemeState {
   return { variant: "lg", bg: 0 };
 }
