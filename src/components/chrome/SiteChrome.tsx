@@ -18,7 +18,7 @@ export default function SiteChrome() {
     <header role="banner" className="sticky-blur top-0 z-50">
       {/* Bar content */}
       <div className="page-shell flex items-center justify-between py-2">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" aria-label="Home" className="flex items-center gap-2">
           <span
             className="h-2 w-2 rounded-full animate-pulse"
             style={{

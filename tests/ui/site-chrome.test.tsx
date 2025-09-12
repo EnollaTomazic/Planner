@@ -11,7 +11,7 @@ describe("SiteChrome", () => {
         <SiteChrome />
       </ThemeProvider>,
     );
-    const homeLink = screen.getByRole("link", { name: /noxi/i });
+    const homeLink = screen.getByRole("link", { name: "Home" });
     expect(homeLink).toHaveAttribute("href", "/");
   });
 });
