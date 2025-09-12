@@ -24,7 +24,8 @@
     "design-lint": "ts-node --esm scripts/design-lint.ts",
     "postinstall": "tsx scripts/regen-if-needed.ts",
     "prepare": "husky",
-    "launch": "ts-node --esm scripts/launcher.ts"
+    "launch": "ts-node --esm scripts/launcher.ts",
+    "deploy": "npm run build && npx -y gh-pages -d out -b gh-pages"
   },
   "dependencies": {
     "clsx": "^2.1.1",
