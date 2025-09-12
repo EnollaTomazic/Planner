@@ -26,6 +26,12 @@ export default function PromptsHeader({
     setLocalQuery(query);
   }, [query]);
 
+  React.useEffect(() => {
+    return () => {
+      window.clearTimeout(debounceRef.current);
+    };
+  }, []);
+
   const handleChange = React.useCallback(
     (val: string) => {
       setLocalQuery(val);

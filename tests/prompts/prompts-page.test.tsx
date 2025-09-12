@@ -28,10 +28,8 @@ describe("PromptsPage", () => {
       </ThemeProvider>,
     );
 
-    const titleInput = screen.getByPlaceholderText("Title");
-    const textArea = screen.getByPlaceholderText(
-      "Write your prompt or snippet…",
-    );
+    const titleInput = screen.getByLabelText("Title");
+    const textArea = screen.getByLabelText("Prompt");
     const saveButton = screen.getByRole("button", { name: "Save" });
 
     fireEvent.change(titleInput, { target: { value: "First" } });
@@ -58,6 +56,7 @@ describe("PromptsPage", () => {
     vi.advanceTimersByTime(300);
     await Promise.resolve();
     expect(screen.getByText("No prompts match")).toBeInTheDocument();
+    expect(screen.getByText("zzz")).toBeInTheDocument();
     vi.useRealTimers();
   });
 
@@ -73,6 +72,6 @@ describe("PromptsPage", () => {
     await waitFor(() =>
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
     );
-    expect(screen.getByText(/No prompts match/)).toBeInTheDocument();
+    expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
   });
 });

@@ -53,4 +53,24 @@ describe("PromptsHeader", () => {
     fireEvent.click(save);
     expect(handleSave).toHaveBeenCalled();
   });
+
+  it("clears debounce timer on unmount", () => {
+    const handleQuery = vi.fn();
+    vi.useFakeTimers();
+    const { unmount } = render(
+      <PromptsHeader
+        count={0}
+        query=""
+        onQueryChange={handleQuery}
+        onSave={() => {}}
+        disabled={false}
+      />,
+    );
+    const search = screen.getByPlaceholderText("Search prompts…");
+    fireEvent.change(search, { target: { value: "abc" } });
+    unmount();
+    vi.advanceTimersByTime(300);
+    expect(handleQuery).not.toHaveBeenCalled();
+    vi.useRealTimers();
+  });
 });
