@@ -7,11 +7,11 @@ import type { Review } from "@/lib/types";
 import { Badge } from "@/components/ui";
 
 const shellBase = cn(
-  "relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
-  "hover:ring-2 hover:ring-[--theme-ring]",
-  "focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
-  "active:ring-2 active:ring-[--theme-ring]",
-  "data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]",
+  "relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
+  "hover:bg-accent/10 hover:ring-2 hover:ring-theme",
+  "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme",
+  "active:bg-accent/20 active:ring-2 active:ring-theme",
+  "data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent",
 );
 
 const statusDotBase = "h-2 w-2 rounded-full ring-2";
@@ -28,7 +28,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded-md bg-muted";
 const scoreBadge =
-  "px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]";
+  "px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]";
 
 export type ReviewListItemProps = {
   review?: Review;
