@@ -22,13 +22,13 @@ export function usePromptsRouter() {
 
   React.useEffect(() => {
     const v = (viewParam as View) || "components";
-    if (v !== view) setView(v);
-  }, [viewParam, view]);
+    setView((prev) => (v === prev ? prev : v));
+  }, [viewParam]);
 
   React.useEffect(() => {
     const s = getValidSection(sectionParam);
-    if (s !== section) setSection(s);
-  }, [sectionParam, section]);
+    setSection((prev) => (s === prev ? prev : s));
+  }, [sectionParam]);
 
   React.useEffect(() => {
     const sp = new URLSearchParams(searchParams.toString());
