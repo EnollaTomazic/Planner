@@ -599,6 +599,7 @@ function ComponentsView({ query }: { query: string }) {
   const searchParams = useSearchParams();
   const paramsString = searchParams.toString();
   const router = useRouter();
+  const [, startTransition] = React.useTransition();
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(searchParams.get("section")),
   );
@@ -615,8 +616,10 @@ function ComponentsView({ query }: { query: string }) {
     const current = sp.get("section");
     if (current === section) return;
     sp.set("section", section);
-    router.replace(`?${sp.toString()}`, { scroll: false });
-  }, [section, router, paramsString]);
+    startTransition(() =>
+      router.replace(`?${sp.toString()}`, { scroll: false }),
+    );
+  }, [section, router, paramsString, startTransition]);
 
   const fuse = React.useMemo(
     () =>
@@ -692,6 +695,7 @@ export default function Page() {
 function PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [, startTransition] = React.useTransition();
   const viewParam = searchParams.get("view");
   const queryParam = searchParams.get("q");
   const [view, setView] = React.useState<View>(
@@ -721,8 +725,10 @@ function PageContent() {
     const current = sp.get("view");
     if (current === view) return;
     sp.set("view", view);
-    router.replace(`?${sp.toString()}`, { scroll: false });
-  }, [view, router, searchParams]);
+    startTransition(() =>
+      router.replace(`?${sp.toString()}`, { scroll: false }),
+    );
+  }, [view, router, searchParams, startTransition]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -733,8 +739,10 @@ function PageContent() {
     if (current === query) return;
     if (query) sp.set("q", query);
     else sp.delete("q");
-    router.replace(`?${sp.toString()}`, { scroll: false });
-  }, [query, router, searchParams]);
+    startTransition(() =>
+      router.replace(`?${sp.toString()}`, { scroll: false }),
+    );
+  }, [query, router, searchParams, startTransition]);
 
   return (
     <main
