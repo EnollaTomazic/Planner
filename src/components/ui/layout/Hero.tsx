@@ -2,12 +2,12 @@
 "use client";
 
 /**
- * Hero — glitchy HUD header with smooth tab slider transitions.
+ * Hero — HUD-glitch banner with sub-tabs and a neon search row.
  *
  * Layout highlights:
- *   • Optional sub-tabs in the top-right (same shape as `Header` tabs)
- *   • Neon divider hosting a pill search bar and optional actions
- *   • Animated beams/scanlines/noise for the HUD glitch effect
+ *   • Sticky header-style bar with optional sub-tabs matching `Header` segments
+ *   • Neon divider that hosts a pill search bar and optional actions
+ *   • Animated beams, scanlines, and noise create the glitchy HUD effect
  */
 
 import * as React from "react";

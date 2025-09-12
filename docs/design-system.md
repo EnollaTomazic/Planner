@@ -98,6 +98,19 @@ export function Header() {
 
 Following these guidelines keeps the interface consistent and lets theme updates propagate automatically.
 
+## Layout components
+
+### Header
+
+- Sticky top bar with a neon underline and high z-index so content scrolls beneath it.
+- `tabs` renders a segmented control in the top-right for quick section switching.
+
+### Hero
+
+- HUD-glitch banner built on `Header`.
+- `subTabs` adds a secondary segmented tab row; legacy `tabs` prop remains.
+- A neon divider forms a neon search row that can host a pill `SearchBar` and optional actions.
+
 ## SearchBar
 
 - Wraps its input in a `<form role="search">` for accessibility.
