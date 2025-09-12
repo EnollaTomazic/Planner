@@ -188,43 +188,45 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <div className="grid gap-4">
-              <Hero
-                eyebrow="Guide"
-                heading="Overview"
-                subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-                sticky={false}
-                topClassName="top-0"
-              />
-
-              {totalCount === 0 ? (
-                <GoalsProgress
-                  total={totalCount}
-                  pct={pctDone}
-                  onAddFirst={handleAddFirst}
+              <div className="space-y-[var(--spacing-2)]">
+                <Hero
+                  eyebrow="Guide"
+                  heading="Overview"
+                  subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+                  sticky={false}
+                  topClassName="top-0"
                 />
-              ) : (
-                <SectionCard className="card-neo-soft">
-                  <SectionCard.Header
-                    sticky
-                    topClassName="top-0"
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2 sm:gap-4">
-                      <h2 className="text-lg font-semibold">Your Goals</h2>
-                      <GoalsProgress total={totalCount} pct={pctDone} />
-                    </div>
-                    <GoalsTabs value={filter} onChange={setFilter} />
-                  </SectionCard.Header>
-                  <SectionCard.Body>
-                    <GoalList
-                      goals={filtered}
-                      onToggleDone={toggleDone}
-                      onRemove={removeGoal}
-                      onUpdate={updateGoal}
-                    />
-                  </SectionCard.Body>
-                </SectionCard>
-              )}
+
+                {totalCount === 0 ? (
+                  <GoalsProgress
+                    total={totalCount}
+                    pct={pctDone}
+                    onAddFirst={handleAddFirst}
+                  />
+                ) : (
+                  <SectionCard className="card-neo-soft">
+                    <SectionCard.Header
+                      sticky
+                      topClassName="top-0"
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-2 sm:gap-4">
+                        <h2 className="text-lg font-semibold">Your Goals</h2>
+                        <GoalsProgress total={totalCount} pct={pctDone} />
+                      </div>
+                      <GoalsTabs value={filter} onChange={setFilter} />
+                    </SectionCard.Header>
+                    <SectionCard.Body>
+                      <GoalList
+                        goals={filtered}
+                        onToggleDone={toggleDone}
+                        onRemove={removeGoal}
+                        onUpdate={updateGoal}
+                      />
+                    </SectionCard.Body>
+                  </SectionCard>
+                )}
+              </div>
 
               <div ref={formRef}>
                 <GoalForm
