@@ -11,7 +11,6 @@ import "./style.css";
  */
 
 import * as React from "react";
-import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
@@ -19,9 +18,6 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import {
   Shield,
   Swords,
-  Shuffle,
-  Clipboard,
-  ClipboardCheck,
   Eraser,
   NotebookPen,
   Copy,
@@ -89,14 +85,18 @@ function stringify(s: TeamState) {
 
 /* ───────────────── component ───────────────── */
 
-export default function Builder() {
-  const [state, setState] = usePersistentState<TeamState>(TEAM_KEY, {
-    allies: { ...EMPTY_TEAM },
-    enemies: { ...EMPTY_TEAM },
-  });
-  const [copied, setCopied] = React.useState<
-    "all" | "allies" | "enemies" | null
-  >(null);
+export type BuilderHandle = {
+  swapSides: () => void;
+  copyAll: () => void;
+};
+
+export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
+  function Builder({ editing }: { editing?: boolean }, ref) {
+    void editing;
+    const [state, setState] = usePersistentState<TeamState>(TEAM_KEY, {
+      allies: { ...EMPTY_TEAM },
+      enemies: { ...EMPTY_TEAM },
+    });
 
   const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
@@ -146,87 +146,61 @@ export default function Builder() {
           });
 
     await copyText(text);
-    setCopied(selection);
-    setTimeout(() => setCopied(null), 1300);
   }
 
   /* ─────────────── UI ─────────────── */
 
+  React.useImperativeHandle(ref, () => ({
+    swapSides,
+    copyAll: () => copy("all"),
+  }));
+
   return (
-    <div data-scope="team" className="w-full">
-      <Hero
-        eyebrow="Comps"
-        heading="Builder"
-        subtitle="Fill allies vs enemies. Swap in one click."
-        actions={
-          <div className="flex items-center gap-2">
-            <IconButton
-              title="Swap Allies ↔ Enemies"
-              aria-label="Swap Allies and Enemies"
-              onClick={swapSides}
-              size="sm"
-              iconSize="sm"
-            >
-              <Shuffle />
-            </IconButton>
-            <IconButton
-              title="Copy both sides"
-              aria-label="Copy both sides"
-              onClick={() => copy("all")}
-              size="sm"
-              iconSize="sm"
-            >
-              {copied === "all" ? <ClipboardCheck /> : <Clipboard />}
-            </IconButton>
-          </div>
-        }
-      />
-      <div className="mt-6">
-        <SectionCard className="card-neo-soft glitch-card">
-          <SectionCard.Body>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              {/* Allies */}
-              <div className="md:col-span-5">
-                <SideEditor
-                  title="Allies"
-                  icon={<Shield />}
-                  value={state.allies}
-                  onLane={(lane, v) => setLane("allies", lane, v)}
-                  onNotes={(v) => setNotes("allies", v)}
-                  onClear={() => clearSide("allies")}
-                  onCopy={() => copy("allies")}
-                  count={filledCount.allies}
-                />
-              </div>
+    <div data-scope="team" className="w-full mt-[var(--spacing-6)]">
+      <SectionCard className="card-neo-soft glitch-card">
+        <SectionCard.Body>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--spacing-6)]">
+            {/* Allies */}
+            <div className="md:col-span-5">
+              <SideEditor
+                title="Allies"
+                icon={<Shield />}
+                value={state.allies}
+                onLane={(lane, v) => setLane("allies", lane, v)}
+                onNotes={(v) => setNotes("allies", v)}
+                onClear={() => clearSide("allies")}
+                onCopy={() => copy("allies")}
+                count={filledCount.allies}
+              />
+            </div>
 
               {/* Center spine (md+) */}
-              <div className="hidden md:block relative md:col-span-2">
-                <span
-                  aria-hidden
-                  className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
-                />
-              </div>
+            <div className="hidden md:block relative md:col-span-2">
+              <span
+                aria-hidden
+                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
+              />
+            </div>
 
               {/* Enemies */}
-              <div className="md:col-span-5">
-                <SideEditor
-                  title="Enemies"
-                  icon={<Swords />}
-                  value={state.enemies}
-                  onLane={(lane, v) => setLane("enemies", lane, v)}
-                  onNotes={(v) => setNotes("enemies", v)}
-                  onClear={() => clearSide("enemies")}
-                  onCopy={() => copy("enemies")}
-                  count={filledCount.enemies}
-                />
-              </div>
+            <div className="md:col-span-5">
+              <SideEditor
+                title="Enemies"
+                icon={<Swords />}
+                value={state.enemies}
+                onLane={(lane, v) => setLane("enemies", lane, v)}
+                onNotes={(v) => setNotes("enemies", v)}
+                onClear={() => clearSide("enemies")}
+                onCopy={() => copy("enemies")}
+                count={filledCount.enemies}
+              />
             </div>
-          </SectionCard.Body>
-        </SectionCard>
-      </div>
+          </div>
+        </SectionCard.Body>
+      </SectionCard>
     </div>
   );
-}
+});
 
 /* ───────────────── subcomponents ───────────────── */
 
@@ -243,11 +217,11 @@ function SideEditor(props: {
   const { title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-4 glitch-card card-neo relative">
+    <div className="rounded-card p-[var(--spacing-4)] glitch-card card-neo relative">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
-      <header className="mb-3 flex items-center gap-2">
+      <header className="mb-[var(--spacing-3)] flex items-center gap-[var(--spacing-2)]">
         {/* glitchy side title */}
         <span
           className="glitch-title glitch-flicker title-glow inline-flex items-center gap-2"
@@ -262,11 +236,11 @@ function SideEditor(props: {
         </span>
       </header>
 
-      <div className="grid gap-3">
+      <div className="grid gap-[var(--spacing-3)]">
         {LANES.map(({ key, label }) => (
           <div
             key={key}
-            className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
+            className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-[var(--spacing-3)]"
           >
             <label
               className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground"
@@ -283,7 +257,7 @@ function SideEditor(props: {
           </div>
         ))}
 
-        <div className="grid gap-3">
+        <div className="grid gap-[var(--spacing-3)]">
           <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>

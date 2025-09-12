@@ -11,11 +11,9 @@ import "./style.css";
  * - Titles and timers now use glitch-title + glitch-flicker + title-glow.
  */
 
-import React, { useMemo, useState } from "react";
-import Hero from "@/components/ui/layout/Hero";
+import React, { useMemo, useState, useEffect } from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Button from "@/components/ui/primitives/Button";
 import Input from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
@@ -53,10 +51,20 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
   Slow: "≥3:45",
 };
 
-export default function JungleClears() {
+export type JungleClearsHandle = {
+  addRow: (bucket: ClearSpeed) => void;
+};
+
+export default React.forwardRef<
+  JungleClearsHandle,
+  {
+    editing: boolean;
+    query: string;
+    onCountChange?: (n: number) => void;
+  }
+>(function JungleClears({ editing, query, onCountChange }, ref) {
   const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS);
-  const [query, setQuery] = useState("");
-  const [editing, setEditing] = useState<{
+  const [editingRow, setEditingRow] = useState<{
     id: string;
     champ: string;
     type: string;
@@ -74,6 +82,10 @@ export default function JungleClears() {
     });
   }, [query, items]);
 
+  useEffect(() => {
+    onCountChange?.(filtered.length);
+  }, [filtered, onCountChange]);
+
   const exampleByBucket = useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
@@ -84,7 +96,7 @@ export default function JungleClears() {
   }, [items]);
 
   function startEdit(r: JunglerRow) {
-    setEditing({
+    setEditingRow({
       id: r.id,
       champ: r.champ,
       type: (r.type ?? []).join(", "),
@@ -92,34 +104,34 @@ export default function JungleClears() {
     });
   }
 
-  function cancelEdit() {
-    if (editing) {
-      const existing = items.find((r) => r.id === editing.id);
+  const cancelEdit = React.useCallback(() => {
+    if (editingRow) {
+      const existing = items.find((r) => r.id === editingRow.id);
       if (existing && !existing.champ.trim()) {
-        setItems((prev) => prev.filter((r) => r.id !== editing.id));
+        setItems((prev) => prev.filter((r) => r.id !== editingRow.id));
       }
     }
-    setEditing(null);
-  }
+    setEditingRow(null);
+  }, [editingRow, items, setItems]);
 
   function saveEdit() {
-    if (!editing) return;
+    if (!editingRow) return;
     setItems((prev) =>
       prev.map((r) =>
-        r.id === editing.id
+        r.id === editingRow.id
           ? {
               ...r,
-              champ: editing.champ.trim() || r.champ,
-              type: editing.type
+              champ: editingRow.champ.trim() || r.champ,
+              type: editingRow.type
                 .split(",")
                 .map((t) => t.trim())
                 .filter(Boolean),
-              notes: editing.notes.trim() || undefined,
+              notes: editingRow.notes.trim() || undefined,
             }
           : r,
       ),
     );
-    setEditing(null);
+    setEditingRow(null);
   }
 
   function deleteRow(id: string) {
@@ -135,48 +147,18 @@ export default function JungleClears() {
       notes: "",
     };
     setItems((prev) => [...prev, newRow]);
-    setEditing({ id: newRow.id, champ: "", type: "", notes: "" });
+    setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
   }
 
-  return (
-    <div data-scope="team" className="grid gap-4 sm:gap-6">
-      {/* Top: Hero header with pill search (round) */}
-      <Hero
-        sticky={false}
-        topClassName="top-0"
-        rail
-        heading="Clear Speed Buckets"
-        dividerTint="primary"
-        search={{
-          value: query,
-          onValueChange: setQuery,
-          placeholder: "Filter by champion, type, or note...",
-          round: true,
-          debounceMs: 80,
-          right: (
-            <span className="text-xs opacity-80">{filtered.length} shown</span>
-          ),
-        }}
-        actions={
-          <Button
-            variant="primary"
-            size="sm"
-            className="px-[var(--spacing-4)] whitespace-nowrap"
-            onClick={() => addRow("Medium")}
-          >
-            <Plus />
-            <span>New Row</span>
-          </Button>
-        }
-      >
-        <p className="text-sm text-muted-foreground">
-          If you’re on a <em>Medium</em> champ, don’t race farm vs{" "}
-          <em>Very Fast</em>. Path for fights, ganks, or cross-map trades.
-        </p>
-      </Hero>
+  useEffect(() => {
+    if (!editing) cancelEdit();
+  }, [editing, cancelEdit]);
 
-      {/* Buckets */}
-      <div className="grid grid-cols-12 gap-6">
+  React.useImperativeHandle(ref, () => ({ addRow }));
+
+  return (
+    <div data-scope="team" className="grid gap-[var(--spacing-4)] sm:gap-[var(--spacing-6)]">
+      <div className="grid grid-cols-12 gap-[var(--spacing-6)]">
         {BUCKETS.map((bucket) => {
           const rowsAll = items.filter((r) => r.speed === bucket);
           const rows = filtered.filter((r) => r.speed === bucket);
@@ -186,7 +168,7 @@ export default function JungleClears() {
               <SectionCard.Header
                 sticky
                 title={
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-[var(--spacing-2)]">
                     <Timer className="opacity-80" />
                     {/* Glitch title + glow */}
                     <span
@@ -210,7 +192,7 @@ export default function JungleClears() {
                 }
               />
               <SectionCard.Body>
-                <div className="mb-2 flex flex-wrap items-center gap-2">
+                <div className="mb-[var(--spacing-2)] flex flex-wrap items-center gap-[var(--spacing-2)]">
                   <span className="rounded-full border border-border bg-card px-2 py-1 text-xs tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
@@ -220,7 +202,7 @@ export default function JungleClears() {
                 </div>
 
                 {/* Example row (canonical pills) */}
-                <div className="mb-3 flex flex-wrap items-center gap-2">
+                <div className="mb-[var(--spacing-3)] flex flex-wrap items-center gap-[var(--spacing-2)]">
                   <span className="text-muted-foreground text-sm">
                     Example:
                   </span>
@@ -232,17 +214,19 @@ export default function JungleClears() {
                   </span>
                 </div>
 
-                <div className="mb-2 flex justify-end">
-                  <IconButton
-                    size="sm"
-                    iconSize="xs"
-                    aria-label="Add row"
-                    onClick={() => addRow(bucket)}
-                    variant="solid"
-                  >
-                    <Plus />
-                  </IconButton>
-                </div>
+                {editing && (
+                  <div className="mb-[var(--spacing-2)] flex justify-end">
+                    <IconButton
+                      size="sm"
+                      iconSize="xs"
+                      aria-label="Add row"
+                      onClick={() => addRow(bucket)}
+                      variant="solid"
+                    >
+                      <Plus />
+                    </IconButton>
+                  </div>
+                )}
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -267,7 +251,7 @@ export default function JungleClears() {
                     </thead>
                     <tbody>
                       {rows.map((r: JunglerRow) =>
-                        editing?.id === r.id ? (
+                        editingRow?.id === r.id ? (
                           <tr
                             key={r.id}
                             className="h-10 border-t border-border/40 hover:bg-card/45"
@@ -276,10 +260,10 @@ export default function JungleClears() {
                               <Input
                                 aria-label="Champion"
                                 name="champion"
-                                value={editing.champ}
+                                value={editingRow.champ}
                                 onChange={(e) =>
-                                  setEditing({
-                                    ...editing,
+                                  setEditingRow({
+                                    ...editingRow,
                                     champ: e.currentTarget.value,
                                   })
                                 }
@@ -290,10 +274,10 @@ export default function JungleClears() {
                                 aria-label="Type"
                                 placeholder="AD, Assassin"
                                 name="type"
-                                value={editing.type}
+                                value={editingRow.type}
                                 onChange={(e) =>
-                                  setEditing({
-                                    ...editing,
+                                  setEditingRow({
+                                    ...editingRow,
                                     type: e.currentTarget.value,
                                   })
                                 }
@@ -303,17 +287,17 @@ export default function JungleClears() {
                               <Input
                                 aria-label="Notes"
                                 name="notes"
-                                value={editing.notes}
+                                value={editingRow.notes}
                                 onChange={(e) =>
-                                  setEditing({
-                                    ...editing,
+                                  setEditingRow({
+                                    ...editingRow,
                                     notes: e.currentTarget.value,
                                   })
                                 }
                               />
                             </td>
                             <td className="py-2 pr-3">
-                              <div className="flex gap-1">
+                              <div className="flex gap-[var(--spacing-1)]">
                                 <IconButton
                                   size="sm"
                                   iconSize="xs"
@@ -341,7 +325,7 @@ export default function JungleClears() {
                           >
                             <td className="py-2 pr-3 font-medium">{r.champ}</td>
                             <td className="py-2 pr-3">
-                              <div className="flex flex-wrap gap-2">
+                              <div className="flex flex-wrap gap-[var(--spacing-2)]">
                                 {(r.type ?? []).map((t) => (
                                   <span
                                     key={t}
@@ -354,25 +338,27 @@ export default function JungleClears() {
                             </td>
                             <td className="py-2 pr-3">{r.notes ?? "-"}</td>
                             <td className="py-2 pr-3">
-                              <div className="flex gap-1">
-                                <IconButton
-                                  size="sm"
-                                  iconSize="xs"
-                                  aria-label="Edit"
-                                  onClick={() => startEdit(r)}
-                                >
-                                  <Pencil />
-                                </IconButton>
-                                <IconButton
-                                  size="sm"
-                                  iconSize="xs"
-                                  tone="danger"
-                                  aria-label="Delete"
-                                  onClick={() => deleteRow(r.id)}
-                                >
-                                  <Trash2 />
-                                </IconButton>
-                              </div>
+                              {editing && (
+                                <div className="flex gap-[var(--spacing-1)]">
+                                  <IconButton
+                                    size="sm"
+                                    iconSize="xs"
+                                    aria-label="Edit"
+                                    onClick={() => startEdit(r)}
+                                  >
+                                    <Pencil />
+                                  </IconButton>
+                                  <IconButton
+                                    size="sm"
+                                    iconSize="xs"
+                                    tone="danger"
+                                    aria-label="Delete"
+                                    onClick={() => deleteRow(r.id)}
+                                  >
+                                    <Trash2 />
+                                  </IconButton>
+                                </div>
+                              )}
                             </td>
                           </tr>
                         ),
@@ -387,4 +373,4 @@ export default function JungleClears() {
       </div>
     </div>
   );
-}
+});
