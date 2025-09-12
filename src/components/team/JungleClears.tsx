@@ -27,17 +27,29 @@ const SEEDS: JunglerRow[] = JUNGLE_ROWS.map((r) => ({ ...r, id: uid("jg") }));
 const BUCKETS: ClearSpeed[] = ["Very Fast", "Fast", "Medium", "Slow"];
 
 const SPEED_PERSONA: Record<ClearSpeed, { tag: string; line: string }> = {
-  "Very Fast": { tag: "Zoomies",     line: "Turbo 3-camp pace. Invade timings and double-crab angles are on the table." },
-  Fast:        { tag: "Tempo Bully", line: "You hit prio first. Fight on camps, trade up, and push the map." },
-  Medium:      { tag: "Stable Path", line: "Play the map, not the stopwatch. Shadow lanes, contest second spawn." },
-  Slow:        { tag: "Gank Goblin", line: "Skip races. Stack vision, create angles, flip lanes instead of timers." },
+  "Very Fast": {
+    tag: "Zoomies",
+    line: "Turbo 3-camp pace. Invade timings and double-crab angles are on the table.",
+  },
+  Fast: {
+    tag: "Tempo Bully",
+    line: "You hit prio first. Fight on camps, trade up, and push the map.",
+  },
+  Medium: {
+    tag: "Stable Path",
+    line: "Play the map, not the stopwatch. Shadow lanes, contest second spawn.",
+  },
+  Slow: {
+    tag: "Gank Goblin",
+    line: "Skip races. Stack vision, create angles, flip lanes instead of timers.",
+  },
 };
 
 const SPEED_TIME: Record<ClearSpeed, string> = {
   "Very Fast": "3:00",
-  Fast:       "3:05–3:20",
-  Medium:     "3:25–3:40",
-  Slow:       "≥3:45",
+  Fast: "3:05–3:20",
+  Medium: "3:25–3:40",
+  Slow: "≥3:45",
 };
 
 export default function JungleClears() {
@@ -54,7 +66,9 @@ export default function JungleClears() {
     const q = query.trim().toLowerCase();
     return items.filter((r) => {
       if (!q) return true;
-      const hay = [r.champ, ...(r.type ?? []), r.notes ?? ""].join(" ").toLowerCase();
+      const hay = [r.champ, ...(r.type ?? []), r.notes ?? ""]
+        .join(" ")
+        .toLowerCase();
       return hay.includes(q);
     });
   }, [query, items]);
@@ -101,8 +115,8 @@ export default function JungleClears() {
                 .filter(Boolean),
               notes: editing.notes.trim() || undefined,
             }
-          : r
-      )
+          : r,
+      ),
     );
     setEditing(null);
   }
@@ -138,12 +152,14 @@ export default function JungleClears() {
           placeholder: "Filter by champion, type, or note...",
           round: true,
           debounceMs: 80,
-          right: <span className="text-xs opacity-80">{filtered.length} shown</span>,
+          right: (
+            <span className="text-xs opacity-80">{filtered.length} shown</span>
+          ),
         }}
       >
         <p className="text-sm text-muted-foreground">
-          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>. Path for fights,
-          ganks, or cross-map trades.
+          If you’re on a <em>Medium</em> champ, don’t race farm vs{" "}
+          <em>Very Fast</em>. Path for fights, ganks, or cross-map trades.
         </p>
       </Hero>
 
@@ -193,34 +209,52 @@ export default function JungleClears() {
 
                 {/* Example row (canonical pills) */}
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="text-muted-foreground text-sm">Example:</span>
-                  <span className="pill pill-compact text-xs">{exampleByBucket[bucket]}</span>
+                  <span className="text-muted-foreground text-sm">
+                    Example:
+                  </span>
+                  <span className="pill pill-compact text-xs">
+                    {exampleByBucket[bucket]}
+                  </span>
                   <span className="text-xs text-muted-foreground">
                     ({rowsAll.length} total)
                   </span>
                 </div>
 
                 <div className="mb-2 flex justify-end">
-                  <IconButton size="sm" iconSize="xs" aria-label="Add row" onClick={() => addRow(bucket)} variant="solid">
+                  <IconButton
+                    size="sm"
+                    iconSize="xs"
+                    aria-label="Add row"
+                    onClick={() => addRow(bucket)}
+                    variant="solid"
+                  >
                     <Plus />
                   </IconButton>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <caption className="sr-only">{bucket} junglers with types and notes</caption>
+                    <caption className="sr-only">
+                      {bucket} junglers with types and notes
+                    </caption>
                     <thead className="text-left text-muted-foreground">
                       <tr className="h-9">
-                        <th scope="col" className="pr-3">Champion</th>
-                        <th scope="col" className="pr-3">Type</th>
-                        <th scope="col" className="pr-3">Notes</th>
+                        <th scope="col" className="pr-3">
+                          Champion
+                        </th>
+                        <th scope="col" className="pr-3">
+                          Type
+                        </th>
+                        <th scope="col" className="pr-3">
+                          Notes
+                        </th>
                         <th scope="col" className="w-12 pr-3">
                           <span className="sr-only">Actions</span>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {rows.map((r: JunglerRow) => (
+                      {rows.map((r: JunglerRow) =>
                         editing?.id === r.id ? (
                           <tr
                             key={r.id}
@@ -231,7 +265,12 @@ export default function JungleClears() {
                                 aria-label="Champion"
                                 name="champion"
                                 value={editing.champ}
-                                onChange={(e) => setEditing({ ...editing, champ: e.currentTarget.value })}
+                                onChange={(e) =>
+                                  setEditing({
+                                    ...editing,
+                                    champ: e.currentTarget.value,
+                                  })
+                                }
                               />
                             </td>
                             <td className="py-2 pr-3">
@@ -240,7 +279,12 @@ export default function JungleClears() {
                                 placeholder="AD, Assassin"
                                 name="type"
                                 value={editing.type}
-                                onChange={(e) => setEditing({ ...editing, type: e.currentTarget.value })}
+                                onChange={(e) =>
+                                  setEditing({
+                                    ...editing,
+                                    type: e.currentTarget.value,
+                                  })
+                                }
                               />
                             </td>
                             <td className="py-2 pr-3">
@@ -248,12 +292,22 @@ export default function JungleClears() {
                                 aria-label="Notes"
                                 name="notes"
                                 value={editing.notes}
-                                onChange={(e) => setEditing({ ...editing, notes: e.currentTarget.value })}
+                                onChange={(e) =>
+                                  setEditing({
+                                    ...editing,
+                                    notes: e.currentTarget.value,
+                                  })
+                                }
                               />
                             </td>
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
-                                <IconButton size="sm" iconSize="xs" aria-label="Save" onClick={saveEdit}>
+                                <IconButton
+                                  size="sm"
+                                  iconSize="xs"
+                                  aria-label="Save"
+                                  onClick={saveEdit}
+                                >
                                   <Check />
                                 </IconButton>
                                 <IconButton
@@ -277,7 +331,10 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">
                               <div className="flex flex-wrap gap-2">
                                 {(r.type ?? []).map((t) => (
-                                  <span key={t} className="pill pill-compact text-xs">
+                                  <span
+                                    key={t}
+                                    className="pill pill-compact text-xs"
+                                  >
                                     {t}
                                   </span>
                                 ))}
@@ -286,7 +343,12 @@ export default function JungleClears() {
                             <td className="py-2 pr-3">{r.notes ?? "-"}</td>
                             <td className="py-2 pr-3">
                               <div className="flex gap-1">
-                                <IconButton size="sm" iconSize="xs" aria-label="Edit" onClick={() => startEdit(r)}>
+                                <IconButton
+                                  size="sm"
+                                  iconSize="xs"
+                                  aria-label="Edit"
+                                  onClick={() => startEdit(r)}
+                                >
                                   <Pencil />
                                 </IconButton>
                                 <IconButton
@@ -301,8 +363,8 @@ export default function JungleClears() {
                               </div>
                             </td>
                           </tr>
-                        )
-                      ))}
+                        ),
+                      )}
                     </tbody>
                   </table>
                 </div>
