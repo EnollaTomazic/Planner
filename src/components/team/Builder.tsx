@@ -184,21 +184,23 @@ export default function Builder() {
       <div className="mt-6">
         <SectionCard className="card-neo-soft glitch-card">
           <SectionCard.Body>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_var(--spacing-3)_1fr] gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
               {/* Allies */}
-              <SideEditor
-                title="Allies"
-                icon={<Shield />}
-                value={state.allies}
-                onLane={(lane, v) => setLane("allies", lane, v)}
-                onNotes={(v) => setNotes("allies", v)}
-                onClear={() => clearSide("allies")}
-                onCopy={() => copy("allies")}
-                count={filledCount.allies}
-              />
+              <div className="md:col-span-5">
+                <SideEditor
+                  title="Allies"
+                  icon={<Shield />}
+                  value={state.allies}
+                  onLane={(lane, v) => setLane("allies", lane, v)}
+                  onNotes={(v) => setNotes("allies", v)}
+                  onClear={() => clearSide("allies")}
+                  onCopy={() => copy("allies")}
+                  count={filledCount.allies}
+                />
+              </div>
 
               {/* Center spine (md+) */}
-              <div className="hidden md:block relative">
+              <div className="hidden md:block relative md:col-span-2">
                 <span
                   aria-hidden
                   className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
@@ -206,16 +208,18 @@ export default function Builder() {
               </div>
 
               {/* Enemies */}
-              <SideEditor
-                title="Enemies"
-                icon={<Swords />}
-                value={state.enemies}
-                onLane={(lane, v) => setLane("enemies", lane, v)}
-                onNotes={(v) => setNotes("enemies", v)}
-                onClear={() => clearSide("enemies")}
-                onCopy={() => copy("enemies")}
-                count={filledCount.enemies}
-              />
+              <div className="md:col-span-5">
+                <SideEditor
+                  title="Enemies"
+                  icon={<Swords />}
+                  value={state.enemies}
+                  onLane={(lane, v) => setLane("enemies", lane, v)}
+                  onNotes={(v) => setNotes("enemies", v)}
+                  onClear={() => clearSide("enemies")}
+                  onCopy={() => copy("enemies")}
+                  count={filledCount.enemies}
+                />
+              </div>
             </div>
           </SectionCard.Body>
         </SectionCard>

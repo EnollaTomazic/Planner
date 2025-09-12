@@ -234,15 +234,16 @@ export default function Reminders() {
           </div>
 
           {/* Cards grid */}
-          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-2">
+          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-12">
             {filtered.map((r) => (
-              <ReminderCard
-                key={r.id}
-                value={r}
-                onChange={(p) => patch(r.id, p)}
-                onDelete={() => del(r.id)}
-                onDuplicate={() => dup(r.id)}
-              />
+              <div key={r.id} className="md:col-span-6">
+                <ReminderCard
+                  value={r}
+                  onChange={(p) => patch(r.id, p)}
+                  onDelete={() => del(r.id)}
+                  onDuplicate={() => dup(r.id)}
+                />
+              </div>
             ))}
 
             {filtered.length === 0 && (
