@@ -70,7 +70,7 @@ export default function TeamCompPage() {
           />
         }
       />
-      {tab !== "builder" && (
+      {tab === "cheat" && (
         <Hero
           topClassName="top-[var(--header-stack)]"
           eyebrow={active?.label}

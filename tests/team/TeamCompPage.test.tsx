@@ -14,3 +14,20 @@ describe("TeamCompPage builder tab", () => {
     expect(cardParent).toHaveClass("mt-6");
   });
 });
+
+describe("TeamCompPage jungle clears tab", () => {
+  it("shows clears hero with search and count", () => {
+    render(<TeamCompPage />);
+    const clearsTab = screen.getAllByRole("tab", { name: "Jungle Clears" })[0];
+    fireEvent.click(clearsTab);
+    expect(
+      screen.getByRole("heading", { name: "Clear Speed Buckets" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(
+        "Filter by champion, type, or note..."
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText(/\d+ shown/i)).toBeInTheDocument();
+  });
+});
