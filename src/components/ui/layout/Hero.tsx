@@ -202,7 +202,6 @@ function Hero<Key extends string = string>({
 }
 
 export default Hero;
-export const Hero2 = Hero;
 
 /* ───────────── Adapter: HeroTabs (kept for parity) ───────── */
 export type HeroTab<K extends string> = {
@@ -282,7 +281,7 @@ export function HeroSearchBar({
 export function HeroGlitchStyles() {
   return (
     <style jsx global>{`
-      /* === Hero2: header background layers =============================== */
+      /* === Hero: header background layers ================================ */
       .hero2-frame {
         --hero2-c1: hsl(var(--accent));
         --hero2-c2: hsl(var(--primary));

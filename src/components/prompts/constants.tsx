@@ -19,7 +19,6 @@ import {
   Progress,
   Header,
   Hero,
-  Hero2,
   SectionCard as UiSectionCard,
   type HeaderTab,
 } from "@/components/ui";
@@ -494,17 +493,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "ReviewListItem",
       element: <ReviewListItem review={demoReview} />,
       tags: ["review", "list"],
-    },
-    {
-      id: "hero2",
-      name: "Hero2",
-      element: (
-        <Hero2
-          heading="Hero2 heading"
-          subtitle="Optional description"
-        />
-      ),
-      tags: ["hero"],
     },
     {
       id: "progress",
