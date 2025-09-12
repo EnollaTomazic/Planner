@@ -744,20 +744,17 @@ function PageContent() {
   React.useEffect(() => {
     const v = (viewParam as View) || "components";
     if (v !== view) setView(v);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewParam]);
+  }, [viewParam, view]);
 
   React.useEffect(() => {
     const q = queryParam ?? "";
     if (q !== query) setQuery(q);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryParam]);
+  }, [queryParam, query]);
 
   React.useEffect(() => {
     const s = getValidSection(sectionParam);
     if (s !== section) setSection(s);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sectionParam]);
+  }, [sectionParam, section]);
   React.useEffect(() => {
     const stored = readLocal<string>("prompts-query");
     if (stored) setQuery(stored);
