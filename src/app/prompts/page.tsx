@@ -608,8 +608,8 @@ function ComponentsView({ query }: { query: string }) {
   React.useEffect(() => {
     const sp = new URLSearchParams(paramsString);
     const s = getValidSection(sp.get("section"));
-    if (s !== section) setSection(s);
-  }, [paramsString, section]);
+    setSection((prev) => (prev === s ? prev : s));
+  }, [paramsString]);
 
   React.useEffect(() => {
     const sp = new URLSearchParams(paramsString);
