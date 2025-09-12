@@ -16,23 +16,25 @@ export default function NotFound() {
       className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
       aria-labelledby={headerId}
     >
-      <Header
-        id={headerId}
-        heading="Page not found"
-        icon={<AlertCircle className="opacity-80" />}
-      />
-      <Hero
-        heading="This page does not exist"
-        actions={
-          <Link href="/">
-            <Button className="px-[var(--spacing-4)]">Go home</Button>
-          </Link>
-        }
-      >
-        <p className="text-sm text-muted-foreground">
-          The page you are looking for does not exist.
-        </p>
-      </Hero>
+      <div className="space-y-[var(--spacing-2)]">
+        <Header
+          id={headerId}
+          heading="Page not found"
+          icon={<AlertCircle className="opacity-80" />}
+        />
+        <Hero
+          heading="This page does not exist"
+          actions={
+            <Link href="/">
+              <Button className="px-[var(--spacing-4)]">Go home</Button>
+            </Link>
+          }
+        >
+          <p className="text-sm text-muted-foreground">
+            The page you are looking for does not exist.
+          </p>
+        </Hero>
+      </div>
     </main>
   );
 }
