@@ -5,6 +5,7 @@ import {
   toISODate,
   normalizeDate,
   weekRangeFromISO,
+  ts,
 } from '../../src/lib/date';
 
 describe('fromISODate', () => {
@@ -73,6 +74,19 @@ describe('normalizeDate', () => {
     expect(dt.getFullYear()).toBe(2024);
     expect(dt.getMonth()).toBe(2); // March
     expect(dt.getDate()).toBe(1);
+  });
+});
+
+describe('ts', () => {
+  it('normalizes dates and strings', () => {
+    const d = new Date('2024-02-29T00:00:00Z');
+    expect(ts(d)).toBe(d.getTime());
+    expect(ts('2024-02-29')).toBe(Date.parse('2024-02-29'));
+  });
+
+  it('returns 0 for invalid inputs', () => {
+    expect(ts('not-a-date')).toBe(0);
+    expect(ts(null as unknown)).toBe(0);
   });
 });
 

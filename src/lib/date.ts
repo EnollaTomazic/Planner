@@ -42,6 +42,20 @@ export function normalizeDate(src?: Date | number | string): Date {
   return dt;
 }
 
+/**
+ * ts — Normalize various inputs to a numeric timestamp (ms).
+ * Returns 0 for invalid values.
+ */
+export function ts(v: unknown): number {
+  if (typeof v === "number") return v;
+  if (v instanceof Date) return +v;
+  if (typeof v === "string") {
+    const n = Date.parse(v);
+    return Number.isNaN(n) ? 0 : n;
+  }
+  return 0;
+}
+
 /** toISODate — Returns local date in "YYYY-MM-DD". */
 export function toISODate(d?: Date | number | string): string {
   const date = normalizeDate(d);
