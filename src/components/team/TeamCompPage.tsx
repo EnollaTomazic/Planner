@@ -72,24 +72,24 @@ export default function TeamCompPage() {
       className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <Header
-        id="teamcomp-header"
-        eyebrow="Comps"
-        heading="Team Comps Today"
-        subtitle="Readable. Fast. On brand."
-        icon={<Users2 className="opacity-80" />}
-        tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
-        className="md:col-span-12"
-      />
-      {tab === "cheat" && (
-        <Hero
-          topClassName="top-[var(--header-stack)]"
-          eyebrow={active?.label}
-          heading="Comps"
-          subtitle={active?.hint}
-          className="md:col-span-12"
+      <div className="space-y-[var(--spacing-2)] md:col-span-12">
+        <Header
+          id="teamcomp-header"
+          eyebrow="Comps"
+          heading="Team Comps Today"
+          subtitle="Readable. Fast. On brand."
+          icon={<Users2 className="opacity-80" />}
+          tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
         />
-      )}
+        {tab === "cheat" && (
+          <Hero
+            topClassName="top-[var(--header-stack)]"
+            eyebrow={active?.label}
+            heading="Comps"
+            subtitle={active?.hint}
+          />
+        )}
+      </div>
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
         {TABS.map((t) => (

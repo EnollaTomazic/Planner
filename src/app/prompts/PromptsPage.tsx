@@ -71,52 +71,54 @@ function PageContent() {
       className="page-shell py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
-      <Header
-        id="prompts-header"
-        heading="Prompts Playground"
-        subtitle="Explore components and tokens"
-        icon={<Sparkles className="opacity-80" />}
-        tabs={{
-          items: VIEW_TABS,
-          value: view,
-          onChange: (k) => setView(k as View),
-        }}
-      />
-      <Hero
-        topClassName="top-[var(--header-stack)]"
-        heading={
-          view === "components"
-            ? "Components"
-            : view === "colors"
-              ? "Colors"
-              : "Onboarding"
-        }
-        {...(view === "components"
-          ? {
-              subTabs: {
-                items: SECTION_TABS,
-                value: section,
-                onChange: (k: string) => setSection(k as Section),
-              },
-            }
-          : {})}
-        search={{
-          id: "playground-search",
-          value: query,
-          onValueChange: setQuery,
-          debounceMs: 300,
-          round: true,
-          "aria-label": "Search components",
-        }}
-        actions={
-          <div className="flex items-center gap-2">
-            <Button size="sm">Action</Button>
-            <IconButton size="sm" aria-label="Add">
-              <Plus />
-            </IconButton>
-          </div>
-        }
-      />
+      <div className="space-y-6">
+        <Header
+          id="prompts-header"
+          heading="Prompts Playground"
+          subtitle="Explore components and tokens"
+          icon={<Sparkles className="opacity-80" />}
+          tabs={{
+            items: VIEW_TABS,
+            value: view,
+            onChange: (k) => setView(k as View),
+          }}
+        />
+        <Hero
+          topClassName="top-[var(--header-stack)]"
+          heading={
+            view === "components"
+              ? "Components"
+              : view === "colors"
+                ? "Colors"
+                : "Onboarding"
+          }
+          {...(view === "components"
+            ? {
+                subTabs: {
+                  items: SECTION_TABS,
+                  value: section,
+                  onChange: (k: string) => setSection(k as Section),
+                },
+              }
+            : {})}
+          search={{
+            id: "playground-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 300,
+            round: true,
+            "aria-label": "Search components",
+          }}
+          actions={
+            <div className="flex items-center gap-2">
+              <Button size="sm">Action</Button>
+              <IconButton size="sm" aria-label="Add">
+                <Plus />
+              </IconButton>
+            </div>
+          }
+        />
+      </div>
       <section className="grid gap-6 lg:grid-cols-1">
         <div className="space-y-6 lg:col-span-full">
           <div>
