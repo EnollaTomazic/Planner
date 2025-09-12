@@ -172,12 +172,12 @@ html.bg-intense body::after {
   background:
     radial-gradient(
       1200px 700px at 20% -10%,
-      hsl(272 80% 60% / 0.2),
+      hsl(var(--aurora-p) / 0.2),
       transparent 60%
     ),
     radial-gradient(
       1000px 600px at 110% 10%,
-      hsl(150 100% 60% / 0.18),
+      hsl(var(--aurora-g) / 0.18),
       transparent 60%
     ),
     linear-gradient(0deg, hsl(var(--foreground) / 0.08) 1px, transparent 1px),

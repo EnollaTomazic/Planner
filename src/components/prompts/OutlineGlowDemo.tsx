@@ -5,7 +5,7 @@ export default function OutlineGlowDemo() {
     <div className="mb-4">
       <button
         type="button"
-        className="p-2 border rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus]"
+        className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus]"
         style={{ "--focus": "var(--theme-ring)" } as React.CSSProperties}
       >
         Focus me to see the glow
