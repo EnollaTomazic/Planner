@@ -62,7 +62,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     <section>
       <style>
         
-      /* === Hero2: header background layers =============================== */
+      /* === Hero: header background layers ================================ */
       .hero2-frame {
         --hero2-c1: hsl(var(--accent));
         --hero2-c2: hsl(var(--primary));
