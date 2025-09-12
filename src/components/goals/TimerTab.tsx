@@ -23,12 +23,37 @@ import { usePersistentState } from "@/lib/db";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
-type Profile = { key: ProfileKey; label: string; icon: React.ReactNode; defaultMin: number };
+type Profile = {
+  key: ProfileKey;
+  label: string;
+  icon: React.ReactNode;
+  defaultMin: number;
+};
 const PROFILES: Profile[] = [
-  { key: "study", label: "Studying", icon: <BookOpen className="mr-1" />, defaultMin: 45 },
-  { key: "clean", label: "Cleaning", icon: <Brush className="mr-1" />, defaultMin: 30 },
-  { key: "code", label: "Coding", icon: <Code2 className="mr-1" />, defaultMin: 60 },
-  { key: "personal", label: "Personal", icon: <User className="mr-1" />, defaultMin: 25 },
+  {
+    key: "study",
+    label: "Studying",
+    icon: <BookOpen className="mr-1" />,
+    defaultMin: 45,
+  },
+  {
+    key: "clean",
+    label: "Cleaning",
+    icon: <Brush className="mr-1" />,
+    defaultMin: 30,
+  },
+  {
+    key: "code",
+    label: "Coding",
+    icon: <Code2 className="mr-1" />,
+    defaultMin: 60,
+  },
+  {
+    key: "personal",
+    label: "Personal",
+    icon: <User className="mr-1" />,
+    defaultMin: 25,
+  },
 ];
 
 /* helpers */
@@ -42,7 +67,8 @@ const fmt = (ms: number) => {
 const parseMmSs = (v: string) => {
   const m = v.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
   if (!m) return null;
-  const mm = Number(m[1]), ss = Number(m[2]);
+  const mm = Number(m[1]),
+    ss = Number(m[2]);
   return mm * 60_000 + ss * 1000;
 };
 
@@ -56,7 +82,10 @@ export default function TimerTab() {
     25,
   );
 
-  const profileDef = React.useMemo(() => PROFILES.find(p => p.key === profile)!, [profile]);
+  const profileDef = React.useMemo(
+    () => PROFILES.find((p) => p.key === profile)!,
+    [profile],
+  );
   const isPersonal = profile === "personal";
   const minutes = isPersonal ? personalMinutes : profileDef.defaultMin;
 
@@ -76,21 +105,30 @@ export default function TimerTab() {
     if (prevProfile.current !== profile) {
       setRunning(false);
       setRemaining(
-        (profile === "personal" ? personalMinutes : profileDef.defaultMin) * 60_000,
+        (profile === "personal" ? personalMinutes : profileDef.defaultMin) *
+          60_000,
       );
       prevProfile.current = profile;
     }
-  }, [profile, personalMinutes, profileDef.defaultMin, setRunning, setRemaining]);
+  }, [
+    profile,
+    personalMinutes,
+    profileDef.defaultMin,
+    setRunning,
+    setRemaining,
+  ]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
-  React.useEffect(() => { setTimeEdit(fmt(remaining)); }, [remaining]);
+  React.useEffect(() => {
+    setTimeEdit(fmt(remaining));
+  }, [remaining]);
 
   // tick loop
   React.useEffect(() => {
     if (!running) return;
     const id = window.setInterval(() => {
-      setRemaining(r => Math.max(0, r - 250));
+      setRemaining((r) => Math.max(0, r - 250));
     }, 250);
     return () => window.clearInterval(id);
   }, [running, setRemaining]);
@@ -107,7 +145,7 @@ export default function TimerTab() {
   }
 
   const start = React.useCallback(() => {
-    setRemaining(r => (r <= 0 ? minutes * 60_000 : r));
+    setRemaining((r) => (r <= 0 ? minutes * 60_000 : r));
     setRunning(true);
   }, [minutes, setRemaining, setRunning]);
   const pause = React.useCallback(() => {
@@ -120,20 +158,27 @@ export default function TimerTab() {
   function commitEdit() {
     if (!isPersonal || running) return;
     const ms = parseMmSs(timeEdit);
-    if (ms == null) { setTimeEdit(fmt(remaining)); return; }
-    const mm = Math.floor(ms / 60_000), ss = Math.floor((ms % 60_000) / 1000);
+    if (ms == null) {
+      setTimeEdit(fmt(remaining));
+      return;
+    }
+    const mm = Math.floor(ms / 60_000),
+      ss = Math.floor((ms % 60_000) / 1000);
     setPersonalMinutes(mm);
     setRemaining(mm * 60_000 + ss * 1000);
   }
 
   const totalMs = minutes * 60_000;
-  const progress = Math.max(0, Math.min(1, 1 - remaining / Math.max(1, totalMs)));
+  const progress = Math.max(
+    0,
+    Math.min(1, 1 - remaining / Math.max(1, totalMs)),
+  );
   const finished = remaining <= 0;
 
   // Tab items map
   const tabItems = React.useMemo(
     () =>
-      PROFILES.map(p => ({
+      PROFILES.map((p) => ({
         key: p.key,
         label: (
           <span className="inline-flex items-center">
@@ -174,14 +219,19 @@ export default function TimerTab() {
   // keyboard shortcuts
   React.useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      )
+        return;
       if (e.key === " ") {
         e.preventDefault();
         if (running) pause();
         else start();
-      }
-      else if (e.key === "r" || e.key === "R") { e.preventDefault(); reset(); }
-      else if (isPersonal && !running && /^[1-6]$/.test(e.key)) {
+      } else if (e.key === "r" || e.key === "R") {
+        e.preventDefault();
+        reset();
+      } else if (isPersonal && !running && /^[1-6]$/.test(e.key)) {
         const opts = [10, 15, 20, 25, 30, 45];
         const idx = Number(e.key) - 1;
         const m = opts[idx];
@@ -193,7 +243,15 @@ export default function TimerTab() {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [running, isPersonal, pause, start, reset, setPersonalMinutes, setRemaining]);
+  }, [
+    running,
+    isPersonal,
+    pause,
+    start,
+    reset,
+    setPersonalMinutes,
+    setRemaining,
+  ]);
 
   const pct = Math.round(progress * 100);
   const [ringSize, setRingSize] = React.useState(224);
@@ -227,7 +285,7 @@ export default function TimerTab() {
 
       <SectionCard className="goal-card no-hover">
         <SectionCard.Body>
-          <div className="relative mx-auto w-full max-w-sm rounded-3xl border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
+          <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
             {/* plus/minus */}
             <IconButton
               aria-label="Minus 1 minute"
@@ -280,7 +338,9 @@ export default function TimerTab() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <div className="mt-1 text-right text-xs text-muted-foreground tabular-nums">{pct}%</div>
+              <div className="mt-1 text-right text-xs text-muted-foreground tabular-nums">
+                {pct}%
+              </div>
             </div>
 
             {/* controls */}
@@ -321,7 +381,9 @@ export default function TimerTab() {
                 <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-sm text-foreground shadow-glow animate-pulse">
                   Complete
                 </div>
-                <div className="mt-2 text-xs text-muted-foreground">Good. Now do the review, not Twitter.</div>
+                <div className="mt-2 text-xs text-muted-foreground">
+                  Good. Now do the review, not Twitter.
+                </div>
               </div>
             )}
           </div>
@@ -330,4 +392,3 @@ export default function TimerTab() {
     </div>
   );
 }
-
