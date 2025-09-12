@@ -1943,6 +1943,34 @@ a:active .lucide {
     mix-blend-mode: overlay;
   }
 }
+@layer components {
+  .nav-hover-sheen {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.15),
+      transparent 40%,
+      transparent 60%,
+      hsl(var(--accent) / 0.15)
+    );
+  }
+
+  .nav-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      hsl(var(--foreground) / 0.04) 0 1px,
+      transparent 1px 3px
+    );
+  }
+
+  .nav-underline {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)),
+      hsl(var(--accent)),
+      hsl(var(--primary))
+    );
+  }
+}
 @layer utilities {
   @keyframes glitchSheen {
     0% {
