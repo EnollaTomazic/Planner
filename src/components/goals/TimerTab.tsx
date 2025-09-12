@@ -230,14 +230,14 @@ export default function TimerTab() {
 
       <SectionCard className="goal-card no-hover">
         <SectionCard.Body>
-          <div className="relative mx-auto w-full max-w-sm rounded-3xl border border-card-hairline/60 bg-background/30 p-8 backdrop-blur-xl shadow-[0_0_30px_hsl(var(--shadow)/0.25)]">
+          <div className="relative mx-auto w-full max-w-sm rounded-3xl border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
             {/* plus/minus */}
             <IconButton
               aria-label="Minus 1 minute"
               title="Minus 1 minute"
               onClick={() => adjust(-1)}
               disabled={!isPersonal || running || minutes <= 0}
-              className="absolute top-2 left-2 sm:-top-4 sm:-left-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              className="absolute top-[var(--space-2)] left-[var(--space-2)] sm:-top-[var(--space-4)] sm:-left-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Minus />
             </IconButton>
@@ -246,7 +246,7 @@ export default function TimerTab() {
               title="Plus 1 minute"
               onClick={() => adjust(1)}
               disabled={!isPersonal || running}
-              className="absolute top-2 right-2 sm:-top-4 sm:-right-4 rounded-full bg-background/40 backdrop-blur shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+              className="absolute top-[var(--space-2)] right-[var(--space-2)] sm:-top-[var(--space-4)] sm:-right-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Plus />
             </IconButton>
@@ -276,10 +276,10 @@ export default function TimerTab() {
 
             {/* progress bar */}
             <div className="mt-6 w-full">
-              <div className="relative h-2 w-full rounded-full bg-background/20 shadow-[inset_0_0_4px_hsl(var(--shadow)/0.4)]">
+              <div className="relative h-2 w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[0_0_6px_hsl(var(--neon))] transition-[width] duration-150 ease-linear"
+                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-glow transition-[width] duration-150 ease-linear"
                   style={{ width: `${pct}%` }}
                 />
               </div>
@@ -321,7 +321,7 @@ export default function TimerTab() {
             {/* Complete state */}
             {finished && (
               <div className="mt-6 grid place-items-center">
-                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-sm text-foreground shadow-[0_0_8px_hsl(var(--neon-soft))] animate-pulse">
+                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-sm text-foreground shadow-glow animate-pulse">
                   Complete
                 </div>
                 <div className="mt-2 text-xs text-muted-foreground">Good. Now do the review, not Twitter.</div>
