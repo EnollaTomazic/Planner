@@ -332,14 +332,14 @@ export default function MyComps({ query = "" }: MyCompsProps) {
           ) : null}
 
           {/* Cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-12 gap-4">
             {filtered.map((c) => {
               const editing = editingId === c.id;
 
               return (
                 <article
                   key={c.id}
-                  className="group card-neo glitch-card relative p-7"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
                 >
                   {/* hover edit/save + delete + copy */}
                   <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
