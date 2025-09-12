@@ -53,7 +53,7 @@ export default function TeamCompPage() {
 
   return (
     <main
-      className="page-shell py-6 space-y-6"
+      className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
       <Header
@@ -69,6 +69,7 @@ export default function TeamCompPage() {
             onChange={(k: Tab) => setTab(k)}
           />
         }
+        className="md:col-span-12"
       />
       {tab === "cheat" && (
         <Hero
@@ -76,15 +77,17 @@ export default function TeamCompPage() {
           eyebrow={active?.label}
           heading="Comps"
           subtitle={active?.hint}
+          className="md:col-span-12"
         />
       )}
 
-      <section className="grid gap-4">
+      <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
         <div
           id="cheat-panel"
           role="tabpanel"
           aria-labelledby="cheat-tab"
           hidden={tab !== "cheat"}
+          className="md:col-span-12"
         >
           {tab === "cheat" && <CheatSheetTabs />}
         </div>
@@ -94,6 +97,7 @@ export default function TeamCompPage() {
           role="tabpanel"
           aria-labelledby="builder-tab"
           hidden={tab !== "builder"}
+          className="md:col-span-12"
         >
           {tab === "builder" && <Builder />}
         </div>
@@ -103,6 +107,7 @@ export default function TeamCompPage() {
           role="tabpanel"
           aria-labelledby="clears-tab"
           hidden={tab !== "clears"}
+          className="md:col-span-12"
         >
           {tab === "clears" && <JungleClears />}
         </div>
