@@ -10,13 +10,19 @@ import { CircleSlash } from "lucide-react";
 
 export default function GoalsCard() {
   const [goals] = usePersistentState<Goal[]>("goals.v2", []);
-  const activeGoals = React.useMemo(() => goals.filter(g => !g.done).slice(0, 3), [goals]);
+  const activeGoals = React.useMemo(
+    () => goals.filter((g) => !g.done).slice(0, 3),
+    [goals],
+  );
 
   return (
-    <DashboardCard title="Active goals" cta={{ label: "Manage Goals", href: "/goals" }}>
+    <DashboardCard
+      title="Active goals"
+      cta={{ label: "Manage Goals", href: "/goals" }}
+    >
       <ul className="divide-y divide-[hsl(var(--border))]">
-        {activeGoals.map(g => (
-          <li key={g.id} className="py-2.5">
+        {activeGoals.map((g) => (
+          <li key={g.id} className="py-2">
             <p className="text-sm">{g.title}</p>
             <div className="mt-2">
               <Progress value={0} />
@@ -24,7 +30,7 @@ export default function GoalsCard() {
           </li>
         ))}
         {activeGoals.length === 0 && (
-          <li className="flex justify-between py-2.5 text-sm text-muted-foreground">
+          <li className="flex justify-between py-2 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <CircleSlash className="size-3" />
               No active goals

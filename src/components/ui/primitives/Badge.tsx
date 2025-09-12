@@ -23,8 +23,9 @@ type BadgeOwnProps<T extends React.ElementType = "span"> = {
   as?: T;
 };
 
-export type BadgeProps<T extends React.ElementType = "span"> = BadgeOwnProps<T> &
-  Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
+export type BadgeProps<T extends React.ElementType = "span"> =
+  BadgeOwnProps<T> &
+    Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
   xs: "px-2 py-1 text-xs leading-none",
@@ -59,7 +60,7 @@ export default function Badge<T extends React.ElementType = "span">({
     <Comp
       data-selected={selected ? "true" : undefined}
       className={cn(
-        "inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
+        "inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
         "border bg-muted/18",
         "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_hsl(var(--shadow-color)/.18)]",
         "transition-[background,box-shadow,transform] duration-140 ease-out",
@@ -71,7 +72,7 @@ export default function Badge<T extends React.ElementType = "span">({
           "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset] shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
           "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset] shadow-glow-md hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset] hover:shadow-glow-lg",
-        className
+        className,
       )}
       {...rest}
     >

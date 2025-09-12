@@ -16,10 +16,13 @@ export default function ReviewsCard() {
   );
 
   return (
-    <DashboardCard title="Recent reviews" cta={{ label: "Open Reviews", href: "/reviews" }}>
+    <DashboardCard
+      title="Recent reviews"
+      cta={{ label: "Open Reviews", href: "/reviews" }}
+    >
       <ul className="divide-y divide-[hsl(var(--border))]">
-        {recentReviews.map(r => (
-          <li key={r.id} className="flex justify-between py-2.5 text-sm">
+        {recentReviews.map((r) => (
+          <li key={r.id} className="flex justify-between py-2 text-sm">
             <span>{r.title || "Untitled"}</span>
             <span className="text-xs text-muted-foreground">
               {new Date(r.createdAt).toLocaleDateString(LOCALE)}
@@ -27,7 +30,7 @@ export default function ReviewsCard() {
           </li>
         ))}
         {recentReviews.length === 0 && (
-          <li className="flex justify-between py-2.5 text-sm text-muted-foreground">
+          <li className="flex justify-between py-2 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <CircleSlash className="size-3" />
               No reviews yet

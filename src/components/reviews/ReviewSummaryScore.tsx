@@ -26,7 +26,7 @@ export default function ReviewSummaryScore({
     <div>
       <SectionLabel>Score</SectionLabel>
       <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4">
-        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
+        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-3">
           <div
             className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
             style={{ "--progress": `${score * 10}%` } as React.CSSProperties}
@@ -48,7 +48,7 @@ export default function ReviewSummaryScore({
             <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
           <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4">
-            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-2.5">
+            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 px-3">
               <div
                 className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
                 style={

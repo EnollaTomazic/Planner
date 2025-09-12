@@ -43,7 +43,7 @@ exports[`ReviewListItem > renders default state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
         >
           9
           /10
@@ -98,7 +98,7 @@ exports[`ReviewListItem > renders disabled state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
         >
           9
           /10
@@ -169,7 +169,7 @@ exports[`ReviewListItem > renders selected state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
         >
           9
           /10
@@ -224,7 +224,7 @@ exports[`ReviewListItem > renders untitled state 1`] = `
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
+          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]"
         >
           9
           /10

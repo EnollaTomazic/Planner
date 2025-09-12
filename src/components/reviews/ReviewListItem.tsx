@@ -28,7 +28,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded-md bg-muted";
 const scoreBadge =
-  "px-2 py-0.5 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]";
+  "px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-[--theme-accent] to-[--theme-accent2] ring-1 ring-[--theme-accent] [--ring:var(--theme-accent)]";
 
 export type ReviewListItemProps = {
   review?: Review;

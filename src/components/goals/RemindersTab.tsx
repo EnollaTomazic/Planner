@@ -9,10 +9,10 @@
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
  *
-* Notes:
-* - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
-* - Button/IconButton use canonical props; delete uses tone="danger".
-* - Typings added to onChange handlers to avoid implicit any.
+ * Notes:
+ * - Removed ad-hoc CSS import ("../goals/style.css") to keep globals as source of truth.
+ * - Button/IconButton use canonical props; delete uses tone="danger".
+ * - Typings added to onChange handlers to avoid implicit any.
  */
 
 import * as React from "react";
@@ -66,7 +66,7 @@ function R(
   source: Source,
   group: Group,
   pinned = false,
-  domain?: Domain
+  domain?: Domain,
 ): Reminder {
   const now = Date.now();
   return {
@@ -84,7 +84,15 @@ function R(
 }
 
 const SEEDS: Reminder[] = [
-  R("Hit 2 first", "Push 3 melees → step up or respect if losing push.", [], "BLA", "quick", true, "Learn"),
+  R(
+    "Hit 2 first",
+    "Push 3 melees → step up or respect if losing push.",
+    [],
+    "BLA",
+    "quick",
+    true,
+    "Learn",
+  ),
   R(
     "Jungle start check",
     "Track start → first gank lane → second spawn prio.",
@@ -92,9 +100,17 @@ const SEEDS: Reminder[] = [
     "BrokenByConcept",
     "quick",
     true,
-    "Learn"
+    "Learn",
   ),
-  R("3-wave plan", "Say it: slow then crash 3 OR hold then thin/freeze.", [], "MLA", "pregame", false, "League"),
+  R(
+    "3-wave plan",
+    "Say it: slow then crash 3 OR hold then thin/freeze.",
+    [],
+    "MLA",
+    "pregame",
+    false,
+    "League",
+  ),
   R(
     "Ward 2:30",
     "River/tri at 2:30. Sweep before shove.",
@@ -102,10 +118,26 @@ const SEEDS: Reminder[] = [
     "BrokenByConcept",
     "pregame",
     false,
-    "Learn"
+    "Learn",
   ),
-  R("Space with casters", "Trade when your casters live; back off on enemy wave.", [], "MLA", "laning", false, "League"),
-  R("CD punish", "Trade on enemy cooldown gaps; track sums.", [], "MLA", "trading", false, "League"),
+  R(
+    "Space with casters",
+    "Trade when your casters live; back off on enemy wave.",
+    [],
+    "MLA",
+    "laning",
+    false,
+    "League",
+  ),
+  R(
+    "CD punish",
+    "Trade on enemy cooldown gaps; track sums.",
+    [],
+    "MLA",
+    "trading",
+    false,
+    "League",
+  ),
   R(
     "Good recall",
     "Shove → recall on spike → arrive first to river.",
@@ -113,24 +145,36 @@ const SEEDS: Reminder[] = [
     "BrokenByConcept",
     "tempo",
     false,
-    "Learn"
+    "Learn",
   ),
-  R("Death audit", "Wave, vision, jungle, greed. Name the fix.", [], "BLA", "review", false, "Learn"),
+  R(
+    "Death audit",
+    "Wave, vision, jungle, greed. Name the fix.",
+    [],
+    "BLA",
+    "review",
+    false,
+    "Learn",
+  ),
 ];
 
-const DOMAIN_ITEMS: Array<{ key: Domain; label: string; icon: React.ReactNode }> = [
+const DOMAIN_ITEMS: Array<{
+  key: Domain;
+  label: string;
+  icon: React.ReactNode;
+}> = [
   { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
   { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
   { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
 ];
 
 const GROUPS: Array<{ key: Group; label: string; hint?: string }> = [
-  { key: "quick",   label: "Quick",    hint: "Pin-worthy" },
+  { key: "quick", label: "Quick", hint: "Pin-worthy" },
   { key: "pregame", label: "Pre-Game", hint: "Before queue" },
-  { key: "laning",  label: "Laning",   hint: "Wave & trades" },
-  { key: "trading", label: "Trading",  hint: "Windows & sums" },
-  { key: "tempo",   label: "Tempo",    hint: "Recall & prio" },
-  { key: "review",  label: "Review",   hint: "After game" },
+  { key: "laning", label: "Laning", hint: "Wave & trades" },
+  { key: "trading", label: "Trading", hint: "Windows & sums" },
+  { key: "tempo", label: "Tempo", hint: "Recall & prio" },
+  { key: "review", label: "Review", hint: "After game" },
 ];
 
 /* ───────── Utils ───────── */
@@ -164,14 +208,22 @@ export default function RemindersTab() {
   const [showFilters, setShowFilters] = React.useState(false);
 
   const inferDomain = (r: Reminder): Domain =>
-    r.domain ?? (r.source === "BLA" || r.source === "BrokenByConcept" ? "Learn" : "League");
+    r.domain ??
+    (r.source === "BLA" || r.source === "BrokenByConcept" ? "Learn" : "League");
 
   // counts for group badges (per current domain)
   const counts = React.useMemo(() => {
     const domItems = items.filter((r) => inferDomain(r) === domain);
     return domItems.reduce(
       (acc, r) => ((acc[r.group] = (acc[r.group] ?? 0) + 1), acc),
-      { quick: 0, pregame: 0, laning: 0, trading: 0, tempo: 0, review: 0 } as Record<Group, number>
+      {
+        quick: 0,
+        pregame: 0,
+        laning: 0,
+        trading: 0,
+        tempo: 0,
+        review: 0,
+      } as Record<Group, number>,
     );
   }, [items, domain]);
 
@@ -184,7 +236,9 @@ export default function RemindersTab() {
       .filter((r) => (onlyPinned ? r.pinned : true))
       .filter((r) => {
         if (!q) return true;
-        const hay = [r.title, r.body ?? "", r.tags.join(" "), r.source, r.group].join(" ").toLowerCase();
+        const hay = [r.title, r.body ?? "", r.tags.join(" "), r.source, r.group]
+          .join(" ")
+          .toLowerCase();
         return hay.includes(q);
       })
       .sort((a, b) => {
@@ -212,20 +266,27 @@ export default function RemindersTab() {
   }
 
   const update = (id: string, partial: Partial<Reminder>) =>
-    setItems((prev) => prev.map((r) => (r.id === id ? { ...r, ...partial, updatedAt: Date.now() } : r)));
+    setItems((prev) =>
+      prev.map((r) =>
+        r.id === id ? { ...r, ...partial, updatedAt: Date.now() } : r,
+      ),
+    );
 
-  const remove = (id: string) => setItems((prev) => prev.filter((r) => r.id !== id));
+  const remove = (id: string) =>
+    setItems((prev) => prev.filter((r) => r.id !== id));
 
   const showGroups = domain === "League" || domain === "Learn";
   const neonClass = domain === "Life" ? "neon-life" : "neon-primary";
 
   // TabBar items
-  const GROUP_TABS = GROUPS.map(g => ({
+  const GROUP_TABS = GROUPS.map((g) => ({
     key: g.key,
     label: g.label,
     badge: counts[g.key], // numeric pill
   }));
-  const SOURCE_TABS = (["all", "MLA", "BLA", "BrokenByConcept", "Custom"] as Array<"all" | Source>).map(s => ({
+  const SOURCE_TABS = (
+    ["all", "MLA", "BLA", "BrokenByConcept", "Custom"] as Array<"all" | Source>
+  ).map((s) => ({
     key: s,
     label: s === "all" ? "All" : s,
   }));
@@ -287,14 +348,24 @@ export default function RemindersTab() {
                 aria-label="Quick add reminder"
                 placeholder={`Quick add to ${GROUPS.find((g) => g.key === group)?.label ?? "Group"}…`}
                 value={quickAdd}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuickAdd(e.currentTarget.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setQuickAdd(e.currentTarget.value)
+                }
                 className="flex-1"
               />
-              <IconButton title="Add quick" aria-label="Add quick" type="submit" size="md" variant="solid">
+              <IconButton
+                title="Add quick"
+                aria-label="Add quick"
+                type="submit"
+                size="md"
+                variant="solid"
+              >
                 <Plus size={16} aria-hidden />
               </IconButton>
               <div className={`${neonClass} hidden sm:block`}>
-                <p className="neon-note neon-glow text-xs italic">Stop procrastinating, do it now if you have time</p>
+                <p className="neon-note neon-glow text-xs italic">
+                  Stop procrastinating, do it now if you have time
+                </p>
               </div>
             </form>
 
@@ -319,13 +390,13 @@ export default function RemindersTab() {
                     <SlidersHorizontal size={16} aria-hidden />
                     Filters
                   </SegmentedButton>
-              }
-            />
-          )}
+                }
+              />
+            )}
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
-              <div className="flex flex-wrap items-center gap-4 pl-0.5">
+              <div className="flex flex-wrap items-center gap-4 pl-1">
                 <TabBar
                   items={SOURCE_TABS}
                   value={source}
@@ -333,22 +404,29 @@ export default function RemindersTab() {
                   ariaLabel="Reminder source filter"
                   size="sm"
                 />
-                  <SegmentedButton
-                    onClick={() => setOnlyPinned((v) => !v)}
-                    aria-pressed={onlyPinned}
-                    title="Pinned only"
-                    isActive={onlyPinned}
-                  >
-                    {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
-                    {onlyPinned ? "Pinned only" : "Any pin"}
-                  </SegmentedButton>
+                <SegmentedButton
+                  onClick={() => setOnlyPinned((v) => !v)}
+                  aria-pressed={onlyPinned}
+                  title="Pinned only"
+                  isActive={onlyPinned}
+                >
+                  {onlyPinned ? (
+                    <PinOff className="mr-1" />
+                  ) : (
+                    <Pin className="mr-1" />
+                  )}
+                  {onlyPinned ? "Pinned only" : "Any pin"}
+                </SegmentedButton>
               </div>
             )}
 
             {/* Cards grid */}
             <div className="grid grid-cols-12 gap-3">
               {filtered.map((r) => (
-                <div key={r.id} className="col-span-12 md:col-span-6 lg:col-span-4">
+                <div
+                  key={r.id}
+                  className="col-span-12 md:col-span-6 lg:col-span-4"
+                >
                   <RemTile
                     value={r}
                     onChange={(p) => update(r.id, p)}
@@ -364,8 +442,12 @@ export default function RemindersTab() {
 
         {/* Local styles: keep neon-note flicker; divider is handled by Hero */}
         <style jsx>{`
-          .neon-primary { --neon: var(--primary); }
-          .neon-life { --neon: var(--accent); }
+          .neon-primary {
+            --neon: var(--primary);
+          }
+          .neon-life {
+            --neon: var(--accent);
+          }
 
           .neon-note {
             margin-top: calc(var(--space-1) * -1.5);
@@ -374,16 +456,35 @@ export default function RemindersTab() {
           }
 
           @keyframes neon-flicker {
-            0%, 17%, 22%, 26%, 52%, 100% { opacity: 1; }
-            18% { opacity: .72; }
-            24% { opacity: .55; }
-            54% { opacity: .78; }
-            70% { opacity: .62; }
-            74% { opacity: 1; }
+            0%,
+            17%,
+            22%,
+            26%,
+            52%,
+            100% {
+              opacity: 1;
+            }
+            18% {
+              opacity: 0.72;
+            }
+            24% {
+              opacity: 0.55;
+            }
+            54% {
+              opacity: 0.78;
+            }
+            70% {
+              opacity: 0.62;
+            }
+            74% {
+              opacity: 1;
+            }
           }
 
           @media (prefers-reduced-motion: reduce) {
-            .neon-note { animation: none; }
+            .neon-note {
+              animation: none;
+            }
           }
         `}</style>
       </SectionCard>
@@ -423,8 +524,15 @@ function RemTile({
   }, [editing]);
 
   function save() {
-    const cleanTags = tagsText.split(",").map((t) => t.trim()).filter(Boolean);
-    onChange({ title: title.trim() || "Untitled", body: body.trim(), tags: cleanTags });
+    const cleanTags = tagsText
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    onChange({
+      title: title.trim() || "Untitled",
+      body: body.trim(),
+      tags: cleanTags,
+    });
     setEditing(false);
   }
 
@@ -439,8 +547,12 @@ function RemTile({
             <Input
               ref={titleRef}
               value={title}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)}
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && save()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTitle(e.currentTarget.value)
+              }
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                e.key === "Enter" && save()
+              }
               aria-label="Title"
               className="font-semibold uppercase tracking-wide"
             />
@@ -523,24 +635,36 @@ function RemTile({
               aria-label="Tags (comma separated)"
               placeholder="tags, comma, separated"
               value={tagsText}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTagsText(e.currentTarget.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTagsText(e.currentTarget.value)
+              }
             />
 
             <div className="segmented flex flex-wrap -m-1">
-                {(["pregame", "laning", "trading", "tempo", "review", "quick"] as Group[]).map((g) => (
-                  <SegmentedButton
-                    key={g}
-                    onClick={() => onChange({ group: g })}
-                    isActive={value.group === g}
-                    className="m-1"
-                  >
-                    {g === "pregame" ? "Pre-Game" : cap(g)}
-                  </SegmentedButton>
-                ))}
+              {(
+                [
+                  "pregame",
+                  "laning",
+                  "trading",
+                  "tempo",
+                  "review",
+                  "quick",
+                ] as Group[]
+              ).map((g) => (
+                <SegmentedButton
+                  key={g}
+                  onClick={() => onChange({ group: g })}
+                  isActive={value.group === g}
+                  className="m-1"
+                >
+                  {g === "pregame" ? "Pre-Game" : cap(g)}
+                </SegmentedButton>
+              ))}
             </div>
 
             <div className="segmented flex flex-wrap -m-1">
-                {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map((s) => (
+              {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map(
+                (s) => (
                   <SegmentedButton
                     key={s}
                     onClick={() => onChange({ source: s })}
@@ -549,20 +673,21 @@ function RemTile({
                   >
                     {s}
                   </SegmentedButton>
-                ))}
+                ),
+              )}
             </div>
 
             <div className="segmented flex flex-wrap -m-1">
-                {(["Life", "League", "Learn"] as Domain[]).map((d) => (
-                  <SegmentedButton
-                    key={d}
-                    onClick={() => onChange({ domain: d })}
-                    isActive={(value.domain ?? "League") === d}
-                    className="m-1"
-                  >
-                    {d}
-                  </SegmentedButton>
-                ))}
+              {(["Life", "League", "Learn"] as Domain[]).map((d) => (
+                <SegmentedButton
+                  key={d}
+                  onClick={() => onChange({ domain: d })}
+                  isActive={(value.domain ?? "League") === d}
+                  className="m-1"
+                >
+                  {d}
+                </SegmentedButton>
+              ))}
             </div>
 
             <div className="flex gap-2">
@@ -587,7 +712,11 @@ function RemTile({
           <>
             <p className="text-sm">
               <span className="opacity-70">Note:</span>{" "}
-              {value.body || <span className="opacity-60">No text. Click title to edit.</span>}
+              {value.body || (
+                <span className="opacity-60">
+                  No text. Click title to edit.
+                </span>
+              )}
             </p>
 
             <div className="mt-1 flex items-center justify-between text-sm">
