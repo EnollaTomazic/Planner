@@ -2159,4 +2159,13 @@ a:active .lucide {
         0.5px 0 hsl(var(--accent-2));
     }
   }
+
+  @keyframes room-glitch {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 }
