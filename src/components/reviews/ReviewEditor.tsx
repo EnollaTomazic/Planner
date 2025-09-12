@@ -3,179 +3,38 @@
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
-import NeonIcon from "@/components/reviews/NeonIcon";
 import SectionCard from "@/components/ui/layout/SectionCard";
+import NeonIcon from "@/components/reviews/NeonIcon";
 
 import * as React from "react";
-import type { Review, Pillar, Role } from "@/lib/types";
+import type { Review, Role } from "@/lib/types";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
-import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
-import {
-  Tag,
-  Trash2,
-  Check,
-  Target,
-  Shield,
-  Plus,
-  Clock,
-  FileText,
-} from "lucide-react";
+import { Tag, Trash2, Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { uid, usePersistentState } from "@/lib/db";
-import {
-  ALL_PILLARS,
-  LAST_ROLE_KEY,
-  LAST_MARKER_MODE_KEY,
-  LAST_MARKER_TIME_KEY,
-  SCORE_POOLS,
-  FOCUS_POOLS,
-  pickIndex,
-  scoreIcon,
-} from "@/components/reviews/reviewData";
+import { usePersistentState } from "@/lib/db";
+import { LAST_ROLE_KEY, FOCUS_POOLS, pickIndex } from "@/components/reviews/reviewData";
 
-/** Parse "m:ss" or "mm:ss" into seconds. Returns null for invalid input. */
-function parseTime(mmss: string): number | null {
-  const m = mmss.trim().match(/^(\d{1,2}):([0-5]\d)$/);
-  if (!m) return null;
-  return Number(m[1]) * 60 + Number(m[2]);
-}
+import LaneOpponentForm, { LaneOpponentFormHandle } from "./LaneOpponentForm";
+import ResultScoreSection, {
+  ResultScoreSectionHandle,
+} from "./ResultScoreSection";
+import PillarsSelector, { PillarsSelectorHandle } from "./PillarsSelector";
+import TimestampMarkers, {
+  TimestampMarkersHandle,
+} from "./TimestampMarkers";
 
-/** Convert seconds to "m:ss" with zero-padded seconds. */
-function formatSeconds(total: number): string {
-  const minutes = Math.max(0, Math.floor(total / 60));
-  const seconds = Math.max(0, total % 60);
-  return `${String(minutes)}:${String(seconds).padStart(2, "0")}`;
-}
-
-type Result = "Win" | "Loss";
-
-export type Marker = {
-  id: string;
-  time: string;
-  seconds: number;
-  note: string;
-  noteOnly?: boolean;
+type ReviewEditorProps = {
+  review: Review;
+  onChangeNotes?: (value: string) => void;
+  onChangeTags?: (values: string[]) => void;
+  onRename?: (title: string) => void;
+  onChangeMeta?: (partial: Partial<Review>) => void;
+  onDone?: () => void;
+  onDelete?: () => void;
+  className?: string;
 };
-
-type ExtendedProps = {
-  result?: Result;
-  score?: number;
-  role?: Role;
-  markers?: Marker[];
-  focusOn?: boolean;
-  focus?: number;
-};
-
-type MetaPatch = Omit<Partial<Review>, "role"> & Partial<ExtendedProps>;
-
-function NeonPillarChip({
-  active,
-  children,
-}: {
-  active: boolean;
-  children: React.ReactNode;
-}) {
-  const prev = React.useRef(active);
-  const [phase, setPhase] = React.useState<
-    "steady-on" | "ignite" | "off" | "powerdown"
-  >(active ? "steady-on" : "off");
-
-  React.useEffect(() => {
-    if (active !== prev.current) {
-      if (active) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prev.current = active;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prev.current = active;
-        return () => clearTimeout(t);
-      }
-    }
-    prev.current = active;
-  }, [active]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
-
-  return (
-    <span className="relative inline-flex">
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
-          lit ? "opacity-60" : "opacity-0",
-        )}
-        style={{
-          filter: "blur(10px)",
-          background:
-            "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
-          lit
-            ? "opacity-40 motion-safe:animate-[neonAura_3.6s_ease-in-out_infinite] motion-reduce:animate-none"
-            : "opacity-0",
-        )}
-        style={{
-          filter: "blur(14px)",
-          background:
-            "radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
-          lit
-            ? "motion-safe:animate-[igniteFlicker_.62s_steps(18,end)_1] motion-reduce:animate-none"
-            : "",
-        )}
-        style={{
-          background:
-            "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
-          mixBlendMode: "screen",
-          opacity: lit ? 0.8 : 0,
-        }}
-        aria-hidden
-      />
-      <span className="relative z-10">{children}</span>
-    </span>
-  );
-}
-
-function getExt(r: Review): Partial<ExtendedProps> {
-  return r as unknown as Partial<ExtendedProps>;
-}
-function normalizeMarker(m: unknown): Marker {
-  const obj = (typeof m === "object" && m !== null ? m : {}) as Record<
-    string,
-    unknown
-  >;
-  const asNum = (v: unknown) =>
-    typeof v === "number" && Number.isFinite(v) ? v : undefined;
-  const asStr = (v: unknown) => (typeof v === "string" ? v : undefined);
-
-  const seconds =
-    asNum(obj.seconds) ??
-    (asStr(obj.time) ? (parseTime(asStr(obj.time)!) ?? 0) : 0);
-
-  const timeStr = asStr(obj.time) ?? formatSeconds(seconds);
-  return {
-    id: asStr(obj.id) ?? uid("mark"),
-    time: timeStr,
-    seconds,
-    note: asStr(obj.note) ?? "",
-    noteOnly: Boolean(obj.noteOnly),
-  };
-}
 
 export default function ReviewEditor({
   review,
@@ -186,16 +45,7 @@ export default function ReviewEditor({
   onDone,
   onDelete,
   className = "",
-}: {
-  review: Review;
-  onChangeNotes?: (value: string) => void;
-  onChangeTags?: (values: string[]) => void;
-  onRename?: (title: string) => void;
-  onChangeMeta?: (partial: MetaPatch) => void;
-  onDone?: () => void;
-  onDelete?: () => void;
-  className?: string;
-}) {
+}: ReviewEditorProps) {
   const [notes, setNotes] = React.useState(review.notes ?? "");
   const [tags, setTags] = React.useState<string[]>(
     Array.isArray(review.tags) ? review.tags : [],
@@ -203,112 +53,52 @@ export default function ReviewEditor({
   const [draftTag, setDraftTag] = React.useState("");
 
   const rootRef = React.useRef<HTMLElement>(null);
-
-  const [opponent, setOpponent] = React.useState(review.opponent ?? "");
-  const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
-  const [pillars, setPillars] = React.useState<Pillar[]>(
-    Array.isArray(review.pillars) ? review.pillars : [],
-  );
+  const laneFormRef = React.useRef<LaneOpponentFormHandle>(null);
+  const resultScoreRef = React.useRef<ResultScoreSectionHandle>(null);
+  const pillarsRef = React.useRef<PillarsSelectorHandle>(null);
+  const timestampsRef = React.useRef<TimestampMarkersHandle>(null);
+  const focusRangeRef = React.useRef<HTMLInputElement>(null);
 
   const [lastRole, setLastRole] = usePersistentState<Role>(
     LAST_ROLE_KEY,
     "MID",
   );
-  const [lastMarkerMode, setLastMarkerMode] = usePersistentState<boolean>(
-    LAST_MARKER_MODE_KEY,
-    true,
+  const [role, setRole] = React.useState<Role>(
+    review.role ?? lastRole ?? "MID",
   );
-  const [lastMarkerTime, setLastMarkerTime] = usePersistentState<string>(
-    LAST_MARKER_TIME_KEY,
-    "",
-  );
-  const ext0 = getExt(review);
-  const initialRole: Role = ext0.role ?? lastRole ?? "MID";
-  const [role, setRole] = React.useState<Role>(initialRole);
-
-  const [result, setResult] = React.useState<Result>(ext0.result ?? "Win");
-  const [score, setScore] = React.useState<number>(
-    Number.isFinite(ext0.score ?? NaN) ? Number(ext0.score) : 5,
-  );
-
-  const [focusOn, setFocusOn] = React.useState<boolean>(Boolean(ext0.focusOn));
+  const [focusOn, setFocusOn] = React.useState<boolean>(Boolean(review.focusOn));
   const [focus, setFocus] = React.useState<number>(
-    Number.isFinite(ext0.focus ?? NaN) ? Number(ext0.focus) : 5,
+    Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5,
   );
-
-  const [markers, setMarkers] = React.useState<Marker[]>(
-    Array.isArray(ext0.markers) ? ext0.markers.map(normalizeMarker) : [],
-  );
-
-  const [useTimestamp, setUseTimestamp] = React.useState(lastMarkerMode);
-  const [tTime, setTTime] = React.useState(lastMarkerTime);
-  const [tNote, setTNote] = React.useState("");
-
-  const laneRef = React.useRef<HTMLInputElement>(null);
-  const opponentRef = React.useRef<HTMLInputElement>(null);
-  const resultRef = React.useRef<HTMLButtonElement>(null);
-  const scoreRangeRef = React.useRef<HTMLInputElement>(null);
-  const focusRangeRef = React.useRef<HTMLInputElement>(null);
-  const timeRef = React.useRef<HTMLInputElement>(null);
-  const noteRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    const ext = getExt(review);
     setNotes(review.notes ?? "");
     setTags(Array.isArray(review.tags) ? review.tags : []);
     setDraftTag("");
 
-    setOpponent(review.opponent ?? "");
-    setLane(review.lane ?? review.title ?? "");
-    setPillars(Array.isArray(review.pillars) ? review.pillars : []);
-
-    setResult(ext.result ?? "Win");
-    setScore(Number.isFinite(ext.score ?? NaN) ? Number(ext.score) : 5);
-
-    const r = ext.role ?? lastRole ?? "MID";
+    const r = review.role ?? lastRole ?? "MID";
     setRole(r);
-
-    // Default new reviews to the previously selected role without
-    // overwriting the remembered role when opening existing reviews.
-    // Persisting happens only when the user explicitly selects a role.
-    if (ext.role == null) {
+    if (review.role == null) {
       onChangeMeta?.({ role: r });
     }
 
-    setFocusOn(Boolean(ext.focusOn));
-    setFocus(Number.isFinite(ext.focus ?? NaN) ? Number(ext.focus) : 5);
-
-    setMarkers(
-      Array.isArray(ext.markers) ? ext.markers.map(normalizeMarker) : [],
+    setFocusOn(Boolean(review.focusOn));
+    setFocus(
+      Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5,
     );
-    setUseTimestamp(lastMarkerMode);
-    setTTime(lastMarkerTime);
-    setTNote("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review.id]);
 
-  const commitMeta = (partial: MetaPatch) => onChangeMeta?.(partial);
-  const commitLaneAndTitle = () => {
-    const t = (lane || "").trim();
-    onRename?.(t);
-    commitMeta({ lane: t });
-  };
+  const commitMeta = (partial: Partial<Review>) => onChangeMeta?.(partial);
   const commitNotes = () => onChangeNotes?.(notes);
 
   function saveAll() {
-    commitLaneAndTitle();
+    laneFormRef.current?.save();
+    resultScoreRef.current?.save();
+    pillarsRef.current?.save();
+    timestampsRef.current?.save();
     commitNotes();
     onChangeTags?.(tags);
-    onChangeMeta?.({
-      opponent,
-      pillars,
-      result,
-      score,
-      role,
-      markers,
-      focusOn,
-      focus,
-    });
   }
 
   const saveAllRef = React.useRef(saveAll);
@@ -323,22 +113,10 @@ export default function ReviewEditor({
       }
     }
     document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
+    return () =>
+      document.removeEventListener("pointerdown", handlePointerDown);
   }, [onDone]);
 
-  const sortedMarkers = React.useMemo(
-    () => [...markers].sort((a, b) => a.seconds - b.seconds),
-    [markers],
-  );
-
-  function togglePillar(p: Pillar) {
-    setPillars((prev) => {
-      const has = prev.includes(p);
-      const next = has ? prev.filter((x) => x !== p) : prev.concat(p);
-      commitMeta({ pillars: next });
-      return next;
-    });
-  }
   function addTag(tagRaw: string) {
     const t = tagRaw.trim().replace(/^#/, "");
     if (!t || tags.includes(t)) return;
@@ -352,54 +130,23 @@ export default function ReviewEditor({
     onChangeTags?.(next);
   }
 
-  const parsedTime = parseTime(tTime);
-  const timeError = useTimestamp && parsedTime === null;
-  const canAddMarker =
-    (useTimestamp ? parsedTime !== null : true) && tNote.trim().length > 0;
-
-  function addMarker() {
-    const s = useTimestamp ? parsedTime : 0;
-    const safeS = s === null ? 0 : s;
-    const m: Marker = {
-      id: uid("mark"),
-      time: useTimestamp ? tTime.trim() || "00:00" : "00:00",
-      seconds: safeS,
-      note: tNote.trim(),
-      noteOnly: !useTimestamp,
-    };
-    const next = [...markers, m];
-    setMarkers(next);
-    commitMeta({ markers: next });
-    setTTime("");
-    setTNote("");
-    (useTimestamp ? timeRef : noteRef).current?.focus();
-  }
-  function removeMarker(id: string) {
-    const next = markers.filter((m) => m.id !== id);
-    setMarkers(next);
-    commitMeta({ markers: next });
-  }
-
-  const msgIndex = pickIndex(String(review.id ?? "seed") + String(score), 5);
-  const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
-  const msg = pool[msgIndex];
-  const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
-
   const focusMsgIndex = pickIndex(
     String(review.id ?? "seed-focus") + String(focus),
     10,
   );
-  const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
-
-  const go = (ref: React.RefObject<HTMLElement>) => ref.current?.focus();
+  const focusMsg =
+    (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
   function selectRole(v: Role) {
     setRole(v);
-    setLastRole(v); // persist globally
+    setLastRole(v);
     commitMeta({ role: v });
   }
 
-  function onIconKey(e: React.KeyboardEvent, handler: () => void) {
+  function onIconKey(
+    e: React.KeyboardEvent,
+    handler: () => void,
+  ) {
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
       handler();
@@ -420,51 +167,16 @@ export default function ReviewEditor({
               <RoleSelector value={role} onChange={selectRole} />
             </div>
 
-            <div className="mb-2">
-              <div className="relative">
-                <Target className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  ref={laneRef}
-                  name="lane"
-                  value={lane}
-                  onChange={(e) => setLane(e.target.value)}
-                  onBlur={commitLaneAndTitle}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      commitLaneAndTitle();
-                      go(opponentRef);
-                    }
-                  }}
-                  className="pl-6"
-                  placeholder="Ashe/Lulu"
-                  aria-label="Lane (used as Title)"
-                />
-              </div>
-            </div>
-
-            <div>
-              <SectionLabel>Opponent</SectionLabel>
-              <div className="relative">
-                <Shield className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  ref={opponentRef}
-                  name="opponent"
-                  value={opponent}
-                  onChange={(e) => setOpponent(e.target.value)}
-                  onBlur={() => commitMeta({ opponent })}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      go(resultRef);
-                    }
-                  }}
-                  placeholder="Draven/Thresh"
-                  className="pl-6"
-                  aria-label="Opponent"
-                />
-              </div>
-            </div>
+            <LaneOpponentForm
+              ref={laneFormRef}
+              lane={review.lane ?? review.title ?? ""}
+              opponent={review.opponent ?? ""}
+              commitMeta={commitMeta}
+              onRename={onRename}
+              onOpponentEnter={() =>
+                resultScoreRef.current?.focusResult()
+              }
+            />
           </div>
 
           <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
@@ -501,116 +213,17 @@ export default function ReviewEditor({
       </div>
 
       <div className="section-b ds-card-pad space-y-6">
-        {/* Result */}
-        <div>
-          <SectionLabel>Result</SectionLabel>
-          <button
-            ref={resultRef}
-            type="button"
-            role="switch"
-            aria-checked={result === "Win"}
-            onClick={() => setResult((p) => (p === "Win" ? "Loss" : "Win"))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                setResult((p) => (p === "Win" ? "Loss" : "Win"));
-                go(scoreRangeRef);
-              }
-            }}
-            className={cn(
-              "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg",
-              "border border-border bg-card",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            )}
-            title="Toggle Win/Loss"
-          >
-            <span
-              aria-hidden
-              className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
-              style={{
-                width: "calc(50% - 4px)",
-                transform: `translate3d(${result === "Win" ? "0" : "calc(100% + 2px)"},0,0)`,
-                transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-                background:
-                  result === "Win"
-                    ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
-                    : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
-                boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-              }}
-            />
-            <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
-              <div
-                className={cn(
-                  "py-2 text-center",
-                  result === "Win"
-                    ? "text-foreground/70"
-                    : "text-muted-foreground",
-                )}
-              >
-                Win
-              </div>
-              <div
-                className={cn(
-                  "py-2 text-center",
-                  result === "Loss"
-                    ? "text-foreground/70"
-                    : "text-muted-foreground",
-                )}
-              >
-                Loss
-              </div>
-            </div>
-          </button>
-        </div>
-
-        {/* Score */}
-        <div>
-          <SectionLabel>Score</SectionLabel>
-          <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
-            <input
-              ref={scoreRangeRef}
-              type="range"
-              min={0}
-              max={10}
-              step={1}
-              value={score}
-              onChange={(e) => {
-                const v = Number(e.target.value);
-                setScore(v);
-                commitMeta({ score: v });
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  go(timeRef);
-                }
-              }}
-              className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
-              aria-label="Score from 0 to 10"
-            />
-            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
-                <div
-                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]"
-                  style={{
-                    width: `calc(${(score / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
-                  }}
-                />
-                <div
-                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-                  style={{
-                    left: `calc(${(score / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-            <span className="pill h-6 px-2 text-xs">{score}/10</span>
-            <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
-            <span>{msg}</span>
-          </div>
-        </div>
+        <ResultScoreSection
+          ref={resultScoreRef}
+          result={review.result ?? "Win"}
+          score={
+            Number.isFinite(review.score ?? NaN)
+              ? Number(review.score)
+              : 5
+          }
+          commitMeta={commitMeta}
+          onScoreEnter={() => timestampsRef.current?.focusTime()}
+        />
 
         {/* Focus */}
         <div>
@@ -682,191 +295,17 @@ export default function ReviewEditor({
           )}
         </div>
 
-        {/* Pillars */}
-        <div>
-          <SectionLabel>Pillars</SectionLabel>
-          <div className="flex flex-wrap gap-2">
-            {ALL_PILLARS.map((p) => {
-              const active = pillars.includes(p);
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => togglePillar(p)}
-                  onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
-                  aria-pressed={active}
-                  className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  title={active ? `${p} selected` : `Select ${p}`}
-                >
-                  <NeonPillarChip active={active}>
-                    <PillarBadge
-                      pillar={p}
-                      size="md"
-                      interactive
-                      active={active}
-                    />
-                  </NeonPillarChip>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <PillarsSelector
+          ref={pillarsRef}
+          pillars={Array.isArray(review.pillars) ? review.pillars : []}
+          commitMeta={commitMeta}
+        />
 
-        {/* Timestamps */}
-        <div>
-          <div className="mb-3 flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Use timestamp"
-              aria-pressed={useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => {
-                setUseTimestamp(true);
-                setLastMarkerMode(true);
-                setTTime(lastMarkerTime);
-              }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  setUseTimestamp(true);
-                  setLastMarkerMode(true);
-                  setTTime(lastMarkerTime);
-                })
-              }
-              title="Timestamp mode"
-            >
-              <NeonIcon kind="clock" on={useTimestamp} size="1em" />
-            </button>
-
-            <button
-              type="button"
-              aria-label="Use note only"
-              aria-pressed={!useTimestamp}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => {
-                setUseTimestamp(false);
-                setLastMarkerMode(false);
-              }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  setUseTimestamp(false);
-                  setLastMarkerMode(false);
-                })
-              }
-              title="Note-only mode"
-            >
-              <NeonIcon kind="file" on={!useTimestamp} size="1em" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2">
-            {useTimestamp ? (
-              <Input
-                ref={timeRef}
-                name="timestamp-time"
-                value={tTime}
-                onChange={(e) => {
-                  setTTime(e.target.value);
-                  setLastMarkerTime(e.target.value);
-                }}
-                placeholder="00:00"
-                className="text-center font-mono tabular-nums"
-                aria-label="Timestamp time in mm:ss"
-                inputMode="numeric"
-                pattern="^[0-9]?\d:[0-5]\d$"
-                aria-invalid={timeError ? "true" : undefined}
-                aria-describedby={timeError ? "tTime-error" : undefined}
-                style={{ width: "calc(5ch + 1.7rem)" }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && canAddMarker) {
-                    e.preventDefault();
-                    addMarker();
-                  } else if (e.key === "Enter") {
-                    e.preventDefault();
-                    noteRef.current?.focus();
-                  }
-                }}
-              />
-            ) : (
-              <span
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 text-sm text-foreground/70"
-                style={{ width: "calc(5ch + 1.5rem)" }}
-                title="Timestamp disabled"
-              >
-                <Clock className="h-4 w-4" /> —
-              </span>
-            )}
-
-            <Input
-              ref={noteRef}
-              name="timestamp-note"
-              value={tNote}
-              onChange={(e) => setTNote(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && canAddMarker) {
-                  e.preventDefault();
-                  addMarker();
-                }
-              }}
-              placeholder="Note"
-              className="rounded-2xl"
-              aria-label="Timestamp note"
-            />
-
-            <IconButton
-              aria-label="Add timestamp"
-              title={canAddMarker ? "Add timestamp" : "Enter details"}
-              disabled={!canAddMarker}
-              size="md"
-              iconSize="sm"
-              variant="solid"
-              onClick={addMarker}
-            >
-              <Plus />
-            </IconButton>
-          </div>
-          {timeError && (
-            <p id="tTime-error" className="mt-1 text-xs text-danger">
-              Enter time as mm:ss
-            </p>
-          )}
-
-          {sortedMarkers.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground">
-              No timestamps yet.
-            </div>
-          ) : (
-            <ul className="mt-3 space-y-2">
-              {sortedMarkers.map((m) => (
-                <li
-                  key={m.id}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
-                >
-                  {m.noteOnly ? (
-                    <span className="pill h-7 w-16 px-0 flex items-center justify-center">
-                      <FileText size={14} className="opacity-80" />
-                    </span>
-                  ) : (
-                    <span className="pill h-7 w-16 px-3 text-xs font-mono tabular-nums text-center">
-                      {m.time}
-                    </span>
-                  )}
-
-                  <span className="truncate text-sm">{m.note}</span>
-                  <IconButton
-                    aria-label="Delete timestamp"
-                    title="Delete timestamp"
-                    size="sm"
-                    iconSize="sm"
-                    variant="ring"
-                    onClick={() => removeMarker(m.id)}
-                  >
-                    <Trash2 />
-                  </IconButton>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <TimestampMarkers
+          ref={timestampsRef}
+          markers={Array.isArray(review.markers) ? review.markers : []}
+          commitMeta={commitMeta}
+        />
 
         {/* Tags */}
         <div>
@@ -946,3 +385,4 @@ export default function ReviewEditor({
     </SectionCard>
   );
 }
+

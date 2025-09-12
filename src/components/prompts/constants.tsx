@@ -39,8 +39,14 @@ import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
-import { RoleSelector } from "@/components/reviews";
-import ReviewListItem from "@/components/reviews/ReviewListItem";
+import {
+  RoleSelector,
+  ReviewListItem,
+  LaneOpponentForm,
+  ResultScoreSection,
+  PillarsSelector as ReviewsPillarsSelector,
+  TimestampMarkers,
+} from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
@@ -747,9 +753,49 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "pillar-selector",
       name: "PillarSelector",
-      element: <PillarSelector />, 
+      element: <PillarSelector />,
       tags: ["pillar", "selector"],
       code: `<PillarSelector />`,
+    },
+    {
+      id: "lane-opponent-form",
+      name: "LaneOpponentForm",
+      element: (
+        <LaneOpponentForm
+          lane="Ashe/Lulu"
+          opponent="Draven/Thresh"
+          commitMeta={() => {}}
+        />
+      ),
+      tags: ["lane", "opponent"],
+      code: `<LaneOpponentForm lane="Ashe/Lulu" opponent="Draven/Thresh" commitMeta={() => {}} />`,
+    },
+    {
+      id: "result-score-section",
+      name: "ResultScoreSection",
+      element: (
+        <ResultScoreSection
+          result="Win"
+          score={5}
+          commitMeta={() => {}}
+        />
+      ),
+      tags: ["result", "score"],
+      code: `<ResultScoreSection result="Win" score={5} commitMeta={() => {}} />`,
+    },
+    {
+      id: "pillars-selector", // new component
+      name: "PillarsSelector",
+      element: <ReviewsPillarsSelector commitMeta={() => {}} pillars={[]} />,
+      tags: ["pillars", "selector"],
+      code: `<PillarsSelector pillars={[]} commitMeta={() => {}} />`,
+    },
+    {
+      id: "timestamp-markers",
+      name: "TimestampMarkers",
+      element: <TimestampMarkers markers={[]} commitMeta={() => {}} />,
+      tags: ["timestamp", "marker"],
+      code: `<TimestampMarkers markers={[]} commitMeta={() => {}} />`,
     },
   ],
   misc: [
