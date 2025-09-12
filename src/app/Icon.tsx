@@ -9,8 +9,8 @@ export default function Icon() {
     (
       <div
         style={{
-          fontSize: 20,
-          fontWeight: 800,
+          fontSize: "var(--font-size-md)",
+          fontWeight: "var(--font-weight-bold)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -23,6 +23,6 @@ export default function Icon() {
         13
       </div>
     ),
-    size
+    size,
   );
 }
