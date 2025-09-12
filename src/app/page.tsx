@@ -15,54 +15,12 @@ import {
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
 import { Spinner } from "@/components/ui";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
-import {
-  VARIANTS,
-  BG_CLASSES,
-  type Variant,
-  type Background,
-} from "@/lib/theme";
+import { useThemeQuerySync } from "@/lib/theme-hooks";
 
 function HomePageContent() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [theme, setTheme] = useTheme();
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const themeParam = searchParams.get("theme");
-    const bgParam = searchParams.get("bg");
-    setTheme((prev) => {
-      const next = { ...prev };
-      if (themeParam && VARIANTS.some((v) => v.id === themeParam)) {
-        next.variant = themeParam as Variant;
-      }
-      if (bgParam) {
-        const idx = Number(bgParam);
-        if (!Number.isNaN(idx) && idx >= 0 && idx < BG_CLASSES.length) {
-          next.bg = idx as Background;
-        }
-      }
-      if (next.variant === prev.variant && next.bg === prev.bg) {
-        return prev;
-      }
-      return next;
-    });
-  }, [searchParams, setTheme]);
-
-  React.useEffect(() => {
-    const currentTheme = searchParams.get("theme");
-    const currentBg = searchParams.get("bg");
-    if (currentTheme === theme.variant && currentBg === String(theme.bg)) {
-      return;
-    }
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("theme", theme.variant);
-    params.set("bg", String(theme.bg));
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [theme, router, pathname, searchParams]);
+  useThemeQuerySync();
 
   return (
     <main
