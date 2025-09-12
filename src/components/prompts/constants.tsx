@@ -48,7 +48,7 @@ import {
   TimestampMarkers,
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
-import type { Review } from "@/lib/types";
+import type { Review, Role } from "@/lib/types";
 import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
@@ -114,6 +114,11 @@ export const demoReview: Review = {
   score: 8,
   result: "Win",
 };
+
+function RoleSelectorDemo() {
+  const [role, setRole] = React.useState<Role>("MID");
+  return <RoleSelector value={role} onChange={setRole} />;
+}
 function ThemePickerDemo() {
   const [t, setT] = React.useState(defaultTheme());
   return (
@@ -823,9 +828,9 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "role-selector",
       name: "RoleSelector",
-      element: <RoleSelector value="MID" onChange={() => {}} />,
+      element: <RoleSelectorDemo />,
       tags: ["role", "selector"],
-      code: `<RoleSelector value="MID" onChange={() => {}} />`,
+      code: `<RoleSelector value={role} onChange={setRole} />`,
     },
     {
       id: "review-list-item",
