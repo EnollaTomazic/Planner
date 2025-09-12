@@ -8,16 +8,31 @@ type ComponentsViewProps = {
   section: Section;
 };
 
-function SpecCard({ name, description, element, props }: Spec) {
+function SpecCard({ name, description, element, props, code }: Spec) {
+  const [showCode, setShowCode] = React.useState(false);
   return (
     <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
       <header className="flex items-center justify-between">
         <h3 className="text-base font-semibold tracking-[-0.01em]">{name}</h3>
+        {code && (
+          <button
+            type="button"
+            onClick={() => setShowCode((s) => !s)}
+            className="text-xs underline underline-offset-2"
+          >
+            {showCode ? "Hide code" : "Show code"}
+          </button>
+        )}
       </header>
       {description ? (
         <p className="text-sm font-medium text-muted-foreground">{description}</p>
       ) : null}
       <div className="rounded-card r-card-md bg-background p-4">{element}</div>
+      {showCode && code ? (
+        <pre className="rounded-card r-card-md bg-muted p-4 text-xs overflow-x-auto">
+          <code>{code}</code>
+        </pre>
+      ) : null}
       {props ? (
         <ul className="flex flex-wrap gap-3 text-xs">
           {props.map((p) => (

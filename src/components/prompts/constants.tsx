@@ -3,6 +3,7 @@ import {
   Button,
   IconButton,
   Input,
+  Textarea,
   SegmentedButton,
   Badge,
   Card,
@@ -17,6 +18,15 @@ import {
   ThemePicker,
   BackgroundPicker,
   Progress,
+  Split,
+  TabBar,
+  TitleBar,
+  AnimationToggle,
+  ThemeToggle,
+  CheckCircle,
+  SideSelector,
+  PillarBadge,
+  PillarSelector,
   Header,
   Hero,
   SectionCard as UiSectionCard,
@@ -24,6 +34,10 @@ import {
 } from "@/components/ui";
 import GoalListDemo from "./GoalListDemo";
 import PromptList from "./PromptList";
+import SelectShowcase from "./SelectShowcase";
+import SpinnerShowcase from "./SpinnerShowcase";
+import SnackbarShowcase from "./SnackbarShowcase";
+import ToggleShowcase from "./ToggleShowcase";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
@@ -46,6 +60,9 @@ export type Section =
   | "prompts"
   | "planner"
   | "layout"
+  | "feedback"
+  | "toggles"
+  | "league"
   | "misc";
 
 export type Spec = {
@@ -55,6 +72,7 @@ export type Spec = {
   element: React.ReactNode;
   tags: string[];
   props?: { label: string; value: string }[];
+  code: string;
 };
 
 export const VIEW_TABS: HeaderTab<View>[] = [
@@ -249,6 +267,10 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["button", "action"],
       props: [{ label: "sizes", value: "sm md lg" }],
+      code: `<div className="flex gap-4">
+  <Button>Primary</Button>
+  <Button variant="ghost">Ghost</Button>
+</div>`,
     },
     {
       id: "button-states",
@@ -265,6 +287,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["button", "states"],
+      code: `<div className="flex flex-wrap gap-4">
+  <Button>Default</Button>
+  <Button className="bg-[--hover]">Hover</Button>
+  <Button className="ring-2 ring-[--focus]">Focus</Button>
+  <Button className="bg-[--active]">Active</Button>
+  <Button disabled>Disabled</Button>
+  <Button loading>Loading</Button>
+</div>`,
     },
     {
       id: "segmented-button",
@@ -277,6 +307,10 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["button", "segmented"],
+      code: `<div className="flex gap-4">
+  <SegmentedButton>Default</SegmentedButton>
+  <SegmentedButton isActive>Active</SegmentedButton>
+</div>`,
     },
     {
       id: "icon-button",
@@ -297,6 +331,17 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["icon", "button"],
       props: [{ label: "sizes", value: "xs sm md" }],
+      code: `<div className="flex items-center gap-4">
+  <IconButton size="xs" aria-label="Add">
+    <Plus />
+  </IconButton>
+  <IconButton size="sm" aria-label="Add">
+    <Plus />
+  </IconButton>
+  <IconButton size="md" aria-label="Add">
+    <Plus />
+  </IconButton>
+</div>`,
     },
     {
       id: "icon-button-states",
@@ -325,6 +370,26 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["icon", "button", "states"],
+      code: `<div className="flex flex-wrap gap-4">
+  <IconButton aria-label="Default">
+    <Plus />
+  </IconButton>
+  <IconButton className="bg-[--hover]" aria-label="Hover">
+    <Plus />
+  </IconButton>
+  <IconButton className="ring-2 ring-[--focus]" aria-label="Focus">
+    <Plus />
+  </IconButton>
+  <IconButton className="bg-[--active]" aria-label="Active">
+    <Plus />
+  </IconButton>
+  <IconButton disabled aria-label="Disabled">
+    <Plus />
+  </IconButton>
+  <IconButton loading aria-label="Loading">
+    <Plus />
+  </IconButton>
+</div>`,
     },
   ],
   inputs: [
@@ -334,6 +399,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Standard text input",
       element: <Input placeholder="Type here" />,
       tags: ["input", "text"],
+      code: `<Input placeholder="Type here" />`,
     },
     {
       id: "input-states",
@@ -350,6 +416,46 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["input", "states"],
+      code: `<div className="flex flex-col gap-2">
+  <Input placeholder="Default" />
+  <Input placeholder="Hover" className="bg-[--hover]" />
+  <Input placeholder="Focus" className="ring-2 ring-[--focus]" />
+  <Input placeholder="Active" className="bg-[--active]" />
+  <Input placeholder="Disabled" disabled />
+  <Input placeholder="Loading" data-loading="true" />
+</div>`,
+    },
+    {
+      id: "select",
+      name: "Select",
+      description: "Animated and native select",
+      element: <SelectShowcase />,
+      tags: ["select", "input"],
+      code: `const items = [
+  { value: "one", label: "One" },
+  { value: "two", label: "Two" },
+];
+<>
+  <Select items={items} placeholder="Animated" />
+  <Select variant="native" items={items} />
+  <Select items={items} disabled placeholder="Disabled" />
+</>`,
+    },
+    {
+      id: "textarea",
+      name: "Textarea",
+      description: "Multi-line text input",
+      element: (
+        <div className="flex flex-col gap-2">
+          <Textarea placeholder="Type here" />
+          <Textarea placeholder="Disabled" disabled />
+        </div>
+      ),
+      tags: ["textarea", "input"],
+      code: `<div className="flex flex-col gap-2">
+  <Textarea placeholder="Type here" />
+  <Textarea placeholder="Disabled" disabled />
+</div>`,
     },
   ],
   prompts: [
@@ -359,12 +465,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Prompt filtering",
       element: <PromptList prompts={demoPrompts} query="" />,
       tags: ["prompt", "list"],
+      code: `<PromptList prompts={demoPrompts} query="" />`,
     },
     {
       id: "goal-list-demo",
       name: "GoalListDemo",
       element: <GoalListDemo />,
       tags: ["goal", "list"],
+      code: `<GoalListDemo />`,
     },
   ],
   planner: [
@@ -373,54 +481,63 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "DashboardCard",
       element: <DashboardCard title="Demo" />,
       tags: ["dashboard", "card"],
+      code: `<DashboardCard title="Demo" />`,
     },
     {
       id: "bottom-nav",
       name: "BottomNav",
       element: <BottomNav />,
       tags: ["nav", "bottom"],
+      code: `<BottomNav />`,
     },
     {
       id: "isometric-room",
       name: "IsometricRoom",
       element: <IsometricRoom variant="aurora" />,
       tags: ["room", "3d"],
+      code: `<IsometricRoom variant="aurora" />`,
     },
     {
       id: "goals-progress",
       name: "GoalsProgress",
       element: <GoalsProgress total={3} pct={50} />,
       tags: ["goals", "progress"],
+      code: `<GoalsProgress total={3} pct={50} />`,
     },
     {
       id: "reminders-tab",
       name: "RemindersTab",
       element: <RemindersTab />,
       tags: ["reminders", "tab"],
+      code: `<RemindersTab />`,
     },
     {
       id: "timer-ring",
       name: "TimerRing",
       element: <TimerRing pct={42} />,
       tags: ["timer", "ring"],
+      code: `<TimerRing pct={42} />`,
     },
     {
       id: "timer-tab",
       name: "TimerTab",
       element: <TimerTab />,
       tags: ["timer", "tab"],
+      code: `<TimerTab />`,
     },
     {
       id: "progress-ring-icon",
       name: "ProgressRingIcon",
       element: <ProgressRingIcon pct={50} />,
       tags: ["icon", "progress"],
+      code: `<ProgressRingIcon pct={50} />`,
     },
     {
       id: "timer-ring-icon",
       name: "TimerRingIcon",
       element: <TimerRingIcon pct={75} />,
       tags: ["icon", "timer"],
+      code: `<TimerRingIcon pct={75} />`,
     },
   ],
   layout: [
@@ -430,6 +547,12 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Header with segmented tabs",
       element: <HeaderTabsDemo />,
       tags: ["header", "tabs"],
+      code: `<Header
+  heading="Header"
+  tabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }}
+  sticky={false}
+  topClassName="top-0"
+/>`,
     },
     {
       id: "hero-demo",
@@ -437,30 +560,196 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Hero with sub-tabs, search, and actions",
       element: <HeroDemo />,
       tags: ["hero"],
+      code: `<Hero heading="Hero" subTabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }} search={{ id: "hero-demo-search", value: "", onValueChange: () => {}, round: true, "aria-label": "Search" }} actions={<div className="flex items-center gap-2"><Button size="sm">Action</Button><IconButton size="sm" aria-label="Add"><Plus /></IconButton></div>} sticky={false} topClassName="top-0" />`,
     },
     {
       id: "card-demo",
       name: "Card",
       element: <CardDemo />,
       tags: ["card", "layout"],
+      code: `<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p className="text-sm">Body</p>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Action</Button>
+  </CardFooter>
+</Card>`,
     },
     {
       id: "sheet-demo",
       name: "Sheet",
       element: <SheetDemo />,
       tags: ["sheet", "overlay"],
+      code: `<Button size="sm">Open</Button>
+<Sheet open>
+  <Card>
+    <CardHeader>
+      <CardTitle>Sheet</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm">Content</p>
+    </CardContent>
+  </Card>
+</Sheet>`,
     },
     {
       id: "modal-demo",
       name: "Modal",
       element: <ModalDemo />,
       tags: ["modal", "overlay"],
+      code: `<Button size="sm">Open</Button>
+<Modal open>
+  <Card>
+    <CardHeader>
+      <CardTitle>Modal</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm">Content</p>
+    </CardContent>
+    <CardFooter>
+      <Button size="sm">Close</Button>
+    </CardFooter>
+  </Card>
+</Modal>`,
     },
     {
       id: "toast-demo",
       name: "Toast",
       element: <ToastDemo />,
       tags: ["toast", "feedback"],
+      code: `<Button size="sm">Show</Button>
+<Toast open><p className="text-sm">Toast message</p></Toast>`,
+    },
+    {
+      id: "split",
+      name: "Split",
+      element: (
+        <Split left={<div className="p-4">Left</div>} right={<div className="p-4">Right</div>} />
+      ),
+      tags: ["split", "layout"],
+      code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
+    },
+    {
+      id: "tab-bar",
+      name: "TabBar",
+      element: (
+        <TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />
+      ),
+      tags: ["tabs"],
+      code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
+    },
+    {
+      id: "title-bar",
+      name: "TitleBar",
+      element: <TitleBar label="Title" />,
+      tags: ["title", "bar"],
+      code: `<TitleBar label="Title" />`,
+    },
+  ],
+  feedback: [
+    {
+      id: "progress",
+      name: "Progress",
+      element: <Progress value={33} />,
+      tags: ["progress"],
+      code: `<Progress value={33} />`,
+    },
+    {
+      id: "snackbar",
+      name: "Snackbar",
+      element: <SnackbarShowcase />,
+      tags: ["snackbar", "feedback"],
+      code: `<Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />`,
+    },
+    {
+      id: "spinner",
+      name: "Spinner",
+      element: <SpinnerShowcase />,
+      tags: ["spinner", "loading"],
+      code: `<Spinner size={24} />`,
+    },
+  ],
+  toggles: [
+    {
+      id: "toggle",
+      name: "Toggle",
+      element: <ToggleShowcase />,
+      tags: ["toggle"],
+      code: `const [value, setValue] = React.useState<"Left" | "Right">("Left");
+<Toggle value={value} onChange={setValue} />`,
+    },
+    {
+      id: "animation-toggle",
+      name: "AnimationToggle",
+      element: (
+        <div className="flex gap-4">
+          <AnimationToggle />
+          <AnimationToggle loading />
+        </div>
+      ),
+      tags: ["toggle", "animation"],
+      code: `<AnimationToggle />
+<AnimationToggle loading />`,
+    },
+    {
+      id: "theme-toggle",
+      name: "ThemeToggle",
+      element: <ThemeToggle />,
+      tags: ["theme", "toggle"],
+      code: `<ThemeToggle />`,
+    },
+    {
+      id: "check-circle",
+      name: "CheckCircle",
+      element: (
+        <div className="flex gap-4">
+          <CheckCircle checked={false} onChange={() => {}} />
+          <CheckCircle checked onChange={() => {}} />
+        </div>
+      ),
+      tags: ["checkbox", "toggle"],
+      code: `<CheckCircle checked={false} onChange={() => {}} />
+<CheckCircle checked onChange={() => {}} />`,
+    },
+  ],
+  league: [
+    {
+      id: "side-selector",
+      name: "SideSelector",
+      element: (
+        <div className="flex flex-col gap-4">
+          <SideSelector />
+          <SideSelector disabled />
+        </div>
+      ),
+      tags: ["side", "selector"],
+      code: `<SideSelector />
+<SideSelector disabled />`,
+    },
+    {
+      id: "pillar-badge",
+      name: "PillarBadge",
+      element: (
+        <div className="flex gap-4">
+          <PillarBadge pillar="Wave" />
+          <PillarBadge pillar="Trading" active />
+        </div>
+      ),
+      tags: ["pillar", "badge"],
+      code: `<PillarBadge pillar="Wave" />
+<PillarBadge pillar="Trading" active />`,
+    },
+    {
+      id: "pillar-selector",
+      name: "PillarSelector",
+      element: <PillarSelector />, 
+      tags: ["pillar", "selector"],
+      code: `<PillarSelector />`,
     },
   ],
   misc: [
@@ -469,36 +758,35 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "Badge",
       element: <Badge>Badge</Badge>,
       tags: ["badge"],
+      code: `<Badge>Badge</Badge>`,
     },
     {
       id: "theme-picker",
       name: "ThemePicker",
       element: <ThemePickerDemo />,
       tags: ["theme", "picker"],
+      code: `<ThemePicker variant="default" />`,
     },
     {
       id: "background-picker",
       name: "BackgroundPicker",
       element: <BackgroundPickerDemo />,
       tags: ["background", "picker"],
+      code: `<BackgroundPicker bg="aurora" />`,
     },
     {
       id: "role-selector",
       name: "RoleSelector",
       element: <RoleSelector value="MID" onChange={() => {}} />,
       tags: ["role", "selector"],
+      code: `<RoleSelector value="MID" onChange={() => {}} />`,
     },
     {
       id: "review-list-item",
       name: "ReviewListItem",
       element: <ReviewListItem review={demoReview} />,
       tags: ["review", "list"],
-    },
-    {
-      id: "progress",
-      name: "Progress",
-      element: <Progress value={33} />,
-      tags: ["progress"],
+      code: `<ReviewListItem review={demoReview} />`,
     },
     {
       id: "variant-badges",
@@ -513,6 +801,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["badge", "variant"],
+      code: `<div className="flex flex-wrap gap-2">
+  {VARIANTS.map((v) => (
+    <Badge key={v.id} variant="accent">
+      {v.label}
+    </Badge>
+  ))}
+</div>`,
     },
     {
       id: "section-card-variants",
@@ -530,6 +825,16 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         </div>
       ),
       tags: ["section", "card"],
+      code: `<div className="flex flex-col gap-4">
+  <SectionCard>
+    <SectionCard.Header title="Neo (default)" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+  <SectionCard variant="plain">
+    <SectionCard.Header title="Plain" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+</div>`,
     },
   ],
 };
