@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { Home } from "lucide-react";
 import {
   QuickActions,
@@ -22,6 +23,11 @@ import {
   type Variant,
   type Background,
 } from "@/lib/theme";
+
+export const metadata: Metadata = {
+  title: "Planner",
+  description: "Plan your day, track goals, and review games.",
+};
 
 function HomePageContent() {
   const router = useRouter();
