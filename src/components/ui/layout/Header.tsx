@@ -107,16 +107,16 @@ export default function Header<Key extends string = string>({
           {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="mb-1 truncate text-xs uppercase tracking-wide text-muted-foreground">
+              <div className="mb-1 truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
             <div className="flex min-w-0 items-baseline gap-2">
-              <h1 className="truncate text-base leading-tight text-foreground sm:text-lg title-glow">
+              <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
                 {heading}
               </h1>
               {subtitle ? (
-                <span className="hidden truncate text-xs text-muted-foreground sm:inline">
+                <span className="hidden truncate text-label font-medium tracking-[0.02em] text-muted-foreground sm:inline">
                   {subtitle}
                 </span>
               ) : null}
@@ -201,8 +201,8 @@ function TabsNav<Key extends string = string>({
       {items.map((t, i) => {
         const active = value === t.key;
         return (
-          <SegmentedButton
-            key={t.key}
+            <SegmentedButton
+              key={t.key}
             ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
             role="tab"
             aria-selected={active}
@@ -210,7 +210,7 @@ function TabsNav<Key extends string = string>({
             id={`${t.key}-tab`}
             title={t.hint}
             onClick={() => onChange(t.key)}
-            className="h-8 sm:h-9 text-xs sm:text-sm px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
+            className="h-8 sm:h-9 text-label sm:text-ui font-medium tracking-[0.02em] px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
             isActive={active}
           >
             {t.icon}

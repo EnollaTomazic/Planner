@@ -68,9 +68,9 @@ export default function WeekSummary({
   const headingRow =
     variant === "inline" ? (
       showLabel ? (
-        <div className="mb-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
+        <div className="mb-2 flex items-center justify-between gap-2 text-label font-medium tracking-[0.02em] text-muted-foreground">
           <div className="flex items-center gap-2">
-            <span className="uppercase tracking-[0.14em]">Week</span>
+            <span className="uppercase tracking-[0.02em]">Week</span>
             <span aria-hidden>•</span>
             <span>{rangeLabel}</span>
           </div>
@@ -82,7 +82,7 @@ export default function WeekSummary({
       ) : null
     ) : (
       <div className="mb-3 flex items-center gap-3">
-        <div className="text-sm text-muted-foreground">{rangeLabel}</div>
+        <div className="text-ui font-medium text-muted-foreground">{rangeLabel}</div>
         <span
           className="ml-auto badge badge--sm"
           role="status"
@@ -121,7 +121,7 @@ export default function WeekSummary({
             <div
               className={cn(
                 "ws-tile__counts",
-                variant === "inline" ? "text-base" : "text-lg",
+                variant === "inline" ? "text-body" : "text-title",
               )}
             >
               <span className="tabular-nums">{s.done}</span>

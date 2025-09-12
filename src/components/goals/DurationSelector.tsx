@@ -32,7 +32,7 @@ export default function DurationSelector({
             disabled={disabled}
             onClick={() => !disabled && onChange?.(m)}
             className={cn(
-              "inline-flex items-center justify-center h-9 px-3 rounded-full text-center text-sm",
+              "inline-flex items-center justify-center h-9 px-3 rounded-full text-center text-ui font-medium",
               "border transition-colors",
               "border-border/10 bg-foreground/5 text-foreground/70",
               "hover:bg-foreground/10 hover:text-foreground/70",

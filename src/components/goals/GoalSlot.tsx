@@ -67,7 +67,7 @@ export default function GoalSlot({
     <div className="group relative rounded-card r-card-lg border border-border bg-surface p-1 shadow-neoSoft">
       <div
         className={cn(
-          "relative flex aspect-[4/3] w-full items-center justify-center rounded-card r-card-lg bg-surface-2 font-mono text-center text-sm text-foreground",
+          "relative flex aspect-[4/3] w-full items-center justify-center rounded-card r-card-lg bg-surface-2 font-mono text-center text-ui font-medium text-foreground",
           goal?.done && "bg-muted text-muted-foreground",
         )}
       >
@@ -148,7 +148,7 @@ export default function GoalSlot({
             </>
           )
         ) : (
-          <span className="text-muted-foreground">NO SIGNAL</span>
+          <span className="text-label font-medium tracking-[0.02em] text-muted-foreground">NO SIGNAL</span>
         )}
       </div>
     </div>

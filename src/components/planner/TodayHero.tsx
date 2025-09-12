@@ -99,7 +99,7 @@ export default function TodayHero({ iso }: Props) {
       <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
           <h2
-            className="glitch text-lg font-semibold tracking-tight"
+            className="glitch text-title font-semibold tracking-[-0.01em]"
             data-text={isToday ? "Today" : viewIso}
           >
             {isToday ? "Today" : viewIso}
@@ -144,7 +144,7 @@ export default function TodayHero({ iso }: Props) {
           <div className="glitch-scan" />
         </div>
         <span
-          className="glitch-percent w-12 text-right text-sm"
+          className="glitch-percent w-12 text-right text-ui font-medium"
           aria-live="polite"
         >
           {pct}%
@@ -182,7 +182,7 @@ export default function TodayHero({ iso }: Props) {
                 <li
                   key={p.id}
                   className={cn(
-                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-3 py-2 text-sm transition",
+                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-3 py-2 text-ui font-medium transition",
                     "border-border bg-card/55 hover:bg-card/70",
                     isSelected && "ring-1 ring-ring",
                   )}
@@ -275,7 +275,7 @@ export default function TodayHero({ iso }: Props) {
               );
             })}
             {projects.length > 12 && (
-              <li className="pr-1 text-right text-xs opacity-70">
+              <li className="pr-1 text-right text-label font-medium tracking-[0.02em] opacity-70">
                 + {projects.length - 12} more…
               </li>
             )}
@@ -285,7 +285,7 @@ export default function TodayHero({ iso }: Props) {
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
-        <div className="mt-4 text-sm text-muted-foreground">
+        <div className="mt-4 text-ui font-medium text-muted-foreground">
           Select a project to add and view tasks.
         </div>
       ) : (
@@ -410,7 +410,7 @@ export default function TodayHero({ iso }: Props) {
                 );
               })}
               {scopedTasks.length > 12 && (
-                <li className="pr-1 text-right text-xs opacity-70">
+                <li className="pr-1 text-right text-label font-medium tracking-[0.02em] opacity-70">
                   + {scopedTasks.length - 12} more…
                 </li>
               )}

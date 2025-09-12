@@ -109,4 +109,9 @@ export default {
   radiusLg: "12px",
   radiusXl: "16px",
   radius2xl: "24px",
+  fontLabel: "12px",
+  fontUi: "14px",
+  fontBody: "16px",
+  fontTitle: "20px",
+  fontTitleLg: "24px",
 };

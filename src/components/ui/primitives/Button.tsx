@@ -11,21 +11,21 @@ export const buttonSizes = {
   sm: {
     height: "h-9",
     padding: "px-4",
-    text: "text-sm",
+    text: "text-label",
     gap: "gap-1",
     icon: "[&_svg]:size-4",
   },
   md: {
     height: "h-10",
     padding: "px-4",
-    text: "text-base",
+    text: "text-ui",
     gap: "gap-2",
     icon: "[&_svg]:size-5",
   },
   lg: {
     height: "h-11",
     padding: "px-8",
-    text: "text-lg",
+    text: "text-title",
     gap: "gap-4",
     icon: "[&_svg]:size-8",
   },
@@ -133,7 +133,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,

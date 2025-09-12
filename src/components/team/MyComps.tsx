@@ -163,7 +163,7 @@ function ChampChips({
     return (
       <div className="champ-badges mt-1 flex flex-wrap gap-2">
         {(champs.length ? champs : ["-"]).map((c, i) => (
-          <span key={i} className="champ-badge glitch-pill text-xs">
+          <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
             <i className="dot" />
             {c}
           </span>
@@ -192,7 +192,7 @@ function ChampChips({
   return (
     <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(champs.length ? champs : [""]).map((c, i) => (
-        <span key={i} className="champ-badge glitch-pill text-xs">
+        <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
           <i className="dot" />
           <input
             type="text"
@@ -328,11 +328,11 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-ui font-medium text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-ui font-medium text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
@@ -404,7 +404,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   <header className="mb-[var(--spacing-3)]">
                     {!editingCard ? (
                       <h3
-                        className="glitch-title glitch-flicker title-glow text-lg sm:text-xl font-semibold"
+                        className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg font-semibold tracking-[-0.01em]"
                         data-text={c.title}
                       >
                         {c.title}
@@ -435,7 +435,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                           className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-3"
                         >
                           <div
-                            className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
+                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-1"
                             data-text={r}
                           >
                             {r}
@@ -453,11 +453,11 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
                     {/* notes */}
                     <div className="grid gap-3">
-                      <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
+                      <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
                       {!editingCard ? (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-ui font-medium text-muted-foreground">
                           {c.notes?.trim() || (
                             <span className="opacity-60">—</span>
                           )}

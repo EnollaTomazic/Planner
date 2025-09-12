@@ -54,7 +54,7 @@ export default function GoalList({
   return (
     <div className="grid grid-cols-12 gap-6 [grid-auto-rows:minmax(0,1fr)]">
       {goals.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-sm text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
+        <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-ui font-medium text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
           <Flag
             aria-hidden
             className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]"
@@ -89,7 +89,7 @@ export default function GoalList({
                       placeholder="Title"
                     />
                   ) : (
-                    <h3 className="pr-6 font-semibold leading-tight line-clamp-2">
+                    <h3 className="pr-6 text-title font-semibold tracking-[-0.01em] leading-tight line-clamp-2">
                       {g.title}
                     </h3>
                   )}
@@ -152,7 +152,7 @@ export default function GoalList({
                     )}
                   </div>
                 </header>
-                <div className="relative z-[1] mt-4 space-y-2 text-sm text-muted-foreground">
+                <div className="relative z-[1] mt-4 space-y-2 text-ui font-medium text-muted-foreground">
                   {isEditing ? (
                     <div className="space-y-2">
                       <Input
@@ -183,12 +183,12 @@ export default function GoalList({
                         </div>
                       ) : null}
                       {g.notes ? (
-                        <p className="leading-relaxed">{g.notes}</p>
+                        <p className="text-body leading-relaxed">{g.notes}</p>
                       ) : null}
                     </>
                   )}
                 </div>
-                <footer className="relative z-[1] mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
+                <footer className="relative z-[1] mt-auto pt-3 flex items-center justify-between text-label font-medium tracking-[0.02em] text-muted-foreground">
                   <span className="inline-flex items-center gap-2">
                     <span
                       aria-hidden

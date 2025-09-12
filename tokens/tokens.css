@@ -127,4 +127,9 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-body: 16px;
+  --font-title: 20px;
+  --font-title-lg: 24px;
 }

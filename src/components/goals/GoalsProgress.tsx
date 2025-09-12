@@ -20,7 +20,7 @@ export default function GoalsProgress({
   if (total === 0) {
     return (
       <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
-        <p className="mb-4 text-sm text-fg-muted">No goals yet.</p>
+        <p className="mb-4 text-ui font-medium text-fg-muted">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto">
             Add a first goal
@@ -45,7 +45,7 @@ export default function GoalsProgress({
       <ProgressRingIcon pct={v} size={size} />
       <span
         aria-live="polite"
-        className="absolute inset-0 flex items-center justify-center text-xs font-medium tabular-nums"
+        className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
       >
         {v}%
       </span>

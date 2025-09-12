@@ -212,7 +212,7 @@ export default function GoalsPage() {
                       className="flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2 sm:gap-4">
-                        <h2 className="text-lg font-semibold">Your Goals</h2>
+                        <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
                         <GoalsProgress total={totalCount} pct={pctDone} />
                       </div>
                       <GoalsTabs value={filter} onChange={setFilter} />

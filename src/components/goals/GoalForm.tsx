@@ -57,7 +57,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
       <SectionCard className="card-neo-soft">
         <SectionCard.Header
           className="flex items-center justify-between"
-          title={<h2 className="text-lg font-semibold">Add Goal</h2>}
+          title={<h2 className="text-title font-semibold tracking-[-0.01em]">Add Goal</h2>}
           actions={
             <Button type="submit" size="sm" disabled={!title.trim()}>
               Add Goal
@@ -70,7 +70,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             <Input
               ref={titleRef}
               id="goal-title"
-              className="h-10 text-sm"
+              className="h-10 text-ui font-medium"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               aria-required="true"
@@ -82,7 +82,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Metric (optional)
             <Input
               id="goal-metric"
-              className="h-10 text-sm tabular-nums"
+              className="h-10 text-ui font-medium tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby={describedBy || undefined}
@@ -93,14 +93,14 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Notes (optional)
             <Textarea
               id="goal-notes"
-              textareaClassName="min-h-24 text-sm"
+              textareaClassName="min-h-24 text-ui font-medium"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby={describedBy || undefined}
             />
           </Label>
 
-          <div id={helpId} className="text-xs text-muted-foreground">
+          <div id={helpId} className="text-label font-medium tracking-[0.02em] text-muted-foreground">
             {activeCount >= activeCap ? (
               <span className="text-danger">
                 Cap reached. Finish one to add more.
@@ -114,12 +114,12 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </div>
 
           {err ? (
-            <p
-              id={errorId}
-              role="status"
-              aria-live="polite"
-              className="text-xs text-danger"
-            >
+              <p
+                id={errorId}
+                role="status"
+                aria-live="polite"
+                className="text-label font-medium tracking-[0.02em] text-danger"
+              >
               {err}
             </p>
           ) : null}
