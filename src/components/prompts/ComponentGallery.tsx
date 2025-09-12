@@ -763,7 +763,16 @@ export default function ComponentGallery() {
               subtitle="Subtitle"
               sticky={false}
               topClassName="top-0"
+              subTabs={{
+                items: [
+                  { key: "one", label: "One" },
+                  { key: "two", label: "Two" },
+                ],
+                value: headerTab,
+                onChange: setHeaderTab,
+              }}
               search={{ value: "", onValueChange: () => {}, round: true }}
+              actions={<Button size="sm">Action</Button>}
             >
               <div className="text-sm text-muted-foreground">Body</div>
             </Hero>

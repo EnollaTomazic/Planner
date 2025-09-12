@@ -93,7 +93,7 @@ function PageContent() {
         }
         {...(view === "components"
           ? {
-              tabs: {
+              subTabs: {
                 items: SECTION_TABS,
                 value: section,
                 onChange: (k: string) => setSection(k as Section),

@@ -155,8 +155,8 @@ export default function WeekPicker() {
     }
   };
 
-  /* Top button goes in Hero.right when applicable */
-  const right = showTop ? (
+  /* Top button goes in Hero actions when applicable */
+  const topAction = showTop ? (
     <Button
       variant="primary"
       size="sm"
@@ -177,50 +177,49 @@ export default function WeekPicker() {
         </span>
       }
       subtitle={`${isoStart} → ${isoEnd}`}
-      right={right}
+      actions={topAction}
       rail
       sticky
       dividerTint="primary"
-      bottom={
-        <div className="grid gap-3 flex-1">
-          {/* Range + totals */}
-          <div className="flex items-center justify-between gap-3">
-            <span
-              className={cn(
-                "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
-                "bg-card/72 ring-1 ring-border/55 backdrop-blur",
-              )}
-              aria-label={`Week range ${rangeLabel}`}
-            >
-              <CalendarDays className="size-4 opacity-80" />
-              <span className="opacity-90">{rangeLabel}</span>
-            </span>
+    >
+      <div className="grid gap-3 flex-1">
+        {/* Range + totals */}
+        <div className="flex items-center justify-between gap-3">
+          <span
+            className={cn(
+              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
+              "bg-card/72 ring-1 ring-border/55 backdrop-blur",
+            )}
+            aria-label={`Week range ${rangeLabel}`}
+          >
+            <CalendarDays className="size-4 opacity-80" />
+            <span className="opacity-90">{rangeLabel}</span>
+          </span>
 
-            <span className="text-sm text-muted-foreground">
-              <span className="opacity-70">Total tasks: </span>
-              <span className="font-medium tabular-nums text-foreground">
-                {weekDone} / {weekTotal}
-              </span>
+          <span className="text-sm text-muted-foreground">
+            <span className="opacity-70">Total tasks: </span>
+            <span className="font-medium tabular-nums text-foreground">
+              {weekDone} / {weekTotal}
             </span>
-          </div>
-
-          {/* Day chips */}
-          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
-            {days.map((d, i) => (
-              <DayChip
-                key={d}
-                iso={d}
-                selected={d === iso}
-                today={d === today}
-                done={per[i]?.done ?? 0}
-                total={per[i]?.total ?? 0}
-                onClick={selectOnly}
-                onDoubleClick={jumpToDay}
-              />
-            ))}
-          </div>
+          </span>
         </div>
-      }
-    />
+
+        {/* Day chips */}
+        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
+          {days.map((d, i) => (
+            <DayChip
+              key={d}
+              iso={d}
+              selected={d === iso}
+              today={d === today}
+              done={per[i]?.done ?? 0}
+              total={per[i]?.total ?? 0}
+              onClick={selectOnly}
+              onDoubleClick={jumpToDay}
+            />
+          ))}
+        </div>
+      </div>
+    </Hero>
   );
 }

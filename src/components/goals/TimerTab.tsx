@@ -4,7 +4,6 @@
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
-import TabBar from "@/components/ui/layout/TabBar";
 import Hero from "@/components/ui/layout/Hero";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import TimerRing from "./TimerRing";
@@ -213,19 +212,17 @@ export default function TimerTab() {
         eyebrow="Focus"
         heading="Timer"
         subtitle="Pick a duration and focus."
-        right={
-          <TabBar
-            items={tabItems}
-            value={profile}
-            onValueChange={(k) => setProfile(k as ProfileKey)}
-            size="md"
-            align="between"
-            ariaLabel="Timer profiles"
-            right={rightSlot}
-            showBaseline
-            className="overflow-x-auto"
-          />
-        }
+        subTabs={{
+          items: tabItems,
+          value: profile,
+          onChange: (k: string) => setProfile(k as ProfileKey),
+          size: "md",
+          align: "between",
+          ariaLabel: "Timer profiles",
+          right: rightSlot,
+          showBaseline: true,
+          className: "overflow-x-auto",
+        }}
       />
 
       <SectionCard className="goal-card no-hover">

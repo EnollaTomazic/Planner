@@ -2,11 +2,12 @@
 "use client";
 
 /**
- * Hero — HUD-glitch header with smooth tab slider transitions.
- * Default layout (if props provided):
- *   • Tabs in the top-right (align="end")
- *   • Pill search inside the neon bottom row
- * Backward compatible with `right` and `bottom`.
+ * Hero — glitchy HUD header with smooth tab slider transitions.
+ *
+ * Layout highlights:
+ *   • Optional sub-tabs in the top-right (same shape as `Header` tabs)
+ *   • Neon divider hosting a pill search bar and optional actions
+ *   • Animated beams/scanlines/noise for the HUD glitch effect
  */
 
 import * as React from "react";
@@ -14,6 +15,7 @@ import TabBar, {
   type TabBarProps,
   type TabItem,
 } from "@/components/ui/layout/TabBar";
+import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import SearchBar, {
   type SearchBarProps,
 } from "@/components/ui/primitives/SearchBar";
@@ -22,30 +24,33 @@ function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
 }
 
-export interface HeroProps
+export interface HeroProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
-
-  /** Right slot (legacy). Ignored if `tabs` is provided. */
-  right?: React.ReactNode;
-
   children?: React.ReactNode;
+  actions?: React.ReactNode;
   sticky?: boolean;
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
   rail?: boolean;
 
-  /** Bottom slot (legacy). Ignored if `search` is provided. */
-  bottom?: React.ReactNode;
-
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
 
-  /** Built-in top-right tabs (preferred). */
+  /** Built-in top-right sub-tabs (preferred). */
+  subTabs?: HeaderTabsProps<Key> & {
+    size?: TabBarProps["size"];
+    align?: TabBarProps["align"];
+    className?: string;
+    showBaseline?: boolean;
+    right?: React.ReactNode;
+  };
+
+  /** @deprecated Use `subTabs` instead. */
   tabs?: {
     items: TabItem[];
     value: string;
@@ -60,45 +65,60 @@ export interface HeroProps
   search?: (SearchBarProps & { round?: boolean }) | null;
 }
 
-function Hero({
+function Hero<Key extends string = string>({
   eyebrow,
   heading,
   subtitle,
   icon,
-  right,
   children,
+  actions,
   sticky = true,
   topClassName = "top-8",
   barClassName,
   bodyClassName,
   rail = true,
-  bottom,
   dividerTint = "primary",
+  subTabs,
   tabs,
   search,
   className,
   ...rest
-}: HeroProps) {
+}: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
 
-  // Compose right area: prefer built-in tabs if provided.
-  const rightNode = tabs ? (
-    <TabBar
-      items={tabs.items}
-      value={tabs.value}
-      onValueChange={tabs.onChange}
-      size={tabs.size ?? "md"}
-      align={tabs.align ?? "end"}
-      showBaseline={tabs.showBaseline ?? true}
-      className={cx("justify-end", tabs.className)}
-      ariaLabel="Hero tabs"
-    />
-  ) : (
-    right
-  );
-
-  // Compose bottom area: prefer built-in search if provided.
-  const bottomNode = search ? <HeroSearchBar {...search} /> : bottom;
+  // Compose right area: prefer built-in sub-tabs if provided.
+  const subTabsNode = subTabs
+    ? (
+        <TabBar
+          items={subTabs.items.map((t) => ({
+            key: t.key,
+            label: t.label,
+            icon: t.icon,
+          }))}
+          value={String(subTabs.value)}
+          onValueChange={(k) => subTabs.onChange(k as Key)}
+          size={subTabs.size ?? "md"}
+          align={subTabs.align ?? "end"}
+          right={subTabs.right}
+          showBaseline={subTabs.showBaseline ?? true}
+          className={cx("justify-end", subTabs.className)}
+          ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
+        />
+      )
+    : tabs
+      ? (
+          <TabBar
+            items={tabs.items}
+            value={tabs.value}
+            onValueChange={tabs.onChange}
+            size={tabs.size ?? "md"}
+            align={tabs.align ?? "end"}
+            showBaseline={tabs.showBaseline ?? true}
+            className={cx("justify-end", tabs.className)}
+            ariaLabel="Hero tabs"
+          />
+        )
+      : null;
 
   return (
     <section className={className} {...rest}>
@@ -144,27 +164,32 @@ function Hero({
             </div>
           </div>
 
-          <div className="ml-auto">{rightNode}</div>
-        </div>
-
-        {children || bottomNode ? (
-          <div className="relative z-[2] mt-4 flex flex-col gap-4">
-            {children ? (
-              <div className={cx(bodyClassName)}>{children}</div>
-            ) : null}
-            {bottomNode ? (
-              <div
-                className={cx(
-                  "relative hero2-sep",
-                  dividerTint === "life" ? "neon-life" : "neon-primary",
-                )}
-              >
-                <span aria-hidden className="hero2-neon-line" />
-                <div className="hero2-sep-row">{bottomNode}</div>
-              </div>
-            ) : null}
+            {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
           </div>
-        ) : null}
+
+          {children || search || actions ? (
+            <div className="relative z-[2] mt-4 flex flex-col gap-4">
+              {children ? (
+                <div className={cx(bodyClassName)}>{children}</div>
+              ) : null}
+              {search || actions ? (
+                <div
+                  className={cx(
+                    "relative hero2-sep",
+                    dividerTint === "life" ? "neon-life" : "neon-primary",
+                  )}
+                >
+                  <span aria-hidden className="hero2-neon-line" />
+                  <div className="hero2-sep-row">
+                    {search ? <HeroSearchBar {...search} /> : null}
+                    {actions ? (
+                      <div className="flex items-center gap-2">{actions}</div>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
         {/* subtle rim */}
         <div

@@ -40,7 +40,7 @@ describe("navigation tabs", () => {
     rerender(
       <Hero
         heading="Components"
-        tabs={{
+        subTabs={{
           items: [
             { key: "buttons", label: "Buttons" },
             { key: "inputs", label: "Inputs" },
