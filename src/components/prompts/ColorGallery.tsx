@@ -11,6 +11,15 @@ export default function ColorGallery() {
     { key: "accents", label: "Accents" },
   ];
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
+  const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
+    aurora: null,
+    neutrals: null,
+    accents: null,
+  });
+
+  React.useEffect(() => {
+    panelRefs.current[palette]?.focus();
+  }, [palette]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -27,7 +36,10 @@ export default function ColorGallery() {
           id={`${p.key}-panel`}
           aria-labelledby={`${p.key}-tab`}
           hidden={palette !== p.key}
-          tabIndex={0}
+          tabIndex={palette === p.key ? 0 : -1}
+          ref={(el) => {
+            panelRefs.current[p.key] = el;
+          }}
           className="grid gap-8 sm:grid-cols-2 md:grid-cols-3"
         >
           {p.key === "aurora" && (
