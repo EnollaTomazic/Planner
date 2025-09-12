@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { ts } from "@/lib/date";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewList from "./ReviewList";
@@ -48,16 +49,6 @@ export default function ReviewsPage({
   );
 
   const filtered = useMemo(() => {
-    const ts = (v: unknown): number => {
-      if (typeof v === "number") return v;
-      if (v instanceof Date) return +v;
-      if (typeof v === "string") {
-        const n = Date.parse(v);
-        return Number.isNaN(n) ? 0 : n;
-      }
-      return 0;
-    };
-
     const needle = q.trim().toLowerCase();
     const list =
       needle.length === 0
