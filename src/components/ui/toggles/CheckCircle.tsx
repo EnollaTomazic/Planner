@@ -23,9 +23,9 @@ type CCVars = React.CSSProperties & {
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
-  sm: "h-6 w-6 [&_svg]:h-4 [&_svg]:w-4",
-  md: "h-8 w-8 [&_svg]:h-5 [&_svg]:w-5",
-  lg: "h-10 w-10 [&_svg]:h-6 [&_svg]:w-6",
+  sm: "h-6 w-6 [&_svg]:size-4",
+  md: "h-8 w-8 [&_svg]:size-5",
+  lg: "h-10 w-10 [&_svg]:size-6",
 };
 
 export default function CheckCircle({

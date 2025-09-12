@@ -192,8 +192,10 @@ export default function ComponentGallery() {
       {
         label: "CheckCircle",
         element: (
-          <div className="w-56 flex justify-center">
-            <CheckCircle checked={checked} onChange={setChecked} />
+          <div className="w-56 flex justify-center gap-2">
+            <CheckCircle checked={checked} onChange={setChecked} size="sm" />
+            <CheckCircle checked={checked} onChange={setChecked} size="md" />
+            <CheckCircle checked={checked} onChange={setChecked} size="lg" />
           </div>
         ),
       },
