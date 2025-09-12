@@ -20,6 +20,7 @@ import {
   User,
 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
+import { clamp } from "@/lib/utils";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "personal";
@@ -57,7 +58,6 @@ const PROFILES: Profile[] = [
 ];
 
 /* helpers */
-const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 const fmt = (ms: number) => {
   const m = Math.floor(ms / 60_000);
