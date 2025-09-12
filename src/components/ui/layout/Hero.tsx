@@ -285,7 +285,7 @@ export function HeroGlitchStyles() {
       .hero2-beams {
         position: absolute;
         inset: -2px;
-        border-radius: var(--radius-2xl, 24px);
+        border-radius: var(--radius-2xl);
         z-index: 0;
         pointer-events: none;
         background:
