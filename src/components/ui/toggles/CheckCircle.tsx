@@ -53,9 +53,10 @@ export default function CheckCircle({
 
   const [reduceMotion, setReduceMotion] = React.useState(false);
   React.useEffect(() => {
-    const mq = typeof window.matchMedia === "function"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)")
-      : null;
+    const mq =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
     const onChange = () => setReduceMotion(mq?.matches ?? false);
     onChange();
     mq?.addEventListener("change", onChange);
@@ -100,9 +101,9 @@ export default function CheckCircle({
   const wantsOn = checked || effectiveHoverOrFocus;
 
   const prev = React.useRef(wantsOn);
-  const [phase, setPhase] = React.useState<"off" | "ignite" | "steady-on" | "powerdown">(
-    wantsOn ? "steady-on" : "off"
-  );
+  const [phase, setPhase] = React.useState<
+    "off" | "ignite" | "steady-on" | "powerdown"
+  >(wantsOn ? "steady-on" : "off");
 
   React.useEffect(() => {
     if (wantsOn !== prev.current) {
@@ -153,7 +154,13 @@ export default function CheckCircle({
 
   return (
     <>
-      <span className={cn("relative inline-grid place-items-center", SIZE[size], className)}>
+      <span
+        className={cn(
+          "relative inline-grid place-items-center",
+          SIZE[size],
+          className,
+        )}
+      >
         <button
           ref={btnRef}
           type="button"
@@ -180,7 +187,7 @@ export default function CheckCircle({
             "relative inline-grid place-items-center rounded-full transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "disabled:opacity-50 disabled:pointer-events-none",
-            "h-full w-full"
+            "h-full w-full",
           )}
           data-checked={checked ? "true" : "false"}
         >
@@ -194,21 +201,23 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-0.5 pointer-events-none transition-opacity",
-              lit ? "opacity-100" : "opacity-0"
+              "absolute inset-0 rounded-full p-1 pointer-events-none transition-opacity",
+              lit ? "opacity-100" : "opacity-0",
             )}
-            style={{
-              background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
-              backgroundSize: "200% 100%",
-              WebkitMask:
-                "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
-              WebkitMaskComposite: "xor",
-              maskComposite: "exclude",
-              animation:
-                !reduceMotion && lit
-                  ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite"
-                  : undefined,
-            } as React.CSSProperties}
+            style={
+              {
+                background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
+                backgroundSize: "200% 100%",
+                WebkitMask:
+                  "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
+                WebkitMaskComposite: "xor",
+                maskComposite: "exclude",
+                animation:
+                  !reduceMotion && lit
+                    ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite"
+                    : undefined,
+              } as React.CSSProperties
+            }
           />
 
           {/* Scanlines */}
@@ -216,13 +225,16 @@ export default function CheckCircle({
             aria-hidden
             className={cn(
               "absolute inset-0.5 rounded-full pointer-events-none transition-opacity",
-              lit ? "opacity-100" : "opacity-0"
+              lit ? "opacity-100" : "opacity-0",
             )}
             style={{
-          background:
-            "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
+              background:
+                "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
               mixBlendMode: "overlay",
-              animation: !reduceMotion && lit ? "ccScan 2.1s linear infinite" : undefined,
+              animation:
+                !reduceMotion && lit
+                  ? "ccScan 2.1s linear infinite"
+                  : undefined,
             }}
           />
 
@@ -231,7 +243,7 @@ export default function CheckCircle({
             aria-hidden
             className={cn(
               "absolute -inset-2 rounded-full pointer-events-none blur-[10px] transition-opacity",
-              lit ? "opacity-80" : "opacity-0"
+              lit ? "opacity-80" : "opacity-0",
             )}
             style={{
               background: `radial-gradient(60% 60% at 50% 50%, ${glow}, transparent 60%)`,
@@ -244,7 +256,7 @@ export default function CheckCircle({
             aria-hidden
             className={cn(
               "pointer-events-none absolute inset-0 rounded-full",
-              phase === "ignite" ? "opacity-90" : "opacity-0"
+              phase === "ignite" ? "opacity-90" : "opacity-0",
             )}
             style={{
               background:
@@ -260,7 +272,7 @@ export default function CheckCircle({
             aria-hidden
             className={cn(
               "pointer-events-none absolute inset-0 rounded-full",
-              phase === "powerdown" ? "opacity-60" : "opacity-0"
+              phase === "powerdown" ? "opacity-60" : "opacity-0",
             )}
             style={{
               background:
@@ -273,18 +285,18 @@ export default function CheckCircle({
             }}
           />
 
-            {/* Tick glyph */}
-            <Check
-              aria-hidden
-              className={cn(
-                "relative z-[1] transition-all duration-200",
-                lit
-                  ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
-                  : "text-muted-foreground/60 opacity-80",
-              )}
-              style={ccStyle}
-              strokeWidth={2.5}
-            />
+          {/* Tick glyph */}
+          <Check
+            aria-hidden
+            className={cn(
+              "relative z-[1] transition-all duration-200",
+              lit
+                ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
+                : "text-muted-foreground/60 opacity-80",
+            )}
+            style={ccStyle}
+            strokeWidth={2.5}
+          />
         </button>
 
         {/* Mini clear button */}
@@ -302,7 +314,7 @@ export default function CheckCircle({
               "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
               "border border-card-hairline bg-card text-foreground",
               "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             )}
           >
             <X aria-hidden className="h-4 w-4" />
@@ -313,29 +325,69 @@ export default function CheckCircle({
 
       <style jsx>{`
         @keyframes ccShift {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 200% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 200% 50%;
+          }
         }
         @keyframes ccScan {
-          0% { transform: translateY(-28%); }
-          100% { transform: translateY(28%); }
+          0% {
+            transform: translateY(-28%);
+          }
+          100% {
+            transform: translateY(28%);
+          }
         }
         @keyframes igniteFlicker {
-          0%{ opacity:.1; filter:blur(.6px) }
-          8%{ opacity:1 }
-          12%{ opacity:.25 }
-          20%{ opacity:1 }
-          28%{ opacity:.35 }
-          40%{ opacity:1 }
-          55%{ opacity:.45; filter:blur(.2px) }
-          70%{ opacity:1 }
-          100%{ opacity:0 }
+          0% {
+            opacity: 0.1;
+            filter: blur(0.6px);
+          }
+          8% {
+            opacity: 1;
+          }
+          12% {
+            opacity: 0.25;
+          }
+          20% {
+            opacity: 1;
+          }
+          28% {
+            opacity: 0.35;
+          }
+          40% {
+            opacity: 1;
+          }
+          55% {
+            opacity: 0.45;
+            filter: blur(0.2px);
+          }
+          70% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
         }
         @keyframes powerDown {
-          0%{ opacity:.8; transform:scale(1) }
-          30%{ opacity:.35; transform:scale(.992) translateY(.2px) }
-          60%{ opacity:.12; transform:scale(.985) translateY(-.2px) }
-          100%{ opacity:0; transform:scale(.985) }
+          0% {
+            opacity: 0.8;
+            transform: scale(1);
+          }
+          30% {
+            opacity: 0.35;
+            transform: scale(0.992) translateY(0.2px);
+          }
+          60% {
+            opacity: 0.12;
+            transform: scale(0.985) translateY(-0.2px);
+          }
+          100% {
+            opacity: 0;
+            transform: scale(0.985);
+          }
         }
         .ccx-glow {
           position: absolute;
@@ -355,23 +407,32 @@ export default function CheckCircle({
           padding: 1px;
           background: conic-gradient(
             from 180deg,
-            hsl(262 83% 58% / .0),
-            hsl(262 83% 58% / .6),
-            hsl(192 90% 50% / .6),
-            hsl(320 85% 60% / .6),
-            hsl(262 83% 58% / .0)
+            hsl(262 83% 58% / 0),
+            hsl(262 83% 58% / 0.6),
+            hsl(192 90% 50% / 0.6),
+            hsl(320 85% 60% / 0.6),
+            hsl(262 83% 58% / 0)
           );
-          -webkit-mask: linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor; mask-composite: exclude;
-          opacity: .5;
-          animation: ccxHue 6s linear infinite, ccxJit 2s steps(6,end) infinite;
+          -webkit-mask:
+            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+            linear-gradient(hsl(var(--foreground)) 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          opacity: 0.5;
+          animation:
+            ccxHue 6s linear infinite,
+            ccxJit 2s steps(6, end) infinite;
         }
         .ccx-glow::after {
-          background: radial-gradient(120% 120% at 50% 50%, hsl(var(--ring)/.18), transparent 60%);
+          background: radial-gradient(
+            120% 120% at 50% 50%,
+            hsl(var(--ring) / 0.18),
+            transparent 60%
+          );
           filter: blur(6px);
           mix-blend-mode: screen;
-          opacity: .25;
-          animation: ccxFlick 3s steps(20,end) infinite;
+          opacity: 0.25;
+          animation: ccxFlick 3s steps(20, end) infinite;
         }
         @media (prefers-reduced-motion: reduce) {
           .ccx-glow::before,
@@ -379,17 +440,39 @@ export default function CheckCircle({
             animation: none;
           }
         }
-        @keyframes ccxHue { to { filter: hue-rotate(360deg) } }
+        @keyframes ccxHue {
+          to {
+            filter: hue-rotate(360deg);
+          }
+        }
         @keyframes ccxJit {
-          0%,100% { transform: translate(0,0) }
-          50% { transform: translate(.2px,.2px) }
+          0%,
+          100% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(0.2px, 0.2px);
+          }
         }
         @keyframes ccxFlick {
-          0%, 8%, 10%, 100% { opacity: .18; }
-          9% { opacity: .45; }
-          44% { opacity: .24; }
-          45% { opacity: .42; }
-          78% { opacity: .22; }
+          0%,
+          8%,
+          10%,
+          100% {
+            opacity: 0.18;
+          }
+          9% {
+            opacity: 0.45;
+          }
+          44% {
+            opacity: 0.24;
+          }
+          45% {
+            opacity: 0.42;
+          }
+          78% {
+            opacity: 0.22;
+          }
         }
       `}</style>
     </>
