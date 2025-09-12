@@ -25,6 +25,7 @@ import {
   Hero2,
   type TabItem,
   Progress,
+  SectionCard as UiSectionCard,
 } from "@/components/ui";
 import GoalListDemo from "@/components/prompts/GoalListDemo";
 import PromptList from "@/components/prompts/PromptList";
@@ -688,6 +689,18 @@ function ColorsView() {
         <ul className="grid grid-cols-12 gap-6">
           <GradientSwatch />
         </ul>
+      </SectionCard>
+      <SectionCard title="SectionCard Variants">
+        <div className="flex flex-col gap-4">
+          <UiSectionCard>
+            <UiSectionCard.Header title="Neo (default)" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+          <UiSectionCard variant="plain">
+            <UiSectionCard.Header title="Plain" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+        </div>
       </SectionCard>
     </div>
   );

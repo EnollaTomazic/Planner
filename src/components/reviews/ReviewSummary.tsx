@@ -9,6 +9,7 @@ import {
   pickIndex,
   scoreIcon,
 } from "@/components/reviews/reviewData";
+import SectionCard from "@/components/ui/layout/SectionCard";
 import ReviewSummaryHeader from "@/components/reviews/ReviewSummaryHeader";
 import ReviewSummaryScore from "@/components/reviews/ReviewSummaryScore";
 import ReviewSummaryPillars from "@/components/reviews/ReviewSummaryPillars";
@@ -39,7 +40,10 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
   const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
   return (
-    <div className={cn("card-neo-soft r-card-lg transition-none", className)}>
+    <SectionCard
+      variant="plain"
+      className={cn("transition-none shadow-none", className)}
+    >
       <ReviewSummaryHeader title={laneTitle} role={role} result={result} onEdit={onEdit} />
       <ReviewSummaryScore
         score={score}
@@ -53,7 +57,7 @@ export default function ReviewSummary({ review, onEdit, className }: Props) {
       <ReviewSummaryPillars pillars={review.pillars as Pillar[]} />
       <ReviewSummaryTimestamps markers={markers} />
       {review.notes ? <ReviewSummaryNotes notes={review.notes} /> : null}
-    </div>
+    </SectionCard>
   );
 }
 
