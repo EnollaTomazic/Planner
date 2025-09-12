@@ -19,7 +19,10 @@ type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 function Root({ className, children, ...props }: RootProps) {
   return (
     <section
-      className={cn("card-neo-soft shadow-neo-strong", className)}
+      className={cn(
+        "card-neo-soft shadow-neo-strong rounded-card r-card-lg",
+        className,
+      )}
       {...props}
     >
       {children}
@@ -40,7 +43,7 @@ function Header({
       className={cn(
         "section-h",
         sticky && clsx("sticky", topClassName),
-        className
+        className,
       )}
     >
       {children ?? (
