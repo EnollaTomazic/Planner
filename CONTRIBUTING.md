@@ -1,5 +1,7 @@
 # Contributing
 
+Requires [Node.js](https://nodejs.org) 22 or newer.
+
 ## UI components
 
 When adding a new UI component or style under `src/components/ui`, run:

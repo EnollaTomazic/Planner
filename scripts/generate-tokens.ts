@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import StyleDictionary from "style-dictionary";
 import type {
   FormatFnArguments,
