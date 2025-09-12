@@ -72,11 +72,15 @@ export default function ProjectList({
         className={cn(
           "px-0 w-full",
           projectsScrollable
-            ? "max-h-[260px] overflow-y-auto"
+            ? "max-h-[calc(var(--space-8)*4_+_var(--space-1))] overflow-y-auto"
             : "overflow-visible",
         )}
       >
-        <ul className="w-full space-y-2 py-2" role="radiogroup" aria-label="Projects">
+        <ul
+          className="w-full space-y-2 py-2"
+          role="radiogroup"
+          aria-label="Projects"
+        >
           <li className="w-full">
             <form
               onSubmit={(e) => {

@@ -14,16 +14,18 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import { Tag, Trash2, Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
-import { LAST_ROLE_KEY, FOCUS_POOLS, pickIndex } from "@/components/reviews/reviewData";
+import {
+  LAST_ROLE_KEY,
+  FOCUS_POOLS,
+  pickIndex,
+} from "@/components/reviews/reviewData";
 
 import LaneOpponentForm, { LaneOpponentFormHandle } from "./LaneOpponentForm";
 import ResultScoreSection, {
   ResultScoreSectionHandle,
 } from "./ResultScoreSection";
 import PillarsSelector, { PillarsSelectorHandle } from "./PillarsSelector";
-import TimestampMarkers, {
-  TimestampMarkersHandle,
-} from "./TimestampMarkers";
+import TimestampMarkers, { TimestampMarkersHandle } from "./TimestampMarkers";
 
 type ReviewEditorProps = {
   review: Review;
@@ -66,7 +68,9 @@ export default function ReviewEditor({
   const [role, setRole] = React.useState<Role>(
     review.role ?? lastRole ?? "MID",
   );
-  const [focusOn, setFocusOn] = React.useState<boolean>(Boolean(review.focusOn));
+  const [focusOn, setFocusOn] = React.useState<boolean>(
+    Boolean(review.focusOn),
+  );
   const [focus, setFocus] = React.useState<number>(
     Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5,
   );
@@ -83,9 +87,7 @@ export default function ReviewEditor({
     }
 
     setFocusOn(Boolean(review.focusOn));
-    setFocus(
-      Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5,
-    );
+    setFocus(Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review.id]);
 
@@ -113,8 +115,7 @@ export default function ReviewEditor({
       }
     }
     document.addEventListener("pointerdown", handlePointerDown);
-    return () =>
-      document.removeEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [onDone]);
 
   function addTag(tagRaw: string) {
@@ -134,8 +135,7 @@ export default function ReviewEditor({
     String(review.id ?? "seed-focus") + String(focus),
     10,
   );
-  const focusMsg =
-    (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
+  const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
 
   function selectRole(v: Role) {
     setRole(v);
@@ -143,10 +143,7 @@ export default function ReviewEditor({
     commitMeta({ role: v });
   }
 
-  function onIconKey(
-    e: React.KeyboardEvent,
-    handler: () => void,
-  ) {
+  function onIconKey(e: React.KeyboardEvent, handler: () => void) {
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
       handler();
@@ -173,9 +170,7 @@ export default function ReviewEditor({
               opponent={review.opponent ?? ""}
               commitMeta={commitMeta}
               onRename={onRename}
-              onOpponentEnter={() =>
-                resultScoreRef.current?.focusResult()
-              }
+              onOpponentEnter={() => resultScoreRef.current?.focusResult()}
             />
           </div>
 
@@ -217,9 +212,7 @@ export default function ReviewEditor({
           ref={resultScoreRef}
           result={review.result ?? "Win"}
           score={
-            Number.isFinite(review.score ?? NaN)
-              ? Number(review.score)
-              : 5
+            Number.isFinite(review.score ?? NaN) ? Number(review.score) : 5
           }
           commitMeta={commitMeta}
           onScoreEnter={() => timestampsRef.current?.focusTime()}
@@ -378,11 +371,10 @@ export default function ReviewEditor({
             placeholder="Key moments, mistakes to fix, drills to run…"
             className="rounded-2xl"
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           />
         </div>
       </div>
     </SectionCard>
   );
 }
-
