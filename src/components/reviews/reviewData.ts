@@ -38,7 +38,7 @@ export const ROLE_OPTIONS: Array<{
   { value: "TOP", label: "Top", Icon: Flag },
   { value: "JUNGLE", label: "Jungle", Icon: MapPin },
   { value: "MID", label: "Mid", Icon: Target },
-  { value: "ADC", label: "ADC", Icon: Crosshair },
+  { value: "BOT", label: "Bot", Icon: Crosshair },
   { value: "SUPPORT", label: "Support", Icon: Shield },
 ];
 
@@ -73,7 +73,7 @@ export const SCORE_POOLS: Record<number, string[]> = {
     "Report the mouse.",
   ],
   1: [
-    "ADC stood for Accidentally Donated CS.",
+    "Bot stood for Accidentally Donated CS.",
     "Bought items, forgot purpose.",
     "Reinvented throwing.",
     "Hands on cooldown.",

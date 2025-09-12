@@ -32,7 +32,7 @@ import { sanitizeText } from "@/lib/utils";
 
 /* ───────────── Types ───────────── */
 
-type Role = "Top" | "Jungle" | "Mid" | "ADC" | "Support";
+type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 
 export type TeamComp = {
   id: string;
@@ -55,7 +55,7 @@ const SEEDS: TeamComp[] = [
       Top: ["Sion"],
       Jungle: ["Sejuani"],
       Mid: ["Orianna"],
-      ADC: ["Jinx"],
+      Bot: ["Jinx"],
       Support: ["Lulu"],
     },
     notes: "Front-to-back. Track flank TPs, save Lulu ult for diver.",
@@ -68,7 +68,7 @@ const SEEDS: TeamComp[] = [
     roles: {
       Jungle: ["Rengar"],
       Mid: ["Ahri"],
-      ADC: ["Ashe"],
+      Bot: ["Ashe"],
       Support: ["Thresh", "Pyke"],
     },
     notes: "Sweep chokes first, convert pick into fast objective start.",
@@ -79,7 +79,7 @@ const SEEDS: TeamComp[] = [
 
 /* ───────────── Utils ───────────── */
 
-const ROLES: Role[] = ["Top", "Jungle", "Mid", "ADC", "Support"];
+const ROLES: Role[] = ["Top", "Jungle", "Mid", "Bot", "Support"];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -113,7 +113,7 @@ function normalize(list: unknown[]): TeamComp[] {
       return {
         id: uid("comp"),
         title: "Imported Comp",
-        roles: { Top: [], Jungle: [], Mid: [], ADC: [], Support: [] },
+        roles: { Top: [], Jungle: [], Mid: [], Bot: [], Support: [] },
         notes: "",
         createdAt: Date.now(),
         updatedAt: Date.now(),
@@ -132,7 +132,7 @@ function normalize(list: unknown[]): TeamComp[] {
       }
       roles = next;
     } else {
-      roles = { Top: [], Jungle: [], Mid: [], ADC: [], Support: [] };
+      roles = { Top: [], Jungle: [], Mid: [], Bot: [], Support: [] };
     }
     const notes = typeof raw.notes === "string" ? raw.notes : "";
     return {
@@ -280,7 +280,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
     const next: TeamComp = {
       id,
       title,
-      roles: { Top: [], Jungle: [], Mid: [], ADC: [], Support: [] },
+      roles: { Top: [], Jungle: [], Mid: [], Bot: [], Support: [] },
       notes: "",
       createdAt: Date.now(),
       updatedAt: Date.now(),

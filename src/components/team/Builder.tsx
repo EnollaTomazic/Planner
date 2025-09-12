@@ -31,7 +31,7 @@ type Team = {
   top: string;
   jungle: string;
   mid: string;
-  adc: string;
+  bot: string;
   support: string;
   notes?: string;
 };
@@ -42,7 +42,7 @@ const EMPTY_TEAM: Team = {
   top: "",
   jungle: "",
   mid: "",
-  adc: "",
+  bot: "",
   support: "",
   notes: "",
 };
@@ -50,7 +50,7 @@ const LANES: { key: keyof Team; label: string }[] = [
   { key: "top", label: "Top" },
   { key: "jungle", label: "Jungle" },
   { key: "mid", label: "Mid" },
-  { key: "adc", label: "ADC" },
+  { key: "bot", label: "Bot" },
   { key: "support", label: "Support" },
 ];
 
@@ -61,7 +61,7 @@ function teamToLines(t: Team) {
     `Top: ${t.top || "-"}`,
     `Jungle: ${t.jungle || "-"}`,
     `Mid: ${t.mid || "-"}`,
-    `ADC: ${t.adc || "-"}`,
+    `Bot: ${t.bot || "-"}`,
     `Support: ${t.support || "-"}`,
     ...(t.notes?.trim() ? ["", `Notes: ${t.notes.trim()}`] : []),
   ].join("\n");
@@ -100,7 +100,7 @@ export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
 
   const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
-      [t.top, t.jungle, t.mid, t.adc, t.support].filter(Boolean).length;
+      [t.top, t.jungle, t.mid, t.bot, t.support].filter(Boolean).length;
     return {
       allies: countTeam(state.allies),
       enemies: countTeam(state.enemies),
