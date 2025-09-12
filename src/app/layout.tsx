@@ -10,7 +10,10 @@ import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
 
 export const metadata: Metadata = {
-  title: "13 League Review",
+  title: {
+    default: "13 League Review",
+    template: "%s · 13 League Review",
+  },
   description: "Local-first League review with a Lavender-Glitch personality",
 };
 
