@@ -1344,7 +1344,7 @@ textarea:-webkit-autofill {
 }
 @media (min-width: 640px) {
   .ds-grid-gap {
-    @apply gap-5;
+    @apply gap-6;
   }
 }
 .ds-card-gap {
@@ -1352,7 +1352,7 @@ textarea:-webkit-autofill {
 }
 @media (min-width: 640px) {
   .ds-card-gap {
-    @apply space-y-5;
+    @apply space-y-6;
   }
 }
 
