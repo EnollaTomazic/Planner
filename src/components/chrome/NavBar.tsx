@@ -18,7 +18,9 @@ const ITEMS = [
   { href: "/goals", label: "Goals" },
   { href: "/team", label: "Comps" },
   { href: "/prompts", label: "Prompts" },
-];
+] as const;
+
+export type NavItem = (typeof ITEMS)[number];
 
 export default function NavBar() {
   const path = usePathname() ?? "/";
@@ -27,13 +29,13 @@ export default function NavBar() {
   return (
     <nav aria-label="Primary">
       <ul className="flex items-center gap-2">
-        {ITEMS.map((it) => {
-          const active = path === it.href || path.startsWith(it.href + "/");
+        {ITEMS.map(({ href, label }: NavItem) => {
+          const active = path === href || path.startsWith(href + "/");
 
           return (
-            <li key={it.href} className="relative">
+            <li key={href} className="relative">
               <Link
-                href={it.href}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative inline-flex items-center rounded-2xl border px-4 py-2 font-mono text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -43,7 +45,7 @@ export default function NavBar() {
                     : "text-muted-foreground border-transparent hover:border-border",
                 )}
               >
-                <span className="relative z-10">{it.label}</span>
+                <span className="relative z-10">{label}</span>
 
                 {/* hover sheen */}
                 <span
