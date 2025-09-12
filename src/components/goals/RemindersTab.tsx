@@ -259,6 +259,17 @@ export default function RemindersTab() {
             </div>
           ),
         }}
+        actions={
+          <Button
+            variant="primary"
+            size="md"
+            className="px-[var(--spacing-4)] whitespace-nowrap"
+            onClick={() => addNew()}
+          >
+            <Plus />
+            <span>New Reminder</span>
+          </Button>
+        }
       />
 
       <SectionCard className="goal-card">

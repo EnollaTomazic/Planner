@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
+import Link from "next/link";
 import {
   QuickActions,
   TodayCard,
@@ -14,7 +15,7 @@ import {
 } from "@/components/home";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
-import { Spinner } from "@/components/ui";
+import { Button, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
@@ -36,6 +37,17 @@ function HomePageContent() {
       <Hero
         topClassName="top-[var(--header-stack)]"
         heading="Your day at a glance"
+        actions={
+          <Link href="/planner">
+            <Button
+              variant="primary"
+              size="sm"
+              className="px-[var(--spacing-4)] whitespace-nowrap"
+            >
+              Plan Week
+            </Button>
+          </Link>
+        }
       />
       <div className="grid gap-4 md:grid-cols-12 items-start">
         <div className="md:col-span-6">

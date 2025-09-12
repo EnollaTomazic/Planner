@@ -21,13 +21,17 @@ export default function NotFound() {
         heading="Page not found"
         icon={<AlertCircle className="opacity-80" />}
       />
-      <Hero heading="This page does not exist">
+      <Hero
+        heading="This page does not exist"
+        actions={
+          <Link href="/">
+            <Button className="px-[var(--spacing-4)]">Go home</Button>
+          </Link>
+        }
+      >
         <p className="text-sm text-muted-foreground">
           The page you are looking for does not exist.
         </p>
-        <Link href="/">
-          <Button>Go home</Button>
-        </Link>
       </Hero>
     </main>
   );

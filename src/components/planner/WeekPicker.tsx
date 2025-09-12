@@ -163,6 +163,7 @@ export default function WeekPicker() {
       aria-label="Jump to top"
       onClick={jumpToTop}
       title="Jump to top"
+      className="px-[var(--spacing-4)]"
     >
       <ArrowUpToLine />
       <span>Top</span>
