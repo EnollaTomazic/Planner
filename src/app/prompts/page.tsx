@@ -458,6 +458,22 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["badge"],
     },
     {
+      id: "bullet-list",
+      name: "Bullet List",
+      description: "Token-based markers",
+      element: (
+        <ul className="pl-6 space-y-1 list-none text-sm text-foreground">
+          <li className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current">
+            Item one
+          </li>
+          <li className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current">
+            Item two
+          </li>
+        </ul>
+      ),
+      tags: ["list", "bullet"],
+    },
+    {
       id: "role-selector",
       name: "RoleSelector",
       element: <RoleSelector value="TOP" onChange={() => {}} />,
