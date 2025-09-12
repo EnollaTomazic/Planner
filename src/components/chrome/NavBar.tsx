@@ -50,21 +50,13 @@ export default function NavBar() {
                 {/* hover sheen */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition hover:opacity-100"
-                  style={{
-                    background:
-                      "linear-gradient(90deg,hsl(var(--primary)/.15),transparent 40%,transparent 60%,hsl(var(--accent)/.15))",
-                  }}
+                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition hover:opacity-100 nav-hover-sheen"
                 />
 
                 {/* faint scanlines */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-20"
-                  style={{
-                    background:
-                      "repeating-linear-gradient(0deg,hsl(var(--foreground)/0.04) 0 1px,transparent 1px 3px)",
-                  }}
+                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-20 nav-scanlines"
                 />
 
                 {/* animated underline shared across tabs */}
@@ -72,11 +64,7 @@ export default function NavBar() {
                   <motion.span
                     data-testid="nav-underline"
                     layoutId="nav-underline"
-                    className="absolute left-2 right-2 -bottom-1 h-px"
-                    style={{
-                      background:
-                        "linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--primary)))",
-                    }}
+                    className="absolute left-2 right-2 -bottom-1 h-px nav-underline"
                     transition={{
                       type: "tween",
                       duration: reduceMotion ? 0 : 0.25,
