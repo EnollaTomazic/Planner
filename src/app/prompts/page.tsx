@@ -23,6 +23,7 @@ import {
   HeaderTabs,
   Hero,
   Hero2,
+  type HeaderTab,
   type TabItem,
   Progress,
   SectionCard as UiSectionCard,
@@ -59,7 +60,7 @@ type Spec = {
   props?: { label: string; value: string }[];
 };
 
-const VIEW_TABS: TabItem<View>[] = [
+const VIEW_TABS: HeaderTab<View>[] = [
   { key: "components", label: "Components" },
   { key: "colors", label: "Colors" },
   { key: "onboarding", label: "Onboarding" },
