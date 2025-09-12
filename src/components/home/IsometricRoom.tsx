@@ -14,8 +14,7 @@ const VARIANT_STYLES: Record<Variant, string> = {
     "[--room-floor:var(--aurora-g)] [--room-wall:var(--aurora-p)] [--room-accent:var(--aurora-g-light)]",
   citrus:
     "[--room-floor:var(--citrus-teal)] [--room-wall:var(--citrus-teal)] [--room-accent:var(--ring)]",
-  noir:
-    "[--room-floor:var(--noir-ink)] [--room-wall:var(--noir-rose)] [--room-accent:var(--noir-red)]",
+  noir: "[--room-floor:var(--noir-ink)] [--room-wall:var(--noir-rose)] [--room-accent:var(--noir-red)]",
   ocean:
     "[--room-floor:var(--ocean-indigo)] [--room-wall:var(--ocean-cyan)] [--room-accent:var(--ocean-cyan)]",
   kitten:
@@ -43,7 +42,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
           aria-hidden
           className="absolute inset-0 overflow-hidden pointer-events-none animate-[glx-flicker_6s_linear_infinite] motion-reduce:animate-none"
         >
-          <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,hsl(var(--room-accent)/0.15)_0_2px,transparent_2px_4px)] [background-size:200%_100%] mix-blend-screen opacity-40 animate-[room-glitch_8s_linear_infinite] motion-reduce:animate-none" />
+          <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,hsl(var(--room-accent)/0.15)_0_calc(var(--space-1)/2),transparent_calc(var(--space-1)/2)_var(--space-1))] [background-size:200%_100%] mix-blend-screen opacity-40 animate-[room-glitch_8s_linear_infinite] motion-reduce:animate-none" />
         </div>
       )}
       <span className="sr-only">{label}</span>
