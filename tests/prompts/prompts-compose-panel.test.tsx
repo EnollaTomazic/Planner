@@ -9,7 +9,7 @@ describe("PromptsComposePanel", () => {
   it("renders fields and handles changes", () => {
     const handleTitle = vi.fn();
     const handleText = vi.fn();
-    render(
+    const { container } = render(
       <PromptsComposePanel
         title="Title"
         onTitleChange={handleTitle}
@@ -18,13 +18,16 @@ describe("PromptsComposePanel", () => {
       />,
     );
 
-    const titleInput = screen.getByPlaceholderText("Title");
-    const textarea = screen.getByPlaceholderText(
-      "Write your prompt or snippet…",
-    );
+    const titleInput = screen.getByLabelText("Title");
+    const textarea = screen.getByLabelText("Prompt");
     expect(titleInput).toHaveValue("Title");
     expect(textarea).toHaveValue("Text");
-    expect(screen.getByRole("button", { name: "Confirm" })).toBeInTheDocument();
+    const help = screen.getByText("Add a short title");
+    expect(titleInput).toHaveAttribute("aria-describedby", help.id);
+    expect(
+      screen.queryByRole("button", { name: "Confirm" }),
+    ).not.toBeInTheDocument();
+    expect(container.querySelector("svg[aria-hidden='true']")).toBeInTheDocument();
 
     fireEvent.change(titleInput, { target: { value: "New" } });
     expect(handleTitle).toHaveBeenCalledWith("New");

@@ -19,7 +19,9 @@ export function usePrompts() {
 
   const deriveTitle = React.useCallback((p: Prompt) => {
     if (p.title && p.title.trim()) return p.title.trim();
-    const firstLine = (p.text || "").split(/\r?\n/)[0]?.trim() || "";
+    const firstLine = (p.text || "")
+      .split(/\r?\n/)
+      .find((line) => line.trim())?.trim();
     return firstLine || "Untitled";
   }, []);
 

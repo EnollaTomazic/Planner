@@ -10,6 +10,7 @@ export type PromptListProps = {
 };
 
 export default function PromptList({ prompts, query }: PromptListProps) {
+  const q = query.trim();
   return (
     <ul className="mt-4 space-y-3">
       {prompts.map((p) => (
@@ -32,10 +33,14 @@ export default function PromptList({ prompts, query }: PromptListProps) {
       ))}
       {prompts.length === 0 ? (
         <li className="text-muted-foreground flex items-center gap-1">
-          No prompts match
-          <Badge size="xs" tone="neutral">
-            {query || ""}
-          </Badge>
+          {q ? (
+            <>
+              No prompts match
+              <Badge size="xs" tone="neutral">{q}</Badge>
+            </>
+          ) : (
+            "No prompts saved yet"
+          )}
         </li>
       ) : null}
     </ul>

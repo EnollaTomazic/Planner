@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Input, Textarea } from "@/components/ui";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Input, Textarea, Label } from "@/components/ui";
 import { Check as CheckIcon } from "lucide-react";
 
 interface PromptsComposePanelProps {
@@ -19,32 +18,40 @@ export default function PromptsComposePanel({
   onTextChange,
 }: PromptsComposePanelProps) {
   const titleId = React.useId();
+  const textId = React.useId();
   return (
     <div className="space-y-3">
-      <Input
-        id={titleId}
-        placeholder="Title"
-        value={title}
-        onChange={(e) => onTitleChange(e.target.value)}
-        aria-describedby={`${titleId}-help`}
-      >
-        <IconButton
-          size="sm"
-          aria-label="Confirm"
-          className="absolute right-2 top-1/2 -translate-y-1/2"
+      <div>
+        <Label htmlFor={titleId}>Title</Label>
+        <Input
+          id={titleId}
+          placeholder="Title"
+          value={title}
+          onChange={(e) => onTitleChange(e.target.value)}
+          aria-describedby={`${titleId}-help`}
         >
-          <CheckIcon aria-hidden />
-        </IconButton>
-      </Input>
-      <p id={`${titleId}-help`} className="mt-1 text-xs text-muted-foreground">
-        Add a short title
-      </p>
-      <Textarea
-        placeholder="Write your prompt or snippet…"
-        value={text}
-        onChange={(e) => onTextChange(e.target.value)}
-        resize="resize-y"
-      />
+          <CheckIcon
+            aria-hidden="true"
+            className="absolute right-2 top-1/2 -translate-y-1/2"
+          />
+        </Input>
+        <p
+          id={`${titleId}-help`}
+          className="mt-1 text-xs text-muted-foreground"
+        >
+          Add a short title
+        </p>
+      </div>
+      <div>
+        <Label htmlFor={textId}>Prompt</Label>
+        <Textarea
+          id={textId}
+          placeholder="Write your prompt or snippet…"
+          value={text}
+          onChange={(e) => onTextChange(e.target.value)}
+          resize="resize-y"
+        />
+      </div>
     </div>
   );
 }
