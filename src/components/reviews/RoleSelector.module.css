@@ -20,7 +20,7 @@
 }
 
 .btn {
-  height: 2.25rem;
+  height: calc(var(--space-3) * 3);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
@@ -69,8 +69,16 @@
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(120px 40px at 25% 50%, hsl(var(--accent-2) / 0.04), transparent 60%),
-    radial-gradient(120px 40px at 75% 50%, hsl(var(--lav-deep) / 0.04), transparent 60%);
+    radial-gradient(
+      calc(var(--space-3) * 10) calc(var(--space-2) * 5) at 25% 50%,
+      hsl(var(--accent-2) / 0.04),
+      transparent 60%
+    ),
+    radial-gradient(
+      calc(var(--space-3) * 10) calc(var(--space-2) * 5) at 75% 50%,
+      hsl(var(--lav-deep) / 0.04),
+      transparent 60%
+    );
   mix-blend-mode: screen;
 }
 
