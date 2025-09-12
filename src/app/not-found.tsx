@@ -7,7 +7,7 @@ export default function NotFound() {
 
   return (
     <main
-      className="flex min-h-[50vh] flex-col items-center justify-center gap-4 p-6 text-center"
+      className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
       aria-labelledby={headerId}
     >
       <Header
