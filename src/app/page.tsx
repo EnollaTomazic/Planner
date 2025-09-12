@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Suspense } from "react";
+import { Home } from "lucide-react";
 import {
   QuickActions,
   TodayCard,
@@ -70,6 +71,7 @@ function HomePageContent() {
         id="home-header"
         heading="Welcome to Planner"
         subtitle="Plan your day, track goals, and review games."
+        icon={<Home className="opacity-80" />}
       />
       <Hero topClassName="top-[var(--header-stack)]" heading="Hero" />
       <QuickActions theme={theme} setTheme={setTheme} />
