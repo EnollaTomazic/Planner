@@ -15,6 +15,7 @@ import {
 } from "@/components/home";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
+import { Spinner } from "@/components/ui";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
 import {
@@ -106,7 +107,7 @@ function HomePageContent() {
 
 export default function Page() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div className="flex justify-center p-6"><Spinner /></div>}>
       <HomePageContent />
     </Suspense>
   );
