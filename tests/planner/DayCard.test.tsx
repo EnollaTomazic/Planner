@@ -10,7 +10,13 @@ import {
 
 const iso = "2024-01-01";
 
-const TestHarness = React.forwardRef((_, ref: React.Ref<any>) => {
+interface TestHandle {
+  day: ReturnType<typeof useDay>;
+  selectedProjectId: string;
+  setSelectedProjectId: ReturnType<typeof useSelectedProject>[1];
+}
+
+const TestHarness = React.forwardRef((_, ref: React.Ref<TestHandle>) => {
   const day = useDay(iso);
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
   React.useImperativeHandle(ref, () => ({
@@ -25,7 +31,7 @@ TestHarness.displayName = "TestHarness";
 
 describe("DayCard", () => {
   it("clears selection when selected project is deleted", async () => {
-    const harnessRef = React.createRef<any>();
+    const harnessRef = React.createRef<TestHandle>();
     render(
       <PlannerProvider>
         <TestHarness ref={harnessRef} />
@@ -34,17 +40,17 @@ describe("DayCard", () => {
 
     let pid = "";
     act(() => {
-      pid = harnessRef.current.day.addProject("Proj");
-      harnessRef.current.setSelectedProjectId(pid);
+      pid = harnessRef.current!.day.addProject("Proj");
+      harnessRef.current!.setSelectedProjectId(pid);
     });
-    expect(harnessRef.current.selectedProjectId).toBe(pid);
+    expect(harnessRef.current!.selectedProjectId).toBe(pid);
 
     act(() => {
-      harnessRef.current.day.deleteProject(pid);
+      harnessRef.current!.day.deleteProject(pid);
     });
 
     await waitFor(() => {
-      expect(harnessRef.current.selectedProjectId).toBe("");
+      expect(harnessRef.current!.selectedProjectId).toBe("");
     });
   });
 });
