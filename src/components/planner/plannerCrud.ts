@@ -30,6 +30,7 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => {
       const next = dayRemoveProject(d, id);
       const { [id]: _removed, ...rest } = next.tasksByProject;
+      void _removed;
       return { ...next, tasksByProject: rest };
     });
 
