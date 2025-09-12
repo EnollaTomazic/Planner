@@ -7,20 +7,48 @@ import {
   useFocus,
   type DayRecord,
   type ISODate,
+  type Project,
+  type DayTask,
 } from "./plannerStore";
-import { scheduleWrite } from "@/lib/db";
 import { makeCrud } from "./plannerCrud";
+import { parseJSON } from "@/lib/local-bootstrap";
 
 export type { ISODate, DayRecord, Project, DayTask } from "./plannerStore";
 
-function writeThroughLegacy(days: Record<ISODate, DayRecord>, iso: ISODate) {
+let legacyMigrated = false;
+function migrateLegacy(
+  days: Record<ISODate, DayRecord>,
+  iso: ISODate,
+): Record<ISODate, DayRecord> {
+  if (legacyMigrated || typeof window === "undefined") return days;
+  const rawProjects = window.localStorage.getItem("planner:projects");
+  const rawTasks = window.localStorage.getItem("planner:tasks");
+  if (!rawProjects && !rawTasks) {
+    legacyMigrated = true;
+    return days;
+  }
+  const projects = parseJSON<Project[]>(rawProjects);
+  const tasks = parseJSON<DayTask[]>(rawTasks);
+  const next = { ...days } as Record<ISODate, DayRecord>;
+  const cur = ensureDay(next, iso);
+  if (projects) cur.projects = projects;
+  if (tasks) {
+    cur.tasks = tasks;
+    const map: Record<string, string[]> = {};
+    for (const t of tasks) {
+      if (t.projectId) (map[t.projectId] ??= []).push(t.id);
+    }
+    cur.tasksByProject = map;
+  }
+  next[iso] = cur;
   try {
-    const cur = days[iso] ?? { projects: [], tasks: [] };
-    scheduleWrite("planner:projects", cur.projects);
-    scheduleWrite("planner:tasks", cur.tasks);
+    window.localStorage.removeItem("planner:projects");
+    window.localStorage.removeItem("planner:tasks");
   } catch {
     /* ignore */
   }
+  legacyMigrated = true;
+  return next;
 }
 
 /**
@@ -31,16 +59,16 @@ export function usePlannerStore() {
   const { days, setDays } = useDays();
   const { focus, setFocus } = useFocus();
 
+  React.useEffect(() => {
+    setDays((prev) => migrateLegacy(prev, focus));
+  }, [focus, setDays]);
+
   const setDaysAndMirror = React.useCallback(
     (
       date: ISODate,
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
     ) => {
-      setDays((prev) => {
-        const nextMap = updater(prev);
-        writeThroughLegacy(nextMap, date);
-        return nextMap;
-      });
+      setDays((prev) => updater(prev));
     },
     [setDays],
   );

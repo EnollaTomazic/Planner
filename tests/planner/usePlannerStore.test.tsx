@@ -1,6 +1,6 @@
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 
 vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
@@ -12,8 +12,6 @@ vi.mock("@/lib/db", async () => {
 });
 
 import { PlannerProvider, usePlannerStore, useDay } from "@/components/planner";
-import { flushWriteLocal } from "@/lib/db";
-import * as bootstrap from "@/lib/local-bootstrap";
 
 describe("usePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -87,17 +85,65 @@ describe("usePlannerStore", () => {
     expect(result.current.totalTasks).toBe(1);
   });
 
-  it("debounces legacy writes", () => {
-    const spy = vi.spyOn(bootstrap, "writeLocal");
-    const { result } = renderHook(() => usePlannerStore(), { wrapper });
-    let pid = "";
-    act(() => {
-      pid = result.current.addProject("A");
-      result.current.addTask("t1", pid);
-      result.current.addTask("t2", pid);
+  it("migrates legacy storage and stops syncing", async () => {
+    vi.resetModules();
+    const { PlannerProvider: PProvider, usePlannerStore: useStore } =
+      await import("@/components/planner");
+    const localWrapper = ({ children }: { children: React.ReactNode }) => (
+      <PProvider>{children}</PProvider>
+    );
+
+    const original = window.localStorage;
+    const store: Record<string, string> = {
+      "planner:projects": JSON.stringify([
+        { id: "p1", name: "Legacy", done: false, createdAt: 1 },
+      ]),
+      "planner:tasks": JSON.stringify([
+        {
+          id: "t1",
+          title: "Old",
+          done: false,
+          createdAt: 1,
+          projectId: "p1",
+        },
+      ]),
+    };
+    const mockStorage: Storage = {
+      getItem: (k: string) => (k in store ? store[k] : null),
+      setItem: (k: string, v: string) => {
+        store[k] = v;
+      },
+      removeItem: (k: string) => {
+        delete store[k];
+      },
+      clear: () => {
+        for (const k of Object.keys(store)) delete store[k];
+      },
+      key: (i: number) => Object.keys(store)[i] ?? null,
+      get length() {
+        return Object.keys(store).length;
+      },
+    } as unknown as Storage;
+    Object.defineProperty(window, "localStorage", {
+      value: mockStorage,
+      configurable: true,
     });
-    flushWriteLocal();
-    expect(spy).toHaveBeenCalledTimes(2);
-    spy.mockRestore();
+
+    const { result } = renderHook(() => useStore(), { wrapper: localWrapper });
+    await waitFor(() =>
+      expect(result.current.day.projects[0].name).toBe("Legacy"),
+    );
+    expect(result.current.day.tasks[0].title).toBe("Old");
+    expect(store["planner:projects"]).toBeUndefined();
+    expect(store["planner:tasks"]).toBeUndefined();
+
+    act(() => result.current.addProject("New"));
+    expect(store["planner:projects"]).toBeUndefined();
+    expect(store["planner:tasks"]).toBeUndefined();
+
+    Object.defineProperty(window, "localStorage", {
+      value: original,
+      configurable: true,
+    });
   });
 });
