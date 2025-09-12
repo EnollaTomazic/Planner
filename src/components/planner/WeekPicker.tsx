@@ -128,8 +128,13 @@ export default function WeekPicker() {
     setIso(d);
     const el = document.getElementById(`day-${d}`);
     if (el) {
+      const behavior: ScrollBehavior = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches
+        ? "auto"
+        : "smooth";
       el.scrollIntoView({
-        behavior: "smooth",
+        behavior,
         block: "start",
         inline: "nearest",
       });
@@ -140,7 +145,12 @@ export default function WeekPicker() {
 
   const jumpToTop = () => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const behavior: ScrollBehavior = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches
+        ? "auto"
+        : "smooth";
+      window.scrollTo({ top: 0, behavior });
       // The scroll listener will auto-hide the button when we reach the top
     }
   };
