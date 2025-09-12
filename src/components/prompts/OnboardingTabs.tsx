@@ -7,8 +7,18 @@ import { usePrompts } from "./usePrompts";
 type Role = "designer" | "developer";
 
 const ROLE_TABS: TabItem<Role>[] = [
-  { key: "designer", label: "Senior Lead Designer" },
-  { key: "developer", label: "Senior Lead Developer" },
+  {
+    key: "designer",
+    label: "Senior Lead Designer",
+    id: "designer-tab",
+    controls: "designer-panel",
+  },
+  {
+    key: "developer",
+    label: "Senior Lead Developer",
+    id: "developer-tab",
+    controls: "developer-panel",
+  },
 ];
 
 export default function OnboardingTabs() {
