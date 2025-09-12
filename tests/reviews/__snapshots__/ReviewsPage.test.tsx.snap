@@ -780,7 +780,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:w-96"
       >
         <div
-          class="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong"
+          class="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong"
         >
           <div
             class="section-b"
