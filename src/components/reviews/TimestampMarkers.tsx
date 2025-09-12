@@ -36,7 +36,12 @@ function formatSeconds(total: number): string {
 function normalizeMarker(m: unknown): ReviewMarker {
   const obj = m as Record<string, unknown>;
   const id = typeof obj.id === "string" ? obj.id : uid("mark");
-  const seconds = typeof obj.seconds === "number" ? obj.seconds : 0;
+  const seconds =
+    typeof obj.seconds === "number"
+      ? obj.seconds
+      : typeof obj.time === "string"
+      ? parseTime(obj.time) ?? 0
+      : 0;
   const time = typeof obj.time === "string" ? obj.time : formatSeconds(seconds);
   const note = typeof obj.note === "string" ? obj.note : "";
   const noteOnly = Boolean(obj.noteOnly);
