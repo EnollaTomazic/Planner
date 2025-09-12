@@ -219,7 +219,7 @@ const SPEC_DATA: Record<Section, Spec[]> = {
           <Button className="ring-2 ring-[--focus]">Focus</Button>
           <Button className="bg-[--active]">Active</Button>
           <Button disabled>Disabled</Button>
-          <Button data-loading="true">Loading</Button>
+          <Button loading>Loading</Button>
         </div>
       ),
       tags: ["button", "states"],
@@ -277,7 +277,7 @@ const SPEC_DATA: Record<Section, Spec[]> = {
           <IconButton aria-label="Disabled" disabled>
             <Plus />
           </IconButton>
-          <IconButton aria-label="Loading" data-loading="true">
+          <IconButton aria-label="Loading" loading>
             <Plus />
           </IconButton>
         </div>
@@ -459,6 +459,12 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       name: "Badge",
       element: <Badge>Badge</Badge>,
       tags: ["badge"],
+    },
+    {
+      id: "neon-text",
+      name: "Neon Text",
+      element: <p className="neon-glow text-sm">Neon glow</p>,
+      tags: ["text", "neon"],
     },
     {
       id: "bullet-list",

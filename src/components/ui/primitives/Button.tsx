@@ -35,10 +35,15 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
 
+/**
+ * Props for the {@link Button} component.
+ * @property loading - When `true`, the button is disabled and `data-loading` is set.
+ */
 export type ButtonProps = React.ComponentProps<typeof motion.button> & {
   size?: ButtonSize;
   variant?: "primary" | "secondary" | "ghost";
   tone?: Tone;
+  loading?: boolean;
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -50,10 +55,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       tone = "primary",
       children,
       type = "button",
+      loading,
+      disabled,
       ...rest
     },
     ref,
   ) => {
+    const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium transition-all duration-200 hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
@@ -146,6 +154,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={cn(base, variantClass, toneClasses[variant][tone])}
+        data-loading={loading}
+        disabled={isDisabled}
         whileHover={
           variant === "primary"
             ? {

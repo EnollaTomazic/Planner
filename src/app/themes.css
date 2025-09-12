@@ -10,6 +10,10 @@
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
+  --shadow-neon:
+    0 0 var(--space-1) hsl(var(--neon) / 0.55),
+    0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
+    0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
 }
 
 /* Upgrade tokens when color-mix(oklab) is supported */
