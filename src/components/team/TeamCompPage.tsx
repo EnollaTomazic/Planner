@@ -70,12 +70,14 @@ export default function TeamCompPage() {
           />
         }
       />
-      <Hero
-        topClassName="top-[var(--header-stack)]"
-        eyebrow={active?.label}
-        heading="Comps"
-        subtitle={active?.hint}
-      />
+      {tab !== "clears" && (
+        <Hero
+          topClassName="top-[var(--header-stack)]"
+          eyebrow={active?.label}
+          heading="Comps"
+          subtitle={active?.hint}
+        />
+      )}
 
       <section className="grid gap-4">
         <div
