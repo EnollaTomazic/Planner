@@ -27,6 +27,42 @@ export default function CheatSheetTabs() {
     []
   );
 
+  const panelRefs = React.useRef<Record<SubTab, HTMLDivElement | null>>({
+    sheet: null,
+    comps: null,
+  });
+
+  const [ids, setIds] = React.useState<
+    Record<SubTab, { tab: string; panel: string }>
+  >({
+    sheet: { tab: "sheet-tab", panel: "sheet-panel" },
+    comps: { tab: "comps-tab", panel: "comps-panel" },
+  });
+
+  React.useEffect(() => {
+    const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
+    const next: Record<SubTab, { tab: string; panel: string }> = {
+      sheet: { tab: "sheet-tab", panel: "sheet-panel" },
+      comps: { tab: "comps-tab", panel: "comps-panel" },
+    };
+    (Object.keys(map) as SubTab[]).forEach(k => {
+      const tabEl = document.querySelector<HTMLButtonElement>(
+        `[role="tab"][aria-controls$="${map[k]}-panel"]`
+      );
+      if (tabEl) {
+        next[k] = {
+          tab: tabEl.id,
+          panel: tabEl.getAttribute("aria-controls") ?? `${map[k]}-panel`,
+        };
+      }
+    });
+    setIds(next);
+  }, []);
+
+  React.useEffect(() => {
+    panelRefs.current[tab]?.focus();
+  }, [tab]);
+
   return (
     <div className="w-full">
       <Hero
@@ -47,7 +83,30 @@ export default function CheatSheetTabs() {
         }}
       />
       <div className="mt-6">
-        {tab === "sheet" ? <CheatSheet dense query={query} /> : <MyComps query={query} />}
+        <div
+          id={ids.sheet.panel}
+          role="tabpanel"
+          aria-labelledby={ids.sheet.tab}
+          hidden={tab !== "sheet"}
+          tabIndex={tab === "sheet" ? 0 : -1}
+          ref={el => {
+            panelRefs.current.sheet = el;
+          }}
+        >
+          {tab === "sheet" && <CheatSheet dense query={query} />}
+        </div>
+        <div
+          id={ids.comps.panel}
+          role="tabpanel"
+          aria-labelledby={ids.comps.tab}
+          hidden={tab !== "comps"}
+          tabIndex={tab === "comps" ? 0 : -1}
+          ref={el => {
+            panelRefs.current.comps = el;
+          }}
+        >
+          {tab === "comps" && <MyComps query={query} />}
+        </div>
       </div>
     </div>
   );

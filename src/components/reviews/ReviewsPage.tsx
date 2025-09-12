@@ -110,12 +110,8 @@ export default function ReviewsPage({
       />
       <Hero
         topClassName="top-[var(--header-stack)]"
-        heading={
-          <div className="flex items-center gap-2">
-            <h2 className="title-glow">Reviews</h2>
-            <span className="pill">Total {base.length}</span>
-          </div>
-        }
+        heading="Browse Reviews"
+        subtitle={<span className="pill">Total {base.length}</span>}
         right={null}
         bottom={
           <>
