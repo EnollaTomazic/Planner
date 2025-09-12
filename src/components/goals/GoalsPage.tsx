@@ -158,26 +158,27 @@ export default function GoalsPage() {
     <main
       id="goals-main"
       aria-labelledby="goals-header"
-      className="page-shell py-6 space-y-6"
+      className="page-shell py-6"
     >
-      {/* ======= HEADER ======= */}
-      <Header
-        id="goals-header"
-        eyebrow="Goals"
-        heading="Today’s Goals"
-        subtitle={summary}
-        icon={<Flag className="opacity-80" />}
-        sticky
-        barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
-        tabs={{
-          items: TABS,
-          value: tab,
-          onChange: handleTabChange,
-          ariaLabel: "Goals header mode",
-        }}
-      />
+      <div className="grid gap-6">
+        {/* ======= HEADER ======= */}
+        <Header
+          id="goals-header"
+          eyebrow="Goals"
+          heading="Today’s Goals"
+          subtitle={summary}
+          icon={<Flag className="opacity-80" />}
+          sticky
+          barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
+          tabs={{
+            items: TABS,
+            value: tab,
+            onChange: handleTabChange,
+            ariaLabel: "Goals header mode",
+          }}
+        />
 
-      <section className="grid gap-6">
+        {/* ======= PANELS ======= */}
         <div
           role="tabpanel"
           id="goals-panel"
@@ -278,7 +279,7 @@ export default function GoalsPage() {
         >
           {tab === "timer" && <TimerTab />}
         </div>
-      </section>
+      </div>
 
       {/* Use boolean styled-jsx attribute to satisfy typings */}
       <style jsx>{`
