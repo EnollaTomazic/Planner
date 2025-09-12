@@ -20,6 +20,8 @@ export type SearchBarProps = Omit<
   height?: InputSize | number;
   /** Additional classes for the outer FieldShell */
   fieldClassName?: string;
+  /** When `true`, the search bar is disabled and `data-loading` is set */
+  loading?: boolean;
 };
 
 export default function SearchBar({
@@ -38,6 +40,8 @@ export default function SearchBar({
   autoCapitalize = "none",
   height,
   fieldClassName,
+  loading,
+  disabled,
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
@@ -70,7 +74,7 @@ export default function SearchBar({
         // Two-column grid: search input + optional right slot
         // Tailwind's arbitrary value syntax uses an underscore instead of a comma.
         // `minmax(0,1fr)` prevents input overflow when space is constrained.
-        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full",
+        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
         className,
       )}
       onSubmit={(e) => {
@@ -78,6 +82,7 @@ export default function SearchBar({
         onValueChange?.(query);
         onSubmit?.(query);
       }}
+      data-loading={loading}
     >
       {/* Input column */}
       <div className="relative min-w-0">
@@ -104,6 +109,8 @@ export default function SearchBar({
           spellCheck={spellCheck}
           autoCapitalize={autoCapitalize}
           {...rest}
+          data-loading={loading}
+          disabled={disabled || loading}
         />
 
         {showClear && (
@@ -111,7 +118,8 @@ export default function SearchBar({
             type="button"
             aria-label="Clear"
             title="Clear"
-            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)]"
+            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+            disabled={disabled || loading}
             onClick={() => {
               setQuery("");
               onValueChange?.("");
