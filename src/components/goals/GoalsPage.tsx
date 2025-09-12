@@ -183,13 +183,18 @@ export default function GoalsPage() {
         : "Pick a duration and focus.";
 
   return (
-    <main id="goals-main" aria-labelledby="goals-header" className="page-shell py-6 space-y-6">
+    <main
+      id="goals-main"
+      aria-labelledby="goals-header"
+      className="page-shell py-6 space-y-6"
+    >
       {/* ======= HEADER ======= */}
       <Header
         id="goals-header"
         eyebrow="Goals"
         heading="Today"
         subtitle={summary}
+        icon={<Flag className="opacity-80" />}
         sticky
         barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
         right={
