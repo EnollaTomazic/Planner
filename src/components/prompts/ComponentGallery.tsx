@@ -726,6 +726,7 @@ export default function ComponentGallery() {
               eyebrow="Eyebrow"
               subtitle="Subtitle"
               sticky={false}
+              icon={<Star className="opacity-80" />}
             />
           </div>
         ),
@@ -751,7 +752,10 @@ export default function ComponentGallery() {
         label: "Header + Hero",
         element: (
           <div className="w-56 h-56 overflow-auto space-y-6">
-            <Header heading="Stacked" />
+            <Header
+              heading="Stacked"
+              icon={<Star className="opacity-80" />}
+            />
             <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
             <div className="h-96" />
           </div>
