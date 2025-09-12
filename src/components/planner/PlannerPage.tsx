@@ -35,8 +35,8 @@ function Inner() {
 
   // Derive once per week change; keeps list stable during edits elsewhere
   const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
-    () => days.map(d => ({ iso: d, isToday: d === today })),
-    [days, today]
+    () => days.map((d) => ({ iso: d, isToday: d === today })),
+    [days, today],
   );
 
   const prevWeek = () => setIso(toISODate(addDays(start, -7)));
@@ -106,15 +106,14 @@ function Inner() {
         </section>
 
         {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
-        <section
-          role="list"
+        <ul
           aria-label="Week days (Monday to Sunday)"
           className="flex flex-col gap-4"
         >
-          {dayItems.map(item => (
+          {dayItems.map((item) => (
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
           ))}
-        </section>
+        </ul>
       </main>
       <ScrollTopFloatingButton watchRef={heroRef} />
     </>
