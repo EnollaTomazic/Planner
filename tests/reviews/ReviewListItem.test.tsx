@@ -37,6 +37,17 @@ describe('ReviewListItem', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('renders disabled state', () => {
+    const { container } = render(
+      <ReviewListItem disabled review={baseReview} />,
+    );
+    expect(container.firstChild).toHaveClass(
+      'disabled:opacity-60',
+      'disabled:pointer-events-none',
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   it('renders untitled state', () => {
     const review = { ...baseReview, title: '' };
     const { container } = render(<ReviewListItem review={review} />);
