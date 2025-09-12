@@ -4,6 +4,7 @@ import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
 import {
+  QuickActions,
   TodayCard,
   GoalsCard,
   ReviewsCard,
@@ -74,7 +75,10 @@ function HomePageContent() {
         icon={<Home className="opacity-80" />}
       />
       <Hero topClassName="top-[var(--header-stack)]" heading="Hero" />
-      <IsometricRoom variant={theme.variant} />
+      <div className="grid gap-4 md:grid-cols-2 items-start">
+        <QuickActions theme={theme} setTheme={setTheme} />
+        <IsometricRoom variant={theme.variant} />
+      </div>
       <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="md:col-span-4">
           <TodayCard />
