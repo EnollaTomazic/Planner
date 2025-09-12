@@ -351,7 +351,7 @@ const AnimatedSelectImpl = React.forwardRef<
 
   function selectByIndex(index: number) {
     const opt = items[index];
-    if (!opt || opt.disabled) return;
+    if (!opt || opt.disabled || opt.loading) return;
     onChange?.(opt.value);
     opt.onSelect?.();
     setOpen(false);
@@ -508,7 +508,7 @@ const AnimatedSelectImpl = React.forwardRef<
 
                 {items.map((it, idx) => {
                   const active = it.value === value;
-                  const disabledItem = !!it.disabled;
+                  const disabledItem = !!it.disabled || it.loading;
                   return (
                     <li key={String(it.value)}>
                       <button
