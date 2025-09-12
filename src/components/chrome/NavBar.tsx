@@ -36,7 +36,7 @@ export default function NavBar() {
                 href={it.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative inline-flex items-center rounded-2xl border px-4 py-2 font-mono text-sm transition",
+                  "relative inline-flex items-center rounded-2xl border px-4 py-2 font-mono text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   "bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
                     ? "text-foreground border-ring shadow-[0_0_0_1px_hsl(var(--ring)/.35),0_8px_24px_hsl(var(--ring)/.2)]"

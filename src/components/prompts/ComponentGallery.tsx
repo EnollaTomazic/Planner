@@ -37,7 +37,6 @@ import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
-import UpdatesList from "./UpdatesList";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import Banner from "@/components/chrome/Banner";
@@ -439,9 +438,6 @@ export default function ComponentGallery() {
                   ariaLabel="Demo tabs"
                 />
                 <Card className="h-24" />
-              </div>
-              <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-8">
-                <UpdatesList />
               </div>
             </div>
           </div>
