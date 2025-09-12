@@ -707,9 +707,9 @@ export default function ComponentGallery() {
           <div
             className="w-56 h-24 rounded-md flex items-center justify-center"
             style={{
-              backgroundColor: "hsl(350 70% 4%)",
-              color: "hsl(0 0% 92%)",
-              border: "1px solid hsl(350 40% 22%)",
+              backgroundColor: "hsl(var(--noir-background))",
+              color: "hsl(var(--noir-foreground))",
+              border: "1px solid hsl(var(--noir-border))",
             }}
           >
             Noir
@@ -722,9 +722,9 @@ export default function ComponentGallery() {
           <div
             className="w-56 h-24 rounded-md flex items-center justify-center"
             style={{
-              backgroundColor: "hsl(165 60% 3%)",
-              color: "hsl(160 12% 95%)",
-              border: "1px solid hsl(165 40% 22%)",
+              backgroundColor: "hsl(var(--hardstuck-background))",
+              color: "hsl(var(--hardstuck-foreground))",
+              border: "1px solid hsl(var(--hardstuck-border))",
             }}
           >
             Hardstuck
