@@ -5,7 +5,7 @@
  * - Top bar sticks while the body scrolls
  * - High z-index (z-[999]) so it doesn't hide behind random divs
  * - No border; soft neon glow
- * - Keep topClassName if you need offset (e.g., under the global navbar)
+ * - Keep topClassName (`top-[var(--header-stack)]`) if you need offset under the global navbar
  */
 
 import * as React from "react";
@@ -25,7 +25,7 @@ export interface HeaderProps
   children?: React.ReactNode;
   /** Still overridable, but true by default */
   sticky?: boolean;
-  /** Offset from top; keep "top-8" if you sit under SiteChrome */
+  /** Offset from top; matches `--header-stack` when under SiteChrome */
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
@@ -40,7 +40,7 @@ export default function Header({
   right,
   children,
   sticky = true,
-  topClassName = "top-8", // adjust if your header height changes
+  topClassName = "top-[var(--header-stack)]", // sync with --header-stack token
   className,
   barClassName,
   bodyClassName,

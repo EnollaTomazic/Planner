@@ -9,22 +9,22 @@ export default function TeamPromptsCard() {
     <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
       <div className="md:col-span-6">
         <DashboardCard title="Team quick actions">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-12 gap-4">
             <Link
               href="/team"
-              className="rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-6 rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
             >
               Archetypes
             </Link>
             <Link
               href="/team"
-              className="rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-6 rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
             >
               Team Builder
             </Link>
             <Link
               href="/team"
-              className="rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-6 rounded-card r-card-md border border-[hsl(var(--border))] px-3 py-1 text-xs hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
             >
               Jungle Clears
             </Link>
