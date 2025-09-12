@@ -21,18 +21,27 @@
 [data-scope="team"] .glitch-title::before{
   color: hsl(var(--accent));
   clip-path: polygon(0 2%, 100% 2%, 100% 40%, 0 40%);
-  animation: team-glitch-jitter 2.1s infinite linear alternate-reverse;
 }
 [data-scope="team"] .glitch-title::after{
   color: hsl(var(--primary));
   clip-path: polygon(0 60%, 100% 60%, 100% 98%, 0 98%);
-  animation: team-glitch-jitter 1.9s infinite linear;
 }
 [data-scope="team"] .glitch-flicker{
-  animation: team-glitch-flicker 4s infinite steps(1, end);
   text-shadow:
     0 0 0.45rem hsl(var(--ring) / .55),
     0 0 0.1rem hsl(var(--accent) / .35);
+}
+
+@media (prefers-reduced-motion: no-preference){
+  [data-scope="team"] .glitch-title::before{
+    animation: team-glitch-jitter 2.1s infinite linear alternate-reverse;
+  }
+  [data-scope="team"] .glitch-title::after{
+    animation: team-glitch-jitter 1.9s infinite linear;
+  }
+  [data-scope="team"] .glitch-flicker{
+    animation: team-glitch-flicker 4s infinite steps(1, end);
+  }
 }
 
 @keyframes team-glitch-jitter{
@@ -52,5 +61,5 @@
 @media (prefers-reduced-motion: reduce){
   [data-scope="team"] .glitch-title::before,
   [data-scope="team"] .glitch-title::after{ display:none; }
-  [data-scope="team"] .glitch-flicker{ animation: none; text-shadow: none; }
+  [data-scope="team"] .glitch-flicker{ text-shadow: none; }
 }
