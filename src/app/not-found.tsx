@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { AlertCircle } from "lucide-react";
 import { Button, Header, Hero } from "@/components/ui";
+
+export const metadata: Metadata = {
+  title: "Page Not Found",
+  description: "The page you are looking for does not exist.",
+};
 
 export default function NotFound() {
   const headerId = "not-found-header";
