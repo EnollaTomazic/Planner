@@ -516,6 +516,7 @@ export default function ComponentGallery() {
             toggleProject={() => {}}
             renameProject={() => {}}
             deleteProject={() => {}}
+            onAdd={() => ""}
           />
         ),
         className: "sm:col-span-2 md:col-span-3",

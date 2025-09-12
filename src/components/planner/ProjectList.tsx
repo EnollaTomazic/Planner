@@ -17,6 +17,7 @@ type Props = {
   toggleProject: (id: string) => void;
   renameProject: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
+  onAdd: (name: string) => string | void;
 };
 
 export default function ProjectList({
@@ -27,13 +28,23 @@ export default function ProjectList({
   toggleProject,
   renameProject,
   deleteProject,
+  onAdd,
 }: Props) {
   const [editingProjectId, setEditingProjectId] = React.useState<string | null>(
     null,
   );
   const [editingProjectName, setEditingProjectName] = React.useState("");
+  const [draftProject, setDraftProject] = React.useState("");
   const projectsScrollable = projects.length > 3;
   const multiple = projects.length > 1;
+
+  const addProjectCommit = React.useCallback(() => {
+    const v = draftProject.trim();
+    if (!v) return;
+    const id = onAdd(v);
+    setDraftProject("");
+    if (id) setSelectedProjectId(id);
+  }, [draftProject, onAdd, setSelectedProjectId]);
 
   const onRowKey = React.useCallback(
     (idx: number, p: Project) => (e: React.KeyboardEvent) => {
@@ -59,21 +70,35 @@ export default function ProjectList({
     <div className="flex flex-col gap-3 min-w-0">
       <div
         className={cn(
-          "mt-1 px-0 py-2 w-full",
+          "px-0 w-full",
           projectsScrollable
             ? "max-h-[260px] overflow-y-auto"
             : "overflow-visible",
         )}
       >
-        {projects.length === 0 ? (
-          <EmptyRow text="No projects yet." />
-        ) : (
-          <ul
-            className="w-full space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"
-            role="radiogroup"
-            aria-label="Projects"
-          >
-            {projects.map((p, idx) => {
+        <ul className="w-full space-y-2 py-2" role="radiogroup" aria-label="Projects">
+          <li className="w-full">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                addProjectCommit();
+              }}
+            >
+              <Input
+                className="w-full"
+                placeholder="> new project…"
+                value={draftProject}
+                onChange={(e) => setDraftProject(e.target.value)}
+                aria-label="Add project"
+              />
+            </form>
+          </li>
+          {projects.length === 0 ? (
+            <li>
+              <EmptyRow text="No projects yet." />
+            </li>
+          ) : (
+            projects.map((p, idx) => {
               const active = p.id === selectedProjectId;
               const isEditing = editingProjectId === p.id;
               const handleRowKey = onRowKey(idx, p);
@@ -99,7 +124,7 @@ export default function ProjectList({
                     )}
                   >
                     <span
-                      className="shrink-0 ml-1"
+                      className="shrink-0"
                       onMouseDown={(e) => e.stopPropagation()}
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -175,9 +200,9 @@ export default function ProjectList({
                   </div>
                 </li>
               );
-            })}
-          </ul>
-        )}
+            })
+          )}
+        </ul>
       </div>
     </div>
   );
