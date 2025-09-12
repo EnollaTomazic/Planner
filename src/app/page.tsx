@@ -4,12 +4,12 @@ import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
 import {
-  QuickActions,
   TodayCard,
   GoalsCard,
   ReviewsCard,
   TeamPromptsCard,
   BottomNav,
+  IsometricRoom,
 } from "@/components/home";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
@@ -74,7 +74,7 @@ function HomePageContent() {
         icon={<Home className="opacity-80" />}
       />
       <Hero topClassName="top-[var(--header-stack)]" heading="Hero" />
-      <QuickActions theme={theme} setTheme={setTheme} />
+      <IsometricRoom variant={theme.variant} />
       <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="md:col-span-4">
           <TodayCard />
