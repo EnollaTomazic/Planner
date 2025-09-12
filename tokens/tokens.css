@@ -34,6 +34,12 @@
   --lav-deep: 320 85% 60%;
   --team-blue: 200 100% 60%;
   --team-red: 0 85% 60%;
+  --noir-background: 350 70% 4%;
+  --noir-foreground: 0 0% 92%;
+  --noir-border: 350 40% 22%;
+  --hardstuck-background: 165 60% 3%;
+  --hardstuck-foreground: 160 12% 95%;
+  --hardstuck-border: 165 40% 22%;
   --success: 316 92% 70%;
   --success-glow: 316 92% 52% / 0.6;
   --tone-top: 38 92% 60%;

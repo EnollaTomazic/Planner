@@ -53,3 +53,9 @@
 | `hsl(265 72% 62%)`                  | `hsl(var(--tone-mid))`            |
 | `hsl(195 75% 56%)`                  | `hsl(var(--tone-adc))`            |
 | `hsl(320 72% 60%)`                  | `hsl(var(--tone-sup))`            |
+| `hsl(350 70% 4%)`                   | `hsl(var(--noir-background))`     |
+| `hsl(0 0% 92%)`                     | `hsl(var(--noir-foreground))`     |
+| `hsl(350 40% 22%)`                  | `hsl(var(--noir-border))`         |
+| `hsl(165 60% 3%)`                   | `hsl(var(--hardstuck-background))` |
+| `hsl(160 12% 95%)`                  | `hsl(var(--hardstuck-foreground))` |
+| `hsl(165 40% 22%)`                  | `hsl(var(--hardstuck-border))`    |
