@@ -100,6 +100,17 @@ async function buildTokens(): Promise<void> {
         buildPath: "tokens/",
         files: [{ destination: "tokens.css", format: "css/variables" }],
       },
+      js: {
+        transforms: ["name/camel"],
+        buildPath: "tokens/",
+        files: [
+          {
+            destination: "tokens.js",
+            format: "javascript/esm",
+            options: { flat: true },
+          },
+        ],
+      },
       docs: {
         transforms: ["name/kebab"],
         buildPath: "docs/",
@@ -108,11 +119,13 @@ async function buildTokens(): Promise<void> {
     },
   });
 
-  const bar = createTaskBar(2);
+  const bar = createTaskBar(3);
   sd.buildPlatform("css");
   bar.update(1);
-  sd.buildPlatform("docs");
+  sd.buildPlatform("js");
   bar.update(2);
+  sd.buildPlatform("docs");
+  bar.update(3);
   stopBars();
 }
 
