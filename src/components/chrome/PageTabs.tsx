@@ -43,6 +43,14 @@ export default function PageTabs({
   const router = useRouter();
   const pathname = usePathname();
 
+  const supportsColorMix =
+    typeof CSS !== "undefined" &&
+    typeof CSS.supports === "function" &&
+    CSS.supports("color", "color-mix(in oklab, white, black)");
+  const background = supportsColorMix
+    ? "color-mix(in oklab, hsl(var(--background)) 60%, transparent)"
+    : "hsl(var(--background)/0.6)";
+
   // Restore tab from hash on load
   React.useEffect(() => {
     const hash = window.location.hash.replace("#", "");
@@ -86,8 +94,7 @@ export default function PageTabs({
         sticky
           ? {
               top: topOffset,
-              background:
-                "color-mix(in oklab, hsl(var(--background)) 60%, transparent)",
+              background,
               borderBottom: "1px solid hsl(var(--border))",
             }
           : undefined
