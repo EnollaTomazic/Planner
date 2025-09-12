@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { DayRow, PlannerProvider } from "@/components/planner";
