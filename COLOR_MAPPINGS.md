@@ -48,3 +48,8 @@
 | `#fb7185` (`rose-400`)              | `hsl(var(--danger))`              |
 | `#fbbf24` (`amber-400`)             | `hsl(var(--warning))`             |
 | `#34d399` (`emerald-400`)           | `hsl(var(--success))`             |
+| `hsl(38 92% 60%)`                   | `hsl(var(--tone-top))`            |
+| `hsl(152 52% 44%)`                  | `hsl(var(--tone-jg))`             |
+| `hsl(265 72% 62%)`                  | `hsl(var(--tone-mid))`            |
+| `hsl(195 75% 56%)`                  | `hsl(var(--tone-adc))`            |
+| `hsl(320 72% 60%)`                  | `hsl(var(--tone-sup))`            |
