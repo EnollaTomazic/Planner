@@ -69,10 +69,10 @@ export default function CheatSheetTabs() {
         eyebrow="Comps"
         heading="Cheat Sheet"
         subtitle={tab === "sheet" ? "Archetypes & tips" : "Your saved compositions"}
-        tabs={{
+        subTabs={{
           items: tabs,
           value: tab,
-          onChange: k => setTab(k as SubTab),
+          onChange: (k: string) => setTab(k as SubTab),
           showBaseline: true,
         }}
         search={{

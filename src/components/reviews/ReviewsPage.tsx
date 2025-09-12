@@ -11,7 +11,7 @@ import ReviewPanel from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import { Button, Select } from "@/components/ui";
-import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
+import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
 
 type SortKey = "newest" | "oldest" | "title";
@@ -103,48 +103,45 @@ export default function ReviewsPage({
         topClassName="top-[var(--header-stack)]"
         heading="Browse Reviews"
         subtitle={<span className="pill">Total {base.length}</span>}
-        right={null}
-        bottom={
-          <>
-            <HeroSearchBar
-              round
-              value={q}
-              onValueChange={setQ}
-              placeholder="Search title, tags, opponent, patch…"
-              className="flex-1"
-            />
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Sort</span>
-                <Select
-                  variant="animated"
-                  value={sort}
-                  onChange={(v) => setSort(v as SortKey)}
-                  items={[
-                    { value: "newest", label: "Newest" },
-                    { value: "oldest", label: "Oldest" },
-                    { value: "title", label: "Title" },
-                  ]}
-                  buttonClassName="h-10 px-[var(--spacing-4)]"
-                />
-              </div>
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                className="px-[var(--spacing-4)] whitespace-nowrap"
-                onClick={() => {
-                  setQ("");
-                  setSort("newest");
-                  setPanelMode("edit");
-                  onCreate();
-                }}
-              >
-                <Plus />
-                <span>New Review</span>
-              </Button>
+        search={{
+          round: true,
+          value: q,
+          onValueChange: setQ,
+          placeholder: "Search title, tags, opponent, patch…",
+          className: "flex-1",
+        }}
+        actions={
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+              <span>Sort</span>
+              <Select
+                variant="animated"
+                value={sort}
+                onChange={(v) => setSort(v as SortKey)}
+                items={[
+                  { value: "newest", label: "Newest" },
+                  { value: "oldest", label: "Oldest" },
+                  { value: "title", label: "Title" },
+                ]}
+                buttonClassName="h-10 px-[var(--spacing-4)]"
+              />
             </div>
-          </>
+            <Button
+              type="button"
+              variant="primary"
+              size="md"
+              className="px-[var(--spacing-4)] whitespace-nowrap"
+              onClick={() => {
+                setQ("");
+                setSort("newest");
+                setPanelMode("edit");
+                onCreate();
+              }}
+            >
+              <Plus />
+              <span>New Review</span>
+            </Button>
+          </div>
         }
       />
 
