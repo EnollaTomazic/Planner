@@ -288,7 +288,7 @@ export default function RemindersTab() {
                 <Plus size={16} aria-hidden />
               </IconButton>
               <div className={`${neonClass} hidden sm:block`}>
-                <p className="neon-note text-xs italic">Stop procrastinating, do it now if you have time</p>
+                <p className="neon-note neon-glow text-xs italic">Stop procrastinating, do it now if you have time</p>
               </div>
             </form>
 
@@ -362,13 +362,8 @@ export default function RemindersTab() {
           .neon-life { --neon: var(--accent); }
 
           .neon-note {
-            margin-top: -6px;
-            padding-left: 2px;
-            color: hsl(var(--neon));
-            text-shadow:
-              0 0 4px hsl(var(--neon) / 0.55),
-              0 0 10px hsl(var(--neon) / 0.35),
-              0 0 18px hsl(var(--neon) / 0.2);
+            margin-top: calc(var(--space-1) * -1.5);
+            padding-left: calc(var(--space-1) / 2);
             animation: neon-flicker 4s infinite;
           }
 

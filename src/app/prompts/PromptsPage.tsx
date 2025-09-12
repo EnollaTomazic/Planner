@@ -460,6 +460,12 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["badge"],
     },
     {
+      id: "neon-text",
+      name: "Neon Text",
+      element: <p className="neon-glow text-sm">Neon glow</p>,
+      tags: ["text", "neon"],
+    },
+    {
       id: "bullet-list",
       name: "Bullet List",
       description: "Token-based markers",
