@@ -39,9 +39,15 @@ function Inner() {
     [days, today],
   );
 
-  const prevWeek = () => setIso(toISODate(addDays(start, -7)));
-  const nextWeek = () => setIso(toISODate(addDays(start, 7)));
-  const jumpToday = () => setIso(today);
+  const prevWeek = React.useCallback(() => {
+    setIso(toISODate(addDays(start, -7)));
+  }, [start, setIso]);
+  const nextWeek = React.useCallback(() => {
+    setIso(toISODate(addDays(start, 7)));
+  }, [start, setIso]);
+  const jumpToday = React.useCallback(() => {
+    setIso(today);
+  }, [today, setIso]);
 
   const heroRef = React.useRef<HTMLDivElement>(null);
 
