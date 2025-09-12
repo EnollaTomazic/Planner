@@ -14,20 +14,98 @@
 import "./style.css";
 
 import React, { useState } from "react";
-import { Users2, BookOpenText, Hammer, Timer } from "lucide-react";
+import { Users2, BookOpenText, BookOpen, Hammer, Timer } from "lucide-react";
 import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import Builder from "./Builder";
 import JungleClears from "./JungleClears";
-import CheatSheetTabs from "./CheatSheetTabs";
+import CheatSheet from "./CheatSheet";
+import MyComps from "./MyComps";
+import { usePersistentState } from "@/lib/db";
 
 type Tab = "cheat" | "builder" | "clears";
+type SubTab = "sheet" | "comps";
+
+const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
+const QUERY_KEY = "team:cheatsheet:query.v1";
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
+  const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
+  const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
   const clearsRef = React.useRef<HTMLDivElement>(null);
+  const subPanelRefs = React.useRef<Record<SubTab, HTMLDivElement | null>>({
+    sheet: null,
+    comps: null,
+  });
+  const [subIds, setSubIds] = React.useState<
+    Record<SubTab, { tab: string; panel: string }>
+  >({
+    sheet: { tab: "sheet-tab", panel: "sheet-panel" },
+    comps: { tab: "comps-tab", panel: "comps-panel" },
+  });
+  React.useEffect(() => {
+    const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
+    const next: Record<SubTab, { tab: string; panel: string }> = {
+      sheet: { tab: "sheet-tab", panel: "sheet-panel" },
+      comps: { tab: "comps-tab", panel: "comps-panel" },
+    };
+    (Object.keys(map) as SubTab[]).forEach((k) => {
+      const tabEl = document.querySelector<HTMLButtonElement>(
+        `[role="tab"][aria-controls$="${map[k]}-panel"]`,
+      );
+      if (tabEl) {
+        next[k] = {
+          tab: tabEl.id,
+          panel: tabEl.getAttribute("aria-controls") ?? `${map[k]}-panel`,
+        };
+      }
+    });
+    setSubIds(next);
+  }, []);
+  React.useEffect(() => {
+    subPanelRefs.current[subTab]?.focus();
+  }, [subTab]);
+  const subTabs = React.useMemo(
+    () => [
+      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen /> },
+      { key: "comps", label: "My Comps", icon: <Users2 /> },
+    ],
+    [],
+  );
+  const renderCheat = React.useCallback(
+    () => (
+      <div>
+        <div
+          id={subIds.sheet.panel}
+          role="tabpanel"
+          aria-labelledby={subIds.sheet.tab}
+          hidden={subTab !== "sheet"}
+          tabIndex={subTab === "sheet" ? 0 : -1}
+          ref={(el) => {
+            subPanelRefs.current.sheet = el;
+          }}
+        >
+          {subTab === "sheet" && <CheatSheet dense query={query} />}
+        </div>
+        <div
+          id={subIds.comps.panel}
+          role="tabpanel"
+          aria-labelledby={subIds.comps.tab}
+          hidden={subTab !== "comps"}
+          tabIndex={subTab === "comps" ? 0 : -1}
+          ref={(el) => {
+            subPanelRefs.current.comps = el;
+          }}
+        >
+          {subTab === "comps" && <MyComps query={query} />}
+        </div>
+      </div>
+    ),
+    [subIds, subTab, query],
+  );
   const TABS = React.useMemo(
     (): Array<
       HeaderTab<Tab> & {
@@ -40,7 +118,7 @@ export default function TeamCompPage() {
         label: "Cheat Sheet",
         hint: "Archetypes, counters, examples",
         icon: <BookOpenText />,
-        render: () => <CheatSheetTabs />,
+        render: renderCheat,
         ref: cheatRef,
       },
       {
@@ -60,7 +138,7 @@ export default function TeamCompPage() {
         ref: clearsRef,
       },
     ],
-    [],
+    [renderCheat],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
@@ -86,7 +164,23 @@ export default function TeamCompPage() {
             topClassName="top-[var(--header-stack)]"
             eyebrow={active?.label}
             heading="Comps"
-            subtitle={active?.hint}
+            subtitle={
+              subTab === "sheet"
+                ? "Archetypes & tips"
+                : "Your saved compositions"
+            }
+            subTabs={{
+              items: subTabs,
+              value: subTab,
+              onChange: (k: string) => setSubTab(k as SubTab),
+              showBaseline: true,
+            }}
+            search={{
+              value: query,
+              onValueChange: setQuery,
+              placeholder: "Search…",
+              round: true,
+            }}
           />
         )}
       </div>

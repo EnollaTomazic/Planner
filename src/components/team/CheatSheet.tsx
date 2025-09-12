@@ -449,7 +449,7 @@ export default function CheatSheet({
     <section
       data-scope="team"
       className={[
-        "grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3",
+        "grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3",
         className,
       ].join(" ")}
     >
