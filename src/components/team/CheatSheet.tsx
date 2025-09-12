@@ -299,17 +299,24 @@ function BulletListEdit({
 
   if (!editing) {
     return (
-      <ul className="mt-1 list-disc list-inside space-y-1 text-sm leading-5">
-        {list.filter((w) => w.trim().length).map((w, idx) => (
-          <li key={idx}>{w}</li>
-        ))}
+      <ul className="mt-1 list-none pl-6 space-y-1 text-sm leading-5 text-foreground">
+        {list
+          .filter((w) => w.trim().length)
+          .map((w, idx) => (
+            <li
+              key={idx}
+              className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current"
+            >
+              {w}
+            </li>
+          ))}
       </ul>
     );
   }
 
   return (
     <ul
-      className="mt-1 list-disc list-inside space-y-1 text-sm leading-5"
+      className="mt-1 list-none pl-6 space-y-1 text-sm leading-5 text-foreground"
       aria-label={ariaLabel}
     >
       {list.map((w, idx) => (
@@ -323,6 +330,7 @@ function BulletListEdit({
           suppressContentEditableWarning
           onInput={(e) => handleItemInput(idx, e)}
           onKeyDown={(e) => handleKeyDown(idx, e)}
+          className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current"
         >
           {w}
         </li>
