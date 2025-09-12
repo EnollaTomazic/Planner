@@ -106,7 +106,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             aria-invalid={errorText ? "true" : props["aria-invalid"]}
             aria-describedby={describedBy}
             className={cn(
-              "flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
+              "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
               selectClassName,
             )}
             {...props}

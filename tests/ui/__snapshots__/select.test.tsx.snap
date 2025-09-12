@@ -9,7 +9,7 @@ exports[`Select > renders default state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r0:"
       name="test"
     >
@@ -53,7 +53,7 @@ exports[`Select > renders disabled state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       disabled=""
       id=":r4:"
       name="test"
@@ -95,7 +95,7 @@ exports[`Select > renders error state 1`] = `
       aria-describedby=":r2:-error"
       aria-invalid="true"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r2:"
       name="test"
     >
@@ -140,7 +140,7 @@ exports[`Select > renders focus state 1`] = `
   >
     <select
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r1:"
       name="test"
     >
@@ -185,7 +185,7 @@ exports[`Select > renders success state 1`] = `
     <select
       aria-describedby=":r3:-success"
       aria-label="test"
-      class="flex-1 h-11 px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/80 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
+      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
       id=":r3:"
       name="test"
     >

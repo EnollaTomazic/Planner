@@ -48,7 +48,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     hasEndSlot = false,
     ...props
   },
-  ref
+  ref,
 ) {
   const auto = React.useId();
   const fromAria = slugify(ariaLabel as string | undefined);
@@ -82,10 +82,10 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         id={finalId}
         name={finalName}
         className={cn(
-          "w-full rounded-[inherit] bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/80 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
+          "w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
           indent && "pl-7",
           showEndSlot && "pr-7",
-          inputClassName
+          inputClassName,
         )}
         {...props}
       />
@@ -93,4 +93,3 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     </FieldShell>
   );
 });
-

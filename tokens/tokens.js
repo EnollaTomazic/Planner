@@ -70,9 +70,9 @@ export default {
   controlHMd: "40px",
   controlHLg: "44px",
   controlH: "var(--control-h-md)",
-  controlRadius: "var(--radius-xl)",
+  controlRadius: "var(--radius-lg)",
   controlFs: "0.9rem",
-  controlPx: "1rem",
+  controlPx: "var(--spacing-3)",
   headerStack: "calc(var(--spacing-8) + var(--spacing-4))",
   edgeIris:
     "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(192 90% 50% / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
