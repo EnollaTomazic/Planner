@@ -82,7 +82,7 @@ function Inner() {
           <Header
             id="planner-header"
             eyebrow="Planner"
-            heading="Today"
+            heading="Planner for Today"
             subtitle="Plan your week"
             icon={<CalendarDays className="opacity-80" />}
             right={right}

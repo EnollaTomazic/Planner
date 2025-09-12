@@ -71,7 +71,7 @@ export default function TeamCompPage() {
       <Header
         id="teamcomp-header"
         eyebrow="Comps"
-        heading="Today"
+        heading="Team Comps Today"
         subtitle="Readable. Fast. On brand."
         icon={<Users2 className="opacity-80" />}
         right={
