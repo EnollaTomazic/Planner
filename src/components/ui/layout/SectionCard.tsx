@@ -5,7 +5,9 @@ import * as React from "react";
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
-type RootProps = React.HTMLAttributes<HTMLDivElement>;
+type RootProps = React.HTMLAttributes<HTMLElement> & {
+  variant?: "neo" | "plain";
+};
 export type SectionCardHeaderProps = {
   sticky?: boolean;
   topClassName?: string; // sticky top offset
@@ -16,19 +18,24 @@ export type SectionCardHeaderProps = {
 };
 type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 
-function Root({ className, children, ...props }: RootProps) {
-  return (
-    <section
-      className={cn(
-        "card-neo-soft shadow-neo-strong rounded-card r-card-lg",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </section>
-  );
-}
+const Root = React.forwardRef<HTMLElement, RootProps>(
+  ({ variant = "neo", className, children, ...props }, ref) => {
+    return (
+      <section
+        ref={ref}
+        className={cn(
+          "shadow-neo-strong rounded-card r-card-lg",
+          variant === "neo" ? "card-neo-soft" : "card-soft",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </section>
+    );
+  },
+);
+Root.displayName = "SectionCard";
 
 function Header({
   sticky,

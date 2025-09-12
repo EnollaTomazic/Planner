@@ -4,6 +4,7 @@
 import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import NeonIcon from "@/components/reviews/NeonIcon";
+import SectionCard from "@/components/ui/layout/SectionCard";
 
 import * as React from "react";
 import type { Review, Pillar, Role } from "@/lib/types";
@@ -201,7 +202,7 @@ export default function ReviewEditor({
   );
   const [draftTag, setDraftTag] = React.useState("");
 
-  const rootRef = React.useRef<HTMLDivElement>(null);
+  const rootRef = React.useRef<HTMLElement>(null);
 
   const [opponent, setOpponent] = React.useState(review.opponent ?? "");
   const [lane, setLane] = React.useState(review.lane ?? review.title ?? "");
@@ -406,9 +407,10 @@ export default function ReviewEditor({
   }
 
   return (
-    <div
+    <SectionCard
       ref={rootRef}
-      className={cn("card-neo-soft r-card-lg transition-none", className)}
+      variant="plain"
+      className={cn("transition-none shadow-none", className)}
     >
       <div className="section-h sticky">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
@@ -941,6 +943,6 @@ export default function ReviewEditor({
           />
         </div>
       </div>
-    </div>
+    </SectionCard>
   );
 }
