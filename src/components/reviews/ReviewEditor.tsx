@@ -840,11 +840,11 @@ export default function ReviewEditor({
                   className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
                 >
                   {m.noteOnly ? (
-                    <span className="pill h-7 min-w-[60px] px-0 flex items-center justify-center">
+                    <span className="pill h-7 w-16 px-0 flex items-center justify-center">
                       <FileText size={14} className="opacity-80" />
                     </span>
                   ) : (
-                    <span className="pill h-7 min-w-[60px] px-3 text-xs font-mono tabular-nums text-center">
+                    <span className="pill h-7 w-16 px-3 text-xs font-mono tabular-nums text-center">
                       {m.time}
                     </span>
                   )}

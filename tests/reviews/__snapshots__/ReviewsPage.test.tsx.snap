@@ -281,7 +281,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       .hero2-sep-row {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: var(--spacing-3);
         justify-content: space-between;
       }
       @keyframes neon-flicker {
@@ -939,7 +939,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       >
         <div
           aria-live="polite"
-          class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-[880px] p-[var(--spacing-5)] mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
+          class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full max-w-screen-lg p-[var(--spacing-5)] mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
         >
           <svg
             class="lucide lucide-ghost h-6 w-6 opacity-60"
