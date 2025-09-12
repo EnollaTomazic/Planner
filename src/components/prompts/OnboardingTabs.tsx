@@ -15,10 +15,17 @@ export default function OnboardingTabs() {
   const [role, setRole] = React.useState<Role>("designer");
   const { prompts } = usePrompts();
   const [updatedAt, setUpdatedAt] = React.useState(Date.now());
+  const designerRef = React.useRef<HTMLDivElement>(null);
+  const developerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setUpdatedAt(Date.now());
   }, [prompts]);
+
+  React.useEffect(() => {
+    if (role === "designer") designerRef.current?.focus();
+    else developerRef.current?.focus();
+  }, [role]);
 
   return (
     <div className="space-y-4">
@@ -36,7 +43,8 @@ export default function OnboardingTabs() {
         id="designer-panel"
         aria-labelledby="designer-tab"
         hidden={role !== "designer"}
-        tabIndex={0}
+        tabIndex={role === "designer" ? 0 : -1}
+        ref={designerRef}
       >
         <ul className="pl-6 space-y-1 list-none text-foreground">
           <li className="flex gap-2">
@@ -58,7 +66,8 @@ export default function OnboardingTabs() {
         id="developer-panel"
         aria-labelledby="developer-tab"
         hidden={role !== "developer"}
-        tabIndex={0}
+        tabIndex={role === "developer" ? 0 : -1}
+        ref={developerRef}
       >
         <ul className="pl-6 space-y-1 list-none text-foreground">
           <li className="flex gap-2">
