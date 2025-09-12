@@ -49,17 +49,17 @@ export default function WeekNotes({ iso }: Props) {
           onChange={(e) => setValue(e.target.value)}
           name={`notes-${iso}`}
           resize="resize-y"
-          textareaClassName="min-h-[180px] leading-relaxed"
+          textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           onBlur={commit}
         />
         <div className="mt-2 text-xs text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty
-            ? "Unsaved changes"
-            : lastSavedRef.current
-            ? "All changes saved"
-            : "No notes yet"}
+              ? "Unsaved changes"
+              : lastSavedRef.current
+                ? "All changes saved"
+                : "No notes yet"}
         </div>
       </SectionCard.Body>
     </SectionCard>

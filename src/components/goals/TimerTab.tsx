@@ -108,18 +108,11 @@ export default function TimerTab() {
     if (prevProfile.current !== profile) {
       setRunning(false);
       setRemaining(
-        (profile === "custom" ? customMinutes : profileDef.defaultMin) *
-          60_000,
+        (profile === "custom" ? customMinutes : profileDef.defaultMin) * 60_000,
       );
       prevProfile.current = profile;
     }
-  }, [
-    profile,
-    customMinutes,
-    profileDef.defaultMin,
-    setRunning,
-    setRemaining,
-  ]);
+  }, [profile, customMinutes, profileDef.defaultMin, setRunning, setRemaining]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -308,7 +301,7 @@ export default function TimerTab() {
             >
               <TimerRing pct={pct} size={ringSize} />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                <div className="text-5xl font-bold tabular-nums text-foreground drop-shadow-[0_0_8px_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5 sm:text-6xl">
+                <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5 sm:text-title-lg">
                   {fmt(remaining)}
                 </div>
                 {isCustom && !running && (
@@ -318,7 +311,7 @@ export default function TimerTab() {
                     onChange={(e) => setTimeEdit(e.currentTarget.value)}
                     onBlur={commitEdit}
                     onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                    className="absolute w-full max-w-[7ch] rounded-full bg-transparent text-center text-5xl font-bold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-6xl"
+                    className="absolute w-full max-w-[7ch] rounded-full bg-transparent text-center text-title font-semibold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-title-lg"
                   />
                 )}
               </div>

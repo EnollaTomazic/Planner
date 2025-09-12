@@ -71,8 +71,11 @@ exports[`ReviewsPage > renders default state 1`] = `
         --hero2-c2: hsl(var(--primary));
         --hero2-bloom: hsl(var(--shadow-color) / 0.85);
         box-shadow:
-          0 10px 40px -18px var(--hero2-bloom),
-          inset 0 0 0 1px hsl(var(--border) / 0.55);
+          0 calc(var(--space-3) _-_var(--space-1) / 2)
+            calc(var(--space-6) _+_var(--space-2))
+            calc(-1 * var(--space-5) _+_var(--space-2) _-_var(--space-1) / 2)
+            var(--hero2-bloom),
+          inset 0 0 0 var(--hairline-w) hsl(var(--border) / 0.55);
         background:
           radial-gradient(
             120% 120% at 0% 0%,
@@ -92,7 +95,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       }
       .hero2-beams {
         position: absolute;
-        inset: -2px;
+        inset: calc(var(--space-1) / -2);
         border-radius: var(--radius-2xl);
         z-index: 0;
         pointer-events: none;
@@ -113,6 +116,11 @@ exports[`ReviewsPage > renders default state 1`] = `
             0 0/100% 100%;
         mix-blend-mode: screen;
         animation: hero2-beam-pan 7s linear infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero2-beams {
+          animation: none;
+        }
       }
       @keyframes hero2-beam-pan {
         0% {
@@ -143,10 +151,15 @@ exports[`ReviewsPage > renders default state 1`] = `
             transparent 98%
           );
         background-size:
-          100% 14px,
-          14px 100%;
+          100% calc(var(--space-4) _-_var(--space-1) / 2),
+          calc(var(--space-4) _-_var(--space-1) / 2) 100%;
         opacity: 0.07;
         animation: hero2-scan-move 6s linear infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero2-scanlines {
+          animation: none;
+        }
       }
       @keyframes hero2-scan-move {
         0% {
@@ -156,8 +169,8 @@ exports[`ReviewsPage > renders default state 1`] = `
         }
         100% {
           background-position:
-            0 14px,
-            14px 0;
+            0 calc(var(--space-4) _-_var(--space-1) / 2),
+            calc(var(--space-4) _-_var(--space-1) / 2) 0;
         }
       }
       .hero2-noise {
@@ -168,8 +181,15 @@ exports[`ReviewsPage > renders default state 1`] = `
         opacity: 0.08;
         mix-blend-mode: overlay;
         background-image: url("data:image/svg+xml;utf8,        &lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'&gt;          &lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;          &lt;rect width='100%' height='100%' filter='url(%23n)' opacity='0.38'/&gt;&lt;/svg&gt;");
-        background-size: 280px 280px;
+        background-size: calc(var(--space-8) * 4_+_var(--space-5))
+          calc(var(--space-8) * 4_+_var(--space-5));
         animation: hero2-noise-shift 1.8s steps(2, end) infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero2-noise {
+          animation: none;
+          background-position: 0 0;
+        }
       }
       @keyframes hero2-noise-shift {
         50% {
@@ -195,13 +215,19 @@ exports[`ReviewsPage > renders default state 1`] = `
         opacity: 0.75;
       }
       .hero2-title::before {
-        transform: translate(0.5px, -0.5px);
+        transform: translate(
+          calc(var(--hairline-w) / 2),
+          calc(-1 * var(--hairline-w) / 2)
+        );
         color: hsl(var(--accent-2) / 0.85);
         mix-blend-mode: screen;
         animation: hero2-glitch-a 2.4s infinite steps(8, end);
       }
       .hero2-title::after {
-        transform: translate(-0.5px, 0.5px);
+        transform: translate(
+          calc(-1 * var(--hairline-w) / 2),
+          calc(var(--hairline-w) / 2)
+        );
         color: hsl(var(--lav-deep) / 0.85);
         mix-blend-mode: screen;
         animation: hero2-glitch-b 2.4s infinite steps(9, end);
@@ -266,7 +292,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         left: calc(-1 * var(--space-2));
         right: calc(-1 * var(--space-2));
         top: 0;
-        height: 1px;
+        height: var(--hairline-w);
         pointer-events: none;
         background: linear-gradient(
           90deg,
@@ -275,9 +301,9 @@ exports[`ReviewsPage > renders default state 1`] = `
           transparent
         );
         box-shadow:
-          0 0 4px hsl(var(--neon) / 0.55),
-          0 0 10px hsl(var(--neon) / 0.35),
-          0 0 18px hsl(var(--neon) / 0.2);
+          0 0 var(--space-1) hsl(var(--neon) / 0.55),
+          0 0 var(--space-3) hsl(var(--neon) / 0.35),
+          0 0 var(--space-5) hsl(var(--neon) / 0.2);
         animation: neon-flicker 3.4s infinite;
         opacity: 0.95;
       }
@@ -314,9 +340,6 @@ exports[`ReviewsPage > renders default state 1`] = `
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .hero2-beams,
-        .hero2-scanlines,
-        .hero2-noise,
         .hero2-title::before,
         .hero2-title::after,
         .hero2-neon-line {
@@ -387,7 +410,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 class="hero2-sep-row"
               >
                 <form
-                  class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[640px] rounded-full flex-1"
+                  class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
                   role="search"
                 >
                   <div

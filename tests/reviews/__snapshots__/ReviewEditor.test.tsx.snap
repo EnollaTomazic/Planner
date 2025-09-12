@@ -30,10 +30,8 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
             </div>
             <div
-              aria-label="Select lane/role"
-              class="_tray_fcdb58"
-              role="radiogroup"
-              style="--seg-count: 5; --seg-idx: 2;"
+              class="relative rounded-full bg-[var(--btn-bg)] p-1"
+              style="--count: 5; --idx: 2;"
             >
               <span
                 aria-live="polite"
@@ -43,201 +41,240 @@ exports[`ReviewEditor > renders default state 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="_highlight_fcdb58"
+                class="pointer-events-none absolute top-1 bottom-1 left-1 rounded-full bg-[var(--seg-active-grad)] shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none"
+                style="width: calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count)); transform: translateX(calc(var(--idx) * (100% + var(--space-1))));"
               />
               <div
-                class="_list_fcdb58"
+                aria-label="Select lane/role"
+                class="inline-flex rounded-full gap-1 relative w-full bg-transparent p-0"
+                role="tablist"
               >
                 <button
-                  aria-checked="false"
-                  class="_chip_fcdb58 _idle_fcdb58"
-                  role="radio"
+                  aria-controls="TOP-panel"
+                  aria-selected="false"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95 data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  id="TOP-tab"
+                  role="tab"
                   tabindex="-1"
                   type="button"
+                  value="TOP"
                 >
-                  <svg
-                    class="lucide lucide-flag _icon_fcdb58"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
-                    />
-                    <line
-                      x1="4"
-                      x2="4"
-                      y1="22"
-                      y2="15"
-                    />
-                  </svg>
                   <span
-                    class="_label_fcdb58"
+                    class="inline-flex h-4 w-4 items-center justify-center"
+                  >
+                    <svg
+                      class="lucide lucide-flag h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+                      />
+                      <line
+                        x1="4"
+                        x2="4"
+                        y1="22"
+                        y2="15"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="truncate"
                   >
                     Top
                   </span>
                 </button>
                 <button
-                  aria-checked="false"
-                  class="_chip_fcdb58 _idle_fcdb58"
-                  role="radio"
+                  aria-controls="JUNGLE-panel"
+                  aria-selected="false"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95 data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  id="JUNGLE-tab"
+                  role="tab"
                   tabindex="-1"
                   type="button"
+                  value="JUNGLE"
                 >
-                  <svg
-                    class="lucide lucide-map-pin _icon_fcdb58"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                    />
-                    <circle
-                      cx="12"
-                      cy="10"
-                      r="3"
-                    />
-                  </svg>
                   <span
-                    class="_label_fcdb58"
+                    class="inline-flex h-4 w-4 items-center justify-center"
+                  >
+                    <svg
+                      class="lucide lucide-map-pin h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                      />
+                      <circle
+                        cx="12"
+                        cy="10"
+                        r="3"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="truncate"
                   >
                     Jungle
                   </span>
                 </button>
                 <button
-                  aria-checked="true"
-                  class="_chip_fcdb58 _active_fcdb58"
-                  role="radio"
+                  aria-controls="MID-panel"
+                  aria-selected="true"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95 data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  data-selected="true"
+                  id="MID-tab"
+                  role="tab"
                   tabindex="0"
                   type="button"
+                  value="MID"
                 >
-                  <svg
-                    class="lucide lucide-target _icon_fcdb58"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="6"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="2"
-                    />
-                  </svg>
                   <span
-                    class="_label_fcdb58"
+                    class="inline-flex h-4 w-4 items-center justify-center"
+                  >
+                    <svg
+                      class="lucide lucide-target h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="6"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="2"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="truncate"
                   >
                     Mid
                   </span>
                 </button>
                 <button
-                  aria-checked="false"
-                  class="_chip_fcdb58 _idle_fcdb58"
-                  role="radio"
+                  aria-controls="BOT-panel"
+                  aria-selected="false"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95 data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  id="BOT-tab"
+                  role="tab"
                   tabindex="-1"
                   type="button"
+                  value="BOT"
                 >
-                  <svg
-                    class="lucide lucide-crosshair _icon_fcdb58"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <line
-                      x1="22"
-                      x2="18"
-                      y1="12"
-                      y2="12"
-                    />
-                    <line
-                      x1="6"
-                      x2="2"
-                      y1="12"
-                      y2="12"
-                    />
-                    <line
-                      x1="12"
-                      x2="12"
-                      y1="6"
-                      y2="2"
-                    />
-                    <line
-                      x1="12"
-                      x2="12"
-                      y1="22"
-                      y2="18"
-                    />
-                  </svg>
                   <span
-                    class="_label_fcdb58"
+                    class="inline-flex h-4 w-4 items-center justify-center"
+                  >
+                    <svg
+                      class="lucide lucide-crosshair h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                      />
+                      <line
+                        x1="22"
+                        x2="18"
+                        y1="12"
+                        y2="12"
+                      />
+                      <line
+                        x1="6"
+                        x2="2"
+                        y1="12"
+                        y2="12"
+                      />
+                      <line
+                        x1="12"
+                        x2="12"
+                        y1="6"
+                        y2="2"
+                      />
+                      <line
+                        x1="12"
+                        x2="12"
+                        y1="22"
+                        y2="18"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="truncate"
                   >
                     Bot
                   </span>
                 </button>
                 <button
-                  aria-checked="false"
-                  class="_chip_fcdb58 _idle_fcdb58"
-                  role="radio"
+                  aria-controls="SUPPORT-panel"
+                  aria-selected="false"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95 data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  id="SUPPORT-tab"
+                  role="tab"
                   tabindex="-1"
                   type="button"
+                  value="SUPPORT"
                 >
-                  <svg
-                    class="lucide lucide-shield _icon_fcdb58"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-                    />
-                  </svg>
                   <span
-                    class="_label_fcdb58"
+                    class="inline-flex h-4 w-4 items-center justify-center"
+                  >
+                    <svg
+                      class="lucide lucide-shield h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="truncate"
                   >
                     Support
                   </span>
@@ -246,96 +283,100 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
           </div>
           <div
-            class="mb-2"
+            class="flex flex-col gap-2"
           >
             <div
-              class="relative"
+              class="mb-2"
             >
-              <svg
-                class="lucide lucide-target pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="6"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="2"
-                />
-              </svg>
               <div
-                class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 pl-6"
-                style="--control-h: var(--control-h-md);"
+                class="relative"
               >
-                <input
-                  class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                  id=":r0:"
-                  name="lane"
-                  placeholder="Ashe/Lulu"
-                  value="Sample Review"
-                />
+                <svg
+                  class="lucide lucide-target pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="6"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="2"
+                  />
+                </svg>
+                <div
+                  class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 pl-6"
+                  style="--control-h: var(--control-h-md);"
+                >
+                  <input
+                    class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    id=":r0:"
+                    name="lane"
+                    placeholder="Ashe/Lulu"
+                    value="Sample Review"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div
-              class="mb-2 flex items-center gap-2"
-            >
+            <div>
               <div
-                class="text-xs tracking-wide text-foreground/20"
+                class="mb-2 flex items-center gap-2"
               >
-                Opponent
+                <div
+                  class="text-xs tracking-wide text-foreground/20"
+                >
+                  Opponent
+                </div>
+                <div
+                  class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+                />
               </div>
               <div
-                class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
-              />
-            </div>
-            <div
-              class="relative"
-            >
-              <svg
-                class="lucide lucide-shield pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+                class="relative"
               >
-                <path
-                  d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-                />
-              </svg>
-              <div
-                class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 pl-6"
-                style="--control-h: var(--control-h-md);"
-              >
-                <input
-                  class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                  id=":r1:"
-                  name="opponent"
-                  placeholder="Draven/Thresh"
-                  value=""
-                />
+                <svg
+                  class="lucide lucide-shield pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                  />
+                </svg>
+                <div
+                  class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 pl-6"
+                  style="--control-h: var(--control-h-md);"
+                >
+                  <input
+                    class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    id=":r1:"
+                    name="opponent"
+                    placeholder="Draven/Thresh"
+                    value=""
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -477,7 +518,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             />
           </svg>
           <span>
-            Macro microwave-safe.
+            You and wave negotiated.
           </span>
         </div>
       </div>
@@ -711,54 +752,46 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
+                title="Wave"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
-                  title="Wave"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-waves icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-waves icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                    />
-                    <path
-                      d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                    />
-                    <path
-                      d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Wave
-                  </span>
-                  <style>
-                    
+                  <path
+                    d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+                  />
+                  <path
+                    d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+                  />
+                  <path
+                    d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Wave
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -826,9 +859,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
           <button
@@ -848,64 +880,56 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
+                title="Trading"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
-                  title="Trading"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-hand-coins icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-hand-coins icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"
-                    />
-                    <path
-                      d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"
-                    />
-                    <path
-                      d="m2 16 6 6"
-                    />
-                    <circle
-                      cx="16"
-                      cy="9"
-                      r="2.9"
-                    />
-                    <circle
-                      cx="6"
-                      cy="5"
-                      r="3"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Trading
-                  </span>
-                  <style>
-                    
+                  <path
+                    d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"
+                  />
+                  <path
+                    d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"
+                  />
+                  <path
+                    d="m2 16 6 6"
+                  />
+                  <circle
+                    cx="16"
+                    cy="9"
+                    r="2.9"
+                  />
+                  <circle
+                    cx="6"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Trading
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -973,9 +997,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
           <button
@@ -995,53 +1018,45 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
+                title="Vision"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
-                  title="Vision"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-eye icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-eye icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="3"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Vision
-                  </span>
-                  <style>
-                    
+                  <path
+                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Vision
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -1109,9 +1124,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
           <button
@@ -1131,62 +1145,54 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
+                title="Tempo"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
-                  title="Tempo"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-timer icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-timer icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <line
-                      x1="10"
-                      x2="14"
-                      y1="2"
-                      y2="2"
-                    />
-                    <line
-                      x1="12"
-                      x2="15"
-                      y1="14"
-                      y2="11"
-                    />
-                    <circle
-                      cx="12"
-                      cy="14"
-                      r="8"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Tempo
-                  </span>
-                  <style>
-                    
+                  <line
+                    x1="10"
+                    x2="14"
+                    y1="2"
+                    y2="2"
+                  />
+                  <line
+                    x1="12"
+                    x2="15"
+                    y1="14"
+                    y2="11"
+                  />
+                  <circle
+                    cx="12"
+                    cy="14"
+                    r="8"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Tempo
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -1254,9 +1260,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
           <button
@@ -1276,74 +1281,66 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
+                title="Positioning"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
-                  title="Positioning"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-crosshair icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-crosshair icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <line
-                      x1="22"
-                      x2="18"
-                      y1="12"
-                      y2="12"
-                    />
-                    <line
-                      x1="6"
-                      x2="2"
-                      y1="12"
-                      y2="12"
-                    />
-                    <line
-                      x1="12"
-                      x2="12"
-                      y1="6"
-                      y2="2"
-                    />
-                    <line
-                      x1="12"
-                      x2="12"
-                      y1="22"
-                      y2="18"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Positioning
-                  </span>
-                  <style>
-                    
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                  <line
+                    x1="22"
+                    x2="18"
+                    y1="12"
+                    y2="12"
+                  />
+                  <line
+                    x1="6"
+                    x2="2"
+                    y1="12"
+                    y2="12"
+                  />
+                  <line
+                    x1="12"
+                    x2="12"
+                    y1="6"
+                    y2="2"
+                  />
+                  <line
+                    x1="12"
+                    x2="12"
+                    y1="22"
+                    y2="18"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Positioning
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -1411,9 +1408,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
           <button
@@ -1433,51 +1429,43 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(14px); background: radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg"
-                style="background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%); mix-blend-mode: screen; opacity: 0;"
-              />
-              <span
-                class="relative z-10"
+              <button
+                aria-pressed="false"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
+                data-interactive="true"
+                style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
+                title="Comms"
+                type="button"
               >
-                <button
-                  aria-pressed="false"
-                  class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                  data-interactive="true"
-                  style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
-                  title="Comms"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-messages-square icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-messages-square icon"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"
-                    />
-                    <path
-                      d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"
-                    />
-                  </svg>
-                  <span
-                    class="label"
-                  >
-                    Comms
-                  </span>
-                  <style>
-                    
+                  <path
+                    d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"
+                  />
+                  <path
+                    d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"
+                  />
+                </svg>
+                <span
+                  class="label"
+                >
+                  Comms
+                </span>
+                <style>
+                  
         .lg-pillar-badge {
           position: relative;
           display: inline-flex;
@@ -1545,16 +1533,27 @@ exports[`ReviewEditor > renders default state 1`] = `
           }
         }
       
-                  </style>
-                </button>
-              </span>
+                </style>
+              </button>
             </span>
           </button>
         </div>
       </div>
       <div>
         <div
-          class="mb-3 flex items-center gap-3"
+          class="mb-2 flex items-center gap-2"
+        >
+          <div
+            class="text-xs tracking-wide text-foreground/20"
+          >
+            Timestamps
+          </div>
+          <div
+            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+          />
+        </div>
+        <div
+          class="mt-1 flex items-center gap-2"
         >
           <button
             aria-label="Use timestamp"
@@ -1849,75 +1848,79 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
         </div>
         <div
-          class="grid grid-cols-[auto_1fr_auto] items-center gap-2"
+          class="mt-3 grid gap-2"
         >
           <div
-            class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] ring-2 ring-danger/35 ring-offset-0 text-center font-mono tabular-nums"
-            style="--control-h: var(--control-h-md); width: calc(5ch + 1.7rem);"
+            class="grid grid-cols-[auto_1fr_auto] items-center gap-2"
           >
-            <input
-              aria-describedby="tTime-error"
-              aria-invalid="true"
-              class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-              id=":r2:"
-              inputmode="numeric"
-              name="timestamp-time"
-              pattern="^[0-9]?\\d:[0-5]\\d$"
-              placeholder="00:00"
-              value=""
-            />
-          </div>
-          <div
-            class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-2xl"
-            style="--control-h: var(--control-h-md);"
-          >
-            <input
-              class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-              id=":r3:"
-              name="timestamp-note"
-              placeholder="Note"
-              value=""
-            />
-          </div>
-          <button
-            aria-label="Add timestamp"
-            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-10 w-10 [&_svg]:size-5"
-            disabled=""
-            tabindex="0"
-            title="Enter details"
-            type="button"
-          >
-            <svg
-              class="lucide lucide-plus"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] ring-2 ring-danger/35 ring-offset-0 text-center font-mono tabular-nums"
+              style="--control-h: var(--control-h-md); width: calc(5ch + 1.7rem);"
             >
-              <path
-                d="M5 12h14"
+              <input
+                aria-describedby="tTime-error"
+                aria-invalid="true"
+                class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                id=":r2:"
+                inputmode="numeric"
+                name="timestamp-time"
+                pattern="^[0-9]?\\d:[0-5]\\d$"
+                placeholder="00:00"
+                value=""
               />
-              <path
-                d="M12 5v14"
+            </div>
+            <div
+              class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 flex-1"
+              style="--control-h: var(--control-h-md);"
+            >
+              <input
+                class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                id=":r3:"
+                name="timestamp-note"
+                placeholder="Quick note"
+                value=""
               />
-            </svg>
-          </button>
-        </div>
-        <p
-          class="mt-1 text-xs text-danger"
-          id="tTime-error"
-        >
-          Enter time as mm:ss
-        </p>
-        <div
-          class="mt-2 text-sm text-muted-foreground"
-        >
-          No timestamps yet.
+            </div>
+            <button
+              aria-label="Add timestamp"
+              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-10 w-10 [&_svg]:size-5"
+              disabled=""
+              tabindex="0"
+              title="Enter details"
+              type="button"
+            >
+              <svg
+                class="lucide lucide-plus"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+            </button>
+          </div>
+          <p
+            class="mt-1 text-xs text-danger"
+            id="tTime-error"
+          >
+            Enter time as mm:ss
+          </p>
+          <div
+            class="mt-2 text-sm text-muted-foreground"
+          >
+            No timestamps yet.
+          </div>
         </div>
       </div>
       <div>
@@ -2025,7 +2028,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-2xl"
         >
           <textarea
-            class="block w-full max-w-full px-[var(--control-px)] py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[180px] leading-relaxed"
+            class="block w-full max-w-full px-[var(--control-px)] py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
             id=":r5:"
             name="r5"
             placeholder="Key moments, mistakes to fix, drills to run…"

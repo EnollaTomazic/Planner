@@ -58,7 +58,7 @@ describe("ReviewEditor", () => {
     fireEvent.change(screen.getByPlaceholderText("00:00"), {
       target: { value: "1:23" },
     });
-    fireEvent.change(screen.getByPlaceholderText("Note"), {
+    fireEvent.change(screen.getByPlaceholderText("Quick note"), {
       target: { value: "First blood" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Add timestamp" }));
