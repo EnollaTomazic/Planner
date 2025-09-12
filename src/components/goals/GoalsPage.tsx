@@ -17,7 +17,7 @@ import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { Snackbar } from "@/components/ui";
-import GoalsTabs, { FilterKey } from "./GoalsTabs";
+import { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
 import GoalList from "./GoalList";
@@ -190,41 +190,40 @@ export default function GoalsPage() {
             <div className="grid gap-4">
               <Hero
                 eyebrow="Guide"
-                heading="Overview"
+                heading="Your Goals"
                 subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
+                actions={
+                  <GoalsProgress
+                    total={totalCount}
+                    pct={pctDone}
+                    onAddFirst={handleAddFirst}
+                  />
+                }
                 sticky={false}
                 topClassName="top-0"
+                subTabs={{
+                  items: [
+                    { key: "All", label: "All" },
+                    { key: "Active", label: "Active" },
+                    { key: "Done", label: "Done" },
+                  ],
+                  value: filter,
+                  onChange: (k) => setFilter(k as FilterKey),
+                  ariaLabel: "Filter goals",
+                  size: "sm",
+                }}
               />
 
-              {totalCount === 0 ? (
-                <GoalsProgress
-                  total={totalCount}
-                  pct={pctDone}
-                  onAddFirst={handleAddFirst}
-                />
-              ) : (
-                <SectionCard className="card-neo-soft">
-                  <SectionCard.Header
-                    sticky
-                    topClassName="top-0"
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2 sm:gap-4">
-                      <h2 className="text-lg font-semibold">Your Goals</h2>
-                      <GoalsProgress total={totalCount} pct={pctDone} />
-                    </div>
-                    <GoalsTabs value={filter} onChange={setFilter} />
-                  </SectionCard.Header>
-                  <SectionCard.Body>
-                    <GoalList
-                      goals={filtered}
-                      onToggleDone={toggleDone}
-                      onRemove={removeGoal}
-                      onUpdate={updateGoal}
-                    />
-                  </SectionCard.Body>
-                </SectionCard>
-              )}
+              <SectionCard className="card-neo-soft">
+                <SectionCard.Body>
+                  <GoalList
+                    goals={filtered}
+                    onToggleDone={toggleDone}
+                    onRemove={removeGoal}
+                    onUpdate={updateGoal}
+                  />
+                </SectionCard.Body>
+              </SectionCard>
 
               <div ref={formRef}>
                 <GoalForm

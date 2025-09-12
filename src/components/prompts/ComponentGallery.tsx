@@ -33,7 +33,7 @@ import {
   type TabItem,
 } from "@/components/ui";
 import BadgePrimitive from "@/components/ui/primitives/Badge";
-import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
+import { GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
@@ -456,11 +456,25 @@ export default function ComponentGallery() {
         element: <GoalsProgress total={5} pct={60} maxWidth={200} />,
       },
       {
-        label: "Goals Tabs",
+        label: "Goals Hero",
         element: (
-          <div className="w-56">
-            <GoalsTabs value={goalFilter} onChange={setGoalFilter} />
-          </div>
+          <Hero
+            heading="Your Goals"
+            actions={<GoalsProgress total={5} pct={60} />}
+            subTabs={{
+              items: [
+                { key: "All", label: "All" },
+                { key: "Active", label: "Active" },
+                { key: "Done", label: "Done" },
+              ],
+              value: goalFilter,
+              onChange: setGoalFilter,
+              ariaLabel: "Filter goals",
+              size: "sm",
+            }}
+            sticky={false}
+            topClassName="top-0"
+          />
         ),
       },
       {

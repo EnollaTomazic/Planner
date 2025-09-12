@@ -18,14 +18,45 @@ describe("GoalsPage", () => {
     window.localStorage.clear();
   });
 
-  it("renders hero heading and subtitle", () => {
+  it("renders goals hero with progress", () => {
     render(<GoalsPage />);
-    expect(
-      screen.getByRole("heading", { name: "Overview" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
-    ).toBeInTheDocument();
+    const hero = screen.getByRole("heading", { name: "Your Goals" }).closest(
+      "section",
+    ) as HTMLElement;
+    expect(within(hero).getByText("No goals yet.")).toBeInTheDocument();
+  });
+
+  it("filters goals via hero sub-tabs", async () => {
+    render(<GoalsPage />);
+
+    const titleInput = screen.getByRole("textbox", { name: "Title" });
+    const addButton = screen.getByRole("button", { name: /add goal/i });
+
+    fireEvent.change(titleInput, { target: { value: "A" } });
+    fireEvent.click(addButton);
+    fireEvent.change(titleInput, { target: { value: "B" } });
+    fireEvent.click(addButton);
+
+    const bArticle = screen.getByText("B").closest("article") as HTMLElement;
+    const toggle = within(bArticle).getByRole("checkbox", { name: "Mark done" });
+    fireEvent.pointerDown(toggle);
+    fireEvent.click(toggle);
+    await waitFor(() =>
+      expect(within(bArticle).getByText("Done")).toBeInTheDocument(),
+    );
+
+    const tabs = screen.getByRole("tablist", { name: "Filter goals" });
+    fireEvent.click(within(tabs).getByRole("tab", { name: "Done" }));
+    expect(screen.getByText("B")).toBeInTheDocument();
+    expect(screen.queryByText("A")).not.toBeInTheDocument();
+
+    fireEvent.click(within(tabs).getByRole("tab", { name: "Active" }));
+    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.queryByText("B")).not.toBeInTheDocument();
+
+    fireEvent.click(within(tabs).getByRole("tab", { name: "All" }));
+    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.getByText("B")).toBeInTheDocument();
   });
 
   it("allows editing goal fields", async () => {
