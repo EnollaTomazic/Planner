@@ -7,7 +7,7 @@ import { NeonIcon as UIToggleNeonIcon } from "@/components/ui";
 type Props = {
   kind: "clock" | "file" | "brain";
   on: boolean;
-  size?: number;
+  size?: number | string;
   className?: string;
   title?: string;
   staticGlow?: boolean;
@@ -16,7 +16,7 @@ type Props = {
 export default function NeonIcon({
   kind,
   on,
-  size = 40,
+  size = "1em",
   className,
   title,
   staticGlow = false,
