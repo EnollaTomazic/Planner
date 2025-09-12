@@ -635,7 +635,7 @@ export default function ReviewEditor({
                 })
               }
             >
-              <NeonIcon kind="brain" on={focusOn} />
+              <NeonIcon kind="brain" on={focusOn} size="1em" />
             </button>
           </div>
 
@@ -734,7 +734,7 @@ export default function ReviewEditor({
               }
               title="Timestamp mode"
             >
-              <NeonIcon kind="clock" on={useTimestamp} />
+              <NeonIcon kind="clock" on={useTimestamp} size="1em" />
             </button>
 
             <button
@@ -754,7 +754,7 @@ export default function ReviewEditor({
               }
               title="Note-only mode"
             >
-              <NeonIcon kind="file" on={!useTimestamp} />
+              <NeonIcon kind="file" on={!useTimestamp} size="1em" />
             </button>
           </div>
 

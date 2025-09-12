@@ -12,7 +12,6 @@ import * as React from "react";
 import { useSelectedProject, useSelectedTask } from "./useSelection";
 import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
-import Input from "@/components/ui/primitives/Input";
 import { cn } from "@/lib/utils";
 import DayCardHeader from "./DayCardHeader";
 import ProjectList from "./ProjectList";
@@ -39,8 +38,6 @@ export default function DayCard({ iso, isToday }: Props) {
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
   const [, setSelectedTaskId] = useSelectedTask(iso);
 
-  const [draftProject, setDraftProject] = React.useState("");
-
   React.useEffect(() => {
     if (
       selectedProjectId &&
@@ -49,14 +46,6 @@ export default function DayCard({ iso, isToday }: Props) {
       setSelectedProjectId("");
     }
   }, [projects, selectedProjectId, setSelectedProjectId]);
-
-  function addProjectCommit() {
-    const v = draftProject.trim();
-    if (!v) return;
-    const id = addProject(v);
-    setDraftProject("");
-    if (id) setSelectedProjectId(id);
-  }
 
   return (
     <section
@@ -80,22 +69,6 @@ export default function DayCard({ iso, isToday }: Props) {
         />
       </div>
 
-      <form
-        className="col-span-1 lg:col-span-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          addProjectCommit();
-        }}
-      >
-        <Input
-          className="w-full"
-          placeholder="> new project…"
-          value={draftProject}
-          onChange={(e) => setDraftProject(e.target.value)}
-          aria-label="Add project"
-        />
-      </form>
-
       <div className="col-span-1 lg:col-span-3">
         <ProjectList
           projects={projects}
@@ -105,25 +78,29 @@ export default function DayCard({ iso, isToday }: Props) {
           toggleProject={toggleProject}
           renameProject={renameProject}
           deleteProject={deleteProject}
+          onAdd={addProject}
         />
       </div>
+      {selectedProjectId && (
+        <>
+          <div
+            className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline/90 rounded-full self-stretch"
+            aria-hidden
+          />
 
-      <div
-        className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline/90 rounded-full self-stretch"
-        aria-hidden
-      />
-
-      <div className="col-span-1 lg:col-span-8">
-        <TaskList
-          tasks={tasks}
-          selectedProjectId={selectedProjectId}
-          addTask={addTask}
-          renameTask={renameTask}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
-          setSelectedTaskId={setSelectedTaskId}
-        />
-      </div>
+          <div className="col-span-1 lg:col-span-8">
+            <TaskList
+              tasks={tasks}
+              selectedProjectId={selectedProjectId}
+              addTask={addTask}
+              renameTask={renameTask}
+              toggleTask={toggleTask}
+              deleteTask={deleteTask}
+              setSelectedTaskId={setSelectedTaskId}
+            />
+          </div>
+        </>
+      )}
     </section>
   );
 }

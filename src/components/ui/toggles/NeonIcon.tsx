@@ -9,7 +9,7 @@ type Phase = "steady-on" | "ignite" | "off" | "powerdown";
 type NeonIconProps = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   on: boolean;
-  size?: number;
+  size?: number | string;
   /** CSS variable name like "--accent", "--primary", "--ring" */
   colorVar?: string;
   title?: string;
@@ -29,7 +29,7 @@ type NeonVars = React.CSSProperties & {
 export function NeonIcon({
   icon: Icon,
   on,
-  size = 40,
+  size = "1em",
   colorVar = "--accent",
   title,
   className,
@@ -58,9 +58,14 @@ export function NeonIcon({
 
   const lit = phase === "ignite" || phase === "steady-on";
 
+  const sizeValue = typeof size === "number" ? `${size}px` : size;
+  const kValue =
+    typeof size === "number"
+      ? `${Math.round(size * 0.56)}px`
+      : `calc(${sizeValue} * 0.56)`;
   const styleVars: NeonVars = {
-    "--ni-size": `${size}px`,
-    "--ni-k": `${Math.round(size * 0.56)}px`,
+    "--ni-size": sizeValue,
+    "--ni-k": kValue,
     "--ni-color": `hsl(var(${colorVar}))`,
   };
 

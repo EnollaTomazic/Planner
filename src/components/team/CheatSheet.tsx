@@ -36,6 +36,7 @@ export type CheatSheetProps = {
   dense?: boolean;
   data?: Archetype[];
   query?: string;
+  editing?: boolean;
 };
 
 /* ───────────── seeds ───────────── */
@@ -411,12 +412,17 @@ export default function CheatSheet({
   dense = false,
   data = DEFAULT_SHEET,
   query = "",
+  editing = false,
 }: CheatSheetProps) {
   const [sheet, setSheet] = usePersistentState<Archetype[]>(
     "team:cheatsheet.v2",
     data,
   );
   const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!editing) setEditingId(null);
+  }, [editing]);
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -449,49 +455,53 @@ export default function CheatSheet({
     <section
       data-scope="team"
       className={[
-        "grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3",
+        "grid gap-[var(--spacing-4)] sm:gap-[var(--spacing-6)] md:grid-cols-2 xl:grid-cols-3",
         className,
       ].join(" ")}
     >
       {filtered.map((a) => {
-        const isEditing = editingId === a.id;
+        const isEditing = editing && editingId === a.id;
 
         return (
           <article
             key={a.id}
             className={[
               "group glitch-card card-neo relative h-full",
-              dense ? "p-4" : "p-5",
+              dense
+                ? "p-[var(--spacing-4)]"
+                : "p-[var(--spacing-5)]",
             ].join(" ")}
           >
             {/* Hover-only top-right edit/save button */}
-            <div className="absolute right-2 top-2 z-10 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
-              {!isEditing ? (
-                <IconButton
-                  title="Edit"
-                  aria-label="Edit"
-                  size="sm"
-                  onClick={() => setEditingId(a.id)}
-                >
-                  <Pencil />
-                </IconButton>
-              ) : (
-                <IconButton
-                  title="Save"
-                  aria-label="Save"
-                  size="sm"
-                  onClick={() => setEditingId(null)}
-                >
-                  <Check />
-                </IconButton>
-              )}
-            </div>
+            {editing && (
+              <div className="absolute right-2 top-2 z-10 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                {!isEditing ? (
+                  <IconButton
+                    title="Edit"
+                    aria-label="Edit"
+                    size="sm"
+                    onClick={() => setEditingId(a.id)}
+                  >
+                    <Pencil />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    title="Save"
+                    aria-label="Save"
+                    size="sm"
+                    onClick={() => setEditingId(null)}
+                  >
+                    <Check />
+                  </IconButton>
+                )}
+              </div>
+            )}
 
             {/* Neon spine */}
             <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
-            <header className="mb-3">
+            <header className="mb-[var(--spacing-3)]">
               <TitleEdit
                 value={a.title}
                 editing={isEditing}
@@ -505,7 +515,7 @@ export default function CheatSheet({
             </header>
 
             {/* Body */}
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-[var(--spacing-4)]">
               <div>
                 <Label>Wins when</Label>
                 <BulletListEdit

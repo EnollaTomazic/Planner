@@ -7,21 +7,30 @@
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
- * Header hosts the main tabs; the Cheat Sheet tab still renders its own
- * nested Hero internally.
- * A top-level Hero summarizes the active tab.
+ * Header hosts the main tabs; a top-level Hero summarizes the active tab.
  */
 import "./style.css";
 
 import React, { useState } from "react";
-import { Users2, BookOpenText, BookOpen, Hammer, Timer } from "lucide-react";
+import {
+  Users2,
+  BookOpenText,
+  BookOpen,
+  Hammer,
+  Timer,
+  Shuffle,
+  Clipboard,
+  Plus,
+} from "lucide-react";
 import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
-import Builder from "./Builder";
-import JungleClears from "./JungleClears";
+import Builder, { type BuilderHandle } from "./Builder";
+import JungleClears, { type JungleClearsHandle } from "./JungleClears";
 import CheatSheet from "./CheatSheet";
 import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
+import IconButton from "@/components/ui/primitives/IconButton";
+import Button from "@/components/ui/primitives/Button";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -35,7 +44,9 @@ export default function TeamCompPage() {
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
+  const builderApi = React.useRef<BuilderHandle>(null);
   const clearsRef = React.useRef<HTMLDivElement>(null);
+  const clearsApi = React.useRef<JungleClearsHandle>(null);
   const subPanelRefs = React.useRef<Record<SubTab, HTMLDivElement | null>>({
     sheet: null,
     comps: null,
@@ -46,6 +57,17 @@ export default function TeamCompPage() {
     sheet: { tab: "sheet-tab", panel: "sheet-panel" },
     comps: { tab: "comps-tab", panel: "comps-panel" },
   });
+  const [editing, setEditing] = React.useState({
+    cheatSheet: false,
+    myComps: false,
+    builder: false,
+    clears: false,
+  });
+  const [clearsQuery, setClearsQuery] = React.useState("");
+  const [clearsCount, setClearsCount] = React.useState(0);
+  const toggleEditing = React.useCallback((key: keyof typeof editing) => {
+    setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, []);
   React.useEffect(() => {
     const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
     const next: Record<SubTab, { tab: string; panel: string }> = {
@@ -88,7 +110,9 @@ export default function TeamCompPage() {
             subPanelRefs.current.sheet = el;
           }}
         >
-          {subTab === "sheet" && <CheatSheet dense query={query} />}
+          {subTab === "sheet" && (
+            <CheatSheet dense query={query} editing={editing.cheatSheet} />
+          )}
         </div>
         <div
           id={subIds.comps.panel}
@@ -100,11 +124,13 @@ export default function TeamCompPage() {
             subPanelRefs.current.comps = el;
           }}
         >
-          {subTab === "comps" && <MyComps query={query} />}
+          {subTab === "comps" && (
+            <MyComps query={query} editing={editing.myComps} />
+          )}
         </div>
       </div>
     ),
-    [subIds, subTab, query],
+    [subIds, subTab, query, editing],
   );
   const TABS = React.useMemo(
     (): Array<
@@ -126,7 +152,9 @@ export default function TeamCompPage() {
         label: "Builder",
         hint: "Fill allies vs enemies",
         icon: <Hammer />,
-        render: () => <Builder />,
+        render: () => (
+          <Builder ref={builderApi} editing={editing.builder} />
+        ),
         ref: builderRef,
       },
       {
@@ -134,16 +162,158 @@ export default function TeamCompPage() {
         label: "Jungle Clears",
         hint: "Relative buckets by speed",
         icon: <Timer />,
-        render: () => <JungleClears />,
+        render: () => (
+          <JungleClears
+            ref={clearsApi}
+            editing={editing.clears}
+            query={clearsQuery}
+            onCountChange={setClearsCount}
+          />
+        ),
         ref: clearsRef,
       },
     ],
-    [renderCheat],
+    [renderCheat, editing, clearsQuery],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
     TABS.find((t) => t.key === tab)?.ref.current?.focus();
   }, [tab, TABS]);
+
+  const hero = React.useMemo(() => {
+    if (tab === "cheat") {
+      const editingKey: keyof typeof editing =
+        subTab === "sheet" ? "cheatSheet" : "myComps";
+      return (
+        <Hero
+          topClassName="top-[var(--header-stack)]"
+          eyebrow={active?.label}
+          heading="Comps"
+          subtitle={
+            subTab === "sheet"
+              ? "Archetypes & tips"
+              : "Your saved compositions"
+          }
+          subTabs={{
+            items: subTabs,
+            value: subTab,
+            onChange: (k: string) => setSubTab(k as SubTab),
+            showBaseline: true,
+          }}
+          search={{
+            value: query,
+            onValueChange: setQuery,
+            placeholder: "Search…",
+            round: true,
+          }}
+          actions={
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => toggleEditing(editingKey)}
+            >
+              {editing[editingKey] ? "Done" : "Edit"}
+            </Button>
+          }
+        />
+      );
+    }
+    if (tab === "builder") {
+      return (
+        <Hero
+          topClassName="top-[var(--header-stack)]"
+          eyebrow="Comps"
+          heading="Builder"
+          subtitle="Fill allies vs enemies. Swap in one click."
+          actions={
+            <div className="flex items-center gap-[var(--spacing-2)]">
+              <IconButton
+                title="Swap Allies ↔ Enemies"
+                aria-label="Swap Allies and Enemies"
+                onClick={() => builderApi.current?.swapSides()}
+                size="sm"
+                iconSize="sm"
+              >
+                <Shuffle />
+              </IconButton>
+              <IconButton
+                title="Copy both sides"
+                aria-label="Copy both sides"
+                onClick={() => builderApi.current?.copyAll()}
+                size="sm"
+                iconSize="sm"
+              >
+                <Clipboard />
+              </IconButton>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => toggleEditing("builder")}
+              >
+                {editing.builder ? "Done" : "Edit"}
+              </Button>
+            </div>
+          }
+        />
+      );
+    }
+    return (
+      <Hero
+        sticky={false}
+        topClassName="top-[var(--header-stack)]"
+        rail
+        heading="Clear Speed Buckets"
+        dividerTint="primary"
+        search={{
+          value: clearsQuery,
+          onValueChange: setClearsQuery,
+          placeholder: "Filter by champion, type, or note...",
+          round: true,
+          debounceMs: 80,
+          right: (
+            <span className="text-xs opacity-80">{clearsCount} shown</span>
+          ),
+        }}
+        actions={
+          <div className="flex items-center gap-[var(--spacing-2)]">
+            <Button
+              variant="primary"
+              size="sm"
+              className="px-[var(--spacing-4)] whitespace-nowrap"
+              onClick={() => clearsApi.current?.addRow("Medium")}
+            >
+              <Plus />
+              <span>New Row</span>
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => toggleEditing("clears")}
+            >
+              {editing.clears ? "Done" : "Edit"}
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
+          Path for fights, ganks, or cross-map trades.
+        </p>
+      </Hero>
+    );
+  }, [
+    tab,
+    active,
+    subTab,
+    subTabs,
+    query,
+    clearsQuery,
+    clearsCount,
+    editing,
+    setQuery,
+    setSubTab,
+    toggleEditing,
+  ]);
 
   return (
     <main
@@ -159,30 +329,7 @@ export default function TeamCompPage() {
           icon={<Users2 className="opacity-80" />}
           tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
         />
-        {tab === "cheat" && (
-          <Hero
-            topClassName="top-[var(--header-stack)]"
-            eyebrow={active?.label}
-            heading="Comps"
-            subtitle={
-              subTab === "sheet"
-                ? "Archetypes & tips"
-                : "Your saved compositions"
-            }
-            subTabs={{
-              items: subTabs,
-              value: subTab,
-              onChange: (k: string) => setSubTab(k as SubTab),
-              showBaseline: true,
-            }}
-            search={{
-              value: query,
-              onValueChange: setQuery,
-              placeholder: "Search…",
-              round: true,
-            }}
-          />
-        )}
+        {hero}
       </div>
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">

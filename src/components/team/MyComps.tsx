@@ -221,9 +221,9 @@ function ChampChips({
 
 /* ───────────── Component ───────────── */
 
-export type MyCompsProps = { query?: string };
+export type MyCompsProps = { query?: string; editing?: boolean };
 
-export default function MyComps({ query = "" }: MyCompsProps) {
+export default function MyComps({ query = "", editing = false }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
   const [raw, setRaw] = usePersistentState<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
@@ -244,6 +244,10 @@ export default function MyComps({ query = "" }: MyCompsProps) {
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!editing) setEditingId(null);
+  }, [editing]);
 
   // New-comp draft
   const [draft, setDraft] = React.useState("");
@@ -295,55 +299,57 @@ export default function MyComps({ query = "" }: MyCompsProps) {
         />
         <SectionCard.Body className="space-y-8">
           {/* Add bar (inside the same panel) */}
-          <form
-            onSubmit={addNew}
-            className="rounded-card flex items-left gap-6 glitch"
-          >
-            <Input
-              dir="ltr"
-              name="comp-title"
-              value={draft}
-              onChange={(e) => setDraft(e.currentTarget.value)}
-              placeholder="New comp title…"
-              aria-label="New comp title"
-              className="flex-1"
-            />
-            <IconButton
-              type="submit"
-              title="Add comp"
-              aria-label="Add comp"
-              size="md"
-              className="shrink-0"
-              variant="solid"
+          {editing && (
+            <form
+              onSubmit={addNew}
+              className="rounded-card flex items-left gap-[var(--spacing-6)] glitch"
             >
-              <Plus />
-            </IconButton>
-          </form>
+              <Input
+                dir="ltr"
+                name="comp-title"
+                value={draft}
+                onChange={(e) => setDraft(e.currentTarget.value)}
+                placeholder="New comp title…"
+                aria-label="New comp title"
+                className="flex-1"
+              />
+              <IconButton
+                type="submit"
+                title="Add comp"
+                aria-label="Add comp"
+                size="md"
+                className="shrink-0"
+                variant="solid"
+              >
+                <Plus />
+              </IconButton>
+            </form>
+          )}
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-card r-card-lg p-6 text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-sm text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-card r-card-lg p-6 text-sm text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-sm text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-[var(--spacing-4)]">
             {filtered.map((c) => {
-              const editing = editingId === c.id;
+              const editingCard = editingId === c.id;
 
               return (
                 <article
                   key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-[var(--spacing-7)]"
                 >
                   {/* hover edit/save + delete + copy */}
-                  <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
-                    {!editing ? (
+                  <div className="absolute right-2 top-2 z-10 flex items-left gap-[var(--spacing-1)] opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                    {!editingCard ? (
                       <>
                         <IconButton
                           title="Copy"
@@ -357,23 +363,27 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                             <Clipboard />
                           )}
                         </IconButton>
-                        <IconButton
-                          title="Edit"
-                          aria-label="Edit"
-                          size="sm"
-                          onClick={() => setEditingId(c.id)}
-                        >
-                          <Pencil />
-                        </IconButton>
-                        <IconButton
-                          title="Delete"
-                          aria-label="Delete"
-                          size="sm"
-                          variant="ring"
-                          onClick={() => remove(c.id)}
-                        >
-                          <Trash2 />
-                        </IconButton>
+                        {editing && (
+                          <>
+                            <IconButton
+                              title="Edit"
+                              aria-label="Edit"
+                              size="sm"
+                              onClick={() => setEditingId(c.id)}
+                            >
+                              <Pencil />
+                            </IconButton>
+                            <IconButton
+                              title="Delete"
+                              aria-label="Delete"
+                              size="sm"
+                              variant="ring"
+                              onClick={() => remove(c.id)}
+                            >
+                              <Trash2 />
+                            </IconButton>
+                          </>
+                        )}
                       </>
                     ) : (
                       <IconButton
@@ -391,8 +401,8 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                   <span aria-hidden className="glitch-rail" />
 
                   {/* header */}
-                  <header className="mb-3">
-                    {!editing ? (
+                  <header className="mb-[var(--spacing-3)]">
+                    {!editingCard ? (
                       <h3
                         className="glitch-title glitch-flicker title-glow text-lg sm:text-xl font-semibold"
                         data-text={c.title}
@@ -446,7 +456,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                       <label className="text-xs text-muted-foreground inline-flex items-center gap-2">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
-                      {!editing ? (
+                      {!editingCard ? (
                         <p className="text-sm text-muted-foreground">
                           {c.notes?.trim() || (
                             <span className="opacity-60">—</span>
