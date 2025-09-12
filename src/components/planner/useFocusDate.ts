@@ -2,14 +2,14 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { todayISO, usePlannerContext, type ISODate } from "./plannerStore";
+import { todayISO, useFocus, type ISODate } from "./plannerStore";
 
 /**
  * Exposes the currently focused ISO date and helper to update it.
  * @returns Current focus ISO date, setter, and today's ISO string.
  */
 export function useFocusDate() {
-  const { focus, setFocus } = usePlannerContext();
+  const { focus, setFocus } = useFocus();
   const today = todayISO();
   return { iso: focus, setIso: setFocus, today } as const;
 }

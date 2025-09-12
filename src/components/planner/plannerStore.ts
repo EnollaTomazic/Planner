@@ -25,6 +25,7 @@ export type DayTask = {
 export type DayRecord = {
   projects: Project[];
   tasks: DayTask[];
+  tasksByProject: Record<string, string[]>;
   focus?: string;
   notes?: string;
 };
@@ -39,19 +40,23 @@ export function todayISO(): ISODate {
 }
 
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
-  return map[date] ?? { projects: [], tasks: [] };
+  return map[date] ?? { projects: [], tasks: [], tasksByProject: {} };
 }
-
-type PlannerState = {
+type DaysState = {
   days: Record<ISODate, DayRecord>;
   setDays: React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>;
-  focus: ISODate;
-  setFocus: (iso: ISODate) => void;
+};
+
+type FocusState = { focus: ISODate; setFocus: (iso: ISODate) => void };
+
+type SelectionState = {
   selected: Record<ISODate, Selection>;
   setSelected: React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>;
 };
 
-const PlannerCtx = React.createContext<PlannerState | null>(null);
+const DaysContext = React.createContext<DaysState | null>(null);
+const FocusContext = React.createContext<FocusState | null>(null);
+const SelectionContext = React.createContext<SelectionState | null>(null);
 
 export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [days, setDays] = usePersistentState<Record<ISODate, DayRecord>>(
@@ -62,28 +67,48 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     "planner:focus",
     todayISO(),
   );
-  const [selected, setSelected] = usePersistentState<Record<ISODate, Selection>>(
-    "planner:selected",
-    {},
-  );
-
-  const value = React.useMemo<PlannerState>(
-    () => ({ days, setDays, focus, setFocus, selected, setSelected }),
-    [days, focus, selected, setDays, setFocus, setSelected],
-  );
+  const [selected, setSelected] = usePersistentState<
+    Record<ISODate, Selection>
+  >("planner:selected", {});
 
   return React.createElement(
-    PlannerCtx.Provider,
-    { value },
-    children as React.ReactNode,
+    DaysContext.Provider,
+    { value: { days, setDays } },
+    React.createElement(
+      FocusContext.Provider,
+      { value: { focus, setFocus } },
+      React.createElement(
+        SelectionContext.Provider,
+        { value: { selected, setSelected } },
+        children as React.ReactNode,
+      ),
+    ),
   );
 }
 
-export function usePlannerContext(): PlannerState {
-  const ctx = React.useContext(PlannerCtx);
+export function useDays(): DaysState {
+  const ctx = React.useContext(DaysContext);
   if (!ctx)
     throw new Error(
-      "PlannerProvider is missing. Wrap your planner page with <PlannerProvider>.",
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function useFocus(): FocusState {
+  const ctx = React.useContext(FocusContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function useSelection(): SelectionState {
+  const ctx = React.useContext(SelectionContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
     );
   return ctx;
 }

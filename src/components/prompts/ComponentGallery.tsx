@@ -99,8 +99,20 @@ const demoProjects = [
 ];
 
 const demoTasks = [
-  { id: "t1", text: "Task A", done: false, projectId: "p1" },
-  { id: "t2", text: "Task B", done: true, projectId: "p1" },
+  {
+    id: "t1",
+    title: "Task A",
+    done: false,
+    projectId: "p1",
+    createdAt: Date.now(),
+  },
+  {
+    id: "t2",
+    title: "Task B",
+    done: true,
+    projectId: "p1",
+    createdAt: Date.now(),
+  },
 ];
 
 export default function ComponentGallery() {
@@ -471,7 +483,12 @@ export default function ComponentGallery() {
         element: (
           <ul className="w-64">
             <TaskRow
-              task={{ id: "t1", text: "Sample", done: false }}
+              task={{
+                id: "t1",
+                title: "Sample",
+                done: false,
+                createdAt: Date.now(),
+              }}
               onToggle={() => {}}
               onDelete={() => {}}
               onEdit={() => {}}
@@ -752,10 +769,7 @@ export default function ComponentGallery() {
         label: "Header + Hero",
         element: (
           <div className="w-56 h-56 overflow-auto space-y-6">
-            <Header
-              heading="Stacked"
-              icon={<Star className="opacity-80" />}
-            />
+            <Header heading="Stacked" icon={<Star className="opacity-80" />} />
             <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
             <div className="h-96" />
           </div>

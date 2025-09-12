@@ -3,23 +3,21 @@
 import * as React from "react";
 import {
   ensureDay,
-  usePlannerContext as useStore,
+  useDays,
+  useFocus,
   type DayRecord,
   type ISODate,
 } from "./plannerStore";
+import { scheduleWrite } from "@/lib/db";
 import { makeCrud } from "./plannerCrud";
 
 export type { ISODate, DayRecord, Project, DayTask } from "./plannerStore";
 
-function writeThroughLegacy(
-  storage: Storage,
-  days: Record<ISODate, DayRecord>,
-  iso: ISODate,
-) {
+function writeThroughLegacy(days: Record<ISODate, DayRecord>, iso: ISODate) {
   try {
     const cur = days[iso] ?? { projects: [], tasks: [] };
-    storage.setItem("planner:projects", JSON.stringify(cur.projects));
-    storage.setItem("planner:tasks", JSON.stringify(cur.tasks));
+    scheduleWrite("planner:projects", cur.projects);
+    scheduleWrite("planner:tasks", cur.tasks);
   } catch {
     /* ignore */
   }
@@ -30,19 +28,17 @@ function writeThroughLegacy(
  * @returns Planner state object with CRUD operations.
  */
 export function usePlannerStore() {
-  const { days, setDays, focus, setFocus } = useStore();
+  const { days, setDays } = useDays();
+  const { focus, setFocus } = useFocus();
 
   const setDaysAndMirror = React.useCallback(
     (
       date: ISODate,
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
     ) => {
-      setDays(prev => {
+      setDays((prev) => {
         const nextMap = updater(prev);
-        queueMicrotask(() => {
-          if (typeof window !== "undefined")
-            writeThroughLegacy(window.localStorage, nextMap, date);
-        });
+        writeThroughLegacy(nextMap, date);
         return nextMap;
       });
     },
@@ -51,7 +47,7 @@ export function usePlannerStore() {
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
-      setDaysAndMirror(date, prev => {
+      setDaysAndMirror(date, (prev) => {
         const base = ensureDay(prev, date);
         const next = fn(base);
         return { ...prev, [date]: next };
@@ -67,12 +63,15 @@ export function usePlannerStore() {
 
   const setDay = React.useCallback(
     (date: ISODate, next: DayRecord) => {
-      setDaysAndMirror(date, prev => ({ ...prev, [date]: next }));
+      setDaysAndMirror(date, (prev) => ({ ...prev, [date]: next }));
     },
     [setDaysAndMirror],
   );
 
-  const crud = React.useMemo(() => makeCrud(focus, upsertDay), [focus, upsertDay]);
+  const crud = React.useMemo(
+    () => makeCrud(focus, upsertDay),
+    [focus, upsertDay],
+  );
 
   return {
     days,

@@ -11,10 +11,7 @@ import {
 } from "./dayCrud";
 import type { ISODate, DayRecord } from "./plannerStore";
 
-export type UpsertDay = (
-  iso: ISODate,
-  fn: (d: DayRecord) => DayRecord,
-) => void;
+export type UpsertDay = (iso: ISODate, fn: (d: DayRecord) => DayRecord) => void;
 
 export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const addProject = (name: string) => {
@@ -30,11 +27,28 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => dayToggleProject(d, id));
 
   const removeProject = (id: string) =>
-    upsertDay(iso, (d) => dayRemoveProject(d, id));
+    upsertDay(iso, (d) => {
+      const next = dayRemoveProject(d, id);
+      const { [id]: _removed, ...rest } = next.tasksByProject;
+      return { ...next, tasksByProject: rest };
+    });
 
   const addTask = (title: string, projectId?: string) => {
     const id = uid("task");
-    upsertDay(iso, (d) => dayAddTask(d, id, title, projectId));
+    upsertDay(iso, (d) => {
+      const next = dayAddTask(d, id, title, projectId);
+      if (projectId) {
+        const ids = next.tasksByProject[projectId] ?? [];
+        return {
+          ...next,
+          tasksByProject: {
+            ...next.tasksByProject,
+            [projectId]: [...ids, id],
+          },
+        };
+      }
+      return next;
+    });
     return id;
   };
 
@@ -45,10 +59,22 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => dayToggleTask(d, id));
 
   const removeTask = (id: string) =>
-    upsertDay(iso, (d) => dayRemoveTask(d, id));
+    upsertDay(iso, (d) => {
+      const projectId = d.tasks.find((t) => t.id === id)?.projectId;
+      const next = dayRemoveTask(d, id);
+      if (projectId) {
+        const ids = (next.tasksByProject[projectId] ?? []).filter(
+          (tid) => tid !== id,
+        );
+        return {
+          ...next,
+          tasksByProject: { ...next.tasksByProject, [projectId]: ids },
+        };
+      }
+      return next;
+    });
 
-  const setNotes = (notes: string) =>
-    upsertDay(iso, (d) => ({ ...d, notes }));
+  const setNotes = (notes: string) => upsertDay(iso, (d) => ({ ...d, notes }));
 
   return {
     addProject,
