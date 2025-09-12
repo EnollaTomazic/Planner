@@ -9,11 +9,11 @@
  * - Deselect experience:
  *    • Any uncheck triggers a brief "justCleared" window that suppresses hover/focus glow,
  *      ensuring a visible power-down to the neutral state.
- *    • Clear affordances: mini × button, Alt/Option-click, Backspace/Delete.
+ *    • Backspace/Delete also unchecks when focused.
  */
 
 import { cn } from "@/lib/utils";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import * as React from "react";
 
 type CCVars = React.CSSProperties & {
@@ -24,8 +24,8 @@ type CCVars = React.CSSProperties & {
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
   sm: "h-6 w-6 [&_svg]:h-4 [&_svg]:w-4",
-  md: "h-7 w-7 [&_svg]:h-4   [&_svg]:w-4",
-  lg: "h-9 w-9 [&_svg]:h-5   [&_svg]:w-5",
+  md: "h-8 w-8 [&_svg]:h-5 [&_svg]:w-5",
+  lg: "h-10 w-10 [&_svg]:h-6 [&_svg]:w-6",
 };
 
 export default function CheckCircle({
@@ -34,9 +34,6 @@ export default function CheckCircle({
   size = "md",
   className,
   disabled = false,
-  clearable = false,
-  onClear,
-  altClears = true,
   "aria-label": ariaLabel = "Toggle",
 }: {
   checked: boolean;
@@ -44,9 +41,6 @@ export default function CheckCircle({
   size?: Size;
   className?: string;
   disabled?: boolean;
-  clearable?: boolean;
-  onClear?: () => void;
-  altClears?: boolean;
   "aria-label"?: string;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -127,17 +121,12 @@ export default function CheckCircle({
     window.setTimeout(() => setPhase(wantsOn ? "steady-on" : "off"), 620);
   }
 
-  function clearSelection() {
-    onClear?.();
-    onChange(false);
-    markJustCleared();
-  }
-
   function onKey(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (disabled) return;
     if ((e.key === "Backspace" || e.key === "Delete") && checked) {
       e.preventDefault();
-      clearSelection();
+      onChange(false);
+      markJustCleared();
       return;
     }
     if (e.key === " " || e.key === "Enter") {
@@ -168,12 +157,8 @@ export default function CheckCircle({
           aria-checked={checked}
           aria-label={ariaLabel}
           disabled={disabled}
-          onClick={(e) => {
+          onClick={() => {
             if (disabled) return;
-            if (altClears && e.altKey && checked) {
-              clearSelection();
-              return;
-            }
             onChange(!checked);
             if (checked) markJustCleared();
           }}
@@ -299,28 +284,6 @@ export default function CheckCircle({
           />
         </button>
 
-        {/* Mini clear button */}
-        {clearable && checked && !disabled && (
-          <button
-            type="button"
-            aria-label="Clear selection"
-            title="Clear"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              clearSelection();
-            }}
-            className={cn(
-              "absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full",
-              "border border-card-hairline bg-card text-foreground",
-              "shadow-sm hover:shadow-[0_0_10px_hsl(var(--ring)/.45)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            )}
-          >
-            <X aria-hidden className="h-4 w-4" />
-            <span aria-hidden className="ccx-glow" />
-          </button>
-        )}
       </span>
 
       <style jsx>{`
@@ -387,91 +350,6 @@ export default function CheckCircle({
           100% {
             opacity: 0;
             transform: scale(0.985);
-          }
-        }
-        .ccx-glow {
-          position: absolute;
-          inset: -2px;
-          border-radius: inherit;
-          pointer-events: none;
-        }
-        .ccx-glow::before,
-        .ccx-glow::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-        }
-        .ccx-glow::before {
-          inset: 1px;
-          padding: 1px;
-          background: conic-gradient(
-            from 180deg,
-            hsl(var(--ring) / 0),
-            hsl(var(--ring) / 0.6),
-            hsl(var(--accent-2) / 0.6),
-            hsl(var(--lav-deep) / 0.6),
-            hsl(var(--ring) / 0)
-          );
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          opacity: 0.5;
-          animation:
-            ccxHue 6s linear infinite,
-            ccxJit 2s steps(6, end) infinite;
-        }
-        .ccx-glow::after {
-          background: radial-gradient(
-            120% 120% at 50% 50%,
-            hsl(var(--ring) / 0.18),
-            transparent 60%
-          );
-          filter: blur(6px);
-          mix-blend-mode: screen;
-          opacity: 0.25;
-          animation: ccxFlick 3s steps(20, end) infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .ccx-glow::before,
-          .ccx-glow::after {
-            animation: none;
-          }
-        }
-        @keyframes ccxHue {
-          to {
-            filter: hue-rotate(360deg);
-          }
-        }
-        @keyframes ccxJit {
-          0%,
-          100% {
-            transform: translate(0, 0);
-          }
-          50% {
-            transform: translate(0.2px, 0.2px);
-          }
-        }
-        @keyframes ccxFlick {
-          0%,
-          8%,
-          10%,
-          100% {
-            opacity: 0.18;
-          }
-          9% {
-            opacity: 0.45;
-          }
-          44% {
-            opacity: 0.24;
-          }
-          45% {
-            opacity: 0.42;
-          }
-          78% {
-            opacity: 0.22;
           }
         }
       `}</style>
