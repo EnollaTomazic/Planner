@@ -3,12 +3,11 @@ import { describe, it, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 
 vi.mock("@/lib/db", async () => {
-  const actual = await vi.importActual<typeof import("@/lib/db")>(
-    "@/lib/db",
-  );
+  const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
   return {
     ...actual,
-    usePersistentState: <T,>(key: string, initial: T) => React.useState(initial),
+    usePersistentState: <T,>(_key: string, initial: T) =>
+      React.useState(initial),
   };
 });
 
