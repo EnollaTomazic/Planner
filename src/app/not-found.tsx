@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AlertCircle } from "lucide-react";
 import { Button, Header, Hero } from "@/components/ui";
 
 export default function NotFound() {
@@ -9,7 +10,11 @@ export default function NotFound() {
       className="flex min-h-[50vh] flex-col items-center justify-center gap-4 p-6 text-center"
       aria-labelledby={headerId}
     >
-      <Header id={headerId} heading="Page not found" />
+      <Header
+        id={headerId}
+        heading="Page not found"
+        icon={<AlertCircle className="opacity-80" />}
+      />
       <Hero heading="This page does not exist">
         <p className="text-sm text-muted-foreground">
           The page you are looking for does not exist.

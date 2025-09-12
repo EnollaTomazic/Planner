@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Header, Hero, Button, Input, Select } from "@/components/ui";
+import { Star } from "lucide-react";
 import Banner from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import {
@@ -29,7 +30,11 @@ export default function DemoHeader({
 }) {
   return (
     <div className="mb-8 space-y-4">
-      <Header heading="Header" sticky={false} />
+      <Header
+        heading="Header"
+        sticky={false}
+        icon={<Star className="opacity-80" />}
+      />
       <Hero heading="Hero" sticky={false} topClassName="top-0" />
       <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
       <div className="flex justify-center">
