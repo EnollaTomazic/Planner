@@ -31,7 +31,7 @@ import GoalListDemo from "@/components/prompts/GoalListDemo";
 import PromptList from "@/components/prompts/PromptList";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
 import type { PromptWithTitle } from "@/components/prompts/usePrompts";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles } from "lucide-react";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
@@ -773,6 +773,7 @@ function PageContent() {
         id="prompts-header"
         heading="Prompts Playground"
         subtitle="Explore components and tokens"
+        icon={<Sparkles className="opacity-80" />}
         right={<ThemeToggle />}
       />
       <Hero
