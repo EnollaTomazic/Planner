@@ -600,7 +600,7 @@ function GlitchStyles() {
       .gb-scan {
         position: absolute;
         inset: -1px;
-        border-radius: var(--radius-2xl, 1.5rem);
+        border-radius: var(--radius-2xl);
         pointer-events: none;
       }
 
@@ -671,7 +671,7 @@ function GlitchStyles() {
       /* Flickery aura hugging the border */
       .gb-flicker {
         inset: -2px;
-        border-radius: var(--radius-2xl, 1.5rem);
+        border-radius: var(--radius-2xl);
         background: radial-gradient(
           120% 120% at 50% 50%,
           hsl(var(--ring) / 0.18),
