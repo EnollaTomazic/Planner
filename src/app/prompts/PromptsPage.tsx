@@ -38,6 +38,7 @@ import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
 import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
+import { readLocal, writeLocal } from "@/lib/db";
 import {
   GoalsProgress,
   RemindersTab,
@@ -757,12 +758,9 @@ function PageContent() {
     if (s !== section) setSection(s);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sectionParam]);
-
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("prompts-query");
-      if (stored) setQuery(stored);
-    }
+    const stored = readLocal<string>("prompts-query");
+    if (stored) setQuery(stored);
   }, []);
 
   React.useEffect(() => {
@@ -787,9 +785,7 @@ function PageContent() {
   }, [section, view, router, searchParams, startTransition]);
 
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("prompts-query", query);
-    }
+    writeLocal("prompts-query", query);
     const sp = new URLSearchParams(searchParams.toString());
     const current = sp.get("q") ?? "";
     if (current === query) return;
