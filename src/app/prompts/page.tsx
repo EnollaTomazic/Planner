@@ -734,17 +734,20 @@ function PageContent() {
   React.useEffect(() => {
     const v = (viewParam as View) || "components";
     if (v !== view) setView(v);
-  }, [viewParam, view]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewParam]);
 
   React.useEffect(() => {
     const q = queryParam ?? "";
     if (q !== query) setQuery(q);
-  }, [queryParam, query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryParam]);
 
   React.useEffect(() => {
     const s = getValidSection(sectionParam);
     if (s !== section) setSection(s);
-  }, [sectionParam, section]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sectionParam]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
