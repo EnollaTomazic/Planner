@@ -163,6 +163,12 @@ html.bg-intense body::after {
     0 0 14px hsl(var(--accent) / 0.5);
 }
 
+/* Neon text glow */
+.neon-glow {
+  color: hsl(var(--neon));
+  text-shadow: var(--shadow-neon);
+}
+
 /* ---------- Reusable aurora backdrops ---------- */
 .glitch-root {
   background-color: hsl(var(--background));
