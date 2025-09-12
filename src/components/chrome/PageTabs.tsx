@@ -20,7 +20,8 @@ export interface PageTabsProps {
   onChange?: (id: string) => void;
   className?: string;
   sticky?: boolean;
-  topOffset?: number; // px from top when sticky
+  /** CSS top offset when sticky (supports tokens) */
+  topOffset?: string;
   ariaLabel?: string;
 }
 
@@ -35,7 +36,7 @@ export default function PageTabs({
   onChange,
   className = "",
   sticky = true,
-  topOffset = 56,
+  topOffset = "var(--header-stack)",
   ariaLabel,
 }: PageTabsProps) {
   const tabRefs = React.useRef<(HTMLElement | null)[]>([]);
