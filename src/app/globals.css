@@ -195,7 +195,7 @@ html.bg-intense body::after {
     2px 100%;
 }
 .bg-noise {
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  background-image: url("/noise.svg");
   opacity: 0.1;
 }
 
