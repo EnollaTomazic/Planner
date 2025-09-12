@@ -4,6 +4,7 @@
 @layer base {
   :root {
     --shell-max: 1120px;
+    --iris-cyan: 192 90% 50%;
   }
 
   .page-shell {
@@ -224,11 +225,11 @@ html.bg-intense body::after {
   .header-rail::before {
     background: conic-gradient(
       from 180deg,
-      hsl(262 83% 58% / 0),
-      hsl(262 83% 58% / 0.8),
-      hsl(192 90% 50% / 0.8),
-      hsl(320 85% 60% / 0.8),
-      hsl(262 83% 58% / 0)
+      hsl(var(--primary) / 0),
+      hsl(var(--primary) / 0.8),
+      hsl(var(--iris-cyan) / 0.8),
+      hsl(var(--lav-deep) / 0.8),
+      hsl(var(--primary) / 0)
     );
     filter: saturate(1.1);
     animation:
