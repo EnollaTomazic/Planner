@@ -729,6 +729,9 @@ function PageContent() {
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(sectionParam),
   );
+  const componentsRef = React.useRef<HTMLDivElement>(null);
+  const colorsRef = React.useRef<HTMLDivElement>(null);
+  const onboardingRef = React.useRef<HTMLDivElement>(null);
   const sectionTabs = React.useMemo(getSectionTabs, []);
 
   React.useEffect(() => {
@@ -791,6 +794,15 @@ function PageContent() {
     );
   }, [query, router, searchParams, startTransition]);
 
+  React.useEffect(() => {
+    const map: Record<View, React.RefObject<HTMLDivElement>> = {
+      components: componentsRef,
+      colors: colorsRef,
+      onboarding: onboardingRef,
+    };
+    map[view].current?.focus();
+  }, [view]);
+
   return (
     <main
       className="page-shell py-6 space-y-6"
@@ -844,7 +856,8 @@ function PageContent() {
               id="components-panel"
               aria-labelledby="components-tab"
               hidden={view !== "components"}
-              tabIndex={0}
+              tabIndex={view === "components" ? 0 : -1}
+              ref={componentsRef}
             >
               <ComponentsView
                 query={query}
@@ -858,7 +871,8 @@ function PageContent() {
               id="colors-panel"
               aria-labelledby="colors-tab"
               hidden={view !== "colors"}
-              tabIndex={0}
+              tabIndex={view === "colors" ? 0 : -1}
+              ref={colorsRef}
             >
               <ColorsView />
             </div>
@@ -867,7 +881,8 @@ function PageContent() {
               id="onboarding-panel"
               aria-labelledby="onboarding-tab"
               hidden={view !== "onboarding"}
-              tabIndex={0}
+              tabIndex={view === "onboarding" ? 0 : -1}
+              ref={onboardingRef}
             >
               <OnboardingTabs />
             </div>

@@ -50,6 +50,18 @@ const TABS: HeaderTab<Tab>[] = [
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
   const active = TABS.find((t) => t.key === tab);
+  const cheatRef = React.useRef<HTMLDivElement>(null);
+  const builderRef = React.useRef<HTMLDivElement>(null);
+  const clearsRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const map: Record<Tab, React.RefObject<HTMLDivElement>> = {
+      cheat: cheatRef,
+      builder: builderRef,
+      clears: clearsRef,
+    };
+    map[tab].current?.focus();
+  }, [tab]);
 
   return (
     <main
@@ -87,6 +99,8 @@ export default function TeamCompPage() {
           role="tabpanel"
           aria-labelledby="cheat-tab"
           hidden={tab !== "cheat"}
+          tabIndex={tab === "cheat" ? 0 : -1}
+          ref={cheatRef}
           className="md:col-span-12"
         >
           {tab === "cheat" && <CheatSheetTabs />}
@@ -97,6 +111,8 @@ export default function TeamCompPage() {
           role="tabpanel"
           aria-labelledby="builder-tab"
           hidden={tab !== "builder"}
+          tabIndex={tab === "builder" ? 0 : -1}
+          ref={builderRef}
           className="md:col-span-12"
         >
           {tab === "builder" && <Builder />}
@@ -107,6 +123,8 @@ export default function TeamCompPage() {
           role="tabpanel"
           aria-labelledby="clears-tab"
           hidden={tab !== "clears"}
+          tabIndex={tab === "clears" ? 0 : -1}
+          ref={clearsRef}
           className="md:col-span-12"
         >
           {tab === "clears" && <JungleClears />}

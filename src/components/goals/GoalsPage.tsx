@@ -88,6 +88,9 @@ export default function GoalsPage() {
   const undoTimer = React.useRef<number | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
   const titleInputRef = React.useRef<GoalFormHandle>(null);
+  const goalsRef = React.useRef<HTMLDivElement>(null);
+  const remindersRef = React.useRef<HTMLDivElement>(null);
+  const timerRef = React.useRef<HTMLDivElement>(null);
 
   // stats
   const totalCount = goals.length;
@@ -136,6 +139,15 @@ export default function GoalsPage() {
     resetForm();
     titleInputRef.current?.focus({ preventScroll: true });
   }
+
+  React.useEffect(() => {
+    const map: Record<Tab, React.RefObject<HTMLDivElement>> = {
+      goals: goalsRef,
+      reminders: remindersRef,
+      timer: timerRef,
+    };
+    map[tab].current?.focus();
+  }, [tab]);
 
   function toggleDone(id: string) {
     setErr(null);
@@ -218,6 +230,8 @@ export default function GoalsPage() {
           id="goals-panel"
           aria-labelledby="goals-tab"
           hidden={tab !== "goals"}
+          tabIndex={tab === "goals" ? 0 : -1}
+          ref={goalsRef}
         >
           {tab === "goals" && (
             <div className="grid gap-4">
@@ -297,6 +311,8 @@ export default function GoalsPage() {
           id="reminders-panel"
           aria-labelledby="reminders-tab"
           hidden={tab !== "reminders"}
+          tabIndex={tab === "reminders" ? 0 : -1}
+          ref={remindersRef}
           className="grid gap-4"
         >
           {tab === "reminders" && <RemindersTab />}
@@ -307,6 +323,8 @@ export default function GoalsPage() {
           id="timer-panel"
           aria-labelledby="timer-tab"
           hidden={tab !== "timer"}
+          tabIndex={tab === "timer" ? 0 : -1}
+          ref={timerRef}
           className="grid gap-4"
         >
           {tab === "timer" && <TimerTab />}
