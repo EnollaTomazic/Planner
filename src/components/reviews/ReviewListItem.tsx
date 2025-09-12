@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui";
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none",
   "hover:ring-2 hover:ring-[--theme-ring]",
+  "focus-visible:ring-2 focus-visible:ring-[--theme-ring]",
+  "active:ring-2 active:ring-[--theme-ring]",
   "data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]",
 );
 
