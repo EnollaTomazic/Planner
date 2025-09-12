@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import { execSync } from "node:child_process";
 import { promises as fs } from "fs";
 import path from "path";
@@ -50,11 +51,10 @@ async function hasChanges(
 }
 
 async function uiChanged(): Promise<boolean> {
-  const files = await fg([
-    "**/*.{ts,tsx}",
-    "!**/index.ts",
-    "!**/index.tsx",
-  ], { cwd: uiDir, absolute: true });
+  const files = await fg(["**/*.{ts,tsx}", "!**/index.ts", "!**/index.tsx"], {
+    cwd: uiDir,
+    absolute: true,
+  });
   const manifest = await loadManifest(uiManifestFile);
   return hasChanges(manifest, files, (f) =>
     path.relative(uiDir, f).replace(/\\/g, "/"),
@@ -62,11 +62,7 @@ async function uiChanged(): Promise<boolean> {
 }
 
 async function featureChanged(): Promise<boolean> {
-  const patterns = [
-    "**/*.{ts,tsx}",
-    "!**/index.ts",
-    "!**/index.tsx",
-  ];
+  const patterns = ["**/*.{ts,tsx}", "!**/index.ts", "!**/index.tsx"];
   const files = (
     await Promise.all(
       featureDirs.map((dir) => fg(patterns, { cwd: dir, absolute: true })),
@@ -121,4 +117,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

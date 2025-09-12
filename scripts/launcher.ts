@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import { spawn } from "child_process";
 
 const modes = ["dev", "start", "build"] as const;
