@@ -889,7 +889,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                           <span
                             class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
-                            ADC
+                            BOT
                           </span>
                         </div>
                       </div>

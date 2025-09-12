@@ -5,7 +5,7 @@ import "./style.css";
 /**
  * CheatSheet — hover-only edit per card, write-through persistence.
  * Titles use Lavender-Glitch (glitch-title + glitch-flicker + title-glow).
- * Lane labels (TOP/JUNGLE/MID/ADC/SUPPORT) also flicker via team scope.
+ * Lane labels (TOP/JUNGLE/MID/BOT/SUPPORT) also flicker via team scope.
  * Scoped with data-scope="team" to avoid global glitch leakage.
  */
 
@@ -18,7 +18,7 @@ import { sanitizeText } from "@/lib/utils";
 
 /* ───────────── types ───────────── */
 
-type Role = "Top" | "Jungle" | "Mid" | "ADC" | "Support";
+type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 type LaneExamples = Partial<Record<Role, string[]>>;
 
 export type Archetype = {
@@ -50,7 +50,7 @@ const DEFAULT_SHEET: Archetype[] = [
     wins: [
       "You frontload engage and kite back cleanly",
       "Enemy blows cooldowns on tanks and loses threat",
-      "Your ADC hits free DPS windows",
+      "Your Bot hits free DPS windows",
     ],
     struggles: ["Flank TP and backline dive", "Hard poke before engage"],
     tips: [
@@ -61,7 +61,7 @@ const DEFAULT_SHEET: Archetype[] = [
       Top: ["Ornn", "Sion", "Shen"],
       Jungle: ["Sejuani", "Maokai"],
       Mid: ["Orianna", "Azir"],
-      ADC: ["Jinx", "Zeri"],
+      Bot: ["Jinx", "Zeri"],
       Support: ["Braum", "Lulu"],
     },
   },
@@ -81,7 +81,7 @@ const DEFAULT_SHEET: Archetype[] = [
       Top: ["Kennen", "Camille"],
       Jungle: ["Jarvan IV", "Wukong"],
       Mid: ["Sylas", "Akali"],
-      ADC: ["Kai’Sa", "Samira"],
+      Bot: ["Kai’Sa", "Samira"],
       Support: ["Rakan", "Nautilus"],
     },
   },
@@ -100,7 +100,7 @@ const DEFAULT_SHEET: Archetype[] = [
     examples: {
       Jungle: ["Elise", "Viego"],
       Mid: ["Ahri", "Twisted Fate"],
-      ADC: ["Ashe", "Varus"],
+      Bot: ["Ashe", "Varus"],
       Support: ["Thresh", "Blitzcrank", "Rell"],
     },
   },
@@ -119,7 +119,7 @@ const DEFAULT_SHEET: Archetype[] = [
     examples: {
       Top: ["Jayce"],
       Mid: ["Zoe", "Ziggs"],
-      ADC: ["Varus", "Ezreal"],
+      Bot: ["Varus", "Ezreal"],
       Support: ["Karma", "Janna"],
     },
   },
@@ -138,7 +138,7 @@ const DEFAULT_SHEET: Archetype[] = [
     examples: {
       Top: ["Camille", "Jax", "Fiora"],
       Mid: ["Ryze", "Azir"],
-      ADC: ["Xayah"],
+      Bot: ["Xayah"],
       Support: ["Tahm Kench", "Rakan"],
     },
   },
@@ -158,7 +158,7 @@ const DEFAULT_SHEET: Archetype[] = [
       Top: ["Malphite", "Kennen"],
       Jungle: ["Sejuani", "Amumu"],
       Mid: ["Orianna", "Yasuo"],
-      ADC: ["Miss Fortune"],
+      Bot: ["Miss Fortune"],
       Support: ["Rell", "Alistar"],
     },
   },
@@ -554,7 +554,7 @@ export default function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
-                  {(["Top", "Jungle", "Mid", "ADC", "Support"] as Role[]).map(
+                  {(["Top", "Jungle", "Mid", "Bot", "Support"] as Role[]).map(
                     (role) => {
                       const champs = a.examples[role];
                       const setChamps = (list: string[]) =>

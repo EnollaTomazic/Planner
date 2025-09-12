@@ -11,7 +11,7 @@ type Tone =
   | "top"
   | "jungle"
   | "mid"
-  | "adc"
+  | "bot"
   | "support";
 
 type BadgeOwnProps<T extends React.ElementType = "span"> = {
@@ -39,7 +39,7 @@ const toneBorder: Record<Tone, string> = {
   top: "border-tone-top",
   jungle: "border-tone-jg",
   mid: "border-tone-mid",
-  adc: "border-tone-adc",
+  bot: "border-tone-bot",
   support: "border-tone-sup",
 };
 

@@ -10,7 +10,7 @@ export type Pillar =
 export type Side = "Blue" | "Red";
 
 /** Single canonical Role type. Stop redefining this elsewhere. */
-export type Role = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
+export type Role = "TOP" | "JUNGLE" | "MID" | "BOT" | "SUPPORT";
 
 export type ReviewMarker = {
   id: string;

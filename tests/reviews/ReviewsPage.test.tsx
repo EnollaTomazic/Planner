@@ -41,7 +41,7 @@ const baseReviews: Review[] = [
     pillars: [],
     createdAt: 2000,
     matchup: "Ashe vs Cait",
-    role: "ADC",
+    role: "BOT",
   },
 ];
 

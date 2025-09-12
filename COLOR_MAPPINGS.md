@@ -51,7 +51,7 @@
 | `hsl(38 92% 60%)`                   | `hsl(var(--tone-top))`             |
 | `hsl(152 52% 44%)`                  | `hsl(var(--tone-jg))`              |
 | `hsl(265 72% 62%)`                  | `hsl(var(--tone-mid))`             |
-| `hsl(195 75% 56%)`                  | `hsl(var(--tone-adc))`             |
+| `hsl(195 75% 56%)`                  | `hsl(var(--tone-bot))`             |
 | `hsl(320 72% 60%)`                  | `hsl(var(--tone-sup))`             |
 | `hsl(350 70% 4%)`                   | `hsl(var(--noir-background))`      |
 | `hsl(0 0% 92%)`                     | `hsl(var(--noir-foreground))`      |
