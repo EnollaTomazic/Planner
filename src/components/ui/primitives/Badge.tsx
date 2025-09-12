@@ -68,9 +68,9 @@ export default function Badge<T extends React.ElementType = "span">({
         interactive && "cursor-pointer",
         interactive && "hover:bg-muted/28",
         selected &&
-          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_8px_22px_var(--glow-active)] text-[var(--text-on-accent)]",
+          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset] shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
-          "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset,0_0_16px_var(--glow-active)] hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset,0_0_20px_var(--glow-active)]",
+          "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset] shadow-glow-md hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset] hover:shadow-glow-lg",
         className
       )}
       {...rest}

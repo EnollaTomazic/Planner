@@ -64,6 +64,10 @@ const config: Config = {
           "inset 4px 4px 10px hsl(var(--panel)/0.85), inset -4px -4px 10px hsl(var(--foreground)/0.08)",
         ring: "0 0 12px hsl(var(--ring))",
         neoSoft: "0 3px 12px -4px hsl(var(--shadow-color))",
+        "glow-sm": "0 0 8px var(--glow-active)",
+        "glow-md": "0 0 16px var(--glow-active)",
+        "glow-lg": "0 0 20px var(--glow-active)",
+        "glow-xl": "0 8px 22px var(--glow-active)",
       },
       transitionTimingFunction: {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",

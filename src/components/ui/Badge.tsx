@@ -20,7 +20,7 @@ export default function Badge({
     neutral:
       "rounded-2xl px-2 py-1 bg-muted/25 border-border/20 text-muted-foreground",
     accent:
-      "rounded-2xl px-2 py-1 bg-accent/15 border-accent/35 text-accent shadow-[0_0_8px_hsl(var(--accent)/0.3)]",
+      "rounded-2xl px-2 py-1 bg-accent/15 border-accent/35 text-accent shadow-glow-sm",
     pill: "rounded-full px-2 py-1 bg-accent/15 border-accent/35 text-accent",
   };
 
