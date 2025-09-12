@@ -272,7 +272,7 @@ html.bg-intense body::after {
     background: hsl(var(--card) / 0.75);
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      0 30px 60px hsl(250 30% 2% / 0.35);
+      0 30px 60px hsl(var(--shadow-base) / 0.35);
   }
   .card-neo-soft {
     background: linear-gradient(
@@ -285,7 +285,7 @@ html.bg-intense body::after {
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
       inset 0 1px 0 hsl(var(--foreground) / 0.05),
-      0 30px 60px hsl(250 30% 2% / 0.35);
+      0 30px 60px hsl(var(--shadow-base) / 0.35);
   }
   .card-neo::before,
   .card-neo-soft::before {
@@ -606,8 +606,8 @@ html.bg-intense body::after {
     color: hsl(var(--primary-foreground));
     background: var(--seg-active-grad);
     box-shadow:
-      0 0 25px hsl(291 89% 61% / 0.6),
-      0 0 50px hsl(192 91% 46% / 0.4);
+      0 0 25px hsl(var(--accent) / 0.6),
+      0 0 50px hsl(var(--accent-2) / 0.4);
     transition:
       transform var(--dur-quick) var(--ease-out),
       filter var(--dur-quick);
@@ -662,7 +662,7 @@ html.bg-intense body::after {
     background: hsl(var(--card));
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      0 10px 30px hsl(250 30% 2% / 0.25);
+      0 10px 30px hsl(var(--shadow-base) / 0.25);
   }
   .section-h {
     display: flex;
@@ -702,11 +702,11 @@ html.bg-intense body::after {
     border-radius: var(--radius-card);
     background: conic-gradient(
       from var(--a, 0deg),
-      hsl(262 83% 58% / 0),
-      hsl(262 83% 58% / 0.6),
-      hsl(192 90% 50% / 0.6),
-      hsl(320 85% 60% / 0.6),
-      hsl(262 83% 58% / 0)
+      hsl(var(--ring) / 0),
+      hsl(var(--ring) / 0.6),
+      hsl(var(--accent-2) / 0.6),
+      hsl(var(--lav-deep) / 0.6),
+      hsl(var(--ring) / 0)
     );
     -webkit-mask:
       linear-gradient(hsl(var(--foreground)) 0 0) content-box,
@@ -797,7 +797,7 @@ html.bg-intense body::after {
   background: linear-gradient(
     180deg,
     hsl(var(--background)) 0%,
-    hsl(248 30% 10%) 100%
+    hsl(var(--card)) 100%
   );
   border-bottom: 1px solid hsl(var(--card-hairline));
   overflow: clip;
@@ -1002,11 +1002,11 @@ html.bg-intense body::after {
   padding: 1px;
   background: conic-gradient(
     from 180deg,
-    hsl(262 83% 58% / 0),
-    hsl(262 83% 58% / 0.7),
-    hsl(192 90% 50% / 0.7),
-    hsl(320 85% 60% / 0.7),
-    hsl(262 83% 58% / 0)
+    hsl(var(--ring) / 0),
+    hsl(var(--ring) / 0.7),
+    hsl(var(--accent-2) / 0.7),
+    hsl(var(--lav-deep) / 0.7),
+    hsl(var(--ring) / 0)
   );
   mask:
     linear-gradient(hsl(var(--foreground)) 0 0) content-box,
@@ -1310,8 +1310,8 @@ textarea:-webkit-autofill {
 /* ===== Design Tokens ===== */
 :root {
   /* Glow tokens */
-  --glow-strong: 260 85% 60% / 0.55;
-  --glow-soft: 260 85% 60% / 0.25;
+  --glow-strong: var(--ring) / 0.55;
+  --glow-soft: var(--accent) / 0.25;
 
   /* Radius tokens */
   --radius-md: 8px;
