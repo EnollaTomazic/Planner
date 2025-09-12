@@ -797,7 +797,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Alpha"
-                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] focus-visible:ring-2 focus-visible:ring-[--theme-ring] active:ring-2 active:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
                     data-scope="reviews"
                     type="button"
                   >
@@ -841,7 +841,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Gamma"
-                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] focus-visible:ring-2 focus-visible:ring-[--theme-ring] active:ring-2 active:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
                     data-scope="reviews"
                     type="button"
                   >
@@ -885,7 +885,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Beta"
-                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
+                    class="relative w-full text-left rounded-card r-card-lg p-3 bg-[hsl(var(--card)/0.9)] border border-[hsl(var(--border)/0.35)] transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none hover:ring-2 hover:ring-[--theme-ring] focus-visible:ring-2 focus-visible:ring-[--theme-ring] active:ring-2 active:ring-[--theme-ring] data-[selected=true]:ring-2 data-[selected=true]:ring-[--theme-accent]"
                     data-scope="reviews"
                     type="button"
                   >
