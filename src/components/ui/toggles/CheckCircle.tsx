@@ -214,7 +214,7 @@ export default function CheckCircle({
             )}
             style={{
               background:
-                "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 1px, transparent 1px 3px)",
+                "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.06) 0 var(--hairline-w), transparent var(--hairline-w) calc(var(--space-1) - var(--hairline-w)))",
               mixBlendMode: "overlay",
               animation:
                 !reduceMotion && lit
@@ -227,7 +227,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute -inset-2 rounded-full pointer-events-none blur-[10px] transition-opacity",
+              "absolute -inset-2 rounded-full pointer-events-none blur-[var(--blur-sm)] transition-opacity",
               lit ? "opacity-80" : "opacity-0",
             )}
             style={{
@@ -276,14 +276,13 @@ export default function CheckCircle({
             className={cn(
               "relative z-[1] transition-all duration-200",
               lit
-                ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_8px_var(--cc-glow))] opacity-100"
+                ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_var(--space-2)_var(--cc-glow))] opacity-100"
                 : "text-muted-foreground/60 opacity-80",
             )}
             style={ccStyle}
             strokeWidth={2.5}
           />
         </button>
-
       </span>
 
       <style jsx>{`
@@ -306,7 +305,7 @@ export default function CheckCircle({
         @keyframes igniteFlicker {
           0% {
             opacity: 0.1;
-            filter: blur(0.6px);
+            filter: blur(var(--blur-xs));
           }
           8% {
             opacity: 1;
@@ -325,7 +324,7 @@ export default function CheckCircle({
           }
           55% {
             opacity: 0.45;
-            filter: blur(0.2px);
+            filter: blur(var(--blur-xxs));
           }
           70% {
             opacity: 1;
@@ -341,11 +340,11 @@ export default function CheckCircle({
           }
           30% {
             opacity: 0.35;
-            transform: scale(0.992) translateY(0.2px);
+            transform: scale(0.992) translateY(calc(var(--space-1) * 0.05));
           }
           60% {
             opacity: 0.12;
-            transform: scale(0.985) translateY(-0.2px);
+            transform: scale(0.985) translateY(calc(var(--space-1) * -0.05));
           }
           100% {
             opacity: 0;

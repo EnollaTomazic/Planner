@@ -132,4 +132,10 @@
   --font-body: 16px;
   --font-title: 20px;
   --font-title-lg: 24px;
+  --font-display: 48px;
+  --font-display-lg: 60px;
+  --blur-xxs: calc(var(--space-1) * 0.05);
+  --blur-xs: calc(var(--space-1) * 0.15);
+  --blur-sm: calc(var(--space-3) - var(--space-1) / 2);
+  --blur-md: calc(var(--space-4) - var(--space-1) / 2);
 }

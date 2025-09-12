@@ -109,7 +109,7 @@ function NeonPillarChip({
           lit ? "opacity-60" : "opacity-0",
         )}
         style={{
-          filter: "blur(10px)",
+          filter: "blur(var(--blur-sm))",
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
           transition: "opacity 220ms var(--ease-out)",
@@ -124,7 +124,7 @@ function NeonPillarChip({
             : "opacity-0",
         )}
         style={{
-          filter: "blur(14px)",
+          filter: "blur(var(--blur-md))",
           background:
             "radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%)",
           transition: "opacity 220ms var(--ease-out)",
@@ -528,14 +528,15 @@ export default function ReviewEditor({
               aria-hidden
               className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
               style={{
-                width: "calc(50% - 4px)",
-                transform: `translate3d(${result === "Win" ? "0" : "calc(100% + 2px)"},0,0)`,
+                width: "calc(50% - var(--space-1))",
+                transform: `translate3d(${result === "Win" ? "0" : "calc(100% + var(--space-1) / 2)"},0,0)`,
                 transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
                 background:
                   result === "Win"
                     ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
                     : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
-                boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
+                boxShadow:
+                  "0 calc(var(--space-3) - var(--space-1) / 2) calc(var(--space-6) - var(--space-1) / 2) hsl(var(--shadow-color) / .25)",
               }}
             />
             <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
@@ -939,7 +940,7 @@ export default function ReviewEditor({
             placeholder="Key moments, mistakes to fix, drills to run…"
             className="rounded-2xl"
             resize="resize-y"
-            textareaClassName="min-h-[180px] leading-relaxed"
+            textareaClassName="min-h-[calc(var(--space-8)*3-var(--space-3))] leading-relaxed"
           />
         </div>
       </div>

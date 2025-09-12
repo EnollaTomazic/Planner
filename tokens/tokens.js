@@ -114,4 +114,10 @@ export default {
   fontBody: "16px",
   fontTitle: "20px",
   fontTitleLg: "24px",
+  fontDisplay: "48px",
+  fontDisplayLg: "60px",
+  blurXxs: "calc(var(--space-1) * 0.05)",
+  blurXs: "calc(var(--space-1) * 0.15)",
+  blurSm: "calc(var(--space-3) - var(--space-1) / 2)",
+  blurMd: "calc(var(--space-4) - var(--space-1) / 2)",
 };

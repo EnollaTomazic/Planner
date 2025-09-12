@@ -87,38 +87,34 @@ function Hero<Key extends string = string>({
   const headingStr = typeof heading === "string" ? heading : undefined;
 
   // Compose right area: prefer built-in sub-tabs if provided.
-  const subTabsNode = subTabs
-    ? (
-        <TabBar
-          items={subTabs.items.map((t) => ({
-            key: t.key,
-            label: t.label,
-            icon: t.icon,
-          }))}
-          value={String(subTabs.value)}
-          onValueChange={(k) => subTabs.onChange(k as Key)}
-          size={subTabs.size ?? "md"}
-          align={subTabs.align ?? "end"}
-          right={subTabs.right}
-          showBaseline={subTabs.showBaseline ?? true}
-          className={cx("justify-end", subTabs.className)}
-          ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
-        />
-      )
-    : tabs
-      ? (
-          <TabBar
-            items={tabs.items}
-            value={tabs.value}
-            onValueChange={tabs.onChange}
-            size={tabs.size ?? "md"}
-            align={tabs.align ?? "end"}
-            showBaseline={tabs.showBaseline ?? true}
-            className={cx("justify-end", tabs.className)}
-            ariaLabel="Hero tabs"
-          />
-        )
-      : null;
+  const subTabsNode = subTabs ? (
+    <TabBar
+      items={subTabs.items.map((t) => ({
+        key: t.key,
+        label: t.label,
+        icon: t.icon,
+      }))}
+      value={String(subTabs.value)}
+      onValueChange={(k) => subTabs.onChange(k as Key)}
+      size={subTabs.size ?? "md"}
+      align={subTabs.align ?? "end"}
+      right={subTabs.right}
+      showBaseline={subTabs.showBaseline ?? true}
+      className={cx("justify-end", subTabs.className)}
+      ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
+    />
+  ) : tabs ? (
+    <TabBar
+      items={tabs.items}
+      value={tabs.value}
+      onValueChange={tabs.onChange}
+      size={tabs.size ?? "md"}
+      align={tabs.align ?? "end"}
+      showBaseline={tabs.showBaseline ?? true}
+      className={cx("justify-end", tabs.className)}
+      ariaLabel="Hero tabs"
+    />
+  ) : null;
 
   return (
     <section className={className} {...rest}>
@@ -144,7 +140,7 @@ function Hero<Key extends string = string>({
 
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="text-xs font-semibold tracking-[0.14em] uppercase text-muted-foreground">
+              <div className="text-xs font-semibold tracking-[0.02em] uppercase text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
@@ -164,32 +160,32 @@ function Hero<Key extends string = string>({
             </div>
           </div>
 
-            {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
-          </div>
+          {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
+        </div>
 
-          {children || search || actions ? (
-            <div className="relative z-[2] mt-4 flex flex-col gap-4">
-              {children ? (
-                <div className={cx(bodyClassName)}>{children}</div>
-              ) : null}
-              {search || actions ? (
-                <div
-                  className={cx(
-                    "relative hero2-sep",
-                    dividerTint === "life" ? "neon-life" : "neon-primary",
-                  )}
-                >
-                  <span aria-hidden className="hero2-neon-line" />
-                  <div className="hero2-sep-row">
-                    {search ? <HeroSearchBar {...search} /> : null}
-                    {actions ? (
-                      <div className="flex items-center gap-2">{actions}</div>
-                    ) : null}
-                  </div>
+        {children || search || actions ? (
+          <div className="relative z-[2] mt-4 flex flex-col gap-4">
+            {children ? (
+              <div className={cx(bodyClassName)}>{children}</div>
+            ) : null}
+            {search || actions ? (
+              <div
+                className={cx(
+                  "relative hero2-sep",
+                  dividerTint === "life" ? "neon-life" : "neon-primary",
+                )}
+              >
+                <span aria-hidden className="hero2-neon-line" />
+                <div className="hero2-sep-row">
+                  {search ? <HeroSearchBar {...search} /> : null}
+                  {actions ? (
+                    <div className="flex items-center gap-2">{actions}</div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          ) : null}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* subtle rim */}
         <div
@@ -271,7 +267,11 @@ export function HeroSearchBar({
   return (
     <SearchBar
       {...props}
-      className={cx("w-full max-w-[640px]", round && "rounded-full", className)}
+      className={cx(
+        "w-full max-w-[calc(var(--space-8)*10)]",
+        round && "rounded-full",
+        className,
+      )}
       fieldClassName={round ? "rounded-full [&>input]:rounded-full" : undefined}
     />
   );
@@ -328,7 +328,6 @@ export function HeroGlitchStyles() {
             )
             0 0/100% 100%;
         mix-blend-mode: screen;
-        animation: hero2-beam-pan 7s linear infinite;
       }
       @keyframes hero2-beam-pan {
         0% {
@@ -362,7 +361,6 @@ export function HeroGlitchStyles() {
           100% 14px,
           14px 100%;
         opacity: 0.07;
-        animation: hero2-scan-move 6s linear infinite;
       }
       @keyframes hero2-scan-move {
         0% {
@@ -388,11 +386,30 @@ export function HeroGlitchStyles() {
           <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>\
           <rect width='100%' height='100%' filter='url(%23n)' opacity='0.38'/></svg>");
         background-size: 280px 280px;
-        animation: hero2-noise-shift 1.8s steps(2, end) infinite;
       }
       @keyframes hero2-noise-shift {
         50% {
           background-position: 50% 50%;
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .hero2-beams {
+          animation: hero2-beam-pan 7s linear infinite;
+        }
+        .hero2-scanlines {
+          animation: hero2-scan-move 6s linear infinite;
+        }
+        .hero2-noise {
+          animation: hero2-noise-shift 1.8s steps(2, end) infinite;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          animation: none;
+          background-position: 0 0;
         }
       }
 
@@ -533,9 +550,6 @@ export function HeroGlitchStyles() {
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .hero2-beams,
-        .hero2-scanlines,
-        .hero2-noise,
         .hero2-title::before,
         .hero2-title::after,
         .hero2-neon-line {
