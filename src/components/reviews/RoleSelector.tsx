@@ -12,74 +12,103 @@ type Props = {
   className?: string;
 };
 
-/** Allow CSS custom props on style without `any` */
-type CSSVars = React.CSSProperties & Record<`--${string}`, string | number>;
-
 /**
- * RoleSelector — segmented control with sliding pill animation.
- * Styles are scoped via RoleSelector.module.css.
+ * Segmented radio control for role selection.
+ * Implements roving tabindex and accessible announcements.
  */
 export default function RoleSelector({ value, onChange, className }: Props) {
   const count = ROLE_OPTIONS.length;
-  const idx = Math.max(0, ROLE_OPTIONS.findIndex((r) => r.value === value));
+  const activeIdx = Math.max(
+    0,
+    ROLE_OPTIONS.findIndex((r) => r.value === value),
+  );
+  const [focusIdx, setFocusIdx] = React.useState(activeIdx);
+  const btnRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const liveRef = React.useRef<HTMLSpanElement>(null);
 
-  const styleVars: CSSVars = {
-    "--seg-count": count,
-    "--seg-idx": idx,
+  React.useEffect(() => {
+    setFocusIdx(activeIdx);
+    const { label } = ROLE_OPTIONS[activeIdx] ?? {};
+    if (label && liveRef.current) {
+      liveRef.current.textContent = `${label}, selected, ${activeIdx + 1} of ${count}`;
+    }
+  }, [activeIdx, count]);
+
+  const select = (idx: number) => {
+    const opt = ROLE_OPTIONS[idx];
+    if (opt && opt.value !== value) onChange(opt.value);
   };
 
-  const select = (v: Role) => v !== value && onChange(v);
+  const moveFocus = (idx: number) => {
+    const next = (idx + count) % count;
+    setFocusIdx(next);
+    btnRefs.current[next]?.focus();
+  };
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      select(ROLE_OPTIONS[(idx - 1 + count) % count].value);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      select(ROLE_OPTIONS[(idx + 1) % count].value);
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      select(ROLE_OPTIONS[0].value);
-    } else if (e.key === "End") {
-      e.preventDefault();
-      select(ROLE_OPTIONS[count - 1].value);
+  const onKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    idx: number,
+  ) => {
+    switch (e.key) {
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        moveFocus(idx - 1);
+        break;
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        moveFocus(idx + 1);
+        break;
+      case "Home":
+        e.preventDefault();
+        moveFocus(0);
+        break;
+      case "End":
+        e.preventDefault();
+        moveFocus(count - 1);
+        break;
+      case " ":
+      case "Enter":
+        e.preventDefault();
+        select(idx);
+        break;
     }
   };
 
+  const styleVars: React.CSSProperties = {
+    "--seg-count": count,
+    "--seg-idx": activeIdx,
+  } as React.CSSProperties;
+
   return (
     <div
-      className={cn(styles.seg, styles.roles, className)}
+      className={cn(styles.tray, className)}
       role="radiogroup"
       aria-label="Select lane/role"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
       style={styleVars}
     >
-      {/* Sliding pill / rail */}
-      <span aria-hidden className={styles.rail} />
-
-      {/* Buttons */}
-      <div
-        className={styles.list}
-        style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
-      >
-        {ROLE_OPTIONS.map(({ value: v, Icon, label }) => {
-          const active = v === value;
+      <span aria-live="polite" className="sr-only" ref={liveRef} />
+      <span aria-hidden className={styles.highlight} />
+      <div className={styles.list}>
+        {ROLE_OPTIONS.map(({ value: v, Icon, label }, i) => {
+          const active = i === activeIdx;
           return (
             <button
               key={v}
+              ref={(el) => {
+                btnRefs.current[i] = el;
+              }}
               type="button"
               role="radio"
               aria-checked={active}
-              title={label}
-              className={cn(
-                styles.btn,
-                active ? styles.btnActive : styles.btnIdle,
-              )}
-              onClick={() => select(v)}
+              tabIndex={focusIdx === i ? 0 : -1}
+              className={cn(styles.chip, active ? styles.active : styles.idle)}
+              onClick={() => select(i)}
+              onKeyDown={(e) => onKeyDown(e, i)}
             >
-              <Icon className="h-5 w-5" />
-              <span className="font-medium">{label}</span>
+              <Icon className={styles.icon} />
+              <span className={styles.label}>{label}</span>
             </button>
           );
         })}
