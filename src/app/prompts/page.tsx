@@ -836,8 +836,8 @@ function PageContent() {
           "aria-label": "Search components",
         }}
       />
-      <section className="grid gap-6 lg:grid-cols-12">
-        <div className="space-y-6 lg:col-span-8">
+      <section className="grid gap-6 lg:grid-cols-1">
+        <div className="space-y-6 lg:col-span-full">
           <div>
             <div
               role="tabpanel"
