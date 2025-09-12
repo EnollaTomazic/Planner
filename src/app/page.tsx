@@ -28,27 +28,29 @@ function HomePageContent() {
       aria-labelledby="home-header"
       className="page-shell py-6 space-y-6 md:space-y-8"
     >
-      <Header
-        id="home-header"
-        heading="Welcome to Planner"
-        subtitle="Plan your day, track goals, and review games."
-        icon={<Home className="opacity-80" />}
-      />
-      <Hero
-        topClassName="top-[var(--header-stack)]"
-        heading="Your day at a glance"
-        actions={
-          <Link href="/planner">
-            <Button
-              variant="primary"
-              size="sm"
-              className="px-[var(--spacing-4)] whitespace-nowrap"
-            >
-              Plan Week
-            </Button>
-          </Link>
-        }
-      />
+      <div className="space-y-[var(--spacing-2)]">
+        <Header
+          id="home-header"
+          heading="Welcome to Planner"
+          subtitle="Plan your day, track goals, and review games."
+          icon={<Home className="opacity-80" />}
+        />
+        <Hero
+          topClassName="top-[var(--header-stack)]"
+          heading="Your day at a glance"
+          actions={
+            <Link href="/planner">
+              <Button
+                variant="primary"
+                size="sm"
+                className="px-[var(--spacing-4)] whitespace-nowrap"
+              >
+                Plan Week
+              </Button>
+            </Link>
+          }
+        />
+      </div>
       <div className="grid gap-4 md:grid-cols-12 items-start">
         <div className="md:col-span-6">
           <QuickActions theme={theme} setTheme={setTheme} />
