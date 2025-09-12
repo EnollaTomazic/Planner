@@ -589,15 +589,15 @@ export default function ReviewEditor({
               aria-label="Score from 0 to 10"
             />
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-              <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
+              <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
+                  className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]"
                   style={{
                     width: `calc(${(score / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
                   }}
                 />
                 <div
-                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                  className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
                   style={{
                     left: `calc(${(score / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
                   }}
@@ -658,15 +658,15 @@ export default function ReviewEditor({
                   aria-label="Focus from 0 to 10"
                 />
                 <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-muted shadow-[inset_2px_2px_4px_hsl(var(--shadow-color)/0.45),inset_-2px_-2px_4px_hsl(var(--foreground)/0.06)]">
+                  <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
                     <div
-                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-[0_0_8px_hsl(var(--accent)/0.5)]"
+                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]"
                       style={{
                         width: `calc(${(focus / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
                       }}
                     />
                     <div
-                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-[0_10px_25px_hsl(var(--shadow-color)/.25)]"
+                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
                       style={{
                         left: `calc(${(focus / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
                       }}
