@@ -23,6 +23,9 @@ export default function Toggle({
   loading?: boolean;
 }) {
   const isRight = value === "Right";
+  const id = React.useId();
+  const leftId = `${id}-left`;
+  const rightId = `${id}-right`;
 
   function toggle() {
     if (disabled || loading) return;
@@ -44,13 +47,14 @@ export default function Toggle({
       type="button"
       role="switch"
       aria-checked={isRight}
-      aria-label={`${leftLabel} / ${rightLabel}`}
+      aria-labelledby={`${leftId} ${rightId}`}
       disabled={disabled}
       data-loading={loading || undefined}
       onClick={toggle}
       onKeyDown={onKeyDown}
       className={cn(
-        "relative inline-flex w-[16rem] h-10 items-center rounded-full border",
+        "relative inline-flex h-10 items-center rounded-full border",
+        "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
         "hover:bg-[--hover] active:bg-[--active]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -64,20 +68,16 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out,cubic-bezier(.2,.8,.2,1))]"
+        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out,cubic-bezier(.2,.8,.2,1))] bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
         style={{
           width: "calc(50% - var(--space-1))",
-          transform: `translateX(${
-            isRight ? "calc(100% + var(--space-1) / 2)" : "0"
-          })`,
-          background:
-            "linear-gradient(90deg, hsl(var(--primary)/.35), hsl(var(--accent)/.35))",
-          boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
+          transform: `translateX(${isRight ? "calc(100% + var(--space-1) / 2)" : "0"})`,
         }}
       />
 
       {/* Labels */}
       <span
+        id={leftId}
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
           !isRight ? "text-foreground/70" : "text-muted-foreground",
@@ -91,6 +91,7 @@ export default function Toggle({
         {leftLabel}
       </span>
       <span
+        id={rightId}
         className={cn(
           "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
           isRight ? "text-foreground/70" : "text-muted-foreground",
