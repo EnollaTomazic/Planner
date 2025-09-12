@@ -479,7 +479,7 @@ export function HeroGlitchStyles() {
       .hero2-sep-row {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: var(--spacing-3);
         justify-content: space-between;
       }
       @keyframes neon-flicker {

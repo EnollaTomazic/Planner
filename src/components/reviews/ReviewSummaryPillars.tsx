@@ -8,7 +8,7 @@ function StaticNeonWrap({ children }: { children: React.ReactNode }) {
     <span className="relative inline-flex">
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-card r-card-lg bg-gradient-to-r from-accent to-primary opacity-40 blur-[6px]"
+        className="pointer-events-none absolute inset-0 rounded-card r-card-lg bg-gradient-to-r from-accent to-primary opacity-40 blur"
       />
       <span
         aria-hidden

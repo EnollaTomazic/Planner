@@ -486,7 +486,7 @@ const AnimatedSelectImpl = React.forwardRef<
                   "bg-card/92 backdrop-blur-xl",
                   "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
                   "p-2",
-                  "max-h-[60vh] min-w-[220px] overflow-y-auto scrollbar-thin",
+                  "max-h-[60vh] min-w-56 overflow-y-auto scrollbar-thin",
                   "scrollbar-thumb-foreground/12 scrollbar-track-transparent",
                   dropdownClassName,
                 ].join(" ")}
@@ -542,7 +542,7 @@ const AnimatedSelectImpl = React.forwardRef<
                         <span
                           aria-hidden
                           className={[
-                            "pointer-events-none absolute left-0 top-1/2 h-[70%] w-[2px] -translate-y-1/2 rounded-md",
+                            "pointer-events-none absolute left-0 top-1/2 h-3/4 w-0.5 -translate-y-1/2 rounded-md",
                             active ? "bg-ring" : "bg-transparent",
                           ].join(" ")}
                         />
