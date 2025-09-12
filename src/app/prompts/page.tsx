@@ -6,7 +6,6 @@ import {
   IconButton,
   Input,
   SegmentedButton,
-  TabBar,
   Badge,
   Card,
   CardHeader,
@@ -21,6 +20,7 @@ import {
   ThemePicker,
   BackgroundPicker,
   Header,
+  HeaderTabs,
   Hero,
   Hero2,
   type TabItem,
@@ -458,6 +458,22 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["badge"],
     },
     {
+      id: "bullet-list",
+      name: "Bullet List",
+      description: "Token-based markers",
+      element: (
+        <ul className="pl-6 space-y-1 list-none text-sm text-foreground">
+          <li className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current">
+            Item one
+          </li>
+          <li className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current">
+            Item two
+          </li>
+        </ul>
+      ),
+      tags: ["list", "bullet"],
+    },
+    {
       id: "role-selector",
       name: "RoleSelector",
       element: <RoleSelector value="TOP" onChange={() => {}} />,
@@ -613,33 +629,14 @@ function SectionCard({ title, children }: SectionCardProps) {
   );
 }
 
-function ComponentsView({ query, active }: { query: string; active: boolean }) {
-  const searchParams = useSearchParams();
-  const paramsString = searchParams.toString();
-  const router = useRouter();
-  const [, startTransition] = React.useTransition();
-  const [section, setSection] = React.useState<Section>(() =>
-    getValidSection(searchParams.get("section")),
-  );
-  const sectionTabs = React.useMemo(getSectionTabs, []);
+type ComponentsViewProps = {
+  query: string;
+  active: boolean;
+  section: Section;
+  setSection: (s: Section) => void;
+};
 
-  React.useEffect(() => {
-    const sp = new URLSearchParams(paramsString);
-    const s = getValidSection(sp.get("section"));
-    setSection((prev) => (prev === s ? prev : s));
-  }, [paramsString]);
-
-  React.useEffect(() => {
-    if (!active) return;
-    const sp = new URLSearchParams(paramsString);
-    const current = sp.get("section");
-    if (current === section) return;
-    sp.set("section", section);
-    startTransition(() =>
-      router.replace(`?${sp.toString()}`, { scroll: false }),
-    );
-  }, [active, section, router, paramsString, startTransition]);
-
+function ComponentsView({ query, section }: ComponentsViewProps) {
   const fuse = React.useMemo(
     () =>
       new Fuse(SPEC_DATA[section], {
@@ -656,13 +653,6 @@ function ComponentsView({ query, active }: { query: string; active: boolean }) {
 
   return (
     <div className="space-y-8">
-      <TabBar
-        items={sectionTabs}
-        value={section}
-        onValueChange={setSection}
-        ariaLabel="Component groups"
-        linkPanels={false}
-      />
       <ul className="grid grid-cols-12 gap-6">
         {specs.length === 0 ? (
           <li className="col-span-12">
@@ -717,10 +707,15 @@ function PageContent() {
   const [, startTransition] = React.useTransition();
   const viewParam = searchParams.get("view");
   const queryParam = searchParams.get("q");
+  const sectionParam = searchParams.get("section");
   const [view, setView] = React.useState<View>(
     () => (viewParam as View) || "components",
   );
   const [query, setQuery] = React.useState("");
+  const [section, setSection] = React.useState<Section>(() =>
+    getValidSection(sectionParam),
+  );
+  const sectionTabs = React.useMemo(getSectionTabs, []);
 
   React.useEffect(() => {
     const v = (viewParam as View) || "components";
@@ -731,6 +726,11 @@ function PageContent() {
     const q = queryParam ?? "";
     if (q !== query) setQuery(q);
   }, [queryParam, query]);
+
+  React.useEffect(() => {
+    const s = getValidSection(sectionParam);
+    if (s !== section) setSection(s);
+  }, [sectionParam, section]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -748,6 +748,17 @@ function PageContent() {
       router.replace(`?${sp.toString()}`, { scroll: false }),
     );
   }, [view, router, searchParams, startTransition]);
+
+  React.useEffect(() => {
+    if (view !== "components") return;
+    const sp = new URLSearchParams(searchParams.toString());
+    const current = sp.get("section");
+    if (current === section) return;
+    sp.set("section", section);
+    startTransition(() =>
+      router.replace(`?${sp.toString()}`, { scroll: false }),
+    );
+  }, [section, view, router, searchParams, startTransition]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -774,7 +785,13 @@ function PageContent() {
         subtitle="Explore components and tokens"
         icon={<Sparkles className="opacity-80" />}
         right={<ThemeToggle />}
-      />
+      >
+        <HeaderTabs
+          tabs={VIEW_TABS}
+          activeKey={view}
+          onChange={(k) => setView(k as View)}
+        />
+      </Header>
       <Hero
         topClassName="top-[var(--header-stack)]"
         heading={
@@ -784,11 +801,15 @@ function PageContent() {
               ? "Colors"
               : "Onboarding"
         }
-        tabs={{
-          items: VIEW_TABS,
-          value: view,
-          onChange: (k) => setView(k as View),
-        }}
+        {...(view === "components"
+          ? {
+              tabs: {
+                items: sectionTabs,
+                value: section,
+                onChange: (k: string) => setSection(k as Section),
+              },
+            }
+          : {})}
         search={{
           id: "playground-search",
           value: query,
@@ -808,7 +829,12 @@ function PageContent() {
               hidden={view !== "components"}
               tabIndex={0}
             >
-              <ComponentsView query={query} active={view === "components"} />
+              <ComponentsView
+                query={query}
+                active={view === "components"}
+                section={section}
+                setSection={setSection}
+              />
             </div>
             <div
               role="tabpanel"
