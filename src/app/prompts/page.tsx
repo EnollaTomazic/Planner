@@ -36,7 +36,7 @@ import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
-import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
+import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -486,7 +486,13 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       id: "isometric-room",
       name: "IsometricRoom",
       description: "Theme diorama",
-      element: <IsometricRoom variant="lg" />,
+      element: (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {VARIANTS.map((v) => (
+            <IsometricRoom key={v.id} variant={v.id} />
+          ))}
+        </div>
+      ),
       tags: ["home", "theme"],
       props: [
         {
@@ -608,7 +614,7 @@ function SectionCard({ title, children }: SectionCardProps) {
   );
 }
 
-function ComponentsView({ query }: { query: string }) {
+function ComponentsView({ query, active }: { query: string; active: boolean }) {
   const searchParams = useSearchParams();
   const paramsString = searchParams.toString();
   const router = useRouter();
@@ -625,6 +631,7 @@ function ComponentsView({ query }: { query: string }) {
   }, [paramsString]);
 
   React.useEffect(() => {
+    if (!active) return;
     const sp = new URLSearchParams(paramsString);
     const current = sp.get("section");
     if (current === section) return;
@@ -632,7 +639,7 @@ function ComponentsView({ query }: { query: string }) {
     startTransition(() =>
       router.replace(`?${sp.toString()}`, { scroll: false }),
     );
-  }, [section, router, paramsString, startTransition]);
+  }, [active, section, router, paramsString, startTransition]);
 
   const fuse = React.useMemo(
     () =>
@@ -801,7 +808,7 @@ function PageContent() {
               hidden={view !== "components"}
               tabIndex={0}
             >
-              <ComponentsView query={query} />
+              <ComponentsView query={query} active={view === "components"} />
             </div>
             <div
               role="tabpanel"
