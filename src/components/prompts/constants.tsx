@@ -20,7 +20,6 @@ import {
   Hero2,
   SectionCard as UiSectionCard,
   type HeaderTab,
-  type TabItem,
 } from "@/components/ui";
 import GoalListDemo from "./GoalListDemo";
 import PromptList from "./PromptList";
@@ -483,7 +482,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   ],
 };
 
-export const SECTION_TABS: TabItem<Section>[] = (
+export const SECTION_TABS: HeaderTab<Section>[] = (
   Object.keys(SPEC_DATA) as Section[]
 ).map((key) => ({
   key,

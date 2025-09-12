@@ -158,7 +158,7 @@ export default function Builder() {
         eyebrow="Comps"
         heading="Builder"
         subtitle="Fill allies vs enemies. Swap in one click."
-        right={
+        actions={
           <div className="flex items-center gap-2">
             <IconButton
               title="Swap Allies ↔ Enemies"

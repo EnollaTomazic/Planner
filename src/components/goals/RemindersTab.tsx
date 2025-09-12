@@ -3,8 +3,8 @@
 
 /**
  * RemindersTab — Hero header + borderless TabBar everywhere
- * - Domain tabs in Hero.right (Life | League | Learn), neon divider tint matches domain
- * - Bottom search stays in Hero.bottom
+ * - Domain sub-tabs in Hero (Life | League | Learn), neon divider tint matches domain
+ * - Bottom search uses built-in Hero search
  * - Quick Add row now lives inside the SAME panel as the cards (top of SectionCard.Body)
  * - Groups row uses TabBar (badges show per-group counts)
  * - Filters panel (toggle): Source (TabBar) + Pinned chip
@@ -21,7 +21,7 @@ import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
-import Hero, { HeroSearchBar } from "@/components/ui/layout/Hero";
+import Hero from "@/components/ui/layout/Hero";
 import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
@@ -220,7 +220,6 @@ export default function RemindersTab() {
   const neonClass = domain === "Life" ? "neon-life" : "neon-primary";
 
   // TabBar items
-  const DOMAIN_TABS = DOMAIN_ITEMS.map(d => ({ key: d.key, label: d.label, icon: d.icon }));
   const GROUP_TABS = GROUPS.map(g => ({
     key: g.key,
     label: g.label,
@@ -233,37 +232,33 @@ export default function RemindersTab() {
 
   return (
     <div className="grid gap-4">
-      {/* Hero with domain TabBar and bottom search */}
+      {/* Hero with domain sub-tabs and bottom search */}
       <Hero
         eyebrow={domain}
         heading="Reminders"
         subtitle="Tiny brain pings you’ll totally ignore until 23:59."
         dividerTint={domain === "Life" ? "life" : "primary"}
-        right={
-          <TabBar
-            items={DOMAIN_TABS}
-            value={domain}
-            onValueChange={(k) => setDomain(k as Domain)}
-            align="end"
-            size="md"
-            ariaLabel="Reminder domain"
-            showBaseline
-          />
-        }
-        bottom={
-          <HeroSearchBar
-            value={query}
-            onValueChange={setQuery}
-            placeholder="Search title, text, tags…"
-            debounceMs={80}
-            right={
-              <div className="flex items-center gap-2">
-                <span className="text-xs opacity-75">{filtered.length}</span>
-                <Search className="opacity-80" size={16} />
-              </div>
-            }
-          />
-        }
+        subTabs={{
+          items: DOMAIN_ITEMS,
+          value: domain,
+          onChange: (k: Domain) => setDomain(k),
+          align: "end",
+          size: "md",
+          ariaLabel: "Reminder domain",
+          showBaseline: true,
+        }}
+        search={{
+          value: query,
+          onValueChange: setQuery,
+          placeholder: "Search title, text, tags…",
+          debounceMs: 80,
+          right: (
+            <div className="flex items-center gap-2">
+              <span className="text-xs opacity-75">{filtered.length}</span>
+              <Search className="opacity-80" size={16} />
+            </div>
+          ),
+        }}
       />
 
       <SectionCard className="goal-card">
