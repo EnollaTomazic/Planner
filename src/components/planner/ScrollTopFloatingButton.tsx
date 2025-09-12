@@ -18,8 +18,8 @@ export default function ScrollTopFloatingButton({
   React.useEffect(() => {
     const target = watchRef.current;
     if (!target) return;
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => setVisible(!e.isIntersecting));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => setVisible(!e.isIntersecting));
     });
     obs.observe(target);
     return () => {
@@ -30,7 +30,12 @@ export default function ScrollTopFloatingButton({
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const behavior: ScrollBehavior = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches
+        ? "auto"
+        : "smooth";
+      window.scrollTo({ top: 0, behavior });
     }
   };
 
