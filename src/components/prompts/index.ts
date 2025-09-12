@@ -15,6 +15,5 @@ export { default as PromptsComposePanel } from "./PromptsComposePanel";
 export { default as PromptsDemos } from "./PromptsDemos";
 export { default as PromptsHeader } from "./PromptsHeader";
 export { default as PromptsPage } from "./PromptsPage";
-export { default as UpdatesList } from "./UpdatesList";
 export * from "./demoData";
 export * from "./usePrompts";

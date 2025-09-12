@@ -52,9 +52,38 @@ export default function OnboardingTabs() {
         tabIndex={0}
       >
         <ul className="list-disc pl-6 space-y-1">
-          <li>Set up local development environment</li>
-          <li>Follow project coding standards and lint rules</li>
-          <li>Coordinate with designers on features</li>
+          <li>
+            Global styles are now modularized into <code>animations.css</code>,
+            <code>overlays.css</code>, and <code>utilities.css</code>.
+          </li>
+          <li>
+            Control height token <code>--control-h</code> now snaps to 44px to
+            align with the 4px spacing grid.
+          </li>
+          <li>
+            Buttons now default to the 40px <code>md</code> size and follow a
+            36/40/44px scale.
+          </li>
+          <li>
+            WeekPicker scrolls horizontally with snap points, showing 2–3 days
+            at a time on smaller screens.
+          </li>
+          <li>Review status dots blink to highlight wins and losses.</li>
+          <li>
+            Hero dividers now use <code>var(--space-4)</code> top padding and
+            tokenized side offsets via <code>var(--space-2)</code>.
+          </li>
+          <li>
+            IconButton adds a compact <code>xs</code> size.
+          </li>
+          <li>
+            DurationSelector active state uses accent color tokens.
+          </li>
+          <li>
+            Color gallery groups tokens into Aurora, Neutrals, and Accents
+            palettes with tabs.
+          </li>
+          <li>Prompts page refactored into playground.</li>
         </ul>
       </div>
     </div>
