@@ -67,9 +67,9 @@
 | control-h-md       | 40px                                      |
 | control-h-lg       | 44px                                      |
 | control-h          | var(--control-h-md)                       |
-| control-radius     | var(--radius-xl)                          |
+| control-radius     | var(--radius-lg)                          |
 | control-fs         | 0.9rem                                    |
-| control-px         | 1rem                                      |
+| control-px         | var(--spacing-3)                          |
 | header-stack       | calc(var(--spacing-8) + var(--spacing-4)) |
 | edge-iris          | conic-gradient(                           |
 
@@ -119,4 +119,3 @@ hsl(192 90% 50% / 0.95)
 | radius-lg | 12px |
 | radius-xl | 16px |
 | radius-2xl | 24px |
-
