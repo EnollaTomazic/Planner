@@ -2,17 +2,7 @@
 
 import * as React from "react";
 import Card from "@/components/ui/primitives/Card";
-import type { Variant } from "@/lib/theme";
-
-export const ROOM_DECOR: Record<Variant, string> = {
-  lg: "Glitch setup",
-  aurora: "Aurora zen",
-  citrus: "Citrus nook",
-  noir: "Noir lounge",
-  ocean: "Ocean escape",
-  kitten: "Kitten corner",
-  hardstuck: "Hardstuck grind",
-};
+import { VARIANT_LABELS, type Variant } from "@/lib/theme";
 
 interface IsometricRoomProps {
   variant: Variant;
@@ -35,11 +25,11 @@ const VARIANT_STYLES: Record<Variant, string> = {
 };
 
 export default function IsometricRoom({ variant }: IsometricRoomProps) {
-  const decor = ROOM_DECOR[variant];
+  const label = VARIANT_LABELS[variant];
   return (
     <Card
       role="img"
-      aria-label={`Isometric room with ${decor}`}
+      aria-label={`Isometric room with ${label}`}
       tabIndex={0}
       className={`relative h-48 overflow-hidden bg-background border shadow transition-transform motion-reduce:transition-none hover:-translate-y-1 hover:shadow-md active:shadow focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 ${VARIANT_STYLES[variant]}`}
     >
@@ -56,7 +46,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
           <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,hsl(var(--room-accent)/0.15)_0_2px,transparent_2px_4px)] [background-size:200%_100%] mix-blend-screen opacity-40 animate-[room-glitch_8s_linear_infinite] motion-reduce:animate-none" />
         </div>
       )}
-      <span className="sr-only">{decor}</span>
+      <span className="sr-only">{label}</span>
     </Card>
   );
 }
