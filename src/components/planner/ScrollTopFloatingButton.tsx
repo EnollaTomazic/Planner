@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { ArrowUp } from "lucide-react";
