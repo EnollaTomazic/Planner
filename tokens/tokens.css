@@ -47,10 +47,10 @@
   --tone-mid: 265 72% 62%;
   --tone-bot: 195 75% 56%;
   --tone-sup: 320 72% 60%;
-  --aurora-g: 150 100% 60%;
-  --aurora-g-light: 150 100% 85%;
-  --aurora-p: 272 80% 60%;
-  --aurora-p-light: 272 80% 85%;
+  --aurora-g: var(--accent-2);
+  --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+  --aurora-p: var(--accent);
+  --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
   --icon-fg: 247 100% 77%;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
@@ -115,6 +115,11 @@
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
     0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-body: 16px;
+  --font-title: 20px;
+  --font-title-lg: 24px;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -127,9 +132,4 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
-  --font-label: 12px;
-  --font-ui: 14px;
-  --font-body: 16px;
-  --font-title: 20px;
-  --font-title-lg: 24px;
 }
