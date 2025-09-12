@@ -10,11 +10,16 @@ type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
+/**
+ * Props for the {@link IconButton} component.
+ * @property loading - When `true`, the button is disabled and `data-loading` is set.
+ */
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: IconButtonSize;
   iconSize?: Icon;
   tone?: Tone;
   variant?: Variant;
+  loading?: boolean;
 };
 
 const iconMap: Record<Icon, string> = {
@@ -73,6 +78,8 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       className,
       tone = "primary",
       variant = "ring",
+      loading,
+      disabled,
       ...props
     },
     ref,
@@ -90,6 +97,8 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           iconMap[iconSize],
           className,
         )}
+        data-loading={loading}
+        disabled={disabled || loading}
         {...props}
       >
         {props.children}
