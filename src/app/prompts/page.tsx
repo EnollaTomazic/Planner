@@ -36,7 +36,7 @@ import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import { RoleSelector } from "@/components/reviews";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import type { Review } from "@/lib/types";
-import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
+import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -486,7 +486,13 @@ const SPEC_DATA: Record<Section, Spec[]> = {
       id: "isometric-room",
       name: "IsometricRoom",
       description: "Theme diorama",
-      element: <IsometricRoom variant="lg" />,
+      element: (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {VARIANTS.map((v) => (
+            <IsometricRoom key={v.id} variant={v.id} />
+          ))}
+        </div>
+      ),
       tags: ["home", "theme"],
       props: [
         {
