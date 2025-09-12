@@ -139,5 +139,3 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Generated tokens JavaScript output
-tokens/tokens.js
