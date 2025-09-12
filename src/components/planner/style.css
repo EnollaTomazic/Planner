@@ -143,6 +143,7 @@
 }
 
 .chip {
+  --chip-width: min(calc(var(--space-4) * 10), 40%);
   position: relative;
   background-clip: padding-box;
   isolation: isolate;
