@@ -167,7 +167,7 @@ export default function ReviewsPage({
         )}
       >
         <nav aria-label="Review list" className="md:w-96">
-          <div className="card-neo-soft overflow-hidden bg-card/50 shadow-neo-strong">
+          <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
               <div className="mb-2 text-sm text-muted-foreground">
                 {filtered.length} shown
