@@ -81,7 +81,10 @@ function HomePageContent() {
         subtitle="Plan your day, track goals, and review games."
         icon={<Home className="opacity-80" />}
       />
-      <Hero topClassName="top-[var(--header-stack)]" heading="Hero" />
+      <Hero
+        topClassName="top-[var(--header-stack)]"
+        heading="Your day at a glance"
+      />
       <div className="grid gap-4 md:grid-cols-2 items-start">
         <QuickActions theme={theme} setTheme={setTheme} />
         <IsometricRoom variant={theme.variant} />
@@ -107,7 +110,13 @@ function HomePageContent() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="flex justify-center p-6"><Spinner /></div>}>
+    <Suspense
+      fallback={
+        <div className="flex justify-center p-6">
+          <Spinner />
+        </div>
+      }
+    >
       <HomePageContent />
     </Suspense>
   );
