@@ -15,6 +15,7 @@ import React, { useMemo, useState } from "react";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Button from "@/components/ui/primitives/Button";
 import Input from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
@@ -156,6 +157,17 @@ export default function JungleClears() {
             <span className="text-xs opacity-80">{filtered.length} shown</span>
           ),
         }}
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            className="px-[var(--spacing-4)] whitespace-nowrap"
+            onClick={() => addRow("Medium")}
+          >
+            <Plus />
+            <span>New Row</span>
+          </Button>
+        }
       >
         <p className="text-sm text-muted-foreground">
           If you’re on a <em>Medium</em> champ, don’t race farm vs{" "}
