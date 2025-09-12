@@ -27,8 +27,13 @@ const itemLoading = cn(
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
 const loadingLine = "h-3 rounded-md bg-muted";
-const scoreBadge =
-  "px-2 py-1 rounded-full text-xs leading-none font-medium text-background bg-gradient-to-br from-accent to-accent-2 ring-1 ring-accent [--ring:hsl(var(--accent))]";
+const scoreBadge = cn(
+  "px-2 py-1 rounded-full text-xs leading-none font-medium",
+  "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
+  "hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground",
+  "focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground",
+  "active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground",
+);
 
 export type ReviewListItemProps = {
   review?: Review;
