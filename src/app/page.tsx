@@ -79,9 +79,13 @@ function HomePageContent() {
         topClassName="top-[var(--header-stack)]"
         heading="Your day at a glance"
       />
-      <div className="grid gap-4 md:grid-cols-2 items-start">
-        <QuickActions theme={theme} setTheme={setTheme} />
-        <IsometricRoom variant={theme.variant} />
+      <div className="grid gap-4 md:grid-cols-12 items-start">
+        <div className="md:col-span-6">
+          <QuickActions theme={theme} setTheme={setTheme} />
+        </div>
+        <div className="md:col-span-6">
+          <IsometricRoom variant={theme.variant} />
+        </div>
       </div>
       <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="md:col-span-4">
