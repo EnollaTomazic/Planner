@@ -422,7 +422,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                       return (
                         <div
                           key={r}
-                          className="grid grid-cols-[88px_1fr] items-start gap-3"
+                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-3"
                         >
                           <div
                             className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
@@ -458,7 +458,7 @@ export default function MyComps({ query = "" }: MyCompsProps) {
                           aria-label="Notes"
                           rows={4}
                           resize="resize-y"
-                          textareaClassName="min-h-[180px] leading-relaxed"
+                          textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] leading-relaxed"
                           value={c.notes ?? ""}
                           onChange={(e) =>
                             patch(c.id, { notes: e.target.value })

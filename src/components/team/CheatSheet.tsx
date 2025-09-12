@@ -197,7 +197,11 @@ function TitleEdit({
   value,
   onChange,
   editing,
-}: { value: string; onChange: (v: string) => void; editing: boolean }) {
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  editing: boolean;
+}) {
   if (!editing)
     return (
       <h3
@@ -223,11 +227,13 @@ function ParagraphEdit({
   value,
   onChange,
   editing,
-}: { value: string; onChange: (v: string) => void; editing: boolean }) {
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  editing: boolean;
+}) {
   if (!editing)
-    return (
-      <p className="mt-1 text-sm text-muted-foreground">{value}</p>
-    );
+    return <p className="mt-1 text-sm text-muted-foreground">{value}</p>;
   return (
     <Textarea
       dir="ltr"
@@ -236,7 +242,7 @@ function ParagraphEdit({
       rows={2}
       className="mt-1"
       resize="resize-y"
-      textareaClassName="min-h-[180px] text-sm text-muted-foreground leading-relaxed"
+      textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-sm text-muted-foreground leading-relaxed"
       aria-label="Description"
     />
   );
@@ -254,7 +260,7 @@ function BulletListEdit({
   ariaLabel: string;
 }) {
   const [list, setList] = React.useState<string[]>(
-    items.length ? items.map(sanitizeText) : [""]
+    items.length ? items.map(sanitizeText) : [""],
   );
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
@@ -378,23 +384,23 @@ function ChampPillsEdit({
             dir="ltr"
             value={c}
             onChange={(e) => setAt(i, e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === ",") {
-              e.preventDefault();
-              insertAfter(i);
-            }
-            if (e.key === "Backspace" && !e.currentTarget.value) {
-              e.preventDefault();
-              removeAt(i);
-            }
-          }}
-          aria-label="Champion name"
-          autoComplete="off"
-          className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
-        />
-      </span>
-    ))}
-  </div>
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === ",") {
+                e.preventDefault();
+                insertAfter(i);
+              }
+              if (e.key === "Backspace" && !e.currentTarget.value) {
+                e.preventDefault();
+                removeAt(i);
+              }
+            }}
+            aria-label="Champion name"
+            autoComplete="off"
+            className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
+          />
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -432,15 +438,20 @@ export default function CheatSheet({
 
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
-      setSheet((prev) => prev.map((a) => (a.id === id ? { ...a, ...partial } : a)));
+      setSheet((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, ...partial } : a)),
+      );
     },
-    [setSheet]
+    [setSheet],
   );
 
   return (
     <section
       data-scope="team"
-      className={["grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3", className].join(" ")}
+      className={[
+        "grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3",
+        className,
+      ].join(" ")}
     >
       {filtered.map((a) => {
         const isEditing = editingId === a.id;
@@ -448,7 +459,10 @@ export default function CheatSheet({
         return (
           <article
             key={a.id}
-            className={["group glitch-card card-neo relative h-full", dense ? "p-4" : "p-5"].join(" ")}
+            className={[
+              "group glitch-card card-neo relative h-full",
+              dense ? "p-4" : "p-5",
+            ].join(" ")}
           >
             {/* Hover-only top-right edit/save button */}
             <div className="absolute right-2 top-2 z-10 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
@@ -502,7 +516,7 @@ export default function CheatSheet({
                 />
               </div>
 
-              {(a.struggles?.length || isEditing) ? (
+              {a.struggles?.length || isEditing ? (
                 <div>
                   <Label>Struggles vs</Label>
                   <BulletListEdit
@@ -514,7 +528,7 @@ export default function CheatSheet({
                 </div>
               ) : null}
 
-              {(a.tips?.length || isEditing) ? (
+              {a.tips?.length || isEditing ? (
                 <div>
                   <Label>Tips</Label>
                   <BulletListEdit
@@ -530,25 +544,36 @@ export default function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
-                  {(["Top", "Jungle", "Mid", "ADC", "Support"] as Role[]).map((role) => {
-                    const champs = a.examples[role];
-                    const setChamps = (list: string[]) =>
-                      patchArc(a.id, { examples: { ...a.examples, [role]: list } });
-                    const showRow = champs?.length || isEditing;
-                    if (!showRow) return null;
+                  {(["Top", "Jungle", "Mid", "ADC", "Support"] as Role[]).map(
+                    (role) => {
+                      const champs = a.examples[role];
+                      const setChamps = (list: string[]) =>
+                        patchArc(a.id, {
+                          examples: { ...a.examples, [role]: list },
+                        });
+                      const showRow = champs?.length || isEditing;
+                      if (!showRow) return null;
 
-                    return (
-                      <div key={role} className="grid grid-cols-[88px_1fr] items-start gap-x-3">
+                      return (
                         <div
-                          className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
-                          data-text={role}
+                          key={role}
+                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-3"
                         >
-                          {role}
+                          <div
+                            className="glitch-title glitch-flicker text-xs font-medium text-muted-foreground pt-1"
+                            data-text={role}
+                          >
+                            {role}
+                          </div>
+                          <ChampPillsEdit
+                            champs={champs ?? []}
+                            onChange={setChamps}
+                            editing={isEditing}
+                          />
                         </div>
-                        <ChampPillsEdit champs={champs ?? []} onChange={setChamps} editing={isEditing} />
-                      </div>
-                    );
-                  })}
+                      );
+                    },
+                  )}
                 </div>
               </div>
             </div>

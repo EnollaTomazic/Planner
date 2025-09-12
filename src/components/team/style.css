@@ -1,65 +1,138 @@
 /* src/components/team/style.css */
 
 /* Champ badges */
-.champ-badges { @apply flex flex-wrap gap-2; }
-.champ-badge{
+.champ-badges {
+  @apply flex flex-wrap gap-2;
+}
+.champ-badge {
   @apply inline-flex items-center h-6 px-2 rounded-full border text-xs leading-none whitespace-nowrap;
   border-color: hsl(var(--border));
-  background: hsl(var(--card)); color: hsl(var(--foreground));
-  transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  transition:
+    background 0.15s var(--ease-out),
+    border-color 0.15s var(--ease-out),
+    color 0.15s var(--ease-out);
 }
-.champ-badge:hover{ background: hsl(var(--primary-soft)); border-color: hsl(var(--ring)); }
-.champ-badge--dense{ @apply h-5 px-2; }
+.champ-badge:hover {
+  background: hsl(var(--primary-soft));
+  border-color: hsl(var(--ring));
+}
+.champ-badge--dense {
+  @apply h-5 px-2;
+}
 
 /* Title flicker ONLY within the Team scope */
-[data-scope="team"] .glitch-title{ position: relative; display: inline-block; }
-[data-scope="team"] .glitch-title::before,
-[data-scope="team"] .glitch-title::after{
-  content: attr(data-text);
-  position: absolute; left: 0; top: 0; pointer-events: none; mix-blend-mode: screen;
+[data-scope="team"] .glitch-title {
+  position: relative;
+  display: inline-block;
 }
-[data-scope="team"] .glitch-title::before{
+[data-scope="team"] .glitch-title::before,
+[data-scope="team"] .glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+[data-scope="team"] .glitch-title::before {
   color: hsl(var(--accent));
   clip-path: polygon(0 2%, 100% 2%, 100% 40%, 0 40%);
 }
-[data-scope="team"] .glitch-title::after{
+[data-scope="team"] .glitch-title::after {
   color: hsl(var(--primary));
   clip-path: polygon(0 60%, 100% 60%, 100% 98%, 0 98%);
 }
-[data-scope="team"] .glitch-flicker{
+[data-scope="team"] .glitch-flicker {
   text-shadow:
-    0 0 0.45rem hsl(var(--ring) / .55),
-    0 0 0.1rem hsl(var(--accent) / .35);
+    0 0 0.45rem hsl(var(--ring) / 0.55),
+    0 0 0.1rem hsl(var(--accent) / 0.35);
 }
 
-@media (prefers-reduced-motion: no-preference){
-  [data-scope="team"] .glitch-title::before{
+@media (prefers-reduced-motion: no-preference) {
+  [data-scope="team"] .glitch-title::before {
     animation: team-glitch-jitter 2.1s infinite linear alternate-reverse;
   }
-  [data-scope="team"] .glitch-title::after{
+  [data-scope="team"] .glitch-title::after {
     animation: team-glitch-jitter 1.9s infinite linear;
   }
-  [data-scope="team"] .glitch-flicker{
+  [data-scope="team"] .glitch-flicker {
     animation: team-glitch-flicker 4s infinite steps(1, end);
   }
 }
 
-@keyframes team-glitch-jitter{
-  0%{transform: translate(0,0)}10%{transform: translate(1px,-1px)}20%{transform: translate(-1px,1px)}
-  30%{transform: translate(1px,0)}40%{transform: translate(-1px,0)}50%{transform: translate(1px,1px)}
-  60%{transform: translate(-1px,-1px)}70%{transform: translate(0,1px)}80%{transform: translate(-1px,0)}
-  90%{transform: translate(1px,0)}100%{transform: translate(0,0)}
+@keyframes team-glitch-jitter {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(var(--hairline-w), calc(var(--hairline-w) * -1));
+  }
+  20% {
+    transform: translate(calc(var(--hairline-w) * -1), var(--hairline-w));
+  }
+  30% {
+    transform: translate(var(--hairline-w), 0);
+  }
+  40% {
+    transform: translate(calc(var(--hairline-w) * -1), 0);
+  }
+  50% {
+    transform: translate(var(--hairline-w), var(--hairline-w));
+  }
+  60% {
+    transform: translate(
+      calc(var(--hairline-w) * -1),
+      calc(var(--hairline-w) * -1)
+    );
+  }
+  70% {
+    transform: translate(0, var(--hairline-w));
+  }
+  80% {
+    transform: translate(calc(var(--hairline-w) * -1), 0);
+  }
+  90% {
+    transform: translate(var(--hairline-w), 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
-@keyframes team-glitch-flicker{
-  0%,2%,35%,37%,100%{opacity:1;filter:none}
-  1%{opacity:.86;filter:blur(.2px)}
-  36%{opacity:.92;filter:blur(.1px)}
-  60%{opacity:.88;filter:blur(.22px)}
-  61%{opacity:1;filter:none}
+@keyframes team-glitch-flicker {
+  0%,
+  2%,
+  35%,
+  37%,
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+  1% {
+    opacity: 0.86;
+    filter: blur(calc(var(--hairline-w) * 0.2));
+  }
+  36% {
+    opacity: 0.92;
+    filter: blur(calc(var(--hairline-w) * 0.1));
+  }
+  60% {
+    opacity: 0.88;
+    filter: blur(calc(var(--hairline-w) * 0.22));
+  }
+  61% {
+    opacity: 1;
+    filter: none;
+  }
 }
 
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion: reduce) {
   [data-scope="team"] .glitch-title::before,
-  [data-scope="team"] .glitch-title::after{ display:none; }
-  [data-scope="team"] .glitch-flicker{ text-shadow: none; }
+  [data-scope="team"] .glitch-title::after {
+    display: none;
+  }
+  [data-scope="team"] .glitch-flicker {
+    text-shadow: none;
+  }
 }
