@@ -124,7 +124,7 @@ export default function Header({
 
 export interface HeaderTab<Key extends string = string> {
   key: Key;
-  label: string;
+  label: React.ReactNode;
   hint?: string;
   icon?: React.ReactNode;
 }
