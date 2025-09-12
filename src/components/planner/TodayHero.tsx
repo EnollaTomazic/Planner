@@ -344,16 +344,16 @@ export default function TodayHero({ iso }: Props) {
                           onChange={(e) => setEditingTaskText(e.target.value)}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                              renameTask(t.id, editingTaskText || t.text);
+                              renameTask(t.id, editingTaskText || t.title);
                               setEditingTaskId(null);
                             }
                             if (e.key === "Escape") setEditingTaskId(null);
                           }}
                           onBlur={() => {
-                            renameTask(t.id, editingTaskText || t.text);
+                            renameTask(t.id, editingTaskText || t.title);
                             setEditingTaskId(null);
                           }}
-                          aria-label={`Rename task ${t.text}`}
+                          aria-label={`Rename task ${t.title}`}
                         />
                       ) : (
                         <button
@@ -369,21 +369,21 @@ export default function TodayHero({ iso }: Props) {
                               setEditingTaskId(t.id);
                             }
                           }}
-                          aria-label={`Edit task ${t.text}`}
+                          aria-label={`Edit task ${t.title}`}
                           title="Edit task"
                         >
-                          {t.text}
+                          {t.title}
                         </button>
                       )}
                     </div>
 
                     <div className="flex items-center gap-2">
                       <IconButton
-                        aria-label={`Edit task ${t.text}`}
+                        aria-label={`Edit task ${t.title}`}
                         title="Edit"
                         onClick={() => {
                           setEditingTaskId(t.id);
-                          setEditingTaskText(t.text);
+                          setEditingTaskText(t.title);
                           setSelTaskId(t.id);
                         }}
                         size="sm"

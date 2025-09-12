@@ -6,11 +6,14 @@ vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
   return {
     ...actual,
-    usePersistentState: <T,>(key: string, initial: T) => React.useState(initial),
+    usePersistentState: <T,>(key: string, initial: T) =>
+      React.useState(initial),
   };
 });
 
 import { PlannerProvider, usePlannerStore, useDay } from "@/components/planner";
+import { flushWriteLocal } from "@/lib/db";
+import * as bootstrap from "@/lib/local-bootstrap";
 
 describe("usePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -83,5 +86,19 @@ describe("usePlannerStore", () => {
 
     act(() => result.current.deleteTask(t1));
     expect(result.current.totalTasks).toBe(1);
+  });
+
+  it("debounces legacy writes", () => {
+    const spy = vi.spyOn(bootstrap, "writeLocal");
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+    let pid = "";
+    act(() => {
+      pid = result.current.addProject("A");
+      result.current.addTask("t1", pid);
+      result.current.addTask("t2", pid);
+    });
+    flushWriteLocal();
+    expect(spy).toHaveBeenCalledTimes(2);
+    spy.mockRestore();
   });
 });

@@ -4,14 +4,13 @@ import * as React from "react";
 import Input from "@/components/ui/primitives/Input";
 import EmptyRow from "./EmptyRow";
 import TaskRow from "./TaskRow";
-
-type Task = { id: string; text: string; done: boolean; projectId?: string };
+import type { DayTask } from "./plannerStore";
 
 type Props = {
-  tasks: Task[];
+  tasks: DayTask[];
   selectedProjectId: string;
   addTask: (title: string, projectId?: string) => string | undefined;
-  renameTask: (id: string, text: string) => void;
+  renameTask: (id: string, title: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
   setSelectedTaskId: (id: string) => void;
@@ -74,7 +73,7 @@ export default function TaskList({
                   deleteTask(t.id);
                   setSelectedTaskId("");
                 }}
-                onEdit={(text) => renameTask(t.id, text)}
+                onEdit={(title) => renameTask(t.id, title)}
                 onSelect={() => setSelectedTaskId(t.id)}
               />
             ))}

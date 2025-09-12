@@ -9,7 +9,12 @@ describe("TaskRow", () => {
   it("focuses input when entering edit mode", async () => {
     render(
       <TaskRow
-        task={{ id: "1", text: "Test task", done: false }}
+        task={{
+          id: "1",
+          title: "Test task",
+          done: false,
+          createdAt: Date.now(),
+        }}
         onToggle={noop}
         onDelete={noop}
         onEdit={noop}
@@ -30,7 +35,12 @@ describe("TaskRow", () => {
     const onDelete = vi.fn();
     render(
       <TaskRow
-        task={{ id: "1", text: "Test task", done: false }}
+        task={{
+          id: "1",
+          title: "Test task",
+          done: false,
+          createdAt: Date.now(),
+        }}
         onToggle={onToggle}
         onDelete={onDelete}
         onEdit={noop}

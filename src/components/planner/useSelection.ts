@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ensureDay, usePlannerContext, type ISODate } from "./plannerStore";
+import { ensureDay, useSelection, useDays, type ISODate } from "./plannerStore";
 
 /**
  * Manages the selected project for a given day.
@@ -10,11 +10,11 @@ import { ensureDay, usePlannerContext, type ISODate } from "./plannerStore";
  * @returns Tuple of current project ID and setter.
  */
 export function useSelectedProject(iso: ISODate) {
-  const { selected, setSelected } = usePlannerContext();
+  const { selected, setSelected } = useSelection();
   const current = selected[iso]?.projectId ?? "";
   const set = React.useCallback(
     (projectId: string) => {
-      setSelected(prev => ({
+      setSelected((prev) => ({
         ...prev,
         [iso]: projectId ? { projectId } : {},
       }));
@@ -31,18 +31,19 @@ export function useSelectedProject(iso: ISODate) {
  * @returns Tuple of current task ID and setter.
  */
 export function useSelectedTask(iso: ISODate) {
-  const { selected, setSelected, days } = usePlannerContext();
+  const { selected, setSelected } = useSelection();
+  const { days } = useDays();
   const current = selected[iso]?.taskId ?? "";
 
   const set = React.useCallback(
     (taskId: string) => {
       if (!taskId) {
-        setSelected(prev => ({ ...prev, [iso]: {} }));
+        setSelected((prev) => ({ ...prev, [iso]: {} }));
         return;
       }
       const rec = ensureDay(days, iso);
-      const projectId = rec.tasks.find(t => t.id === taskId)?.projectId;
-      setSelected(prev => ({
+      const projectId = rec.tasks.find((t) => t.id === taskId)?.projectId;
+      setSelected((prev) => ({
         ...prev,
         [iso]: { taskId, projectId },
       }));

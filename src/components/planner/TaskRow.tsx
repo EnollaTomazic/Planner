@@ -6,14 +6,13 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type Task = { id: string; text: string; done: boolean; projectId?: string };
+import type { DayTask } from "./plannerStore";
 
 type Props = {
-  task: Task;
+  task: DayTask;
   onToggle: () => void;
   onDelete: () => void;
-  onEdit: (text: string) => void;
+  onEdit: (title: string) => void;
   onSelect: () => void;
 };
 
@@ -25,7 +24,7 @@ export default function TaskRow({
   onSelect,
 }: Props) {
   const [editing, setEditing] = React.useState(false);
-  const [text, setText] = React.useState(task.text);
+  const [title, setTitle] = React.useState(task.title);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -36,13 +35,13 @@ export default function TaskRow({
     setEditing(true);
   }
   function commit() {
-    const v = text.trim();
+    const v = title.trim();
     setEditing(false);
-    if (v && v !== task.text) onEdit(v);
+    if (v && v !== task.title) onEdit(v);
   }
   function cancel() {
     setEditing(false);
-    setText(task.text);
+    setTitle(task.title);
   }
 
   return (
@@ -87,15 +86,15 @@ export default function TaskRow({
                   task.done && "line-through-soft",
                 )}
               >
-                {task.text}
+                {task.title}
               </span>
             </button>
           ) : (
             <Input
               name={`dc-rename-task-${task.id}`}
               ref={inputRef}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               onBlur={commit}
               onKeyDown={(e) => {
                 if (e.key === "Enter") commit();
