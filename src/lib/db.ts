@@ -14,6 +14,19 @@ import {
 } from "./local-bootstrap";
 import { safeClone } from "./utils";
 
+function maybeClone<T>(value: T): T {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) {
+    if (value.every((v) => v === null || typeof v !== "object"))
+      return value.slice() as T;
+    return safeClone(value);
+  }
+  for (const v of Object.values(value as Record<string, unknown>)) {
+    if (v && typeof v === "object") return safeClone(value);
+  }
+  return { ...(value as Record<string, unknown>) } as T;
+}
+
 /** Namespacing so we don't collide with other apps in the same domain */
 const STORAGE_PREFIX = "noxis-planner:";
 
@@ -90,7 +103,7 @@ export function flushWriteLocal() {
   flushWriteQueue();
 }
 
-function scheduleWrite(key: string, value: unknown) {
+export function scheduleWrite(key: string, value: unknown) {
   writeQueue.set(key, value);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
@@ -115,7 +128,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    scheduleWrite(createStorageKey(key), safeClone(value));
+    scheduleWrite(createStorageKey(key), maybeClone(value));
   } catch {
     // ignore quota/privacy errors
   }
@@ -166,6 +179,10 @@ export function usePersistentState<T>(
   const [state, setState] = React.useState<T>(initial);
 
   const initialRef = React.useRef(initial);
+  const stateRef = React.useRef(state);
+  React.useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
   React.useEffect(() => {
     initialRef.current = initial;
   }, [initial]);
@@ -189,9 +206,10 @@ export function usePersistentState<T>(
         fromStorage = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
       }
       if (fromStorage !== null) {
-        setState(fromStorage);
+        if (!Object.is(stateRef.current, fromStorage)) setState(fromStorage);
       } else {
-        setState(initialRef.current);
+        if (!Object.is(stateRef.current, initialRef.current))
+          setState(initialRef.current);
       }
       loadedRef.current = true;
     }
@@ -199,24 +217,25 @@ export function usePersistentState<T>(
 
   const handleExternal = React.useCallback((raw: string | null) => {
     if (raw === null) {
-      setState(initialRef.current);
+      if (!Object.is(stateRef.current, initialRef.current))
+        setState(initialRef.current);
       return;
     }
     const next = parseJSON<T>(raw);
-    if (next !== null) setState(next);
+    if (next !== null && !Object.is(stateRef.current, next)) setState(next);
   }, []);
 
   useStorageSync(key, handleExternal);
 
-    React.useEffect(() => {
-      if (!isBrowser) return;
-      if (!loadedRef.current) return;
-      try {
-        scheduleWrite(fullKeyRef.current, safeClone(state));
-      } catch {
-        // ignore
-      }
-    }, [state]);
+  React.useEffect(() => {
+    if (!isBrowser) return;
+    if (!loadedRef.current) return;
+    try {
+      scheduleWrite(fullKeyRef.current, maybeClone(state));
+    } catch {
+      // ignore
+    }
+  }, [state]);
 
   return [state, setState];
 }
