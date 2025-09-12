@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -40,10 +41,16 @@ function toExportName(file: string): string {
 type ExportInfo = { name?: string; lines: string[] };
 
 async function buildExport(file: string): Promise<ExportInfo> {
-  const rel = "./" + path.relative(uiDir, file).replace(/\\/g, "/").replace(/\.(tsx|ts)$/, "");
+  const rel =
+    "./" +
+    path
+      .relative(uiDir, file)
+      .replace(/\\/g, "/")
+      .replace(/\.(tsx|ts)$/, "");
   const content = await fs.readFile(file, "utf8");
   const hasDefault = /export\s+default/.test(content);
-  const hasNamed = /export\s+(?:const|function|class|type|interface|enum|\{)/.test(content);
+  const hasNamed =
+    /export\s+(?:const|function|class|type|interface|enum|\{)/.test(content);
   const lines: string[] = [];
   let name: string | undefined;
   if (hasDefault) {
@@ -57,11 +64,10 @@ async function buildExport(file: string): Promise<ExportInfo> {
 }
 
 async function main() {
-  const files = await fg([
-    "**/*.{ts,tsx}",
-    "!**/index.ts",
-    "!**/index.tsx",
-  ], { cwd: uiDir, absolute: true });
+  const files = await fg(["**/*.{ts,tsx}", "!**/index.ts", "!**/index.tsx"], {
+    cwd: uiDir,
+    absolute: true,
+  });
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
     Presets.shades_grey,

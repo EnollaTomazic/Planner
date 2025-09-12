@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import fs from "fs";
 import fg from "fast-glob";
 

@@ -1,3 +1,4 @@
+import "./check-node-version.js";
 import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -25,7 +26,11 @@ async function getUiComponents(): Promise<string[]> {
   const names = new Set<string>();
   for (const file of files) {
     const base = path.basename(file);
-    if (base === "index.ts" || base === "index.tsx" || base.endsWith("Page.tsx")) {
+    if (
+      base === "index.ts" ||
+      base === "index.tsx" ||
+      base.endsWith("Page.tsx")
+    ) {
       continue;
     }
     const content = await fs.readFile(file, "utf8");
@@ -67,9 +72,7 @@ async function main() {
   });
   bars.stop();
   if (missing.length) {
-    console.error(
-      "Unreferenced UI components:\n" + missing.join("\n"),
-    );
+    console.error("Unreferenced UI components:\n" + missing.join("\n"));
     process.exit(1);
   }
   console.log("All UI components referenced in prompts page.");
