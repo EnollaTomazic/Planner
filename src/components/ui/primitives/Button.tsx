@@ -46,6 +46,74 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
   loading?: boolean;
 };
 
+export const colorVar: Record<Tone, string> = {
+  primary: "--foreground",
+  accent: "--accent",
+  info: "--accent-2",
+  danger: "--danger",
+};
+
+export const toneClasses: Record<
+  NonNullable<ButtonProps["variant"]>,
+  Record<Tone, string>
+> = {
+  primary: {
+    primary: "text-foreground",
+    accent: "text-accent",
+    info: "text-accent-2",
+    danger: "text-danger",
+  },
+  secondary: {
+    primary: "text-foreground",
+    accent:
+      "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
+    info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+    danger:
+      "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+  },
+  ghost: {
+    primary:
+      "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
+    accent:
+      "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
+    info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
+    danger:
+      "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
+  },
+};
+
+export const variants: Record<
+  NonNullable<ButtonProps["variant"]>,
+  {
+    className: string;
+    whileHover?: HTMLMotionProps<"button">["whileHover"];
+    whileTap?: HTMLMotionProps<"button">["whileTap"];
+    overlay?: React.ReactNode;
+    contentClass?: string;
+  }
+> = {
+  primary: {
+    className: "bg-panel/85 overflow-hidden shadow-neo",
+    whileTap: {
+      scale: 0.96,
+      boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+    },
+    contentClass: "relative z-10 inline-flex items-center gap-2",
+  },
+  secondary: {
+    className: "bg-panel/80 shadow-neo",
+    whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
+    whileTap: {
+      scale: 0.97,
+      boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+    },
+  },
+  ghost: {
+    className: "bg-transparent",
+    whileTap: { scale: 0.97 },
+  },
+} as const;
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -72,74 +140,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       s.icon,
       className,
     );
-
-    const colorVar: Record<Tone, string> = {
-      primary: "--foreground",
-      accent: "--accent",
-      info: "--accent-2",
-      danger: "--danger",
-    };
-
-    const toneClasses: Record<
-      NonNullable<ButtonProps["variant"]>,
-      Record<Tone, string>
-    > = {
-      primary: {
-        primary: "text-foreground",
-        accent: "text-accent",
-        info: "text-accent-2",
-        danger: "text-danger",
-      },
-      secondary: {
-        primary: "text-foreground",
-        accent:
-          "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-        info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
-        danger:
-          "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
-      },
-      ghost: {
-        primary:
-          "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
-        accent:
-          "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
-        info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
-        danger:
-          "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
-      },
-    };
-
-    const variants: Record<
-      NonNullable<ButtonProps["variant"]>,
-      {
-        className: string;
-        whileHover?: HTMLMotionProps<"button">["whileHover"];
-        whileTap?: HTMLMotionProps<"button">["whileTap"];
-        overlay?: React.ReactNode;
-        contentClass?: string;
-      }
-    > = {
-      primary: {
-        className: "bg-panel/85 overflow-hidden shadow-neo",
-        whileTap: {
-          scale: 0.96,
-          boxShadow: neuInset(10) as CSSProperties["boxShadow"],
-        },
-        contentClass: "relative z-10 inline-flex items-center gap-2",
-      },
-      secondary: {
-        className: "bg-panel/80 shadow-neo",
-        whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
-        whileTap: {
-          scale: 0.97,
-          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
-        },
-      },
-      ghost: {
-        className: "bg-transparent",
-        whileTap: { scale: 0.97 },
-      },
-    } as const;
 
     const {
       className: variantClass,
