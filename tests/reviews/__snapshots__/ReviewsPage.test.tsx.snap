@@ -353,23 +353,20 @@ exports[`ReviewsPage > renders default state 1`] = `
             >
               <h2
                 class="hero2-title title-glow text-xl sm:text-2xl truncate"
+                data-text="Browse Reviews"
               >
-                <div
-                  class="flex items-center gap-2"
-                >
-                  <h2
-                    class="title-glow"
-                  >
-                    Reviews
-                  </h2>
-                  <span
-                    class="pill"
-                  >
-                    Total 
-                    3
-                  </span>
-                </div>
+                Browse Reviews
               </h2>
+              <span
+                class="text-xs sm:text-sm tracking-wide text-muted-foreground truncate"
+              >
+                <span
+                  class="pill"
+                >
+                  Total 
+                  3
+                </span>
+              </span>
             </div>
           </div>
           <div
