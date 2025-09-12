@@ -22,7 +22,7 @@
     "verify-prompts": "ts-node --esm scripts/verify-prompts.ts",
     "check-prompts": "ts-node --esm scripts/check-prompts-updated.ts",
     "design-lint": "ts-node --esm scripts/design-lint.ts",
-    "postinstall": "ts-node --esm scripts/regen-if-needed.ts",
+    "postinstall": "tsx scripts/regen-if-needed.ts",
     "prepare": "husky",
     "launch": "ts-node --esm scripts/launcher.ts"
   },
@@ -61,6 +61,7 @@
     "style-dictionary": "^5.0.4",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
