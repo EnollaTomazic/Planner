@@ -55,4 +55,14 @@ describe('SearchBar', () => {
     expect(input).toHaveAttribute('autocapitalize', 'words');
     expect(input).toHaveAttribute('spellcheck', 'true');
   });
+
+  it('applies loading state', () => {
+    const { getByRole } = render(
+      <SearchBar value="" onValueChange={() => {}} loading />
+    );
+    const form = getByRole('search');
+    expect(form).toHaveAttribute('data-loading', 'true');
+    const input = getByRole('searchbox');
+    expect(input).toBeDisabled();
+  });
 });

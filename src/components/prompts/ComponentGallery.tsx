@@ -291,6 +291,17 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "SearchBar (loading)",
+        element: (
+          <SearchBar
+            value={query}
+            onValueChange={setQuery}
+            className="w-56"
+            loading
+          />
+        ),
+      },
+      {
         label: "Select",
         element: (
           <Select
