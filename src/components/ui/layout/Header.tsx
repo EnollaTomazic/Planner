@@ -1,12 +1,13 @@
 "use client";
 
 /**
- * Header — sticky, glow, and unapologetically on top.
- * - Top bar sticks while the body scrolls
- * - High z-index (z-[999]) so it doesn't hide behind random divs
- * - No border; soft neon glow
- * - Keep topClassName (`top-[var(--header-stack)]`) if you need offset under the global navbar
- * - Optional segmented tabs via `tabs`
+ * Header — sticky top bar with built-in segmented tabs.
+ *
+ * - Stays fixed while the body scrolls so content slides underneath
+ * - High z-index (`z-[999]`) keeps it above surrounding chrome
+ * - Soft neon glow instead of a border
+ * - Offset with `topClassName` (`top-[var(--header-stack)]`) when nested under the global navbar
+ * - `tabs` renders a right-aligned segmented control for section switching
  */
 
 import * as React from "react";
