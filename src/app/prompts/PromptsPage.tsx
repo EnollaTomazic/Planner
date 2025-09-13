@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Header, Hero, Button, IconButton } from "@/components/ui";
+import {
+  Header,
+  Hero,
+  Button,
+  IconButton,
+  NeomorphicHeroFrame,
+} from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -71,11 +77,7 @@ function PageContent() {
       className="page-shell py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
-
+      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4">
         <div className="relative z-[2] space-y-6">
           <Header
             id="prompts-header"
@@ -125,12 +127,7 @@ function PageContent() {
             }
           />
         </div>
-
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-        />
-      </div>
+      </NeomorphicHeroFrame>
       <section className="grid gap-6 lg:grid-cols-1">
         <div className="space-y-6 lg:col-span-full">
           <div>

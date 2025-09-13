@@ -10,7 +10,7 @@ import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
-import { Button, Select } from "@/components/ui";
+import { Button, Select, NeomorphicHeroFrame } from "@/components/ui";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
 
@@ -93,11 +93,7 @@ export default function ReviewsPage({
       className="page-shell py-6 space-y-6"
       aria-labelledby="reviews-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
-
+      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4">
         <div className="relative z-[2] space-y-2">
           <Header
             id="reviews-header"
@@ -152,12 +148,7 @@ export default function ReviewsPage({
             }
           />
         </div>
-
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-        />
-      </div>
+      </NeomorphicHeroFrame>
 
       <div
         className={cn(

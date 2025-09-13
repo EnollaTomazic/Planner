@@ -7,7 +7,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     class="page-shell py-6 space-y-6"
   >
     <div
-      class="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4"
+      class="overflow-hidden hero2-neomorph sticky top-0 rounded-card r-card-lg px-4 py-4"
     >
       <span
         aria-hidden="true"
@@ -19,7 +19,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       />
       <span
         aria-hidden="true"
-        class="hero2-noise"
+        class="hero2-noise opacity-[0.03]"
       />
       <div
         class="relative z-[2] space-y-2"
@@ -743,7 +743,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       </div>
       <div
         aria-hidden="true"
-        class="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
+        class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
       />
     </div>
     <div

@@ -15,7 +15,12 @@ import {
 } from "@/components/home";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
-import { Button, Spinner, ThemeToggle } from "@/components/ui";
+import {
+  Button,
+  Spinner,
+  ThemeToggle,
+  NeomorphicHeroFrame,
+} from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
@@ -35,11 +40,7 @@ function HomePageContent() {
         className="relative grid grid-cols-12 gap-4"
       >
         <div className="col-span-12">
-          <div className="sticky top-0 relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 hero2-neomorph">
-            <span aria-hidden className="hero2-beams" />
-            <span aria-hidden className="hero2-scanlines" />
-            <span aria-hidden className="hero2-noise opacity-[0.03]" />
-
+          <NeomorphicHeroFrame className="sticky top-0 rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8">
             <div className="relative z-[2] grid grid-cols-12 gap-4">
               <div className="col-span-12 sticky top-0">
                 <Header
@@ -71,12 +72,7 @@ function HomePageContent() {
                 />
               </div>
             </div>
-
-            <div
-              aria-hidden
-              className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-            />
-          </div>
+          </NeomorphicHeroFrame>
         </div>
       </section>
       <div className="grid gap-4 md:grid-cols-12 items-start">
