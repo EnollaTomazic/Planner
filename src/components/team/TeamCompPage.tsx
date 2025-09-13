@@ -186,6 +186,7 @@ export default function TeamCompPage() {
         subTab === "sheet" ? "cheatSheet" : "myComps";
       return (
         <Hero
+          frame={false}
           topClassName="top-[var(--header-stack)]"
           eyebrow={active?.label}
           heading="Comps"
@@ -221,6 +222,7 @@ export default function TeamCompPage() {
     if (tab === "builder") {
       return (
         <Hero
+          frame={false}
           topClassName="top-[var(--header-stack)]"
           eyebrow="Comps"
           heading="Builder"
@@ -259,6 +261,7 @@ export default function TeamCompPage() {
     }
     return (
       <Hero
+        frame={false}
         sticky={false}
         topClassName="top-[var(--header-stack)]"
         rail
@@ -320,16 +323,27 @@ export default function TeamCompPage() {
       className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <div className="space-y-2 md:col-span-12">
-        <Header
-          id="teamcomp-header"
-          eyebrow="Comps"
-          heading="Team Comps Today"
-          subtitle="Readable. Fast. On brand."
-          icon={<Users2 className="opacity-80" />}
-          tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
+      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4 md:col-span-12">
+        <span aria-hidden className="hero2-beams" />
+        <span aria-hidden className="hero2-scanlines" />
+        <span aria-hidden className="hero2-noise" />
+
+        <div className="relative z-[2] space-y-2">
+          <Header
+            id="teamcomp-header"
+            eyebrow="Comps"
+            heading="Team Comps Today"
+            subtitle="Readable. Fast. On brand."
+            icon={<Users2 className="opacity-80" />}
+            tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
+          />
+          {hero}
+        </div>
+
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
         />
-        {hero}
       </div>
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
