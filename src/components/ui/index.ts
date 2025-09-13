@@ -25,6 +25,7 @@ export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
 export { default as Hero } from "./layout/Hero";
 export * from "./layout/Hero";
+export * from "./layout/NeomorphicFrameStyles";
 export { default as NeomorphicHeroFrame } from "./layout/NeomorphicHeroFrame";
 export * from "./layout/NeomorphicHeroFrame";
 export { default as PageHeader } from "./layout/PageHeader";
