@@ -34,33 +34,49 @@ function HomePageContent() {
         aria-label="Intro"
         className="relative grid grid-cols-12 gap-[var(--spacing-4)]"
       >
-        <div className="col-span-12 sticky top-0">
-          <Header
-            id="home-header"
-            heading="Welcome to Planner"
-            subtitle="Plan your day, track goals, and review games."
-            icon={<Home className="opacity-80" />}
-          />
-        </div>
         <div className="col-span-12">
-          <Hero
-            topClassName="top-[var(--header-stack)]"
-            heading="Your day at a glance"
-            actions={
-              <>
-                <ThemeToggle className="shrink-0" />
-                <Link href="/planner">
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    className="px-[var(--spacing-4)] whitespace-nowrap"
-                  >
-                    Plan Week
-                  </Button>
-                </Link>
-              </>
-            }
-          />
+          <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
+            <span aria-hidden className="hero2-beams" />
+            <span aria-hidden className="hero2-scanlines" />
+            <span aria-hidden className="hero2-noise" />
+
+            <div className="relative z-[2] grid grid-cols-12 gap-[var(--spacing-4)]">
+              <div className="col-span-12 sticky top-0">
+                <Header
+                  id="home-header"
+                  heading="Welcome to Planner"
+                  subtitle="Plan your day, track goals, and review games."
+                  icon={<Home className="opacity-80" />}
+                />
+              </div>
+              <div className="col-span-12">
+                <Hero
+                  frame={false}
+                  topClassName="top-[var(--header-stack)]"
+                  heading="Your day at a glance"
+                  actions={
+                    <>
+                      <ThemeToggle className="shrink-0" />
+                      <Link href="/planner">
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          className="px-[var(--spacing-4)] whitespace-nowrap"
+                        >
+                          Plan Week
+                        </Button>
+                      </Link>
+                    </>
+                  }
+                />
+              </div>
+            </div>
+
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
+            />
+          </div>
         </div>
       </section>
       <div className="grid gap-4 md:grid-cols-12 items-start">
