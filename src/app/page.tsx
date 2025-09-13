@@ -13,9 +13,13 @@ import {
   BottomNav,
   IsometricRoom,
 } from "@/components/home";
-import Hero from "@/components/ui/layout/Hero";
-import Header from "@/components/ui/layout/Header";
-import { Button, Spinner, ThemeToggle } from "@/components/ui";
+import {
+  Button,
+  Spinner,
+  ThemeToggle,
+  Header,
+  Hero,
+} from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
