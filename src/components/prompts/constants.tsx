@@ -60,7 +60,7 @@ import {
   TimerRing,
   TimerTab,
 } from "@/components/goals";
-import { ProgressRingIcon, TimerRingIcon, HornedGirlIcon } from "@/icons";
+import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import { Plus } from "lucide-react";
 
 export type View = "components" | "colors" | "onboarding";
@@ -948,13 +948,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <CatCompanion />,
       tags: ["cat", "companion"],
       code: `<CatCompanion />`,
-    },
-    {
-      id: "horned-girl-icon",
-      name: "HornedGirlIcon",
-      element: <HornedGirlIcon />,
-      tags: ["icon", "avatar"],
-      code: `<HornedGirlIcon />`,
     },
   ],
 };

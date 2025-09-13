@@ -4,7 +4,6 @@ import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
 import Link from "next/link";
-import { HornedGirlIcon } from "@/icons";
 import {
   QuickActions,
   TodayCard,
@@ -40,12 +39,7 @@ function HomePageContent() {
               id: "home-header",
               heading: "Welcome to Planner",
               subtitle: "Plan your day, track goals, and review games.",
-              icon: (
-                <>
-                  <Home className="opacity-80" />
-                  <HornedGirlIcon className="ml-1 h-6 w-6 opacity-80" />
-                </>
-              ),
+              icon: <Home className="opacity-80" />,
             }}
             hero={{
               heading: "Your day at a glance",
