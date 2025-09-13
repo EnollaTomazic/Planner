@@ -158,9 +158,9 @@ export default function GoalsPage() {
     <main
       id="goals-main"
       aria-labelledby="goals-header"
-      className="page-shell py-6"
+      className="page-shell grid grid-cols-12 gap-4 py-6"
     >
-      <div className="grid gap-6">
+      <div className="col-span-12 grid gap-6">
         {/* ======= HEADER ======= */}
         <Header
           id="goals-header"
@@ -189,7 +189,7 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <div className="grid gap-4">
-              <div className="space-y-[var(--spacing-2)]">
+              <div className="space-y-2">
                 <Hero
                   eyebrow="Guide"
                   heading="Overview"
@@ -212,7 +212,9 @@ export default function GoalsPage() {
                       className="flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2 sm:gap-4">
-                        <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
+                        <h2 className="text-title font-semibold tracking-[-0.01em]">
+                          Your Goals
+                        </h2>
                         <GoalsProgress total={totalCount} pct={pctDone} />
                       </div>
                       <GoalsTabs value={filter} onChange={setFilter} />

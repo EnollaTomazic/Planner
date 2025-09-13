@@ -13,10 +13,10 @@ export default function NotFound() {
 
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
+      className="grid min-h-screen grid-cols-12 gap-4 place-content-center p-6 text-center"
       aria-labelledby={headerId}
     >
-      <div className="space-y-[var(--spacing-2)]">
+      <div className="col-span-12 space-y-2">
         <Header
           id={headerId}
           heading="Page not found"

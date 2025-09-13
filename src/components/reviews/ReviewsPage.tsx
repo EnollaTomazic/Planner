@@ -90,10 +90,10 @@ export default function ReviewsPage({
 
   return (
     <main
-      className="page-shell p-[var(--spacing-6)] space-y-[var(--spacing-6)]"
+      className="page-shell grid grid-cols-12 gap-4 p-[var(--spacing-6)]"
       aria-labelledby="reviews-header"
     >
-      <div className="space-y-[var(--spacing-2)]">
+      <div className="col-span-12 space-y-2">
         <Header
           id="reviews-header"
           heading="Reviews"
@@ -149,7 +149,7 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-[var(--spacing-6)] md:grid-cols-12",
+          "col-span-12 grid grid-cols-1 items-start gap-[var(--spacing-6)] md:grid-cols-12",
         )}
       >
         <nav aria-label="Review list" className="md:col-span-4">
