@@ -7,6 +7,7 @@ import {
   SegmentedButton,
   Badge,
   Card,
+  NeoCard,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -204,6 +205,19 @@ function CardDemo() {
         <Button size="sm">Action</Button>
       </CardFooter>
     </Card>
+  );
+}
+
+function NeoCardDemo() {
+  return (
+    <NeoCard
+      className="p-4"
+      overlay={
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />
+      }
+    >
+      <p className="text-sm">Body</p>
+    </NeoCard>
   );
 }
 
@@ -614,6 +628,18 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     <Button size="sm">Action</Button>
   </CardFooter>
 </Card>`,
+    },
+    {
+      id: "neo-card-demo",
+      name: "NeoCard",
+      element: <NeoCardDemo />,
+      tags: ["card", "overlay", "layout"],
+      code: `<NeoCard
+  className="p-4"
+  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
+>
+  <p className="text-sm">Body</p>
+</NeoCard>`,
     },
     {
       id: "sheet-demo",
