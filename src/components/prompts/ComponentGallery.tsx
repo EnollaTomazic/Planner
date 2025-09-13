@@ -10,6 +10,8 @@ import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
+  TabSelector,
+  SegmentedButtons,
   Progress,
   Spinner,
   ThemeToggle,
@@ -112,6 +114,8 @@ export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
   const [seg, setSeg] = React.useState("one");
+  const [tabSel, setTabSel] = React.useState("one");
+  const [segButtons, setSegButtons] = React.useState("all");
   const [checked, setChecked] = React.useState(false);
   const [toggleSide, setToggleSide] = React.useState<"Left" | "Right">("Left");
   const [side, setSide] = React.useState<GameSide>("Blue");
@@ -187,13 +191,43 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "Tab Selector",
+        element: (
+          <TabSelector
+            tabs={[
+              { key: "reviews", label: "Reviews" },
+              { key: "planner", label: "Planner" },
+              { key: "goals", label: "Goals" },
+            ]}
+            value={tabSel}
+            onValueChange={setTabSel}
+            className="w-56"
+          />
+        ),
+      },
+      {
+        label: "Segmented Buttons",
+        element: (
+          <SegmentedButtons
+            items={[
+              { key: "all", label: "All" },
+              { key: "active", label: "Active" },
+              { key: "done", label: "Done" },
+            ]}
+            value={segButtons}
+            onValueChange={setSegButtons}
+            className="w-56"
+          />
+        ),
+      },
+      {
         label: "SideSelector",
         element: (
           <SideSelector value={side} onChange={setSide} className="w-56" />
         ),
       },
     ],
-    [seg, checked, toggleSide, side],
+    [seg, tabSel, segButtons, checked, toggleSide, side],
   );
 
   const inputItems = React.useMemo(
