@@ -2196,6 +2196,15 @@ a:active .lucide {
     }
   }
 
+  @keyframes cat-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
   @keyframes room-glitch {
     0% {
       background-position: 0 0;
