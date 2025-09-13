@@ -185,6 +185,21 @@ exports[`ReviewsPage > renders default state 1`] = `
         }
       }
 
+      /* === Neomorphic frame ============================================ */
+      .hero2-neomorph {
+        background: linear-gradient(
+          145deg,
+          hsl(var(--card)),
+          hsl(var(--panel))
+        );
+        box-shadow:
+          inset var(--space-1) var(--space-1) var(--space-2)
+            hsl(var(--background) / 0.55),
+          inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+            var(--space-2) hsl(var(--highlight) / 0.05),
+          0 0 var(--space-4) hsl(var(--ring) / 0.25);
+      }
+
       /* === Glitch title ================================================== */
       .hero2-title {
         position: relative;
