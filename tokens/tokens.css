@@ -76,7 +76,7 @@
   --control-h-md: 40px;
   --control-h-lg: 44px;
   --control-h: var(--control-h-md);
-  --control-radius: var(--radius-lg);
+  --control-radius: var(--radius-xl);
   --control-fs: 0.9rem;
   --control-px: var(--spacing-3);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));

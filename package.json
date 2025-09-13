@@ -21,6 +21,7 @@
     "verify-prompts": "ts-node --esm scripts/verify-prompts.ts",
     "check-prompts": "ts-node --esm scripts/check-prompts-updated.ts",
     "design-lint": "ts-node --esm scripts/design-lint.ts",
+    "contrast-report": "ts-node --esm scripts/contrast-report.ts",
     "postinstall": "tsx scripts/regen-if-needed.ts",
     "prepare": "husky",
     "launch": "ts-node --esm scripts/launcher.ts",

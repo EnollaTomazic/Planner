@@ -76,7 +76,7 @@ export default {
   controlHMd: "40px",
   controlHLg: "44px",
   controlH: "var(--control-h-md)",
-  controlRadius: "var(--radius-lg)",
+  controlRadius: "var(--radius-xl)",
   controlFs: "0.9rem",
   controlPx: "var(--spacing-3)",
   headerStack: "calc(var(--spacing-8) + var(--spacing-4))",
