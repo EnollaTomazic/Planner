@@ -10,10 +10,28 @@ const ICON_BUTTONS = [
     title: "Add item xs",
   },
   {
+    size: "sm",
+    variant: "ring",
+    "aria-label": "Add item sm",
+    title: "Add item sm",
+  },
+  {
     size: "md",
     variant: "ring",
-    "aria-label": "Add item",
-    title: "Add item",
+    "aria-label": "Add item md",
+    title: "Add item md",
+  },
+  {
+    size: "lg",
+    variant: "ring",
+    "aria-label": "Add item lg",
+    title: "Add item lg",
+  },
+  {
+    size: "xl",
+    variant: "ring",
+    "aria-label": "Add item xl",
+    title: "Add item xl",
   },
   {
     size: "md",
@@ -22,7 +40,10 @@ const ICON_BUTTONS = [
     title: "Add item glow",
   },
 ] satisfies Array<
-  Pick<IconButtonProps, "size" | "variant"> & { "aria-label": string; title: string }
+  Pick<IconButtonProps, "size" | "variant"> & {
+    "aria-label": string;
+    title: string;
+  }
 >;
 
 export default function IconButtonShowcase() {
@@ -36,4 +57,3 @@ export default function IconButtonShowcase() {
     </div>
   );
 }
-
