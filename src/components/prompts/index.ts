@@ -11,6 +11,7 @@ export { default as GoalListDemo } from "./GoalListDemo";
 export { default as IconButtonShowcase } from "./IconButtonShowcase";
 export { default as OnboardingTabs } from "./OnboardingTabs";
 export { default as OutlineGlowDemo } from "./OutlineGlowDemo";
+export { default as PageHeaderDemo } from "./PageHeaderDemo";
 export { default as PromptList } from "./PromptList";
 export * from "./PromptList";
 export { default as PromptsComposePanel } from "./PromptsComposePanel";
