@@ -35,15 +35,15 @@ export default function PageHeader({
     <NeomorphicHeroFrame
       {...frameProps}
       className={cn(
-        "rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8",
+        "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
         className,
       )}
     >
       <div className="relative z-[2] space-y-4">
-        <Header {...header} />
+        <Header {...header} underline={header.underline ?? false} />
         <Hero
           {...hero}
-          frame={hero.frame ?? false}
+          frame={hero.frame ?? true}
           topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
         />
       </div>

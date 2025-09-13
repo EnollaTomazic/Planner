@@ -360,9 +360,29 @@ html.theme-aurora body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed;
 }
-html.theme-aurora body::before,
 html.theme-aurora body::after {
   content: none;
+}
+
+html.theme-aurora body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    hsl(var(--aurora-g) / 0.4),
+    hsl(var(--aurora-p) / 0.4),
+    hsl(var(--aurora-g) / 0.4)
+  );
+  filter: blur(calc(var(--space-8) * 2)) saturate(150%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-aurora body::before {
+    animation: aurora-spin 30s linear infinite;
+  }
 }
 
 /* Citrus backdrop */
@@ -845,6 +865,12 @@ html.bg-streak body::after {
   100% {
     transform: translate3d(2%, 1%, 0) scale(1.02);
     opacity: 0.95;
+  }
+}
+
+@keyframes aurora-spin {
+  to {
+    transform: rotate(1turn);
   }
 }
 
