@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Header,
-  Hero,
-  Button,
-  IconButton,
-  NeomorphicHeroFrame,
-} from "@/components/ui";
+import { PageHeader, Button, IconButton } from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -77,57 +71,54 @@ function PageContent() {
       className="page-shell py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
-      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4">
-        <div className="relative z-[2] space-y-6">
-          <Header
-            id="prompts-header"
-            heading="Prompts Playground"
-            subtitle="Explore components and tokens"
-            icon={<Sparkles className="opacity-80" />}
-            tabs={{
-              items: VIEW_TABS,
-              value: view,
-              onChange: (k) => setView(k as View),
-            }}
-          />
-          <Hero
-            frame={false}
-            topClassName="top-[var(--header-stack)]"
-            heading={
-              view === "components"
-                ? "Components"
-                : view === "colors"
-                  ? "Colors"
-                  : "Onboarding"
-            }
-            {...(view === "components"
-              ? {
-                  subTabs: {
-                    items: SECTION_TABS,
-                    value: section,
-                    onChange: (k: string) => setSection(k as Section),
-                  },
-                }
-              : {})}
-            search={{
-              id: "playground-search",
-              value: query,
-              onValueChange: setQuery,
-              debounceMs: 300,
-              round: true,
-              "aria-label": "Search components",
-            }}
-            actions={
-              <div className="flex items-center gap-2">
-                <Button size="sm">Action</Button>
-                <IconButton size="sm" aria-label="Add">
-                  <Plus />
-                </IconButton>
-              </div>
-            }
-          />
-        </div>
-      </NeomorphicHeroFrame>
+      <PageHeader
+        className="sticky top-0"
+        header={{
+          id: "prompts-header",
+          heading: "Prompts Playground",
+          subtitle: "Explore components and tokens",
+          icon: <Sparkles className="opacity-80" />,
+          tabs: {
+            items: VIEW_TABS,
+            value: view,
+            onChange: (k) => setView(k as View),
+          },
+        }}
+        hero={{
+          frame: false,
+          heading:
+            view === "components"
+              ? "Components"
+              : view === "colors"
+                ? "Colors"
+                : "Onboarding",
+          ...(view === "components"
+            ? {
+                subTabs: {
+                  items: SECTION_TABS,
+                  value: section,
+                  onChange: (k: string) => setSection(k as Section),
+                },
+              }
+            : {}),
+          search: {
+            id: "playground-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 300,
+            round: true,
+            "aria-label": "Search components",
+          },
+          actions: (
+            <div className="flex items-center gap-2">
+              <Button size="sm">Action</Button>
+              <IconButton size="sm" aria-label="Add">
+                <Plus />
+              </IconButton>
+            </div>
+          ),
+        }}
+      />
       <section className="grid gap-6 lg:grid-cols-1">
         <div className="space-y-6 lg:col-span-full">
           <div>
