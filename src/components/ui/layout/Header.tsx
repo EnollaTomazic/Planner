@@ -11,7 +11,7 @@
  */
 
 import * as React from "react";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import TabSelector from "@/components/ui/TabSelector";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -128,11 +128,13 @@ export default function Header<Key extends string = string>({
         {/* Right slot / tabs */}
         {tabs ? (
           <div className="ml-auto shrink-0">
-            <TabsNav
-              items={tabs.items}
+            <TabSelector
+              tabs={tabs.items}
               value={tabs.value}
-              onChange={tabs.onChange}
+              onValueChange={tabs.onChange}
               ariaLabel={tabs.ariaLabel}
+              align="end"
+              size="sm"
             />
           </div>
         ) : right ? (
@@ -152,77 +154,6 @@ export default function Header<Key extends string = string>({
   );
 }
 
-/* ================= Tabs helper ================= */
-
-function TabsNav<Key extends string = string>({
-  items,
-  value,
-  onChange,
-  ariaLabel,
-}: HeaderTabsProps<Key>) {
-  const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
-  const setBtnRef = React.useCallback(
-    (index: number) => (el: HTMLButtonElement | null) => {
-      btnRefs.current[index] = el;
-    },
-    [],
-  );
-
-  function onKeyDown(e: React.KeyboardEvent) {
-    const idx = items.findIndex((t) => t.key === value);
-    if (idx < 0) return;
-    if (e.key === "ArrowRight") {
-      const next = (idx + 1) % items.length;
-      onChange(items[next].key);
-      btnRefs.current[next]?.focus();
-      e.preventDefault();
-    } else if (e.key === "ArrowLeft") {
-      const prev = (idx - 1 + items.length) % items.length;
-      onChange(items[prev].key);
-      btnRefs.current[prev]?.focus();
-      e.preventDefault();
-    } else if (e.key === "Home") {
-      onChange(items[0].key);
-      btnRefs.current[0]?.focus();
-      e.preventDefault();
-    } else if (e.key === "End") {
-      onChange(items[items.length - 1].key);
-      btnRefs.current[items.length - 1]?.focus();
-      e.preventDefault();
-    }
-  }
-
-  return (
-    <nav
-      role="tablist"
-      aria-label={ariaLabel ?? "Page sections"}
-      className="flex items-center gap-1 sm:gap-2"
-      onKeyDown={onKeyDown}
-    >
-      {items.map((t, i) => {
-        const active = value === t.key;
-        return (
-          <SegmentedButton
-            key={t.key}
-            ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
-            role="tab"
-            aria-selected={active}
-            aria-controls={`${t.key}-panel`}
-            id={`${t.key}-tab`}
-            title={t.hint}
-            onClick={() => onChange(t.key)}
-            className="h-8 sm:h-9 text-label sm:text-ui font-medium tracking-[0.02em] px-3 focus-visible:ghost-2 focus-visible:ghost-ghost"
-            isActive={active}
-          >
-            {t.icon}
-            {t.label}
-          </SegmentedButton>
-        );
-      })}
-    </nav>
-  );
-}
-
 /** @deprecated Use the `tabs` prop on `Header` instead. */
 export function HeaderTabs<Key extends string = string>({
   tabs,
@@ -236,11 +167,13 @@ export function HeaderTabs<Key extends string = string>({
   ariaLabel?: string;
 }) {
   return (
-    <TabsNav
-      items={tabs}
+    <TabSelector
+      tabs={tabs}
       value={activeKey}
-      onChange={onChange}
+      onValueChange={onChange}
       ariaLabel={ariaLabel}
+      align="end"
+      size="sm"
     />
   );
 }
