@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AlertCircle } from "lucide-react";
-import { Button, Header, Hero } from "@/components/ui";
+import {
+  Button,
+  Header,
+  Hero,
+  NeomorphicHeroFrame,
+} from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
@@ -16,11 +21,7 @@ export default function NotFound() {
       className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
       aria-labelledby={headerId}
     >
-      <div className="hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
-
+      <NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
         <div className="relative z-[2] space-y-2">
           <Header
             id={headerId}
@@ -41,12 +42,7 @@ export default function NotFound() {
             </p>
           </Hero>
         </div>
-
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-        />
-      </div>
+      </NeomorphicHeroFrame>
     </main>
   );
 }

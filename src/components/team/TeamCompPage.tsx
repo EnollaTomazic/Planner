@@ -31,6 +31,7 @@ import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
+import { NeomorphicHeroFrame } from "@/components/ui";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -323,11 +324,7 @@ export default function TeamCompPage() {
       className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4 md:col-span-12">
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
-
+      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12">
         <div className="relative z-[2] space-y-2">
           <Header
             id="teamcomp-header"
@@ -339,12 +336,7 @@ export default function TeamCompPage() {
           />
           {hero}
         </div>
-
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-        />
-      </div>
+      </NeomorphicHeroFrame>
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
         {TABS.map((t) => (

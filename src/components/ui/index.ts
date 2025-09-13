@@ -21,6 +21,8 @@ export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
 export { default as Hero } from "./layout/Hero";
 export * from "./layout/Hero";
+export { default as NeomorphicHeroFrame } from "./layout/NeomorphicHeroFrame";
+export * from "./layout/NeomorphicHeroFrame";
 export { default as SectionCard } from "./layout/SectionCard";
 export * from "./layout/SectionCard";
 export { default as Split } from "./layout/Split";

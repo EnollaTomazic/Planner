@@ -30,6 +30,7 @@ import {
   PillarSelector,
   Header,
   Hero,
+  NeomorphicHeroFrame,
   SectionCard as UiSectionCard,
   type HeaderTab,
 } from "@/components/ui";
@@ -574,6 +575,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <HeroDemo />,
       tags: ["hero"],
       code: `<Hero heading="Hero" subTabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }} search={{ id: "hero-demo-search", value: "", onValueChange: () => {}, round: true, "aria-label": "Search" }} actions={<div className="flex items-center gap-2"><Button size="sm">Action</Button><IconButton size="sm" aria-label="Add"><Plus /></IconButton></div>} sticky={false} topClassName="top-0" />`,
+    },
+    {
+      id: "neomorphic-hero-frame",
+      name: "NeomorphicHeroFrame",
+      description: "HUD-style frame shell",
+      element: (
+        <NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
+          <div className="relative z-[2] text-sm">Content</div>
+        </NeomorphicHeroFrame>
+      ),
+      tags: ["hero", "layout"],
+      code: `<NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
+  <div className="relative z-[2]">Content</div>
+</NeomorphicHeroFrame>`,
     },
     {
       id: "welcome-card-demo",
