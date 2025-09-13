@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   Button,
-  IconButton,
   Input,
   Textarea,
   Select,
@@ -53,15 +52,10 @@ import {
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
-import {
-  Search as SearchIcon,
-  Star,
-  Plus,
-  Sun,
-  Check as CheckIcon,
-} from "lucide-react";
+import { Star, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
+import IconButtonShowcase from "./IconButtonShowcase";
 
 type View = "buttons" | "inputs" | "prompts" | "planner" | "misc";
 
@@ -131,37 +125,7 @@ export default function ComponentGallery() {
       { label: "Button", element: <Button className="w-56">Click me</Button> },
       {
         label: "IconButton",
-        element: (
-          <div className="flex gap-2">
-            <IconButton
-              variant="ring"
-              size="md"
-              aria-label="Search"
-              title="Search"
-            >
-              <SearchIcon />
-            </IconButton>
-            <IconButton
-              variant="glow"
-              size="md"
-              aria-label="Search"
-              title="Search"
-            >
-              <SearchIcon />
-            </IconButton>
-            <IconButton size="sm" aria-label="Confirm" title="Confirm">
-              <CheckIcon />
-            </IconButton>
-          </div>
-        ),
-      },
-      {
-        label: "IconButton Glow",
-        element: (
-          <IconButton variant="glow" size="md" aria-label="Star" title="Star">
-            <Star />
-          </IconButton>
-        ),
+        element: <IconButtonShowcase />,
       },
       {
         label: "Segmented",
@@ -226,29 +190,6 @@ export default function ComponentGallery() {
         label: "SideSelector",
         element: (
           <SideSelector value={side} onChange={setSide} className="w-56" />
-        ),
-      },
-      {
-        label: "Icon Button",
-        element: (
-          <div className="w-56 flex justify-center gap-2">
-            <IconButton size="xs" aria-label="Add" title="Add">
-              <Plus />
-            </IconButton>
-            <IconButton aria-label="Add" title="Add">
-              <Plus />
-            </IconButton>
-            <IconButton
-              size="lg"
-              aria-label="Toggle theme"
-              title="Toggle theme"
-            >
-              <Sun />
-            </IconButton>
-            <IconButton size="xl" aria-label="Search" title="Search">
-              <SearchIcon />
-            </IconButton>
-          </div>
         ),
       },
     ],
@@ -705,7 +646,11 @@ export default function ComponentGallery() {
       },
       {
         label: "Glitch Text",
-        element: <div className="glitch text-title font-semibold tracking-[-0.01em]">Glitch</div>,
+        element: (
+          <div className="glitch text-title font-semibold tracking-[-0.01em]">
+            Glitch
+          </div>
+        ),
       },
       {
         label: "Aurora Background",
@@ -788,7 +733,9 @@ export default function ComponentGallery() {
               search={{ value: "", onValueChange: () => {}, round: true }}
               actions={<Button size="sm">Action</Button>}
             >
-              <div className="text-ui font-medium text-muted-foreground">Body</div>
+              <div className="text-ui font-medium text-muted-foreground">
+                Body
+              </div>
             </Hero>
           </div>
         ),
@@ -815,7 +762,10 @@ export default function ComponentGallery() {
         label: "Save Status",
         element: (
           <div className="w-56">
-            <div className="text-label font-medium tracking-[0.02em] text-muted-foreground" aria-live="polite">
+            <div
+              className="text-label font-medium tracking-[0.02em] text-muted-foreground"
+              aria-live="polite"
+            >
               All changes saved
             </div>
           </div>

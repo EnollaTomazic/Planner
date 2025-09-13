@@ -42,11 +42,11 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&_svg]:size-4"],
-    ["sm", "[&_svg]:size-5"],
-    ["md", "[&_svg]:size-6"],
-    ["lg", "[&_svg]:size-7"],
-    ["xl", "[&_svg]:size-8"],
+    ["xs", "[&_svg]:size-3"],
+    ["sm", "[&_svg]:size-4"],
+    ["md", "[&_svg]:size-5"],
+    ["lg", "[&_svg]:size-6"],
+    ["xl", "[&_svg]:size-7"],
   ] as const;
 
   iconCases.forEach(([iconSize, cls]) => {
@@ -65,6 +65,25 @@ describe("IconButton", () => {
           <span>
             <svg />
           </span>
+        </IconButton>,
+      );
+      expect(getByRole("button").className).toContain(cls);
+    });
+  });
+
+  const defaultIconCases = [
+    ["xs", "[&_svg]:size-3"],
+    ["sm", "[&_svg]:size-3"],
+    ["md", "[&_svg]:size-4"],
+    ["lg", "[&_svg]:size-5"],
+    ["xl", "[&_svg]:size-6"],
+  ] as const;
+
+  defaultIconCases.forEach(([size, cls]) => {
+    it(`defaults to ${cls} for ${size} button`, () => {
+      const { getByRole } = render(
+        <IconButton size={size} aria-label={size}>
+          <svg />
         </IconButton>,
       );
       expect(getByRole("button").className).toContain(cls);

@@ -24,11 +24,18 @@ export type IconButtonProps = React.ComponentProps<typeof motion.button> & {
 };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&_svg]:size-4",
-  sm: "[&_svg]:size-5",
-  md: "[&_svg]:size-6",
-  lg: "[&_svg]:size-7",
-  xl: "[&_svg]:size-8",
+  xs: "[&_svg]:size-3",
+  sm: "[&_svg]:size-4",
+  md: "[&_svg]:size-5",
+  lg: "[&_svg]:size-6",
+  xl: "[&_svg]:size-7",
+};
+const defaultIcon: Record<IconButtonSize, Icon> = {
+  xs: "xs",
+  sm: "xs",
+  md: "sm",
+  lg: "md",
+  xl: "lg",
 };
 const getSizeClass = (s: IconButtonSize) => {
   const sizeMap: Record<IconButtonSize, string> = {
@@ -75,7 +82,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       size = "md",
-      iconSize = size as Icon,
+      iconSize,
       className,
       tone = "primary",
       variant = "ring",
@@ -87,6 +94,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     const reduceMotion = useReducedMotion();
     const sizeClass = getSizeClass(size);
+    const appliedIconSize = iconSize ?? defaultIcon[size];
     return (
       <motion.button
         ref={ref}
@@ -96,7 +104,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           variantBase[variant],
           toneClasses[variant][tone],
           sizeClass,
-          iconMap[iconSize],
+          iconMap[appliedIconSize],
           className,
         )}
         data-loading={loading}
