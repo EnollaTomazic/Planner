@@ -13,6 +13,8 @@ type Props = {
   renameTask: (id: string, title: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
+  addTaskImage: (id: string, url: string) => void;
+  removeTaskImage: (id: string, url: string) => void;
   setSelectedTaskId: (id: string) => void;
 };
 
@@ -23,6 +25,8 @@ export default function TaskList({
   renameTask,
   toggleTask,
   deleteTask,
+  addTaskImage,
+  removeTaskImage,
   setSelectedTaskId,
 }: Props) {
   const [draftTask, setDraftTask] = React.useState("");
@@ -80,6 +84,8 @@ export default function TaskList({
                 }}
                 onEdit={(title) => renameTask(t.id, title)}
                 onSelect={() => setSelectedTaskId(t.id)}
+                onAddImage={(url) => addTaskImage(t.id, url)}
+                onRemoveImage={(url) => removeTaskImage(t.id, url)}
               />
             ))}
           </ul>

@@ -31,6 +31,8 @@ export function useDay(iso: ISODate) {
     renameTask: crud.renameTask,
     deleteTask: crud.removeTask,
     toggleTask: crud.toggleTask,
+    addTaskImage: crud.addTaskImage,
+    removeTaskImage: crud.removeTaskImage,
     doneTasks,
     totalTasks,
   } as const;

@@ -14,6 +14,8 @@ type Props = {
   onDelete: () => void;
   onEdit: (title: string) => void;
   onSelect: () => void;
+  onAddImage: (url: string) => void;
+  onRemoveImage: (url: string) => void;
 };
 
 export default function TaskRow({
@@ -22,9 +24,12 @@ export default function TaskRow({
   onDelete,
   onEdit,
   onSelect,
+  onAddImage,
+  onRemoveImage,
 }: Props) {
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
+  const [imageUrl, setImageUrl] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -42,6 +47,13 @@ export default function TaskRow({
   function cancel() {
     setEditing(false);
     setTitle(task.title);
+  }
+
+  function addImage() {
+    const v = imageUrl.trim();
+    if (!v) return;
+    onAddImage(v);
+    setImageUrl("");
   }
 
   return (
@@ -141,6 +153,47 @@ export default function TaskRow({
           </IconButton>
         </div>
       </div>
+      {task.images.length > 0 && (
+        <ul className="mt-2 space-y-2">
+          {task.images.map((url) => (
+            <li key={url} className="flex items-center gap-2">
+              <img
+                src={url}
+                alt={`Image for ${task.title}`}
+                className="max-h-24 rounded-card r-card-md"
+              />
+              <IconButton
+                aria-label="Remove image"
+                title="Remove image"
+                onClick={() => onRemoveImage(url)}
+                size="sm"
+                iconSize="xs"
+                variant="ring"
+              >
+                <Trash2 />
+              </IconButton>
+            </li>
+          ))}
+        </ul>
+      )}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addImage();
+        }}
+        className="mt-2"
+      >
+        <label htmlFor={`task-image-${task.id}`} className="sr-only">
+          Add image URL
+        </label>
+        <Input
+          id={`task-image-${task.id}`}
+          type="url"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="https://example.com/image.jpg"
+        />
+      </form>
     </li>
   );
 }

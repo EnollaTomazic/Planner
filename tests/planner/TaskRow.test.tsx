@@ -14,16 +14,19 @@ describe("TaskRow", () => {
           title: "Test task",
           done: false,
           createdAt: Date.now(),
+          images: [],
         }}
         onToggle={noop}
         onDelete={noop}
         onEdit={noop}
         onSelect={noop}
+        onAddImage={noop}
+        onRemoveImage={noop}
       />,
     );
     const textButton = screen.getByRole("button", { name: "Test task" });
     fireEvent.doubleClick(textButton);
-    const input = screen.getByRole("textbox");
+    const input = screen.getAllByRole("textbox")[0];
     await waitFor(() => {
       expect(input).toHaveFocus();
     });
@@ -40,11 +43,14 @@ describe("TaskRow", () => {
           title: "Test task",
           done: false,
           createdAt: Date.now(),
+          images: [],
         }}
         onToggle={onToggle}
         onDelete={onDelete}
         onEdit={noop}
         onSelect={onSelect}
+        onAddImage={noop}
+        onRemoveImage={noop}
       />,
     );
     fireEvent.click(screen.getAllByLabelText("Toggle task done")[0]);
@@ -52,4 +58,31 @@ describe("TaskRow", () => {
     fireEvent.click(screen.getAllByLabelText("Delete task")[0]);
     expect(onSelect).not.toHaveBeenCalled();
   });
+
+  it("renders images and supports add/remove", () => {
+    const onAddImage = vi.fn();
+    const onRemoveImage = vi.fn();
+    render(
+      <TaskRow
+        task={{
+          id: "1",
+          title: "With image",
+          done: false,
+          createdAt: Date.now(),
+          images: ["https://example.com/a.jpg"],
+        }}
+        onToggle={noop}
+        onDelete={noop}
+        onEdit={noop}
+        onSelect={noop}
+        onAddImage={onAddImage}
+        onRemoveImage={onRemoveImage}
+      />,
+    );
+    const img = screen.getByRole("img", { name: /image for with image/i });
+    expect(img).toBeInTheDocument();
+    fireEvent.click(screen.getAllByLabelText("Remove image")[0]);
+    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg");
+  });
+
 });

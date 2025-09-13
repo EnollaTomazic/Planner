@@ -20,6 +20,7 @@ export type DayTask = {
   done: boolean;
   projectId?: string;
   createdAt: number;
+  images: string[];
 };
 
 export type DayRecord = {
@@ -40,7 +41,13 @@ export function todayISO(): ISODate {
 }
 
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
-  return map[date] ?? { projects: [], tasks: [], tasksByProject: {} };
+  const existing = map[date];
+  if (!existing) return { projects: [], tasks: [], tasksByProject: {} };
+  if (existing.tasks.every((t) => Array.isArray(t.images))) return existing;
+  return {
+    ...existing,
+    tasks: existing.tasks.map((t) => ({ ...t, images: t.images ?? [] })),
+  };
 }
 type DaysState = {
   days: Record<ISODate, DayRecord>;

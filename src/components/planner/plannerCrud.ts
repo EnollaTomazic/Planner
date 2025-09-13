@@ -8,6 +8,8 @@ import {
   renameTask as dayRenameTask,
   toggleTask as dayToggleTask,
   removeTask as dayRemoveTask,
+  addTaskImage as dayAddTaskImage,
+  removeTaskImage as dayRemoveTaskImage,
 } from "./dayCrud";
 import type { ISODate, DayRecord } from "./plannerStore";
 
@@ -75,6 +77,12 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
       return next;
     });
 
+  const addTaskImage = (id: string, url: string) =>
+    upsertDay(iso, (d) => dayAddTaskImage(d, id, url));
+
+  const removeTaskImage = (id: string, url: string) =>
+    upsertDay(iso, (d) => dayRemoveTaskImage(d, id, url));
+
   const setNotes = (notes: string) => upsertDay(iso, (d) => ({ ...d, notes }));
 
   return {
@@ -86,6 +94,8 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     renameTask,
     toggleTask,
     removeTask,
+    addTaskImage,
+    removeTaskImage,
     setNotes,
   } as const;
 }

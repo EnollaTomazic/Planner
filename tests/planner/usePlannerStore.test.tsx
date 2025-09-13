@@ -44,6 +44,23 @@ describe("usePlannerStore", () => {
     });
     expect(result.current.day.tasks).toHaveLength(1);
 
+    act(() => {
+      result.current.planner.addTaskImage(
+        taskId,
+        "https://example.com/a.jpg",
+      );
+    });
+    expect(result.current.day.tasks[0].images[0]).toBe(
+      "https://example.com/a.jpg",
+    );
+    act(() => {
+      result.current.planner.removeTaskImage(
+        taskId,
+        "https://example.com/a.jpg",
+      );
+    });
+    expect(result.current.day.tasks[0].images).toHaveLength(0);
+
     act(() => result.current.planner.renameTask(taskId, "Task renamed"));
     expect(result.current.day.tasks[0].title).toBe("Task renamed");
 
