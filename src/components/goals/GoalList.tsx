@@ -123,7 +123,7 @@ export default function GoalList({
                           aria-label={g.done ? "Mark active" : "Mark done"}
                           checked={g.done}
                           onChange={() => onToggleDone(g.id)}
-                          size="lg"
+                          size="sm"
                           className="transition-transform shadow-ring hover:-translate-y-0.5 hover:shadow-ring [--ring:var(--accent)]"
                         />
                         <IconButton
