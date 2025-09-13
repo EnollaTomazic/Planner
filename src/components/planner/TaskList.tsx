@@ -31,25 +31,30 @@ export default function TaskList({
     [tasks, selectedProjectId],
   );
 
-  const addTaskCommit = React.useCallback(() => {
-    const v = draftTask.trim();
-    if (!v || !selectedProjectId) return;
-    const id = addTask(v, selectedProjectId);
-    setDraftTask("");
-    if (id) setSelectedTaskId(id);
-  }, [draftTask, selectedProjectId, addTask, setSelectedTaskId]);
+  const onSubmit = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const v = draftTask.trim();
+      if (!v || !selectedProjectId) return;
+      const id = addTask(v, selectedProjectId);
+      setDraftTask("");
+      if (id) setSelectedTaskId(id);
+    },
+    [draftTask, selectedProjectId, addTask, setSelectedTaskId],
+  );
 
   return (
     <div className="flex flex-col gap-3 min-w-0">
       {selectedProjectId && (
-        <Input
-          className="w-full"
-          placeholder="> add task…"
-          value={draftTask}
-          onChange={(e) => setDraftTask(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addTaskCommit()}
-          aria-label="Add task"
-        />
+        <form onSubmit={onSubmit}>
+          <Input
+            className="w-full"
+            placeholder="> add task…"
+            value={draftTask}
+            onChange={(e) => setDraftTask(e.target.value)}
+            aria-label="Add task"
+          />
+        </form>
       )}
       <div className="min-h-32 max-h-80 overflow-y-auto px-2 py-2">
         {!selectedProjectId ? (
