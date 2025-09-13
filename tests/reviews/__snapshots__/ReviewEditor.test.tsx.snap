@@ -324,7 +324,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   style="--control-h: var(--control-h-md);"
                 >
                   <input
-                    class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                     id=":r0:"
                     name="lane"
                     placeholder="Ashe/Lulu"
@@ -370,7 +370,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   style="--control-h: var(--control-h-md);"
                 >
                   <input
-                    class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                     id=":r1:"
                     name="opponent"
                     placeholder="Draven/Thresh"
@@ -1860,7 +1860,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <input
                 aria-describedby="tTime-error"
                 aria-invalid="true"
-                class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r2:"
                 inputmode="numeric"
                 name="timestamp-time"
@@ -1874,7 +1874,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--control-h: var(--control-h-md);"
             >
               <input
-                class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r3:"
                 name="timestamp-note"
                 placeholder="Quick note"
@@ -1969,7 +1969,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--control-h: var(--control-h-md);"
             >
               <input
-                class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r4:"
                 name="tag-input"
                 placeholder="Add tag and press Enter"
@@ -2028,7 +2028,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-2xl"
         >
           <textarea
-            class="block w-full max-w-full px-[var(--control-px)] py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
+            class="block w-full max-w-full px-3 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
             id=":r5:"
             name="r5"
             placeholder="Key moments, mistakes to fix, drills to run…"
