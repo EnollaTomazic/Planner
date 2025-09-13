@@ -455,7 +455,7 @@ export default function CheatSheet({
     <section
       data-scope="team"
       className={[
-        "grid gap-[var(--spacing-4)] sm:gap-[var(--spacing-6)] md:grid-cols-2 xl:grid-cols-3",
+        "grid grid-cols-12 gap-4 sm:gap-6",
         className,
       ].join(" ")}
     >
@@ -466,10 +466,8 @@ export default function CheatSheet({
           <article
             key={a.id}
             className={[
-              "group glitch-card card-neo relative h-full",
-              dense
-                ? "p-[var(--spacing-4)]"
-                : "p-[var(--spacing-5)]",
+              "group glitch-card card-neo relative h-full col-span-12 md:col-span-6 xl:col-span-4",
+              dense ? "p-4" : "p-5",
             ].join(" ")}
           >
             {/* Hover-only top-right edit/save button */}
@@ -501,7 +499,7 @@ export default function CheatSheet({
             <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
-            <header className="mb-[var(--spacing-3)]">
+            <header className="mb-3">
               <TitleEdit
                 value={a.title}
                 editing={isEditing}
@@ -515,8 +513,8 @@ export default function CheatSheet({
             </header>
 
             {/* Body */}
-            <div className="grid grid-cols-1 gap-[var(--spacing-4)]">
-              <div>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12">
                 <Label>Wins when</Label>
                 <BulletListEdit
                   items={a.wins}
@@ -527,7 +525,7 @@ export default function CheatSheet({
               </div>
 
               {a.struggles?.length || isEditing ? (
-                <div>
+                <div className="col-span-12">
                   <Label>Struggles vs</Label>
                   <BulletListEdit
                     items={a.struggles ?? []}
@@ -539,7 +537,7 @@ export default function CheatSheet({
               ) : null}
 
               {a.tips?.length || isEditing ? (
-                <div>
+                <div className="col-span-12">
                   <Label>Tips</Label>
                   <BulletListEdit
                     items={a.tips ?? []}
@@ -551,7 +549,7 @@ export default function CheatSheet({
               ) : null}
 
               {/* Examples with fixed role column */}
-              <div>
+              <div className="col-span-12">
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
                   {(["Top", "Jungle", "Mid", "Bot", "Support"] as Role[]).map(

@@ -32,7 +32,7 @@ function HomePageContent() {
         id="landing-hero"
         role="region"
         aria-label="Intro"
-        className="relative grid grid-cols-12 gap-[var(--spacing-4)]"
+        className="relative grid grid-cols-12 gap-4"
       >
         <div className="col-span-12">
           <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
@@ -40,7 +40,7 @@ function HomePageContent() {
             <span aria-hidden className="hero2-scanlines" />
             <span aria-hidden className="hero2-noise" />
 
-            <div className="relative z-[2] grid grid-cols-12 gap-[var(--spacing-4)]">
+            <div className="relative z-[2] grid grid-cols-12 gap-4">
               <div className="col-span-12 sticky top-0">
                 <Header
                   id="home-header"
@@ -61,7 +61,7 @@ function HomePageContent() {
                         <Button
                           variant="primary"
                           size="sm"
-                          className="px-[var(--spacing-4)] whitespace-nowrap"
+                          className="px-4 whitespace-nowrap"
                         >
                           Plan Week
                         </Button>
@@ -79,25 +79,25 @@ function HomePageContent() {
           </div>
         </div>
       </section>
-      <div className="grid gap-4 md:grid-cols-12 items-start">
-        <div className="md:col-span-6">
+      <div className="grid grid-cols-12 gap-4 items-start">
+        <div className="col-span-12 md:col-span-6">
           <QuickActions />
         </div>
-        <div className="md:col-span-6">
+        <div className="col-span-12 md:col-span-6">
           <IsometricRoom variant={theme.variant} />
         </div>
       </div>
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
-        <div className="md:col-span-4">
+      <section className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 md:col-span-4">
           <TodayCard />
         </div>
-        <div className="md:col-span-4">
+        <div className="col-span-12 md:col-span-4">
           <GoalsCard />
         </div>
-        <div className="md:col-span-4">
+        <div className="col-span-12 md:col-span-4">
           <ReviewsCard />
         </div>
-        <div className="md:col-span-12">
+        <div className="col-span-12">
           <TeamPromptsCard />
         </div>
       </section>

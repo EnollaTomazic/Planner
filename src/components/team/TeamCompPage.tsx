@@ -226,7 +226,7 @@ export default function TeamCompPage() {
           heading="Builder"
           subtitle="Fill allies vs enemies. Swap in one click."
           actions={
-            <div className="flex items-center gap-[var(--spacing-2)]">
+            <div className="flex items-center gap-2">
               <IconButton
                 title="Swap Allies ↔ Enemies"
                 aria-label="Swap Allies and Enemies"
@@ -275,11 +275,11 @@ export default function TeamCompPage() {
           ),
         }}
         actions={
-          <div className="flex items-center gap-[var(--spacing-2)]">
+          <div className="flex items-center gap-2">
             <Button
               variant="primary"
               size="sm"
-              className="px-[var(--spacing-4)] whitespace-nowrap"
+              className="px-4 whitespace-nowrap"
               onClick={() => clearsApi.current?.addRow("Medium")}
             >
               <Plus />
@@ -317,10 +317,10 @@ export default function TeamCompPage() {
 
   return (
     <main
-      className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
+      className="page-shell grid grid-cols-12 gap-6 md:gap-4 py-6"
       aria-labelledby="teamcomp-header"
     >
-      <div className="space-y-[var(--spacing-2)] md:col-span-12">
+      <div className="col-span-12 space-y-2">
         <Header
           id="teamcomp-header"
           eyebrow="Comps"
@@ -332,7 +332,7 @@ export default function TeamCompPage() {
         {hero}
       </div>
 
-      <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
+      <section className="grid grid-cols-12 gap-4 col-span-12">
         {TABS.map((t) => (
           <div
             key={t.key}
@@ -342,7 +342,7 @@ export default function TeamCompPage() {
             hidden={tab !== t.key}
             tabIndex={tab === t.key ? 0 : -1}
             ref={t.ref}
-            className="md:col-span-12"
+            className="col-span-12"
           >
             {tab === t.key && t.render()}
           </div>

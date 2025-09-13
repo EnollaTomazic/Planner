@@ -160,9 +160,10 @@ export default function GoalsPage() {
       aria-labelledby="goals-header"
       className="page-shell py-6"
     >
-      <div className="grid gap-6">
+      <div className="grid grid-cols-12 gap-6">
         {/* ======= HEADER ======= */}
         <Header
+          className="col-span-12"
           id="goals-header"
           eyebrow="Goals"
           heading="Today’s Goals"
@@ -186,10 +187,11 @@ export default function GoalsPage() {
           hidden={tab !== "goals"}
           tabIndex={tab === "goals" ? 0 : -1}
           ref={goalsRef}
+          className="col-span-12"
         >
           {tab === "goals" && (
-            <div className="grid gap-4">
-              <div className="space-y-[var(--spacing-2)]">
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12 space-y-2">
                 <Hero
                   eyebrow="Guide"
                   heading="Overview"
@@ -229,7 +231,7 @@ export default function GoalsPage() {
                 )}
               </div>
 
-              <div ref={formRef}>
+              <div ref={formRef} className="col-span-12">
                 <GoalForm
                   ref={titleInputRef}
                   title={title}
@@ -246,11 +248,13 @@ export default function GoalsPage() {
               </div>
 
               {lastDeleted && (
-                <Snackbar
-                  message={<>Deleted “{lastDeleted.title}”.</>}
-                  actionLabel="Undo"
-                  onAction={handleUndo}
-                />
+                <div className="col-span-12">
+                  <Snackbar
+                    message={<>Deleted “{lastDeleted.title}”.</>}
+                    actionLabel="Undo"
+                    onAction={handleUndo}
+                  />
+                </div>
               )}
             </div>
           )}
@@ -263,9 +267,13 @@ export default function GoalsPage() {
           hidden={tab !== "reminders"}
           tabIndex={tab === "reminders" ? 0 : -1}
           ref={remindersRef}
-          className="grid gap-4"
+          className="col-span-12 grid grid-cols-12 gap-4"
         >
-          {tab === "reminders" && <RemindersTab />}
+          {tab === "reminders" && (
+            <div className="col-span-12">
+              <RemindersTab />
+            </div>
+          )}
         </div>
 
         <div
@@ -275,9 +283,13 @@ export default function GoalsPage() {
           hidden={tab !== "timer"}
           tabIndex={tab === "timer" ? 0 : -1}
           ref={timerRef}
-          className="grid gap-4"
+          className="col-span-12 grid grid-cols-12 gap-4"
         >
-          {tab === "timer" && <TimerTab />}
+          {tab === "timer" && (
+            <div className="col-span-12">
+              <TimerTab />
+            </div>
+          )}
         </div>
       </div>
 

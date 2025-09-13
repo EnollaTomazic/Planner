@@ -119,7 +119,7 @@ export default function GoalSlot({
               <button
                 type="button"
                 className={cn(
-                  "absolute bottom-1 right-1 flex rounded-md bg-surface p-[var(--spacing-1)] text-foreground transition-colors hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none",
+                  "absolute bottom-1 right-1 flex rounded-md bg-surface p-1 text-foreground transition-colors hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none",
                   goal?.done && "text-success",
                 )}
                 aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
@@ -131,7 +131,7 @@ export default function GoalSlot({
               <button
                 ref={editButtonRef}
                 type="button"
-                className="absolute bottom-1 left-1 flex rounded-md bg-surface p-[var(--spacing-1)] text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
+                className="absolute bottom-1 left-1 flex rounded-md bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
                 aria-label="Edit goal"
                 onClick={startEdit}
               >
@@ -139,7 +139,7 @@ export default function GoalSlot({
               </button>
               <button
                 type="button"
-                className="absolute bottom-1 left-7 flex rounded-md bg-surface p-[var(--spacing-1)] text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
+                className="absolute bottom-1 left-7 flex rounded-md bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
                 aria-label="Delete goal"
                 onClick={() => onDelete?.(goal.id)}
               >

@@ -156,12 +156,12 @@ export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
   }));
 
   return (
-    <div data-scope="team" className="w-full mt-[var(--spacing-6)]">
+    <div data-scope="team" className="w-full mt-6">
       <SectionCard className="card-neo-soft glitch-card">
         <SectionCard.Body>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--spacing-6)]">
+          <div className="grid grid-cols-12 gap-6">
             {/* Allies */}
-            <div className="md:col-span-5">
+            <div className="col-span-12 md:col-span-5">
               <SideEditor
                 title="Allies"
                 icon={<Shield />}
@@ -175,7 +175,7 @@ export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
             </div>
 
               {/* Center spine (md+) */}
-            <div className="hidden md:block relative md:col-span-2">
+            <div className="hidden md:block md:col-span-2 relative">
               <span
                 aria-hidden
                 className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
@@ -183,7 +183,7 @@ export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
             </div>
 
               {/* Enemies */}
-            <div className="md:col-span-5">
+            <div className="col-span-12 md:col-span-5">
               <SideEditor
                 title="Enemies"
                 icon={<Swords />}
@@ -217,11 +217,11 @@ function SideEditor(props: {
   const { title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-[var(--spacing-4)] glitch-card card-neo relative">
+    <div className="rounded-card p-4 glitch-card card-neo relative">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
-      <header className="mb-[var(--spacing-3)] flex items-center gap-[var(--spacing-2)]">
+      <header className="mb-3 flex items-center gap-2">
         {/* glitchy side title */}
         <span
           className="glitch-title glitch-flicker title-glow inline-flex items-center gap-2"
@@ -236,11 +236,11 @@ function SideEditor(props: {
         </span>
       </header>
 
-      <div className="grid gap-[var(--spacing-3)]">
+      <div className="grid grid-cols-12 gap-3">
         {LANES.map(({ key, label }) => (
           <div
             key={key}
-            className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-[var(--spacing-3)]"
+            className="col-span-12 grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
           >
             <label
               className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
@@ -257,11 +257,12 @@ function SideEditor(props: {
           </div>
         ))}
 
-        <div className="grid gap-[var(--spacing-3)]">
-          <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
+        <div className="grid grid-cols-12 gap-3">
+          <label className="col-span-12 text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
             <NotebookPen className="opacity-80" /> Notes
           </label>
           <Textarea
+            className="col-span-12"
             aria-label={`${title} notes`}
             placeholder="Short plan, spikes, target calls…"
             value={value.notes ?? ""}

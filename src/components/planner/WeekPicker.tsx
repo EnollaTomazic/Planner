@@ -163,7 +163,7 @@ export default function WeekPicker() {
       aria-label="Jump to top"
       onClick={jumpToTop}
       title="Jump to top"
-      className="px-[var(--spacing-4)]"
+      className="px-4"
     >
       <ArrowUpToLine />
       <span>Top</span>
@@ -179,9 +179,9 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
     >
-      <div className="grid gap-3 flex-1">
+      <div className="grid grid-cols-12 gap-3 flex-1">
         {/* Range + totals */}
-        <div className="flex items-center justify-between gap-3">
+        <div className="col-span-12 flex items-center justify-between gap-3">
           <span
             className={cn(
               "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
@@ -202,7 +202,7 @@ export default function WeekPicker() {
         </div>
 
         {/* Day chips */}
-        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
+        <div className="col-span-12 flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
           {days.map((d, i) => (
             <DayChip
               key={d}

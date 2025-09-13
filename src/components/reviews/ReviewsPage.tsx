@@ -90,10 +90,10 @@ export default function ReviewsPage({
 
   return (
     <main
-      className="page-shell p-[var(--spacing-6)] space-y-[var(--spacing-6)]"
+      className="page-shell p-6 space-y-6"
       aria-labelledby="reviews-header"
     >
-      <div className="space-y-[var(--spacing-2)]">
+      <div className="space-y-2">
         <Header
           id="reviews-header"
           heading="Reviews"
@@ -124,14 +124,14 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-[var(--spacing-4)]"
+                  buttonClassName="h-10 px-4"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-[var(--spacing-4)] whitespace-nowrap"
+                className="px-4 whitespace-nowrap"
                 onClick={() => {
                   setQ("");
                   setSort("newest");
@@ -149,10 +149,10 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-[var(--spacing-6)] md:grid-cols-12",
+          "grid grid-cols-12 items-start gap-6",
         )}
       >
-        <nav aria-label="Review list" className="md:col-span-4">
+        <nav aria-label="Review list" className="col-span-12 md:col-span-4">
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
               <div className="mb-2 text-sm text-muted-foreground">
@@ -171,7 +171,7 @@ export default function ReviewsPage({
             </div>
           </div>
         </nav>
-        <div aria-live="polite" className="md:col-span-8">
+        <div aria-live="polite" className="col-span-12 md:col-span-8">
           {!active ? (
             <ReviewPanel
               className={cn(

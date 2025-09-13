@@ -325,7 +325,7 @@ export default function RemindersTab() {
             <Button
               variant="primary"
               size="md"
-              className="px-[var(--spacing-4)] whitespace-nowrap"
+              className="px-4 whitespace-nowrap"
               onClick={() => addNew()}
             >
               <Plus />
@@ -336,14 +336,14 @@ export default function RemindersTab() {
       </SectionCard.Header>
 
       <SectionCard.Body>
-          <div className="grid gap-3">
+          <div className="grid grid-cols-12 gap-3">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 if (quickAdd.trim()) addNew(quickAdd);
               }}
-              className="rounded-card flex items-center gap-2 sm:gap-6 glitch"
+              className="col-span-12 rounded-card flex items-center gap-2 sm:gap-6 glitch"
             >
               <Input
                 aria-label="Quick add reminder"
@@ -379,7 +379,7 @@ export default function RemindersTab() {
                 ariaLabel="Reminder group"
                 size="md"
                 align="between"
-                className="overflow-x-auto"
+                className="col-span-12 overflow-x-auto"
                 right={
                   <SegmentedButton
                     className="inline-flex items-center gap-1"
@@ -397,7 +397,7 @@ export default function RemindersTab() {
 
             {/* Filters panel (collapsible) */}
             {showFilters && (
-              <div className="flex flex-wrap items-center gap-4 pl-1">
+              <div className="col-span-12 flex flex-wrap items-center gap-4 pl-1">
                 <TabBar
                   items={SOURCE_TABS}
                   value={source}
@@ -422,7 +422,7 @@ export default function RemindersTab() {
             )}
 
             {/* Cards grid */}
-            <div className="grid grid-cols-12 gap-3">
+            <div className="col-span-12 grid grid-cols-12 gap-3">
               {filtered.map((r) => (
                 <div
                   key={r.id}
