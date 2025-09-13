@@ -7,64 +7,79 @@ exports[`ReviewsPage > renders default state 1`] = `
     class="page-shell p-[var(--spacing-6)] space-y-[var(--spacing-6)]"
   >
     <div
-      class="space-y-[var(--spacing-2)]"
+      class="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg p-4"
     >
-      <header
-        class="z-[999] relative isolate rounded-card r-card-lg bg-card/70 backdrop-blur-md shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)] overflow-hidden after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent"
-        id="reviews-header"
+      <span
+        aria-hidden="true"
+        class="hero2-beams"
+      />
+      <span
+        aria-hidden="true"
+        class="hero2-scanlines"
+      />
+      <span
+        aria-hidden="true"
+        class="hero2-noise"
+      />
+      <div
+        class="relative z-[2] space-y-[var(--spacing-2)]"
       >
-        <div
-          class="sticky top-[var(--header-stack)] relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
+        <header
+          class="z-[999] relative isolate rounded-card r-card-lg bg-card/70 backdrop-blur-md shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)] overflow-hidden after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent"
+          id="reviews-header"
         >
           <div
-            aria-hidden="true"
-            class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
-          />
-          <div
-            class="flex min-w-0 items-center gap-2 sm:gap-3"
+            class="sticky top-[var(--header-stack)] relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
           >
-            <span
-              class="shrink-0 opacity-90"
-            >
-              <svg
-                class="lucide lucide-book-open opacity-80"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 7v14"
-                />
-                <path
-                  d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
-                />
-              </svg>
-            </span>
             <div
-              class="min-w-0"
+              aria-hidden="true"
+              class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
+            />
+            <div
+              class="flex min-w-0 items-center gap-2 sm:gap-3"
             >
-              <div
-                class="flex min-w-0 items-baseline gap-2"
+              <span
+                class="shrink-0 opacity-90"
               >
-                <h1
-                  class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                <svg
+                  class="lucide lucide-book-open opacity-80"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Reviews
-                </h1>
+                  <path
+                    d="M12 7v14"
+                  />
+                  <path
+                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+                  />
+                </svg>
+              </span>
+              <div
+                class="min-w-0"
+              >
+                <div
+                  class="flex min-w-0 items-baseline gap-2"
+                >
+                  <h1
+                    class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                  >
+                    Reviews
+                  </h1>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-      <section>
-        <style>
-          
+        </header>
+        <section>
+          <style>
+            
       /* === Hero: header background layers ================================ */
       .hero2-frame {
         --hero2-c1: hsl(var(--accent));
@@ -348,185 +363,173 @@ exports[`ReviewsPage > renders default state 1`] = `
         }
       }
     
-        </style>
-        <div
-          class="sticky-blur hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4 top-[var(--header-stack)]"
-        >
-          <span
-            aria-hidden="true"
-            class="hero2-beams"
-          />
-          <span
-            aria-hidden="true"
-            class="hero2-scanlines"
-          />
-          <span
-            aria-hidden="true"
-            class="hero2-noise"
-          />
+          </style>
           <div
-            class="relative z-[2] flex items-center gap-4"
-          >
-            <span
-              aria-hidden="true"
-              class="rail"
-            />
-            <div
-              class="min-w-0"
-            >
-              <div
-                class="flex items-baseline gap-2"
-              >
-                <h2
-                  class="hero2-title title-glow text-xl sm:text-2xl truncate"
-                  data-text="Browse Reviews"
-                >
-                  Browse Reviews
-                </h2>
-                <span
-                  class="text-xs sm:text-sm tracking-wide text-muted-foreground truncate"
-                >
-                  <span
-                    class="pill"
-                  >
-                    Total 
-                    3
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="relative z-[2] mt-4 flex flex-col gap-4"
+            class="sticky-blur top-[var(--header-stack)]"
           >
             <div
-              class="relative hero2-sep neon-primary"
+              class="relative z-[2] flex items-center gap-4"
             >
               <span
                 aria-hidden="true"
-                class="hero2-neon-line"
+                class="rail"
               />
               <div
-                class="hero2-sep-row"
+                class="min-w-0"
               >
-                <form
-                  class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
-                  role="search"
-                >
-                  <div
-                    class="relative min-w-0"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-                        cx="11"
-                        cy="11"
-                        r="8"
-                      />
-                      <path
-                        d="m21 21-4.3-4.3"
-                      />
-                    </svg>
-                    <div
-                      class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
-                      style="--control-h: var(--control-h-md);"
-                    >
-                      <input
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
-                        id=":r0:"
-                        name=":r0:"
-                        placeholder="Search title, tags, opponent, patch…"
-                        spellcheck="false"
-                        type="search"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </form>
                 <div
-                  class="flex items-center gap-2"
+                  class="flex items-baseline gap-2"
                 >
-                  <div
-                    class="flex items-center gap-3"
+                  <h2
+                    class="hero2-title title-glow text-xl sm:text-2xl truncate"
+                    data-text="Browse Reviews"
+                  >
+                    Browse Reviews
+                  </h2>
+                  <span
+                    class="text-xs sm:text-sm tracking-wide text-muted-foreground truncate"
+                  >
+                    <span
+                      class="pill"
+                    >
+                      Total 
+                      3
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="relative z-[2] mt-4 flex flex-col gap-4"
+            >
+              <div
+                class="relative hero2-sep neon-primary"
+              >
+                <span
+                  aria-hidden="true"
+                  class="hero2-neon-line"
+                />
+                <div
+                  class="hero2-sep-row"
+                >
+                  <form
+                    class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
+                    role="search"
                   >
                     <div
-                      class="hidden sm:flex items-center gap-2 text-xs text-muted-foreground"
+                      class="relative min-w-0"
                     >
-                      <span>
-                        Sort
-                      </span>
-                      <div
-                        class="glitch-wrap "
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="8"
+                        />
+                        <path
+                          d="m21 21-4.3-4.3"
+                        />
+                      </svg>
+                      <div
+                        class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
+                        style="--control-h: var(--control-h-md);"
+                      >
+                        <input
+                          autocapitalize="none"
+                          autocomplete="off"
+                          autocorrect="off"
+                          class="w-full rounded-[inherit] bg-transparent px-[var(--control-px)] text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
+                          id=":r0:"
+                          name=":r0:"
+                          placeholder="Search title, tags, opponent, patch…"
+                          spellcheck="false"
+                          type="search"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </form>
+                  <div
+                    class="flex items-center gap-2"
+                  >
+                    <div
+                      class="flex items-center gap-3"
+                    >
+                      <div
+                        class="hidden sm:flex items-center gap-2 text-xs text-muted-foreground"
+                      >
+                        <span>
+                          Sort
+                        </span>
                         <div
-                          class="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
+                          class="glitch-wrap "
                         >
-                          <button
-                            aria-controls=":r1:-listbox"
-                            aria-expanded="false"
-                            aria-haspopup="listbox"
-                            aria-label="Select option"
-                            class="glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-[var(--spacing-4)]"
-                            data-lit="true"
-                            data-open="false"
-                            type="button"
+                          <div
+                            class="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
                           >
-                            <span
-                              class="font-medium glitch-text text-foreground group-hover:text-foreground"
+                            <button
+                              aria-controls=":r1:-listbox"
+                              aria-expanded="false"
+                              aria-haspopup="listbox"
+                              aria-label="Select option"
+                              class="glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-[var(--spacing-4)]"
+                              data-lit="true"
+                              data-open="false"
+                              type="button"
                             >
-                              Newest
-                            </span>
-                            <svg
-                              aria-hidden="true"
-                              class="lucide lucide-chevron-down caret ml-auto size-4 shrink-0 opacity-75 "
-                              fill="none"
-                              height="24"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m6 9 6 6 6-6"
+                              <span
+                                class="font-medium glitch-text text-foreground group-hover:text-foreground"
+                              >
+                                Newest
+                              </span>
+                              <svg
+                                aria-hidden="true"
+                                class="lucide lucide-chevron-down caret ml-auto size-4 shrink-0 opacity-75 "
+                                fill="none"
+                                height="24"
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="m6 9 6 6 6-6"
+                                />
+                              </svg>
+                              <span
+                                aria-hidden="true"
+                                class="gb-iris"
                               />
-                            </svg>
-                            <span
-                              aria-hidden="true"
-                              class="gb-iris"
-                            />
-                            <span
-                              aria-hidden="true"
-                              class="gb-chroma"
-                            />
-                            <span
-                              aria-hidden="true"
-                              class="gb-flicker"
-                            />
-                            <span
-                              aria-hidden="true"
-                              class="gb-scan"
-                            />
-                          </button>
-                        </div>
-                        <style>
-                          
+                              <span
+                                aria-hidden="true"
+                                class="gb-chroma"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="gb-flicker"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="gb-scan"
+                              />
+                            </button>
+                          </div>
+                          <style>
+                            
       /* caret jitter */
       .caret {
         transition:
@@ -756,55 +759,56 @@ exports[`ReviewsPage > renders default state 1`] = `
           -0.6px 0 hsl(var(--lav-deep) / 0.45);
       }
     
-                        </style>
+                          </style>
+                        </div>
                       </div>
-                    </div>
-                    <button
-                      class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-[var(--spacing-4)] whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="absolute inset-0 pointer-events-none rounded-2xl bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
-                      />
-                      <span
-                        class="relative z-10 inline-flex items-center gap-2"
+                      <button
+                        class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-[var(--spacing-4)] whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                        tabindex="0"
+                        type="button"
                       >
-                        <svg
-                          class="lucide lucide-plus"
-                          fill="none"
-                          height="24"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <span
+                          class="absolute inset-0 pointer-events-none rounded-2xl bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
+                        />
+                        <span
+                          class="relative z-10 inline-flex items-center gap-2"
                         >
-                          <path
-                            d="M5 12h14"
-                          />
-                          <path
-                            d="M12 5v14"
-                          />
-                        </svg>
-                        <span>
-                          New Review
+                          <svg
+                            class="lucide lucide-plus"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5 12h14"
+                            />
+                            <path
+                              d="M12 5v14"
+                            />
+                          </svg>
+                          <span>
+                            New Review
+                          </span>
                         </span>
-                      </span>
-                    </button>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div
-            aria-hidden="true"
-            class="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-          />
-        </div>
-      </section>
+        </section>
+      </div>
+      <div
+        aria-hidden="true"
+        class="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
+      />
     </div>
     <div
       class="grid grid-cols-1 items-start gap-[var(--spacing-6)] md:grid-cols-12"

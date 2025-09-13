@@ -93,57 +93,69 @@ export default function ReviewsPage({
       className="page-shell p-[var(--spacing-6)] space-y-[var(--spacing-6)]"
       aria-labelledby="reviews-header"
     >
-      <div className="space-y-[var(--spacing-2)]">
-        <Header
-          id="reviews-header"
-          heading="Reviews"
-          icon={<BookOpen className="opacity-80" />}
-          topClassName="top-[var(--header-stack)]"
-        />
-        <Hero
-          topClassName="top-[var(--header-stack)]"
-          heading="Browse Reviews"
-          subtitle={<span className="pill">Total {base.length}</span>}
-          search={{
-            round: true,
-            value: q,
-            onValueChange: setQ,
-            placeholder: "Search title, tags, opponent, patch…",
-            className: "flex-1",
-          }}
-          actions={
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Sort</span>
-                <Select
-                  variant="animated"
-                  value={sort}
-                  onChange={(v) => setSort(v as SortKey)}
-                  items={[
-                    { value: "newest", label: "Newest" },
-                    { value: "oldest", label: "Oldest" },
-                    { value: "title", label: "Title" },
-                  ]}
-                  buttonClassName="h-10 px-[var(--spacing-4)]"
-                />
+      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg p-4">
+        <span aria-hidden className="hero2-beams" />
+        <span aria-hidden className="hero2-scanlines" />
+        <span aria-hidden className="hero2-noise" />
+
+        <div className="relative z-[2] space-y-[var(--spacing-2)]">
+          <Header
+            id="reviews-header"
+            heading="Reviews"
+            icon={<BookOpen className="opacity-80" />}
+            topClassName="top-[var(--header-stack)]"
+          />
+          <Hero
+            frame={false}
+            topClassName="top-[var(--header-stack)]"
+            heading="Browse Reviews"
+            subtitle={<span className="pill">Total {base.length}</span>}
+            search={{
+              round: true,
+              value: q,
+              onValueChange: setQ,
+              placeholder: "Search title, tags, opponent, patch…",
+              className: "flex-1",
+            }}
+            actions={
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>Sort</span>
+                  <Select
+                    variant="animated"
+                    value={sort}
+                    onChange={(v) => setSort(v as SortKey)}
+                    items={[
+                      { value: "newest", label: "Newest" },
+                      { value: "oldest", label: "Oldest" },
+                      { value: "title", label: "Title" },
+                    ]}
+                    buttonClassName="h-10 px-[var(--spacing-4)]"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="md"
+                  className="px-[var(--spacing-4)] whitespace-nowrap"
+                  onClick={() => {
+                    setQ("");
+                    setSort("newest");
+                    setPanelMode("edit");
+                    onCreate();
+                  }}
+                >
+                  <Plus />
+                  <span>New Review</span>
+                </Button>
               </div>
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                className="px-[var(--spacing-4)] whitespace-nowrap"
-                onClick={() => {
-                  setQ("");
-                  setSort("newest");
-                  setPanelMode("edit");
-                  onCreate();
-                }}
-              >
-                <Plus />
-                <span>New Review</span>
-              </Button>
-            </div>
-          }
+            }
+          />
+        </div>
+
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
         />
       </div>
 

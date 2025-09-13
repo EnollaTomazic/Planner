@@ -38,6 +38,9 @@ export interface HeroProps<Key extends string = string>
   bodyClassName?: string;
   rail?: boolean;
 
+  /** Whether to include glitchy frame and background layers. */
+  frame?: boolean;
+
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
 
@@ -72,6 +75,7 @@ function Hero<Key extends string = string>({
   icon,
   children,
   actions,
+  frame = true,
   sticky = true,
   topClassName = "top-8",
   barClassName,
@@ -123,14 +127,20 @@ function Hero<Key extends string = string>({
       <div
         className={cx(
           sticky ? "sticky-blur" : "",
-          "hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4",
+          frame
+            ? "hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4"
+            : "",
           sticky && topClassName,
         )}
       >
-        {/* decorative layers */}
-        <span aria-hidden className="hero2-beams" />
-        <span aria-hidden className="hero2-scanlines" />
-        <span aria-hidden className="hero2-noise" />
+        {frame ? (
+          <>
+            {/* decorative layers */}
+            <span aria-hidden className="hero2-beams" />
+            <span aria-hidden className="hero2-scanlines" />
+            <span aria-hidden className="hero2-noise" />
+          </>
+        ) : null}
 
         <div
           className={cx("relative z-[2] flex items-center gap-4", barClassName)}
@@ -187,11 +197,12 @@ function Hero<Key extends string = string>({
           </div>
         ) : null}
 
-        {/* subtle rim */}
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-        />
+        {frame ? (
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
+          />
+        ) : null}
       </div>
     </section>
   );

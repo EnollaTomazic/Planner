@@ -84,16 +84,27 @@ function Inner() {
         aria-labelledby="planner-header"
       >
         {/* Week header (range, nav, totals, day chips) */}
-        <div className="space-y-2">
-          <Header
-            id="planner-header"
-            eyebrow="Planner"
-            heading="Planner for Today"
-            subtitle="Plan your week"
-            icon={<CalendarDays className="opacity-80" />}
-            right={right}
+        <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg p-4">
+          <span aria-hidden className="hero2-beams" />
+          <span aria-hidden className="hero2-scanlines" />
+          <span aria-hidden className="hero2-noise" />
+
+          <div className="relative z-[2] space-y-2">
+            <Header
+              id="planner-header"
+              eyebrow="Planner"
+              heading="Planner for Today"
+              subtitle="Plan your week"
+              icon={<CalendarDays className="opacity-80" />}
+              right={right}
+            />
+            <WeekPicker />
+          </div>
+
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
           />
-          <WeekPicker />
         </div>
 
         {/* Today + Side column */}

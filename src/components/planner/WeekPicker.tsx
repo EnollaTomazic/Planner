@@ -172,6 +172,7 @@ export default function WeekPicker() {
 
   return (
     <Hero
+      frame={false}
       heading={heading}
       subtitle={`${isoStart} → ${isoEnd}`}
       actions={topAction}
