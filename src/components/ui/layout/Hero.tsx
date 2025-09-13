@@ -362,8 +362,8 @@ export function HeroGlitchStyles() {
             transparent 98%
           );
         background-size:
-          100% calc(var(--space-4) _-_var(--space-1) / 2),
-          calc(var(--space-4) _-_var(--space-1) / 2) 100%;
+          100% calc(var(--space-4) - var(--space-1) / 2),
+          calc(var(--space-4) - var(--space-1) / 2) 100%;
         opacity: 0.07;
         animation: hero2-scan-move 6s linear infinite;
       }
@@ -380,8 +380,8 @@ export function HeroGlitchStyles() {
         }
         100% {
           background-position:
-            0 calc(var(--space-4) _-_var(--space-1) / 2),
-            calc(var(--space-4) _-_var(--space-1) / 2) 0;
+            0 calc(var(--space-4) - var(--space-1) / 2),
+            calc(var(--space-4) - var(--space-1) / 2) 0;
         }
       }
       .hero2-noise {
@@ -395,8 +395,8 @@ export function HeroGlitchStyles() {
         <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'>\
           <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>\
           <rect width='100%' height='100%' filter='url(%23n)' opacity='0.38'/></svg>");
-        background-size: calc(var(--space-8) * 4_+_var(--space-5))
-          calc(var(--space-8) * 4_+_var(--space-5));
+        background-size: calc(var(--space-8) * 4 + var(--space-5))
+          calc(var(--space-8) * 4 + var(--space-5));
         animation: hero2-noise-shift 1.8s steps(2, end) infinite;
       }
       @media (prefers-reduced-motion: reduce) {

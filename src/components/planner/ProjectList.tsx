@@ -71,10 +71,13 @@ export default function ProjectList({
       <div
         className={cn(
           "px-0 w-full",
-          projectsScrollable
-            ? "max-h-[calc(var(--space-8)*4_+_var(--space-1))] overflow-y-auto"
-            : "overflow-visible",
+          projectsScrollable ? "overflow-y-auto" : "overflow-visible",
         )}
+        style={
+          projectsScrollable
+            ? { maxHeight: "calc(var(--space-8) * 4 + var(--space-1))" }
+            : undefined
+        }
       >
         <ul
           className="w-full space-y-2 py-2"
