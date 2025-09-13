@@ -71,15 +71,28 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     Record<ISODate, Selection>
   >("planner:selected", {});
 
+  const daysValue = React.useMemo(
+    () => ({ days, setDays }),
+    [days, setDays],
+  );
+  const focusValue = React.useMemo(
+    () => ({ focus, setFocus }),
+    [focus, setFocus],
+  );
+  const selectionValue = React.useMemo(
+    () => ({ selected, setSelected }),
+    [selected, setSelected],
+  );
+
   return React.createElement(
     DaysContext.Provider,
-    { value: { days, setDays } },
+    { value: daysValue },
     React.createElement(
       FocusContext.Provider,
-      { value: { focus, setFocus } },
+      { value: focusValue },
       React.createElement(
         SelectionContext.Provider,
-        { value: { selected, setSelected } },
+        { value: selectionValue },
         children as React.ReactNode,
       ),
     ),
