@@ -325,7 +325,7 @@ export default function RemindersTab() {
             <Button
               variant="primary"
               size="md"
-              className="px-[var(--spacing-4)] whitespace-nowrap"
+              className="px-4 whitespace-nowrap"
               onClick={() => addNew()}
             >
               <Plus />

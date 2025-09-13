@@ -16,7 +16,7 @@ export default function NotFound() {
       className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
       aria-labelledby={headerId}
     >
-      <div className="space-y-[var(--spacing-2)]">
+      <div className="space-y-2">
         <Header
           id={headerId}
           heading="Page not found"
@@ -26,7 +26,7 @@ export default function NotFound() {
           heading="This page does not exist"
           actions={
             <Link href="/">
-              <Button className="px-[var(--spacing-4)]">Go home</Button>
+              <Button className="px-4">Go home</Button>
             </Link>
           }
         >

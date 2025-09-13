@@ -455,7 +455,7 @@ export default function CheatSheet({
     <section
       data-scope="team"
       className={[
-        "grid gap-[var(--spacing-4)] sm:gap-[var(--spacing-6)] md:grid-cols-2 xl:grid-cols-3",
+        "grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3",
         className,
       ].join(" ")}
     >
@@ -468,8 +468,8 @@ export default function CheatSheet({
             className={[
               "group glitch-card card-neo relative h-full",
               dense
-                ? "p-[var(--spacing-4)]"
-                : "p-[var(--spacing-5)]",
+                ? "p-4"
+                : "p-5",
             ].join(" ")}
           >
             {/* Hover-only top-right edit/save button */}
@@ -501,7 +501,7 @@ export default function CheatSheet({
             <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
-            <header className="mb-[var(--spacing-3)]">
+            <header className="mb-3">
               <TitleEdit
                 value={a.title}
                 editing={isEditing}
@@ -515,7 +515,7 @@ export default function CheatSheet({
             </header>
 
             {/* Body */}
-            <div className="grid grid-cols-1 gap-[var(--spacing-4)]">
+            <div className="grid grid-cols-1 gap-4">
               <div>
                 <Label>Wins when</Label>
                 <BulletListEdit

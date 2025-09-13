@@ -157,8 +157,8 @@ export default React.forwardRef<
   React.useImperativeHandle(ref, () => ({ addRow }));
 
   return (
-    <div data-scope="team" className="grid gap-[var(--spacing-4)] sm:gap-[var(--spacing-6)]">
-      <div className="grid grid-cols-12 gap-[var(--spacing-6)]">
+    <div data-scope="team" className="grid gap-4 sm:gap-6">
+      <div className="grid grid-cols-12 gap-6">
         {BUCKETS.map((bucket) => {
           const rowsAll = items.filter((r) => r.speed === bucket);
           const rows = filtered.filter((r) => r.speed === bucket);
@@ -168,7 +168,7 @@ export default React.forwardRef<
               <SectionCard.Header
                 sticky
                 title={
-                  <div className="flex items-center gap-[var(--spacing-2)]">
+                  <div className="flex items-center gap-2">
                     <Timer className="opacity-80" />
                     {/* Glitch title + glow */}
                     <span
@@ -192,7 +192,7 @@ export default React.forwardRef<
                 }
               />
               <SectionCard.Body>
-                <div className="mb-[var(--spacing-2)] flex flex-wrap items-center gap-[var(--spacing-2)]">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-border bg-card px-2 py-1 text-xs tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
@@ -202,7 +202,7 @@ export default React.forwardRef<
                 </div>
 
                 {/* Example row (canonical pills) */}
-                <div className="mb-[var(--spacing-3)] flex flex-wrap items-center gap-[var(--spacing-2)]">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
                   <span className="text-muted-foreground text-sm">
                     Example:
                   </span>
@@ -215,7 +215,7 @@ export default React.forwardRef<
                 </div>
 
                 {editing && (
-                  <div className="mb-[var(--spacing-2)] flex justify-end">
+                  <div className="mb-2 flex justify-end">
                     <IconButton
                       size="sm"
                       iconSize="xs"
@@ -297,7 +297,7 @@ export default React.forwardRef<
                               />
                             </td>
                             <td className="py-2 pr-3">
-                              <div className="flex gap-[var(--spacing-1)]">
+                              <div className="flex gap-1">
                                 <IconButton
                                   size="sm"
                                   iconSize="xs"
@@ -325,7 +325,7 @@ export default React.forwardRef<
                           >
                             <td className="py-2 pr-3 font-medium">{r.champ}</td>
                             <td className="py-2 pr-3">
-                              <div className="flex flex-wrap gap-[var(--spacing-2)]">
+                              <div className="flex flex-wrap gap-2">
                                 {(r.type ?? []).map((t) => (
                                   <span
                                     key={t}
@@ -339,7 +339,7 @@ export default React.forwardRef<
                             <td className="py-2 pr-3">{r.notes ?? "-"}</td>
                             <td className="py-2 pr-3">
                               {editing && (
-                                <div className="flex gap-[var(--spacing-1)]">
+                                <div className="flex gap-1">
                                   <IconButton
                                     size="sm"
                                     iconSize="xs"
