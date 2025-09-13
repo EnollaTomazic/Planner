@@ -49,6 +49,8 @@ export interface HeaderProps<Key extends string = string>
   rail?: boolean;
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeaderTabsProps<Key>;
+  /** Optional card-style framing. */
+  variant?: "plain" | "neo";
 }
 
 export default function Header<Key extends string = string>({
@@ -65,16 +67,15 @@ export default function Header<Key extends string = string>({
   bodyClassName,
   rail = true,
   tabs,
+  variant = "plain",
   ...rest
 }: HeaderProps<Key>) {
   return (
     <header
       className={cx(
         "z-[999] relative isolate",
-
-        // Card look: no border, soft glow
-        "rounded-card r-card-lg bg-card/70 backdrop-blur-md",
-        "shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)]",
+        variant === "neo" &&
+          "rounded-card r-card-lg bg-card/70 backdrop-blur-md shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)]",
 
         // Safety: never let children bleed outside
         "overflow-hidden",
