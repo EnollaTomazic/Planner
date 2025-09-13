@@ -244,10 +244,10 @@ html.bg-intense body::after {
       hsl(var(--ring) / 0.35),
       transparent 70%
     );
-    filter: blur(6px);
+    filter: blur(4px);
     mix-blend-mode: screen;
     animation: hero-rail-flicker 3.2s steps(24, end) infinite alternate;
-    opacity: 0.5;
+    opacity: 0.3;
   }
 }
 
@@ -1069,13 +1069,13 @@ textarea:-webkit-autofill {
 }
 
 /* Compact pill */
-  .pill-compact {
-    @apply inline-flex items-center rounded-full border border-card-hairline px-2 py-1 text-label font-medium tracking-[0.02em] leading-tight;
-    background-color: hsl(var(--muted) / 0.18);
-  }
-  .pill-compact:hover {
-    background-color: hsl(var(--muted) / 0.28);
-  }
+.pill-compact {
+  @apply inline-flex items-center rounded-full border border-card-hairline px-2 py-1 text-label font-medium tracking-[0.02em] leading-tight;
+  background-color: hsl(var(--muted) / 0.18);
+}
+.pill-compact:hover {
+  background-color: hsl(var(--muted) / 0.28);
+}
 .pill-compact--primary {
   @apply border-ring;
   background-color: hsl(var(--primary-soft) / 0.25);
