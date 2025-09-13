@@ -61,7 +61,7 @@ export default function TaskRow({
               if (!editing) onToggle();
             }}
             aria-label="Toggle task done"
-            size="md"
+            size="sm"
           />
         </div>
 

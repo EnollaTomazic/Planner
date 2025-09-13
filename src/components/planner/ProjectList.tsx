@@ -136,7 +136,7 @@ export default function ProjectList({
                         checked={!!p.done}
                         onChange={() => toggleProject(p.id)}
                         aria-label="Toggle project complete"
-                        size="md"
+                        size="sm"
                       />
                     </span>
 
