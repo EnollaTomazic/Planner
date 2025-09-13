@@ -23,6 +23,10 @@ export const colorTokens = [
   "bg-lav-deep",
   "bg-surface-vhs",
   "bg-surface-streak",
+  "bg-card-foreground",
+  "bg-accent-foreground",
+  "bg-destructive",
+  "bg-destructive-foreground",
 ];
 
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];

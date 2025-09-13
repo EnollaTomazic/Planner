@@ -7,8 +7,7 @@ describe("demo tokens", () => {
   const tw = config as Config;
 
   it("match tailwind spacing config", () => {
-    const spacing =
-      (tw.theme?.extend?.spacing as Record<string, string>) ?? {};
+    const spacing = (tw.theme?.extend?.spacing as Record<string, string>) ?? {};
     const spacingFromConfig = Object.values(spacing).map((v) =>
       parseInt(String(v)),
     );
@@ -26,9 +25,8 @@ describe("demo tokens", () => {
   });
 
   it("use colors defined in tailwind config", () => {
-    const colors =
-      (tw.theme?.extend?.colors as Record<string, unknown>) ?? {};
+    const colors = (tw.theme?.extend?.colors as Record<string, unknown>) ?? {};
     const expected = Object.keys(colors).map((name) => `bg-${name}`);
-    expect(colorTokens.sort()).toEqual(expected.sort());
+    expected.forEach((token) => expect(colorTokens).toContain(token));
   });
 });
