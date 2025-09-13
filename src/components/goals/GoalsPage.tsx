@@ -189,7 +189,7 @@ export default function GoalsPage() {
         >
           {tab === "goals" && (
             <div className="grid gap-4">
-              <div className="space-y-[var(--spacing-2)]">
+              <div className="space-y-2">
                 <Hero
                   eyebrow="Guide"
                   heading="Overview"

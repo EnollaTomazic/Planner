@@ -302,7 +302,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
           {editing && (
             <form
               onSubmit={addNew}
-              className="rounded-card flex items-left gap-[var(--spacing-6)] glitch"
+              className="rounded-card flex items-left gap-6 glitch"
             >
               <Input
                 dir="ltr"
@@ -328,27 +328,27 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-ui font-medium text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-6 text-ui font-medium text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--spacing-6)] text-ui font-medium text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-6 text-ui font-medium text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
-          <div className="grid grid-cols-12 gap-[var(--spacing-4)]">
+          <div className="grid grid-cols-12 gap-4">
             {filtered.map((c) => {
               const editingCard = editingId === c.id;
 
               return (
                 <article
                   key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-[var(--spacing-7)]"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
                 >
                   {/* hover edit/save + delete + copy */}
-                  <div className="absolute right-2 top-2 z-10 flex items-left gap-[var(--spacing-1)] opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                  <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editingCard ? (
                       <>
                         <IconButton
@@ -401,7 +401,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   <span aria-hidden className="glitch-rail" />
 
                   {/* header */}
-                  <header className="mb-[var(--spacing-3)]">
+                  <header className="mb-3">
                     {!editingCard ? (
                       <h3
                         className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg font-semibold tracking-[-0.01em]"
