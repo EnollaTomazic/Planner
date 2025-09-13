@@ -48,7 +48,7 @@ export function addTask(
   const createdAt = Date.now();
   const tasks = [
     ...day.tasks,
-    { id, title: name, done: false, projectId, createdAt },
+    { id, title: name, done: false, projectId, createdAt, images: [] },
   ];
   return { ...day, tasks };
 }
@@ -73,5 +73,27 @@ export function removeTask(day: DayRecord, id: string) {
   return {
     ...day,
     tasks: day.tasks.filter((t) => t.id !== id),
+  };
+}
+
+export function addTaskImage(day: DayRecord, id: string, url: string) {
+  const u = url.trim();
+  if (!u) return day;
+  return {
+    ...day,
+    tasks: day.tasks.map((t) =>
+      t.id === id ? { ...t, images: [...t.images, u] } : t,
+    ),
+  };
+}
+
+export function removeTaskImage(day: DayRecord, id: string, url: string) {
+  return {
+    ...day,
+    tasks: day.tasks.map((t) =>
+      t.id === id
+        ? { ...t, images: t.images.filter((img) => img !== url) }
+        : t,
+    ),
   };
 }

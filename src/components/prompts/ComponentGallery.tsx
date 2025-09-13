@@ -98,6 +98,7 @@ const demoTasks = [
     done: false,
     projectId: "p1",
     createdAt: Date.now(),
+    images: [],
   },
   {
     id: "t2",
@@ -105,6 +106,7 @@ const demoTasks = [
     done: true,
     projectId: "p1",
     createdAt: Date.now(),
+    images: [],
   },
 ];
 
@@ -439,11 +441,14 @@ export default function ComponentGallery() {
                 title: "Sample",
                 done: false,
                 createdAt: Date.now(),
+                images: ["https://placekitten.com/100/100"],
               }}
               onToggle={() => {}}
               onDelete={() => {}}
               onEdit={() => {}}
               onSelect={() => {}}
+              onAddImage={() => {}}
+              onRemoveImage={() => {}}
             />
           </ul>
         ),
@@ -474,6 +479,8 @@ export default function ComponentGallery() {
             renameTask={() => {}}
             toggleTask={() => {}}
             deleteTask={() => {}}
+            addTaskImage={() => {}}
+            removeTaskImage={() => {}}
             setSelectedTaskId={() => {}}
           />
         ),
