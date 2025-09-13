@@ -292,49 +292,50 @@ export default function RemindersTab() {
   }));
 
   return (
-    <div className="grid gap-4">
-      {/* Hero with domain sub-tabs and bottom search */}
-      <Hero
-        eyebrow={domain}
-        heading="Reminders"
-        subtitle="Tiny brain pings you’ll totally ignore until 23:59."
-        dividerTint={domain === "Life" ? "life" : "primary"}
-        subTabs={{
-          items: DOMAIN_ITEMS,
-          value: domain,
-          onChange: (k: Domain) => setDomain(k),
-          align: "end",
-          size: "md",
-          ariaLabel: "Reminder domain",
-          showBaseline: true,
-        }}
-        search={{
-          value: query,
-          onValueChange: setQuery,
-          placeholder: "Search title, text, tags…",
-          debounceMs: 80,
-          right: (
-            <div className="flex items-center gap-2">
-              <span className="text-label font-medium tracking-[0.02em] opacity-75">{filtered.length}</span>
-              <Search className="opacity-80" size={16} />
-            </div>
-          ),
-        }}
-        actions={
-          <Button
-            variant="primary"
-            size="md"
-            className="px-[var(--spacing-4)] whitespace-nowrap"
-            onClick={() => addNew()}
-          >
-            <Plus />
-            <span>New Reminder</span>
-          </Button>
-        }
-      />
+    <SectionCard className="goal-card">
+      <SectionCard.Header>
+        {/* Hero with domain sub-tabs and bottom search */}
+        <Hero
+          eyebrow={domain}
+          heading="Reminders"
+          subtitle="Tiny brain pings you’ll totally ignore until 23:59."
+          dividerTint={domain === "Life" ? "life" : "primary"}
+          subTabs={{
+            items: DOMAIN_ITEMS,
+            value: domain,
+            onChange: (k: Domain) => setDomain(k),
+            align: "end",
+            size: "md",
+            ariaLabel: "Reminder domain",
+            showBaseline: true,
+          }}
+          search={{
+            value: query,
+            onValueChange: setQuery,
+            placeholder: "Search title, text, tags…",
+            debounceMs: 80,
+            right: (
+              <div className="flex items-center gap-2">
+                <span className="text-label font-medium tracking-[0.02em] opacity-75">{filtered.length}</span>
+                <Search className="opacity-80" size={16} />
+              </div>
+            ),
+          }}
+          actions={
+            <Button
+              variant="primary"
+              size="md"
+              className="px-[var(--spacing-4)] whitespace-nowrap"
+              onClick={() => addNew()}
+            >
+              <Plus />
+              <span>New Reminder</span>
+            </Button>
+          }
+        />
+      </SectionCard.Header>
 
-      <SectionCard className="goal-card">
-        <SectionCard.Body>
+      <SectionCard.Body>
           <div className="grid gap-3">
             {/* Quick Add row — now INSIDE the same panel as the cards */}
             <form
@@ -488,7 +489,6 @@ export default function RemindersTab() {
           }
         `}</style>
       </SectionCard>
-    </div>
   );
 }
 
