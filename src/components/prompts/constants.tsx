@@ -38,6 +38,7 @@ import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import ToggleShowcase from "./ToggleShowcase";
+import WelcomeCardDemo from "./WelcomeCardDemo";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import {
   RoleSelector,
@@ -574,6 +575,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<Hero heading="Hero" subTabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }} search={{ id: "hero-demo-search", value: "", onValueChange: () => {}, round: true, "aria-label": "Search" }} actions={<div className="flex items-center gap-2"><Button size="sm">Action</Button><IconButton size="sm" aria-label="Add"><Plus /></IconButton></div>} sticky={false} topClassName="top-0" />`,
     },
     {
+      id: "welcome-card-demo",
+      name: "WelcomeCard",
+      element: <WelcomeCardDemo />,
+      tags: ["hero", "header"],
+      code: `<WelcomeCardDemo />`,
+    },
+    {
       id: "card-demo",
       name: "Card",
       element: <CardDemo />,
@@ -640,7 +648,10 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "split",
       name: "Split",
       element: (
-        <Split left={<div className="p-4">Left</div>} right={<div className="p-4">Right</div>} />
+        <Split
+          left={<div className="p-4">Left</div>}
+          right={<div className="p-4">Right</div>}
+        />
       ),
       tags: ["split", "layout"],
       code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
@@ -649,7 +660,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "tab-bar",
       name: "TabBar",
       element: (
-        <TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />
+        <TabBar
+          items={[
+            { key: "a", label: "A" },
+            { key: "b", label: "B" },
+          ]}
+          defaultValue="a"
+        />
       ),
       tags: ["tabs"],
       code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
@@ -779,11 +796,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "result-score-section",
       name: "ResultScoreSection",
       element: (
-        <ResultScoreSection
-          result="Win"
-          score={5}
-          commitMeta={() => {}}
-        />
+        <ResultScoreSection result="Win" score={5} commitMeta={() => {}} />
       ),
       tags: ["result", "score"],
       code: `<ResultScoreSection result="Win" score={5} commitMeta={() => {}} />`,

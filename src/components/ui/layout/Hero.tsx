@@ -89,6 +89,9 @@ function Hero<Key extends string = string>({
   ...rest
 }: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
+  const dividerStyle = {
+    "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
+  } as React.CSSProperties;
 
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
@@ -128,25 +131,31 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4"
+            ? "relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 shadow-[0_8px_24px_-12px_hsl(var(--accent)/0.35),inset_0_1px_0_hsl(var(--highlight)/0.6)] bg-[linear-gradient(180deg,hsl(var(--card)/0.9),hsl(var(--card)/0.85))]"
             : "",
           sticky && topClassName,
         )}
       >
         {frame ? (
           <>
-            {/* decorative layers */}
             <span aria-hidden className="hero2-beams" />
             <span aria-hidden className="hero2-scanlines" />
-            <span aria-hidden className="hero2-noise" />
+            <span aria-hidden className="hero2-noise opacity-[0.03]" />
           </>
         ) : null}
 
         <div
-          className={cx("relative z-[2] flex items-center gap-4", barClassName)}
+          className={cx(
+            "relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6",
+            barClassName,
+          )}
         >
           {rail ? <span aria-hidden className="rail" /> : null}
-          {icon ? <div className="opacity-90">{icon}</div> : null}
+          {icon ? (
+            <div className="opacity-70 hover:opacity-100 focus-visible:opacity-100 transition-opacity">
+              {icon}
+            </div>
+          ) : null}
 
           <div className="min-w-0">
             {eyebrow ? (
@@ -157,13 +166,13 @@ function Hero<Key extends string = string>({
 
             <div className="flex items-baseline gap-2">
               <h2
-                className="hero2-title title-glow text-xl sm:text-2xl truncate"
+                className="hero2-title title-glow text-2xl md:text-3xl font-semibold tracking-[-0.005em] truncate"
                 data-text={headingStr}
               >
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-xs sm:text-sm tracking-wide text-muted-foreground truncate">
+                <span className="text-sm md:text-base font-medium text-[hsl(var(--muted-foreground))] truncate">
                   {subtitle}
                 </span>
               ) : null}
@@ -174,19 +183,21 @@ function Hero<Key extends string = string>({
         </div>
 
         {children || search || actions ? (
-          <div className="relative z-[2] mt-4 flex flex-col gap-4">
+          <div className="relative z-[2] mt-5 flex flex-col gap-5">
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
             {search || actions ? (
-              <div
-                className={cx(
-                  "relative hero2-sep",
-                  dividerTint === "life" ? "neon-life" : "neon-primary",
-                )}
-              >
-                <span aria-hidden className="hero2-neon-line" />
-                <div className="hero2-sep-row">
+              <div className="relative" style={dividerStyle}>
+                <span
+                  aria-hidden
+                  className="block h-px bg-[hsl(var(--divider))/0.35]"
+                />
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                />
+                <div className="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4">
                   {search ? <HeroSearchBar {...search} /> : null}
                   {actions ? (
                     <div className="flex items-center gap-2">{actions}</div>
@@ -200,7 +211,7 @@ function Hero<Key extends string = string>({
         {frame ? (
           <div
             aria-hidden
-            className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
+            className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border/55"
           />
         ) : null}
       </div>
@@ -293,33 +304,6 @@ export function HeroGlitchStyles() {
   return (
     <style jsx global>{`
       /* === Hero: header background layers ================================ */
-      .hero2-frame {
-        --hero2-c1: hsl(var(--accent));
-        --hero2-c2: hsl(var(--primary));
-        --hero2-bloom: hsl(var(--shadow-color) / 0.85);
-        box-shadow:
-          0 calc(var(--space-3) _-_var(--space-1) / 2)
-            calc(var(--space-6) _+_var(--space-2))
-            calc(-1 * var(--space-5) _+_var(--space-2) _-_var(--space-1) / 2)
-            var(--hero2-bloom),
-          inset 0 0 0 var(--hairline-w) hsl(var(--border) / 0.55);
-        background:
-          radial-gradient(
-            120% 120% at 0% 0%,
-            hsl(var(--accent) / 0.14) 0%,
-            transparent 55%
-          ),
-          radial-gradient(
-            120% 120% at 100% 0%,
-            hsl(var(--primary) / 0.12) 0%,
-            transparent 55%
-          ),
-          linear-gradient(
-            0deg,
-            hsl(var(--card) / 0.82),
-            hsl(var(--card) / 0.82)
-          );
-      }
       .hero2-beams {
         position: absolute;
         inset: calc(var(--space-1) / -2);
@@ -405,7 +389,7 @@ export function HeroGlitchStyles() {
         inset: 0;
         z-index: 1;
         pointer-events: none;
-        opacity: 0.08;
+        opacity: 0.03;
         mix-blend-mode: overlay;
         background-image: url("data:image/svg+xml;utf8,\
         <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'>\
@@ -513,66 +497,9 @@ export function HeroGlitchStyles() {
       .neon-life {
         --neon: var(--accent);
       }
-      .hero2-sep {
-        position: relative;
-        padding-top: var(--space-4);
-      }
-      .hero2-neon-line {
-        position: absolute;
-        left: calc(-1 * var(--space-2));
-        right: calc(-1 * var(--space-2));
-        top: 0;
-        height: var(--hairline-w);
-        pointer-events: none;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          hsl(var(--neon)),
-          transparent
-        );
-        box-shadow:
-          0 0 var(--space-1) hsl(var(--neon) / 0.55),
-          0 0 var(--space-3) hsl(var(--neon) / 0.35),
-          0 0 var(--space-5) hsl(var(--neon) / 0.2);
-        animation: neon-flicker 3.4s infinite;
-        opacity: 0.95;
-      }
-      .hero2-sep-row {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-3);
-        justify-content: space-between;
-      }
-      @keyframes neon-flicker {
-        0%,
-        17%,
-        22%,
-        26%,
-        52%,
-        100% {
-          opacity: 1;
-        }
-        18% {
-          opacity: 0.72;
-        }
-        24% {
-          opacity: 0.55;
-        }
-        54% {
-          opacity: 0.78;
-        }
-        70% {
-          opacity: 0.62;
-        }
-        74% {
-          opacity: 1;
-        }
-      }
-
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,
-        .hero2-title::after,
-        .hero2-neon-line {
+        .hero2-title::after {
           animation: none !important;
           transition: none !important;
         }

@@ -20,6 +20,7 @@ export default {
   accent2: "192 100% 25%",
   accentForeground: "0 0% 100%",
   accentSoft: "292 90% 15%",
+  highlight: "0 0% 100%",
   glow: "292 90% 35%",
   ringMuted: "248 20% 22%",
   danger: "0 84% 60%",
