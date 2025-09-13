@@ -152,9 +152,7 @@ export default function TeamCompPage() {
         label: "Builder",
         hint: "Fill allies vs enemies",
         icon: <Hammer />,
-        render: () => (
-          <Builder ref={builderApi} editing={editing.builder} />
-        ),
+        render: () => <Builder ref={builderApi} editing={editing.builder} />,
         ref: builderRef,
       },
       {
@@ -191,9 +189,7 @@ export default function TeamCompPage() {
           eyebrow={active?.label}
           heading="Comps"
           subtitle={
-            subTab === "sheet"
-              ? "Archetypes & tips"
-              : "Your saved compositions"
+            subTab === "sheet" ? "Archetypes & tips" : "Your saved compositions"
           }
           subTabs={{
             items: subTabs,
@@ -299,8 +295,8 @@ export default function TeamCompPage() {
         }
       >
         <p className="text-sm text-muted-foreground">
-          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
-          Path for fights, ganks, or cross-map trades.
+          If you’re on a <em>Medium</em> champ, don’t race farm vs{" "}
+          <em>Very Fast</em>. Path for fights, ganks, or cross-map trades.
         </p>
       </Hero>
     );
@@ -323,7 +319,7 @@ export default function TeamCompPage() {
       className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4 md:col-span-12">
+      <div className="sticky top-0 hero2-neomorph relative overflow-hidden rounded-card r-card-lg px-6 md:px-7 lg:px-8 py-6 md:col-span-12">
         <span aria-hidden className="hero2-beams" />
         <span aria-hidden className="hero2-scanlines" />
         <span aria-hidden className="hero2-noise" />

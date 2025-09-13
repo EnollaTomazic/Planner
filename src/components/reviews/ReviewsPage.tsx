@@ -93,7 +93,7 @@ export default function ReviewsPage({
       className="page-shell py-6 space-y-6"
       aria-labelledby="reviews-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
+      <div className="sticky top-0 hero2-neomorph relative overflow-hidden rounded-card r-card-lg px-6 md:px-7 lg:px-8 py-6">
         <span aria-hidden className="hero2-beams" />
         <span aria-hidden className="hero2-scanlines" />
         <span aria-hidden className="hero2-noise" />
@@ -159,11 +159,7 @@ export default function ReviewsPage({
         />
       </div>
 
-      <div
-        className={cn(
-          "grid grid-cols-1 items-start gap-6 md:grid-cols-12",
-        )}
-      >
+      <div className={cn("grid grid-cols-1 items-start gap-6 md:grid-cols-12")}>
         <nav aria-label="Review list" className="md:col-span-4">
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">

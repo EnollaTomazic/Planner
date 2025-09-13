@@ -71,7 +71,7 @@ function PageContent() {
       className="page-shell py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
-      <div className="sticky top-0 hero2-frame relative overflow-hidden rounded-card r-card-lg px-4 py-4">
+      <div className="sticky top-0 hero2-neomorph relative overflow-hidden rounded-card r-card-lg px-6 md:px-7 lg:px-8 py-6">
         <span aria-hidden className="hero2-beams" />
         <span aria-hidden className="hero2-scanlines" />
         <span aria-hidden className="hero2-noise" />
