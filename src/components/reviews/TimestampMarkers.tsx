@@ -151,7 +151,7 @@ function TimestampMarkers(
           }
           title="Timestamp mode"
         >
-          <NeonIcon kind="clock" on={useTimestamp} size="1em" />
+          <NeonIcon kind="clock" on={useTimestamp} size={32} />
         </button>
 
         <button
@@ -171,7 +171,7 @@ function TimestampMarkers(
           }
           title="Note-only mode"
         >
-          <NeonIcon kind="file" on={!useTimestamp} size="1em" />
+          <NeonIcon kind="file" on={!useTimestamp} size={32} />
         </button>
       </div>
 
