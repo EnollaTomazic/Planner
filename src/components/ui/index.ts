@@ -44,6 +44,8 @@ export { default as IconButton } from "./primitives/IconButton";
 export * from "./primitives/IconButton";
 export { default as Input } from "./primitives/Input";
 export * from "./primitives/Input";
+export { default as NeoCard } from "./primitives/NeoCard";
+export * from "./primitives/NeoCard";
 export * from "./primitives/Neu";
 export { default as SearchBar } from "./primitives/SearchBar";
 export * from "./primitives/SearchBar";

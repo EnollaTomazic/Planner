@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { NeoCard } from "@/components/ui";
 
 interface DashboardCardProps {
   title: string;
@@ -17,7 +18,7 @@ export default function DashboardCard({
   actions,
 }: DashboardCardProps) {
   return (
-    <div className="card-neo-soft rounded-card r-card-lg border border-border p-4 md:p-6 space-y-4">
+    <NeoCard className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}
@@ -35,6 +36,6 @@ export default function DashboardCard({
           {cta.label}
         </Link>
       )}
-    </div>
+    </NeoCard>
   );
 }
