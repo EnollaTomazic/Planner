@@ -41,7 +41,7 @@ import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import ToggleShowcase from "./ToggleShowcase";
-import WelcomeCardDemo from "./WelcomeCardDemo";
+import PageHeaderDemo from "./PageHeaderDemo";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import {
   RoleSelector,
@@ -605,11 +605,11 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </NeomorphicHeroFrame>`,
     },
     {
-      id: "welcome-card-demo",
-      name: "WelcomeCard",
-      element: <WelcomeCardDemo />,
+      id: "page-header-demo",
+      name: "PageHeader",
+      element: <PageHeaderDemo />,
       tags: ["hero", "header"],
-      code: `<WelcomeCardDemo />`,
+      code: `<PageHeaderDemo />`,
     },
     {
       id: "card-demo",

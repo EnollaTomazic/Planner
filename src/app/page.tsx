@@ -13,14 +13,7 @@ import {
   BottomNav,
   IsometricRoom,
 } from "@/components/home";
-import Hero from "@/components/ui/layout/Hero";
-import Header from "@/components/ui/layout/Header";
-import {
-  Button,
-  Spinner,
-  ThemeToggle,
-  NeomorphicHeroFrame,
-} from "@/components/ui";
+import { PageHeader, Button, ThemeToggle, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
@@ -40,39 +33,32 @@ function HomePageContent() {
         className="relative grid grid-cols-12 gap-4"
       >
         <div className="col-span-12">
-          <NeomorphicHeroFrame className="sticky top-0 rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8">
-            <div className="relative z-[2] grid grid-cols-12 gap-4">
-              <div className="col-span-12 sticky top-0">
-                <Header
-                  id="home-header"
-                  heading="Welcome to Planner"
-                  subtitle="Plan your day, track goals, and review games."
-                  icon={<Home className="opacity-80" />}
-                />
-              </div>
-              <div className="col-span-12">
-                <Hero
-                  frame={false}
-                  topClassName="top-[var(--header-stack)]"
-                  heading="Your day at a glance"
-                  actions={
-                    <>
-                      <ThemeToggle className="shrink-0" />
-                      <Link href="/planner">
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          className="px-4 whitespace-nowrap"
-                        >
-                          Plan Week
-                        </Button>
-                      </Link>
-                    </>
-                  }
-                />
-              </div>
-            </div>
-          </NeomorphicHeroFrame>
+          <PageHeader
+            className="sticky top-0"
+            header={{
+              id: "home-header",
+              heading: "Welcome to Planner",
+              subtitle: "Plan your day, track goals, and review games.",
+              icon: <Home className="opacity-80" />,
+            }}
+            hero={{
+              heading: "Your day at a glance",
+              actions: (
+                <>
+                  <ThemeToggle className="shrink-0" />
+                  <Link href="/planner">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="px-4 whitespace-nowrap"
+                    >
+                      Plan Week
+                    </Button>
+                  </Link>
+                </>
+              ),
+            }}
+          />
         </div>
       </section>
       <div className="grid gap-4 md:grid-cols-12 items-start">
