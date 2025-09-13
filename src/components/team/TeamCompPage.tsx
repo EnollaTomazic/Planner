@@ -226,7 +226,7 @@ export default function TeamCompPage() {
           heading="Builder"
           subtitle="Fill allies vs enemies. Swap in one click."
           actions={
-            <div className="flex items-center gap-[var(--spacing-2)]">
+            <div className="flex items-center gap-2">
               <IconButton
                 title="Swap Allies ↔ Enemies"
                 aria-label="Swap Allies and Enemies"
@@ -275,11 +275,11 @@ export default function TeamCompPage() {
           ),
         }}
         actions={
-          <div className="flex items-center gap-[var(--spacing-2)]">
+          <div className="flex items-center gap-2">
             <Button
               variant="primary"
               size="sm"
-              className="px-[var(--spacing-4)] whitespace-nowrap"
+              className="px-4 whitespace-nowrap"
               onClick={() => clearsApi.current?.addRow("Medium")}
             >
               <Plus />
@@ -320,7 +320,7 @@ export default function TeamCompPage() {
       className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <div className="space-y-[var(--spacing-2)] md:col-span-12">
+      <div className="space-y-2 md:col-span-12">
         <Header
           id="teamcomp-header"
           eyebrow="Comps"
