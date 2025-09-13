@@ -74,7 +74,7 @@ export default function Header<Key extends string = string>({
 
         // Card look: no border, soft glow
         "rounded-card r-card-lg bg-card/70 backdrop-blur-md",
-        "shadow-[0_0_18px_hsl(var(--ring)/.35),0_0_32px_hsl(var(--accent)/.25)]",
+        "shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)]",
 
         // Safety: never let children bleed outside
         "overflow-hidden",
@@ -201,8 +201,8 @@ function TabsNav<Key extends string = string>({
       {items.map((t, i) => {
         const active = value === t.key;
         return (
-            <SegmentedButton
-              key={t.key}
+          <SegmentedButton
+            key={t.key}
             ref={setBtnRef(i) as (el: HTMLButtonElement | null) => void}
             role="tab"
             aria-selected={active}
