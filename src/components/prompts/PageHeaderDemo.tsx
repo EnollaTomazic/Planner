@@ -1,15 +1,19 @@
 import * as React from "react";
 import { PageHeader, Button, ThemeToggle } from "@/components/ui";
-import { Home } from "lucide-react";
 
 export default function PageHeaderDemo() {
   return (
     <PageHeader
-      className="px-6 md:px-7 lg:px-8"
       header={{
         heading: "Welcome to Planner",
         subtitle: "Plan your day, track goals, and review games.",
-        icon: <Home className="opacity-70" />,
+        icon: (
+          <img
+            src="https://chatgpt.com/backend-api/estuary/content?id=file-PYBH1vD28Bzi3KruKxaiXa&ts=488268&p=fs&cid=1&sig=1e357c5433df95c196bb9530996ae68bb6ef1b29fde1a5dc741cdc1fce727ecb&v=0"
+            alt=""
+            className="h-12 w-auto object-contain"
+          />
+        ),
         sticky: false,
         rail: false,
         barClassName: "p-0",

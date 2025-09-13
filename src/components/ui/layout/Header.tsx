@@ -51,6 +51,8 @@ export interface HeaderProps<Key extends string = string>
   tabs?: HeaderTabsProps<Key>;
   /** Optional card-style framing. */
   variant?: "plain" | "neo";
+  /** Show neon underline */
+  underline?: boolean;
 }
 
 export default function Header<Key extends string = string>({
@@ -68,6 +70,7 @@ export default function Header<Key extends string = string>({
   rail = true,
   tabs,
   variant = "plain",
+  underline = true,
   ...rest
 }: HeaderProps<Key>) {
   return (
@@ -81,7 +84,8 @@ export default function Header<Key extends string = string>({
         "overflow-hidden",
 
         // Neon underline
-        "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent",
+        underline &&
+          "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent",
 
         className,
       )}
