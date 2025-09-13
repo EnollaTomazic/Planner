@@ -18,6 +18,8 @@ export interface PageHeaderProps {
   className?: string;
   /** Additional props for the outer frame */
   frameProps?: NeomorphicHeroFrameProps;
+  /** Optional className for the inner content wrapper */
+  contentClassName?: string;
 }
 
 /**
@@ -30,16 +32,18 @@ export default function PageHeader({
   hero,
   className,
   frameProps,
+  contentClassName,
 }: PageHeaderProps) {
   return (
     <NeomorphicHeroFrame
       {...frameProps}
       className={cn(
-        "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
-        className,
+        className ??
+          "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
+        frameProps?.className,
       )}
     >
-      <div className="relative z-[2] space-y-4">
+      <div className={cn("relative z-[2]", contentClassName ?? "space-y-4")}>
         <Header {...header} underline={header.underline ?? false} />
         <Hero
           {...hero}

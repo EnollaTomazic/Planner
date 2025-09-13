@@ -10,9 +10,7 @@ import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
-import { Button, Select, NeomorphicHeroFrame } from "@/components/ui";
-import Hero from "@/components/ui/layout/Hero";
-import Header from "@/components/ui/layout/Header";
+import { Button, Select, PageHeader } from "@/components/ui";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -93,68 +91,65 @@ export default function ReviewsPage({
       className="page-shell py-6 space-y-6"
       aria-labelledby="reviews-header"
     >
-      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4">
-        <div className="relative z-[2] space-y-2">
-          <Header
-            id="reviews-header"
-            heading="Reviews"
-            icon={<BookOpen className="opacity-80" />}
-            topClassName="top-[var(--header-stack)]"
-          />
-          <Hero
-            frame={false}
-            topClassName="top-[var(--header-stack)]"
-            heading="Browse Reviews"
-            subtitle={<span className="pill">Total {base.length}</span>}
-            search={{
-              round: true,
-              value: q,
-              onValueChange: setQ,
-              placeholder: "Search title, tags, opponent, patch…",
-              className: "flex-1",
-            }}
-            actions={
-              <div className="flex items-center gap-3">
-                <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>Sort</span>
-                  <Select
-                    variant="animated"
-                    value={sort}
-                    onChange={(v) => setSort(v as SortKey)}
-                    items={[
-                      { value: "newest", label: "Newest" },
-                      { value: "oldest", label: "Oldest" },
-                      { value: "title", label: "Title" },
-                    ]}
-                    buttonClassName="h-10 px-4"
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="md"
-                  className="px-4 whitespace-nowrap"
-                  onClick={() => {
-                    setQ("");
-                    setSort("newest");
-                    setPanelMode("edit");
-                    onCreate();
-                  }}
-                >
-                  <Plus />
-                  <span>New Review</span>
-                </Button>
+      <PageHeader
+        className="sticky top-0 rounded-card r-card-lg px-4 py-4"
+        contentClassName="space-y-2"
+        header={{
+          id: "reviews-header",
+          heading: "Reviews",
+          icon: <BookOpen className="opacity-80" />,
+          topClassName: "top-[var(--header-stack)]",
+          underline: true,
+        }}
+        hero={{
+          frame: false,
+          topClassName: "top-[var(--header-stack)]",
+          heading: "Browse Reviews",
+          subtitle: <span className="pill">Total {base.length}</span>,
+          search: {
+            round: true,
+            value: q,
+            onValueChange: setQ,
+            placeholder: "Search title, tags, opponent, patch…",
+            className: "flex-1",
+          },
+          actions: (
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+                <span>Sort</span>
+                <Select
+                  variant="animated"
+                  value={sort}
+                  onChange={(v) => setSort(v as SortKey)}
+                  items={[
+                    { value: "newest", label: "Newest" },
+                    { value: "oldest", label: "Oldest" },
+                    { value: "title", label: "Title" },
+                  ]}
+                  buttonClassName="h-10 px-4"
+                />
               </div>
-            }
-          />
-        </div>
-      </NeomorphicHeroFrame>
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                className="px-4 whitespace-nowrap"
+                onClick={() => {
+                  setQ("");
+                  setSort("newest");
+                  setPanelMode("edit");
+                  onCreate();
+                }}
+              >
+                <Plus />
+                <span>New Review</span>
+              </Button>
+            </div>
+          ),
+        }}
+      />
 
-      <div
-        className={cn(
-          "grid grid-cols-1 items-start gap-6 md:grid-cols-12",
-        )}
-      >
+      <div className={cn("grid grid-cols-1 items-start gap-6 md:grid-cols-12")}>
         <nav aria-label="Review list" className="md:col-span-4">
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
