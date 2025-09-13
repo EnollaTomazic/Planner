@@ -131,7 +131,7 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 shadow-[0_8px_24px_-12px_hsl(var(--accent)/0.35),inset_0_1px_0_hsl(var(--highlight)/0.6)] bg-[linear-gradient(180deg,hsl(var(--card)/0.9),hsl(var(--card)/0.85))]"
+            ? "relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 hero2-neomorph"
             : "",
           sticky && topClassName,
         )}
@@ -409,6 +409,21 @@ export function HeroGlitchStyles() {
         50% {
           background-position: 50% 50%;
         }
+      }
+
+      /* === Neomorphic frame ============================================ */
+      .hero2-neomorph {
+        background: linear-gradient(
+          145deg,
+          hsl(var(--card)),
+          hsl(var(--panel))
+        );
+        box-shadow:
+          inset var(--space-1) var(--space-1) var(--space-2)
+            hsl(var(--background) / 0.55),
+          inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+            var(--space-2) hsl(var(--highlight) / 0.05),
+          0 0 var(--space-4) hsl(var(--ring) / 0.25);
       }
 
       /* === Glitch title ================================================== */

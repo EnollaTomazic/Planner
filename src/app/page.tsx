@@ -35,7 +35,7 @@ function HomePageContent() {
         className="relative grid grid-cols-12 gap-4"
       >
         <div className="col-span-12">
-          <div className="sticky top-0 relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 shadow-[0_8px_24px_-12px_hsl(var(--accent)/0.35),inset_0_1px_0_hsl(var(--highlight)/0.6)] bg-[linear-gradient(180deg,hsl(var(--card)/0.9),hsl(var(--card)/0.85))]">
+          <div className="sticky top-0 relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 hero2-neomorph">
             <span aria-hidden className="hero2-beams" />
             <span aria-hidden className="hero2-scanlines" />
             <span aria-hidden className="hero2-noise opacity-[0.03]" />
