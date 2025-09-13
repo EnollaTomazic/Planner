@@ -15,12 +15,12 @@ import {
 } from "@/components/home";
 import Hero from "@/components/ui/layout/Hero";
 import Header from "@/components/ui/layout/Header";
-import { Button, Spinner } from "@/components/ui";
+import { Button, Spinner, ThemeToggle } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
 function HomePageContent() {
-  const [theme, setTheme] = useTheme();
+  const [theme] = useTheme();
   useThemeQuerySync();
 
   return (
@@ -39,21 +39,24 @@ function HomePageContent() {
           topClassName="top-[var(--header-stack)]"
           heading="Your day at a glance"
           actions={
-            <Link href="/planner">
-              <Button
-                variant="primary"
-                size="sm"
-                className="px-[var(--spacing-4)] whitespace-nowrap"
-              >
-                Plan Week
-              </Button>
-            </Link>
+            <>
+              <ThemeToggle className="shrink-0" />
+              <Link href="/planner">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="px-[var(--spacing-4)] whitespace-nowrap"
+                >
+                  Plan Week
+                </Button>
+              </Link>
+            </>
           }
         />
       </div>
       <div className="grid gap-4 md:grid-cols-12 items-start">
         <div className="md:col-span-6">
-          <QuickActions theme={theme} setTheme={setTheme} />
+          <QuickActions />
         </div>
         <div className="md:col-span-6">
           <IsometricRoom variant={theme.variant} />
