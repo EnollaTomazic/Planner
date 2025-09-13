@@ -391,7 +391,7 @@ const AnimatedSelectImpl = React.forwardRef<
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
-    "glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden",
+    "glitch-trigger relative flex items-center h-9 rounded-full px-3 overflow-hidden",
     "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
     "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",

@@ -81,33 +81,6 @@ exports[`ReviewsPage > renders default state 1`] = `
           <style>
             
       /* === Hero: header background layers ================================ */
-      .hero2-frame {
-        --hero2-c1: hsl(var(--accent));
-        --hero2-c2: hsl(var(--primary));
-        --hero2-bloom: hsl(var(--shadow-color) / 0.85);
-        box-shadow:
-          0 calc(var(--space-3) _-_var(--space-1) / 2)
-            calc(var(--space-6) _+_var(--space-2))
-            calc(-1 * var(--space-5) _+_var(--space-2) _-_var(--space-1) / 2)
-            var(--hero2-bloom),
-          inset 0 0 0 var(--hairline-w) hsl(var(--border) / 0.55);
-        background:
-          radial-gradient(
-            120% 120% at 0% 0%,
-            hsl(var(--accent) / 0.14) 0%,
-            transparent 55%
-          ),
-          radial-gradient(
-            120% 120% at 100% 0%,
-            hsl(var(--primary) / 0.12) 0%,
-            transparent 55%
-          ),
-          linear-gradient(
-            0deg,
-            hsl(var(--card) / 0.82),
-            hsl(var(--card) / 0.82)
-          );
-      }
       .hero2-beams {
         position: absolute;
         inset: calc(var(--space-1) / -2);
@@ -193,7 +166,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         inset: 0;
         z-index: 1;
         pointer-events: none;
-        opacity: 0.08;
+        opacity: 0.03;
         mix-blend-mode: overlay;
         background-image: url("data:image/svg+xml;utf8,        &lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'&gt;          &lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;          &lt;rect width='100%' height='100%' filter='url(%23n)' opacity='0.38'/&gt;&lt;/svg&gt;");
         background-size: calc(var(--space-8) * 4_+_var(--space-5))
@@ -298,66 +271,9 @@ exports[`ReviewsPage > renders default state 1`] = `
       .neon-life {
         --neon: var(--accent);
       }
-      .hero2-sep {
-        position: relative;
-        padding-top: var(--space-4);
-      }
-      .hero2-neon-line {
-        position: absolute;
-        left: calc(-1 * var(--space-2));
-        right: calc(-1 * var(--space-2));
-        top: 0;
-        height: var(--hairline-w);
-        pointer-events: none;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          hsl(var(--neon)),
-          transparent
-        );
-        box-shadow:
-          0 0 var(--space-1) hsl(var(--neon) / 0.55),
-          0 0 var(--space-3) hsl(var(--neon) / 0.35),
-          0 0 var(--space-5) hsl(var(--neon) / 0.2);
-        animation: neon-flicker 3.4s infinite;
-        opacity: 0.95;
-      }
-      .hero2-sep-row {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-3);
-        justify-content: space-between;
-      }
-      @keyframes neon-flicker {
-        0%,
-        17%,
-        22%,
-        26%,
-        52%,
-        100% {
-          opacity: 1;
-        }
-        18% {
-          opacity: 0.72;
-        }
-        24% {
-          opacity: 0.55;
-        }
-        54% {
-          opacity: 0.78;
-        }
-        70% {
-          opacity: 0.62;
-        }
-        74% {
-          opacity: 1;
-        }
-      }
-
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,
-        .hero2-title::after,
-        .hero2-neon-line {
+        .hero2-title::after {
           animation: none !important;
           transition: none !important;
         }
@@ -368,7 +284,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             class="sticky-blur top-[var(--header-stack)]"
           >
             <div
-              class="relative z-[2] flex items-center gap-4"
+              class="relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6"
             >
               <span
                 aria-hidden="true"
@@ -381,13 +297,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                   class="flex items-baseline gap-2"
                 >
                   <h2
-                    class="hero2-title title-glow text-xl sm:text-2xl truncate"
+                    class="hero2-title title-glow text-2xl md:text-3xl font-semibold tracking-[-0.005em] truncate"
                     data-text="Browse Reviews"
                   >
                     Browse Reviews
                   </h2>
                   <span
-                    class="text-xs sm:text-sm tracking-wide text-muted-foreground truncate"
+                    class="text-sm md:text-base font-medium text-[hsl(var(--muted-foreground))] truncate"
                   >
                     <span
                       class="pill"
@@ -400,17 +316,22 @@ exports[`ReviewsPage > renders default state 1`] = `
               </div>
             </div>
             <div
-              class="relative z-[2] mt-4 flex flex-col gap-4"
+              class="relative z-[2] mt-5 flex flex-col gap-5"
             >
               <div
-                class="relative hero2-sep neon-primary"
+                class="relative"
+                style="--divider: var(--ring);"
               >
                 <span
                   aria-hidden="true"
-                  class="hero2-neon-line"
+                  class="block h-px bg-[hsl(var(--divider))/0.35]"
+                />
+                <span
+                  aria-hidden="true"
+                  class="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                 />
                 <div
-                  class="hero2-sep-row"
+                  class="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4"
                 >
                   <form
                     class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
@@ -483,7 +404,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               aria-expanded="false"
                               aria-haspopup="listbox"
                               aria-label="Select option"
-                              class="glitch-trigger relative flex items-center rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-4"
+                              class="glitch-trigger relative flex items-center h-9 rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-4"
                               data-lit="true"
                               data-open="false"
                               type="button"
@@ -763,7 +684,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         </div>
                       </div>
                       <button
-                        class="relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-panel/85 overflow-hidden shadow-neo text-foreground"
+                        class="relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-[0_2px_6px_-1px_hsl(var(--accent)/0.25)] active:translate-y-px active:shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.6)] text-foreground"
                         tabindex="0"
                         type="button"
                       >

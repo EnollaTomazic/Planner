@@ -93,10 +93,10 @@ export const variants: Record<
   }
 > = {
   primary: {
-    className: "bg-panel/85 overflow-hidden shadow-neo",
+    className:
+      "bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-[0_2px_6px_-1px_hsl(var(--accent)/0.25)] active:translate-y-px active:shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.6)]",
     whileTap: {
-      scale: 0.96,
-      boxShadow: neuInset(10) as CSSProperties["boxShadow"],
+      scale: 0.97,
     },
     contentClass: "relative z-10 inline-flex items-center gap-2",
   },
@@ -133,7 +133,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border border-[--focus] font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
