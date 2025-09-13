@@ -29,6 +29,7 @@ import {
   PillarSelector,
   Header,
   Hero,
+  PageBanner,
   SectionCard as UiSectionCard,
   type HeaderTab,
 } from "@/components/ui";
@@ -184,6 +185,41 @@ function HeroDemo() {
       }
       sticky={false}
       topClassName="top-0"
+    />
+  );
+}
+
+function PageBannerDemo() {
+  const [sub, setSub] = React.useState("one");
+  const [query, setQuery] = React.useState("");
+  const subTabs: HeaderTab<string>[] = [
+    { key: "one", label: "One" },
+    { key: "two", label: "Two" },
+  ];
+  return (
+    <PageBanner
+      header={{ heading: "PageBanner", sticky: false, topClassName: "top-0" }}
+      hero={{
+        heading: "Hero",
+        subTabs: { items: subTabs, value: sub, onChange: setSub },
+        search: {
+          id: "page-banner-search",
+          value: query,
+          onValueChange: setQuery,
+          round: true,
+          "aria-label": "Search",
+        },
+        actions: (
+          <div className="flex items-center gap-2">
+            <Button size="sm">Action</Button>
+            <IconButton size="sm" aria-label="Add">
+              <Plus />
+            </IconButton>
+          </div>
+        ),
+        sticky: false,
+        topClassName: "top-0",
+      }}
     />
   );
 }
@@ -573,6 +609,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <HeroDemo />,
       tags: ["hero"],
       code: `<Hero heading="Hero" subTabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }} search={{ id: "hero-demo-search", value: "", onValueChange: () => {}, round: true, "aria-label": "Search" }} actions={<div className="flex items-center gap-2"><Button size="sm">Action</Button><IconButton size="sm" aria-label="Add"><Plus /></IconButton></div>} sticky={false} topClassName="top-0" />`,
+    },
+    {
+      id: "page-banner-demo",
+      name: "PageBanner",
+      description: "Header and Hero wrapped in a neomorphic frame",
+      element: <PageBannerDemo />,
+      tags: ["banner", "layout"],
+      code: `<PageBanner header={{ heading: \"PageBanner\", sticky: false, topClassName: \"top-0\" }} hero={{ heading: \"Hero\", subTabs: { items: [{ key: \"one\", label: \"One\" }, { key: \"two\", label: \"Two\" }], value: \"one\", onChange: () => {} }, search: { id: \"page-banner-search\", value: \"\", onValueChange: () => {}, round: true, \"aria-label\": \"Search\" }, actions: <div className=\"flex items-center gap-2\"><Button size=\"sm\">Action</Button><IconButton size=\"sm\" aria-label=\"Add\"><Plus /></IconButton></div>, sticky: false, topClassName: \"top-0\" }} />`,
     },
     {
       id: "welcome-card-demo",
