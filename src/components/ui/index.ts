@@ -3,6 +3,7 @@
 export { default as AnimationToggle } from "./AnimationToggle";
 export { default as Badge } from "./Badge";
 export * from "./Badge";
+export { default as CatCompanion } from "./CatCompanion";
 export { default as Label } from "./Label";
 export * from "./Label";
 export { default as Modal } from "./Modal";

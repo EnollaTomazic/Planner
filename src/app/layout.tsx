@@ -5,6 +5,7 @@ import "./themes.css";
 
 import type { Metadata } from "next";
 import SiteChrome from "@/components/chrome/SiteChrome";
+import { CatCompanion } from "@/components/ui";
 import { themeBootstrapScript } from "@/lib/theme";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground glitch-root">
         <ThemeProvider>
           <SiteChrome />
+          <CatCompanion />
           <div className="relative z-10">{children}</div>
         </ThemeProvider>
       </body>

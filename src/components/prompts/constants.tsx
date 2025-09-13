@@ -22,6 +22,7 @@ import {
   TabBar,
   TitleBar,
   AnimationToggle,
+  CatCompanion,
   ThemeToggle,
   CheckCircle,
   SideSelector,
@@ -899,6 +900,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     <SectionCard.Body>Content</SectionCard.Body>
   </SectionCard>
 </div>`,
+    },
+    {
+      id: "cat-companion",
+      name: "CatCompanion",
+      element: <CatCompanion />,
+      tags: ["cat", "companion"],
+      code: `<CatCompanion />`,
     },
   ],
 };
