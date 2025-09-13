@@ -4,7 +4,7 @@ export default function CatCompanion() {
   return (
     <div className="fixed bottom-4 left-4 z-50 pointer-events-none select-none">
       <svg
-        className="w-8 h-8 text-accent motion-safe:animate-bounce"
+        className="w-8 h-8 text-accent motion-safe:animate-[cat-float_3s_ease-in-out_infinite]"
         role="img"
         aria-label="Cat companion"
         tabIndex={-1}
