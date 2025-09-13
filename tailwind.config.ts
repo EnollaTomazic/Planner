@@ -15,7 +15,10 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        card: { DEFAULT: "hsl(var(--card))" },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
         panel: { DEFAULT: "hsl(var(--panel))" },
         "card-hairline": "hsl(var(--card-hairline))",
         primary: {
@@ -25,12 +28,17 @@ const config: Config = {
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
           soft: "hsl(var(--accent-soft))",
         },
         "accent-2": "hsl(var(--accent-2))",
         glow: "hsl(var(--glow))",
         "ring-muted": "hsl(var(--ring-muted))",
         danger: "hsl(var(--danger))",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
         warning: "hsl(var(--warning))",
         success: {
           DEFAULT: "hsl(var(--success))",
