@@ -11,20 +11,25 @@
  */
 
 import * as React from "react";
-import TabSelector from "@/components/ui/TabSelector";
+import TabSelector, {
+  type TabItem,
+  type TabSelectorProps,
+} from "@/components/ui/TabSelector";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeaderTab<Key extends string = string> {
-  key: Key;
-  label: React.ReactNode;
+export interface HeaderTab<Key extends string = string>
+  extends TabItem<Key> {
   hint?: string;
-  icon?: React.ReactNode;
 }
 
-export interface HeaderTabsProps<Key extends string = string> {
+export interface HeaderTabsProps<Key extends string = string>
+  extends Omit<
+    TabSelectorProps<Key>,
+    "tabs" | "value" | "defaultValue" | "onValueChange"
+  > {
   items: HeaderTab<Key>[];
   value: Key;
   onChange: (key: Key) => void;
@@ -37,7 +42,7 @@ export interface HeaderProps<Key extends string = string>
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
-  /** Right slot (legacy). Ignored if `tabs` is provided. */
+  /** Right slot for actions (renders alongside tabs). */
   right?: React.ReactNode;
   children?: React.ReactNode;
   /** Still overridable, but true by default */
@@ -50,7 +55,7 @@ export interface HeaderProps<Key extends string = string>
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeaderTabsProps<Key>;
   /** Optional card-style framing. */
-  variant?: "plain" | "neo";
+  variant?: "plain" | "neo" | "minimal";
   /** Show neon underline */
   underline?: boolean;
 }
@@ -73,15 +78,46 @@ export default function Header<Key extends string = string>({
   underline = true,
   ...rest
 }: HeaderProps<Key>) {
+  const isNeo = variant === "neo";
+  const isMinimal = variant === "minimal";
+
+  let tabControl: React.ReactNode = null;
+  if (tabs) {
+    const {
+      items: tabItems,
+      value: tabValue,
+      onChange: tabOnChange,
+      ariaLabel: tabAriaLabel,
+      size: tabSize,
+      align: tabAlign,
+      className: tabClassName,
+      ...tabSelectorRest
+    } = tabs;
+
+    tabControl = (
+      <TabSelector
+        tabs={tabItems}
+        value={tabValue}
+        onValueChange={tabOnChange}
+        ariaLabel={tabAriaLabel}
+        size={tabSize ?? "sm"}
+        align={tabAlign ?? "end"}
+        className={cx("w-auto max-w-full shrink-0", tabClassName)}
+        {...tabSelectorRest}
+      />
+    );
+  }
+
+  const hasTabs = Boolean(tabControl);
+  const hasRight = right != null;
+
   return (
     <header
       className={cx(
         "z-[999] relative isolate",
-        variant === "neo" &&
+        isNeo &&
           "rounded-card r-card-lg bg-card/70 backdrop-blur-md shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)]",
-
-        // Safety: never let children bleed outside
-        "overflow-hidden",
+        isNeo && "overflow-hidden",
 
         // Neon underline
         underline &&
@@ -96,7 +132,8 @@ export default function Header<Key extends string = string>({
         className={cx(
           sticky && cx("sticky", topClassName),
           "relative flex items-center",
-          "px-3 sm:px-4 py-3 sm:py-4 min-h-12",
+          isMinimal ? "px-4 py-4" : "px-3 sm:px-4 py-3 sm:py-4",
+          "min-h-12",
           barClassName,
         )}
       >
@@ -130,26 +167,24 @@ export default function Header<Key extends string = string>({
         </div>
 
         {/* Right slot / tabs */}
-        {tabs ? (
-          <div className="ml-auto shrink-0">
-            <TabSelector
-              tabs={tabs.items}
-              value={tabs.value}
-              onValueChange={tabs.onChange}
-              ariaLabel={tabs.ariaLabel}
-              align="end"
-              size="sm"
-            />
+        {hasTabs || hasRight ? (
+          <div className="ml-auto flex min-w-0 items-center gap-3">
+            {hasTabs ? tabControl : null}
+            {hasRight ? (
+              <div className="flex shrink-0 items-center gap-2">{right}</div>
+            ) : null}
           </div>
-        ) : right ? (
-          <div className="ml-auto shrink-0">{right}</div>
         ) : null}
       </div>
 
       {/* Body under the bar */}
       {children ? (
         <div
-          className={cx("relative px-3 py-3 sm:px-4 sm:py-4", bodyClassName)}
+          className={cx(
+            "relative",
+            isMinimal ? "px-4 py-4" : "px-3 py-3 sm:px-4 sm:py-4",
+            bodyClassName,
+          )}
         >
           {children}
         </div>
