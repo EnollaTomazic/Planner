@@ -4,6 +4,7 @@ import { PageHeader, Button, ThemeToggle } from "@/components/ui";
 export default function PageHeaderDemo() {
   return (
     <PageHeader
+      id="page-header-demo"
       header={{
         heading: "Welcome to Planner",
         subtitle: "Plan your day, track goals, and review games.",
