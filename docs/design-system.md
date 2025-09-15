@@ -116,6 +116,7 @@ Following these guidelines keeps the interface consistent and lets theme updates
 - Wraps its input in a `<form role="search">` for accessibility.
 - Submitting the form calls `onValueChange` immediately and optionally `onSubmit` with the current query.
 - Disables `autoComplete`, `autoCorrect`, `spellCheck`, and `autoCapitalize` by default for consistent text entry.
+- Accepts an optional `label` prop that renders the shared `<Label>` component and wires up `htmlFor`/`id` automatically. When you omit `label`, supply your own `aria-labelledby` or `aria-label` as needed.
 
 ```tsx
 import { SearchBar } from "@/components/ui";
@@ -126,6 +127,7 @@ export function Demo() {
       value=""
       onValueChange={() => {}}
       onSubmit={(q) => console.log(q)}
+      label="Search tasks"
     />
   );
 }

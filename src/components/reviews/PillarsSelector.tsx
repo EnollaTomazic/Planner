@@ -127,7 +127,7 @@ function PillarsSelector(
               title={active ? `${p} selected` : `Select ${p}`}
             >
               <NeonPillarChip active={active}>
-                <PillarBadge pillar={p} size="md" interactive active={active} />
+                <PillarBadge pillar={p} size="md" active={active} as="span" />
               </NeonPillarChip>
             </button>
           );

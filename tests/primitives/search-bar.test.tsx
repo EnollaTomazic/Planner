@@ -24,6 +24,7 @@ describe('SearchBar', () => {
     fireEvent.submit(getByRole('search'));
     expect(handleChange).toHaveBeenCalledWith('hello');
     expect(handleSubmit).toHaveBeenCalledWith('hello');
+    vi.runAllTimers();
     vi.useRealTimers();
   });
 
@@ -64,5 +65,30 @@ describe('SearchBar', () => {
     expect(form).toHaveAttribute('data-loading', 'true');
     const input = getByRole('searchbox');
     expect(input).toBeDisabled();
+  });
+
+  it('renders an associated label when provided', () => {
+    const { getByLabelText } = render(
+      <SearchBar value="" onValueChange={() => {}} label="Search tasks" />
+    );
+
+    expect(getByLabelText('Search tasks')).toBeInTheDocument();
+  });
+
+  it('allows external labelling via aria-labelledby', () => {
+    const { getByRole } = render(
+      <>
+        <span id="search-title">Lookup</span>
+        <SearchBar
+          value=""
+          onValueChange={() => {}}
+          aria-labelledby="search-title"
+        />
+      </>
+    );
+
+    const input = getByRole('searchbox');
+    expect(input).toHaveAttribute('aria-labelledby', 'search-title');
+    expect(input).not.toHaveAttribute('aria-label');
   });
 });
