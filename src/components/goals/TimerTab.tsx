@@ -253,27 +253,28 @@ export default function TimerTab() {
   }, []);
 
   return (
-    <SectionCard className="goal-card no-hover">
-      <SectionCard.Header>
-        <Hero
-          eyebrow="Focus"
-          heading="Timer"
-          subtitle="Pick a duration and focus."
-          subTabs={{
-            items: tabItems,
-            value: profile,
-            onChange: (k: string) => setProfile(k as ProfileKey),
-            size: "md",
-            align: "between",
-            ariaLabel: "Timer profiles",
-            right: rightSlot,
-            showBaseline: true,
-            className: "overflow-x-auto",
-          }}
-        />
-      </SectionCard.Header>
+    <>
+      <Hero
+        frame={false}
+        topClassName="top-[var(--header-stack)]"
+        eyebrow="Focus"
+        heading="Timer"
+        subtitle="Pick a duration and focus."
+        subTabs={{
+          items: tabItems,
+          value: profile,
+          onChange: (k: string) => setProfile(k as ProfileKey),
+          size: "md",
+          align: "between",
+          ariaLabel: "Timer profiles",
+          right: rightSlot,
+          showBaseline: true,
+          className: "overflow-x-auto",
+        }}
+      />
 
-      <SectionCard.Body>
+      <SectionCard className="goal-card no-hover">
+        <SectionCard.Body>
           <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
             {/* plus/minus */}
             <IconButton
@@ -378,5 +379,6 @@ export default function TimerTab() {
           </div>
         </SectionCard.Body>
       </SectionCard>
+    </>
   );
 }
