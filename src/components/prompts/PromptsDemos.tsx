@@ -11,7 +11,6 @@ import {
   FieldShell,
   Button,
   Label,
-  Badge,
   Snackbar,
   Spinner,
   SectionCard,
@@ -25,6 +24,7 @@ import {
   CheckCircle,
   Toggle,
 } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
 // Prompts components: GalleryItem, PromptsComposePanel, PromptsHeader
 import { ArrowUp, Check as CheckIcon } from "lucide-react";

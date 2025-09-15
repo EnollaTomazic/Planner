@@ -6,7 +6,6 @@ import {
   Input,
   Textarea,
   Select,
-  Badge,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
@@ -34,7 +33,7 @@ import {
   Label,
   type TabItem,
 } from "@/components/ui";
-import BadgePrimitive from "@/components/ui/primitives/Badge";
+import Badge from "@/components/ui/primitives/Badge";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
@@ -545,8 +544,8 @@ export default function ComponentGallery() {
 
   const miscItems = React.useMemo(
     () => [
-      { label: "Badge", element: <Badge>Badge</Badge> },
-      { label: "Badge Pill", element: <Badge variant="pill">Pill</Badge> },
+      { label: "Badge", element: <Badge tone="neutral">Badge</Badge> },
+      { label: "Badge Accent", element: <Badge tone="accent">Accent</Badge> },
       {
         label: "Accent Overlay Box",
         element: (
@@ -842,21 +841,21 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Badge Variants",
+        label: "Badge Tones",
         element: (
           <div className="w-56 flex justify-center gap-2">
-            <Badge>Neutral</Badge>
-            <Badge variant="accent">Accent</Badge>
-            <Badge variant="pill">Pill</Badge>
+            <Badge tone="neutral">Neutral</Badge>
+            <Badge tone="accent">Accent</Badge>
+            <Badge tone="primary">Primary</Badge>
           </div>
         ),
       },
       {
-        label: "Badge Primitive",
+        label: "Badge Sizes",
         element: (
           <div className="w-56 flex justify-center gap-2">
-            <BadgePrimitive size="xs">XS</BadgePrimitive>
-            <BadgePrimitive size="sm">SM</BadgePrimitive>
+            <Badge size="xs">XS</Badge>
+            <Badge size="sm">SM</Badge>
           </div>
         ),
       },
