@@ -66,7 +66,7 @@ const getSizeClass = (s: IconButtonSize) => {
 const variantBase: Record<Variant, string> = {
   ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)]",
   solid: "border",
-  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] shadow-[0_0_8px_currentColor]",
+  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] shadow-glow-current",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
