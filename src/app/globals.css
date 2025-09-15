@@ -1972,6 +1972,7 @@ a:active .lucide {
     );
   }
 
+  .underline-gradient,
   .nav-underline {
     background: linear-gradient(
       90deg,
@@ -1979,6 +1980,20 @@ a:active .lucide {
       hsl(var(--accent)),
       hsl(var(--primary))
     );
+  }
+
+  .page-tabs-surface {
+    @apply border-b border-border bg-background/60;
+  }
+
+  @supports (color: color-mix(in oklab, white, black)) {
+    .page-tabs-surface {
+      background-color: color-mix(
+        in oklab,
+        hsl(var(--background)) 60%,
+        transparent
+      );
+    }
   }
 }
 @layer utilities {
