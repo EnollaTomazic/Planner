@@ -28,7 +28,6 @@ import {
   NotebookPen,
   Plus,
 } from "lucide-react";
-import { sanitizeText } from "@/lib/utils";
 import { sanitizeList } from "@/lib/sanitizeList";
 
 /* ───────────── Types ───────────── */
@@ -175,7 +174,7 @@ function ChampChips({
 
   function setAt(i: number, next: string) {
     const arr = [...champs];
-    arr[i] = sanitizeText(next);
+    arr[i] = next;
     onChange(sanitizeList(arr).filter((s) => s.trim().length));
   }
   function insertAfter(i: number) {
