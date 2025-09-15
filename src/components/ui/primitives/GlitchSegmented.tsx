@@ -111,9 +111,9 @@ export const GlitchSegmentedButton = React.forwardRef<
         "flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none",
         "rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
         "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-        "hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-        "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-        "data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft]",
+        "hover:-translate-y-px hover:shadow-neon-soft",
+        "active:shadow-neon-soft active:scale-95",
+        "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft]",
         "disabled:opacity-50 disabled:pointer-events-none",
         className,
       )}
