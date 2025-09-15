@@ -36,13 +36,7 @@ export default function TeamPromptsCard() {
           title="Prompts peek"
           cta={{ label: "Explore Prompts", href: "/prompts" }}
         >
-          <div
-            className="rounded-card r-card-md p-4 text-center text-sm"
-            style={{
-              background: "var(--seg-active-grad)",
-              color: "var(--neon-soft)",
-            }}
-          >
+          <div className="rounded-card r-card-md bg-seg-active-grad p-4 text-center text-sm text-neon-soft">
             Get inspired with curated prompts
           </div>
         </DashboardCard>
