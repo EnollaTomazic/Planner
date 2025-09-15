@@ -936,7 +936,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
                           >
                             MID
                           </span>
@@ -980,7 +980,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
                           >
                             BOT
                           </span>
@@ -1024,7 +1024,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
                           >
                             TOP
                           </span>
