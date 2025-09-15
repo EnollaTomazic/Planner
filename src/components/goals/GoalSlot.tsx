@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useAutoFocus from "@/lib/useAutoFocus";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
 import Input from "@/components/ui/primitives/Input";
@@ -27,10 +28,10 @@ export default function GoalSlot({
   const editButtonRef = React.useRef<HTMLButtonElement>(null);
   const wasEditing = React.useRef(false);
 
+  useAutoFocus({ ref: inputRef, when: editing });
+
   React.useEffect(() => {
-    if (editing) {
-      inputRef.current?.focus();
-    } else if (wasEditing.current) {
+    if (!editing && wasEditing.current) {
       editButtonRef.current?.focus();
     }
     wasEditing.current = editing;

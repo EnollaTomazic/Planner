@@ -6,6 +6,7 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useAutoFocus from "@/lib/useAutoFocus";
 import type { DayTask } from "./plannerStore";
 
 type Props = {
@@ -32,9 +33,7 @@ export default function TaskRow({
   const [imageUrl, setImageUrl] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
-    if (editing) inputRef.current?.focus();
-  }, [editing]);
+  useAutoFocus({ ref: inputRef, when: editing });
 
   function start() {
     setEditing(true);
