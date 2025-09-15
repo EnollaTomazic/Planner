@@ -159,9 +159,9 @@ export default function NeomorphicHeroFrameDemo() {
               with the <code>r-card-md</code> radius, ideal for utility nav or filter rails.
             </p>
             <p className="text-sm text-muted-foreground">
-              The action row mirrors the grid: tabs span <code>md:col-span-7</code>, search spans
-              <code>md:col-span-3</code>, and button actions anchor on <code>md:col-span-2</code> for
-              consistent alignment.
+              The action row mirrors the grid: tabs span <code>md:col-span-5</code>, search spans
+              <code>md:col-span-4</code>, and button actions anchor on <code>md:col-span-3</code> to cleanly
+              fill the 12-column layout.
             </p>
           </div>
           <div className="md:col-span-6 space-y-2 text-xs text-muted-foreground">
