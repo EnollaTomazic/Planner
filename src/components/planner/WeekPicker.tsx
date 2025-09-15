@@ -44,14 +44,32 @@ function DayChip({
   onClick: (iso: ISODate) => void;
   onDoubleClick: (iso: ISODate) => void;
 }) {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Enter" && selected) {
+      event.preventDefault();
+      event.stopPropagation();
+      onDoubleClick(iso);
+    }
+  };
+
   return (
     <button
       type="button"
+      role="option"
       onClick={() => onClick(iso)}
       onDoubleClick={() => onDoubleClick(iso)}
-      aria-current={selected ? "date" : undefined}
-      aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
-      title={selected ? "Double-click to jump" : "Click to focus"}
+      onKeyDown={handleKeyDown}
+      aria-selected={selected}
+      aria-label={`Select ${iso}. Completed ${done} of ${total}. ${
+        selected
+          ? "Press Enter again or double-click to jump."
+          : "Press Enter to select."
+      }`}
+      title={
+        selected
+          ? "Press Enter again or double-click to jump"
+          : "Click or press Enter to focus"
+      }
       className={cn(
         "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
