@@ -11,25 +11,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { NAV_ITEMS, NavItem } from "./nav-items";
 
-const ITEMS = [
-  { href: "/reviews", label: "Reviews" },
-  { href: "/planner", label: "Planner" },
-  { href: "/goals", label: "Goals" },
-  { href: "/team", label: "Comps" },
-  { href: "/prompts", label: "Prompts" },
-] as const;
+type NavBarProps = {
+  items?: readonly NavItem[];
+};
 
-export type NavItem = (typeof ITEMS)[number];
-
-export default function NavBar() {
+export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const path = usePathname() ?? "/";
   const reduceMotion = useReducedMotion();
 
   return (
     <nav aria-label="Primary">
       <ul className="flex items-center gap-2">
-        {ITEMS.map(({ href, label }: NavItem) => {
+        {items.map(({ href, label }) => {
           const active = path === href || path.startsWith(href + "/");
 
           return (
