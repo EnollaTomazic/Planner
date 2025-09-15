@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn, slugify } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import useFieldNaming from "@/lib/useFieldNaming";
 import FieldShell from "./FieldShell";
 
 /**
@@ -37,12 +38,12 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(ariaLabel as string | undefined);
-    // Use React-generated id by default so multiple fields sharing an aria-label
-    // do not end up with duplicate ids.
-    const finalId = id || auto;
-    const finalName = name || fromAria || slugify(finalId);
+    const { id: finalId, name: finalName } = useFieldNaming({
+      id,
+      name,
+      ariaLabel: ariaLabel as string | undefined,
+      slugifyFallback: true,
+    });
 
     const error =
       props["aria-invalid"] === true || props["aria-invalid"] === "true";
