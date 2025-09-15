@@ -34,7 +34,9 @@ export default function Toast({
 
   if (!open || !mounted) return null;
   return createPortal(
-    <div className="fixed bottom-4 right-4 z-50">
+    <div
+      className="fixed bottom-[calc(theme(spacing.4)+env(safe-area-inset-bottom))] right-[calc(theme(spacing.4)+env(safe-area-inset-right))] z-50"
+    >
       <Card
         role="status"
         aria-live="polite"
