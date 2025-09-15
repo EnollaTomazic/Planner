@@ -133,15 +133,26 @@ describe("IconButton", () => {
     expect(classes).not.toContain("shadow-glow-current");
   });
 
-  it("uses title as the aria-label when no aria-label is provided", () => {
+  it("forwards the title attribute", () => {
     const { getByRole } = render(
-      <IconButton title="Open settings">
+      <IconButton aria-label="Settings" title="Open settings">
         <svg />
       </IconButton>,
     );
     const button = getByRole("button");
-    expect(button).toHaveAttribute("aria-label", "Open settings");
+    expect(button).toHaveAttribute("aria-label", "Settings");
     expect(button).toHaveAttribute("title", "Open settings");
+  });
+
+  it("supports aria-labelledby for external labels", () => {
+    const { getByRole } = render(
+      <IconButton aria-labelledby="external-label">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).not.toHaveAttribute("aria-label");
+    expect(button).toHaveAttribute("aria-labelledby", "external-label");
   });
 
   it("logs an error when icon-only content is missing a label", async () => {
@@ -158,7 +169,7 @@ describe("IconButton", () => {
     await waitFor(() => {
       expect(errorSpy).toHaveBeenCalledWith(
         expect.stringContaining(
-          "IconButton requires an `aria-label` or `title` when rendering icon-only content.",
+          "IconButton requires an `aria-label` or `aria-labelledby` when rendering icon-only content.",
         ),
       );
     });

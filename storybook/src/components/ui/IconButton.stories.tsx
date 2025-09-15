@@ -10,7 +10,7 @@ const meta: Meta<typeof IconButton> = {
     docs: {
       description: {
         component:
-          "Icon buttons must include either an `aria-label` or `title` when the child content is only an icon.",
+          "Icon buttons must include either an `aria-label` or `aria-labelledby` when the child content is only an icon. Titles may be added for tooltips but do not replace the required accessible name.",
       },
     },
   },
@@ -41,22 +41,25 @@ export const WithAriaLabel: Story = {
   },
 };
 
-export const WithTitle: Story = {
+export const WithAriaLabelledby: Story = {
   args: {
     variant: "solid",
     tone: "danger",
     size: "md",
   },
   render: (args) => (
-    <IconButton {...args} title="Delete item">
-      <Trash2 />
-    </IconButton>
+    <>
+      <span id="delete-action">Delete item</span>
+      <IconButton {...args} aria-labelledby="delete-action">
+        <Trash2 />
+      </IconButton>
+    </>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          "Providing a `title` also satisfies the accessible label requirement; the component applies it as an `aria-label` automatically.",
+          "When a nearby element already provides the visible label, connect it with `aria-labelledby` so screen readers announce the same text.",
       },
     },
   },
