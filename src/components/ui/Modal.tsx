@@ -27,7 +27,11 @@ export default function Modal({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-background/80" onClick={onClose} />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-background/80"
+        onClick={onClose}
+      />
       <Card
         ref={dialogRef}
         role="dialog"

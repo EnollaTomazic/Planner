@@ -31,7 +31,11 @@ export default function Sheet({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-background/80" onClick={onClose} />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-background/80"
+        onClick={onClose}
+      />
       <motion.div
         initial={{ x: side === "right" ? "100%" : "-100%" }}
         animate={{ x: 0 }}
