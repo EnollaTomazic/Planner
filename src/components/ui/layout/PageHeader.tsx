@@ -9,10 +9,13 @@ import NeomorphicHeroFrame, {
 } from "./NeomorphicHeroFrame";
 import { cn } from "@/lib/utils";
 
-type PageHeaderElement = "header" | "section" | "article" | "aside" | "main" | "div" | "nav";
+type PageHeaderElement = Extract<
+  keyof JSX.IntrinsicElements,
+  "header" | "section" | "article" | "aside" | "main" | "div" | "nav"
+>;
 
 export interface PageHeaderProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "className"> {
+  extends Omit<React.HTMLAttributes<HTMLElement>, "className" | "children"> {
   /** Props forwarded to <Header> */
   header: HeaderProps;
   /** Props forwarded to <Hero> */
@@ -44,25 +47,26 @@ export default function PageHeader({
   const Component = (as ?? "header") as PageHeaderElement;
 
   return (
-    <NeomorphicHeroFrame
-      {...frameProps}
-      className={cn(
-        className ??
-          "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
-        frameProps?.className,
-      )}
-    >
-      <Component
-        {...elementProps}
-        className={cn("relative z-[2]", contentClassName ?? "space-y-4")}
+    <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
+      <NeomorphicHeroFrame
+        {...frameProps}
+        className={cn(
+          className ??
+            "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
+          frameProps?.className,
+        )}
       >
-        <Header {...header} underline={header.underline ?? false} />
-        <Hero
-          {...hero}
-          frame={hero.frame ?? true}
-          topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
-        />
-      </Component>
-    </NeomorphicHeroFrame>
+        <div
+          className={cn("relative z-[2]", contentClassName ?? "space-y-4")}
+        >
+          <Header {...header} underline={header.underline ?? false} />
+          <Hero
+            {...hero}
+            frame={hero.frame ?? true}
+            topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
+          />
+        </div>
+      </NeomorphicHeroFrame>
+    </Component>
   );
 }
