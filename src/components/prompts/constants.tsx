@@ -5,7 +5,6 @@ import {
   Input,
   Textarea,
   SegmentedButton,
-  SegmentedButtons,
   Card,
   NeoCard,
   CardHeader,
@@ -21,7 +20,6 @@ import {
   Progress,
   Split,
   TabBar,
-  TabSelector,
   TitleBar,
   AnimationToggle,
   CatCompanion,
@@ -316,27 +314,29 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </div>`,
     },
     {
-      id: "segmented-buttons",
-      name: "SegmentedButtons",
-      description: "TabBar-based segmented group",
+      id: "tab-bar-filters",
+      name: "TabBar (filters)",
+      description: "Preset filter tabs",
       element: (
-        <SegmentedButtons
+        <TabBar
           items={[
             { key: "all", label: "All" },
             { key: "active", label: "Active" },
             { key: "done", label: "Done" },
           ]}
           defaultValue="all"
+          ariaLabel="Filter items"
         />
       ),
       tags: ["button", "segmented"],
-      code: `<SegmentedButtons
+      code: `<TabBar
   items={[
     { key: "all", label: "All" },
     { key: "active", label: "Active" },
     { key: "done", label: "Done" },
   ]}
   defaultValue="all"
+  ariaLabel="Filter items"
 />`,
     },
     {
@@ -703,7 +703,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   variant="default"
   actionArea={{
     tabs: (
-      <SegmentedButtons
+      <TabBar
         items={[
           { key: "missions", label: "Missions" },
           { key: "briefings", label: "Briefings" },
@@ -886,27 +886,29 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
     },
     {
-      id: "tab-selector",
-      name: "TabSelector",
-      description: "Tabs prop sugar for TabBar",
+      id: "tab-bar-app-nav",
+      name: "TabBar (app nav)",
+      description: "Controlled TabBar for section switching",
       element: (
-        <TabSelector
-          tabs={[
+        <TabBar
+          items={[
             { key: "reviews", label: "Reviews" },
             { key: "planner", label: "Planner" },
             { key: "goals", label: "Goals" },
           ]}
           defaultValue="reviews"
+          ariaLabel="Planner areas"
         />
       ),
       tags: ["tabs"],
-      code: `<TabSelector
-  tabs={[
+      code: `<TabBar
+  items={[
     { key: "reviews", label: "Reviews" },
     { key: "planner", label: "Planner" },
     { key: "goals", label: "Goals" },
   ]}
   defaultValue="reviews"
+  ariaLabel="Planner areas"
 />`,
     },
     {

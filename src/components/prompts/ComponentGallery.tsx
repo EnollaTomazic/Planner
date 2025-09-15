@@ -9,8 +9,6 @@ import {
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
-  TabSelector,
-  SegmentedButtons,
   Progress,
   Spinner,
   ThemeToggle,
@@ -116,8 +114,8 @@ export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
   const [seg, setSeg] = React.useState("one");
-  const [tabSel, setTabSel] = React.useState("one");
-  const [segButtons, setSegButtons] = React.useState("all");
+  const [appTab, setAppTab] = React.useState("reviews");
+  const [filterTab, setFilterTab] = React.useState("all");
   const [checked, setChecked] = React.useState(false);
   const [toggleSide, setToggleSide] = React.useState<"Left" | "Right">("Left");
   const [side, setSide] = React.useState<GameSide>("Blue");
@@ -193,31 +191,33 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Tab Selector",
+        label: "TabBar (app nav)",
         element: (
-          <TabSelector
-            tabs={[
+          <TabBar
+            items={[
               { key: "reviews", label: "Reviews" },
               { key: "planner", label: "Planner" },
               { key: "goals", label: "Goals" },
             ]}
-            value={tabSel}
-            onValueChange={setTabSel}
+            value={appTab}
+            onValueChange={setAppTab}
+            ariaLabel="Component gallery sections"
             className="w-56"
           />
         ),
       },
       {
-        label: "Segmented Buttons",
+        label: "TabBar (filters)",
         element: (
-          <SegmentedButtons
+          <TabBar
             items={[
               { key: "all", label: "All" },
               { key: "active", label: "Active" },
               { key: "done", label: "Done" },
             ]}
-            value={segButtons}
-            onValueChange={setSegButtons}
+            value={filterTab}
+            onValueChange={setFilterTab}
+            ariaLabel="Filter items"
             className="w-56"
           />
         ),
@@ -229,7 +229,7 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [seg, tabSel, segButtons, checked, toggleSide, side],
+    [seg, appTab, filterTab, checked, toggleSide, side],
   );
 
   const inputItems = React.useMemo(
