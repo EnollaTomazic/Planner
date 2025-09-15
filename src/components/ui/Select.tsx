@@ -6,8 +6,9 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
+import { resolveFieldIds } from "@/lib/fieldIds";
 import useMounted from "@/lib/useMounted";
-import { cn, slugify } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 /** Option item */
 export type SelectItem = {
@@ -73,10 +74,11 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(props["aria-label"] as string | undefined);
-    const finalId = id || auto;
-    const finalName = props.name || fromAria || finalId;
+    const { id: finalId, name: finalName } = resolveFieldIds({
+      id,
+      name: props.name,
+      ariaLabel: props["aria-label"] as string | undefined,
+    });
     const successId = `${finalId}-success`;
     const errorId = errorText ? `${finalId}-error` : undefined;
     const helperId = helperText ? `${finalId}-helper` : undefined;
@@ -391,7 +393,7 @@ const AnimatedSelectImpl = React.forwardRef<
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
   const triggerCls = [
-    "glitch-trigger relative flex items-center h-9 rounded-full px-3 overflow-hidden",
+    "glitch-trigger relative flex items-center h-9 rounded-[var(--radius-full)] px-3 overflow-hidden",
     "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
     "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
@@ -413,7 +415,7 @@ const AnimatedSelectImpl = React.forwardRef<
         </div>
       ) : null}
 
-      <div className="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0">
+      <div className="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0">
         <button
           ref={setTriggerRef}
           type="button"
@@ -527,7 +529,7 @@ const AnimatedSelectImpl = React.forwardRef<
                         onClick={() => selectByIndex(idx)}
                         onFocus={() => setActiveIndex(idx)}
                         className={[
-                          "group relative w-full rounded-xl px-4 py-3 text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                          "group relative w-full rounded-[var(--radius-xl)] px-4 py-3 text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
                           disabledItem
                             ? "cursor-not-allowed"
                             : "cursor-pointer",
@@ -559,7 +561,7 @@ const AnimatedSelectImpl = React.forwardRef<
                         <span
                           aria-hidden
                           className={[
-                            "pointer-events-none absolute left-0 top-1/2 h-3/4 w-0.5 -translate-y-1/2 rounded-md",
+                            "pointer-events-none absolute left-0 top-1/2 h-3/4 w-0.5 -translate-y-1/2 rounded-[var(--radius-md)]",
                             active ? "bg-ring" : "bg-transparent",
                           ].join(" ")}
                         />
