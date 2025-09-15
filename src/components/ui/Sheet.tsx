@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Card from "./primitives/Card";
 import { useDialogTrap } from "./hooks/useDialogTrap";
+import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
 export interface SheetProps extends React.ComponentProps<typeof Card> {
@@ -21,10 +22,9 @@ export default function Sheet({
   children,
   ...props
 }: SheetProps) {
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useMounted();
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  React.useEffect(() => setMounted(true), []);
 
   useDialogTrap({ open: open && mounted, onClose, ref: dialogRef });
 

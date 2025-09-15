@@ -4,6 +4,7 @@
 import * as React from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { Select, type SelectItem } from "@/components/ui";
+import useMounted from "@/lib/useMounted";
 import { useTheme } from "@/lib/theme-context";
 import {
   VARIANTS,
@@ -27,17 +28,22 @@ export default function ThemeToggle({
 }: ThemeToggleProps) {
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useMounted();
   const [state, setState] = useTheme();
   const { variant } = state;
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   function setVariantPersist(v: Variant) {
     setState((prev) => ({ variant: v, bg: prev.bg }));
   }
+  const items: SelectItem[] = React.useMemo(
+    () =>
+      VARIANTS.map((v) => ({
+        value: v.id,
+        label: v.label,
+      })),
+    [],
+  );
+
   function cycleBg() {
     setState((prev) => ({
       ...prev,
@@ -53,11 +59,6 @@ export default function ThemeToggle({
       />
     );
   }
-
-  const items: SelectItem[] = VARIANTS.map((v) => ({
-    value: v.id,
-    label: v.label,
-  }));
 
   return (
     <div className={`flex items-center gap-2 whitespace-nowrap ${className}`}>
