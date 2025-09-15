@@ -29,6 +29,24 @@ export const BG_CLASSES = [
   "bg-streak",
 ] as const;
 
+const BG_CLASS_SET = new Set<string>(
+  BG_CLASSES.filter((className) => className.length > 0),
+);
+
+export function resetThemeClasses(classList: DOMTokenList) {
+  const classesToRemove: string[] = [];
+
+  classList.forEach((className) => {
+    if (className.startsWith("theme-") || BG_CLASS_SET.has(className)) {
+      classesToRemove.push(className);
+    }
+  });
+
+  if (classesToRemove.length > 0) {
+    classList.remove(...classesToRemove);
+  }
+}
+
 export const COLOR_PALETTES = {
   aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
   neutrals: [
@@ -101,14 +119,8 @@ export function writeTheme(state: ThemeState) {
 
 export function applyTheme({ variant, bg }: ThemeState) {
   const cl = document.documentElement.classList;
-  cl.forEach((n) => {
-    if (n.startsWith("theme-")) cl.remove(n);
-  });
+  resetThemeClasses(cl);
   cl.add(`theme-${variant}`);
-
-  BG_CLASSES.forEach((c) => {
-    if (c) cl.remove(c);
-  });
   if (bg > 0) cl.add(BG_CLASSES[bg]);
   cl.add("dark");
 }
@@ -124,14 +136,11 @@ export function themeBootstrapScript(): string {
         writeLocal(key, data);
       }
       const BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
+      const BG_CLASS_SET = new Set(BG_CLASSES.filter(Boolean));
+      const resetThemeClasses = ${resetThemeClasses.toString()};
       const cl = document.documentElement.classList;
-      Array.from(cl).forEach((n) => {
-        if (n.indexOf("theme-") === 0) cl.remove(n);
-      });
+      resetThemeClasses(cl);
       cl.add("theme-" + data.variant);
-      BG_CLASSES.forEach((c) => {
-        if (c) cl.remove(c);
-      });
       if (data.bg > 0) cl.add(BG_CLASSES[data.bg]);
       cl.add("dark");
     } catch {}
