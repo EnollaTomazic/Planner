@@ -87,4 +87,28 @@ describe("Input", () => {
       "data-[loading=true]:opacity-[var(--loading)]",
     );
   });
+
+  it("defaults name to the generated id when no overrides are provided", () => {
+    const { getByRole } = render(<Input aria-label="Generated" />);
+    const input = getByRole("textbox") as HTMLInputElement;
+    expect(input.id).toBeTruthy();
+    expect(input.name).toBe(input.id);
+  });
+
+  it("derives name from aria-label when a custom id is supplied", () => {
+    const { getByRole } = render(
+      <Input id="email" aria-label="Email Address" />,
+    );
+    const input = getByRole("textbox") as HTMLInputElement;
+    expect(input.id).toBe("email");
+    expect(input.name).toBe("email-address");
+  });
+
+  it("prefers an explicit name prop", () => {
+    const { getByRole } = render(
+      <Input aria-label="Custom" name="custom-name" />,
+    );
+    const input = getByRole("textbox") as HTMLInputElement;
+    expect(input.name).toBe("custom-name");
+  });
 });
