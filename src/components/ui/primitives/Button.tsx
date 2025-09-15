@@ -94,7 +94,7 @@ export const variants: Record<
 > = {
   primary: {
     className:
-      "bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-button-accent-hover active:translate-y-px active:shadow-button-accent-active",
+      "bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active",
     whileTap: {
       scale: 0.97,
     },
