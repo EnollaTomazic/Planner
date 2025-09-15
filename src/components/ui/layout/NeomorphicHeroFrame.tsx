@@ -7,15 +7,15 @@ import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 
 export type NeomorphicHeroFrameProps = React.HTMLAttributes<HTMLDivElement>;
 
-export default function NeomorphicHeroFrame({
-  className,
-  children,
-  ...rest
-}: NeomorphicHeroFrameProps) {
+const NeomorphicHeroFrame = React.forwardRef<
+  HTMLDivElement,
+  NeomorphicHeroFrameProps
+>(({ className, children, ...rest }, ref) => {
   return (
     <>
       <NeomorphicFrameStyles />
       <div
+        ref={ref}
         className={cn("relative overflow-hidden hero2-neomorph", className)}
         {...rest}
       >
@@ -30,4 +30,8 @@ export default function NeomorphicHeroFrame({
       </div>
     </>
   );
-}
+});
+
+NeomorphicHeroFrame.displayName = "NeomorphicHeroFrame";
+
+export default NeomorphicHeroFrame;
