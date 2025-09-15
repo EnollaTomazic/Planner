@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
 import { usePersistentState, uid } from "@/lib/db";
 import ReviewsPage from "./ReviewsPage";
+import { primeReviewSearch } from "./reviewSearch";
 
 /**
  * ReviewPage — container with local-first persistence.
@@ -44,6 +45,7 @@ export default function ReviewPage() {
       notes: "",
       createdAt: now,
     };
+    primeReviewSearch(fresh);
     setReviews(prev => [fresh, ...prev]);
     setSelectedId(fresh.id);
   }, [setReviews]);
@@ -51,7 +53,9 @@ export default function ReviewPage() {
   const onSelect = useCallback((id: string) => setSelectedId(id), []);
 
   const patchById = useCallback((id: string, patch: Partial<Review>) => {
-    setReviews(prev => prev.map(r => (r.id === id ? { ...r, ...patch } : r)));
+    setReviews(prev =>
+      prev.map(r => (r.id === id ? primeReviewSearch({ ...r, ...patch }) : r)),
+    );
   }, [setReviews]);
 
   const onRename = useCallback((id: string, nextTitle: string) => {
