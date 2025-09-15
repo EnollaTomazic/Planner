@@ -24,6 +24,7 @@ describe('SearchBar', () => {
     fireEvent.submit(getByRole('search'));
     expect(handleChange).toHaveBeenCalledWith('hello');
     expect(handleSubmit).toHaveBeenCalledWith('hello');
+    vi.runAllTimers();
     vi.useRealTimers();
   });
 

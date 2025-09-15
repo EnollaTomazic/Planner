@@ -1094,7 +1094,7 @@ textarea:-webkit-autofill {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: calc(var(--space-2) - var(--space-1) / 2);
   border-radius: var(--radius-full);
   white-space: nowrap;
   max-width: 100%;
@@ -1112,12 +1112,12 @@ textarea:-webkit-autofill {
     transform 0.12s ease;
 }
 .badge--xs {
-  padding: 3px 8px;
+  padding: calc(var(--space-1) - var(--space-1) / 4) var(--space-2);
   @apply text-label font-medium tracking-[0.02em];
   line-height: 1;
 }
 .badge--sm {
-  padding: 5px 10px;
+  padding: calc(var(--space-3) / 2 - var(--space-1) / 4) calc(var(--space-3) - var(--space-1) / 2);
   @apply text-label font-medium tracking-[0.02em];
   line-height: 1;
 }

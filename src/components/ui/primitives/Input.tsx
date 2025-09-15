@@ -2,7 +2,8 @@
 "use client";
 
 import * as React from "react";
-import { cn, slugify } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import useFieldNaming from "@/lib/useFieldNaming";
 import FieldShell from "./FieldShell";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -50,10 +51,12 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const auto = React.useId();
-  const fromAria = slugify(ariaLabel as string | undefined);
-  const finalId = id || auto;
-  const finalName = name || (id ? fromAria : undefined) || finalId;
+  const { id: finalId, name: finalName } = useFieldNaming({
+    id,
+    name,
+    ariaLabel: ariaLabel as string | undefined,
+    ariaLabelStrategy: "custom-id",
+  });
 
   const error =
     props["aria-invalid"] === true || props["aria-invalid"] === "true";
