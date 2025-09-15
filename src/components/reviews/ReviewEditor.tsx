@@ -77,19 +77,25 @@ export default function ReviewEditor({
 
   React.useEffect(() => {
     setNotes(review.notes ?? "");
+  }, [review.id, review.notes]);
+
+  React.useEffect(() => {
     setTags(Array.isArray(review.tags) ? review.tags : []);
     setDraftTag("");
+  }, [review.id, review.tags]);
 
+  React.useEffect(() => {
     const r = review.role ?? lastRole ?? "MID";
     setRole(r);
     if (review.role == null) {
       onChangeMeta?.({ role: r });
     }
+  }, [lastRole, onChangeMeta, review.id, review.role]);
 
+  React.useEffect(() => {
     setFocusOn(Boolean(review.focusOn));
     setFocus(Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [review.id]);
+  }, [review.focus, review.focusOn, review.id]);
 
   const commitMeta = (partial: Partial<Review>) => onChangeMeta?.(partial);
   const commitNotes = () => onChangeNotes?.(notes);
