@@ -517,7 +517,7 @@ const AnimatedSelectImpl = React.forwardRef<
                   const active = it.value === value;
                   const disabledItem = !!it.disabled || it.loading;
                   return (
-                    <li key={String(it.value)}>
+                    <li key={String(it.value)} role="presentation">
                       <button
                         type="button"
                         role="option"
