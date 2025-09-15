@@ -5,8 +5,11 @@ export default function PageHeaderDemo() {
   return (
     <PageHeader
       id="page-header-demo"
+      aria-labelledby="page-header-demo-heading"
       header={{
-        heading: "Welcome to Planner",
+        heading: (
+          <span id="page-header-demo-heading">Welcome to Planner</span>
+        ),
         subtitle: "Plan your day, track goals, and review games.",
         icon: (
           <img
