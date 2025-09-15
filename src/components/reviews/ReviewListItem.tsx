@@ -4,7 +4,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
-import { Badge } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
@@ -108,10 +108,7 @@ export default function ReviewListItem({
               )}
             />
             {role ? (
-              <Badge
-                variant="neutral"
-                className="px-1 py-0 text-xs leading-none"
-              >
+              <Badge size="xs" tone="neutral" className="px-1 py-0">
                 {role}
               </Badge>
             ) : null}

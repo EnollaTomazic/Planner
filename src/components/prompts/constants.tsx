@@ -6,7 +6,6 @@ import {
   Textarea,
   SegmentedButton,
   SegmentedButtons,
-  Badge,
   Card,
   NeoCard,
   CardHeader,
@@ -40,6 +39,7 @@ import {
   Label,
   type HeaderTab,
 } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import GoalListDemo from "./GoalListDemo";
 import PromptList from "./PromptList";
 import SelectShowcase from "./SelectShowcase";
@@ -59,7 +59,7 @@ import {
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review, Role } from "@/lib/types";
-import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
+import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -1091,24 +1091,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<ReviewListItem review={demoReview} />`,
     },
     {
-      id: "variant-badges",
-      name: "Variant Badges",
+      id: "badge-tones",
+      name: "Badge Tones",
       element: (
         <div className="flex flex-wrap gap-2">
-          {VARIANTS.map((v) => (
-            <Badge key={v.id} variant="accent">
-              {v.label}
-            </Badge>
-          ))}
+          <Badge tone="neutral">Neutral</Badge>
+          <Badge tone="accent">Accent</Badge>
+          <Badge tone="primary">Primary</Badge>
         </div>
       ),
-      tags: ["badge", "variant"],
+      tags: ["badge", "tone"],
       code: `<div className="flex flex-wrap gap-2">
-  {VARIANTS.map((v) => (
-    <Badge key={v.id} variant="accent">
-      {v.label}
-    </Badge>
-  ))}
+  <Badge tone="neutral">Neutral</Badge>
+  <Badge tone="accent">Accent</Badge>
+  <Badge tone="primary">Primary</Badge>
 </div>`,
     },
     {

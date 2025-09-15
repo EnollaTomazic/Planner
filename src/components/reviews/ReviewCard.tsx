@@ -3,7 +3,8 @@
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { shortDate } from "@/lib/date";
-import { Badge, IconButton } from "@/components/ui";
+import { IconButton } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import { Pencil } from "lucide-react";
 
 export default function ReviewCard({
@@ -58,12 +59,14 @@ export default function ReviewCard({
           {Array.isArray(review.tags) && review.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
               {review.tags.slice(0, 6).map((t) => (
-                <Badge key={t} variant="pill">
+                <Badge key={t} size="xs" tone="accent">
                   {t}
                 </Badge>
               ))}
               {review.tags.length > 6 && (
-                <Badge variant="pill">+{review.tags.length - 6}</Badge>
+                <Badge size="xs" tone="accent">
+                  +{review.tags.length - 6}
+                </Badge>
               )}
             </div>
           )}
