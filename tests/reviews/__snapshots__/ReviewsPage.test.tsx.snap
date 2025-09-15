@@ -827,7 +827,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </div>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active text-foreground"
+                            class="relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active text-foreground"
                             tabindex="0"
                             type="button"
                           >
