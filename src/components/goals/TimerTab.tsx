@@ -275,7 +275,7 @@ export default function TimerTab() {
 
       <SectionCard className="goal-card no-hover">
         <SectionCard.Body>
-          <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
+          <div className="relative mx-auto w-full max-w-sm rounded-[var(--radius-2xl)] border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-card">
             {/* plus/minus */}
             <IconButton
               aria-label="Minus 1 minute"
