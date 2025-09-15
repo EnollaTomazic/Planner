@@ -166,6 +166,225 @@ function HeaderTabsDemo() {
   );
 }
 
+function NeomorphicHeroFrameGallery() {
+  const [primaryTab, setPrimaryTab] = React.useState<
+    "overview" | "insights" | "archive"
+  >("overview");
+  const [compactTab, setCompactTab] = React.useState<
+    "home" | "projects" | "alerts"
+  >("home");
+  const [query, setQuery] = React.useState("");
+
+  const actionStates = (
+    <div className="space-y-3" aria-labelledby="hero-frame-actions-title">
+      <p
+        id="hero-frame-actions-title"
+        className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground"
+      >
+        Action states
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <Button size="sm">Default</Button>
+        <Button size="sm" className="bg-[--hover]">
+          Hover
+        </Button>
+        <Button size="sm" className="ring-2 ring-[--focus]">
+          Focus
+        </Button>
+        <Button size="sm" className="bg-[--active]">
+          Active
+        </Button>
+        <Button size="sm" disabled>
+          Disabled
+        </Button>
+        <Button size="sm" loading>
+          Loading
+        </Button>
+      </div>
+      <div className="flex flex-wrap gap-3">
+        <IconButton size="sm" aria-label="Default state">
+          <Plus />
+        </IconButton>
+        <IconButton size="sm" className="bg-[--hover]" aria-label="Hover state">
+          <Plus />
+        </IconButton>
+        <IconButton
+          size="sm"
+          className="ring-2 ring-[--focus]"
+          aria-label="Focus state"
+        >
+          <Plus />
+        </IconButton>
+        <IconButton
+          size="sm"
+          className="bg-[--active]"
+          aria-label="Active state"
+        >
+          <Plus />
+        </IconButton>
+        <IconButton size="sm" disabled aria-label="Disabled state">
+          <Plus />
+        </IconButton>
+        <IconButton size="sm" loading aria-label="Loading state">
+          <Plus />
+        </IconButton>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      <NeomorphicHeroFrame
+        as="header"
+        variant="neo"
+        density="default"
+        lead={
+          <div className="space-y-4" aria-labelledby="neo-frame-title">
+            <div className="space-y-2">
+              <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
+                Overview
+              </span>
+              <h2
+                id="neo-frame-title"
+                className="text-title-lg font-semibold tracking-[-0.01em] text-foreground"
+              >
+                Neomorphic hero frame
+              </h2>
+            </div>
+            <p className="max-w-3xl text-ui text-muted-foreground">
+              Compose headers, sub-tabs, and action rows inside a 12-column
+              grid. Padding follows spacing tokens 6→8 so layouts stay aligned
+              as they scale.
+            </p>
+          </div>
+        }
+        leadClassName="md:col-span-12"
+        tabs={
+          <SegmentedButtons<"overview" | "insights" | "archive">
+            items={[
+              { key: "overview", label: "Overview" },
+              { key: "insights", label: "Insights" },
+              { key: "archive", label: "Archive", disabled: true },
+            ]}
+            value={primaryTab}
+            onValueChange={(key) => setPrimaryTab(key)}
+            ariaLabel="Primary sections"
+            align="between"
+            right={<Badge variant="accent">Design tokens</Badge>}
+          />
+        }
+        tabsClassName="md:col-span-12"
+        bodyClassName="md:col-span-8 space-y-4"
+        search={
+          <div
+            className="space-y-3"
+            aria-labelledby="hero-frame-search-title"
+          >
+            <p
+              id="hero-frame-search-title"
+              className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground"
+            >
+              Search states
+            </p>
+            <div className="flex flex-col gap-3">
+              <SearchBar
+                value={query}
+                onValueChange={setQuery}
+                placeholder="Search components"
+                aria-label="Search components"
+              />
+              <SearchBar
+                value={query}
+                onValueChange={setQuery}
+                placeholder="Loading search"
+                aria-label="Loading search"
+                loading
+              />
+            </div>
+          </div>
+        }
+        actions={actionStates}
+        footer={
+          <p className="text-label text-muted-foreground">
+            Radii use <code className="font-mono text-xs">r-card-lg</code> and
+            the grid reserves seven columns for search with five for actions so
+            controls snap to the spacing ramp.
+          </p>
+        }
+      >
+        <div className="space-y-3 text-ui text-muted-foreground">
+          <p>
+            The body span defaults to eight columns but can be reassigned with
+            <code className="ml-1 font-mono text-xs">bodyClassName</code> to
+            create asymmetric layouts.
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              Semantic wrapper defaults to
+              <code className="ml-1 font-mono text-xs">header</code>.
+            </li>
+            <li>
+              Tokens keep typography on the UI ramp and spacing on the 4px grid.
+            </li>
+          </ul>
+        </div>
+      </NeomorphicHeroFrame>
+
+      <NeomorphicHeroFrame
+        as="nav"
+        variant="plain"
+        density="compact"
+        lead={
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
+              Compact navigation
+            </span>
+            <Badge variant="pill">Compact</Badge>
+          </div>
+        }
+        tabs={
+          <SegmentedButtons<"home" | "projects" | "alerts">
+            items={[
+              { key: "home", label: "Home" },
+              { key: "projects", label: "Projects" },
+              { key: "alerts", label: "Alerts" },
+            ]}
+            value={compactTab}
+            onValueChange={(key) => setCompactTab(key)}
+            ariaLabel="Navigation tabs"
+            align="start"
+            size="sm"
+          />
+        }
+        tabsClassName="md:col-span-12"
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            <Button size="sm" variant="ghost">
+              Manage
+            </Button>
+            <IconButton size="sm" aria-label="Create shortcut">
+              <Plus />
+            </IconButton>
+          </div>
+        }
+        actionsClassName="md:col-span-4 md:justify-end"
+        bodyClassName="md:col-span-8 text-ui text-muted-foreground"
+        footer={
+          <p className="text-label text-muted-foreground">
+            Compact density maps to spacing tokens 4/5/6 while the plain variant
+            leans on the card surface for lighter sections.
+          </p>
+        }
+      >
+        <p>
+          Use semantic <code className="font-mono text-xs">nav</code> when the
+          frame wraps secondary navigation or tab rails.
+        </p>
+      </NeomorphicHeroFrame>
+    </div>
+  );
+}
+
 function CardDemo() {
   return (
     <Card>
@@ -694,15 +913,46 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "neomorphic-hero-frame",
       name: "NeomorphicHeroFrame",
-      description: "HUD-style frame shell",
-      element: (
-        <NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-          <div className="relative z-[2] text-sm">Content</div>
-        </NeomorphicHeroFrame>
-      ),
-      tags: ["hero", "layout"],
-      code: `<NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-  <div className="relative z-[2]">Content</div>
+      description:
+        "Neomorphic frame with semantic wrappers, density tokens, and built-in action/search slots.",
+      element: <NeomorphicHeroFrameGallery />,
+      tags: ["hero", "layout", "header", "nav", "search", "actions"],
+      code: `<NeomorphicHeroFrame
+  as="header"
+  variant="neo"
+  density="default"
+  lead={<Header heading="Hero" sticky={false} />}
+  tabs={
+    <SegmentedButtons
+      items={[
+        { key: "overview", label: "Overview" },
+        { key: "insights", label: "Insights" },
+      ]}
+      value="overview"
+      onValueChange={() => {}}
+      ariaLabel="Primary sections"
+    />
+  }
+  search={
+    <SearchBar
+      value=""
+      onValueChange={() => {}}
+      aria-label="Search components"
+      loading
+    />
+  }
+  actions={
+    <div className="flex flex-wrap gap-3">
+      <Button size="sm">Default</Button>
+      <Button size="sm" className="bg-[--hover]">Hover</Button>
+      <Button size="sm" className="ring-2 ring-[--focus]">Focus</Button>
+      <IconButton size="sm" aria-label="Loading" loading>
+        <Plus />
+      </IconButton>
+    </div>
+  }
+>
+  <Hero heading="Hero" sticky={false} frame={false} />
 </NeomorphicHeroFrame>`,
     },
     {

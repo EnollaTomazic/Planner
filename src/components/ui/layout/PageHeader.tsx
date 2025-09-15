@@ -41,6 +41,8 @@ export interface PageHeaderBaseProps<
   subTabs?: HeroProps<HeroKey>["subTabs"];
   /** Optional hero search override */
   search?: HeroProps<HeroKey>["search"];
+  /** Optional hero actions override */
+  actions?: HeroProps<HeroKey>["actions"];
 }
 
 export type PageHeaderProps<
@@ -69,6 +71,7 @@ const PageHeaderInner = <
     as,
     subTabs,
     search,
+    actions,
     ...elementProps
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
@@ -78,6 +81,7 @@ const PageHeaderInner = <
   const {
     subTabs: heroSubTabs,
     search: heroSearch,
+    actions: heroActions,
     frame: heroFrame,
     topClassName: heroTopClassName,
     as: heroAs,
@@ -96,33 +100,67 @@ const PageHeaderInner = <
         ? null
         : { ...searchSource, round: searchSource.round ?? true };
 
+  const resolvedActions =
+    heroActions !== undefined ? heroActions : actions;
+
+  const {
+    className: frameClassName,
+    contentClassName: frameContentClassName,
+    density: frameDensity,
+    variant: frameVariant,
+    as: frameAs,
+    lead: frameLead,
+    tabs: frameTabs,
+    actions: frameActions,
+    search: frameSearch,
+    footer: frameFooter,
+    ...frameRest
+  } = frameProps ?? {};
+
+  const headerNode = (
+    <Header {...header} underline={header.underline ?? false} />
+  );
+
+  const leadNode = frameLead ? (
+    <>
+      {frameLead}
+      {headerNode}
+    </>
+  ) : (
+    headerNode
+  );
+
   return (
     <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
       <NeomorphicHeroFrame
         ref={ref}
-        {...frameProps}
+        as={frameAs}
+        density={frameDensity ?? "default"}
+        variant={frameVariant ?? "neo"}
         className={cn(
-          className ??
-            "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
-          frameProps?.className,
+          className ?? "rounded-card r-card-lg border border-border/40",
+          frameClassName,
         )}
+        contentClassName={cn(
+          frameContentClassName,
+          contentClassName,
+        )}
+        lead={leadNode}
+        tabs={frameTabs}
+        actions={frameActions}
+        search={frameSearch}
+        footer={frameFooter}
+        {...frameRest}
       >
-        <div
-          className={cn(
-            "relative z-[2]",
-            contentClassName ?? "space-y-5 md:space-y-6",
-          )}
-        >
-          <Header {...header} underline={header.underline ?? false} />
-          <Hero
-            {...heroRest}
-            as={heroAs ?? "header"}
-            frame={heroFrame ?? true}
-            topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
-            subTabs={resolvedSubTabs}
-            search={resolvedSearch}
-          />
-        </div>
+        <Hero
+          {...heroRest}
+          as={heroAs ?? "header"}
+          frame={heroFrame ?? true}
+          topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
+          subTabs={resolvedSubTabs}
+          search={resolvedSearch}
+          actions={resolvedActions}
+        />
       </NeomorphicHeroFrame>
     </Component>
   );
