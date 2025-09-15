@@ -21,6 +21,7 @@ export * from "./Toast";
 export { default as Progress } from "./feedback/Progress";
 export { default as Snackbar } from "./feedback/Snackbar";
 export { default as Spinner } from "./feedback/Spinner";
+export * from "./hooks/useDialogTrap";
 export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
 export { default as Hero } from "./layout/Hero";
