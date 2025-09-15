@@ -6,6 +6,7 @@
   "name": "noxis-planner",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "ts-node --esm scripts/regen-if-needed.ts && npm run generate-tokens && next dev -p 3000",
     "regen-ui": "ts-node --esm scripts/generate-ui-index.ts",
