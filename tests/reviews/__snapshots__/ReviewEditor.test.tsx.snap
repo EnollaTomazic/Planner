@@ -325,7 +325,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 >
                   <input
                     class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                    id=":r0:"
+                    id=":r1:"
                     name="lane"
                     placeholder="Ashe/Lulu"
                     value="Sample Review"
@@ -340,7 +340,11 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <div
                   class="text-xs tracking-wide text-foreground/20"
                 >
-                  Opponent
+                  <span
+                    id=":r0:"
+                  >
+                    Opponent
+                  </span>
                 </div>
                 <div
                   class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
@@ -370,8 +374,9 @@ exports[`ReviewEditor > renders default state 1`] = `
                   style="--control-h: var(--control-h-md);"
                 >
                   <input
+                    aria-labelledby=":r0:"
                     class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                    id=":r1:"
+                    id=":r2:"
                     name="opponent"
                     placeholder="Draven/Thresh"
                     value=""
@@ -1861,7 +1866,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 aria-describedby="tTime-error"
                 aria-invalid="true"
                 class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r2:"
+                id=":r3:"
                 inputmode="numeric"
                 name="timestamp-time"
                 pattern="^[0-9]?\\d:[0-5]\\d$"
@@ -1875,7 +1880,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <input
                 class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r3:"
+                id=":r4:"
                 name="timestamp-note"
                 placeholder="Quick note"
                 value=""
@@ -1970,7 +1975,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <input
                 class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r4:"
+                id=":r5:"
                 name="tag-input"
                 placeholder="Add tag and press Enter"
                 value=""
@@ -2029,8 +2034,8 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <textarea
             class="block w-full max-w-full px-3 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
-            id=":r5:"
-            name="r5"
+            id=":r6:"
+            name="r6"
             placeholder="Key moments, mistakes to fix, drills to run…"
           />
         </div>
