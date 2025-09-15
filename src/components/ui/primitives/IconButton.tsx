@@ -15,13 +15,28 @@ type Variant = "ring" | "glow" | "solid";
  * Props for the {@link IconButton} component.
  * @property loading - When `true`, the button is disabled and `data-loading` is set.
  */
-export type IconButtonProps = React.ComponentProps<typeof motion.button> & {
-  size?: IconButtonSize;
-  iconSize?: Icon;
-  tone?: Tone;
-  variant?: Variant;
-  loading?: boolean;
-};
+type AccessibleLabelProps =
+  | {
+      "aria-label": string;
+      title?: string;
+    }
+  | {
+      title: string;
+      "aria-label"?: string;
+    };
+
+type MotionButtonProps = React.ComponentProps<typeof motion.button>;
+
+export type IconButtonProps =
+  Omit<MotionButtonProps, "children"> &
+    AccessibleLabelProps & {
+      size?: IconButtonSize;
+      iconSize?: Icon;
+      tone?: Tone;
+      variant?: Variant;
+      loading?: boolean;
+      children?: React.ReactNode;
+    };
 
 const iconMap: Record<Icon, string> = {
   xs: "[&_svg]:size-3",
@@ -78,6 +93,18 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
 };
 
+const hasTextContent = (node: React.ReactNode): boolean => {
+  if (node === null || node === undefined) return false;
+  if (typeof node === "boolean") return false;
+  if (typeof node === "string") return node.trim().length > 0;
+  if (typeof node === "number") return true;
+  if (Array.isArray(node)) return node.some((item) => hasTextContent(item));
+  if (React.isValidElement(node)) {
+    return hasTextContent(node.props.children);
+  }
+  return false;
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
@@ -88,13 +115,42 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       variant = "ring",
       loading,
       disabled,
-      ...props
+      children,
+      title,
+      "aria-label": ariaLabel,
+      ...rest
     },
     ref,
   ) => {
     const reduceMotion = useReducedMotion();
     const sizeClass = getSizeClass(size);
     const appliedIconSize = iconSize ?? defaultIcon[size];
+    const trimmedAriaLabel =
+      typeof ariaLabel === "string" ? ariaLabel.trim() : undefined;
+    const trimmedTitle = typeof title === "string" ? title.trim() : undefined;
+    const normalizedAriaLabel =
+      trimmedAriaLabel && trimmedAriaLabel.length > 0
+        ? trimmedAriaLabel
+        : undefined;
+    const normalizedTitle =
+      trimmedTitle && trimmedTitle.length > 0 ? trimmedTitle : undefined;
+    const effectiveAriaLabel = normalizedAriaLabel ?? normalizedTitle;
+    const ariaLabelledBy = (rest as { "aria-labelledby"?: string })[
+      "aria-labelledby"
+    ];
+    const hasExternalLabel =
+      typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0;
+    const iconOnly = !hasTextContent(children);
+    const shouldWarn = iconOnly && !effectiveAriaLabel && !hasExternalLabel;
+
+    React.useEffect(() => {
+      if (process.env.NODE_ENV === "production") return;
+      if (!shouldWarn) return;
+      console.error(
+        "IconButton requires an `aria-label` or `title` when rendering icon-only content.",
+      );
+    }, [shouldWarn]);
+
     return (
       <motion.button
         ref={ref}
@@ -111,9 +167,11 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         disabled={disabled || loading}
         whileHover={reduceMotion ? undefined : { scale: 1.05 }}
         whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-        {...props}
+        aria-label={effectiveAriaLabel}
+        title={normalizedTitle}
+        {...rest}
       >
-        {props.children}
+        {children}
       </motion.button>
     );
   },

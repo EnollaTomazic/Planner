@@ -1,6 +1,6 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
-import { describe, it, expect, afterEach } from "vitest";
+import { render, cleanup, waitFor } from "@testing-library/react";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import IconButton from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
@@ -131,5 +131,38 @@ describe("IconButton", () => {
     expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
     expect(classes).toContain("border-danger/35 text-danger");
     expect(classes).not.toContain("shadow-[0_0_8px_currentColor]");
+  });
+
+  it("uses title as the aria-label when no aria-label is provided", () => {
+    const { getByRole } = render(
+      <IconButton title="Open settings">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).toHaveAttribute("aria-label", "Open settings");
+    expect(button).toHaveAttribute("title", "Open settings");
+  });
+
+  it("logs an error when icon-only content is missing a label", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    render(
+      <IconButton
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...({} as any)}
+      >
+        <svg />
+      </IconButton>,
+    );
+
+    await waitFor(() => {
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          "IconButton requires an `aria-label` or `title` when rendering icon-only content.",
+        ),
+      );
+    });
+
+    errorSpy.mockRestore();
   });
 });
