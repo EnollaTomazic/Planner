@@ -1802,6 +1802,14 @@ a:active .lucide {
     color: hsl(var(--muted-foreground));
   }
 
+  .bg-seg-active-grad {
+    background: var(--seg-active-grad);
+  }
+
+  .text-neon-soft {
+    color: var(--neon-soft);
+  }
+
   .sticky-blur {
     position: sticky;
     top: 0;
