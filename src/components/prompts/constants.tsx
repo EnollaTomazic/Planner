@@ -5,6 +5,7 @@ import {
   Input,
   Textarea,
   SegmentedButton,
+  SegmentedButtons,
   Badge,
   Card,
   NeoCard,
@@ -21,6 +22,7 @@ import {
   Progress,
   Split,
   TabBar,
+  TabSelector,
   TitleBar,
   AnimationToggle,
   CatCompanion,
@@ -30,8 +32,13 @@ import {
   PillarBadge,
   PillarSelector,
   Header,
+  Hero,
+  PageShell,
   NeomorphicHeroFrame,
   SectionCard as UiSectionCard,
+  FieldShell,
+  SearchBar,
+  Label,
   type HeaderTab,
 } from "@/components/ui";
 import GoalListDemo from "./GoalListDemo";
@@ -309,6 +316,30 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </div>`,
     },
     {
+      id: "segmented-buttons",
+      name: "SegmentedButtons",
+      description: "TabBar-based segmented group",
+      element: (
+        <SegmentedButtons
+          items={[
+            { key: "all", label: "All" },
+            { key: "active", label: "Active" },
+            { key: "done", label: "Done" },
+          ]}
+          defaultValue="all"
+        />
+      ),
+      tags: ["button", "segmented"],
+      code: `<SegmentedButtons
+  items={[
+    { key: "all", label: "All" },
+    { key: "active", label: "Active" },
+    { key: "done", label: "Done" },
+  ]}
+  defaultValue="all"
+/>`,
+    },
+    {
       id: "icon-button",
       name: "IconButton",
       description: "Size variants (neon proportions)",
@@ -452,6 +483,57 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <Textarea placeholder="Type here" />
   <Textarea placeholder="Disabled" disabled />
 </div>`,
+    },
+    {
+      id: "field-shell",
+      name: "FieldShell",
+      description: "Frame for custom field content",
+      element: (
+        <FieldShell className="w-56">
+          <div className="px-4 py-2 text-sm text-muted-foreground">
+            Custom content
+          </div>
+        </FieldShell>
+      ),
+      tags: ["field", "shell"],
+      code: `<FieldShell className="w-56">
+  <div className="px-4 py-2 text-sm text-muted-foreground">
+    Custom content
+  </div>
+</FieldShell>`,
+    },
+    {
+      id: "label",
+      name: "Label",
+      element: (
+        <div className="flex w-56 flex-col gap-2">
+          <Label htmlFor="label-demo">Label</Label>
+          <Input id="label-demo" placeholder="With label" />
+        </div>
+      ),
+      tags: ["label", "input"],
+      code: `<div className="flex w-56 flex-col gap-2">
+  <Label htmlFor="label-demo">Label</Label>
+  <Input id="label-demo" placeholder="With label" />
+</div>`,
+    },
+    {
+      id: "search-bar",
+      name: "SearchBar",
+      description: "Debounced search input",
+      element: (
+        <SearchBar
+          value=""
+          placeholder="Search components"
+          className="w-56"
+        />
+      ),
+      tags: ["search", "input"],
+      code: `<SearchBar
+  value=""
+  placeholder="Search components"
+  className="w-56"
+/>`,
     },
   ],
   prompts: [
@@ -633,6 +715,54 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<PageHeaderDemo />`,
     },
     {
+      id: "hero",
+      name: "Hero",
+      description: "Stacked hero shell with search and actions",
+      element: (
+        <Hero
+          heading="Hero"
+          eyebrow="Eyebrow"
+          subtitle="Subtitle"
+          sticky={false}
+          search={{ value: "", onValueChange: () => {}, round: true }}
+          actions={<Button size="sm">Action</Button>}
+        >
+          <div className="text-sm text-muted-foreground">Body content</div>
+        </Hero>
+      ),
+      tags: ["hero", "layout"],
+      code: `<Hero
+  heading="Hero"
+  eyebrow="Eyebrow"
+  subtitle="Subtitle"
+  sticky={false}
+  search={{ value: "", onValueChange: () => {}, round: true }}
+  actions={<Button size="sm">Action</Button>}
+>
+  <div className="text-sm text-muted-foreground">Body content</div>
+</Hero>`,
+    },
+    {
+      id: "page-shell",
+      name: "PageShell",
+      description: "Responsive page container",
+      element: (
+        <PageShell className="space-y-3 py-6">
+          <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+            Page shell content
+          </div>
+          <Button size="sm">Action</Button>
+        </PageShell>
+      ),
+      tags: ["layout", "shell"],
+      code: `<PageShell className="space-y-3 py-6">
+  <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+    Page shell content
+  </div>
+  <Button size="sm">Action</Button>
+</PageShell>`,
+    },
+    {
       id: "sheet-demo",
       name: "Sheet",
       element: <SheetDemo />,
@@ -703,6 +833,30 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["tabs"],
       code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
+    },
+    {
+      id: "tab-selector",
+      name: "TabSelector",
+      description: "Tabs prop sugar for TabBar",
+      element: (
+        <TabSelector
+          tabs={[
+            { key: "reviews", label: "Reviews" },
+            { key: "planner", label: "Planner" },
+            { key: "goals", label: "Goals" },
+          ]}
+          defaultValue="reviews"
+        />
+      ),
+      tags: ["tabs"],
+      code: `<TabSelector
+  tabs={[
+    { key: "reviews", label: "Reviews" },
+    { key: "planner", label: "Planner" },
+    { key: "goals", label: "Goals" },
+  ]}
+  defaultValue="reviews"
+/>`,
     },
     {
       id: "title-bar",
