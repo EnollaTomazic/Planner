@@ -2,7 +2,8 @@
 "use client";
 
 import * as React from "react";
-import { cn, slugify } from "@/lib/utils";
+import { useFieldIds } from "@/lib/useFieldIds";
+import { cn } from "@/lib/utils";
 import FieldShell from "./FieldShell";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -30,17 +31,15 @@ const HEIGHT: Record<InputSize, string> = {
 /**
  * Input — Matte field with optional trailing slot.
  * - Accepts className overrides and passes all standard <input> props
- * - Auto-generates a stable `id`; if no `name` is supplied, the generated id is
- *   reused to ensure uniqueness. The `aria-label` is only slugified when a
- *   custom `id` guarantees uniqueness.
+ * - Auto-generates a stable `id`/`name` pair via `useFieldIds`.
  */
 export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,
     inputClassName,
     style,
-    id,
-    name,
+    id: idProp,
+    name: nameProp,
     "aria-label": ariaLabel,
     height = "md",
     indent = false,
@@ -50,13 +49,15 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const auto = React.useId();
-  const fromAria = slugify(ariaLabel as string | undefined);
-  const finalId = id || auto;
-  const finalName = name || (id ? fromAria : undefined) || finalId;
+  const { id, name: generatedName, isInvalid } = useFieldIds(
+    ariaLabel,
+    idProp,
+    nameProp,
+  );
 
-  const error =
-    props["aria-invalid"] === true || props["aria-invalid"] === "true";
+  const name = nameProp ?? (idProp ? generatedName : id);
+
+  const error = isInvalid(props["aria-invalid"]);
   const disabled = props.disabled;
   const readOnly = props.readOnly;
 
@@ -79,8 +80,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     >
       <input
         ref={ref}
-        id={finalId}
-        name={finalName}
+        id={id}
+        name={name}
         className={cn(
           "w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
           indent && "pl-7",

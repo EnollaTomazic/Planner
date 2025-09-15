@@ -7,7 +7,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
 import useMounted from "@/lib/useMounted";
-import { cn, slugify } from "@/lib/utils";
+import { useFieldIds } from "@/lib/useFieldIds";
+import { cn } from "@/lib/utils";
 
 /** Option item */
 export type SelectItem = {
@@ -65,7 +66,8 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
       errorText,
       success,
       disabled,
-      id,
+      id: idProp,
+      name: nameProp,
       items,
       value,
       onChange,
@@ -73,13 +75,18 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(props["aria-label"] as string | undefined);
-    const finalId = id || auto;
-    const finalName = props.name || fromAria || finalId;
-    const successId = `${finalId}-success`;
-    const errorId = errorText ? `${finalId}-error` : undefined;
-    const helperId = helperText ? `${finalId}-helper` : undefined;
+    const ariaLabel = props["aria-label"] as string | undefined;
+    const { id, name: generatedName, isInvalid } = useFieldIds(
+      ariaLabel,
+      idProp,
+      nameProp,
+    );
+    const name = nameProp ?? (ariaLabel ? generatedName : id);
+    const ariaInvalid = errorText ? "true" : props["aria-invalid"];
+    const invalid = isInvalid(ariaInvalid);
+    const successId = `${id}-success`;
+    const errorId = errorText ? `${id}-error` : undefined;
+    const helperId = helperText ? `${id}-helper` : undefined;
     const describedBy =
       [errorId, helperId, success ? successId : undefined]
         .filter(Boolean)
@@ -94,17 +101,17 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
             className,
           )}
-          error={!!errorText}
+          error={invalid || !!errorText}
           disabled={disabled}
         >
           <select
             ref={ref}
-            id={finalId}
-            name={finalName}
+            id={id}
+            name={name}
             disabled={disabled}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
-            aria-invalid={errorText ? "true" : props["aria-invalid"]}
+            aria-invalid={ariaInvalid}
             aria-describedby={describedBy}
             className={cn(
               "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
