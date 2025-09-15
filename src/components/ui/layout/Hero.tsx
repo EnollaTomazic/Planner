@@ -25,6 +25,11 @@ function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
 }
 
+type HeroElement = Extract<
+  keyof JSX.IntrinsicElements,
+  "header" | "section" | "article" | "aside" | "div" | "main" | "nav"
+>;
+
 export interface HeroProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
@@ -44,6 +49,9 @@ export interface HeroProps<Key extends string = string>
 
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
+
+  /** Semantic wrapper element (defaults to `section`). */
+  as?: HeroElement;
 
   /** Built-in top-right sub-tabs (preferred). */
   subTabs?: HeaderTabsProps<Key> & {
@@ -87,12 +95,15 @@ function Hero<Key extends string = string>({
   tabs,
   search,
   className,
+  as,
   ...rest
 }: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
   const dividerStyle = {
     "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
   } as React.CSSProperties;
+
+  const Component = (as ?? "section") as HeroElement;
 
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
@@ -124,8 +135,16 @@ function Hero<Key extends string = string>({
     />
   ) : null;
 
+  const searchProps =
+    search != null
+      ? {
+          ...search,
+          round: search.round ?? true,
+        }
+      : search;
+
   return (
-    <section className={className} {...rest}>
+    <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
       <HeroGlitchStyles />
       <NeomorphicFrameStyles />
 
@@ -184,12 +203,12 @@ function Hero<Key extends string = string>({
           {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
         </div>
 
-        {children || search || actions ? (
-          <div className="relative z-[2] mt-5 flex flex-col gap-5">
+        {children || searchProps || actions ? (
+          <div className="relative z-[2] mt-5 md:mt-6 flex flex-col gap-5 md:gap-6">
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
-            {search || actions ? (
+            {searchProps || actions ? (
               <div className="relative" style={dividerStyle}>
                 <span
                   aria-hidden
@@ -199,8 +218,8 @@ function Hero<Key extends string = string>({
                   aria-hidden
                   className="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                 />
-                <div className="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4">
-                  {search ? <HeroSearchBar {...search} /> : null}
+                <div className="flex items-center gap-3 md:gap-4 lg:gap-6 pt-5 md:pt-6">
+                  {searchProps ? <HeroSearchBar {...searchProps} /> : null}
                   {actions ? (
                     <div className="flex items-center gap-2">{actions}</div>
                   ) : null}
@@ -217,7 +236,7 @@ function Hero<Key extends string = string>({
           />
         ) : null}
       </div>
-    </section>
+    </Component>
   );
 }
 

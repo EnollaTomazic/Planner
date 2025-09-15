@@ -198,7 +198,7 @@ exports[`ReviewsPage > renders default state 1`] = `
               </div>
             </div>
           </header>
-          <section>
+          <header>
             <style>
               
       /* === Glitch title ================================================== */
@@ -452,7 +452,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 </div>
               </div>
               <div
-                class="relative z-[2] mt-5 flex flex-col gap-5"
+                class="relative z-[2] mt-5 md:mt-6 flex flex-col gap-5 md:gap-6"
               >
                 <div
                   class="relative"
@@ -467,7 +467,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                   />
                   <div
-                    class="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4"
+                    class="flex items-center gap-3 md:gap-4 lg:gap-6 pt-5 md:pt-6"
                   >
                     <form
                       class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
@@ -860,7 +860,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 </div>
               </div>
             </div>
-          </section>
+          </header>
         </div>
         <div
           aria-hidden="true"
