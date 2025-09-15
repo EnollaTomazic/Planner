@@ -432,7 +432,11 @@ const AnimatedSelectImpl = React.forwardRef<
           data-lit={lit ? "true" : "false"}
           data-open={open ? "true" : "false"}
         >
-          {prefixLabel ? <span className="opacity-70">❯</span> : null}
+          {prefixLabel ? (
+            <span aria-hidden="true" className="opacity-70">
+              ❯
+            </span>
+          ) : null}
 
           <span
             className={[

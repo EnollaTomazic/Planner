@@ -25,6 +25,7 @@ import Hero from "@/components/ui/layout/Hero";
 import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
+import useAutoFocus from "@/lib/useAutoFocus";
 import {
   Search,
   SlidersHorizontal,
@@ -520,9 +521,7 @@ function RemTile({
   const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
   const titleRef = React.useRef<HTMLInputElement | null>(null);
 
-  React.useEffect(() => {
-    if (editing) titleRef.current?.focus();
-  }, [editing]);
+  useAutoFocus({ ref: titleRef, when: editing });
 
   function save() {
     const cleanTags = tagsText
@@ -562,7 +561,6 @@ function RemTile({
               className="font-semibold uppercase tracking-wide pr-2 title-glow glitch cursor-text leading-6 truncate"
               onClick={() => {
                 setEditing(true);
-                setTimeout(() => titleRef.current?.focus(), 0);
               }}
               role="button"
               tabIndex={0}
@@ -580,7 +578,6 @@ function RemTile({
             aria-label="Edit"
             onClick={() => {
               setEditing(true);
-              setTimeout(() => titleRef.current?.focus(), 0);
             }}
             size="sm"
             iconSize="sm"
