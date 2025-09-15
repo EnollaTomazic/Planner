@@ -150,49 +150,53 @@ exports[`ReviewsPage > renders default state 1`] = `
             id="reviews-header"
           >
             <div
-              class="sticky top-[var(--header-stack)] relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
+              class="sticky top-[var(--header-stack)] relative flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4 min-h-12"
             >
               <div
                 aria-hidden="true"
                 class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
               />
               <div
-                class="flex min-w-0 items-center gap-2 sm:gap-3"
+                class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4"
               >
-                <span
-                  class="shrink-0 opacity-90"
-                >
-                  <svg
-                    class="lucide lucide-book-open opacity-80"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 7v14"
-                    />
-                    <path
-                      d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
-                    />
-                  </svg>
-                </span>
                 <div
-                  class="min-w-0"
+                  class="flex min-w-0 items-center gap-2 sm:gap-3"
                 >
-                  <div
-                    class="flex min-w-0 items-baseline gap-2"
+                  <span
+                    class="shrink-0 opacity-90"
                   >
-                    <h1
-                      class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                    <svg
+                      class="lucide lucide-book-open opacity-80"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      Reviews
-                    </h1>
+                      <path
+                        d="M12 7v14"
+                      />
+                      <path
+                        d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+                      />
+                    </svg>
+                  </span>
+                  <div
+                    class="min-w-0"
+                  >
+                    <div
+                      class="flex min-w-0 items-baseline gap-2"
+                    >
+                      <h1
+                        class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                      >
+                        Reviews
+                      </h1>
+                    </div>
                   </div>
                 </div>
               </div>
