@@ -16,7 +16,7 @@ import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 import Header, { type HeaderTab } from "@/components/ui/layout/Header";
 import Hero from "@/components/ui/layout/Hero";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { Snackbar } from "@/components/ui";
+import { Snackbar, PageShell } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -155,10 +155,11 @@ export default function GoalsPage() {
         : "Pick a duration and focus.";
 
   return (
-    <main
+    <PageShell
+      as="main"
       id="goals-main"
       aria-labelledby="goals-header"
-      className="page-shell py-6"
+      className="py-6"
     >
       <div className="grid gap-6">
         {/* ======= HEADER ======= */}
@@ -287,6 +288,6 @@ export default function GoalsPage() {
           font-variant-numeric: tabular-nums;
         }
       `}</style>
-    </main>
+    </PageShell>
   );
 }
