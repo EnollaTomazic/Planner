@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Label from "../Label";
 import Input, { type InputSize } from "./Input";
 
 export type SearchBarProps = Omit<
@@ -22,6 +23,8 @@ export type SearchBarProps = Omit<
   fieldClassName?: string;
   /** When `true`, the search bar is disabled and `data-loading` is set */
   loading?: boolean;
+  /** Optional accessible label rendered above the input */
+  label?: React.ReactNode;
 };
 
 export default function SearchBar({
@@ -42,11 +45,14 @@ export default function SearchBar({
   fieldClassName,
   loading,
   disabled,
+  label,
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
   const [query, setQuery] = React.useState(value);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const { id, ...restProps } = rest;
+  const [generatedId, setGeneratedId] = React.useState<string | undefined>(id);
 
   // Mirror external value into local state whenever it changes.
   // No need to read `query` here; linter calms down.
@@ -66,6 +72,81 @@ export default function SearchBar({
   }, [query, onValueChange, debounceMs]);
 
   const showClear = clearable && query.length > 0;
+  const ariaLabelledby = restProps["aria-labelledby"];
+  const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
+  const labelFor = id ?? generatedId;
+
+  React.useEffect(() => {
+    if (id) {
+      if (generatedId !== id) {
+        setGeneratedId(id);
+      }
+      return;
+    }
+
+    if (!label) {
+      if (generatedId !== undefined) {
+        setGeneratedId(undefined);
+      }
+      return;
+    }
+
+    const currentId = inputRef.current?.id;
+    if (currentId && currentId !== generatedId) {
+      setGeneratedId(currentId);
+    }
+  }, [id, label, generatedId]);
+  const inputField = (
+    <>
+      <Search
+        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+        aria-hidden
+      />
+
+      <Input
+        id={id}
+        ref={inputRef}
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          onChange?.(e);
+        }}
+        placeholder={placeholder}
+        indent
+        height={height}
+        className={cn("w-full", showClear && "pr-7", fieldClassName)}
+        aria-label={
+          !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
+        }
+        type="search"
+        autoComplete={autoComplete}
+        autoCorrect={autoCorrect}
+        spellCheck={spellCheck}
+        autoCapitalize={autoCapitalize}
+        {...restProps}
+        data-loading={loading}
+        disabled={disabled || loading}
+      />
+
+      {showClear && (
+        <button
+          type="button"
+          aria-label="Clear"
+          title="Clear"
+          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none"
+          disabled={disabled || loading}
+          data-loading={loading}
+          onClick={() => {
+            setQuery("");
+            onValueChange?.("");
+            inputRef.current?.focus();
+          }}
+        >
+          <X className="size-4" />
+        </button>
+      )}
+    </>
+  );
 
   return (
     <form
@@ -85,52 +166,14 @@ export default function SearchBar({
       data-loading={loading}
     >
       {/* Input column */}
-      <div className="relative min-w-0">
-        <Search
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-          aria-hidden
-        />
-
-        <Input
-          ref={inputRef}
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            onChange?.(e);
-          }}
-          placeholder={placeholder}
-          indent
-          height={height}
-          className={cn("w-full", showClear && "pr-7", fieldClassName)}
-          aria-label={rest["aria-label"] ?? "Search"}
-          type="search"
-          autoComplete={autoComplete}
-          autoCorrect={autoCorrect}
-          spellCheck={spellCheck}
-          autoCapitalize={autoCapitalize}
-          {...rest}
-          data-loading={loading}
-          disabled={disabled || loading}
-        />
-
-        {showClear && (
-          <button
-            type="button"
-            aria-label="Clear"
-            title="Clear"
-            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none"
-            disabled={disabled || loading}
-            data-loading={loading}
-            onClick={() => {
-              setQuery("");
-              onValueChange?.("");
-              inputRef.current?.focus();
-            }}
-          >
-            <X className="size-4" />
-          </button>
-        )}
-      </div>
+      {label ? (
+        <div className="min-w-0">
+          <Label htmlFor={labelFor}>{label}</Label>
+          <div className="relative min-w-0">{inputField}</div>
+        </div>
+      ) : (
+        <div className="relative min-w-0">{inputField}</div>
+      )}
 
       {/* Right slot (filters, etc.) */}
       {right ? <div className="shrink-0">{right}</div> : null}

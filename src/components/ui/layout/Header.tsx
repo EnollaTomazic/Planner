@@ -11,10 +11,7 @@
  */
 
 import * as React from "react";
-import TabSelector, {
-  type TabItem,
-  type TabSelectorProps,
-} from "@/components/ui/TabSelector";
+import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -27,8 +24,8 @@ export interface HeaderTab<Key extends string = string>
 
 export interface HeaderTabsProps<Key extends string = string>
   extends Omit<
-    TabSelectorProps<Key>,
-    "tabs" | "value" | "defaultValue" | "onValueChange"
+    TabBarProps<Key>,
+    "items" | "value" | "defaultValue" | "onValueChange"
   > {
   items: HeaderTab<Key>[];
   value: Key;
@@ -100,19 +97,19 @@ export default function Header<Key extends string = string>({
       size: tabSize,
       align: tabAlign,
       className: tabClassName,
-      ...tabSelectorRest
+      ...tabBarRest
     } = tabs;
 
     tabControl = (
-      <TabSelector
-        tabs={tabItems}
+      <TabBar
+        items={tabItems}
         value={tabValue}
         onValueChange={tabOnChange}
         ariaLabel={tabAriaLabel}
         size={tabSize ?? "sm"}
         align={tabAlign ?? "end"}
         className={cx("w-auto max-w-full shrink-0", tabClassName)}
-        {...tabSelectorRest}
+        {...tabBarRest}
       />
     );
   }
@@ -260,8 +257,8 @@ export function HeaderTabs<Key extends string = string>({
   ariaLabel?: string;
 }) {
   return (
-    <TabSelector
-      tabs={tabs}
+    <TabBar
+      items={tabs}
       value={activeKey}
       onValueChange={onChange}
       ariaLabel={ariaLabel}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   NeomorphicHeroFrame,
-  SegmentedButtons,
+  TabBar,
   SearchBar,
   Button,
   ThemeToggle,
@@ -37,7 +37,7 @@ export default function NeomorphicHeroFrameDemo() {
         as="header"
         actionArea={{
           tabs: (
-            <SegmentedButtons
+            <TabBar
               items={missionTabs}
               value={activeView}
               onValueChange={(key) => setActiveView(key as MissionView)}
@@ -118,7 +118,7 @@ export default function NeomorphicHeroFrameDemo() {
         variant="compact"
         actionArea={{
           tabs: (
-            <SegmentedButtons
+            <TabBar
               items={statusTabs}
               value={status}
               onValueChange={(key) => setStatus(key as MissionStatus)}
