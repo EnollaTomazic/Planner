@@ -144,6 +144,17 @@ describe("IconButton", () => {
     expect(button).toHaveAttribute("title", "Open settings");
   });
 
+  it("mirrors title to aria-label when icon-only content has no label", () => {
+    const { getByRole } = render(
+      <IconButton title="Refresh data">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).toHaveAttribute("aria-label", "Refresh data");
+    expect(button).toHaveAttribute("title", "Refresh data");
+  });
+
   it("supports aria-labelledby for external labels", () => {
     const { getByRole } = render(
       <IconButton aria-labelledby="external-label">
@@ -169,7 +180,7 @@ describe("IconButton", () => {
     await waitFor(() => {
       expect(errorSpy).toHaveBeenCalledWith(
         expect.stringContaining(
-          "IconButton requires an `aria-label` or `aria-labelledby` when rendering icon-only content.",
+          "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",
         ),
       );
     });

@@ -29,6 +29,7 @@ import {
   Plus,
 } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
+import { sanitizeList } from "@/lib/sanitizeList";
 
 /* ───────────── Types ───────────── */
 
@@ -175,18 +176,18 @@ function ChampChips({
   function setAt(i: number, next: string) {
     const arr = [...champs];
     arr[i] = sanitizeText(next);
-    onChange(arr.map(sanitizeText).filter((s) => s.trim().length));
+    onChange(sanitizeList(arr).filter((s) => s.trim().length));
   }
   function insertAfter(i: number) {
     const arr = [...champs];
     arr.splice(i + 1, 0, "");
     const nextArr = arr.length ? arr : [""];
-    onChange(nextArr.map(sanitizeText));
+    onChange(sanitizeList(nextArr));
   }
   function removeAt(i: number) {
     const arr = [...champs];
     arr.splice(i, 1);
-    onChange(arr.map(sanitizeText));
+    onChange(sanitizeList(arr));
   }
 
   return (
