@@ -31,7 +31,7 @@ const SIZE: Record<Size, string> = {
 export default function CheckCircle({
   checked,
   onChange = () => {},
-  size = "md",
+  size = "sm",
   className,
   disabled = false,
   "aria-label": ariaLabel = "Toggle",

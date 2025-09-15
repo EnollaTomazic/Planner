@@ -165,7 +165,7 @@ export default function PromptsDemos() {
         <div className="flex flex-wrap items-center gap-4">
           <AnimationToggle />
           <ThemeToggle />
-          <CheckCircle checked={false} onChange={() => {}} />
+          <CheckCircle checked={false} onChange={() => {}} size="md" />
           <Toggle value="Left" onChange={() => {}} />
           <SideSelector value="Blue" onChange={() => {}} />
         </div>
