@@ -24,8 +24,8 @@ describe('Badge', () => {
   it('supports the xs size', () => {
     const { getByText } = render(<Badge size="xs">Small</Badge>);
     const badge = getByText('Small');
-    expect(badge).toHaveClass('px-2');
-    expect(badge).toHaveClass('py-1');
+    expect(badge).toHaveClass('px-[var(--space-2)]');
+    expect(badge).toHaveClass('py-[var(--space-1)]');
     expect(badge).toHaveClass('text-xs');
   });
 });
