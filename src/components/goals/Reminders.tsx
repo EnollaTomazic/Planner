@@ -21,6 +21,7 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
+import useAutoFocus from "@/lib/useAutoFocus";
 import {
   Search,
   Plus,
@@ -277,7 +278,7 @@ function ReminderCard({
   const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
   const titleRef = React.useRef<HTMLInputElement | null>(null);
 
-  React.useEffect(() => { if (editing) titleRef.current?.focus(); }, [editing]);
+  useAutoFocus({ ref: titleRef, when: editing });
 
   function save() {
     const cleanTags = tagsText.split(",").map(t => t.trim()).filter(Boolean);
