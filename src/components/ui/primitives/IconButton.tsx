@@ -11,21 +11,27 @@ type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 type Tone = "primary" | "accent" | "info" | "danger";
 type Variant = "ring" | "glow" | "solid";
 
+type RequireAtLeastOne<T, Keys extends keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
+  {
+    [K in Keys]-?: Required<Pick<T, K>> &
+      Partial<Pick<T, Exclude<Keys, K>>>;
+  }[Keys];
+
 /**
  * Props for the {@link IconButton} component.
  * @property loading - When `true`, the button is disabled and `data-loading` is set.
  */
-type AccessibleLabelProps =
-  | {
-      "aria-label": string;
-      "aria-labelledby"?: string;
-      title?: string;
-    }
-  | {
-      "aria-labelledby": string;
-      "aria-label"?: string;
-      title?: string;
-    };
+type AccessibleLabelProps = RequireAtLeastOne<
+  {
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
+    title?: string;
+  },
+  "aria-label" | "aria-labelledby" | "title"
+>;
 
 type MotionButtonProps = React.ComponentProps<typeof motion.button>;
 
@@ -145,13 +151,20 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         : undefined;
     const iconOnly = !hasTextContent(children);
     const shouldWarn =
-      iconOnly && !normalizedAriaLabel && !normalizedAriaLabelledBy;
+      iconOnly &&
+      !normalizedAriaLabel &&
+      !normalizedAriaLabelledBy &&
+      !normalizedTitle;
+
+    const resolvedAriaLabel =
+      normalizedAriaLabel ??
+      (iconOnly && !normalizedAriaLabelledBy ? normalizedTitle : undefined);
 
     React.useEffect(() => {
       if (process.env.NODE_ENV === "production") return;
       if (!shouldWarn) return;
       console.error(
-        "IconButton requires an `aria-label` or `aria-labelledby` when rendering icon-only content.",
+        "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",
       );
     }, [shouldWarn]);
 
@@ -171,7 +184,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         disabled={disabled || loading}
         whileHover={reduceMotion ? undefined : { scale: 1.05 }}
         whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-        aria-label={normalizedAriaLabel}
+        aria-label={resolvedAriaLabel}
         aria-labelledby={normalizedAriaLabelledBy}
         title={normalizedTitle}
         {...rest}
