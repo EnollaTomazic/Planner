@@ -14,19 +14,6 @@ import {
 } from "./local-bootstrap";
 import { safeClone } from "./utils";
 
-function maybeClone<T>(value: T): T {
-  if (value === null || typeof value !== "object") return value;
-  if (Array.isArray(value)) {
-    if (value.every((v) => v === null || typeof v !== "object"))
-      return value.slice() as T;
-    return safeClone(value);
-  }
-  for (const v of Object.values(value as Record<string, unknown>)) {
-    if (v && typeof v === "object") return safeClone(value);
-  }
-  return { ...(value as Record<string, unknown>) } as T;
-}
-
 /** Namespacing so we don't collide with other apps in the same domain */
 const STORAGE_PREFIX = "noxis-planner:";
 
@@ -104,7 +91,11 @@ export function flushWriteLocal() {
 }
 
 export function scheduleWrite(key: string, value: unknown) {
-  writeQueue.set(key, value);
+  const persistedValue =
+    value !== null && (typeof value === "object" || typeof value === "function")
+      ? safeClone(value)
+      : value;
+  writeQueue.set(key, persistedValue);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
 }
@@ -132,7 +123,11 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    scheduleWrite(createStorageKey(key), maybeClone(value));
+    const persistedValue =
+      value !== null && (typeof value === "object" || typeof value === "function")
+        ? safeClone(value)
+        : value;
+    scheduleWrite(createStorageKey(key), persistedValue);
   } catch {
     // ignore quota/privacy errors
   }
@@ -235,7 +230,7 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
-      scheduleWrite(fullKeyRef.current, maybeClone(state));
+      scheduleWrite(fullKeyRef.current, state);
     } catch {
       // ignore
     }
