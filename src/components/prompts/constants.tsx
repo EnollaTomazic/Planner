@@ -34,7 +34,6 @@ import {
   Header,
   Hero,
   PageShell,
-  NeomorphicHeroFrame,
   SectionCard as UiSectionCard,
   FieldShell,
   SearchBar,
@@ -48,6 +47,7 @@ import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
+import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
 import {
   RoleSelector,
@@ -694,15 +694,66 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "neomorphic-hero-frame",
       name: "NeomorphicHeroFrame",
-      description: "HUD-style frame shell",
-      element: (
-        <NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-          <div className="relative z-[2] text-sm">Content</div>
-        </NeomorphicHeroFrame>
-      ),
-      tags: ["hero", "layout"],
-      code: `<NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-  <div className="relative z-[2]">Content</div>
+      description:
+        "Composable neomorphic frame with semantic wrappers, tokenized spacing, and an action row for tabs, search, and buttons.",
+      element: <NeomorphicHeroFrameDemo />,
+      tags: ["hero", "layout", "tokens"],
+      code: `<NeomorphicHeroFrame
+  as="header"
+  variant="default"
+  actionArea={{
+    tabs: (
+      <SegmentedButtons
+        items={[
+          { key: "missions", label: "Missions" },
+          { key: "briefings", label: "Briefings" },
+          { key: "archive", label: "Archive", disabled: true },
+        ]}
+        value="missions"
+        onValueChange={() => {}}
+        ariaLabel="Switch mission focus"
+        showBaseline
+      />
+    ),
+    search: (
+      <SearchBar
+        value=""
+        onValueChange={() => {}}
+        placeholder="Search mission intel…"
+        aria-label="Search mission intel"
+        loading
+      />
+    ),
+    actions: (
+      <div className="flex items-center gap-2">
+        <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+        <Button size="sm" variant="primary" loading>
+          Deploy
+        </Button>
+        <Button size="sm" variant="ghost" disabled>
+          Disabled
+        </Button>
+      </div>
+    ),
+  }}
+>
+  <div className="grid gap-4 md:grid-cols-12">
+    <div className="md:col-span-7 space-y-3">
+      <p className="text-sm text-muted-foreground">
+        Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
+      </p>
+    </div>
+  </div>
+</NeomorphicHeroFrame>
+
+<NeomorphicHeroFrame as="nav" variant="compact" actionArea={{ align: "between" }}>
+  <div className="grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-6">
+      <p className="text-sm text-muted-foreground">
+        Compact variant swaps to r-card-md radius with px-4/md:px-5/lg:px-6 spacing.
+      </p>
+    </div>
+  </div>
 </NeomorphicHeroFrame>`,
     },
     {

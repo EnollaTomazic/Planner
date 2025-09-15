@@ -41,6 +41,8 @@ export interface PageHeaderBaseProps<
   subTabs?: HeroProps<HeroKey>["subTabs"];
   /** Optional hero search override */
   search?: HeroProps<HeroKey>["search"];
+  /** Optional hero actions override */
+  actions?: HeroProps<HeroKey>["actions"];
 }
 
 export type PageHeaderProps<
@@ -69,6 +71,7 @@ const PageHeaderInner = <
     as,
     subTabs,
     search,
+    actions,
     ...elementProps
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
@@ -78,6 +81,7 @@ const PageHeaderInner = <
   const {
     subTabs: heroSubTabs,
     search: heroSearch,
+    actions: heroActions,
     frame: heroFrame,
     topClassName: heroTopClassName,
     as: heroAs,
@@ -96,16 +100,19 @@ const PageHeaderInner = <
         ? null
         : { ...searchSource, round: searchSource.round ?? true };
 
+  const resolvedActions =
+    heroActions !== undefined ? heroActions : actions;
+
+  const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
+    frameProps ?? {};
+
   return (
     <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
       <NeomorphicHeroFrame
         ref={ref}
-        {...frameProps}
-        className={cn(
-          className ??
-            "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
-          frameProps?.className,
-        )}
+        variant={frameVariant ?? "default"}
+        {...restFrameProps}
+        className={cn(className, frameClassName)}
       >
         <div
           className={cn(
@@ -121,6 +128,7 @@ const PageHeaderInner = <
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             subTabs={resolvedSubTabs}
             search={resolvedSearch}
+            actions={resolvedActions}
           />
         </div>
       </NeomorphicHeroFrame>
