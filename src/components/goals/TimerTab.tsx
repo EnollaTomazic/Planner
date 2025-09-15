@@ -73,7 +73,7 @@ const parseMmSs = (v: string) => {
 };
 
 const ADJUST_BTN_CLASS =
-  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
+  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
 
 export default function TimerTab() {
   const [profile, setProfile] = usePersistentState<ProfileKey>(
@@ -303,7 +303,7 @@ export default function TimerTab() {
             >
               <TimerRing pct={pct} size={ringSize} />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-150 group-hover:translate-y-0.5 sm:text-title-lg">
+                <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-[var(--dur-quick)] group-hover:translate-y-0.5 sm:text-title-lg">
                   {fmt(remaining)}
                 </div>
                 {isCustom && !running && (
@@ -324,7 +324,7 @@ export default function TimerTab() {
               <div className="relative h-2 w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-glow transition-[width] duration-150 ease-linear"
+                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-glow transition-[width] duration-[var(--dur-quick)] ease-linear"
                   style={{ width: `${pct}%` }}
                 />
               </div>
@@ -337,7 +337,7 @@ export default function TimerTab() {
             <div className="mt-6 flex w-full flex-wrap justify-center gap-2 overflow-x-auto">
               {!running ? (
                 <SegmentedButton
-                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
                   onClick={start}
                   title="Start"
                 >
@@ -346,7 +346,7 @@ export default function TimerTab() {
                 </SegmentedButton>
               ) : (
                 <SegmentedButton
-                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
                   onClick={pause}
                   title="Pause"
                   isActive
@@ -356,7 +356,7 @@ export default function TimerTab() {
                 </SegmentedButton>
               )}
               <SegmentedButton
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors duration-150 ease-in-out"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
                 onClick={reset}
                 title="Reset"
               >
