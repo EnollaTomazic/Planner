@@ -63,9 +63,8 @@ export function usePlannerStore() {
     setDays((prev) => migrateLegacy(prev, focus));
   }, [focus, setDays]);
 
-  const setDaysAndMirror = React.useCallback(
+  const applyDaysUpdate = React.useCallback(
     (
-      date: ISODate,
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
     ) => {
       setDays((prev) => updater(prev));
@@ -75,13 +74,13 @@ export function usePlannerStore() {
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
-      setDaysAndMirror(date, (prev) => {
+      applyDaysUpdate((prev) => {
         const base = ensureDay(prev, date);
         const next = fn(base);
         return { ...prev, [date]: next };
       });
     },
-    [setDaysAndMirror],
+    [applyDaysUpdate],
   );
 
   const getDay = React.useCallback(
@@ -91,9 +90,9 @@ export function usePlannerStore() {
 
   const setDay = React.useCallback(
     (date: ISODate, next: DayRecord) => {
-      setDaysAndMirror(date, (prev) => ({ ...prev, [date]: next }));
+      applyDaysUpdate((prev) => ({ ...prev, [date]: next }));
     },
-    [setDaysAndMirror],
+    [applyDaysUpdate],
   );
 
   const crud = React.useMemo(
