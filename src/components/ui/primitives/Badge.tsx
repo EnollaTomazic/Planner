@@ -28,8 +28,8 @@ export type BadgeProps<T extends React.ElementType = "span"> =
     Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
-  xs: "px-2 py-1 text-xs leading-none",
-  sm: "px-3 py-2 text-xs leading-none",
+  xs: "px-[var(--space-2)] py-[var(--space-1)] text-xs leading-none",
+  sm: "px-[var(--space-3)] py-[var(--space-2)] text-xs leading-none",
 };
 
 const toneBorder: Record<Tone, string> = {
@@ -60,7 +60,7 @@ export default function Badge<T extends React.ElementType = "span">({
     <Comp
       data-selected={selected ? "true" : undefined}
       className={cn(
-        "inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
+        "inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em]",
         "border bg-muted/18",
         "shadow-badge",
         "transition-[background,box-shadow,transform] duration-140 ease-out",

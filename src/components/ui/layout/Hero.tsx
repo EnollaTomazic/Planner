@@ -11,10 +11,7 @@
  */
 
 import * as React from "react";
-import SegmentedButtons, {
-  type TabBarProps,
-  type TabItem,
-} from "@/components/ui/SegmentedButtons";
+import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import SearchBar, {
   type SearchBarProps,
@@ -107,7 +104,7 @@ function Hero<Key extends string = string>({
 
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
-    <SegmentedButtons
+    <TabBar
       items={subTabs.items.map((t) => ({
         key: t.key,
         label: t.label,
@@ -123,7 +120,7 @@ function Hero<Key extends string = string>({
       ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
     />
   ) : tabs ? (
-    <SegmentedButtons
+    <TabBar
       items={tabs.items}
       value={tabs.value}
       onValueChange={tabs.onChange}
@@ -287,7 +284,7 @@ export function HeroTabs<K extends string>(props: {
   );
 
   return (
-    <SegmentedButtons
+    <TabBar
       items={items}
       value={String(activeKey)}
       onValueChange={(k) => onChange(k as K)}
