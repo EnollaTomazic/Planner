@@ -769,13 +769,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "CheckCircle",
       element: (
         <div className="flex gap-4">
-          <CheckCircle checked={false} onChange={() => {}} />
-          <CheckCircle checked onChange={() => {}} />
+          <CheckCircle checked={false} onChange={() => {}} size="md" />
+          <CheckCircle checked onChange={() => {}} size="md" />
         </div>
       ),
       tags: ["checkbox", "toggle"],
-      code: `<CheckCircle checked={false} onChange={() => {}} />
-<CheckCircle checked onChange={() => {}} />`,
+      code: `<CheckCircle checked={false} onChange={() => {}} size="md" />
+<CheckCircle checked onChange={() => {}} size="md" />`,
     },
   ],
   league: [
