@@ -71,7 +71,7 @@ export default function GoalList({
                   "relative overflow-hidden rounded-card r-card-lg p-6 min-h-8 flex flex-col",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
-                  "transition-all duration-150 hover:-translate-y-1 hover:shadow-ring",
+                  "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",
                 ].join(" ")}
               >
                 <span
