@@ -4,7 +4,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
 import useMounted from "@/lib/useMounted";
 import { cn, slugify } from "@/lib/utils";
@@ -433,9 +433,10 @@ const AnimatedSelectImpl = React.forwardRef<
           data-open={open ? "true" : "false"}
         >
           {prefixLabel ? (
-            <span aria-hidden="true" className="opacity-70">
-              ❯
-            </span>
+            <ChevronRight
+              aria-hidden="true"
+              className="h-4 w-4 shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+            />
           ) : null}
 
           <span
