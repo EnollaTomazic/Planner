@@ -68,6 +68,7 @@ export type Section =
   | "inputs"
   | "prompts"
   | "planner"
+  | "cards"
   | "layout"
   | "feedback"
   | "toggles"
@@ -472,13 +473,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   ],
   planner: [
     {
-      id: "dashboard-card",
-      name: "DashboardCard",
-      element: <DashboardCard title="Demo" />,
-      tags: ["dashboard", "card"],
-      code: `<DashboardCard title="Demo" />`,
-    },
-    {
       id: "bottom-nav",
       name: "BottomNav",
       element: <BottomNav />,
@@ -535,6 +529,72 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<TimerRingIcon pct={75} />`,
     },
   ],
+  cards: [
+    {
+      id: "dashboard-card",
+      name: "DashboardCard",
+      element: <DashboardCard title="Demo" />,
+      tags: ["dashboard", "card"],
+      code: `<DashboardCard title="Demo" />`,
+    },
+    {
+      id: "card-demo",
+      name: "Card",
+      element: <CardDemo />,
+      tags: ["card", "layout"],
+      code: `<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p className="text-sm">Body</p>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Action</Button>
+  </CardFooter>
+</Card>`,
+    },
+    {
+      id: "neo-card-demo",
+      name: "NeoCard",
+      element: <NeoCardDemo />,
+      tags: ["card", "overlay", "layout"],
+      code: `<NeoCard
+  className="p-4"
+  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
+>
+  <p className="text-sm">Body</p>
+</NeoCard>`,
+    },
+    {
+      id: "section-card-variants",
+      name: "SectionCard Variants",
+      element: (
+        <div className="flex flex-col gap-4">
+          <UiSectionCard>
+            <UiSectionCard.Header title="Neo (default)" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+          <UiSectionCard variant="plain">
+            <UiSectionCard.Header title="Plain" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+        </div>
+      ),
+      tags: ["section", "card"],
+      code: `<div className="flex flex-col gap-4">
+  <SectionCard>
+    <SectionCard.Header title="Neo (default)" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+  <SectionCard variant="plain">
+    <SectionCard.Header title="Plain" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+</div>`,
+    },
+  ],
   layout: [
     {
       id: "header-tabs",
@@ -566,39 +626,11 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "page-header-demo",
       name: "PageHeader",
+      description:
+        "Neomorphic hero header; defaults to a semantic header element and can be remapped with the as prop.",
       element: <PageHeaderDemo />,
       tags: ["hero", "header"],
       code: `<PageHeaderDemo />`,
-    },
-    {
-      id: "card-demo",
-      name: "Card",
-      element: <CardDemo />,
-      tags: ["card", "layout"],
-      code: `<Card>
-  <CardHeader>
-    <CardTitle>Title</CardTitle>
-    <CardDescription>Description</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p className="text-sm">Body</p>
-  </CardContent>
-  <CardFooter>
-    <Button size="sm">Action</Button>
-  </CardFooter>
-</Card>`,
-    },
-    {
-      id: "neo-card-demo",
-      name: "NeoCard",
-      element: <NeoCardDemo />,
-      tags: ["card", "overlay", "layout"],
-      code: `<NeoCard
-  className="p-4"
-  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
->
-  <p className="text-sm">Body</p>
-</NeoCard>`,
     },
     {
       id: "sheet-demo",
@@ -872,33 +904,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       {v.label}
     </Badge>
   ))}
-</div>`,
-    },
-    {
-      id: "section-card-variants",
-      name: "SectionCard Variants",
-      element: (
-        <div className="flex flex-col gap-4">
-          <UiSectionCard>
-            <UiSectionCard.Header title="Neo (default)" />
-            <UiSectionCard.Body>Content</UiSectionCard.Body>
-          </UiSectionCard>
-          <UiSectionCard variant="plain">
-            <UiSectionCard.Header title="Plain" />
-            <UiSectionCard.Body>Content</UiSectionCard.Body>
-          </UiSectionCard>
-        </div>
-      ),
-      tags: ["section", "card"],
-      code: `<div className="flex flex-col gap-4">
-  <SectionCard>
-    <SectionCard.Header title="Neo (default)" />
-    <SectionCard.Body>Content</SectionCard.Body>
-  </SectionCard>
-  <SectionCard variant="plain">
-    <SectionCard.Header title="Plain" />
-    <SectionCard.Body>Content</SectionCard.Body>
-  </SectionCard>
 </div>`,
     },
     {
