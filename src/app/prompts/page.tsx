@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import PromptsPage from "./PromptsPage";
 
-export { default as PageHeaderDemo } from "@/components/prompts/PageHeaderDemo";
-
 export const metadata: Metadata = {
   title: "Component Gallery",
   description:
