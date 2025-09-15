@@ -152,7 +152,7 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 hero2-neomorph"
+            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-6 hero2-neomorph"
             : "",
           sticky && topClassName,
         )}
@@ -232,7 +232,7 @@ function Hero<Key extends string = string>({
         {frame ? (
           <div
             aria-hidden
-            className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border/55"
+            className="absolute inset-0 rounded-[var(--radius-2xl)] ring-1 ring-inset ring-border/55"
           />
         ) : null}
       </div>
