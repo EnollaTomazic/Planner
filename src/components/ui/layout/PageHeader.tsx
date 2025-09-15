@@ -103,8 +103,18 @@ const PageHeaderInner = <
   const resolvedActions =
     heroActions !== undefined ? heroActions : actions;
 
-  const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
-    frameProps ?? {};
+  const {
+    className: frameClassName,
+    variant: frameVariant,
+    contentClassName: frameContentClassName,
+    ...restFrameProps
+  } = frameProps ?? {};
+
+  const resolvedContentClassName = cn(
+    "space-y-5 md:space-y-6",
+    frameContentClassName,
+    contentClassName,
+  );
 
   return (
     <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
@@ -113,24 +123,18 @@ const PageHeaderInner = <
         variant={frameVariant ?? "default"}
         {...restFrameProps}
         className={cn(className, frameClassName)}
+        contentClassName={resolvedContentClassName}
       >
-        <div
-          className={cn(
-            "relative z-[2]",
-            contentClassName ?? "space-y-5 md:space-y-6",
-          )}
-        >
-          <Header {...header} underline={header.underline ?? false} />
-          <Hero
-            {...heroRest}
-            as={heroAs ?? "header"}
-            frame={heroFrame ?? true}
-            topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
-            subTabs={resolvedSubTabs}
-            search={resolvedSearch}
-            actions={resolvedActions}
-          />
-        </div>
+        <Header {...header} underline={header.underline ?? false} />
+        <Hero
+          {...heroRest}
+          as={heroAs ?? "header"}
+          frame={heroFrame ?? true}
+          topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
+          subTabs={resolvedSubTabs}
+          search={resolvedSearch}
+          actions={resolvedActions}
+        />
       </NeomorphicHeroFrame>
     </Component>
   );
