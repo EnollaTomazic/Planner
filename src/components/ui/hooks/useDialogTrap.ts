@@ -15,19 +15,51 @@ const FOCUSABLE_SELECTORS =
 
 export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
   React.useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      return;
+    }
 
     const element = ref.current;
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
-    const previouslyActive = document.activeElement as HTMLElement | null;
-    const focusable = element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS);
-    const first = focusable[0] ?? element;
-    const last = focusable[focusable.length - 1] ?? element;
+    const doc = element.ownerDocument ?? document;
+    const previouslyActive = doc.activeElement as HTMLElement | null;
+    const restoreTabIndex = new Set<HTMLElement>();
+
+    const getFocusable = () =>
+      Array.from(
+        element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS),
+      ).filter((node) => !node.hasAttribute("disabled"));
+
+    const focusElement = (node: HTMLElement | undefined | null) => {
+      if (!node) {
+        return;
+      }
+
+      if (!node.hasAttribute("tabindex") && node.tabIndex < 0) {
+        node.setAttribute("tabindex", "-1");
+        restoreTabIndex.add(node);
+      }
+
+      node.focus({ preventScroll: true });
+    };
+
+    const focusFirst = () => {
+      const [first] = getFocusable();
+      focusElement(first ?? element);
+    };
+
+    const focusLast = () => {
+      const focusable = getFocusable();
+      focusElement(focusable[focusable.length - 1] ?? element);
+    };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        event.stopPropagation();
         onClose();
         return;
       }
@@ -36,31 +68,54 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
         return;
       }
 
-      if (focusable.length === 0) {
+      const focusable = getFocusable();
+      const hasFocusable = focusable.length > 0;
+      const active = doc.activeElement as HTMLElement | null;
+      const target = event.target as Node | null;
+      const isInDialog = target ? element.contains(target) : false;
+
+      if (!hasFocusable) {
         event.preventDefault();
+        focusElement(element);
         return;
       }
 
-      if (event.shiftKey && document.activeElement === first) {
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (!isInDialog) {
         event.preventDefault();
-        last?.focus();
+        focusElement(first);
         return;
       }
 
-      if (!event.shiftKey && document.activeElement === last) {
+      if (event.shiftKey) {
+        if (active === first || active === element) {
+          event.preventDefault();
+          focusLast();
+        }
+        return;
+      }
+
+      if (active === last || active === element) {
         event.preventDefault();
-        first?.focus();
+        focusFirst();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    first?.focus();
+    doc.addEventListener("keydown", handleKeyDown);
+
+    const previousOverflow = doc.body.style.overflow;
+    doc.body.style.overflow = "hidden";
+
+    focusFirst();
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      doc.removeEventListener("keydown", handleKeyDown);
+      doc.body.style.overflow = previousOverflow;
+      restoreTabIndex.forEach((node) => {
+        node.removeAttribute("tabindex");
+      });
       previouslyActive?.focus?.();
     };
   }, [open, onClose, ref]);
