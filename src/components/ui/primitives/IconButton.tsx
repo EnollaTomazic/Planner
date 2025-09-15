@@ -18,11 +18,13 @@ type Variant = "ring" | "glow" | "solid";
 type AccessibleLabelProps =
   | {
       "aria-label": string;
+      "aria-labelledby"?: string;
       title?: string;
     }
   | {
-      title: string;
+      "aria-labelledby": string;
       "aria-label"?: string;
+      title?: string;
     };
 
 type MotionButtonProps = React.ComponentProps<typeof motion.button>;
@@ -118,6 +120,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       children,
       title,
       "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
       ...rest
     },
     ref,
@@ -134,20 +137,21 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         : undefined;
     const normalizedTitle =
       trimmedTitle && trimmedTitle.length > 0 ? trimmedTitle : undefined;
-    const effectiveAriaLabel = normalizedAriaLabel ?? normalizedTitle;
-    const ariaLabelledBy = (rest as { "aria-labelledby"?: string })[
-      "aria-labelledby"
-    ];
-    const hasExternalLabel =
-      typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0;
+    const trimmedAriaLabelledBy =
+      typeof ariaLabelledBy === "string" ? ariaLabelledBy.trim() : undefined;
+    const normalizedAriaLabelledBy =
+      trimmedAriaLabelledBy && trimmedAriaLabelledBy.length > 0
+        ? trimmedAriaLabelledBy
+        : undefined;
     const iconOnly = !hasTextContent(children);
-    const shouldWarn = iconOnly && !effectiveAriaLabel && !hasExternalLabel;
+    const shouldWarn =
+      iconOnly && !normalizedAriaLabel && !normalizedAriaLabelledBy;
 
     React.useEffect(() => {
       if (process.env.NODE_ENV === "production") return;
       if (!shouldWarn) return;
       console.error(
-        "IconButton requires an `aria-label` or `title` when rendering icon-only content.",
+        "IconButton requires an `aria-label` or `aria-labelledby` when rendering icon-only content.",
       );
     }, [shouldWarn]);
 
@@ -167,7 +171,8 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         disabled={disabled || loading}
         whileHover={reduceMotion ? undefined : { scale: 1.05 }}
         whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-        aria-label={effectiveAriaLabel}
+        aria-label={normalizedAriaLabel}
+        aria-labelledby={normalizedAriaLabelledBy}
         title={normalizedTitle}
         {...rest}
       >
