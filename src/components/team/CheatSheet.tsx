@@ -15,6 +15,7 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
+import { sanitizeList } from "@/lib/sanitizeList";
 
 /* ───────────── types ───────────── */
 
@@ -261,12 +262,12 @@ function BulletListEdit({
   ariaLabel: string;
 }) {
   const [list, setList] = React.useState<string[]>(
-    items.length ? items.map(sanitizeText) : [""],
+    items.length ? sanitizeList(items) : [""],
   );
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   React.useEffect(() => {
-    setList(items.length ? items.map(sanitizeText) : [""]);
+    setList(items.length ? sanitizeList(items) : [""]);
   }, [items]);
 
   function update(next: string[]) {

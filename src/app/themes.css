@@ -14,6 +14,8 @@
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
     0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
+  --btn-primary-hover-shadow: 0 2px 6px -1px hsl(var(--accent) / 0.25);
+  --btn-primary-active-shadow: inset 0 0 0 1px hsl(var(--accent) / 0.6);
 }
 
 /* Upgrade tokens when color-mix(oklab) is supported */
