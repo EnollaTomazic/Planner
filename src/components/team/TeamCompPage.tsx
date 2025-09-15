@@ -325,7 +325,10 @@ export default function TeamCompPage() {
       className="py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12">
+      <NeomorphicHeroFrame
+        variant="unstyled"
+        className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12"
+      >
         <div className="relative z-[2] space-y-2">
           <Header
             id="teamcomp-header"
