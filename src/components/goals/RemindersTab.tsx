@@ -623,7 +623,7 @@ function RemTile({
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setBody(e.currentTarget.value)
               }
-              className="rounded-2xl"
+              className="rounded-[var(--radius-2xl)]"
               resize="resize-y"
               textareaClassName="min-h-40 leading-relaxed"
             />
