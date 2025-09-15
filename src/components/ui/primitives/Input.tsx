@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import useFieldNaming from "@/lib/useFieldNaming";
+import useFieldIds from "@/lib/useFieldIds";
 import FieldShell from "./FieldShell";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -51,17 +51,21 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const { id: finalId, name: finalName } = useFieldNaming({
+  const { "aria-invalid": ariaInvalid, ...inputProps } = props;
+
+  const { id: generatedId, name: generatedName, isInvalid } = useFieldIds(
+    id ? (ariaLabel as string | undefined) : undefined,
     id,
     name,
-    ariaLabel: ariaLabel as string | undefined,
-    ariaLabelStrategy: "custom-id",
-  });
+    ariaInvalid,
+  );
 
-  const error =
-    props["aria-invalid"] === true || props["aria-invalid"] === "true";
-  const disabled = props.disabled;
-  const readOnly = props.readOnly;
+  const finalId = generatedId;
+  const finalName =
+    name ?? (id ? generatedName : generatedId);
+
+  const disabled = inputProps.disabled;
+  const readOnly = inputProps.readOnly;
 
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
@@ -74,7 +78,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 
   return (
     <FieldShell
-      error={error}
+      error={isInvalid}
       disabled={disabled}
       readOnly={readOnly}
       className={className}
@@ -90,7 +94,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
           showEndSlot && "pr-7",
           inputClassName,
         )}
-        {...props}
+        aria-invalid={ariaInvalid}
+        {...inputProps}
       />
       {children}
     </FieldShell>

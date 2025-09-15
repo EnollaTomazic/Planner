@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import useFieldNaming from "@/lib/useFieldNaming";
+import useFieldIds from "@/lib/useFieldIds";
 import FieldShell from "./FieldShell";
 
 /**
@@ -38,21 +38,23 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) {
-    const { id: finalId, name: finalName } = useFieldNaming({
+    const { "aria-invalid": ariaInvalid, ...textareaProps } = props;
+
+    const { id: generatedId, name: generatedName, isInvalid } = useFieldIds(
+      ariaLabel as string | undefined,
       id,
       name,
-      ariaLabel: ariaLabel as string | undefined,
-      slugifyFallback: true,
-    });
+      ariaInvalid,
+    );
 
-    const error =
-      props["aria-invalid"] === true || props["aria-invalid"] === "true";
+    const finalId = generatedId;
+    const finalName = name ?? generatedName;
 
     return (
       <FieldShell
-        error={error}
-        disabled={props.disabled}
-        readOnly={props.readOnly}
+        error={isInvalid}
+        disabled={textareaProps.disabled}
+        readOnly={textareaProps.readOnly}
         className={className}
       >
         <textarea
@@ -60,7 +62,8 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={finalId}
           name={finalName}
           className={cn(INNER, resize, textareaClassName)}
-          {...props}
+          aria-invalid={ariaInvalid}
+          {...textareaProps}
         />
       </FieldShell>
     );

@@ -7,7 +7,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
 import useMounted from "@/lib/useMounted";
-import { cn, slugify } from "@/lib/utils";
+import useFieldIds from "@/lib/useFieldIds";
+import { cn } from "@/lib/utils";
 
 /** Option item */
 export type SelectItem = {
@@ -73,10 +74,18 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(props["aria-label"] as string | undefined);
-    const finalId = id || auto;
-    const finalName = props.name || fromAria || finalId;
+    const { "aria-invalid": ariaInvalid, name: nameProp, ...restProps } = props;
+    const ariaLabel = restProps["aria-label"] as string | undefined;
+
+    const { id: generatedId, name: generatedName, isInvalid } = useFieldIds(
+      ariaLabel,
+      id,
+      nameProp,
+      ariaInvalid,
+    );
+
+    const finalId = generatedId;
+    const finalName = nameProp ?? (ariaLabel ? generatedName : generatedId);
     const successId = `${finalId}-success`;
     const errorId = errorText ? `${finalId}-error` : undefined;
     const helperId = helperText ? `${finalId}-helper` : undefined;
@@ -84,6 +93,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
       [errorId, helperId, success ? successId : undefined]
         .filter(Boolean)
         .join(" ") || undefined;
+    const ariaInvalidAttr = errorText ? "true" : ariaInvalid;
     return (
       <div className="space-y-1">
         <FieldShell
@@ -94,7 +104,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
             className,
           )}
-          error={!!errorText}
+          error={!!errorText || isInvalid}
           disabled={disabled}
         >
           <select
@@ -104,13 +114,13 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             disabled={disabled}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
-            aria-invalid={errorText ? "true" : props["aria-invalid"]}
+            aria-invalid={ariaInvalidAttr}
             aria-describedby={describedBy}
             className={cn(
               "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
               selectClassName,
             )}
-            {...props}
+            {...restProps}
           >
             {items.map((it) => (
               <option key={it.value} value={it.value} disabled={it.disabled}>
