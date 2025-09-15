@@ -63,21 +63,21 @@ const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
 }> = {
   default: {
     container:
-      "rounded-card r-card-lg border border-border/40 bg-card/70 shadow-[0_0_0_1px_hsl(var(--border)/0.12)]",
+      "rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle",
     padding: "px-6 py-6 md:px-7 md:py-7 lg:px-8 lg:py-8",
     content: "space-y-5 md:space-y-6",
     action: { mt: "mt-6 md:mt-7", pt: "pt-5 md:pt-6", gap: "gap-4" },
   },
   compact: {
     container:
-      "rounded-card r-card-md border border-border/35 bg-card/65 shadow-[0_0_0_1px_hsl(var(--border)/0.12)]",
+      "rounded-card r-card-md border border-border/35 bg-card/65 shadow-outline-subtle",
     padding: "px-4 py-4 md:px-5 md:py-5 lg:px-6 lg:py-6",
     content: "space-y-4 md:space-y-5",
     action: { mt: "mt-4 md:mt-5", pt: "pt-4 md:pt-5", gap: "gap-3" },
   },
   plain: {
     container:
-      "rounded-card r-card-md border border-border/30 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.08)]",
+      "rounded-card r-card-md border border-border/30 bg-card/60 shadow-outline-faint",
     padding: "px-4 py-4 md:px-5 md:py-5",
     content: "space-y-3 md:space-y-4",
     action: { mt: "mt-4", pt: "pt-3 md:pt-4", gap: "gap-3" },
