@@ -8,6 +8,7 @@ import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
+import { getSearchBlob } from "./reviewSearch";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import { Button, Select, PageHeader, PageShell } from "@/components/ui";
@@ -51,23 +52,7 @@ export default function ReviewsPage({
     const list =
       needle.length === 0
         ? [...base]
-        : base.filter((r) => {
-            const blob = [
-              r?.title,
-              Array.isArray(r?.tags) ? r.tags.join(" ") : "",
-              r?.opponent,
-              r?.lane,
-              r?.side,
-              r?.result,
-              r?.patch,
-              r?.duration,
-              r?.notes,
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase();
-            return blob.includes(needle);
-          });
+        : base.filter((r) => getSearchBlob(r).includes(needle));
 
     if (sort === "newest")
       list.sort((a, b) => ts(b?.createdAt) - ts(a?.createdAt));

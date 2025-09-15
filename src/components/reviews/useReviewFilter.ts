@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { Review } from "@/lib/types";
 import { ts } from "@/lib/date";
+import { getSearchBlob } from "./reviewSearch";
 
 export type SortKey = "newest" | "oldest" | "title";
 
@@ -14,23 +15,7 @@ export function useReviewFilter(
     const list =
       needle.length === 0
         ? [...base]
-        : base.filter((r) => {
-            const blob = [
-              r?.title,
-              Array.isArray(r?.tags) ? r.tags.join(" ") : "",
-              r?.opponent,
-              r?.lane,
-              r?.side,
-              r?.result,
-              r?.patch,
-              r?.duration,
-              r?.notes,
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase();
-            return blob.includes(needle);
-          });
+        : base.filter((r) => getSearchBlob(r).includes(needle));
 
     if (sort === "newest")
       list.sort((a, b) => ts(b?.createdAt) - ts(a?.createdAt));
