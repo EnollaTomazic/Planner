@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import useFieldNaming from "@/lib/useFieldNaming";
+import { resolveFieldIds } from "@/lib/fieldIds";
 import FieldShell from "./FieldShell";
 
 /**
@@ -38,7 +38,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) {
-    const { id: finalId, name: finalName } = useFieldNaming({
+    const { id: finalId, name: finalName } = resolveFieldIds({
       id,
       name,
       ariaLabel: ariaLabel as string | undefined,
