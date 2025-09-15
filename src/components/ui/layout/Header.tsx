@@ -42,8 +42,12 @@ export interface HeaderProps<Key extends string = string>
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
+  /** Primary navigation rendered to the left of tabs. */
+  nav?: React.ReactNode;
   /** Right slot for actions (renders alongside tabs). */
   right?: React.ReactNode;
+  /** Utility controls rendered at the far right (e.g., theme toggle, profile). */
+  utilities?: React.ReactNode;
   children?: React.ReactNode;
   /** Still overridable, but true by default */
   sticky?: boolean;
@@ -52,6 +56,8 @@ export interface HeaderProps<Key extends string = string>
   barClassName?: string;
   bodyClassName?: string;
   rail?: boolean;
+  /** Reduce vertical padding and height, ideal for denser layouts. */
+  compact?: boolean;
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeaderTabsProps<Key>;
   /** Optional card-style framing. */
@@ -65,7 +71,9 @@ export default function Header<Key extends string = string>({
   heading,
   subtitle,
   icon,
+  nav,
   right,
+  utilities,
   children,
   sticky = true,
   topClassName = "top-[var(--header-stack)]", // sync with --header-stack token
@@ -73,6 +81,7 @@ export default function Header<Key extends string = string>({
   barClassName,
   bodyClassName,
   rail = true,
+  compact = false,
   tabs,
   variant = "plain",
   underline = true,
@@ -110,6 +119,20 @@ export default function Header<Key extends string = string>({
 
   const hasTabs = Boolean(tabControl);
   const hasRight = right != null;
+  const hasUtilities = utilities != null;
+  const hasNav = nav != null;
+  const showRightStack = hasTabs || hasRight || hasUtilities;
+
+  const barPadding = compact
+    ? isMinimal
+      ? "px-4 py-[var(--space-3)]"
+      : "px-3 sm:px-4 py-[var(--space-3)]"
+    : isMinimal
+      ? "px-4 py-4"
+      : "px-3 sm:px-4 py-3 sm:py-4";
+  const minHeightClass = compact
+    ? "min-h-[var(--control-h-sm)]"
+    : "min-h-12";
 
   return (
     <header
@@ -131,9 +154,10 @@ export default function Header<Key extends string = string>({
       <div
         className={cx(
           sticky && cx("sticky", topClassName),
-          "relative flex items-center",
-          isMinimal ? "px-4 py-4" : "px-3 sm:px-4 py-3 sm:py-4",
-          "min-h-12",
+          "relative flex items-center gap-3 sm:gap-4",
+          barPadding,
+          minHeightClass,
+          hasNav && "flex-wrap gap-y-2 sm:flex-nowrap",
           barClassName,
         )}
       >
@@ -145,33 +169,63 @@ export default function Header<Key extends string = string>({
         ) : null}
 
         {/* Left: icon + text */}
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-          {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
-          <div className="min-w-0">
-            {eyebrow ? (
-              <div className="mb-1 truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
-                {eyebrow}
-              </div>
-            ) : null}
-            <div className="flex min-w-0 items-baseline gap-2">
-              <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
-                {heading}
-              </h1>
-              {subtitle ? (
-                <span className="hidden truncate text-label font-medium tracking-[0.02em] text-muted-foreground sm:inline">
-                  {subtitle}
-                </span>
+        <div
+          className={cx(
+            "flex min-w-0 flex-1 items-center gap-3 sm:gap-4",
+            hasNav && "flex-wrap gap-y-2 sm:flex-nowrap",
+          )}
+        >
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+            {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
+            <div className="min-w-0">
+              {eyebrow ? (
+                <div className="mb-1 truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
+                  {eyebrow}
+                </div>
               ) : null}
+              <div className="flex min-w-0 items-baseline gap-2">
+                <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
+                  {heading}
+                </h1>
+                {subtitle ? (
+                  <span className="hidden truncate text-label font-medium tracking-[0.02em] text-muted-foreground sm:inline">
+                    {subtitle}
+                  </span>
+                ) : null}
+              </div>
             </div>
           </div>
+          {hasNav ? (
+            <div
+              className={cx(
+                "flex min-w-0 flex-1 items-center gap-1 overflow-x-auto whitespace-nowrap text-xs font-medium text-muted-foreground sm:text-sm sm:overflow-visible",
+                "[&_[data-state=active]]:text-foreground [&_[data-state=active]]:opacity-100",
+                "[&_[data-state=inactive]]:text-muted-foreground [&_[data-state=inactive]:hover]:text-foreground [&_[data-state=inactive]:focus-visible]:text-foreground",
+              )}
+              data-slot="primary-nav"
+            >
+              {nav}
+            </div>
+          ) : null}
         </div>
 
         {/* Right slot / tabs */}
-        {hasTabs || hasRight ? (
-          <div className="ml-auto flex min-w-0 items-center gap-3">
+        {showRightStack ? (
+          <div className="ml-auto flex min-w-0 items-center gap-3 sm:gap-4">
             {hasTabs ? tabControl : null}
             {hasRight ? (
               <div className="flex shrink-0 items-center gap-2">{right}</div>
+            ) : null}
+            {hasUtilities ? (
+              <div
+                className={cx(
+                  "flex shrink-0 items-center gap-2 text-muted-foreground",
+                  "[&_[data-state=active]]:text-foreground [&_[data-state=open]]:text-foreground",
+                )}
+                data-slot="utilities"
+              >
+                {utilities}
+              </div>
             ) : null}
           </div>
         ) : null}

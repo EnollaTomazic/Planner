@@ -5,8 +5,24 @@ import {
   Hero,
   Button,
   ThemeToggle,
+  IconButton,
   type HeaderTab,
 } from "@/components/ui";
+import { Bell, CircleUser } from "lucide-react";
+
+type CompactNav = "summary" | "timeline" | "reports";
+
+const compactNavItems: Array<{ key: CompactNav; label: string }> = [
+  { key: "summary", label: "Summary" },
+  { key: "timeline", label: "Timeline" },
+  { key: "reports", label: "Reports" },
+];
+
+const compactNavCopy: Record<CompactNav, string> = {
+  summary: "Monitor your squad's prep work and alignment at a glance.",
+  timeline: "Track scrims and reviews across the day with zero context loss.",
+  reports: "Spin up shareable insights from the latest competitive sessions.",
+};
 
 type MinimalTab = "overview" | "schedule" | "insights";
 
@@ -40,12 +56,95 @@ const heroFilterCopy: Record<HeroFilter, string> = {
 };
 
 export default function PageHeaderDemo() {
+  const [activePrimaryNav, setActivePrimaryNav] =
+    React.useState<CompactNav>("summary");
+  const [profileOpen, setProfileOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<MinimalTab>("overview");
   const [activeFilter, setActiveFilter] = React.useState<HeroFilter>("all");
   const [query, setQuery] = React.useState("");
 
+  const primaryNav = (
+    <nav aria-label="Planner views" className="w-full">
+      <ul className="flex items-center gap-1 list-none">
+        {compactNavItems.map((item) => {
+          const isActive = activePrimaryNav === item.key;
+          return (
+            <li key={item.key}>
+              <button
+                type="button"
+                onClick={() => setActivePrimaryNav(item.key)}
+                data-state={isActive ? "active" : "inactive"}
+                aria-pressed={isActive}
+                className="inline-flex items-center rounded-full border border-transparent px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_1px_hsl(var(--ring)/0.35)]"
+              >
+                {item.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+
+  const utilityControls = (
+    <>
+      <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+      <IconButton
+        size="sm"
+        aria-label="Show notifications"
+        aria-pressed
+        className="text-muted-foreground data-[state=active]:text-foreground"
+        data-state="active"
+      >
+        <Bell className="h-4 w-4" />
+      </IconButton>
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={profileOpen}
+        onClick={() => setProfileOpen((prev) => !prev)}
+        onBlur={() => setProfileOpen(false)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            setProfileOpen(false);
+            event.currentTarget.blur();
+          }
+        }}
+        data-state={profileOpen ? "open" : "inactive"}
+        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-3 py-1.5 text-sm font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
+      >
+        <CircleUser className="h-4 w-4" />
+        <span className="hidden sm:inline">Profile</span>
+      </button>
+    </>
+  );
+
   return (
     <div className="space-y-6">
+      <Header
+        eyebrow="Planner"
+        heading="Compact Header"
+        subtitle="Navigation & utilities"
+        compact
+        sticky={false}
+        topClassName="top-0"
+        nav={primaryNav}
+        utilities={utilityControls}
+        right={
+          <Button
+            size="sm"
+            variant="primary"
+            className="whitespace-nowrap"
+          >
+            Start session
+          </Button>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          {compactNavCopy[activePrimaryNav]}
+        </p>
+      </Header>
+
       <Header
         variant="minimal"
         eyebrow="Planner"
