@@ -32,7 +32,12 @@ export default function Snackbar({
           {" "}
           <button
             type="button"
-            className="underline underline-offset-2"
+            className={cn(
+              "inline-flex items-center font-medium text-accent underline underline-offset-4 transition-colors",
+              "hover:text-accent-foreground focus-visible:rounded-sm focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
+              "active:text-[hsl(var(--accent)/0.8)] disabled:text-muted-foreground disabled:no-underline disabled:pointer-events-none",
+            )}
             onClick={onAction}
           >
             {actionLabel}
