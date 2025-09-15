@@ -14,11 +14,17 @@ type PageHeaderElement = Extract<
   "header" | "section" | "article" | "aside" | "main" | "div" | "nav"
 >;
 
-export interface PageHeaderProps<
+type PageHeaderElementProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  "className" | "children"
+>;
+
+type PageHeaderFrameElement = React.ElementRef<typeof NeomorphicHeroFrame>;
+
+export interface PageHeaderBaseProps<
   HeaderKey extends string = string,
   HeroKey extends string = string,
->
-  extends Omit<React.HTMLAttributes<HTMLElement>, "className" | "children"> {
+> extends PageHeaderElementProps {
   /** Props forwarded to <Header> */
   header: HeaderProps<HeaderKey>;
   /** Props forwarded to <Hero> */
@@ -37,25 +43,36 @@ export interface PageHeaderProps<
   search?: HeroProps<HeroKey>["search"];
 }
 
+export type PageHeaderProps<
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+> = PageHeaderBaseProps<HeaderKey, HeroKey> &
+  React.RefAttributes<PageHeaderFrameElement>;
+
+export type PageHeaderRef = PageHeaderFrameElement;
+
 /**
  * PageHeader — combines <Header> and <Hero> within a neomorphic frame.
  *
  * Used for top-of-page introductions with optional actions.
  */
-export default function PageHeader<
+const PageHeaderInner = <
   HeaderKey extends string = string,
   HeroKey extends string = string,
->({
-  header,
-  hero,
-  className,
-  frameProps,
-  contentClassName,
-  as,
-  subTabs,
-  search,
-  ...elementProps
-}: PageHeaderProps<HeaderKey, HeroKey>) {
+>(
+  {
+    header,
+    hero,
+    className,
+    frameProps,
+    contentClassName,
+    as,
+    subTabs,
+    search,
+    ...elementProps
+  }: PageHeaderBaseProps<HeaderKey, HeroKey>,
+  ref: React.ForwardedRef<PageHeaderFrameElement>,
+) => {
   const Component = (as ?? "header") as PageHeaderElement;
 
   const {
@@ -82,6 +99,7 @@ export default function PageHeader<
   return (
     <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
       <NeomorphicHeroFrame
+        ref={ref}
         {...frameProps}
         className={cn(
           className ??
@@ -108,4 +126,20 @@ export default function PageHeader<
       </NeomorphicHeroFrame>
     </Component>
   );
-}
+};
+
+const PageHeaderWithForwardRef = React.forwardRef(PageHeaderInner);
+
+PageHeaderWithForwardRef.displayName = "PageHeader";
+
+type PageHeaderComponent = <
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+>(
+  props: PageHeaderBaseProps<HeaderKey, HeroKey> &
+    React.RefAttributes<PageHeaderFrameElement>,
+) => React.ReactElement | null;
+
+const PageHeader = PageHeaderWithForwardRef as unknown as PageHeaderComponent;
+
+export default PageHeader;
