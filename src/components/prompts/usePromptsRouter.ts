@@ -12,6 +12,23 @@ export function usePromptsRouter() {
   const [, startTransition] = React.useTransition();
   const viewParam = searchParams.get("view");
   const sectionParam = searchParams.get("section");
+  const paramsString = searchParams.toString();
+  const params = React.useMemo(
+    () => new URLSearchParams(paramsString),
+    [paramsString],
+  );
+  const replaceParam = React.useCallback(
+    (key: "view" | "section", value: string) => {
+      const current = params.get(key);
+      if (current === value) return;
+
+      params.set(key, value);
+      startTransition(() =>
+        router.replace(`?${params.toString()}`, { scroll: false }),
+      );
+    },
+    [params, router, startTransition],
+  );
 
   const [view, setView] = React.useState<View>(
     () => (viewParam as View) || "components",
@@ -31,25 +48,13 @@ export function usePromptsRouter() {
   }, [sectionParam]);
 
   React.useEffect(() => {
-    const sp = new URLSearchParams(searchParams.toString());
-    const current = sp.get("view");
-    if (current === view) return;
-    sp.set("view", view);
-    startTransition(() =>
-      router.replace(`?${sp.toString()}`, { scroll: false }),
-    );
-  }, [view, router, searchParams, startTransition]);
+    replaceParam("view", view);
+  }, [view, replaceParam]);
 
   React.useEffect(() => {
     if (view !== "components") return;
-    const sp = new URLSearchParams(searchParams.toString());
-    const current = sp.get("section");
-    if (current === section) return;
-    sp.set("section", section);
-    startTransition(() =>
-      router.replace(`?${sp.toString()}`, { scroll: false }),
-    );
-  }, [section, view, router, searchParams, startTransition]);
+    replaceParam("section", section);
+  }, [section, view, replaceParam]);
 
   return { view, setView, section, setSection };
 }
