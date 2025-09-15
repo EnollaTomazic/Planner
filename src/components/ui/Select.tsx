@@ -6,8 +6,9 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
+import { resolveFieldIds } from "@/lib/fieldIds";
 import useMounted from "@/lib/useMounted";
-import { cn, slugify } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 /** Option item */
 export type SelectItem = {
@@ -73,10 +74,11 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(props["aria-label"] as string | undefined);
-    const finalId = id || auto;
-    const finalName = props.name || fromAria || finalId;
+    const { id: finalId, name: finalName } = resolveFieldIds({
+      id,
+      name: props.name,
+      ariaLabel: props["aria-label"] as string | undefined,
+    });
     const successId = `${finalId}-success`;
     const errorId = errorText ? `${finalId}-error` : undefined;
     const helperId = helperText ? `${finalId}-helper` : undefined;
