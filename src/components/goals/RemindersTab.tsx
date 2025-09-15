@@ -557,35 +557,30 @@ function RemTile({
               className="font-semibold uppercase tracking-wide"
             />
           ) : (
-            <h4
-              className="font-semibold uppercase tracking-wide pr-2 title-glow glitch cursor-text leading-6 truncate"
-              onClick={() => {
-                setEditing(true);
-              }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && setEditing(true)}
-              title="Click to edit"
-            >
-              {value.title}
-            </h4>
+            <div className="flex items-center gap-2 min-w-0">
+              <h4
+                className="font-semibold uppercase tracking-wide pr-2 title-glow glitch leading-6 truncate"
+                title={value.title}
+              >
+                {value.title}
+              </h4>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setEditing(true);
+                }}
+                aria-label={value.title ? `Edit reminder ${value.title}` : "Edit reminder"}
+                className="shrink-0"
+              >
+                <Pencil aria-hidden="true" />
+                Edit
+              </Button>
+            </div>
           )}
         </div>
 
         <div className="flex items-center gap-1">
-          <IconButton
-            title="Edit"
-            aria-label="Edit"
-            onClick={() => {
-              setEditing(true);
-            }}
-            size="sm"
-            iconSize="sm"
-            className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
-          >
-            <Pencil />
-          </IconButton>
-
           <IconButton
             title="Delete"
             aria-label="Delete"
