@@ -13,7 +13,7 @@ import {
   BottomNav,
   IsometricRoom,
 } from "@/components/home";
-import { PageHeader, Button, ThemeToggle, Spinner } from "@/components/ui";
+import { PageHeader, PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
@@ -22,9 +22,10 @@ function HomePageContent() {
   useThemeQuerySync();
 
   return (
-    <main
+    <PageShell
+      as="main"
       aria-labelledby="home-header"
-      className="page-shell py-6 space-y-6 md:space-y-8"
+      className="py-6 space-y-6 md:space-y-8"
     >
       <section
         id="landing-hero"
@@ -84,7 +85,7 @@ function HomePageContent() {
         </div>
       </section>
       <BottomNav />
-    </main>
+    </PageShell>
   );
 }
 

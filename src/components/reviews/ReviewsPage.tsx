@@ -10,7 +10,7 @@ import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
-import { Button, Select, PageHeader } from "@/components/ui";
+import { Button, Select, PageHeader, PageShell } from "@/components/ui";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -87,8 +87,9 @@ export default function ReviewsPage({
   const panelClass = "mx-auto";
 
   return (
-    <main
-      className="page-shell py-6 space-y-6"
+    <PageShell
+      as="main"
+      className="py-6 space-y-6"
       aria-labelledby="reviews-header"
     >
       <PageHeader
@@ -210,6 +211,6 @@ export default function ReviewsPage({
           )}
         </div>
       </div>
-    </main>
+    </PageShell>
   );
 }
