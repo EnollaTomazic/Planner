@@ -759,13 +759,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
                 title="Wave"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -865,7 +862,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
           <button
@@ -887,13 +884,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
                 title="Trading"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -1003,7 +997,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
           <button
@@ -1025,13 +1019,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
                 title="Vision"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -1130,7 +1121,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
           <button
@@ -1152,13 +1143,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
                 title="Tempo"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -1266,7 +1254,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
           <button
@@ -1288,13 +1276,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
                 title="Positioning"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -1414,7 +1399,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
           <button
@@ -1436,13 +1421,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
-              <button
-                aria-pressed="false"
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2 cursor-pointer select-none"
-                data-interactive="true"
+              <span
+                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
                 style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
                 title="Comms"
-                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -1539,7 +1521,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         }
       
                 </style>
-              </button>
+              </span>
             </span>
           </button>
         </div>
