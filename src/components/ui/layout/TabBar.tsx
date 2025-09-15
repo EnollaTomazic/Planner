@@ -153,7 +153,7 @@ export default function TabBar<K extends string = string>({
                 }}
                 onClick={() => !item.disabled && commitValue(item.key)}
                 className={cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-150 ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
                   s.h,
                   s.px,
                   s.text,

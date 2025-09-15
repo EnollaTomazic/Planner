@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Card from "./primitives/Card";
 import IconButton from "./primitives/IconButton";
 import { X } from "lucide-react";
+import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
 export interface ToastProps extends React.ComponentProps<typeof Card> {
@@ -23,8 +24,7 @@ export default function Toast({
   children,
   ...props
 }: ToastProps) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   React.useEffect(() => {
     if (!open) return;

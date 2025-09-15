@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
+import useMounted from "@/lib/useMounted";
 import { cn, slugify } from "@/lib/utils";
 
 /** Option item */
@@ -169,8 +170,7 @@ const AnimatedSelectImpl = React.forwardRef<
   ref,
 ) {
   // Hydration-safe portal
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   const [open, setOpen] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState<number>(() =>
@@ -497,7 +497,7 @@ const AnimatedSelectImpl = React.forwardRef<
                 style={fixedStyles}
                 onKeyDown={onListKeyDown}
                 className={[
-                  "relative pointer-events-auto rounded-2xl overflow-hidden",
+                  "relative pointer-events-auto rounded-[var(--radius-2xl)] overflow-hidden",
                   "bg-card/92 backdrop-blur-xl",
                   "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
                   "p-2",

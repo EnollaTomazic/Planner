@@ -18,9 +18,9 @@ export default function Badge({
   const base = "inline-flex items-center text-xs font-medium border";
   const variants: Record<BadgeVariant, string> = {
     neutral:
-      "rounded-2xl px-2 py-1 bg-muted/25 border-border/20 text-muted-foreground",
+      "rounded-[var(--radius-2xl)] px-2 py-1 bg-muted/25 border-border/20 text-muted-foreground",
     accent:
-      "rounded-2xl px-2 py-1 bg-accent/15 border-accent/35 text-accent shadow-glow-sm",
+      "rounded-[var(--radius-2xl)] px-2 py-1 bg-accent/15 border-accent/35 text-accent shadow-glow-sm",
     pill: "rounded-full px-2 py-1 bg-accent/15 border-accent/35 text-accent",
   };
 

@@ -827,12 +827,12 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </div>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-button-accent-hover active:translate-y-px active:shadow-button-accent-active text-foreground"
+                            class="relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-button-accent-hover active:translate-y-px active:shadow-button-accent-active text-foreground"
                             tabindex="0"
                             type="button"
                           >
                             <span
-                              class="absolute inset-0 pointer-events-none rounded-2xl bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
+                              class="absolute inset-0 pointer-events-none rounded-[var(--radius-2xl)] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
                             />
                             <span
                               class="relative z-10 inline-flex items-center gap-2"
@@ -936,7 +936,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-[var(--radius-2xl)] bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             MID
                           </span>
@@ -980,7 +980,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-[var(--radius-2xl)] bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             BOT
                           </span>
@@ -1024,7 +1024,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex items-center font-medium border rounded-[var(--radius-2xl)] bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
                           >
                             TOP
                           </span>

@@ -742,7 +742,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Wave"
             type="button"
           >
@@ -870,7 +870,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Trading"
             type="button"
           >
@@ -1008,7 +1008,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Vision"
             type="button"
           >
@@ -1135,7 +1135,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Tempo"
             type="button"
           >
@@ -1271,7 +1271,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Positioning"
             type="button"
           >
@@ -1419,7 +1419,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Select Comms"
             type="button"
           >
@@ -2030,7 +2030,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-2xl"
+          class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-[var(--radius-2xl)]"
         >
           <textarea
             class="block w-full max-w-full px-3 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
