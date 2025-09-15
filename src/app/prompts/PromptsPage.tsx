@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader, Button, IconButton } from "@/components/ui";
+import { PageHeader, PageShell, Button, IconButton } from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -67,8 +67,9 @@ function PageContent() {
   }, [view]);
 
   return (
-    <main
-      className="page-shell py-6 space-y-6"
+    <PageShell
+      as="main"
+      className="py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
       <PageHeader
@@ -155,6 +156,6 @@ function PageContent() {
           </div>
         </div>
       </section>
-    </main>
+    </PageShell>
   );
 }

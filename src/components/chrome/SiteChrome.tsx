@@ -4,6 +4,7 @@ import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
+import { PageShell } from "@/components/ui";
 import Link from "next/link";
 import "@/app/globals.css";
 
@@ -17,7 +18,7 @@ export default function SiteChrome() {
   return (
     <header role="banner" className="sticky-blur top-0 z-50">
       {/* Bar content */}
-      <div className="page-shell flex items-center justify-between py-2">
+      <PageShell className="flex items-center justify-between py-2">
         <Link href="/" aria-label="Home" className="flex items-center gap-2">
           <span
             className="h-2 w-2 rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
@@ -33,7 +34,7 @@ export default function SiteChrome() {
           <ThemeToggle />
           <AnimationToggle />
         </div>
-      </div>
+      </PageShell>
 
       {/* Hairline (neon-friendly, non-interactive) */}
       <div

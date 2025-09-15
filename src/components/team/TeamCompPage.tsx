@@ -31,7 +31,7 @@ import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
-import { NeomorphicHeroFrame } from "@/components/ui";
+import { NeomorphicHeroFrame, PageShell } from "@/components/ui";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -320,8 +320,9 @@ export default function TeamCompPage() {
   ]);
 
   return (
-    <main
-      className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
+    <PageShell
+      as="main"
+      className="py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
       <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12">
@@ -354,6 +355,6 @@ export default function TeamCompPage() {
           </div>
         ))}
       </section>
-    </main>
+    </PageShell>
   );
 }

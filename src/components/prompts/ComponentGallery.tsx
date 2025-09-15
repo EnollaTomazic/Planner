@@ -20,6 +20,7 @@ import {
   TitleBar,
   Header,
   Hero,
+  PageShell,
   SearchBar,
   Snackbar,
   Card,
@@ -617,6 +618,26 @@ export default function ComponentGallery() {
             Card content
           </Card>
         ),
+      },
+      {
+        label: "PageShell",
+        element: (
+          <PageShell className="space-y-3 rounded-card border border-border/40 bg-surface/60 py-6">
+            <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+              PageShell
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Constrains page content to the shell width.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm">Primary</Button>
+              <Button size="sm" variant="ghost">
+                Ghost
+              </Button>
+            </div>
+          </PageShell>
+        ),
+        className: "sm:col-span-2 md:col-span-3 w-full",
       },
       {
         label: "TitleBar",

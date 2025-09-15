@@ -30,6 +30,8 @@ export { default as NeomorphicHeroFrame } from "./layout/NeomorphicHeroFrame";
 export * from "./layout/NeomorphicHeroFrame";
 export { default as PageHeader } from "./layout/PageHeader";
 export * from "./layout/PageHeader";
+export { default as PageShell } from "./layout/PageShell";
+export * from "./layout/PageShell";
 export { default as SectionCard } from "./layout/SectionCard";
 export * from "./layout/SectionCard";
 export { default as Split } from "./layout/Split";

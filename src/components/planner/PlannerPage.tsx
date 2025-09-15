@@ -20,6 +20,7 @@ import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { PlannerProvider } from "./plannerStore";
 import Header from "@/components/ui/layout/Header";
+import PageShell from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays, toISODate } from "@/lib/date";
@@ -79,8 +80,9 @@ function Inner() {
 
   return (
     <>
-      <main
-        className="page-shell py-6 space-y-6"
+      <PageShell
+        as="main"
+        className="py-6 space-y-6"
         aria-labelledby="planner-header"
       >
         {/* Week header (range, nav, totals, day chips) */}
@@ -120,7 +122,7 @@ function Inner() {
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
           ))}
         </ul>
-      </main>
+      </PageShell>
       <ScrollTopFloatingButton watchRef={heroRef} />
     </>
   );
