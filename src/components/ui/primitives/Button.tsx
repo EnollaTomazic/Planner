@@ -133,7 +133,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
@@ -173,7 +173,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {variant === "primary" ? (
           <span
             className={cn(
-              "absolute inset-0 pointer-events-none rounded-2xl",
+              "absolute inset-0 pointer-events-none rounded-[var(--radius-2xl)]",
               `bg-[linear-gradient(90deg,hsl(var(${colorVar[tone]})/.18),hsl(var(${colorVar[tone]})/.18))]`,
             )}
           />

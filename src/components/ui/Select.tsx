@@ -496,7 +496,7 @@ const AnimatedSelectImpl = React.forwardRef<
                 style={fixedStyles}
                 onKeyDown={onListKeyDown}
                 className={[
-                  "relative pointer-events-auto rounded-2xl overflow-hidden",
+                  "relative pointer-events-auto rounded-[var(--radius-2xl)] overflow-hidden",
                   "bg-card/92 backdrop-blur-xl",
                   "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
                   "p-2",

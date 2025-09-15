@@ -38,7 +38,7 @@ export default function NavBar() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative inline-flex items-center rounded-2xl border px-4 py-2 font-mono text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "relative inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 font-mono text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
@@ -51,13 +51,13 @@ export default function NavBar() {
                 {/* hover sheen */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition hover:opacity-100 nav-hover-sheen"
+                  className="pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)] opacity-0 transition hover:opacity-100 nav-hover-sheen"
                 />
 
                 {/* faint scanlines */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-20 nav-scanlines"
+                  className="pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)] opacity-20 nav-scanlines"
                 />
 
                 {/* animated underline shared across tabs */}

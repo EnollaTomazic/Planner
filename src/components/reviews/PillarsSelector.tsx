@@ -123,7 +123,7 @@ function PillarsSelector(
               onClick={() => togglePillar(p)}
               onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
               aria-pressed={active}
-              className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title={active ? `${p} selected` : `Select ${p}`}
             >
               <NeonPillarChip active={active}>
