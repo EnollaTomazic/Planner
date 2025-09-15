@@ -11,12 +11,12 @@
 import * as React from "react";
 import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
-import { useFocusDate } from "./useFocusDate";
+import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
 import { CalendarDays, ArrowUpToLine } from "lucide-react";
-import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
+import { toISODate } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
@@ -108,23 +108,11 @@ function DayChip({
 
 export default function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
-
-  const { heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
-    const base = fromISODate(iso) ?? new Date();
-    const s = mondayStartOfWeek(base);
-    const e = addDays(s, 6);
-    const list: ISODate[] = Array.from(
-      { length: 7 },
-      (_, i) => toISODate(addDays(s, i)) as ISODate,
-    );
-    return {
-      heading: `${dmy.format(s)} — ${dmy.format(e)}`,
-      rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
-      isoStart: toISODate(s),
-      isoEnd: toISODate(e),
-      days: list,
-    };
-  }, [iso]);
+  const { start, end, days } = useWeek(iso);
+  const heading = `${dmy.format(start)} — ${dmy.format(end)}`;
+  const rangeLabel = `${dmy.format(start)} → ${dmy.format(end)}`;
+  const isoStart = toISODate(start);
+  const isoEnd = toISODate(end);
 
   const { per, weekDone, weekTotal } = useWeekData(days);
 
