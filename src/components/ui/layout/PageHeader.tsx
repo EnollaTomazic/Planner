@@ -14,12 +14,15 @@ type PageHeaderElement = Extract<
   "header" | "section" | "article" | "aside" | "main" | "div" | "nav"
 >;
 
-export interface PageHeaderProps
+export interface PageHeaderProps<
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+>
   extends Omit<React.HTMLAttributes<HTMLElement>, "className" | "children"> {
   /** Props forwarded to <Header> */
-  header: HeaderProps;
+  header: HeaderProps<HeaderKey>;
   /** Props forwarded to <Hero> */
-  hero: HeroProps;
+  hero: HeroProps<HeroKey>;
   /** Optional className for the outer frame */
   className?: string;
   /** Additional props for the outer frame */
@@ -28,6 +31,10 @@ export interface PageHeaderProps
   contentClassName?: string;
   /** Semantic element for the header container */
   as?: PageHeaderElement;
+  /** Optional hero sub-tabs override */
+  subTabs?: HeroProps<HeroKey>["subTabs"];
+  /** Optional hero search override */
+  search?: HeroProps<HeroKey>["search"];
 }
 
 /**
@@ -35,16 +42,42 @@ export interface PageHeaderProps
  *
  * Used for top-of-page introductions with optional actions.
  */
-export default function PageHeader({
+export default function PageHeader<
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+>({
   header,
   hero,
   className,
   frameProps,
   contentClassName,
   as,
+  subTabs,
+  search,
   ...elementProps
-}: PageHeaderProps) {
+}: PageHeaderProps<HeaderKey, HeroKey>) {
   const Component = (as ?? "header") as PageHeaderElement;
+
+  const {
+    subTabs: heroSubTabs,
+    search: heroSearch,
+    frame: heroFrame,
+    topClassName: heroTopClassName,
+    as: heroAs,
+    ...heroRest
+  } = hero;
+
+  const resolvedSubTabs =
+    heroSubTabs !== undefined ? heroSubTabs : subTabs;
+
+  const searchSource =
+    heroSearch !== undefined ? heroSearch : search;
+  const resolvedSearch =
+    searchSource === undefined
+      ? undefined
+      : searchSource === null
+        ? null
+        : { ...searchSource, round: searchSource.round ?? true };
 
   return (
     <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
@@ -57,13 +90,19 @@ export default function PageHeader({
         )}
       >
         <div
-          className={cn("relative z-[2]", contentClassName ?? "space-y-4")}
+          className={cn(
+            "relative z-[2]",
+            contentClassName ?? "space-y-5 md:space-y-6",
+          )}
         >
           <Header {...header} underline={header.underline ?? false} />
           <Hero
-            {...hero}
-            frame={hero.frame ?? true}
-            topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
+            {...heroRest}
+            as={heroAs ?? "header"}
+            frame={heroFrame ?? true}
+            topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
+            subTabs={resolvedSubTabs}
+            search={resolvedSearch}
           />
         </div>
       </NeomorphicHeroFrame>
