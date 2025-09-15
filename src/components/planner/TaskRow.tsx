@@ -35,6 +35,22 @@ export default function TaskRow({
 
   useAutoFocus({ ref: inputRef, when: editing });
 
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+      if (
+        event.key === "Enter" ||
+        event.key === " " ||
+        event.key === "Space" ||
+        event.key === "Spacebar"
+      ) {
+        event.preventDefault();
+        onSelect();
+      }
+    },
+    [onSelect],
+  );
+
   function start() {
     setEditing(true);
   }
@@ -58,12 +74,16 @@ export default function TaskRow({
   return (
     <li className="group">
       <div
+        role="button"
+        tabIndex={0}
         className={cn(
-          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-card r-card-lg border pl-4 pr-2 py-2",
-          "bg-card/55 hover:bg-card/70",
+          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-card r-card-lg border pl-4 pr-2 py-2 transition-colors",
+          "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
           "focus-within:ring-2 focus-within:ring-ring",
         )}
         onClick={onSelect}
+        onKeyDown={handleKeyDown}
       >
         <div className="shrink-0 ml-1" onClick={(e) => e.stopPropagation()}>
           <CheckCircle
