@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import useFieldNaming from "@/lib/useFieldNaming";
+import { resolveFieldIds } from "@/lib/fieldIds";
 import FieldShell from "./FieldShell";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -51,7 +51,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const { id: finalId, name: finalName } = useFieldNaming({
+  const { id: finalId, name: finalName } = resolveFieldIds({
     id,
     name,
     ariaLabel: ariaLabel as string | undefined,
