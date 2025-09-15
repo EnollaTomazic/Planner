@@ -141,7 +141,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         aria-hidden="true"
         class="hero2-noise opacity-[0.03]"
       />
-      <div
+      <header
         class="relative z-[2] space-y-2"
       >
         <header
@@ -860,7 +860,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             </div>
           </div>
         </section>
-      </div>
+      </header>
       <div
         aria-hidden="true"
         class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"

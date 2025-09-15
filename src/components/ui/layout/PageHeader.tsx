@@ -9,7 +9,10 @@ import NeomorphicHeroFrame, {
 } from "./NeomorphicHeroFrame";
 import { cn } from "@/lib/utils";
 
-export interface PageHeaderProps {
+type PageHeaderElement = "header" | "section" | "article" | "aside" | "main" | "div" | "nav";
+
+export interface PageHeaderProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "className"> {
   /** Props forwarded to <Header> */
   header: HeaderProps;
   /** Props forwarded to <Hero> */
@@ -20,6 +23,8 @@ export interface PageHeaderProps {
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
   contentClassName?: string;
+  /** Semantic element for the header container */
+  as?: PageHeaderElement;
 }
 
 /**
@@ -33,7 +38,11 @@ export default function PageHeader({
   className,
   frameProps,
   contentClassName,
+  as,
+  ...elementProps
 }: PageHeaderProps) {
+  const Component = (as ?? "header") as PageHeaderElement;
+
   return (
     <NeomorphicHeroFrame
       {...frameProps}
@@ -43,14 +52,17 @@ export default function PageHeader({
         frameProps?.className,
       )}
     >
-      <div className={cn("relative z-[2]", contentClassName ?? "space-y-4")}>
+      <Component
+        {...elementProps}
+        className={cn("relative z-[2]", contentClassName ?? "space-y-4")}
+      >
         <Header {...header} underline={header.underline ?? false} />
         <Hero
           {...hero}
           frame={hero.frame ?? true}
           topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
         />
-      </div>
+      </Component>
     </NeomorphicHeroFrame>
   );
 }
