@@ -10,11 +10,10 @@ export function useDayNotes() {
   const [saving, setSaving] = React.useState(false);
   const lastSavedRef = React.useRef((day.notes ?? "").trim());
 
-  const trimmed = value.trim();
-  const original = (day.notes ?? "").trim();
-  const isDirty = trimmed !== original;
+  const trimmed = React.useMemo(() => value.trim(), [value]);
+  const isDirty = trimmed !== lastSavedRef.current;
 
-  const commit = React.useCallback(async () => {
+  const commit = React.useCallback(() => {
     if (!isDirty) return;
     setSaving(true);
     try {

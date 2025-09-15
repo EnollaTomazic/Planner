@@ -59,18 +59,18 @@ export function usePlannerStore() {
   const { days, setDays } = useDays();
   const { focus, setFocus } = useFocus();
 
-  React.useEffect(() => {
-    setDays((prev) => migrateLegacy(prev, focus));
-  }, [focus, setDays]);
-
   const applyDaysUpdate = React.useCallback(
     (
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
     ) => {
-      setDays((prev) => updater(prev));
+      setDays(updater);
     },
     [setDays],
   );
+
+  React.useEffect(() => {
+    applyDaysUpdate((prev) => migrateLegacy(prev, focus));
+  }, [applyDaysUpdate, focus]);
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
