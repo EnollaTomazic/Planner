@@ -99,15 +99,15 @@ export default function NeomorphicHeroFrameDemo() {
           <dl className="md:col-span-5 grid gap-2 text-xs uppercase tracking-[0.08em] text-muted-foreground">
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
               <dt className="font-semibold text-foreground">Layer tokens</dt>
-              <dd className="text-[10px]">bg-card/70 · ring-border/55</dd>
+              <dd className="text-label">bg-card/70 · ring-border/55</dd>
             </div>
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
               <dt className="font-semibold text-foreground">Spacing</dt>
-              <dd className="text-[10px]">gap-4 · md:gap-6</dd>
+              <dd className="text-label">gap-4 · md:gap-6</dd>
             </div>
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
               <dt className="font-semibold text-foreground">Action grid</dt>
-              <dd className="text-[10px]">md:col-span-5 / 4 / 3</dd>
+              <dd className="text-label">md:col-span-5 / 4 / 3</dd>
             </div>
           </dl>
         </div>
