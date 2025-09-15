@@ -4,6 +4,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import Card from "./primitives/Card";
 import { useDialogTrap } from "./hooks/useDialogTrap";
+import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
 export interface ModalProps extends React.ComponentProps<typeof Card> {
@@ -18,9 +19,8 @@ export default function Modal({
   children,
   ...props
 }: ModalProps) {
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useMounted();
   const dialogRef = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => setMounted(true), []);
 
   useDialogTrap({ open: open && mounted, onClose, ref: dialogRef });
 

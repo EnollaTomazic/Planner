@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
+import useMounted from "@/lib/useMounted";
 import { cn, slugify } from "@/lib/utils";
 
 /** Option item */
@@ -169,8 +170,7 @@ const AnimatedSelectImpl = React.forwardRef<
   ref,
 ) {
   // Hydration-safe portal
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   const [open, setOpen] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState<number>(() =>
