@@ -11,9 +11,13 @@ export default function useAutoFocus<T extends FocusableElement>({
   ref,
   when,
 }: UseAutoFocusArgs<T>) {
-  React.useEffect(() => {
-    if (!when) return;
+  const prev = React.useRef(false);
 
-    ref.current?.focus();
+  React.useEffect(() => {
+    if (when && !prev.current) {
+      ref.current?.focus();
+    }
+
+    prev.current = when;
   }, [when, ref]);
 }
