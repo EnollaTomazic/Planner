@@ -10,7 +10,7 @@ type SectionCardProps = {
 function SectionCard({ title, children }: SectionCardProps) {
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-semibold tracking-[-0.01em]">{title}</h2>
+      <h2 className="text-title font-semibold tracking-[-0.01em]">{title}</h2>
       {children}
     </section>
   );
@@ -25,7 +25,7 @@ function Swatch({ token }: SwatchProps) {
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
       />
-      <span className="text-xs font-medium">{token}</span>
+      <span className="text-label font-medium">{token}</span>
     </li>
   );
 }
@@ -34,7 +34,7 @@ function GradientSwatch() {
   return (
     <li className="col-span-12 md:col-span-6 flex flex-col items-center gap-3">
       <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-transparent" />
-      <span className="text-xs font-medium">
+      <span className="text-label font-medium">
         from-primary via-accent to-transparent
       </span>
     </li>

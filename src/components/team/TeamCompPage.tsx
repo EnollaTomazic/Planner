@@ -275,7 +275,7 @@ export default function TeamCompPage() {
           round: true,
           debounceMs: 80,
           right: (
-            <span className="text-xs opacity-80">{clearsCount} shown</span>
+            <span className="text-label opacity-80">{clearsCount} shown</span>
           ),
         }}
         actions={
@@ -299,7 +299,7 @@ export default function TeamCompPage() {
           </div>
         }
       >
-        <p className="text-sm text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
           Path for fights, ganks, or cross-map trades.
         </p>

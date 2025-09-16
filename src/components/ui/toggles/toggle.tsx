@@ -79,7 +79,7 @@ export default function Toggle({
       <span
         id={leftId}
         className={cn(
-          "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
+          "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           !isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
         style={{
@@ -93,7 +93,7 @@ export default function Toggle({
       <span
         id={rightId}
         className={cn(
-          "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
+          "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
         style={{

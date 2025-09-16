@@ -13,28 +13,28 @@ function SpecCard({ name, description, element, props, code }: Spec) {
   return (
     <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
       <header className="flex items-center justify-between">
-        <h3 className="text-base font-semibold tracking-[-0.01em]">{name}</h3>
+        <h3 className="text-body font-semibold tracking-[-0.01em]">{name}</h3>
         {code && (
           <button
             type="button"
             onClick={() => setShowCode((s) => !s)}
-            className="text-xs underline underline-offset-2"
+            className="text-label underline underline-offset-2"
           >
             {showCode ? "Hide code" : "Show code"}
           </button>
         )}
       </header>
       {description ? (
-        <p className="text-sm font-medium text-muted-foreground">{description}</p>
+        <p className="text-ui font-medium text-muted-foreground">{description}</p>
       ) : null}
       <div className="rounded-card r-card-md bg-background p-4">{element}</div>
       {showCode && code ? (
-        <pre className="rounded-card r-card-md bg-muted p-4 text-xs overflow-x-auto">
+        <pre className="rounded-card r-card-md bg-muted p-4 text-label overflow-x-auto">
           <code>{code}</code>
         </pre>
       ) : null}
       {props ? (
-        <ul className="flex flex-wrap gap-3 text-xs">
+        <ul className="flex flex-wrap gap-3 text-label">
           {props.map((p) => (
             <li key={p.label} className="flex gap-1">
               <span className="font-medium tracking-[0.02em]">{p.label}</span>

@@ -29,15 +29,21 @@ describe("PageTabs", () => {
   });
 
   it("updates hash only when value changes", () => {
-    const { rerender } = render(<PageTabs tabs={tabs} value="one" />);
+    const { rerender } = render(
+      <PageTabs tabs={tabs} value="one" ariaLabel="Planner sections" />,
+    );
     expect(replace).toHaveBeenCalledWith("/path#one", { scroll: false });
 
     replace.mockClear();
     window.location.hash = "#one";
-    rerender(<PageTabs tabs={tabs} value="one" />);
+    rerender(
+      <PageTabs tabs={tabs} value="one" ariaLabel="Planner sections" />,
+    );
     expect(replace).not.toHaveBeenCalled();
 
-    rerender(<PageTabs tabs={tabs} value="two" />);
+    rerender(
+      <PageTabs tabs={tabs} value="two" ariaLabel="Planner sections" />,
+    );
     expect(replace).toHaveBeenCalledWith("/path#two", { scroll: false });
   });
 });

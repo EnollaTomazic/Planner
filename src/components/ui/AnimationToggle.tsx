@@ -67,7 +67,7 @@ export default function AnimationToggle({
         )}
       </button>
       {showNotice && (
-        <span className="text-xs text-muted-foreground">
+        <span className="text-label text-muted-foreground">
           Animations disabled per OS preference
         </span>
       )}
