@@ -58,6 +58,38 @@ export default function TaskRow({
     [],
   );
 
+  const handleRowClick = React.useCallback(() => {
+    onSelect();
+  }, [onSelect]);
+
+  const handleRowKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        onSelect();
+      }
+
+      if (event.key === " " || event.key === "Spacebar") {
+        event.preventDefault();
+      }
+    },
+    [onSelect],
+  );
+
+  const handleRowKeyUp = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+
+      if (event.key === " " || event.key === "Spacebar") {
+        event.preventDefault();
+        onSelect();
+      }
+    },
+    [onSelect],
+  );
+
   function start() {
     setEditing(true);
   }
@@ -81,20 +113,22 @@ export default function TaskRow({
   return (
     <li className="group">
       <div className="relative">
-        <button
-          type="button"
+        <div
+          role="button"
+          tabIndex={0}
           aria-label={`Select task ${task.title}`}
-          onClick={onSelect}
+          onClick={handleRowClick}
+          onKeyDown={handleRowKeyDown}
+          onKeyUp={handleRowKeyUp}
           className={cn(
-            "w-full rounded-card r-card-lg border transition-colors",
+            "w-full cursor-pointer rounded-card r-card-lg border transition-colors",
             layoutClasses,
             "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
             "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
-        >
-        </button>
+        />
 
         <div
           className={cn(
