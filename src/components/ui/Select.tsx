@@ -6,8 +6,8 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
-import { resolveFieldIds } from "@/lib/fieldIds";
 import useMounted from "@/lib/useMounted";
+import { useFieldIds } from "@/lib/useFieldIds";
 import { cn } from "@/lib/utils";
 
 /** Option item */
@@ -74,11 +74,14 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref,
   ) {
-    const { id: finalId, name: finalName } = resolveFieldIds({
+    const { id: finalId, name: finalName, isInvalid } = useFieldIds(
+      props["aria-label"] as string | undefined,
       id,
-      name: props.name,
-      ariaLabel: props["aria-label"] as string | undefined,
-    });
+      props.name,
+      {
+        ariaInvalid: errorText ? "true" : props["aria-invalid"],
+      },
+    );
     const successId = `${finalId}-success`;
     const errorId = errorText ? `${finalId}-error` : undefined;
     const helperId = helperText ? `${finalId}-helper` : undefined;
@@ -96,7 +99,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
             className,
           )}
-          error={!!errorText}
+          error={isInvalid}
           disabled={disabled}
         >
           <select

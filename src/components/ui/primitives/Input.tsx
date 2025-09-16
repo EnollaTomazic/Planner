@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { resolveFieldIds } from "@/lib/fieldIds";
+import { useFieldIds } from "@/lib/useFieldIds";
 import FieldShell from "./FieldShell";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -51,15 +51,15 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const { id: finalId, name: finalName } = resolveFieldIds({
+  const { id: finalId, name: finalName, isInvalid } = useFieldIds(
+    ariaLabel as string | undefined,
     id,
     name,
-    ariaLabel: ariaLabel as string | undefined,
-    ariaLabelStrategy: "custom-id",
-  });
-
-  const error =
-    props["aria-invalid"] === true || props["aria-invalid"] === "true";
+    {
+      ariaInvalid: props["aria-invalid"],
+      ariaLabelStrategy: "custom-id",
+    },
+  );
   const disabled = props.disabled;
   const readOnly = props.readOnly;
 
@@ -74,7 +74,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
 
   return (
     <FieldShell
-      error={error}
+      error={isInvalid}
       disabled={disabled}
       readOnly={readOnly}
       className={className}

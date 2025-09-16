@@ -16,10 +16,11 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
 import { sanitizeList } from "@/lib/sanitizeList";
+import { ROLES } from "./constants";
+import type { Role } from "./constants";
 
 /* ───────────── types ───────────── */
 
-type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 type LaneExamples = Partial<Record<Role, string[]>>;
 
 export type Archetype = {
@@ -184,7 +185,10 @@ function ChampPillsView({ champs }: { champs?: string[] }) {
   return (
     <div className="champ-badges mt-1">
       {champs.map((c) => (
-        <span key={c} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
+        <span
+          key={c}
+          className="champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
+        >
           <i className="dot" />
           {c}
         </span>
@@ -379,7 +383,10 @@ function ChampPillsEdit({
   return (
     <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(list.length ? list : [""]).map((c, i) => (
-        <span key={i} className="champ-badge text-label font-medium tracking-[0.02em]">
+        <span
+          key={i}
+          className="champ-badge border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
+        >
           <i className="dot" />
           <input
             type="text"
@@ -555,7 +562,7 @@ export default function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
-                  {(["Top", "Jungle", "Mid", "Bot", "Support"] as Role[]).map(
+                  {ROLES.map(
                     (role) => {
                       const champs = a.examples[role];
                       const setChamps = (list: string[]) =>

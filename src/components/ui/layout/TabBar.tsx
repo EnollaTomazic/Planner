@@ -144,6 +144,7 @@ export default function TabBar<K extends string = string>({
                 id={linkPanels ? tabId : undefined}
                 role="tab"
                 type="button"
+                disabled={item.disabled}
                 aria-selected={active}
                 aria-disabled={item.disabled || undefined}
                 aria-controls={linkPanels ? panelId : undefined}
@@ -158,10 +159,10 @@ export default function TabBar<K extends string = string>({
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground shadow-[inset_0_1px_0_hsl(var(--border)/0.2)]",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:shadow-ring",
-                  item.disabled && "opacity-40 pointer-events-none",
+                  "text-foreground/70 hover:text-foreground shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:bg-[--hover] active:bg-[--active]",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
+                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:shadow-ring data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
+                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
                   item.className,
                 )}
                 data-active={active || undefined}
