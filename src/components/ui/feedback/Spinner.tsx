@@ -14,6 +14,7 @@ export default function Spinner({
     <div
       role="status"
       aria-label="Loading"
+      aria-live="polite"
       className={cn(
         "inline-block animate-spin rounded-full border border-accent border-t-transparent",
         className,
