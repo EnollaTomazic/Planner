@@ -7,10 +7,19 @@ import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
-import styles from "./Select.module.css";
+import defaultStyles from "./Select.module.css";
 import type { AnimatedSelectProps } from "./shared";
 
-const AnimatedSelect = React.forwardRef<HTMLButtonElement, AnimatedSelectProps>(
+type SelectStyles = typeof defaultStyles;
+
+type AnimatedSelectComponentProps = AnimatedSelectProps & {
+  styles?: SelectStyles;
+};
+
+const AnimatedSelect = React.forwardRef<
+  HTMLButtonElement,
+  AnimatedSelectComponentProps
+>(
   function AnimatedSelect(
     {
       id,
@@ -28,9 +37,11 @@ const AnimatedSelect = React.forwardRef<HTMLButtonElement, AnimatedSelectProps>(
       ariaLabel,
       align = "left",
       matchTriggerWidth = true,
+      styles: stylesOverride,
     },
     ref,
   ) {
+    const styles = stylesOverride ?? defaultStyles;
     const mounted = useMounted();
 
     const [open, setOpen] = React.useState(false);
