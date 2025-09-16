@@ -222,15 +222,20 @@ function NeoCardDemo() {
 
 function SheetDemo() {
   const [open, setOpen] = React.useState(false);
+  const titleId = React.useId();
   return (
     <>
       <Button size="sm" onClick={() => setOpen(true)}>
         Open
       </Button>
-      <Sheet open={open} onClose={() => setOpen(false)}>
+      <Sheet
+        open={open}
+        onClose={() => setOpen(false)}
+        ariaLabelledBy={titleId}
+      >
         <Card>
           <CardHeader>
-            <CardTitle>Sheet</CardTitle>
+            <CardTitle id={titleId}>Sheet</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-ui">Content</p>
@@ -243,15 +248,20 @@ function SheetDemo() {
 
 function ModalDemo() {
   const [open, setOpen] = React.useState(false);
+  const titleId = React.useId();
   return (
     <>
       <Button size="sm" onClick={() => setOpen(true)}>
         Open
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        ariaLabelledBy={titleId}
+      >
         <Card>
           <CardHeader>
-            <CardTitle>Modal</CardTitle>
+            <CardTitle id={titleId}>Modal</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-ui">Content</p>
@@ -845,10 +855,10 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <SheetDemo />,
       tags: ["sheet", "overlay"],
       code: `<Button size="sm">Open</Button>
-<Sheet open>
+<Sheet open ariaLabelledBy="sheet-title">
   <Card>
     <CardHeader>
-      <CardTitle>Sheet</CardTitle>
+      <CardTitle id="sheet-title">Sheet</CardTitle>
     </CardHeader>
     <CardContent>
       <p className="text-ui">Content</p>
@@ -862,10 +872,10 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <ModalDemo />,
       tags: ["modal", "overlay"],
       code: `<Button size="sm">Open</Button>
-<Modal open>
+<Modal open ariaLabelledBy="modal-title">
   <Card>
     <CardHeader>
-      <CardTitle>Modal</CardTitle>
+      <CardTitle id="modal-title">Modal</CardTitle>
     </CardHeader>
     <CardContent>
       <p className="text-ui">Content</p>

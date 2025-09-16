@@ -12,6 +12,8 @@ export interface SheetProps extends React.ComponentProps<typeof Card> {
   open: boolean;
   onClose: () => void;
   side?: "left" | "right";
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
 }
 
 export default function Sheet({
@@ -20,6 +22,8 @@ export default function Sheet({
   side = "right",
   className,
   children,
+  ariaLabel,
+  ariaLabelledBy,
   ...props
 }: SheetProps) {
   const mounted = useMounted();
@@ -48,6 +52,8 @@ export default function Sheet({
           ref={dialogRef}
           role="dialog"
           aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           className={cn(
             "fixed top-0 h-full w-80 overflow-y-auto",
             side === "right" ? "right-0" : "left-0",

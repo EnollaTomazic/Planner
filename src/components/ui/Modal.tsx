@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 export interface ModalProps extends React.ComponentProps<typeof Card> {
   open: boolean;
   onClose: () => void;
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
 }
 
 export default function Modal({
@@ -17,6 +19,8 @@ export default function Modal({
   onClose,
   className,
   children,
+  ariaLabel,
+  ariaLabelledBy,
   ...props
 }: ModalProps) {
   const mounted = useMounted();
@@ -36,6 +40,8 @@ export default function Modal({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         className={cn("relative w-full max-w-sm", className)}
         {...props}
       >
