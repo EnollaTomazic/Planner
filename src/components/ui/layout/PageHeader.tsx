@@ -79,7 +79,7 @@ const PageHeaderInner = <
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
-  const Component = (as ?? "section") as PageHeaderElement;
+  const Component = (as ?? "header") as PageHeaderElement;
 
   const {
     subTabs: heroSubTabs,
@@ -91,16 +91,32 @@ const PageHeaderInner = <
     ...heroRest
   } = hero;
 
-  const resolvedSubTabs = heroSubTabs ?? subTabs;
+  const resolvedSubTabs = React.useMemo(
+    () => heroSubTabs ?? subTabs,
+    [heroSubTabs, subTabs],
+  );
 
-  const baseSearch = heroSearch === null ? null : heroSearch ?? search;
-  const resolvedSearch =
-    baseSearch !== null && baseSearch !== undefined
-      ? { ...baseSearch, round: baseSearch.round ?? true }
-      : baseSearch;
+  const resolvedSearch = React.useMemo(() => {
+    if (heroSearch === null) {
+      return null;
+    }
 
-  const resolvedActions =
-    heroActions === null ? null : heroActions ?? actions;
+    const baseSearch = heroSearch ?? search;
+
+    if (baseSearch === null || baseSearch === undefined) {
+      return baseSearch;
+    }
+
+    return {
+      ...baseSearch,
+      round: baseSearch.round ?? true,
+    };
+  }, [heroSearch, search]);
+
+  const resolvedActions = React.useMemo(
+    () => (heroActions === null ? null : heroActions ?? actions),
+    [heroActions, actions],
+  );
 
   const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
     frameProps ?? {};
