@@ -1814,6 +1814,20 @@ a:active .lucide {
     background: var(--seg-active-grad);
   }
 
+  .bg-accent-overlay {
+    background-color: var(--accent-overlay);
+  }
+
+  @supports (color: color-mix(in oklab, white, black)) {
+    .bg-accent-overlay {
+      background-color: color-mix(
+        in oklab,
+        var(--accent-overlay) 32%,
+        transparent
+      );
+    }
+  }
+
   .text-neon-soft {
     color: var(--neon-soft);
   }

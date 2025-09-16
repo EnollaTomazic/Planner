@@ -190,11 +190,7 @@ function PageContent() {
                 tone="accent"
                 size="sm"
                 aria-label="Accent color preview: Accent 3"
-                className="bg-accent-soft/20 text-[color:var(--text-on-accent)]"
-                style={{
-                  backgroundColor:
-                    "color-mix(in oklab, var(--accent-overlay) 32%, transparent)",
-                }}
+                className="bg-accent-overlay text-[color:var(--text-on-accent)]"
               >
                 <span
                   aria-hidden="true"
