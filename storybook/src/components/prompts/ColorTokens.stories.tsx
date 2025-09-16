@@ -54,7 +54,7 @@ function ColorTokens() {
         className={
           mode === "dark"
             ? "bg-background text-foreground p-4"
-            : "bg-white text-black p-4"
+            : "bg-background text-foreground p-4"
         }
       >
         <ul className="space-y-2">
