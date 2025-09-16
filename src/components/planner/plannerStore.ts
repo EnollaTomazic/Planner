@@ -82,15 +82,13 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   };
 }
 
-function sanitizeDaysMap(map: Record<ISODate, DayRecord>) {
-  let mutated = false;
-  const next: Record<ISODate, DayRecord> = {};
-  for (const iso of Object.keys(map)) {
-    const ensured = ensureDay(map, iso);
-    next[iso] = ensured;
-    if (ensured !== map[iso]) mutated = true;
-  }
-  return mutated ? next : map;
+function sanitizeDay(
+  map: Record<ISODate, DayRecord>,
+  iso: ISODate,
+): DayRecord | undefined {
+  if (!Object.prototype.hasOwnProperty.call(map, iso)) return undefined;
+  const ensured = ensureDay(map, iso);
+  return ensured === map[iso] ? undefined : ensured;
 }
 type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
 
@@ -124,10 +122,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     Record<ISODate, Selection>
   >("planner:selected", {});
 
-  const days = React.useMemo(
-    () => sanitizeDaysMap(rawDays),
-    [rawDays],
-  );
+  const days = rawDays;
 
   const tasksById = React.useMemo<TaskIdMap>(() => {
     const map: TaskIdMap = {};
@@ -156,14 +151,32 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   >(
     (update) => {
       setRawDays((prev) => {
-        const base = sanitizeDaysMap(prev);
         const next =
           typeof update === "function"
             ? (update as (
                 current: Record<ISODate, DayRecord>,
-              ) => Record<ISODate, DayRecord>)(base)
+              ) => Record<ISODate, DayRecord>)(prev)
             : update;
-        return sanitizeDaysMap(next);
+
+        if (Object.is(prev, next)) {
+          return prev;
+        }
+
+        let result = next;
+        let mutated = false;
+
+        for (const iso of Object.keys(next)) {
+          if (prev[iso] === next[iso]) continue;
+          const ensured = sanitizeDay(result, iso);
+          if (!ensured) continue;
+          if (!mutated) {
+            mutated = true;
+            result = { ...result };
+          }
+          result[iso] = ensured;
+        }
+
+        return mutated ? result : next;
       });
     },
     [setRawDays],
