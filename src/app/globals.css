@@ -1814,6 +1814,10 @@ a:active .lucide {
     background: var(--seg-active-grad);
   }
 
+  .bg-accent-overlay {
+    background-color: var(--accent-overlay);
+  }
+
   .text-neon-soft {
     color: var(--neon-soft);
   }
