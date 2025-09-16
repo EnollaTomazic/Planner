@@ -111,6 +111,21 @@ const demoTasks = [
   },
 ];
 
+const demoTasksById = Object.fromEntries(
+  demoTasks.map((task) => [task.id, task]),
+);
+
+const demoTasksByProject = demoTasks.reduce<Record<string, string[]>>(
+  (acc, task) => {
+    const projectId = task.projectId;
+    if (projectId) {
+      (acc[projectId] ??= []).push(task.id);
+    }
+    return acc;
+  },
+  {},
+);
+
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
@@ -508,7 +523,8 @@ export default function ComponentGallery() {
         label: "TaskList",
         element: (
           <TaskList
-            tasks={demoTasks}
+            tasksById={demoTasksById}
+            tasksByProject={demoTasksByProject}
             selectedProjectId="p1"
             addTask={() => ""}
             renameTask={() => {}}
