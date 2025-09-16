@@ -9,7 +9,7 @@ import {
   Skeleton,
   Badge,
 } from "@/components/ui";
-import { Sparkles, Plus } from "lucide-react";
+import { Sparkles, Plus, Clipboard } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
@@ -22,6 +22,7 @@ import {
 import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
+import { copyText } from "@/lib/clipboard";
 
 function getNodeText(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return "";
@@ -86,6 +87,7 @@ function PageContent() {
   const [, startTransition] = React.useTransition();
   const queryParam = searchParams.get("q");
   const [query, setQuery] = usePersistentState("prompts-query", "");
+  const [currentCode, setCurrentCode] = React.useState<string | null>(null);
   const componentsRef = React.useRef<HTMLDivElement>(null);
   const colorsRef = React.useRef<HTMLDivElement>(null);
   const onboardingRef = React.useRef<HTMLDivElement>(null);
@@ -120,6 +122,21 @@ function PageContent() {
     };
     map[view].current?.focus();
   }, [view]);
+
+  React.useEffect(() => {
+    if (view !== "components") {
+      setCurrentCode(null);
+    }
+  }, [view]);
+
+  const handleCurrentCodeChange = React.useCallback((code: string | null) => {
+    setCurrentCode(code);
+  }, []);
+
+  const handleCopyCode = React.useCallback(() => {
+    if (!currentCode) return;
+    void copyText(currentCode);
+  }, [currentCode]);
 
   return (
     <PageShell
@@ -187,6 +204,14 @@ function PageContent() {
                 Accent 3
               </Badge>
               <Button size="sm">Action</Button>
+              <IconButton
+                size="sm"
+                aria-label="Copy code sample"
+                onClick={handleCopyCode}
+                disabled={view !== "components" || !currentCode}
+              >
+                <Clipboard />
+              </IconButton>
               <IconButton size="sm" aria-label="Add">
                 <Plus />
               </IconButton>
@@ -205,7 +230,11 @@ function PageContent() {
               tabIndex={view === "components" ? 0 : -1}
               ref={componentsRef}
             >
-              <ComponentsView query={query} section={section} />
+              <ComponentsView
+                query={query}
+                section={section}
+                onCurrentCodeChange={handleCurrentCodeChange}
+              />
             </div>
             <div
               role="tabpanel"

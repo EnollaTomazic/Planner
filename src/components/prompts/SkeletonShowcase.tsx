@@ -4,7 +4,13 @@ export default function SkeletonShowcase() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Skeleton className="h-6 w-2/5 sm:w-1/3" radius="card" />
+        <Skeleton
+          ariaHidden={false}
+          role="status"
+          aria-label="Loading primary title"
+          className="h-6 w-2/5 sm:w-1/3"
+          radius="card"
+        />
         <Skeleton className="w-full" />
         <Skeleton className="w-5/6" />
       </div>

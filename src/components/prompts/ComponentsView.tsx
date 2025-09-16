@@ -6,10 +6,37 @@ import { SPEC_DATA, type Section, type Spec } from "./constants";
 type ComponentsViewProps = {
   query: string;
   section: Section;
+  onCurrentCodeChange?: (code: string | null) => void;
 };
 
-function SpecCard({ name, description, element, props, code }: Spec) {
+type SpecCardProps = Spec & {
+  onCodeVisibilityChange?: (
+    specId: string,
+    code: string | null,
+    visible: boolean,
+  ) => void;
+};
+
+function SpecCard({
+  id,
+  name,
+  description,
+  element,
+  props,
+  code,
+  onCodeVisibilityChange,
+}: SpecCardProps) {
   const [showCode, setShowCode] = React.useState(false);
+  const handleToggleCode = React.useCallback(() => {
+    setShowCode((prev) => {
+      const next = !prev;
+      if (code) {
+        onCodeVisibilityChange?.(id, code, next);
+      }
+      return next;
+    });
+  }, [code, id, onCodeVisibilityChange]);
+
   return (
     <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
       <header className="flex items-center justify-between">
@@ -17,7 +44,7 @@ function SpecCard({ name, description, element, props, code }: Spec) {
         {code && (
           <button
             type="button"
-            onClick={() => setShowCode((s) => !s)}
+            onClick={handleToggleCode}
             className="text-label underline underline-offset-2"
           >
             {showCode ? "Hide code" : "Show code"}
@@ -47,7 +74,40 @@ function SpecCard({ name, description, element, props, code }: Spec) {
   );
 }
 
-export default function ComponentsView({ query, section }: ComponentsViewProps) {
+export default function ComponentsView({
+  query,
+  section,
+  onCurrentCodeChange,
+}: ComponentsViewProps) {
+  const [, setActiveSpecId] = React.useState<string | null>(null);
+  const handleCodeVisibilityChange = React.useCallback(
+    (specId: string, nextCode: string | null, visible: boolean) => {
+      if (!onCurrentCodeChange) return;
+      if (visible && nextCode) {
+        setActiveSpecId(specId);
+        onCurrentCodeChange(nextCode);
+        return;
+      }
+
+      if (!visible) {
+        setActiveSpecId((current) => {
+          if (current === specId) {
+            onCurrentCodeChange(null);
+            return null;
+          }
+          return current;
+        });
+      }
+    },
+    [onCurrentCodeChange],
+  );
+
+  React.useEffect(() => {
+    if (!onCurrentCodeChange) return;
+    onCurrentCodeChange(null);
+    setActiveSpecId(null);
+  }, [query, section, onCurrentCodeChange]);
+
   const fuse = React.useMemo(
     () =>
       new Fuse(SPEC_DATA[section], {
@@ -74,7 +134,10 @@ export default function ComponentsView({ query, section }: ComponentsViewProps) 
         ) : (
           specs.map((spec) => (
             <li key={spec.id} className="col-span-12 md:col-span-6">
-              <SpecCard {...spec} />
+              <SpecCard
+                {...spec}
+                onCodeVisibilityChange={handleCodeVisibilityChange}
+              />
             </li>
           ))
         )}

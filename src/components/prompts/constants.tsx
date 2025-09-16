@@ -984,7 +984,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <SkeletonShowcase />,
       tags: ["skeleton", "loading", "feedback"],
       code: `<div className="space-y-2">
-  <Skeleton />
+  <Skeleton
+    ariaHidden={false}
+    role="status"
+    aria-label="Loading primary title"
+    className="h-6 w-2/5 sm:w-1/3"
+    radius="card"
+  />
   <Skeleton className="w-3/4" />
   <Skeleton radius="full" className="h-10 w-10" />
 </div>`,

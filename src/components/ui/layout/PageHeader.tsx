@@ -79,7 +79,7 @@ const PageHeaderInner = <
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
-  const Component = (as ?? "header") as PageHeaderElement;
+  const Component = (as ?? "section") as PageHeaderElement;
 
   const {
     subTabs: heroSubTabs,
@@ -93,14 +93,11 @@ const PageHeaderInner = <
 
   const resolvedSubTabs = heroSubTabs ?? subTabs;
 
-  const searchSource =
-    heroSearch === null ? null : heroSearch ?? search;
+  const baseSearch = heroSearch === null ? null : heroSearch ?? search;
   const resolvedSearch =
-    searchSource === undefined
-      ? undefined
-      : searchSource === null
-        ? null
-        : { ...searchSource, round: searchSource.round ?? true };
+    baseSearch !== null && baseSearch !== undefined
+      ? { ...baseSearch, round: baseSearch.round ?? true }
+      : baseSearch;
 
   const resolvedActions =
     heroActions === null ? null : heroActions ?? actions;
@@ -126,7 +123,7 @@ const PageHeaderInner = <
           <Header {...header} underline={header.underline ?? false} />
           <Hero
             {...heroRest}
-            as={heroAs ?? "header"}
+            as={heroAs ?? "section"}
             frame={heroFrame ?? true}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             subTabs={resolvedSubTabs}
