@@ -22,16 +22,16 @@ export default function GoalsCard() {
     >
       <ul className="divide-y divide-[hsl(var(--border))]">
         {activeGoals.map((g) => (
-          <li key={g.id} className="py-2">
+          <li key={g.id} className="py-[var(--space-2)]">
             <p className="text-ui">{g.title}</p>
-            <div className="mt-2">
+            <div className="mt-[var(--space-2)]">
               <Progress value={0} />
             </div>
           </li>
         ))}
         {activeGoals.length === 0 && (
-          <li className="flex justify-between py-2 text-ui text-muted-foreground">
-            <span className="flex items-center gap-2">
+          <li className="flex justify-between py-[var(--space-2)] text-ui text-muted-foreground">
+            <span className="flex items-center gap-[var(--space-2)]">
               <CircleSlash className="size-3" />
               No active goals
             </span>

@@ -50,14 +50,14 @@ export default function WeekSummary({
 
   const grid =
     variant === "inline"
-      ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-2"
-      : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-3";
+      ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-[var(--space-2)]"
+      : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-[var(--space-3)]";
 
   const headingRow =
     variant === "inline" ? (
       showLabel ? (
-        <div className="mb-2 flex items-center justify-between gap-2 text-label font-medium tracking-[0.02em] text-muted-foreground">
-          <div className="flex items-center gap-2">
+        <div className="mb-[var(--space-2)] flex items-center justify-between gap-[var(--space-2)] text-label font-medium tracking-[0.02em] text-muted-foreground">
+          <div className="flex items-center gap-[var(--space-2)]">
             <span className="uppercase tracking-[0.02em]">Week</span>
             <span aria-hidden>•</span>
             <span>{rangeLabel}</span>
@@ -69,7 +69,7 @@ export default function WeekSummary({
         </div>
       ) : null
     ) : (
-      <div className="mb-3 flex items-center gap-3">
+      <div className="mb-[var(--space-3)] flex items-center gap-[var(--space-3)]">
         <div className="text-ui font-medium text-muted-foreground">{rangeLabel}</div>
         <span
           className="ml-auto badge badge--sm"
@@ -96,8 +96,8 @@ export default function WeekSummary({
             className={cn(
               "ws-tile group",
               variant === "inline"
-                ? "p-2 rounded-card r-card-lg"
-                : "p-3 rounded-card r-card-lg",
+                ? "p-[var(--space-2)] rounded-card r-card-lg"
+                : "p-[var(--space-3)] rounded-card r-card-lg",
               today && "ws-tile--today",
               empty && "ws-tile--empty",
             )}

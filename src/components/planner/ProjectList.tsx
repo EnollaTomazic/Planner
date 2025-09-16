@@ -75,7 +75,7 @@ export default function ProjectList({
   );
 
   return (
-    <div className="flex flex-col gap-3 min-w-0">
+    <div className="flex flex-col gap-[var(--space-3)] min-w-0">
       <div
         className={cn(
           "px-0 w-full",
@@ -88,7 +88,7 @@ export default function ProjectList({
         }
       >
         <ul
-          className="w-full space-y-2 py-2"
+          className="w-full space-y-[var(--space-2)] py-[var(--space-2)]"
           role="radiogroup"
           aria-label="Projects"
         >
@@ -131,9 +131,9 @@ export default function ProjectList({
                       if (active) setSelectedTaskId("");
                     }}
                     className={cn(
-                      "proj-card group relative [overflow:visible] w-full text-left rounded-card r-card-lg border pl-4 pr-2 py-2",
+                      "proj-card group relative [overflow:visible] w-full text-left rounded-card r-card-lg border pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]",
                       "bg-card/55 hover:bg-card/70 transition",
-                      "grid min-h-12 grid-cols-[auto,1fr,auto] items-center gap-4",
+                      "grid min-h-[var(--space-7)] grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       active && "proj-card--active ring-1 ring-ring",
                     )}
@@ -177,7 +177,7 @@ export default function ProjectList({
                       </span>
                     )}
 
-                    <div className="ml-auto flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                    <div className="ml-auto flex items-center gap-[var(--space-2)] opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                       <IconButton
                         aria-label="Edit project"
                         title="Edit"

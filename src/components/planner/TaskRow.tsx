@@ -15,7 +15,7 @@ const taskImageSpacingToken = 7;
 const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
 const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
 const layoutClasses =
-  "[overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 pl-4 pr-2 py-2";
+  "[overflow:visible] grid min-h-[var(--space-7)] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)] pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]";
 
 type Props = {
   task: DayTask;
@@ -105,7 +105,7 @@ export default function TaskRow({
           onBlurCapture={handleBlurWithin}
         >
           <div
-            className="pointer-events-auto shrink-0 ml-1"
+            className="pointer-events-auto shrink-0 ml-[var(--space-1)]"
             onClick={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
           >
@@ -119,7 +119,7 @@ export default function TaskRow({
             />
           </div>
 
-          <div className="pointer-events-auto flex-1 min-w-0 px-1">
+          <div className="pointer-events-auto flex-1 min-w-0 px-[var(--space-1)]">
             {!editing ? (
               <button
                 type="button"
@@ -162,7 +162,7 @@ export default function TaskRow({
 
           <div
             className={cn(
-              "pointer-events-auto flex shrink-0 items-center gap-2",
+              "pointer-events-auto flex shrink-0 items-center gap-[var(--space-2)]",
               editing
                 ? "opacity-0 pointer-events-none"
                 : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
@@ -198,9 +198,9 @@ export default function TaskRow({
         </div>
       </div>
       {task.images.length > 0 && (
-        <ul className="mt-2 space-y-2">
+        <ul className="mt-[var(--space-2)] space-y-[var(--space-2)]">
           {task.images.map((url) => (
-            <li key={url} className="flex items-center gap-2">
+            <li key={url} className="flex items-center gap-[var(--space-2)]">
               <Image
                 src={url}
                 alt={`Task image for ${task.title}`}
@@ -233,7 +233,7 @@ export default function TaskRow({
           e.preventDefault();
           addImage();
         }}
-        className="mt-2"
+        className="mt-[var(--space-2)]"
       >
         <label htmlFor={`task-image-${task.id}`} className="sr-only">
           Add image URL
