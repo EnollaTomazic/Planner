@@ -277,7 +277,7 @@ export default function GoalsPage() {
 
         {/* ======= PANELS ======= */}
         <div
-          role="tabpanel"
+          role="region"
           id="goals-panel"
           aria-labelledby="goals-tab"
           hidden={tab !== "goals"}
@@ -346,7 +346,7 @@ export default function GoalsPage() {
         </div>
 
         <div
-          role="tabpanel"
+          role="region"
           id="reminders-panel"
           aria-labelledby="reminders-tab"
           hidden={tab !== "reminders"}
@@ -358,7 +358,7 @@ export default function GoalsPage() {
         </div>
 
         <div
-          role="tabpanel"
+          role="region"
           id="timer-panel"
           aria-labelledby="timer-tab"
           hidden={tab !== "timer"}

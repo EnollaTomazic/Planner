@@ -102,11 +102,18 @@ export default function ReviewsPage({
             className: "flex-1",
           },
           actions: (
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-label text-muted-foreground">
-                <span>Sort</span>
+            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
+              <div className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+                <span
+                  aria-hidden="true"
+                  className="text-label font-medium text-muted-foreground"
+                >
+                  Sort
+                </span>
                 <Select
                   variant="animated"
+                  label="Sort reviews"
+                  hideLabel
                   value={sort}
                   onChange={(v) => setSort(v as SortKey)}
                   items={[
@@ -114,14 +121,15 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-4"
+                  className="w-full sm:w-auto"
+                  buttonClassName="!h-[var(--control-h-md)] !px-[var(--space-4)]"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-4 whitespace-nowrap"
+                className="w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto"
                 onClick={() => {
                   setQ("");
                   setSort("newest");

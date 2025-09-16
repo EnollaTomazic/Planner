@@ -239,6 +239,7 @@ export default function TeamCompPage() {
             size="sm"
             variant="ghost"
             onClick={() => toggleEditing(editingKey)}
+            aria-pressed={editing[editingKey]}
           >
             {editing[editingKey] ? "Done" : "Edit"}
           </Button>
@@ -277,6 +278,7 @@ export default function TeamCompPage() {
               size="sm"
               variant="ghost"
               onClick={() => toggleEditing("builder")}
+              aria-pressed={editing.builder}
             >
               {editing.builder ? "Done" : "Edit"}
             </Button>
@@ -317,6 +319,7 @@ export default function TeamCompPage() {
             size="sm"
             variant="ghost"
             onClick={() => toggleEditing("clears")}
+            aria-pressed={editing.clears}
           >
             {editing.clears ? "Done" : "Edit"}
           </Button>
