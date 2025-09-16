@@ -79,6 +79,8 @@ const config: Config = {
         "glow-md": "0 0 16px var(--glow-active)",
         "glow-lg": "0 0 20px var(--glow-active)",
         "glow-xl": "0 8px 22px var(--glow-active)",
+        "nav-active":
+          "0 0 0 1px hsl(var(--ring)/0.35), 0 8px 24px hsl(var(--ring)/0.2)",
         "outline-subtle": "0 0 0 1px hsl(var(--border)/0.12)",
         "outline-faint": "0 0 0 1px hsl(var(--border)/0.08)",
         badge:
