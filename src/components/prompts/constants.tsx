@@ -30,6 +30,7 @@ import {
   PillarSelector,
   Header,
   Hero,
+  NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
   FieldShell,
@@ -811,18 +812,35 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "hero",
       name: "Hero",
-      description: "Stacked hero shell with search and actions",
+      description:
+        "Stacked hero shell with search and actions — default spacing plus frame-ready paddingless variant.",
       element: (
-        <Hero
-          heading="Hero"
-          eyebrow="Eyebrow"
-          subtitle="Subtitle"
-          sticky={false}
-          search={{ value: "", onValueChange: () => {}, round: true }}
-          actions={<Button size="sm">Action</Button>}
-        >
-          <div className="text-ui text-muted-foreground">Body content</div>
-        </Hero>
+        <div className="space-y-[var(--space-4)]">
+          <Hero
+            heading="Hero"
+            eyebrow="Eyebrow"
+            subtitle="Subtitle"
+            sticky={false}
+            search={{ value: "", onValueChange: () => {}, round: true }}
+            actions={<Button size="sm">Action</Button>}
+          >
+            <div className="text-ui text-muted-foreground">Body content</div>
+          </Hero>
+          <NeomorphicHeroFrame variant="plain">
+            <Hero
+              heading="Frame-ready hero"
+              eyebrow="No padding"
+              subtitle="Outer shell handles spacing"
+              sticky={false}
+              tone="supportive"
+              frame={false}
+              rail={false}
+              padding="none"
+            >
+              <div className="text-ui text-muted-foreground">Body content</div>
+            </Hero>
+          </NeomorphicHeroFrame>
+        </div>
       ),
       tags: ["hero", "layout"],
       code: `<Hero
@@ -834,7 +852,22 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   actions={<Button size="sm">Action</Button>}
 >
   <div className="text-ui text-muted-foreground">Body content</div>
-</Hero>`,
+</Hero>
+
+<NeomorphicHeroFrame variant="plain">
+  <Hero
+    heading="Frame-ready hero"
+    eyebrow="No padding"
+    subtitle="Outer shell handles spacing"
+    sticky={false}
+    tone="supportive"
+    frame={false}
+    rail={false}
+    padding="none"
+  >
+    <div className="text-ui text-muted-foreground">Body content</div>
+  </Hero>
+</NeomorphicHeroFrame>`,
     },
     {
       id: "page-shell",
