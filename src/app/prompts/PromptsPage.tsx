@@ -152,6 +152,21 @@ function PageContent() {
           },
           actions: (
             <div className="flex items-center gap-2">
+              <div
+                className="hidden sm:flex items-center gap-2 rounded-full border px-3 py-1 text-label font-medium tracking-[-0.01em]"
+                style={{
+                  backgroundColor: "hsl(var(--accent-3) / 0.18)",
+                  borderColor: "hsl(var(--accent-3))",
+                  color: "hsl(var(--accent-foreground))",
+                }}
+              >
+                <span
+                  aria-hidden
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: "hsl(var(--accent-3))" }}
+                />
+                Accent 3
+              </div>
               <Button size="sm">Action</Button>
               <IconButton size="sm" aria-label="Add">
                 <Plus />
