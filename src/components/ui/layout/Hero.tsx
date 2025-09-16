@@ -105,11 +105,10 @@ function Hero<Key extends string = string>({
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
     <TabBar
-      items={subTabs.items.map((t) => ({
-        key: t.key,
-        label: t.label,
-        icon: t.icon,
-      }))}
+      items={subTabs.items.map(({ hint, ...item }) => {
+        void hint;
+        return item;
+      })}
       value={String(subTabs.value)}
       onValueChange={(k) => subTabs.onChange(k as Key)}
       size={subTabs.size ?? "md"}
