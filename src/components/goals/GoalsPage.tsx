@@ -54,6 +54,26 @@ const TABS: HeaderTab<Tab>[] = [
   },
 ];
 
+const HERO_HEADINGS: Record<Tab, string> = {
+  goals: "Goals overview",
+  reminders: "Reminder board",
+  timer: "Focus timer",
+};
+
+const HERO_HEADING_IDS: Record<Tab, string> = {
+  goals: "goals-hero-heading",
+  reminders: "reminders-hero-heading",
+  timer: "timer-hero-heading",
+};
+
+const HERO_SUBTITLE_IDS: Record<Tab, string> = {
+  goals: "goals-hero-summary",
+  reminders: "reminders-hero-summary",
+  timer: "timer-hero-summary",
+};
+
+const HERO_REGION_ID = "goals-hero-region";
+
 /* ====================================================================== */
 
 export default function GoalsPage() {
@@ -144,12 +164,77 @@ export default function GoalsPage() {
     map[tab].current?.focus();
   }, [tab]);
 
-  const summary =
-    tab === "goals"
-      ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
-      : tab === "reminders"
-        ? "Pin quick cues. Edit between queues."
-        : "Pick a duration and focus.";
+  const summary: React.ReactNode =
+    tab === "goals" ? (
+      <>
+        <span className="font-semibold text-foreground">Cap</span> {ACTIVE_CAP} active ·{" "}
+        <span className="font-semibold text-accent">Remaining</span>{" "}
+        <span className="text-accent">{remaining}</span> ·{" "}
+        <span className="font-semibold text-success">Complete</span>{" "}
+        <span className="text-success">{pctDone}%</span> ·{" "}
+        <span className="font-semibold text-primary">Total</span>{" "}
+        <span className="text-primary">{totalCount}</span>
+      </>
+    ) : tab === "reminders" ? (
+      <>
+        Keep <span className="font-semibold text-accent">nudges</span> handy with quick edit loops.
+      </>
+    ) : (
+      <>
+        <span className="font-semibold text-primary">Timebox</span> focus runs and reset between sets.
+      </>
+    );
+
+  const heroHeadingId = HERO_HEADING_IDS[tab];
+  const heroSubtitleId = HERO_SUBTITLE_IDS[tab];
+
+  const heroHeading = (
+    <span id={heroHeadingId}>{HERO_HEADINGS[tab]}</span>
+  );
+
+  let heroSubtitle: React.ReactNode;
+  if (tab === "goals") {
+    heroSubtitle = (
+      <span
+        id={heroSubtitleId}
+        className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] text-muted-foreground"
+      >
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-foreground">Cap</span>
+          <span className="text-label text-foreground">{ACTIVE_CAP}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-primary">Active</span>
+          <span className="text-label text-primary">{activeCount}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-accent">Remaining</span>
+          <span className="text-label text-accent">{remaining}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-success">Done</span>
+          <span className="text-label text-success">
+            {doneCount} ({pctDone}%)
+          </span>
+        </span>
+      </span>
+    );
+  } else if (tab === "reminders") {
+    heroSubtitle = (
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Stage <span className="font-semibold text-accent">nudges</span> with contexts and cadence.
+      </span>
+    );
+  } else {
+    heroSubtitle = (
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Dial in <span className="font-semibold text-primary">focus sprints</span> and steady breaks.
+      </span>
+    );
+  }
+
+  const heroAriaDescribedby =
+    heroSubtitle != null ? heroSubtitleId : undefined;
 
   return (
     <PageShell
@@ -178,12 +263,15 @@ export default function GoalsPage() {
             },
           }}
           hero={{
+            id: HERO_REGION_ID,
+            role: "region",
             eyebrow: "Guide",
-            heading: "Overview",
-            subtitle: `Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`,
+            heading: heroHeading,
+            subtitle: heroSubtitle,
             sticky: false,
             topClassName: "top-0",
-            hidden: tab !== "goals",
+            "aria-labelledby": heroHeadingId,
+            "aria-describedby": heroAriaDescribedby,
           }}
         />
 
