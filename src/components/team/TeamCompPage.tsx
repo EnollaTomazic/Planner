@@ -29,6 +29,7 @@ import JungleClears, { type JungleClearsHandle } from "./JungleClears";
 import CheatSheet from "./CheatSheet";
 import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
+import { cn } from "@/lib/utils";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
 import { PageHeader, PageShell } from "@/components/ui";
@@ -66,6 +67,8 @@ export default function TeamCompPage() {
   });
   const [clearsQuery, setClearsQuery] = React.useState("");
   const [clearsCount, setClearsCount] = React.useState(0);
+  const tabValue = tab;
+  const subTabValue = subTab;
   const toggleEditing = React.useCallback((key: keyof typeof editing) => {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
@@ -97,6 +100,17 @@ export default function TeamCompPage() {
       { key: "comps", label: "My Comps", icon: <Users2 /> },
     ],
     [],
+  );
+  const subTabItems = React.useMemo(
+    () =>
+      subTabs.map((subTabItem) => ({
+        ...subTabItem,
+        className: cn(
+          subTabItem.className,
+          subTabItem.key === subTabValue && "tab-active",
+        ),
+      })),
+    [subTabs, subTabValue],
   );
   const renderCheat = React.useCallback(
     () => (
@@ -176,6 +190,14 @@ export default function TeamCompPage() {
     ],
     [renderCheat, editing, clearsQuery],
   );
+  const tabItems = React.useMemo(
+    () =>
+      TABS.map((tabItem) => ({
+        ...tabItem,
+        className: cn(tabItem.className, tabItem.key === tabValue && "tab-active"),
+      })),
+    [TABS, tabValue],
+  );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
     TABS.find((t) => t.key === tab)?.ref.current?.focus();
@@ -196,8 +218,8 @@ export default function TeamCompPage() {
             ? "Archetypes & tips"
             : "Your saved compositions",
         subTabs: {
-          items: subTabs,
-          value: subTab,
+          items: subTabItems,
+          value: subTabValue,
           onChange: (next: SubTab) => setSubTab(next),
           showBaseline: true,
         },
@@ -306,7 +328,8 @@ export default function TeamCompPage() {
     tab,
     active,
     subTab,
-    subTabs,
+    subTabValue,
+    subTabItems,
     query,
     clearsQuery,
     clearsCount,
@@ -332,7 +355,11 @@ export default function TeamCompPage() {
           heading: "Team Comps Today",
           subtitle: "Readable. Fast. On brand.",
           icon: <Users2 className="opacity-80" />,
-          tabs: { items: TABS, value: tab, onChange: (next: Tab) => setTab(next) },
+          tabs: {
+            items: tabItems,
+            value: tabValue,
+            onChange: (next: Tab) => setTab(next),
+          },
           underline: true,
         }}
         hero={hero}

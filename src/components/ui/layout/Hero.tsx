@@ -109,6 +109,11 @@ function Hero<Key extends string = string>({
         key: t.key,
         label: t.label,
         icon: t.icon,
+        className: t.className,
+        badge: t.badge,
+        disabled: t.disabled,
+        id: t.id,
+        controls: t.controls,
       }))}
       value={String(subTabs.value)}
       onValueChange={(k) => subTabs.onChange(k as Key)}

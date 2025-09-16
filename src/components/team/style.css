@@ -1,5 +1,16 @@
 /* src/components/team/style.css */
 
+/* Team tabs */
+.tab-active {
+  @apply bg-[var(--seg-active-grad)] text-foreground shadow-ring;
+}
+
+.tab-active:hover,
+.tab-active:focus-visible,
+.tab-active:active {
+  @apply bg-[var(--seg-active-grad)];
+}
+
 /* Champ badges */
 .champ-badges {
   @apply flex flex-wrap gap-2;
