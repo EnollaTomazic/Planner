@@ -52,6 +52,9 @@ export interface HeroProps<Key extends string = string>
   /** Semantic wrapper element (defaults to `section`). */
   as?: HeroElement;
 
+  /** Horizontal padding for the outer shell. */
+  padding?: "default" | "none";
+
   /** Built-in top-right sub-tabs (preferred). */
   subTabs?: HeaderTabsProps<Key> & {
     size?: TabBarProps["size"];
@@ -98,6 +101,7 @@ function Hero<Key extends string = string>({
   search,
   className,
   as,
+  padding = "default",
   ...rest
 }: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
@@ -120,8 +124,15 @@ function Hero<Key extends string = string>({
   const shellClass = cx(
     stickyClasses,
     frame
-      ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
-      : "px-[var(--space-3)] sm:px-[var(--space-4)] lg:px-[var(--space-5)]",
+      ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] hero2-frame hero2-neomorph"
+      : undefined,
+    frame
+      ? padding === "default"
+        ? "px-[var(--space-6)]"
+        : undefined
+      : padding === "default"
+        ? "px-[var(--space-3)] sm:px-[var(--space-4)] lg:px-[var(--space-5)]"
+        : undefined,
   );
 
   const barSpacingClass = frame

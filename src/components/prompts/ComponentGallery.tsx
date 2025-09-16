@@ -18,6 +18,7 @@ import {
   TitleBar,
   Header,
   Hero,
+  NeomorphicHeroFrame,
   PageShell,
   SearchBar,
   Snackbar,
@@ -810,7 +811,7 @@ export default function ComponentGallery() {
       {
         label: "Hero",
         element: (
-          <div className="w-56">
+          <div className="w-56 space-y-4">
             <Hero
               heading="Hero"
               eyebrow="Eyebrow"
@@ -833,6 +834,23 @@ export default function ComponentGallery() {
                 Body
               </div>
             </Hero>
+            <NeomorphicHeroFrame variant="plain">
+              <Hero
+                heading="Frame-ready"
+                eyebrow="No padding"
+                subtitle="Outer shell provides spacing"
+                sticky={false}
+                topClassName="top-0"
+                tone="supportive"
+                frame={false}
+                rail={false}
+                padding="none"
+              >
+                <div className="text-ui text-muted-foreground">
+                  Flush to the frame
+                </div>
+              </Hero>
+            </NeomorphicHeroFrame>
           </div>
         ),
       },

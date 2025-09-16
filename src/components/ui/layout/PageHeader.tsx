@@ -92,6 +92,7 @@ const PageHeaderInner = <
     frame: heroFrame,
     topClassName: heroTopClassName,
     as: heroAs,
+    padding: heroPadding,
     ...heroRest
   } = hero;
 
@@ -142,6 +143,7 @@ const PageHeaderInner = <
             frame={resolvedHeroFrame}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             tone={heroTone ?? "supportive"}
+            padding={heroPadding ?? "none"}
             subTabs={resolvedSubTabs}
             search={resolvedSearch}
             actions={resolvedActions}

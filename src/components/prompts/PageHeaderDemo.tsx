@@ -4,6 +4,7 @@ import {
   PageHeader,
   Header,
   Hero,
+  NeomorphicHeroFrame,
   Button,
   ThemeToggle,
   IconButton,
@@ -213,6 +214,43 @@ export default function PageHeaderDemo() {
         </p>
       </Hero>
 
+      <NeomorphicHeroFrame
+        as="section"
+        variant="plain"
+        contentClassName="space-y-[var(--space-4)]"
+      >
+        <Hero
+          as="section"
+          eyebrow="Frame-ready hero"
+          heading="Flush supportive layout"
+          subtitle="Let the outer frame handle breathing room."
+          sticky={false}
+          topClassName="top-0"
+          tone="supportive"
+          frame={false}
+          rail={false}
+          padding="none"
+          search={{
+            id: "hero-flush-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 150,
+            placeholder: "Search frame highlights…",
+            "aria-label": "Search frame highlights",
+          }}
+          actions={
+            <Button size="sm" variant="secondary" className="whitespace-nowrap">
+              Assign scout
+            </Button>
+          }
+        >
+          <p className="text-ui text-muted-foreground">
+            When the hero sits inside another shell, drop its padding so the
+            divider and actions align perfectly with the parent grid.
+          </p>
+        </Hero>
+      </NeomorphicHeroFrame>
+
       <PageHeader
         id="page-header-demo"
         aria-labelledby="page-header-demo-heading"
@@ -342,8 +380,13 @@ export default function PageHeaderDemo() {
         }}
       />
       <p className="text-ui text-muted-foreground">
-        PageHeader now keeps the inner hero calm and single-framed by default.
-        When a launch calls for the elevated treatment, combine
+        PageHeader now keeps the inner hero calm, single-framed, and flush by
+        default. It forwards{" "}
+        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
+          {"hero.padding = \"none\""}
+        </code>{" "}
+        so the content hugs the frame while staying grid-aligned. When a launch
+        calls for the elevated treatment, combine
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
           {"hero.tone = \"heroic\""}
         </code>
@@ -351,8 +394,8 @@ export default function PageHeaderDemo() {
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
           hero.frame = true
         </code>
-        to bring back the beams and scanlines while keeping the heading hierarchy
-        intact.
+        to bring back the beams and scanlines while keeping the heading
+        hierarchy intact.
       </p>
     </div>
   );
