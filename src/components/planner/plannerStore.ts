@@ -27,6 +27,8 @@ export type DayRecord = {
   projects: Project[];
   tasks: DayTask[];
   tasksByProject: Record<string, string[]>;
+  doneCount: number;
+  totalCount: number;
   focus?: string;
   notes?: string;
 };
@@ -40,9 +42,30 @@ export function todayISO(): ISODate {
   return toISODate(new Date());
 }
 
+export function computeDayCounts(projects: Project[], tasks: DayTask[]) {
+  let doneCount = 0;
+  let totalCount = 0;
+  for (const project of projects) {
+    totalCount += 1;
+    if (project.done) doneCount += 1;
+  }
+  for (const task of tasks) {
+    totalCount += 1;
+    if (task.done) doneCount += 1;
+  }
+  return { doneCount, totalCount };
+}
+
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   const existing = map[date];
-  if (!existing) return { projects: [], tasks: [], tasksByProject: {} };
+  if (!existing)
+    return {
+      projects: [],
+      tasks: [],
+      tasksByProject: {},
+      doneCount: 0,
+      totalCount: 0,
+    };
   let tasks = existing.tasks;
   let tasksChanged = false;
   if (!existing.tasks.every((t) => Array.isArray(t.images))) {
@@ -73,12 +96,18 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
     }
   }
 
-  if (!tasksChanged && !tasksByProjectChanged) return existing;
+  const { doneCount, totalCount } = computeDayCounts(existing.projects, tasks);
+  const countsChanged =
+    existing.doneCount !== doneCount || existing.totalCount !== totalCount;
+
+  if (!tasksChanged && !tasksByProjectChanged && !countsChanged) return existing;
 
   return {
     ...existing,
     ...(tasksChanged ? { tasks } : {}),
     ...(tasksByProjectChanged ? { tasksByProject } : {}),
+    doneCount,
+    totalCount,
   };
 }
 

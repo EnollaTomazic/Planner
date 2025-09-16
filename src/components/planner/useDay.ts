@@ -13,12 +13,8 @@ export function useDay(iso: ISODate) {
   const tasks = rec.tasks;
 
   const crud = React.useMemo(() => makeCrud(iso, upsertDay), [iso, upsertDay]);
-
-  const doneTasks = React.useMemo(
-    () => tasks.filter((t) => t.done).length,
-    [tasks],
-  );
-  const totalTasks = tasks.length;
+  const doneCount = rec.doneCount;
+  const totalCount = rec.totalCount;
 
   return {
     projects: rec.projects,
@@ -33,7 +29,9 @@ export function useDay(iso: ISODate) {
     toggleTask: crud.toggleTask,
     addTaskImage: crud.addTaskImage,
     removeTaskImage: crud.removeTaskImage,
-    doneTasks,
-    totalTasks,
+    doneCount,
+    totalCount,
+    doneTasks: doneCount,
+    totalTasks: totalCount,
   } as const;
 }

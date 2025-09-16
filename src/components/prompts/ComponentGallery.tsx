@@ -460,8 +460,8 @@ export default function ComponentGallery() {
           <DayCardHeader
             iso="2024-01-01"
             projectCount={2}
-            doneTasks={1}
-            totalTasks={3}
+            doneCount={1}
+            totalCount={3}
           />
         ),
       },

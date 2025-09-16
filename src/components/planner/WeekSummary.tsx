@@ -75,7 +75,7 @@ export default function WeekSummary({
           className="ml-auto badge badge--sm"
           role="status"
           aria-live="polite"
-          title="Completed / Total tasks this week"
+          title="Completed / Total items this week"
         >
           <span className="badge__icon">✅</span>
           <span className="tabular-nums">{doneAll}</span>/

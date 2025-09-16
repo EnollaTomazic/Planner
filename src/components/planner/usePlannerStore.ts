@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   ensureDay,
+  computeDayCounts,
   useDays,
   useFocus,
   type DayRecord,
@@ -30,17 +31,23 @@ function migrateLegacy(
   const projects = parseJSON<Project[]>(rawProjects);
   const tasks = parseJSON<DayTask[]>(rawTasks);
   const next = { ...days } as Record<ISODate, DayRecord>;
-  const cur = ensureDay(next, iso);
-  if (projects) cur.projects = projects;
+  const ensured = ensureDay(next, iso);
+  let updated = ensured;
+  if (projects) {
+    updated = { ...updated, projects };
+  }
   if (tasks) {
-    cur.tasks = tasks;
     const map: Record<string, string[]> = {};
     for (const t of tasks) {
       if (t.projectId) (map[t.projectId] ??= []).push(t.id);
     }
-    cur.tasksByProject = map;
+    updated = { ...updated, tasks, tasksByProject: map };
   }
-  next[iso] = cur;
+  const { doneCount, totalCount } = computeDayCounts(
+    updated.projects,
+    updated.tasks,
+  );
+  next[iso] = { ...updated, doneCount, totalCount };
   try {
     window.localStorage.removeItem("planner:projects");
     window.localStorage.removeItem("planner:tasks");
