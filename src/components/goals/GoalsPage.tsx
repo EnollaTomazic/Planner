@@ -25,6 +25,7 @@ import GoalList from "./GoalList";
 import { usePersistentState } from "@/lib/db";
 import type { Pillar } from "@/lib/types";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -106,14 +107,11 @@ export default function GoalsPage() {
     [setTab],
   );
 
+  const reduceMotion = usePrefersReducedMotion();
   const handleAddFirst = React.useCallback(() => {
-    const behavior: ScrollBehavior = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches
-      ? "auto"
-      : "smooth";
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
     formRef.current?.scrollIntoView({ behavior });
-  }, []);
+  }, [reduceMotion]);
 
   const handleUndo = React.useCallback(() => {
     undoRemove();
