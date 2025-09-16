@@ -64,23 +64,38 @@ const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
   default: {
     container:
       "rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle",
-    padding: "px-6 py-6 md:px-7 md:py-7 lg:px-8 lg:py-8",
-    content: "space-y-5 md:space-y-6",
-    action: { mt: "mt-6 md:mt-7", pt: "pt-5 md:pt-6", gap: "gap-4" },
+    padding:
+      "px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]",
+    content: "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
+    action: {
+      mt: "mt-[var(--space-6)] md:mt-[var(--space-7)]",
+      pt: "pt-[var(--space-5)] md:pt-[var(--space-6)]",
+      gap: "gap-[var(--space-4)]",
+    },
   },
   compact: {
     container:
       "rounded-card r-card-md border border-border/35 bg-card/65 shadow-outline-subtle",
-    padding: "px-4 py-4 md:px-5 md:py-5 lg:px-6 lg:py-6",
-    content: "space-y-4 md:space-y-5",
-    action: { mt: "mt-4 md:mt-5", pt: "pt-4 md:pt-5", gap: "gap-3" },
+    padding:
+      "px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-5)] md:py-[var(--space-5)] lg:px-[var(--space-6)] lg:py-[var(--space-6)]",
+    content: "space-y-[var(--space-4)] md:space-y-[var(--space-5)]",
+    action: {
+      mt: "mt-[var(--space-4)] md:mt-[var(--space-5)]",
+      pt: "pt-[var(--space-4)] md:pt-[var(--space-5)]",
+      gap: "gap-[var(--space-3)]",
+    },
   },
   plain: {
     container:
       "rounded-card r-card-md border border-border/30 bg-card/60 shadow-outline-faint",
-    padding: "px-4 py-4 md:px-5 md:py-5",
-    content: "space-y-3 md:space-y-4",
-    action: { mt: "mt-4", pt: "pt-3 md:pt-4", gap: "gap-3" },
+    padding:
+      "px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-5)] md:py-[var(--space-5)]",
+    content: "space-y-[var(--space-3)] md:space-y-[var(--space-4)]",
+    action: {
+      mt: "mt-[var(--space-4)]",
+      pt: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
+      gap: "gap-[var(--space-3)]",
+    },
   },
 };
 
@@ -233,14 +248,14 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               aria-labelledby={actionArea?.["aria-labelledby"]}
               className={cn(
                 "relative z-[2]",
-                variantStyles?.action.mt ?? "mt-4",
+                variantStyles?.action.mt ?? "mt-[var(--space-4)]",
                 (actionArea?.divider ?? true)
                   ? cn(
                       "border-t border-border/35",
-                      variantStyles?.action.pt ?? "pt-4",
+                      variantStyles?.action.pt ?? "pt-[var(--space-4)]",
                     )
                   : null,
-                "grid gap-3 md:grid-cols-12 md:gap-4",
+                "grid gap-[var(--space-3)] md:grid-cols-12 md:gap-[var(--space-4)]",
                 variantStyles?.action.gap,
                 actionArea?.className,
               )}
@@ -249,7 +264,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                 <div
                   data-area="tabs"
                   className={cn(
-                    "flex flex-col gap-2",
+                    "flex flex-col gap-[var(--space-2)]",
                     slots.tabs,
                     aligns.tabs,
                     actionArea.tabsClassName,
@@ -263,7 +278,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                 <div
                   data-area="search"
                   className={cn(
-                    "flex flex-col gap-2",
+                    "flex flex-col gap-[var(--space-2)]",
                     slots.search,
                     aligns.search,
                     actionArea.searchClassName,
@@ -277,7 +292,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                 <div
                   data-area="actions"
                   className={cn(
-                    "flex flex-wrap items-center justify-end gap-2",
+                    "flex flex-wrap items-center justify-end gap-[var(--space-2)]",
                     slots.actions,
                     aligns.actions,
                     actionArea.actionsClassName,

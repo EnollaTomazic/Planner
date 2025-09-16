@@ -39,7 +39,7 @@ Root.displayName = "SectionCard";
 
 function Header({
   sticky,
-  topClassName = "top-8",
+  topClassName = "top-[var(--space-8)]",
   className,
   children,
   title,

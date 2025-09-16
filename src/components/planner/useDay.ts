@@ -10,7 +10,7 @@ export function useDay(iso: ISODate) {
 
   const rec = React.useMemo(() => ensureDay(days, iso), [days, iso]);
 
-  const tasks = React.useMemo(() => rec.tasks, [rec.tasks]);
+  const tasks = rec.tasks;
 
   const crud = React.useMemo(() => makeCrud(iso, upsertDay), [iso, upsertDay]);
 

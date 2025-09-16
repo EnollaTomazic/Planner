@@ -45,22 +45,22 @@ describe("Input", () => {
         <span />
       </Input>,
     );
-    expect(getByRole("textbox")).toHaveClass("pr-7");
+    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
   });
 
   it("adds padding when hasEndSlot is true", () => {
     const { getByRole } = render(<Input aria-label="test" hasEndSlot />);
-    expect(getByRole("textbox")).toHaveClass("pr-7");
+    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
   });
 
   it("applies left padding when indent is true", () => {
     const { getByRole } = render(<Input aria-label="indent" indent />);
-    expect(getByRole("textbox")).toHaveClass("pl-7");
+    expect(getByRole("textbox")).toHaveClass("pl-[var(--space-7)]");
   });
 
   it("has smaller padding by default", () => {
     const { getByRole } = render(<Input aria-label="test" />);
-    expect(getByRole("textbox")).not.toHaveClass("pr-7");
+    expect(getByRole("textbox")).not.toHaveClass("pr-[var(--space-7)]");
   });
 
   it("has no outline when focused", () => {

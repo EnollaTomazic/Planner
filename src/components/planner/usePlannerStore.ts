@@ -69,7 +69,20 @@ export function usePlannerStore() {
   );
 
   React.useEffect(() => {
-    applyDaysUpdate((prev) => migrateLegacy(prev, focus));
+    if (!legacyMigrated) {
+      if (typeof window === "undefined") return;
+
+      const rawProjects = window.localStorage.getItem("planner:projects");
+      const rawTasks = window.localStorage.getItem("planner:tasks");
+
+      if (!rawProjects && !rawTasks) {
+        legacyMigrated = true;
+        return;
+      }
+
+      applyDaysUpdate((prev) => migrateLegacy(prev, focus));
+      legacyMigrated = true;
+    }
   }, [applyDaysUpdate, focus]);
 
   const upsertDay = React.useCallback(

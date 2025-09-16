@@ -12,6 +12,12 @@ const twMerge = extendTailwindMerge({
   },
 });
 
+const RAW_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const NORMALIZED_BASE =
+  RAW_BASE_PATH && RAW_BASE_PATH !== "/"
+    ? `/${RAW_BASE_PATH.replace(/^\/+|\/+$|\s+/g, "")}`
+    : "";
+
 // Default locale for consistent date/time formatting.
 export const LOCALE = "en-US";
 
@@ -25,17 +31,13 @@ export function cn(...inputs: ClassValue[]): string {
  * Ensures consistent asset URLs for environments served from sub-paths.
  */
 export function withBasePath(path: string): string {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
-  if (!basePath || basePath === "/") {
+  if (!NORMALIZED_BASE) {
     return normalizedPath;
   }
 
-  const trimmedBase = basePath.replace(/^\/+|\/+$|\s+/g, "");
-  const normalizedBase = trimmedBase ? `/${trimmedBase}` : "";
-
-  return `${normalizedBase}${normalizedPath}`;
+  return `${NORMALIZED_BASE}${normalizedPath}`;
 }
 
 /** Capitalize first letter (not Unicode-smart on purpose). */

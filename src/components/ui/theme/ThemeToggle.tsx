@@ -111,13 +111,13 @@ export default function ThemeToggle({
     return (
       <span
         aria-hidden
-        className={`inline-block h-9 w-9 rounded-full bg-input ${className}`}
+        className={`inline-block h-[var(--control-h-sm)] w-[var(--control-h-sm)] rounded-full bg-input ${className}`}
       />
     );
   }
 
   return (
-    <div className={`flex items-center gap-2 whitespace-nowrap ${className}`}>
+    <div className={`flex items-center gap-[var(--space-2)] whitespace-nowrap ${className}`}>
       {/* background cycle */}
       <IconButton
         id={id}
@@ -129,7 +129,7 @@ export default function ThemeToggle({
         size="sm"
         className="shrink-0"
       >
-        <ImageIcon className="h-4 w-4" />
+        <ImageIcon className="h-[var(--space-4)] w-[var(--space-4)]" />
       </IconButton>
 
       {/* dropdown — no visible title; uses aria label */}
@@ -139,7 +139,7 @@ export default function ThemeToggle({
         items={items}
         value={variant}
         onChange={(v) => setVariantPersist(v as Variant)}
-        buttonClassName="!h-9 !px-3 !rounded-full !text-ui !w-auto"
+        buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !w-auto"
         matchTriggerWidth={false}
         align="right"
         className="shrink-0"
