@@ -33,12 +33,19 @@ function migrateLegacy(
   const cur = ensureDay(next, iso);
   if (projects) cur.projects = projects;
   if (tasks) {
-    cur.tasks = tasks;
-    const map: Record<string, string[]> = {};
-    for (const t of tasks) {
-      if (t.projectId) (map[t.projectId] ??= []).push(t.id);
+    const normalized = tasks.map((task) => ({
+      ...task,
+      images: Array.isArray(task.images) ? task.images : [],
+    }));
+    const byId: Record<string, DayTask> = {};
+    const byProject: Record<string, string[]> = {};
+    for (const t of normalized) {
+      byId[t.id] = t;
+      if (t.projectId) (byProject[t.projectId] ??= []).push(t.id);
     }
-    cur.tasksByProject = map;
+    cur.tasks = normalized;
+    cur.tasksById = byId;
+    cur.tasksByProject = byProject;
   }
   next[iso] = cur;
   try {

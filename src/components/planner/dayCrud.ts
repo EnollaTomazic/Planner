@@ -1,4 +1,36 @@
-import type { DayRecord } from "./plannerStore";
+import type { DayRecord, DayTask } from "./plannerStore";
+
+function indexTasks(tasks: DayTask[]): {
+  tasksById: Record<string, DayTask>;
+  tasksByProject: Record<string, string[]>;
+} {
+  const tasksById: Record<string, DayTask> = {};
+  const tasksByProject: Record<string, string[]> = {};
+  for (const task of tasks) {
+    tasksById[task.id] = task;
+    if (task.projectId) {
+      (tasksByProject[task.projectId] ??= []).push(task.id);
+    }
+  }
+  return { tasksById, tasksByProject };
+}
+
+function withTasks(
+  day: DayRecord,
+  tasks: DayTask[],
+  overrides: Partial<
+    Omit<DayRecord, "tasks" | "tasksById" | "tasksByProject">
+  > = {},
+): DayRecord {
+  const { tasksById, tasksByProject } = indexTasks(tasks);
+  return {
+    ...day,
+    ...overrides,
+    tasks,
+    tasksById,
+    tasksByProject,
+  };
+}
 
 export function addProject(day: DayRecord, id: string, name: string) {
   const title = name.trim();
@@ -26,15 +58,13 @@ export function toggleProject(day: DayRecord, id: string) {
   const tasks = day.tasks.map((t) =>
     t.projectId === id ? { ...t, done: !wasDone } : t,
   );
-  return { ...day, projects, tasks };
+  return withTasks(day, tasks, { projects });
 }
 
 export function removeProject(day: DayRecord, id: string) {
-  return {
-    ...day,
-    projects: day.projects.filter((p) => p.id !== id),
-    tasks: day.tasks.filter((t) => t.projectId !== id),
-  };
+  const projects = day.projects.filter((p) => p.id !== id);
+  const tasks = day.tasks.filter((t) => t.projectId !== id);
+  return withTasks(day, tasks, { projects });
 }
 
 export function addTask(
@@ -50,50 +80,42 @@ export function addTask(
     ...day.tasks,
     { id, title: name, done: false, projectId, createdAt, images: [] },
   ];
-  return { ...day, tasks };
+  return withTasks(day, tasks);
 }
 
 export function renameTask(day: DayRecord, id: string, next: string) {
   const title = next.trim();
   if (!title) return day;
-  return {
-    ...day,
-    tasks: day.tasks.map((t) => (t.id === id ? { ...t, title } : t)),
-  };
+  const tasks = day.tasks.map((t) => (t.id === id ? { ...t, title } : t));
+  return withTasks(day, tasks);
 }
 
 export function toggleTask(day: DayRecord, id: string) {
-  return {
-    ...day,
-    tasks: day.tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)),
-  };
+  const tasks = day.tasks.map((t) =>
+    t.id === id ? { ...t, done: !t.done } : t,
+  );
+  return withTasks(day, tasks);
 }
 
 export function removeTask(day: DayRecord, id: string) {
-  return {
-    ...day,
-    tasks: day.tasks.filter((t) => t.id !== id),
-  };
+  const tasks = day.tasks.filter((t) => t.id !== id);
+  return withTasks(day, tasks);
 }
 
 export function addTaskImage(day: DayRecord, id: string, url: string) {
   const u = url.trim();
   if (!u) return day;
-  return {
-    ...day,
-    tasks: day.tasks.map((t) =>
-      t.id === id ? { ...t, images: [...t.images, u] } : t,
-    ),
-  };
+  const tasks = day.tasks.map((t) =>
+    t.id === id ? { ...t, images: [...t.images, u] } : t,
+  );
+  return withTasks(day, tasks);
 }
 
 export function removeTaskImage(day: DayRecord, id: string, url: string) {
-  return {
-    ...day,
-    tasks: day.tasks.map((t) =>
-      t.id === id
-        ? { ...t, images: t.images.filter((img) => img !== url) }
-        : t,
-    ),
-  };
+  const tasks = day.tasks.map((t) =>
+    t.id === id
+      ? { ...t, images: t.images.filter((img) => img !== url) }
+      : t,
+  );
+  return withTasks(day, tasks);
 }

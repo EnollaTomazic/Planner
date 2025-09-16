@@ -50,6 +50,9 @@ describe("usePlannerStore", () => {
     expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
       taskId,
     ]);
+    expect(result.current.planner.day.tasksById[taskId]?.title).toBe(
+      "Task 1",
+    );
 
     act(() => {
       secondTaskId = result.current.planner.addTask("Task 2", projectId);
@@ -59,6 +62,9 @@ describe("usePlannerStore", () => {
       taskId,
       secondTaskId,
     ]);
+    expect(result.current.planner.day.tasksById[secondTaskId]?.title).toBe(
+      "Task 2",
+    );
 
     act(() => {
       result.current.planner.addTaskImage(
@@ -79,13 +85,18 @@ describe("usePlannerStore", () => {
 
     act(() => result.current.planner.renameTask(taskId, "Task renamed"));
     expect(result.current.day.tasks[0].title).toBe("Task renamed");
+    expect(result.current.planner.day.tasksById[taskId]?.title).toBe(
+      "Task renamed",
+    );
 
     act(() => result.current.planner.toggleTask(taskId));
     expect(result.current.day.tasks[0].done).toBe(true);
+    expect(result.current.planner.day.tasksById[taskId]?.done).toBe(true);
 
     act(() => result.current.planner.toggleProject(projectId));
     expect(result.current.day.projects[0].done).toBe(true);
     expect(result.current.day.tasks[0].done).toBe(true);
+    expect(result.current.planner.day.tasksById[taskId]?.done).toBe(true);
 
     act(() => result.current.planner.removeTask(taskId));
     expect(result.current.day.tasks).toHaveLength(1);
@@ -95,6 +106,7 @@ describe("usePlannerStore", () => {
     expect(
       result.current.planner.day.tasksByProject[projectId],
     ).not.toContain(taskId);
+    expect(result.current.planner.day.tasksById[taskId]).toBeUndefined();
 
     act(() => result.current.planner.removeProject(projectId));
     expect(result.current.day.projects).toHaveLength(0);
@@ -102,6 +114,7 @@ describe("usePlannerStore", () => {
     expect(
       result.current.planner.day.tasksByProject[projectId],
     ).toBeUndefined();
+    expect(Object.keys(result.current.planner.day.tasksById)).toHaveLength(0);
   });
 
   it("provides day-scoped utilities via useDay", () => {

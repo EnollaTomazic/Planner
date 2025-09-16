@@ -38,6 +38,7 @@ import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
+import type { DayTask } from "@/components/planner";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
 import Banner from "@/components/chrome/Banner";
 import NavBar from "@/components/chrome/NavBar";
@@ -92,7 +93,7 @@ const demoProjects = [
   { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
 ];
 
-const demoTasks = [
+const demoTasks: DayTask[] = [
   {
     id: "t1",
     title: "Task A",
@@ -110,6 +111,21 @@ const demoTasks = [
     images: [],
   },
 ];
+
+const demoTasksById = demoTasks.reduce<
+  Record<string, (typeof demoTasks)[number]>
+>((acc, task) => {
+  acc[task.id] = task;
+  return acc;
+}, {});
+
+const demoTasksByProject = demoTasks.reduce<Record<string, string[]>>(
+  (acc, task) => {
+    if (task.projectId) (acc[task.projectId] ??= []).push(task.id);
+    return acc;
+  },
+  {},
+);
 
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
@@ -508,7 +524,8 @@ export default function ComponentGallery() {
         label: "TaskList",
         element: (
           <TaskList
-            tasks={demoTasks}
+            tasksById={demoTasksById}
+            tasksByProject={demoTasksByProject}
             selectedProjectId="p1"
             addTask={() => ""}
             renameTask={() => {}}

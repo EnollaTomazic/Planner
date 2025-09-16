@@ -26,6 +26,7 @@ export type DayTask = {
 export type DayRecord = {
   projects: Project[];
   tasks: DayTask[];
+  tasksById: Record<string, DayTask>;
   tasksByProject: Record<string, string[]>;
   focus?: string;
   notes?: string;
@@ -40,9 +41,41 @@ export function todayISO(): ISODate {
   return toISODate(new Date());
 }
 
+function shallowEqualTasksById(
+  computed: Record<string, DayTask>,
+  existing: Record<string, DayTask>,
+): boolean {
+  const computedKeys = Object.keys(computed);
+  const existingKeys = Object.keys(existing);
+  if (computedKeys.length !== existingKeys.length) return false;
+  for (const key of computedKeys) {
+    if (existing[key] !== computed[key]) return false;
+  }
+  return true;
+}
+
+function shallowEqualTasksByProject(
+  computed: Record<string, string[]>,
+  existing: Record<string, string[]>,
+): boolean {
+  const computedKeys = Object.keys(computed);
+  const existingKeys = Object.keys(existing);
+  if (computedKeys.length !== existingKeys.length) return false;
+  for (const key of computedKeys) {
+    const nextIds = computed[key];
+    const prevIds = existing[key];
+    if (!prevIds || prevIds.length !== nextIds.length) return false;
+    for (let i = 0; i < nextIds.length; i += 1) {
+      if (prevIds[i] !== nextIds[i]) return false;
+    }
+  }
+  return true;
+}
+
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   const existing = map[date];
-  if (!existing) return { projects: [], tasks: [], tasksByProject: {} };
+  if (!existing)
+    return { projects: [], tasks: [], tasksById: {}, tasksByProject: {} };
   let tasks = existing.tasks;
   let tasksChanged = false;
   if (!existing.tasks.every((t) => Array.isArray(t.images))) {
@@ -50,34 +83,46 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
     tasks = existing.tasks.map((t) => ({ ...t, images: t.images ?? [] }));
   }
 
-  const taskIds = new Set(tasks.map((task) => task.id));
-  const baseTasksByProject = existing.tasksByProject ?? {};
-  let tasksByProject = baseTasksByProject;
-  let tasksByProjectChanged = !Object.prototype.hasOwnProperty.call(
-    existing,
-    "tasksByProject",
-  );
-
-  if (tasksByProjectChanged) {
-    tasksByProject = { ...baseTasksByProject };
-  }
-
-  for (const [projectId, ids] of Object.entries(baseTasksByProject)) {
-    const filtered = ids.filter((taskId) => taskIds.has(taskId));
-    if (filtered.length !== ids.length) {
-      if (!tasksByProjectChanged) {
-        tasksByProjectChanged = true;
-        tasksByProject = { ...baseTasksByProject };
-      }
-      tasksByProject[projectId] = filtered;
+  const computedTasksById: Record<string, DayTask> = {};
+  const computedTasksByProject: Record<string, string[]> = {};
+  for (const task of tasks) {
+    computedTasksById[task.id] = task;
+    if (task.projectId) {
+      (computedTasksByProject[task.projectId] ??= []).push(task.id);
     }
   }
 
-  if (!tasksChanged && !tasksByProjectChanged) return existing;
+  const baseTasksById = existing.tasksById ?? {};
+  const hasTasksById = Object.prototype.hasOwnProperty.call(
+    existing,
+    "tasksById",
+  );
+  const tasksById =
+    hasTasksById &&
+    shallowEqualTasksById(computedTasksById, baseTasksById)
+      ? baseTasksById
+      : computedTasksById;
+  const tasksByIdChanged = tasksById !== baseTasksById;
+
+  const baseTasksByProject = existing.tasksByProject ?? {};
+  const hasTasksByProject = Object.prototype.hasOwnProperty.call(
+    existing,
+    "tasksByProject",
+  );
+  const tasksByProject =
+    hasTasksByProject &&
+    shallowEqualTasksByProject(computedTasksByProject, baseTasksByProject)
+      ? baseTasksByProject
+      : computedTasksByProject;
+  const tasksByProjectChanged = tasksByProject !== baseTasksByProject;
+
+  if (!tasksChanged && !tasksByIdChanged && !tasksByProjectChanged)
+    return existing;
 
   return {
     ...existing,
     ...(tasksChanged ? { tasks } : {}),
+    ...(tasksByIdChanged ? { tasksById } : {}),
     ...(tasksByProjectChanged ? { tasksByProject } : {}),
   };
 }
@@ -132,15 +177,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const tasksById = React.useMemo<TaskIdMap>(() => {
     const map: TaskIdMap = {};
     for (const [iso, record] of Object.entries(days)) {
-      if (!record.tasks.length) {
-        map[iso] = {};
-        continue;
-      }
-      const taskMap: Record<string, DayTask> = {};
-      for (const task of record.tasks) {
-        taskMap[task.id] = task;
-      }
-      map[iso] = taskMap;
+      map[iso] = record.tasksById ?? {};
     }
     return map;
   }, [days]);
