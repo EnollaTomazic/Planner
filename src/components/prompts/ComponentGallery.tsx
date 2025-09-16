@@ -10,6 +10,7 @@ import {
   GlitchSegmentedButton,
   TabBar,
   Progress,
+  GlitchProgress,
   Spinner,
   ThemeToggle,
   AnimationToggle,
@@ -592,6 +593,19 @@ export default function ComponentGallery() {
           <div className="w-56">
             <Progress value={50} />
           </div>
+        ),
+      },
+      {
+        label: "GlitchProgress",
+        element: (
+          <GlitchProgress
+            current={3}
+            total={5}
+            showPercentage
+            className="w-56 flex items-center gap-3"
+            trackClassName="flex-1"
+            percentageClassName="w-12 text-right"
+          />
         ),
       },
       {
