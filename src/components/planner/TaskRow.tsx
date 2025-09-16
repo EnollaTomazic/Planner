@@ -195,10 +195,16 @@ export default function TaskRow({
         <ul className="mt-2 space-y-2">
           {task.images.map((url) => (
             <li key={url} className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={url}
                 alt={`Image for ${task.title}`}
-                className="max-h-24 rounded-card r-card-md"
+                className="rounded-card r-card-md object-cover"
+                style={{
+                  maxHeight: "var(--space-7)",
+                  height: "var(--space-7)",
+                  width: "var(--space-7)",
+                }}
               />
               <IconButton
                 aria-label="Remove image"
