@@ -12,19 +12,19 @@ export default function TeamPromptsCard() {
           <div className="grid grid-cols-12 gap-4">
             <Link
               href="/team"
-              className="col-span-6 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-12 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
             >
               Archetypes
             </Link>
             <Link
               href="/team"
-              className="col-span-6 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-12 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
             >
               Team Builder
             </Link>
             <Link
               href="/team"
-              className="col-span-6 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0"
+              className="col-span-12 rounded-card r-card-md border border-border px-3 py-1 text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
             >
               Jungle Clears
             </Link>
