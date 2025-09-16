@@ -523,8 +523,8 @@ exports[`ReviewsPage > renders default state 1`] = `
                               autocomplete="off"
                               autocorrect="off"
                               class="w-full rounded-[inherit] bg-transparent px-3 text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
-                              id=":r0:"
-                              name=":r0:"
+                              id=":r1:"
+                              name=":r1:"
                               placeholder="Search title, tags, opponent, patch…"
                               spellcheck="false"
                               type="search"
@@ -552,7 +552,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                                 class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
                               >
                                 <button
-                                  aria-controls=":r1:-listbox"
+                                  aria-controls=":r2:-listbox"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
                                   aria-label="Select option"
