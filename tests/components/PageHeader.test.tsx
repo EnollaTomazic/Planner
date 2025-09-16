@@ -1,6 +1,6 @@
 import React from "react";
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { cleanup, render, screen, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { PageHeader } from "@/components/ui";
 
 afterEach(cleanup);
@@ -134,5 +134,50 @@ describe("PageHeader", () => {
     const headerEyebrow = screen.getByText(eyebrow);
     expect(headerEyebrow).toHaveClass("text-balance");
     expect(headerEyebrow).toHaveClass("break-words");
+  });
+
+  it("moves header tabs into the hero when tabsInHero is enabled", () => {
+    const ariaLabel = "Page sections";
+    const headerTabs = {
+      items: [
+        { key: "overview", label: "Overview" },
+        { key: "insights", label: "Insights" },
+      ],
+      value: "overview",
+      onChange: vi.fn(),
+      ariaLabel,
+    };
+
+    const { container } = render(
+      <PageHeader
+        tabsInHero
+        header={{
+          ...baseHeader,
+          tabs: headerTabs,
+        }}
+        hero={baseHero}
+      />,
+    );
+
+    const heroHeading = screen.getByRole("heading", {
+      level: 2,
+      name: baseHero.heading,
+    });
+    const heroSection = heroHeading.closest("section");
+    expect(heroSection).not.toBeNull();
+
+    const heroTablist = within(heroSection as HTMLElement).getByRole(
+      "tablist",
+      { name: ariaLabel },
+    );
+    expect(heroTablist).toBeInTheDocument();
+
+    const headerElement = container.querySelector("header");
+    expect(headerElement).not.toBeNull();
+    expect(
+      within(headerElement as HTMLElement).queryByRole("tablist", {
+        name: ariaLabel,
+      }),
+    ).toBeNull();
   });
 });

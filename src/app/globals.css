@@ -5,6 +5,8 @@
   :root {
     --shell-width: 1120px;
     --shell-max: var(--shell-width);
+    --accent-2-foreground: var(--primary-foreground);
+    --danger-foreground: var(--primary-foreground);
   }
 
   .page-shell {

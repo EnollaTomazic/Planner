@@ -39,10 +39,16 @@ const config: Config = {
           foreground: "hsl(var(--accent-foreground))",
           soft: "hsl(var(--accent-soft))",
         },
-        "accent-2": "hsl(var(--accent-2))",
+        "accent-2": {
+          DEFAULT: "hsl(var(--accent-2))",
+          foreground: "hsl(var(--accent-2-foreground))",
+        },
         glow: "hsl(var(--glow))",
         "ring-muted": "hsl(var(--ring-muted))",
-        danger: "hsl(var(--danger))",
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -74,18 +80,24 @@ const config: Config = {
             active: "hsl(var(--accent) / 0.2)",
           },
           accent: {
+            hover: "hsl(var(--accent) / 0.14)",
+            active: "hsl(var(--accent) / 0.2)",
             surfaceHover: "hsl(var(--accent) / 0.25)",
             surfaceActive: "hsl(var(--accent) / 0.35)",
             tintHover: "hsl(var(--accent) / 0.1)",
             tintActive: "hsl(var(--accent) / 0.2)",
           },
           info: {
+            hover: "hsl(var(--accent-2) / 0.14)",
+            active: "hsl(var(--accent-2) / 0.2)",
             surfaceHover: "hsl(var(--accent-2) / 0.25)",
             surfaceActive: "hsl(var(--accent-2) / 0.35)",
             tintHover: "hsl(var(--accent-2) / 0.1)",
             tintActive: "hsl(var(--accent-2) / 0.2)",
           },
           danger: {
+            hover: "hsl(var(--danger) / 0.14)",
+            active: "hsl(var(--danger) / 0.2)",
             surfaceHover: "hsl(var(--danger) / 0.25)",
             surfaceActive: "hsl(var(--danger) / 0.35)",
             tintHover: "hsl(var(--danger) / 0.1)",
