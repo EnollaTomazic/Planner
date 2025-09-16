@@ -31,6 +31,8 @@ export const colorTokens = [
 
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 
+export const shellWidthToken = "--shell-width";
+
 const radiusEntries = [
   ["md", 8],
   ["lg", 12],

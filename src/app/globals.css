@@ -3,12 +3,13 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --shell-max: 1120px;
+    --shell-width: 1120px;
+    --shell-max: var(--shell-width);
   }
 
   .page-shell {
     width: 100%;
-    max-width: var(--shell-max, 1120px);
+    max-width: var(--shell-max, var(--shell-width));
     margin-inline: auto;
     padding-inline: clamp(var(--space-3), 2.5vw, var(--space-6));
   }
