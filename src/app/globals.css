@@ -226,7 +226,7 @@ html.bg-intense body::after {
       from 180deg,
       hsl(var(--primary) / 0),
       hsl(var(--primary) / 0.8),
-      hsl(var(--iris-cyan) / 0.8),
+      hsl(var(--accent-3) / 0.8),
       hsl(var(--lav-deep) / 0.8),
       hsl(var(--primary) / 0)
     );
