@@ -16,10 +16,11 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
 import { sanitizeList } from "@/lib/sanitizeList";
+import { ROLES } from "./constants";
+import type { Role } from "./constants";
 
 /* ───────────── types ───────────── */
 
-type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 type LaneExamples = Partial<Record<Role, string[]>>;
 
 export type Archetype = {
@@ -555,7 +556,7 @@ export default function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
-                  {(["Top", "Jungle", "Mid", "Bot", "Support"] as Role[]).map(
+                  {ROLES.map(
                     (role) => {
                       const champs = a.examples[role];
                       const setChamps = (list: string[]) =>
