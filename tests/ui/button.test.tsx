@@ -21,10 +21,34 @@ describe("Button", () => {
     Record<NonNullable<ButtonProps["tone"]>, string[]>
   > = {
     primary: {
-      primary: ["text-foreground"],
-      accent: ["text-accent"],
-      info: ["text-accent-2"],
-      danger: ["text-danger"],
+      primary: [
+        "text-[hsl(var(--primary-foreground))]",
+        "bg-[hsl(var(--foreground)/0.12)]",
+        "border-[hsl(var(--foreground)/0.35)]",
+        "[--hover:theme('colors.interaction.primary.hover')]",
+        "[--active:theme('colors.interaction.primary.active')]",
+      ],
+      accent: [
+        "text-[hsl(var(--accent-foreground))]",
+        "bg-[hsl(var(--accent)/0.12)]",
+        "border-[hsl(var(--accent)/0.35)]",
+        "[--hover:theme('colors.interaction.accent.hover')]",
+        "[--active:theme('colors.interaction.accent.active')]",
+      ],
+      info: [
+        "text-[hsl(var(--accent-2-foreground))]",
+        "bg-[hsl(var(--accent-2)/0.12)]",
+        "border-[hsl(var(--accent-2)/0.35)]",
+        "[--hover:theme('colors.interaction.info.hover')]",
+        "[--active:theme('colors.interaction.info.active')]",
+      ],
+      danger: [
+        "text-[hsl(var(--danger-foreground))]",
+        "bg-[hsl(var(--danger)/0.12)]",
+        "border-[hsl(var(--danger)/0.35)]",
+        "[--hover:theme('colors.interaction.danger.hover')]",
+        "[--active:theme('colors.interaction.danger.active')]",
+      ],
     },
     secondary: {
       primary: ["text-foreground"],
