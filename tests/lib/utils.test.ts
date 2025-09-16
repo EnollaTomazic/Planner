@@ -58,4 +58,18 @@ describe("sanitizeText", () => {
       "&lt;div&gt;&amp;&quot;&#39;&lt;/div&gt;",
     );
   });
+
+  it("maps individual escapable characters", () => {
+    const cases: Array<[string, string]> = [
+      ["&", "&amp;"],
+      ["<", "&lt;"],
+      [">", "&gt;"],
+      ["\"", "&quot;"],
+      ["'", "&#39;"],
+    ];
+
+    for (const [input, expected] of cases) {
+      expect(sanitizeText(input)).toBe(expected);
+    }
+  });
 });
