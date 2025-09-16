@@ -1,9 +1,5 @@
 import { localBootstrapScript } from "./local-bootstrap";
-
-const STORAGE_PREFIX = "noxis-planner:";
-function createStorageKey(key: string): string {
-  return `${STORAGE_PREFIX}${key}`;
-}
+import { createStorageKey } from "./storage-key";
 
 export type Variant =
   | "lg"
