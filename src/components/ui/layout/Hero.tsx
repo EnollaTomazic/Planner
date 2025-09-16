@@ -108,12 +108,15 @@ function Hero<Key extends string = string>({
 
   const Component: HeroElement = as ?? "section";
 
+  const stickyClasses = sticky
+    ? cx("sticky sticky-blur", topClassName)
+    : "";
+
   const shellClass = cx(
-    sticky ? "sticky-blur" : "",
+    stickyClasses,
     frame
       ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
       : "px-[var(--space-3)] sm:px-[var(--space-4)] lg:px-[var(--space-5)]",
-    sticky && topClassName,
   );
 
   const barSpacingClass = frame
