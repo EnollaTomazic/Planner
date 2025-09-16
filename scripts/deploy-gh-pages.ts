@@ -23,9 +23,10 @@ function parseRemoteSlug(remoteUrl: string): string | undefined {
 }
 
 function detectRepositorySlug(): string {
-  const fromEnv = sanitizeSlug(process.env.BASE_PATH);
-  if (fromEnv) {
-    return fromEnv;
+  const basePathEnv = process.env.BASE_PATH;
+  if (basePathEnv !== undefined) {
+    const fromEnv = sanitizeSlug(basePathEnv);
+    return fromEnv ?? "";
   }
 
   const repoSlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
