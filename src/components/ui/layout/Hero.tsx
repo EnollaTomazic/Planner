@@ -297,9 +297,9 @@ function Hero<Key extends string = string>({
 export default Hero;
 
 /* ───────────── Adapter: HeroTabs (kept for parity) ───────── */
-export interface HeroTab<K extends string> extends TabItem<K> {
+export type HeroTab<K extends string> = TabItem<K> & {
   hint?: string;
-}
+};
 export function HeroTabs<K extends string>(props: {
   tabs: Array<HeroTab<K>>;
   activeKey: K;
@@ -329,11 +329,12 @@ export function HeroTabs<K extends string>(props: {
 
   const items: TabItem[] = React.useMemo(
     () =>
-      tabs.map(({ key, hint, ...rest }) => {
+      tabs.map((tab) => {
+        const { hint, ...item } = tab;
         void hint;
         return {
-          ...rest,
-          key: String(key),
+          ...item,
+          key: String(tab.key),
         };
       }),
     [tabs],
