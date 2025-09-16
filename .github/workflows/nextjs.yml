@@ -82,9 +82,11 @@ jobs:
       - name: Run checks
         run: |
           if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
-            ${{ steps.detect-package-manager.outputs.runner }} check
+            yarn lint
+            yarn typecheck
           else
-            npm run check
+            npm run lint
+            npm run typecheck
           fi
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
