@@ -67,7 +67,7 @@ import {
   TimerTab,
 } from "@/components/goals";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
-import { Plus } from "lucide-react";
+import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
 export type View = "components" | "colors" | "onboarding";
 export type Section =
@@ -343,27 +343,43 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "tab-bar-filters",
       name: "TabBar (filters)",
-      description: "Preset filter tabs",
+      description: "Preset filter tabs with icons",
       element: (
         <TabBar
           items={[
-            { key: "all", label: "All" },
-            { key: "active", label: "Active" },
-            { key: "done", label: "Done" },
+            { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+            {
+              key: "active",
+              label: "Active",
+              icon: <CircleDot aria-hidden="true" />,
+            },
+            {
+              key: "done",
+              label: "Done",
+              icon: <CircleCheck aria-hidden="true" />,
+            },
           ]}
-          defaultValue="all"
-          ariaLabel="Filter items"
+          defaultValue="active"
+          ariaLabel="Show active goals"
         />
       ),
       tags: ["button", "segmented"],
       code: `<TabBar
   items={[
-    { key: "all", label: "All" },
-    { key: "active", label: "Active" },
-    { key: "done", label: "Done" },
+    { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+    {
+      key: "active",
+      label: "Active",
+      icon: <CircleDot aria-hidden="true" />,
+    },
+    {
+      key: "done",
+      label: "Done",
+      icon: <CircleCheck aria-hidden="true" />,
+    },
   ]}
-  defaultValue="all"
-  ariaLabel="Filter items"
+  defaultValue="active"
+  ariaLabel="Show active goals"
 />`,
     },
     {
