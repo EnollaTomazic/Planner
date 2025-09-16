@@ -40,16 +40,28 @@ export default function PageTabs({
   ariaLabel,
 }: PageTabsProps) {
   const tabRefs = React.useRef<(HTMLElement | null)[]>([]);
+  const tabItemsRef = React.useRef(tabs);
+  const onChangeRef = React.useRef(onChange);
+  const restoredFromHashRef = React.useRef(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // Restore tab from hash on load
+  // Restore tab from hash on load. We capture `tabs`/`onChange` in refs so we can depend on them
+  // for linting while still guarding the effect to run only once.
   React.useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (hash && tabs.some(t => t.id === hash)) {
-      onChange?.(hash);
+    tabItemsRef.current = tabs;
+    onChangeRef.current = onChange;
+
+    if (restoredFromHashRef.current) {
+      return;
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    restoredFromHashRef.current = true;
+
+    const hash = window.location.hash.replace("#", "");
+    if (hash && tabItemsRef.current.some(t => t.id === hash)) {
+      onChangeRef.current?.(hash);
+    }
+  }, [tabs, onChange]);
 
   // Sync active tab to URL hash
   React.useEffect(() => {
