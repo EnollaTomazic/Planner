@@ -161,7 +161,10 @@ function ChampChips({
     return (
       <div className="champ-badges mt-1 flex flex-wrap gap-2">
         {(champs.length ? champs : ["-"]).map((c, i) => (
-          <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
+          <span
+            key={i}
+            className="champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
+          >
             <i className="dot" />
             {c}
           </span>
@@ -190,7 +193,10 @@ function ChampChips({
   return (
     <div className="champ-badges mt-1 flex flex-wrap gap-2">
       {(champs.length ? champs : [""]).map((c, i) => (
-        <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
+        <span
+          key={i}
+          className="champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
+        >
           <i className="dot" />
           <input
             type="text"

@@ -14,6 +14,18 @@ const weekDayFormatter = new Intl.DateTimeFormat(LOCALE, {
   month: "short",
 });
 
+const isoLabelWeekdayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  weekday: "long",
+});
+
+const isoLabelMonthFormatter = new Intl.DateTimeFormat(LOCALE, {
+  month: "short",
+});
+
+const isoLabelDayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  day: "2-digit",
+});
+
 /** Predicate for "YYYY-MM-DD" */
 export function isISODate(v: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(v);
@@ -34,6 +46,19 @@ export function formatWeekDay(iso: string): string {
   const dt = fromISODate(iso);
   if (!dt) return iso;
   return weekDayFormatter.format(dt);
+}
+
+export function formatIsoLabel(iso: string): string {
+  const dt = fromISODate(iso);
+  if (!dt) return iso;
+  const weekday = isoLabelWeekdayFormatter
+    .format(dt)
+    .toLocaleUpperCase(LOCALE);
+  const month = isoLabelMonthFormatter
+    .format(dt)
+    .toLocaleUpperCase(LOCALE);
+  const day = isoLabelDayFormatter.format(dt);
+  return `${weekday}_${month} :: ${day}`;
 }
 
 /** Normalize various inputs to a valid Date (fallback = now). */
