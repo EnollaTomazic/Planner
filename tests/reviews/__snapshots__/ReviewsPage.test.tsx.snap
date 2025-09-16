@@ -515,7 +515,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             />
                           </svg>
                           <div
-                            class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
+                            class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
                             style="--control-h: var(--control-h-md);"
                           >
                             <input
@@ -523,8 +523,8 @@ exports[`ReviewsPage > renders default state 1`] = `
                               autocomplete="off"
                               autocorrect="off"
                               class="w-full rounded-[inherit] bg-transparent px-3 text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
-                              id=":r0:"
-                              name=":r0:"
+                              id=":r1:"
+                              name=":r1:"
                               placeholder="Search title, tags, opponent, patch…"
                               spellcheck="false"
                               type="search"
@@ -552,7 +552,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                                 class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
                               >
                                 <button
-                                  aria-controls=":r1:-listbox"
+                                  aria-controls=":r2:-listbox"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
                                   aria-label="Select option"
