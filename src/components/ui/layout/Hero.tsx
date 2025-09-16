@@ -69,6 +69,7 @@ export interface HeroProps<Key extends string = string>
     className?: string;
     showBaseline?: boolean;
     variant?: TabBarProps["variant"];
+    linkPanels?: boolean;
   };
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
@@ -123,6 +124,7 @@ function Hero<Key extends string = string>({
       variant={subTabs.variant ?? heroVariant}
       className={cx("justify-end", subTabs.className)}
       ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
+      linkPanels={subTabs.linkPanels}
     />
   ) : tabs ? (
     <TabBar
@@ -135,6 +137,7 @@ function Hero<Key extends string = string>({
       variant={tabs.variant ?? heroVariant}
       className={cx("justify-end", tabs.className)}
       ariaLabel="Hero tabs"
+      linkPanels={tabs.linkPanels}
     />
   ) : null;
 
@@ -247,14 +250,9 @@ function Hero<Key extends string = string>({
 export default Hero;
 
 /* ───────────── Adapter: HeroTabs (kept for parity) ───────── */
-export type HeroTab<K extends string> = {
-  key: K;
-  label: React.ReactNode;
+export interface HeroTab<K extends string> extends TabItem<K> {
   hint?: string;
-  icon?: React.ReactNode;
-  disabled?: boolean;
-  badge?: React.ReactNode;
-};
+}
 export function HeroTabs<K extends string>(props: {
   tabs: Array<HeroTab<K>>;
   activeKey: K;
@@ -266,6 +264,7 @@ export function HeroTabs<K extends string>(props: {
   right?: React.ReactNode;
   showBaseline?: boolean;
   variant?: TabBarProps["variant"];
+  linkPanels?: boolean;
 }) {
   const {
     tabs,
@@ -278,17 +277,18 @@ export function HeroTabs<K extends string>(props: {
     right,
     showBaseline = false,
     variant,
+    linkPanels = false,
   } = props;
 
   const items: TabItem[] = React.useMemo(
     () =>
-      tabs.map((t) => ({
-        key: String(t.key),
-        label: t.label,
-        icon: t.icon,
-        disabled: t.disabled,
-        badge: t.badge,
-      })),
+      tabs.map(({ key, hint, ...rest }) => {
+        void hint;
+        return {
+          ...rest,
+          key: String(key),
+        };
+      }),
     [tabs],
   );
 
@@ -304,6 +304,7 @@ export function HeroTabs<K extends string>(props: {
       className={className}
       showBaseline={showBaseline}
       variant={variant}
+      linkPanels={linkPanels}
     />
   );
 }
