@@ -354,7 +354,8 @@ export default function TeamCompPage() {
       aria-labelledby="teamcomp-header"
     >
       <PageHeader
-        className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12"
+        containerClassName="sticky top-0 md:col-span-12"
+        className="rounded-card r-card-lg px-4 py-4"
         contentClassName="space-y-2"
         frameProps={{ variant: "unstyled" }}
         header={{
