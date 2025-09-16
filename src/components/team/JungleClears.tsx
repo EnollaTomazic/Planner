@@ -95,14 +95,17 @@ export default React.forwardRef<
     return map;
   }, [items]);
 
-  function startEdit(r: JunglerRow) {
-    setEditingRow({
-      id: r.id,
-      champ: r.champ,
-      type: (r.type ?? []).join(", "),
-      notes: r.notes ?? "",
-    });
-  }
+  const startEdit = React.useCallback(
+    (r: JunglerRow) => {
+      setEditingRow({
+        id: r.id,
+        champ: r.champ,
+        type: (r.type ?? []).join(", "),
+        notes: r.notes ?? "",
+      });
+    },
+    [setEditingRow],
+  );
 
   const cancelEdit = React.useCallback(() => {
     if (editingRow) {
@@ -112,9 +115,9 @@ export default React.forwardRef<
       }
     }
     setEditingRow(null);
-  }, [editingRow, items, setItems]);
+  }, [editingRow, items, setEditingRow, setItems]);
 
-  function saveEdit() {
+  const saveEdit = React.useCallback(() => {
     if (!editingRow) return;
     setItems((prev) =>
       prev.map((r) =>
@@ -132,29 +135,35 @@ export default React.forwardRef<
       ),
     );
     setEditingRow(null);
-  }
+  }, [editingRow, setItems, setEditingRow]);
 
-  function deleteRow(id: string) {
-    setItems((prev) => prev.filter((r) => r.id !== id));
-  }
+  const deleteRow = React.useCallback(
+    (id: string) => {
+      setItems((prev) => prev.filter((r) => r.id !== id));
+    },
+    [setItems],
+  );
 
-  function addRow(bucket: ClearSpeed) {
-    const newRow: JunglerRow = {
-      id: uid("jg"),
-      champ: "",
-      speed: bucket,
-      type: [],
-      notes: "",
-    };
-    setItems((prev) => [...prev, newRow]);
-    setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
-  }
+  const addRow = React.useCallback(
+    (bucket: ClearSpeed) => {
+      const newRow: JunglerRow = {
+        id: uid("jg"),
+        champ: "",
+        speed: bucket,
+        type: [],
+        notes: "",
+      };
+      setItems((prev) => [...prev, newRow]);
+      setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
+    },
+    [setItems, setEditingRow],
+  );
 
   useEffect(() => {
     if (!editing) cancelEdit();
   }, [editing, cancelEdit]);
 
-  React.useImperativeHandle(ref, () => ({ addRow }));
+  React.useImperativeHandle(ref, () => ({ addRow }), [addRow]);
 
   return (
     <div data-scope="team" className="grid gap-4 sm:gap-6">
