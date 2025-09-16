@@ -29,9 +29,6 @@ import { addDays, toISODate } from "@/lib/date";
 
 function Inner() {
   const { iso, today, setIso } = useFocusDate();
-  React.useEffect(() => {
-    setIso(iso);
-  }, [iso, setIso]);
   const { start, days } = useWeek(iso);
 
   // Derive once per week change; keeps list stable during edits elsewhere
