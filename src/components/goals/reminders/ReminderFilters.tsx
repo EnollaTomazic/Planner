@@ -1,0 +1,73 @@
+"use client";
+
+import * as React from "react";
+import TabBar from "@/components/ui/layout/TabBar";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { SlidersHorizontal, Pin, PinOff } from "lucide-react";
+import { useReminders, Group, SourceFilter } from "./useReminders";
+
+export default function ReminderFilters() {
+  const {
+    showGroups,
+    groupTabs,
+    group,
+    setGroup,
+    toggleFilters,
+    showFilters,
+    sourceTabs,
+    source,
+    setSource,
+    onlyPinned,
+    togglePinned,
+  } = useReminders();
+
+  return (
+    <>
+      {showGroups && (
+        <TabBar
+          items={groupTabs}
+          value={group}
+          onValueChange={(key) => setGroup(key as Group)}
+          ariaLabel="Reminder group"
+          size="md"
+          align="between"
+          className="overflow-x-auto"
+          right={
+            <SegmentedButton
+              className="inline-flex items-center gap-1"
+              onClick={toggleFilters}
+              aria-expanded={showFilters}
+              title="Filters"
+              isActive={showFilters}
+            >
+              <SlidersHorizontal size={16} aria-hidden />
+              Filters
+            </SegmentedButton>
+          }
+        />
+      )}
+
+      {showFilters && (
+        <div className="flex flex-wrap items-center gap-4 pl-1">
+          <TabBar
+            items={sourceTabs}
+            value={source}
+            onValueChange={(key) => setSource(key as SourceFilter)}
+            ariaLabel="Reminder source filter"
+            size="sm"
+          />
+          <SegmentedButton
+            onClick={togglePinned}
+            aria-pressed={onlyPinned}
+            title="Pinned only"
+            isActive={onlyPinned}
+          >
+            {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+            {onlyPinned ? "Pinned only" : "Any pin"}
+          </SegmentedButton>
+        </div>
+      )}
+    </>
+  );
+}
+
