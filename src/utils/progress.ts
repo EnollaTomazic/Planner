@@ -5,8 +5,11 @@ const bars = new MultiBar(
   Presets.shades_grey,
 );
 
-export const createTaskBar = (totalSteps: number): ReturnType<MultiBar["create"]> =>
-  bars.create(totalSteps, 0);
+export function createProgressBar(
+  totalSteps: number,
+): ReturnType<MultiBar["create"]> {
+  return bars.create(totalSteps, 0);
+}
 
 export const stopBars = (): void => {
   bars.stop();
