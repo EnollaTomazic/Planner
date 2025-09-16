@@ -20,7 +20,9 @@ function getNodeText(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return "";
   if (typeof node === "string" || typeof node === "number") return `${node}`;
   if (Array.isArray(node)) return node.map(getNodeText).join("");
-  if (React.isValidElement(node)) return getNodeText(node.props.children);
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return getNodeText(node.props.children ?? null);
+  }
   return "";
 }
 

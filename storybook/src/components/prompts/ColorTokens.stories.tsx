@@ -90,7 +90,7 @@ function TokenRow({
   onCopy,
 }: {
   name: string;
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   onCopy: (name: string) => void;
 }) {
   const swatchRef = React.useRef<HTMLDivElement>(null);

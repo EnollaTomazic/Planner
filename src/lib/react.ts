@@ -6,8 +6,8 @@ export const hasTextContent = (node: React.ReactNode): boolean => {
   if (typeof node === "string") return node.trim().length > 0;
   if (typeof node === "number") return true;
   if (Array.isArray(node)) return node.some((item) => hasTextContent(item));
-  if (React.isValidElement(node)) {
-    return hasTextContent(node.props.children);
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return hasTextContent(node.props.children ?? null);
   }
   return false;
 };

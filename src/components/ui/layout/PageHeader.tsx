@@ -10,7 +10,7 @@ import NeomorphicHeroFrame, {
 import { cn } from "@/lib/utils";
 
 type PageHeaderElement = Extract<
-  keyof JSX.IntrinsicElements,
+  keyof React.JSX.IntrinsicElements,
   "header" | "section" | "article" | "aside" | "main" | "div" | "nav"
 >;
 
@@ -82,7 +82,7 @@ const PageHeaderInner = <
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
-  const Component = (as ?? "section") as PageHeaderElement;
+  const Component: PageHeaderElement = as ?? "section";
 
   const {
     subTabs: heroSubTabs,

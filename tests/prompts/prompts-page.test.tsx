@@ -5,6 +5,7 @@ import {
   fireEvent,
   waitFor,
   cleanup,
+  act,
 } from "@testing-library/react";
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
@@ -47,14 +48,16 @@ describe("PromptsPage", () => {
     const search = screen.getByPlaceholderText("Search prompts…");
     vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "second" } });
-    vi.advanceTimersByTime(300);
-    await Promise.resolve();
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
     expect(screen.getByText("Second line")).toBeInTheDocument();
     expect(screen.queryByText("First")).not.toBeInTheDocument();
 
     fireEvent.change(search, { target: { value: "zzz" } });
-    vi.advanceTimersByTime(300);
-    await Promise.resolve();
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
     expect(screen.getByText("No prompts match")).toBeInTheDocument();
     expect(screen.getByText("zzz")).toBeInTheDocument();
     vi.useRealTimers();

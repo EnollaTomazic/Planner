@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Fuse from "fuse.js";
+import type { FuseResult } from "fuse.js";
 import { usePersistentState, uid } from "@/lib/db";
 
 export type Prompt = {
@@ -38,7 +39,7 @@ export function usePrompts() {
   const filtered: PromptWithTitle[] = React.useMemo(() => {
     const q = query.trim();
     if (!q) return withTitles;
-    return fuse.search(q).map((res: Fuse.FuseResult<PromptWithTitle>) => res.item);
+    return fuse.search(q).map((res: FuseResult<PromptWithTitle>) => res.item);
   }, [fuse, query, withTitles]);
 
   const save = React.useCallback(

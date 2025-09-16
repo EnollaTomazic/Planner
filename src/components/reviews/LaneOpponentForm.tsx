@@ -58,9 +58,12 @@ function LaneOpponentForm(
 
   React.useImperativeHandle(ref, () => ({ save }), [save]);
 
-  const go = React.useCallback((r: React.RefObject<HTMLInputElement>) => {
-    r.current?.focus();
-  }, []);
+  const go = React.useCallback(
+    (r: React.RefObject<HTMLInputElement | null>) => {
+      r.current?.focus();
+    },
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-2">

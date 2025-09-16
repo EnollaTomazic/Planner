@@ -6,7 +6,7 @@ import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 type ScrollTopFloatingButtonProps = {
-  watchRef: React.RefObject<HTMLElement>;
+  watchRef: React.RefObject<HTMLElement | null>;
   forceVisible?: boolean;
 };
 
