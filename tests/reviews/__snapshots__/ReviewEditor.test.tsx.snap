@@ -63,6 +63,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-flag h-4 w-4"
                       fill="none"
                       height="24"
@@ -75,13 +76,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
-                      />
-                      <line
-                        x1="4"
-                        x2="4"
-                        y1="22"
-                        y2="15"
+                        d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
                       />
                     </svg>
                   </span>
@@ -105,6 +100,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-map-pin h-4 w-4"
                       fill="none"
                       height="24"
@@ -147,6 +143,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-target h-4 w-4"
                       fill="none"
                       height="24"
@@ -195,6 +192,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-crosshair h-4 w-4"
                       fill="none"
                       height="24"
@@ -257,6 +255,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
+                      aria-hidden="true"
                       class="lucide lucide-shield h-4 w-4"
                       fill="none"
                       height="24"
@@ -292,6 +291,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="relative"
               >
                 <svg
+                  aria-hidden="true"
                   class="lucide lucide-target pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
                   fill="none"
                   height="24"
@@ -354,6 +354,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="relative"
               >
                 <svg
+                  aria-hidden="true"
                   class="lucide lucide-shield pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
                   fill="none"
                   height="24"
@@ -487,6 +488,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             /10
           </span>
           <svg
+            aria-hidden="true"
             class="lucide lucide-meh h-4 w-4 text-warning"
             fill="none"
             height="24"
@@ -544,6 +546,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--ni-size: 32px; --ni-k: 18px; --ni-color: hsl(var(--primary));"
             >
               <svg
+                aria-hidden="true"
                 class="lucide lucide-brain relative z-10"
                 fill="none"
                 height="24"
@@ -557,31 +560,28 @@ exports[`ReviewEditor > renders default state 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"
+                  d="M12 18V5"
                 />
                 <path
-                  d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"
+                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
                 />
                 <path
-                  d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"
+                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
                 />
                 <path
-                  d="M17.599 6.5a3 3 0 0 0 .399-1.375"
+                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
                 />
                 <path
-                  d="M6.003 5.125A3 3 0 0 0 6.401 6.5"
+                  d="M18 18a4 4 0 0 0 2-7.464"
                 />
                 <path
-                  d="M3.477 10.896a4 4 0 0 1 .585-.396"
+                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
                 />
                 <path
-                  d="M19.938 10.5a4 4 0 0 1 .585.396"
+                  d="M6 18a4 4 0 0 1-2-7.464"
                 />
                 <path
-                  d="M6 18a4 4 0 0 1-1.967-.516"
-                />
-                <path
-                  d="M19.967 17.484A4 4 0 0 1 18 18"
+                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
                 />
               </svg>
               <svg
@@ -599,31 +599,28 @@ exports[`ReviewEditor > renders default state 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"
+                  d="M12 18V5"
                 />
                 <path
-                  d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"
+                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
                 />
                 <path
-                  d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"
+                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
                 />
                 <path
-                  d="M17.599 6.5a3 3 0 0 0 .399-1.375"
+                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
                 />
                 <path
-                  d="M6.003 5.125A3 3 0 0 0 6.401 6.5"
+                  d="M18 18a4 4 0 0 0 2-7.464"
                 />
                 <path
-                  d="M3.477 10.896a4 4 0 0 1 .585-.396"
+                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
                 />
                 <path
-                  d="M19.938 10.5a4 4 0 0 1 .585.396"
+                  d="M6 18a4 4 0 0 1-2-7.464"
                 />
                 <path
-                  d="M6 18a4 4 0 0 1-1.967-.516"
-                />
-                <path
-                  d="M19.967 17.484A4 4 0 0 1 18 18"
+                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
                 />
               </svg>
               <svg
@@ -641,31 +638,28 @@ exports[`ReviewEditor > renders default state 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"
+                  d="M12 18V5"
                 />
                 <path
-                  d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"
+                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
                 />
                 <path
-                  d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"
+                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
                 />
                 <path
-                  d="M17.599 6.5a3 3 0 0 0 .399-1.375"
+                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
                 />
                 <path
-                  d="M6.003 5.125A3 3 0 0 0 6.401 6.5"
+                  d="M18 18a4 4 0 0 0 2-7.464"
                 />
                 <path
-                  d="M3.477 10.896a4 4 0 0 1 .585-.396"
+                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
                 />
                 <path
-                  d="M19.938 10.5a4 4 0 0 1 .585.396"
+                  d="M6 18a4 4 0 0 1-2-7.464"
                 />
                 <path
-                  d="M6 18a4 4 0 0 1-1.967-.516"
-                />
-                <path
-                  d="M19.967 17.484A4 4 0 0 1 18 18"
+                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
                 />
               </svg>
               <span
@@ -1452,10 +1446,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"
+                    d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
                   />
                   <path
-                    d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"
+                    d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"
                   />
                 </svg>
                 <span
@@ -1570,6 +1564,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--ni-size: 32px; --ni-k: 18px; --ni-color: hsl(var(--accent));"
             >
               <svg
+                aria-hidden="true"
                 class="lucide lucide-clock relative z-10"
                 fill="none"
                 height="24"
@@ -1582,13 +1577,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                <path
+                  d="M12 6v6l4 2"
+                />
                 <circle
                   cx="12"
                   cy="12"
                   r="10"
-                />
-                <polyline
-                  points="12 6 12 12 16 14"
                 />
               </svg>
               <svg
@@ -1605,13 +1600,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                <path
+                  d="M12 6v6l4 2"
+                />
                 <circle
                   cx="12"
                   cy="12"
                   r="10"
-                />
-                <polyline
-                  points="12 6 12 12 16 14"
                 />
               </svg>
               <svg
@@ -1628,13 +1623,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                <path
+                  d="M12 6v6l4 2"
+                />
                 <circle
                   cx="12"
                   cy="12"
                   r="10"
-                />
-                <polyline
-                  points="12 6 12 12 16 14"
                 />
               </svg>
               <span
@@ -1707,6 +1702,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--ni-size: 32px; --ni-k: 18px; --ni-color: hsl(var(--ring));"
             >
               <svg
+                aria-hidden="true"
                 class="lucide lucide-file-text relative z-10"
                 fill="none"
                 height="24"
@@ -1895,6 +1891,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               type="button"
             >
               <svg
+                aria-hidden="true"
                 class="lucide lucide-plus"
                 fill="none"
                 height="24"
@@ -1948,6 +1945,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             class="relative flex-1"
           >
             <svg
+              aria-hidden="true"
               class="lucide lucide-tag pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
               fill="none"
               height="24"
@@ -1990,6 +1988,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <svg
+              aria-hidden="true"
               class="lucide lucide-plus"
               fill="none"
               height="24"

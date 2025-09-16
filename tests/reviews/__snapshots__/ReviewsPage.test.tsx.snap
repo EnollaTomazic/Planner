@@ -211,6 +211,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="shrink-0 opacity-90"
                     >
                       <svg
+                        aria-hidden="true"
                         class="lucide lucide-book-open opacity-80"
                         fill="none"
                         height="24"
@@ -601,13 +602,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                             width="24"
                             xmlns="http://www.w3.org/2000/svg"
                           >
+                            <path
+                              d="m21 21-4.34-4.34"
+                            />
                             <circle
                               cx="11"
                               cy="11"
                               r="8"
-                            />
-                            <path
-                              d="m21 21-4.3-4.3"
                             />
                           </svg>
                           <div
@@ -714,6 +715,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
                             >
                               <svg
+                                aria-hidden="true"
                                 class="lucide lucide-plus"
                                 fill="none"
                                 height="24"
@@ -930,6 +932,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           class="rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 shadow-outline-subtle w-full container mx-auto flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground"
         >
           <svg
+            aria-hidden="true"
             class="lucide lucide-ghost h-6 w-6 opacity-60"
             fill="none"
             height="24"
