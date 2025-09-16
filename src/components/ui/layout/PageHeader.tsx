@@ -88,11 +88,10 @@ const PageHeaderInner = <
     ...heroRest
   } = hero;
 
-  const resolvedSubTabs =
-    heroSubTabs !== undefined ? heroSubTabs : subTabs;
+  const resolvedSubTabs = heroSubTabs ?? subTabs;
 
   const searchSource =
-    heroSearch !== undefined ? heroSearch : search;
+    heroSearch === null ? null : heroSearch ?? search;
   const resolvedSearch =
     searchSource === undefined
       ? undefined
@@ -101,7 +100,7 @@ const PageHeaderInner = <
         : { ...searchSource, round: searchSource.round ?? true };
 
   const resolvedActions =
-    heroActions !== undefined ? heroActions : actions;
+    heroActions === null ? null : heroActions ?? actions;
 
   const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
     frameProps ?? {};
