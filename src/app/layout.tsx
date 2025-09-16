@@ -7,10 +7,10 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion } from "@/components/ui";
-import { themeBootstrapScript } from "@/lib/theme";
 import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
+import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: {
@@ -26,8 +26,6 @@ export const metadata: Metadata = {
  * - Falls back to system preference
  * - Applies appropriate theme classes
  */
-const noFlash = themeBootstrapScript();
-
 const htmlStyle = {
   "--asset-noise-url": `url('${withBasePath("/noise.svg")}')`,
   "--asset-glitch-gif-url": `url('${withBasePath("/glitch-gif.gif")}')`,
@@ -50,7 +48,7 @@ export default function RootLayout({
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: noFlash }}
+          src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
         />
       </head>
       <body className="min-h-screen bg-background text-foreground glitch-root">

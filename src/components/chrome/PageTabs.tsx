@@ -43,13 +43,20 @@ export default function PageTabs({
   const router = useRouter();
   const pathname = usePathname();
 
+  const hasRestoredFromHash = React.useRef(false);
+
   // Restore tab from hash on load
   React.useEffect(() => {
+    if (hasRestoredFromHash.current) {
+      return;
+    }
+    hasRestoredFromHash.current = true;
+
     const hash = window.location.hash.replace("#", "");
     if (hash && tabs.some(t => t.id === hash)) {
       onChange?.(hash);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tabs, onChange]);
 
   // Sync active tab to URL hash
   React.useEffect(() => {

@@ -4,12 +4,9 @@ import {
   expect,
   it,
 } from "vitest";
-import {
-  applyTheme,
-  BG_CLASSES,
-  THEME_STORAGE_KEY,
-  themeBootstrapScript,
-} from "@/lib/theme";
+import fs from "node:fs";
+import path from "node:path";
+import { applyTheme, BG_CLASSES, THEME_BOOTSTRAP_SCRIPT_PATH, THEME_STORAGE_KEY } from "@/lib/theme";
 import { createStorageKey } from "@/lib/storage-key";
 import type { Background } from "@/lib/theme";
 import { resetLocalStorage } from "../setup";
@@ -47,7 +44,12 @@ describe("themeBootstrapScript", () => {
       JSON.stringify({ variant: "lg", bg: BG_CLASSES.length }),
     );
 
-    const script = themeBootstrapScript();
+    const scriptPath = path.join(
+      process.cwd(),
+      "public",
+      THEME_BOOTSTRAP_SCRIPT_PATH.replace(/^\//, ""),
+    );
+    const script = fs.readFileSync(scriptPath, "utf8");
     expect(() => {
       // eslint-disable-next-line no-eval
       eval(script);

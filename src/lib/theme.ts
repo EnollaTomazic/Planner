@@ -1,5 +1,3 @@
-import { localBootstrapScript } from "./local-bootstrap";
-import { createStorageKey } from "./storage-key";
 
 export type Variant =
   | "lg"
@@ -16,6 +14,7 @@ export interface ThemeState {
 }
 
 export const THEME_STORAGE_KEY = "ui:theme";
+export const THEME_BOOTSTRAP_SCRIPT_PATH = "/scripts/theme-bootstrap.js";
 
 export const BG_CLASSES = [
   "",
@@ -115,28 +114,3 @@ export function applyTheme({ variant, bg }: ThemeState) {
   cl.add("dark");
 }
 
-export function themeBootstrapScript(): string {
-  return `((() => {
-    try {
-      ${localBootstrapScript()}
-      const key = "${createStorageKey(THEME_STORAGE_KEY)}";
-      let data = readLocal(key);
-      if (!data) {
-        data = { variant: "lg", bg: 0 };
-        writeLocal(key, data);
-      }
-      const BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
-      const BG_CLASS_SET = new Set(BG_CLASSES.filter(Boolean));
-      const resetThemeClasses = ${resetThemeClasses.toString()};
-      const cl = document.documentElement.classList;
-      resetThemeClasses(cl);
-      cl.add("theme-" + data.variant);
-      const isValidBgIndex =
-        Number.isInteger(data.bg) &&
-        data.bg >= 0 &&
-        data.bg < BG_CLASSES.length;
-      if (isValidBgIndex && data.bg > 0) cl.add(BG_CLASSES[data.bg]);
-      cl.add("dark");
-    } catch {}
-  })())`;
-}
