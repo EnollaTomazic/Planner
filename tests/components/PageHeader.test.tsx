@@ -13,6 +13,7 @@ describe("PageHeader", () => {
 
   const baseHero = {
     heading: "Team roadmap",
+    subtitle: "Supporting updates",
   } as const;
 
   it("renders a single semantic header element by default", () => {
@@ -52,5 +53,45 @@ describe("PageHeader", () => {
     expect(heroHeading.closest("nav")).not.toBeNull();
     expect(container.querySelectorAll("nav")).toHaveLength(1);
     expect(container.querySelectorAll("section")).toHaveLength(1);
+  });
+
+  it("calms the hero typography by default", () => {
+    render(<PageHeader header={baseHeader} hero={baseHero} />);
+
+    const heroHeading = screen.getByRole("heading", {
+      level: 2,
+      name: baseHero.heading,
+    });
+    expect(heroHeading).toHaveClass("text-title");
+    expect(heroHeading).toHaveClass("md:text-title");
+    expect(heroHeading).not.toHaveClass("text-title-lg");
+    expect(heroHeading).not.toHaveClass("md:text-title-lg");
+
+    const subtitle = screen.getByText(baseHero.subtitle);
+    expect(subtitle).toHaveClass("font-normal");
+    expect(subtitle).not.toHaveClass("font-medium");
+  });
+
+  it("allows opting into the elevated hero tone", () => {
+    render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          tone: "heroic",
+        }}
+      />,
+    );
+
+    const heroHeading = screen.getByRole("heading", {
+      level: 2,
+      name: baseHero.heading,
+    });
+    expect(heroHeading).toHaveClass("text-title-lg");
+    expect(heroHeading).toHaveClass("md:text-title-lg");
+
+    const subtitle = screen.getByText(baseHero.subtitle);
+    expect(subtitle).toHaveClass("font-medium");
+    expect(subtitle).not.toHaveClass("font-normal");
   });
 });

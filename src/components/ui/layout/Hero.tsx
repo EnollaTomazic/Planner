@@ -40,6 +40,8 @@ export interface HeroProps<Key extends string = string>
   barClassName?: string;
   bodyClassName?: string;
   rail?: boolean;
+  /** Typography profile for the heading/subtitle. */
+  tone?: "heroic" | "supportive";
 
   /** Whether to include glitchy frame and background layers. */
   frame?: boolean;
@@ -83,6 +85,7 @@ function Hero<Key extends string = string>({
   icon,
   children,
   actions,
+  tone = "heroic",
   frame = true,
   sticky = true,
   topClassName = "top-[var(--space-8)]",
@@ -108,6 +111,8 @@ function Hero<Key extends string = string>({
 
   const Component: HeroElement = as ?? "section";
 
+  const isSupportiveTone = tone === "supportive";
+
   const stickyClasses = sticky
     ? cx("sticky sticky-blur", topClassName)
     : "";
@@ -132,8 +137,16 @@ function Hero<Key extends string = string>({
     : "flex flex-wrap items-center gap-[var(--space-2)] md:flex-nowrap md:gap-[var(--space-3)] lg:gap-[var(--space-4)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
   const headingClassName = cx(
-    "title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate",
+    "title-glow font-semibold tracking-[-0.01em] truncate",
     frame ? "hero2-title" : undefined,
+    isSupportiveTone
+      ? "text-title md:text-title"
+      : "text-title-lg md:text-title-lg",
+  );
+
+  const subtitleClassName = cx(
+    "text-ui md:text-body text-muted-foreground truncate",
+    isSupportiveTone ? "font-normal" : "font-medium",
   );
 
   // Compose right area: prefer built-in sub-tabs if provided.
@@ -212,9 +225,7 @@ function Hero<Key extends string = string>({
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-ui md:text-body font-medium text-muted-foreground truncate">
-                  {subtitle}
-                </span>
+                <span className={subtitleClassName}>{subtitle}</span>
               ) : null}
             </div>
           </div>
