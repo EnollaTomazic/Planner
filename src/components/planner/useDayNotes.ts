@@ -3,9 +3,19 @@
 
 import * as React from "react";
 import { usePlannerStore } from "./usePlannerStore";
+import type { ISODate } from "./plannerStore";
 
-export function useDayNotes() {
-  const { day, setNotes } = usePlannerStore();
+export function useDayNotes(iso: ISODate) {
+  const { getDay, upsertDay } = usePlannerStore();
+  const day = getDay(iso);
+
+  const setNotesForIso = React.useCallback(
+    (notes: string) => {
+      upsertDay(iso, (d) => ({ ...d, notes }));
+    },
+    [iso, upsertDay],
+  );
+
   const [value, setValue] = React.useState<string>(() => day.notes ?? "");
   const [saving, setSaving] = React.useState(false);
   const lastSavedRef = React.useRef((day.notes ?? "").trim());
@@ -17,18 +27,18 @@ export function useDayNotes() {
     if (!isDirty) return;
     setSaving(true);
     try {
-      setNotes(trimmed);
+      setNotesForIso(trimmed);
       lastSavedRef.current = trimmed;
     } finally {
       setSaving(false);
     }
-  }, [isDirty, setNotes, trimmed]);
+  }, [isDirty, setNotesForIso, trimmed]);
 
   React.useEffect(() => {
-    const nextValue = day.notes ?? "";
+    const nextValue = getDay(iso).notes ?? "";
     setValue(nextValue);
     lastSavedRef.current = nextValue.trim();
-  }, [day.notes]);
+  }, [getDay, iso]);
 
   return { value, setValue, saving, isDirty, lastSavedRef, commit } as const;
 }
