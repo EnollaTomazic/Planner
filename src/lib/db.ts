@@ -201,15 +201,30 @@ export function usePersistentState<T>(
 }
 
 /**
+ * Generates a random suffix using `crypto.getRandomValues` when available.
+ */
+function cryptoRandomSuffix(cryptoObj?: Crypto): string {
+  if (!cryptoObj?.getRandomValues) return "";
+  const bytes = new Uint8Array(16);
+  cryptoObj.getRandomValues(bytes);
+  let result = "";
+  for (const byte of bytes) {
+    result += byte.toString(36).padStart(2, "0");
+  }
+  return result;
+}
+
+/**
  * Generates a unique identifier using `crypto.randomUUID`.
  * If a prefix is provided, it is prepended followed by an underscore.
  */
 let uidCounter = 0;
 export function uid(prefix = ""): string {
+  const cryptoObj = globalThis.crypto;
   const id =
-    globalThis.crypto?.randomUUID?.() ??
-    `${Date.now().toString(36)}${(uidCounter++).toString(
-      36,
-    )}${Math.random().toString(36).slice(2)}`;
+    cryptoObj?.randomUUID?.() ??
+    `${Date.now().toString(36)}${(uidCounter++).toString(36)}${cryptoRandomSuffix(
+      cryptoObj,
+    )}`;
   return prefix ? `${prefix}_${id}` : id;
 }

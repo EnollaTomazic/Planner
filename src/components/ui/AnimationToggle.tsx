@@ -5,6 +5,7 @@ import { Zap, ZapOff } from "lucide-react";
 import Spinner from "./feedback/Spinner";
 import { usePersistentState, readLocal, writeLocal } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 const KEY = "ui:animations";
 
@@ -15,17 +16,15 @@ export default function AnimationToggle({
 }) {
   const [enabled, setEnabled] = usePersistentState<boolean>(KEY, true);
   const [showNotice, setShowNotice] = React.useState(false);
+  const reduceMotion = usePrefersReducedMotion();
 
   React.useEffect(() => {
-    if (
-      readLocal<boolean>(KEY) === null &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
+    if (readLocal<boolean>(KEY) === null && reduceMotion) {
       setEnabled(false);
       writeLocal(KEY, false);
       setShowNotice(true);
     }
-  }, [setEnabled]);
+  }, [reduceMotion, setEnabled]);
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("no-animations", !enabled);
