@@ -8,19 +8,19 @@ import type { ISODate } from "./plannerStore";
 type Props = {
   iso: ISODate;
   projectCount: number;
-  doneTasks: number;
-  totalTasks: number;
+  doneCount: number;
+  totalCount: number;
 };
 
 export default function DayCardHeader({
   iso,
   projectCount,
-  doneTasks,
-  totalTasks,
+  doneCount,
+  totalCount,
 }: Props) {
   const headerText = React.useMemo(() => `// ${formatIsoLabel(iso)}`, [iso]);
   const pctNum =
-    totalTasks === 0 ? 0 : Math.round((doneTasks / totalTasks) * 100);
+    totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
 
   return (
     <div className="col-span-1 lg:col-span-3 flex items-center gap-3 min-w-0">
@@ -32,7 +32,7 @@ export default function DayCardHeader({
       </span>
 
       <div className="flex-1 min-w-0">
-        <GlitchProgress current={doneTasks} total={totalTasks} />
+        <GlitchProgress current={doneCount} total={totalCount} />
       </div>
 
       <div className="shrink-0 flex items-baseline gap-3 text-label text-muted-foreground">
@@ -45,8 +45,8 @@ export default function DayCardHeader({
         </span>
         <span className="hidden sm:inline">·</span>
         <span className="whitespace-nowrap">
-          <span className="tabular-nums">{doneTasks}</span> /{" "}
-          <span className="tabular-nums">{totalTasks}</span> tasks
+          <span className="tabular-nums">{doneCount}</span> /{" "}
+          <span className="tabular-nums">{totalCount}</span> items
         </span>
       </div>
     </div>
