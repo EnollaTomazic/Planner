@@ -80,7 +80,8 @@ export default function ReviewsPage({
       aria-labelledby="reviews-header"
     >
       <PageHeader
-        className="sticky top-0 rounded-card r-card-lg px-4 py-4"
+        containerClassName="sticky top-0"
+        className="rounded-card r-card-lg px-4 py-4"
         contentClassName="space-y-2"
         header={{
           id: "reviews-header",
