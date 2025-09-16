@@ -47,10 +47,15 @@ const config: Config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        warning: "hsl(var(--warning))",
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          soft: "hsl(var(--warning-soft))",
+          "soft-strong": "hsl(var(--warning-soft-strong))",
+        },
         success: {
           DEFAULT: "hsl(var(--success))",
           glow: "hsl(var(--success-glow))",
+          soft: "hsl(var(--success-soft))",
         },
         "aurora-g": "hsl(var(--aurora-g))",
         "aurora-g-light": "hsl(var(--aurora-g-light))",
