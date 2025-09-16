@@ -1,6 +1,6 @@
 import React from "react";
 import { render, cleanup, waitFor } from "@testing-library/react";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import IconButton from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
@@ -166,25 +166,78 @@ describe("IconButton", () => {
     expect(button).toHaveAttribute("aria-labelledby", "external-label");
   });
 
-  it("logs an error when icon-only content is missing a label", async () => {
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    render(
-      <IconButton
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        {...({} as any)}
-      >
-        <svg />
-      </IconButton>,
-    );
+  describe("accessibility warnings", () => {
+    let errorSpy: ReturnType<typeof vi.spyOn>;
 
-    await waitFor(() => {
-      expect(errorSpy).toHaveBeenCalledWith(
-        expect.stringContaining(
-          "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",
-        ),
-      );
+    beforeEach(() => {
+      errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     });
 
-    errorSpy.mockRestore();
+    afterEach(() => {
+      errorSpy.mockRestore();
+    });
+
+    it("logs an error when icon-only content is missing a label", async () => {
+      render(
+        <IconButton
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...({} as any)}
+        >
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).toHaveBeenCalledWith(
+          expect.stringContaining(
+            "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",
+          ),
+        );
+      });
+    });
+
+    it("does not log an error when icon-only content has aria-label", async () => {
+      render(
+        <IconButton aria-label="Settings">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when icon-only content has a title", async () => {
+      render(
+        <IconButton title="Refresh data">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when icon-only content has aria-labelledby", async () => {
+      render(
+        <IconButton aria-labelledby="external-label">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when text content is present", async () => {
+      render(<IconButton aria-label="  ">Submit</IconButton>);
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
   });
 });
