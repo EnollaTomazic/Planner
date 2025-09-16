@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
   Select,
+  NativeSelect,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
@@ -357,6 +358,18 @@ export default function ComponentGallery() {
             onChange={setSelectValue}
             className="w-56"
             hideLabel
+          />
+        ),
+      },
+      {
+        label: "NativeSelect",
+        element: (
+          <NativeSelect
+            aria-label="Fruit"
+            items={selectItems}
+            value={selectValue}
+            onChange={setSelectValue}
+            helperText="Native control"
           />
         ),
       },
