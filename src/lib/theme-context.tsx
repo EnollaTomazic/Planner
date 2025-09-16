@@ -10,23 +10,23 @@ import {
 } from "@/lib/theme";
 
 const ThemeContext = React.createContext<
-  [ThemeState, React.Dispatch<React.SetStateAction<ThemeState>>] | undefined
+  | readonly [ThemeState, React.Dispatch<React.SetStateAction<ThemeState>>]
+  | undefined
 >(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const themeState = usePersistentState<ThemeState>(
+  const [theme, setTheme] = usePersistentState<ThemeState>(
     THEME_STORAGE_KEY,
     defaultTheme(),
   );
-  const [theme] = themeState;
 
   React.useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
-  return (
-    <ThemeContext.Provider value={themeState}>{children}</ThemeContext.Provider>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const value = React.useMemo(() => [theme, setTheme] as const, [theme]);
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {
