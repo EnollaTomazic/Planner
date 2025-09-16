@@ -31,6 +31,7 @@ export default function TaskRow({
   onRemoveImage,
 }: Props) {
   const taskImageSize = spacingTokens[6];
+  const taskImageCssValue = "var(--space-7)" as const;
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
@@ -200,14 +201,14 @@ export default function TaskRow({
             <li key={url} className="flex items-center gap-2">
               <Image
                 src={url}
-                alt={`Image for ${task.title}`}
+                alt={`Task image for ${task.title}`}
                 width={taskImageSize}
                 height={taskImageSize}
                 className="rounded-card r-card-md object-cover"
                 style={{
-                  maxHeight: "var(--space-7)",
-                  height: "var(--space-7)",
-                  width: "var(--space-7)",
+                  maxHeight: taskImageCssValue,
+                  height: taskImageCssValue,
+                  width: taskImageCssValue,
                 }}
                 unoptimized
               />
