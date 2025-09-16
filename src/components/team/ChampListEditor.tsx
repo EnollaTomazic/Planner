@@ -78,7 +78,7 @@ export default function ChampListEditor({
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
           <span
             className={cn(PILL_BASE, pillClassName)}
-            aria-disabled
+            aria-disabled="true"
           >
             <i className="dot" />
             {emptyLabel}
