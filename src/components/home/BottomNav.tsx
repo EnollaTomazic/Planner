@@ -34,7 +34,7 @@ export default function BottomNav() {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <Icon className="size-5" />
+                <Icon aria-hidden="true" className="size-5" />
                 <span>{label}</span>
               </Link>
             </li>
