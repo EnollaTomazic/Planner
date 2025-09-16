@@ -23,7 +23,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
 
   return (
     <nav aria-label="Primary" className="max-w-full overflow-x-auto md:overflow-visible">
-      <ul className="flex min-w-max items-center gap-2">
+      <ul className="flex min-w-max items-center gap-[var(--space-2)]">
         {items.map(({ href, label }) => {
           const active = path === href || path.startsWith(href + "/");
 
@@ -33,7 +33,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "group relative inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "group relative inline-flex items-center rounded-[var(--radius-2xl)] border px-[var(--space-4)] py-[var(--space-2)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
@@ -60,7 +60,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                   <motion.span
                     data-testid="nav-underline"
                     layoutId="nav-underline"
-                    className="absolute left-2 right-2 -bottom-1 h-px nav-underline"
+                    className="absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px nav-underline"
                     transition={{
                       type: "tween",
                       duration: reduceMotion ? 0 : 0.25,
