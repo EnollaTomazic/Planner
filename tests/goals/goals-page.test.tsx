@@ -141,13 +141,14 @@ describe("GoalsPage", () => {
     const addButton = screen.getByRole("button", { name: /add goal/i });
 
     // Add three goals up to the active cap
+    const goalCreationPromises = [];
     for (let i = 1; i <= 3; i++) {
       fireEvent.change(titleInput, { target: { value: `Goal ${i}` } });
       fireEvent.click(addButton);
-      // ensure each goal appears
-      // eslint-disable-next-line no-await-in-loop
-      await screen.findByText(`Goal ${i}`);
+      goalCreationPromises.push(screen.findByText(`Goal ${i}`));
     }
+
+    await Promise.all(goalCreationPromises);
 
     // Attempt to add a fourth active goal, expect cap error
     fireEvent.change(titleInput, { target: { value: "Goal 4" } });
