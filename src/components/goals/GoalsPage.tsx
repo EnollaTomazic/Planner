@@ -166,15 +166,24 @@ export default function GoalsPage() {
 
   const summary: React.ReactNode =
     tab === "goals" ? (
-      <>
-        <span className="font-semibold text-foreground">Cap</span> {ACTIVE_CAP} active ·{" "}
-        <span className="font-semibold text-accent">Remaining</span>{" "}
-        <span className="text-accent">{remaining}</span> ·{" "}
-        <span className="font-semibold text-success">Complete</span>{" "}
-        <span className="text-success">{pctDone}%</span> ·{" "}
-        <span className="font-semibold text-primary">Total</span>{" "}
-        <span className="text-primary">{totalCount}</span>
-      </>
+      <ul className="m-0 list-none flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] p-0 text-label text-muted-foreground">
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-foreground">Cap</span>
+          <span className="text-foreground">{ACTIVE_CAP} active</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-accent">Remaining</span>
+          <span className="text-accent">{remaining}</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-success">Complete</span>
+          <span className="text-success">{pctDone}%</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-primary">Total</span>
+          <span className="text-primary">{totalCount}</span>
+        </li>
+      </ul>
     ) : tab === "reminders" ? (
       <>
         Keep <span className="font-semibold text-accent">nudges</span> handy with quick edit loops.
