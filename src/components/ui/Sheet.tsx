@@ -49,7 +49,7 @@ export default function Sheet({
           role="dialog"
           aria-modal="true"
           className={cn(
-            "fixed top-0 h-full w-80 overflow-y-auto",
+            "fixed top-0 h-full w-[calc(var(--space-8)*5)] overflow-y-auto",
             side === "right" ? "right-0" : "left-0",
             className,
           )}

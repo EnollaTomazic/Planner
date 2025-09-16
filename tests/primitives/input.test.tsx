@@ -29,14 +29,14 @@ describe("Input", () => {
     const { getByRole } = render(
       <Input aria-label="indent" indent />,
     );
-    expect(getByRole("textbox")).toHaveClass("pl-7");
+    expect(getByRole("textbox")).toHaveClass("pl-[var(--space-7)]");
   });
 
   it("reserves end slot padding when hasEndSlot is true", () => {
     const { getByRole } = render(
       <Input aria-label="slot" hasEndSlot />,
     );
-    expect(getByRole("textbox")).toHaveClass("pr-7");
+    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
   });
 
   it("shows error state when aria-invalid is true", () => {

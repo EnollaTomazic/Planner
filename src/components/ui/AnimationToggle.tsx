@@ -40,7 +40,7 @@ export default function AnimationToggle({
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-[var(--space-2)]">
       <button
         type="button"
         aria-pressed={enabled}
@@ -49,7 +49,7 @@ export default function AnimationToggle({
         aria-busy={loading}
         disabled={loading}
         className={cn(
-          "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-card r-card-lg",
+          "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-card r-card-lg",
           "border border-border bg-card",
           "hover:shadow-glow-md",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -60,9 +60,9 @@ export default function AnimationToggle({
         {loading ? (
           <Spinner size={16} />
         ) : enabled ? (
-          <Zap className="h-4 w-4" />
+          <Zap className="h-[var(--space-4)] w-[var(--space-4)]" />
         ) : (
-          <ZapOff className="h-4 w-4" />
+          <ZapOff className="h-[var(--space-4)] w-[var(--space-4)]" />
         )}
       </button>
       {showNotice && (

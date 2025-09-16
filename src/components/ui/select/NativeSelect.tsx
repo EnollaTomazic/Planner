@@ -41,7 +41,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
         .filter(Boolean)
         .join(" ") || undefined;
     return (
-      <div className="space-y-1">
+      <div className="space-y-[var(--space-1)]">
         <FieldShell
           className={cn(
             "group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]",
@@ -74,7 +74,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               </option>
             ))}
           </select>
-          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-4 w-4 text-muted-foreground group-focus-within:text-accent" />
+          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent" />
         </FieldShell>
         {success && (
           <p
@@ -90,7 +90,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
           <p
             id={errorId || helperId}
             className={cn(
-              "text-label mt-1 line-clamp-2",
+              "text-label mt-[var(--space-1)] line-clamp-2",
               errorText ? "text-danger" : "text-muted-foreground",
             )}
           >
