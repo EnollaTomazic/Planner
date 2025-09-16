@@ -98,6 +98,14 @@ export function Header() {
 
 Following these guidelines keeps the interface consistent and lets theme updates propagate automatically.
 
+## Feedback components
+
+### Toast
+
+- Toast surfaces time-sensitive feedback and dismisses itself after `duration` milliseconds.
+- Hovering the toast container or focusing any interactive element inside it pauses the auto-dismiss timer until the interaction ends.
+- Pass `showProgress` to render a shrinking progress bar that mirrors the remaining time and pauses in sync with hover/focus states.
+
 ## Layout components
 
 ### Header
