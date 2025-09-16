@@ -27,20 +27,6 @@
   }
 }
 
-/* ============ Row action buttons ============ */
-.daycard :where(.iconbtn) {
-  @apply size-8 rounded-full opacity-0 transition-opacity duration-140 ease-out;
-}
-.daycard :where(.iconbtn > svg) {
-  @apply size-4;
-}
-
-/* Reveal actions on hover or focus-within for a11y */
-.daycard .group:hover .iconbtn,
-.daycard .group:focus-within .iconbtn {
-  opacity: 1;
-}
-
 /* ============ Project cards (left column) ============ */
 .proj-card {
   display: grid;
@@ -128,10 +114,28 @@
   text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
     hsl(var(--accent) / 0.18);
 }
+.task-tile__text:active {
+  color: hsl(var(--accent));
+  cursor: pointer;
+  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
+    hsl(var(--accent) / 0.28);
+}
 .task-tile__text:focus-visible {
   outline: calc(var(--hairline-w) * 2) solid hsl(var(--ring));
   outline-offset: calc(var(--hairline-w) * 2);
   border-radius: var(--radius-md);
+}
+.task-tile__text[aria-disabled="true"] {
+  color: hsl(var(--muted-foreground));
+  cursor: not-allowed;
+  text-shadow: none;
+  pointer-events: none;
+}
+.task-tile__text[data-loading="true"] {
+  color: hsl(var(--muted-foreground) / 0.85);
+  cursor: progress;
+  text-shadow: 0 0 calc(var(--space-2)) hsl(var(--accent) / 0.16);
+  pointer-events: none;
 }
 
 /* Soft, readable strike-through for completed tasks */

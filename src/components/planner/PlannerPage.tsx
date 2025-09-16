@@ -86,6 +86,7 @@ function Inner() {
         <div className="space-y-2">
           <Header
             id="planner-header"
+            tabIndex={-1}
             eyebrow="Planner"
             heading="Planner for Today"
             subtitle="Plan your week"

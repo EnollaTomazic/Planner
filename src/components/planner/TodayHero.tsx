@@ -17,11 +17,14 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
+import Button from "@/components/ui/primitives/Button";
 import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
+
+const TASK_PREVIEW_LIMIT = 12;
 
 export default function TodayHero({ iso }: Props) {
   const nowISO = useMemo(() => toISODate(), []);
@@ -50,6 +53,24 @@ export default function TodayHero({ iso }: Props) {
   const [selProjectId, setSelProjectId] = useSelectedProject(viewIso);
   const [, setSelTaskId] = useSelectedTask(viewIso);
 
+  const selectedProjectName = useMemo(() => {
+    const project = projects.find((p) => p.id === selProjectId);
+    return project?.name ?? "";
+  }, [projects, selProjectId]);
+
+  const [taskAnnouncement, setTaskAnnouncement] = useState<{
+    text: string;
+    toggleMarker: boolean;
+  }>({
+    text: "",
+    toggleMarker: false,
+  });
+  const taskAnnouncementText = taskAnnouncement.text;
+  const prevProjectIdRef = useRef<string | null>(null);
+  const prevTasksRef = useRef<Map<string, { title: string; done: boolean }>>(
+    new Map<string, { title: string; done: boolean }>(),
+  );
+
   // If selected project disappears, clear selection
   useEffect(() => {
     if (selProjectId && !projects.some((p) => p.id === selProjectId)) {
@@ -63,6 +84,7 @@ export default function TodayHero({ iso }: Props) {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingTaskText, setEditingTaskText] = useState("");
   const [projectName, setProjectName] = useState("");
+  const [showAllTasks, setShowAllTasks] = useState(false);
 
   // Progress of selected project only (animated)
   const scopedTasks = useMemo(
@@ -82,6 +104,22 @@ export default function TodayHero({ iso }: Props) {
       ),
     [scopedTasks],
   );
+
+  useEffect(() => {
+    setShowAllTasks(false);
+  }, [selProjectId]);
+
+  useEffect(() => {
+    if (showAllTasks && scopedTasks.length <= TASK_PREVIEW_LIMIT) {
+      setShowAllTasks(false);
+    }
+  }, [showAllTasks, scopedTasks]);
+
+  const tasksListId = `today-hero-task-list-${selProjectId || "none"}`;
+  const visibleTasks = showAllTasks
+    ? scopedTasks
+    : scopedTasks.slice(0, TASK_PREVIEW_LIMIT);
+  const shouldShowTaskToggle = scopedTasks.length > TASK_PREVIEW_LIMIT;
   // Date picker
   const dateRef = useRef<HTMLInputElement>(null);
   const openPicker = () => {
@@ -89,6 +127,80 @@ export default function TodayHero({ iso }: Props) {
     if (el?.showPicker) el.showPicker();
     else dateRef.current?.focus();
   };
+
+  useEffect(() => {
+    if (!selProjectId) {
+      prevProjectIdRef.current = null;
+      prevTasksRef.current = new Map<string, { title: string; done: boolean }>();
+      setTaskAnnouncement((prev) =>
+        prev.text ? { text: "", toggleMarker: prev.toggleMarker } : prev,
+      );
+      return;
+    }
+
+    const currentTasksMap = new Map<string, { title: string; done: boolean }>(
+      scopedTasks.map((task) => [task.id, { title: task.title, done: task.done }]),
+    );
+
+    if (prevProjectIdRef.current !== selProjectId) {
+      prevProjectIdRef.current = selProjectId;
+      prevTasksRef.current = currentTasksMap;
+      setTaskAnnouncement((prev) =>
+        prev.text ? { text: "", toggleMarker: prev.toggleMarker } : prev,
+      );
+      return;
+    }
+
+    const prevTasksMap = prevTasksRef.current;
+    let message: string | null = null;
+    const projectSuffix = selectedProjectName
+      ? ` in project "${selectedProjectName}"`
+      : "";
+
+    for (const [id, task] of currentTasksMap) {
+      if (!prevTasksMap.has(id)) {
+        message = `Task "${task.title}" added${projectSuffix}.`;
+        break;
+      }
+    }
+
+    if (!message) {
+      for (const [id, prevTask] of prevTasksMap) {
+        if (!currentTasksMap.has(id)) {
+          message = `Task "${prevTask.title}" removed${projectSuffix}.`;
+          break;
+        }
+      }
+    }
+
+    if (!message) {
+      for (const [id, task] of currentTasksMap) {
+        const prevTask = prevTasksMap.get(id);
+        if (!prevTask) continue;
+
+        if (prevTask.title !== task.title) {
+          message = `Task "${prevTask.title}" renamed to "${task.title}"${projectSuffix}.`;
+          break;
+        }
+
+        if (prevTask.done !== task.done) {
+          message = task.done
+            ? `Task "${task.title}" marked complete${projectSuffix}.`
+            : `Task "${task.title}" marked incomplete${projectSuffix}.`;
+          break;
+        }
+      }
+    }
+
+    if (message) {
+      setTaskAnnouncement((prev) => ({
+        text: `${message}${prev.toggleMarker ? "" : "\u200B"}`,
+        toggleMarker: !prev.toggleMarker,
+      }));
+    }
+
+    prevTasksRef.current = currentTasksMap;
+  }, [scopedTasks, selProjectId, selectedProjectName]);
 
   return (
     <section className="bg-hero-soft rounded-card r-card-lg card-pad-lg anim-in">
@@ -289,22 +401,32 @@ export default function TodayHero({ iso }: Props) {
           >
             <Input
               name={`new-task-${selProjectId}`}
-              placeholder={`> task for "${projects.find((p) => p.id === selProjectId)?.name ?? "Project"}"`}
+              placeholder={`> task for "${selectedProjectName || "Project"}"`}
               aria-label="New task"
               className="w-full"
             />
           </form>
 
+          <div aria-live="polite" className="sr-only">
+            {taskAnnouncementText}
+          </div>
+
           {scopedTasks.length === 0 ? (
             <div className="tasks-placeholder">No tasks yet.</div>
           ) : (
-            <ul className="space-y-2" role="list" aria-label="Tasks">
-              {scopedTasks.slice(0, 12).map((t) => {
-                const isEditing = editingTaskId === t.id;
-                return (
-                  <li
-                    key={t.id}
-                    className={cn(
+            <div className="space-y-2">
+              <ul
+                id={tasksListId}
+                className="space-y-2"
+                role="list"
+                aria-label="Tasks"
+              >
+                {visibleTasks.map((t) => {
+                  const isEditing = editingTaskId === t.id;
+                  return (
+                    <li
+                      key={t.id}
+                      className={cn(
                       "task-tile flex items-center justify-between rounded-card r-card-lg border px-3 py-2",
                       "border-border bg-card/55 hover:bg-card/70",
                     )}
@@ -392,13 +514,22 @@ export default function TodayHero({ iso }: Props) {
                     </div>
                   </li>
                 );
-              })}
-              {scopedTasks.length > 12 && (
-                <li className="pr-1 text-right text-label font-medium tracking-[0.02em] opacity-70">
-                  + {scopedTasks.length - 12} more…
-                </li>
+                })}
+              </ul>
+              {shouldShowTaskToggle && (
+                <div className="flex justify-end">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setShowAllTasks((prev) => !prev)}
+                    aria-expanded={showAllTasks}
+                    aria-controls={tasksListId}
+                  >
+                    {showAllTasks ? "Show less" : "Show more"}
+                  </Button>
+                </div>
               )}
-            </ul>
+            </div>
           )}
         </div>
       )}

@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-> **Prerequisite:** Install [Node.js](https://nodejs.org) version 22 or higher.
+> **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
 
 This project automatically regenerates its UI component export index. The `npm run dev` and `npm run build` commands run `npm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `npm run regen-ui` manually whenever components are added or removed.
 

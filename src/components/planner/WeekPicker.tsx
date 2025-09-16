@@ -28,15 +28,9 @@ const dmy = new Intl.DateTimeFormat(undefined, {
 
 /* ───────── presentational chip (no hooks) ───────── */
 
-function DayChip({
-  iso,
-  selected,
-  today,
-  done,
-  total,
-  onClick,
-  onDoubleClick,
-}: {
+type DayChipNavDirection = "prev" | "next" | "first" | "last";
+
+type DayChipProps = {
   iso: ISODate;
   selected: boolean;
   today: boolean;
@@ -44,12 +38,55 @@ function DayChip({
   total: number;
   onClick: (iso: ISODate) => void;
   onDoubleClick: (iso: ISODate) => void;
-}) {
+  onNavigate: (direction: DayChipNavDirection) => void;
+  onFocus: () => void;
+  tabIndex: number;
+};
+
+const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayChip(
+  {
+    iso,
+    selected,
+    today,
+    done,
+    total,
+    onClick,
+    onDoubleClick,
+    onNavigate,
+    onFocus,
+    tabIndex,
+  },
+  ref,
+) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" && selected) {
       event.preventDefault();
       event.stopPropagation();
       onDoubleClick(iso);
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      onNavigate("prev");
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      onNavigate("next");
+      return;
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      onNavigate("first");
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      onNavigate("last");
     }
   };
 
@@ -57,9 +94,12 @@ function DayChip({
     <button
       type="button"
       role="option"
+      ref={ref}
       onClick={() => onClick(iso)}
       onDoubleClick={() => onDoubleClick(iso)}
       onKeyDown={handleKeyDown}
+      onFocus={onFocus}
+      tabIndex={tabIndex}
       aria-selected={selected}
       aria-label={`Select ${iso}. Completed ${done} of ${total}. ${
         selected
@@ -103,7 +143,7 @@ function DayChip({
       <span aria-hidden className="chip__edge" />
     </button>
   );
-}
+});
 
 /* ───────── main ───────── */
 
@@ -117,6 +157,77 @@ export default function WeekPicker() {
 
   const { per, weekDone, weekTotal } = useWeekData(days);
   const reduceMotion = usePrefersReducedMotion();
+
+  const chipRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const findSelectedIndex = React.useCallback(() => {
+    const selectedIndex = days.indexOf(iso);
+    if (selectedIndex !== -1) {
+      return selectedIndex;
+    }
+    return days.length > 0 ? 0 : -1;
+  }, [days, iso]);
+
+  const [focusIndex, setFocusIndex] = React.useState(() => {
+    const initialIndex = findSelectedIndex();
+    return initialIndex === -1 ? 0 : initialIndex;
+  });
+
+  React.useEffect(() => {
+    const selectedIndex = findSelectedIndex();
+    if (selectedIndex === -1) return;
+    setFocusIndex((prev) => (prev === selectedIndex ? prev : selectedIndex));
+  }, [findSelectedIndex]);
+
+  React.useEffect(() => {
+    chipRefs.current.length = days.length;
+  }, [days.length]);
+
+  const focusChip = React.useCallback(
+    (index: number) => {
+      if (index < 0 || index >= days.length) return;
+      const nextIso = days[index];
+      if (!nextIso) return;
+      if (nextIso !== iso) {
+        setIso(nextIso);
+      }
+      setFocusIndex(index);
+      if (typeof window !== "undefined") {
+        window.requestAnimationFrame(() => {
+          chipRefs.current[index]?.focus({ preventScroll: true });
+        });
+      } else {
+        chipRefs.current[index]?.focus({ preventScroll: true });
+      }
+    },
+    [days, iso, setIso],
+  );
+
+  const handleNavigate = React.useCallback(
+    (currentIndex: number, direction: DayChipNavDirection) => {
+      if (days.length === 0) return;
+
+      let nextIndex = currentIndex;
+      switch (direction) {
+        case "prev":
+          nextIndex = Math.max(0, currentIndex - 1);
+          break;
+        case "next":
+          nextIndex = Math.min(days.length - 1, currentIndex + 1);
+          break;
+        case "first":
+          nextIndex = 0;
+          break;
+        case "last":
+          nextIndex = days.length - 1;
+          break;
+      }
+
+      if (nextIndex === currentIndex) return;
+
+      focusChip(nextIndex);
+    },
+    [days, focusChip],
+  );
 
   // Show "Jump to top" button after a double-click jump; hide when back at top
   const [showTop, setShowTop] = React.useState(false);
@@ -165,6 +276,14 @@ export default function WeekPicker() {
     if (typeof window !== "undefined") {
       const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       window.scrollTo({ top: 0, behavior });
+      const focusTarget =
+        document.getElementById("planner-header") ??
+        document.getElementById("main-content");
+      if (focusTarget instanceof HTMLElement) {
+        window.requestAnimationFrame(() => {
+          focusTarget.focus({ preventScroll: true });
+        });
+      }
       // The scroll listener will auto-hide the button when we reach the top
     }
   };
@@ -227,6 +346,12 @@ export default function WeekPicker() {
               total={per[i]?.total ?? 0}
               onClick={selectOnly}
               onDoubleClick={jumpToDay}
+              onNavigate={(direction) => handleNavigate(i, direction)}
+              onFocus={() => setFocusIndex(i)}
+              tabIndex={focusIndex === i ? 0 : -1}
+              ref={(el) => {
+                chipRefs.current[i] = el;
+              }}
             />
           ))}
         </div>
