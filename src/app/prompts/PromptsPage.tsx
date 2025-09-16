@@ -124,6 +124,7 @@ function PageContent() {
             items: VIEW_TABS,
             value: view,
             onChange: (k) => setView(k as View),
+            ariaLabel: "Playground view",
           },
         }}
         hero={{
@@ -137,6 +138,7 @@ function PageContent() {
           ...(view === "components"
             ? {
                 subTabs: {
+                  ariaLabel: "Component section",
                   items: SECTION_TABS,
                   value: section,
                   onChange: (k: string) => setSection(k as Section),
@@ -156,11 +158,17 @@ function PageContent() {
               <Badge
                 tone="accent"
                 size="sm"
-                className="bg-accent-soft/20 text-accent-foreground"
+                aria-label="Accent color preview: Accent 3"
+                className="bg-accent-soft/20 text-[color:var(--text-on-accent)]"
+                style={{
+                  backgroundColor:
+                    "color-mix(in oklab, var(--accent-overlay) 32%, transparent)",
+                }}
               >
                 <span
-                  aria-hidden
-                  className="h-2 w-2 rounded-full bg-accent"
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: "hsl(var(--accent-3))" }}
                 />
                 Accent 3
               </Badge>
