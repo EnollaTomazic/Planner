@@ -66,6 +66,7 @@ export const COLOR_PALETTES = {
   accents: [
     "accent",
     "accent-2",
+    "accent-3",
     "accent-foreground",
     "danger",
     "success",
