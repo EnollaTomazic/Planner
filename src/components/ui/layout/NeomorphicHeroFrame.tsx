@@ -49,6 +49,8 @@ export interface NeomorphicHeroFrameProps
   variant?: NeomorphicHeroFrameVariant;
   /** Toggle animated frame layers */
   frame?: boolean;
+  /** Allow content to overflow the frame while clipping neon backdrops */
+  allowOverflow?: boolean;
   /** Optional class applied to the inner content wrapper */
   contentClassName?: string;
   /** Optional action row (tabs, search, buttons) */
@@ -197,6 +199,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       children,
       actionArea,
       highContrast,
+      allowOverflow = false,
       ...rest
     },
     ref,
@@ -252,7 +255,10 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           ref={ref}
           className={cn(
             "relative",
-            showFrame && "overflow-hidden hero2-frame hero2-neomorph",
+            showFrame &&
+              (allowOverflow
+                ? "overflow-visible hero2-frame hero2-neomorph"
+                : "overflow-hidden hero2-frame hero2-neomorph"),
             variantStyles?.container,
             contrastStyles?.container,
             variantStyles?.padding,
@@ -261,11 +267,14 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           {...rest}
         >
           {showFrame ? (
-            <>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+            >
               <span aria-hidden className="hero2-beams" />
               <span aria-hidden className="hero2-scanlines" />
               <span aria-hidden className="hero2-noise opacity-[0.03]" />
-            </>
+            </span>
           ) : null}
 
           {content}

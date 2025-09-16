@@ -89,6 +89,9 @@ const PageHeaderInner = <
 ) => {
   const Component: PageHeaderElement = as ?? "section";
 
+  const headerSticky = header.sticky ?? true;
+  const heroSticky = hero.sticky ?? true;
+
   const {
     tabs: headerTabs,
     underline: headerUnderline,
@@ -154,8 +157,11 @@ const PageHeaderInner = <
     className: frameClassName,
     variant: frameVariant,
     actionArea: frameActionArea,
+    allowOverflow: frameAllowOverflow,
     ...restFrameProps
   } = frameProps ?? {};
+
+  const stickyChildrenPresent = Boolean(headerSticky) || Boolean(heroSticky);
 
   const heroShouldRenderActionArea = frameActionArea === null;
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
@@ -286,6 +292,9 @@ const PageHeaderInner = <
         ref={ref}
         variant={frameVariant ?? "default"}
         actionArea={resolvedFrameActionArea}
+        allowOverflow={
+          frameAllowOverflow ?? stickyChildrenPresent
+        }
         {...restFrameProps}
         className={cn(className, frameClassName)}
       >
