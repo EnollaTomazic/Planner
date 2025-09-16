@@ -75,7 +75,7 @@ export default function PageHeaderDemo() {
                 type="button"
                 onClick={() => setActivePrimaryNav(item.key)}
                 data-state={isActive ? "active" : "inactive"}
-                aria-pressed={isActive}
+                aria-current={isActive ? "page" : undefined}
                 className="inline-flex items-center rounded-full border border-transparent px-3 py-1.5 text-label font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_1px_hsl(var(--ring)/0.35)]"
               >
                 {item.label}
@@ -93,7 +93,6 @@ export default function PageHeaderDemo() {
       <IconButton
         size="sm"
         aria-label="Show notifications"
-        aria-pressed
         className="text-muted-foreground data-[state=active]:text-foreground"
         data-state="active"
       >
