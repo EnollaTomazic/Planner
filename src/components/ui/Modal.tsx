@@ -51,7 +51,7 @@ export default function Modal({
         <IconButton
           aria-label="Close"
           size="sm"
-          className="absolute right-3 top-3"
+          className="absolute right-[var(--space-3)] top-[var(--space-3)]"
           onClick={onClose}
         >
           <X />

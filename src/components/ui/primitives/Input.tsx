@@ -85,9 +85,9 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         id={finalId}
         name={finalName}
         className={cn(
-          "w-full rounded-[inherit] bg-transparent px-3 text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
-          indent && "pl-7",
-          showEndSlot && "pr-7",
+          "w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
+          indent && "pl-[var(--space-7)]",
+          showEndSlot && "pr-[var(--space-7)]",
           inputClassName,
         )}
         {...props}

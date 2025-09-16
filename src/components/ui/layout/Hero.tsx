@@ -83,7 +83,7 @@ function Hero<Key extends string = string>({
   actions,
   frame = true,
   sticky = true,
-  topClassName = "top-8",
+  topClassName = "top-[var(--space-8)]",
   barClassName,
   bodyClassName,
   rail = true,
@@ -149,7 +149,7 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-6 hero2-neomorph"
+            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-neomorph"
             : "",
           sticky && topClassName,
         )}
@@ -164,7 +164,7 @@ function Hero<Key extends string = string>({
 
         <div
           className={cx(
-            "relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6",
+            "relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]",
             barClassName,
           )}
         >
@@ -182,7 +182,7 @@ function Hero<Key extends string = string>({
               </div>
             ) : null}
 
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-[var(--space-2)]">
               <h2
                 className="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
                 data-text={headingStr}
@@ -201,7 +201,7 @@ function Hero<Key extends string = string>({
         </div>
 
         {children || searchProps || actions ? (
-          <div className="relative z-[2] mt-5 md:mt-6 flex flex-col gap-5 md:gap-6">
+          <div className="relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]">
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
@@ -215,10 +215,10 @@ function Hero<Key extends string = string>({
                   aria-hidden
                   className="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                 />
-                <div className="flex items-center gap-3 md:gap-4 lg:gap-6 pt-5 md:pt-6">
+                <div className="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]">
                   {searchProps ? <HeroSearchBar {...searchProps} /> : null}
                   {actions ? (
-                    <div className="flex items-center gap-2">{actions}</div>
+                    <div className="flex items-center gap-[var(--space-2)]">{actions}</div>
                   ) : null}
                 </div>
               </div>

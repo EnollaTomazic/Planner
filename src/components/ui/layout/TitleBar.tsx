@@ -11,7 +11,7 @@ type Props = {
 export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <>
-      <div className="term-mini flex items-center gap-2 px-2 py-2 rounded-full border border-border">
+      <div className="term-mini flex items-center gap-[var(--space-2)] px-[var(--space-2)] py-[var(--space-2)] rounded-full border border-border">
         <span className="term-mini__text text-muted-foreground">{label}</span>
         <span className="pill pill--pulse ml-auto">{idText}</span>
       </div>

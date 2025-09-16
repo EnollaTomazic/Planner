@@ -173,8 +173,8 @@ export default function Toast({
         }}
         {...cardProps}
       >
-        <div className="flex flex-col gap-3">
-          <div className="flex items-start gap-2">
+        <div className="flex flex-col gap-[var(--space-3)]">
+          <div className="flex items-start gap-[var(--space-2)]">
             <div className="flex-1">{children}</div>
             {closable && (
               <IconButton
@@ -189,7 +189,7 @@ export default function Toast({
           {showProgress && (
             <div
               aria-hidden="true"
-              className="h-1 overflow-hidden rounded-full bg-border/40"
+              className="h-[var(--space-1)] overflow-hidden rounded-full bg-border/40"
             >
               <div
                 className="h-full rounded-full bg-primary"
