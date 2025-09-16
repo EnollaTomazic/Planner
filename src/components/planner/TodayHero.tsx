@@ -16,6 +16,7 @@ import { useDay } from "./useDay";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
+import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
 import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
 
@@ -81,8 +82,6 @@ export default function TodayHero({ iso }: Props) {
       ),
     [scopedTasks],
   );
-  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
-
   // Date picker
   const dateRef = useRef<HTMLInputElement>(null);
   const openPicker = () => {
@@ -127,27 +126,14 @@ export default function TodayHero({ iso }: Props) {
       </div>
 
       {/* Animated Progress of selected project */}
-      <div className="mb-4 flex items-center gap-3">
-        <div
-          className={cn("glitch-track w-full", pct === 100 && "is-complete")}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={pct}
-        >
-          <div
-            className="glitch-fill transition-[width] duration-500 ease-out"
-            style={{ width: `${pct}%` }}
-          />
-          <div className="glitch-scan" />
-        </div>
-        <span
-          className="glitch-percent w-12 text-right text-ui font-medium"
-          aria-live="polite"
-        >
-          {pct}%
-        </span>
-      </div>
+      <GlitchProgress
+        current={done}
+        total={total}
+        showPercentage
+        className="mb-4 flex items-center gap-3"
+        trackClassName="w-full"
+        percentageClassName="glitch-percent w-12 text-right text-ui font-medium"
+      />
 
       {/* Projects */}
       <div className="mt-4 space-y-4">
