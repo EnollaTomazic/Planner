@@ -9,6 +9,11 @@ export const shortDate = new Intl.DateTimeFormat(LOCALE, {
   year: "numeric",
 });
 
+const weekDayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  day: "2-digit",
+  month: "short",
+});
+
 /** Predicate for "YYYY-MM-DD" */
 export function isISODate(v: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(v);
@@ -23,6 +28,12 @@ export function fromISODate(iso: string): Date | null {
   return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d
     ? dt
     : null;
+}
+
+export function formatWeekDay(iso: string): string {
+  const dt = fromISODate(iso);
+  if (!dt) return iso;
+  return weekDayFormatter.format(dt);
 }
 
 /** Normalize various inputs to a valid Date (fallback = now). */
