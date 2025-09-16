@@ -117,6 +117,7 @@ export default function ComponentGallery() {
   const [seg, setSeg] = React.useState("one");
   const [appTab, setAppTab] = React.useState("reviews");
   const [filterTab, setFilterTab] = React.useState("all");
+  const [neoTab, setNeoTab] = React.useState("overview");
   const [checked, setChecked] = React.useState(false);
   const [toggleSide, setToggleSide] = React.useState<"Left" | "Right">("Left");
   const [side, setSide] = React.useState<GameSide>("Blue");
@@ -208,6 +209,23 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "TabBar (neo)",
+        element: (
+          <TabBar
+            items={[
+              { key: "overview", label: "Overview" },
+              { key: "metrics", label: "Metrics" },
+              { key: "alerts", label: "Alerts" },
+            ]}
+            value={neoTab}
+            onValueChange={setNeoTab}
+            ariaLabel="Neomorphic tabs"
+            className="w-56"
+            variant="neo"
+          />
+        ),
+      },
+      {
         label: "TabBar (filters)",
         element: (
           <TabBar
@@ -230,7 +248,7 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [seg, appTab, filterTab, checked, toggleSide, side],
+    [seg, appTab, neoTab, filterTab, checked, toggleSide, side],
   );
 
   const inputItems = React.useMemo(

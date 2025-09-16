@@ -68,6 +68,7 @@ export interface HeroProps<Key extends string = string>
     align?: TabBarProps["align"];
     className?: string;
     showBaseline?: boolean;
+    variant?: TabBarProps["variant"];
   };
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
@@ -103,34 +104,55 @@ function Hero<Key extends string = string>({
   const Component = (as ?? "section") as HeroElement;
 
   // Compose right area: prefer built-in sub-tabs if provided.
-  const subTabsNode = subTabs ? (
-    <TabBar
-      items={subTabs.items.map((t) => ({
-        key: t.key,
-        label: t.label,
-        icon: t.icon,
-      }))}
-      value={String(subTabs.value)}
-      onValueChange={(k) => subTabs.onChange(k as Key)}
-      size={subTabs.size ?? "md"}
-      align={subTabs.align ?? "end"}
-      right={subTabs.right}
-      showBaseline={subTabs.showBaseline ?? true}
-      className={cx("justify-end", subTabs.className)}
-      ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
-    />
-  ) : tabs ? (
-    <TabBar
-      items={tabs.items}
-      value={tabs.value}
-      onValueChange={tabs.onChange}
-      size={tabs.size ?? "md"}
-      align={tabs.align ?? "end"}
-      showBaseline={tabs.showBaseline ?? true}
-      className={cx("justify-end", tabs.className)}
-      ariaLabel="Hero tabs"
-    />
-  ) : null;
+  const subTabsNode = subTabs
+    ? (() => {
+        const {
+          items: subTabItems,
+          value: subTabValue,
+          onChange: subTabOnChange,
+          ariaLabel: subTabAriaLabel,
+          size: subTabSize,
+          align: subTabAlign,
+          className: subTabClassName,
+          showBaseline: subTabShowBaseline,
+          right: subTabRight,
+          variant: subTabVariant,
+          ...subTabRest
+        } = subTabs;
+        const mappedItems = subTabItems.map(({ hint: _ignoredHint, ...item }) => {
+          void _ignoredHint;
+          return item;
+        });
+        return (
+          <TabBar
+            items={mappedItems as TabItem<Key>[]}
+            value={String(subTabValue)}
+            onValueChange={(k) => subTabOnChange(k as Key)}
+            size={subTabSize ?? "md"}
+            align={subTabAlign ?? "end"}
+            right={subTabRight}
+            showBaseline={subTabShowBaseline ?? true}
+            className={cx("justify-end", subTabClassName)}
+            ariaLabel={subTabAriaLabel ?? "Hero sub-tabs"}
+            variant={subTabVariant ?? (frame ? "neo" : "default")}
+            {...subTabRest}
+          />
+        );
+      })()
+    : tabs ? (
+        <TabBar
+          items={tabs.items}
+          value={tabs.value}
+          onValueChange={tabs.onChange}
+          size={tabs.size ?? "md"}
+          align={tabs.align ?? "end"}
+          showBaseline={tabs.showBaseline ?? true}
+          className={cx("justify-end", tabs.className)}
+          ariaLabel="Hero tabs"
+          variant={tabs.variant ?? (frame ? "neo" : "default")}
+        />
+      )
+    : null;
 
   const searchProps =
     search != null

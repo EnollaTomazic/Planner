@@ -52,6 +52,7 @@ export default function NeomorphicHeroFrameDemo() {
                 </Button>
               }
               showBaseline
+              variant="neo"
             />
           ),
           search: (
@@ -124,6 +125,7 @@ export default function NeomorphicHeroFrameDemo() {
               onValueChange={(key) => setStatus(key as MissionStatus)}
               ariaLabel="Filter mission status"
               size="sm"
+              variant="neo"
             />
           ),
           search: (

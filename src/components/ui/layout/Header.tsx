@@ -97,6 +97,7 @@ export default function Header<Key extends string = string>({
       size: tabSize,
       align: tabAlign,
       className: tabClassName,
+      variant: tabVariant,
       ...tabBarRest
     } = tabs;
 
@@ -109,6 +110,7 @@ export default function Header<Key extends string = string>({
         size={tabSize ?? "sm"}
         align={tabAlign ?? "end"}
         className={cx("w-auto max-w-full shrink-0", tabClassName)}
+        variant={tabVariant ?? (isNeo ? "neo" : "default")}
         {...tabBarRest}
       />
     );
