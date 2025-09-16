@@ -123,8 +123,10 @@ exports[`Select > renders error state 1`] = `
     </svg>
   </div>
   <p
+    aria-live="assertive"
     class="text-label mt-1 line-clamp-2 text-danger"
     id=":r2:-error"
+    role="alert"
   >
     Error
   </p>
