@@ -34,15 +34,31 @@ describe("usePlannerStore", () => {
     });
     expect(result.current.day.projects).toHaveLength(1);
     expect(result.current.day.projects[0].name).toBe("Proj A");
+    expect(
+      result.current.planner.day.tasksByProject[projectId],
+    ).toBeUndefined();
 
     act(() => result.current.planner.renameProject(projectId, "Proj B"));
     expect(result.current.day.projects[0].name).toBe("Proj B");
 
     let taskId = "";
+    let secondTaskId = "";
     act(() => {
       taskId = result.current.planner.addTask("Task 1", projectId);
     });
     expect(result.current.day.tasks).toHaveLength(1);
+    expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
+      taskId,
+    ]);
+
+    act(() => {
+      secondTaskId = result.current.planner.addTask("Task 2", projectId);
+    });
+    expect(result.current.day.tasks).toHaveLength(2);
+    expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
+      taskId,
+      secondTaskId,
+    ]);
 
     act(() => {
       result.current.planner.addTaskImage(
@@ -72,10 +88,20 @@ describe("usePlannerStore", () => {
     expect(result.current.day.tasks[0].done).toBe(true);
 
     act(() => result.current.planner.removeTask(taskId));
-    expect(result.current.day.tasks).toHaveLength(0);
+    expect(result.current.day.tasks).toHaveLength(1);
+    expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
+      secondTaskId,
+    ]);
+    expect(
+      result.current.planner.day.tasksByProject[projectId],
+    ).not.toContain(taskId);
 
     act(() => result.current.planner.removeProject(projectId));
     expect(result.current.day.projects).toHaveLength(0);
+    expect(result.current.day.tasks).toHaveLength(0);
+    expect(
+      result.current.planner.day.tasksByProject[projectId],
+    ).toBeUndefined();
   });
 
   it("provides day-scoped utilities via useDay", () => {
