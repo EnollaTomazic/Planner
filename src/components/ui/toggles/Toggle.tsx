@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import Spinner from "../feedback/Spinner";
 
 type Side = "Left" | "Right";
 
@@ -48,12 +49,13 @@ export default function Toggle({
       role="switch"
       aria-checked={isRight}
       aria-labelledby={`${leftId} ${rightId}`}
+      aria-busy={loading || undefined}
       disabled={disabled}
       data-loading={loading || undefined}
       onClick={toggle}
       onKeyDown={onKeyDown}
       className={cn(
-        "group relative inline-flex h-10 items-center rounded-full border",
+        "group relative inline-flex h-[var(--control-h-md)] items-center rounded-full border",
         "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
         "hover:bg-[--hover] active:bg-[--active]",
@@ -65,10 +67,15 @@ export default function Toggle({
       )}
       data-side={value}
     >
+      {loading ? (
+        <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+          <Spinner size={16} className="border-border border-t-transparent opacity-80" />
+        </span>
+      ) : null}
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
         style={{
           width: "calc(50% - var(--space-1))",
           transform: `translateX(${isRight ? "calc(100% + var(--space-1) / 2)" : "0"})`,
@@ -79,7 +86,7 @@ export default function Toggle({
       <span
         id={leftId}
         className={cn(
-          "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
+          "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           !isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
         style={{
@@ -93,7 +100,7 @@ export default function Toggle({
       <span
         id={rightId}
         className={cn(
-          "relative z-10 flex-1 text-center font-mono text-sm transition-colors",
+          "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
         style={{

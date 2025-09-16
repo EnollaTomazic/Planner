@@ -98,6 +98,14 @@ export function Header() {
 
 Following these guidelines keeps the interface consistent and lets theme updates propagate automatically.
 
+## Feedback components
+
+### Toast
+
+- Toast surfaces time-sensitive feedback and dismisses itself after `duration` milliseconds.
+- Hovering the toast container or focusing any interactive element inside it pauses the auto-dismiss timer until the interaction ends.
+- Pass `showProgress` to render a shrinking progress bar that mirrors the remaining time and pauses in sync with hover/focus states.
+
 ## Layout components
 
 ### Header
@@ -116,6 +124,7 @@ Following these guidelines keeps the interface consistent and lets theme updates
 - Wraps its input in a `<form role="search">` for accessibility.
 - Submitting the form calls `onValueChange` immediately and optionally `onSubmit` with the current query.
 - Disables `autoComplete`, `autoCorrect`, `spellCheck`, and `autoCapitalize` by default for consistent text entry.
+- Accepts an optional `label` prop that renders the shared `<Label>` component and wires up `htmlFor`/`id` automatically. When you omit `label`, supply your own `aria-labelledby` or `aria-label` as needed.
 
 ```tsx
 import { SearchBar } from "@/components/ui";
@@ -126,6 +135,7 @@ export function Demo() {
       value=""
       onValueChange={() => {}}
       onSubmit={(q) => console.log(q)}
+      label="Search tasks"
     />
   );
 }

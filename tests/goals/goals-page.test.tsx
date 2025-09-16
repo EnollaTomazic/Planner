@@ -20,12 +20,35 @@ describe("GoalsPage", () => {
 
   it("renders hero heading and subtitle", () => {
     render(<GoalsPage />);
+    const heroRegion = screen.getByRole("region", {
+      name: "Goals overview",
+    });
     expect(
-      screen.getByRole("heading", { name: "Overview" }),
+      within(heroRegion).getByRole("heading", { name: "Goals overview" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
-    ).toBeInTheDocument();
+    const heroSummary = within(heroRegion).getByText((_, node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
+      return node.id === "goals-hero-summary";
+    });
+    const capSegment = within(heroSummary)
+      .getByText("Cap", { selector: "span" })
+      .parentElement as HTMLElement;
+    const activeSegment = within(heroSummary)
+      .getByText("Active", { selector: "span" })
+      .parentElement as HTMLElement;
+    const remainingSegment = within(heroSummary)
+      .getByText("Remaining", { selector: "span" })
+      .parentElement as HTMLElement;
+    const doneSegment = within(heroSummary)
+      .getByText("Done", { selector: "span" })
+      .parentElement as HTMLElement;
+
+    expect(capSegment).toHaveTextContent(/Cap\s*3/);
+    expect(activeSegment).toHaveTextContent(/Active\s*0/);
+    expect(remainingSegment).toHaveTextContent(/Remaining\s*3/);
+    expect(doneSegment).toHaveTextContent(/Done\s*0\s*\(0%\)/);
   });
 
   it("allows editing goal fields", async () => {
@@ -60,9 +83,21 @@ describe("GoalsPage", () => {
 
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
-    expect(
-      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
-    ).toBeInTheDocument();
+    const headerHeading = screen.getByRole("heading", {
+      name: "Today’s Goals",
+    });
+    const summaryList = headerHeading.parentElement?.querySelector(
+      ":scope > span ul",
+    );
+    if (!(summaryList instanceof HTMLElement)) {
+      throw new Error("Expected header summary list to render");
+    }
+    const items = within(summaryList).getAllByRole("listitem");
+    expect(items).toHaveLength(4);
+    expect(items[0]).toHaveTextContent(/Cap\s*3\s*active/);
+    expect(items[1]).toHaveTextContent(/Remaining\s*3/);
+    expect(items[2]).toHaveTextContent(/Complete\s*0%/);
+    expect(items[3]).toHaveTextContent(/Total\s*0/);
   });
 
   it("shows domain in reminders hero and updates on change", () => {
@@ -106,13 +141,14 @@ describe("GoalsPage", () => {
     const addButton = screen.getByRole("button", { name: /add goal/i });
 
     // Add three goals up to the active cap
+    const goalCreationPromises = [];
     for (let i = 1; i <= 3; i++) {
       fireEvent.change(titleInput, { target: { value: `Goal ${i}` } });
       fireEvent.click(addButton);
-      // ensure each goal appears
-      // eslint-disable-next-line no-await-in-loop
-      await screen.findByText(`Goal ${i}`);
+      goalCreationPromises.push(screen.findByText(`Goal ${i}`));
     }
+
+    await Promise.all(goalCreationPromises);
 
     // Attempt to add a fourth active goal, expect cap error
     fireEvent.change(titleInput, { target: { value: "Goal 4" } });
@@ -149,7 +185,7 @@ describe("GoalsPage", () => {
     await waitFor(() =>
       expect(screen.queryByText("Goal 4")).not.toBeInTheDocument(),
     );
-    const undoButton = screen.getByRole("button", { name: "Undo" });
+    const undoButton = screen.getByRole("button", { name: "Undo delete goal" });
     fireEvent.click(undoButton);
     expect(await screen.findByText("Goal 4")).toBeInTheDocument();
   });

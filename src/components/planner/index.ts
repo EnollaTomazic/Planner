@@ -18,6 +18,7 @@ export * from "./dayCrud";
 export * from "./plannerCrud";
 export * from "./plannerStore";
 export * from "./useDay";
+export * from "./useDayNotes";
 export * from "./useFocusDate";
 export * from "./usePlannerStore";
 export * from "./useSelection";

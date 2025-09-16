@@ -7,7 +7,8 @@ import TaskRow from "./TaskRow";
 import type { DayTask } from "./plannerStore";
 
 type Props = {
-  tasks: DayTask[];
+  tasksById: Record<string, DayTask>;
+  tasksByProject: Record<string, string[]>;
   selectedProjectId: string;
   addTask: (title: string, projectId?: string) => string | undefined;
   renameTask: (id: string, title: string) => void;
@@ -19,7 +20,8 @@ type Props = {
 };
 
 export default function TaskList({
-  tasks,
+  tasksById,
+  tasksByProject,
   selectedProjectId,
   addTask,
   renameTask,
@@ -31,8 +33,14 @@ export default function TaskList({
 }: Props) {
   const [draftTask, setDraftTask] = React.useState("");
   const tasksForSelected = React.useMemo(
-    () => tasks.filter((t) => t.projectId === selectedProjectId),
-    [tasks, selectedProjectId],
+    () => {
+      if (!selectedProjectId) return [] as DayTask[];
+      const ids = tasksByProject[selectedProjectId] ?? [];
+      return ids
+        .map((taskId) => tasksById[taskId])
+        .filter((task): task is DayTask => Boolean(task));
+    },
+    [selectedProjectId, tasksByProject, tasksById],
   );
 
   const onSubmit = React.useCallback(
@@ -62,9 +70,9 @@ export default function TaskList({
       )}
       <div className="min-h-32 max-h-80 overflow-y-auto px-2 py-2">
         {!selectedProjectId ? (
-          <EmptyRow text="No task selected." />
+          <EmptyRow text="Select a project to view tasks" />
         ) : tasksForSelected.length === 0 ? (
-          <EmptyRow text="No tasks selected." />
+          <EmptyRow text="No tasks yet" />
         ) : (
           <ul
             className="space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"

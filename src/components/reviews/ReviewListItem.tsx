@@ -4,7 +4,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
-import { Badge } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
@@ -26,9 +26,9 @@ const itemLoading = cn(
   shellBase,
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
-const loadingLine = "h-3 rounded-md bg-muted";
+const loadingLine = "h-3 rounded-card bg-muted";
 const scoreBadge = cn(
-  "px-2 py-1 rounded-full text-xs leading-none font-medium",
+  "px-2 py-1 rounded-full text-label leading-none font-medium",
   "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
   "hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground",
   "focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground",
@@ -69,9 +69,12 @@ export default function ReviewListItem({
     <button
       data-scope="reviews"
       type="button"
+      role="option"
       disabled={disabled}
       onClick={onClick}
       aria-label={`Open review: ${title}`}
+      aria-selected={selected}
+      aria-current={selected ? "true" : undefined}
       data-selected={selected ? "true" : undefined}
       className={shellBase}
     >
@@ -79,7 +82,7 @@ export default function ReviewListItem({
         <div className="flex items-start justify-between gap-2">
           <div
             className={cn(
-              "truncate font-medium text-base",
+              "truncate font-medium text-body",
               untitled && "text-muted-foreground/70",
             )}
             aria-label={untitled ? "Untitled Review" : undefined}
@@ -87,7 +90,7 @@ export default function ReviewListItem({
             {title}
           </div>
           {matchup ? (
-            <div className="truncate text-sm text-muted-foreground">
+            <div className="truncate text-ui text-muted-foreground">
               {matchup}
             </div>
           ) : null}
@@ -108,10 +111,7 @@ export default function ReviewListItem({
               )}
             />
             {role ? (
-              <Badge
-                variant="neutral"
-                className="px-1 py-0 text-xs leading-none"
-              >
+              <Badge size="xs" tone="neutral" className="px-1 py-0">
                 {role}
               </Badge>
             ) : null}

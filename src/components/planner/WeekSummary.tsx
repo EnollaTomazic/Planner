@@ -2,12 +2,12 @@
 "use client";
 import "./style.css";
 
-import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { useWeek } from "./useFocusDate";
-import { usePlannerStore } from "./usePlannerStore";
+import { useWeekData } from "./useWeekData";
 import type { ISODate } from "./plannerStore";
-import { cn, LOCALE } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { formatWeekDay } from "@/lib/date";
 
 /**
  * WeekSummary
@@ -41,23 +41,11 @@ export default function WeekSummary({
   bleed = false,
 }: Props) {
   const { days: weekDays, isToday } = useWeek(iso);
-  const { getDay } = usePlannerStore();
-
-  const stats = React.useMemo(() => {
-    return weekDays.map((d) => {
-      const rec = getDay(d);
-      const total = rec.tasks.length;
-      const done = rec.tasks.filter((t) => t.done).length;
-      return { iso: d, done, total };
-    });
-  }, [weekDays, getDay]);
-
-  const totalAll = stats.reduce((a, s) => a + s.total, 0);
-  const doneAll = stats.reduce((a, s) => a + s.done, 0);
+  const { per: stats, weekDone: doneAll, weekTotal: totalAll } = useWeekData(weekDays);
 
   const rangeLabel =
     weekDays.length === 7
-      ? `${fmtDay(weekDays[0])} — ${fmtDay(weekDays[6])}`
+      ? `${formatWeekDay(weekDays[0])} — ${formatWeekDay(weekDays[6])}`
       : "";
 
   const grid =
@@ -87,7 +75,7 @@ export default function WeekSummary({
           className="ml-auto badge badge--sm"
           role="status"
           aria-live="polite"
-          title="Completed / Total tasks this week"
+          title="Completed / Total items this week"
         >
           <span className="badge__icon">✅</span>
           <span className="tabular-nums">{doneAll}</span>/
@@ -152,13 +140,3 @@ export default function WeekSummary({
   );
 }
 
-/* ───────────── utils ──────────── */
-function fmtDay(iso: string) {
-  try {
-    const [y, m, d] = iso.split("-").map(Number);
-    const dt = new Date(Date.UTC(y, m - 1, d));
-    return dt.toLocaleDateString(LOCALE, { day: "2-digit", month: "short" });
-  } catch {
-    return iso;
-  }
-}

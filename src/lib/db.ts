@@ -12,26 +12,10 @@ import {
   readLocal as baseReadLocal,
   writeLocal as baseWriteLocal,
 } from "./local-bootstrap";
+import { createStorageKey, OLD_STORAGE_PREFIX } from "./storage-key";
 import { safeClone } from "./utils";
 
-function maybeClone<T>(value: T): T {
-  if (value === null || typeof value !== "object") return value;
-  if (Array.isArray(value)) {
-    if (value.every((v) => v === null || typeof v !== "object"))
-      return value.slice() as T;
-    return safeClone(value);
-  }
-  for (const v of Object.values(value as Record<string, unknown>)) {
-    if (v && typeof v === "object") return safeClone(value);
-  }
-  return { ...(value as Record<string, unknown>) } as T;
-}
-
-/** Namespacing so we don't collide with other apps in the same domain */
-const STORAGE_PREFIX = "noxis-planner:";
-
-// Previous prefix used in older builds; retained for migration
-const OLD_STORAGE_PREFIX = "13lr:";
+export { createStorageKey } from "./storage-key";
 
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
@@ -42,45 +26,13 @@ declare global {
   }
 }
 
-// Track whether legacy keys have been migrated
-let migrated = false;
-
-// Migrate any legacy keys from older builds
-function ensureMigration() {
-  if (!isBrowser || migrated) return;
-  try {
-    const legacyKeys: string[] = [];
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key?.startsWith(OLD_STORAGE_PREFIX)) legacyKeys.push(key);
-    }
-    for (const oldKey of legacyKeys) {
-      const newKey = `${STORAGE_PREFIX}${oldKey.slice(OLD_STORAGE_PREFIX.length)}`;
-      if (window.localStorage.getItem(newKey) === null) {
-        const value = window.localStorage.getItem(oldKey);
-        if (value !== null) window.localStorage.setItem(newKey, value);
-      }
-      window.localStorage.removeItem(oldKey);
-    }
-  } catch {
-    // ignore
-  }
-  migrated = true;
-}
-
-/** Build a fully namespaced key and ensure migrations */
-export function createStorageKey(key: string): string {
-  ensureMigration();
-  return `${STORAGE_PREFIX}${key}`;
-}
-
 // Debounced write queue
 const writeQueue = new Map<string, unknown>();
 let writeTimer: ReturnType<typeof setTimeout> | null = null;
 
 export let writeLocalDelay = 50;
 export function setWriteLocalDelay(ms: number) {
-  writeLocalDelay = ms;
+  writeLocalDelay = Math.max(0, ms);
 }
 
 function flushWriteQueue() {
@@ -103,8 +55,136 @@ export function flushWriteLocal() {
   flushWriteQueue();
 }
 
+function describeNonSerializable(
+  value: unknown,
+  path = "value",
+  stack: Set<object> = new Set(),
+): string | null {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "undefined"
+  ) {
+    return null;
+  }
+
+  if (typeof value === "function") {
+    return `${path} is a function`;
+  }
+
+  if (typeof value === "symbol") {
+    return `${path} is a symbol`;
+  }
+
+  if (typeof value === "bigint") {
+    return `${path} is a bigint`;
+  }
+
+  if (typeof value !== "object") {
+    return `${path} has unsupported type ${typeof value}`;
+  }
+
+  const obj = value as Record<PropertyKey, unknown>;
+  if (stack.has(obj)) {
+    return `${path} contains a circular reference`;
+  }
+  stack.add(obj);
+
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i += 1) {
+      const issue = describeNonSerializable(obj[i], `${path}[${i}]`, stack);
+      if (issue) {
+        stack.delete(obj);
+        return issue;
+      }
+    }
+    stack.delete(obj);
+    return null;
+  }
+
+  if (obj instanceof Date) {
+    stack.delete(obj);
+    return null;
+  }
+
+  if (
+    obj instanceof Map ||
+    obj instanceof Set ||
+    obj instanceof WeakMap ||
+    obj instanceof WeakSet
+  ) {
+    stack.delete(obj);
+    return `${path} is a ${obj.constructor.name}`;
+  }
+
+  if (obj instanceof Promise) {
+    stack.delete(obj);
+    return `${path} is a Promise`;
+  }
+
+  if (ArrayBuffer.isView(obj) || obj instanceof ArrayBuffer) {
+    stack.delete(obj);
+    return null;
+  }
+
+  const proto = Object.getPrototypeOf(obj);
+  if (proto !== null && proto !== Object.prototype) {
+    if (typeof (obj as { toJSON?: unknown }).toJSON === "function") {
+      stack.delete(obj);
+      return null;
+    }
+    const protoName = proto.constructor?.name ?? "object";
+    stack.delete(obj);
+    return `${path} has unsupported prototype ${protoName}`;
+  }
+
+  if (Object.getOwnPropertySymbols(obj).length > 0) {
+    stack.delete(obj);
+    return `${path} has symbol-keyed properties`;
+  }
+
+  for (const [prop, propValue] of Object.entries(
+    obj as Record<string, unknown>,
+  )) {
+    const issue = describeNonSerializable(propValue, `${path}.${prop}`, stack);
+    if (issue) {
+      stack.delete(obj);
+      return issue;
+    }
+  }
+
+  stack.delete(obj);
+  return null;
+}
+
 export function scheduleWrite(key: string, value: unknown) {
-  writeQueue.set(key, value);
+  const issue = describeNonSerializable(value);
+  if (issue) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        `Skipping persistence for "${key}" because ${issue}.`,
+        value,
+      );
+    }
+    return;
+  }
+  let persistedValue: unknown = value;
+  if (value !== null && typeof value === "object") {
+    const clonedValue = safeClone(value);
+    if (typeof clonedValue === "undefined") {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          `Skipping persistence for "${key}" because value could not be cloned.`,
+          value,
+        );
+      }
+      return;
+    }
+    persistedValue = clonedValue;
+  }
+  writeQueue.set(key, persistedValue);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
 }
@@ -122,7 +202,14 @@ if (isBrowser && !window.__planner_flush_bound) {
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
   try {
-    return baseReadLocal<T>(createStorageKey(key));
+    const storageKey = createStorageKey(key);
+    const value = baseReadLocal<T>(storageKey);
+    if (value !== null) return value;
+    if (storageKey !== key) {
+      const legacyValue = baseReadLocal<T>(key);
+      if (legacyValue !== null) return legacyValue;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -132,7 +219,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    scheduleWrite(createStorageKey(key), maybeClone(value));
+    scheduleWrite(createStorageKey(key), value);
   } catch {
     // ignore quota/privacy errors
   }
@@ -141,10 +228,19 @@ export function writeLocal(key: string, value: unknown) {
 /** Remove a key from localStorage safely */
 export function removeLocal(key: string) {
   if (!isBrowser) return;
+  const targets = new Set<string>();
   try {
-    window.localStorage.removeItem(createStorageKey(key));
+    targets.add(createStorageKey(key));
   } catch {
     // ignore
+  }
+  targets.add(key);
+  for (const target of targets) {
+    try {
+      window.localStorage.removeItem(target);
+    } catch {
+      // ignore
+    }
   }
 }
 
@@ -235,7 +331,7 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
-      scheduleWrite(fullKeyRef.current, maybeClone(state));
+      scheduleWrite(fullKeyRef.current, state);
     } catch {
       // ignore
     }
@@ -245,15 +341,30 @@ export function usePersistentState<T>(
 }
 
 /**
+ * Generates a random suffix using `crypto.getRandomValues` when available.
+ */
+function cryptoRandomSuffix(cryptoObj?: Crypto): string {
+  if (!cryptoObj?.getRandomValues) return "";
+  const bytes = new Uint8Array(16);
+  cryptoObj.getRandomValues(bytes);
+  let result = "";
+  for (const byte of bytes) {
+    result += byte.toString(36).padStart(2, "0");
+  }
+  return result;
+}
+
+/**
  * Generates a unique identifier using `crypto.randomUUID`.
  * If a prefix is provided, it is prepended followed by an underscore.
  */
 let uidCounter = 0;
 export function uid(prefix = ""): string {
+  const cryptoObj = globalThis.crypto;
   const id =
-    globalThis.crypto?.randomUUID?.() ??
-    `${Date.now().toString(36)}${(uidCounter++).toString(
-      36,
-    )}${Math.random().toString(36).slice(2)}`;
+    cryptoObj?.randomUUID?.() ??
+    `${Date.now().toString(36)}${(uidCounter++).toString(36)}${cryptoRandomSuffix(
+      cryptoObj,
+    )}`;
   return prefix ? `${prefix}_${id}` : id;
 }

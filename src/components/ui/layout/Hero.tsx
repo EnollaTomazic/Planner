@@ -11,10 +11,7 @@
  */
 
 import * as React from "react";
-import SegmentedButtons, {
-  type TabBarProps,
-  type TabItem,
-} from "@/components/ui/SegmentedButtons";
+import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import SearchBar, {
   type SearchBarProps,
@@ -24,6 +21,11 @@ import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
 }
+
+type HeroElement = Extract<
+  keyof JSX.IntrinsicElements,
+  "header" | "section" | "article" | "aside" | "div" | "main" | "nav"
+>;
 
 export interface HeroProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
@@ -45,6 +47,9 @@ export interface HeroProps<Key extends string = string>
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
 
+  /** Semantic wrapper element (defaults to `section`). */
+  as?: HeroElement;
+
   /** Built-in top-right sub-tabs (preferred). */
   subTabs?: HeaderTabsProps<Key> & {
     size?: TabBarProps["size"];
@@ -63,6 +68,7 @@ export interface HeroProps<Key extends string = string>
     align?: TabBarProps["align"];
     className?: string;
     showBaseline?: boolean;
+    variant?: TabBarProps["variant"];
   };
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
@@ -78,7 +84,7 @@ function Hero<Key extends string = string>({
   actions,
   frame = true,
   sticky = true,
-  topClassName = "top-8",
+  topClassName = "top-[var(--space-8)]",
   barClassName,
   bodyClassName,
   rail = true,
@@ -87,6 +93,7 @@ function Hero<Key extends string = string>({
   tabs,
   search,
   className,
+  as,
   ...rest
 }: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
@@ -94,38 +101,54 @@ function Hero<Key extends string = string>({
     "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
   } as React.CSSProperties;
 
+  const heroVariant: TabBarProps["variant"] | undefined = frame
+    ? "neo"
+    : undefined;
+
+  const Component = (as ?? "section") as HeroElement;
+
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
-    <SegmentedButtons
-      items={subTabs.items.map((t) => ({
-        key: t.key,
-        label: t.label,
-        icon: t.icon,
-      }))}
+    <TabBar
+      items={subTabs.items.map(({ hint, ...item }) => {
+        void hint;
+        return item;
+      })}
       value={String(subTabs.value)}
       onValueChange={(k) => subTabs.onChange(k as Key)}
       size={subTabs.size ?? "md"}
       align={subTabs.align ?? "end"}
       right={subTabs.right}
       showBaseline={subTabs.showBaseline ?? true}
+      variant={subTabs.variant ?? heroVariant}
       className={cx("justify-end", subTabs.className)}
       ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
     />
   ) : tabs ? (
-    <SegmentedButtons
+    <TabBar
       items={tabs.items}
       value={tabs.value}
       onValueChange={tabs.onChange}
       size={tabs.size ?? "md"}
       align={tabs.align ?? "end"}
       showBaseline={tabs.showBaseline ?? true}
+      variant={tabs.variant ?? heroVariant}
       className={cx("justify-end", tabs.className)}
       ariaLabel="Hero tabs"
     />
   ) : null;
 
+  const searchProps =
+    search != null
+      ? {
+          ...search,
+          round: search.round ?? true,
+          variant: search.variant ?? heroVariant,
+        }
+      : search;
+
   return (
-    <section className={className} {...rest}>
+    <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
       <HeroGlitchStyles />
       <NeomorphicFrameStyles />
 
@@ -133,7 +156,7 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "relative overflow-hidden rounded-2xl border border-[hsl(var(--border))/0.4] px-6 md:px-7 lg:px-8 hero2-neomorph"
+            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
             : "",
           sticky && topClassName,
         )}
@@ -148,7 +171,7 @@ function Hero<Key extends string = string>({
 
         <div
           className={cx(
-            "relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6",
+            "relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]",
             barClassName,
           )}
         >
@@ -161,20 +184,20 @@ function Hero<Key extends string = string>({
 
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="text-xs font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+              <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
 
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-[var(--space-2)]">
               <h2
-                className="hero2-title title-glow text-2xl md:text-3xl font-semibold tracking-[-0.005em] truncate"
+                className="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
                 data-text={headingStr}
               >
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-sm md:text-base font-medium text-[hsl(var(--muted-foreground))] truncate">
+                <span className="text-ui md:text-body font-medium text-muted-foreground truncate">
                   {subtitle}
                 </span>
               ) : null}
@@ -184,25 +207,25 @@ function Hero<Key extends string = string>({
           {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
         </div>
 
-        {children || search || actions ? (
-          <div className="relative z-[2] mt-5 flex flex-col gap-5">
+        {children || searchProps || actions ? (
+          <div className="relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]">
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
-            {search || actions ? (
+            {searchProps || actions ? (
               <div className="relative" style={dividerStyle}>
                 <span
                   aria-hidden
-                  className="block h-px bg-[hsl(var(--divider))/0.35]"
+                  className="hero2-divider-line block h-px bg-[hsl(var(--divider))/0.35]"
                 />
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                  className="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                 />
-                <div className="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4">
-                  {search ? <HeroSearchBar {...search} /> : null}
+                <div className="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]">
+                  {searchProps ? <HeroSearchBar {...searchProps} /> : null}
                   {actions ? (
-                    <div className="flex items-center gap-2">{actions}</div>
+                    <div className="flex items-center gap-[var(--space-2)]">{actions}</div>
                   ) : null}
                 </div>
               </div>
@@ -213,11 +236,11 @@ function Hero<Key extends string = string>({
         {frame ? (
           <div
             aria-hidden
-            className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border/55"
+            className="absolute inset-0 rounded-[var(--radius-2xl)] ring-1 ring-inset ring-border/55"
           />
         ) : null}
       </div>
-    </section>
+    </Component>
   );
 }
 
@@ -242,6 +265,7 @@ export function HeroTabs<K extends string>(props: {
   size?: TabBarProps["size"];
   right?: React.ReactNode;
   showBaseline?: boolean;
+  variant?: TabBarProps["variant"];
 }) {
   const {
     tabs,
@@ -253,6 +277,7 @@ export function HeroTabs<K extends string>(props: {
     size = "md",
     right,
     showBaseline = false,
+    variant,
   } = props;
 
   const items: TabItem[] = React.useMemo(
@@ -268,7 +293,7 @@ export function HeroTabs<K extends string>(props: {
   );
 
   return (
-    <SegmentedButtons
+    <TabBar
       items={items}
       value={String(activeKey)}
       onValueChange={(k) => onChange(k as K)}
@@ -278,6 +303,7 @@ export function HeroTabs<K extends string>(props: {
       ariaLabel={ariaLabel}
       className={className}
       showBaseline={showBaseline}
+      variant={variant}
     />
   );
 }
@@ -286,17 +312,27 @@ export function HeroTabs<K extends string>(props: {
 export function HeroSearchBar({
   className,
   round,
+  variant,
+  fieldClassName,
   ...props
 }: SearchBarProps & { className?: string; round?: boolean }) {
+  const resolvedVariant = variant ?? (round ? "neo" : undefined);
+  const isNeo = resolvedVariant === "neo";
+
   return (
     <SearchBar
       {...props}
+      variant={resolvedVariant}
       className={cx(
         "w-full max-w-[calc(var(--space-8)*10)]",
         round && "rounded-full",
         className,
       )}
-      fieldClassName={round ? "rounded-full [&>input]:rounded-full" : undefined}
+      fieldClassName={cx(
+        round && "rounded-full [&>input]:rounded-full",
+        isNeo && "overflow-hidden hero2-frame",
+        fieldClassName,
+      )}
     />
   );
 }
@@ -390,6 +426,26 @@ export function HeroGlitchStyles() {
       }
       .neon-life {
         --neon: var(--accent);
+      }
+      @media (prefers-contrast: more) {
+        .hero2-divider-line {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.85 !important;
+        }
+        .hero2-divider-glow {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.9 !important;
+          filter: none !important;
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-divider-line {
+          background-color: CanvasText !important;
+          opacity: 1 !important;
+        }
+        .hero2-divider-glow {
+          display: none !important;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,

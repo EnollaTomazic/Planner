@@ -50,10 +50,10 @@ export default function PillarBadge({
 
   const sizeCls =
     size === "lg"
-      ? "h-10 px-4 text-base gap-2"
+      ? "h-[var(--control-h-md)] px-[var(--space-4)] text-body gap-[var(--space-2)]"
       : size === "sm"
-      ? "h-8 px-3 text-xs gap-2"
-      : "h-9 px-4 text-sm gap-2";
+        ? "h-[var(--space-6)] px-[var(--space-3)] text-label gap-[var(--space-2)]"
+        : "h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]";
 
   // Default element: "button" if interactive, else "span".
   const Tag: AsTag = as ?? (interactive ? "button" : "span");

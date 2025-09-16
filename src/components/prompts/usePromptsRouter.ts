@@ -12,44 +12,37 @@ export function usePromptsRouter() {
   const [, startTransition] = React.useTransition();
   const viewParam = searchParams.get("view");
   const sectionParam = searchParams.get("section");
-
-  const [view, setView] = React.useState<View>(
-    () => (viewParam as View) || "components",
+  const paramsString = searchParams.toString();
+  const params = React.useMemo(
+    () => new URLSearchParams(paramsString),
+    [paramsString],
   );
-  const [section, setSection] = React.useState<Section>(() =>
-    getValidSection(sectionParam),
+  const replaceParam = React.useCallback(
+    (key: "view" | "section", value: string) => {
+      const current = params.get(key);
+      if (current === value) return;
+
+      params.set(key, value);
+      startTransition(() =>
+        router.replace(`?${params.toString()}`, { scroll: false }),
+      );
+    },
+    [params, router, startTransition],
   );
 
-  React.useEffect(() => {
-    const v = (viewParam as View) || "components";
-    setView((prev) => (v === prev ? prev : v));
-  }, [viewParam]);
-
-  React.useEffect(() => {
-    const s = getValidSection(sectionParam);
-    setSection((prev) => (s === prev ? prev : s));
-  }, [sectionParam]);
-
-  React.useEffect(() => {
-    const sp = new URLSearchParams(searchParams.toString());
-    const current = sp.get("view");
-    if (current === view) return;
-    sp.set("view", view);
-    startTransition(() =>
-      router.replace(`?${sp.toString()}`, { scroll: false }),
-    );
-  }, [view, router, searchParams, startTransition]);
-
-  React.useEffect(() => {
-    if (view !== "components") return;
-    const sp = new URLSearchParams(searchParams.toString());
-    const current = sp.get("section");
-    if (current === section) return;
-    sp.set("section", section);
-    startTransition(() =>
-      router.replace(`?${sp.toString()}`, { scroll: false }),
-    );
-  }, [section, view, router, searchParams, startTransition]);
+  const view = (viewParam as View) || "components";
+  const section = React.useMemo(
+    () => getValidSection(sectionParam),
+    [sectionParam],
+  );
+  const setView = React.useCallback(
+    (v: View) => replaceParam("view", v),
+    [replaceParam],
+  );
+  const setSection = React.useCallback(
+    (s: Section) => replaceParam("section", s),
+    [replaceParam],
+  );
 
   return { view, setView, section, setSection };
 }

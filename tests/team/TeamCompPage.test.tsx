@@ -1,7 +1,16 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import TeamCompPage from "@/components/team/TeamCompPage";
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.runAllTimers();
+  vi.useRealTimers();
+});
 
 describe("TeamCompPage builder tab", () => {
   it("shows builder hero with spacing", () => {

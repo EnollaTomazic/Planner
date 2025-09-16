@@ -5,7 +5,6 @@ import {
   Input,
   Textarea,
   SegmentedButton,
-  Badge,
   Card,
   NeoCard,
   CardHeader,
@@ -30,18 +29,26 @@ import {
   PillarBadge,
   PillarSelector,
   Header,
-  NeomorphicHeroFrame,
+  Hero,
+  PageShell,
   SectionCard as UiSectionCard,
+  FieldShell,
+  SearchBar,
+  Label,
   type HeaderTab,
 } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import GoalListDemo from "./GoalListDemo";
 import PromptList from "./PromptList";
 import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
+import SkeletonShowcase from "./SkeletonShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
+import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
+import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
   ReviewListItem,
@@ -52,7 +59,7 @@ import {
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review, Role } from "@/lib/types";
-import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
+import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -60,7 +67,7 @@ import {
   TimerTab,
 } from "@/components/goals";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
-import { Plus } from "lucide-react";
+import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
 export type View = "components" | "colors" | "onboarding";
 export type Section =
@@ -68,6 +75,7 @@ export type Section =
   | "inputs"
   | "prompts"
   | "planner"
+  | "cards"
   | "layout"
   | "feedback"
   | "toggles"
@@ -142,6 +150,31 @@ function BackgroundPickerDemo() {
   );
 }
 
+function ChampListEditorDemo() {
+  const [editing, setEditing] = React.useState(true);
+  const [list, setList] = React.useState<string[]>(["Ashe", "Lulu"]);
+
+  return (
+    <div className="space-y-3" data-scope="team">
+      <div className="flex items-center justify-between">
+        <span className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+          Champions
+        </span>
+        <Button size="sm" onClick={() => setEditing((prev) => !prev)}>
+          {editing ? "Done" : "Edit"}
+        </Button>
+      </div>
+      <ChampListEditor
+        list={list}
+        onChange={setList}
+        editing={editing}
+        emptyLabel="-"
+        viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+      />
+    </div>
+  );
+}
+
 function HeaderTabsDemo() {
   const [tab, setTab] = React.useState("one");
   const tabs: HeaderTab<string>[] = [
@@ -166,7 +199,7 @@ function CardDemo() {
         <CardDescription>Description</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm">Body</p>
+        <p className="text-ui">Body</p>
       </CardContent>
       <CardFooter>
         <Button size="sm">Action</Button>
@@ -183,7 +216,7 @@ function NeoCardDemo() {
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />
       }
     >
-      <p className="text-sm">Body</p>
+      <p className="text-ui">Body</p>
     </NeoCard>
   );
 }
@@ -201,7 +234,7 @@ function SheetDemo() {
             <CardTitle>Sheet</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm">Content</p>
+            <p className="text-ui">Content</p>
           </CardContent>
         </Card>
       </Sheet>
@@ -222,7 +255,7 @@ function ModalDemo() {
             <CardTitle>Modal</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm">Content</p>
+            <p className="text-ui">Content</p>
           </CardContent>
           <CardFooter>
             <Button size="sm" onClick={() => setOpen(false)}>
@@ -242,8 +275,8 @@ function ToastDemo() {
       <Button size="sm" onClick={() => setOpen(true)}>
         Show
       </Button>
-      <Toast open={open} onOpenChange={setOpen}>
-        <p className="text-sm">Toast message</p>
+      <Toast open={open} onOpenChange={setOpen} closable showProgress>
+        <p className="text-ui">Toast message</p>
       </Toast>
     </>
   );
@@ -306,6 +339,48 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <SegmentedButton>Default</SegmentedButton>
   <SegmentedButton isActive>Active</SegmentedButton>
 </div>`,
+    },
+    {
+      id: "tab-bar-filters",
+      name: "TabBar (filters)",
+      description: "Preset filter tabs with icons",
+      element: (
+        <TabBar
+          items={[
+            { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+            {
+              key: "active",
+              label: "Active",
+              icon: <CircleDot aria-hidden="true" />,
+            },
+            {
+              key: "done",
+              label: "Done",
+              icon: <CircleCheck aria-hidden="true" />,
+            },
+          ]}
+          defaultValue="active"
+          ariaLabel="Show active goals"
+        />
+      ),
+      tags: ["button", "segmented"],
+      code: `<TabBar
+  items={[
+    { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+    {
+      key: "active",
+      label: "Active",
+      icon: <CircleDot aria-hidden="true" />,
+    },
+    {
+      key: "done",
+      label: "Done",
+      icon: <CircleCheck aria-hidden="true" />,
+    },
+  ]}
+  defaultValue="active"
+  ariaLabel="Show active goals"
+/>`,
     },
     {
       id: "icon-button",
@@ -431,8 +506,8 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   { value: "two", label: "Two" },
 ];
 <>
-  <Select items={items} placeholder="Animated" />
-  <Select variant="native" items={items} />
+  <AnimatedSelect items={items} placeholder="Animated" />
+  <NativeSelect items={items} />
   <Select items={items} disabled placeholder="Disabled" />
 </>`,
     },
@@ -451,6 +526,57 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <Textarea placeholder="Type here" />
   <Textarea placeholder="Disabled" disabled />
 </div>`,
+    },
+    {
+      id: "field-shell",
+      name: "FieldShell",
+      description: "Frame for custom field content",
+      element: (
+        <FieldShell className="w-56">
+          <div className="px-4 py-2 text-ui text-muted-foreground">
+            Custom content
+          </div>
+        </FieldShell>
+      ),
+      tags: ["field", "shell"],
+      code: `<FieldShell className="w-56">
+  <div className="px-4 py-2 text-ui text-muted-foreground">
+    Custom content
+  </div>
+</FieldShell>`,
+    },
+    {
+      id: "label",
+      name: "Label",
+      element: (
+        <div className="flex w-56 flex-col gap-2">
+          <Label htmlFor="label-demo">Label</Label>
+          <Input id="label-demo" placeholder="With label" />
+        </div>
+      ),
+      tags: ["label", "input"],
+      code: `<div className="flex w-56 flex-col gap-2">
+  <Label htmlFor="label-demo">Label</Label>
+  <Input id="label-demo" placeholder="With label" />
+</div>`,
+    },
+    {
+      id: "search-bar",
+      name: "SearchBar",
+      description: "Debounced search input",
+      element: (
+        <SearchBar
+          value=""
+          placeholder="Search components"
+          className="w-56"
+        />
+      ),
+      tags: ["search", "input"],
+      code: `<SearchBar
+  value=""
+  placeholder="Search components"
+  className="w-56"
+/>`,
     },
   ],
   prompts: [
@@ -471,13 +597,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     },
   ],
   planner: [
-    {
-      id: "dashboard-card",
-      name: "DashboardCard",
-      element: <DashboardCard title="Demo" />,
-      tags: ["dashboard", "card"],
-      code: `<DashboardCard title="Demo" />`,
-    },
     {
       id: "bottom-nav",
       name: "BottomNav",
@@ -535,6 +654,72 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<TimerRingIcon pct={75} />`,
     },
   ],
+  cards: [
+    {
+      id: "dashboard-card",
+      name: "DashboardCard",
+      element: <DashboardCard title="Demo" />,
+      tags: ["dashboard", "card"],
+      code: `<DashboardCard title="Demo" />`,
+    },
+    {
+      id: "card-demo",
+      name: "Card",
+      element: <CardDemo />,
+      tags: ["card", "layout"],
+      code: `<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p className="text-ui">Body</p>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Action</Button>
+  </CardFooter>
+</Card>`,
+    },
+    {
+      id: "neo-card-demo",
+      name: "NeoCard",
+      element: <NeoCardDemo />,
+      tags: ["card", "overlay", "layout"],
+      code: `<NeoCard
+  className="p-4"
+  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
+>
+  <p className="text-ui">Body</p>
+</NeoCard>`,
+    },
+    {
+      id: "section-card-variants",
+      name: "SectionCard Variants",
+      element: (
+        <div className="flex flex-col gap-4">
+          <UiSectionCard>
+            <UiSectionCard.Header title="Neo (default)" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+          <UiSectionCard variant="plain">
+            <UiSectionCard.Header title="Plain" />
+            <UiSectionCard.Body>Content</UiSectionCard.Body>
+          </UiSectionCard>
+        </div>
+      ),
+      tags: ["section", "card"],
+      code: `<div className="flex flex-col gap-4">
+  <SectionCard>
+    <SectionCard.Header title="Neo (default)" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+  <SectionCard variant="plain">
+    <SectionCard.Header title="Plain" />
+    <SectionCard.Body>Content</SectionCard.Body>
+  </SectionCard>
+</div>`,
+    },
+  ],
   layout: [
     {
       id: "header-tabs",
@@ -552,53 +737,124 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "neomorphic-hero-frame",
       name: "NeomorphicHeroFrame",
-      description: "HUD-style frame shell",
-      element: (
-        <NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-          <div className="relative z-[2] text-sm">Content</div>
-        </NeomorphicHeroFrame>
-      ),
-      tags: ["hero", "layout"],
-      code: `<NeomorphicHeroFrame className="rounded-card r-card-lg px-4 py-4">
-  <div className="relative z-[2]">Content</div>
+      description:
+        "Composable neomorphic frame with semantic wrappers, tokenized spacing, and an action row for tabs, search, and buttons.",
+      element: <NeomorphicHeroFrameDemo />,
+      tags: ["hero", "layout", "tokens"],
+      code: `<NeomorphicHeroFrame
+  as="header"
+  variant="default"
+  actionArea={{
+    tabs: (
+      <TabBar
+        items={[
+          { key: "missions", label: "Missions" },
+          { key: "briefings", label: "Briefings" },
+          { key: "archive", label: "Archive", disabled: true },
+        ]}
+        value="missions"
+        onValueChange={() => {}}
+        ariaLabel="Switch mission focus"
+        showBaseline
+      />
+    ),
+    search: (
+      <SearchBar
+        value=""
+        onValueChange={() => {}}
+        placeholder="Search mission intel…"
+        aria-label="Search mission intel"
+        loading
+      />
+    ),
+    actions: (
+      <div className="flex items-center gap-2">
+        <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+        <Button size="sm" variant="primary" loading>
+          Deploy
+        </Button>
+        <Button size="sm" variant="ghost" disabled>
+          Disabled
+        </Button>
+      </div>
+    ),
+  }}
+>
+  <div className="grid gap-4 md:grid-cols-12">
+    <div className="md:col-span-7 space-y-3">
+      <p className="text-ui text-muted-foreground">
+        Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
+      </p>
+    </div>
+  </div>
+</NeomorphicHeroFrame>
+
+<NeomorphicHeroFrame as="nav" variant="compact" actionArea={{ align: "between" }}>
+  <div className="grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-6">
+      <p className="text-ui text-muted-foreground">
+        Compact variant swaps to r-card-md radius with px-4/md:px-5/lg:px-6 spacing.
+      </p>
+    </div>
+  </div>
 </NeomorphicHeroFrame>`,
     },
     {
       id: "page-header-demo",
       name: "PageHeader",
+      description:
+        "Neomorphic hero header that defaults to a semantic <header>, forwards standard HTML attributes, and can be remapped with the as prop.",
       element: <PageHeaderDemo />,
       tags: ["hero", "header"],
       code: `<PageHeaderDemo />`,
     },
     {
-      id: "card-demo",
-      name: "Card",
-      element: <CardDemo />,
-      tags: ["card", "layout"],
-      code: `<Card>
-  <CardHeader>
-    <CardTitle>Title</CardTitle>
-    <CardDescription>Description</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p className="text-sm">Body</p>
-  </CardContent>
-  <CardFooter>
-    <Button size="sm">Action</Button>
-  </CardFooter>
-</Card>`,
+      id: "hero",
+      name: "Hero",
+      description: "Stacked hero shell with search and actions",
+      element: (
+        <Hero
+          heading="Hero"
+          eyebrow="Eyebrow"
+          subtitle="Subtitle"
+          sticky={false}
+          search={{ value: "", onValueChange: () => {}, round: true }}
+          actions={<Button size="sm">Action</Button>}
+        >
+          <div className="text-ui text-muted-foreground">Body content</div>
+        </Hero>
+      ),
+      tags: ["hero", "layout"],
+      code: `<Hero
+  heading="Hero"
+  eyebrow="Eyebrow"
+  subtitle="Subtitle"
+  sticky={false}
+  search={{ value: "", onValueChange: () => {}, round: true }}
+  actions={<Button size="sm">Action</Button>}
+>
+  <div className="text-ui text-muted-foreground">Body content</div>
+</Hero>`,
     },
     {
-      id: "neo-card-demo",
-      name: "NeoCard",
-      element: <NeoCardDemo />,
-      tags: ["card", "overlay", "layout"],
-      code: `<NeoCard
-  className="p-4"
-  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
->
-  <p className="text-sm">Body</p>
-</NeoCard>`,
+      id: "page-shell",
+      name: "PageShell",
+      description: "Responsive page container",
+      element: (
+        <PageShell className="space-y-3 py-6">
+          <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+            Page shell content
+          </div>
+          <Button size="sm">Action</Button>
+        </PageShell>
+      ),
+      tags: ["layout", "shell"],
+      code: `<PageShell className="space-y-3 py-6">
+  <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+    Page shell content
+  </div>
+  <Button size="sm">Action</Button>
+</PageShell>`,
     },
     {
       id: "sheet-demo",
@@ -612,7 +868,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       <CardTitle>Sheet</CardTitle>
     </CardHeader>
     <CardContent>
-      <p className="text-sm">Content</p>
+      <p className="text-ui">Content</p>
     </CardContent>
   </Card>
 </Sheet>`,
@@ -629,7 +885,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       <CardTitle>Modal</CardTitle>
     </CardHeader>
     <CardContent>
-      <p className="text-sm">Content</p>
+      <p className="text-ui">Content</p>
     </CardContent>
     <CardFooter>
       <Button size="sm">Close</Button>
@@ -643,7 +899,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <ToastDemo />,
       tags: ["toast", "feedback"],
       code: `<Button size="sm">Show</Button>
-<Toast open><p className="text-sm">Toast message</p></Toast>`,
+<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
     },
     {
       id: "split",
@@ -673,6 +929,32 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
     },
     {
+      id: "tab-bar-app-nav",
+      name: "TabBar (app nav)",
+      description: "Controlled TabBar for section switching",
+      element: (
+        <TabBar
+          items={[
+            { key: "reviews", label: "Reviews" },
+            { key: "planner", label: "Planner" },
+            { key: "goals", label: "Goals" },
+          ]}
+          defaultValue="reviews"
+          ariaLabel="Planner areas"
+        />
+      ),
+      tags: ["tabs"],
+      code: `<TabBar
+  items={[
+    { key: "reviews", label: "Reviews" },
+    { key: "planner", label: "Planner" },
+    { key: "goals", label: "Goals" },
+  ]}
+  defaultValue="reviews"
+  ariaLabel="Planner areas"
+/>`,
+    },
+    {
       id: "title-bar",
       name: "TitleBar",
       element: <TitleBar label="Title" />,
@@ -694,6 +976,24 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <SnackbarShowcase />,
       tags: ["snackbar", "feedback"],
       code: `<Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />`,
+    },
+    {
+      id: "skeleton",
+      name: "Skeleton",
+      description: "Shimmer placeholder for loading layouts.",
+      element: <SkeletonShowcase />,
+      tags: ["skeleton", "loading", "feedback"],
+      code: `<div className="space-y-2">
+  <Skeleton
+    ariaHidden={false}
+    role="status"
+    aria-label="Loading primary title"
+    className="h-6 w-2/5 sm:w-1/3"
+    radius="card"
+  />
+  <Skeleton className="w-3/4" />
+  <Skeleton radius="full" className="h-10 w-10" />
+</div>`,
     },
     {
       id: "spinner",
@@ -737,13 +1037,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "CheckCircle",
       element: (
         <div className="flex gap-4">
-          <CheckCircle checked={false} onChange={() => {}} />
-          <CheckCircle checked onChange={() => {}} />
+          <CheckCircle checked={false} onChange={() => {}} size="md" />
+          <CheckCircle checked onChange={() => {}} size="md" />
         </div>
       ),
       tags: ["checkbox", "toggle"],
-      code: `<CheckCircle checked={false} onChange={() => {}} />
-<CheckCircle checked onChange={() => {}} />`,
+      code: `<CheckCircle checked={false} onChange={() => {}} size="md" />
+<CheckCircle checked onChange={() => {}} size="md" />`,
     },
   ],
   league: [
@@ -759,6 +1059,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["side", "selector"],
       code: `<SideSelector />
 <SideSelector disabled />`,
+    },
+    {
+      id: "champ-list-editor",
+      name: "ChampListEditor",
+      description: "Shared champion list editor with toggleable state.",
+      element: <ChampListEditorDemo />,
+      tags: ["champion", "editor"],
+      code: `<ChampListEditor
+  list={list}
+  onChange={setList}
+  editing={editing}
+  emptyLabel="-"
+  viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+/>`,
     },
     {
       id: "pillar-badge",
@@ -854,51 +1168,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<ReviewListItem review={demoReview} />`,
     },
     {
-      id: "variant-badges",
-      name: "Variant Badges",
+      id: "badge-tones",
+      name: "Badge Tones",
       element: (
         <div className="flex flex-wrap gap-2">
-          {VARIANTS.map((v) => (
-            <Badge key={v.id} variant="accent">
-              {v.label}
-            </Badge>
-          ))}
+          <Badge tone="neutral">Neutral</Badge>
+          <Badge tone="accent">Accent</Badge>
+          <Badge tone="primary">Primary</Badge>
         </div>
       ),
-      tags: ["badge", "variant"],
+      tags: ["badge", "tone"],
       code: `<div className="flex flex-wrap gap-2">
-  {VARIANTS.map((v) => (
-    <Badge key={v.id} variant="accent">
-      {v.label}
-    </Badge>
-  ))}
-</div>`,
-    },
-    {
-      id: "section-card-variants",
-      name: "SectionCard Variants",
-      element: (
-        <div className="flex flex-col gap-4">
-          <UiSectionCard>
-            <UiSectionCard.Header title="Neo (default)" />
-            <UiSectionCard.Body>Content</UiSectionCard.Body>
-          </UiSectionCard>
-          <UiSectionCard variant="plain">
-            <UiSectionCard.Header title="Plain" />
-            <UiSectionCard.Body>Content</UiSectionCard.Body>
-          </UiSectionCard>
-        </div>
-      ),
-      tags: ["section", "card"],
-      code: `<div className="flex flex-col gap-4">
-  <SectionCard>
-    <SectionCard.Header title="Neo (default)" />
-    <SectionCard.Body>Content</SectionCard.Body>
-  </SectionCard>
-  <SectionCard variant="plain">
-    <SectionCard.Header title="Plain" />
-    <SectionCard.Body>Content</SectionCard.Body>
-  </SectionCard>
+  <Badge tone="neutral">Neutral</Badge>
+  <Badge tone="accent">Accent</Badge>
+  <Badge tone="primary">Primary</Badge>
 </div>`,
     },
     {

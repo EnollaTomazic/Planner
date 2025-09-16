@@ -1,8 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader, Button, IconButton } from "@/components/ui";
-import { Sparkles, Plus } from "lucide-react";
+import {
+  PageHeader,
+  PageShell,
+  Button,
+  IconButton,
+  Skeleton,
+  Badge,
+} from "@/components/ui";
+import { Sparkles, Plus, Clipboard } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
@@ -13,14 +20,63 @@ import {
   type Section,
 } from "@/components/prompts/constants";
 import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
-import { readLocal, writeLocal } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
+import { copyText } from "@/lib/clipboard";
+
+function getNodeText(node: React.ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return `${node}`;
+  if (Array.isArray(node)) return node.map(getNodeText).join("");
+  if (React.isValidElement(node)) return getNodeText(node.props.children);
+  return "";
+}
 
 export default function Page() {
   return (
-    <React.Suspense fallback={<p className="p-4 text-sm">Loading...</p>}>
+    <React.Suspense fallback={<PromptsPageFallback />}>
       <PageContent />
     </React.Suspense>
+  );
+}
+
+function PromptsPageFallback() {
+  return (
+    <PageShell
+      as="main"
+      className="space-y-6 py-6"
+      aria-labelledby="prompts-loading-title"
+      aria-busy="true"
+    >
+      <div role="status" aria-live="polite" className="space-y-6">
+        <span id="prompts-loading-title" className="sr-only">
+          Loading Prompts Playground
+        </span>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-2/5 sm:w-1/3" radius="card" />
+            <Skeleton className="w-3/5 sm:w-1/2" />
+          </div>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <Skeleton className="h-10 w-full md:w-96" radius="card" />
+            <div className="flex gap-3 md:flex-none">
+              <Skeleton className="h-10 w-24" radius="card" />
+              <Skeleton className="h-10 w-10" radius="full" />
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Skeleton className="h-64" radius="card" />
+          <Skeleton className="h-64" radius="card" />
+          <Skeleton className="h-64 lg:col-span-2" radius="card" />
+        </div>
+      </div>
+    </PageShell>
   );
 }
 
@@ -30,23 +86,24 @@ function PageContent() {
   const searchParams = useSearchParams();
   const [, startTransition] = React.useTransition();
   const queryParam = searchParams.get("q");
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = usePersistentState("prompts-query", "");
+  const [currentCode, setCurrentCode] = React.useState<string | null>(null);
   const componentsRef = React.useRef<HTMLDivElement>(null);
   const colorsRef = React.useRef<HTMLDivElement>(null);
   const onboardingRef = React.useRef<HTMLDivElement>(null);
+  const searchLabel = React.useMemo(() => {
+    const tab = VIEW_TABS.find((item) => item.key === view);
+    const labelText = getNodeText(tab?.label ?? null).trim();
+    if (!labelText) return "Search";
+    return `Search ${labelText.toLocaleLowerCase()}`;
+  }, [view]);
 
   React.useEffect(() => {
     const q = queryParam ?? "";
     if (q !== query) setQuery(q);
-  }, [queryParam, query]);
+  }, [queryParam, query, setQuery]);
 
   React.useEffect(() => {
-    const stored = readLocal<string>("prompts-query");
-    if (stored) setQuery(stored);
-  }, []);
-
-  React.useEffect(() => {
-    writeLocal("prompts-query", query);
     const sp = new URLSearchParams(searchParams.toString());
     const current = sp.get("q") ?? "";
     if (current === query) return;
@@ -66,13 +123,29 @@ function PageContent() {
     map[view].current?.focus();
   }, [view]);
 
+  React.useEffect(() => {
+    if (view !== "components") {
+      setCurrentCode(null);
+    }
+  }, [view]);
+
+  const handleCurrentCodeChange = React.useCallback((code: string | null) => {
+    setCurrentCode(code);
+  }, []);
+
+  const handleCopyCode = React.useCallback(() => {
+    if (!currentCode) return;
+    void copyText(currentCode);
+  }, [currentCode]);
+
   return (
-    <main
-      className="page-shell py-6 space-y-6"
+    <PageShell
+      as="main"
+      className="py-6 space-y-6"
       aria-labelledby="prompts-header"
     >
       <PageHeader
-        className="sticky top-0"
+        containerClassName="sticky top-0"
         header={{
           id: "prompts-header",
           heading: "Prompts Playground",
@@ -82,6 +155,7 @@ function PageContent() {
             items: VIEW_TABS,
             value: view,
             onChange: (k) => setView(k as View),
+            ariaLabel: "Playground view",
           },
         }}
         hero={{
@@ -95,6 +169,7 @@ function PageContent() {
           ...(view === "components"
             ? {
                 subTabs: {
+                  ariaLabel: "Component section",
                   items: SECTION_TABS,
                   value: section,
                   onChange: (k: string) => setSection(k as Section),
@@ -107,11 +182,31 @@ function PageContent() {
             onValueChange: setQuery,
             debounceMs: 300,
             round: true,
-            "aria-label": "Search components",
+            "aria-label": searchLabel,
           },
           actions: (
             <div className="flex items-center gap-2">
+              <Badge
+                tone="accent"
+                size="sm"
+                aria-label="Accent color preview: Accent 3"
+                className="bg-interaction-accent-surfaceHover text-[color:var(--text-on-accent)]"
+              >
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-accent-overlay"
+                />
+                Accent 3
+              </Badge>
               <Button size="sm">Action</Button>
+              <IconButton
+                size="sm"
+                aria-label="Copy code sample"
+                onClick={handleCopyCode}
+                disabled={view !== "components" || !currentCode}
+              >
+                <Clipboard />
+              </IconButton>
               <IconButton size="sm" aria-label="Add">
                 <Plus />
               </IconButton>
@@ -130,7 +225,11 @@ function PageContent() {
               tabIndex={view === "components" ? 0 : -1}
               ref={componentsRef}
             >
-              <ComponentsView query={query} section={section} />
+              <ComponentsView
+                query={query}
+                section={section}
+                onCurrentCodeChange={handleCurrentCodeChange}
+              />
             </div>
             <div
               role="tabpanel"
@@ -155,6 +254,6 @@ function PageContent() {
           </div>
         </div>
       </section>
-    </main>
+    </PageShell>
   );
 }

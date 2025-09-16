@@ -77,19 +77,25 @@ export default function ReviewEditor({
 
   React.useEffect(() => {
     setNotes(review.notes ?? "");
+  }, [review.id, review.notes]);
+
+  React.useEffect(() => {
     setTags(Array.isArray(review.tags) ? review.tags : []);
     setDraftTag("");
+  }, [review.id, review.tags]);
 
+  React.useEffect(() => {
     const r = review.role ?? lastRole ?? "MID";
     setRole(r);
     if (review.role == null) {
       onChangeMeta?.({ role: r });
     }
+  }, [lastRole, onChangeMeta, review.id, review.role]);
 
+  React.useEffect(() => {
     setFocusOn(Boolean(review.focusOn));
     setFocus(Number.isFinite(review.focus ?? NaN) ? Number(review.focus) : 5);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [review.id]);
+  }, [review.focus, review.focusOn, review.id]);
 
   const commitMeta = (partial: Partial<Review>) => onChangeMeta?.(partial);
   const commitNotes = () => onChangeNotes?.(notes);
@@ -280,8 +286,8 @@ export default function ReviewEditor({
                   </div>
                 </div>
               </div>
-              <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-                <span className="pill h-6 px-2 text-xs">{focus}/10</span>
+              <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
+                <span className="pill h-6 px-2 text-label">{focus}/10</span>
                 <span>{focusMsg}</span>
               </div>
             </>
@@ -338,7 +344,7 @@ export default function ReviewEditor({
           </div>
 
           {tags.length === 0 ? (
-            <div className="mt-2 text-sm text-muted-foreground/80">
+            <div className="mt-2 text-ui text-muted-foreground/80">
               No tags yet.
             </div>
           ) : (
@@ -347,7 +353,7 @@ export default function ReviewEditor({
                 <button
                   key={t}
                   type="button"
-                  className="chip h-9 px-4 text-sm group inline-flex items-center gap-1"
+                  className="chip h-9 px-4 text-ui group inline-flex items-center gap-1"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >
@@ -369,7 +375,7 @@ export default function ReviewEditor({
             onChange={(e) => setNotes(e.target.value)}
             onBlur={commitNotes}
             placeholder="Key moments, mistakes to fix, drills to run…"
-            className="rounded-2xl"
+            className="rounded-[var(--radius-2xl)]"
             resize="resize-y"
             textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           />

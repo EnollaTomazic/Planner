@@ -9,48 +9,155 @@ import NeomorphicHeroFrame, {
 } from "./NeomorphicHeroFrame";
 import { cn } from "@/lib/utils";
 
-export interface PageHeaderProps {
+type PageHeaderElement = Extract<
+  keyof JSX.IntrinsicElements,
+  "header" | "section" | "article" | "aside" | "main" | "div" | "nav"
+>;
+
+type PageHeaderElementProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  "className" | "children"
+>;
+
+type PageHeaderFrameElement = React.ElementRef<typeof NeomorphicHeroFrame>;
+
+type HeaderKey = string;
+type HeroKey = string;
+
+export interface PageHeaderBaseProps<
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+> extends PageHeaderElementProps {
   /** Props forwarded to <Header> */
-  header: HeaderProps;
+  header: HeaderProps<HeaderKey>;
   /** Props forwarded to <Hero> */
-  hero: HeroProps;
+  hero: HeroProps<HeroKey>;
   /** Optional className for the outer frame */
   className?: string;
+  /** Optional className for the semantic wrapper */
+  containerClassName?: string;
   /** Additional props for the outer frame */
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
   contentClassName?: string;
+  /** Semantic element for the header container (defaults to a <section>) */
+  as?: PageHeaderElement;
+  /** Optional hero sub-tabs override */
+  subTabs?: HeroProps<HeroKey>["subTabs"];
+  /** Optional hero search override */
+  search?: HeroProps<HeroKey>["search"];
+  /** Optional hero actions override */
+  actions?: HeroProps<HeroKey>["actions"];
 }
+
+export type PageHeaderProps<
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+> = PageHeaderBaseProps<HeaderKey, HeroKey> &
+  React.RefAttributes<PageHeaderFrameElement>;
+
+export type PageHeaderRef = PageHeaderFrameElement;
 
 /**
  * PageHeader — combines <Header> and <Hero> within a neomorphic frame.
  *
  * Used for top-of-page introductions with optional actions.
  */
-export default function PageHeader({
-  header,
-  hero,
-  className,
-  frameProps,
-  contentClassName,
-}: PageHeaderProps) {
-  return (
-    <NeomorphicHeroFrame
-      {...frameProps}
-      className={cn(
-        className ??
-          "rounded-card r-card-lg border border-border/40 p-6 md:p-7 lg:p-8",
-        frameProps?.className,
-      )}
-    >
-      <div className={cn("relative z-[2]", contentClassName ?? "space-y-4")}>
-        <Header {...header} underline={header.underline ?? false} />
-        <Hero
-          {...hero}
-          frame={hero.frame ?? true}
-          topClassName={cn("top-[var(--header-stack)]", hero.topClassName)}
-        />
-      </div>
-    </NeomorphicHeroFrame>
+const PageHeaderInner = <
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+>(
+  {
+    header,
+    hero,
+    className,
+    containerClassName,
+    frameProps,
+    contentClassName,
+    as,
+    subTabs,
+    search,
+    actions,
+    ...elementProps
+  }: PageHeaderBaseProps<HeaderKey, HeroKey>,
+  ref: React.ForwardedRef<PageHeaderFrameElement>,
+) => {
+  const Component = (as ?? "section") as PageHeaderElement;
+
+  const {
+    subTabs: heroSubTabs,
+    search: heroSearch,
+    actions: heroActions,
+    frame: heroFrame,
+    topClassName: heroTopClassName,
+    as: heroAs,
+    ...heroRest
+  } = hero;
+
+  const resolvedSubTabs = React.useMemo(
+    () => heroSubTabs ?? subTabs,
+    [heroSubTabs, subTabs],
   );
-}
+
+  const resolvedSearch = React.useMemo(() => {
+    const baseSearch = heroSearch === null ? null : heroSearch ?? search;
+    return baseSearch !== null && baseSearch !== undefined
+      ? { ...baseSearch, round: baseSearch.round ?? true }
+      : baseSearch;
+  }, [heroSearch, search]);
+
+  const resolvedActions = React.useMemo(
+    () => (heroActions === null ? null : heroActions ?? actions),
+    [heroActions, actions],
+  );
+
+  const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
+    frameProps ?? {};
+
+  return (
+    <Component
+      className={containerClassName}
+      {...(elementProps as React.HTMLAttributes<HTMLElement>)}
+    >
+      <NeomorphicHeroFrame
+        ref={ref}
+        variant={frameVariant ?? "default"}
+        {...restFrameProps}
+        className={cn(className, frameClassName)}
+      >
+        <div
+          className={cn(
+            "relative z-[2]",
+            contentClassName ??
+              "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
+          )}
+        >
+          <Header {...header} underline={header.underline ?? false} />
+          <Hero
+            {...heroRest}
+            as={heroAs ?? "section"}
+            frame={heroFrame ?? true}
+            topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
+            subTabs={resolvedSubTabs}
+            search={resolvedSearch}
+            actions={resolvedActions}
+          />
+        </div>
+      </NeomorphicHeroFrame>
+    </Component>
+  );
+};
+
+const PageHeader = React.forwardRef<
+  PageHeaderFrameElement,
+  PageHeaderBaseProps<HeaderKey, HeroKey>
+>(PageHeaderInner);
+
+PageHeader.displayName = "PageHeader";
+
+export default PageHeader as <
+  HeaderKey extends string = string,
+  HeroKey extends string = string,
+>(
+  props: PageHeaderProps<HeaderKey, HeroKey>,
+) => React.ReactElement | null;

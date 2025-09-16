@@ -68,7 +68,9 @@ export default function SideSelector({
         "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
         "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
         "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
-        "min-w-[14rem] sm:min-w-[16rem] w-full max-w-xs h-10", // responsive default
+        "min-w-[calc(var(--space-8)*3+var(--space-6))]",
+        "sm:min-w-[calc(var(--space-8)*4)]",
+        "w-full max-w-[calc(var(--space-8)*5)] h-[var(--control-h)]", // responsive default aligned to tokens
         className,
       )}
       data-side={value}
@@ -90,7 +92,7 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
         style={{
           width: "calc(50% - var(--space-1))",
           transform: `translateX(${
@@ -103,10 +105,10 @@ export default function SideSelector({
       />
 
       {/* Labels */}
-      <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
+      <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
         <div
           className={cn(
-            "py-2 text-center transition-colors",
+            "py-[var(--space-2)] text-center transition-colors",
             !isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
           style={{
@@ -119,7 +121,7 @@ export default function SideSelector({
         </div>
         <div
           className={cn(
-            "py-2 text-center transition-colors",
+            "py-[var(--space-2)] text-center transition-colors",
             isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
           style={{

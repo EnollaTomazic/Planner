@@ -1,6 +1,6 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
-import { describe, it, expect, afterEach } from "vitest";
+import { render, cleanup, waitFor } from "@testing-library/react";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import IconButton from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
@@ -25,11 +25,11 @@ describe("IconButton", () => {
   });
 
   const sizeCases = [
-    ["xs", "h-8 w-8"],
-    ["sm", "h-9 w-9"],
-    ["md", "h-10 w-10"],
-    ["lg", "h-11 w-11"],
-    ["xl", "h-12 w-12"],
+    ["xs", "h-[var(--space-8)] w-[var(--space-8)]"],
+    ["sm", "h-[var(--control-h-sm)] w-[var(--control-h-sm)]"],
+    ["md", "h-[var(--control-h-md)] w-[var(--control-h-md)]"],
+    ["lg", "h-[var(--control-h-lg)] w-[var(--control-h-lg)]"],
+    ["xl", "h-[var(--space-7)] w-[var(--space-7)]"],
   ] as const;
 
   sizeCases.forEach(([size, cls]) => {
@@ -42,11 +42,11 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&_svg]:size-3"],
-    ["sm", "[&_svg]:size-4"],
-    ["md", "[&_svg]:size-5"],
-    ["lg", "[&_svg]:size-6"],
-    ["xl", "[&_svg]:size-7"],
+    ["xs", "[&_svg]:size-[var(--space-3)]"],
+    ["sm", "[&_svg]:size-[var(--space-4)]"],
+    ["md", "[&_svg]:size-[var(--space-5)]"],
+    ["lg", "[&_svg]:size-[var(--space-6)]"],
+    ["xl", "[&_svg]:size-[var(--space-7)]"],
   ] as const;
 
   iconCases.forEach(([iconSize, cls]) => {
@@ -72,11 +72,11 @@ describe("IconButton", () => {
   });
 
   const defaultIconCases = [
-    ["xs", "[&_svg]:size-3"],
-    ["sm", "[&_svg]:size-3"],
-    ["md", "[&_svg]:size-4"],
-    ["lg", "[&_svg]:size-5"],
-    ["xl", "[&_svg]:size-6"],
+    ["xs", "[&_svg]:size-[var(--space-3)]"],
+    ["sm", "[&_svg]:size-[var(--space-3)]"],
+    ["md", "[&_svg]:size-[var(--space-4)]"],
+    ["lg", "[&_svg]:size-[var(--space-5)]"],
+    ["xl", "[&_svg]:size-[var(--space-6)]"],
   ] as const;
 
   defaultIconCases.forEach(([size, cls]) => {
@@ -117,7 +117,7 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35");
     expect(classes).toContain("hover:bg-[--hover]");
-    expect(classes).toContain("shadow-[0_0_8px_currentColor]");
+    expect(classes).toContain("shadow-glow-current");
     expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
     expect(classes).toContain("border-accent-2/35 text-accent-2");
   });
@@ -130,6 +130,114 @@ describe("IconButton", () => {
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
     expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
     expect(classes).toContain("border-danger/35 text-danger");
-    expect(classes).not.toContain("shadow-[0_0_8px_currentColor]");
+    expect(classes).not.toContain("shadow-glow-current");
+  });
+
+  it("forwards the title attribute", () => {
+    const { getByRole } = render(
+      <IconButton aria-label="Settings" title="Open settings">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).toHaveAttribute("aria-label", "Settings");
+    expect(button).toHaveAttribute("title", "Open settings");
+  });
+
+  it("mirrors title to aria-label when icon-only content has no label", () => {
+    const { getByRole } = render(
+      <IconButton title="Refresh data">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).toHaveAttribute("aria-label", "Refresh data");
+    expect(button).toHaveAttribute("title", "Refresh data");
+  });
+
+  it("supports aria-labelledby for external labels", () => {
+    const { getByRole } = render(
+      <IconButton aria-labelledby="external-label">
+        <svg />
+      </IconButton>,
+    );
+    const button = getByRole("button");
+    expect(button).not.toHaveAttribute("aria-label");
+    expect(button).toHaveAttribute("aria-labelledby", "external-label");
+  });
+
+  describe("accessibility warnings", () => {
+    let errorSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      errorSpy.mockRestore();
+    });
+
+    it("logs an error when icon-only content is missing a label", async () => {
+      render(
+        <IconButton
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...({} as any)}
+        >
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).toHaveBeenCalledWith(
+          expect.stringContaining(
+            "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",
+          ),
+        );
+      });
+    });
+
+    it("does not log an error when icon-only content has aria-label", async () => {
+      render(
+        <IconButton aria-label="Settings">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when icon-only content has a title", async () => {
+      render(
+        <IconButton title="Refresh data">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when icon-only content has aria-labelledby", async () => {
+      render(
+        <IconButton aria-labelledby="external-label">
+          <svg />
+        </IconButton>,
+      );
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it("does not log an error when text content is present", async () => {
+      render(<IconButton aria-label="  ">Submit</IconButton>);
+
+      await waitFor(() => {
+        expect(errorSpy).not.toHaveBeenCalled();
+      });
+    });
   });
 });

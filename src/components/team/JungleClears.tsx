@@ -95,14 +95,17 @@ export default React.forwardRef<
     return map;
   }, [items]);
 
-  function startEdit(r: JunglerRow) {
-    setEditingRow({
-      id: r.id,
-      champ: r.champ,
-      type: (r.type ?? []).join(", "),
-      notes: r.notes ?? "",
-    });
-  }
+  const startEdit = React.useCallback(
+    (r: JunglerRow) => {
+      setEditingRow({
+        id: r.id,
+        champ: r.champ,
+        type: (r.type ?? []).join(", "),
+        notes: r.notes ?? "",
+      });
+    },
+    [setEditingRow],
+  );
 
   const cancelEdit = React.useCallback(() => {
     if (editingRow) {
@@ -112,9 +115,9 @@ export default React.forwardRef<
       }
     }
     setEditingRow(null);
-  }, [editingRow, items, setItems]);
+  }, [editingRow, items, setEditingRow, setItems]);
 
-  function saveEdit() {
+  const saveEdit = React.useCallback(() => {
     if (!editingRow) return;
     setItems((prev) =>
       prev.map((r) =>
@@ -132,29 +135,35 @@ export default React.forwardRef<
       ),
     );
     setEditingRow(null);
-  }
+  }, [editingRow, setItems, setEditingRow]);
 
-  function deleteRow(id: string) {
-    setItems((prev) => prev.filter((r) => r.id !== id));
-  }
+  const deleteRow = React.useCallback(
+    (id: string) => {
+      setItems((prev) => prev.filter((r) => r.id !== id));
+    },
+    [setItems],
+  );
 
-  function addRow(bucket: ClearSpeed) {
-    const newRow: JunglerRow = {
-      id: uid("jg"),
-      champ: "",
-      speed: bucket,
-      type: [],
-      notes: "",
-    };
-    setItems((prev) => [...prev, newRow]);
-    setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
-  }
+  const addRow = React.useCallback(
+    (bucket: ClearSpeed) => {
+      const newRow: JunglerRow = {
+        id: uid("jg"),
+        champ: "",
+        speed: bucket,
+        type: [],
+        notes: "",
+      };
+      setItems((prev) => [...prev, newRow]);
+      setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
+    },
+    [setItems, setEditingRow],
+  );
 
   useEffect(() => {
     if (!editing) cancelEdit();
   }, [editing, cancelEdit]);
 
-  React.useImperativeHandle(ref, () => ({ addRow }));
+  React.useImperativeHandle(ref, () => ({ addRow }), [addRow]);
 
   return (
     <div data-scope="team" className="grid gap-4 sm:gap-6">
@@ -172,7 +181,7 @@ export default React.forwardRef<
                     <Timer className="opacity-80" />
                     {/* Glitch title + glow */}
                     <span
-                      className="glitch-title glitch-flicker title-glow text-xl sm:text-2xl md:text-3xl font-semibold"
+                      className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg md:text-title-lg font-semibold"
                       data-text={bucket}
                     >
                       {bucket}
@@ -182,7 +191,7 @@ export default React.forwardRef<
                 actions={
                   // Big timer: same glitch treatment + glow
                   <span
-                    className="glitch-title glitch-flicker title-glow font-mono leading-none text-2xl sm:text-3xl md:text-4xl"
+                    className="glitch-title glitch-flicker title-glow font-mono leading-none text-title-lg sm:text-title-lg md:text-title-lg"
                     data-text={SPEED_TIME[bucket]}
                     aria-label="Expected first-clear timing"
                     title="Expected first-clear timing"
@@ -193,23 +202,23 @@ export default React.forwardRef<
               />
               <SectionCard.Body>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-border bg-card px-2 py-1 text-xs tracking-wide uppercase">
+                  <span className="rounded-full border border-border bg-card px-2 py-1 text-label tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-ui text-muted-foreground">
                     {SPEED_HINT[bucket]}
                   </span>
                 </div>
 
                 {/* Example row (canonical pills) */}
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="text-muted-foreground text-sm">
+                  <span className="text-muted-foreground text-ui">
                     Example:
                   </span>
-                  <span className="pill pill-compact text-xs">
+                  <span className="pill pill-compact text-label">
                     {exampleByBucket[bucket]}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-label text-muted-foreground">
                     ({rowsAll.length} total)
                   </span>
                 </div>
@@ -229,7 +238,7 @@ export default React.forwardRef<
                 )}
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-ui">
                     <caption className="sr-only">
                       {bucket} junglers with types and notes
                     </caption>
@@ -329,7 +338,7 @@ export default React.forwardRef<
                                 {(r.type ?? []).map((t) => (
                                   <span
                                     key={t}
-                                    className="pill pill-compact text-xs"
+                                    className="pill pill-compact text-label"
                                   >
                                     {t}
                                   </span>

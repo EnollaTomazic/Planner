@@ -6,8 +6,14 @@ exports[`ReviewsPage > renders default state 1`] = `
     aria-labelledby="reviews-header"
     class="page-shell py-6 space-y-6"
   >
-    <style>
-      
+    <section
+      class="sticky top-0"
+    >
+      <style
+        global="true"
+        jsx="true"
+      >
+        
       .hero2-beams {
         position: absolute;
         inset: calc(var(--space-1) / -2);
@@ -35,6 +41,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-beams {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-beam-pan {
@@ -74,6 +81,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-scanlines {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-scan-move {
@@ -104,6 +112,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         .hero2-noise {
           animation: none;
           background-position: 0 0;
+          display: none;
         }
       }
       @keyframes hero2-noise-shift {
@@ -124,82 +133,126 @@ exports[`ReviewsPage > renders default state 1`] = `
             var(--space-2) hsl(var(--highlight) / 0.05),
           0 0 var(--space-4) hsl(var(--ring) / 0.25);
       }
+      @media (prefers-contrast: more) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: hsl(var(--foreground) / 0.7) !important;
+        }
+        .hero2-neomorph {
+          box-shadow:
+            inset var(--space-1) var(--space-1) var(--space-2)
+              hsl(var(--background) / 0.65),
+            inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+              var(--space-2) hsl(var(--highlight) / 0.08),
+            0 0 0 1px hsl(var(--ring) / 0.7),
+            0 0 var(--space-5) hsl(var(--ring) / 0.5);
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: CanvasText !important;
+          background: Canvas !important;
+        }
+        .hero2-neomorph {
+          background: Canvas !important;
+          box-shadow: none !important;
+        }
+      }
     
-    </style>
-    <div
-      class="overflow-hidden hero2-neomorph sticky top-0 rounded-card r-card-lg px-4 py-4"
-    >
-      <span
-        aria-hidden="true"
-        class="hero2-beams"
-      />
-      <span
-        aria-hidden="true"
-        class="hero2-scanlines"
-      />
-      <span
-        aria-hidden="true"
-        class="hero2-noise opacity-[0.03]"
-      />
+      </style>
       <div
-        class="relative z-[2] space-y-2"
+        class="relative overflow-hidden hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-4 py-4"
       >
-        <header
-          class="z-[999] relative isolate overflow-hidden after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent"
-          id="reviews-header"
+        <span
+          aria-hidden="true"
+          class="hero2-beams"
+        />
+        <span
+          aria-hidden="true"
+          class="hero2-scanlines"
+        />
+        <span
+          aria-hidden="true"
+          class="hero2-noise opacity-[0.03]"
+        />
+        <div
+          class="relative z-[2] space-y-[var(--space-5)] md:space-y-[var(--space-6)]"
         >
           <div
-            class="sticky top-[var(--header-stack)] relative flex items-center px-3 sm:px-4 py-3 sm:py-4 min-h-12"
+            class="relative z-[2] space-y-2"
           >
-            <div
-              aria-hidden="true"
-              class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
-            />
-            <div
-              class="flex min-w-0 items-center gap-2 sm:gap-3"
+            <header
+              class="z-[999] relative isolate after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent after:z-[2]"
+              id="reviews-header"
             >
-              <span
-                class="shrink-0 opacity-90"
-              >
-                <svg
-                  class="lucide lucide-book-open opacity-80"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 7v14"
-                  />
-                  <path
-                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
-                  />
-                </svg>
-              </span>
               <div
-                class="min-w-0"
+                class="sticky top-[var(--header-stack)] relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)]"
               >
                 <div
-                  class="flex min-w-0 items-baseline gap-2"
+                  aria-hidden="true"
+                  class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+                />
+                <div
+                  class="flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]"
                 >
-                  <h1
-                    class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                  <div
+                    class="flex min-w-0 items-center gap-[var(--space-2)] sm:gap-[var(--space-3)]"
                   >
-                    Reviews
-                  </h1>
+                    <span
+                      class="shrink-0 opacity-90"
+                    >
+                      <svg
+                        class="lucide lucide-book-open opacity-80"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 7v14"
+                        />
+                        <path
+                          d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+                        />
+                      </svg>
+                    </span>
+                    <div
+                      class="min-w-0"
+                    >
+                      <div
+                        class="flex min-w-0 items-baseline gap-[var(--space-2)]"
+                      >
+                        <h1
+                          class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                        >
+                          Reviews
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </header>
-        <section>
-          <style>
-            
+            </header>
+            <section>
+              <style
+                global="true"
+                jsx="true"
+              >
+                
       /* === Glitch title ================================================== */
       .hero2-title {
         position: relative;
@@ -286,6 +339,26 @@ exports[`ReviewsPage > renders default state 1`] = `
       .neon-life {
         --neon: var(--accent);
       }
+      @media (prefers-contrast: more) {
+        .hero2-divider-line {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.85 !important;
+        }
+        .hero2-divider-glow {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.9 !important;
+          filter: none !important;
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-divider-line {
+          background-color: CanvasText !important;
+          opacity: 1 !important;
+        }
+        .hero2-divider-glow {
+          display: none !important;
+        }
+      }
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,
         .hero2-title::after {
@@ -294,9 +367,12 @@ exports[`ReviewsPage > renders default state 1`] = `
         }
       }
     
-          </style>
-          <style>
-            
+              </style>
+              <style
+                global="true"
+                jsx="true"
+              >
+                
       .hero2-beams {
         position: absolute;
         inset: calc(var(--space-1) / -2);
@@ -324,6 +400,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-beams {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-beam-pan {
@@ -363,6 +440,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-scanlines {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-scan-move {
@@ -393,6 +471,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         .hero2-noise {
           animation: none;
           background-position: 0 0;
+          display: none;
         }
       }
       @keyframes hero2-noise-shift {
@@ -413,145 +492,229 @@ exports[`ReviewsPage > renders default state 1`] = `
             var(--space-2) hsl(var(--highlight) / 0.05),
           0 0 var(--space-4) hsl(var(--ring) / 0.25);
       }
+      @media (prefers-contrast: more) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: hsl(var(--foreground) / 0.7) !important;
+        }
+        .hero2-neomorph {
+          box-shadow:
+            inset var(--space-1) var(--space-1) var(--space-2)
+              hsl(var(--background) / 0.65),
+            inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+              var(--space-2) hsl(var(--highlight) / 0.08),
+            0 0 0 1px hsl(var(--ring) / 0.7),
+            0 0 var(--space-5) hsl(var(--ring) / 0.5);
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: CanvasText !important;
+          background: Canvas !important;
+        }
+        .hero2-neomorph {
+          background: Canvas !important;
+          box-shadow: none !important;
+        }
+      }
     
-          </style>
-          <div
-            class="sticky-blur top-[var(--header-stack)]"
-          >
-            <div
-              class="relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6"
-            >
-              <span
-                aria-hidden="true"
-                class="rail"
-              />
+              </style>
               <div
-                class="min-w-0"
+                class="sticky-blur top-[var(--header-stack)]"
               >
                 <div
-                  class="flex items-baseline gap-2"
+                  class="relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]"
                 >
-                  <h2
-                    class="hero2-title title-glow text-2xl md:text-3xl font-semibold tracking-[-0.005em] truncate"
-                    data-text="Browse Reviews"
-                  >
-                    Browse Reviews
-                  </h2>
                   <span
-                    class="text-sm md:text-base font-medium text-[hsl(var(--muted-foreground))] truncate"
+                    aria-hidden="true"
+                    class="rail"
+                  />
+                  <div
+                    class="min-w-0"
+                  >
+                    <div
+                      class="flex items-baseline gap-[var(--space-2)]"
+                    >
+                      <h2
+                        class="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
+                        data-text="Browse Reviews"
+                      >
+                        Browse Reviews
+                      </h2>
+                      <span
+                        class="text-ui md:text-body font-medium text-muted-foreground truncate"
+                      >
+                        <span
+                          class="pill"
+                        >
+                          Total 
+                          3
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]"
+                >
+                  <div
+                    class="relative"
+                    style="--divider: var(--ring);"
                   >
                     <span
-                      class="pill"
-                    >
-                      Total 
-                      3
-                    </span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="relative z-[2] mt-5 flex flex-col gap-5"
-            >
-              <div
-                class="relative"
-                style="--divider: var(--ring);"
-              >
-                <span
-                  aria-hidden="true"
-                  class="block h-px bg-[hsl(var(--divider))/0.35]"
-                />
-                <span
-                  aria-hidden="true"
-                  class="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
-                />
-                <div
-                  class="flex items-center gap-3 md:gap-4 lg:gap-6 pt-4"
-                >
-                  <form
-                    class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
-                    role="search"
-                  >
+                      aria-hidden="true"
+                      class="hero2-divider-line block h-px bg-[hsl(var(--divider))/0.35]"
+                    />
+                    <span
+                      aria-hidden="true"
+                      class="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                    />
                     <div
-                      class="relative min-w-0"
+                      class="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <form
+                        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
+                        role="search"
                       >
-                        <circle
-                          cx="11"
-                          cy="11"
-                          r="8"
-                        />
-                        <path
-                          d="m21 21-4.3-4.3"
-                        />
-                      </svg>
-                      <div
-                        class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-inner shadow-[0_0_0_1px_hsl(var(--border)/0.12)] transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-[0_2px_4px_hsl(var(--shadow)/0.3)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
-                        style="--control-h: var(--control-h-md);"
-                      >
-                        <input
-                          autocapitalize="none"
-                          autocomplete="off"
-                          autocorrect="off"
-                          class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
-                          id=":r0:"
-                          name=":r0:"
-                          placeholder="Search title, tags, opponent, patch…"
-                          spellcheck="false"
-                          type="search"
-                          value=""
-                        />
-                      </div>
-                    </div>
-                  </form>
-                  <div
-                    class="flex items-center gap-2"
-                  >
-                    <div
-                      class="flex items-center gap-3"
-                    >
-                      <div
-                        class="hidden sm:flex items-center gap-2 text-xs text-muted-foreground"
-                      >
-                        <span>
-                          Sort
-                        </span>
                         <div
-                          class="glitch-wrap "
+                          class="relative min-w-0"
                         >
-                          <div
-                            class="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 size-[var(--space-4)] text-muted-foreground"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <button
-                              aria-controls=":r1:-listbox"
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-label="Select option"
-                              class="glitch-trigger relative flex items-center h-9 rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-4"
-                              data-lit="true"
-                              data-open="false"
-                              type="button"
+                            <circle
+                              cx="11"
+                              cy="11"
+                              r="8"
+                            />
+                            <path
+                              d="m21 21-4.3-4.3"
+                            />
+                          </svg>
+                          <div
+                            class="relative inline-flex items-center border bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-inset hover:!shadow-neo-soft active:!shadow-neo-inset focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                            style="--control-h: var(--control-h-md);"
+                          >
+                            <input
+                              autocapitalize="none"
+                              autocomplete="off"
+                              autocorrect="off"
+                              class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-[var(--space-7)]"
+                              id=":r1:"
+                              name=":r1:"
+                              placeholder="Search title, tags, opponent, patch…"
+                              spellcheck="false"
+                              type="search"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </form>
+                      <div
+                        class="flex items-center gap-[var(--space-2)]"
+                      >
+                        <div
+                          class="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]"
+                        >
+                          <label
+                            class="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]"
+                          >
+                            <span
+                              class="text-label font-medium text-muted-foreground"
                             >
-                              <span
-                                class="font-medium glitch-text text-foreground group-hover:text-foreground"
+                              Sort
+                            </span>
+                            <div
+                              class="glitch-wrap w-full sm:w-auto"
+                            >
+                              <div
+                                class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
                               >
-                                Newest
-                              </span>
+                                <button
+                                  aria-controls=":r2:-listbox"
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-label="Sort reviews"
+                                  class="_glitchTrigger_843152 relative flex items-center h-[var(--control-h-sm)] rounded-[var(--radius-full)] px-[var(--space-3)] overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none !h-[var(--control-h-md)] !px-[var(--space-4)]"
+                                  data-lit="true"
+                                  data-open="false"
+                                  type="button"
+                                >
+                                  <span
+                                    class="font-medium _glitchText_843152 text-foreground group-hover:text-foreground"
+                                  >
+                                    Newest
+                                  </span>
+                                  <svg
+                                    aria-hidden="true"
+                                    class="lucide lucide-chevron-down _caret_843152 ml-auto size-[var(--space-4)] shrink-0 opacity-75"
+                                    fill="none"
+                                    height="24"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="m6 9 6 6 6-6"
+                                    />
+                                  </svg>
+                                  <span
+                                    aria-hidden="true"
+                                    class="_gbIris_843152"
+                                  />
+                                  <span
+                                    aria-hidden="true"
+                                    class="_gbChroma_843152"
+                                  />
+                                  <span
+                                    aria-hidden="true"
+                                    class="_gbFlicker_843152"
+                                  />
+                                  <span
+                                    aria-hidden="true"
+                                    class="_gbScan_843152"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </label>
+                          <button
+                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-[var(--control-h-md)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto shadow-glow-sm bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active text-foreground [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                            style="--glow-active: hsl(var(--foreground) / 0.35);"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <span
+                              class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
+                            />
+                            <span
+                              class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
+                            >
                               <svg
-                                aria-hidden="true"
-                                class="lucide lucide-chevron-down caret ml-auto size-4 shrink-0 opacity-75 "
+                                class="lucide lucide-plus"
                                 fill="none"
                                 height="24"
                                 stroke="currentColor"
@@ -563,309 +726,32 @@ exports[`ReviewsPage > renders default state 1`] = `
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="m6 9 6 6 6-6"
+                                  d="M5 12h14"
+                                />
+                                <path
+                                  d="M12 5v14"
                                 />
                               </svg>
-                              <span
-                                aria-hidden="true"
-                                class="gb-iris"
-                              />
-                              <span
-                                aria-hidden="true"
-                                class="gb-chroma"
-                              />
-                              <span
-                                aria-hidden="true"
-                                class="gb-flicker"
-                              />
-                              <span
-                                aria-hidden="true"
-                                class="gb-scan"
-                              />
-                            </button>
-                          </div>
-                          <style>
-                            
-      /* caret jitter */
-      .caret {
-        transition:
-          transform var(--dur-quick) var(--ease-out),
-          filter var(--dur-quick) var(--ease-out);
-      }
-      .caret-open {
-        transform: rotate(180deg);
-      }
-      .glitch-trigger:hover .caret {
-        animation: caret-jitter 0.9s steps(2, end) infinite;
-        filter: drop-shadow(0 0 4px hsl(var(--ring) / 0.55));
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .caret {
-          transition: none;
-        }
-        .glitch-trigger:hover .caret {
-          animation: none;
-          filter: none;
-        }
-      }
-      @keyframes caret-jitter {
-        0%,
-        100% {
-          transform: translateX(0) rotate(var(--rot, 0deg));
-        }
-        50% {
-          transform: translateX(0.6px) rotate(var(--rot, 0deg));
-        }
-      }
-
-      /* ── border stack pieces (masked to border) ── */
-
-      .gb-iris,
-      .gb-chroma,
-      .gb-flicker,
-      .gb-scan {
-        position: absolute;
-        inset: -1px;
-        border-radius: var(--radius-2xl);
-        pointer-events: none;
-      }
-
-      /* Base iris sheen with subtle rotation */
-      .gb-iris {
-        padding: 1px;
-        background: conic-gradient(
-          from 180deg,
-          hsl(var(--ring) / 0),
-          hsl(var(--ring) / 0.55),
-          hsl(var(--accent-2) / 0.55),
-          hsl(var(--lav-deep) / 0.55),
-          hsl(var(--ring) / 0)
-        );
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0.32;
-        animation: iris-rotate 10s linear infinite;
-      }
-      @keyframes iris-rotate {
-        to {
-          filter: hue-rotate(360deg);
-        }
-      }
-
-      /* Stronger chroma jitter (RGB split feel) */
-      .gb-chroma {
-        padding: 1px;
-        background: conic-gradient(
-          from 90deg,
-          hsl(var(--ring) / 0),
-          hsl(var(--ring) / 0.7),
-          hsl(var(--accent-2) / 0.65),
-          hsl(var(--accent) / 0.65),
-          hsl(var(--ring) / 0)
-        );
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        mix-blend-mode: screen;
-        opacity: 0.28;
-        animation: chroma-jitter 2.1s steps(6, end) infinite;
-      }
-      @keyframes chroma-jitter {
-        0%,
-        100% {
-          transform: translate(0, 0);
-        }
-        20% {
-          transform: translate(0.25px, -0.25px);
-        }
-        40% {
-          transform: translate(-0.25px, 0.25px);
-        }
-        60% {
-          transform: translate(0.15px, 0.15px);
-        }
-        80% {
-          transform: translate(-0.15px, -0.1px);
-        }
-      }
-
-      /* Flickery aura hugging the border */
-      .gb-flicker {
-        inset: -2px;
-        border-radius: var(--radius-2xl);
-        background: radial-gradient(
-          120% 120% at 50% 50%,
-          hsl(var(--ring) / 0.18),
-          transparent 60%
-        );
-        filter: blur(7px) saturate(1.06);
-        mix-blend-mode: screen;
-        opacity: 0.18;
-        animation:
-          border-flicker 3.2s steps(24, end) infinite,
-          border-pulse 6s ease-in-out infinite alternate;
-      }
-      @keyframes border-flicker {
-        0%,
-        7%,
-        9%,
-        100% {
-          opacity: 0.16;
-        }
-        8% {
-          opacity: 0.46;
-        }
-        31% {
-          opacity: 0.22;
-        }
-        33% {
-          opacity: 0.4;
-        }
-        54% {
-          opacity: 0.2;
-        }
-        55% {
-          opacity: 0.46;
-        }
-        78% {
-          opacity: 0.24;
-        }
-      }
-      @keyframes border-pulse {
-        0%,
-        100% {
-          filter: blur(7px) saturate(1.02);
-        }
-        50% {
-          filter: blur(8px) saturate(1.18);
-        }
-      }
-
-      /* Thin scanlines constrained to the edge */
-      .gb-scan {
-        padding: 1px;
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        background: repeating-linear-gradient(
-          0deg,
-          hsl(var(--foreground) / 0.1) 0 1px,
-          transparent 2px 4px
-        );
-        mix-blend-mode: soft-light;
-        opacity: 0.2;
-        animation: scan-move 5.2s linear infinite;
-      }
-      @keyframes scan-move {
-        0% {
-          transform: translateY(-10%);
-        }
-        100% {
-          transform: translateY(10%);
-        }
-      }
-
-      /* Light up when selected or open */
-      .glitch-trigger[data-lit="true"] .gb-iris,
-      .glitch-trigger[data-open="true"] .gb-iris {
-        opacity: 0.45;
-      }
-      .glitch-trigger[data-lit="true"] .gb-chroma,
-      .glitch-trigger[data-open="true"] .gb-chroma {
-        opacity: 0.48;
-      }
-      .glitch-trigger[data-lit="true"] .gb-flicker,
-      .glitch-trigger[data-open="true"] .gb-flicker {
-        opacity: 0.28;
-      }
-
-      /* Menu also glows a bit stronger */
-      [data-open="true"] .gb-iris {
-        opacity: 0.38;
-      }
-      [data-open="true"] .gb-chroma {
-        opacity: 0.42;
-      }
-      [data-open="true"] .gb-flicker {
-        opacity: 0.26;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .gb-iris,
-        .gb-chroma,
-        .gb-flicker,
-        .gb-scan,
-        .glitch-trigger:hover .caret {
-          animation: none;
-        }
-      }
-
-      /* subtle label RGB split on hover */
-      .glitch-text:hover {
-        text-shadow:
-          0.6px 0 hsl(var(--accent-2) / 0.45),
-          -0.6px 0 hsl(var(--lav-deep) / 0.45);
-      }
-    
-                          </style>
+                              <span>
+                                New Review
+                              </span>
+                            </span>
+                          </button>
                         </div>
                       </div>
-                      <button
-                        class="relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-[0_2px_6px_-1px_hsl(var(--accent)/0.25)] active:translate-y-px active:shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.6)] text-foreground"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <span
-                          class="absolute inset-0 pointer-events-none rounded-2xl bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
-                        />
-                        <span
-                          class="relative z-10 inline-flex items-center gap-2"
-                        >
-                          <svg
-                            class="lucide lucide-plus"
-                            fill="none"
-                            height="24"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M5 12h14"
-                            />
-                            <path
-                              d="M12 5v14"
-                            />
-                          </svg>
-                          <span>
-                            New Review
-                          </span>
-                        </span>
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
-        </section>
+        </div>
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
+        />
       </div>
-      <div
-        aria-hidden="true"
-        class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
-      />
-    </div>
+    </section>
     <div
       class="grid grid-cols-1 items-start gap-6 md:grid-cols-12"
     >
@@ -880,22 +766,25 @@ exports[`ReviewsPage > renders default state 1`] = `
             class="section-b"
           >
             <div
-              class="mb-2 text-sm text-muted-foreground"
+              class="mb-2 text-ui text-muted-foreground"
             >
               3
                shown
             </div>
             <div
-              class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full mx-auto backdrop-blur-sm max-h-screen overflow-auto p-2"
+              class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-outline-subtle w-full mx-auto backdrop-blur-sm h-[calc(100vh-var(--header-stack)-var(--space-6))] overflow-auto p-2"
             >
               <ul
                 class="flex flex-col gap-3"
+                role="listbox"
               >
                 <li>
                   <button
                     aria-label="Open review: Alpha"
+                    aria-selected="false"
                     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
+                    role="option"
                     type="button"
                   >
                     <div
@@ -905,12 +794,12 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="flex items-start justify-between gap-2"
                       >
                         <div
-                          class="truncate font-medium text-base"
+                          class="truncate font-medium text-body"
                         >
                           Alpha
                         </div>
                         <div
-                          class="truncate text-sm text-muted-foreground"
+                          class="truncate text-ui text-muted-foreground"
                         >
                           Lux vs Ahri
                         </div>
@@ -926,7 +815,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             MID
                           </span>
@@ -938,8 +827,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Gamma"
+                    aria-selected="false"
                     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
+                    role="option"
                     type="button"
                   >
                     <div
@@ -949,12 +840,12 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="flex items-start justify-between gap-2"
                       >
                         <div
-                          class="truncate font-medium text-base"
+                          class="truncate font-medium text-body"
                         >
                           Gamma
                         </div>
                         <div
-                          class="truncate text-sm text-muted-foreground"
+                          class="truncate text-ui text-muted-foreground"
                         >
                           Ashe vs Cait
                         </div>
@@ -970,7 +861,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             BOT
                           </span>
@@ -982,8 +873,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                 <li>
                   <button
                     aria-label="Open review: Beta"
+                    aria-selected="false"
                     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
+                    role="option"
                     type="button"
                   >
                     <div
@@ -993,12 +886,12 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="flex items-start justify-between gap-2"
                       >
                         <div
-                          class="truncate font-medium text-base"
+                          class="truncate font-medium text-body"
                         >
                           Beta
                         </div>
                         <div
-                          class="truncate text-sm text-muted-foreground"
+                          class="truncate text-ui text-muted-foreground"
                         >
                           Garen vs Darius
                         </div>
@@ -1014,7 +907,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex items-center font-medium border rounded-2xl bg-muted/25 border-border/20 text-muted-foreground px-1 py-0 text-xs leading-none"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             TOP
                           </span>
@@ -1034,7 +927,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       >
         <div
           aria-live="polite"
-          class="rounded-card r-card-lg p-4 border border-border/25 bg-card/60 shadow-[0_0_0_1px_hsl(var(--border)/0.12)] w-full container mx-auto flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground"
+          class="rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 shadow-outline-subtle w-full container mx-auto flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground"
         >
           <svg
             class="lucide lucide-ghost h-6 w-6 opacity-60"

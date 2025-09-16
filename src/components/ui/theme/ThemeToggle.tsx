@@ -4,19 +4,26 @@
 import * as React from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { Select, type SelectItem } from "@/components/ui";
+import IconButton from "@/components/ui/primitives/IconButton";
+import useMounted from "@/lib/useMounted";
 import { useTheme } from "@/lib/theme-context";
 import {
   VARIANTS,
+  VARIANT_LABELS,
   BG_CLASSES,
   type Variant,
   type Background,
 } from "@/lib/theme";
+
+const BG_LABELS = ["Default", "Alt 1", "Alt 2", "VHS", "Streak"] as const;
 
 type ThemeToggleProps = {
   className?: string;
   id?: string;
   ariaLabel?: string; // preferred
   "aria-label"?: string; // backward compat
+  cycleDisabled?: boolean;
+  cycleLoading?: boolean;
 };
 
 export default function ThemeToggle({
@@ -24,54 +31,111 @@ export default function ThemeToggle({
   id,
   ariaLabel,
   "aria-label": ariaLabelAttr,
+  cycleDisabled = false,
+  cycleLoading = false,
 }: ThemeToggleProps) {
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useMounted();
   const [state, setState] = useTheme();
-  const { variant } = state;
+  const { variant, bg } = state;
+  const hasMultipleBackgrounds = BG_CLASSES.length > 1;
+  const isCycleDisabled = cycleDisabled || !hasMultipleBackgrounds;
+  const isCycleLoading = cycleLoading;
+  const [announcement, setAnnouncement] = React.useState("");
+  const prevVariantRef = React.useRef<Variant>(variant);
+  const prevBgRef = React.useRef<Background>(bg);
+  const initializedRef = React.useRef(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const setVariantPersist = React.useCallback(
+    (v: Variant) => setState((prev) => ({ variant: v, bg: prev.bg })),
+    [setState],
+  );
+  const handleChange = React.useCallback(
+    (v: string) => setVariantPersist(v as Variant),
+    [setVariantPersist],
+  );
+  const items: SelectItem[] = React.useMemo(
+    () =>
+      VARIANTS.map((v) => ({
+        value: v.id,
+        label: v.label,
+      })),
+    [],
+  );
 
-  function setVariantPersist(v: Variant) {
-    setState((prev) => ({ variant: v, bg: prev.bg }));
-  }
   function cycleBg() {
+    if (isCycleDisabled || isCycleLoading) {
+      return;
+    }
     setState((prev) => ({
       ...prev,
       bg: ((prev.bg + 1) % BG_CLASSES.length) as Background,
     }));
   }
 
+  React.useEffect(() => {
+    if (!mounted) {
+      prevVariantRef.current = variant;
+      prevBgRef.current = bg;
+      return;
+    }
+
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      prevVariantRef.current = variant;
+      prevBgRef.current = bg;
+      return;
+    }
+
+    if (variant !== prevVariantRef.current) {
+      setAnnouncement(`Theme switched to ${VARIANT_LABELS[variant]}`);
+    } else if (bg !== prevBgRef.current) {
+      setAnnouncement(`Background switched to ${BG_LABELS[bg]}`);
+    }
+
+    prevVariantRef.current = variant;
+    prevBgRef.current = bg;
+  }, [variant, bg, mounted]);
+
+  React.useEffect(() => {
+    if (!announcement) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setAnnouncement("");
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [announcement]);
+
   if (!mounted) {
     return (
       <span
         aria-hidden
-        className={`inline-block h-9 w-9 rounded-full bg-input ${className}`}
+        className={`inline-block h-[var(--control-h-sm)] w-[var(--control-h-sm)] rounded-full bg-input ${className}`}
       />
     );
   }
 
-  const items: SelectItem[] = VARIANTS.map((v) => ({
-    value: v.id,
-    label: v.label,
-  }));
-
   return (
-    <div className={`flex items-center gap-2 whitespace-nowrap ${className}`}>
+    <div className={`flex items-center gap-[var(--space-2)] whitespace-nowrap ${className}`}>
       {/* background cycle */}
-      <button
+      <IconButton
         id={id}
-        type="button"
         aria-label={`${aria}: cycle background`}
-        onClick={cycleBg}
         title="Change background"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-border bg-card opacity-70 hover:opacity-100 focus-visible:opacity-100 hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        onClick={cycleBg}
+        disabled={isCycleDisabled}
+        loading={isCycleLoading}
+        size="sm"
+        className="shrink-0"
       >
-        <ImageIcon className="h-4 w-4" />
-      </button>
+        <ImageIcon className="h-[var(--space-4)] w-[var(--space-4)]" />
+      </IconButton>
 
       {/* dropdown — no visible title; uses aria label */}
       <Select
@@ -79,12 +143,15 @@ export default function ThemeToggle({
         ariaLabel={aria}
         items={items}
         value={variant}
-        onChange={(v) => setVariantPersist(v as Variant)}
-        buttonClassName="!h-9 !px-3 !rounded-full !text-sm !w-auto"
+        onChange={handleChange}
+        buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !w-auto"
         matchTriggerWidth={false}
         align="right"
         className="shrink-0"
       />
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
     </div>
   );
 }

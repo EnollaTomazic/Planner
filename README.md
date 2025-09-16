@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-> **Prerequisite:** Install [Node.js](https://nodejs.org) version 22 or higher.
+> **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
 
 This project automatically regenerates its UI component export index. The `npm run dev` and `npm run build` commands run `npm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `npm run regen-ui` manually whenever components are added or removed.
 
@@ -20,7 +20,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
@@ -38,6 +38,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## GitHub Pages Deployment
+
+Export the site for GitHub Pages by building with the flag `GITHUB_PAGES=true` (the `npm run deploy` script already sets it). This enables the GitHub Pages configuration and generates an export that expects to live at the repository base path (`/<repo>/`).
+
+When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site.
+
+To mirror the GitHub Pages behavior locally, provide the repository slug with `BASE_PATH` while enabling the GitHub Pages flag. For example:
+
+```bash
+GITHUB_PAGES=true BASE_PATH=<repo> npm run dev
+```
+
+Then open `http://localhost:3000/<repo>/` to load the home page under the same base path.
 
 ## Animations
 

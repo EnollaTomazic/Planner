@@ -1,64 +1,333 @@
-import { describe, it, expect, vi } from "vitest";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-describe("db event bindings", () => {
-  it("attaches listener only once", async () => {
-    const spy = vi.spyOn(window, "addEventListener");
-    await import("@/lib/db");
-    expect(spy).toHaveBeenCalledWith("beforeunload", expect.any(Function));
-    spy.mockClear();
-    vi.resetModules();
-    await import("@/lib/db");
-    expect(spy).not.toHaveBeenCalledWith("beforeunload", expect.any(Function));
-    spy.mockRestore();
+const originalLocalStorage = window.localStorage;
+const originalStorageEvent = window.StorageEvent;
+
+type StorageMock = ReturnType<typeof createMockStorage>;
+
+function createMockStorage() {
+  const store = new Map<string, string>();
+
+  const getItem = vi.fn((key: string) => (store.has(key) ? store.get(key)! : null));
+  const setItem = vi.fn((key: string, value: string) => {
+    store.set(key, value);
+  });
+  const removeItem = vi.fn((key: string) => {
+    store.delete(key);
+  });
+  const clear = vi.fn(() => {
+    store.clear();
+  });
+  const key = vi.fn((index: number) => Array.from(store.keys())[index] ?? null);
+
+  const storage = {
+    getItem,
+    setItem,
+    removeItem,
+    clear,
+    key,
+  } as Record<string, unknown>;
+
+  Object.defineProperty(storage, "length", {
+    configurable: true,
+    get: () => store.size,
   });
 
-  it("flushes queued writes when page becomes hidden", async () => {
-    vi.resetModules();
-    delete (window as any).__planner_flush_bound;
-    const bootstrap = await import("@/lib/local-bootstrap");
-    const spy = vi.spyOn(bootstrap, "writeLocal");
-    const { writeLocal } = await import("@/lib/db");
-    Object.defineProperty(document, "visibilityState", {
-      value: "hidden",
+  return {
+    store,
+    storage: storage as Storage,
+    getItem,
+    setItem,
+    removeItem,
+    clear,
+    key,
+  };
+}
+
+class MockStorageEvent extends Event {
+  readonly key: string | null;
+  readonly newValue: string | null;
+  readonly oldValue: string | null;
+  readonly storageArea: Storage | null;
+  readonly url: string;
+
+  constructor(type: string, init: StorageEventInit = {}) {
+    super(type, init);
+    this.key = init.key ?? null;
+    this.newValue = init.newValue ?? null;
+    this.oldValue = init.oldValue ?? null;
+    this.storageArea = init.storageArea ?? null;
+    this.url = init.url ?? "";
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  initStorageEvent(
+    _type?: string,
+    _bubbles?: boolean,
+    _cancelable?: boolean,
+    _key?: string | null,
+    _oldValue?: string | null,
+    _newValue?: string | null,
+    _url?: string | null,
+    _storageArea?: Storage | null,
+  ) {}
+}
+
+function dispatchStorageEvent(init: StorageEventInit & { key?: string | null }) {
+  const event = new StorageEvent("storage", init);
+  window.dispatchEvent(event);
+  return event;
+}
+
+let storageMock: StorageMock;
+
+beforeEach(() => {
+  vi.resetModules();
+  storageMock = createMockStorage();
+
+  Object.defineProperty(window, "localStorage", {
+    configurable: true,
+    value: storageMock.storage,
+  });
+
+  vi.stubGlobal("StorageEvent", MockStorageEvent as unknown as typeof StorageEvent);
+  delete (window as { __planner_flush_bound?: boolean }).__planner_flush_bound;
+});
+
+afterEach(() => {
+  Object.defineProperty(window, "localStorage", {
+    configurable: true,
+    value: originalLocalStorage,
+  });
+
+  vi.unstubAllGlobals();
+  if (originalStorageEvent) {
+    Object.defineProperty(window, "StorageEvent", {
       configurable: true,
+      value: originalStorageEvent,
     });
-    writeLocal("test", "value");
-    document.dispatchEvent(new Event("visibilitychange"));
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
-    Object.defineProperty(document, "visibilityState", {
-      value: "visible",
-      configurable: true,
-    });
+  }
+
+  vi.clearAllMocks();
+  vi.clearAllTimers();
+  vi.useRealTimers();
+  vi.resetModules();
+  delete (window as { __planner_flush_bound?: boolean }).__planner_flush_bound;
+});
+
+describe("setWriteLocalDelay", () => {
+  it("clamps negative delays to zero", async () => {
+    const db = await import("@/lib/db");
+
+    db.setWriteLocalDelay(-10);
+
+    expect(db.writeLocalDelay).toBe(0);
+  });
+
+  it("keeps positive delays unchanged", async () => {
+    const db = await import("@/lib/db");
+
+    db.setWriteLocalDelay(75);
+
+    expect(db.writeLocalDelay).toBe(75);
   });
 });
 
-describe("writeLocal", () => {
-  it("removes key when value is undefined or null", async () => {
-    window.localStorage.setItem("a", "1");
-    window.localStorage.setItem("b", "2");
-    const mod = await import("@/lib/local-bootstrap");
-    mod.writeLocal("a", undefined);
-    mod.writeLocal("b", null);
-    expect(window.localStorage.getItem("a")).toBeNull();
-    expect(window.localStorage.getItem("b")).toBeNull();
+describe("scheduleWrite", () => {
+  it("debounces writes until the delay elapses", async () => {
+    vi.useFakeTimers();
+    const { scheduleWrite } = await import("@/lib/db");
+    const key = "noxis-planner:debounce";
+
+    scheduleWrite(key, { count: 1 });
+
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(49);
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(1);
+    expect(storageMock.setItem).toHaveBeenCalledTimes(1);
+    expect(storageMock.setItem).toHaveBeenLastCalledWith(
+      key,
+      JSON.stringify({ count: 1 }),
+    );
+  });
+
+  it("flushes queued writes immediately when requested", async () => {
+    vi.useFakeTimers();
+    const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+    const firstKey = "noxis-planner:first";
+    const secondKey = "noxis-planner:second";
+
+    scheduleWrite(firstKey, { id: 1 });
+    scheduleWrite(secondKey, { id: 2 });
+
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    flushWriteLocal();
+
+    expect(storageMock.setItem).toHaveBeenCalledTimes(2);
+    expect(storageMock.store.get(firstKey)).toBe(JSON.stringify({ id: 1 }));
+    expect(storageMock.store.get(secondKey)).toBe(JSON.stringify({ id: 2 }));
+
+    vi.advanceTimersByTime(100);
+    expect(storageMock.setItem).toHaveBeenCalledTimes(2);
+  });
+
+  it("skips persistence when cloning fails", async () => {
+    const safeCloneMock = vi.fn(() => undefined);
+    vi.doMock("@/lib/utils", async () => {
+      const actual = await vi.importActual<typeof import("@/lib/utils")>(
+        "@/lib/utils",
+      );
+      return {
+        ...actual,
+        safeClone: safeCloneMock as typeof actual.safeClone,
+      };
+    });
+
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+    const key = "noxis-planner:clone-fail";
+    const value = { id: 42 };
+
+    scheduleWrite(key, value);
+
+    expect(safeCloneMock).toHaveBeenCalledTimes(1);
+    expect(safeCloneMock).toHaveBeenCalledWith(value);
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Skipping persistence for "${key}" because value could not be cloned.`,
+      value,
+    );
+
+    flushWriteLocal();
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    vi.doUnmock("@/lib/utils");
+    warnSpy.mockRestore();
   });
 });
 
-describe("uid", () => {
-  it("generates unique ids without crypto.randomUUID", async () => {
-    const original = globalThis.crypto;
-    Object.defineProperty(globalThis, "crypto", {
-      value: {},
-      configurable: true,
+describe("useStorageSync", () => {
+  it("notifies listeners only for matching localStorage changes", async () => {
+    const { useStorageSync, createStorageKey } = await import("@/lib/db");
+    const onChange = vi.fn();
+
+    const { unmount } = renderHook(() => useStorageSync("sync-key", onChange));
+    const fullKey = createStorageKey("sync-key");
+    const otherArea = createMockStorage().storage;
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ tab: 1 }),
+        storageArea: window.localStorage,
+      });
     });
-    const { uid } = await import("@/lib/db");
-    const ids = new Set<string>();
-    for (let i = 0; i < 10000; i++) ids.add(uid());
-    expect(ids.size).toBe(10000);
-    Object.defineProperty(globalThis, "crypto", {
-      value: original,
-      configurable: true,
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith(JSON.stringify({ tab: 1 }));
+
+    act(() => {
+      dispatchStorageEvent({
+        key: "other-key",
+        newValue: JSON.stringify({ tab: 2 }),
+        storageArea: window.localStorage,
+      });
     });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ tab: 3 }),
+        storageArea: otherArea,
+      });
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ tab: 4 }),
+        storageArea: window.localStorage,
+      });
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith(JSON.stringify({ tab: 4 }));
+
+    unmount();
+  });
+});
+
+describe("usePersistentState", () => {
+  it("hydrates from storage after mount and stays in sync", async () => {
+    const { usePersistentState, createStorageKey, flushWriteLocal } = await import("@/lib/db");
+
+    const key = "preferences";
+    const fullKey = createStorageKey(key);
+    const initialState = { theme: "light" };
+    const storedState = { theme: "dark" };
+
+    window.localStorage.setItem(fullKey, JSON.stringify(storedState));
+
+    const renders: Array<typeof initialState> = [];
+    const { result } = renderHook(() => {
+      const hookResult = usePersistentState(key, initialState);
+      renders.push(hookResult[0]);
+      return hookResult;
+    });
+
+    expect(renders[0]).toEqual(initialState);
+
+    await waitFor(() => {
+      expect(result.current[0]).toEqual(storedState);
+    });
+
+    act(() => {
+      result.current[1]({ theme: "system" });
+    });
+
+    expect(storageMock.setItem).not.toHaveBeenCalledWith(
+      fullKey,
+      JSON.stringify({ theme: "system" }),
+    );
+
+    flushWriteLocal();
+
+    expect(storageMock.setItem).toHaveBeenCalledWith(
+      fullKey,
+      JSON.stringify({ theme: "system" }),
+    );
+    expect(window.localStorage.getItem(fullKey)).toBe(
+      JSON.stringify({ theme: "system" }),
+    );
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ theme: "contrast" }),
+        storageArea: window.localStorage,
+      });
+    });
+
+    expect(result.current[0]).toEqual({ theme: "contrast" });
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: null,
+        storageArea: window.localStorage,
+      });
+    });
+
+    expect(result.current[0]).toEqual(initialState);
   });
 });

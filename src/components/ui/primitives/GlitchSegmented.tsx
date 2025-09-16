@@ -68,7 +68,7 @@ export const GlitchSegmentedGroup = ({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex rounded-full bg-[var(--btn-bg)] p-1 gap-1",
+        "inline-flex rounded-full bg-[var(--btn-bg)] p-[var(--space-1)] gap-[var(--space-1)]",
         className,
       )}
       onKeyDown={onKeyDown}
@@ -108,19 +108,19 @@ export const GlitchSegmentedButton = React.forwardRef<
       onClick={onSelect}
       className={cn(
         styles.glitchScanlines,
-        "flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none",
+        "flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none",
         "rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
         "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
-        "hover:-translate-y-px hover:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)]",
-        "active:shadow-[0_0_8px_var(--neon),0_0_16px_var(--neon-soft)] active:scale-95",
-        "data-[selected=true]:shadow-[0_0_12px_var(--neon),0_0_24px_var(--neon-soft)] data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft]",
+        "hover:-translate-y-px hover:shadow-neon-soft",
+        "active:shadow-neon-soft active:scale-95",
+        "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft]",
         "disabled:opacity-50 disabled:pointer-events-none",
         className,
       )}
       {...rest}
     >
       {icon ? (
-        <span className="inline-flex h-4 w-4 items-center justify-center">
+        <span className="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center">
           {icon}
         </span>
       ) : null}

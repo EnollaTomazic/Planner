@@ -6,13 +6,11 @@ import {
   Input,
   Textarea,
   Select,
-  Badge,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
-  TabSelector,
-  SegmentedButtons,
   Progress,
+  GlitchProgress,
   Spinner,
   ThemeToggle,
   AnimationToggle,
@@ -20,6 +18,7 @@ import {
   TitleBar,
   Header,
   Hero,
+  PageShell,
   SearchBar,
   Snackbar,
   Card,
@@ -33,7 +32,7 @@ import {
   Label,
   type TabItem,
 } from "@/components/ui";
-import BadgePrimitive from "@/components/ui/primitives/Badge";
+import Badge from "@/components/ui/primitives/Badge";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
@@ -112,12 +111,27 @@ const demoTasks = [
   },
 ];
 
+const demoTasksById = Object.fromEntries(
+  demoTasks.map((task) => [task.id, task]),
+);
+
+const demoTasksByProject = demoTasks.reduce<Record<string, string[]>>(
+  (acc, task) => {
+    const projectId = task.projectId;
+    if (projectId) {
+      (acc[projectId] ??= []).push(task.id);
+    }
+    return acc;
+  },
+  {},
+);
+
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
   const [seg, setSeg] = React.useState("one");
-  const [tabSel, setTabSel] = React.useState("one");
-  const [segButtons, setSegButtons] = React.useState("all");
+  const [appTab, setAppTab] = React.useState("reviews");
+  const [filterTab, setFilterTab] = React.useState("all");
   const [checked, setChecked] = React.useState(false);
   const [toggleSide, setToggleSide] = React.useState<"Left" | "Right">("Left");
   const [side, setSide] = React.useState<GameSide>("Blue");
@@ -193,31 +207,33 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Tab Selector",
+        label: "TabBar (app nav)",
         element: (
-          <TabSelector
-            tabs={[
+          <TabBar
+            items={[
               { key: "reviews", label: "Reviews" },
               { key: "planner", label: "Planner" },
               { key: "goals", label: "Goals" },
             ]}
-            value={tabSel}
-            onValueChange={setTabSel}
+            value={appTab}
+            onValueChange={setAppTab}
+            ariaLabel="Component gallery sections"
             className="w-56"
           />
         ),
       },
       {
-        label: "Segmented Buttons",
+        label: "TabBar (filters)",
         element: (
-          <SegmentedButtons
+          <TabBar
             items={[
               { key: "all", label: "All" },
               { key: "active", label: "Active" },
               { key: "done", label: "Done" },
             ]}
-            value={segButtons}
-            onValueChange={setSegButtons}
+            value={filterTab}
+            onValueChange={setFilterTab}
+            ariaLabel="Filter items"
             className="w-56"
           />
         ),
@@ -229,7 +245,7 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [seg, tabSel, segButtons, checked, toggleSide, side],
+    [seg, appTab, filterTab, checked, toggleSide, side],
   );
 
   const inputItems = React.useMemo(
@@ -321,7 +337,7 @@ export default function ComponentGallery() {
             />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "Textarea Variants",
@@ -344,7 +360,7 @@ export default function ComponentGallery() {
             </Input>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "AnimatedSelect",
@@ -390,7 +406,7 @@ export default function ComponentGallery() {
             <SectionCard.Body />
           </SectionCard>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Compose",
@@ -404,7 +420,7 @@ export default function ComponentGallery() {
             />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Demos",
@@ -413,7 +429,7 @@ export default function ComponentGallery() {
             <PromptsDemos />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Layout",
@@ -433,7 +449,7 @@ export default function ComponentGallery() {
             </div>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
     ],
     [pillars],
@@ -459,8 +475,8 @@ export default function ComponentGallery() {
           <DayCardHeader
             iso="2024-01-01"
             projectCount={2}
-            doneTasks={1}
-            totalTasks={3}
+            doneCount={1}
+            totalCount={3}
           />
         ),
       },
@@ -501,13 +517,14 @@ export default function ComponentGallery() {
             onAdd={() => ""}
           />
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "TaskList",
         element: (
           <TaskList
-            tasks={demoTasks}
+            tasksById={demoTasksById}
+            tasksByProject={demoTasksByProject}
             selectedProjectId="p1"
             addTask={() => ""}
             renameTask={() => {}}
@@ -518,7 +535,7 @@ export default function ComponentGallery() {
             setSelectedTaskId={() => {}}
           />
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "DayRow",
@@ -527,7 +544,7 @@ export default function ComponentGallery() {
             <DayRow iso="2024-01-01" isToday={false} />
           </PlannerProvider>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "ScrollTopFloatingButton",
@@ -544,8 +561,8 @@ export default function ComponentGallery() {
 
   const miscItems = React.useMemo(
     () => [
-      { label: "Badge", element: <Badge>Badge</Badge> },
-      { label: "Badge Pill", element: <Badge variant="pill">Pill</Badge> },
+      { label: "Badge", element: <Badge tone="neutral">Badge</Badge> },
+      { label: "Badge Accent", element: <Badge tone="accent">Accent</Badge> },
       {
         label: "Accent Overlay Box",
         element: (
@@ -595,6 +612,19 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "GlitchProgress",
+        element: (
+          <GlitchProgress
+            current={3}
+            total={5}
+            showPercentage
+            className="w-56 flex items-center gap-3"
+            trackClassName="flex-1"
+            percentageClassName="w-12 text-right"
+          />
+        ),
+      },
+      {
         label: "Spinner",
         element: (
           <div className="w-56 flex justify-center">
@@ -617,6 +647,26 @@ export default function ComponentGallery() {
             Card content
           </Card>
         ),
+      },
+      {
+        label: "PageShell",
+        element: (
+          <PageShell className="space-y-3 rounded-card border border-border/40 bg-surface/60 py-6">
+            <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+              PageShell
+            </div>
+            <p className="text-ui text-muted-foreground">
+              Constrains page content to the shell width.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm">Primary</Button>
+              <Button size="sm" variant="ghost">
+                Ghost
+              </Button>
+            </div>
+          </PageShell>
+        ),
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "TitleBar",
@@ -657,7 +707,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewPanel",
         element: <ReviewPanel>Content</ReviewPanel>,
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Review Layout",
@@ -667,7 +717,7 @@ export default function ComponentGallery() {
             <div className="md:col-span-8 bg-muted h-10 rounded-md" />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Snackbar",
@@ -821,21 +871,21 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Badge Variants",
+        label: "Badge Tones",
         element: (
           <div className="w-56 flex justify-center gap-2">
-            <Badge>Neutral</Badge>
-            <Badge variant="accent">Accent</Badge>
-            <Badge variant="pill">Pill</Badge>
+            <Badge tone="neutral">Neutral</Badge>
+            <Badge tone="accent">Accent</Badge>
+            <Badge tone="primary">Primary</Badge>
           </div>
         ),
       },
       {
-        label: "Badge Primitive",
+        label: "Badge Sizes",
         element: (
           <div className="w-56 flex justify-center gap-2">
-            <BadgePrimitive size="xs">XS</BadgePrimitive>
-            <BadgePrimitive size="sm">SM</BadgePrimitive>
+            <Badge size="xs">XS</Badge>
+            <Badge size="sm">SM</Badge>
           </div>
         ),
       },
@@ -875,7 +925,7 @@ export default function ComponentGallery() {
             </div>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
     ],
     [headerTab],
@@ -900,12 +950,15 @@ export default function ComponentGallery() {
         onValueChange={setView}
         ariaLabel="Component gallery"
       />
-      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-12 gap-8">
         {itemsMap[view].map((item) => (
           <GalleryItem
             key={item.label}
             label={item.label}
-            className={item.className}
+            className={cn(
+              "col-span-12 sm:col-span-6 md:col-span-4",
+              item.className,
+            )}
           >
             {item.element}
           </GalleryItem>

@@ -15,10 +15,13 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
 import { sanitizeText } from "@/lib/utils";
+import { sanitizeList } from "@/lib/sanitizeList";
+import { ROLES } from "./constants";
+import type { Role } from "./constants";
+import ChampListEditor from "./ChampListEditor";
 
 /* ───────────── types ───────────── */
 
-type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 type LaneExamples = Partial<Record<Role, string[]>>;
 
 export type Archetype = {
@@ -164,6 +167,16 @@ const DEFAULT_SHEET: Archetype[] = [
   },
 ];
 
+/* ───────────── sanitization helpers ───────────── */
+
+function handleSanitizedChange<
+  T extends HTMLInputElement | HTMLTextAreaElement,
+>(callback: (value: string) => void): React.ChangeEventHandler<T> {
+  return (event) => {
+    callback(sanitizeText(event.currentTarget.value));
+  };
+}
+
 /* ───────────── tiny UI helpers ───────────── */
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -174,20 +187,6 @@ function Label({ children }: { children: React.ReactNode }) {
       data-text={text}
     >
       {text}
-    </div>
-  );
-}
-
-function ChampPillsView({ champs }: { champs?: string[] }) {
-  if (!champs?.length) return null;
-  return (
-    <div className="champ-badges mt-1">
-      {champs.map((c) => (
-        <span key={c} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
-          <i className="dot" />
-          {c}
-        </span>
-      ))}
     </div>
   );
 }
@@ -216,7 +215,7 @@ function TitleEdit({
     <input
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
+      onChange={handleSanitizedChange(onChange)}
       className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
@@ -239,7 +238,7 @@ function ParagraphEdit({
     <Textarea
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
+      onChange={handleSanitizedChange(onChange)}
       rows={2}
       className="mt-1"
       resize="resize-y"
@@ -261,17 +260,18 @@ function BulletListEdit({
   ariaLabel: string;
 }) {
   const [list, setList] = React.useState<string[]>(
-    items.length ? items.map(sanitizeText) : [""],
+    items.length ? sanitizeList(items) : [""],
   );
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   React.useEffect(() => {
-    setList(items.length ? items.map(sanitizeText) : [""]);
+    setList(items.length ? sanitizeList(items) : [""]);
   }, [items]);
 
   function update(next: string[]) {
-    setList(next);
-    const cleaned = next.map((t) => sanitizeText(t).trim()).filter(Boolean);
+    const sanitized = sanitizeList(next);
+    setList(sanitized);
+    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
     onChange(cleaned.length ? cleaned : [""]);
   }
 
@@ -343,65 +343,6 @@ function BulletListEdit({
         </li>
       ))}
     </ul>
-  );
-}
-
-function ChampPillsEdit({
-  champs,
-  onChange,
-  editing,
-}: {
-  champs?: string[];
-  onChange: (list: string[]) => void;
-  editing: boolean;
-}) {
-  const list = champs ?? [];
-
-  if (!editing) return <ChampPillsView champs={list} />;
-
-  function setAt(i: number, next: string) {
-    const arr = [...list];
-    arr[i] = sanitizeText(next);
-    onChange(arr.filter((s) => s.trim().length));
-  }
-  function insertAfter(i: number) {
-    const arr = [...list];
-    arr.splice(i + 1, 0, "");
-    onChange(arr.length ? arr : [""]);
-  }
-  function removeAt(i: number) {
-    const arr = [...list];
-    arr.splice(i, 1);
-    onChange(arr);
-  }
-
-  return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-2">
-      {(list.length ? list : [""]).map((c, i) => (
-        <span key={i} className="champ-badge text-label font-medium tracking-[0.02em]">
-          <i className="dot" />
-          <input
-            type="text"
-            dir="ltr"
-            value={c}
-            onChange={(e) => setAt(i, e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === ",") {
-                e.preventDefault();
-                insertAfter(i);
-              }
-              if (e.key === "Backspace" && !e.currentTarget.value) {
-                e.preventDefault();
-                removeAt(i);
-              }
-            }}
-            aria-label="Champion name"
-            autoComplete="off"
-            className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
-          />
-        </span>
-      ))}
-    </div>
   );
 }
 
@@ -554,7 +495,7 @@ export default function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-2 space-y-2">
-                  {(["Top", "Jungle", "Mid", "Bot", "Support"] as Role[]).map(
+                  {ROLES.map(
                     (role) => {
                       const champs = a.examples[role];
                       const setChamps = (list: string[]) =>
@@ -575,10 +516,11 @@ export default function CheatSheet({
                           >
                             {role}
                           </div>
-                          <ChampPillsEdit
-                            champs={champs ?? []}
+                          <ChampListEditor
+                            list={champs}
                             onChange={setChamps}
                             editing={isEditing}
+                            editPillClassName="champ-badge border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
                           />
                         </div>
                       );

@@ -6,7 +6,7 @@ export default function Progress({ value, label }: { value: number; label?: stri
   const v = Math.max(0, Math.min(100, Math.round(value)));
   return (
     <div
-      className="h-2 w-full rounded-full bg-muted shadow-neo-inset"
+      className="h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
       aria-label={label}
     >
       <div

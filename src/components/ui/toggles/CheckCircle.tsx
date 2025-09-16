@@ -13,6 +13,7 @@
  */
 
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { Check } from "lucide-react";
 import * as React from "react";
 
@@ -23,15 +24,15 @@ type CCVars = React.CSSProperties & {
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
-  sm: "h-6 w-6 [&_svg]:size-4",
-  md: "h-8 w-8 [&_svg]:size-5",
-  lg: "h-10 w-10 [&_svg]:size-6",
+  sm: "h-[var(--space-6)] w-[var(--space-6)] [&_svg]:size-[var(--space-4)]",
+  md: "h-[var(--space-8)] w-[var(--space-8)] [&_svg]:size-[var(--space-5)]",
+  lg: "h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-6)]",
 };
 
 export default function CheckCircle({
   checked,
   onChange = () => {},
-  size = "md",
+  size = "sm",
   className,
   disabled = false,
   "aria-label": ariaLabel = "Toggle",
@@ -44,18 +45,7 @@ export default function CheckCircle({
   "aria-label"?: string;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
-
-  const [reduceMotion, setReduceMotion] = React.useState(false);
-  React.useEffect(() => {
-    const mq =
-      typeof window.matchMedia === "function"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)")
-        : null;
-    const onChange = () => setReduceMotion(mq?.matches ?? false);
-    onChange();
-    mq?.addEventListener("change", onChange);
-    return () => mq?.removeEventListener("change", onChange);
-  }, []);
+  const reduceMotion = usePrefersReducedMotion();
 
   // Hover/focus tracking
   const [hovered, setHovered] = React.useState(false);
@@ -186,7 +176,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-1 pointer-events-none transition-opacity",
+              "absolute inset-0 rounded-full p-[var(--space-1)] pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0",
             )}
             style={
@@ -209,7 +199,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0.5 rounded-full pointer-events-none transition-opacity",
+              "absolute inset-[calc(var(--space-1)/2)] rounded-full pointer-events-none transition-opacity",
               lit ? "opacity-100" : "opacity-0",
             )}
             style={{
@@ -227,7 +217,7 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute -inset-2 rounded-full pointer-events-none blur-md transition-opacity",
+              "absolute -inset-[var(--space-2)] rounded-full pointer-events-none blur-md transition-opacity",
               lit ? "opacity-80" : "opacity-0",
             )}
             style={{

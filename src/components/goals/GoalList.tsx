@@ -52,26 +52,28 @@ export default function GoalList({
   }
 
   return (
-    <div className="grid grid-cols-12 gap-6 [grid-auto-rows:minmax(0,1fr)]">
+    <ul className="grid grid-cols-12 gap-6 [grid-auto-rows:minmax(0,1fr)] list-none m-0 p-0">
       {goals.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-ui font-medium text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
-          <Flag
-            aria-hidden
-            className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]"
-          />
-          <p>No goals here. Add one simple, finishable thing.</p>
-        </div>
+        <li className="col-span-12">
+          <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-ui font-medium text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
+            <Flag
+              aria-hidden
+              className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]"
+            />
+            <p>No goals here. Add one simple, finishable thing.</p>
+          </div>
+        </li>
       ) : (
         goals.map((g) => {
           const isEditing = editingId === g.id;
           return (
-            <div key={g.id} className="col-span-12 md:col-span-6 lg:col-span-4">
+            <li key={g.id} className="col-span-12 md:col-span-6 lg:col-span-4">
               <article
                 className={[
                   "relative overflow-hidden rounded-card r-card-lg p-6 min-h-8 flex flex-col",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
-                  "transition-all duration-150 hover:-translate-y-1 hover:shadow-ring",
+                  "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",
                 ].join(" ")}
               >
                 <span
@@ -213,10 +215,10 @@ export default function GoalList({
                   </span>
                 </footer>
               </article>
-            </div>
+            </li>
           );
         })
       )}
-    </div>
+    </ul>
   );
 }

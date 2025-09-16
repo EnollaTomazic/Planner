@@ -14,40 +14,14 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Button from "@/components/ui/primitives/Button";
-import { usePlannerStore } from "./usePlannerStore";
+import { useDayNotes } from "./useDayNotes";
 import type { ISODate } from "./plannerStore";
 
 type Props = { iso: ISODate };
 
 export default function FocusPanel({ iso }: Props) {
-  const { day, setNotes } = usePlannerStore();
-
-  // Initialize from current day.notes; safe because usePersistentState returns initial on first render.
-  const [value, setValue] = React.useState<string>(day.notes ?? "");
-
-  // When the underlying day notes change (due to iso switch or cross-tab sync), refresh local state.
-  React.useEffect(() => {
-    setValue(day.notes ?? "");
-  }, [day.notes]);
-
-  // Derived flags
-  const trimmed = value.trim();
-  const original = (day.notes ?? "").trim();
-  const isDirty = trimmed !== original;
-  const [saving, setSaving] = React.useState(false);
-  const lastSavedRef = React.useRef(original);
-
-  const commit = React.useCallback(async () => {
-    if (!isDirty) return;
-    setSaving(true);
-    try {
-      // Persist to local DB via planner hook
-      await Promise.resolve(setNotes(trimmed));
-      lastSavedRef.current = trimmed;
-    } finally {
-      setSaving(false);
-    }
-  }, [isDirty, setNotes, trimmed]);
+  const { value, setValue, saving, isDirty, lastSavedRef, commit } =
+    useDayNotes();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +55,7 @@ export default function FocusPanel({ iso }: Props) {
         </form>
 
         {/* Subtle status text without yelling at the user */}
-        <div className="mt-2 text-xs text-muted-foreground" aria-live="polite">
+        <div className="mt-2 text-label text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty

@@ -13,25 +13,27 @@ import "./style.css";
 import * as React from "react";
 import TodayHero from "./TodayHero";
 import WeekNotes from "./WeekNotes";
-import WeekPicker from "./WeekPicker";
 import DayRow from "./DayRow";
 import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { PlannerProvider } from "./plannerStore";
-import Header from "@/components/ui/layout/Header";
+import WeekPicker from "./WeekPicker";
+import { PageHeader } from "@/components/ui";
+import PageShell from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
-import { addDays, toISODate } from "@/lib/date";
+import { addDays, formatWeekRangeLabel, toISODate } from "@/lib/date";
 
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
   const { iso, today, setIso } = useFocusDate();
-  React.useEffect(() => {
-    setIso(iso);
-  }, [iso, setIso]);
-  const { start, days } = useWeek(iso);
+  const { start, end, days } = useWeek(iso);
+  const weekAnnouncement = React.useMemo(
+    () => formatWeekRangeLabel(start, end),
+    [start, end],
+  );
 
   // Derive once per week change; keeps list stable during edits elsewhere
   const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
@@ -41,13 +43,13 @@ function Inner() {
 
   const prevWeek = React.useCallback(() => {
     setIso(toISODate(addDays(start, -7)));
-  }, [start, setIso]);
+  }, [setIso, start]);
   const nextWeek = React.useCallback(() => {
     setIso(toISODate(addDays(start, 7)));
-  }, [start, setIso]);
+  }, [setIso, start]);
   const jumpToday = React.useCallback(() => {
     setIso(today);
-  }, [today, setIso]);
+  }, [setIso, today]);
 
   const heroRef = React.useRef<HTMLDivElement>(null);
 
@@ -79,22 +81,40 @@ function Inner() {
 
   return (
     <>
-      <main
-        className="page-shell py-6 space-y-6"
+      <PageShell
+        as="main"
+        className="py-6 space-y-6"
         aria-labelledby="planner-header"
       >
         {/* Week header (range, nav, totals, day chips) */}
-        <div className="space-y-2">
-          <Header
-            id="planner-header"
-            eyebrow="Planner"
-            heading="Planner for Today"
-            subtitle="Plan your week"
-            icon={<CalendarDays className="opacity-80" />}
-            right={right}
-          />
-          <WeekPicker />
-        </div>
+        <PageHeader
+          contentClassName="space-y-2"
+          header={{
+            id: "planner-header",
+            tabIndex: -1,
+            eyebrow: "Planner",
+            heading: "Planner for Today",
+            subtitle: "Plan your week",
+            icon: <CalendarDays className="opacity-80" />,
+            right,
+          }}
+          hero={{
+            frame: false,
+            sticky: false,
+            rail: false,
+            barClassName: "hidden",
+            className: "planner-header__hero",
+            heading: <span className="sr-only">Week picker</span>,
+            children: (
+              <>
+                <WeekPicker />
+                <div aria-live="polite" className="sr-only">
+                  {weekAnnouncement}
+                </div>
+              </>
+            ),
+          }}
+        />
 
         {/* Today + Side column */}
         <section
@@ -106,7 +126,10 @@ function Inner() {
           </div>
 
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
-          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
+          <aside
+            aria-label="Week notes"
+            className="lg:col-span-4 space-y-6 lg:sticky lg:top-8"
+          >
             <WeekNotes iso={iso} />
           </aside>
         </section>
@@ -120,7 +143,7 @@ function Inner() {
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
           ))}
         </ul>
-      </main>
+      </PageShell>
       <ScrollTopFloatingButton watchRef={heroRef} />
     </>
   );

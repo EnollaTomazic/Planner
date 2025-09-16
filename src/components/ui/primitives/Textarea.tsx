@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn, slugify } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useFieldIds } from "@/lib/useFieldIds";
 import FieldShell from "./FieldShell";
 
 /**
@@ -20,7 +21,7 @@ export type TextareaProps =
   };
 
 const INNER =
-  "block w-full max-w-full min-h-7 px-3 py-3 text-base bg-transparent " +
+  "block w-full max-w-full min-h-[var(--space-7)] px-[var(--space-3)] py-[var(--space-3)] text-body bg-transparent " +
   "text-foreground placeholder:text-muted-foreground/70 " +
   "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default";
 
@@ -37,19 +38,19 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) {
-    const auto = React.useId();
-    const fromAria = slugify(ariaLabel as string | undefined);
-    // Use React-generated id by default so multiple fields sharing an aria-label
-    // do not end up with duplicate ids.
-    const finalId = id || auto;
-    const finalName = name || fromAria || slugify(finalId);
-
-    const error =
-      props["aria-invalid"] === true || props["aria-invalid"] === "true";
+    const { id: finalId, name: finalName, isInvalid } = useFieldIds(
+      ariaLabel as string | undefined,
+      id,
+      name,
+      {
+        ariaInvalid: props["aria-invalid"],
+        slugifyFallback: true,
+      },
+    );
 
     return (
       <FieldShell
-        error={error}
+        error={isInvalid}
         disabled={props.disabled}
         readOnly={props.readOnly}
         className={className}

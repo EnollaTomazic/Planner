@@ -11,10 +11,13 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   const pulse = pct >= 90;
+  const accessibleLabel = `Timer ${pct}% complete`;
   return (
     <svg
       className="h-full w-full rotate-[-90deg]"
       viewBox={`0 0 ${size} ${size}`}
+      role="img"
+      aria-label={accessibleLabel}
     >
       <defs>
         <linearGradient id="timer-ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -40,7 +43,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         className={cn(
-          "drop-shadow-[0_0_6px_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-150 ease-linear motion-reduce:transition-none",
+          "drop-shadow-[0_0_6px_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-[var(--dur-quick)] ease-linear motion-reduce:transition-none",
           pulse && "animate-pulse",
         )}
         fill="none"

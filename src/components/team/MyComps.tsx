@@ -14,6 +14,7 @@ import "./style.css";
 
 import * as React from "react";
 import { usePersistentState, uid } from "@/lib/db";
+import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -28,11 +29,11 @@ import {
   NotebookPen,
   Plus,
 } from "lucide-react";
-import { sanitizeText } from "@/lib/utils";
+import { ROLES } from "./constants";
+import type { Role } from "./constants";
+import ChampListEditor from "./ChampListEditor";
 
 /* ───────────── Types ───────────── */
-
-type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 
 export type TeamComp = {
   id: string;
@@ -78,19 +79,6 @@ const SEEDS: TeamComp[] = [
 ];
 
 /* ───────────── Utils ───────────── */
-
-const ROLES: Role[] = ["Top", "Jungle", "Mid", "Bot", "Support"];
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
-function isStringArray(v: unknown): v is string[] {
-  return Array.isArray(v) && v.every((x) => typeof x === "string");
-}
-function safeNumber(v: unknown, fallback: number): number {
-  const n = typeof v === "number" ? v : Number.NaN;
-  return Number.isFinite(n) ? n : fallback;
-}
 
 function stringify(c: TeamComp) {
   const body = ROLES.map((r) => `${r}: ${c.roles[r]?.join(", ") || "-"}`).join(
@@ -144,79 +132,6 @@ function normalize(list: unknown[]): TeamComp[] {
       updatedAt: safeNumber(raw.updatedAt, Date.now()),
     };
   });
-}
-
-/* ───────────── Chips Editor ───────────── */
-
-function ChampChips({
-  list,
-  onChange,
-  editing,
-}: {
-  list: string[] | undefined;
-  onChange: (next: string[]) => void;
-  editing: boolean;
-}) {
-  const champs = list ?? [];
-
-  if (!editing) {
-    return (
-      <div className="champ-badges mt-1 flex flex-wrap gap-2">
-        {(champs.length ? champs : ["-"]).map((c, i) => (
-          <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
-            <i className="dot" />
-            {c}
-          </span>
-        ))}
-      </div>
-    );
-  }
-
-  function setAt(i: number, next: string) {
-    const arr = [...champs];
-    arr[i] = sanitizeText(next);
-    onChange(arr.map(sanitizeText).filter((s) => s.trim().length));
-  }
-  function insertAfter(i: number) {
-    const arr = [...champs];
-    arr.splice(i + 1, 0, "");
-    const nextArr = arr.length ? arr : [""];
-    onChange(nextArr.map(sanitizeText));
-  }
-  function removeAt(i: number) {
-    const arr = [...champs];
-    arr.splice(i, 1);
-    onChange(arr.map(sanitizeText));
-  }
-
-  return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-2">
-      {(champs.length ? champs : [""]).map((c, i) => (
-        <span key={i} className="champ-badge glitch-pill text-label font-medium tracking-[0.02em]">
-          <i className="dot" />
-          <input
-            type="text"
-            dir="ltr"
-            value={c}
-            onChange={(e) => setAt(i, e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === ",") {
-                e.preventDefault();
-                insertAfter(i);
-              }
-              if (e.key === "Backspace" && !e.currentTarget.value) {
-                e.preventDefault();
-                removeAt(i);
-              }
-            }}
-            aria-label="Champion name"
-            autoComplete="off"
-            className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
-          />
-        </span>
-      ))}
-    </div>
-  );
 }
 
 /* ───────────── Component ───────────── */
@@ -442,10 +357,12 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                           </div>
 
                           {/* chips editor/view */}
-                          <ChampChips
+                          <ChampListEditor
                             list={list}
                             onChange={setList}
                             editing={editing}
+                            emptyLabel="-"
+                            viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
                           />
                         </div>
                       );

@@ -21,6 +21,7 @@ type BadgeOwnProps<T extends React.ElementType = "span"> = {
   selected?: boolean;
   glitch?: boolean;
   as?: T;
+  disabled?: boolean;
 };
 
 export type BadgeProps<T extends React.ElementType = "span"> =
@@ -28,8 +29,8 @@ export type BadgeProps<T extends React.ElementType = "span"> =
     Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
-  xs: "px-2 py-1 text-xs leading-none",
-  sm: "px-3 py-2 text-xs leading-none",
+  xs: "px-[var(--space-2)] py-[var(--space-1)] text-label leading-none",
+  sm: "px-[var(--space-3)] py-[var(--space-2)] text-label leading-none",
 };
 
 const toneBorder: Record<Tone, string> = {
@@ -49,6 +50,7 @@ export default function Badge<T extends React.ElementType = "span">({
   interactive = false,
   selected = false,
   glitch = false,
+  disabled = false,
   as,
   className,
   children,
@@ -56,25 +58,35 @@ export default function Badge<T extends React.ElementType = "span">({
 }: BadgeProps<T>) {
   const Comp = as ?? "span";
 
+  const componentProps = {
+    ...rest,
+    ...(typeof disabled !== "undefined" &&
+      (Comp === "button" || typeof Comp !== "string")
+        ? { disabled }
+        : {}),
+  } as typeof rest & { disabled?: boolean };
+
   return (
     <Comp
       data-selected={selected ? "true" : undefined}
+      data-disabled={disabled ? "true" : undefined}
+      aria-disabled={disabled ? "true" : undefined}
       className={cn(
-        "inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
+        "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em]",
         "border bg-muted/18",
-        "shadow-[inset_0_1px_0_hsl(var(--foreground)/.06),0_0_0_.5px_hsl(var(--card-hairline)/.35),0_10px_20px_hsl(var(--shadow-color)/.18)]",
+        "shadow-badge",
         "transition-[background,box-shadow,transform] duration-140 ease-out",
         sizeMap[size],
         toneBorder[tone],
-        interactive && "cursor-pointer",
-        interactive && "hover:bg-muted/28",
+        interactive &&
+          "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))] hover:bg-muted/28 active:bg-muted/36 active:translate-y-[var(--space-1)] motion-reduce:active:translate-y-0 data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
         selected &&
-          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-[0_0_0_1px_var(--ring-contrast)_inset] shadow-glow-xl text-[var(--text-on-accent)]",
+          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-inset-contrast shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
-          "shadow-[0_0_0_1px_hsl(var(--card-hairline))_inset] shadow-glow-md hover:shadow-[0_0_0_1px_var(--ring-contrast)_inset] hover:shadow-glow-lg",
+          "shadow-inset-hairline shadow-glow-md hover:shadow-inset-contrast hover:shadow-glow-lg",
         className,
       )}
-      {...rest}
+      {...componentProps}
     >
       {children}
     </Comp>

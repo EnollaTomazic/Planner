@@ -1,9 +1,3 @@
-import { readLocal, writeLocal, localBootstrapScript } from "./local-bootstrap";
-
-const STORAGE_PREFIX = "noxis-planner:";
-function createStorageKey(key: string): string {
-  return `${STORAGE_PREFIX}${key}`;
-}
 
 export type Variant =
   | "lg"
@@ -20,6 +14,7 @@ export interface ThemeState {
 }
 
 export const THEME_STORAGE_KEY = "ui:theme";
+export const THEME_BOOTSTRAP_SCRIPT_PATH = "/scripts/theme-bootstrap.js";
 
 export const BG_CLASSES = [
   "",
@@ -28,6 +23,24 @@ export const BG_CLASSES = [
   "bg-vhs",
   "bg-streak",
 ] as const;
+
+const BG_CLASS_SET = new Set<string>(
+  BG_CLASSES.filter((className) => className.length > 0),
+);
+
+export function resetThemeClasses(classList: DOMTokenList) {
+  const classesToRemove: string[] = [];
+
+  classList.forEach((className) => {
+    if (className.startsWith("theme-") || BG_CLASS_SET.has(className)) {
+      classesToRemove.push(className);
+    }
+  });
+
+  if (classesToRemove.length > 0) {
+    classList.remove(...classesToRemove);
+  }
+}
 
 export const COLOR_PALETTES = {
   aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
@@ -52,6 +65,7 @@ export const COLOR_PALETTES = {
   accents: [
     "accent",
     "accent-2",
+    "accent-3",
     "accent-foreground",
     "danger",
     "success",
@@ -90,50 +104,22 @@ export function defaultTheme(): ThemeState {
   return { variant: "lg", bg: 0 };
 }
 
-export function readTheme(): ThemeState {
-  const data = readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY));
-  return data ? { variant: data.variant, bg: data.bg } : defaultTheme();
-}
-
-export function writeTheme(state: ThemeState) {
-  writeLocal(createStorageKey(THEME_STORAGE_KEY), state);
-}
-
 export function applyTheme({ variant, bg }: ThemeState) {
-  const cl = document.documentElement.classList;
-  cl.forEach((n) => {
-    if (n.startsWith("theme-")) cl.remove(n);
-  });
-  cl.add(`theme-${variant}`);
+  if (typeof document === "undefined") {
+    return;
+  }
 
-  BG_CLASSES.forEach((c) => {
-    if (c) cl.remove(c);
-  });
-  if (bg > 0) cl.add(BG_CLASSES[bg]);
+  const { documentElement } = document;
+  if (!documentElement) {
+    return;
+  }
+
+  const cl = documentElement.classList;
+  resetThemeClasses(cl);
+  cl.add(`theme-${variant}`);
+  const isValidBgIndex =
+    Number.isInteger(bg) && bg >= 0 && bg < BG_CLASSES.length;
+  if (isValidBgIndex && bg > 0) cl.add(BG_CLASSES[bg]);
   cl.add("dark");
 }
 
-export function themeBootstrapScript(): string {
-  return `((() => {
-    try {
-      ${localBootstrapScript()}
-      const key = "${createStorageKey(THEME_STORAGE_KEY)}";
-      let data = readLocal(key);
-      if (!data) {
-        data = { variant: "lg", bg: 0 };
-        writeLocal(key, data);
-      }
-      const BG_CLASSES = ${JSON.stringify(BG_CLASSES)};
-      const cl = document.documentElement.classList;
-      Array.from(cl).forEach((n) => {
-        if (n.indexOf("theme-") === 0) cl.remove(n);
-      });
-      cl.add("theme-" + data.variant);
-      BG_CLASSES.forEach((c) => {
-        if (c) cl.remove(c);
-      });
-      if (data.bg > 0) cl.add(BG_CLASSES[data.bg]);
-      cl.add("dark");
-    } catch {}
-  })())`;
-}

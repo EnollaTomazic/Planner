@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   ensureDay,
+  computeDayCounts,
   useDays,
   useFocus,
   type DayRecord,
@@ -11,42 +12,54 @@ import {
   type DayTask,
 } from "./plannerStore";
 import { makeCrud } from "./plannerCrud";
-import { parseJSON } from "@/lib/local-bootstrap";
+import { readLocal, removeLocal } from "@/lib/db";
 
 export type { ISODate, DayRecord, Project, DayTask } from "./plannerStore";
+
+type LegacySnapshot = {
+  projects: Project[] | null;
+  tasks: DayTask[] | null;
+};
+
+const LEGACY_PROJECTS_KEY = "planner:projects";
+const LEGACY_TASKS_KEY = "planner:tasks";
 
 let legacyMigrated = false;
 function migrateLegacy(
   days: Record<ISODate, DayRecord>,
   iso: ISODate,
+  legacy?: LegacySnapshot,
 ): Record<ISODate, DayRecord> {
   if (legacyMigrated || typeof window === "undefined") return days;
-  const rawProjects = window.localStorage.getItem("planner:projects");
-  const rawTasks = window.localStorage.getItem("planner:tasks");
-  if (!rawProjects && !rawTasks) {
+  const projects =
+    legacy?.projects ?? readLocal<Project[]>(LEGACY_PROJECTS_KEY);
+  const tasks = legacy?.tasks ?? readLocal<DayTask[]>(LEGACY_TASKS_KEY);
+  if (!projects && !tasks) {
     legacyMigrated = true;
     return days;
   }
-  const projects = parseJSON<Project[]>(rawProjects);
-  const tasks = parseJSON<DayTask[]>(rawTasks);
   const next = { ...days } as Record<ISODate, DayRecord>;
-  const cur = ensureDay(next, iso);
-  if (projects) cur.projects = projects;
+  const ensured = ensureDay(next, iso);
+  let updated = ensured;
+  if (projects) {
+    updated = { ...updated, projects };
+  }
   if (tasks) {
-    cur.tasks = tasks;
     const map: Record<string, string[]> = {};
+    const byId: Record<string, DayTask> = {};
     for (const t of tasks) {
+      byId[t.id] = t;
       if (t.projectId) (map[t.projectId] ??= []).push(t.id);
     }
-    cur.tasksByProject = map;
+    updated = { ...updated, tasks, tasksById: byId, tasksByProject: map };
   }
-  next[iso] = cur;
-  try {
-    window.localStorage.removeItem("planner:projects");
-    window.localStorage.removeItem("planner:tasks");
-  } catch {
-    /* ignore */
-  }
+  const { doneCount, totalCount } = computeDayCounts(
+    updated.projects,
+    updated.tasks,
+  );
+  next[iso] = { ...updated, doneCount, totalCount };
+  removeLocal(LEGACY_PROJECTS_KEY);
+  removeLocal(LEGACY_TASKS_KEY);
   legacyMigrated = true;
   return next;
 }
@@ -59,29 +72,40 @@ export function usePlannerStore() {
   const { days, setDays } = useDays();
   const { focus, setFocus } = useFocus();
 
-  React.useEffect(() => {
-    setDays((prev) => migrateLegacy(prev, focus));
-  }, [focus, setDays]);
-
-  const setDaysAndMirror = React.useCallback(
+  const applyDaysUpdate = React.useCallback(
     (
-      date: ISODate,
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
     ) => {
-      setDays((prev) => updater(prev));
+      setDays(updater);
     },
     [setDays],
   );
 
+  React.useEffect(() => {
+    if (!legacyMigrated) {
+      const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
+      const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
+
+      if (!projects && !tasks) {
+        legacyMigrated = true;
+        return;
+      }
+
+      applyDaysUpdate((prev) =>
+        migrateLegacy(prev, focus, { projects, tasks }),
+      );
+    }
+  }, [applyDaysUpdate, focus]);
+
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
-      setDaysAndMirror(date, (prev) => {
+      applyDaysUpdate((prev) => {
         const base = ensureDay(prev, date);
         const next = fn(base);
         return { ...prev, [date]: next };
       });
     },
-    [setDaysAndMirror],
+    [applyDaysUpdate],
   );
 
   const getDay = React.useCallback(
@@ -91,9 +115,9 @@ export function usePlannerStore() {
 
   const setDay = React.useCallback(
     (date: ISODate, next: DayRecord) => {
-      setDaysAndMirror(date, (prev) => ({ ...prev, [date]: next }));
+      applyDaysUpdate((prev) => ({ ...prev, [date]: next }));
     },
-    [setDaysAndMirror],
+    [applyDaysUpdate],
   );
 
   const crud = React.useMemo(

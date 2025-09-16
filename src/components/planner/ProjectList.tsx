@@ -38,13 +38,21 @@ export default function ProjectList({
   const projectsScrollable = projects.length > 3;
   const multiple = projects.length > 1;
 
-  const addProjectCommit = React.useCallback(() => {
+  function addProjectCommit() {
     const v = draftProject.trim();
     if (!v) return;
     const id = onAdd(v);
     setDraftProject("");
     if (id) setSelectedProjectId(id);
-  }, [draftProject, onAdd, setSelectedProjectId]);
+  }
+
+  const commitRename = React.useCallback(
+    (projectId: string, fallbackName: string) => {
+      renameProject(projectId, editingProjectName || fallbackName);
+      setEditingProjectId(null);
+    },
+    [editingProjectName, renameProject, setEditingProjectId],
+  );
 
   const onRowKey = React.useCallback(
     (idx: number, p: Project) => (e: React.KeyboardEvent) => {
@@ -151,8 +159,7 @@ export default function ProjectList({
                         onChange={(e) => setEditingProjectName(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            renameProject(p.id, editingProjectName || p.name);
-                            setEditingProjectId(null);
+                            commitRename(p.id, p.name);
                           }
                           if (e.key === "Escape") {
                             setEditingProjectId(null);
@@ -160,8 +167,7 @@ export default function ProjectList({
                           }
                         }}
                         onBlur={() => {
-                          renameProject(p.id, editingProjectName || p.name);
-                          setEditingProjectId(null);
+                          commitRename(p.id, p.name);
                         }}
                         aria-label={`Rename project ${p.name}`}
                       />

@@ -17,6 +17,7 @@ export type TabItem<K extends string = string> = {
   label: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
   badge?: React.ReactNode;
   className?: string;
   /** Optional explicit id for the tab button; defaults to `${key}-tab`. */
@@ -27,6 +28,7 @@ export type TabItem<K extends string = string> = {
 
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
+type Variant = "default" | "neo";
 
 export type TabBarProps<K extends string = string> = {
   items: TabItem<K>[];
@@ -40,12 +42,30 @@ export type TabBarProps<K extends string = string> = {
   ariaLabel?: string;
   showBaseline?: boolean;
   linkPanels?: boolean;
+  variant?: Variant;
+  /**
+   * Base string applied to tab and panel ids when linking panels.
+   * Defaults to an auto-generated React id to ensure uniqueness.
+   */
+  idBase?: string;
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
-  sm: { h: "h-8", px: "px-3", text: "text-sm" },
-  md: { h: "h-10", px: "px-4", text: "text-sm" },
-  lg: { h: "h-11", px: "px-8", text: "text-base" },
+  sm: {
+    h: "h-[var(--space-8)]",
+    px: "px-[var(--space-3)]",
+    text: "text-ui",
+  },
+  md: {
+    h: "h-[var(--control-h-md)]",
+    px: "px-[var(--space-4)]",
+    text: "text-ui",
+  },
+  lg: {
+    h: "h-[var(--control-h-lg)]",
+    px: "px-[var(--space-8)]",
+    text: "text-body",
+  },
 };
 
 export default function TabBar<K extends string = string>({
@@ -60,8 +80,11 @@ export default function TabBar<K extends string = string>({
   ariaLabel,
   showBaseline = false,
   linkPanels = true,
+  variant = "default",
+  idBase,
 }: TabBarProps<K>) {
   const uid = useId();
+  const baseId = idBase ?? uid;
   const isControlled = value !== undefined;
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
@@ -122,57 +145,102 @@ export default function TabBar<K extends string = string>({
   }[align];
 
   const s = sizeMap[size];
+  const isNeo = variant === "neo";
+
+  const neoTokens = React.useMemo<React.CSSProperties | undefined>(() => {
+    if (!isNeo) return undefined;
+    return {
+      "--neo-tablist-bg":
+        "linear-gradient(140deg, hsl(var(--card) / 0.88), hsl(var(--panel) / 0.72))",
+      "--neo-tablist-shadow":
+        "inset var(--space-1) var(--space-1) var(--space-3) hsl(var(--background) / 0.55), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3) hsl(var(--highlight) / 0.08), 0 0 var(--space-4) hsl(var(--ring) / 0.25)",
+      "--neo-tab-bg":
+        "linear-gradient(145deg, hsl(var(--card) / 0.92), hsl(var(--panel) / 0.78))",
+      "--neo-tab-shadow":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.5), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.05), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
+      "--neo-tab-shadow-hover":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.46), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.08), 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)",
+      "--neo-tab-shadow-active":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.58), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.12), 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)",
+    } as React.CSSProperties;
+  }, [isNeo]);
+
+  const containerVariant = isNeo
+    ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
+    : "border-border/30 bg-card/60 shadow-inner [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] [--focus:hsl(var(--ring))]";
+
+  const tabVariant = isNeo
+    ? "bg-[var(--neo-tab-bg)] shadow-[var(--neo-tab-shadow)] hover:shadow-[var(--neo-tab-shadow-hover)] active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:hover:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
+    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
 
   return (
     <div className={cn("relative w-full", className)}>
-      <div className={cn("flex flex-wrap items-center", justify, "gap-3")}>
+      <div
+        className={cn(
+          "flex flex-wrap items-center",
+          justify,
+          "gap-[var(--space-3)]",
+        )}
+      >
         {/* Tabs group */}
         <div
           role="tablist"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
-          className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
+          data-variant={variant}
+          style={neoTokens}
+          className={cn(
+            "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
+            containerVariant,
+          )}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
-            const tabId = `${uid}-${item.id ?? `${item.key}-tab`}`;
-            const panelId = `${uid}-${item.controls ?? `${item.key}-panel`}`;
+            const tabId = `${baseId}-${item.id ?? `${item.key}-tab`}`;
+            const panelId = `${baseId}-${item.controls ?? `${item.key}-panel`}`;
+            const isLoading = Boolean(item.loading);
+            const isDisabled = Boolean(item.disabled || isLoading);
             return (
               <button
                 key={item.key}
                 id={linkPanels ? tabId : undefined}
                 role="tab"
                 type="button"
+                disabled={isDisabled}
                 aria-selected={active}
-                aria-disabled={item.disabled || undefined}
+                aria-disabled={isDisabled || undefined}
+                aria-busy={isLoading || undefined}
                 aria-controls={linkPanels ? panelId : undefined}
-                tabIndex={item.disabled ? -1 : active ? 0 : -1}
+                tabIndex={isDisabled ? -1 : active ? 0 : -1}
                 ref={(el) => {
                   tabRefs.current[item.key] = el;
                 }}
-                onClick={() => !item.disabled && commitValue(item.key)}
+                onClick={() => !isDisabled && commitValue(item.key)}
                 className={cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-150 ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
                   s.h,
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground shadow-[inset_0_1px_0_hsl(var(--border)/0.2)]",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:shadow-ring",
-                  item.disabled && "opacity-40 pointer-events-none",
+                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
+                  tabVariant,
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
+                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
+                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+                  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
                   item.className,
                 )}
                 data-active={active || undefined}
+                data-loading={isLoading || undefined}
               >
                 {item.icon && (
                   <span
                     className={cn(
-                      "mr-2 grid place-items-center",
+                      "mr-[var(--space-2)] grid place-items-center",
                       size !== "lg"
-                        ? "[&>svg]:h-4 [&>svg]:w-4"
-                        : "[&>svg]:h-5 [&>svg]:w-5",
+                        ? "[&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                        : "[&>svg]:h-[var(--space-5)] [&>svg]:w-[var(--space-5)]",
                     )}
                   >
                     {item.icon}
@@ -180,7 +248,7 @@ export default function TabBar<K extends string = string>({
                 )}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full px-2 py-1 text-xs leading-none bg-primary-soft text-foreground">
+                  <span className="ml-[var(--space-2)] inline-flex items-center justify-center rounded-full px-[var(--space-2)] py-[var(--space-1)] text-label leading-none bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}
@@ -191,7 +259,7 @@ export default function TabBar<K extends string = string>({
 
         {/* Right slot */}
         {right && (
-          <div className="ml-auto flex items-center gap-2">{right}</div>
+          <div className="ml-auto flex items-center gap-[var(--space-2)]">{right}</div>
         )}
       </div>
 

@@ -4,12 +4,13 @@ import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
 
+const paletteTabs: TabItem<ColorPalette>[] = [
+  { key: "aurora", label: "Aurora" },
+  { key: "neutrals", label: "Neutrals" },
+  { key: "accents", label: "Accents" },
+];
+
 export default function ColorGallery() {
-  const paletteTabs: TabItem<ColorPalette>[] = [
-    { key: "aurora", label: "Aurora" },
-    { key: "neutrals", label: "Neutrals" },
-    { key: "accents", label: "Accents" },
-  ];
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
     aurora: null,
@@ -44,14 +45,14 @@ export default function ColorGallery() {
         >
           {p.key === "aurora" && (
             <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
-              <span className="text-sm font-medium">Aurora Palette</span>
+              <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-2">
                 <div className="w-10 h-10 rounded-md bg-aurora-g" />
                 <div className="w-10 h-10 rounded-md bg-aurora-g-light" />
                 <div className="w-10 h-10 rounded-md bg-aurora-p" />
                 <div className="w-10 h-10 rounded-md bg-aurora-p-light" />
               </div>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
+              <p className="mt-2 text-center text-label text-muted-foreground">
                 Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
                 <code>aurora-p</code>, and <code>aurora-p-light</code> Tailwind
                 classes for aurora effects.
@@ -60,7 +61,7 @@ export default function ColorGallery() {
           )}
           {COLOR_PALETTES[p.key].map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-xs uppercase tracking-wide text-accent">
+              <span className="text-label uppercase tracking-wide text-accent">
                 {c}
               </span>
               <div

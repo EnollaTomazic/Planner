@@ -7,8 +7,8 @@ import type {
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { spacingTokens, radiusTokens } from "../src/lib/tokens.ts";
-import { createTaskBar, stopBars } from "../src/utils/progress.ts";
+import { spacingTokens, radiusScale } from "../src/lib/tokens.ts";
+import { createProgressBar, stopBars } from "../src/utils/progress.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,20 +22,6 @@ StyleDictionary.registerFormat({
     return ["| Token | Value |", "| --- | --- |", ...lines].join("\n");
   },
 });
-
-async function loadRadiusValues(): Promise<Record<string, string>> {
-  const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
-  const css = await fs.readFile(globalsPath, "utf8");
-  const values: Record<string, string> = {};
-  for (const token of radiusTokens) {
-    const regex = new RegExp(`${token}:\\s*([^;]+);`);
-    const match = css.match(regex);
-    if (match) {
-      values[token] = match[1].trim();
-    }
-  }
-  return values;
-}
 
 async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
@@ -52,7 +38,6 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
 }
 
 async function buildTokens(): Promise<void> {
-  const radiusValues = await loadRadiusValues();
   const spacing = spacingTokens.reduce<Record<string, { value: string }>>(
     (acc, val, idx) => {
       acc[idx + 1] = { value: `${val}px` };
@@ -60,11 +45,10 @@ async function buildTokens(): Promise<void> {
     },
     {},
   );
-  const radius = Object.entries(radiusValues).reduce<
+  const radius = Object.entries(radiusScale).reduce<
     Record<string, { value: string }>
   >((acc, [name, value]) => {
-    const key = name.replace("--radius-", "");
-    acc[key] = { value };
+    acc[name] = { value: `${value}px` };
     return acc;
   }, {});
 
@@ -119,7 +103,7 @@ async function buildTokens(): Promise<void> {
     },
   });
 
-  const bar = createTaskBar(3);
+  const bar = createProgressBar(3);
   sd.buildPlatform("css");
   bar.update(1);
   sd.buildPlatform("js");

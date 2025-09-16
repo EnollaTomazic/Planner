@@ -30,6 +30,15 @@ function LaneOpponentForm(
   const [opponent, setOpponent] = React.useState(opponent0);
   const laneRef = React.useRef<HTMLInputElement>(null);
   const opponentRef = React.useRef<HTMLInputElement>(null);
+  const opponentLabelId = React.useId();
+
+  React.useEffect(() => {
+    setLane(lane0);
+  }, [lane0]);
+
+  React.useEffect(() => {
+    setOpponent(opponent0);
+  }, [opponent0]);
 
   const commitLane = React.useCallback(() => {
     const t = (lane || "").trim();
@@ -37,14 +46,21 @@ function LaneOpponentForm(
     commitMeta({ lane: t });
   }, [lane, commitMeta, onRename]);
 
+  const commitOpponent = React.useCallback(() => {
+    const t = (opponent || "").trim();
+    commitMeta({ opponent: t });
+  }, [opponent, commitMeta]);
+
   const save = React.useCallback(() => {
     commitLane();
-    commitMeta({ opponent });
-  }, [commitLane, opponent, commitMeta]);
+    commitOpponent();
+  }, [commitLane, commitOpponent]);
 
   React.useImperativeHandle(ref, () => ({ save }), [save]);
 
-  const go = (r: React.RefObject<HTMLInputElement>) => r.current?.focus();
+  const go = React.useCallback((r: React.RefObject<HTMLInputElement>) => {
+    r.current?.focus();
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">
@@ -72,7 +88,9 @@ function LaneOpponentForm(
       </div>
 
       <div>
-        <SectionLabel>Opponent</SectionLabel>
+        <SectionLabel>
+          <span id={opponentLabelId}>Opponent</span>
+        </SectionLabel>
         <div className="relative">
           <Shield className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -80,7 +98,7 @@ function LaneOpponentForm(
             name="opponent"
             value={opponent}
             onChange={(e) => setOpponent(e.target.value)}
-            onBlur={() => commitMeta({ opponent })}
+            onBlur={commitOpponent}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -89,7 +107,7 @@ function LaneOpponentForm(
             }}
             placeholder="Draven/Thresh"
             className="pl-6"
-            aria-label="Opponent"
+            aria-labelledby={opponentLabelId}
           />
         </div>
       </div>

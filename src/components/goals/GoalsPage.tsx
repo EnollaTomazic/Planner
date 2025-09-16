@@ -13,10 +13,9 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
-import Header, { type HeaderTab } from "@/components/ui/layout/Header";
-import Hero from "@/components/ui/layout/Hero";
+import { type HeaderTab } from "@/components/ui/layout/Header";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { Snackbar } from "@/components/ui";
+import { Snackbar, PageHeader, PageShell } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -25,6 +24,7 @@ import GoalList from "./GoalList";
 import { usePersistentState } from "@/lib/db";
 import type { Pillar } from "@/lib/types";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 /* Tabs */
 import RemindersTab from "./RemindersTab";
@@ -53,6 +53,26 @@ const TABS: HeaderTab<Tab>[] = [
     hint: "Focus sprints",
   },
 ];
+
+const HERO_HEADINGS: Record<Tab, string> = {
+  goals: "Goals overview",
+  reminders: "Reminder board",
+  timer: "Focus timer",
+};
+
+const HERO_HEADING_IDS: Record<Tab, string> = {
+  goals: "goals-hero-heading",
+  reminders: "reminders-hero-heading",
+  timer: "timer-hero-heading",
+};
+
+const HERO_SUBTITLE_IDS: Record<Tab, string> = {
+  goals: "goals-hero-summary",
+  reminders: "reminders-hero-summary",
+  timer: "timer-hero-summary",
+};
+
+const HERO_REGION_ID = "goals-hero-region";
 
 /* ====================================================================== */
 
@@ -106,14 +126,11 @@ export default function GoalsPage() {
     [setTab],
   );
 
+  const reduceMotion = usePrefersReducedMotion();
   const handleAddFirst = React.useCallback(() => {
-    const behavior: ScrollBehavior = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches
-      ? "auto"
-      : "smooth";
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
     formRef.current?.scrollIntoView({ behavior });
-  }, []);
+  }, [reduceMotion]);
 
   const handleUndo = React.useCallback(() => {
     undoRemove();
@@ -147,40 +164,129 @@ export default function GoalsPage() {
     map[tab].current?.focus();
   }, [tab]);
 
-  const summary =
-    tab === "goals"
-      ? `Cap: ${ACTIVE_CAP} active · Remaining: ${remaining} · ${pctDone}% done · ${totalCount} total`
-      : tab === "reminders"
-        ? "Pin quick cues. Edit between queues."
-        : "Pick a duration and focus.";
+  const summary: React.ReactNode =
+    tab === "goals" ? (
+      <ul className="m-0 list-none flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] p-0 text-label text-muted-foreground">
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-foreground">Cap</span>
+          <span className="text-foreground">{ACTIVE_CAP} active</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-accent">Remaining</span>
+          <span className="text-accent">{remaining}</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-success">Complete</span>
+          <span className="text-success">{pctDone}%</span>
+        </li>
+        <li className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="font-semibold text-primary">Total</span>
+          <span className="text-primary">{totalCount}</span>
+        </li>
+      </ul>
+    ) : tab === "reminders" ? (
+      <>
+        Keep <span className="font-semibold text-accent">nudges</span> handy with quick edit loops.
+      </>
+    ) : (
+      <>
+        <span className="font-semibold text-primary">Timebox</span> focus runs and reset between sets.
+      </>
+    );
+
+  const heroHeadingId = HERO_HEADING_IDS[tab];
+  const heroSubtitleId = HERO_SUBTITLE_IDS[tab];
+
+  const heroHeading = (
+    <span id={heroHeadingId}>{HERO_HEADINGS[tab]}</span>
+  );
+
+  let heroSubtitle: React.ReactNode;
+  if (tab === "goals") {
+    heroSubtitle = (
+      <span
+        id={heroSubtitleId}
+        className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] text-muted-foreground"
+      >
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-foreground">Cap</span>
+          <span className="text-label text-foreground">{ACTIVE_CAP}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-primary">Active</span>
+          <span className="text-label text-primary">{activeCount}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-accent">Remaining</span>
+          <span className="text-label text-accent">{remaining}</span>
+        </span>
+        <span className="inline-flex items-center gap-[var(--space-1)]">
+          <span className="text-label font-semibold text-success">Done</span>
+          <span className="text-label text-success">
+            {doneCount} ({pctDone}%)
+          </span>
+        </span>
+      </span>
+    );
+  } else if (tab === "reminders") {
+    heroSubtitle = (
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Stage <span className="font-semibold text-accent">nudges</span> with contexts and cadence.
+      </span>
+    );
+  } else {
+    heroSubtitle = (
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Dial in <span className="font-semibold text-primary">focus sprints</span> and steady breaks.
+      </span>
+    );
+  }
+
+  const heroAriaDescribedby =
+    heroSubtitle != null ? heroSubtitleId : undefined;
 
   return (
-    <main
+    <PageShell
+      as="main"
       id="goals-main"
       aria-labelledby="goals-header"
-      className="page-shell py-6"
+      className="py-6"
     >
       <div className="grid gap-6">
         {/* ======= HEADER ======= */}
-        <Header
-          id="goals-header"
-          eyebrow="Goals"
-          heading="Today’s Goals"
-          subtitle={summary}
-          icon={<Flag className="opacity-80" />}
-          sticky
-          barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
-          tabs={{
-            items: TABS,
-            value: tab,
-            onChange: handleTabChange,
-            ariaLabel: "Goals header mode",
+        <PageHeader
+          header={{
+            id: "goals-header",
+            eyebrow: "Goals",
+            heading: "Today’s Goals",
+            subtitle: summary,
+            icon: <Flag className="opacity-80" />,
+            sticky: true,
+            barClassName:
+              "flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between",
+            tabs: {
+              items: TABS,
+              value: tab,
+              onChange: handleTabChange,
+              ariaLabel: "Goals header mode",
+            },
+          }}
+          hero={{
+            id: HERO_REGION_ID,
+            role: "region",
+            eyebrow: "Guide",
+            heading: heroHeading,
+            subtitle: heroSubtitle,
+            sticky: false,
+            topClassName: "top-0",
+            "aria-labelledby": heroHeadingId,
+            "aria-describedby": heroAriaDescribedby,
           }}
         />
 
         {/* ======= PANELS ======= */}
         <div
-          role="tabpanel"
+          role="region"
           id="goals-panel"
           aria-labelledby="goals-tab"
           hidden={tab !== "goals"}
@@ -190,14 +296,6 @@ export default function GoalsPage() {
           {tab === "goals" && (
             <div className="grid gap-4">
               <div className="space-y-2">
-                <Hero
-                  eyebrow="Guide"
-                  heading="Overview"
-                  subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-                  sticky={false}
-                  topClassName="top-0"
-                />
-
                 {totalCount === 0 ? (
                   <GoalsProgress
                     total={totalCount}
@@ -247,8 +345,11 @@ export default function GoalsPage() {
 
               {lastDeleted && (
                 <Snackbar
+                  role="status"
+                  aria-live="assertive"
                   message={<>Deleted “{lastDeleted.title}”.</>}
                   actionLabel="Undo"
+                  actionAriaLabel="Undo delete goal"
                   onAction={handleUndo}
                 />
               )}
@@ -257,7 +358,7 @@ export default function GoalsPage() {
         </div>
 
         <div
-          role="tabpanel"
+          role="region"
           id="reminders-panel"
           aria-labelledby="reminders-tab"
           hidden={tab !== "reminders"}
@@ -269,7 +370,7 @@ export default function GoalsPage() {
         </div>
 
         <div
-          role="tabpanel"
+          role="region"
           id="timer-panel"
           aria-labelledby="timer-tab"
           hidden={tab !== "timer"}
@@ -287,6 +388,6 @@ export default function GoalsPage() {
           font-variant-numeric: tabular-nums;
         }
       `}</style>
-    </main>
+    </PageShell>
   );
 }

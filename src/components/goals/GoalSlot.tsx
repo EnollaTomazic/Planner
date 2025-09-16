@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useAutoFocus from "@/lib/useAutoFocus";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
 import Input from "@/components/ui/primitives/Input";
@@ -27,10 +28,10 @@ export default function GoalSlot({
   const editButtonRef = React.useRef<HTMLButtonElement>(null);
   const wasEditing = React.useRef(false);
 
+  useAutoFocus({ ref: inputRef, when: editing });
+
   React.useEffect(() => {
-    if (editing) {
-      inputRef.current?.focus();
-    } else if (wasEditing.current) {
+    if (!editing && wasEditing.current) {
       editButtonRef.current?.focus();
     }
     wasEditing.current = editing;
@@ -119,7 +120,7 @@ export default function GoalSlot({
               <button
                 type="button"
                 className={cn(
-                  "absolute bottom-1 right-1 flex rounded-md bg-surface p-1 text-foreground transition-colors hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none",
+                  "absolute bottom-1 right-1 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground transition-colors hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none",
                   goal?.done && "text-success",
                 )}
                 aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
@@ -131,7 +132,7 @@ export default function GoalSlot({
               <button
                 ref={editButtonRef}
                 type="button"
-                className="absolute bottom-1 left-1 flex rounded-md bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
+                className="absolute bottom-1 left-1 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
                 aria-label="Edit goal"
                 onClick={startEdit}
               >
@@ -139,7 +140,7 @@ export default function GoalSlot({
               </button>
               <button
                 type="button"
-                className="absolute bottom-1 left-7 flex rounded-md bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
+                className="absolute bottom-1 left-7 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
                 aria-label="Delete goal"
                 onClick={() => onDelete?.(goal.id)}
               >

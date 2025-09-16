@@ -22,8 +22,8 @@ import {
   Clipboard,
   Plus,
 } from "lucide-react";
-import Header, { type HeaderTab } from "@/components/ui/layout/Header";
-import Hero from "@/components/ui/layout/Hero";
+import { type HeaderTab } from "@/components/ui/layout/Header";
+import type { HeroProps } from "@/components/ui/layout/Hero";
 import Builder, { type BuilderHandle } from "./Builder";
 import JungleClears, { type JungleClearsHandle } from "./JungleClears";
 import CheatSheet from "./CheatSheet";
@@ -31,7 +31,7 @@ import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
-import { NeomorphicHeroFrame } from "@/components/ui";
+import { PageHeader, PageShell } from "@/components/ui";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -43,6 +43,8 @@ export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
   const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
+  const tabBaseId = React.useId();
+  const subTabBaseId = React.useId();
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
   const builderApi = React.useRef<BuilderHandle>(null);
@@ -52,12 +54,55 @@ export default function TeamCompPage() {
     sheet: null,
     comps: null,
   });
-  const [subIds, setSubIds] = React.useState<
-    Record<SubTab, { tab: string; panel: string }>
-  >({
-    sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-    comps: { tab: "comps-tab", panel: "comps-panel" },
-  });
+  const tabIds = React.useMemo(
+    () =>
+      ({
+        cheat: {
+          tab: `${tabBaseId}-cheat-tab`,
+          panel: `${tabBaseId}-cheat-panel`,
+        },
+        builder: {
+          tab: `${tabBaseId}-builder-tab`,
+          panel: `${tabBaseId}-builder-panel`,
+        },
+        clears: {
+          tab: `${tabBaseId}-clears-tab`,
+          panel: `${tabBaseId}-clears-panel`,
+        },
+      }) satisfies Record<Tab, { tab: string; panel: string }>,
+    [tabBaseId],
+  );
+  const subTabs = React.useMemo<HeaderTab<SubTab>[]>(
+    () => [
+      {
+        key: "sheet",
+        label: "Cheat Sheet",
+        icon: <BookOpen />,
+        id: "sheet-tab",
+        controls: "sheet-panel",
+      },
+      {
+        key: "comps",
+        label: "My Comps",
+        icon: <Users2 />,
+        id: "comps-tab",
+        controls: "comps-panel",
+      },
+    ],
+    [],
+  );
+  const subTabIds = React.useMemo(
+    () =>
+      subTabs.reduce((acc, item) => {
+        const key = item.key as SubTab;
+        acc[key] = {
+          tab: `${subTabBaseId}-${item.id ?? `${item.key}-tab`}`,
+          panel: `${subTabBaseId}-${item.controls ?? `${item.key}-panel`}`,
+        };
+        return acc;
+      }, {} as Record<SubTab, { tab: string; panel: string }>),
+    [subTabBaseId, subTabs],
+  );
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
     myComps: false,
@@ -70,41 +115,15 @@ export default function TeamCompPage() {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
   React.useEffect(() => {
-    const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
-    const next: Record<SubTab, { tab: string; panel: string }> = {
-      sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-      comps: { tab: "comps-tab", panel: "comps-panel" },
-    };
-    (Object.keys(map) as SubTab[]).forEach((k) => {
-      const tabEl = document.querySelector<HTMLButtonElement>(
-        `[role="tab"][aria-controls$="${map[k]}-panel"]`,
-      );
-      if (tabEl) {
-        next[k] = {
-          tab: tabEl.id,
-          panel: tabEl.getAttribute("aria-controls") ?? `${map[k]}-panel`,
-        };
-      }
-    });
-    setSubIds(next);
-  }, []);
-  React.useEffect(() => {
     subPanelRefs.current[subTab]?.focus();
   }, [subTab]);
-  const subTabs = React.useMemo(
-    () => [
-      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen /> },
-      { key: "comps", label: "My Comps", icon: <Users2 /> },
-    ],
-    [],
-  );
   const renderCheat = React.useCallback(
     () => (
       <div>
         <div
-          id={subIds.sheet.panel}
+          id={subTabIds.sheet.panel}
           role="tabpanel"
-          aria-labelledby={subIds.sheet.tab}
+          aria-labelledby={subTabIds.sheet.tab}
           hidden={subTab !== "sheet"}
           tabIndex={subTab === "sheet" ? 0 : -1}
           ref={(el) => {
@@ -116,9 +135,9 @@ export default function TeamCompPage() {
           )}
         </div>
         <div
-          id={subIds.comps.panel}
+          id={subTabIds.comps.panel}
           role="tabpanel"
-          aria-labelledby={subIds.comps.tab}
+          aria-labelledby={subTabIds.comps.tab}
           hidden={subTab !== "comps"}
           tabIndex={subTab === "comps" ? 0 : -1}
           ref={(el) => {
@@ -131,7 +150,7 @@ export default function TeamCompPage() {
         </div>
       </div>
     ),
-    [subIds, subTab, query, editing],
+    [subTabIds, subTab, query, editing],
   );
   const TABS = React.useMemo(
     (): Array<
@@ -147,6 +166,8 @@ export default function TeamCompPage() {
         icon: <BookOpenText />,
         render: renderCheat,
         ref: cheatRef,
+        id: tabIds.cheat.tab,
+        controls: tabIds.cheat.panel,
       },
       {
         key: "builder",
@@ -157,6 +178,8 @@ export default function TeamCompPage() {
           <Builder ref={builderApi} editing={editing.builder} />
         ),
         ref: builderRef,
+        id: tabIds.builder.tab,
+        controls: tabIds.builder.panel,
       },
       {
         key: "clears",
@@ -172,144 +195,149 @@ export default function TeamCompPage() {
           />
         ),
         ref: clearsRef,
+        id: tabIds.clears.tab,
+        controls: tabIds.clears.panel,
       },
     ],
-    [renderCheat, editing, clearsQuery],
+    [renderCheat, editing, clearsQuery, tabIds],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
     TABS.find((t) => t.key === tab)?.ref.current?.focus();
   }, [tab, TABS]);
 
-  const hero = React.useMemo(() => {
+  const hero = React.useMemo<HeroProps<SubTab>>(() => {
     if (tab === "cheat") {
       const editingKey: keyof typeof editing =
         subTab === "sheet" ? "cheatSheet" : "myComps";
-      return (
-        <Hero
-          frame={false}
-          topClassName="top-[var(--header-stack)]"
-          eyebrow={active?.label}
-          heading="Comps"
-          subtitle={
-            subTab === "sheet"
-              ? "Archetypes & tips"
-              : "Your saved compositions"
-          }
-          subTabs={{
-            items: subTabs,
-            value: subTab,
-            onChange: (k: string) => setSubTab(k as SubTab),
-            showBaseline: true,
-          }}
-          search={{
-            value: query,
-            onValueChange: setQuery,
-            placeholder: "Search…",
-            round: true,
-          }}
-          actions={
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => toggleEditing(editingKey)}
-            >
-              {editing[editingKey] ? "Done" : "Edit"}
-            </Button>
-          }
-        />
-      );
+      return {
+        as: "section",
+        frame: false,
+        topClassName: "top-[var(--header-stack)]",
+        eyebrow: active?.label,
+        heading: "Comps",
+        subtitle:
+          subTab === "sheet"
+            ? "Archetypes & tips"
+            : "Your saved compositions",
+        subTabs: {
+          items: subTabs,
+          value: subTab,
+          onChange: (next: SubTab) => setSubTab(next),
+          ariaLabel: "Cheat sheet sections",
+          showBaseline: true,
+          idBase: subTabBaseId,
+        },
+        search: {
+          value: query,
+          onValueChange: setQuery,
+          placeholder: "Search…",
+          round: true,
+        },
+        actions: (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => toggleEditing(editingKey)}
+            aria-pressed={editing[editingKey]}
+          >
+            {editing[editingKey] ? "Done" : "Edit"}
+          </Button>
+        ),
+      };
     }
     if (tab === "builder") {
-      return (
-        <Hero
-          frame={false}
-          topClassName="top-[var(--header-stack)]"
-          eyebrow="Comps"
-          heading="Builder"
-          subtitle="Fill allies vs enemies. Swap in one click."
-          actions={
-            <div className="flex items-center gap-2">
-              <IconButton
-                title="Swap Allies ↔ Enemies"
-                aria-label="Swap Allies and Enemies"
-                onClick={() => builderApi.current?.swapSides()}
-                size="sm"
-                iconSize="sm"
-              >
-                <Shuffle />
-              </IconButton>
-              <IconButton
-                title="Copy both sides"
-                aria-label="Copy both sides"
-                onClick={() => builderApi.current?.copyAll()}
-                size="sm"
-                iconSize="sm"
-              >
-                <Clipboard />
-              </IconButton>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => toggleEditing("builder")}
-              >
-                {editing.builder ? "Done" : "Edit"}
-              </Button>
-            </div>
-          }
-        />
-      );
-    }
-    return (
-      <Hero
-        frame={false}
-        sticky={false}
-        topClassName="top-[var(--header-stack)]"
-        rail
-        heading="Clear Speed Buckets"
-        dividerTint="primary"
-        search={{
-          value: clearsQuery,
-          onValueChange: setClearsQuery,
-          placeholder: "Filter by champion, type, or note...",
-          round: true,
-          debounceMs: 80,
-          right: (
-            <span className="text-xs opacity-80">{clearsCount} shown</span>
-          ),
-        }}
-        actions={
+      return {
+        as: "section",
+        frame: false,
+        topClassName: "top-[var(--header-stack)]",
+        eyebrow: "Comps",
+        heading: "Builder",
+        subtitle: "Fill allies vs enemies. Swap in one click.",
+        actions: (
           <div className="flex items-center gap-2">
-            <Button
-              variant="primary"
+            <IconButton
+              title="Swap Allies ↔ Enemies"
+              aria-label="Swap Allies and Enemies"
+              onClick={() => builderApi.current?.swapSides()}
               size="sm"
-              className="px-4 whitespace-nowrap"
-              onClick={() => clearsApi.current?.addRow("Medium")}
+              iconSize="sm"
             >
-              <Plus />
-              <span>New Row</span>
-            </Button>
+              <Shuffle />
+            </IconButton>
+            <IconButton
+              title="Copy both sides"
+              aria-label="Copy both sides"
+              onClick={() => builderApi.current?.copyAll()}
+              size="sm"
+              iconSize="sm"
+            >
+              <Clipboard />
+            </IconButton>
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => toggleEditing("clears")}
+              onClick={() => toggleEditing("builder")}
+              aria-pressed={editing.builder}
             >
-              {editing.clears ? "Done" : "Edit"}
+              {editing.builder ? "Done" : "Edit"}
             </Button>
           </div>
-        }
-      >
-        <p className="text-sm text-muted-foreground">
+        ),
+      };
+    }
+    return {
+      as: "section",
+      frame: false,
+      sticky: false,
+      topClassName: "top-[var(--header-stack)]",
+      rail: true,
+      heading: "Clear Speed Buckets",
+      dividerTint: "primary",
+      search: {
+        value: clearsQuery,
+        onValueChange: setClearsQuery,
+        placeholder: "Filter by champion, type, or note...",
+        round: true,
+        debounceMs: 80,
+        right: (
+          <span className="text-label opacity-80">{clearsCount} shown</span>
+        ),
+      },
+      actions: (
+        <div className="flex items-center gap-2">
+          <Button
+            variant="primary"
+            size="sm"
+            className="px-4 whitespace-nowrap"
+            onClick={() => clearsApi.current?.addRow("Medium")}
+          >
+            <Plus />
+            <span>New Row</span>
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => toggleEditing("clears")}
+            aria-pressed={editing.clears}
+          >
+            {editing.clears ? "Done" : "Edit"}
+          </Button>
+        </div>
+      ),
+      children: (
+        <p className="text-ui text-muted-foreground">
           If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
           Path for fights, ganks, or cross-map trades.
         </p>
-      </Hero>
-    );
+      ),
+    };
   }, [
     tab,
     active,
     subTab,
     subTabs,
+    subTabBaseId,
     query,
     clearsQuery,
     clearsCount,
@@ -320,40 +348,52 @@ export default function TeamCompPage() {
   ]);
 
   return (
-    <main
-      className="page-shell py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
+    <PageShell
+      as="main"
+      className="py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
       aria-labelledby="teamcomp-header"
     >
-      <NeomorphicHeroFrame className="sticky top-0 rounded-card r-card-lg px-4 py-4 md:col-span-12">
-        <div className="relative z-[2] space-y-2">
-          <Header
-            id="teamcomp-header"
-            eyebrow="Comps"
-            heading="Team Comps Today"
-            subtitle="Readable. Fast. On brand."
-            icon={<Users2 className="opacity-80" />}
-            tabs={{ items: TABS, value: tab, onChange: (k: Tab) => setTab(k) }}
-          />
-          {hero}
-        </div>
-      </NeomorphicHeroFrame>
+      <PageHeader
+        containerClassName="sticky top-0 md:col-span-12"
+        className="rounded-card r-card-lg px-4 py-4"
+        contentClassName="space-y-2"
+        frameProps={{ variant: "unstyled" }}
+        header={{
+          id: "teamcomp-header",
+          eyebrow: "Comps",
+          heading: "Team Comps Today",
+          subtitle: "Readable. Fast. On brand.",
+          icon: <Users2 className="opacity-80" />,
+          tabs: {
+            items: TABS,
+            value: tab,
+            onChange: (next: Tab) => setTab(next),
+            ariaLabel: "Team comps mode",
+          },
+          underline: true,
+        }}
+        hero={hero}
+      />
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
-        {TABS.map((t) => (
-          <div
-            key={t.key}
-            id={`${t.key}-panel`}
-            role="tabpanel"
-            aria-labelledby={`${t.key}-tab`}
-            hidden={tab !== t.key}
-            tabIndex={tab === t.key ? 0 : -1}
-            ref={t.ref}
-            className="md:col-span-12"
-          >
-            {tab === t.key && t.render()}
-          </div>
-        ))}
+        {TABS.map((t) => {
+          const ids = tabIds[t.key];
+          return (
+            <div
+              key={t.key}
+              id={ids.panel}
+              role="tabpanel"
+              aria-labelledby={ids.tab}
+              hidden={tab !== t.key}
+              tabIndex={tab === t.key ? 0 : -1}
+              ref={t.ref}
+              className="md:col-span-12"
+            >
+              {tab === t.key && t.render()}
+            </div>
+          );
+        })}
       </section>
-    </main>
+    </PageShell>
   );
 }

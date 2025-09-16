@@ -1,0 +1,707 @@
+/* =========================================================
+   Per-theme glitch backdrops
+   ========================================================= */
+
+/* Default Lavender-Glitch backdrop:
+   Applies if you’re on theme-lg (both light & dark) OR no theme class. */
+html.theme-lg body,
+html.theme-lg-dark body,
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
+    .theme-kitten
+  ):not(.theme-aurora):not(.theme-hardstuck)
+  body {
+  background-image:
+    radial-gradient(
+      1200px 700px at 18% -10%,
+      hsl(var(--lg-violet) / 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      1100px 600px at 110% 18%,
+      hsl(var(--lg-cyan) / 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 480px at 50% 120%,
+      hsl(var(--lg-pink) / 0.1),
+      transparent 65%
+    );
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-lg body::before,
+html.theme-lg-dark body::before,
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
+    .theme-kitten
+  ):not(.theme-aurora):not(.theme-hardstuck)
+  body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.1;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      hsl(var(--accent)) 0 1px,
+      transparent 1px 26px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsl(var(--accent)) 0 1px,
+      transparent 1px 26px
+    );
+  mix-blend-mode: screen;
+  animation: lg-grid-drift 18s linear infinite;
+}
+html.theme-lg body::after,
+html.theme-lg-dark body::after,
+html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
+    .theme-kitten
+  ):not(.theme-aurora):not(.theme-hardstuck)
+  body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      60% 40% at 10% 0%,
+      hsl(var(--lg-violet) / 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 35% at 100% 5%,
+      hsl(var(--lg-cyan) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      55% 35% at 50% 120%,
+      hsl(var(--lg-pink) / 0.14),
+      transparent 65%
+    ),
+    radial-gradient(
+      120% 100% at 50% 100%,
+      hsl(var(--lg-black) / 0.35),
+      transparent 70%
+    );
+  filter: blur(2px) saturate(110%);
+  animation: lg-aurora-pan 24s ease-in-out infinite alternate;
+}
+
+/* Aurora backdrop */
+html.theme-aurora body {
+  background-image:
+    radial-gradient(
+      1000px 600px at 20% -10%,
+      hsl(var(--accent-2) / 0.2),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed;
+}
+html.theme-aurora body::after {
+  content: none;
+}
+
+html.theme-aurora body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    hsl(var(--aurora-g) / 0.4),
+    hsl(var(--aurora-p) / 0.4),
+    hsl(var(--aurora-g) / 0.4)
+  );
+  filter: blur(calc(var(--space-8) * 2)) saturate(150%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-aurora body::before {
+    animation: aurora-spin 30s linear infinite;
+  }
+}
+
+/* Citrus backdrop */
+html.theme-citrus body {
+  background-image:
+    radial-gradient(
+      1200px 700px at 20% -10%,
+      hsl(var(--ring) / 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      1200px 600px at 120% 10%,
+      hsl(var(--citrus-teal) / 0.18),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-citrus body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      hsl(var(--ring) / 0.25) 0 1px,
+      transparent 1px 26px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsl(var(--citrus-teal) / 0.25) 0 1px,
+      transparent 1px 26px
+    );
+  mix-blend-mode: screen;
+  animation: citrus-grid 20s linear infinite;
+}
+html.theme-citrus body::after {
+  content: "";
+  position: fixed;
+  inset: -8%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      60% 40% at 12% -5%,
+      hsl(var(--ring) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 35% at 105% 10%,
+      hsl(var(--citrus-teal) / 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      55% 35% at 50% 110%,
+      hsl(var(--ring) / 0.12),
+      transparent 65%
+    );
+  filter: blur(2px) saturate(110%);
+  animation: citrus-pan 28s ease-in-out infinite alternate;
+}
+@keyframes citrus-grid {
+  to {
+    transform: translate3d(26px, 26px, 0);
+  }
+}
+@keyframes citrus-pan {
+  0% {
+    transform: translate3d(-1%, -1%, 0) scale(1.01);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate3d(1%, 0%, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.01);
+    opacity: 0.95;
+  }
+}
+
+/* Noir backdrop */
+html.theme-noir body {
+  background-image:
+    radial-gradient(
+      1000px 520px at 15% -10%,
+      hsl(var(--noir-red) / 0.15),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 520px at 110% 15%,
+      hsl(var(--noir-rose) / 0.12),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-noir body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    hsl(var(--noir-red) / 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.2;
+  animation: noir-scan 14s linear infinite;
+}
+html.theme-noir body::after {
+  content: "";
+  position: fixed;
+  inset: -12%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      80% 60% at 50% 120%,
+      hsl(var(--noir-ink) / 0.45),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 25% at 6% 4%,
+      hsl(var(--noir-red) / 0.15),
+      transparent 60%
+    ),
+    radial-gradient(
+      40% 25% at 94% 10%,
+      hsl(var(--noir-ruby) / 0.12),
+      transparent 60%
+    );
+  filter: blur(1.5px) saturate(110%);
+  opacity: 0.9;
+  animation: noir-drift 26s ease-in-out infinite alternate;
+}
+@keyframes noir-scan {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 100%;
+  }
+}
+@keyframes noir-drift {
+  0% {
+    transform: translate3d(-1%, 0, 0);
+  }
+  100% {
+    transform: translate3d(1%, 0, 0);
+  }
+}
+
+/* Oceanic backdrop */
+html.theme-ocean body {
+  background-image:
+    radial-gradient(
+      1200px 700px at 12% -12%,
+      hsl(var(--ring) / 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      1100px 600px at 108% 16%,
+      hsl(var(--ocean-cyan) / 0.16),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-ocean body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      hsl(var(--ring) / 0.28) 0 1px,
+      transparent 1px 26px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsl(var(--ocean-indigo) / 0.22) 0 1px,
+      transparent 1px 26px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.1;
+  animation: lg-grid-drift 20s linear infinite;
+}
+html.theme-ocean body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 40% at 14% -6%,
+      hsl(var(--ring) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      55% 35% at 50% 114%,
+      hsl(var(--ocean-indigo) / 0.12),
+      transparent 65%
+    ),
+    radial-gradient(
+      50% 35% at 102% 8%,
+      hsl(var(--success) / 0.1),
+      transparent 60%
+    );
+  filter: blur(2px) saturate(112%);
+  animation: ocean-pan 26s ease-in-out infinite alternate;
+}
+@keyframes ocean-pan {
+  0% {
+    transform: translate3d(-1%, -1%, 0) scale(1.01);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate3d(1%, 0%, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.01);
+    opacity: 0.95;
+  }
+}
+
+/* Kitten backdrop */
+html.theme-kitten body {
+  background-image:
+    radial-gradient(
+      1100px 620px at 16% -8%,
+      hsl(var(--kitten-rose) / 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 560px at 106% 14%,
+      hsl(var(--kitten-pink) / 0.16),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-kitten body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      hsl(var(--kitten-rose) / 0.3) 0 1px,
+      transparent 1px 26px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsl(var(--kitten-pink) / 0.26) 0 1px,
+      transparent 1px 26px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.1;
+  animation: lg-grid-drift 18s linear infinite;
+}
+html.theme-kitten body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 40% at 12% -6%,
+      hsl(var(--kitten-rose) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      55% 35% at 50% 116%,
+      hsl(var(--kitten-pink) / 0.12),
+      transparent 65%
+    ),
+    radial-gradient(
+      50% 35% at 100% 8%,
+      hsl(var(--kitten-blush) / 0.1),
+      transparent 60%
+    );
+  filter: blur(2px) saturate(112%);
+  animation: kitten-pan 27s ease-in-out infinite alternate;
+}
+@keyframes kitten-pan {
+  0% {
+    transform: translate3d(-1%, -1%, 0);
+  }
+  100% {
+    transform: translate3d(1%, 1%, 0);
+  }
+}
+
+/* Hardstuck backdrop */
+html.theme-hardstuck body {
+  background-image:
+    radial-gradient(
+      1000px 520px at 20% -10%,
+      hsl(var(--ring) / 0.15),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 520px at 110% 15%,
+      hsl(var(--hardstuck-forest) / 0.12),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.theme-hardstuck body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    hsl(var(--ring) / 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.2;
+  animation: hardstuck-scan 14s linear infinite;
+}
+html.theme-hardstuck body::after {
+  content: "";
+  position: fixed;
+  inset: -12%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      80% 60% at 50% 120%,
+      hsl(var(--hardstuck-deep) / 0.45),
+      transparent 70%
+    ),
+    radial-gradient(40% 25% at 6% 4%, hsl(var(--ring) / 0.15), transparent 60%),
+    radial-gradient(
+      40% 25% at 94% 10%,
+      hsl(var(--hardstuck-forest) / 0.12),
+      transparent 60%
+    );
+  filter: blur(1.5px) saturate(110%);
+  opacity: 0.9;
+  animation: hardstuck-drift 26s ease-in-out infinite alternate;
+}
+@keyframes hardstuck-scan {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 100%;
+  }
+}
+@keyframes hardstuck-drift {
+  0% {
+    transform: translate3d(-1%, 0, 0);
+  }
+  100% {
+    transform: translate3d(1%, 0, 0);
+  }
+}
+
+/* Additional background options */
+html.bg-alt1 body {
+  background-image:
+    radial-gradient(
+      1000px 600px at 10% -10%,
+      hsl(var(--accent) / 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 110% 20%,
+      hsl(var(--accent-2) / 0.18),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt1 body::before,
+html.bg-alt1 body::after {
+  content: none;
+}
+
+html.bg-alt2 body {
+  background-image:
+    radial-gradient(
+      1000px 600px at 50% 0%,
+      hsl(var(--primary) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 50% 120%,
+      hsl(var(--accent) / 0.16),
+      transparent 60%
+    ),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed;
+}
+html.bg-alt2 body::before,
+html.bg-alt2 body::after {
+  content: none;
+}
+
+html.bg-vhs body {
+  background-color: hsl(var(--surface-vhs));
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      hsl(var(--accent-2) / 0.15),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      hsl(var(--accent-2) / 0.15),
+      hsl(var(--accent-2) / 0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-blend-mode: screen;
+}
+html.bg-vhs body::before,
+html.bg-vhs body::after {
+  content: none;
+}
+
+html.bg-streak body {
+  background-color: hsl(var(--surface-streak));
+  background-image:
+    radial-gradient(
+      circle at 70% 40%,
+      hsl(var(--accent) / 0.25),
+      transparent 40%
+    ),
+    repeating-linear-gradient(
+      to right,
+      hsl(var(--accent) / 0.2),
+      hsl(var(--accent) / 0.2) 6px,
+      transparent 6px,
+      transparent 20px
+    );
+  background-blend-mode: lighten;
+}
+html.bg-streak body::before,
+html.bg-streak body::after {
+  content: none;
+}
+
+/* ---------- Shared backdrop animations ---------- */
+@keyframes lg-grid-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(26px, 26px, 0);
+  }
+}
+@keyframes lg-aurora-pan {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1.02);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate3d(1%, 0%, 0) scale(1.01);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.02);
+    opacity: 0.95;
+  }
+}
+
+@keyframes aurora-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ---------- Intensity toggles (all themes) ---------- */
+html.bg-intense body::before {
+  opacity: 0.05;
+}
+html.bg-intense body::after {
+  filter: blur(2px) saturate(120%);
+}
+
+/* =========================================================
+   Pretty Chroma Hairline (utility)
+   =========================================================
+   Usage: add class="pretty-border" to any container that should
+   have a tinted, animated hairline that respects --card-hairline.
+   No literal white is used for the border color itself.
+*/
+.pretty-border {
+  position: relative;
+  border-radius: var(--radius-card, 1rem);
+  background-clip: padding-box;
+  border: 1px solid hsl(var(--card-hairline));
+  isolation: isolate;
+}
+
+/* Outer chroma ring (masked to the border box) */
+.pretty-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from 180deg,
+    hsl(var(--lg-violet) / 0),
+    hsl(var(--lg-violet) / 0.65),
+    hsl(var(--lg-cyan) / 0.65),
+    hsl(var(--lg-pink) / 0.65),
+    hsl(var(--lg-violet) / 0)
+  );
+  /* mask to only show the ring, not fill the card */
+  -webkit-mask:
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
+  mask-composite: exclude;
+  opacity: 0.55;
+  animation:
+    pb-hue 8s linear infinite,
+    pb-jitter 2.4s steps(6, end) infinite;
+}
+
+/* Soft CRT scan overlay (uses foreground tint, not white) */
+.pretty-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--foreground) / 0.05) 0 1px,
+    transparent 2px 3px
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0.18;
+}
+
+@keyframes pb-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+@keyframes pb-jitter {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0.25px, -0.2px);
+  }
+  50% {
+    transform: translate(-0.2px, 0.25px);
+  }
+  75% {
+    transform: translate(0.15px, 0.15px);
+  }
+}

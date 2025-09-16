@@ -1,7 +1,62 @@
 "use client";
 
 import * as React from "react";
-import { ensureDay, useSelection, useDays, type ISODate } from "./plannerStore";
+import {
+  useSelection,
+  useDays,
+  type ISODate,
+  type Selection,
+} from "./plannerStore";
+
+type SelectionGetter = (selection: Selection | undefined) => string;
+type SelectionProducer = (
+  id: string,
+  previous: Selection | undefined,
+) => Selection;
+
+type SelectionStrategy = {
+  getCurrentId: SelectionGetter;
+  produceSelection: SelectionProducer;
+};
+
+export function useSelectionState(
+  iso: ISODate,
+  { getCurrentId, produceSelection }: SelectionStrategy,
+): readonly [string, (id: string) => void] {
+  const { selected, setSelected } = useSelection();
+  const current = getCurrentId(selected[iso]);
+
+  const setId = React.useCallback(
+    (id: string) => {
+      setSelected((prev) => {
+        const previousSelection = prev[iso];
+        const nextSelection = produceSelection(id, previousSelection);
+
+        if (
+          previousSelection &&
+          previousSelection.projectId === nextSelection.projectId &&
+          previousSelection.taskId === nextSelection.taskId
+        ) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [iso]: nextSelection,
+        };
+      });
+    },
+    [iso, produceSelection, setSelected],
+  );
+
+  return [current, setId] as const;
+}
+
+const getProjectId: SelectionGetter = (selection) =>
+  selection?.projectId ?? "";
+
+const produceProjectSelection: SelectionProducer = (projectId) =>
+  projectId ? { projectId } : {};
 
 /**
  * Manages the selected project for a given day.
@@ -10,19 +65,13 @@ import { ensureDay, useSelection, useDays, type ISODate } from "./plannerStore";
  * @returns Tuple of current project ID and setter.
  */
 export function useSelectedProject(iso: ISODate) {
-  const { selected, setSelected } = useSelection();
-  const current = selected[iso]?.projectId ?? "";
-  const set = React.useCallback(
-    (projectId: string) => {
-      setSelected((prev) => ({
-        ...prev,
-        [iso]: projectId ? { projectId } : {},
-      }));
-    },
-    [iso, setSelected],
-  );
-  return [current, set] as const;
+  return useSelectionState(iso, {
+    getCurrentId: getProjectId,
+    produceSelection: produceProjectSelection,
+  });
 }
+
+const getTaskId: SelectionGetter = (selection) => selection?.taskId ?? "";
 
 /**
  * Manages the selected task for a given day.
@@ -31,25 +80,19 @@ export function useSelectedProject(iso: ISODate) {
  * @returns Tuple of current task ID and setter.
  */
 export function useSelectedTask(iso: ISODate) {
-  const { selected, setSelected } = useSelection();
-  const { days } = useDays();
-  const current = selected[iso]?.taskId ?? "";
+  const { tasksById } = useDays();
 
-  const set = React.useCallback(
-    (taskId: string) => {
-      if (!taskId) {
-        setSelected((prev) => ({ ...prev, [iso]: {} }));
-        return;
-      }
-      const rec = ensureDay(days, iso);
-      const projectId = rec.tasks.find((t) => t.id === taskId)?.projectId;
-      setSelected((prev) => ({
-        ...prev,
-        [iso]: { taskId, projectId },
-      }));
+  const produceTaskSelection = React.useCallback<SelectionProducer>(
+    (taskId) => {
+      if (!taskId) return {};
+      const projectId = tasksById[iso]?.[taskId]?.projectId;
+      return { taskId, projectId };
     },
-    [iso, setSelected, days],
+    [iso, tasksById],
   );
 
-  return [current, set] as const;
+  return useSelectionState(iso, {
+    getCurrentId: getTaskId,
+    produceSelection: produceTaskSelection,
+  });
 }

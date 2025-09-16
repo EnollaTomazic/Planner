@@ -37,7 +37,7 @@ export default function PromptsComposePanel({
         </Input>
         <p
           id={`${titleId}-help`}
-          className="mt-1 text-xs text-muted-foreground"
+          className="mt-1 text-label text-muted-foreground"
         >
           Add a short title
         </p>

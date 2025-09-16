@@ -5,35 +5,42 @@ import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Spinner from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-9",
-    padding: "px-4",
+    height: "h-[var(--control-h-sm)]",
+    padding: "px-[var(--space-4)]",
     text: "text-label",
-    gap: "gap-1",
-    icon: "[&_svg]:size-4",
+    gap: "gap-[var(--space-1)]",
+    icon: "[&_svg]:size-[var(--space-4)]",
   },
   md: {
-    height: "h-10",
-    padding: "px-4",
+    height: "h-[var(--control-h-md)]",
+    padding: "px-[var(--space-4)]",
     text: "text-ui",
-    gap: "gap-2",
-    icon: "[&_svg]:size-5",
+    gap: "gap-[var(--space-2)]",
+    icon: "[&_svg]:size-[var(--space-5)]",
   },
   lg: {
-    height: "h-11",
-    padding: "px-8",
+    height: "h-[var(--control-h-lg)]",
+    padding: "px-[var(--space-8)]",
     text: "text-title",
-    gap: "gap-4",
-    icon: "[&_svg]:size-8",
+    gap: "gap-[var(--space-4)]",
+    icon: "[&_svg]:size-[var(--space-8)]",
   },
 } as const;
 
 export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
+
+const spinnerSizes: Record<ButtonSize, number> = {
+  sm: 16,
+  md: 20,
+  lg: 24,
+};
 
 /**
  * Props for the {@link Button} component.
@@ -53,32 +60,37 @@ export const colorVar: Record<Tone, string> = {
   danger: "--danger",
 };
 
+const primaryToneInteractionTokens =
+  "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]";
+
 export const toneClasses: Record<
   NonNullable<ButtonProps["variant"]>,
   Record<Tone, string>
 > = {
   primary: {
-    primary: "text-foreground",
-    accent: "text-accent",
-    info: "text-accent-2",
-    danger: "text-danger",
+    primary: `text-foreground ${primaryToneInteractionTokens}`,
+    accent: `text-accent ${primaryToneInteractionTokens}`,
+    info: `text-accent-2 ${primaryToneInteractionTokens}`,
+    danger: `text-danger ${primaryToneInteractionTokens}`,
   },
   secondary: {
     primary: "text-foreground",
     accent:
-      "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-    info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+      "text-accent bg-accent/15 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+    info:
+      "text-accent-2 bg-accent-2/15 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:
-      "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+      "text-danger bg-danger/15 [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
   },
   ghost: {
     primary:
-      "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
+      "text-foreground [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
     accent:
-      "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
-    info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
+      "text-accent [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
+    info:
+      "text-accent-2 [--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
     danger:
-      "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
+      "text-danger [--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
   },
 };
 
@@ -94,11 +106,12 @@ export const variants: Record<
 > = {
   primary: {
     className:
-      "bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-[0_2px_6px_-1px_hsl(var(--accent)/0.25)] active:translate-y-px active:shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.6)]",
+      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
     whileTap: {
       scale: 0.97,
     },
-    contentClass: "relative z-10 inline-flex items-center gap-2",
+    contentClass:
+      "relative z-10 inline-flex items-center gap-[var(--space-2)]",
   },
   secondary: {
     className: "bg-panel/80 shadow-neo",
@@ -125,6 +138,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       type = "button",
       loading,
       disabled,
+      style,
       ...rest
     },
     ref,
@@ -132,8 +146,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const reduceMotion = useReducedMotion();
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
+    const spinnerSize = spinnerSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-2xl border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
@@ -144,11 +159,34 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const {
       className: variantClass,
-      whileHover,
+      whileHover: variantHover,
       whileTap,
       overlay,
       contentClass,
     } = variants[variant];
+
+    const hoverAnimation = reduceMotion
+      ? undefined
+      : variant === "primary"
+        ? { scale: 1.03 }
+        : variantHover;
+
+    const contentClasses = cn(
+      contentClass ?? cn("inline-flex items-center", s.gap),
+      loading && "opacity-0",
+    );
+
+    let resolvedStyle = style;
+
+    if (variant === "primary") {
+      const glowStyles = {
+        "--glow-active": `hsl(var(${colorVar[tone]}) / 0.35)`,
+      } as CSSProperties;
+      resolvedStyle = {
+        ...glowStyles,
+        ...(style ?? {}),
+      };
+    }
 
     return (
       <motion.button
@@ -157,34 +195,30 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(base, variantClass, toneClasses[variant][tone])}
         data-loading={loading}
         disabled={isDisabled}
-        whileHover={
-          reduceMotion
-            ? undefined
-            : variant === "primary"
-              ? {
-                  scale: 1.03,
-                  boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
-                }
-              : whileHover
-        }
+        aria-busy={loading ? true : undefined}
+        style={resolvedStyle}
+        whileHover={hoverAnimation}
         whileTap={reduceMotion ? undefined : whileTap}
         {...rest}
       >
         {variant === "primary" ? (
           <span
             className={cn(
-              "absolute inset-0 pointer-events-none rounded-2xl",
+              "absolute inset-0 pointer-events-none rounded-[inherit]",
               `bg-[linear-gradient(90deg,hsl(var(${colorVar[tone]})/.18),hsl(var(${colorVar[tone]})/.18))]`,
             )}
           />
         ) : (
           overlay
         )}
-        {contentClass ? (
-          <span className={contentClass}>{children as React.ReactNode}</span>
-        ) : (
-          (children as React.ReactNode)
-        )}
+        {loading ? (
+          <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+            <Spinner size={spinnerSize} />
+          </span>
+        ) : null}
+        <span className={contentClasses}>
+          {children as React.ReactNode}
+        </span>
       </motion.button>
     );
   },

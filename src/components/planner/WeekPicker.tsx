@@ -11,12 +11,13 @@
 import * as React from "react";
 import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
-import { useFocusDate } from "./useFocusDate";
+import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { CalendarDays, ArrowUpToLine } from "lucide-react";
-import { fromISODate, toISODate, addDays, mondayStartOfWeek } from "@/lib/date";
+import { fromISODate, toISODate } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
@@ -25,17 +26,23 @@ const dmy = new Intl.DateTimeFormat(undefined, {
   month: "short",
 });
 
+const chipDateFormatter = new Intl.DateTimeFormat(undefined, {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+});
+
+const formatChipLabel = (value: ISODate): string => {
+  const dt = fromISODate(value);
+  if (!dt) return value;
+  return chipDateFormatter.format(dt);
+};
+
 /* ───────── presentational chip (no hooks) ───────── */
 
-function DayChip({
-  iso,
-  selected,
-  today,
-  done,
-  total,
-  onClick,
-  onDoubleClick,
-}: {
+type DayChipNavDirection = "prev" | "next" | "first" | "last";
+
+type DayChipProps = {
   iso: ISODate;
   selected: boolean;
   today: boolean;
@@ -43,19 +50,114 @@ function DayChip({
   total: number;
   onClick: (iso: ISODate) => void;
   onDoubleClick: (iso: ISODate) => void;
-}) {
+  onNavigate: (direction: DayChipNavDirection) => void;
+  onFocus: () => void;
+  tabIndex: number;
+};
+
+const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayChip(
+  {
+    iso,
+    selected,
+    today,
+    done,
+    total,
+    onClick,
+    onDoubleClick,
+    onNavigate,
+    onFocus,
+    tabIndex,
+  },
+  ref,
+) {
+  const localizedLabel = React.useMemo(() => formatChipLabel(iso), [iso]);
+  const completionRatio = React.useMemo(() => {
+    if (total <= 0) {
+      return 0;
+    }
+    const ratio = done / total;
+    if (!Number.isFinite(ratio)) {
+      return 0;
+    }
+    if (ratio <= 0) {
+      return 0;
+    }
+    if (ratio >= 1) {
+      return 1;
+    }
+    return ratio;
+  }, [done, total]);
+  const completionTint = React.useMemo(() => {
+    if (completionRatio >= 2 / 3) {
+      return "bg-success-soft";
+    }
+    if (completionRatio >= 1 / 3) {
+      return "bg-warning-soft";
+    }
+    return "bg-warning-soft-strong";
+  }, [completionRatio]);
+  const instructionsId = React.useId();
+  const countsId = React.useId();
+  const instructionsText = selected
+    ? "Press Enter again or double-click to jump."
+    : "Press Enter to select.";
+  const describedBy = `${countsId} ${instructionsId}`;
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Enter" && selected) {
+      event.preventDefault();
+      event.stopPropagation();
+      onDoubleClick(iso);
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      onNavigate("prev");
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      onNavigate("next");
+      return;
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      onNavigate("first");
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      onNavigate("last");
+    }
+  };
+
   return (
     <button
       type="button"
+      role="option"
+      ref={ref}
       onClick={() => onClick(iso)}
       onDoubleClick={() => onDoubleClick(iso)}
-      aria-current={selected ? "date" : undefined}
-      aria-label={`Select ${iso}. Completed ${done} of ${total}. ${selected ? "Double-click to jump." : ""}`}
-      title={selected ? "Double-click to jump" : "Click to focus"}
+      onKeyDown={handleKeyDown}
+      onFocus={onFocus}
+      tabIndex={tabIndex}
+      aria-selected={selected}
+      aria-label={`Select ${localizedLabel}`}
+      aria-describedby={describedBy}
+      title={
+        selected
+          ? "Press Enter again or double-click to jump"
+          : "Click or press Enter to focus"
+      }
       className={cn(
         "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
-        "border-card-hairline bg-card/75",
+        "border-card-hairline",
+        completionTint,
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "active:border-primary/60 active:bg-card/85",
         today && "chip--today",
@@ -71,55 +173,137 @@ function DayChip({
           "chip__date",
           today ? "text-accent" : "text-muted-foreground",
         )}
-        data-text={iso}
+        data-text={localizedLabel}
       >
-        {iso}
+        {localizedLabel}
       </div>
-      <div className="chip__counts">
-        <span className="tabular-nums text-foreground">{done}</span>
-        <span className="text-muted-foreground"> / {total}</span>
+      <div id={countsId} className="chip__counts text-foreground">
+        <span className="tabular-nums">{done}</span>
+        <span className="text-foreground/70"> / {total}</span>
       </div>
+      <span
+        id={instructionsId}
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {instructionsText}
+      </span>
       {/* decorative layers */}
       <span aria-hidden className="chip__scan" />
       <span aria-hidden className="chip__edge" />
     </button>
   );
-}
+});
 
 /* ───────── main ───────── */
 
 export default function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
-
-  const { heading, rangeLabel, isoStart, isoEnd, days } = React.useMemo(() => {
-    const base = fromISODate(iso) ?? new Date();
-    const s = mondayStartOfWeek(base);
-    const e = addDays(s, 6);
-    const list: ISODate[] = Array.from(
-      { length: 7 },
-      (_, i) => toISODate(addDays(s, i)) as ISODate,
-    );
-    return {
-      heading: `${dmy.format(s)} — ${dmy.format(e)}`,
-      rangeLabel: `${dmy.format(s)} → ${dmy.format(e)}`,
-      isoStart: toISODate(s),
-      isoEnd: toISODate(e),
-      days: list,
-    };
-  }, [iso]);
+  const { start, end, days } = useWeek(iso);
+  const heading = `${dmy.format(start)} — ${dmy.format(end)}`;
+  const rangeLabel = `${dmy.format(start)} → ${dmy.format(end)}`;
+  const isoStart = toISODate(start);
+  const isoEnd = toISODate(end);
 
   const { per, weekDone, weekTotal } = useWeekData(days);
+  const reduceMotion = usePrefersReducedMotion();
+
+  const chipRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const findSelectedIndex = React.useCallback(() => {
+    const selectedIndex = days.indexOf(iso);
+    if (selectedIndex !== -1) {
+      return selectedIndex;
+    }
+    return days.length > 0 ? 0 : -1;
+  }, [days, iso]);
+
+  const [focusIndex, setFocusIndex] = React.useState(() => {
+    const initialIndex = findSelectedIndex();
+    return initialIndex === -1 ? 0 : initialIndex;
+  });
+
+  React.useEffect(() => {
+    const selectedIndex = findSelectedIndex();
+    if (selectedIndex === -1) return;
+    setFocusIndex((prev) => (prev === selectedIndex ? prev : selectedIndex));
+  }, [findSelectedIndex]);
+
+  React.useEffect(() => {
+    chipRefs.current.length = days.length;
+  }, [days.length]);
+
+  const focusChip = React.useCallback(
+    (index: number) => {
+      if (index < 0 || index >= days.length) return;
+      const nextIso = days[index];
+      if (!nextIso) return;
+      if (nextIso !== iso) {
+        setIso(nextIso);
+      }
+      setFocusIndex(index);
+      if (typeof window !== "undefined") {
+        window.requestAnimationFrame(() => {
+          chipRefs.current[index]?.focus({ preventScroll: true });
+        });
+      } else {
+        chipRefs.current[index]?.focus({ preventScroll: true });
+      }
+    },
+    [days, iso, setIso],
+  );
+
+  const handleNavigate = React.useCallback(
+    (currentIndex: number, direction: DayChipNavDirection) => {
+      if (days.length === 0) return;
+
+      let nextIndex = currentIndex;
+      switch (direction) {
+        case "prev":
+          nextIndex = Math.max(0, currentIndex - 1);
+          break;
+        case "next":
+          nextIndex = Math.min(days.length - 1, currentIndex + 1);
+          break;
+        case "first":
+          nextIndex = 0;
+          break;
+        case "last":
+          nextIndex = days.length - 1;
+          break;
+      }
+
+      if (nextIndex === currentIndex) return;
+
+      focusChip(nextIndex);
+    },
+    [days, focusChip],
+  );
 
   // Show "Jump to top" button after a double-click jump; hide when back at top
   const [showTop, setShowTop] = React.useState(false);
   React.useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    let frameId: number | null = null;
+
     const onScroll = () => {
-      if (typeof window === "undefined") return;
-      const atTop = window.scrollY <= 4;
-      setShowTop((prev) => (atTop ? false : prev));
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        const atTop = window.scrollY <= 4;
+        setShowTop((prev) => (atTop ? false : prev));
+      });
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
   // Select (single-click) vs jump (double-click)
@@ -128,11 +312,7 @@ export default function WeekPicker() {
     setIso(d);
     const el = document.getElementById(`day-${d}`);
     if (el) {
-      const behavior: ScrollBehavior = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches
-        ? "auto"
-        : "smooth";
+      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       el.scrollIntoView({
         behavior,
         block: "start",
@@ -145,12 +325,16 @@ export default function WeekPicker() {
 
   const jumpToTop = () => {
     if (typeof window !== "undefined") {
-      const behavior: ScrollBehavior = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches
-        ? "auto"
-        : "smooth";
+      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       window.scrollTo({ top: 0, behavior });
+      const focusTarget =
+        document.getElementById("planner-header") ??
+        document.getElementById("main-content");
+      if (focusTarget instanceof HTMLElement) {
+        window.requestAnimationFrame(() => {
+          focusTarget.focus({ preventScroll: true });
+        });
+      }
       // The scroll listener will auto-hide the button when we reach the top
     }
   };
@@ -184,7 +368,7 @@ export default function WeekPicker() {
         <div className="flex items-center justify-between gap-3">
           <span
             className={cn(
-              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
+              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-ui",
               "bg-card/72 ring-1 ring-border/55 backdrop-blur",
             )}
             aria-label={`Week range ${rangeLabel}`}
@@ -193,7 +377,7 @@ export default function WeekPicker() {
             <span className="opacity-90">{rangeLabel}</span>
           </span>
 
-          <span className="text-sm text-muted-foreground">
+          <span className="text-ui text-muted-foreground">
             <span className="opacity-70">Total tasks: </span>
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}
@@ -213,6 +397,12 @@ export default function WeekPicker() {
               total={per[i]?.total ?? 0}
               onClick={selectOnly}
               onDoubleClick={jumpToDay}
+              onNavigate={(direction) => handleNavigate(i, direction)}
+              onFocus={() => setFocusIndex(i)}
+              tabIndex={focusIndex === i ? 0 : -1}
+              ref={(el) => {
+                chipRefs.current[i] = el;
+              }}
             />
           ))}
         </div>

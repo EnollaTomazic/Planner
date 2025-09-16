@@ -22,7 +22,7 @@ export interface PageTabsProps {
   sticky?: boolean;
   /** CSS top offset when sticky (supports tokens) */
   topOffset?: string;
-  ariaLabel?: string;
+  ariaLabel: string;
 }
 
 /**
@@ -43,16 +43,15 @@ export default function PageTabs({
   const router = useRouter();
   const pathname = usePathname();
 
-  const supportsColorMix =
-    typeof CSS !== "undefined" &&
-    typeof CSS.supports === "function" &&
-    CSS.supports("color", "color-mix(in oklab, white, black)");
-  const background = supportsColorMix
-    ? "color-mix(in oklab, hsl(var(--background)) 60%, transparent)"
-    : "hsl(var(--background)/0.6)";
+  const hasRestoredFromHash = React.useRef(false);
 
   // Restore tab from hash on load
   React.useEffect(() => {
+    if (hasRestoredFromHash.current) {
+      return;
+    }
+    hasRestoredFromHash.current = true;
+
     const hash = window.location.hash.replace("#", "");
     if (hash && tabs.some(t => t.id === hash)) {
       onChange?.(hash);
@@ -84,23 +83,15 @@ export default function PageTabs({
   return (
     <div
       className={[
-        "w-full",
+        "w-full page-tabs-surface",
         sticky ? "sticky z-30 backdrop-blur" : "",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
-      style={
-        sticky
-          ? {
-              top: topOffset,
-              background,
-              borderBottom: "1px solid hsl(var(--border))",
-            }
-          : undefined
-      }
+      style={sticky ? { top: topOffset } : undefined}
     >
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="page-shell">
         <div
           role="tablist"
           aria-label={ariaLabel}
@@ -111,7 +102,7 @@ export default function PageTabs({
               const active = t.id === value;
               const controls = t.controls ?? `${t.id}-panel`;
               const className = [
-                "rounded-[var(--control-radius)] px-4 py-2 font-mono text-sm border relative",
+                "rounded-[var(--control-radius)] px-4 py-2 font-mono text-ui border relative",
                 active ? "btn-glitch" : "",
               ]
                 .filter(Boolean)
@@ -123,11 +114,7 @@ export default function PageTabs({
                   {active && (
                     <motion.span
                       layoutId="glitch-tabs-underline"
-                      className="absolute left-2 right-2 -bottom-1 h-px"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)))",
-                      }}
+                      className="absolute left-2 right-2 -bottom-1 h-px underline-gradient"
                       transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
                     />
                   )}

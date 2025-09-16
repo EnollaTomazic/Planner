@@ -26,15 +26,16 @@ export default function DayCard({ iso, isToday }: Props) {
     renameProject,
     deleteProject,
     toggleProject,
-    tasks,
+    tasksById,
+    tasksByProject,
     addTask,
     renameTask,
     toggleTask,
     deleteTask,
     addTaskImage,
     removeTaskImage,
-    doneTasks,
-    totalTasks,
+    doneCount,
+    totalCount,
   } = useDay(iso);
 
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
@@ -66,8 +67,8 @@ export default function DayCard({ iso, isToday }: Props) {
         <DayCardHeader
           iso={iso}
           projectCount={projects.length}
-          doneTasks={doneTasks}
-          totalTasks={totalTasks}
+          doneCount={doneCount}
+          totalCount={totalCount}
         />
       </div>
 
@@ -92,7 +93,8 @@ export default function DayCard({ iso, isToday }: Props) {
 
           <div className="col-span-1 lg:col-span-8">
             <TaskList
-              tasks={tasks}
+              tasksById={tasksById}
+              tasksByProject={tasksByProject}
               selectedProjectId={selectedProjectId}
               addTask={addTask}
               renameTask={renameTask}

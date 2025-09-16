@@ -3,12 +3,14 @@ import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
 
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion } from "@/components/ui";
-import { themeBootstrapScript } from "@/lib/theme";
+import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
+import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +26,10 @@ export const metadata: Metadata = {
  * - Falls back to system preference
  * - Applies appropriate theme classes
  */
-const noFlash = themeBootstrapScript();
+const htmlStyle = {
+  "--asset-noise-url": `url('${withBasePath("/noise.svg")}')`,
+  "--asset-glitch-gif-url": `url('${withBasePath("/glitch-gif.gif")}')`,
+} as CSSProperties;
 
 export default function RootLayout({
   children,
@@ -33,19 +38,32 @@ export default function RootLayout({
 }) {
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
-    <html lang="en" className="theme-lg" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="theme-lg"
+      suppressHydrationWarning
+      style={htmlStyle}
+    >
       <head>
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: noFlash }}
+          src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
         />
       </head>
       <body className="min-h-screen bg-background text-foreground glitch-root">
+        <a
+          className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-[var(--dur-quick)] ease-[var(--ease-out)] opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
+          href="#main-content"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider>
           <SiteChrome />
           <CatCompanion />
-          <div className="relative z-10">{children}</div>
+          <div id="main-content" tabIndex={-1} className="relative z-10">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

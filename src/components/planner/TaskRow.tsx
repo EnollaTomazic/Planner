@@ -1,12 +1,21 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useAutoFocus from "@/lib/useAutoFocus";
+import { spacingTokens } from "@/lib/tokens";
 import type { DayTask } from "./plannerStore";
+
+const taskImageSpacingToken = 7;
+const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
+const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
+const layoutClasses =
+  "[overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 pl-4 pr-2 py-2";
 
 type Props = {
   task: DayTask;
@@ -31,10 +40,23 @@ export default function TaskRow({
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
 
-  React.useEffect(() => {
-    if (editing) inputRef.current?.focus();
-  }, [editing]);
+  useAutoFocus({ ref: inputRef, when: editing });
+
+  const handleFocusWithin = React.useCallback(() => {
+    setHasFocusWithin(true);
+  }, []);
+
+  const handleBlurWithin = React.useCallback(
+    (event: React.FocusEvent<HTMLDivElement>) => {
+      const next = event.relatedTarget as Node | null;
+      if (!next || !event.currentTarget.contains(next)) {
+        setHasFocusWithin(false);
+      }
+    },
+    [],
+  );
 
   function start() {
     setEditing(true);
@@ -58,109 +80,139 @@ export default function TaskRow({
 
   return (
     <li className="group">
-      <div
-        className={cn(
-          "relative [overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 rounded-card r-card-lg border pl-4 pr-2 py-2",
-          "bg-card/55 hover:bg-card/70",
-          "focus-within:ring-2 focus-within:ring-ring",
-        )}
-        onClick={onSelect}
-      >
-        <div className="shrink-0 ml-1" onClick={(e) => e.stopPropagation()}>
-          <CheckCircle
-            checked={task.done}
-            onChange={() => {
-              if (!editing) onToggle();
-            }}
-            aria-label="Toggle task done"
-            size="sm"
-          />
-        </div>
-
-        <div className="flex-1 min-w-0 px-1">
-          {!editing ? (
-            <button
-              className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggle();
-              }}
-              onDoubleClick={(e) => {
-                e.stopPropagation();
-                start();
-              }}
-              aria-pressed={task.done}
-              title="Click to toggle; double-click to edit"
-            >
-              <span
-                className={cn(
-                  "truncate break-words",
-                  task.done && "line-through-soft",
-                )}
-              >
-                {task.title}
-              </span>
-            </button>
-          ) : (
-            <Input
-              name={`dc-rename-task-${task.id}`}
-              ref={inputRef}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={commit}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") commit();
-                if (e.key === "Escape") cancel();
-              }}
-              aria-label="Rename task"
-            />
+      <div className="relative">
+        <button
+          type="button"
+          aria-label={`Select task ${task.title}`}
+          onClick={onSelect}
+          className={cn(
+            "w-full rounded-card r-card-lg border transition-colors",
+            layoutClasses,
+            "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+            "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
           )}
-        </div>
+          data-focus-within={hasFocusWithin ? "true" : undefined}
+        >
+        </button>
 
         <div
           className={cn(
-            "flex shrink-0 items-center gap-2",
-            editing
-              ? "opacity-0 pointer-events-none"
-              : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
+            "pointer-events-none absolute inset-0 z-[1]",
+            layoutClasses,
           )}
+          onFocusCapture={handleFocusWithin}
+          onBlurCapture={handleBlurWithin}
         >
-          <IconButton
-            aria-label="Edit task"
-            title="Edit"
-            onClick={(e) => {
-              e.stopPropagation();
-              start();
-            }}
-            size="sm"
-            iconSize="xs"
-            variant="ring"
+          <div
+            className="pointer-events-auto shrink-0 ml-1"
+            onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
-            <Pencil />
-          </IconButton>
-          <IconButton
-            aria-label="Delete task"
-            title="Delete"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            size="sm"
-            iconSize="xs"
-            variant="ring"
+            <CheckCircle
+              checked={task.done}
+              onChange={() => {
+                if (!editing) onToggle();
+              }}
+              aria-label="Toggle task done"
+              size="sm"
+            />
+          </div>
+
+          <div className="pointer-events-auto flex-1 min-w-0 px-1">
+            {!editing ? (
+              <button
+                type="button"
+                className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggle();
+                }}
+                onDoubleClick={(e) => {
+                  e.stopPropagation();
+                  start();
+                }}
+                aria-pressed={task.done}
+                title="Click to toggle; double-click to edit"
+              >
+                <span
+                  className={cn(
+                    "truncate break-words",
+                    task.done && "line-through-soft",
+                  )}
+                >
+                  {task.title}
+                </span>
+              </button>
+            ) : (
+              <Input
+                name={`dc-rename-task-${task.id}`}
+                ref={inputRef}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={commit}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") commit();
+                  if (e.key === "Escape") cancel();
+                }}
+                aria-label="Rename task"
+              />
+            )}
+          </div>
+
+          <div
+            className={cn(
+              "pointer-events-auto flex shrink-0 items-center gap-2",
+              editing
+                ? "opacity-0 pointer-events-none"
+                : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
+            )}
           >
-            <Trash2 />
-          </IconButton>
+            <IconButton
+              aria-label="Edit task"
+              title="Edit"
+              onClick={(e) => {
+                e.stopPropagation();
+                start();
+              }}
+              size="sm"
+              iconSize="xs"
+              variant="ring"
+            >
+              <Pencil />
+            </IconButton>
+            <IconButton
+              aria-label="Delete task"
+              title="Delete"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              size="sm"
+              iconSize="xs"
+              variant="ring"
+            >
+              <Trash2 />
+            </IconButton>
+          </div>
         </div>
       </div>
       {task.images.length > 0 && (
         <ul className="mt-2 space-y-2">
           {task.images.map((url) => (
             <li key={url} className="flex items-center gap-2">
-              <img
+              <Image
                 src={url}
-                alt={`Image for ${task.title}`}
-                className="max-h-24 rounded-card r-card-md"
+                alt={`Task image for ${task.title}`}
+                width={taskImageSize}
+                height={taskImageSize}
+                className="rounded-card r-card-md object-cover"
+                style={{
+                  maxHeight: taskImageCssValue,
+                  height: taskImageCssValue,
+                  width: taskImageCssValue,
+                }}
+                unoptimized
               />
               <IconButton
                 aria-label="Remove image"

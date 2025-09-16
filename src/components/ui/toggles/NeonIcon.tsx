@@ -215,7 +215,7 @@ export function NeonGlowWrap({ lit, children }: { lit: boolean; children: React.
     <span className="relative inline-flex">
       <span
         className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
+          "pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)]",
           lit ? "opacity-60" : "opacity-0"
         )}
         style={{
@@ -228,7 +228,7 @@ export function NeonGlowWrap({ lit, children }: { lit: boolean; children: React.
       />
       <span
         className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl",
+          "pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)]",
           lit ? "opacity-40 animate-[niAura_3.6s_ease-in-out_infinite]" : "opacity-0"
         )}
         style={{

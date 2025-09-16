@@ -10,34 +10,14 @@ import "./style.css";
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/Textarea";
-import { usePlannerStore } from "./usePlannerStore";
+import { useDayNotes } from "./useDayNotes";
 import type { ISODate } from "./plannerStore";
 
 type Props = { iso: ISODate };
 
 export default function WeekNotes({ iso }: Props) {
-  const { day, setNotes } = usePlannerStore();
-  const [value, setValue] = React.useState(day.notes ?? "");
-  const trimmed = value.trim();
-  const original = (day.notes ?? "").trim();
-  const isDirty = trimmed !== original;
-  const [saving, setSaving] = React.useState(false);
-  const lastSavedRef = React.useRef(original);
-
-  const commit = React.useCallback(async () => {
-    if (!isDirty) return;
-    setSaving(true);
-    try {
-      await Promise.resolve(setNotes(trimmed));
-      lastSavedRef.current = trimmed;
-    } finally {
-      setSaving(false);
-    }
-  }, [isDirty, setNotes, trimmed]);
-
-  React.useEffect(() => {
-    setValue(day.notes ?? "");
-  }, [day.notes]);
+  const { value, setValue, saving, isDirty, lastSavedRef, commit } =
+    useDayNotes();
 
   return (
     <SectionCard className="card-neo-soft">
@@ -52,7 +32,7 @@ export default function WeekNotes({ iso }: Props) {
           textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           onBlur={commit}
         />
-        <div className="mt-2 text-xs text-muted-foreground" aria-live="polite">
+        <div className="mt-2 text-label text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty

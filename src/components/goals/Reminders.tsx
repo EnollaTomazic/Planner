@@ -14,6 +14,7 @@
 
 import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
+import Button from "@/components/ui/primitives/Button";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import Badge from "@/components/ui/primitives/Badge";
@@ -21,6 +22,7 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
+import useAutoFocus from "@/lib/useAutoFocus";
 import {
   Search,
   Plus,
@@ -277,7 +279,7 @@ function ReminderCard({
   const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
   const titleRef = React.useRef<HTMLInputElement | null>(null);
 
-  React.useEffect(() => { if (editing) titleRef.current?.focus(); }, [editing]);
+  useAutoFocus({ ref: titleRef, when: editing });
 
   function save() {
     const cleanTags = tagsText.split(",").map(t => t.trim()).filter(Boolean);
@@ -308,16 +310,21 @@ function ReminderCard({
             className="font-semibold"
           />
         ) : (
-          <h3
-            className="font-semibold title-glow cursor-text"
-            onClick={() => setEditing(true)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && setEditing(true)}
-            title="Click to edit"
-          >
-            {value.title}
-          </h3>
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="font-semibold title-glow truncate" title={value.title}>
+              {value.title}
+            </h3>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setEditing(true)}
+              aria-label={value.title ? `Edit reminder ${value.title}` : "Edit reminder"}
+              className="shrink-0"
+            >
+              <Pencil aria-hidden="true" />
+              Edit
+            </Button>
+          </div>
         )}
 
         <div className="card-neo flex items-center gap-1">
@@ -362,15 +369,6 @@ function ReminderCard({
             </>
           ) : (
             <>
-              <IconButton
-                title="Edit"
-                aria-label="Edit"
-                onClick={() => setEditing(true)}
-                size="sm"
-                iconSize="sm"
-              >
-                <Pencil />
-              </IconButton>
               <IconButton
                 title="Delete"
                 aria-label="Delete"

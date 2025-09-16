@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Home } from "lucide-react";
 import Link from "next/link";
 import {
+  DashboardCard,
   QuickActions,
   TodayCard,
   GoalsCard,
@@ -13,18 +14,47 @@ import {
   BottomNav,
   IsometricRoom,
 } from "@/components/home";
-import { PageHeader, Button, ThemeToggle, Spinner } from "@/components/ui";
+import { PageHeader, PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
+
+type WeeklyHighlight = {
+  id: string;
+  title: string;
+  schedule: string;
+  summary: string;
+};
+
+const weeklyHighlights = [
+  {
+    id: "strategy-sync",
+    title: "Strategy sync",
+    schedule: "Today · 3:00 PM",
+    summary: "Align backlog for the Q2 milestone and confirm owners.",
+  },
+  {
+    id: "retro",
+    title: "Sprint retro",
+    schedule: "Wed · 11:00 AM",
+    summary: "Collect insights to finalize review prompts and next sprint goals.",
+  },
+  {
+    id: "review-window",
+    title: "Review window",
+    schedule: "Fri · All day",
+    summary: "Encourage the team to log highlights before the week wraps.",
+  },
+] as const satisfies readonly WeeklyHighlight[];
 
 function HomePageContent() {
   const [theme] = useTheme();
   useThemeQuerySync();
 
   return (
-    <main
+    <PageShell
+      as="main"
       aria-labelledby="home-header"
-      className="page-shell py-6 space-y-6 md:space-y-8"
+      className="py-6 space-y-6 md:space-y-8 md:pb-8"
     >
       <section
         id="landing-hero"
@@ -34,7 +64,7 @@ function HomePageContent() {
       >
         <div className="col-span-12">
           <PageHeader
-            className="sticky top-0"
+            containerClassName="sticky top-0"
             header={{
               id: "home-header",
               heading: "Welcome to Planner",
@@ -79,12 +109,36 @@ function HomePageContent() {
         <div className="md:col-span-4">
           <ReviewsCard />
         </div>
+        <div className="md:col-span-4">
+          <DashboardCard
+            title="Weekly focus"
+            cta={{ label: "Open planner", href: "/planner" }}
+          >
+            <ul className="divide-y divide-[hsl(var(--border))]">
+              {weeklyHighlights.map((highlight) => (
+                <li key={highlight.id} className="py-3">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <p className="text-ui font-medium">{highlight.title}</p>
+                      <span className="text-label text-muted-foreground">
+                        {highlight.schedule}
+                      </span>
+                    </div>
+                    <p className="text-body text-muted-foreground">
+                      {highlight.summary}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </DashboardCard>
+        </div>
         <div className="md:col-span-12">
           <TeamPromptsCard />
         </div>
       </section>
       <BottomNav />
-    </main>
+    </PageShell>
   );
 }
 
