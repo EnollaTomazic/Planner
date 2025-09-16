@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useDebouncedCallback from "@/lib/useDebouncedCallback";
 import Label from "../Label";
 import Input, { type InputSize } from "./Input";
 import IconButton from "./IconButton";
@@ -54,13 +55,12 @@ export default function SearchBar({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { id, ...restProps } = rest;
   const [generatedId, setGeneratedId] = React.useState<string | undefined>(id);
-  const debounceHandle = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cancelPending = React.useCallback(() => {
-    if (debounceHandle.current !== null) {
-      clearTimeout(debounceHandle.current);
-      debounceHandle.current = null;
-    }
-  }, []);
+  const [emitValueChange, cancelValueChange] = useDebouncedCallback(
+    (next: string) => {
+      onValueChange?.(next);
+    },
+    debounceMs,
+  );
 
   // Mirror external value into local state whenever it changes.
   // No need to read `query` here; linter calms down.
@@ -70,18 +70,14 @@ export default function SearchBar({
 
   // Debounced emit of local changes
   React.useEffect(() => {
-    if (!onValueChange) return;
-    cancelPending();
-    if (debounceMs <= 0) {
-      onValueChange(query);
+    if (!onValueChange) {
+      cancelValueChange();
       return;
     }
-    debounceHandle.current = setTimeout(() => {
-      debounceHandle.current = null;
-      onValueChange(query);
-    }, debounceMs);
-    return cancelPending;
-  }, [query, onValueChange, debounceMs, cancelPending]);
+
+    emitValueChange(query);
+    return cancelValueChange;
+  }, [query, onValueChange, emitValueChange, cancelValueChange]);
 
   const showClear = clearable && query.length > 0;
   const ariaLabelledby = restProps["aria-labelledby"];

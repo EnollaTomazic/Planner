@@ -275,7 +275,7 @@ function ToastDemo() {
       <Button size="sm" onClick={() => setOpen(true)}>
         Show
       </Button>
-      <Toast open={open} onOpenChange={setOpen}>
+      <Toast open={open} onOpenChange={setOpen} closable showProgress>
         <p className="text-ui">Toast message</p>
       </Toast>
     </>
@@ -883,7 +883,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <ToastDemo />,
       tags: ["toast", "feedback"],
       code: `<Button size="sm">Show</Button>
-<Toast open><p className="text-ui">Toast message</p></Toast>`,
+<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
     },
     {
       id: "split",
