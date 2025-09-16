@@ -7,7 +7,10 @@ exports[`ReviewsPage > renders default state 1`] = `
     class="page-shell py-6 space-y-6"
   >
     <header>
-      <style>
+      <style
+        global="true"
+        jsx="true"
+      >
         
       .hero2-beams {
         position: absolute;
@@ -206,7 +209,10 @@ exports[`ReviewsPage > renders default state 1`] = `
               </div>
             </header>
             <header>
-              <style>
+              <style
+                global="true"
+                jsx="true"
+              >
                 
       /* === Glitch title ================================================== */
       .hero2-title {
@@ -303,7 +309,10 @@ exports[`ReviewsPage > renders default state 1`] = `
       }
     
               </style>
-              <style>
+              <style
+                global="true"
+                jsx="true"
+              >
                 
       .hero2-beams {
         position: absolute;
@@ -592,7 +601,9 @@ exports[`ReviewsPage > renders default state 1`] = `
                                   />
                                 </button>
                               </div>
-                              <style>
+                              <style
+                                jsx="true"
+                              >
                                 
       /* caret jitter */
       .caret {
@@ -827,12 +838,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </div>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active text-foreground"
+                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap shadow-glow-sm bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active text-foreground"
+                            style="--glow-active: hsl(var(--foreground) / 0.35);"
                             tabindex="0"
                             type="button"
                           >
                             <span
-                              class="absolute inset-0 pointer-events-none rounded-[var(--radius-2xl)] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
+                              class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
                             />
                             <span
                               class="relative z-10 inline-flex items-center gap-2"
