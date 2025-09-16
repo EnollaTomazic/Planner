@@ -9,8 +9,8 @@ const quickActionButtonClassName =
 
 export default function QuickActions() {
   return (
-    <section aria-label="Quick actions" className="grid gap-4">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <section aria-label="Quick actions" className="grid gap-[var(--space-4)]">
+      <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
         <Link href="/planner">
           <Button className={quickActionButtonClassName}>
             Planner Today

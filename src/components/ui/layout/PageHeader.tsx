@@ -50,6 +50,8 @@ export interface PageHeaderBaseProps<
   search?: HeroProps<HeroKey>["search"];
   /** Optional hero actions override */
   actions?: HeroProps<HeroKey>["actions"];
+  /** Move header tabs into the hero region instead of rendering them inline */
+  tabsInHero?: boolean;
 }
 
 export type PageHeaderProps<
@@ -80,11 +82,18 @@ const PageHeaderInner = <
     subTabs,
     search,
     actions,
+    tabsInHero = false,
     ...elementProps
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
   const Component: PageHeaderElement = as ?? "section";
+
+  const {
+    tabs: headerTabs,
+    underline: headerUnderline,
+    ...headerRest
+  } = header;
 
   const {
     subTabs: heroSubTabs,
@@ -98,9 +107,33 @@ const PageHeaderInner = <
     ...heroRest
   } = hero;
 
+  const forwardedHeaderSubTabs = React.useMemo<
+    HeroProps<HeroKey>["subTabs"] | undefined
+  >(() => {
+    if (!tabsInHero || heroSubTabs !== undefined || !headerTabs) {
+      return undefined;
+    }
+
+    const { items, value, onChange, ...restHeaderTabs } = headerTabs;
+
+    return {
+      ...restHeaderTabs,
+      items: items.map((item) => ({
+        ...item,
+        key: String(item.key) as HeroKey,
+      })),
+      value: String(value) as HeroKey,
+      onChange: (key: HeroKey) => onChange(String(key) as HeaderKey),
+    };
+  }, [tabsInHero, heroSubTabs, headerTabs]);
+
   const resolvedSubTabs = React.useMemo(
-    () => heroSubTabs ?? subTabs,
-    [heroSubTabs, subTabs],
+    () => {
+      if (heroSubTabs !== undefined) return heroSubTabs;
+      if (subTabs !== undefined) return subTabs;
+      return forwardedHeaderSubTabs;
+    },
+    [heroSubTabs, subTabs, forwardedHeaderSubTabs],
   );
 
   const resolvedSearch = React.useMemo(() => {
@@ -125,12 +158,13 @@ const PageHeaderInner = <
   } = frameProps ?? {};
 
   const heroShouldRenderActionArea = frameActionArea === null;
+  const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
 
   const heroTabVariant: TabBarProps["variant"] | undefined =
     resolvedHeroFrame ? "neo" : undefined;
 
   const actionAreaTabs = React.useMemo(() => {
-    if (!resolvedSubTabs) return undefined;
+    if (!resolvedSubTabs || heroShouldRenderTabs) return undefined;
 
     const {
       items,
@@ -168,7 +202,7 @@ const PageHeaderInner = <
         idBase={idBase}
       />
     );
-  }, [resolvedSubTabs, heroTabVariant]);
+  }, [resolvedSubTabs, heroTabVariant, heroShouldRenderTabs]);
 
   const actionAreaSearch = React.useMemo(() => {
     if (resolvedSearch === null) return null;
@@ -181,14 +215,16 @@ const PageHeaderInner = <
   const heroActionProps = React.useMemo<
     Pick<HeroProps<HeroKey>, "subTabs" | "search" | "actions"> | undefined
   >(() => {
-    if (!heroShouldRenderActionArea) return undefined;
+    if (!heroShouldRenderActionArea && !heroShouldRenderTabs) return undefined;
     return {
-      subTabs: resolvedSubTabs,
-      search: resolvedSearch,
-      actions: resolvedActions,
+      ...(heroShouldRenderTabs ? { subTabs: resolvedSubTabs } : {}),
+      ...(heroShouldRenderActionArea
+        ? { search: resolvedSearch, actions: resolvedActions }
+        : {}),
     };
   }, [
     heroShouldRenderActionArea,
+    heroShouldRenderTabs,
     resolvedSubTabs,
     resolvedSearch,
     resolvedActions,
@@ -260,7 +296,11 @@ const PageHeaderInner = <
               "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
           )}
         >
-          <Header {...header} underline={header.underline ?? false} />
+          <Header
+            {...headerRest}
+            tabs={tabsInHero ? undefined : headerTabs}
+            underline={headerUnderline ?? false}
+          />
           <Hero
             {...heroRest}
             as={heroAs ?? "section"}

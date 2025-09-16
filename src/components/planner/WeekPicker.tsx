@@ -157,7 +157,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           : "Click or press Enter to focus"
       }
       className={cn(
-        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
+        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
@@ -350,7 +350,7 @@ export default function WeekPicker() {
       aria-label="Jump to top"
       onClick={jumpToTop}
       title="Jump to top"
-      className="px-4"
+      className="px-[var(--space-4)]"
     >
       <ArrowUpToLine />
       <span>Top</span>
@@ -366,12 +366,12 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
     >
-      <div className="grid gap-3 flex-1">
+      <div className="grid gap-[var(--space-3)] flex-1">
         {/* Range + totals */}
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-[var(--space-3)]">
           <span
             className={cn(
-              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-ui",
+              "inline-flex items-center gap-[var(--space-2)] rounded-card r-card-lg px-[var(--space-3)] py-[var(--space-2)] text-ui",
               "bg-card/72 ring-1 ring-border/55 backdrop-blur",
             )}
             aria-label={`Week range ${rangeLabel}`}
@@ -389,7 +389,7 @@ export default function WeekPicker() {
         </div>
 
         {/* Day chips */}
-        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
+        <div className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
           {days.map((d, i) => (
             <DayChip
               key={d}
