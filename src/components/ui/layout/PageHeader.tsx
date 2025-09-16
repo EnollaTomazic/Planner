@@ -79,7 +79,7 @@ const PageHeaderInner = <
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
-  const Component = (as ?? "header") as PageHeaderElement;
+  const Component = (as ?? "section") as PageHeaderElement;
 
   const {
     subTabs: heroSubTabs,
@@ -126,7 +126,7 @@ const PageHeaderInner = <
           <Header {...header} underline={header.underline ?? false} />
           <Hero
             {...heroRest}
-            as={heroAs ?? "header"}
+            as={heroAs ?? "section"}
             frame={heroFrame ?? true}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             subTabs={resolvedSubTabs}
