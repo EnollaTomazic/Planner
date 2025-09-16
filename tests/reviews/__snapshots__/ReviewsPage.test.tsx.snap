@@ -455,7 +455,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         Browse Reviews
                       </h2>
                       <span
-                        class="text-ui md:text-body font-medium text-[hsl(var(--muted-foreground))] truncate"
+                        class="text-ui md:text-body font-medium text-muted-foreground truncate"
                       >
                         <span
                           class="pill"

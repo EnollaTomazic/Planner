@@ -62,9 +62,9 @@ export default function TaskList({
       )}
       <div className="min-h-32 max-h-80 overflow-y-auto px-2 py-2">
         {!selectedProjectId ? (
-          <EmptyRow text="No task selected." />
+          <EmptyRow text="Select a project to view tasks" />
         ) : tasksForSelected.length === 0 ? (
-          <EmptyRow text="No tasks selected." />
+          <EmptyRow text="No tasks yet" />
         ) : (
           <ul
             className="space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"
