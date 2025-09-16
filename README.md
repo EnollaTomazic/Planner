@@ -41,14 +41,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## GitHub Pages Deployment
 
-Export the site for GitHub Pages by building with the flag `GITHUB_PAGES=1` (the `npm run deploy` script already sets it). This enables the GitHub Pages configuration and generates an export that expects to live at the repository base path (`/<repo>/`).
+Export the site for GitHub Pages by building with the flag `GITHUB_PAGES=true` (the `npm run deploy` script already sets it). This enables the GitHub Pages configuration and generates an export that expects to live at the repository base path (`/<repo>/`).
 
 When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site.
 
 To mirror the GitHub Pages behavior locally, provide the repository slug with `BASE_PATH` while enabling the GitHub Pages flag. For example:
 
 ```bash
-GITHUB_PAGES=1 BASE_PATH=<repo> npm run dev
+GITHUB_PAGES=true BASE_PATH=<repo> npm run dev
 ```
 
 Then open `http://localhost:3000/<repo>/` to load the home page under the same base path.
