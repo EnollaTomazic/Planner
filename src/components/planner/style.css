@@ -185,6 +185,157 @@
   );
 }
 
+/* ============ Week summary tiles ============ */
+.ws-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: var(--hairline-w) solid hsl(var(--card-hairline));
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.85),
+    hsl(var(--card) / 0.65)
+  );
+  color: hsl(var(--foreground));
+  cursor: pointer;
+  outline: none;
+  --ws-shadow-inner: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.45)
+    inset;
+  --ws-shadow-outer: 0 calc(var(--space-1)) calc(var(--space-4))
+    hsl(var(--shadow-color) / 0.12);
+  box-shadow: var(--ws-shadow-inner), var(--ws-shadow-outer);
+  transition:
+    background var(--dur-quick) var(--ease-out),
+    border-color var(--dur-quick) var(--ease-out),
+    box-shadow var(--dur-quick) var(--ease-out),
+    transform var(--dur-quick) var(--ease-out);
+}
+.ws-tile:hover {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.95),
+    hsl(var(--card) / 0.75)
+  );
+  border-color: hsl(var(--ring) / 0.45);
+  --ws-shadow-inner: 0 0 0 calc(var(--hairline-w) * 1.5)
+    hsl(var(--ring) / 0.35) inset;
+  --ws-shadow-outer: 0 calc(var(--space-2) - var(--space-0-5))
+    calc(var(--space-5)) hsl(var(--shadow-color) / 0.18);
+  transform: translateY(calc(var(--space-0-5) * -1));
+}
+.ws-tile:focus-visible {
+  border-color: hsl(var(--ring));
+  --ws-shadow-inner: 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.5)
+    inset;
+  --ws-shadow-outer:
+    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.45),
+    0 calc(var(--space-2)) calc(var(--space-5)) hsl(var(--shadow-color) / 0.24);
+}
+.ws-tile:active {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.8),
+    hsl(var(--card) / 0.6)
+  );
+  border-color: hsl(var(--ring) / 0.6);
+  --ws-shadow-inner: 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.4)
+    inset;
+  --ws-shadow-outer: 0 calc(var(--space-1)) calc(var(--space-4))
+    hsl(var(--shadow-color) / 0.22);
+  transform: translateY(0);
+}
+
+.ws-tile--today {
+  border-color: hsl(var(--ring) / 0.55);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.9),
+    hsl(var(--card) / 0.7)
+  );
+  --ws-shadow-inner: 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--ring) / 0.4)
+    inset;
+  --ws-shadow-outer: 0 calc(var(--space-2)) calc(var(--space-5))
+    hsl(var(--shadow-color) / 0.2);
+}
+.ws-tile--today .ws-tile__date {
+  color: hsl(var(--primary-foreground));
+  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
+}
+
+.ws-tile--empty {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.6),
+    hsl(var(--card) / 0.5)
+  );
+  color: hsl(var(--muted-foreground));
+  --ws-shadow-inner: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.35)
+    inset;
+  --ws-shadow-outer: 0 calc(var(--space-1)) calc(var(--space-4))
+    hsl(var(--shadow-color) / 0.08);
+}
+.ws-tile--empty .ws-tile__counts {
+  color: hsl(var(--muted-foreground));
+}
+.ws-tile--empty .ws-tile__date {
+  color: hsl(var(--muted-foreground) / 0.85);
+}
+
+.ws-rail {
+  position: absolute;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  left: var(--space-1);
+  width: calc(var(--space-0-5) + var(--hairline-w));
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--accent)),
+    hsl(var(--primary))
+  );
+  box-shadow: 0 0 var(--space-2) hsl(var(--ring) / 0.45);
+  pointer-events: none;
+}
+
+.ws-tile__date {
+  @apply text-label font-medium tracking-[0.02em];
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+}
+
+.ws-tile__counts {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-0-5);
+  color: hsl(var(--foreground));
+  @apply text-title font-semibold tracking-[-0.01em];
+}
+
+.ws-bleed {
+  margin-left: calc(var(--space-5) * -1);
+  margin-right: calc(var(--space-5) * -1);
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+@media (min-width: 768px) {
+  .ws-bleed {
+    margin-left: calc((var(--space-5) + var(--space-1)) * -1);
+    margin-right: calc((var(--space-5) + var(--space-1)) * -1);
+    padding-left: calc(var(--space-5) + var(--space-1));
+    padding-right: calc(var(--space-5) + var(--space-1));
+  }
+}
+@media (min-width: 1024px) {
+  .ws-bleed {
+    margin-left: calc(var(--space-6) * -1);
+    margin-right: calc(var(--space-6) * -1);
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
 /* ============ Week chips: hover flicker + active glitch ============ */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes chip-flicker {
@@ -392,6 +543,13 @@
 @media (prefers-reduced-motion: reduce) {
   .proj-card--active::after {
     animation: none;
+  }
+  .ws-tile {
+    transition: none;
+  }
+  .ws-tile:hover,
+  .ws-tile:active {
+    transform: none;
   }
   .chip,
   .chip__scan,
