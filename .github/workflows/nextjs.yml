@@ -78,6 +78,7 @@ jobs:
         with:
           token: ${{ secrets.VERCEL_TOKEN }}
           project-name: planner
+          vercel-args: '--prebuilt ./out --prod'
 
   # Deployment job
   deploy:
