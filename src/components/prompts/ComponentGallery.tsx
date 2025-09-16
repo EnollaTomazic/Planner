@@ -203,6 +203,7 @@ export default function ComponentGallery() {
               { key: "three", label: "Three" },
             ]}
             className="w-56"
+            linkPanels={false}
           />
         ),
       },
@@ -219,6 +220,7 @@ export default function ComponentGallery() {
             onValueChange={setAppTab}
             ariaLabel="Component gallery sections"
             className="w-56"
+            linkPanels={false}
           />
         ),
       },
@@ -235,6 +237,7 @@ export default function ComponentGallery() {
             onValueChange={setFilterTab}
             ariaLabel="Filter items"
             className="w-56"
+            linkPanels={false}
           />
         ),
       },
@@ -443,6 +446,7 @@ export default function ComponentGallery() {
                   value="demo"
                   onValueChange={() => {}}
                   ariaLabel="Demo tabs"
+                  linkPanels={false}
                 />
                 <Card className="h-24" />
               </div>
@@ -820,6 +824,7 @@ export default function ComponentGallery() {
                 ],
                 value: headerTab,
                 onChange: setHeaderTab,
+                linkPanels: false,
               }}
               search={{ value: "", onValueChange: () => {}, round: true }}
               actions={<Button size="sm">Action</Button>}
@@ -949,6 +954,7 @@ export default function ComponentGallery() {
         value={view}
         onValueChange={setView}
         ariaLabel="Component gallery"
+        linkPanels={false}
       />
       <div className="grid grid-cols-12 gap-8">
         {itemsMap[view].map((item) => (
