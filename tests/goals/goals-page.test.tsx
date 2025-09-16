@@ -181,7 +181,7 @@ describe("GoalsPage", () => {
     await waitFor(() =>
       expect(screen.queryByText("Goal 4")).not.toBeInTheDocument(),
     );
-    const undoButton = screen.getByRole("button", { name: "Undo" });
+    const undoButton = screen.getByRole("button", { name: "Undo delete goal" });
     fireEvent.click(undoButton);
     expect(await screen.findByText("Goal 4")).toBeInTheDocument();
   });
