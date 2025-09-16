@@ -12,24 +12,29 @@ import {
   type DayTask,
 } from "./plannerStore";
 import { makeCrud } from "./plannerCrud";
-import { parseJSON } from "@/lib/local-bootstrap";
+import { readLocal, removeLocal } from "@/lib/db";
 
 export type { ISODate, DayRecord, Project, DayTask } from "./plannerStore";
+
+type LegacySnapshot = {
+  projects: Project[] | null;
+  tasks: DayTask[] | null;
+};
 
 let legacyMigrated = false;
 function migrateLegacy(
   days: Record<ISODate, DayRecord>,
   iso: ISODate,
+  legacy?: LegacySnapshot,
 ): Record<ISODate, DayRecord> {
   if (legacyMigrated || typeof window === "undefined") return days;
-  const rawProjects = window.localStorage.getItem("planner:projects");
-  const rawTasks = window.localStorage.getItem("planner:tasks");
-  if (!rawProjects && !rawTasks) {
+  const projects =
+    legacy?.projects ?? readLocal<Project[]>("planner:projects");
+  const tasks = legacy?.tasks ?? readLocal<DayTask[]>("planner:tasks");
+  if (!projects && !tasks) {
     legacyMigrated = true;
     return days;
   }
-  const projects = parseJSON<Project[]>(rawProjects);
-  const tasks = parseJSON<DayTask[]>(rawTasks);
   const next = { ...days } as Record<ISODate, DayRecord>;
   const ensured = ensureDay(next, iso);
   let updated = ensured;
@@ -50,12 +55,8 @@ function migrateLegacy(
     updated.tasks,
   );
   next[iso] = { ...updated, doneCount, totalCount };
-  try {
-    window.localStorage.removeItem("planner:projects");
-    window.localStorage.removeItem("planner:tasks");
-  } catch {
-    /* ignore */
-  }
+  removeLocal("planner:projects");
+  removeLocal("planner:tasks");
   legacyMigrated = true;
   return next;
 }
@@ -79,17 +80,17 @@ export function usePlannerStore() {
 
   React.useEffect(() => {
     if (!legacyMigrated) {
-      if (typeof window === "undefined") return;
+      const projects = readLocal<Project[]>("planner:projects");
+      const tasks = readLocal<DayTask[]>("planner:tasks");
 
-      const rawProjects = window.localStorage.getItem("planner:projects");
-      const rawTasks = window.localStorage.getItem("planner:tasks");
-
-      if (!rawProjects && !rawTasks) {
+      if (!projects && !tasks) {
         legacyMigrated = true;
         return;
       }
 
-      applyDaysUpdate((prev) => migrateLegacy(prev, focus));
+      applyDaysUpdate((prev) =>
+        migrateLegacy(prev, focus, { projects, tasks }),
+      );
     }
   }, [applyDaysUpdate, focus]);
 

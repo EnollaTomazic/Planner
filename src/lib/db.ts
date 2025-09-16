@@ -202,7 +202,14 @@ if (isBrowser && !window.__planner_flush_bound) {
 export function readLocal<T>(key: string): T | null {
   if (!isBrowser) return null;
   try {
-    return baseReadLocal<T>(createStorageKey(key));
+    const storageKey = createStorageKey(key);
+    const value = baseReadLocal<T>(storageKey);
+    if (value !== null) return value;
+    if (storageKey !== key) {
+      const legacyValue = baseReadLocal<T>(key);
+      if (legacyValue !== null) return legacyValue;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -221,10 +228,19 @@ export function writeLocal(key: string, value: unknown) {
 /** Remove a key from localStorage safely */
 export function removeLocal(key: string) {
   if (!isBrowser) return;
+  const targets = new Set<string>();
   try {
-    window.localStorage.removeItem(createStorageKey(key));
+    targets.add(createStorageKey(key));
   } catch {
     // ignore
+  }
+  targets.add(key);
+  for (const target of targets) {
+    try {
+      window.localStorage.removeItem(target);
+    } catch {
+      // ignore
+    }
   }
 }
 
