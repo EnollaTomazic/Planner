@@ -190,7 +190,7 @@ function Hero<Key extends string = string>({
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-ui md:text-body font-medium text-[hsl(var(--muted-foreground))] truncate">
+                <span className="text-ui md:text-body font-medium text-muted-foreground truncate">
                   {subtitle}
                 </span>
               ) : null}
