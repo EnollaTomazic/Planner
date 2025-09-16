@@ -161,6 +161,31 @@ function sanitizeDay(
   const ensured = ensureDay(map, iso);
   return ensured === map[iso] ? undefined : ensured;
 }
+
+function cleanupSelections(
+  selected: Record<ISODate, Selection>,
+  days: Record<ISODate, DayRecord>,
+) {
+  let result = selected;
+  let mutated = false;
+
+  for (const iso of Object.keys(selected)) {
+    const selection = selected[iso];
+    const hasDay = Object.prototype.hasOwnProperty.call(days, iso);
+    const hasProject = Boolean(selection?.projectId);
+    const hasTask = Boolean(selection?.taskId);
+
+    if (!hasDay || (!hasProject && !hasTask)) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+    }
+  }
+
+  return mutated ? result : selected;
+}
 type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
 
 type DaysState = {
@@ -189,11 +214,22 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     "planner:focus",
     todayISO(),
   );
-  const [selected, setSelected] = usePersistentState<
+  const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
 
   const days = rawDays;
+
+  const selected = React.useMemo(
+    () => cleanupSelections(selectedState, days),
+    [selectedState, days],
+  );
+
+  React.useEffect(() => {
+    if (!Object.is(selected, selectedState)) {
+      setSelectedState(selected);
+    }
+  }, [selected, selectedState, setSelectedState]);
 
   const tasksById = React.useMemo<TaskIdMap>(() => {
     const map: TaskIdMap = {};
@@ -252,6 +288,28 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const focusValue = React.useMemo(
     () => ({ focus, setFocus }),
     [focus, setFocus],
+  );
+  const setSelected = React.useCallback<
+    React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>
+  >(
+    (update) => {
+      setSelectedState((prev) => {
+        const next =
+          typeof update === "function"
+            ? (update as (
+                current: Record<ISODate, Selection>,
+              ) => Record<ISODate, Selection>)(prev)
+            : update;
+
+        if (Object.is(prev, next)) {
+          return prev;
+        }
+
+        const cleaned = cleanupSelections(next, days);
+        return Object.is(prev, cleaned) ? prev : cleaned;
+      });
+    },
+    [days, setSelectedState],
   );
   const selectionValue = React.useMemo(
     () => ({ selected, setSelected }),
