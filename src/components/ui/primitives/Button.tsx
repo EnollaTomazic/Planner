@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Spinner from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
@@ -34,6 +35,12 @@ export const buttonSizes = {
 export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
+
+const spinnerSizes: Record<ButtonSize, number> = {
+  sm: 16,
+  md: 20,
+  lg: 24,
+};
 
 /**
  * Props for the {@link Button} component.
@@ -136,6 +143,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const reduceMotion = useReducedMotion();
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
+    const spinnerSize = spinnerSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
@@ -160,6 +168,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ? { scale: 1.03 }
         : variantHover;
 
+    const contentClasses = cn(
+      contentClass ?? cn("inline-flex items-center", s.gap),
+      loading && "opacity-0",
+    );
+
     let resolvedStyle = style;
 
     if (variant === "primary") {
@@ -179,6 +192,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(base, variantClass, toneClasses[variant][tone])}
         data-loading={loading}
         disabled={isDisabled}
+        aria-busy={loading ? true : undefined}
         style={resolvedStyle}
         whileHover={hoverAnimation}
         whileTap={reduceMotion ? undefined : whileTap}
@@ -194,11 +208,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           overlay
         )}
-        {contentClass ? (
-          <span className={contentClass}>{children as React.ReactNode}</span>
-        ) : (
-          (children as React.ReactNode)
-        )}
+        {loading ? (
+          <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+            <Spinner size={spinnerSize} />
+          </span>
+        ) : null}
+        <span className={contentClasses}>
+          {children as React.ReactNode}
+        </span>
       </motion.button>
     );
   },
