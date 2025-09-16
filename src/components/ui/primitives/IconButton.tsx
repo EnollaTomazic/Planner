@@ -72,9 +72,9 @@ const getSizeClass = (s: IconButtonSize) => {
 };
 
 const variantBase: Record<Variant, string> = {
-  ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)]",
+  ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)]",
   solid: "border",
-  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] shadow-glow-current",
+  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)] shadow-glow-current",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {

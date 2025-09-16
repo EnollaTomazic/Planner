@@ -69,19 +69,17 @@ export default function TodayHero({ iso }: Props) {
       selProjectId ? tasks.filter((t) => t.projectId === selProjectId) : [],
     [tasks, selProjectId],
   );
-  const { done, total } = useMemo(
+  const { done, total } = useMemo<{ done: number; total: number }>(
     () =>
-      tasks.reduce(
+      scopedTasks.reduce<{ done: number; total: number }>(
         (acc, t) => {
-          if (t.projectId === selProjectId) {
-            acc.total += 1;
-            if (t.done) acc.done += 1;
-          }
+          acc.total += 1;
+          if (t.done) acc.done += 1;
           return acc;
         },
         { done: 0, total: 0 },
       ),
-    [tasks, selProjectId],
+    [scopedTasks],
   );
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
