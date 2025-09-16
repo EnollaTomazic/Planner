@@ -94,7 +94,7 @@ export const variants: Record<
 > = {
   primary: {
     className:
-      "bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active",
+      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
     whileTap: {
       scale: 0.97,
     },
@@ -125,6 +125,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       type = "button",
       loading,
       disabled,
+      style,
       ...rest
     },
     ref,
@@ -133,7 +134,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
       s.height,
       s.padding,
       s.text,
@@ -144,11 +145,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const {
       className: variantClass,
-      whileHover,
+      whileHover: variantHover,
       whileTap,
       overlay,
       contentClass,
     } = variants[variant];
+
+    const hoverAnimation = reduceMotion
+      ? undefined
+      : variant === "primary"
+        ? { scale: 1.03 }
+        : variantHover;
+
+    let resolvedStyle = style;
+
+    if (variant === "primary") {
+      const glowStyles = {
+        "--glow-active": `hsl(var(${colorVar[tone]}) / 0.35)`,
+      } as CSSProperties;
+      resolvedStyle = {
+        ...glowStyles,
+        ...(style ?? {}),
+      };
+    }
 
     return (
       <motion.button
@@ -157,23 +176,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(base, variantClass, toneClasses[variant][tone])}
         data-loading={loading}
         disabled={isDisabled}
-        whileHover={
-          reduceMotion
-            ? undefined
-            : variant === "primary"
-              ? {
-                  scale: 1.03,
-                  boxShadow: `${neuRaised(16)},0 0 8px hsl(var(${colorVar[tone]})/.3)`,
-                }
-              : whileHover
-        }
+        style={resolvedStyle}
+        whileHover={hoverAnimation}
         whileTap={reduceMotion ? undefined : whileTap}
         {...rest}
       >
         {variant === "primary" ? (
           <span
             className={cn(
-              "absolute inset-0 pointer-events-none rounded-[var(--radius-2xl)]",
+              "absolute inset-0 pointer-events-none rounded-[inherit]",
               `bg-[linear-gradient(90deg,hsl(var(${colorVar[tone]})/.18),hsl(var(${colorVar[tone]})/.18))]`,
             )}
           />
