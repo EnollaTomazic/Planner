@@ -184,7 +184,7 @@ function Hero<Key extends string = string>({
 
             <div className="flex items-baseline gap-2">
               <h2
-                className="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.005em] truncate"
+                className="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
                 data-text={headingStr}
               >
                 {heading}
