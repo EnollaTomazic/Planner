@@ -60,6 +60,7 @@ export default function PageHeaderDemo() {
   const [activePrimaryNav, setActivePrimaryNav] =
     React.useState<CompactNav>("summary");
   const [profileOpen, setProfileOpen] = React.useState(false);
+  const [notificationsActive, setNotificationsActive] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<MinimalTab>("overview");
   const [activeFilter, setActiveFilter] = React.useState<HeroFilter>("all");
   const [query, setQuery] = React.useState("");
@@ -93,8 +94,10 @@ export default function PageHeaderDemo() {
       <IconButton
         size="sm"
         aria-label="Show notifications"
+        aria-pressed={notificationsActive}
         className="text-muted-foreground data-[state=active]:text-foreground"
-        data-state="active"
+        data-state={notificationsActive ? "active" : "inactive"}
+        onClick={() => setNotificationsActive((prev) => !prev)}
       >
         <Bell className="h-4 w-4" />
       </IconButton>
