@@ -46,7 +46,7 @@ export default function NeomorphicHeroFrameDemo() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="px-2 text-xs font-semibold uppercase tracking-[0.08em]"
+                  className="px-2 text-label font-semibold uppercase tracking-[0.08em]"
                 >
                   View all
                 </Button>
@@ -85,18 +85,18 @@ export default function NeomorphicHeroFrameDemo() {
             <h3 className="text-title font-semibold tracking-[-0.01em] text-foreground">
               Default neomorphic frame
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               The default variant applies the <code>r-card-lg</code> radius, border tint
               from <code>border-border/40</code>, and responsive padding tokens
               (<code>px-6</code>, <code>md:px-7</code>, <code>lg:px-8</code>) to stay aligned with the 12-column grid.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               Tabs, search, and button actions all inherit hover, focus, active,
               disabled, and loading states from the design system tokens—interact with
               each control to preview the full range of feedback.
             </p>
           </div>
-          <dl className="md:col-span-5 grid gap-2 text-xs uppercase tracking-[0.08em] text-muted-foreground">
+          <dl className="md:col-span-5 grid gap-2 text-label uppercase tracking-[0.08em] text-muted-foreground">
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
               <dt className="font-semibold text-foreground">Layer tokens</dt>
               <dd className="text-label">bg-card/70 · ring-border/55</dd>
@@ -154,17 +154,17 @@ export default function NeomorphicHeroFrameDemo() {
             <h3 className="text-ui font-semibold uppercase tracking-[0.08em] text-muted-foreground">
               Compact layout
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               Compact frames tighten the padding to <code>px-4</code>/<code>md:px-5</code>/<code>lg:px-6</code>
               with the <code>r-card-md</code> radius, ideal for utility nav or filter rails.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               The action row mirrors the grid: tabs span <code>md:col-span-7</code>, search spans
               <code>md:col-span-3</code>, and button actions anchor on <code>md:col-span-2</code> for
               consistent alignment.
             </p>
           </div>
-          <div className="md:col-span-6 space-y-2 text-xs text-muted-foreground">
+          <div className="md:col-span-6 space-y-2 text-label text-muted-foreground">
             <p className="font-semibold text-foreground">Interaction checklist</p>
             <ul className="grid grid-cols-2 gap-2">
               <li className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">

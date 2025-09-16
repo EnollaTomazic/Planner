@@ -22,20 +22,20 @@ export default function ReviewsCard() {
     >
       <ul className="divide-y divide-[hsl(var(--border))]">
         {recentReviews.map((r) => (
-          <li key={r.id} className="flex justify-between py-2 text-sm">
+          <li key={r.id} className="flex justify-between py-2 text-ui">
             <span>{r.title || "Untitled"}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-label text-muted-foreground">
               {new Date(r.createdAt).toLocaleDateString(LOCALE)}
             </span>
           </li>
         ))}
         {recentReviews.length === 0 && (
-          <li className="flex justify-between py-2 text-sm text-muted-foreground">
+          <li className="flex justify-between py-2 text-ui text-muted-foreground">
             <span className="flex items-center gap-2">
               <CircleSlash className="size-3" />
               No reviews yet
             </span>
-            <Link href="/reviews" className="text-xs underline">
+            <Link href="/reviews" className="text-label underline">
               Create
             </Link>
           </li>
