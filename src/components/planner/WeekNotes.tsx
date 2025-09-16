@@ -17,7 +17,7 @@ type Props = { iso: ISODate };
 
 export default function WeekNotes({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
-    useDayNotes();
+    useDayNotes(iso);
 
   return (
     <SectionCard className="card-neo-soft">
