@@ -62,6 +62,10 @@
   background: hsl(var(--card) / 0.7);
   border-color: hsl(var(--ring) / 0.45);
 }
+.proj-card:active {
+  --active: hsl(var(--panel) / 0.55);
+  background: hsl(var(--card) / 0.8);
+}
 .proj-card--active {
   border-color: hsl(var(--ring));
   box-shadow:
