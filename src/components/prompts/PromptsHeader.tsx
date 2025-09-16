@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Button, SearchBar } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import useDebouncedCallback from "@/lib/useDebouncedCallback";
 
 interface PromptsHeaderProps {
   count: number;
@@ -20,25 +21,18 @@ export default function PromptsHeader({
   disabled,
 }: PromptsHeaderProps) {
   const [localQuery, setLocalQuery] = React.useState(query);
-  const debounceRef = React.useRef<number>();
+  const [emitQueryChange] = useDebouncedCallback(onQueryChange, 300);
 
   React.useEffect(() => {
     setLocalQuery(query);
   }, [query]);
 
-  React.useEffect(() => {
-    return () => {
-      window.clearTimeout(debounceRef.current);
-    };
-  }, []);
-
   const handleChange = React.useCallback(
     (val: string) => {
       setLocalQuery(val);
-      window.clearTimeout(debounceRef.current);
-      debounceRef.current = window.setTimeout(() => onQueryChange(val), 300);
+      emitQueryChange(val);
     },
-    [onQueryChange],
+    [emitQueryChange],
   );
 
   const handleChip = (chip: string) => {
