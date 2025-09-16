@@ -44,6 +44,7 @@ export type ButtonProps = React.ComponentProps<typeof motion.button> & {
   variant?: "primary" | "secondary" | "ghost";
   tone?: Tone;
   loading?: boolean;
+  shape?: "default" | "pill";
 };
 
 export const colorVar: Record<Tone, string> = {
@@ -126,6 +127,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       disabled,
       style,
+      shape = "default",
       ...rest
     },
     ref,
@@ -134,7 +136,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
     const s = buttonSizes[size];
     const base = cn(
-      "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "relative inline-flex items-center justify-center border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      shape === "pill" ? "rounded-full" : "rounded-[var(--control-radius)]",
       s.height,
       s.padding,
       s.text,

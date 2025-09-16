@@ -15,6 +15,7 @@ export default function ButtonShowcase() {
           Danger primary
         </Button>
         <Button disabled>Disabled</Button>
+        <Button shape="pill">Pill action</Button>
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <Button size="sm">
