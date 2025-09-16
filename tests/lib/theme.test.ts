@@ -6,6 +6,7 @@ import {
 } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
+import { runInThisContext } from "node:vm";
 import { applyTheme, BG_CLASSES, THEME_BOOTSTRAP_SCRIPT_PATH, THEME_STORAGE_KEY } from "@/lib/theme";
 import { createStorageKey } from "@/lib/storage-key";
 import type { Background } from "@/lib/theme";
@@ -51,8 +52,7 @@ describe("themeBootstrapScript", () => {
     );
     const script = fs.readFileSync(scriptPath, "utf8");
     expect(() => {
-      // eslint-disable-next-line no-eval
-      eval(script);
+      runInThisContext(script);
     }).not.toThrow();
 
     const { classList } = document.documentElement;
