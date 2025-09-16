@@ -1,12 +1,14 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
+import { spacingTokens } from "@/lib/tokens";
 import type { DayTask } from "./plannerStore";
 
 type Props = {
@@ -28,6 +30,7 @@ export default function TaskRow({
   onAddImage,
   onRemoveImage,
 }: Props) {
+  const taskImageSize = spacingTokens[6];
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
@@ -195,16 +198,18 @@ export default function TaskRow({
         <ul className="mt-2 space-y-2">
           {task.images.map((url) => (
             <li key={url} className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={url}
                 alt={`Image for ${task.title}`}
+                width={taskImageSize}
+                height={taskImageSize}
                 className="rounded-card r-card-md object-cover"
                 style={{
                   maxHeight: "var(--space-7)",
                   height: "var(--space-7)",
                   width: "var(--space-7)",
                 }}
+                unoptimized
               />
               <IconButton
                 aria-label="Remove image"
