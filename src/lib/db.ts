@@ -12,13 +12,10 @@ import {
   readLocal as baseReadLocal,
   writeLocal as baseWriteLocal,
 } from "./local-bootstrap";
+import { createStorageKey, OLD_STORAGE_PREFIX } from "./storage-key";
 import { safeClone } from "./utils";
 
-/** Namespacing so we don't collide with other apps in the same domain */
-const STORAGE_PREFIX = "noxis-planner:";
-
-// Previous prefix used in older builds; retained for migration
-const OLD_STORAGE_PREFIX = "13lr:";
+export { createStorageKey } from "./storage-key";
 
 /** SSR guard */
 const isBrowser = typeof window !== "undefined";
@@ -27,38 +24,6 @@ declare global {
   interface Window {
     __planner_flush_bound?: boolean;
   }
-}
-
-// Track whether legacy keys have been migrated
-let migrated = false;
-
-// Migrate any legacy keys from older builds
-function ensureMigration() {
-  if (!isBrowser || migrated) return;
-  try {
-    const legacyKeys: string[] = [];
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key?.startsWith(OLD_STORAGE_PREFIX)) legacyKeys.push(key);
-    }
-    for (const oldKey of legacyKeys) {
-      const newKey = `${STORAGE_PREFIX}${oldKey.slice(OLD_STORAGE_PREFIX.length)}`;
-      if (window.localStorage.getItem(newKey) === null) {
-        const value = window.localStorage.getItem(oldKey);
-        if (value !== null) window.localStorage.setItem(newKey, value);
-      }
-      window.localStorage.removeItem(oldKey);
-    }
-  } catch {
-    // ignore
-  }
-  migrated = true;
-}
-
-/** Build a fully namespaced key and ensure migrations */
-export function createStorageKey(key: string): string {
-  ensureMigration();
-  return `${STORAGE_PREFIX}${key}`;
 }
 
 // Debounced write queue

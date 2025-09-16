@@ -92,6 +92,46 @@ export function ts(v: unknown): number {
   return 0;
 }
 
+type MmSsUnit = "seconds" | "milliseconds";
+
+type FormatMmSsOptions = {
+  unit?: MmSsUnit;
+  padMinutes?: boolean;
+};
+
+export function formatMmSs(
+  value: number,
+  { unit = "seconds", padMinutes = false }: FormatMmSsOptions = {},
+): string {
+  const safeValue = Number.isFinite(value) ? value : 0;
+  const baseSeconds =
+    unit === "milliseconds"
+      ? Math.floor(safeValue / 1000)
+      : Math.floor(safeValue);
+  const totalSeconds = Math.max(0, baseSeconds);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const mm = padMinutes ? String(minutes).padStart(2, "0") : String(minutes);
+  const ss = String(seconds).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+type ParseMmSsOptions = {
+  unit?: MmSsUnit;
+};
+
+export function parseMmSs(
+  value: string,
+  { unit = "seconds" }: ParseMmSsOptions = {},
+): number | null {
+  const match = value.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
+  if (!match) return null;
+  const minutes = Number(match[1]);
+  const seconds = Number(match[2]);
+  const totalSeconds = minutes * 60 + seconds;
+  return unit === "milliseconds" ? totalSeconds * 1000 : totalSeconds;
+}
+
 /** toISODate — Returns local date in "YYYY-MM-DD". */
 export function toISODate(d?: Date | number | string): string {
   const date = normalizeDate(d);

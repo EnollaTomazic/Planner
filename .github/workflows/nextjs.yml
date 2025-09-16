@@ -7,7 +7,7 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [work]
+    branches: ["work"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -84,7 +84,7 @@ jobs:
           if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
             ${{ steps.detect-package-manager.outputs.runner }} check
           else
-            ${{ steps.detect-package-manager.outputs.runner }} npm run check
+            npm run check
           fi
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
