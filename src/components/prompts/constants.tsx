@@ -43,6 +43,7 @@ import PromptList from "./PromptList";
 import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
+import SkeletonShowcase from "./SkeletonShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
@@ -274,7 +275,7 @@ function ToastDemo() {
       <Button size="sm" onClick={() => setOpen(true)}>
         Show
       </Button>
-      <Toast open={open} onOpenChange={setOpen}>
+      <Toast open={open} onOpenChange={setOpen} closable showProgress>
         <p className="text-ui">Toast message</p>
       </Toast>
     </>
@@ -882,7 +883,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <ToastDemo />,
       tags: ["toast", "feedback"],
       code: `<Button size="sm">Show</Button>
-<Toast open><p className="text-ui">Toast message</p></Toast>`,
+<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
     },
     {
       id: "split",
@@ -959,6 +960,18 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <SnackbarShowcase />,
       tags: ["snackbar", "feedback"],
       code: `<Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />`,
+    },
+    {
+      id: "skeleton",
+      name: "Skeleton",
+      description: "Shimmer placeholder for loading layouts.",
+      element: <SkeletonShowcase />,
+      tags: ["skeleton", "loading", "feedback"],
+      code: `<div className="space-y-2">
+  <Skeleton />
+  <Skeleton className="w-3/4" />
+  <Skeleton radius="full" className="h-10 w-10" />
+</div>`,
     },
     {
       id: "spinner",

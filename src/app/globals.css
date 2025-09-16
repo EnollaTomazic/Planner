@@ -4,7 +4,6 @@
 @layer base {
   :root {
     --shell-max: 1120px;
-    --iris-cyan: 192 90% 50%;
   }
 
   .page-shell {
