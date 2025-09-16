@@ -71,6 +71,31 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
   ref,
 ) {
   const localizedLabel = React.useMemo(() => formatChipLabel(iso), [iso]);
+  const completionRatio = React.useMemo(() => {
+    if (total <= 0) {
+      return 0;
+    }
+    const ratio = done / total;
+    if (!Number.isFinite(ratio)) {
+      return 0;
+    }
+    if (ratio <= 0) {
+      return 0;
+    }
+    if (ratio >= 1) {
+      return 1;
+    }
+    return ratio;
+  }, [done, total]);
+  const completionTint = React.useMemo(() => {
+    if (completionRatio >= 2 / 3) {
+      return "bg-success/20";
+    }
+    if (completionRatio >= 1 / 3) {
+      return "bg-warning/10";
+    }
+    return "bg-warning/20";
+  }, [completionRatio]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" && selected) {
@@ -128,7 +153,8 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       className={cn(
         "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-3 py-2 transition snap-start",
         // default border is NOT white; use card hairline tint
-        "border-card-hairline bg-card/75",
+        "border-card-hairline",
+        completionTint,
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "active:border-primary/60 active:bg-card/85",
         today && "chip--today",
@@ -148,9 +174,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       >
         {localizedLabel}
       </div>
-      <div className="chip__counts">
-        <span className="tabular-nums text-foreground">{done}</span>
-        <span className="text-muted-foreground"> / {total}</span>
+      <div className="chip__counts text-foreground">
+        <span className="tabular-nums">{done}</span>
+        <span className="text-foreground/70"> / {total}</span>
       </div>
       {/* decorative layers */}
       <span aria-hidden className="chip__scan" />
