@@ -72,7 +72,7 @@ jobs:
         with:
           path: ./out
       - name: Deploy to Vercel
-        if: ${{ env.VERCEL_TOKEN != '' }}
+        if: ${{ secrets.VERCEL_TOKEN != '' }}
         uses: vercel/vercel-action@v2
         with:
           token: ${{ secrets.VERCEL_TOKEN }}
