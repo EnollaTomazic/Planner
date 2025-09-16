@@ -126,3 +126,39 @@ export function weekRangeFromISO(iso: string): { start: Date; end: Date } {
   const d = fromISODate(iso) ?? new Date();
   return { start: mondayStartOfWeek(d), end: sundayEndOfWeek(d) };
 }
+
+type FormatMmSsOptions = {
+  padMinutes?: boolean;
+};
+
+/**
+ * formatMmSs — Format a duration in seconds as "mm:ss".
+ * Minutes default to two digits but can be left unpadded.
+ */
+export function formatMmSs(
+  totalSeconds: number,
+  options?: FormatMmSsOptions,
+): string {
+  const { padMinutes = true } = options ?? {};
+  const safeSeconds = Number.isFinite(totalSeconds)
+    ? Math.max(0, Math.floor(totalSeconds))
+    : 0;
+  const minutes = Math.floor(safeSeconds / 60);
+  const seconds = safeSeconds % 60;
+  const mm = padMinutes ? String(minutes).padStart(2, "0") : String(minutes);
+  const ss = String(seconds).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+/**
+ * parseMmSs — Parse "mm:ss" into total seconds. Returns null if invalid.
+ */
+export function parseMmSs(value: string): number | null {
+  const match = value.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
+  if (!match) return null;
+  const minutes = Number(match[1]);
+  const seconds = Number(match[2]);
+  if (Number.isNaN(minutes) || Number.isNaN(seconds)) return null;
+  if (seconds >= 60) return null;
+  return minutes * 60 + seconds;
+}

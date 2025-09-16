@@ -10,6 +10,7 @@ import {
   LAST_MARKER_MODE_KEY,
   LAST_MARKER_TIME_KEY,
 } from "@/components/reviews/reviewData";
+import { formatMmSs, parseMmSs } from "@/lib/date";
 
 export type TimestampMarkersHandle = {
   save: () => void;
@@ -21,18 +22,6 @@ type TimestampMarkersProps = {
   commitMeta: (patch: Partial<Review>) => void;
 };
 
-function parseTime(mmss: string): number | null {
-  const m = mmss.trim().match(/^(\d{1,2}):([0-5]\d)$/);
-  if (!m) return null;
-  return Number(m[1]) * 60 + Number(m[2]);
-}
-
-function formatSeconds(total: number): string {
-  const minutes = Math.max(0, Math.floor(total / 60));
-  const seconds = Math.max(0, total % 60);
-  return `${String(minutes)}:${String(seconds).padStart(2, "0")}`;
-}
-
 function normalizeMarker(m: unknown): ReviewMarker {
   const obj = m as Record<string, unknown>;
   const id = typeof obj.id === "string" ? obj.id : uid("mark");
@@ -40,9 +29,12 @@ function normalizeMarker(m: unknown): ReviewMarker {
     typeof obj.seconds === "number"
       ? obj.seconds
       : typeof obj.time === "string"
-      ? parseTime(obj.time) ?? 0
+      ? parseMmSs(obj.time) ?? 0
       : 0;
-  const time = typeof obj.time === "string" ? obj.time : formatSeconds(seconds);
+  const time =
+    typeof obj.time === "string"
+      ? obj.time
+      : formatMmSs(seconds, { padMinutes: false });
   const note = typeof obj.note === "string" ? obj.note : "";
   const noteOnly = Boolean(obj.noteOnly);
   return { id, seconds, time, note, noteOnly };
@@ -71,7 +63,7 @@ function TimestampMarkers(
   const timeRef = React.useRef<HTMLInputElement>(null);
   const noteRef = React.useRef<HTMLInputElement>(null);
 
-  const parsedTime = parseTime(tTime);
+  const parsedTime = parseMmSs(tTime);
   const timeError = useTimestamp && parsedTime === null;
   const canAddMarker =
     (useTimestamp ? parsedTime !== null : true) && tNote.trim().length > 0;

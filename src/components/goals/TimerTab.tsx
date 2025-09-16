@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { usePersistentState } from "@/lib/db";
 import { clamp } from "@/lib/utils";
+import { formatMmSs, parseMmSs } from "@/lib/date";
 
 /* profiles */
 type ProfileKey = "study" | "clean" | "code" | "custom";
@@ -58,19 +59,8 @@ const PROFILES: Profile[] = [
 ];
 
 /* helpers */
-const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
-const fmt = (ms: number) => {
-  const m = Math.floor(ms / 60_000);
-  const s = Math.floor((ms % 60_000) / 1000);
-  return `${pad(m)}:${pad(s)}`;
-};
-const parseMmSs = (v: string) => {
-  const m = v.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
-  if (!m) return null;
-  const mm = Number(m[1]),
-    ss = Number(m[2]);
-  return mm * 60_000 + ss * 1000;
-};
+const formatRemainingValue = (ms: number) =>
+  formatMmSs(Math.floor(Math.max(0, ms) / 1000));
 
 const ADJUST_BTN_CLASS =
   "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
@@ -115,9 +105,11 @@ export default function TimerTab() {
   }, [profile, customMinutes, profileDef.defaultMin, setRunning, setRemaining]);
 
   // edit mode for mm:ss
-  const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
+  const [timeEdit, setTimeEdit] = React.useState(() =>
+    formatRemainingValue(remaining),
+  );
   React.useEffect(() => {
-    setTimeEdit(fmt(remaining));
+    setTimeEdit(formatRemainingValue(remaining));
   }, [remaining]);
 
   // tick loop
@@ -153,13 +145,13 @@ export default function TimerTab() {
   }, [minutes, setRunning, setRemaining]);
   function commitEdit() {
     if (!isCustom || running) return;
-    const ms = parseMmSs(timeEdit);
-    if (ms == null) {
-      setTimeEdit(fmt(remaining));
+    const totalSeconds = parseMmSs(timeEdit);
+    if (totalSeconds == null) {
+      setTimeEdit(formatRemainingValue(remaining));
       return;
     }
-    const mm = Math.floor(ms / 60_000),
-      ss = Math.floor((ms % 60_000) / 1000);
+    const mm = Math.floor(totalSeconds / 60);
+    const ss = totalSeconds % 60;
     setCustomMinutes(mm);
     setRemaining(mm * 60_000 + ss * 1000);
   }
@@ -304,7 +296,7 @@ export default function TimerTab() {
               <TimerRing pct={pct} size={ringSize} />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
                 <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-[var(--dur-quick)] group-hover:translate-y-0.5 sm:text-title-lg">
-                  {fmt(remaining)}
+                  {formatRemainingValue(remaining)}
                 </div>
                 {isCustom && !running && (
                   <input

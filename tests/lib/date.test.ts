@@ -7,6 +7,8 @@ import {
   weekRangeFromISO,
   ts,
   formatWeekDay,
+  formatMmSs,
+  parseMmSs,
 } from '../../src/lib/date';
 
 describe('fromISODate', () => {
@@ -116,5 +118,27 @@ describe('formatWeekDay', () => {
 
   it('falls back to the original input when invalid', () => {
     expect(formatWeekDay('not-a-date')).toBe('not-a-date');
+  });
+});
+
+describe('formatMmSs', () => {
+  it('pads minutes by default', () => {
+    expect(formatMmSs(330)).toBe('05:30');
+  });
+
+  it('supports optional minute padding', () => {
+    expect(formatMmSs(330, { padMinutes: false })).toBe('5:30');
+  });
+});
+
+describe('parseMmSs', () => {
+  it('parses minute and second strings', () => {
+    expect(parseMmSs('05:30')).toBe(330);
+    expect(parseMmSs('5:30')).toBe(330);
+  });
+
+  it('returns null for invalid values', () => {
+    expect(parseMmSs('not-a-time')).toBeNull();
+    expect(parseMmSs('12:99')).toBeNull();
   });
 });
