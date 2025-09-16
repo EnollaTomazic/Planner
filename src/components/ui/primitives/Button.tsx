@@ -53,15 +53,18 @@ export const colorVar: Record<Tone, string> = {
   danger: "--danger",
 };
 
+const primaryToneInteractionTokens =
+  "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]";
+
 export const toneClasses: Record<
   NonNullable<ButtonProps["variant"]>,
   Record<Tone, string>
 > = {
   primary: {
-    primary: "text-foreground",
-    accent: "text-accent",
-    info: "text-accent-2",
-    danger: "text-danger",
+    primary: `text-foreground ${primaryToneInteractionTokens}`,
+    accent: `text-accent ${primaryToneInteractionTokens}`,
+    info: `text-accent-2 ${primaryToneInteractionTokens}`,
+    danger: `text-danger ${primaryToneInteractionTokens}`,
   },
   secondary: {
     primary: "text-foreground",
@@ -94,7 +97,7 @@ export const variants: Record<
 > = {
   primary: {
     className:
-      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
+      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
     whileTap: {
       scale: 0.97,
     },
