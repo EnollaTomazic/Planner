@@ -73,8 +73,9 @@ const HTML_ESCAPE_MAP = {
 
 /**
  * Clone data using structuredClone with JSON fallback.
+ * Returns undefined when cloning fails.
  */
-export function safeClone<T>(value: T): T {
+export function safeClone<T>(value: T): T | undefined {
   if (typeof structuredClone === "function") {
     try {
       return structuredClone(value);
@@ -83,9 +84,9 @@ export function safeClone<T>(value: T): T {
     }
   }
   try {
-    return JSON.parse(JSON.stringify(value));
+    return JSON.parse(JSON.stringify(value)) as T;
   } catch {
-    return value;
+    return undefined;
   }
 }
 
