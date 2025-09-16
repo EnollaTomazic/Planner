@@ -3,6 +3,7 @@
 import * as React from "react";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { ArrowUp } from "lucide-react";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 type ScrollTopFloatingButtonProps = {
   watchRef: React.RefObject<HTMLElement>;
@@ -14,6 +15,7 @@ export default function ScrollTopFloatingButton({
   forceVisible = false,
 }: ScrollTopFloatingButtonProps) {
   const [visible, setVisible] = React.useState(false);
+  const reduceMotion = usePrefersReducedMotion();
 
   React.useEffect(() => {
     const target = watchRef.current;
@@ -30,11 +32,7 @@ export default function ScrollTopFloatingButton({
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
-      const behavior: ScrollBehavior = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches
-        ? "auto"
-        : "smooth";
+      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       window.scrollTo({ top: 0, behavior });
     }
   };
