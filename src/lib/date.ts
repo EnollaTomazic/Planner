@@ -14,6 +14,19 @@ const weekDayFormatter = new Intl.DateTimeFormat(LOCALE, {
   month: "short",
 });
 
+const weekRangeLabelFormatter = new Intl.DateTimeFormat(LOCALE, {
+  month: "long",
+  day: "numeric",
+});
+
+const weekRangeMonthFormatter = new Intl.DateTimeFormat(LOCALE, {
+  month: "long",
+});
+
+const weekRangeDayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  day: "numeric",
+});
+
 const isoLabelWeekdayFormatter = new Intl.DateTimeFormat(LOCALE, {
   weekday: "long",
 });
@@ -165,4 +178,28 @@ export function sundayEndOfWeek(d: Date): Date {
 export function weekRangeFromISO(iso: string): { start: Date; end: Date } {
   const d = fromISODate(iso) ?? new Date();
   return { start: mondayStartOfWeek(d), end: sundayEndOfWeek(d) };
+}
+
+export function formatWeekRangeLabel(start: Date, end: Date): string {
+  if (typeof weekRangeLabelFormatter.formatRange === "function") {
+    try {
+      return `Week of ${weekRangeLabelFormatter.formatRange(start, end)}`;
+    } catch {
+      // Fall through to manual formatting below.
+    }
+  }
+
+  const sameMonth =
+    start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth();
+
+  if (sameMonth) {
+    const month = weekRangeMonthFormatter.format(start);
+    const startDay = weekRangeDayFormatter.format(start);
+    const endDay = weekRangeDayFormatter.format(end);
+    return `Week of ${month} ${startDay} – ${endDay}`;
+  }
+
+  const startLabel = weekRangeLabelFormatter.format(start);
+  const endLabel = weekRangeLabelFormatter.format(end);
+  return `Week of ${startLabel} – ${endLabel}`;
 }
