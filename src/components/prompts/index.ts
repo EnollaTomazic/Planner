@@ -20,6 +20,7 @@ export { default as PromptsDemos } from "./PromptsDemos";
 export { default as PromptsHeader } from "./PromptsHeader";
 export { default as PromptsPage } from "./PromptsPage";
 export { default as SelectShowcase } from "./SelectShowcase";
+export { default as SkeletonShowcase } from "./SkeletonShowcase";
 export { default as SnackbarShowcase } from "./SnackbarShowcase";
 export { default as SpinnerShowcase } from "./SpinnerShowcase";
 export { default as ToggleShowcase } from "./ToggleShowcase";

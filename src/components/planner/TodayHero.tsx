@@ -17,11 +17,14 @@ import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
+import Button from "@/components/ui/primitives/Button";
 import { Pencil, Trash2, Calendar } from "lucide-react";
 import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
+
+const TASK_PREVIEW_LIMIT = 12;
 
 export default function TodayHero({ iso }: Props) {
   const nowISO = useMemo(() => toISODate(), []);
@@ -81,6 +84,7 @@ export default function TodayHero({ iso }: Props) {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingTaskText, setEditingTaskText] = useState("");
   const [projectName, setProjectName] = useState("");
+  const [showAllTasks, setShowAllTasks] = useState(false);
 
   // Progress of selected project only (animated)
   const scopedTasks = useMemo(
@@ -100,6 +104,22 @@ export default function TodayHero({ iso }: Props) {
       ),
     [scopedTasks],
   );
+
+  useEffect(() => {
+    setShowAllTasks(false);
+  }, [selProjectId]);
+
+  useEffect(() => {
+    if (showAllTasks && scopedTasks.length <= TASK_PREVIEW_LIMIT) {
+      setShowAllTasks(false);
+    }
+  }, [showAllTasks, scopedTasks]);
+
+  const tasksListId = `today-hero-task-list-${selProjectId || "none"}`;
+  const visibleTasks = showAllTasks
+    ? scopedTasks
+    : scopedTasks.slice(0, TASK_PREVIEW_LIMIT);
+  const shouldShowTaskToggle = scopedTasks.length > TASK_PREVIEW_LIMIT;
   // Date picker
   const dateRef = useRef<HTMLInputElement>(null);
   const openPicker = () => {
@@ -394,13 +414,19 @@ export default function TodayHero({ iso }: Props) {
           {scopedTasks.length === 0 ? (
             <div className="tasks-placeholder">No tasks yet.</div>
           ) : (
-            <ul className="space-y-2" role="list" aria-label="Tasks">
-              {scopedTasks.slice(0, 12).map((t) => {
-                const isEditing = editingTaskId === t.id;
-                return (
-                  <li
-                    key={t.id}
-                    className={cn(
+            <div className="space-y-2">
+              <ul
+                id={tasksListId}
+                className="space-y-2"
+                role="list"
+                aria-label="Tasks"
+              >
+                {visibleTasks.map((t) => {
+                  const isEditing = editingTaskId === t.id;
+                  return (
+                    <li
+                      key={t.id}
+                      className={cn(
                       "task-tile flex items-center justify-between rounded-card r-card-lg border px-3 py-2",
                       "border-border bg-card/55 hover:bg-card/70",
                     )}
@@ -488,13 +514,22 @@ export default function TodayHero({ iso }: Props) {
                     </div>
                   </li>
                 );
-              })}
-              {scopedTasks.length > 12 && (
-                <li className="pr-1 text-right text-label font-medium tracking-[0.02em] opacity-70">
-                  + {scopedTasks.length - 12} more…
-                </li>
+                })}
+              </ul>
+              {shouldShowTaskToggle && (
+                <div className="flex justify-end">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setShowAllTasks((prev) => !prev)}
+                    aria-expanded={showAllTasks}
+                    aria-controls={tasksListId}
+                  >
+                    {showAllTasks ? "Show less" : "Show more"}
+                  </Button>
+                </div>
               )}
-            </ul>
+            </div>
           )}
         </div>
       )}
