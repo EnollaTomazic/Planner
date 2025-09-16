@@ -47,6 +47,7 @@ import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
+import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
   ReviewListItem,
@@ -145,6 +146,31 @@ function BackgroundPickerDemo() {
       bg={t.bg}
       onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
     />
+  );
+}
+
+function ChampListEditorDemo() {
+  const [editing, setEditing] = React.useState(true);
+  const [list, setList] = React.useState<string[]>(["Ashe", "Lulu"]);
+
+  return (
+    <div className="space-y-3" data-scope="team">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold tracking-[0.02em] text-muted-foreground">
+          Champions
+        </span>
+        <Button size="sm" onClick={() => setEditing((prev) => !prev)}>
+          {editing ? "Done" : "Edit"}
+        </Button>
+      </div>
+      <ChampListEditor
+        list={list}
+        onChange={setList}
+        editing={editing}
+        emptyLabel="-"
+        viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+      />
+    </div>
   );
 }
 
@@ -998,6 +1024,20 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["side", "selector"],
       code: `<SideSelector />
 <SideSelector disabled />`,
+    },
+    {
+      id: "champ-list-editor",
+      name: "ChampListEditor",
+      description: "Shared champion list editor with toggleable state.",
+      element: <ChampListEditorDemo />,
+      tags: ["champion", "editor"],
+      code: `<ChampListEditor
+  list={list}
+  onChange={setList}
+  editing={editing}
+  emptyLabel="-"
+  viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+/>`,
     },
     {
       id: "pillar-badge",
