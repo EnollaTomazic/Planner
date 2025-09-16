@@ -105,7 +105,16 @@ export function defaultTheme(): ThemeState {
 }
 
 export function applyTheme({ variant, bg }: ThemeState) {
-  const cl = document.documentElement.classList;
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const { documentElement } = document;
+  if (!documentElement) {
+    return;
+  }
+
+  const cl = documentElement.classList;
   resetThemeClasses(cl);
   cl.add(`theme-${variant}`);
   const isValidBgIndex =
