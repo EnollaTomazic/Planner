@@ -27,6 +27,7 @@ export type TabItem<K extends string = string> = {
 
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
+type Variant = "default" | "neo";
 
 export type TabBarProps<K extends string = string> = {
   items: TabItem<K>[];
@@ -40,6 +41,7 @@ export type TabBarProps<K extends string = string> = {
   ariaLabel?: string;
   showBaseline?: boolean;
   linkPanels?: boolean;
+  variant?: Variant;
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
@@ -72,6 +74,7 @@ export default function TabBar<K extends string = string>({
   ariaLabel,
   showBaseline = false,
   linkPanels = true,
+  variant = "default",
 }: TabBarProps<K>) {
   const uid = useId();
   const isControlled = value !== undefined;
@@ -134,6 +137,7 @@ export default function TabBar<K extends string = string>({
   }[align];
 
   const s = sizeMap[size];
+  const isNeo = variant === "neo";
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -150,7 +154,13 @@ export default function TabBar<K extends string = string>({
           aria-label={ariaLabel}
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
-          className="inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border border-border/30 bg-card/60 p-[var(--space-1)] shadow-inner"
+          data-variant={variant}
+          className={cn(
+            "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
+            isNeo
+              ? "hero2-frame border-border/40 bg-card/70 shadow-neo-inset [--hover:transparent] [--active:transparent]"
+              : "border-border/30 bg-card/60 shadow-inner",
+          )}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
@@ -177,9 +187,12 @@ export default function TabBar<K extends string = string>({
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:bg-[--hover] active:bg-[--active]",
+                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
+                  isNeo
+                    ? "shadow-neo-inset hover:shadow-neo-soft active:shadow-neo-inset data-[active=true]:shadow-neo data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
+                    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] data-[active=true]:shadow-ring",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
-                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:shadow-ring data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
+                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
                   "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
                   item.className,
                 )}
