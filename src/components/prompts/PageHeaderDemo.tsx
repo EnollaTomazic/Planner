@@ -294,9 +294,16 @@ export default function PageHeaderDemo() {
           heading: "Your day at a glance",
           subtitle: "Stay synced with the squad",
           children: (
-            <p className="text-ui text-muted-foreground">
-              {heroFilterCopy[activeFilter]}
-            </p>
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-ui text-muted-foreground">
+                {heroFilterCopy[activeFilter]}
+              </p>
+              <p className="text-ui text-muted-foreground">
+                Filters, search, and quick actions now snap to the frame’s
+                12-column grid so the controls stay aligned with the story
+                content below.
+              </p>
+            </div>
           ),
           actions: (
             <>
@@ -380,22 +387,18 @@ export default function PageHeaderDemo() {
         }}
       />
       <p className="text-ui text-muted-foreground">
-        PageHeader now keeps the inner hero calm, single-framed, and flush by
-        default. It forwards{" "}
+        PageHeader now routes shared sub-tabs, search, and quick actions into
+        the frame’s action grid so controls align with the 12-column layout
+        while the inner hero stays calm, single-framed, and flush. It forwards
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
           {"hero.padding = \"none\""}
         </code>{" "}
-        so the content hugs the frame while staying grid-aligned. When a launch
-        calls for the elevated treatment, combine
+        so the content hugs the frame. Want the Hero divider row instead? Pass
+        {" "}
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
-          {"hero.tone = \"heroic\""}
-        </code>
-        and
-        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
-          hero.frame = true
-        </code>
-        to bring back the beams and scanlines while keeping the heading
-        hierarchy intact.
+          {"frameProps={{ actionArea: null }}"}
+        </code>{" "}
+        to hand control back to Hero while keeping tone overrides intact.
       </p>
     </div>
   );

@@ -219,26 +219,60 @@ const AnimatedSelect = React.forwardRef<
       setOpen(false);
     }
 
-    const fixedStyles: React.CSSProperties | undefined = rect
-      ? (() => {
-          const gap = 8;
-          const width = menuW ?? 0;
-          let left =
-            align === "right" ? rect.right - (width || rect.width) : rect.left;
-          const maxLeft = Math.max(
-            8,
-            window.innerWidth - (width || rect.width) - 8,
-          );
-          left = Math.min(Math.max(8, left), maxLeft);
-          return {
-            position: "fixed",
-            top: Math.round(rect.bottom + gap),
-            left: Math.round(left),
-            minWidth: matchTriggerWidth ? Math.round(rect.width) : undefined,
-            zIndex: 10_000,
-          } as React.CSSProperties;
-        })()
-      : undefined;
+    const menuPosition = React.useMemo<
+      { style: React.CSSProperties; placement: "top" | "bottom" } | null
+    >(() => {
+      if (!rect) return null;
+      if (typeof window === "undefined") return null;
+
+      const gap = 8;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const widthForClamp = menuW ?? rect.width;
+      const measuredWidth = widthForClamp || rect.width;
+
+      let left = align === "right" ? rect.right - measuredWidth : rect.left;
+      const maxLeft = Math.max(8, viewportWidth - measuredWidth - 8);
+      left = Math.min(Math.max(8, left), maxLeft);
+
+      const spaceBelow = Math.max(viewportHeight - rect.bottom - gap, 0);
+      const spaceAbove = Math.max(rect.top - gap, 0);
+      const openDown = spaceBelow >= spaceAbove;
+      const fallbackSpace = Math.max(viewportHeight - gap * 2, 0);
+      const availableSpace = openDown ? spaceBelow : spaceAbove;
+      const baseMaxHeight = Math.round(viewportHeight * 0.6);
+      const resolvedMaxHeight = Math.max(
+        0,
+        Math.min(baseMaxHeight, availableSpace > 0 ? availableSpace : fallbackSpace),
+      );
+
+      const style: React.CSSProperties = {
+        position: "fixed",
+        left: Math.round(left),
+        minWidth: matchTriggerWidth ? Math.round(rect.width) : undefined,
+        zIndex: 10_000,
+        transformOrigin: openDown ? "top" : "bottom",
+      };
+
+      if (resolvedMaxHeight > 0) {
+        style.maxHeight = Math.round(resolvedMaxHeight);
+      }
+
+      if (openDown) {
+        style.top = Math.round(rect.bottom + gap);
+      } else {
+        style.bottom = Math.round(viewportHeight - rect.top + gap);
+      }
+
+      return {
+        style,
+        placement: openDown ? "bottom" : "top",
+      };
+    }, [align, matchTriggerWidth, menuW, rect]);
+
+    const fixedStyles = menuPosition?.style;
+    const placement = menuPosition?.placement ?? "bottom";
+    const yOffset = placement === "bottom" ? -4 : 4;
 
     const triggerAria =
       ariaLabel ??
@@ -343,7 +377,7 @@ const AnimatedSelect = React.forwardRef<
                   initial={
                     reduceMotion
                       ? { opacity: 0 }
-                      : { opacity: 0, y: -4, scale: 0.98 }
+                      : { opacity: 0, y: yOffset, scale: 0.98 }
                   }
                   animate={
                     reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }
@@ -351,7 +385,7 @@ const AnimatedSelect = React.forwardRef<
                   exit={
                     reduceMotion
                       ? { opacity: 0 }
-                      : { opacity: 0, y: -4, scale: 0.98 }
+                      : { opacity: 0, y: yOffset, scale: 0.98 }
                   }
                   transition={
                     reduceMotion
@@ -370,6 +404,7 @@ const AnimatedSelect = React.forwardRef<
                     dropdownClassName,
                   )}
                   data-open="true"
+                  data-side={placement}
                 >
                   <span aria-hidden className={styles.gbIris} />
                   <span aria-hidden className={styles.gbChroma} />
