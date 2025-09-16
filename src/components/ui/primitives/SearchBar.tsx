@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useId } from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
@@ -54,7 +55,8 @@ export default function SearchBar({
   const [query, setQuery] = React.useState(value);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { id, ...restProps } = rest;
-  const [generatedId, setGeneratedId] = React.useState<string | undefined>(id);
+  const generatedId = useId();
+  const resolvedId = id ?? (label ? generatedId : undefined);
   const [emitValueChange, cancelValueChange] = useDebouncedCallback(
     (next: string) => {
       onValueChange?.(next);
@@ -82,28 +84,7 @@ export default function SearchBar({
   const showClear = clearable && query.length > 0;
   const ariaLabelledby = restProps["aria-labelledby"];
   const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
-  const labelFor = id ?? generatedId;
-
-  React.useEffect(() => {
-    if (id) {
-      if (generatedId !== id) {
-        setGeneratedId(id);
-      }
-      return;
-    }
-
-    if (!label) {
-      if (generatedId !== undefined) {
-        setGeneratedId(undefined);
-      }
-      return;
-    }
-
-    const currentId = inputRef.current?.id;
-    if (currentId && currentId !== generatedId) {
-      setGeneratedId(currentId);
-    }
-  }, [id, label, generatedId]);
+  const labelFor = resolvedId;
   const inputField = (
     <>
       <Search
@@ -112,7 +93,7 @@ export default function SearchBar({
       />
 
       <Input
-        id={id}
+        id={resolvedId}
         ref={inputRef}
         value={query}
         onChange={(e) => {
