@@ -2,6 +2,14 @@ import * as React from "react";
 import { IconButton, type IconButtonProps } from "@/components/ui";
 import { Plus } from "lucide-react";
 
+type ShowcaseButtonProps = Pick<
+  IconButtonProps,
+  "size" | "variant" | "className" | "aria-pressed"
+> & {
+  "aria-label": string;
+  title: string;
+};
+
 const ICON_BUTTONS = [
   {
     size: "xs",
@@ -39,21 +47,44 @@ const ICON_BUTTONS = [
     "aria-label": "Add item glow",
     title: "Add item glow",
   },
-] satisfies Array<
-  Pick<IconButtonProps, "size" | "variant"> & {
-    "aria-label": string;
-    title: string;
-  }
->;
+] satisfies ShowcaseButtonProps[];
+
+const PRESSED_ICON_BUTTONS = [
+  {
+    variant: "ring",
+    size: "md",
+    className: "bg-[--active]",
+    "aria-pressed": true,
+    "aria-label": "Add item ring pressed",
+    title: "Add item ring pressed",
+  },
+  {
+    variant: "glow",
+    size: "md",
+    className: "bg-[--active]",
+    "aria-pressed": true,
+    "aria-label": "Add item glow pressed",
+    title: "Add item glow pressed",
+  },
+] satisfies ShowcaseButtonProps[];
 
 export default function IconButtonShowcase() {
   return (
-    <div className="mb-8 flex gap-2">
-      {ICON_BUTTONS.map((props) => (
-        <IconButton key={props.title} {...props}>
-          <Plus aria-hidden />
-        </IconButton>
-      ))}
+    <div className="mb-8 flex flex-col gap-4">
+      <div className="flex gap-2">
+        {ICON_BUTTONS.map((props) => (
+          <IconButton key={props.title} {...props}>
+            <Plus aria-hidden />
+          </IconButton>
+        ))}
+      </div>
+      <div className="flex gap-2">
+        {PRESSED_ICON_BUTTONS.map((props) => (
+          <IconButton key={props.title} {...props}>
+            <Plus aria-hidden />
+          </IconButton>
+        ))}
+      </div>
     </div>
   );
 }
