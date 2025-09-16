@@ -119,13 +119,27 @@ export default function WeekPicker() {
   // Show "Jump to top" button after a double-click jump; hide when back at top
   const [showTop, setShowTop] = React.useState(false);
   React.useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    let frameId: number | null = null;
+
     const onScroll = () => {
-      if (typeof window === "undefined") return;
-      const atTop = window.scrollY <= 4;
-      setShowTop((prev) => (atTop ? false : prev));
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        const atTop = window.scrollY <= 4;
+        setShowTop((prev) => (atTop ? false : prev));
+      });
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
   // Select (single-click) vs jump (double-click)
