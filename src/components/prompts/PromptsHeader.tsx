@@ -5,6 +5,8 @@ import { Button, SearchBar } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
 
+const chips = ["hover", "focus", "active", "disabled", "loading"];
+
 interface PromptsHeaderProps {
   count: number;
   query: string;
@@ -39,8 +41,6 @@ export default function PromptsHeader({
     setLocalQuery(chip);
     onQueryChange(chip);
   };
-
-  const chips = ["hover", "focus", "active", "disabled", "loading"];
 
   return (
     <div className="flex items-center justify-between w-full">
