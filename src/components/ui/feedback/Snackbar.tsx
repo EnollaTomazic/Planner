@@ -6,12 +6,14 @@ import { cn } from "@/lib/utils";
 interface SnackbarProps extends React.HTMLAttributes<HTMLDivElement> {
   message: React.ReactNode;
   actionLabel?: string;
+  actionAriaLabel?: string;
   onAction?: () => void;
 }
 
 export default function Snackbar({
   message,
   actionLabel,
+  actionAriaLabel,
   onAction,
   className,
   ...props
@@ -39,6 +41,7 @@ export default function Snackbar({
               "active:text-accent active:opacity-80 disabled:text-muted-foreground disabled:no-underline disabled:pointer-events-none",
             )}
             onClick={onAction}
+            aria-label={actionAriaLabel ?? actionLabel}
           >
             {actionLabel}
           </button>
