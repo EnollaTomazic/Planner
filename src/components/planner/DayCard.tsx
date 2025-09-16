@@ -26,7 +26,8 @@ export default function DayCard({ iso, isToday }: Props) {
     renameProject,
     deleteProject,
     toggleProject,
-    tasks,
+    tasksById,
+    tasksByProject,
     addTask,
     renameTask,
     toggleTask,
@@ -92,7 +93,8 @@ export default function DayCard({ iso, isToday }: Props) {
 
           <div className="col-span-1 lg:col-span-8">
             <TaskList
-              tasks={tasks}
+              tasksById={tasksById}
+              tasksByProject={tasksByProject}
               selectedProjectId={selectedProjectId}
               addTask={addTask}
               renameTask={renameTask}

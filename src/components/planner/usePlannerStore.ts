@@ -38,10 +38,12 @@ function migrateLegacy(
   }
   if (tasks) {
     const map: Record<string, string[]> = {};
+    const byId: Record<string, DayTask> = {};
     for (const t of tasks) {
+      byId[t.id] = t;
       if (t.projectId) (map[t.projectId] ??= []).push(t.id);
     }
-    updated = { ...updated, tasks, tasksByProject: map };
+    updated = { ...updated, tasks, tasksById: byId, tasksByProject: map };
   }
   const { doneCount, totalCount } = computeDayCounts(
     updated.projects,
