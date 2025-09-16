@@ -34,6 +34,8 @@ export interface PageHeaderBaseProps<
   hero: HeroProps<HeroKey>;
   /** Optional className for the outer frame */
   className?: string;
+  /** Optional className for the semantic container element */
+  containerClassName?: string;
   /** Additional props for the outer frame */
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
@@ -69,6 +71,7 @@ const PageHeaderInner = <
     header,
     hero,
     className,
+    containerClassName,
     frameProps,
     contentClassName,
     as,
@@ -109,7 +112,10 @@ const PageHeaderInner = <
     frameProps ?? {};
 
   return (
-    <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
+    <Component
+      {...(elementProps as React.HTMLAttributes<HTMLElement>)}
+      className={containerClassName}
+    >
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
