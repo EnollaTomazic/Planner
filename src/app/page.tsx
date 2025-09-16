@@ -64,7 +64,7 @@ function HomePageContent() {
       >
         <div className="col-span-12">
           <PageHeader
-            className="sticky top-0"
+            containerClassName="sticky top-0"
             header={{
               id: "home-header",
               heading: "Welcome to Planner",

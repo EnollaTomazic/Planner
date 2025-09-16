@@ -145,7 +145,7 @@ function PageContent() {
       aria-labelledby="prompts-header"
     >
       <PageHeader
-        className="sticky top-0"
+        containerClassName="sticky top-0"
         header={{
           id: "prompts-header",
           heading: "Prompts Playground",

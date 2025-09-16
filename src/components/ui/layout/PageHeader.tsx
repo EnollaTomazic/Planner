@@ -34,6 +34,8 @@ export interface PageHeaderBaseProps<
   hero: HeroProps<HeroKey>;
   /** Optional className for the outer frame */
   className?: string;
+  /** Optional className for the semantic wrapper */
+  containerClassName?: string;
   /** Additional props for the outer frame */
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
@@ -69,6 +71,7 @@ const PageHeaderInner = <
     header,
     hero,
     className,
+    containerClassName,
     frameProps,
     contentClassName,
     as,
@@ -79,7 +82,7 @@ const PageHeaderInner = <
   }: PageHeaderBaseProps<HeaderKey, HeroKey>,
   ref: React.ForwardedRef<PageHeaderFrameElement>,
 ) => {
-  const Component = (as ?? "section") as PageHeaderElement;
+  const Component = (as ?? "header") as PageHeaderElement;
 
   const {
     subTabs: heroSubTabs,
@@ -106,7 +109,10 @@ const PageHeaderInner = <
     frameProps ?? {};
 
   return (
-    <Component {...(elementProps as React.HTMLAttributes<HTMLElement>)}>
+    <Component
+      className={containerClassName}
+      {...(elementProps as React.HTMLAttributes<HTMLElement>)}
+    >
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}

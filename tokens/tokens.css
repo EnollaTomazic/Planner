@@ -26,6 +26,8 @@
   --ring-muted: 248 20% 22%;
   --danger: 0 84% 60%;
   --warning: 43 96% 56%;
+  --warning-soft: var(--warning) / 0.1;
+  --warning-soft-strong: var(--warning) / 0.2;
   --muted: 248 26% 14%;
   --muted-foreground: 250 15% 70%;
   --surface: 248 24% 12%;
@@ -43,6 +45,7 @@
   --hardstuck-foreground: 160 12% 95%;
   --hardstuck-border: 165 40% 22%;
   --success: 316 92% 70%;
+  --success-soft: var(--success) / 0.2;
   --success-glow: 316 92% 52% / 0.6;
   --tone-top: 38 92% 60%;
   --tone-jg: 152 52% 44%;
