@@ -11,7 +11,7 @@ export interface UseDialogTrapOptions {
 }
 
 const FOCUSABLE_SELECTORS =
-  "a[href], button, textarea, input, select, [tabindex]:not([tabindex='-1'])";
+  "a[href], button, textarea, input, select, [contenteditable]:not([contenteditable='false']), [tabindex]:not([tabindex='-1'])";
 
 export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
   const focusableRef = React.useRef<HTMLElement[]>([]);

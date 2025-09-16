@@ -1,6 +1,6 @@
 import * as React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
 
 vi.mock("framer-motion", async () => {
   const actual = await vi.importActual<typeof import("framer-motion")>(
@@ -12,6 +12,8 @@ vi.mock("framer-motion", async () => {
 import Sheet from "@/components/ui/Sheet";
 
 describe("Sheet", () => {
+  afterEach(cleanup);
+
   it("locks scroll and closes on Escape", () => {
     const onClose = vi.fn();
     render(
@@ -28,5 +30,27 @@ describe("Sheet", () => {
     fireEvent.keyDown(document, { key: "Escape" });
     expect(onClose).toHaveBeenCalled();
     expect(dialog).toHaveAttribute("aria-modal", "true");
+  });
+
+  it("traps focus on contenteditable regions", () => {
+    const onClose = vi.fn();
+    render(
+      <Sheet open onClose={onClose} aria-labelledby="s">
+        <h2 id="s">Title</h2>
+        <div data-testid="editable" contentEditable />
+        <button>Close</button>
+      </Sheet>,
+    );
+
+    const editable = screen.getByTestId("editable");
+    const closeButton = screen.getByRole("button", { name: "Close" });
+    expect(editable).toHaveAttribute("contenteditable", "true");
+
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    fireEvent.keyDown(closeButton, { key: "Tab" });
+    expect(editable).toHaveFocus();
+    expect(onClose).not.toHaveBeenCalled();
   });
 });

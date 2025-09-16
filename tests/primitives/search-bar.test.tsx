@@ -28,6 +28,29 @@ describe('SearchBar', () => {
     vi.useRealTimers();
   });
 
+  it('debounces clear button interactions', () => {
+    vi.useFakeTimers();
+    const handleChange = vi.fn();
+    const { getByRole, getByLabelText } = render(
+      <SearchBar value="" onValueChange={handleChange} debounceMs={200} />
+    );
+    const input = getByRole('searchbox');
+
+    fireEvent.change(input, { target: { value: 'hello' } });
+    vi.runAllTimers();
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenLastCalledWith('hello');
+
+    const clearButton = getByLabelText('Clear');
+    fireEvent.click(clearButton);
+    expect(handleChange).toHaveBeenCalledTimes(1);
+
+    vi.runAllTimers();
+    expect(handleChange).toHaveBeenCalledTimes(2);
+    expect(handleChange).toHaveBeenLastCalledWith('');
+    vi.useRealTimers();
+  });
+
   it('disables browser text help by default', () => {
     const { getByRole } = render(
       <SearchBar value="" onValueChange={() => {}} />

@@ -159,7 +159,7 @@ function describeNonSerializable(
   return null;
 }
 
-export function scheduleWrite(key: string, value: unknown) {
+export function scheduleWrite(key: string, value: unknown): void {
   const issue = describeNonSerializable(value);
   if (issue) {
     if (process.env.NODE_ENV !== "production") {

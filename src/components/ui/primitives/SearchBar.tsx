@@ -143,7 +143,6 @@ export default function SearchBar({
           iconSize="sm"
           onClick={() => {
             setQuery("");
-            onValueChange?.("");
             inputRef.current?.focus();
           }}
         >

@@ -1,10 +1,12 @@
 import * as React from "react";
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach } from "vitest";
 
 import Banner from "@/components/chrome/Banner";
 
 describe("Banner", () => {
+  afterEach(cleanup);
+
   it("renders header structure without sticky or actions", () => {
     render(
       <Banner title="Banner Title">
@@ -34,7 +36,7 @@ describe("Banner", () => {
     const header = screen.getByRole("banner");
 
     expect(header).toHaveClass("sticky", "top-0", "z-30", "sticky-blur", "border-b");
-    expect(header).toHaveStyle({ borderColor: "hsl(var(--border))" });
+    expect(header.style.borderColor).toBe("hsl(var(--border))");
     expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
   });
 });
