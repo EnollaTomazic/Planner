@@ -13,13 +13,13 @@ import "./style.css";
 import * as React from "react";
 import TodayHero from "./TodayHero";
 import WeekNotes from "./WeekNotes";
-import WeekPicker from "./WeekPicker";
 import DayRow from "./DayRow";
 import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { PlannerProvider } from "./plannerStore";
-import Header from "@/components/ui/layout/Header";
+import WeekPicker from "./WeekPicker";
+import { PageHeader } from "@/components/ui";
 import PageShell from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
@@ -83,18 +83,27 @@ function Inner() {
         aria-labelledby="planner-header"
       >
         {/* Week header (range, nav, totals, day chips) */}
-        <div className="space-y-2">
-          <Header
-            id="planner-header"
-            tabIndex={-1}
-            eyebrow="Planner"
-            heading="Planner for Today"
-            subtitle="Plan your week"
-            icon={<CalendarDays className="opacity-80" />}
-            right={right}
-          />
-          <WeekPicker />
-        </div>
+        <PageHeader
+          contentClassName="space-y-2"
+          header={{
+            id: "planner-header",
+            tabIndex: -1,
+            eyebrow: "Planner",
+            heading: "Planner for Today",
+            subtitle: "Plan your week",
+            icon: <CalendarDays className="opacity-80" />,
+            right,
+          }}
+          hero={{
+            frame: false,
+            sticky: false,
+            rail: false,
+            barClassName: "hidden",
+            bodyClassName: "-mt-5 md:-mt-6",
+            heading: <span className="sr-only">Week picker</span>,
+            children: <WeekPicker />,
+          }}
+        />
 
         {/* Today + Side column */}
         <section
