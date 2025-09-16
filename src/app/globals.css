@@ -49,7 +49,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 3;
-    background-image: url("/glitch-gif.gif");
+    background-image: var(--asset-glitch-gif-url, none);
     background-size: cover;
     background-position: center;
     mix-blend-mode: overlay;
@@ -195,7 +195,7 @@ html.bg-intense body::after {
     2px 100%;
 }
 .bg-noise {
-  background-image: url("/noise.svg");
+  background-image: var(--asset-noise-url, none);
   opacity: 0.1;
 }
 

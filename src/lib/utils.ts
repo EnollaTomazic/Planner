@@ -20,6 +20,24 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Prefix a path with the configured Next.js base path, if any.
+ * Ensures consistent asset URLs for environments served from sub-paths.
+ */
+export function withBasePath(path: string): string {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (!basePath || basePath === "/") {
+    return normalizedPath;
+  }
+
+  const trimmedBase = basePath.replace(/^\/+|\/+$|\s+/g, "");
+  const normalizedBase = trimmedBase ? `/${trimmedBase}` : "";
+
+  return `${normalizedBase}${normalizedPath}`;
+}
+
 /** Capitalize first letter (not Unicode-smart on purpose). */
 export function cap(s: string): string {
   return s.length ? s[0].toUpperCase() + s.slice(1) : s;

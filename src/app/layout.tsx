@@ -3,10 +3,12 @@ import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
 
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion } from "@/components/ui";
 import { themeBootstrapScript } from "@/lib/theme";
+import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
 
@@ -26,6 +28,11 @@ export const metadata: Metadata = {
  */
 const noFlash = themeBootstrapScript();
 
+const htmlStyle = {
+  "--asset-noise-url": `url('${withBasePath("/noise.svg")}')`,
+  "--asset-glitch-gif-url": `url('${withBasePath("/glitch-gif.gif")}')`,
+} as CSSProperties;
+
 export default function RootLayout({
   children,
 }: {
@@ -33,7 +40,12 @@ export default function RootLayout({
 }) {
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
-    <html lang="en" className="theme-lg" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="theme-lg"
+      suppressHydrationWarning
+      style={htmlStyle}
+    >
       <head>
         <Script
           id="theme-bootstrap"

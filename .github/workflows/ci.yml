@@ -24,5 +24,6 @@ jobs:
         run: npm ci
 
       - name: Run checks
+        # npm run check covers tests, lint, and type checks
         run: npm run check
 
