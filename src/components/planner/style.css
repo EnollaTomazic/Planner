@@ -10,16 +10,19 @@
   --planner-header-hero-offset-md: calc(var(--space-6) - var(--space-6));
 }
 
-.planner-header__hero > :where(div) > :where(.mt-\[var\(--space-5\)\]) {
+.planner-header__hero > :where(div)
+  > :where(.mt-\[var\(--space-5\)\], .mt-\[var\(--space-4\)\]) {
   margin-top: var(--planner-header-hero-offset);
 }
 
 @media (min-width: 768px) {
-  .planner-header__hero > :where(div) > :where(.mt-\[var\(--space-5\)\]) {
+  .planner-header__hero > :where(div)
+    > :where(.mt-\[var\(--space-5\)\], .mt-\[var\(--space-4\)\]) {
     margin-top: var(--planner-header-hero-offset-md);
   }
 
-  .planner-header__hero > :where(div) > :where(.md\:mt-\[var\(--space-6\)\]) {
+  .planner-header__hero > :where(div)
+    > :where(.md\:mt-\[var\(--space-6\)\], .md\:mt-\[var\(--space-5\)\]) {
     margin-top: var(--planner-header-hero-offset-md);
   }
 }

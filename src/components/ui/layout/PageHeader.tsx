@@ -136,7 +136,7 @@ const PageHeaderInner = <
           <Hero
             {...heroRest}
             as={heroAs ?? "section"}
-            frame={heroFrame ?? true}
+            frame={heroFrame ?? false}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             subTabs={resolvedSubTabs}
             search={resolvedSearch}
