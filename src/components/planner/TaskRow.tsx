@@ -11,6 +11,12 @@ import useAutoFocus from "@/lib/useAutoFocus";
 import { spacingTokens } from "@/lib/tokens";
 import type { DayTask } from "./plannerStore";
 
+const taskImageSpacingToken = 7;
+const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
+const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
+const layoutClasses =
+  "[overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 pl-4 pr-2 py-2";
+
 type Props = {
   task: DayTask;
   onToggle: () => void;
@@ -30,9 +36,6 @@ export default function TaskRow({
   onAddImage,
   onRemoveImage,
 }: Props) {
-  const taskImageSpacingToken = 7;
-  const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
-  const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
@@ -54,9 +57,6 @@ export default function TaskRow({
     },
     [],
   );
-
-  const layoutClasses =
-    "[overflow:visible] grid min-h-12 min-w-0 grid-cols-[auto,1fr,auto] items-center gap-4 pl-4 pr-2 py-2";
 
   function start() {
     setEditing(true);
