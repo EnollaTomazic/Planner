@@ -43,10 +43,42 @@ export function todayISO(): ISODate {
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   const existing = map[date];
   if (!existing) return { projects: [], tasks: [], tasksByProject: {} };
-  if (existing.tasks.every((t) => Array.isArray(t.images))) return existing;
+  let tasks = existing.tasks;
+  let tasksChanged = false;
+  if (!existing.tasks.every((t) => Array.isArray(t.images))) {
+    tasksChanged = true;
+    tasks = existing.tasks.map((t) => ({ ...t, images: t.images ?? [] }));
+  }
+
+  const taskIds = new Set(tasks.map((task) => task.id));
+  const baseTasksByProject = existing.tasksByProject ?? {};
+  let tasksByProject = baseTasksByProject;
+  let tasksByProjectChanged = !Object.prototype.hasOwnProperty.call(
+    existing,
+    "tasksByProject",
+  );
+
+  if (tasksByProjectChanged) {
+    tasksByProject = { ...baseTasksByProject };
+  }
+
+  for (const [projectId, ids] of Object.entries(baseTasksByProject)) {
+    const filtered = ids.filter((taskId) => taskIds.has(taskId));
+    if (filtered.length !== ids.length) {
+      if (!tasksByProjectChanged) {
+        tasksByProjectChanged = true;
+        tasksByProject = { ...baseTasksByProject };
+      }
+      tasksByProject[projectId] = filtered;
+    }
+  }
+
+  if (!tasksChanged && !tasksByProjectChanged) return existing;
+
   return {
     ...existing,
-    tasks: existing.tasks.map((t) => ({ ...t, images: t.images ?? [] })),
+    ...(tasksChanged ? { tasks } : {}),
+    ...(tasksByProjectChanged ? { tasksByProject } : {}),
   };
 }
 
