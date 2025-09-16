@@ -17,7 +17,7 @@ const LINKS = [
 export default function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Primary" className="border-t border-[hsl(var(--border))] pt-4">
+    <nav aria-label="Primary" className="border-t border-border pt-4">
       <ul className="flex justify-around">
         {LINKS.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);
