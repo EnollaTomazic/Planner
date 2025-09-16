@@ -21,7 +21,7 @@ type Props = { iso: ISODate };
 
 export default function FocusPanel({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
-    useDayNotes();
+    useDayNotes(iso);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
