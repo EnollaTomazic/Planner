@@ -770,7 +770,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                shown
             </div>
             <div
-              class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-outline-subtle w-full mx-auto backdrop-blur-sm max-h-screen overflow-auto p-2"
+              class="rounded-card r-card-lg border border-border/25 bg-card/60 shadow-outline-subtle w-full mx-auto backdrop-blur-sm h-[calc(100vh-var(--header-stack)-var(--space-6))] overflow-auto p-2"
             >
               <ul
                 class="flex flex-col gap-3"
