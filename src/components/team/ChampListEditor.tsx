@@ -76,7 +76,10 @@ export default function ChampListEditor({
       if (emptyLabel === undefined) return null;
       return (
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
-          <span className={cn(PILL_BASE, pillClassName)}>
+          <span
+            className={cn(PILL_BASE, pillClassName)}
+            aria-disabled
+          >
             <i className="dot" />
             {emptyLabel}
           </span>

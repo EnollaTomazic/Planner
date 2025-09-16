@@ -21,6 +21,10 @@
 .champ-badge:active {
   @apply bg-[--active];
 }
+.champ-badge:disabled,
+.champ-badge[aria-disabled="true"] {
+  @apply opacity-[var(--disabled)] pointer-events-none;
+}
 .champ-badge--dense {
   @apply h-5 px-2;
 }
