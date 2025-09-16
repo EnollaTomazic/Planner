@@ -157,7 +157,7 @@ function ChampListEditorDemo() {
   return (
     <div className="space-y-3" data-scope="team">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold tracking-[0.02em] text-muted-foreground">
+        <span className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
           Champions
         </span>
         <Button size="sm" onClick={() => setEditing((prev) => !prev)}>
