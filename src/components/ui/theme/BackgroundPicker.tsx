@@ -9,10 +9,15 @@ const BG_NAMES = ["Default", "Alt 1", "Alt 2", "VHS", "Streak"];
 
 function Swatch({ className }: { className: string }) {
   return (
-    <div className={cn("flex items-center gap-1 rounded-full p-1", className)}>
-      <span className="h-3 w-3 rounded-full bg-background" />
-      <span className="h-3 w-3 rounded-full bg-card" />
-      <span className="h-3 w-3 rounded-full bg-gradient-to-br from-accent to-accent-2" />
+    <div
+      className={cn(
+        "flex items-center gap-[var(--space-1)] rounded-full p-[var(--space-1)]",
+        className,
+      )}
+    >
+      <span className="h-[var(--space-3)] w-[var(--space-3)] rounded-full bg-background" />
+      <span className="h-[var(--space-3)] w-[var(--space-3)] rounded-full bg-card" />
+      <span className="h-[var(--space-3)] w-[var(--space-3)] rounded-full bg-gradient-to-br from-accent to-accent-2" />
     </div>
   );
 }
@@ -33,7 +38,7 @@ export default function BackgroundPicker({
       BG_CLASSES.map((cls, idx) => ({
         value: String(idx),
         label: (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[var(--space-2)]">
             <Swatch className={cls} />
             <span>{BG_NAMES[idx]}</span>
           </div>
@@ -49,7 +54,7 @@ export default function BackgroundPicker({
       items={items}
       value={String(bg)}
       onChange={(v) => onBgChange(Number(v) as Background)}
-      buttonClassName="!h-9 !px-3 !rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris] focus-visible:ring-2 focus-visible:ring-[--edge-iris]"
+      buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris] focus-visible:ring-2 focus-visible:ring-[--edge-iris]"
       matchTriggerWidth={false}
       className={className}
     />

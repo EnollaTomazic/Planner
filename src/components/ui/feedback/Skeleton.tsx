@@ -22,7 +22,11 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
     <div
       ref={ref}
       aria-hidden="true"
-      className={cn("skeleton h-4 w-full", radiusClasses[radius], className)}
+      className={cn(
+        "skeleton h-[var(--space-4)] w-full",
+        radiusClasses[radius],
+        className,
+      )}
       {...props}
     />
   ),

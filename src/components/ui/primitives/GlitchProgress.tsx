@@ -84,7 +84,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
       <div
         {...rest}
         ref={ref}
-        className={cn("flex items-center gap-3", className)}
+        className={cn("flex items-center gap-[var(--space-3)]", className)}
       >
         {progressTrack}
         <span
