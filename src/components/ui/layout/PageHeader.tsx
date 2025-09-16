@@ -3,10 +3,12 @@
 
 import * as React from "react";
 import Header, { type HeaderProps } from "./Header";
-import Hero, { type HeroProps } from "./Hero";
+import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
+  type NeomorphicHeroFrameActionAreaProps,
 } from "./NeomorphicHeroFrame";
+import TabBar, { type TabBarProps } from "./TabBar";
 import { cn } from "@/lib/utils";
 
 type PageHeaderElement = Extract<
@@ -115,8 +117,129 @@ const PageHeaderInner = <
 
   const resolvedHeroFrame = heroFrame ?? false;
 
-  const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
-    frameProps ?? {};
+  const {
+    className: frameClassName,
+    variant: frameVariant,
+    actionArea: frameActionArea,
+    ...restFrameProps
+  } = frameProps ?? {};
+
+  const heroShouldRenderActionArea = frameActionArea === null;
+
+  const heroTabVariant: TabBarProps["variant"] | undefined =
+    resolvedHeroFrame ? "neo" : undefined;
+
+  const actionAreaTabs = React.useMemo(() => {
+    if (!resolvedSubTabs) return undefined;
+
+    const {
+      items,
+      value,
+      onChange,
+      className: subTabsClassName,
+      align,
+      size,
+      showBaseline,
+      right: subTabsRight,
+      ariaLabel,
+      variant: subTabsVariant,
+      linkPanels,
+      idBase,
+    } = resolvedSubTabs;
+
+    const sanitizedItems = items.map(({ hint, ...item }) => {
+      void hint;
+      return item;
+    });
+
+    return (
+      <TabBar<HeroKey>
+        items={sanitizedItems}
+        value={String(value) as HeroKey}
+        onValueChange={(key) => onChange(key as HeroKey)}
+        size={size ?? "md"}
+        align={align ?? "end"}
+        className={cn("justify-end", subTabsClassName)}
+        showBaseline={showBaseline ?? true}
+        right={subTabsRight}
+        variant={subTabsVariant ?? heroTabVariant}
+        ariaLabel={ariaLabel ?? "Hero sub-tabs"}
+        linkPanels={linkPanels}
+        idBase={idBase}
+      />
+    );
+  }, [resolvedSubTabs, heroTabVariant]);
+
+  const actionAreaSearch = React.useMemo(() => {
+    if (resolvedSearch === null) return null;
+    if (!resolvedSearch) return undefined;
+    return <HeroSearchBar {...resolvedSearch} />;
+  }, [resolvedSearch]);
+
+  const actionAreaActions = resolvedActions;
+
+  const heroActionProps = React.useMemo<
+    Pick<HeroProps<HeroKey>, "subTabs" | "search" | "actions"> | undefined
+  >(() => {
+    if (!heroShouldRenderActionArea) return undefined;
+    return {
+      subTabs: resolvedSubTabs,
+      search: resolvedSearch,
+      actions: resolvedActions,
+    };
+  }, [
+    heroShouldRenderActionArea,
+    resolvedSubTabs,
+    resolvedSearch,
+    resolvedActions,
+  ]);
+
+  const resolvedFrameActionArea = React.useMemo<
+    NeomorphicHeroFrameActionAreaProps | null | undefined
+  >(() => {
+    if (frameActionArea === null) {
+      return null;
+    }
+
+    const tabsProvided =
+      frameActionArea !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameActionArea, "tabs");
+    const searchProvided =
+      frameActionArea !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameActionArea, "search");
+    const actionsProvided =
+      frameActionArea !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameActionArea, "actions");
+
+    const tabs = tabsProvided ? frameActionArea?.tabs : actionAreaTabs;
+    const search = searchProvided ? frameActionArea?.search : actionAreaSearch;
+    const actions = actionsProvided ? frameActionArea?.actions : actionAreaActions;
+
+    if (
+      frameActionArea === undefined &&
+      tabs === undefined &&
+      search === undefined &&
+      actions === undefined
+    ) {
+      return undefined;
+    }
+
+    if (
+      frameActionArea &&
+      tabs === frameActionArea.tabs &&
+      search === frameActionArea.search &&
+      actions === frameActionArea.actions
+    ) {
+      return frameActionArea;
+    }
+
+    return {
+      ...(frameActionArea ?? {}),
+      ...(tabs !== undefined ? { tabs } : {}),
+      ...(search !== undefined ? { search } : {}),
+      ...(actions !== undefined ? { actions } : {}),
+    };
+  }, [frameActionArea, actionAreaTabs, actionAreaSearch, actionAreaActions]);
 
   return (
     <Component
@@ -126,6 +249,7 @@ const PageHeaderInner = <
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
+        actionArea={resolvedFrameActionArea}
         {...restFrameProps}
         className={cn(className, frameClassName)}
       >
@@ -144,9 +268,7 @@ const PageHeaderInner = <
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             tone={heroTone ?? "supportive"}
             padding={heroPadding ?? "none"}
-            subTabs={resolvedSubTabs}
-            search={resolvedSearch}
-            actions={resolvedActions}
+            {...(heroActionProps ?? {})}
           />
         </div>
       </NeomorphicHeroFrame>
