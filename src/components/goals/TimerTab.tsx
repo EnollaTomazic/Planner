@@ -19,7 +19,7 @@ import {
   Code2,
   User,
 } from "lucide-react";
-import { usePersistentState } from "@/lib/db";
+import { removeLocal, usePersistentState, readLocal } from "@/lib/db";
 import { clamp } from "@/lib/utils";
 
 /* profiles */
@@ -57,6 +57,56 @@ const PROFILES: Profile[] = [
   },
 ];
 
+type TimerState = {
+  profile: ProfileKey;
+  customMinutes: number;
+  remaining: number;
+  running: boolean;
+};
+
+const PROFILE_LOOKUP = PROFILES.reduce(
+  (acc, profile) => {
+    acc[profile.key] = profile;
+    return acc;
+  },
+  {} as Record<ProfileKey, Profile>,
+);
+
+const TIMER_STATE_KEY = "goals.timer.state.v1";
+const LEGACY_KEYS = {
+  profile: "goals.timer.profile.v1",
+  customMinutes: "goals.timer.customMin.v1",
+  remaining: "goals.timer.remaining.v1",
+  running: "goals.timer.running.v1",
+} as const;
+
+const DEFAULT_PROFILE: ProfileKey = "study";
+const DEFAULT_CUSTOM_MINUTES = 25;
+
+function getProfile(key: ProfileKey): Profile {
+  return PROFILE_LOOKUP[key] ?? PROFILES[0];
+}
+
+function getMinutesForProfile(key: ProfileKey, customMinutes: number) {
+  return key === "custom" ? customMinutes : getProfile(key).defaultMin;
+}
+
+const DEFAULT_TIMER_STATE: TimerState = {
+  profile: DEFAULT_PROFILE,
+  customMinutes: DEFAULT_CUSTOM_MINUTES,
+  remaining:
+    getMinutesForProfile(DEFAULT_PROFILE, DEFAULT_CUSTOM_MINUTES) * 60_000,
+  running: false,
+};
+
+function isProfileKey(value: string): value is ProfileKey {
+  return value in PROFILE_LOOKUP;
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
 /* helpers */
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 const fmt = (ms: number) => {
@@ -76,43 +126,86 @@ const ADJUST_BTN_CLASS =
   "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
 
 export default function TimerTab() {
-  const [profile, setProfile] = usePersistentState<ProfileKey>(
-    "goals.timer.profile.v1",
-    "study",
+  const [timer, setTimer] = usePersistentState<TimerState>(
+    TIMER_STATE_KEY,
+    DEFAULT_TIMER_STATE,
   );
-  const [customMinutes, setCustomMinutes] = usePersistentState<number>(
-    "goals.timer.customMin.v1",
-    25,
-  );
+  const { profile, customMinutes, remaining, running } = timer;
+
+  React.useEffect(() => {
+    const stored = readLocal<TimerState>(TIMER_STATE_KEY);
+    if (stored !== null) return;
+
+    const legacyProfile = readLocal<ProfileKey>(LEGACY_KEYS.profile);
+    const legacyCustom = readLocal<number>(LEGACY_KEYS.customMinutes);
+    const legacyRemaining = readLocal<number>(LEGACY_KEYS.remaining);
+    const legacyRunning = readLocal<boolean>(LEGACY_KEYS.running);
+
+    if (
+      legacyProfile == null &&
+      legacyCustom == null &&
+      legacyRemaining == null &&
+      legacyRunning == null
+    ) {
+      return;
+    }
+
+    const nextProfile =
+      typeof legacyProfile === "string" && isProfileKey(legacyProfile)
+        ? legacyProfile
+        : DEFAULT_TIMER_STATE.profile;
+    const nextCustomMinutes = isFiniteNumber(legacyCustom)
+      ? legacyCustom
+      : DEFAULT_TIMER_STATE.customMinutes;
+    const fallbackMinutes =
+      nextProfile === "custom"
+        ? nextCustomMinutes
+        : getProfile(nextProfile).defaultMin;
+    const nextRemaining = isFiniteNumber(legacyRemaining)
+      ? legacyRemaining
+      : fallbackMinutes * 60_000;
+    const nextRunning =
+      typeof legacyRunning === "boolean"
+        ? legacyRunning
+        : DEFAULT_TIMER_STATE.running;
+
+    setTimer({
+      profile: nextProfile,
+      customMinutes: nextCustomMinutes,
+      remaining: nextRemaining,
+      running: nextRunning,
+    });
+
+    removeLocal(LEGACY_KEYS.profile);
+    removeLocal(LEGACY_KEYS.customMinutes);
+    removeLocal(LEGACY_KEYS.remaining);
+    removeLocal(LEGACY_KEYS.running);
+  }, [setTimer]);
 
   const profileDef = React.useMemo(
-    () => PROFILES.find((p) => p.key === profile)!,
+    () => getProfile(profile),
     [profile],
   );
   const isCustom = profile === "custom";
   const minutes = isCustom ? customMinutes : profileDef.defaultMin;
 
   // remaining time
-  const [remaining, setRemaining] = usePersistentState<number>(
-    "goals.timer.remaining.v1",
-    minutes * 60_000,
-  );
-  const [running, setRunning] = usePersistentState<boolean>(
-    "goals.timer.running.v1",
-    false,
-  );
-
   const prevProfile = React.useRef<ProfileKey>(profile);
   // Reset timer when switching profiles
   React.useEffect(() => {
-    if (prevProfile.current !== profile) {
-      setRunning(false);
-      setRemaining(
-        (profile === "custom" ? customMinutes : profileDef.defaultMin) * 60_000,
-      );
-      prevProfile.current = profile;
-    }
-  }, [profile, customMinutes, profileDef.defaultMin, setRunning, setRemaining]);
+    if (prevProfile.current === profile) return;
+    prevProfile.current = profile;
+    const nextRemaining =
+      (profile === "custom" ? customMinutes : profileDef.defaultMin) * 60_000;
+    setTimer((prev) => {
+      if (!prev.running && prev.remaining === nextRemaining) return prev;
+      return {
+        ...prev,
+        running: false,
+        remaining: nextRemaining,
+      };
+    });
+  }, [profile, customMinutes, profileDef.defaultMin, setTimer]);
 
   // edit mode for mm:ss
   const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
@@ -124,33 +217,61 @@ export default function TimerTab() {
   React.useEffect(() => {
     if (!running) return;
     const id = window.setInterval(() => {
-      setRemaining((r) => Math.max(0, r - 250));
+      setTimer((prev) => ({
+        ...prev,
+        remaining: Math.max(0, prev.remaining - 250),
+      }));
     }, 250);
     return () => window.clearInterval(id);
-  }, [running, setRemaining]);
+  }, [running, setTimer]);
 
   // adjust minutes for custom
   function adjust(delta: number) {
     if (!isCustom) return;
     if (running) return;
-    const ms = remaining;
-    const secs = Math.floor((ms % 60_000) / 1000);
     const next = clamp(minutes + delta, 0, 180);
-    setCustomMinutes(next);
-    setRemaining(next * 60_000 + secs * 1000);
+    setTimer((prev) => {
+      if (prev.customMinutes === next) return prev;
+      const secs = Math.floor((prev.remaining % 60_000) / 1000);
+      return {
+        ...prev,
+        customMinutes: next,
+        remaining: next * 60_000 + secs * 1000,
+      };
+    });
   }
 
   const start = React.useCallback(() => {
-    setRemaining((r) => (r <= 0 ? minutes * 60_000 : r));
-    setRunning(true);
-  }, [minutes, setRemaining, setRunning]);
+    setTimer((prev) => {
+      const target = prev.remaining <= 0 ? minutes * 60_000 : prev.remaining;
+      if (prev.running && target === prev.remaining) return prev;
+      return {
+        ...prev,
+        running: true,
+        remaining: target,
+      };
+    });
+  }, [minutes, setTimer]);
   const pause = React.useCallback(() => {
-    setRunning(false);
-  }, [setRunning]);
+    setTimer((prev) => {
+      if (!prev.running) return prev;
+      return {
+        ...prev,
+        running: false,
+      };
+    });
+  }, [setTimer]);
   const reset = React.useCallback(() => {
-    setRunning(false);
-    setRemaining(minutes * 60_000);
-  }, [minutes, setRunning, setRemaining]);
+    setTimer((prev) => {
+      const target = minutes * 60_000;
+      if (!prev.running && prev.remaining === target) return prev;
+      return {
+        ...prev,
+        running: false,
+        remaining: target,
+      };
+    });
+  }, [minutes, setTimer]);
   function commitEdit() {
     if (!isCustom || running) return;
     const ms = parseMmSs(timeEdit);
@@ -160,8 +281,16 @@ export default function TimerTab() {
     }
     const mm = Math.floor(ms / 60_000),
       ss = Math.floor((ms % 60_000) / 1000);
-    setCustomMinutes(mm);
-    setRemaining(mm * 60_000 + ss * 1000);
+    setTimer((prev) => {
+      const nextRemaining = mm * 60_000 + ss * 1000;
+      if (prev.customMinutes === mm && prev.remaining === nextRemaining)
+        return prev;
+      return {
+        ...prev,
+        customMinutes: mm,
+        remaining: nextRemaining,
+      };
+    });
   }
 
   const totalMs = minutes * 60_000;
@@ -193,8 +322,16 @@ export default function TimerTab() {
         value={minutes}
         onChange={(m) => {
           if (running) return;
-          setCustomMinutes(m);
-          setRemaining(m * 60_000);
+          setTimer((prev) => {
+            const nextRemaining = m * 60_000;
+            if (prev.customMinutes === m && prev.remaining === nextRemaining)
+              return prev;
+            return {
+              ...prev,
+              customMinutes: m,
+              remaining: nextRemaining,
+            };
+          });
         }}
         disabled={running}
       />
@@ -232,14 +369,22 @@ export default function TimerTab() {
         const idx = Number(e.key) - 1;
         const m = opts[idx];
         if (m != null) {
-          setCustomMinutes(m);
-          setRemaining(m * 60_000);
+          setTimer((prev) => {
+            const nextRemaining = m * 60_000;
+            if (prev.customMinutes === m && prev.remaining === nextRemaining)
+              return prev;
+            return {
+              ...prev,
+              customMinutes: m,
+              remaining: nextRemaining,
+            };
+          });
         }
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [running, isCustom, pause, start, reset, setCustomMinutes, setRemaining]);
+  }, [running, isCustom, pause, start, reset, setTimer]);
 
   const pct = Math.round(progress * 100);
   const [ringSize, setRingSize] = React.useState(224);
@@ -263,7 +408,15 @@ export default function TimerTab() {
         subTabs={{
           items: tabItems,
           value: profile,
-          onChange: (k: string) => setProfile(k as ProfileKey),
+          onChange: (k: string) =>
+            setTimer((prev) => {
+              const next = k as ProfileKey;
+              if (prev.profile === next) return prev;
+              return {
+                ...prev,
+                profile: next,
+              };
+            }),
           size: "md",
           align: "between",
           ariaLabel: "Timer profiles",
