@@ -21,7 +21,7 @@ export default function Snackbar({
       role="status"
       aria-live="polite"
       className={cn(
-        "mx-auto w-fit rounded-card r-card-lg border border-border bg-surface-2 px-4 py-2 text-ui shadow-sm",
+        "mx-auto w-fit rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-2)] text-ui shadow-sm",
         className,
       )}
       {...props}

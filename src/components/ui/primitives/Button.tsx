@@ -10,25 +10,25 @@ import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-9",
-    padding: "px-4",
+    height: "h-[var(--control-h-sm)]",
+    padding: "px-[var(--space-4)]",
     text: "text-label",
-    gap: "gap-1",
-    icon: "[&_svg]:size-4",
+    gap: "gap-[var(--space-1)]",
+    icon: "[&_svg]:size-[var(--space-4)]",
   },
   md: {
-    height: "h-10",
-    padding: "px-4",
+    height: "h-[var(--control-h-md)]",
+    padding: "px-[var(--space-4)]",
     text: "text-ui",
-    gap: "gap-2",
-    icon: "[&_svg]:size-5",
+    gap: "gap-[var(--space-2)]",
+    icon: "[&_svg]:size-[var(--space-5)]",
   },
   lg: {
-    height: "h-11",
-    padding: "px-8",
+    height: "h-[var(--control-h-lg)]",
+    padding: "px-[var(--space-8)]",
     text: "text-title",
-    gap: "gap-4",
-    icon: "[&_svg]:size-8",
+    gap: "gap-[var(--space-4)]",
+    icon: "[&_svg]:size-[var(--space-8)]",
   },
 } as const;
 
@@ -110,7 +110,8 @@ export const variants: Record<
     whileTap: {
       scale: 0.97,
     },
-    contentClass: "relative z-10 inline-flex items-center gap-2",
+    contentClass:
+      "relative z-10 inline-flex items-center gap-[var(--space-2)]",
   },
   secondary: {
     className: "bg-panel/80 shadow-neo",

@@ -250,7 +250,7 @@ const AnimatedSelect = React.forwardRef<
 
     const triggerCls = cn(
       styles.glitchTrigger,
-      "relative flex items-center h-9 rounded-[var(--radius-full)] px-3 overflow-hidden",
+      "relative flex items-center h-[var(--control-h-sm)] rounded-[var(--radius-full)] px-[var(--space-3)] overflow-hidden",
       "bg-muted/12 hover:bg-muted/18",
       "focus:[outline:none] focus-visible:[outline:none]",
       "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
@@ -259,7 +259,7 @@ const AnimatedSelect = React.forwardRef<
 
     const caretCls = cn(
       styles.caret,
-      "ml-auto size-4 shrink-0 opacity-75",
+      "ml-auto size-[var(--space-4)] shrink-0 opacity-75",
       open && styles.caretOpen,
     );
 
@@ -269,7 +269,9 @@ const AnimatedSelect = React.forwardRef<
           <div
             id={labelId}
             className={cn(
-              hideLabel ? "sr-only" : "mb-1 text-label text-muted-foreground",
+              hideLabel
+                ? "sr-only"
+                : "mb-[var(--space-1)] text-label text-muted-foreground",
             )}
           >
             {label}
@@ -298,7 +300,7 @@ const AnimatedSelect = React.forwardRef<
             {prefixLabel ? (
               <ChevronRight
                 aria-hidden="true"
-                className="h-4 w-4 shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+                className="h-[var(--space-4)] w-[var(--space-4)] shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
               />
             ) : null}
 
@@ -362,8 +364,8 @@ const AnimatedSelect = React.forwardRef<
                     "relative pointer-events-auto rounded-[var(--radius-2xl)] overflow-hidden",
                     "bg-card/92 backdrop-blur-xl",
                     "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
-                    "p-2",
-                    "max-h-[60vh] min-w-56 overflow-y-auto scrollbar-thin",
+                    "p-[var(--space-2)]",
+                    "max-h-[60vh] min-w-[calc(var(--space-8)*3.5)] overflow-y-auto scrollbar-thin",
                     "scrollbar-thumb-foreground/12 scrollbar-track-transparent",
                     dropdownClassName,
                   )}
@@ -388,7 +390,7 @@ const AnimatedSelect = React.forwardRef<
                           onClick={() => selectByIndex(idx)}
                           onFocus={() => setActiveIndex(idx)}
                           className={cn(
-                            "group relative w-full rounded-[var(--radius-xl)] px-4 py-3 text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                            "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
                             disabledItem
                               ? "cursor-not-allowed"
                               : "cursor-pointer",
@@ -401,13 +403,13 @@ const AnimatedSelect = React.forwardRef<
                           )}
                           data-loading={it.loading}
                         >
-                          <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center justify-between gap-[var(--space-3)]">
                             <span className={cn("text-ui leading-none", styles.glitchText)}>
                               {it.label}
                             </span>
                             <Check
                               className={cn(
-                                "size-4 shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                                "size-[var(--space-4)] shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
                                 active
                                   ? "opacity-90"
                                   : "opacity-0 group-hover:opacity-30",
@@ -419,7 +421,7 @@ const AnimatedSelect = React.forwardRef<
                           <span
                             aria-hidden
                             className={cn(
-                              "pointer-events-none absolute left-0 top-1/2 h-3/4 w-0.5 -translate-y-1/2 rounded-[var(--radius-md)]",
+                              "pointer-events-none absolute left-0 top-1/2 h-3/4 w-[calc(var(--space-1)/2)] -translate-y-1/2 rounded-[var(--radius-md)]",
                               active ? "bg-ring" : "bg-transparent",
                             )}
                           />

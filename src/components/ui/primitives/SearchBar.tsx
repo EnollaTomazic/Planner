@@ -88,7 +88,7 @@ export default function SearchBar({
   const inputField = (
     <>
       <Search
-        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+        className="pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 size-[var(--space-4)] text-muted-foreground"
         aria-hidden
       />
 
@@ -103,7 +103,7 @@ export default function SearchBar({
         placeholder={placeholder}
         indent
         height={height}
-        className={cn("w-full", showClear && "pr-12", fieldClassName)}
+        className={cn("w-full", showClear && "pr-[var(--space-7)]", fieldClassName)}
         aria-label={
           !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
         }
@@ -124,7 +124,7 @@ export default function SearchBar({
           tone="primary"
           aria-label="Clear"
           title="Clear"
-          className="absolute right-3 top-1/2 -translate-y-1/2"
+          className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2"
           disabled={disabled || loading}
           loading={loading}
           iconSize="sm"
@@ -147,7 +147,7 @@ export default function SearchBar({
         // Two-column grid: search input + optional right slot
         // Tailwind's arbitrary value syntax uses an underscore instead of a comma.
         // `minmax(0,1fr)` prevents input overflow when space is constrained.
-        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] w-full data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
         className,
       )}
       onSubmit={(e) => {
