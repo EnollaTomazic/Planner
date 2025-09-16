@@ -170,20 +170,25 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="relative overflow-hidden hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-4 py-4"
+        class="relative overflow-visible hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-4 py-4"
       >
         <span
           aria-hidden="true"
-          class="hero2-beams"
-        />
-        <span
-          aria-hidden="true"
-          class="hero2-scanlines"
-        />
-        <span
-          aria-hidden="true"
-          class="hero2-noise opacity-[0.03]"
-        />
+          class="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+        >
+          <span
+            aria-hidden="true"
+            class="hero2-beams"
+          />
+          <span
+            aria-hidden="true"
+            class="hero2-scanlines"
+          />
+          <span
+            aria-hidden="true"
+            class="hero2-noise opacity-[0.03]"
+          />
+        </span>
         <div
           class="relative z-[2] space-y-[var(--space-5)] md:space-y-[var(--space-6)]"
         >
