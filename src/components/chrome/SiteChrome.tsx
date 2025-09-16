@@ -16,7 +16,7 @@ import "@/app/globals.css";
  */
 export default function SiteChrome() {
   return (
-    <header role="banner" className="sticky-blur top-0 z-50">
+    <header role="banner" className="sticky top-0 z-50 sticky-blur">
       {/* Bar content */}
       <PageShell className="flex items-center justify-between py-2">
         <Link href="/" aria-label="Home" className="flex items-center gap-2">

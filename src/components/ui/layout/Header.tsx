@@ -122,6 +122,8 @@ export default function Header<Key extends string = string>({
   const hasNav = nav != null;
   const showRightStack = hasTabs || hasRight || hasUtilities;
 
+  const stickyClasses = sticky ? cx("sticky", topClassName) : "";
+
   const barPadding = compact
     ? isMinimal
       ? "px-[var(--space-4)] py-[var(--space-3)]"
@@ -161,7 +163,7 @@ export default function Header<Key extends string = string>({
         {/* Top bar */}
         <div
           className={cx(
-            sticky && cx("sticky", topClassName),
+            stickyClasses,
             "relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
             barPadding,
             minHeightClass,

@@ -1867,12 +1867,12 @@ a:active .lucide {
   }
 
   .sticky-blur {
-    position: sticky;
-    top: 0;
-    z-index: 30;
     backdrop-filter: saturate(120%) blur(12px);
     background: color-mix(in oklab, hsl(var(--background)) 65%, transparent);
-    border-bottom: 1px solid hsl(var(--card-hairline));
+    border-bottom: var(
+      --sticky-blur-border,
+      1px solid hsl(var(--card-hairline))
+    );
   }
 
   .r-card-sm {
