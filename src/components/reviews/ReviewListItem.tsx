@@ -26,7 +26,7 @@ const itemLoading = cn(
   shellBase,
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
-const loadingLine = "h-3 rounded-md bg-muted";
+const loadingLine = "h-3 rounded-card bg-muted";
 const scoreBadge = cn(
   "px-2 py-1 rounded-full text-label leading-none font-medium",
   "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
