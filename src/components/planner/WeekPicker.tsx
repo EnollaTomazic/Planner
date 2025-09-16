@@ -165,6 +165,14 @@ export default function WeekPicker() {
     if (typeof window !== "undefined") {
       const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       window.scrollTo({ top: 0, behavior });
+      const focusTarget =
+        document.getElementById("planner-header") ??
+        document.getElementById("main-content");
+      if (focusTarget instanceof HTMLElement) {
+        window.requestAnimationFrame(() => {
+          focusTarget.focus({ preventScroll: true });
+        });
+      }
       // The scroll listener will auto-hide the button when we reach the top
     }
   };
