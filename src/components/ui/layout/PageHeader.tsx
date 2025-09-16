@@ -30,7 +30,10 @@ export interface PageHeaderBaseProps<
 > extends PageHeaderElementProps {
   /** Props forwarded to <Header> */
   header: HeaderProps<HeaderKey>;
-  /** Props forwarded to <Hero> */
+  /**
+   * Props forwarded to <Hero>.
+   * When the page header renders as a `<header>`, the hero defaults to a `<section>`.
+   */
   hero: HeroProps<HeroKey>;
   /** Optional className for the outer frame */
   className?: string;
@@ -94,6 +97,9 @@ const PageHeaderInner = <
     ...heroRest
   } = hero;
 
+  const resolvedHeroAs =
+    heroAs ?? (Component === "header" ? "section" : undefined);
+
   const resolvedSubTabs = heroSubTabs ?? subTabs;
 
   const baseSearch = heroSearch === null ? null : heroSearch ?? search;
@@ -129,7 +135,7 @@ const PageHeaderInner = <
           <Header {...header} underline={header.underline ?? false} />
           <Hero
             {...heroRest}
-            as={heroAs ?? "section"}
+            as={resolvedHeroAs}
             frame={heroFrame ?? true}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             subTabs={resolvedSubTabs}
