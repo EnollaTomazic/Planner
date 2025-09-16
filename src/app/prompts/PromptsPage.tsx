@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader, PageShell, Button, IconButton } from "@/components/ui";
+import { PageHeader, PageShell, Button, IconButton, Badge } from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -112,6 +112,22 @@ function PageContent() {
           },
           actions: (
             <div className="flex items-center gap-2">
+              {view === "colors" ? (
+                <Badge
+                  size="sm"
+                  tone="accent"
+                  className="hidden sm:inline-flex border-transparent bg-[hsl(var(--accent-3)/0.16)] text-[hsl(var(--accent-3))] shadow-[0_0_0_1px_hsl(var(--accent-3)/0.25)]"
+                >
+                  <span className="mr-1 inline-flex h-2 w-2 items-center justify-center">
+                    <span
+                      aria-hidden="true"
+                      className="block h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "hsl(var(--accent-3))" }}
+                    />
+                  </span>
+                  Accent 3
+                </Badge>
+              ) : null}
               <Button size="sm">Action</Button>
               <IconButton size="sm" aria-label="Add">
                 <Plus />

@@ -18,6 +18,7 @@ export default {
   primarySoft: "262 83% 18%",
   accent: "292 90% 35%",
   accent2: "192 100% 25%",
+  accent3: "192 90% 50%",
   accentForeground: "0 0% 100%",
   accentSoft: "292 90% 15%",
   highlight: "0 0% 100%",
@@ -82,9 +83,9 @@ export default {
   controlPx: "var(--spacing-3)",
   headerStack: "calc(var(--spacing-8) + var(--spacing-4))",
   edgeIris:
-    "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(192 90% 50% / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
+    "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(var(--accent-3) / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
   segActiveGrad:
-    "linear-gradient(\n    90deg,\n    hsl(262 83% 58% / 0.95),\n    hsl(292 80% 60% / 0.95),\n    hsl(192 90% 50% / 0.95)\n  )",
+    "linear-gradient(\n    90deg,\n    hsl(262 83% 58% / 0.95),\n    hsl(292 80% 60% / 0.95),\n    hsl(var(--accent-3) / 0.95)\n  )",
   shadow: "0 10px 30px hsl(250 30% 2% / 0.35)",
   lgViolet: "var(--ring)",
   lgCyan: "var(--accent-2)",
