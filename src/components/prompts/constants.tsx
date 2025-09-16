@@ -803,7 +803,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "page-header-demo",
       name: "PageHeader",
       description:
-        "Neomorphic hero header that defaults to a semantic <header>, forwards standard HTML attributes, and can be remapped with the as prop.",
+        "Neomorphic hero header that defaults to a calm single-frame layout, forwards standard HTML attributes, and can be remapped with the as prop.",
       element: <PageHeaderDemo />,
       tags: ["hero", "header"],
       code: `<PageHeaderDemo />`,

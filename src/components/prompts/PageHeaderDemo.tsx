@@ -236,7 +236,8 @@ export default function PageHeaderDemo() {
               Welcome to Planner — plan smarter with multi-line titles
             </span>
           ),
-          subtitle: "Plan your day, track goals, and review games.",
+          subtitle:
+            "Plan your day, track goals, and review games with a calm single-frame hero.",
           icon: (
             <Image
               src="/planner-logo.svg"
@@ -341,8 +342,8 @@ export default function PageHeaderDemo() {
         }}
       />
       <p className="text-ui text-muted-foreground">
-        PageHeader now keeps the inner hero calm by default. When a launch calls
-        for the elevated treatment, combine
+        PageHeader now keeps the inner hero calm and single-framed by default.
+        When a launch calls for the elevated treatment, combine
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
           {"hero.tone = \"heroic\""}
         </code>

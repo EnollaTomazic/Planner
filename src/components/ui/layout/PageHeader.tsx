@@ -112,6 +112,8 @@ const PageHeaderInner = <
     [heroActions, actions],
   );
 
+  const resolvedHeroFrame = heroFrame ?? false;
+
   const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
     frameProps ?? {};
 
@@ -137,7 +139,7 @@ const PageHeaderInner = <
           <Hero
             {...heroRest}
             as={heroAs ?? "section"}
-            frame={heroFrame ?? false}
+            frame={resolvedHeroFrame}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             tone={heroTone ?? "supportive"}
             subTabs={resolvedSubTabs}
