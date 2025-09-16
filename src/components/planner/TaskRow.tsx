@@ -122,6 +122,7 @@ export default function TaskRow({
           <div className="pointer-events-auto flex-1 min-w-0 px-1">
             {!editing ? (
               <button
+                type="button"
                 className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
                 onClick={(e) => {
                   e.stopPropagation();
