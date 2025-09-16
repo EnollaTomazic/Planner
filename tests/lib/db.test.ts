@@ -1,4 +1,176 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+
+const originalLocalStorage = window.localStorage;
+
+function createMockStorage() {
+  const store = new Map<string, string>();
+  const getItem = vi.fn((key: string) => (store.has(key) ? store.get(key)! : null));
+  const setItem = vi.fn((key: string, value: string) => {
+    store.set(key, value);
+  });
+  const removeItem = vi.fn((key: string) => {
+    store.delete(key);
+  });
+  const clear = vi.fn(() => {
+    store.clear();
+  });
+  const key = vi.fn((index: number) => Array.from(store.keys())[index] ?? null);
+
+  const storage = {
+    getItem,
+    setItem,
+    removeItem,
+    clear,
+    key,
+  } as Record<string, unknown>;
+
+  Object.defineProperty(storage, "length", {
+    configurable: true,
+    get: () => store.size,
+  });
+
+  return {
+    storage: storage as Storage,
+    store,
+    getItem,
+    setItem,
+    removeItem,
+    clear,
+    key,
+  };
+}
+
+type StorageMock = ReturnType<typeof createMockStorage>;
+
+describe("write queue scheduling", () => {
+  let mock: StorageMock;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.resetModules();
+    delete (window as { __planner_flush_bound?: boolean }).__planner_flush_bound;
+    mock = createMockStorage();
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      value: mock.storage,
+    });
+  });
+
+  afterEach(() => {
+    vi.runOnlyPendingTimers();
+    vi.clearAllTimers();
+    vi.useRealTimers();
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      value: originalLocalStorage,
+    });
+    delete (window as { __planner_flush_bound?: boolean }).__planner_flush_bound;
+    vi.restoreAllMocks();
+    vi.resetModules();
+  });
+
+  it("defers writes until the debounce delay elapses", async () => {
+    const { scheduleWrite } = await import("@/lib/db");
+
+    scheduleWrite("debounce-key", { count: 1 });
+
+    expect(mock.setItem).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(49);
+    expect(mock.setItem).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(1);
+    expect(mock.setItem).toHaveBeenCalledTimes(1);
+    expect(mock.setItem).toHaveBeenLastCalledWith(
+      "debounce-key",
+      JSON.stringify({ count: 1 }),
+    );
+  });
+
+  it("flushes queued writes immediately when requested", async () => {
+    const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+    scheduleWrite("first", { id: 1 });
+    scheduleWrite("second", { id: 2 });
+
+    expect(mock.setItem).not.toHaveBeenCalled();
+
+    flushWriteLocal();
+
+    expect(mock.setItem).toHaveBeenCalledTimes(2);
+    expect(mock.store.get("first")).toBe(JSON.stringify({ id: 1 }));
+    expect(mock.store.get("second")).toBe(JSON.stringify({ id: 2 }));
+
+    vi.advanceTimersByTime(100);
+    expect(mock.setItem).toHaveBeenCalledTimes(2);
+  });
+
+  it("syncs storage updates across listeners", async () => {
+    const { useStorageSync, createStorageKey } = await import("@/lib/db");
+    const onChange = vi.fn();
+
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      value: originalLocalStorage,
+    });
+
+    const { unmount } = renderHook(() => useStorageSync("sync-key", onChange));
+    const fullKey = createStorageKey("sync-key");
+    const otherArea = window.sessionStorage ?? originalLocalStorage;
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: fullKey,
+          newValue: JSON.stringify({ tab: 1 }),
+          storageArea: window.localStorage,
+        }),
+      );
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(JSON.stringify({ tab: 1 }));
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: "other-key",
+          newValue: JSON.stringify({ tab: 2 }),
+          storageArea: window.localStorage,
+        }),
+      );
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: fullKey,
+          newValue: JSON.stringify({ tab: 3 }),
+          storageArea: otherArea,
+        }),
+      );
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: fullKey,
+          newValue: JSON.stringify({ tab: 4 }),
+          storageArea: window.localStorage,
+        }),
+      );
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+});
 
 describe("db event bindings", () => {
   it("attaches listener only once", async () => {
