@@ -92,9 +92,12 @@ function sanitizeDaysMap(map: Record<ISODate, DayRecord>) {
   }
   return mutated ? next : map;
 }
+type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
+
 type DaysState = {
   days: Record<ISODate, DayRecord>;
   setDays: React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>;
+  tasksById: TaskIdMap;
 };
 
 type FocusState = { focus: ISODate; setFocus: (iso: ISODate) => void };
@@ -126,6 +129,22 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     [rawDays],
   );
 
+  const tasksById = React.useMemo<TaskIdMap>(() => {
+    const map: TaskIdMap = {};
+    for (const [iso, record] of Object.entries(days)) {
+      if (!record.tasks.length) {
+        map[iso] = {};
+        continue;
+      }
+      const taskMap: Record<string, DayTask> = {};
+      for (const task of record.tasks) {
+        taskMap[task.id] = task;
+      }
+      map[iso] = taskMap;
+    }
+    return map;
+  }, [days]);
+
   React.useEffect(() => {
     if (!Object.is(rawDays, days)) {
       setRawDays(days);
@@ -151,8 +170,8 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   );
 
   const daysValue = React.useMemo(
-    () => ({ days, setDays }),
-    [days, setDays],
+    () => ({ days, setDays, tasksById }),
+    [days, setDays, tasksById],
   );
   const focusValue = React.useMemo(
     () => ({ focus, setFocus }),

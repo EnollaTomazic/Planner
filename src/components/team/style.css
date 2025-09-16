@@ -23,7 +23,7 @@
 }
 .champ-badge:disabled,
 .champ-badge[aria-disabled="true"] {
-  @apply opacity-[var(--disabled)] pointer-events-none;
+  @apply pointer-events-none opacity-[var(--disabled)];
 }
 .champ-badge--dense {
   @apply h-5 px-2;
