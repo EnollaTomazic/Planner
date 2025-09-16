@@ -104,17 +104,13 @@ export default function ReviewsPage({
           },
           actions: (
             <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
-              <div className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
-                <span
-                  aria-hidden="true"
-                  className="text-label font-medium text-muted-foreground"
-                >
+              <label className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+                <span className="text-label font-medium text-muted-foreground">
                   Sort
                 </span>
                 <Select
                   variant="animated"
-                  label="Sort reviews"
-                  hideLabel
+                  ariaLabel="Sort reviews"
                   value={sort}
                   onChange={(v) => setSort(v as SortKey)}
                   items={[
@@ -125,7 +121,7 @@ export default function ReviewsPage({
                   className="w-full sm:w-auto"
                   buttonClassName="!h-[var(--control-h-md)] !px-[var(--space-4)]"
                 />
-              </div>
+              </label>
               <Button
                 type="button"
                 variant="primary"
