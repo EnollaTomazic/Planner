@@ -72,20 +72,37 @@ export default function TeamCompPage() {
       }) satisfies Record<Tab, { tab: string; panel: string }>,
     [tabBaseId],
   );
-  const subTabIds = React.useMemo(
-    () =>
-      ({
-        sheet: {
-          tab: `${subTabBaseId}-sheet-tab`,
-          panel: `${subTabBaseId}-sheet-panel`,
-        },
-        comps: {
-          tab: `${subTabBaseId}-comps-tab`,
-          panel: `${subTabBaseId}-comps-panel`,
-        },
-      }) satisfies Record<SubTab, { tab: string; panel: string }>,
-    [subTabBaseId],
-  );
+  const { items: subTabs, ids: subTabIds } = React.useMemo(() => {
+    const ids = {
+      sheet: {
+        tab: `${subTabBaseId}-sheet-tab`,
+        panel: `${subTabBaseId}-sheet-panel`,
+      },
+      comps: {
+        tab: `${subTabBaseId}-comps-tab`,
+        panel: `${subTabBaseId}-comps-panel`,
+      },
+    } satisfies Record<SubTab, { tab: string; panel: string }>;
+
+    const items: HeaderTab<SubTab>[] = [
+      {
+        key: "sheet",
+        label: "Cheat Sheet",
+        icon: <BookOpen />,
+        id: ids.sheet.tab,
+        controls: ids.sheet.panel,
+      },
+      {
+        key: "comps",
+        label: "My Comps",
+        icon: <Users2 />,
+        id: ids.comps.tab,
+        controls: ids.comps.panel,
+      },
+    ];
+
+    return { items, ids };
+  }, [subTabBaseId]);
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
     myComps: false,
@@ -100,25 +117,6 @@ export default function TeamCompPage() {
   React.useEffect(() => {
     subPanelRefs.current[subTab]?.focus();
   }, [subTab]);
-  const subTabs = React.useMemo<HeaderTab<SubTab>[]>(
-    () => [
-      {
-        key: "sheet",
-        label: "Cheat Sheet",
-        icon: <BookOpen />,
-        id: subTabIds.sheet.tab,
-        controls: subTabIds.sheet.panel,
-      },
-      {
-        key: "comps",
-        label: "My Comps",
-        icon: <Users2 />,
-        id: subTabIds.comps.tab,
-        controls: subTabIds.comps.panel,
-      },
-    ],
-    [subTabIds],
-  );
   const renderCheat = React.useCallback(
     () => (
       <div>

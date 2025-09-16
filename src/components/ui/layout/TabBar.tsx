@@ -154,8 +154,8 @@ export default function TabBar<K extends string = string>({
         >
           {items.map((item) => {
             const active = item.key === activeKey;
-            const tabId = `${uid}-${item.id ?? `${item.key}-tab`}`;
-            const panelId = `${uid}-${item.controls ?? `${item.key}-panel`}`;
+            const tabId = item.id ?? `${uid}-${item.key}-tab`;
+            const panelId = item.controls ?? `${uid}-${item.key}-panel`;
             return (
               <button
                 key={item.key}
