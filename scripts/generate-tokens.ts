@@ -8,7 +8,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spacingTokens, radiusScale } from "../src/lib/tokens.ts";
-import { createTaskBar, stopBars } from "../src/utils/progress.ts";
+import { createProgressBar, stopBars } from "../src/utils/progress.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,7 +103,7 @@ async function buildTokens(): Promise<void> {
     },
   });
 
-  const bar = createTaskBar(3);
+  const bar = createProgressBar(3);
   sd.buildPlatform("css");
   bar.update(1);
   sd.buildPlatform("js");
