@@ -30,31 +30,19 @@ export function usePromptsRouter() {
     [params, router, startTransition],
   );
 
-  const [view, setView] = React.useState<View>(
-    () => (viewParam as View) || "components",
+  const view = (viewParam as View) || "components";
+  const section = React.useMemo(
+    () => getValidSection(sectionParam),
+    [sectionParam],
   );
-  const [section, setSection] = React.useState<Section>(() =>
-    getValidSection(sectionParam),
+  const setView = React.useCallback(
+    (v: View) => replaceParam("view", v),
+    [replaceParam],
   );
-
-  React.useEffect(() => {
-    const v = (viewParam as View) || "components";
-    setView((prev) => (v === prev ? prev : v));
-  }, [viewParam]);
-
-  React.useEffect(() => {
-    const s = getValidSection(sectionParam);
-    setSection((prev) => (s === prev ? prev : s));
-  }, [sectionParam]);
-
-  React.useEffect(() => {
-    replaceParam("view", view);
-  }, [view, replaceParam]);
-
-  React.useEffect(() => {
-    if (view !== "components") return;
-    replaceParam("section", section);
-  }, [section, view, replaceParam]);
+  const setSection = React.useCallback(
+    (s: Section) => replaceParam("section", s),
+    [replaceParam],
+  );
 
   return { view, setView, section, setSection };
 }
