@@ -40,7 +40,7 @@ export interface PageHeaderBaseProps<
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
   contentClassName?: string;
-  /** Semantic element for the header container */
+  /** Semantic element for the header container (defaults to a <section>) */
   as?: PageHeaderElement;
   /** Optional hero sub-tabs override */
   subTabs?: HeroProps<HeroKey>["subTabs"];
