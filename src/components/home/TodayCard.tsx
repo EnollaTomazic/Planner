@@ -34,7 +34,10 @@ export default function TodayCard() {
               <CircleSlash className="size-3" />
               No tasks
             </span>
-            <Link href="/planner" className="text-label underline">
+            <Link
+              href="/planner"
+              className="inline-flex items-center text-label font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent active:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:transition-none"
+            >
               Create
             </Link>
           </li>
