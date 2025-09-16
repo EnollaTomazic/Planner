@@ -156,7 +156,7 @@ export default function GoalsPage() {
     return sorted;
   }, [sorted, filter]);
   React.useEffect(() => {
-    const map: Record<Tab, React.RefObject<HTMLDivElement>> = {
+    const map: Record<Tab, React.RefObject<HTMLDivElement | null>> = {
       goals: goalsRef,
       reminders: remindersRef,
       timer: timerRef,

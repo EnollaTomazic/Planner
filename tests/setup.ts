@@ -37,9 +37,15 @@ vi.mock("react", async () => {
     return actual.createElement(type as ElementType, props as any, ...children);
   }) as ReactModule["createElement"];
 
+  const formatId = (value: string) =>
+    value.replace(/\u00ab/g, ":").replace(/\u00bb/g, ":");
+
+  const useId: ReactModule["useId"] = () => formatId(actual.useId());
+
   const patched = {
     ...actual,
     createElement,
+    useId,
   } as ReactModule & { default: ReactModule };
 
   return {

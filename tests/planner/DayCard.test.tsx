@@ -41,6 +41,15 @@ describe("DayCard", () => {
     let pid = "";
     act(() => {
       pid = harnessRef.current!.day.addProject("Proj");
+    });
+
+    await waitFor(() => {
+      expect(
+        harnessRef.current!.day.projects.some((project) => project.id === pid),
+      ).toBe(true);
+    });
+
+    act(() => {
       harnessRef.current!.setSelectedProjectId(pid);
     });
     expect(harnessRef.current!.selectedProjectId).toBe(pid);

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 
 type FrameElement = Extract<
-  keyof JSX.IntrinsicElements,
+  keyof React.JSX.IntrinsicElements,
   "div" | "header" | "section" | "nav" | "article" | "aside" | "main"
 >;
 

@@ -88,18 +88,18 @@ const AnimatedSelect = React.forwardRef<
       if (matchTriggerWidth) setMenuW(r.width);
     }, [matchTriggerWidth]);
 
-    const rafId = React.useRef<number>();
+    const rafId = React.useRef<number | null>(null);
     const scheduleMeasure = React.useCallback(() => {
-      if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+      if (rafId.current !== null) cancelAnimationFrame(rafId.current);
       rafId.current = requestAnimationFrame(() => {
-        rafId.current = undefined;
+        rafId.current = null;
         measure();
       });
     }, [measure]);
 
     React.useEffect(() => {
       return () => {
-        if (rafId.current !== undefined) cancelAnimationFrame(rafId.current);
+        if (rafId.current !== null) cancelAnimationFrame(rafId.current);
       };
     }, []);
 

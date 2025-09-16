@@ -23,7 +23,7 @@ function cx(...p: Array<string | false | null | undefined>) {
 }
 
 type HeroElement = Extract<
-  keyof JSX.IntrinsicElements,
+  keyof React.JSX.IntrinsicElements,
   "header" | "section" | "article" | "aside" | "div" | "main" | "nav"
 >;
 
@@ -105,7 +105,7 @@ function Hero<Key extends string = string>({
     ? "neo"
     : undefined;
 
-  const Component = (as ?? "section") as HeroElement;
+  const Component: HeroElement = as ?? "section";
 
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (

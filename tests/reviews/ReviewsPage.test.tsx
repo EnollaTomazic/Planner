@@ -5,6 +5,7 @@ import {
   fireEvent,
   cleanup,
   within,
+  act,
 } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { ReviewsPage } from "@/components/reviews";
@@ -73,8 +74,9 @@ describe("ReviewsPage", () => {
     const search = screen.getByRole("searchbox");
     vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "Gamma" } });
-    vi.advanceTimersByTime(250);
-    await Promise.resolve();
+    act(() => {
+      vi.advanceTimersByTime(250);
+    });
     expect(screen.getByText("Gamma")).toBeInTheDocument();
     expect(screen.queryByText("Alpha")).toBeNull();
     expect(screen.queryByText("Beta")).toBeNull();

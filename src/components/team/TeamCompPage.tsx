@@ -156,7 +156,7 @@ export default function TeamCompPage() {
     (): Array<
       HeaderTab<Tab> & {
         render: () => React.ReactNode;
-        ref: React.RefObject<HTMLDivElement>;
+        ref: React.RefObject<HTMLDivElement | null>;
       }
     > => [
       {
