@@ -22,7 +22,7 @@ export interface PageTabsProps {
   sticky?: boolean;
   /** CSS top offset when sticky (supports tokens) */
   topOffset?: string;
-  ariaLabel?: string;
+  ariaLabel: string;
 }
 
 /**
