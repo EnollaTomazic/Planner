@@ -28,6 +28,8 @@ export type SearchBarProps = Omit<
   loading?: boolean;
   /** Optional accessible label rendered above the input */
   label?: React.ReactNode;
+  /** Visual treatment of the field shell. */
+  variant?: "default" | "neo";
 };
 
 export default function SearchBar({
@@ -49,6 +51,7 @@ export default function SearchBar({
   loading,
   disabled,
   label,
+  variant = "default",
   ...rest
 }: SearchBarProps) {
   // Hydration-safe: initial render = prop value
@@ -85,6 +88,11 @@ export default function SearchBar({
   const ariaLabelledby = restProps["aria-labelledby"];
   const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
   const labelFor = resolvedId;
+  const variantFieldClasses =
+    variant === "neo"
+      ? "hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-inset hover:!shadow-neo-soft active:!shadow-neo-inset focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent]"
+      : undefined;
+
   const inputField = (
     <>
       <Search
@@ -103,7 +111,12 @@ export default function SearchBar({
         placeholder={placeholder}
         indent
         height={height}
-        className={cn("w-full", showClear && "pr-[var(--space-7)]", fieldClassName)}
+        className={cn(
+          "w-full",
+          showClear && "pr-[var(--space-7)]",
+          variantFieldClasses,
+          fieldClassName,
+        )}
         aria-label={
           !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
         }
