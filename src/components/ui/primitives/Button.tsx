@@ -61,7 +61,7 @@ export const colorVar: Record<Tone, string> = {
 };
 
 const primaryToneInteractionTokens =
-  "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]";
+  "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]";
 
 export const toneClasses: Record<
   NonNullable<ButtonProps["variant"]>,
@@ -76,19 +76,21 @@ export const toneClasses: Record<
   secondary: {
     primary: "text-foreground",
     accent:
-      "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-    info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+      "text-accent bg-accent/15 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+    info:
+      "text-accent-2 bg-accent-2/15 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:
-      "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+      "text-danger bg-danger/15 [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
   },
   ghost: {
     primary:
-      "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
+      "text-foreground [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
     accent:
-      "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
-    info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
+      "text-accent [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
+    info:
+      "text-accent-2 [--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
     danger:
-      "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
+      "text-danger [--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
   },
 };
 

@@ -37,7 +37,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
-                    ? "text-foreground border-ring shadow-[0_0_0_1px_hsl(var(--ring)/.35),0_8px_24px_hsl(var(--ring)/.2)]"
+                    ? "text-foreground border-ring shadow-nav-active"
                     : "text-muted-foreground border-transparent hover:border-border",
                 )}
               >

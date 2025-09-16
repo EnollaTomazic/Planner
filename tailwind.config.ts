@@ -63,6 +63,34 @@ const config: Config = {
         "lav-deep": "hsl(var(--lav-deep))",
         "surface-vhs": "hsl(var(--surface-vhs))",
         "surface-streak": "hsl(var(--surface-streak))",
+        interaction: {
+          primary: {
+            hover: "hsl(var(--accent) / 0.14)",
+            active: "hsl(var(--accent) / 0.2)",
+          },
+          accent: {
+            surfaceHover: "hsl(var(--accent) / 0.25)",
+            surfaceActive: "hsl(var(--accent) / 0.35)",
+            tintHover: "hsl(var(--accent) / 0.1)",
+            tintActive: "hsl(var(--accent) / 0.2)",
+          },
+          info: {
+            surfaceHover: "hsl(var(--accent-2) / 0.25)",
+            surfaceActive: "hsl(var(--accent-2) / 0.35)",
+            tintHover: "hsl(var(--accent-2) / 0.1)",
+            tintActive: "hsl(var(--accent-2) / 0.2)",
+          },
+          danger: {
+            surfaceHover: "hsl(var(--danger) / 0.25)",
+            surfaceActive: "hsl(var(--danger) / 0.35)",
+            tintHover: "hsl(var(--danger) / 0.1)",
+            tintActive: "hsl(var(--danger) / 0.2)",
+          },
+          foreground: {
+            tintHover: "hsl(var(--foreground) / 0.1)",
+            tintActive: "hsl(var(--foreground) / 0.2)",
+          },
+        },
       },
       borderRadius: borderRadiusTokens,
       boxShadow: {
@@ -79,6 +107,8 @@ const config: Config = {
         "glow-md": "0 0 16px var(--glow-active)",
         "glow-lg": "0 0 20px var(--glow-active)",
         "glow-xl": "0 8px 22px var(--glow-active)",
+        "nav-active":
+          "0 0 0 1px hsl(var(--ring)/0.35), 0 8px 24px hsl(var(--ring)/0.2)",
         "outline-subtle": "0 0 0 1px hsl(var(--border)/0.12)",
         "outline-faint": "0 0 0 1px hsl(var(--border)/0.08)",
         badge:
