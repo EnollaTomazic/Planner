@@ -20,7 +20,7 @@ describe("PageHeader", () => {
       <PageHeader header={baseHeader} hero={baseHero} />,
     );
 
-    expect(container.firstElementChild?.tagName).toBe("HEADER");
+    expect(container.firstElementChild?.tagName).toBe("SECTION");
 
     const headerHeading = screen.getByRole("heading", { level: 1, name: "Overview" });
     const headerElement = headerHeading.closest<HTMLElement>("header");
@@ -28,8 +28,8 @@ describe("PageHeader", () => {
     expect(headerElement?.className).not.toContain("after:");
 
     const heroHeading = screen.getByRole("heading", { level: 2, name: "Team roadmap" });
-    const heroHeader = heroHeading.closest<HTMLElement>("header");
-    expect(heroHeader).not.toBeNull();
+    const heroSection = heroHeading.closest<HTMLElement>("section");
+    expect(heroSection).not.toBeNull();
 
     const heroFrame = heroHeading.closest<HTMLElement>("div.hero2-frame");
     expect(heroFrame).not.toBeNull();
