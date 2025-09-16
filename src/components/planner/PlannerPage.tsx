@@ -23,13 +23,17 @@ import { PageHeader } from "@/components/ui";
 import PageShell from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
-import { addDays, toISODate } from "@/lib/date";
+import { addDays, formatWeekRangeLabel, toISODate } from "@/lib/date";
 
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
   const { iso, today, setIso } = useFocusDate();
-  const { start, days } = useWeek(iso);
+  const { start, end, days } = useWeek(iso);
+  const weekAnnouncement = React.useMemo(
+    () => formatWeekRangeLabel(start, end),
+    [start, end],
+  );
 
   // Derive once per week change; keeps list stable during edits elsewhere
   const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
@@ -39,13 +43,13 @@ function Inner() {
 
   const prevWeek = React.useCallback(() => {
     setIso(toISODate(addDays(start, -7)));
-  }, [start, setIso]);
+  }, [setIso, start]);
   const nextWeek = React.useCallback(() => {
     setIso(toISODate(addDays(start, 7)));
-  }, [start, setIso]);
+  }, [setIso, start]);
   const jumpToday = React.useCallback(() => {
     setIso(today);
-  }, [today, setIso]);
+  }, [setIso, today]);
 
   const heroRef = React.useRef<HTMLDivElement>(null);
 
@@ -101,7 +105,14 @@ function Inner() {
             barClassName: "hidden",
             className: "planner-header__hero",
             heading: <span className="sr-only">Week picker</span>,
-            children: <WeekPicker />,
+            children: (
+              <>
+                <WeekPicker />
+                <div aria-live="polite" className="sr-only">
+                  {weekAnnouncement}
+                </div>
+              </>
+            ),
           }}
         />
 
