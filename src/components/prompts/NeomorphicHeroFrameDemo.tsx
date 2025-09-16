@@ -42,6 +42,7 @@ export default function NeomorphicHeroFrameDemo() {
               value={activeView}
               onValueChange={(key) => setActiveView(key as MissionView)}
               ariaLabel="Switch mission focus"
+              variant="neo"
               right={
                 <Button
                   variant="ghost"
@@ -124,6 +125,7 @@ export default function NeomorphicHeroFrameDemo() {
               onValueChange={(key) => setStatus(key as MissionStatus)}
               ariaLabel="Filter mission status"
               size="sm"
+              variant="neo"
             />
           ),
           search: (

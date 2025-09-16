@@ -18,6 +18,8 @@ export type TabItem<K extends string = string> = {
   icon?: React.ReactNode;
   disabled?: boolean;
   badge?: React.ReactNode;
+  /** When true, the tab enters a loading state and becomes inert. */
+  loading?: boolean;
   className?: string;
   /** Optional explicit id for the tab button; defaults to `${key}-tab`. */
   id?: string;
@@ -62,6 +64,66 @@ const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   },
 };
 
+const tablistBase = cn(
+  "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
+  "bg-[var(--tablist-bg)] shadow-[var(--tablist-shadow)] transition-[background,box-shadow] duration-[var(--dur-quick)] ease-out",
+  "motion-reduce:transition-none",
+);
+
+const tablistVariants: Record<Variant, string> = {
+  default: cn(
+    "border-border/30",
+    "[--tablist-bg:hsl(var(--card)/0.6)]",
+    "[--tablist-shadow:inset_0_1px_0_hsl(var(--highlight)/0.05),inset_0_-1px_0_hsl(var(--border)/0.14)]",
+    "[--hover:theme('colors.interaction.foreground.tintHover')]",
+    "[--active:theme('colors.interaction.foreground.tintActive')]",
+    "[--focus:hsl(var(--ring))]",
+  ),
+  neo: cn(
+    "hero2-frame border-border/40 backdrop-blur-[2px]",
+    "[--tablist-bg:linear-gradient(145deg,hsl(var(--card)/0.92),hsl(var(--panel)/0.82))]",
+    "[--tablist-shadow:inset_4px_4px_10px_hsl(var(--panel)/0.85),inset_-4px_-4px_10px_hsl(var(--highlight)/0.07),0_18px_32px_hsl(var(--shadow-color)/0.28)]",
+    "[--hover:transparent]",
+    "[--active:transparent]",
+    "[--focus:hsl(var(--ring))]",
+  ),
+};
+
+const tabBase = cn(
+  "relative inline-flex select-none items-center justify-center rounded-full",
+  "bg-[var(--tab-bg)] text-foreground/75",
+  "transition-[color,background,box-shadow] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+  "shadow-[var(--tab-shadow)] hover:shadow-[var(--tab-shadow-hover)] active:shadow-[var(--tab-shadow-active)]",
+  "hover:text-foreground",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
+  "data-[active=true]:bg-[var(--tab-bg-active)] data-[active=true]:hover:bg-[var(--tab-bg-active)] data-[active=true]:active:bg-[var(--tab-bg-active)]",
+  "data-[active=true]:text-foreground data-[active=true]:shadow-[var(--tab-shadow-active)]",
+  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none data-[loading=true]:cursor-progress",
+);
+
+const tabVariants: Record<Variant, string> = {
+  default: cn(
+    "text-foreground/70",
+    "[--tab-bg:transparent]",
+    "[--tab-bg-active:var(--seg-active-grad)]",
+    "[--tab-shadow:inset_0_1px_0_hsl(var(--border)/0.2)]",
+    "[--tab-shadow-hover:inset_0_1px_0_hsl(var(--border)/0.28)]",
+    "[--tab-shadow-active:0_0_0_1px_hsl(var(--ring)/0.35),0_12px_22px_hsl(var(--ring-muted)/0.18)]",
+    "hover:bg-[--hover] active:bg-[--active]",
+  ),
+  neo: cn(
+    "text-foreground/80",
+    "[--tab-bg:linear-gradient(145deg,hsl(var(--card)/0.94),hsl(var(--panel)/0.82))]",
+    "[--tab-bg-active:var(--seg-active-grad)]",
+    "[--tab-shadow:inset_3px_3px_8px_hsl(var(--panel)/0.82),inset_-3px_-3px_8px_hsl(var(--highlight)/0.07),0_12px_24px_hsl(var(--shadow-color)/0.22)]",
+    "[--tab-shadow-hover:inset_2px_2px_6px_hsl(var(--panel)/0.78),inset_-2px_-2px_6px_hsl(var(--highlight)/0.06),0_16px_28px_hsl(var(--shadow-color)/0.25)]",
+    "[--tab-shadow-active:0_0_0_1px_hsl(var(--ring)/0.55),0_18px_36px_hsl(var(--shadow-color)/0.3)]",
+    "hover:bg-[var(--tab-bg)] active:bg-[var(--tab-bg)]",
+    "data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]",
+  ),
+};
+
 export default function TabBar<K extends string = string>({
   items,
   value,
@@ -81,7 +143,9 @@ export default function TabBar<K extends string = string>({
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
     if (defaultValue) return defaultValue;
-    return (items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? "") as K;
+    return (
+      items.find((i) => !i.disabled && !i.loading)?.key ?? items[0]?.key ?? ""
+    ) as K;
   });
 
   const activeKey = isControlled ? (value as K) : internal;
@@ -111,7 +175,7 @@ export default function TabBar<K extends string = string>({
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
 
-    const enabled = items.filter((i) => !i.disabled);
+    const enabled = items.filter((i) => !i.disabled && !i.loading);
     const curIndex = enabled.findIndex((i) => i.key === activeKey);
     if (enabled.length === 0) return;
 
@@ -137,7 +201,6 @@ export default function TabBar<K extends string = string>({
   }[align];
 
   const s = sizeMap[size];
-  const isNeo = variant === "neo";
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -155,45 +218,41 @@ export default function TabBar<K extends string = string>({
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
           data-variant={variant}
-          className={cn(
-            "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
-            isNeo
-              ? "hero2-frame border-border/40 bg-card/70 shadow-neo-inset [--hover:transparent] [--active:transparent]"
-              : "border-border/30 bg-card/60 shadow-inner",
-          )}
+          className={cn(tablistBase, tablistVariants[variant])}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
             const tabId = `${uid}-${item.id ?? `${item.key}-tab`}`;
             const panelId = `${uid}-${item.controls ?? `${item.key}-panel`}`;
+            const isLoading = Boolean(item.loading);
+            const isDisabled = Boolean(item.disabled || isLoading);
             return (
               <button
                 key={item.key}
                 id={linkPanels ? tabId : undefined}
                 role="tab"
                 type="button"
-                disabled={item.disabled}
+                disabled={isDisabled}
                 aria-selected={active}
-                aria-disabled={item.disabled || undefined}
+                aria-disabled={isDisabled || undefined}
                 aria-controls={linkPanels ? panelId : undefined}
-                tabIndex={item.disabled ? -1 : active ? 0 : -1}
+                aria-busy={isLoading || undefined}
+                tabIndex={isDisabled ? -1 : active ? 0 : -1}
                 ref={(el) => {
                   tabRefs.current[item.key] = el;
                 }}
-                onClick={() => !item.disabled && commitValue(item.key)}
+                data-loading={isLoading || undefined}
+                onClick={() => {
+                  if (isDisabled) return;
+                  commitValue(item.key);
+                }}
                 className={cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
+                  tabBase,
                   s.h,
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
-                  isNeo
-                    ? "shadow-neo-inset hover:shadow-neo-soft active:shadow-neo-inset data-[active=true]:shadow-neo data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
-                    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] data-[active=true]:shadow-ring",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
-                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
-                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+                  tabVariants[variant],
                   item.className,
                 )}
                 data-active={active || undefined}
