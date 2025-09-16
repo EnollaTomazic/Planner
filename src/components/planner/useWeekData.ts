@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { type ISODate } from "./plannerStore";
+import { ensureDay, type ISODate } from "./plannerStore";
 import { usePlannerStore } from "./usePlannerStore";
 
 export function useWeekData(days: ISODate[]) {
@@ -11,12 +11,11 @@ export function useWeekData(days: ISODate[]) {
     let weekDone = 0;
     let weekTotal = 0;
     const per = days.map((iso) => {
-      const rec = map[iso];
-      const done = rec?.doneCount ?? 0;
-      const total = rec?.totalCount ?? 0;
-      weekDone += done;
-      weekTotal += total;
-      return { iso, done, total };
+      const record = ensureDay(map, iso);
+      const { doneCount, totalCount } = record;
+      weekDone += doneCount;
+      weekTotal += totalCount;
+      return { iso, done: doneCount, total: totalCount };
     });
     return { per, weekDone, weekTotal };
   }, [days, map]);
