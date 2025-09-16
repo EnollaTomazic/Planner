@@ -39,6 +39,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-beams {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-beam-pan {
@@ -78,6 +79,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-scanlines {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-scan-move {
@@ -108,6 +110,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         .hero2-noise {
           animation: none;
           background-position: 0 0;
+          display: none;
         }
       }
       @keyframes hero2-noise-shift {
@@ -128,10 +131,44 @@ exports[`ReviewsPage > renders default state 1`] = `
             var(--space-2) hsl(var(--highlight) / 0.05),
           0 0 var(--space-4) hsl(var(--ring) / 0.25);
       }
+      @media (prefers-contrast: more) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: hsl(var(--foreground) / 0.7) !important;
+        }
+        .hero2-neomorph {
+          box-shadow:
+            inset var(--space-1) var(--space-1) var(--space-2)
+              hsl(var(--background) / 0.65),
+            inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+              var(--space-2) hsl(var(--highlight) / 0.08),
+            0 0 0 1px hsl(var(--ring) / 0.7),
+            0 0 var(--space-5) hsl(var(--ring) / 0.5);
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: CanvasText !important;
+          background: Canvas !important;
+        }
+        .hero2-neomorph {
+          background: Canvas !important;
+          box-shadow: none !important;
+        }
+      }
     
       </style>
       <div
-        class="overflow-hidden hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] sticky top-0 rounded-card r-card-lg px-4 py-4"
+        class="overflow-hidden hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] sticky top-0 rounded-card r-card-lg px-4 py-4"
       >
         <span
           aria-hidden="true"
@@ -300,6 +337,26 @@ exports[`ReviewsPage > renders default state 1`] = `
       .neon-life {
         --neon: var(--accent);
       }
+      @media (prefers-contrast: more) {
+        .hero2-divider-line {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.85 !important;
+        }
+        .hero2-divider-glow {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.9 !important;
+          filter: none !important;
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-divider-line {
+          background-color: CanvasText !important;
+          opacity: 1 !important;
+        }
+        .hero2-divider-glow {
+          display: none !important;
+        }
+      }
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,
         .hero2-title::after {
@@ -341,6 +398,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-beams {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-beam-pan {
@@ -380,6 +438,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       @media (prefers-reduced-motion: reduce) {
         .hero2-scanlines {
           animation: none;
+          display: none;
         }
       }
       @keyframes hero2-scan-move {
@@ -410,6 +469,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         .hero2-noise {
           animation: none;
           background-position: 0 0;
+          display: none;
         }
       }
       @keyframes hero2-noise-shift {
@@ -429,6 +489,40 @@ exports[`ReviewsPage > renders default state 1`] = `
           inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
             var(--space-2) hsl(var(--highlight) / 0.05),
           0 0 var(--space-4) hsl(var(--ring) / 0.25);
+      }
+      @media (prefers-contrast: more) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: hsl(var(--foreground) / 0.7) !important;
+        }
+        .hero2-neomorph {
+          box-shadow:
+            inset var(--space-1) var(--space-1) var(--space-2)
+              hsl(var(--background) / 0.65),
+            inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
+              var(--space-2) hsl(var(--highlight) / 0.08),
+            0 0 0 1px hsl(var(--ring) / 0.7),
+            0 0 var(--space-5) hsl(var(--ring) / 0.5);
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-beams,
+        .hero2-scanlines,
+        .hero2-noise {
+          display: none !important;
+        }
+        .hero2-frame {
+          border-color: CanvasText !important;
+          background: Canvas !important;
+        }
+        .hero2-neomorph {
+          background: Canvas !important;
+          box-shadow: none !important;
+        }
       }
     
               </style>
@@ -476,11 +570,11 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <span
                       aria-hidden="true"
-                      class="block h-px bg-[hsl(var(--divider))/0.35]"
+                      class="hero2-divider-line block h-px bg-[hsl(var(--divider))/0.35]"
                     />
                     <span
                       aria-hidden="true"
-                      class="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                      class="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                     />
                     <div
                       class="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
@@ -515,7 +609,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             />
                           </svg>
                           <div
-                            class="relative inline-flex items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full rounded-full [&>input]:rounded-full"
+                            class="relative inline-flex items-center border bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 w-full hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-inset hover:!shadow-neo-soft active:!shadow-neo-inset focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                             style="--control-h: var(--control-h-md);"
                           >
                             <input

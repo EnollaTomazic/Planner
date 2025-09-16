@@ -68,6 +68,7 @@ export interface HeroProps<Key extends string = string>
     align?: TabBarProps["align"];
     className?: string;
     showBaseline?: boolean;
+    variant?: TabBarProps["variant"];
   };
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
@@ -100,6 +101,10 @@ function Hero<Key extends string = string>({
     "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
   } as React.CSSProperties;
 
+  const heroVariant: TabBarProps["variant"] | undefined = frame
+    ? "neo"
+    : undefined;
+
   const Component = (as ?? "section") as HeroElement;
 
   // Compose right area: prefer built-in sub-tabs if provided.
@@ -116,6 +121,7 @@ function Hero<Key extends string = string>({
       align={subTabs.align ?? "end"}
       right={subTabs.right}
       showBaseline={subTabs.showBaseline ?? true}
+      variant={subTabs.variant ?? heroVariant}
       className={cx("justify-end", subTabs.className)}
       ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
     />
@@ -127,6 +133,7 @@ function Hero<Key extends string = string>({
       size={tabs.size ?? "md"}
       align={tabs.align ?? "end"}
       showBaseline={tabs.showBaseline ?? true}
+      variant={tabs.variant ?? heroVariant}
       className={cx("justify-end", tabs.className)}
       ariaLabel="Hero tabs"
     />
@@ -137,6 +144,7 @@ function Hero<Key extends string = string>({
       ? {
           ...search,
           round: search.round ?? true,
+          variant: search.variant ?? heroVariant,
         }
       : search;
 
@@ -149,7 +157,7 @@ function Hero<Key extends string = string>({
         className={cx(
           sticky ? "sticky-blur" : "",
           frame
-            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-neomorph"
+            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
             : "",
           sticky && topClassName,
         )}
@@ -209,11 +217,11 @@ function Hero<Key extends string = string>({
               <div className="relative" style={dividerStyle}>
                 <span
                   aria-hidden
-                  className="block h-px bg-[hsl(var(--divider))/0.35]"
+                  className="hero2-divider-line block h-px bg-[hsl(var(--divider))/0.35]"
                 />
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                  className="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                 />
                 <div className="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]">
                   {searchProps ? <HeroSearchBar {...searchProps} /> : null}
@@ -258,6 +266,7 @@ export function HeroTabs<K extends string>(props: {
   size?: TabBarProps["size"];
   right?: React.ReactNode;
   showBaseline?: boolean;
+  variant?: TabBarProps["variant"];
 }) {
   const {
     tabs,
@@ -269,6 +278,7 @@ export function HeroTabs<K extends string>(props: {
     size = "md",
     right,
     showBaseline = false,
+    variant,
   } = props;
 
   const items: TabItem[] = React.useMemo(
@@ -294,6 +304,7 @@ export function HeroTabs<K extends string>(props: {
       ariaLabel={ariaLabel}
       className={className}
       showBaseline={showBaseline}
+      variant={variant}
     />
   );
 }
@@ -302,17 +313,27 @@ export function HeroTabs<K extends string>(props: {
 export function HeroSearchBar({
   className,
   round,
+  variant,
+  fieldClassName,
   ...props
 }: SearchBarProps & { className?: string; round?: boolean }) {
+  const resolvedVariant = variant ?? (round ? "neo" : undefined);
+  const isNeo = resolvedVariant === "neo";
+
   return (
     <SearchBar
       {...props}
+      variant={resolvedVariant}
       className={cx(
         "w-full max-w-[calc(var(--space-8)*10)]",
         round && "rounded-full",
         className,
       )}
-      fieldClassName={round ? "rounded-full [&>input]:rounded-full" : undefined}
+      fieldClassName={cx(
+        round && "rounded-full [&>input]:rounded-full",
+        isNeo && "overflow-hidden hero2-frame",
+        fieldClassName,
+      )}
     />
   );
 }
@@ -406,6 +427,26 @@ export function HeroGlitchStyles() {
       }
       .neon-life {
         --neon: var(--accent);
+      }
+      @media (prefers-contrast: more) {
+        .hero2-divider-line {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.85 !important;
+        }
+        .hero2-divider-glow {
+          background-color: hsl(var(--foreground)) !important;
+          opacity: 0.9 !important;
+          filter: none !important;
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-divider-line {
+          background-color: CanvasText !important;
+          opacity: 1 !important;
+        }
+        .hero2-divider-glow {
+          display: none !important;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .hero2-title::before,
