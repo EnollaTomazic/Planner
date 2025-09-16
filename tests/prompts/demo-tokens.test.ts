@@ -8,6 +8,26 @@ import {
   radiusScale,
 } from "../../src/lib/tokens";
 
+const flattenColorTokens = (
+  value: Record<string, unknown>,
+  path: string[] = [],
+): string[] => {
+  return Object.entries(value).flatMap(([key, entry]) => {
+    if (typeof entry === "string") {
+      const segments = [...path];
+      if (key !== "DEFAULT") {
+        segments.push(key);
+      }
+      const token = segments.join("-");
+      return [`bg-${token}`];
+    }
+    if (entry && typeof entry === "object") {
+      return flattenColorTokens(entry as Record<string, unknown>, [...path, key]);
+    }
+    return [];
+  });
+};
+
 describe("demo tokens", () => {
   const tw = config as Config;
 
@@ -38,7 +58,7 @@ describe("demo tokens", () => {
 
   it("use colors defined in tailwind config", () => {
     const colors = (tw.theme?.extend?.colors as Record<string, unknown>) ?? {};
-    const expected = Object.keys(colors).map((name) => `bg-${name}`);
+    const expected = flattenColorTokens(colors);
     expected.forEach((token) => expect(colorTokens).toContain(token));
   });
 });
