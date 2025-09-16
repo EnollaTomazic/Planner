@@ -59,6 +59,11 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
+          <div aria-hidden className="page-backdrop">
+            <div className="page-shell">
+              <div className="page-backdrop__layer" />
+            </div>
+          </div>
           <SiteChrome />
           <CatCompanion />
           <div id="main-content" tabIndex={-1} className="relative z-10">
