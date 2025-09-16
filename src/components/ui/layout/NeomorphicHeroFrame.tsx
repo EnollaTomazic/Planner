@@ -252,7 +252,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           ref={ref}
           className={cn(
             "relative",
-            showFrame && "overflow-hidden hero2-neomorph",
+            showFrame && "overflow-hidden hero2-frame hero2-neomorph",
             variantStyles?.container,
             contrastStyles?.container,
             variantStyles?.padding,
