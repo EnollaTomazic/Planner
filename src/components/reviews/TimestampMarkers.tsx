@@ -183,7 +183,9 @@ function TimestampMarkers(
               pattern="^[0-9]?\d:[0-5]\d$"
               aria-invalid={timeError ? "true" : undefined}
               aria-describedby={timeError ? "tTime-error" : undefined}
-              style={{ width: "calc(5ch + 1.7rem)" }}
+              style={{
+                width: "calc(5ch + var(--space-5) + (var(--space-1) * 4 / 5))",
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && canAddMarker) {
                   e.preventDefault();
