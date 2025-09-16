@@ -30,8 +30,9 @@ export default function TaskRow({
   onAddImage,
   onRemoveImage,
 }: Props) {
-  const taskImageSize = spacingTokens[6];
-  const taskImageCssValue = "var(--space-7)" as const;
+  const taskImageSpacingToken = 7;
+  const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
+  const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
