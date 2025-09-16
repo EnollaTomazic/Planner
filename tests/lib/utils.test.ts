@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { cn, slugify, sanitizeText } from "../../src/lib/utils";
+import { afterEach, describe, it, expect, vi } from "vitest";
+import { cn, slugify, sanitizeText, safeClone } from "../../src/lib/utils";
 
 describe("cn", () => {
   it("handles strings", () => {
@@ -71,5 +71,26 @@ describe("sanitizeText", () => {
     for (const [input, expected] of cases) {
       expect(sanitizeText(input)).toBe(expected);
     }
+  });
+});
+
+describe("safeClone", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("returns undefined when cloning fails", () => {
+    const failingClone = vi.fn(() => {
+      throw new Error("clone error");
+    });
+    vi.stubGlobal(
+      "structuredClone",
+      failingClone as unknown as typeof structuredClone,
+    );
+
+    const value = { amount: BigInt(1) };
+
+    expect(safeClone(value)).toBeUndefined();
+    expect(failingClone).toHaveBeenCalledWith(value);
   });
 });

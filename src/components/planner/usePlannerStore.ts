@@ -88,7 +88,6 @@ export function usePlannerStore() {
       }
 
       applyDaysUpdate((prev) => migrateLegacy(prev, focus));
-      legacyMigrated = true;
     }
   }, [applyDaysUpdate, focus]);
 
