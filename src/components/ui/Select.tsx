@@ -142,6 +142,8 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               "text-label mt-1 line-clamp-2",
               errorText ? "text-danger" : "text-muted-foreground",
             )}
+            role="alert"
+            aria-live={errorText ? "assertive" : "polite"}
           >
             {errorText || helperText}
           </p>
