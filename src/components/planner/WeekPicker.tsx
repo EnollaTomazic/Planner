@@ -181,7 +181,12 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         <span className="tabular-nums">{done}</span>
         <span className="text-foreground/70"> / {total}</span>
       </div>
-      <span id={instructionsId} className="sr-only">
+      <span
+        id={instructionsId}
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {instructionsText}
       </span>
       {/* decorative layers */}

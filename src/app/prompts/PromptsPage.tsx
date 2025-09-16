@@ -190,16 +190,11 @@ function PageContent() {
                 tone="accent"
                 size="sm"
                 aria-label="Accent color preview: Accent 3"
-                className="bg-accent-soft/20 text-[color:var(--text-on-accent)]"
-                style={{
-                  backgroundColor:
-                    "color-mix(in oklab, var(--accent-overlay) 32%, transparent)",
-                }}
+                className="bg-interaction-accent-surfaceHover text-[color:var(--text-on-accent)]"
               >
                 <span
                   aria-hidden="true"
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: "hsl(var(--accent-3))" }}
+                  className="h-2 w-2 rounded-full bg-[hsl(var(--accent-3))]"
                 />
                 Accent 3
               </Badge>

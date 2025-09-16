@@ -337,7 +337,7 @@ export default function ComponentGallery() {
             />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "Textarea Variants",
@@ -360,7 +360,7 @@ export default function ComponentGallery() {
             </Input>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "AnimatedSelect",
@@ -406,7 +406,7 @@ export default function ComponentGallery() {
             <SectionCard.Body />
           </SectionCard>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Compose",
@@ -420,7 +420,7 @@ export default function ComponentGallery() {
             />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Demos",
@@ -429,7 +429,7 @@ export default function ComponentGallery() {
             <PromptsDemos />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Prompts Layout",
@@ -449,7 +449,7 @@ export default function ComponentGallery() {
             </div>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
     ],
     [pillars],
@@ -517,7 +517,7 @@ export default function ComponentGallery() {
             onAdd={() => ""}
           />
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "TaskList",
@@ -535,7 +535,7 @@ export default function ComponentGallery() {
             setSelectedTaskId={() => {}}
           />
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "DayRow",
@@ -544,7 +544,7 @@ export default function ComponentGallery() {
             <DayRow iso="2024-01-01" isToday={false} />
           </PlannerProvider>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "ScrollTopFloatingButton",
@@ -666,7 +666,7 @@ export default function ComponentGallery() {
             </div>
           </PageShell>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "TitleBar",
@@ -707,7 +707,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewPanel",
         element: <ReviewPanel>Content</ReviewPanel>,
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Review Layout",
@@ -717,7 +717,7 @@ export default function ComponentGallery() {
             <div className="md:col-span-8 bg-muted h-10 rounded-md" />
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3 w-full",
+        className: "sm:col-span-12 md:col-span-12 w-full",
       },
       {
         label: "Snackbar",
@@ -925,7 +925,7 @@ export default function ComponentGallery() {
             </div>
           </div>
         ),
-        className: "sm:col-span-2 md:col-span-3",
+        className: "sm:col-span-12 md:col-span-12",
       },
     ],
     [headerTab],
@@ -950,12 +950,15 @@ export default function ComponentGallery() {
         onValueChange={setView}
         ariaLabel="Component gallery"
       />
-      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-12 gap-8">
         {itemsMap[view].map((item) => (
           <GalleryItem
             key={item.label}
             label={item.label}
-            className={item.className}
+            className={cn(
+              "col-span-12 sm:col-span-6 md:col-span-4",
+              item.className,
+            )}
           >
             {item.element}
           </GalleryItem>
