@@ -122,14 +122,14 @@ export default function Header<Key extends string = string>({
 
   const barPadding = compact
     ? isMinimal
-      ? "px-4 py-[var(--space-3)]"
-      : "px-3 sm:px-4 py-[var(--space-3)]"
+      ? "px-[var(--space-4)] py-[var(--space-3)]"
+      : "px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)]"
     : isMinimal
-      ? "px-4 py-4"
-      : "px-3 sm:px-4 py-3 sm:py-4";
+      ? "px-[var(--space-4)] py-[var(--space-4)]"
+      : "px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)] sm:py-[var(--space-4)]";
   const minHeightClass = compact
     ? "min-h-[var(--control-h-sm)]"
-    : "min-h-12";
+    : "min-h-[var(--space-7)]";
 
   return (
     <header
@@ -151,16 +151,16 @@ export default function Header<Key extends string = string>({
       <div
         className={cx(
           sticky && cx("sticky", topClassName),
-          "relative flex items-center gap-3 sm:gap-4",
+          "relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
           barPadding,
           minHeightClass,
-          hasNav && "flex-wrap gap-y-2 sm:flex-nowrap",
+          hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
           barClassName,
         )}
       >
         {rail ? (
           <div
-            className="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
+            className="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
             aria-hidden
           />
         ) : null}
@@ -168,19 +168,19 @@ export default function Header<Key extends string = string>({
         {/* Left: icon + text */}
         <div
           className={cx(
-            "flex min-w-0 flex-1 items-center gap-3 sm:gap-4",
-            hasNav && "flex-wrap gap-y-2 sm:flex-nowrap",
+            "flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
+            hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
           )}
         >
-          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <div className="flex min-w-0 items-center gap-[var(--space-2)] sm:gap-[var(--space-3)]">
             {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
             <div className="min-w-0">
               {eyebrow ? (
-                <div className="mb-1 truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
+                <div className="mb-[var(--space-1)] truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
                   {eyebrow}
                 </div>
               ) : null}
-              <div className="flex min-w-0 items-baseline gap-2">
+              <div className="flex min-w-0 items-baseline gap-[var(--space-2)]">
                 <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
                   {heading}
                 </h1>
@@ -195,7 +195,7 @@ export default function Header<Key extends string = string>({
           {hasNav ? (
             <div
               className={cx(
-                "flex min-w-0 flex-1 items-center gap-1 overflow-x-auto whitespace-nowrap text-label font-medium text-muted-foreground sm:text-ui sm:overflow-visible",
+                "flex min-w-0 flex-1 items-center gap-[var(--space-1)] overflow-x-auto whitespace-nowrap text-label font-medium text-muted-foreground sm:text-ui sm:overflow-visible",
                 "[&_[data-state=active]]:text-foreground [&_[data-state=active]]:opacity-100",
                 "[&_[data-state=inactive]]:text-muted-foreground [&_[data-state=inactive]:hover]:text-foreground [&_[data-state=inactive]:focus-visible]:text-foreground",
               )}
@@ -208,15 +208,15 @@ export default function Header<Key extends string = string>({
 
         {/* Right slot / tabs */}
         {showRightStack ? (
-          <div className="ml-auto flex min-w-0 items-center gap-3 sm:gap-4">
+          <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]">
             {hasTabs ? tabControl : null}
             {hasRight ? (
-              <div className="flex shrink-0 items-center gap-2">{right}</div>
+              <div className="flex shrink-0 items-center gap-[var(--space-2)]">{right}</div>
             ) : null}
             {hasUtilities ? (
               <div
                 className={cx(
-                  "flex shrink-0 items-center gap-2 text-muted-foreground",
+                  "flex shrink-0 items-center gap-[var(--space-2)] text-muted-foreground",
                   "[&_[data-state=active]]:text-foreground [&_[data-state=open]]:text-foreground",
                 )}
                 data-slot="utilities"
@@ -233,7 +233,9 @@ export default function Header<Key extends string = string>({
         <div
           className={cx(
             "relative",
-            isMinimal ? "px-4 py-4" : "px-3 py-3 sm:px-4 sm:py-4",
+            isMinimal
+              ? "px-[var(--space-4)] py-[var(--space-4)]"
+              : "px-[var(--space-3)] py-[var(--space-3)] sm:px-[var(--space-4)] sm:py-[var(--space-4)]",
             bodyClassName,
           )}
         >

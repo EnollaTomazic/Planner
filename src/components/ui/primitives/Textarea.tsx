@@ -21,7 +21,7 @@ export type TextareaProps =
   };
 
 const INNER =
-  "block w-full max-w-full min-h-7 px-3 py-3 text-body bg-transparent " +
+  "block w-full max-w-full min-h-[var(--space-7)] px-[var(--space-3)] py-[var(--space-3)] text-body bg-transparent " +
   "text-foreground placeholder:text-muted-foreground/70 " +
   "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default";
 

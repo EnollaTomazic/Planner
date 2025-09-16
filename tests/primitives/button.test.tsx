@@ -52,9 +52,9 @@ describe("Button", () => {
   });
 
   it.each<[ButtonSize, string]>([
-    ["sm", "[&_svg]:size-4"],
-    ["md", "[&_svg]:size-5"],
-    ["lg", "[&_svg]:size-8"],
+    ["sm", "[&_svg]:size-[var(--space-4)]"],
+    ["md", "[&_svg]:size-[var(--space-5)]"],
+    ["lg", "[&_svg]:size-[var(--space-8)]"],
   ])("applies %s icon sizing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>
@@ -65,9 +65,9 @@ describe("Button", () => {
   });
 
   it.each<[ButtonSize, string]>([
-    ["sm", "[&_svg]:size-4"],
-    ["md", "[&_svg]:size-5"],
-    ["lg", "[&_svg]:size-8"],
+    ["sm", "[&_svg]:size-[var(--space-4)]"],
+    ["md", "[&_svg]:size-[var(--space-5)]"],
+    ["lg", "[&_svg]:size-[var(--space-8)]"],
   ])("applies %s icon sizing for wrapped icons", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>
@@ -80,9 +80,9 @@ describe("Button", () => {
   });
 
   it.each<[ButtonSize, string]>([
-    ["sm", "gap-1"],
-    ["md", "gap-2"],
-    ["lg", "gap-4"],
+    ["sm", "gap-[var(--space-1)]"],
+    ["md", "gap-[var(--space-2)]"],
+    ["lg", "gap-[var(--space-4)]"],
   ])("applies %s gap spacing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>

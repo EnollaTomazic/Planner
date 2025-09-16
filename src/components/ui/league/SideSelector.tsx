@@ -92,7 +92,7 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
         style={{
           width: "calc(50% - var(--space-1))",
           transform: `translateX(${
@@ -108,7 +108,7 @@ export default function SideSelector({
       <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
         <div
           className={cn(
-            "py-2 text-center transition-colors",
+            "py-[var(--space-2)] text-center transition-colors",
             !isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
           style={{
@@ -121,7 +121,7 @@ export default function SideSelector({
         </div>
         <div
           className={cn(
-            "py-2 text-center transition-colors",
+            "py-[var(--space-2)] text-center transition-colors",
             isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
           style={{
