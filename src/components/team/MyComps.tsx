@@ -14,6 +14,7 @@ import "./style.css";
 
 import * as React from "react";
 import { usePersistentState, uid } from "@/lib/db";
+import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -78,17 +79,6 @@ const SEEDS: TeamComp[] = [
 ];
 
 /* ───────────── Utils ───────────── */
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
-function isStringArray(v: unknown): v is string[] {
-  return Array.isArray(v) && v.every((x) => typeof x === "string");
-}
-function safeNumber(v: unknown, fallback: number): number {
-  const n = typeof v === "number" ? v : Number.NaN;
-  return Number.isFinite(n) ? n : fallback;
-}
 
 function stringify(c: TeamComp) {
   const body = ROLES.map((r) => `${r}: ${c.roles[r]?.join(", ") || "-"}`).join(
