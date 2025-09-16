@@ -47,9 +47,14 @@ export default function ThemeToggle({
   const prevBgRef = React.useRef<Background>(bg);
   const initializedRef = React.useRef(false);
 
-  function setVariantPersist(v: Variant) {
-    setState((prev) => ({ variant: v, bg: prev.bg }));
-  }
+  const setVariantPersist = React.useCallback(
+    (v: Variant) => setState((prev) => ({ variant: v, bg: prev.bg })),
+    [setState],
+  );
+  const handleChange = React.useCallback(
+    (v: string) => setVariantPersist(v as Variant),
+    [setVariantPersist],
+  );
   const items: SelectItem[] = React.useMemo(
     () =>
       VARIANTS.map((v) => ({
@@ -138,7 +143,7 @@ export default function ThemeToggle({
         ariaLabel={aria}
         items={items}
         value={variant}
-        onChange={(v) => setVariantPersist(v as Variant)}
+        onChange={handleChange}
         buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !w-auto"
         matchTriggerWidth={false}
         align="right"
