@@ -43,9 +43,9 @@ export type TabBarProps<K extends string = string> = {
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
-  sm: { h: "h-8", px: "px-3", text: "text-sm" },
-  md: { h: "h-10", px: "px-4", text: "text-sm" },
-  lg: { h: "h-11", px: "px-8", text: "text-base" },
+  sm: { h: "h-8", px: "px-3", text: "text-ui" },
+  md: { h: "h-10", px: "px-4", text: "text-ui" },
+  lg: { h: "h-11", px: "px-8", text: "text-body" },
 };
 
 export default function TabBar<K extends string = string>({
@@ -181,7 +181,7 @@ export default function TabBar<K extends string = string>({
                 )}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full px-2 py-1 text-xs leading-none bg-primary-soft text-foreground">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full px-2 py-1 text-label leading-none bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}

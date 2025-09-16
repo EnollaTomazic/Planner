@@ -45,7 +45,7 @@ export default function OnboardingTabs() {
         onValueChange={setRole}
         ariaLabel="Onboarding roles"
       />
-      <p className="text-sm text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         Last updated {new Date(updatedAt).toLocaleTimeString()}
       </p>
       <div

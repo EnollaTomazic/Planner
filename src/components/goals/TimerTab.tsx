@@ -20,6 +20,7 @@ import {
   User,
 } from "lucide-react";
 import { removeLocal, usePersistentState, readLocal } from "@/lib/db";
+import { formatMmSs, parseMmSs } from "@/lib/date";
 import { clamp } from "@/lib/utils";
 
 /* profiles */
@@ -108,19 +109,6 @@ function isFiniteNumber(value: unknown): value is number {
 }
 
 /* helpers */
-const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
-const fmt = (ms: number) => {
-  const m = Math.floor(ms / 60_000);
-  const s = Math.floor((ms % 60_000) / 1000);
-  return `${pad(m)}:${pad(s)}`;
-};
-const parseMmSs = (v: string) => {
-  const m = v.trim().match(/^(\d{1,3})\s*:\s*([0-5]?\d)$/);
-  if (!m) return null;
-  const mm = Number(m[1]),
-    ss = Number(m[2]);
-  return mm * 60_000 + ss * 1000;
-};
 
 const ADJUST_BTN_CLASS =
   "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
@@ -208,9 +196,11 @@ export default function TimerTab() {
   }, [profile, customMinutes, profileDef.defaultMin, setTimer]);
 
   // edit mode for mm:ss
-  const [timeEdit, setTimeEdit] = React.useState(fmt(remaining));
+  const [timeEdit, setTimeEdit] = React.useState(
+    () => formatMmSs(remaining, { unit: "milliseconds", padMinutes: true }),
+  );
   React.useEffect(() => {
-    setTimeEdit(fmt(remaining));
+    setTimeEdit(formatMmSs(remaining, { unit: "milliseconds", padMinutes: true }));
   }, [remaining]);
 
   // tick loop
@@ -274,9 +264,11 @@ export default function TimerTab() {
   }, [minutes, setTimer]);
   function commitEdit() {
     if (!isCustom || running) return;
-    const ms = parseMmSs(timeEdit);
+    const ms = parseMmSs(timeEdit, { unit: "milliseconds" });
     if (ms == null) {
-      setTimeEdit(fmt(remaining));
+      setTimeEdit(
+        formatMmSs(remaining, { unit: "milliseconds", padMinutes: true }),
+      );
       return;
     }
     const mm = Math.floor(ms / 60_000),
@@ -457,7 +449,10 @@ export default function TimerTab() {
               <TimerRing pct={pct} size={ringSize} />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
                 <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-[var(--dur-quick)] group-hover:translate-y-0.5 sm:text-title-lg">
-                  {fmt(remaining)}
+                  {formatMmSs(remaining, {
+                    unit: "milliseconds",
+                    padMinutes: true,
+                  })}
                 </div>
                 {isCustom && !running && (
                   <input

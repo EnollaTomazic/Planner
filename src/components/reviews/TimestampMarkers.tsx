@@ -5,6 +5,7 @@ import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Plus, FileText, Trash2 } from "lucide-react";
 import { uid, usePersistentState } from "@/lib/db";
+import { formatMmSs, parseMmSs } from "@/lib/date";
 import type { Review, ReviewMarker } from "@/lib/types";
 import {
   LAST_MARKER_MODE_KEY,
@@ -21,18 +22,6 @@ type TimestampMarkersProps = {
   commitMeta: (patch: Partial<Review>) => void;
 };
 
-function parseTime(mmss: string): number | null {
-  const m = mmss.trim().match(/^(\d{1,2}):([0-5]\d)$/);
-  if (!m) return null;
-  return Number(m[1]) * 60 + Number(m[2]);
-}
-
-function formatSeconds(total: number): string {
-  const minutes = Math.max(0, Math.floor(total / 60));
-  const seconds = Math.max(0, total % 60);
-  return `${String(minutes)}:${String(seconds).padStart(2, "0")}`;
-}
-
 function normalizeMarker(m: unknown): ReviewMarker {
   const obj = m as Record<string, unknown>;
   const id = typeof obj.id === "string" ? obj.id : uid("mark");
@@ -40,9 +29,10 @@ function normalizeMarker(m: unknown): ReviewMarker {
     typeof obj.seconds === "number"
       ? obj.seconds
       : typeof obj.time === "string"
-      ? parseTime(obj.time) ?? 0
+      ? parseMmSs(obj.time) ?? 0
       : 0;
-  const time = typeof obj.time === "string" ? obj.time : formatSeconds(seconds);
+  const time =
+    typeof obj.time === "string" ? obj.time : formatMmSs(seconds);
   const note = typeof obj.note === "string" ? obj.note : "";
   const noteOnly = Boolean(obj.noteOnly);
   return { id, seconds, time, note, noteOnly };
@@ -71,7 +61,7 @@ function TimestampMarkers(
   const timeRef = React.useRef<HTMLInputElement>(null);
   const noteRef = React.useRef<HTMLInputElement>(null);
 
-  const parsedTime = parseTime(tTime);
+  const parsedTime = parseMmSs(tTime);
   const timeError = useTimestamp && parsedTime === null;
   const canAddMarker =
     (useTimestamp ? parsedTime !== null : true) && tNote.trim().length > 0;
@@ -237,13 +227,13 @@ function TimestampMarkers(
           </IconButton>
         </div>
         {timeError && (
-          <p id="tTime-error" className="mt-1 text-xs text-danger">
+          <p id="tTime-error" className="mt-1 text-label text-danger">
             Enter time as mm:ss
           </p>
         )}
 
         {sortedMarkers.length === 0 ? (
-          <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
+          <div className="mt-2 text-ui text-muted-foreground">No timestamps yet.</div>
         ) : (
           <ul className="mt-3 space-y-2">
             {sortedMarkers.map((m) => (
@@ -256,10 +246,10 @@ function TimestampMarkers(
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 w-16 px-3 text-xs font-mono tabular-nums text-center">{m.time}</span>
+                  <span className="pill h-7 w-16 px-3 text-label font-mono tabular-nums text-center">{m.time}</span>
                 )}
 
-                <span className="truncate text-sm">{m.note}</span>
+                <span className="truncate text-ui">{m.note}</span>
                 <IconButton
                   aria-label="Delete timestamp"
                   title="Delete timestamp"

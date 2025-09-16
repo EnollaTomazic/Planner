@@ -198,7 +198,7 @@ function CardDemo() {
         <CardDescription>Description</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm">Body</p>
+        <p className="text-ui">Body</p>
       </CardContent>
       <CardFooter>
         <Button size="sm">Action</Button>
@@ -215,7 +215,7 @@ function NeoCardDemo() {
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />
       }
     >
-      <p className="text-sm">Body</p>
+      <p className="text-ui">Body</p>
     </NeoCard>
   );
 }
@@ -233,7 +233,7 @@ function SheetDemo() {
             <CardTitle>Sheet</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm">Content</p>
+            <p className="text-ui">Content</p>
           </CardContent>
         </Card>
       </Sheet>
@@ -254,7 +254,7 @@ function ModalDemo() {
             <CardTitle>Modal</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm">Content</p>
+            <p className="text-ui">Content</p>
           </CardContent>
           <CardFooter>
             <Button size="sm" onClick={() => setOpen(false)}>
@@ -275,7 +275,7 @@ function ToastDemo() {
         Show
       </Button>
       <Toast open={open} onOpenChange={setOpen}>
-        <p className="text-sm">Toast message</p>
+        <p className="text-ui">Toast message</p>
       </Toast>
     </>
   );
@@ -516,14 +516,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description: "Frame for custom field content",
       element: (
         <FieldShell className="w-56">
-          <div className="px-4 py-2 text-sm text-muted-foreground">
+          <div className="px-4 py-2 text-ui text-muted-foreground">
             Custom content
           </div>
         </FieldShell>
       ),
       tags: ["field", "shell"],
       code: `<FieldShell className="w-56">
-  <div className="px-4 py-2 text-sm text-muted-foreground">
+  <div className="px-4 py-2 text-ui text-muted-foreground">
     Custom content
   </div>
 </FieldShell>`,
@@ -656,7 +656,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     <CardDescription>Description</CardDescription>
   </CardHeader>
   <CardContent>
-    <p className="text-sm">Body</p>
+    <p className="text-ui">Body</p>
   </CardContent>
   <CardFooter>
     <Button size="sm">Action</Button>
@@ -672,7 +672,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   className="p-4"
   overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
 >
-  <p className="text-sm">Body</p>
+  <p className="text-ui">Body</p>
 </NeoCard>`,
     },
     {
@@ -765,7 +765,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 >
   <div className="grid gap-4 md:grid-cols-12">
     <div className="md:col-span-7 space-y-3">
-      <p className="text-sm text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
       </p>
     </div>
@@ -775,7 +775,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 <NeomorphicHeroFrame as="nav" variant="compact" actionArea={{ align: "between" }}>
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
-      <p className="text-sm text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         Compact variant swaps to r-card-md radius with px-4/md:px-5/lg:px-6 spacing.
       </p>
     </div>
@@ -804,7 +804,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
           search={{ value: "", onValueChange: () => {}, round: true }}
           actions={<Button size="sm">Action</Button>}
         >
-          <div className="text-sm text-muted-foreground">Body content</div>
+          <div className="text-ui text-muted-foreground">Body content</div>
         </Hero>
       ),
       tags: ["hero", "layout"],
@@ -816,7 +816,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   search={{ value: "", onValueChange: () => {}, round: true }}
   actions={<Button size="sm">Action</Button>}
 >
-  <div className="text-sm text-muted-foreground">Body content</div>
+  <div className="text-ui text-muted-foreground">Body content</div>
 </Hero>`,
     },
     {
@@ -851,7 +851,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       <CardTitle>Sheet</CardTitle>
     </CardHeader>
     <CardContent>
-      <p className="text-sm">Content</p>
+      <p className="text-ui">Content</p>
     </CardContent>
   </Card>
 </Sheet>`,
@@ -868,7 +868,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       <CardTitle>Modal</CardTitle>
     </CardHeader>
     <CardContent>
-      <p className="text-sm">Content</p>
+      <p className="text-ui">Content</p>
     </CardContent>
     <CardFooter>
       <Button size="sm">Close</Button>
@@ -882,7 +882,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <ToastDemo />,
       tags: ["toast", "feedback"],
       code: `<Button size="sm">Show</Button>
-<Toast open><p className="text-sm">Toast message</p></Toast>`,
+<Toast open><p className="text-ui">Toast message</p></Toast>`,
     },
     {
       id: "split",
