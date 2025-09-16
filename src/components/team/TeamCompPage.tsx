@@ -38,6 +38,10 @@ type SubTab = "sheet" | "comps";
 
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
+const SUB_TAB_IDS: Record<SubTab, { tab: string; panel: string }> = {
+  sheet: { tab: "sheet-tab", panel: "sheet-panel" },
+  comps: { tab: "comps-tab", panel: "comps-panel" },
+};
 
 export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
@@ -52,12 +56,6 @@ export default function TeamCompPage() {
     sheet: null,
     comps: null,
   });
-  const [subIds, setSubIds] = React.useState<
-    Record<SubTab, { tab: string; panel: string }>
-  >({
-    sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-    comps: { tab: "comps-tab", panel: "comps-panel" },
-  });
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
     myComps: false,
@@ -70,31 +68,24 @@ export default function TeamCompPage() {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
   React.useEffect(() => {
-    const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
-    const next: Record<SubTab, { tab: string; panel: string }> = {
-      sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-      comps: { tab: "comps-tab", panel: "comps-panel" },
-    };
-    (Object.keys(map) as SubTab[]).forEach((k) => {
-      const tabEl = document.querySelector<HTMLButtonElement>(
-        `[role="tab"][aria-controls$="${map[k]}-panel"]`,
-      );
-      if (tabEl) {
-        next[k] = {
-          tab: tabEl.id,
-          panel: tabEl.getAttribute("aria-controls") ?? `${map[k]}-panel`,
-        };
-      }
-    });
-    setSubIds(next);
-  }, []);
-  React.useEffect(() => {
     subPanelRefs.current[subTab]?.focus();
   }, [subTab]);
   const subTabs = React.useMemo<HeaderTab<SubTab>[]>(
     () => [
-      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen /> },
-      { key: "comps", label: "My Comps", icon: <Users2 /> },
+      {
+        key: "sheet",
+        label: "Cheat Sheet",
+        icon: <BookOpen />,
+        id: SUB_TAB_IDS.sheet.tab,
+        controls: SUB_TAB_IDS.sheet.panel,
+      },
+      {
+        key: "comps",
+        label: "My Comps",
+        icon: <Users2 />,
+        id: SUB_TAB_IDS.comps.tab,
+        controls: SUB_TAB_IDS.comps.panel,
+      },
     ],
     [],
   );
@@ -102,9 +93,9 @@ export default function TeamCompPage() {
     () => (
       <div>
         <div
-          id={subIds.sheet.panel}
+          id={SUB_TAB_IDS.sheet.panel}
           role="tabpanel"
-          aria-labelledby={subIds.sheet.tab}
+          aria-labelledby={SUB_TAB_IDS.sheet.tab}
           hidden={subTab !== "sheet"}
           tabIndex={subTab === "sheet" ? 0 : -1}
           ref={(el) => {
@@ -116,9 +107,9 @@ export default function TeamCompPage() {
           )}
         </div>
         <div
-          id={subIds.comps.panel}
+          id={SUB_TAB_IDS.comps.panel}
           role="tabpanel"
-          aria-labelledby={subIds.comps.tab}
+          aria-labelledby={SUB_TAB_IDS.comps.tab}
           hidden={subTab !== "comps"}
           tabIndex={subTab === "comps" ? 0 : -1}
           ref={(el) => {
@@ -131,7 +122,7 @@ export default function TeamCompPage() {
         </div>
       </div>
     ),
-    [subIds, subTab, query, editing],
+    [subTab, query, editing],
   );
   const TABS = React.useMemo(
     (): Array<
