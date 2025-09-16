@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { formatIsoLabel } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import type { ISODate } from "./plannerStore";
 
@@ -17,32 +18,7 @@ export default function DayCardHeader({
   doneTasks,
   totalTasks,
 }: Props) {
-  const date = React.useMemo(() => new Date(`${iso}T00:00:00`), [iso]);
-  const WD = [
-    "SUNDAY",
-    "MONDAY",
-    "TUESDAY",
-    "WEDNESDAY",
-    "THURSDAY",
-    "FRIDAY",
-    "SATURDAY",
-  ] as const;
-  const MM = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ] as const;
-  const dd = (d: Date) => String(d.getDate()).padStart(2, "0");
-  const headerText = `// ${WD[date.getDay()]}_${MM[date.getMonth()]} :: ${dd(date)}`;
+  const headerText = React.useMemo(() => `// ${formatIsoLabel(iso)}`, [iso]);
   const pctNum =
     totalTasks === 0 ? 0 : Math.round((doneTasks / totalTasks) * 100);
 

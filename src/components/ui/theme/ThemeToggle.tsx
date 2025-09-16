@@ -18,6 +18,8 @@ type ThemeToggleProps = {
   id?: string;
   ariaLabel?: string; // preferred
   "aria-label"?: string; // backward compat
+  cycleDisabled?: boolean;
+  cycleLoading?: boolean;
 };
 
 export default function ThemeToggle({
@@ -25,12 +27,17 @@ export default function ThemeToggle({
   id,
   ariaLabel,
   "aria-label": ariaLabelAttr,
+  cycleDisabled = false,
+  cycleLoading = false,
 }: ThemeToggleProps) {
   const aria = ariaLabel ?? ariaLabelAttr ?? "Theme";
 
   const mounted = useMounted();
   const [state, setState] = useTheme();
   const { variant } = state;
+  const hasMultipleBackgrounds = BG_CLASSES.length > 1;
+  const isCycleDisabled = cycleDisabled || !hasMultipleBackgrounds;
+  const isCycleLoading = cycleLoading;
 
   function setVariantPersist(v: Variant) {
     setState((prev) => ({ variant: v, bg: prev.bg }));
@@ -45,6 +52,9 @@ export default function ThemeToggle({
   );
 
   function cycleBg() {
+    if (isCycleDisabled || isCycleLoading) {
+      return;
+    }
     setState((prev) => ({
       ...prev,
       bg: ((prev.bg + 1) % BG_CLASSES.length) as Background,
@@ -69,7 +79,9 @@ export default function ThemeToggle({
         aria-label={`${aria}: cycle background`}
         onClick={cycleBg}
         title="Change background"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-border bg-card opacity-70 hover:opacity-100 focus-visible:opacity-100 hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        disabled={isCycleDisabled || isCycleLoading}
+        data-loading={isCycleLoading || undefined}
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-border bg-card opacity-70 hover:opacity-100 focus-visible:opacity-100 active:opacity-90 hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)]"
       >
         <ImageIcon className="h-4 w-4" />
       </button>
