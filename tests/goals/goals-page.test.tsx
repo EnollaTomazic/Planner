@@ -86,15 +86,18 @@ describe("GoalsPage", () => {
     const headerHeading = screen.getByRole("heading", {
       name: "Today’s Goals",
     });
-    const summaryElement = headerHeading.parentElement?.querySelector(
-      ":scope > span",
-    ) as HTMLElement | null;
-    if (!summaryElement) {
-      throw new Error("Expected header summary to render");
-    }
-    expect(summaryElement).toHaveTextContent(
-      /Cap\s*3\s*active\s*·\s*Remaining\s*3\s*·\s*Complete\s*0%\s*·\s*Total\s*0/,
+    const summaryList = headerHeading.parentElement?.querySelector(
+      ":scope > span ul",
     );
+    if (!(summaryList instanceof HTMLElement)) {
+      throw new Error("Expected header summary list to render");
+    }
+    const items = within(summaryList).getAllByRole("listitem");
+    expect(items).toHaveLength(4);
+    expect(items[0]).toHaveTextContent(/Cap\s*3\s*active/);
+    expect(items[1]).toHaveTextContent(/Remaining\s*3/);
+    expect(items[2]).toHaveTextContent(/Complete\s*0%/);
+    expect(items[3]).toHaveTextContent(/Total\s*0/);
   });
 
   it("shows domain in reminders hero and updates on change", () => {

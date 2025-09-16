@@ -15,21 +15,28 @@ export type SkeletonRadius = keyof typeof radiusClasses;
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: SkeletonRadius;
+  ariaHidden?: React.AriaAttributes["aria-hidden"];
 }
 
 const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
-  ({ className, radius = "md", ...props }, ref) => (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className={cn(
-        "skeleton h-[var(--space-4)] w-full",
-        radiusClasses[radius],
-        className,
-      )}
-      {...props}
-    />
-  ),
+  ({ className, radius = "md", ariaHidden, ...props }, ref) => {
+    const { ["aria-hidden"]: ariaHiddenAttr, ...rest } = props;
+    const resolvedAriaHidden =
+      ariaHidden ?? ariaHiddenAttr ?? true;
+
+    return (
+      <div
+        ref={ref}
+        aria-hidden={resolvedAriaHidden}
+        className={cn(
+          "skeleton h-[var(--space-4)] w-full",
+          radiusClasses[radius],
+          className,
+        )}
+        {...rest}
+      />
+    );
+  },
 );
 
 Skeleton.displayName = "Skeleton";
