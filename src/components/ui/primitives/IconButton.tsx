@@ -72,9 +72,9 @@ const getSizeClass = (s: IconButtonSize) => {
 };
 
 const variantBase: Record<Variant, string> = {
-  ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)]",
+  ring: "border bg-card/35 hover:bg-[--hover] [--hover:var(--icon-btn-panel-hover)] [--active:var(--icon-btn-panel-active)]",
   solid: "border",
-  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)] shadow-glow-current",
+  glow: "border bg-card/35 hover:bg-[--hover] [--hover:var(--icon-btn-panel-hover)] [--active:var(--icon-btn-panel-active)] shadow-glow-current",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -86,12 +86,13 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   solid: {
     primary:
-      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
+      "border-transparent bg-foreground/15 text-foreground [--hover:var(--btn-foreground-strong-hover)] [--active:var(--btn-foreground-strong-active)]",
     accent:
-      "border-transparent bg-accent/15 text-accent [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-    info: "border-transparent bg-accent-2/15 text-accent-2 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+      "border-transparent bg-accent/15 text-accent [--hover:var(--btn-accent-strong-hover)] [--active:var(--btn-accent-strong-active)]",
+    info:
+      "border-transparent bg-accent-2/15 text-accent-2 [--hover:var(--btn-accent-2-strong-hover)] [--active:var(--btn-accent-2-strong-active)]",
     danger:
-      "border-transparent bg-danger/15 text-danger [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+      "border-transparent bg-danger/15 text-danger [--hover:var(--btn-danger-strong-hover)] [--active:var(--btn-danger-strong-active)]",
   },
   glow: {
     primary: "border-foreground/35 text-foreground",

@@ -66,19 +66,21 @@ export const toneClasses: Record<
   secondary: {
     primary: "text-foreground",
     accent:
-      "text-accent bg-accent/15 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
-    info: "text-accent-2 bg-accent-2/15 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+      "text-accent bg-accent/15 [--hover:var(--btn-accent-strong-hover)] [--active:var(--btn-accent-strong-active)]",
+    info:
+      "text-accent-2 bg-accent-2/15 [--hover:var(--btn-accent-2-strong-hover)] [--active:var(--btn-accent-2-strong-active)]",
     danger:
-      "text-danger bg-danger/15 [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+      "text-danger bg-danger/15 [--hover:var(--btn-danger-strong-hover)] [--active:var(--btn-danger-strong-active)]",
   },
   ghost: {
     primary:
-      "text-foreground [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
+      "text-foreground [--hover:var(--btn-foreground-subtle-hover)] [--active:var(--btn-foreground-subtle-active)]",
     accent:
-      "text-accent [--hover:hsl(var(--accent)/0.1)] [--active:hsl(var(--accent)/0.2)]",
-    info: "text-accent-2 [--hover:hsl(var(--accent-2)/0.1)] [--active:hsl(var(--accent-2)/0.2)]",
+      "text-accent [--hover:var(--btn-accent-subtle-hover)] [--active:var(--btn-accent-subtle-active)]",
+    info:
+      "text-accent-2 [--hover:var(--btn-accent-2-subtle-hover)] [--active:var(--btn-accent-2-subtle-active)]",
     danger:
-      "text-danger [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
+      "text-danger [--hover:var(--btn-danger-subtle-hover)] [--active:var(--btn-danger-subtle-active)]",
   },
 };
 
@@ -94,7 +96,7 @@ export const variants: Record<
 > = {
   primary: {
     className:
-      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
+      "shadow-glow-sm bg-button-primary-surface text-[hsl(var(--accent-foreground))] border-button-primary-border hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active [--hover:var(--btn-primary-hover)]",
     whileTap: {
       scale: 0.97,
     },

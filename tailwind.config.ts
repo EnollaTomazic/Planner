@@ -55,6 +55,13 @@ const config: Config = {
         "lav-deep": "hsl(var(--lav-deep))",
         "surface-vhs": "hsl(var(--surface-vhs))",
         "surface-streak": "hsl(var(--surface-streak))",
+        button: {
+          primary: {
+            surface: "hsl(var(--btn-primary-surface))",
+            hover: "hsl(var(--btn-primary-hover))",
+            border: "hsl(var(--btn-primary-border))",
+          },
+        },
       },
       borderRadius: {
         md: `var(${radiusTokens[0]})`,

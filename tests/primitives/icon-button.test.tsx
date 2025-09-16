@@ -96,7 +96,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain("[--hover:var(--icon-btn-panel-hover)]");
     expect(classes).toContain("border-line/35 text-foreground");
   });
 
@@ -107,7 +107,7 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain("border-transparent bg-accent/15 text-accent");
-    expect(classes).toContain("[--hover:hsl(var(--accent)/0.25)]");
+    expect(classes).toContain("[--hover:var(--btn-accent-strong-hover)]");
   });
 
   it("applies glow variant with info tone", () => {
@@ -118,7 +118,7 @@ describe("IconButton", () => {
     expect(classes).toContain("border bg-card/35");
     expect(classes).toContain("hover:bg-[--hover]");
     expect(classes).toContain("shadow-glow-current");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain("[--hover:var(--icon-btn-panel-hover)]");
     expect(classes).toContain("border-accent-2/35 text-accent-2");
   });
 
@@ -128,7 +128,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain("[--hover:var(--icon-btn-panel-hover)]");
     expect(classes).toContain("border-danger/35 text-danger");
     expect(classes).not.toContain("shadow-glow-current");
   });

@@ -16,6 +16,27 @@
     0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
   --btn-primary-hover-shadow: 0 2px 6px -1px hsl(var(--accent) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 1px hsl(var(--accent) / 0.6);
+  --btn-primary-surface: hsl(var(--accent) / 0.12);
+  --btn-primary-hover: hsl(var(--accent) / 0.14);
+  --btn-primary-border: hsl(var(--accent) / 0.35);
+  --btn-foreground-subtle-hover: hsl(var(--foreground) / 0.1);
+  --btn-foreground-subtle-active: hsl(var(--foreground) / 0.2);
+  --btn-foreground-strong-hover: hsl(var(--foreground) / 0.25);
+  --btn-foreground-strong-active: hsl(var(--foreground) / 0.35);
+  --btn-accent-subtle-hover: hsl(var(--accent) / 0.1);
+  --btn-accent-subtle-active: hsl(var(--accent) / 0.2);
+  --btn-accent-strong-hover: hsl(var(--accent) / 0.25);
+  --btn-accent-strong-active: hsl(var(--accent) / 0.35);
+  --btn-accent-2-subtle-hover: hsl(var(--accent-2) / 0.1);
+  --btn-accent-2-subtle-active: hsl(var(--accent-2) / 0.2);
+  --btn-accent-2-strong-hover: hsl(var(--accent-2) / 0.25);
+  --btn-accent-2-strong-active: hsl(var(--accent-2) / 0.35);
+  --btn-danger-subtle-hover: hsl(var(--danger) / 0.1);
+  --btn-danger-subtle-active: hsl(var(--danger) / 0.2);
+  --btn-danger-strong-hover: hsl(var(--danger) / 0.25);
+  --btn-danger-strong-active: hsl(var(--danger) / 0.35);
+  --icon-btn-panel-hover: hsl(var(--panel) / 0.45);
+  --icon-btn-panel-active: hsl(var(--panel) / 0.55);
 }
 
 /* Upgrade tokens when color-mix(oklab) is supported */

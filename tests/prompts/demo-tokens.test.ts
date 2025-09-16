@@ -26,7 +26,28 @@ describe("demo tokens", () => {
 
   it("use colors defined in tailwind config", () => {
     const colors = (tw.theme?.extend?.colors as Record<string, unknown>) ?? {};
-    const expected = Object.keys(colors).map((name) => `bg-${name}`);
+    const collectColorKeys = (
+      record: Record<string, unknown>,
+      prefix = "",
+    ): string[] =>
+      Object.entries(record).flatMap(([name, value]) => {
+        if (typeof value === "string") {
+          const tokenName =
+            name === "DEFAULT"
+              ? prefix.replace(/-$/, "")
+              : `${prefix}${name}`;
+          return tokenName ? [tokenName] : [];
+        }
+        if (value && typeof value === "object") {
+          return collectColorKeys(value as Record<string, unknown>, `${prefix}${name}-`);
+        }
+        return [];
+      });
+
+    const colorNames = collectColorKeys(colors)
+      .map((name) => (name.endsWith("-DEFAULT") ? name.replace(/-DEFAULT$/, "") : name))
+      .filter((name): name is string => Boolean(name));
+    const expected = Array.from(new Set(colorNames)).map((name) => `bg-${name}`);
     expected.forEach((token) => expect(colorTokens).toContain(token));
   });
 });
