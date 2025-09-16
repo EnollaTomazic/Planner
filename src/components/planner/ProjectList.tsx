@@ -38,13 +38,13 @@ export default function ProjectList({
   const projectsScrollable = projects.length > 3;
   const multiple = projects.length > 1;
 
-  const addProjectCommit = React.useCallback(() => {
+  function addProjectCommit() {
     const v = draftProject.trim();
     if (!v) return;
     const id = onAdd(v);
     setDraftProject("");
     if (id) setSelectedProjectId(id);
-  }, [draftProject, onAdd, setSelectedProjectId]);
+  }
 
   const onRowKey = React.useCallback(
     (idx: number, p: Project) => (e: React.KeyboardEvent) => {
