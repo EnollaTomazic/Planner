@@ -12,14 +12,8 @@ export function useWeekData(days: ISODate[]) {
     let weekTotal = 0;
     const per = days.map((iso) => {
       const rec = map[iso];
-      const { done, total } = (rec ? [...rec.projects, ...rec.tasks] : []).reduce(
-        (counts, item) => {
-          counts.total += 1;
-          if (item.done) counts.done += 1;
-          return counts;
-        },
-        { done: 0, total: 0 },
-      );
+      const done = rec?.doneCount ?? 0;
+      const total = rec?.totalCount ?? 0;
       weekDone += done;
       weekTotal += total;
       return { iso, done, total };
