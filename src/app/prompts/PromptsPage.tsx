@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader, PageShell, Button, IconButton } from "@/components/ui";
+import { PageHeader, PageShell, Button, IconButton, Skeleton } from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -18,9 +18,49 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
   return (
-    <React.Suspense fallback={<p className="p-4 text-sm">Loading...</p>}>
+    <React.Suspense fallback={<PromptsPageFallback />}>
       <PageContent />
     </React.Suspense>
+  );
+}
+
+function PromptsPageFallback() {
+  return (
+    <PageShell
+      as="main"
+      className="space-y-6 py-6"
+      aria-labelledby="prompts-loading-title"
+      aria-busy="true"
+    >
+      <div role="status" aria-live="polite" className="space-y-6">
+        <span id="prompts-loading-title" className="sr-only">
+          Loading Prompts Playground
+        </span>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-2/5 sm:w-1/3" radius="card" />
+            <Skeleton className="w-3/5 sm:w-1/2" />
+          </div>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <Skeleton className="h-10 w-full md:w-96" radius="card" />
+            <div className="flex gap-3 md:flex-none">
+              <Skeleton className="h-10 w-24" radius="card" />
+              <Skeleton className="h-10 w-10" radius="full" />
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+            <Skeleton className="h-9 w-28 flex-1" radius="full" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Skeleton className="h-64" radius="card" />
+          <Skeleton className="h-64" radius="card" />
+          <Skeleton className="h-64 lg:col-span-2" radius="card" />
+        </div>
+      </div>
+    </PageShell>
   );
 }
 
