@@ -7,6 +7,7 @@ import Input from "@/components/ui/primitives/Input";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import Textarea from "@/components/ui/primitives/Textarea";
 import useAutoFocus from "@/lib/useAutoFocus";
+import { capitalize } from "@/lib/utils";
 import { Pencil, Trash2, Pin, PinOff } from "lucide-react";
 import {
   useReminders,
@@ -190,7 +191,7 @@ function RemTile({
                   isActive={value.group === groupKey}
                   className="m-1"
                 >
-                  {groupKey === "pregame" ? "Pre-Game" : cap(groupKey)}
+                  {groupKey === "pregame" ? "Pre-Game" : capitalize(groupKey)}
                 </SegmentedButton>
               ))}
             </div>
@@ -284,9 +285,5 @@ function pad(value: number) {
 function fmtDate(timestamp: number) {
   const date = new Date(timestamp);
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
-}
-
-function cap(value: string) {
-  return value.slice(0, 1).toUpperCase() + value.slice(1);
 }
 
