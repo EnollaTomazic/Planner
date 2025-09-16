@@ -94,16 +94,22 @@ const PageHeaderInner = <
     ...heroRest
   } = hero;
 
-  const resolvedSubTabs = heroSubTabs ?? subTabs;
+  const resolvedSubTabs = React.useMemo(
+    () => heroSubTabs ?? subTabs,
+    [heroSubTabs, subTabs],
+  );
 
-  const baseSearch = heroSearch === null ? null : heroSearch ?? search;
-  const resolvedSearch =
-    baseSearch !== null && baseSearch !== undefined
+  const resolvedSearch = React.useMemo(() => {
+    const baseSearch = heroSearch === null ? null : heroSearch ?? search;
+    return baseSearch !== null && baseSearch !== undefined
       ? { ...baseSearch, round: baseSearch.round ?? true }
       : baseSearch;
+  }, [heroSearch, search]);
 
-  const resolvedActions =
-    heroActions === null ? null : heroActions ?? actions;
+  const resolvedActions = React.useMemo(
+    () => (heroActions === null ? null : heroActions ?? actions),
+    [heroActions, actions],
+  );
 
   const { className: frameClassName, variant: frameVariant, ...restFrameProps } =
     frameProps ?? {};
