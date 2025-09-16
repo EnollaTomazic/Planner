@@ -54,6 +54,13 @@ export default function SearchBar({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { id, ...restProps } = rest;
   const [generatedId, setGeneratedId] = React.useState<string | undefined>(id);
+  const debounceHandle = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelPending = React.useCallback(() => {
+    if (debounceHandle.current !== null) {
+      clearTimeout(debounceHandle.current);
+      debounceHandle.current = null;
+    }
+  }, []);
 
   // Mirror external value into local state whenever it changes.
   // No need to read `query` here; linter calms down.
@@ -64,13 +71,17 @@ export default function SearchBar({
   // Debounced emit of local changes
   React.useEffect(() => {
     if (!onValueChange) return;
+    cancelPending();
     if (debounceMs <= 0) {
       onValueChange(query);
       return;
     }
-    const t = setTimeout(() => onValueChange(query), debounceMs);
-    return () => clearTimeout(t);
-  }, [query, onValueChange, debounceMs]);
+    debounceHandle.current = setTimeout(() => {
+      debounceHandle.current = null;
+      onValueChange(query);
+    }, debounceMs);
+    return cancelPending;
+  }, [query, onValueChange, debounceMs, cancelPending]);
 
   const showClear = clearable && query.length > 0;
   const ariaLabelledby = restProps["aria-labelledby"];
