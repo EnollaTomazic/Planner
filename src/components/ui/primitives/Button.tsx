@@ -60,18 +60,33 @@ export const colorVar: Record<Tone, string> = {
   danger: "--danger",
 };
 
-const primaryToneInteractionTokens =
-  "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]";
+const toneForegroundVar: Record<Tone, string> = {
+  primary: "--primary-foreground",
+  accent: "--accent-foreground",
+  info: "--accent-2-foreground",
+  danger: "--danger-foreground",
+};
+
+const toneInteractionTokens: Record<Tone, string> = {
+  primary:
+    "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]",
+  accent:
+    "[--hover:theme('colors.interaction.accent.hover')] [--active:theme('colors.interaction.accent.active')]",
+  info:
+    "[--hover:theme('colors.interaction.info.hover')] [--active:theme('colors.interaction.info.active')]",
+  danger:
+    "[--hover:theme('colors.interaction.danger.hover')] [--active:theme('colors.interaction.danger.active')]",
+};
 
 export const toneClasses: Record<
   NonNullable<ButtonProps["variant"]>,
   Record<Tone, string>
 > = {
   primary: {
-    primary: `text-foreground ${primaryToneInteractionTokens}`,
-    accent: `text-accent ${primaryToneInteractionTokens}`,
-    info: `text-accent-2 ${primaryToneInteractionTokens}`,
-    danger: `text-danger ${primaryToneInteractionTokens}`,
+    primary: toneInteractionTokens.primary,
+    accent: toneInteractionTokens.accent,
+    info: toneInteractionTokens.info,
+    danger: toneInteractionTokens.danger,
   },
   secondary: {
     primary: "text-foreground",
@@ -94,19 +109,26 @@ export const toneClasses: Record<
   },
 };
 
+type VariantConfig = {
+  className: string | ((tone: Tone) => string);
+  whileHover?: HTMLMotionProps<"button">["whileHover"];
+  whileTap?: HTMLMotionProps<"button">["whileTap"];
+  overlay?: React.ReactNode;
+  contentClass?: string;
+};
+
 export const variants: Record<
   NonNullable<ButtonProps["variant"]>,
-  {
-    className: string;
-    whileHover?: HTMLMotionProps<"button">["whileHover"];
-    whileTap?: HTMLMotionProps<"button">["whileTap"];
-    overlay?: React.ReactNode;
-    contentClass?: string;
-  }
+  VariantConfig
 > = {
   primary: {
-    className:
-      "shadow-glow-sm bg-[hsl(var(--accent)/0.12)] text-[hsl(var(--accent-foreground))] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
+    className: (tone) =>
+      cn(
+        "shadow-glow-sm hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
+        `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
+        `border-[hsl(var(${colorVar[tone]})/0.35)]`,
+        `text-[hsl(var(${toneForegroundVar[tone]}))]`,
+      ),
     whileTap: {
       scale: 0.97,
     },
@@ -165,6 +187,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       contentClass,
     } = variants[variant];
 
+    const resolvedVariantClass =
+      typeof variantClass === "function" ? variantClass(tone) : variantClass;
+
     const hoverAnimation = reduceMotion
       ? undefined
       : variant === "primary"
@@ -179,8 +204,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     let resolvedStyle = style;
 
     if (variant === "primary") {
+      const toneColor = colorVar[tone];
       const glowStyles = {
-        "--glow-active": `hsl(var(${colorVar[tone]}) / 0.35)`,
+        "--glow-active": `hsl(var(${toneColor}) / 0.35)`,
+        "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColor}) / 0.25)`,
+        "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColor}) / 0.6)`,
       } as CSSProperties;
       resolvedStyle = {
         ...glowStyles,
@@ -192,7 +220,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <motion.button
         ref={ref}
         type={type}
-        className={cn(base, variantClass, toneClasses[variant][tone])}
+        className={cn(base, resolvedVariantClass, toneClasses[variant][tone])}
         data-loading={loading}
         disabled={isDisabled}
         aria-busy={loading ? true : undefined}
