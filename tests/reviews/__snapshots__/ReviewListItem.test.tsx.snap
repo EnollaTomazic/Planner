@@ -4,8 +4,10 @@ exports[`ReviewListItem > renders default state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
+    aria-selected="false"
     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
+    role="option"
     type="button"
   >
     <div
@@ -58,9 +60,11 @@ exports[`ReviewListItem > renders disabled state 1`] = `
 <div>
   <button
     aria-label="Open review: Sample Review"
+    aria-selected="false"
     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     disabled=""
+    role="option"
     type="button"
   >
     <div
@@ -128,10 +132,13 @@ exports[`ReviewListItem > renders loading state 1`] = `
 exports[`ReviewListItem > renders selected state 1`] = `
 <div>
   <button
+    aria-current="true"
     aria-label="Open review: Sample Review"
+    aria-selected="true"
     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     data-selected="true"
+    role="option"
     type="button"
   >
     <div
@@ -184,8 +191,10 @@ exports[`ReviewListItem > renders untitled state 1`] = `
 <div>
   <button
     aria-label="Open review: Untitled Review"
+    aria-selected="false"
     class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
+    role="option"
     type="button"
   >
     <div

@@ -92,15 +92,15 @@ describe("ReviewsPage", () => {
       />,
     );
 
-    const list = screen.getAllByRole("list")[0];
+    const list = screen.getAllByRole("listbox")[0];
     const getTitles = () =>
       within(list)
-        .getAllByRole("button")
+        .getAllByRole("option")
         .map((b) => b.getAttribute("aria-label")?.replace("Open review: ", ""));
 
     expect(getTitles()).toEqual(["Alpha", "Gamma", "Beta"]);
 
-    const sortBtn = screen.getByRole("button", { name: "Select option" });
+    const sortBtn = screen.getByRole("button", { name: "Sort reviews" });
     fireEvent.click(sortBtn);
     fireEvent.click(screen.getByRole("option", { name: "Title" }));
 

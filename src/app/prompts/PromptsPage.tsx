@@ -23,6 +23,14 @@ import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
 
+function getNodeText(node: React.ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return `${node}`;
+  if (Array.isArray(node)) return node.map(getNodeText).join("");
+  if (React.isValidElement(node)) return getNodeText(node.props.children);
+  return "";
+}
+
 export default function Page() {
   return (
     <React.Suspense fallback={<PromptsPageFallback />}>
@@ -81,6 +89,12 @@ function PageContent() {
   const componentsRef = React.useRef<HTMLDivElement>(null);
   const colorsRef = React.useRef<HTMLDivElement>(null);
   const onboardingRef = React.useRef<HTMLDivElement>(null);
+  const searchLabel = React.useMemo(() => {
+    const tab = VIEW_TABS.find((item) => item.key === view);
+    const labelText = getNodeText(tab?.label ?? null).trim();
+    if (!labelText) return "Search";
+    return `Search ${labelText.toLocaleLowerCase()}`;
+  }, [view]);
 
   React.useEffect(() => {
     const q = queryParam ?? "";
@@ -151,7 +165,7 @@ function PageContent() {
             onValueChange: setQuery,
             debounceMs: 300,
             round: true,
-            "aria-label": "Search components",
+            "aria-label": searchLabel,
           },
           actions: (
             <div className="flex items-center gap-2">
