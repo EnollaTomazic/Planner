@@ -9,6 +9,7 @@ export { default as DemoHeader } from "./DemoHeader";
 export { default as GalleryItem } from "./GalleryItem";
 export { default as GoalListDemo } from "./GoalListDemo";
 export { default as IconButtonShowcase } from "./IconButtonShowcase";
+export { default as NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 export { default as OnboardingTabs } from "./OnboardingTabs";
 export { default as OutlineGlowDemo } from "./OutlineGlowDemo";
 export { default as PageHeaderDemo } from "./PageHeaderDemo";
