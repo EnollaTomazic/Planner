@@ -20,7 +20,7 @@ describe("PageHeader", () => {
       <PageHeader header={baseHeader} hero={baseHero} />,
     );
 
-    expect(container.firstElementChild?.tagName).toBe("SECTION");
+    expect(container.firstElementChild?.tagName).toBe("HEADER");
 
     const headerHeading = screen.getByRole("heading", { level: 1, name: "Overview" });
     const headerElement = headerHeading.closest<HTMLElement>("header");

@@ -49,6 +49,19 @@ function ResultScoreSection(
   const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
   const msg = pool[msgIndex];
   const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
+  const isWin = result === "Win";
+  const indicatorGradientClass = isWin
+    ? "from-success/30 to-accent/28"
+    : "from-danger/30 to-primary/26";
+  const indicatorStyle = React.useMemo<React.CSSProperties>(
+    () => ({
+      width: "calc(50% - var(--space-1))",
+      transform: `translate3d(${isWin ? "0" : "calc(100% + var(--space-1) / 2)"},0,0)`,
+      transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
+      "--glow-active": "hsl(var(--shadow-color) / 0.25)",
+    }),
+    [isWin],
+  );
 
   return (
     <>
@@ -82,17 +95,13 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
-            style={{
-              width: "calc(50% - var(--space-1))",
-              transform: `translate3d(${result === "Win" ? "0" : "calc(100% + var(--space-1) / 2)"},0,0)`,
-              transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-              background:
-                result === "Win"
-                  ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
-                  : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
-              boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-            }}
+            className={
+              cn(
+                "absolute top-1 bottom-1 left-1 rounded-xl bg-gradient-to-r shadow-glow-md transition-transform duration-300",
+                indicatorGradientClass,
+              )
+            }
+            style={indicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
             <div
