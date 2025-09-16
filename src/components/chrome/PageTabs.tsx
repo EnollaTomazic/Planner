@@ -49,7 +49,7 @@ export default function PageTabs({
     if (hash && tabs.some(t => t.id === hash)) {
       onChange?.(hash);
     }
-  }, [tabs, onChange]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sync active tab to URL hash
   React.useEffect(() => {

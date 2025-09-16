@@ -2,14 +2,45 @@
 // Shared clipboard helper with textarea fallback.
 
 export async function copyText(text: string): Promise<void> {
+  if (typeof navigator === "undefined" || typeof document === "undefined") {
+    return;
+  }
+
+  const clipboard = navigator.clipboard;
+
+  if (clipboard?.writeText) {
+    try {
+      await clipboard.writeText(text);
+      return;
+    } catch {
+      // Continue to other fallbacks.
+    }
+  }
+
+  if (clipboard?.write && typeof ClipboardItem !== "undefined") {
+    try {
+      const item = new ClipboardItem({ "text/plain": new Blob([text], { type: "text/plain" }) });
+      await clipboard.write([item]);
+      return;
+    } catch {
+      // Continue to the textarea fallback.
+    }
+  }
+
+  if (!document.body) {
+    return;
+  }
+
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+
   try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
+    if (typeof document.execCommand === "function") {
+      document.execCommand("copy");
+    }
+  } finally {
     ta.remove();
   }
 }

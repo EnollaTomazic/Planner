@@ -109,7 +109,9 @@ export function applyTheme({ variant, bg }: ThemeState) {
   const cl = document.documentElement.classList;
   resetThemeClasses(cl);
   cl.add(`theme-${variant}`);
-  if (bg > 0) cl.add(BG_CLASSES[bg]);
+  const isValidBgIndex =
+    Number.isInteger(bg) && bg >= 0 && bg < BG_CLASSES.length;
+  if (isValidBgIndex && bg > 0) cl.add(BG_CLASSES[bg]);
   cl.add("dark");
 }
 
@@ -129,7 +131,11 @@ export function themeBootstrapScript(): string {
       const cl = document.documentElement.classList;
       resetThemeClasses(cl);
       cl.add("theme-" + data.variant);
-      if (data.bg > 0) cl.add(BG_CLASSES[data.bg]);
+      const isValidBgIndex =
+        Number.isInteger(data.bg) &&
+        data.bg >= 0 &&
+        data.bg < BG_CLASSES.length;
+      if (isValidBgIndex && data.bg > 0) cl.add(BG_CLASSES[data.bg]);
       cl.add("dark");
     } catch {}
   })())`;
