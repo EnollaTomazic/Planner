@@ -53,6 +53,8 @@ export interface NeomorphicHeroFrameProps
   contentClassName?: string;
   /** Optional action row (tabs, search, buttons) */
   actionArea?: NeomorphicHeroFrameActionAreaProps | null;
+  /** Boost surface contrast for accessibility */
+  highContrast?: boolean;
 }
 
 const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
@@ -96,6 +98,24 @@ const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
       pt: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
       gap: "gap-[var(--space-3)]",
     },
+  },
+};
+
+const highContrastVariantMap: Record<
+  Exclude<NeomorphicHeroFrameVariant, "unstyled">,
+  { container: string; divider: string }
+> = {
+  default: {
+    container: "border-border/70 shadow-neoSoft",
+    divider: "border-border/55",
+  },
+  compact: {
+    container: "border-border/70 shadow-neoSoft",
+    divider: "border-border/55",
+  },
+  plain: {
+    container: "border-border/55 shadow-outline-subtle",
+    divider: "border-border/50",
   },
 };
 
@@ -176,6 +196,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       contentClassName,
       children,
       actionArea,
+      highContrast,
       ...rest
     },
     ref,
@@ -185,6 +206,13 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     const showFrame = frame !== false;
     const variantStyles =
       variant !== "unstyled" ? variantMap[variant] : undefined;
+    const contrastStyles =
+      highContrast && variant !== "unstyled"
+        ? highContrastVariantMap[variant]
+        : undefined;
+    const slotContrastClass = highContrast ? "text-foreground" : undefined;
+    const actionDividerContrastClass =
+      contrastStyles?.divider ?? (highContrast ? "border-border/55" : undefined);
 
     const hasActionArea = Boolean(
       actionArea &&
@@ -226,6 +254,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
             "relative",
             showFrame && "overflow-hidden hero2-neomorph",
             variantStyles?.container,
+            contrastStyles?.container,
             variantStyles?.padding,
             className,
           )}
@@ -252,6 +281,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                 (actionArea?.divider ?? true)
                   ? cn(
                       "border-t border-border/35",
+                      actionDividerContrastClass,
                       variantStyles?.action.pt ?? "pt-[var(--space-4)]",
                     )
                   : null,
@@ -265,6 +295,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                   data-area="tabs"
                   className={cn(
                     "flex flex-col gap-[var(--space-2)]",
+                    slotContrastClass,
                     slots.tabs,
                     aligns.tabs,
                     actionArea.tabsClassName,
@@ -279,6 +310,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                   data-area="search"
                   className={cn(
                     "flex flex-col gap-[var(--space-2)]",
+                    slotContrastClass,
                     slots.search,
                     aligns.search,
                     actionArea.searchClassName,
@@ -293,6 +325,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                   data-area="actions"
                   className={cn(
                     "flex flex-wrap items-center justify-end gap-[var(--space-2)]",
+                    slotContrastClass,
                     slots.actions,
                     aligns.actions,
                     actionArea.actionsClassName,
@@ -307,7 +340,10 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           {showFrame ? (
             <div
               aria-hidden
-              className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
+              className={cn(
+                "absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55",
+                highContrast && "ring-border/70",
+              )}
             />
           ) : null}
         </Comp>
