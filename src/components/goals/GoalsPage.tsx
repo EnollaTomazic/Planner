@@ -11,11 +11,21 @@
  */
 
 import * as React from "react";
-import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
+import {
+  Flag,
+  ListChecks,
+  Timer as TimerIcon,
+  Search,
+  Sparkles,
+  Gamepad2,
+  GraduationCap,
+  Plus,
+} from "lucide-react";
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { Snackbar, PageHeader, PageShell } from "@/components/ui";
+import Button from "@/components/ui/primitives/Button";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -29,6 +39,11 @@ import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 /* Tabs */
 import RemindersTab from "./RemindersTab";
 import TimerTab from "./TimerTab";
+import {
+  RemindersProvider,
+  useReminders,
+  type Domain,
+} from "./reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
@@ -54,9 +69,19 @@ const TABS: HeaderTab<Tab>[] = [
   },
 ];
 
+const DOMAIN_ITEMS: Array<{
+  key: Domain;
+  label: string;
+  icon: React.ReactNode;
+}> = [
+  { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
+  { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
+  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
+];
+
 const HERO_HEADINGS: Record<Tab, string> = {
   goals: "Goals overview",
-  reminders: "Reminder board",
+  reminders: "Reminders",
   timer: "Focus timer",
 };
 
@@ -77,6 +102,14 @@ const HERO_REGION_ID = "goals-hero-region";
 /* ====================================================================== */
 
 export default function GoalsPage() {
+  return (
+    <RemindersProvider>
+      <GoalsPageContent />
+    </RemindersProvider>
+  );
+}
+
+function GoalsPageContent() {
   const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
 
   const [filter, setFilter] = usePersistentState<FilterKey>(
@@ -93,6 +126,15 @@ export default function GoalsPage() {
     updateGoal,
     undoRemove,
   } = useGoals();
+
+  const {
+    domain,
+    setDomain,
+    query,
+    setQuery,
+    filtered: reminderFiltered,
+    addReminder,
+  } = useReminders();
 
   // add form
   const [title, setTitle] = React.useState("");
@@ -125,6 +167,26 @@ export default function GoalsPage() {
     (v: string) => setTab(v as Tab),
     [setTab],
   );
+
+  const reminderCount = reminderFiltered.length;
+
+  const handleDomainChange = React.useCallback(
+    (key: Domain) => {
+      setDomain(key);
+    },
+    [setDomain],
+  );
+
+  const handleReminderSearchChange = React.useCallback(
+    (value: string) => {
+      setQuery(value);
+    },
+    [setQuery],
+  );
+
+  const handleAddReminder = React.useCallback(() => {
+    addReminder();
+  }, [addReminder]);
 
   const reduceMotion = usePrefersReducedMotion();
   const handleAddFirst = React.useCallback(() => {
@@ -201,6 +263,8 @@ export default function GoalsPage() {
     <span id={heroHeadingId}>{HERO_HEADINGS[tab]}</span>
   );
 
+  const heroEyebrow = tab === "reminders" ? domain : "Guide";
+
   let heroSubtitle: React.ReactNode;
   if (tab === "goals") {
     heroSubtitle = (
@@ -245,6 +309,55 @@ export default function GoalsPage() {
   const heroAriaDescribedby =
     heroSubtitle != null ? heroSubtitleId : undefined;
 
+  const heroDividerTint =
+    tab === "reminders" ? (domain === "Life" ? "life" : "primary") : undefined;
+
+  const reminderHeroSubTabs = React.useMemo(() => {
+    if (tab !== "reminders") return undefined;
+    return {
+      items: DOMAIN_ITEMS,
+      value: domain,
+      onChange: handleDomainChange,
+      align: "end" as const,
+      size: "md" as const,
+      ariaLabel: "Reminder domain",
+      showBaseline: true,
+    };
+  }, [tab, domain, handleDomainChange]);
+
+  const reminderHeroSearch = React.useMemo(() => {
+    if (tab !== "reminders") return undefined;
+    return {
+      value: query,
+      onValueChange: handleReminderSearchChange,
+      placeholder: "Search title, text, tags…",
+      debounceMs: 80,
+      right: (
+        <div className="flex items-center gap-2">
+          <span className="text-label font-medium tracking-[0.02em] opacity-75">
+            {reminderCount}
+          </span>
+          <Search className="opacity-80" size={16} />
+        </div>
+      ),
+    };
+  }, [tab, query, handleReminderSearchChange, reminderCount]);
+
+  const reminderHeroActions = React.useMemo(() => {
+    if (tab !== "reminders") return undefined;
+    return (
+      <Button
+        variant="primary"
+        size="md"
+        className="px-4 whitespace-nowrap"
+        onClick={handleAddReminder}
+      >
+        <Plus />
+        <span>New Reminder</span>
+      </Button>
+    );
+  }, [tab, handleAddReminder]);
+
   return (
     <PageShell
       as="main"
@@ -274,14 +387,18 @@ export default function GoalsPage() {
           hero={{
             id: HERO_REGION_ID,
             role: "region",
-            eyebrow: "Guide",
+            eyebrow: heroEyebrow,
             heading: heroHeading,
             subtitle: heroSubtitle,
             sticky: false,
             topClassName: "top-0",
+            dividerTint: heroDividerTint,
             "aria-labelledby": heroHeadingId,
             "aria-describedby": heroAriaDescribedby,
           }}
+          subTabs={reminderHeroSubTabs}
+          search={reminderHeroSearch}
+          actions={reminderHeroActions}
         />
 
         {/* ======= PANELS ======= */}
