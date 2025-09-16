@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import Spinner from "../feedback/Spinner";
 
 type Side = "Left" | "Right";
 
@@ -48,6 +49,7 @@ export default function Toggle({
       role="switch"
       aria-checked={isRight}
       aria-labelledby={`${leftId} ${rightId}`}
+      aria-busy={loading || undefined}
       disabled={disabled}
       data-loading={loading || undefined}
       onClick={toggle}
@@ -65,6 +67,11 @@ export default function Toggle({
       )}
       data-side={value}
     >
+      {loading ? (
+        <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+          <Spinner size={16} className="border-border border-t-transparent opacity-80" />
+        </span>
+      ) : null}
       {/* Sliding indicator */}
       <span
         aria-hidden
