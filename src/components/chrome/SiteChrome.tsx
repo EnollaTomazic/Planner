@@ -30,7 +30,9 @@ export default function SiteChrome() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <NavBar />
+          <div className="hidden min-w-0 items-center md:flex md:flex-1">
+            <NavBar />
+          </div>
           <ThemeToggle />
           <AnimationToggle />
         </div>
