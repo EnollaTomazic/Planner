@@ -84,7 +84,7 @@ export default function PageTabs({
         .join(" ")}
       style={sticky ? { top: topOffset } : undefined}
     >
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="page-shell">
         <div
           role="tablist"
           aria-label={ariaLabel}
