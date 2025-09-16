@@ -54,7 +54,7 @@ function Inner() {
   const heroRef = React.useRef<HTMLDivElement>(null);
 
   const right = (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-[var(--space-2)]">
       <Button
         variant="ghost"
         size="sm"
@@ -83,12 +83,12 @@ function Inner() {
     <>
       <PageShell
         as="main"
-        className="py-6 space-y-6"
+        className="py-[var(--space-6)] space-y-[var(--space-6)]"
         aria-labelledby="planner-header"
       >
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
-          contentClassName="space-y-2"
+          contentClassName="space-y-[var(--space-2)]"
           header={{
             id: "planner-header",
             tabIndex: -1,
@@ -119,7 +119,7 @@ function Inner() {
         {/* Today + Side column */}
         <section
           aria-label="Today and weekly panels"
-          className="grid grid-cols-1 gap-6 lg:grid-cols-12"
+          className="grid grid-cols-1 gap-[var(--space-6)] lg:grid-cols-12"
         >
           <div className="lg:col-span-8" ref={heroRef}>
             <TodayHero iso={iso} />
@@ -128,7 +128,7 @@ function Inner() {
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
           <aside
             aria-label="Week notes"
-            className="lg:col-span-4 space-y-6 lg:sticky lg:top-8"
+            className="lg:col-span-4 space-y-[var(--space-6)] lg:sticky lg:top-[var(--space-8)]"
           >
             <WeekNotes iso={iso} />
           </aside>
@@ -137,7 +137,7 @@ function Inner() {
         {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
         <ul
           aria-label="Week days (Monday to Sunday)"
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-[var(--space-4)]"
         >
           {dayItems.map((item) => (
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />

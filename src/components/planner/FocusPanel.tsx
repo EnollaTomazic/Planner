@@ -32,7 +32,7 @@ export default function FocusPanel({ iso }: Props) {
     <SectionCard className="card-neo-soft">
       <SectionCard.Header title="Daily Focus" />
       <SectionCard.Body>
-        <form onSubmit={onSubmit} className="flex items-center gap-2">
+        <form onSubmit={onSubmit} className="flex items-center gap-[var(--space-2)]">
           <Input
             placeholder="What’s the one thing today?"
             value={value}
@@ -55,7 +55,7 @@ export default function FocusPanel({ iso }: Props) {
         </form>
 
         {/* Subtle status text without yelling at the user */}
-        <div className="mt-2 text-label text-muted-foreground" aria-live="polite">
+        <div className="mt-[var(--space-2)] text-label text-muted-foreground" aria-live="polite">
           {saving
             ? "Saving changes…"
             : isDirty

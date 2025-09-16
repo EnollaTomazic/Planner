@@ -205,8 +205,8 @@ export default function TodayHero({ iso }: Props) {
   return (
     <section className="bg-hero-soft rounded-card r-card-lg card-pad-lg anim-in">
       {/* Header */}
-      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
+      <div className="mb-[var(--space-4)] flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-[var(--space-3)]">
           <h2
             className="glitch text-title font-semibold tracking-[-0.01em]"
             data-text={isToday ? "Today" : viewIso}
@@ -215,7 +215,7 @@ export default function TodayHero({ iso }: Props) {
           </h2>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-2)]">
           <input
             ref={dateRef}
             type="date"
@@ -242,13 +242,13 @@ export default function TodayHero({ iso }: Props) {
         current={done}
         total={total}
         showPercentage
-        className="mb-4 flex items-center gap-3"
+        className="mb-[var(--space-4)] flex items-center gap-[var(--space-3)]"
         trackClassName="w-full"
-        percentageClassName="glitch-percent w-12 text-right text-ui font-medium"
+        percentageClassName="glitch-percent w-[var(--space-7)] text-right text-ui font-medium"
       />
 
       {/* Projects */}
-      <div className="mt-4 space-y-4">
+      <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -270,7 +270,7 @@ export default function TodayHero({ iso }: Props) {
         </form>
 
         {projects.length > 0 && (
-          <ul className="space-y-2" role="list" aria-label="Projects">
+          <ul className="space-y-[var(--space-2)]" role="list" aria-label="Projects">
             {projects.slice(0, 12).map((p) => {
               const isEditing = editingProjectId === p.id;
               const isSelected = selProjectId === p.id;
@@ -278,7 +278,7 @@ export default function TodayHero({ iso }: Props) {
                 <li
                   key={p.id}
                   className={cn(
-                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-3 py-2 text-ui font-medium transition",
+                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition",
                     "border-border bg-card/55 hover:bg-card/70",
                     isSelected && "ring-1 ring-ring",
                   )}
@@ -313,7 +313,7 @@ export default function TodayHero({ iso }: Props) {
                       onClick={(e) => e.stopPropagation()}
                     />
                   ) : (
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex items-center gap-[var(--space-3)] min-w-0">
                       <span
                         className="shrink-0"
                         onMouseDown={(e) => e.stopPropagation()}
@@ -337,7 +337,7 @@ export default function TodayHero({ iso }: Props) {
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-[var(--space-2)]">
                     <IconButton
                       aria-label={`Edit project ${p.name}`}
                       title="Edit"
@@ -371,7 +371,7 @@ export default function TodayHero({ iso }: Props) {
               );
             })}
             {projects.length > 12 && (
-              <li className="pr-1 text-right text-label font-medium tracking-[0.02em] opacity-70">
+              <li className="pr-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] opacity-70">
                 + {projects.length - 12} more…
               </li>
             )}
@@ -381,11 +381,11 @@ export default function TodayHero({ iso }: Props) {
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
-        <div className="mt-4 text-ui font-medium text-muted-foreground">
+        <div className="mt-[var(--space-4)] text-ui font-medium text-muted-foreground">
           Select a project to add and view tasks.
         </div>
       ) : (
-        <div className="mt-4 space-y-4">
+        <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -414,10 +414,10 @@ export default function TodayHero({ iso }: Props) {
           {scopedTasks.length === 0 ? (
             <div className="tasks-placeholder">No tasks yet.</div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-[var(--space-2)]">
               <ul
                 id={tasksListId}
-                className="space-y-2"
+                className="space-y-[var(--space-2)]"
                 role="list"
                 aria-label="Tasks"
               >
@@ -427,13 +427,13 @@ export default function TodayHero({ iso }: Props) {
                     <li
                       key={t.id}
                       className={cn(
-                      "task-tile flex items-center justify-between rounded-card r-card-lg border px-3 py-2",
+                      "task-tile flex items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)]",
                       "border-border bg-card/55 hover:bg-card/70",
                     )}
                     role="listitem"
                     onClick={() => setSelTaskId(t.id)}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-[var(--space-3)]">
                       <CheckCircle
                         checked={t.done}
                         onChange={() => {
@@ -483,7 +483,7 @@ export default function TodayHero({ iso }: Props) {
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-[var(--space-2)]">
                       <IconButton
                         aria-label={`Edit task ${t.title}`}
                         title="Edit"

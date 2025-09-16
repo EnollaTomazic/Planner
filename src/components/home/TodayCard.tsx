@@ -23,14 +23,14 @@ export default function TodayCard() {
     <DashboardCard title="Today" cta={{ label: "Planner", href: "/planner" }}>
       <ul className="divide-y divide-[hsl(var(--border))]">
         {topTasks.map((t) => (
-          <li key={t.id} className="flex justify-between py-2 text-ui">
+          <li key={t.id} className="flex justify-between py-[var(--space-2)] text-ui">
             <span>{t.title}</span>
             <span className="text-label text-muted-foreground">Today</span>
           </li>
         ))}
         {topTasks.length === 0 && (
-          <li className="flex justify-between py-2 text-ui text-muted-foreground">
-            <span className="flex items-center gap-2">
+          <li className="flex justify-between py-[var(--space-2)] text-ui text-muted-foreground">
+            <span className="flex items-center gap-[var(--space-2)]">
               <CircleSlash className="size-3" />
               No tasks
             </span>
