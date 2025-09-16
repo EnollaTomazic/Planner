@@ -44,7 +44,7 @@ export default function ReviewList({
 
   return (
     <Card className={containerClass}>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-3" role="listbox">
         {reviews.map((r) => (
           <li key={r.id}>
             <ReviewListItem
