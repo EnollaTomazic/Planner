@@ -4,13 +4,18 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
-const isGitHubPages = Boolean(process.env.GITHUB_PAGES);
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+
+const repositorySlug = process.env.BASE_PATH ?? process.env.GITHUB_REPOSITORY?.split("/")[1];
+const trimmedSlug = repositorySlug?.trim();
+const cleanSlug = trimmedSlug?.replace(new RegExp("^/+|/+$", "g"), "");
+const normalizedBasePath = cleanSlug ? `/${cleanSlug}` : undefined;
 
 const nextConfig = {
   reactStrictMode: true,
   output: "export",
-  basePath: isGitHubPages ? "/Planner" : undefined,
-  assetPrefix: isGitHubPages ? "/Planner" : undefined,
+  basePath: isGitHubPages ? normalizedBasePath : undefined,
+  assetPrefix: isGitHubPages ? normalizedBasePath : undefined,
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
