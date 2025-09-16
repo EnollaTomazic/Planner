@@ -99,6 +99,7 @@ export default function ReviewsPage({
             value: q,
             onValueChange: setQ,
             placeholder: "Search title, tags, opponent, patch…",
+            "aria-label": "Search reviews",
             className: "flex-1",
           },
           actions: (
