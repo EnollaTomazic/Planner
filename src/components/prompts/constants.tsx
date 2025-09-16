@@ -102,6 +102,7 @@ export const COLOR_SECTIONS = [
   { title: "Aurora", tokens: COLOR_PALETTES.aurora },
   { title: "Neutrals", tokens: COLOR_PALETTES.neutrals },
   { title: "Accents", tokens: COLOR_PALETTES.accents },
+  { title: "Pillars", tokens: COLOR_PALETTES.pillars },
 ];
 
 export const demoPrompts: PromptWithTitle[] = [

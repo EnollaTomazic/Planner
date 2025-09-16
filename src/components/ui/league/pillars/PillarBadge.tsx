@@ -187,14 +187,26 @@ export default function PillarBadge({
   );
 }
 
+function createPillarTheme(
+  slug: string,
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>,
+) {
+  return {
+    g1: `hsl(var(--pillar-${slug}-g1))`,
+    g2: `hsl(var(--pillar-${slug}-g2))`,
+    shadow: `hsl(var(--pillar-${slug}-shadow))`,
+    icon,
+  };
+}
+
 const PILLAR_THEME: Record<
   Pillar,
   { g1: string; g2: string; shadow: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }
 > = {
-  Wave: { g1: "hsla(257, 90%, 70%, 1)", g2: "hsla(198, 90%, 62%, 1)", shadow: "hsla(258, 90%, 38%, 0.35)", icon: Waves },
-  Trading: { g1: "hsla(292, 85%, 72%, 1)", g2: "hsla(6, 85%, 66%, 1)", shadow: "hsla(292, 85%, 38%, 0.35)", icon: HandCoins },
-  Vision: { g1: "hsla(157, 70%, 55%, 1)", g2: "hsla(192, 75%, 60%, 1)", shadow: "hsla(170, 70%, 30%, 0.35)", icon: Eye },
-  Tempo: { g1: "hsla(260, 85%, 70%, 1)", g2: "hsla(280, 85%, 65%, 1)", shadow: "hsla(270, 80%, 35%, 0.35)", icon: Timer },
-  Positioning: { g1: "hsla(190, 90%, 66%, 1)", g2: "hsla(220, 90%, 66%, 1)", shadow: "hsla(205, 85%, 35%, 0.35)", icon: Crosshair },
-  Comms: { g1: "hsla(40, 95%, 62%, 1)", g2: "hsla(18, 90%, 60%, 1)", shadow: "hsla(28, 90%, 35%, 0.35)", icon: MessagesSquare },
+  Wave: createPillarTheme("wave", Waves),
+  Trading: createPillarTheme("trading", HandCoins),
+  Vision: createPillarTheme("vision", Eye),
+  Tempo: createPillarTheme("tempo", Timer),
+  Positioning: createPillarTheme("positioning", Crosshair),
+  Comms: createPillarTheme("comms", MessagesSquare),
 };

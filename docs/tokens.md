@@ -46,6 +46,24 @@
 | tone-mid | 265 72% 62% |
 | tone-bot | 195 75% 56% |
 | tone-sup | 320 72% 60% |
+| pillar-wave-g1 | 257 90% 70% |
+| pillar-wave-g2 | 198 90% 62% |
+| pillar-wave-shadow | 258 90% 38% / 0.35 |
+| pillar-trading-g1 | 292 85% 72% |
+| pillar-trading-g2 | 6 85% 66% |
+| pillar-trading-shadow | 292 85% 38% / 0.35 |
+| pillar-vision-g1 | 157 70% 55% |
+| pillar-vision-g2 | 192 75% 60% |
+| pillar-vision-shadow | 170 70% 30% / 0.35 |
+| pillar-tempo-g1 | 260 85% 70% |
+| pillar-tempo-g2 | 280 85% 65% |
+| pillar-tempo-shadow | 270 80% 35% / 0.35 |
+| pillar-positioning-g1 | 190 90% 66% |
+| pillar-positioning-g2 | 220 90% 66% |
+| pillar-positioning-shadow | 205 85% 35% / 0.35 |
+| pillar-comms-g1 | 40 95% 62% |
+| pillar-comms-g2 | 18 90% 60% |
+| pillar-comms-shadow | 28 90% 35% / 0.35 |
 | aurora-g | var(--accent-2) |
 | aurora-g-light | color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white) |
 | aurora-p | var(--accent) |
@@ -118,8 +136,10 @@
 | font-body | 16px |
 | font-title | 20px |
 | font-title-lg | 24px |
-| btn-primary-hover-shadow | 0 2px 6px -1px hsl(var(--accent) / 0.25) |
-| btn-primary-active-shadow | inset 0 0 0 1px hsl(var(--accent) / 0.6) |
+| btn-primary-hover-shadow | 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
+    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
+| btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
+    hsl(var(--accent) / 0.6) |
 | spacing-1 | 4px |
 | spacing-2 | 8px |
 | spacing-3 | 12px |
@@ -132,3 +152,4 @@
 | radius-lg | 12px |
 | radius-xl | 16px |
 | radius-2xl | 24px |
+| radius-full | 9999px |

@@ -73,6 +73,26 @@ export const COLOR_PALETTES = {
     "glow-strong",
     "glow-soft",
   ],
+  pillars: [
+    "pillar-wave-g1",
+    "pillar-wave-g2",
+    "pillar-wave-shadow",
+    "pillar-trading-g1",
+    "pillar-trading-g2",
+    "pillar-trading-shadow",
+    "pillar-vision-g1",
+    "pillar-vision-g2",
+    "pillar-vision-shadow",
+    "pillar-tempo-g1",
+    "pillar-tempo-g2",
+    "pillar-tempo-shadow",
+    "pillar-positioning-g1",
+    "pillar-positioning-g2",
+    "pillar-positioning-shadow",
+    "pillar-comms-g1",
+    "pillar-comms-g2",
+    "pillar-comms-shadow",
+  ],
 } as const;
 
 export type ColorPalette = keyof typeof COLOR_PALETTES;
@@ -81,6 +101,7 @@ export const COLOR_TOKENS = [
   ...COLOR_PALETTES.neutrals,
   ...COLOR_PALETTES.accents,
   ...COLOR_PALETTES.aurora,
+  ...COLOR_PALETTES.pillars,
 ] as const;
 
 export const VARIANTS: { id: Variant; label: string }[] = [

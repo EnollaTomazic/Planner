@@ -9,12 +9,14 @@ export default function ColorGallery() {
     { key: "aurora", label: "Aurora" },
     { key: "neutrals", label: "Neutrals" },
     { key: "accents", label: "Accents" },
+    { key: "pillars", label: "Pillars" },
   ];
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
     aurora: null,
     neutrals: null,
     accents: null,
+    pillars: null,
   });
 
   React.useEffect(() => {
@@ -57,6 +59,12 @@ export default function ColorGallery() {
                 classes for aurora effects.
               </p>
             </div>
+          )}
+          {p.key === "pillars" && (
+            <p className="sm:col-span-2 md:col-span-3 text-center text-label text-muted-foreground">
+              Pillar badge gradients pull from the <code>pillar-*</code> tokens so
+              each theme can tune badge blends and shadows.
+            </p>
           )}
           {COLOR_PALETTES[p.key].map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
