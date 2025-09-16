@@ -4,12 +4,13 @@ import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
 
+const paletteTabs: TabItem<ColorPalette>[] = [
+  { key: "aurora", label: "Aurora" },
+  { key: "neutrals", label: "Neutrals" },
+  { key: "accents", label: "Accents" },
+];
+
 export default function ColorGallery() {
-  const paletteTabs: TabItem<ColorPalette>[] = [
-    { key: "aurora", label: "Aurora" },
-    { key: "neutrals", label: "Neutrals" },
-    { key: "accents", label: "Accents" },
-  ];
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
     aurora: null,
