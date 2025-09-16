@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { usePersistentState } from "@/lib/db";
+import { uid, usePersistentState } from "@/lib/db";
 import type { Goal, Pillar } from "@/lib/types";
 
 export const ACTIVE_CAP = 3;
@@ -17,7 +17,7 @@ export function useGoals() {
   const [goals, setGoals] = usePersistentState<Goal[]>("goals.v2", []);
   const [err, setErr] = React.useState<string | null>(null);
   const [lastDeleted, setLastDeleted] = React.useState<Goal | null>(null);
-  const undoTimer = React.useRef<number | null>(null);
+  const undoTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const addGoal = React.useCallback(
     ({ title, metric, notes, pillar }: AddGoalInput) => {
@@ -32,7 +32,7 @@ export function useGoals() {
         return false;
       }
       const g: Goal = {
-        id: crypto.randomUUID(),
+        id: uid(),
         title: title.trim(),
         ...(pillar ? { pillar } : {}),
         metric: metric.trim() || undefined,
@@ -75,8 +75,8 @@ export function useGoals() {
       const g = goals.find((x) => x.id === id) || null;
       setGoals((prev) => prev.filter((x) => x.id !== id));
       setLastDeleted(g);
-      if (undoTimer.current) window.clearTimeout(undoTimer.current);
-      undoTimer.current = window.setTimeout(() => setLastDeleted(null), 5000);
+      if (undoTimer.current) clearTimeout(undoTimer.current);
+      undoTimer.current = setTimeout(() => setLastDeleted(null), 5000);
     },
     [goals, setGoals],
   );
@@ -98,7 +98,7 @@ export function useGoals() {
 
   React.useEffect(() => {
     return () => {
-      if (undoTimer.current) window.clearTimeout(undoTimer.current);
+      if (undoTimer.current) clearTimeout(undoTimer.current);
     };
   }, []);
 
