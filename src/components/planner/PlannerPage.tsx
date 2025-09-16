@@ -99,7 +99,7 @@ function Inner() {
             sticky: false,
             rail: false,
             barClassName: "hidden",
-            bodyClassName: "-mt-5 md:-mt-6",
+            className: "planner-header__hero",
             heading: <span className="sr-only">Week picker</span>,
             children: <WeekPicker />,
           }}
