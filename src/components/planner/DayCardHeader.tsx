@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { formatIsoLabel } from "@/lib/date";
-import { cn } from "@/lib/utils";
+import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
 import type { ISODate } from "./plannerStore";
 
 type Props = {
@@ -32,19 +32,7 @@ export default function DayCardHeader({
       </span>
 
       <div className="flex-1 min-w-0">
-        <div
-          className={cn("glitch-track", pctNum === 100 && "is-complete")}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={pctNum}
-        >
-          <div
-            className="glitch-fill transition-[width] duration-500 ease-out"
-            style={{ width: `${pctNum}%` }}
-          />
-          <div className="glitch-scan" />
-        </div>
+        <GlitchProgress current={doneTasks} total={totalTasks} />
       </div>
 
       <div className="shrink-0 flex items-baseline gap-3 text-xs text-muted-foreground">
