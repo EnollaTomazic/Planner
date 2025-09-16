@@ -15,6 +15,7 @@ import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerStore";
 import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { CalendarDays, ArrowUpToLine } from "lucide-react";
 import { toISODate } from "@/lib/date";
 
@@ -115,17 +116,32 @@ export default function WeekPicker() {
   const isoEnd = toISODate(end);
 
   const { per, weekDone, weekTotal } = useWeekData(days);
+  const reduceMotion = usePrefersReducedMotion();
 
   // Show "Jump to top" button after a double-click jump; hide when back at top
   const [showTop, setShowTop] = React.useState(false);
   React.useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    let frameId: number | null = null;
+
     const onScroll = () => {
-      if (typeof window === "undefined") return;
-      const atTop = window.scrollY <= 4;
-      setShowTop((prev) => (atTop ? false : prev));
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        const atTop = window.scrollY <= 4;
+        setShowTop((prev) => (atTop ? false : prev));
+      });
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
   // Select (single-click) vs jump (double-click)
@@ -134,11 +150,7 @@ export default function WeekPicker() {
     setIso(d);
     const el = document.getElementById(`day-${d}`);
     if (el) {
-      const behavior: ScrollBehavior = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches
-        ? "auto"
-        : "smooth";
+      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       el.scrollIntoView({
         behavior,
         block: "start",
@@ -151,11 +163,7 @@ export default function WeekPicker() {
 
   const jumpToTop = () => {
     if (typeof window !== "undefined") {
-      const behavior: ScrollBehavior = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches
-        ? "auto"
-        : "smooth";
+      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       window.scrollTo({ top: 0, behavior });
       // The scroll listener will auto-hide the button when we reach the top
     }

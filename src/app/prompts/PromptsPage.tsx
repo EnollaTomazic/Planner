@@ -13,7 +13,7 @@ import {
   type Section,
 } from "@/components/prompts/constants";
 import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
-import { readLocal, writeLocal } from "@/lib/db";
+import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
@@ -70,7 +70,7 @@ function PageContent() {
   const searchParams = useSearchParams();
   const [, startTransition] = React.useTransition();
   const queryParam = searchParams.get("q");
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = usePersistentState("prompts-query", "");
   const componentsRef = React.useRef<HTMLDivElement>(null);
   const colorsRef = React.useRef<HTMLDivElement>(null);
   const onboardingRef = React.useRef<HTMLDivElement>(null);
@@ -78,15 +78,9 @@ function PageContent() {
   React.useEffect(() => {
     const q = queryParam ?? "";
     if (q !== query) setQuery(q);
-  }, [queryParam, query]);
+  }, [queryParam, query, setQuery]);
 
   React.useEffect(() => {
-    const stored = readLocal<string>("prompts-query");
-    if (stored) setQuery(stored);
-  }, []);
-
-  React.useEffect(() => {
-    writeLocal("prompts-query", query);
     const sp = new URLSearchParams(searchParams.toString());
     const current = sp.get("q") ?? "";
     if (current === query) return;

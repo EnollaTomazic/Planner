@@ -13,6 +13,7 @@
  */
 
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { Check } from "lucide-react";
 import * as React from "react";
 
@@ -44,18 +45,7 @@ export default function CheckCircle({
   "aria-label"?: string;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
-
-  const [reduceMotion, setReduceMotion] = React.useState(false);
-  React.useEffect(() => {
-    const mq =
-      typeof window.matchMedia === "function"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)")
-        : null;
-    const onChange = () => setReduceMotion(mq?.matches ?? false);
-    onChange();
-    mq?.addEventListener("change", onChange);
-    return () => mq?.removeEventListener("change", onChange);
-  }, []);
+  const reduceMotion = usePrefersReducedMotion();
 
   // Hover/focus tracking
   const [hovered, setHovered] = React.useState(false);
