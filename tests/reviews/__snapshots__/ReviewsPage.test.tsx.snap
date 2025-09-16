@@ -449,13 +449,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="flex items-baseline gap-2"
                     >
                       <h2
-                        class="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.005em] truncate"
+                        class="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
                         data-text="Browse Reviews"
                       >
                         Browse Reviews
                       </h2>
                       <span
-                        class="text-ui md:text-body font-medium text-[hsl(var(--muted-foreground))] truncate"
+                        class="text-ui md:text-body font-medium text-muted-foreground truncate"
                       >
                         <span
                           class="pill"

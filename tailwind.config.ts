@@ -2,7 +2,15 @@
 // - TypeScript config; works with Tailwind 3.4+
 // - Dark mode by class; colors map to CSS variables in globals.css
 import type { Config } from "tailwindcss";
-import { spacingTokens, radiusTokens } from "./src/lib/tokens";
+import { spacingTokens, radiusScale } from "./src/lib/tokens";
+
+const borderRadiusTokens = Object.entries(radiusScale).reduce(
+  (acc, [token, value]) => {
+    acc[token] = `${value}px`;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
 const config: Config = {
   darkMode: ["class"],
@@ -56,12 +64,7 @@ const config: Config = {
         "surface-vhs": "hsl(var(--surface-vhs))",
         "surface-streak": "hsl(var(--surface-streak))",
       },
-      borderRadius: {
-        md: `var(${radiusTokens[0]})`,
-        lg: `var(${radiusTokens[1]})`,
-        xl: `var(${radiusTokens[2]})`,
-        "2xl": `var(${radiusTokens[3]})`,
-      },
+      borderRadius: borderRadiusTokens,
       boxShadow: {
         "neo-sm":
           "4px 4px 8px hsl(var(--panel)/0.72), -4px -4px 8px hsl(var(--foreground)/0.06)",
