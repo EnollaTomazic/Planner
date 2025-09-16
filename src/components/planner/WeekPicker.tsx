@@ -17,7 +17,7 @@ import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { CalendarDays, ArrowUpToLine } from "lucide-react";
-import { toISODate } from "@/lib/date";
+import { fromISODate, toISODate } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
 
@@ -25,6 +25,18 @@ const dmy = new Intl.DateTimeFormat(undefined, {
   day: "2-digit",
   month: "short",
 });
+
+const chipDateFormatter = new Intl.DateTimeFormat(undefined, {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+});
+
+const formatChipLabel = (value: ISODate): string => {
+  const dt = fromISODate(value);
+  if (!dt) return value;
+  return chipDateFormatter.format(dt);
+};
 
 /* ───────── presentational chip (no hooks) ───────── */
 
@@ -58,6 +70,8 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
   },
   ref,
 ) {
+  const localizedLabel = React.useMemo(() => formatChipLabel(iso), [iso]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" && selected) {
       event.preventDefault();
@@ -101,7 +115,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       onFocus={onFocus}
       tabIndex={tabIndex}
       aria-selected={selected}
-      aria-label={`Select ${iso}. Completed ${done} of ${total}. ${
+      aria-label={`Select ${localizedLabel}. Completed ${done} of ${total}. ${
         selected
           ? "Press Enter again or double-click to jump."
           : "Press Enter to select."
@@ -130,9 +144,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           "chip__date",
           today ? "text-accent" : "text-muted-foreground",
         )}
-        data-text={iso}
+        data-text={localizedLabel}
       >
-        {iso}
+        {localizedLabel}
       </div>
       <div className="chip__counts">
         <span className="tabular-nums text-foreground">{done}</span>

@@ -25,7 +25,7 @@ function HomePageContent() {
     <PageShell
       as="main"
       aria-labelledby="home-header"
-      className="py-6 space-y-6 md:space-y-8"
+      className="py-6 space-y-6 md:space-y-8 md:pb-8"
     >
       <section
         id="landing-hero"
