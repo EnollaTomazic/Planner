@@ -32,7 +32,7 @@ let writeTimer: ReturnType<typeof setTimeout> | null = null;
 
 export let writeLocalDelay = 50;
 export function setWriteLocalDelay(ms: number) {
-  writeLocalDelay = ms;
+  writeLocalDelay = Math.max(0, ms);
 }
 
 function flushWriteQueue() {
