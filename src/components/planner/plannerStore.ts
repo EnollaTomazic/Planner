@@ -82,15 +82,25 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   };
 }
 
-function sanitizeDaysMap(map: Record<ISODate, DayRecord>) {
-  let mutated = false;
-  const next: Record<ISODate, DayRecord> = {};
-  for (const iso of Object.keys(map)) {
-    const ensured = ensureDay(map, iso);
-    next[iso] = ensured;
-    if (ensured !== map[iso]) mutated = true;
+function sanitizeDayUpdate(
+  prev: Record<ISODate, DayRecord>,
+  next: Record<ISODate, DayRecord>,
+) {
+  if (Object.is(prev, next)) {
+    return prev;
   }
-  return mutated ? next : map;
+
+  for (const iso of Object.keys(next) as ISODate[]) {
+    if (!Object.is(prev[iso], next[iso])) {
+      const ensured = ensureDay(next, iso);
+      if (Object.is(ensured, next[iso])) {
+        return next;
+      }
+      return { ...next, [iso]: ensured };
+    }
+  }
+
+  return next;
 }
 type DaysState = {
   days: Record<ISODate, DayRecord>;
@@ -121,30 +131,20 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     Record<ISODate, Selection>
   >("planner:selected", {});
 
-  const days = React.useMemo(
-    () => sanitizeDaysMap(rawDays),
-    [rawDays],
-  );
-
-  React.useEffect(() => {
-    if (!Object.is(rawDays, days)) {
-      setRawDays(days);
-    }
-  }, [rawDays, days, setRawDays]);
+  const days = rawDays;
 
   const setDays = React.useCallback<
     React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>
   >(
     (update) => {
       setRawDays((prev) => {
-        const base = sanitizeDaysMap(prev);
         const next =
           typeof update === "function"
             ? (update as (
                 current: Record<ISODate, DayRecord>,
-              ) => Record<ISODate, DayRecord>)(base)
+              ) => Record<ISODate, DayRecord>)(prev)
             : update;
-        return sanitizeDaysMap(next);
+        return sanitizeDayUpdate(prev, next);
       });
     },
     [setRawDays],
