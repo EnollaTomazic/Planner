@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import FieldShell from "./primitives/FieldShell";
+import styles from "./Select.module.css";
 import useMounted from "@/lib/useMounted";
 import { cn, slugify } from "@/lib/utils";
 
@@ -390,18 +391,23 @@ const AnimatedSelectImpl = React.forwardRef<
         : "Select option");
 
   // ── Trigger (glitch chrome + stays lit on selection) ──
-  const triggerCls = [
-    "glitch-trigger relative flex items-center h-9 rounded-[var(--radius-full)] px-3 overflow-hidden",
+  const triggerCls = cn(
+    styles.glitchTrigger,
+    "relative flex items-center h-9 rounded-[var(--radius-full)] px-3 overflow-hidden",
     "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
     "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
     buttonClassName,
-  ].join(" ");
+  );
 
-  const caretCls = `caret ml-auto size-4 shrink-0 opacity-75 ${open ? "caret-open" : ""}`;
+  const caretCls = cn(
+    styles.caret,
+    "ml-auto size-4 shrink-0 opacity-75",
+    open && styles.caretOpen,
+  );
 
   return (
-    <div id={id} className={["glitch-wrap", className].join(" ")}>
+    <div id={id} className={cn("glitch-wrap", className)}>
       {label ? (
         <div
           id={labelId}
@@ -440,11 +446,12 @@ const AnimatedSelectImpl = React.forwardRef<
           ) : null}
 
           <span
-            className={[
-              "font-medium glitch-text",
+            className={cn(
+              "font-medium",
+              styles.glitchText,
               lit ? "text-foreground" : "text-muted-foreground",
               "group-hover:text-foreground",
-            ].join(" ")}
+            )}
           >
             {current ? (
               current.label
@@ -456,10 +463,10 @@ const AnimatedSelectImpl = React.forwardRef<
           <ChevronDown className={caretCls} aria-hidden="true" />
 
           {/* ── glitch border stack (no whites) ── */}
-          <span aria-hidden className="gb-iris" />
-          <span aria-hidden className="gb-chroma" />
-          <span aria-hidden className="gb-flicker" />
-          <span aria-hidden className="gb-scan" />
+          <span aria-hidden className={styles.gbIris} />
+          <span aria-hidden className={styles.gbChroma} />
+          <span aria-hidden className={styles.gbFlicker} />
+          <span aria-hidden className={styles.gbScan} />
         </button>
       </div>
 
@@ -508,10 +515,10 @@ const AnimatedSelectImpl = React.forwardRef<
                 data-open="true"
               >
                 {/* same border stack for menu */}
-                <span aria-hidden className="gb-iris" />
-                <span aria-hidden className="gb-chroma" />
-                <span aria-hidden className="gb-flicker" />
-                <span aria-hidden className="gb-scan" />
+                <span aria-hidden className={styles.gbIris} />
+                <span aria-hidden className={styles.gbChroma} />
+                <span aria-hidden className={styles.gbFlicker} />
+                <span aria-hidden className={styles.gbScan} />
 
                 {items.map((it, idx) => {
                   const active = it.value === value;
@@ -541,7 +548,12 @@ const AnimatedSelectImpl = React.forwardRef<
                         data-loading={it.loading}
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <span className="text-sm leading-none glitch-text">
+                          <span
+                            className={cn(
+                              "text-sm leading-none",
+                              styles.glitchText,
+                            )}
+                          >
                             {it.label}
                           </span>
                           <Check
@@ -572,251 +584,9 @@ const AnimatedSelectImpl = React.forwardRef<
           </AnimatePresence>,
           document.body,
         )}
-
-      <GlitchStyles />
     </div>
   );
 });
-
-/* ─────────────────────────────────────────────────────────
-   Scoped glitch styles: chroma/iris ring, flicker, scanlines.
-   Boosted when [data-lit="true"] or [data-open="true"].
-   No white borders; all hues use theme tokens.
-   ───────────────────────────────────────────────────────── */
-function GlitchStyles() {
-  return (
-    <style jsx>{`
-      /* caret jitter */
-      .caret {
-        transition:
-          transform var(--dur-quick) var(--ease-out),
-          filter var(--dur-quick) var(--ease-out);
-      }
-      .caret-open {
-        transform: rotate(180deg);
-      }
-      .glitch-trigger:hover .caret {
-        animation: caret-jitter 0.9s steps(2, end) infinite;
-        filter: drop-shadow(0 0 4px hsl(var(--ring) / 0.55));
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .caret {
-          transition: none;
-        }
-        .glitch-trigger:hover .caret {
-          animation: none;
-          filter: none;
-        }
-      }
-      @keyframes caret-jitter {
-        0%,
-        100% {
-          transform: translateX(0) rotate(var(--rot, 0deg));
-        }
-        50% {
-          transform: translateX(0.6px) rotate(var(--rot, 0deg));
-        }
-      }
-
-      /* ── border stack pieces (masked to border) ── */
-
-      .gb-iris,
-      .gb-chroma,
-      .gb-flicker,
-      .gb-scan {
-        position: absolute;
-        inset: -1px;
-        border-radius: var(--radius-2xl);
-        pointer-events: none;
-      }
-
-      /* Base iris sheen with subtle rotation */
-      .gb-iris {
-        padding: 1px;
-        background: conic-gradient(
-          from 180deg,
-          hsl(var(--ring) / 0),
-          hsl(var(--ring) / 0.55),
-          hsl(var(--accent-2) / 0.55),
-          hsl(var(--lav-deep) / 0.55),
-          hsl(var(--ring) / 0)
-        );
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0.32;
-        animation: iris-rotate 10s linear infinite;
-      }
-      @keyframes iris-rotate {
-        to {
-          filter: hue-rotate(360deg);
-        }
-      }
-
-      /* Stronger chroma jitter (RGB split feel) */
-      .gb-chroma {
-        padding: 1px;
-        background: conic-gradient(
-          from 90deg,
-          hsl(var(--ring) / 0),
-          hsl(var(--ring) / 0.7),
-          hsl(var(--accent-2) / 0.65),
-          hsl(var(--accent) / 0.65),
-          hsl(var(--ring) / 0)
-        );
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        mix-blend-mode: screen;
-        opacity: 0.28;
-        animation: chroma-jitter 2.1s steps(6, end) infinite;
-      }
-      @keyframes chroma-jitter {
-        0%,
-        100% {
-          transform: translate(0, 0);
-        }
-        20% {
-          transform: translate(0.25px, -0.25px);
-        }
-        40% {
-          transform: translate(-0.25px, 0.25px);
-        }
-        60% {
-          transform: translate(0.15px, 0.15px);
-        }
-        80% {
-          transform: translate(-0.15px, -0.1px);
-        }
-      }
-
-      /* Flickery aura hugging the border */
-      .gb-flicker {
-        inset: -2px;
-        border-radius: var(--radius-2xl);
-        background: radial-gradient(
-          120% 120% at 50% 50%,
-          hsl(var(--ring) / 0.18),
-          transparent 60%
-        );
-        filter: blur(7px) saturate(1.06);
-        mix-blend-mode: screen;
-        opacity: 0.18;
-        animation:
-          border-flicker 3.2s steps(24, end) infinite,
-          border-pulse 6s ease-in-out infinite alternate;
-      }
-      @keyframes border-flicker {
-        0%,
-        7%,
-        9%,
-        100% {
-          opacity: 0.16;
-        }
-        8% {
-          opacity: 0.46;
-        }
-        31% {
-          opacity: 0.22;
-        }
-        33% {
-          opacity: 0.4;
-        }
-        54% {
-          opacity: 0.2;
-        }
-        55% {
-          opacity: 0.46;
-        }
-        78% {
-          opacity: 0.24;
-        }
-      }
-      @keyframes border-pulse {
-        0%,
-        100% {
-          filter: blur(7px) saturate(1.02);
-        }
-        50% {
-          filter: blur(8px) saturate(1.18);
-        }
-      }
-
-      /* Thin scanlines constrained to the edge */
-      .gb-scan {
-        padding: 1px;
-        -webkit-mask:
-          linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-          linear-gradient(hsl(var(--foreground)) 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        background: repeating-linear-gradient(
-          0deg,
-          hsl(var(--foreground) / 0.1) 0 1px,
-          transparent 2px 4px
-        );
-        mix-blend-mode: soft-light;
-        opacity: 0.2;
-        animation: scan-move 5.2s linear infinite;
-      }
-      @keyframes scan-move {
-        0% {
-          transform: translateY(-10%);
-        }
-        100% {
-          transform: translateY(10%);
-        }
-      }
-
-      /* Light up when selected or open */
-      .glitch-trigger[data-lit="true"] .gb-iris,
-      .glitch-trigger[data-open="true"] .gb-iris {
-        opacity: 0.45;
-      }
-      .glitch-trigger[data-lit="true"] .gb-chroma,
-      .glitch-trigger[data-open="true"] .gb-chroma {
-        opacity: 0.48;
-      }
-      .glitch-trigger[data-lit="true"] .gb-flicker,
-      .glitch-trigger[data-open="true"] .gb-flicker {
-        opacity: 0.28;
-      }
-
-      /* Menu also glows a bit stronger */
-      [data-open="true"] .gb-iris {
-        opacity: 0.38;
-      }
-      [data-open="true"] .gb-chroma {
-        opacity: 0.42;
-      }
-      [data-open="true"] .gb-flicker {
-        opacity: 0.26;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .gb-iris,
-        .gb-chroma,
-        .gb-flicker,
-        .gb-scan,
-        .glitch-trigger:hover .caret {
-          animation: none;
-        }
-      }
-
-      /* subtle label RGB split on hover */
-      .glitch-text:hover {
-        text-shadow:
-          0.6px 0 hsl(var(--accent-2) / 0.45),
-          -0.6px 0 hsl(var(--lav-deep) / 0.45);
-      }
-    `}</style>
-  );
-}
 
 type SelectRef = HTMLSelectElement | HTMLButtonElement;
 
