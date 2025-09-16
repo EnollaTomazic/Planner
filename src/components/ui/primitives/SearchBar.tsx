@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Label from "../Label";
 import Input, { type InputSize } from "./Input";
+import IconButton from "./IconButton";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -53,6 +54,13 @@ export default function SearchBar({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { id, ...restProps } = rest;
   const [generatedId, setGeneratedId] = React.useState<string | undefined>(id);
+  const debounceHandle = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelPending = React.useCallback(() => {
+    if (debounceHandle.current !== null) {
+      clearTimeout(debounceHandle.current);
+      debounceHandle.current = null;
+    }
+  }, []);
 
   // Mirror external value into local state whenever it changes.
   // No need to read `query` here; linter calms down.
@@ -63,13 +71,17 @@ export default function SearchBar({
   // Debounced emit of local changes
   React.useEffect(() => {
     if (!onValueChange) return;
+    cancelPending();
     if (debounceMs <= 0) {
       onValueChange(query);
       return;
     }
-    const t = setTimeout(() => onValueChange(query), debounceMs);
-    return () => clearTimeout(t);
-  }, [query, onValueChange, debounceMs]);
+    debounceHandle.current = setTimeout(() => {
+      debounceHandle.current = null;
+      onValueChange(query);
+    }, debounceMs);
+    return cancelPending;
+  }, [query, onValueChange, debounceMs, cancelPending]);
 
   const showClear = clearable && query.length > 0;
   const ariaLabelledby = restProps["aria-labelledby"];
@@ -114,7 +126,7 @@ export default function SearchBar({
         placeholder={placeholder}
         indent
         height={height}
-        className={cn("w-full", showClear && "pr-7", fieldClassName)}
+        className={cn("w-full", showClear && "pr-12", fieldClassName)}
         aria-label={
           !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
         }
@@ -129,21 +141,24 @@ export default function SearchBar({
       />
 
       {showClear && (
-        <button
-          type="button"
+        <IconButton
+          size="sm"
+          variant="ring"
+          tone="primary"
           aria-label="Clear"
           title="Clear"
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none"
+          className="absolute right-3 top-1/2 -translate-y-1/2"
           disabled={disabled || loading}
-          data-loading={loading}
+          loading={loading}
+          iconSize="sm"
           onClick={() => {
             setQuery("");
             onValueChange?.("");
             inputRef.current?.focus();
           }}
         >
-          <X className="size-4" />
-        </button>
+          <X />
+        </IconButton>
       )}
     </>
   );
