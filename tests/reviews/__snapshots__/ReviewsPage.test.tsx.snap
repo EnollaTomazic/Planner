@@ -6,7 +6,9 @@ exports[`ReviewsPage > renders default state 1`] = `
     aria-labelledby="reviews-header"
     class="page-shell py-6 space-y-6"
   >
-    <section>
+    <header
+      class="sticky top-0"
+    >
       <style
         global="true"
         jsx="true"
@@ -168,7 +170,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="overflow-hidden hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] sticky top-0 rounded-card r-card-lg px-4 py-4"
+        class="relative overflow-hidden hero2-frame hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-4 py-4"
       >
         <span
           aria-hidden="true"
@@ -749,7 +751,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
         />
       </div>
-    </section>
+    </header>
     <div
       class="grid grid-cols-1 items-start gap-6 md:grid-cols-12"
     >

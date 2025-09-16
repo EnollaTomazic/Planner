@@ -4,13 +4,21 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Flag, CalendarDays, BookOpen, Users, Sparkles } from "lucide-react";
+import {
+  Flag,
+  CalendarDays,
+  BookOpen,
+  Users,
+  Sparkles,
+  PanelsTopLeft,
+} from "lucide-react";
 
 const LINKS = [
   { href: "/goals", label: "Goals", icon: Flag },
   { href: "/planner", label: "Planner", icon: CalendarDays },
   { href: "/reviews", label: "Reviews", icon: BookOpen },
   { href: "/team", label: "Team", icon: Users },
+  { href: "/comps", label: "Components", icon: PanelsTopLeft },
   { href: "/prompts", label: "Prompts", icon: Sparkles },
 ];
 
