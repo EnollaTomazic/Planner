@@ -15,7 +15,7 @@
 | primary-soft | 262 83% 18% |
 | accent | 292 90% 35% |
 | accent-2 | 192 100% 25% |
-| iris-cyan | 192 90% 50% |
+| accent-3 | 192 90% 50% |
 | accent-foreground | 0 0% 100% |
 | accent-soft | 292 90% 15% |
 | highlight | 0 0% 100% |
@@ -83,7 +83,7 @@
     from 180deg,
     hsl(262 83% 58% / 0),
     hsl(262 83% 58% / 0.7),
-    hsl(var(--iris-cyan) / 0.7),
+    hsl(var(--accent-3) / 0.7),
     hsl(320 85% 60% / 0.7),
     hsl(262 83% 58% / 0)
   ) |
@@ -91,7 +91,7 @@
     90deg,
     hsl(262 83% 58% / 0.95),
     hsl(292 80% 60% / 0.95),
-    hsl(var(--iris-cyan) / 0.95)
+    hsl(var(--accent-3) / 0.95)
   ) |
 | shadow | 0 10px 30px hsl(250 30% 2% / 0.35) |
 | lg-violet | var(--ring) |
