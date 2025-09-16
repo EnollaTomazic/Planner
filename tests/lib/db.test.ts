@@ -116,6 +116,24 @@ afterEach(() => {
   delete (window as { __planner_flush_bound?: boolean }).__planner_flush_bound;
 });
 
+describe("setWriteLocalDelay", () => {
+  it("clamps negative delays to zero", async () => {
+    const db = await import("@/lib/db");
+
+    db.setWriteLocalDelay(-10);
+
+    expect(db.writeLocalDelay).toBe(0);
+  });
+
+  it("keeps positive delays unchanged", async () => {
+    const db = await import("@/lib/db");
+
+    db.setWriteLocalDelay(75);
+
+    expect(db.writeLocalDelay).toBe(75);
+  });
+});
+
 describe("scheduleWrite", () => {
   it("debounces writes until the delay elapses", async () => {
     vi.useFakeTimers();
