@@ -29,10 +29,10 @@ import {
   Plus,
 } from "lucide-react";
 import { sanitizeList } from "@/lib/sanitizeList";
+import { ROLES } from "./constants";
+import type { Role } from "./constants";
 
 /* ───────────── Types ───────────── */
-
-type Role = "Top" | "Jungle" | "Mid" | "Bot" | "Support";
 
 export type TeamComp = {
   id: string;
@@ -78,8 +78,6 @@ const SEEDS: TeamComp[] = [
 ];
 
 /* ───────────── Utils ───────────── */
-
-const ROLES: Role[] = ["Top", "Jungle", "Mid", "Bot", "Support"];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
