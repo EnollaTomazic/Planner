@@ -1,9 +1,4 @@
-import {
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import { runInThisContext } from "node:vm";
@@ -18,6 +13,21 @@ beforeEach(() => {
 });
 
 describe("applyTheme", () => {
+  it("is a no-op when the DOM is unavailable", () => {
+    vi.stubGlobal("document", undefined);
+
+    try {
+      expect(() =>
+        applyTheme({
+          variant: "lg",
+          bg: 0,
+        }),
+      ).not.toThrow();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it.each([-1, BG_CLASSES.length])(
     "ignores invalid background index %s",
     (invalidIndex) => {
