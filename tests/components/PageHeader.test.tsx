@@ -64,11 +64,16 @@ describe("PageHeader", () => {
     });
     expect(heroHeading).toHaveClass("text-title");
     expect(heroHeading).toHaveClass("md:text-title");
+    expect(heroHeading).toHaveClass("break-words");
+    expect(heroHeading).toHaveClass("text-balance");
     expect(heroHeading).not.toHaveClass("text-title-lg");
     expect(heroHeading).not.toHaveClass("md:text-title-lg");
+    expect(heroHeading).not.toHaveClass("truncate");
 
     const subtitle = screen.getByText(baseHero.subtitle);
     expect(subtitle).toHaveClass("font-normal");
+    expect(subtitle).toHaveClass("break-words");
+    expect(subtitle).not.toHaveClass("truncate");
     expect(subtitle).not.toHaveClass("font-medium");
   });
 
@@ -89,9 +94,14 @@ describe("PageHeader", () => {
     });
     expect(heroHeading).toHaveClass("text-title-lg");
     expect(heroHeading).toHaveClass("md:text-title-lg");
+    expect(heroHeading).toHaveClass("break-words");
+    expect(heroHeading).toHaveClass("text-balance");
+    expect(heroHeading).not.toHaveClass("truncate");
 
     const subtitle = screen.getByText(baseHero.subtitle);
     expect(subtitle).toHaveClass("font-medium");
+    expect(subtitle).toHaveClass("break-words");
+    expect(subtitle).not.toHaveClass("truncate");
     expect(subtitle).not.toHaveClass("font-normal");
   });
 
