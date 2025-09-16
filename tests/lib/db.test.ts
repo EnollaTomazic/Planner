@@ -46,19 +46,30 @@ describe("writeLocal", () => {
 });
 
 describe("uid", () => {
-  it("generates unique ids without crypto.randomUUID", async () => {
-    const original = globalThis.crypto;
+  it("generates unique ids using crypto.getRandomValues when randomUUID is unavailable", async () => {
+    vi.resetModules();
+    const originalDescriptor = Object.getOwnPropertyDescriptor(globalThis, "crypto");
+    const getRandomValues = vi.fn<Crypto["getRandomValues"]>((buffer: ArrayBufferView | null) => {
+      if (buffer === null) throw new TypeError("Expected buffer");
+      const view = new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+      for (let i = 0; i < view.length; i++) {
+        view[i] = (i * 17 + 11) & 0xff;
+      }
+      return buffer;
+    });
     Object.defineProperty(globalThis, "crypto", {
-      value: {},
       configurable: true,
+      value: { getRandomValues } as unknown as Crypto,
     });
     const { uid } = await import("@/lib/db");
     const ids = new Set<string>();
     for (let i = 0; i < 10000; i++) ids.add(uid());
     expect(ids.size).toBe(10000);
-    Object.defineProperty(globalThis, "crypto", {
-      value: original,
-      configurable: true,
-    });
+    expect(getRandomValues).toHaveBeenCalled();
+    if (originalDescriptor) {
+      Object.defineProperty(globalThis, "crypto", originalDescriptor);
+    } else {
+      Reflect.deleteProperty(globalThis as Record<string, unknown>, "crypto");
+    }
   });
 });
