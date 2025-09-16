@@ -41,7 +41,7 @@ export function withBasePath(path: string): string {
 }
 
 /** Capitalize first letter (not Unicode-smart on purpose). */
-export function cap(s: string): string {
+export function capitalize(s: string): string {
   return s.length ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
