@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader, PageShell, Button, IconButton, Skeleton } from "@/components/ui";
+import {
+  PageHeader,
+  PageShell,
+  Button,
+  IconButton,
+  Skeleton,
+  Badge,
+} from "@/components/ui";
 import { Sparkles, Plus } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -14,9 +21,7 @@ import {
 } from "@/components/prompts/constants";
 import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
 import { usePersistentState } from "@/lib/db";
-import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import styles from "./PromptsPage.module.css";
 
 export default function Page() {
   return (
@@ -148,21 +153,17 @@ function PageContent() {
           },
           actions: (
             <div className="flex items-center gap-2">
-              <div
-                className={cn(
-                  "hidden sm:flex items-center gap-2 rounded-full border px-3 py-1 text-label font-medium tracking-[-0.01em]",
-                  styles.accentBadge,
-                )}
+              <Badge
+                tone="accent"
+                size="sm"
+                className="bg-accent-soft/20 text-accent-foreground"
               >
                 <span
                   aria-hidden
-                  className={cn(
-                    "h-2 w-2 rounded-full",
-                    styles.accentBadgeIndicator,
-                  )}
+                  className="h-2 w-2 rounded-full bg-accent"
                 />
                 Accent 3
-              </div>
+              </Badge>
               <Button size="sm">Action</Button>
               <IconButton size="sm" aria-label="Add">
                 <Plus />

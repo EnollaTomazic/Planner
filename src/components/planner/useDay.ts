@@ -11,6 +11,8 @@ export function useDay(iso: ISODate) {
   const rec = React.useMemo(() => ensureDay(days, iso), [days, iso]);
 
   const tasks = rec.tasks;
+  const tasksById = rec.tasksById;
+  const tasksByProject = rec.tasksByProject;
 
   const crud = React.useMemo(() => makeCrud(iso, upsertDay), [iso, upsertDay]);
   const doneCount = rec.doneCount;
@@ -19,6 +21,8 @@ export function useDay(iso: ISODate) {
   return {
     projects: rec.projects,
     tasks,
+    tasksById,
+    tasksByProject,
     addProject: crud.addProject,
     renameProject: crud.renameProject,
     deleteProject: crud.removeProject,

@@ -43,6 +43,8 @@ export default function TeamCompPage() {
   const [tab, setTab] = useState<Tab>("cheat");
   const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
+  const tabBaseId = React.useId();
+  const subTabBaseId = React.useId();
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
   const builderApi = React.useRef<BuilderHandle>(null);
@@ -52,12 +54,38 @@ export default function TeamCompPage() {
     sheet: null,
     comps: null,
   });
-  const [subIds, setSubIds] = React.useState<
-    Record<SubTab, { tab: string; panel: string }>
-  >({
-    sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-    comps: { tab: "comps-tab", panel: "comps-panel" },
-  });
+  const tabIds = React.useMemo(
+    () =>
+      ({
+        cheat: {
+          tab: `${tabBaseId}-cheat-tab`,
+          panel: `${tabBaseId}-cheat-panel`,
+        },
+        builder: {
+          tab: `${tabBaseId}-builder-tab`,
+          panel: `${tabBaseId}-builder-panel`,
+        },
+        clears: {
+          tab: `${tabBaseId}-clears-tab`,
+          panel: `${tabBaseId}-clears-panel`,
+        },
+      }) satisfies Record<Tab, { tab: string; panel: string }>,
+    [tabBaseId],
+  );
+  const subTabIds = React.useMemo(
+    () =>
+      ({
+        sheet: {
+          tab: `${subTabBaseId}-sheet-tab`,
+          panel: `${subTabBaseId}-sheet-panel`,
+        },
+        comps: {
+          tab: `${subTabBaseId}-comps-tab`,
+          panel: `${subTabBaseId}-comps-panel`,
+        },
+      }) satisfies Record<SubTab, { tab: string; panel: string }>,
+    [subTabBaseId],
+  );
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
     myComps: false,
@@ -70,41 +98,34 @@ export default function TeamCompPage() {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
   React.useEffect(() => {
-    const map: Record<SubTab, string> = { sheet: "sheet", comps: "comps" };
-    const next: Record<SubTab, { tab: string; panel: string }> = {
-      sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-      comps: { tab: "comps-tab", panel: "comps-panel" },
-    };
-    (Object.keys(map) as SubTab[]).forEach((k) => {
-      const tabEl = document.querySelector<HTMLButtonElement>(
-        `[role="tab"][aria-controls$="${map[k]}-panel"]`,
-      );
-      if (tabEl) {
-        next[k] = {
-          tab: tabEl.id,
-          panel: tabEl.getAttribute("aria-controls") ?? `${map[k]}-panel`,
-        };
-      }
-    });
-    setSubIds(next);
-  }, []);
-  React.useEffect(() => {
     subPanelRefs.current[subTab]?.focus();
   }, [subTab]);
   const subTabs = React.useMemo<HeaderTab<SubTab>[]>(
     () => [
-      { key: "sheet", label: "Cheat Sheet", icon: <BookOpen /> },
-      { key: "comps", label: "My Comps", icon: <Users2 /> },
+      {
+        key: "sheet",
+        label: "Cheat Sheet",
+        icon: <BookOpen />,
+        id: subTabIds.sheet.tab,
+        controls: subTabIds.sheet.panel,
+      },
+      {
+        key: "comps",
+        label: "My Comps",
+        icon: <Users2 />,
+        id: subTabIds.comps.tab,
+        controls: subTabIds.comps.panel,
+      },
     ],
-    [],
+    [subTabIds],
   );
   const renderCheat = React.useCallback(
     () => (
       <div>
         <div
-          id={subIds.sheet.panel}
+          id={subTabIds.sheet.panel}
           role="tabpanel"
-          aria-labelledby={subIds.sheet.tab}
+          aria-labelledby={subTabIds.sheet.tab}
           hidden={subTab !== "sheet"}
           tabIndex={subTab === "sheet" ? 0 : -1}
           ref={(el) => {
@@ -116,9 +137,9 @@ export default function TeamCompPage() {
           )}
         </div>
         <div
-          id={subIds.comps.panel}
+          id={subTabIds.comps.panel}
           role="tabpanel"
-          aria-labelledby={subIds.comps.tab}
+          aria-labelledby={subTabIds.comps.tab}
           hidden={subTab !== "comps"}
           tabIndex={subTab === "comps" ? 0 : -1}
           ref={(el) => {
@@ -131,7 +152,7 @@ export default function TeamCompPage() {
         </div>
       </div>
     ),
-    [subIds, subTab, query, editing],
+    [subTabIds, subTab, query, editing],
   );
   const TABS = React.useMemo(
     (): Array<
@@ -147,6 +168,8 @@ export default function TeamCompPage() {
         icon: <BookOpenText />,
         render: renderCheat,
         ref: cheatRef,
+        id: tabIds.cheat.tab,
+        controls: tabIds.cheat.panel,
       },
       {
         key: "builder",
@@ -157,6 +180,8 @@ export default function TeamCompPage() {
           <Builder ref={builderApi} editing={editing.builder} />
         ),
         ref: builderRef,
+        id: tabIds.builder.tab,
+        controls: tabIds.builder.panel,
       },
       {
         key: "clears",
@@ -172,9 +197,11 @@ export default function TeamCompPage() {
           />
         ),
         ref: clearsRef,
+        id: tabIds.clears.tab,
+        controls: tabIds.clears.panel,
       },
     ],
-    [renderCheat, editing, clearsQuery],
+    [renderCheat, editing, clearsQuery, tabIds],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
@@ -339,20 +366,23 @@ export default function TeamCompPage() {
       />
 
       <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
-        {TABS.map((t) => (
-          <div
-            key={t.key}
-            id={`${t.key}-panel`}
-            role="tabpanel"
-            aria-labelledby={`${t.key}-tab`}
-            hidden={tab !== t.key}
-            tabIndex={tab === t.key ? 0 : -1}
-            ref={t.ref}
-            className="md:col-span-12"
-          >
-            {tab === t.key && t.render()}
-          </div>
-        ))}
+        {TABS.map((t) => {
+          const ids = tabIds[t.key];
+          return (
+            <div
+              key={t.key}
+              id={ids.panel}
+              role="tabpanel"
+              aria-labelledby={ids.tab}
+              hidden={tab !== t.key}
+              tabIndex={tab === t.key ? 0 : -1}
+              ref={t.ref}
+              className="md:col-span-12"
+            >
+              {tab === t.key && t.render()}
+            </div>
+          );
+        })}
       </section>
     </PageShell>
   );

@@ -1,20 +1,39 @@
 import type { DayRecord } from "./plannerStore";
-import { computeDayCounts } from "./plannerStore";
+import { buildTaskLookups, computeDayCounts } from "./plannerStore";
 
 type DayUpdates = Partial<
-  Pick<DayRecord, "projects" | "tasks" | "tasksByProject" | "focus" | "notes">
+  Pick<
+    DayRecord,
+    "projects" | "tasks" | "tasksById" | "tasksByProject" | "focus" | "notes"
+  >
 >;
 
 function finalizeDay(day: DayRecord, updates: DayUpdates = {}) {
   const projects = updates.projects ?? day.projects;
-  const tasks = updates.tasks ?? day.tasks;
-  const tasksByProject = updates.tasksByProject ?? day.tasksByProject;
+  const hasTaskUpdate = Object.prototype.hasOwnProperty.call(updates, "tasks");
+  const tasks = hasTaskUpdate ? updates.tasks ?? day.tasks : day.tasks;
+  let tasksById = day.tasksById ?? {};
+  let tasksByProject = day.tasksByProject ?? {};
+
+  if (hasTaskUpdate) {
+    const lookups = buildTaskLookups(tasks);
+    tasksById = lookups.tasksById;
+    tasksByProject = lookups.tasksByProject;
+  } else {
+    if (Object.prototype.hasOwnProperty.call(updates, "tasksById")) {
+      tasksById = updates.tasksById ?? {};
+    }
+    if (Object.prototype.hasOwnProperty.call(updates, "tasksByProject")) {
+      tasksByProject = updates.tasksByProject ?? {};
+    }
+  }
   const { doneCount, totalCount } = computeDayCounts(projects, tasks);
   return {
     ...day,
     ...updates,
     projects,
     tasks,
+    tasksById,
     tasksByProject,
     doneCount,
     totalCount,

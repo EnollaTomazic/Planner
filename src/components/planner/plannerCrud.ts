@@ -29,29 +29,11 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => dayToggleProject(d, id));
 
   const removeProject = (id: string) =>
-    upsertDay(iso, (d) => {
-      const next = dayRemoveProject(d, id);
-      const { [id]: _removed, ...rest } = next.tasksByProject;
-      void _removed;
-      return { ...next, tasksByProject: rest };
-    });
+    upsertDay(iso, (d) => dayRemoveProject(d, id));
 
   const addTask = (title: string, projectId?: string) => {
     const id = uid("task");
-    upsertDay(iso, (d) => {
-      const next = dayAddTask(d, id, title, projectId);
-      if (projectId) {
-        const ids = next.tasksByProject[projectId] ?? [];
-        return {
-          ...next,
-          tasksByProject: {
-            ...next.tasksByProject,
-            [projectId]: [...ids, id],
-          },
-        };
-      }
-      return next;
-    });
+    upsertDay(iso, (d) => dayAddTask(d, id, title, projectId));
     return id;
   };
 
@@ -62,20 +44,7 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => dayToggleTask(d, id));
 
   const removeTask = (id: string) =>
-    upsertDay(iso, (d) => {
-      const projectId = d.tasks.find((t) => t.id === id)?.projectId;
-      const next = dayRemoveTask(d, id);
-      if (projectId) {
-        const ids = (next.tasksByProject[projectId] ?? []).filter(
-          (tid) => tid !== id,
-        );
-        return {
-          ...next,
-          tasksByProject: { ...next.tasksByProject, [projectId]: ids },
-        };
-      }
-      return next;
-    });
+    upsertDay(iso, (d) => dayRemoveTask(d, id));
 
   const addTaskImage = (id: string, url: string) =>
     upsertDay(iso, (d) => dayAddTaskImage(d, id, url));

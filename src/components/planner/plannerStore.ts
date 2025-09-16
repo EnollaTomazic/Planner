@@ -26,6 +26,7 @@ export type DayTask = {
 export type DayRecord = {
   projects: Project[];
   tasks: DayTask[];
+  tasksById: Record<string, DayTask>;
   tasksByProject: Record<string, string[]>;
   doneCount: number;
   totalCount: number;
@@ -56,12 +57,57 @@ export function computeDayCounts(projects: Project[], tasks: DayTask[]) {
   return { doneCount, totalCount };
 }
 
+export function buildTaskLookups(tasks: DayTask[]) {
+  const tasksByProject: Record<string, string[]> = {};
+  const tasksById: Record<string, DayTask> = {};
+  for (const task of tasks) {
+    tasksById[task.id] = task;
+    const projectId = task.projectId;
+    if (!projectId) continue;
+    (tasksByProject[projectId] ??= []).push(task.id);
+  }
+  return { tasksById, tasksByProject };
+}
+
+function taskMapsEqual(
+  a: Record<string, DayTask>,
+  b: Record<string, DayTask>,
+) {
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+  for (const key of aKeys) {
+    if (!Object.prototype.hasOwnProperty.call(b, key)) return false;
+    if (a[key] !== b[key]) return false;
+  }
+  return true;
+}
+
+function projectMapsEqual(
+  a: Record<string, string[]>,
+  b: Record<string, string[]>,
+) {
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+  for (const key of aKeys) {
+    const arrA = a[key] ?? [];
+    const arrB = b[key];
+    if (!arrB || arrA.length !== arrB.length) return false;
+    for (let i = 0; i < arrA.length; i += 1) {
+      if (arrA[i] !== arrB[i]) return false;
+    }
+  }
+  return true;
+}
+
 export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
   const existing = map[date];
   if (!existing)
     return {
       projects: [],
       tasks: [],
+      tasksById: {},
       tasksByProject: {},
       doneCount: 0,
       totalCount: 0,
@@ -73,39 +119,35 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
     tasks = existing.tasks.map((t) => ({ ...t, images: t.images ?? [] }));
   }
 
-  const taskIds = new Set(tasks.map((task) => task.id));
+  const { tasksById: nextTasksById, tasksByProject: nextTasksByProject } =
+    buildTaskLookups(tasks);
+
   const baseTasksByProject = existing.tasksByProject ?? {};
-  let tasksByProject = baseTasksByProject;
-  let tasksByProjectChanged = !Object.prototype.hasOwnProperty.call(
-    existing,
-    "tasksByProject",
-  );
-
-  if (tasksByProjectChanged) {
-    tasksByProject = { ...baseTasksByProject };
-  }
-
-  for (const [projectId, ids] of Object.entries(baseTasksByProject)) {
-    const filtered = ids.filter((taskId) => taskIds.has(taskId));
-    if (filtered.length !== ids.length) {
-      if (!tasksByProjectChanged) {
-        tasksByProjectChanged = true;
-        tasksByProject = { ...baseTasksByProject };
-      }
-      tasksByProject[projectId] = filtered;
-    }
-  }
+  const baseTasksById = existing.tasksById ?? {};
+  const tasksByProjectChanged =
+    !Object.prototype.hasOwnProperty.call(existing, "tasksByProject") ||
+    !projectMapsEqual(baseTasksByProject, nextTasksByProject);
+  const tasksByIdChanged =
+    !Object.prototype.hasOwnProperty.call(existing, "tasksById") ||
+    !taskMapsEqual(baseTasksById, nextTasksById);
 
   const { doneCount, totalCount } = computeDayCounts(existing.projects, tasks);
   const countsChanged =
     existing.doneCount !== doneCount || existing.totalCount !== totalCount;
 
-  if (!tasksChanged && !tasksByProjectChanged && !countsChanged) return existing;
+  if (
+    !tasksChanged &&
+    !tasksByProjectChanged &&
+    !tasksByIdChanged &&
+    !countsChanged
+  )
+    return existing;
 
   return {
     ...existing,
     ...(tasksChanged ? { tasks } : {}),
-    ...(tasksByProjectChanged ? { tasksByProject } : {}),
+    ...(tasksByProjectChanged ? { tasksByProject: nextTasksByProject } : {}),
+    ...(tasksByIdChanged ? { tasksById: nextTasksById } : {}),
     doneCount,
     totalCount,
   };
@@ -156,15 +198,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const tasksById = React.useMemo<TaskIdMap>(() => {
     const map: TaskIdMap = {};
     for (const [iso, record] of Object.entries(days)) {
-      if (!record.tasks.length) {
-        map[iso] = {};
-        continue;
-      }
-      const taskMap: Record<string, DayTask> = {};
-      for (const task of record.tasks) {
-        taskMap[task.id] = task;
-      }
-      map[iso] = taskMap;
+      map[iso] = record.tasksById ?? {};
     }
     return map;
   }, [days]);
