@@ -131,7 +131,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="overflow-hidden hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-7 md:py-7 lg:px-8 lg:py-8 sticky top-0 rounded-card r-card-lg px-4 py-4"
+        class="overflow-hidden hero2-neomorph rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] sticky top-0 rounded-card r-card-lg px-4 py-4"
       >
         <span
           aria-hidden="true"
@@ -146,7 +146,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           class="hero2-noise opacity-[0.03]"
         />
         <div
-          class="relative z-[2] space-y-5 md:space-y-6"
+          class="relative z-[2] space-y-[var(--space-5)] md:space-y-[var(--space-6)]"
         >
           <div
             class="relative z-[2] space-y-2"
@@ -156,17 +156,17 @@ exports[`ReviewsPage > renders default state 1`] = `
               id="reviews-header"
             >
               <div
-                class="sticky top-[var(--header-stack)] relative flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4 min-h-12"
+                class="sticky top-[var(--header-stack)] relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)]"
               >
                 <div
                   aria-hidden="true"
-                  class="header-rail pointer-events-none absolute left-0 top-1 bottom-1 w-2 rounded-l-2xl"
+                  class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
                 />
                 <div
-                  class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4"
+                  class="flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]"
                 >
                   <div
-                    class="flex min-w-0 items-center gap-2 sm:gap-3"
+                    class="flex min-w-0 items-center gap-[var(--space-2)] sm:gap-[var(--space-3)]"
                   >
                     <span
                       class="shrink-0 opacity-90"
@@ -195,7 +195,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="min-w-0"
                     >
                       <div
-                        class="flex min-w-0 items-baseline gap-2"
+                        class="flex min-w-0 items-baseline gap-[var(--space-2)]"
                       >
                         <h1
                           class="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
@@ -436,7 +436,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                 class="sticky-blur top-[var(--header-stack)]"
               >
                 <div
-                  class="relative z-[2] flex items-center gap-3 md:gap-4 lg:gap-6 py-6"
+                  class="relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]"
                 >
                   <span
                     aria-hidden="true"
@@ -446,7 +446,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="min-w-0"
                   >
                     <div
-                      class="flex items-baseline gap-2"
+                      class="flex items-baseline gap-[var(--space-2)]"
                     >
                       <h2
                         class="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
@@ -468,7 +468,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   </div>
                 </div>
                 <div
-                  class="relative z-[2] mt-5 md:mt-6 flex flex-col gap-5 md:gap-6"
+                  class="relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]"
                 >
                   <div
                     class="relative"
@@ -483,10 +483,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
                     />
                     <div
-                      class="flex items-center gap-3 md:gap-4 lg:gap-6 pt-5 md:pt-6"
+                      class="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
                     >
                       <form
-                        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
+                        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
                         role="search"
                       >
                         <div
@@ -494,7 +494,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <svg
                             aria-hidden="true"
-                            class="lucide lucide-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                            class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 size-[var(--space-4)] text-muted-foreground"
                             fill="none"
                             height="24"
                             stroke="currentColor"
@@ -522,7 +522,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               autocapitalize="none"
                               autocomplete="off"
                               autocorrect="off"
-                              class="w-full rounded-[inherit] bg-transparent px-3 text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-7"
+                              class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)] pl-[var(--space-7)]"
                               id=":r1:"
                               name=":r1:"
                               placeholder="Search title, tags, opponent, patch…"
@@ -534,7 +534,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         </div>
                       </form>
                       <div
-                        class="flex items-center gap-2"
+                        class="flex items-center gap-[var(--space-2)]"
                       >
                         <div
                           class="flex items-center gap-3"
@@ -568,7 +568,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                                   </span>
                                   <svg
                                     aria-hidden="true"
-                                    class="lucide lucide-chevron-down _caret_843152 ml-auto size-4 shrink-0 opacity-75"
+                                    class="lucide lucide-chevron-down _caret_843152 ml-auto size-[var(--space-4)] shrink-0 opacity-75"
                                     fill="none"
                                     height="24"
                                     stroke="currentColor"
@@ -604,7 +604,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </div>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 text-ui gap-2 [&_svg]:size-5 px-4 whitespace-nowrap shadow-glow-sm bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active text-foreground [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-[var(--control-h-md)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] px-4 whitespace-nowrap shadow-glow-sm bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active text-foreground [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
                             style="--glow-active: hsl(var(--foreground) / 0.35);"
                             tabindex="0"
                             type="button"
@@ -613,7 +613,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
                             />
                             <span
-                              class="relative z-10 inline-flex items-center gap-2"
+                              class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
                             >
                               <svg
                                 class="lucide lucide-plus"
@@ -714,7 +714,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             MID
                           </span>
@@ -758,7 +758,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             BOT
                           </span>
@@ -802,7 +802,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
                           >
                             TOP
                           </span>
@@ -822,7 +822,7 @@ exports[`ReviewsPage > renders default state 1`] = `
       >
         <div
           aria-live="polite"
-          class="rounded-card r-card-lg p-4 border border-border/25 bg-card/60 shadow-outline-subtle w-full container mx-auto flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground"
+          class="rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 shadow-outline-subtle w-full container mx-auto flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground"
         >
           <svg
             class="lucide lucide-ghost h-6 w-6 opacity-60"

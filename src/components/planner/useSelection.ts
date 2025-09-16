@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ensureDay, useSelection, useDays, type ISODate } from "./plannerStore";
+import { useSelection, useDays, type ISODate } from "./plannerStore";
 
 /**
  * Manages the selected project for a given day.
@@ -32,7 +32,7 @@ export function useSelectedProject(iso: ISODate) {
  */
 export function useSelectedTask(iso: ISODate) {
   const { selected, setSelected } = useSelection();
-  const { days } = useDays();
+  const { tasksById } = useDays();
   const current = selected[iso]?.taskId ?? "";
 
   const set = React.useCallback(
@@ -41,14 +41,13 @@ export function useSelectedTask(iso: ISODate) {
         setSelected((prev) => ({ ...prev, [iso]: {} }));
         return;
       }
-      const rec = ensureDay(days, iso);
-      const projectId = rec.tasks.find((t) => t.id === taskId)?.projectId;
+      const projectId = tasksById[iso]?.[taskId]?.projectId;
       setSelected((prev) => ({
         ...prev,
         [iso]: { taskId, projectId },
       }));
     },
-    [iso, setSelected, days],
+    [iso, setSelected, tasksById],
   );
 
   return [current, set] as const;
