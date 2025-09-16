@@ -1,4 +1,4 @@
-import { readLocal, writeLocal, localBootstrapScript } from "./local-bootstrap";
+import { localBootstrapScript } from "./local-bootstrap";
 
 const STORAGE_PREFIX = "noxis-planner:";
 function createStorageKey(key: string): string {
@@ -106,15 +106,6 @@ export const VARIANT_LABELS: Record<Variant, string> = VARIANTS.reduce(
 
 export function defaultTheme(): ThemeState {
   return { variant: "lg", bg: 0 };
-}
-
-export function readTheme(): ThemeState {
-  const data = readLocal<ThemeState>(createStorageKey(THEME_STORAGE_KEY));
-  return data ? { variant: data.variant, bg: data.bg } : defaultTheme();
-}
-
-export function writeTheme(state: ThemeState) {
-  writeLocal(createStorageKey(THEME_STORAGE_KEY), state);
 }
 
 export function applyTheme({ variant, bg }: ThemeState) {
