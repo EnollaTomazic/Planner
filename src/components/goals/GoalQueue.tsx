@@ -34,31 +34,35 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
             {items.length === 0 ? (
               <li className="py-3 text-ui font-medium text-muted-foreground">No queued goals</li>
             ) : (
-              items.map((it) => (
-                <li key={it.id} className="group flex items-center gap-2 py-3">
-                  <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
-                  <p className="flex-1 truncate text-ui font-medium">{it.text}</p>
-                  <time
-                    className="text-label font-medium tracking-[0.02em] text-muted-foreground opacity-0 group-hover:opacity-100"
-                    dateTime={new Date(it.createdAt).toISOString()}
-                  >
-                    {shortDate.format(new Date(it.createdAt))}
-                  </time>
-                  <div className="flex items-center gap-1 ml-2">
-                    <IconButton
-                      title="Delete"
-                      aria-label="Delete"
-                      onClick={() => onRemove(it.id)}
-                      size="sm"
-                      iconSize="sm"
-                      variant="ring"
-                      className="opacity-0 group-hover:opacity-100"
+              items.map((it) => {
+                const created = new Date(it.createdAt);
+
+                return (
+                  <li key={it.id} className="group flex items-center gap-2 py-3">
+                    <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
+                    <p className="flex-1 truncate text-ui font-medium">{it.text}</p>
+                    <time
+                      className="text-label font-medium tracking-[0.02em] text-muted-foreground opacity-0 group-hover:opacity-100"
+                      dateTime={created.toISOString()}
                     >
-                      <Trash2 />
-                    </IconButton>
-                  </div>
-                </li>
-              ))
+                      {shortDate.format(created)}
+                    </time>
+                    <div className="flex items-center gap-1 ml-2">
+                      <IconButton
+                        title="Delete"
+                        aria-label="Delete"
+                        onClick={() => onRemove(it.id)}
+                        size="sm"
+                        iconSize="sm"
+                        variant="ring"
+                        className="opacity-0 group-hover:opacity-100"
+                      >
+                        <Trash2 />
+                      </IconButton>
+                    </div>
+                  </li>
+                );
+              })
             )}
           </ul>
 
