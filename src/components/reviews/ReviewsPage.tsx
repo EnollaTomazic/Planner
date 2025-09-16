@@ -11,9 +11,10 @@ import ReviewPanel from "./ReviewPanel";
 import { getSearchBlob } from "./reviewSearch";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
-import { Button, Select, PageHeader, PageShell } from "@/components/ui";
+import { Button, Select, PageHeader, PageShell, TabBar } from "@/components/ui";
 
 type SortKey = "newest" | "oldest" | "title";
+type DetailMode = "summary" | "edit";
 
 export type ReviewsPageProps = {
   reviews: Review[] | null | undefined;
@@ -40,7 +41,7 @@ export default function ReviewsPage({
 }: ReviewsPageProps) {
   const [q, setQ] = useState("");
   const [sort, setSort] = useState<SortKey>("newest");
-  const [panelMode, setPanelMode] = useState<"summary" | "edit">("summary");
+  const [detailMode, setDetailMode] = useState<DetailMode>("summary");
 
   const base = useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),
@@ -70,6 +71,7 @@ export default function ReviewsPage({
 
   const active = base.find((r) => r.id === selectedId) || null;
   const panelClass = "mx-auto";
+  const detailBaseId = active ? `review-${active.id}` : "review-detail";
 
   return (
     <PageShell
@@ -100,11 +102,18 @@ export default function ReviewsPage({
             className: "flex-1",
           },
           actions: (
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-label text-muted-foreground">
-                <span>Sort</span>
+            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
+              <div className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+                <span
+                  aria-hidden="true"
+                  className="text-label font-medium text-muted-foreground"
+                >
+                  Sort
+                </span>
                 <Select
                   variant="animated"
+                  label="Sort reviews"
+                  hideLabel
                   value={sort}
                   onChange={(v) => setSort(v as SortKey)}
                   items={[
@@ -112,18 +121,19 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  buttonClassName="h-10 px-4"
+                  className="w-full sm:w-auto"
+                  buttonClassName="!h-[var(--control-h-md)] !px-[var(--space-4)]"
                 />
               </div>
               <Button
                 type="button"
                 variant="primary"
                 size="md"
-                className="px-4 whitespace-nowrap"
+                className="w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto"
                 onClick={() => {
                   setQ("");
                   setSort("newest");
-                  setPanelMode("edit");
+                  setDetailMode("edit");
                   onCreate();
                 }}
               >
@@ -146,7 +156,7 @@ export default function ReviewsPage({
                 reviews={filtered}
                 selectedId={selectedId}
                 onSelect={(id) => {
-                  setPanelMode("summary");
+                  setDetailMode("summary");
                   onSelect(id);
                 }}
                 onCreate={onCreate}
@@ -166,33 +176,68 @@ export default function ReviewsPage({
               <Ghost className="h-6 w-6 opacity-60" />
               <p>Select a review from the list or create a new one.</p>
             </ReviewPanel>
-          ) : panelMode === "summary" ? (
-            <ReviewPanel className={panelClass}>
-              <ReviewSummary
-                key={`summary-${active.id}`}
-                review={active}
-                onEdit={() => setPanelMode("edit")}
-              />
-            </ReviewPanel>
           ) : (
-            <ReviewPanel className={panelClass}>
-              <ReviewEditor
-                key={`editor-${active.id}`}
-                review={active}
-                onChangeNotes={(value: string) =>
-                  onChangeNotes?.(active.id, value)
-                }
-                onChangeTags={(values: string[]) =>
-                  onChangeTags?.(active.id, values)
-                }
-                onRename={(title: string) => onRename(active.id, title)}
-                onChangeMeta={(partial: Partial<Review>) =>
-                  onChangeMeta?.(active.id, partial)
-                }
-                onDone={() => setPanelMode("summary")}
-                onDelete={onDelete ? () => onDelete(active.id) : undefined}
+            <div className="space-y-4">
+              <TabBar<DetailMode>
+                items={[
+                  { key: "summary", label: "Summary" },
+                  { key: "edit", label: "Edit" },
+                ]}
+                value={detailMode}
+                onValueChange={setDetailMode}
+                ariaLabel="Review detail mode"
+                idBase={detailBaseId}
               />
-            </ReviewPanel>
+              <div
+                id={`${detailBaseId}-summary-panel`}
+                role="tabpanel"
+                aria-labelledby={`${detailBaseId}-summary-tab`}
+                hidden={detailMode !== "summary"}
+                tabIndex={detailMode === "summary" ? 0 : -1}
+              >
+                {detailMode === "summary" ? (
+                  <ReviewPanel className={panelClass}>
+                    <ReviewSummary
+                      key={`summary-${active.id}`}
+                      review={active}
+                      onEdit={() => setDetailMode("edit")}
+                    />
+                  </ReviewPanel>
+                ) : null}
+              </div>
+              <div
+                id={`${detailBaseId}-edit-panel`}
+                role="tabpanel"
+                aria-labelledby={`${detailBaseId}-edit-tab`}
+                hidden={detailMode !== "edit"}
+                tabIndex={detailMode === "edit" ? 0 : -1}
+              >
+                {detailMode === "edit" ? (
+                  <ReviewPanel className={panelClass}>
+                    <ReviewEditor
+                      key={`editor-${active.id}`}
+                      review={active}
+                      onChangeNotes={(value: string) =>
+                        onChangeNotes?.(active.id, value)
+                      }
+                      onChangeTags={(values: string[]) =>
+                        onChangeTags?.(active.id, values)
+                      }
+                      onRename={(title: string) =>
+                        onRename(active.id, title)
+                      }
+                      onChangeMeta={(partial: Partial<Review>) =>
+                        onChangeMeta?.(active.id, partial)
+                      }
+                      onDone={() => setDetailMode("summary")}
+                      onDelete={
+                        onDelete ? () => onDelete(active.id) : undefined
+                      }
+                    />
+                  </ReviewPanel>
+                ) : null}
+              </div>
+            </div>
           )}
         </div>
       </div>
