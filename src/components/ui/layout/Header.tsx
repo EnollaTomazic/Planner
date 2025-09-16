@@ -12,13 +12,13 @@
 
 import * as React from "react";
 import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
+import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeaderTab<Key extends string = string>
-  extends TabItem<Key> {
+export interface HeaderTab<Key extends string = string> extends TabItem<Key> {
   hint?: string;
 }
 
@@ -132,117 +132,133 @@ export default function Header<Key extends string = string>({
     : "min-h-[var(--space-7)]";
 
   return (
-    <header
-      className={cx(
-        "z-[999] relative isolate",
-        isNeo &&
-          "rounded-card r-card-lg bg-card/70 backdrop-blur-md shadow-[0_0_10px_hsl(var(--ring)/.25),0_0_20px_hsl(var(--accent)/.15)]",
-        isNeo && "overflow-hidden",
-
-        // Neon underline
-        underline &&
-          "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent",
-
-        className,
-      )}
-      {...rest}
-    >
-      {/* Top bar */}
-      <div
+    <>
+      {isNeo ? <NeomorphicFrameStyles /> : null}
+      <header
         className={cx(
-          sticky && cx("sticky", topClassName),
-          "relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
-          barPadding,
-          minHeightClass,
-          hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
-          barClassName,
-        )}
-      >
-        {rail ? (
-          <div
-            className="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
-            aria-hidden
-          />
-        ) : null}
+          "z-[999] relative isolate",
+          isNeo &&
+            "rounded-card r-card-lg bg-card/70 backdrop-blur-md hero2-neomorph",
+          isNeo && "overflow-hidden",
 
-        {/* Left: icon + text */}
+          // Neon underline
+          underline &&
+            "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent after:z-[2]",
+
+          className,
+        )}
+        {...rest}
+      >
+        {isNeo ? (
+          <>
+            <span aria-hidden className="hero2-beams" />
+            <span aria-hidden className="hero2-scanlines" />
+            <span aria-hidden className="hero2-noise opacity-[0.03]" />
+          </>
+        ) : null}
+        {/* Top bar */}
         <div
           className={cx(
-            "flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
+            sticky && cx("sticky", topClassName),
+            "relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
+            barPadding,
+            minHeightClass,
+            isNeo && "z-[2]",
             hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
+            barClassName,
           )}
         >
-          <div className="flex min-w-0 items-center gap-[var(--space-2)] sm:gap-[var(--space-3)]">
-            {icon ? <span className="shrink-0 opacity-90">{icon}</span> : null}
-            <div className="min-w-0">
-              {eyebrow ? (
-                <div className="mb-[var(--space-1)] truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
-                  {eyebrow}
-                </div>
+          {rail ? (
+            <div
+              className="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+              aria-hidden
+            />
+          ) : null}
+
+          {/* Left: icon + text */}
+          <div
+            className={cx(
+              "flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
+              hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
+            )}
+          >
+            <div className="flex min-w-0 items-center gap-[var(--space-2)] sm:gap-[var(--space-3)]">
+              {icon ? (
+                <span className="shrink-0 opacity-90">{icon}</span>
               ) : null}
-              <div className="flex min-w-0 items-baseline gap-[var(--space-2)]">
-                <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
-                  {heading}
-                </h1>
-                {subtitle ? (
-                  <span className="hidden truncate text-label font-medium tracking-[0.02em] text-muted-foreground sm:inline">
-                    {subtitle}
-                  </span>
+              <div className="min-w-0">
+                {eyebrow ? (
+                  <div className="mb-[var(--space-1)] truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
+                    {eyebrow}
+                  </div>
                 ) : null}
+                <div className="flex min-w-0 items-baseline gap-[var(--space-2)]">
+                  <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
+                    {heading}
+                  </h1>
+                  {subtitle ? (
+                    <span className="hidden truncate text-label font-medium tracking-[0.02em] text-muted-foreground sm:inline">
+                      {subtitle}
+                    </span>
+                  ) : null}
+                </div>
               </div>
             </div>
+            {hasNav ? (
+              <div
+                className={cx(
+                  "flex min-w-0 flex-1 items-center gap-[var(--space-1)] overflow-x-auto whitespace-nowrap text-label font-medium text-muted-foreground sm:text-ui sm:overflow-visible",
+                  "[&_[data-state=active]]:text-foreground [&_[data-state=active]]:opacity-100",
+                  "[&_[data-state=inactive]]:text-muted-foreground [&_[data-state=inactive]:hover]:text-foreground [&_[data-state=inactive]:focus-visible]:text-foreground",
+                )}
+                data-slot="primary-nav"
+              >
+                {nav}
+              </div>
+            ) : null}
           </div>
-          {hasNav ? (
-            <div
-              className={cx(
-                "flex min-w-0 flex-1 items-center gap-[var(--space-1)] overflow-x-auto whitespace-nowrap text-label font-medium text-muted-foreground sm:text-ui sm:overflow-visible",
-                "[&_[data-state=active]]:text-foreground [&_[data-state=active]]:opacity-100",
-                "[&_[data-state=inactive]]:text-muted-foreground [&_[data-state=inactive]:hover]:text-foreground [&_[data-state=inactive]:focus-visible]:text-foreground",
-              )}
-              data-slot="primary-nav"
-            >
-              {nav}
+
+          {/* Right slot / tabs */}
+          {showRightStack ? (
+            <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]">
+              {hasTabs ? tabControl : null}
+              {hasRight ? (
+                <div className="flex shrink-0 items-center gap-[var(--space-2)]">
+                  {right}
+                </div>
+              ) : null}
+              {hasUtilities ? (
+                <div
+                  className={cx(
+                    "flex shrink-0 items-center gap-[var(--space-2)] text-muted-foreground",
+                    "[&_[data-state=active]]:text-foreground [&_[data-state=open]]:text-foreground",
+                  )}
+                  data-slot="utilities"
+                >
+                  {utilities}
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>
 
-        {/* Right slot / tabs */}
-        {showRightStack ? (
-          <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]">
-            {hasTabs ? tabControl : null}
-            {hasRight ? (
-              <div className="flex shrink-0 items-center gap-[var(--space-2)]">{right}</div>
-            ) : null}
-            {hasUtilities ? (
-              <div
-                className={cx(
-                  "flex shrink-0 items-center gap-[var(--space-2)] text-muted-foreground",
-                  "[&_[data-state=active]]:text-foreground [&_[data-state=open]]:text-foreground",
-                )}
-                data-slot="utilities"
-              >
-                {utilities}
-              </div>
-            ) : null}
+        {/* Body under the bar */}
+        {children ? (
+          <div
+            className={cx(
+              "relative",
+              isNeo && "z-[2]",
+              isMinimal
+                ? "px-[var(--space-4)] py-[var(--space-4)]"
+                : "px-[var(--space-3)] py-[var(--space-3)] sm:px-[var(--space-4)] sm:py-[var(--space-4)]",
+              bodyClassName,
+            )}
+          >
+            {children}
           </div>
         ) : null}
-      </div>
-
-      {/* Body under the bar */}
-      {children ? (
-        <div
-          className={cx(
-            "relative",
-            isMinimal
-              ? "px-[var(--space-4)] py-[var(--space-4)]"
-              : "px-[var(--space-3)] py-[var(--space-3)] sm:px-[var(--space-4)] sm:py-[var(--space-4)]",
-            bodyClassName,
-          )}
-        >
-          {children}
-        </div>
-      ) : null}
-    </header>
+      </header>
+    </>
   );
 }
 
