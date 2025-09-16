@@ -50,19 +50,36 @@ export function useGoals() {
     (id: string) => {
       setErr(null);
       setGoals((prev) => {
-        const next = prev.map((g) => ({ ...g }));
-        const i = next.findIndex((g) => g.id === id);
-        if (i === -1) return prev;
+        let activeCount = 0;
+        let found = false;
+        let targetWasDone = false;
 
-        const willActivate = next[i].done;
-        if (willActivate) {
-          const activeNow = next.filter((g) => !g.done).length;
-          if (activeNow >= ACTIVE_CAP) {
-            setErr("Cap is 3 active. Complete or delete another first.");
-            return prev;
+        const next = prev.map((goal) => {
+          if (goal.id === id) {
+            found = true;
+            targetWasDone = goal.done;
+            const nextDone = !goal.done;
+            if (!nextDone) {
+              activeCount += 1;
+            }
+            return { ...goal, done: nextDone };
           }
+
+          if (!goal.done) {
+            activeCount += 1;
+          }
+          return goal;
+        });
+
+        if (!found) {
+          return prev;
         }
-        next[i].done = !next[i].done;
+
+        if (targetWasDone && activeCount > ACTIVE_CAP) {
+          setErr("Cap is 3 active. Complete or delete another first.");
+          return prev;
+        }
+
         return next;
       });
     },
