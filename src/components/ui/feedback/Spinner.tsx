@@ -8,7 +8,7 @@ export default function Spinner({
   size = 24,
 }: {
   className?: string;
-  size?: number;
+  size?: string | number;
 }) {
   return (
     <div

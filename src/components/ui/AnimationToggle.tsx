@@ -58,7 +58,7 @@ export default function AnimationToggle({
         )}
       >
         {loading ? (
-          <Spinner size={16} />
+          <Spinner size="var(--space-4)" />
         ) : enabled ? (
           <Zap className="h-[var(--space-4)] w-[var(--space-4)]" />
         ) : (
