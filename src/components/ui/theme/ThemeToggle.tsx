@@ -9,10 +9,13 @@ import useMounted from "@/lib/useMounted";
 import { useTheme } from "@/lib/theme-context";
 import {
   VARIANTS,
+  VARIANT_LABELS,
   BG_CLASSES,
   type Variant,
   type Background,
 } from "@/lib/theme";
+
+const BG_LABELS = ["Default", "Alt 1", "Alt 2", "VHS", "Streak"] as const;
 
 type ThemeToggleProps = {
   className?: string;
@@ -35,10 +38,14 @@ export default function ThemeToggle({
 
   const mounted = useMounted();
   const [state, setState] = useTheme();
-  const { variant } = state;
+  const { variant, bg } = state;
   const hasMultipleBackgrounds = BG_CLASSES.length > 1;
   const isCycleDisabled = cycleDisabled || !hasMultipleBackgrounds;
   const isCycleLoading = cycleLoading;
+  const [announcement, setAnnouncement] = React.useState("");
+  const prevVariantRef = React.useRef<Variant>(variant);
+  const prevBgRef = React.useRef<Background>(bg);
+  const initializedRef = React.useRef(false);
 
   function setVariantPersist(v: Variant) {
     setState((prev) => ({ variant: v, bg: prev.bg }));
@@ -61,6 +68,44 @@ export default function ThemeToggle({
       bg: ((prev.bg + 1) % BG_CLASSES.length) as Background,
     }));
   }
+
+  React.useEffect(() => {
+    if (!mounted) {
+      prevVariantRef.current = variant;
+      prevBgRef.current = bg;
+      return;
+    }
+
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      prevVariantRef.current = variant;
+      prevBgRef.current = bg;
+      return;
+    }
+
+    if (variant !== prevVariantRef.current) {
+      setAnnouncement(`Theme switched to ${VARIANT_LABELS[variant]}`);
+    } else if (bg !== prevBgRef.current) {
+      setAnnouncement(`Background switched to ${BG_LABELS[bg]}`);
+    }
+
+    prevVariantRef.current = variant;
+    prevBgRef.current = bg;
+  }, [variant, bg, mounted]);
+
+  React.useEffect(() => {
+    if (!announcement) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setAnnouncement("");
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [announcement]);
 
   if (!mounted) {
     return (
@@ -99,6 +144,9 @@ export default function ThemeToggle({
         align="right"
         className="shrink-0"
       />
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
     </div>
   );
 }

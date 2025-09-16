@@ -490,8 +490,8 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   { value: "two", label: "Two" },
 ];
 <>
-  <Select items={items} placeholder="Animated" />
-  <Select variant="native" items={items} />
+  <AnimatedSelect items={items} placeholder="Animated" />
+  <NativeSelect items={items} />
   <Select items={items} disabled placeholder="Disabled" />
 </>`,
     },
