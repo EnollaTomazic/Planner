@@ -21,6 +21,9 @@ type PageHeaderElementProps = Omit<
 
 type PageHeaderFrameElement = React.ElementRef<typeof NeomorphicHeroFrame>;
 
+type HeaderKey = string;
+type HeroKey = string;
+
 export interface PageHeaderBaseProps<
   HeaderKey extends string = string,
   HeroKey extends string = string,
@@ -136,18 +139,16 @@ const PageHeaderInner = <
   );
 };
 
-const PageHeaderWithForwardRef = React.forwardRef(PageHeaderInner);
+const PageHeader = React.forwardRef<
+  PageHeaderFrameElement,
+  PageHeaderBaseProps<HeaderKey, HeroKey>
+>(PageHeaderInner);
 
-PageHeaderWithForwardRef.displayName = "PageHeader";
+PageHeader.displayName = "PageHeader";
 
-type PageHeaderComponent = <
+export default PageHeader as <
   HeaderKey extends string = string,
   HeroKey extends string = string,
 >(
-  props: PageHeaderBaseProps<HeaderKey, HeroKey> &
-    React.RefAttributes<PageHeaderFrameElement>,
+  props: PageHeaderProps<HeaderKey, HeroKey>,
 ) => React.ReactElement | null;
-
-const PageHeader = PageHeaderWithForwardRef as unknown as PageHeaderComponent;
-
-export default PageHeader;
