@@ -43,7 +43,7 @@ export default function ScrollTopFloatingButton({
     <IconButton
       aria-label="Scroll to top"
       onClick={scrollTop}
-      className="fixed bottom-8 right-2 z-50"
+      className="fixed bottom-[var(--space-8)] right-[var(--space-2)] z-50"
     >
       <ArrowUp />
     </IconButton>

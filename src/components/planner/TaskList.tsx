@@ -56,7 +56,7 @@ export default function TaskList({
   );
 
   return (
-    <div className="flex flex-col gap-3 min-w-0">
+    <div className="flex flex-col gap-[var(--space-3)] min-w-0">
       {selectedProjectId && (
         <form onSubmit={onSubmit}>
           <Input
@@ -68,14 +68,14 @@ export default function TaskList({
           />
         </form>
       )}
-      <div className="min-h-32 max-h-80 overflow-y-auto px-2 py-2">
+      <div className="min-h-[calc(var(--space-8)*2)] max-h-[calc(var(--space-8)*5)] overflow-y-auto px-[var(--space-2)] py-[var(--space-2)]">
         {!selectedProjectId ? (
           <EmptyRow text="Select a project to view tasks" />
         ) : tasksForSelected.length === 0 ? (
           <EmptyRow text="No tasks yet" />
         ) : (
           <ul
-            className="space-y-2 [&>li:first-child]:mt-2 [&>li:last-child]:mb-2"
+            className="space-y-[var(--space-2)] [&>li:first-child]:mt-[var(--space-2)] [&>li:last-child]:mb-[var(--space-2)]"
             aria-label="Tasks"
           >
             {tasksForSelected.map((t) => (

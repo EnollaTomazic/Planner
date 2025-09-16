@@ -23,7 +23,7 @@ export default function DayCardHeader({
     totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
 
   return (
-    <div className="col-span-1 lg:col-span-3 flex items-center gap-3 min-w-0">
+    <div className="col-span-1 lg:col-span-3 flex items-center gap-[var(--space-3)] min-w-0">
       <span
         className="glitch glitch-label text-ui font-semibold tracking-wide shrink-0"
         data-text={headerText}
@@ -35,7 +35,7 @@ export default function DayCardHeader({
         <GlitchProgress current={doneCount} total={totalCount} />
       </div>
 
-      <div className="shrink-0 flex items-baseline gap-3 text-label text-muted-foreground">
+      <div className="shrink-0 flex items-baseline gap-[var(--space-3)] text-label text-muted-foreground">
         <span className="tabular-nums font-medium text-foreground">
           {pctNum}%
         </span>

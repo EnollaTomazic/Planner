@@ -18,13 +18,13 @@ export default function DashboardCard({
   actions,
 }: DashboardCardProps) {
   return (
-    <NeoCard className="p-4 md:p-6 space-y-4">
+    <NeoCard className="p-[var(--space-4)] md:p-[var(--space-6)] space-y-[var(--space-4)]">
       <div className="flex items-center justify-between">
         <h2 className="text-body font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}
       </div>
       {children && (
-        <div className="border-t border-border pt-4 space-y-4">
+        <div className="border-t border-border pt-[var(--space-4)] space-y-[var(--space-4)]">
           {children}
         </div>
       )}
