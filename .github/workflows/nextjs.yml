@@ -74,6 +74,7 @@ jobs:
       - name: Deploy to Vercel
         if: ${{ secrets.VERCEL_TOKEN != '' }}
         uses: vercel/vercel-action@v2
+        continue-on-error: true
         with:
           token: ${{ secrets.VERCEL_TOKEN }}
           project-name: planner
