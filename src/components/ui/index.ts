@@ -45,6 +45,8 @@ export { default as Card } from "./primitives/Card";
 export * from "./primitives/Card";
 export { default as FieldShell } from "./primitives/FieldShell";
 export * from "./primitives/FieldShell";
+export { default as GlitchProgress } from "./primitives/GlitchProgress";
+export * from "./primitives/GlitchProgress";
 export * from "./primitives/GlitchSegmented";
 export { default as IconButton } from "./primitives/IconButton";
 export * from "./primitives/IconButton";

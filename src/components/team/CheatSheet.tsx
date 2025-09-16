@@ -18,6 +18,7 @@ import { sanitizeText } from "@/lib/utils";
 import { sanitizeList } from "@/lib/sanitizeList";
 import { ROLES } from "./constants";
 import type { Role } from "./constants";
+import ChampListEditor from "./ChampListEditor";
 
 /* ───────────── types ───────────── */
 
@@ -190,23 +191,6 @@ function Label({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ChampPillsView({ champs }: { champs?: string[] }) {
-  if (!champs?.length) return null;
-  return (
-    <div className="champ-badges mt-1">
-      {champs.map((c) => (
-        <span
-          key={c}
-          className="champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
-        >
-          <i className="dot" />
-          {c}
-        </span>
-      ))}
-    </div>
-  );
-}
-
 /* ───────────── editable primitives ───────────── */
 
 function TitleEdit({
@@ -359,68 +343,6 @@ function BulletListEdit({
         </li>
       ))}
     </ul>
-  );
-}
-
-function ChampPillsEdit({
-  champs,
-  onChange,
-  editing,
-}: {
-  champs?: string[];
-  onChange: (list: string[]) => void;
-  editing: boolean;
-}) {
-  const list = champs ?? [];
-
-  if (!editing) return <ChampPillsView champs={list} />;
-
-  function setAt(i: number, next: string) {
-    const arr = [...list];
-    arr[i] = sanitizeText(next);
-    onChange(arr.filter((s) => s.trim().length));
-  }
-  function insertAfter(i: number) {
-    const arr = [...list];
-    arr.splice(i + 1, 0, "");
-    onChange(arr.length ? arr : [""]);
-  }
-  function removeAt(i: number) {
-    const arr = [...list];
-    arr.splice(i, 1);
-    onChange(arr);
-  }
-
-  return (
-    <div className="champ-badges mt-1 flex flex-wrap gap-2">
-      {(list.length ? list : [""]).map((c, i) => (
-        <span
-          key={i}
-          className="champ-badge border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
-        >
-          <i className="dot" />
-          <input
-            type="text"
-            dir="ltr"
-            value={c}
-            onChange={(e) => setAt(i, e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === ",") {
-                e.preventDefault();
-                insertAfter(i);
-              }
-              if (e.key === "Backspace" && !e.currentTarget.value) {
-                e.preventDefault();
-                removeAt(i);
-              }
-            }}
-            aria-label="Champion name"
-            autoComplete="off"
-            className="bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24"
-          />
-        </span>
-      ))}
-    </div>
   );
 }
 
@@ -594,10 +516,11 @@ export default function CheatSheet({
                           >
                             {role}
                           </div>
-                          <ChampPillsEdit
-                            champs={champs ?? []}
+                          <ChampListEditor
+                            list={champs}
                             onChange={setChamps}
                             editing={isEditing}
+                            editPillClassName="champ-badge border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
                           />
                         </div>
                       );

@@ -28,7 +28,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded-md bg-muted";
 const scoreBadge = cn(
-  "px-2 py-1 rounded-full text-xs leading-none font-medium",
+  "px-2 py-1 rounded-full text-label leading-none font-medium",
   "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
   "hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground",
   "focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground",
@@ -79,7 +79,7 @@ export default function ReviewListItem({
         <div className="flex items-start justify-between gap-2">
           <div
             className={cn(
-              "truncate font-medium text-base",
+              "truncate font-medium text-body",
               untitled && "text-muted-foreground/70",
             )}
             aria-label={untitled ? "Untitled Review" : undefined}
@@ -87,7 +87,7 @@ export default function ReviewListItem({
             {title}
           </div>
           {matchup ? (
-            <div className="truncate text-sm text-muted-foreground">
+            <div className="truncate text-ui text-muted-foreground">
               {matchup}
             </div>
           ) : null}

@@ -94,7 +94,7 @@ function ResultScoreSection(
               boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
             }}
           />
-          <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
+          <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
             <div
               className={cn(
                 "py-2 text-center",
@@ -152,8 +152,8 @@ function ResultScoreSection(
             </div>
           </div>
         </div>
-        <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-          <span className="pill h-6 px-2 text-xs">{score}/10</span>
+        <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
+          <span className="pill h-6 px-2 text-label">{score}/10</span>
           <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
           <span>{msg}</span>
         </div>

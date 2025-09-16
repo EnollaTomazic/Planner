@@ -22,7 +22,7 @@ export default function ReviewSummaryTimestamps({
         <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
       </div>
       {!markers.length ? (
-        <div className="text-sm text-muted-foreground">No timestamps yet.</div>
+        <div className="text-ui text-muted-foreground">No timestamps yet.</div>
       ) : (
         <ul className="space-y-2">
           {[...markers]
@@ -41,11 +41,11 @@ export default function ReviewSummaryTimestamps({
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-3 text-xs font-mono tabular-nums leading-none">
+                  <span className="pill h-7 px-3 text-label font-mono tabular-nums leading-none">
                     {m.time ?? "00:00"}
                   </span>
                 )}
-                <span className="truncate text-sm">{m.note || "—"}</span>
+                <span className="truncate text-ui">{m.note || "—"}</span>
               </li>
             ))}
         </ul>

@@ -33,7 +33,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 font-mono text-sm transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "relative inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active

@@ -10,6 +10,7 @@ import {
   GlitchSegmentedButton,
   TabBar,
   Progress,
+  GlitchProgress,
   Spinner,
   ThemeToggle,
   AnimationToggle,
@@ -595,6 +596,19 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "GlitchProgress",
+        element: (
+          <GlitchProgress
+            current={3}
+            total={5}
+            showPercentage
+            className="w-56 flex items-center gap-3"
+            trackClassName="flex-1"
+            percentageClassName="w-12 text-right"
+          />
+        ),
+      },
+      {
         label: "Spinner",
         element: (
           <div className="w-56 flex justify-center">
@@ -625,7 +639,7 @@ export default function ComponentGallery() {
             <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
               PageShell
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               Constrains page content to the shell width.
             </p>
             <div className="flex flex-wrap gap-2">

@@ -5,7 +5,7 @@
   @apply flex flex-wrap gap-2;
 }
 .champ-badge {
-  @apply inline-flex items-center h-6 px-2 rounded-full border text-xs leading-none whitespace-nowrap;
+  @apply inline-flex items-center h-6 px-2 rounded-full border text-label leading-none whitespace-nowrap;
   transition:
     background 0.15s var(--ease-out),
     border-color 0.15s var(--ease-out),
