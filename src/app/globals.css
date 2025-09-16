@@ -1309,11 +1309,11 @@ textarea:-webkit-autofill {
   --glow-soft: var(--accent) / 0.25;
 
   /* Radius tokens */
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
-  --radius-full: 9999px;
+  --radius-md: theme("borderRadius.md");
+  --radius-lg: theme("borderRadius.lg");
+  --radius-xl: theme("borderRadius.xl");
+  --radius-2xl: theme("borderRadius.2xl");
+  --radius-full: theme("borderRadius.full");
 }
 
 @layer components {
