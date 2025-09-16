@@ -15,11 +15,14 @@ export function useThemeQuerySync() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const paramsKey = searchParams.toString();
+  const params = React.useMemo(
+    () => new URLSearchParams(paramsKey),
+    [paramsKey],
+  );
   const [theme, setTheme] = useTheme();
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
-    const params = new URLSearchParams(paramsKey);
     const themeParam = params.get("theme");
     const bgParam = params.get("bg");
     setTheme((prev) => {
@@ -38,17 +41,17 @@ export function useThemeQuerySync() {
       }
       return next;
     });
-  }, [paramsKey, setTheme]);
+  }, [params, setTheme]);
 
   React.useEffect(() => {
-    const params = new URLSearchParams(paramsKey);
     const currentTheme = params.get("theme");
     const currentBg = params.get("bg");
     if (currentTheme === theme.variant && currentBg === String(theme.bg)) {
       return;
     }
-    params.set("theme", theme.variant);
-    params.set("bg", String(theme.bg));
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [theme, router, pathname, paramsKey]);
+    const nextParams = new URLSearchParams(params);
+    nextParams.set("theme", theme.variant);
+    nextParams.set("bg", String(theme.bg));
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  }, [theme, router, pathname, params]);
 }

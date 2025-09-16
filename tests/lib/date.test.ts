@@ -6,6 +6,7 @@ import {
   normalizeDate,
   weekRangeFromISO,
   ts,
+  formatWeekDay,
 } from '../../src/lib/date';
 
 describe('fromISODate', () => {
@@ -104,5 +105,16 @@ describe('weekRangeFromISO', () => {
     const { start, end } = weekRangeFromISO('2024-06-15');
     expect(toISODate(start)).toBe('2024-06-10');
     expect(toISODate(end)).toBe('2024-06-16');
+  });
+});
+
+describe('formatWeekDay', () => {
+  it('formats ISO dates for week range display', () => {
+    expect(formatWeekDay('2024-02-29')).toBe('Feb 29');
+    expect(formatWeekDay('2024-02-01')).toBe('Feb 01');
+  });
+
+  it('falls back to the original input when invalid', () => {
+    expect(formatWeekDay('not-a-date')).toBe('not-a-date');
   });
 });
