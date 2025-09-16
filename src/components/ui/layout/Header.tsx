@@ -195,7 +195,7 @@ export default function Header<Key extends string = string>({
           {hasNav ? (
             <div
               className={cx(
-                "flex min-w-0 flex-1 items-center gap-1 overflow-x-auto whitespace-nowrap text-xs font-medium text-muted-foreground sm:text-sm sm:overflow-visible",
+                "flex min-w-0 flex-1 items-center gap-1 overflow-x-auto whitespace-nowrap text-label font-medium text-muted-foreground sm:text-ui sm:overflow-visible",
                 "[&_[data-state=active]]:text-foreground [&_[data-state=active]]:opacity-100",
                 "[&_[data-state=inactive]]:text-muted-foreground [&_[data-state=inactive]:hover]:text-foreground [&_[data-state=inactive]:focus-visible]:text-foreground",
               )}

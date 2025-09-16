@@ -237,13 +237,13 @@ function TimestampMarkers(
           </IconButton>
         </div>
         {timeError && (
-          <p id="tTime-error" className="mt-1 text-xs text-danger">
+          <p id="tTime-error" className="mt-1 text-label text-danger">
             Enter time as mm:ss
           </p>
         )}
 
         {sortedMarkers.length === 0 ? (
-          <div className="mt-2 text-sm text-muted-foreground">No timestamps yet.</div>
+          <div className="mt-2 text-ui text-muted-foreground">No timestamps yet.</div>
         ) : (
           <ul className="mt-3 space-y-2">
             {sortedMarkers.map((m) => (
@@ -256,10 +256,10 @@ function TimestampMarkers(
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 w-16 px-3 text-xs font-mono tabular-nums text-center">{m.time}</span>
+                  <span className="pill h-7 w-16 px-3 text-label font-mono tabular-nums text-center">{m.time}</span>
                 )}
 
-                <span className="truncate text-sm">{m.note}</span>
+                <span className="truncate text-ui">{m.note}</span>
                 <IconButton
                   aria-label="Delete timestamp"
                   title="Delete timestamp"

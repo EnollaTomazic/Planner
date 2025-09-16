@@ -109,7 +109,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             aria-invalid={errorText ? "true" : props["aria-invalid"]}
             aria-describedby={describedBy}
             className={cn(
-              "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-sm bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
+              "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
               selectClassName,
             )}
             {...props}
@@ -136,7 +136,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
           <p
             id={errorId || helperId}
             className={cn(
-              "text-xs mt-1 line-clamp-2",
+              "text-label mt-1 line-clamp-2",
               errorText ? "text-danger" : "text-muted-foreground",
             )}
           >
@@ -408,7 +408,7 @@ const AnimatedSelectImpl = React.forwardRef<
         <div
           id={labelId}
           className={
-            hideLabel ? "sr-only" : "mb-1 text-xs text-muted-foreground"
+            hideLabel ? "sr-only" : "mb-1 text-label text-muted-foreground"
           }
         >
           {label}
@@ -543,7 +543,7 @@ const AnimatedSelectImpl = React.forwardRef<
                         data-loading={it.loading}
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <span className="text-sm leading-none glitch-text">
+                          <span className="text-ui leading-none glitch-text">
                             {it.label}
                           </span>
                           <Check

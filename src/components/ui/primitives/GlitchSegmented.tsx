@@ -108,7 +108,7 @@ export const GlitchSegmentedButton = React.forwardRef<
       onClick={onSelect}
       className={cn(
         styles.glitchScanlines,
-        "flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none",
+        "flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none",
         "rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
         "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
         "hover:-translate-y-px hover:shadow-neon-soft",

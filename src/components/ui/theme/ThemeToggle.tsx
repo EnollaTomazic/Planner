@@ -81,7 +81,7 @@ export default function ThemeToggle({
         items={items}
         value={variant}
         onChange={(v) => setVariantPersist(v as Variant)}
-        buttonClassName="!h-9 !px-3 !rounded-full !text-sm !w-auto"
+        buttonClassName="!h-9 !px-3 !rounded-full !text-ui !w-auto"
         matchTriggerWidth={false}
         align="right"
         className="shrink-0"

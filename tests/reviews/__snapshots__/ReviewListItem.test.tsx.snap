@@ -15,12 +15,12 @@ exports[`ReviewListItem > renders default state 1`] = `
         class="flex items-start justify-between gap-2"
       >
         <div
-          class="truncate font-medium text-base"
+          class="truncate font-medium text-body"
         >
           Sample Review
         </div>
         <div
-          class="truncate text-sm text-muted-foreground"
+          class="truncate text-ui text-muted-foreground"
         >
           Lux vs Ahri
         </div>
@@ -36,14 +36,14 @@ exports[`ReviewListItem > renders default state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
+          class="px-2 py-1 rounded-full leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -70,12 +70,12 @@ exports[`ReviewListItem > renders disabled state 1`] = `
         class="flex items-start justify-between gap-2"
       >
         <div
-          class="truncate font-medium text-base"
+          class="truncate font-medium text-body"
         >
           Sample Review
         </div>
         <div
-          class="truncate text-sm text-muted-foreground"
+          class="truncate text-ui text-muted-foreground"
         >
           Lux vs Ahri
         </div>
@@ -91,14 +91,14 @@ exports[`ReviewListItem > renders disabled state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
+          class="px-2 py-1 rounded-full leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -141,12 +141,12 @@ exports[`ReviewListItem > renders selected state 1`] = `
         class="flex items-start justify-between gap-2"
       >
         <div
-          class="truncate font-medium text-base"
+          class="truncate font-medium text-body"
         >
           Sample Review
         </div>
         <div
-          class="truncate text-sm text-muted-foreground"
+          class="truncate text-ui text-muted-foreground"
         >
           Lux vs Ahri
         </div>
@@ -162,14 +162,14 @@ exports[`ReviewListItem > renders selected state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
+          class="px-2 py-1 rounded-full leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10
@@ -196,12 +196,12 @@ exports[`ReviewListItem > renders untitled state 1`] = `
       >
         <div
           aria-label="Untitled Review"
-          class="truncate font-medium text-base text-muted-foreground/70"
+          class="truncate font-medium text-muted-foreground/70"
         >
           Untitled Review
         </div>
         <div
-          class="truncate text-sm text-muted-foreground"
+          class="truncate text-ui text-muted-foreground"
         >
           Lux vs Ahri
         </div>
@@ -217,14 +217,14 @@ exports[`ReviewListItem > renders untitled state 1`] = `
             class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-xs leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-xs leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
+          class="px-2 py-1 rounded-full leading-none font-medium text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground"
         >
           9
           /10

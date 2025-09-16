@@ -76,7 +76,7 @@ export default function PageHeaderDemo() {
                 onClick={() => setActivePrimaryNav(item.key)}
                 data-state={isActive ? "active" : "inactive"}
                 aria-pressed={isActive}
-                className="inline-flex items-center rounded-full border border-transparent px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_1px_hsl(var(--ring)/0.35)]"
+                className="inline-flex items-center rounded-full border border-transparent px-3 py-1.5 text-label font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_1px_hsl(var(--ring)/0.35)]"
               >
                 {item.label}
               </button>
@@ -112,7 +112,7 @@ export default function PageHeaderDemo() {
           }
         }}
         data-state={profileOpen ? "open" : "inactive"}
-        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-3 py-1.5 text-sm font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
+        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-3 py-1.5 text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
         <CircleUser className="h-4 w-4" />
         <span className="hidden sm:inline">Profile</span>
@@ -141,7 +141,7 @@ export default function PageHeaderDemo() {
           </Button>
         }
       >
-        <p className="text-sm text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {compactNavCopy[activePrimaryNav]}
         </p>
       </Header>
@@ -163,7 +163,7 @@ export default function PageHeaderDemo() {
         }}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <p className="text-sm text-muted-foreground">{tabCopy[activeTab]}</p>
+          <p className="text-ui text-muted-foreground">{tabCopy[activeTab]}</p>
           <div className="flex items-center gap-2">
             <Button size="sm" variant="secondary">
               Invite teammate
@@ -209,7 +209,7 @@ export default function PageHeaderDemo() {
           </div>
         }
       >
-        <p className="text-sm text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {heroFilterCopy[activeFilter]}
         </p>
       </Hero>
@@ -254,7 +254,7 @@ export default function PageHeaderDemo() {
           heading: "Your day at a glance",
           subtitle: "Stay synced with the squad",
           children: (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {heroFilterCopy[activeFilter]}
             </p>
           ),

@@ -101,7 +101,7 @@ export default function ReviewsPage({
           },
           actions: (
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="hidden sm:flex items-center gap-2 text-label text-muted-foreground">
                 <span>Sort</span>
                 <Select
                   variant="animated"
@@ -139,7 +139,7 @@ export default function ReviewsPage({
         <nav aria-label="Review list" className="md:col-span-4">
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
-              <div className="mb-2 text-sm text-muted-foreground">
+              <div className="mb-2 text-ui text-muted-foreground">
                 {filtered.length} shown
               </div>
               <ReviewList
@@ -160,7 +160,7 @@ export default function ReviewsPage({
             <ReviewPanel
               className={cn(
                 panelClass,
-                "flex flex-col items-center justify-center gap-2 py-7 text-sm text-muted-foreground",
+                "flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground",
               )}
             >
               <Ghost className="h-6 w-6 opacity-60" />

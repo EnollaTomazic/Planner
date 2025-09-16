@@ -625,7 +625,7 @@ export default function ComponentGallery() {
             <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
               PageShell
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               Constrains page content to the shell width.
             </p>
             <div className="flex flex-wrap gap-2">

@@ -105,7 +105,7 @@ export default function SideSelector({
       />
 
       {/* Labels */}
-      <div className="relative z-10 grid w-full grid-cols-2 text-sm font-mono">
+      <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
         <div
           className={cn(
             "py-2 text-center transition-colors",

@@ -95,7 +95,7 @@ export default function PageTabs({
               const active = t.id === value;
               const controls = t.controls ?? `${t.id}-panel`;
               const className = [
-                "rounded-[var(--control-radius)] px-4 py-2 font-mono text-sm border relative",
+                "rounded-[var(--control-radius)] px-4 py-2 font-mono text-ui border relative",
                 active ? "btn-glitch" : "",
               ]
                 .filter(Boolean)

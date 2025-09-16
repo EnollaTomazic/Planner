@@ -122,6 +122,8 @@ const config: Config = {
         body: "var(--font-body)",
         title: "var(--font-title)",
         "title-lg": "var(--font-title-lg)",
+        headline: "var(--font-headline)",
+        display: "var(--font-display)",
       },
     },
   },

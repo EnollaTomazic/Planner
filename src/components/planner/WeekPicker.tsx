@@ -190,7 +190,7 @@ export default function WeekPicker() {
         <div className="flex items-center justify-between gap-3">
           <span
             className={cn(
-              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-sm",
+              "inline-flex items-center gap-2 rounded-card r-card-lg px-3 py-2 text-ui",
               "bg-card/72 ring-1 ring-border/55 backdrop-blur",
             )}
             aria-label={`Week range ${rangeLabel}`}
@@ -199,7 +199,7 @@ export default function WeekPicker() {
             <span className="opacity-90">{rangeLabel}</span>
           </span>
 
-          <span className="text-sm text-muted-foreground">
+          <span className="text-ui text-muted-foreground">
             <span className="opacity-70">Total tasks: </span>
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}

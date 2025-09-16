@@ -21,7 +21,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="mb-2 flex items-center gap-2"
             >
               <div
-                class="text-xs tracking-wide text-foreground/20"
+                class="text-label tracking-wide text-foreground/20"
               >
                 Lane
               </div>
@@ -52,7 +52,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="TOP-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="TOP-tab"
                   role="tab"
                   tabindex="-1"
@@ -94,7 +94,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="JUNGLE-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="JUNGLE-tab"
                   role="tab"
                   tabindex="-1"
@@ -135,7 +135,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="MID-panel"
                   aria-selected="true"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   data-selected="true"
                   id="MID-tab"
                   role="tab"
@@ -184,7 +184,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="BOT-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="BOT-tab"
                   role="tab"
                   tabindex="-1"
@@ -246,7 +246,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="SUPPORT-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-sm font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="SUPPORT-tab"
                   role="tab"
                   tabindex="-1"
@@ -324,7 +324,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   style="--control-h: var(--control-h-md);"
                 >
                   <input
-                    class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    class="w-full rounded-[inherit] bg-transparent px-3 text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                     id=":r1:"
                     name="lane"
                     placeholder="Ashe/Lulu"
@@ -338,7 +338,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="mb-2 flex items-center gap-2"
               >
                 <div
-                  class="text-xs tracking-wide text-foreground/20"
+                  class="text-label tracking-wide text-foreground/20"
                 >
                   <span
                     id=":r0:"
@@ -375,7 +375,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 >
                   <input
                     aria-labelledby=":r0:"
-                    class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                    class="w-full rounded-[inherit] bg-transparent px-3 text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                     id=":r2:"
                     name="opponent"
                     placeholder="Draven/Thresh"
@@ -399,7 +399,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Result
           </div>
@@ -420,7 +420,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             style="width: calc(50% - 4px); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28)); box-shadow: 0 10px 30px hsl(var(--shadow-color) / .25);"
           />
           <div
-            class="relative z-10 grid w-full grid-cols-2 text-sm font-mono"
+            class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
           >
             <div
               class="py-2 text-center text-foreground/70"
@@ -440,7 +440,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Score
           </div>
@@ -478,10 +478,10 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
         </div>
         <div
-          class="mt-1 flex items-center gap-2 text-sm text-muted-foreground"
+          class="mt-1 flex items-center gap-2 text-ui text-muted-foreground"
         >
           <span
-            class="pill h-6 px-2 text-xs"
+            class="pill h-6 px-2 text-label"
           >
             5
             /10
@@ -731,7 +731,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Pillars
           </div>
@@ -762,7 +762,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
                 title="Wave"
               >
@@ -889,7 +889,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
                 title="Trading"
               >
@@ -1026,7 +1026,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
                 title="Vision"
               >
@@ -1152,7 +1152,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
                 title="Tempo"
               >
@@ -1287,7 +1287,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
                 title="Positioning"
               >
@@ -1434,7 +1434,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-sm gap-2"
+                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
                 style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
                 title="Comms"
               >
@@ -1545,7 +1545,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Timestamps
           </div>
@@ -1865,7 +1865,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <input
                 aria-describedby="tTime-error"
                 aria-invalid="true"
-                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r3:"
                 inputmode="numeric"
                 name="timestamp-time"
@@ -1879,7 +1879,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--control-h: var(--control-h-md);"
             >
               <input
-                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r4:"
                 name="timestamp-note"
                 placeholder="Quick note"
@@ -1916,13 +1916,13 @@ exports[`ReviewEditor > renders default state 1`] = `
             </button>
           </div>
           <p
-            class="mt-1 text-xs text-danger"
+            class="mt-1 text-label text-danger"
             id="tTime-error"
           >
             Enter time as mm:ss
           </p>
           <div
-            class="mt-2 text-sm text-muted-foreground"
+            class="mt-2 text-ui text-muted-foreground"
           >
             No timestamps yet.
           </div>
@@ -1933,7 +1933,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Tags
           </div>
@@ -1974,7 +1974,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--control-h: var(--control-h-md);"
             >
               <input
-                class="w-full rounded-[inherit] bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
+                class="w-full rounded-[inherit] bg-transparent px-3 text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
                 id=":r5:"
                 name="tag-input"
                 placeholder="Add tag and press Enter"
@@ -2011,7 +2011,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
         </div>
         <div
-          class="mt-2 text-sm text-muted-foreground/80"
+          class="mt-2 text-ui text-muted-foreground/80"
         >
           No tags yet.
         </div>
@@ -2021,7 +2021,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-xs tracking-wide text-foreground/20"
+            class="text-label tracking-wide text-foreground/20"
           >
             Notes
           </div>
@@ -2033,7 +2033,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),url('/noise.svg')] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-[var(--radius-2xl)]"
         >
           <textarea
-            class="block w-full max-w-full px-3 py-3 text-base bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
+            class="block w-full max-w-full px-3 py-3 bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
             id=":r6:"
             name="r6"
             placeholder="Key moments, mistakes to fix, drills to run…"

@@ -177,20 +177,20 @@ function Hero<Key extends string = string>({
 
           <div className="min-w-0">
             {eyebrow ? (
-              <div className="text-xs font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+              <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
                 {eyebrow}
               </div>
             ) : null}
 
             <div className="flex items-baseline gap-2">
               <h2
-                className="hero2-title title-glow text-2xl md:text-3xl font-semibold tracking-[-0.005em] truncate"
+                className="hero2-title title-glow text-title-lg md:text-headline font-semibold tracking-[-0.005em] truncate"
                 data-text={headingStr}
               >
                 {heading}
               </h2>
               {subtitle ? (
-                <span className="text-sm md:text-base font-medium text-[hsl(var(--muted-foreground))] truncate">
+                <span className="text-ui md:text-body font-medium text-[hsl(var(--muted-foreground))] truncate">
                   {subtitle}
                 </span>
               ) : null}

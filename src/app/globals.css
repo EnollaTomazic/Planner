@@ -1315,6 +1315,8 @@ textarea:-webkit-autofill {
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
+  --font-headline: calc(var(--font-title-lg) * 1.25);
+  --font-display: calc(var(--font-title-lg) * 1.5);
 }
 
 @layer components {
@@ -1334,11 +1336,11 @@ textarea:-webkit-autofill {
     @apply text-label font-medium tracking-[0.02em] text-muted-foreground;
   }
   .title-ghost {
-    @apply text-2xl font-semibold opacity-60;
+    @apply text-title-lg font-semibold opacity-60;
     filter: blur(1px);
   }
   .title-glow {
-    @apply text-2xl font-semibold;
+    @apply text-title-lg font-semibold;
     text-shadow: 0 0 20px hsl(var(--glow-strong));
   }
 }

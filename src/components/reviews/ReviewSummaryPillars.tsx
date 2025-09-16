@@ -38,7 +38,7 @@ export default function ReviewSummaryPillars({
           ))}
         </div>
       ) : (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-ui text-muted-foreground">
           No pillars selected.
         </div>
       )}
