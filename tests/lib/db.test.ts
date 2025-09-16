@@ -158,6 +158,40 @@ describe("scheduleWrite", () => {
     vi.advanceTimersByTime(100);
     expect(storageMock.setItem).toHaveBeenCalledTimes(2);
   });
+
+  it("skips persistence when cloning fails", async () => {
+    const safeCloneMock = vi.fn(() => undefined);
+    vi.doMock("@/lib/utils", async () => {
+      const actual = await vi.importActual<typeof import("@/lib/utils")>(
+        "@/lib/utils",
+      );
+      return {
+        ...actual,
+        safeClone: safeCloneMock as typeof actual.safeClone,
+      };
+    });
+
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+    const key = "noxis-planner:clone-fail";
+    const value = { id: 42 };
+
+    scheduleWrite(key, value);
+
+    expect(safeCloneMock).toHaveBeenCalledTimes(1);
+    expect(safeCloneMock).toHaveBeenCalledWith(value);
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Skipping persistence for "${key}" because value could not be cloned.`,
+      value,
+    );
+
+    flushWriteLocal();
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    vi.doUnmock("@/lib/utils");
+    warnSpy.mockRestore();
+  });
 });
 
 describe("useStorageSync", () => {
