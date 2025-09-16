@@ -4,6 +4,7 @@
 import * as React from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { Select, type SelectItem } from "@/components/ui";
+import IconButton from "@/components/ui/primitives/IconButton";
 import useMounted from "@/lib/useMounted";
 import { useTheme } from "@/lib/theme-context";
 import {
@@ -73,18 +74,18 @@ export default function ThemeToggle({
   return (
     <div className={`flex items-center gap-2 whitespace-nowrap ${className}`}>
       {/* background cycle */}
-      <button
+      <IconButton
         id={id}
-        type="button"
         aria-label={`${aria}: cycle background`}
-        onClick={cycleBg}
         title="Change background"
-        disabled={isCycleDisabled || isCycleLoading}
-        data-loading={isCycleLoading || undefined}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full shrink-0 border border-border bg-card opacity-70 hover:opacity-100 focus-visible:opacity-100 active:opacity-90 hover:shadow-[0_0_12px_hsl(var(--ring)/.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)]"
+        onClick={cycleBg}
+        disabled={isCycleDisabled}
+        loading={isCycleLoading}
+        size="sm"
+        className="shrink-0"
       >
         <ImageIcon className="h-4 w-4" />
-      </button>
+      </IconButton>
 
       {/* dropdown — no visible title; uses aria label */}
       <Select
