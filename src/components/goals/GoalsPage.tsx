@@ -336,8 +336,11 @@ export default function GoalsPage() {
 
               {lastDeleted && (
                 <Snackbar
+                  role="status"
+                  aria-live="assertive"
                   message={<>Deleted “{lastDeleted.title}”.</>}
                   actionLabel="Undo"
+                  actionAriaLabel="Undo delete goal"
                   onAction={handleUndo}
                 />
               )}

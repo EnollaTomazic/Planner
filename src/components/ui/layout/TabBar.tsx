@@ -17,6 +17,7 @@ export type TabItem<K extends string = string> = {
   label: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
   badge?: React.ReactNode;
   className?: string;
   /** Optional explicit id for the tab button; defaults to `${key}-tab`. */
@@ -146,6 +147,32 @@ export default function TabBar<K extends string = string>({
   const s = sizeMap[size];
   const isNeo = variant === "neo";
 
+  const neoTokens = React.useMemo<React.CSSProperties | undefined>(() => {
+    if (!isNeo) return undefined;
+    return {
+      "--neo-tablist-bg":
+        "linear-gradient(140deg, hsl(var(--card) / 0.88), hsl(var(--panel) / 0.72))",
+      "--neo-tablist-shadow":
+        "inset var(--space-1) var(--space-1) var(--space-3) hsl(var(--background) / 0.55), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3) hsl(var(--highlight) / 0.08), 0 0 var(--space-4) hsl(var(--ring) / 0.25)",
+      "--neo-tab-bg":
+        "linear-gradient(145deg, hsl(var(--card) / 0.92), hsl(var(--panel) / 0.78))",
+      "--neo-tab-shadow":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.5), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.05), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
+      "--neo-tab-shadow-hover":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.46), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.08), 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)",
+      "--neo-tab-shadow-active":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.58), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.12), 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)",
+    } as React.CSSProperties;
+  }, [isNeo]);
+
+  const containerVariant = isNeo
+    ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
+    : "border-border/30 bg-card/60 shadow-inner [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] [--focus:hsl(var(--ring))]";
+
+  const tabVariant = isNeo
+    ? "bg-[var(--neo-tab-bg)] shadow-[var(--neo-tab-shadow)] hover:shadow-[var(--neo-tab-shadow-hover)] active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:hover:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
+    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
+
   return (
     <div className={cn("relative w-full", className)}>
       <div
@@ -162,32 +189,34 @@ export default function TabBar<K extends string = string>({
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
           data-variant={variant}
+          style={neoTokens}
           className={cn(
             "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
-            isNeo
-              ? "hero2-frame border-border/40 bg-card/70 shadow-neo-inset [--hover:transparent] [--active:transparent]"
-              : "border-border/30 bg-card/60 shadow-inner",
+            containerVariant,
           )}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
             const tabId = `${baseId}-${item.id ?? `${item.key}-tab`}`;
             const panelId = `${baseId}-${item.controls ?? `${item.key}-panel`}`;
+            const isLoading = Boolean(item.loading);
+            const isDisabled = Boolean(item.disabled || isLoading);
             return (
               <button
                 key={item.key}
                 id={linkPanels ? tabId : undefined}
                 role="tab"
                 type="button"
-                disabled={item.disabled}
+                disabled={isDisabled}
                 aria-selected={active}
-                aria-disabled={item.disabled || undefined}
+                aria-disabled={isDisabled || undefined}
+                aria-busy={isLoading || undefined}
                 aria-controls={linkPanels ? panelId : undefined}
-                tabIndex={item.disabled ? -1 : active ? 0 : -1}
+                tabIndex={isDisabled ? -1 : active ? 0 : -1}
                 ref={(el) => {
                   tabRefs.current[item.key] = el;
                 }}
-                onClick={() => !item.disabled && commitValue(item.key)}
+                onClick={() => !isDisabled && commitValue(item.key)}
                 className={cn(
                   "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
                   s.h,
@@ -195,15 +224,15 @@ export default function TabBar<K extends string = string>({
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
                   "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
-                  isNeo
-                    ? "shadow-neo-inset hover:shadow-neo-soft active:shadow-neo-inset data-[active=true]:shadow-neo data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
-                    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] data-[active=true]:shadow-ring",
+                  tabVariant,
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
                   "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+                  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
                   item.className,
                 )}
                 data-active={active || undefined}
+                data-loading={isLoading || undefined}
               >
                 {item.icon && (
                   <span
