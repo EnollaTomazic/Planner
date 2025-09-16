@@ -96,6 +96,12 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
     }
     return "bg-warning/20";
   }, [completionRatio]);
+  const instructionsId = React.useId();
+  const countsId = React.useId();
+  const instructionsText = selected
+    ? "Press Enter again or double-click to jump."
+    : "Press Enter to select.";
+  const describedBy = `${countsId} ${instructionsId}`;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" && selected) {
@@ -140,11 +146,8 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       onFocus={onFocus}
       tabIndex={tabIndex}
       aria-selected={selected}
-      aria-label={`Select ${localizedLabel}. Completed ${done} of ${total}. ${
-        selected
-          ? "Press Enter again or double-click to jump."
-          : "Press Enter to select."
-      }`}
+      aria-label={`Select ${localizedLabel}`}
+      aria-describedby={describedBy}
       title={
         selected
           ? "Press Enter again or double-click to jump"
@@ -174,10 +177,13 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       >
         {localizedLabel}
       </div>
-      <div className="chip__counts text-foreground">
+      <div id={countsId} className="chip__counts text-foreground">
         <span className="tabular-nums">{done}</span>
         <span className="text-foreground/70"> / {total}</span>
       </div>
+      <span id={instructionsId} className="sr-only">
+        {instructionsText}
+      </span>
       {/* decorative layers */}
       <span aria-hidden className="chip__scan" />
       <span aria-hidden className="chip__edge" />
