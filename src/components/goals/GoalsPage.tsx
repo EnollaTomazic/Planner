@@ -13,10 +13,9 @@
 import * as React from "react";
 import { Flag, ListChecks, Timer as TimerIcon } from "lucide-react";
 
-import Header, { type HeaderTab } from "@/components/ui/layout/Header";
-import Hero from "@/components/ui/layout/Hero";
+import { type HeaderTab } from "@/components/ui/layout/Header";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { Snackbar, PageShell } from "@/components/ui";
+import { Snackbar, PageHeader, PageShell } from "@/components/ui";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -161,19 +160,30 @@ export default function GoalsPage() {
     >
       <div className="grid gap-6">
         {/* ======= HEADER ======= */}
-        <Header
-          id="goals-header"
-          eyebrow="Goals"
-          heading="Today’s Goals"
-          subtitle={summary}
-          icon={<Flag className="opacity-80" />}
-          sticky
-          barClassName="flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between"
-          tabs={{
-            items: TABS,
-            value: tab,
-            onChange: handleTabChange,
-            ariaLabel: "Goals header mode",
+        <PageHeader
+          header={{
+            id: "goals-header",
+            eyebrow: "Goals",
+            heading: "Today’s Goals",
+            subtitle: summary,
+            icon: <Flag className="opacity-80" />,
+            sticky: true,
+            barClassName:
+              "flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between",
+            tabs: {
+              items: TABS,
+              value: tab,
+              onChange: handleTabChange,
+              ariaLabel: "Goals header mode",
+            },
+          }}
+          hero={{
+            eyebrow: "Guide",
+            heading: "Overview",
+            subtitle: `Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`,
+            sticky: false,
+            topClassName: "top-0",
+            hidden: tab !== "goals",
           }}
         />
 
@@ -189,14 +199,6 @@ export default function GoalsPage() {
           {tab === "goals" && (
             <div className="grid gap-4">
               <div className="space-y-2">
-                <Hero
-                  eyebrow="Guide"
-                  heading="Overview"
-                  subtitle={`Cap ${ACTIVE_CAP}, ${remaining} remaining (${activeCount} active, ${doneCount} done)`}
-                  sticky={false}
-                  topClassName="top-0"
-                />
-
                 {totalCount === 0 ? (
                   <GoalsProgress
                     total={totalCount}
