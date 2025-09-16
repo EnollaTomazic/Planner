@@ -4,11 +4,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const radiusClasses = {
-  sm: "rounded-md",
-  md: "rounded-lg",
-  lg: "rounded-xl",
-  card: "rounded-card",
-  full: "rounded-full",
+  sm: "rounded-[var(--radius-md)]",
+  md: "rounded-[var(--radius-lg)]",
+  lg: "rounded-[var(--radius-xl)]",
+  card: "rounded-[var(--radius-card,var(--radius-xl))]",
+  full: "rounded-[var(--radius-full)]",
 } as const;
 
 export type SkeletonRadius = keyof typeof radiusClasses;
