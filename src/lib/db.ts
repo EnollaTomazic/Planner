@@ -55,11 +55,123 @@ export function flushWriteLocal() {
   flushWriteQueue();
 }
 
+function describeNonSerializable(
+  value: unknown,
+  path = "value",
+  stack: Set<object> = new Set(),
+): string | null {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "undefined"
+  ) {
+    return null;
+  }
+
+  if (typeof value === "function") {
+    return `${path} is a function`;
+  }
+
+  if (typeof value === "symbol") {
+    return `${path} is a symbol`;
+  }
+
+  if (typeof value === "bigint") {
+    return `${path} is a bigint`;
+  }
+
+  if (typeof value !== "object") {
+    return `${path} has unsupported type ${typeof value}`;
+  }
+
+  const obj = value as Record<PropertyKey, unknown>;
+  if (stack.has(obj)) {
+    return `${path} contains a circular reference`;
+  }
+  stack.add(obj);
+
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i += 1) {
+      const issue = describeNonSerializable(obj[i], `${path}[${i}]`, stack);
+      if (issue) {
+        stack.delete(obj);
+        return issue;
+      }
+    }
+    stack.delete(obj);
+    return null;
+  }
+
+  if (obj instanceof Date) {
+    stack.delete(obj);
+    return null;
+  }
+
+  if (
+    obj instanceof Map ||
+    obj instanceof Set ||
+    obj instanceof WeakMap ||
+    obj instanceof WeakSet
+  ) {
+    stack.delete(obj);
+    return `${path} is a ${obj.constructor.name}`;
+  }
+
+  if (obj instanceof Promise) {
+    stack.delete(obj);
+    return `${path} is a Promise`;
+  }
+
+  if (ArrayBuffer.isView(obj) || obj instanceof ArrayBuffer) {
+    stack.delete(obj);
+    return null;
+  }
+
+  const proto = Object.getPrototypeOf(obj);
+  if (proto !== null && proto !== Object.prototype) {
+    if (typeof (obj as { toJSON?: unknown }).toJSON === "function") {
+      stack.delete(obj);
+      return null;
+    }
+    const protoName = proto.constructor?.name ?? "object";
+    stack.delete(obj);
+    return `${path} has unsupported prototype ${protoName}`;
+  }
+
+  if (Object.getOwnPropertySymbols(obj).length > 0) {
+    stack.delete(obj);
+    return `${path} has symbol-keyed properties`;
+  }
+
+  for (const [prop, propValue] of Object.entries(
+    obj as Record<string, unknown>,
+  )) {
+    const issue = describeNonSerializable(propValue, `${path}.${prop}`, stack);
+    if (issue) {
+      stack.delete(obj);
+      return issue;
+    }
+  }
+
+  stack.delete(obj);
+  return null;
+}
+
 export function scheduleWrite(key: string, value: unknown) {
+  const issue = describeNonSerializable(value);
+  if (issue) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        `Skipping persistence for "${key}" because ${issue}.`,
+        value,
+      );
+    }
+    return;
+  }
   const persistedValue =
-    value !== null && (typeof value === "object" || typeof value === "function")
-      ? safeClone(value)
-      : value;
+    value !== null && typeof value === "object" ? safeClone(value) : value;
   writeQueue.set(key, persistedValue);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
