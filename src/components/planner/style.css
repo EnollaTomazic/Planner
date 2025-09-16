@@ -163,47 +163,49 @@
 }
 
 /* ============ Week chips: hover flicker + active glitch ============ */
-@keyframes chip-flicker {
-  0%,
-  22%,
-  24%,
-  55%,
-  57%,
-  100% {
-    opacity: 1;
-    filter: none;
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes chip-flicker {
+    0%,
+    22%,
+    24%,
+    55%,
+    57%,
+    100% {
+      opacity: 1;
+      filter: none;
+    }
+    23% {
+      opacity: 0.86;
+      filter: blur(calc(var(--hairline-w) / 10));
+    }
+    56% {
+      opacity: 0.9;
+      filter: blur(calc(var(--hairline-w) * 0.15));
+    }
   }
-  23% {
-    opacity: 0.86;
-    filter: blur(calc(var(--hairline-w) / 10));
-  }
-  56% {
-    opacity: 0.9;
-    filter: blur(calc(var(--hairline-w) * 0.15));
-  }
-}
-@keyframes chip-rgb {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  20% {
-    transform: translate(
-      calc(var(--hairline-w) * 0.3),
-      calc(var(--hairline-w) * -0.2)
-    );
-  }
-  40% {
-    transform: translate(
-      calc(var(--hairline-w) * -0.2),
-      calc(var(--hairline-w) * 0.2)
-    );
-  }
-  60% {
-    transform: translate(calc(var(--hairline-w) * 0.2), 0);
-  }
-  80% {
-    transform: translate(calc(var(--hairline-w) * -0.2), 0);
+  @keyframes chip-rgb {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    20% {
+      transform: translate(
+        calc(var(--hairline-w) * 0.3),
+        calc(var(--hairline-w) * -0.2)
+      );
+    }
+    40% {
+      transform: translate(
+        calc(var(--hairline-w) * -0.2),
+        calc(var(--hairline-w) * 0.2)
+      );
+    }
+    60% {
+      transform: translate(calc(var(--hairline-w) * 0.2), 0);
+    }
+    80% {
+      transform: translate(calc(var(--hairline-w) * -0.2), 0);
+    }
   }
 }
 
@@ -221,8 +223,8 @@
       hsl(var(--shadow-color) / 0.3);
   box-shadow: var(--neo-shadow);
 }
+
 .chip:hover {
-  animation: chip-flicker 3.2s steps(1, end) infinite;
   background: color-mix(
     in oklab,
     hsl(var(--card)) 88%,
@@ -283,19 +285,9 @@
 }
 .chip--active .chip__date::before {
   color: hsl(var(--accent));
-  transform: translate(
-    calc(var(--hairline-w) / 2),
-    calc(var(--hairline-w) / -2)
-  );
-  animation: chip-rgb 2.1s linear infinite;
 }
 .chip--active .chip__date::after {
   color: hsl(var(--primary));
-  transform: translate(
-    calc(var(--hairline-w) / -2),
-    calc(var(--hairline-w) / 2)
-  );
-  animation: chip-rgb 2s linear infinite reverse;
 }
 
 /* inner scanlines layer (hover only) */
@@ -353,6 +345,26 @@
   @apply text-ui font-semibold tracking-[-0.01em];
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .chip:hover {
+    animation: chip-flicker 3.2s steps(1, end) infinite;
+  }
+  .chip--active .chip__date::before {
+    transform: translate(
+      calc(var(--hairline-w) / 2),
+      calc(var(--hairline-w) / -2)
+    );
+    animation: chip-rgb 2.1s linear infinite;
+  }
+  .chip--active .chip__date::after {
+    transform: translate(
+      calc(var(--hairline-w) / -2),
+      calc(var(--hairline-w) / 2)
+    );
+    animation: chip-rgb 2s linear infinite reverse;
+  }
+}
+
 /* ============ Motion safety ============ */
 @media (prefers-reduced-motion: reduce) {
   .proj-card--active::after {
@@ -363,6 +375,15 @@
   .chip__edge {
     animation: none !important;
     transition: none !important;
+  }
+  .chip:hover {
+    box-shadow:
+      var(--neo-shadow),
+      0 0 0 calc(var(--hairline-w) * 2) hsl(var(--primary) / 0.35);
+  }
+  .chip--active .chip__date::before,
+  .chip--active .chip__date::after {
+    opacity: 0.6;
   }
 }
 
