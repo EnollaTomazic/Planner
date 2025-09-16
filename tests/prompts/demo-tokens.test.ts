@@ -1,7 +1,12 @@
 import { describe, it, expect } from "vitest";
 import type { Config } from "tailwindcss";
 import config from "../../tailwind.config";
-import { colorTokens, spacingTokens, radiusTokens } from "../../src/lib/tokens";
+import {
+  colorTokens,
+  spacingTokens,
+  radiusTokens,
+  radiusScale,
+} from "../../src/lib/tokens";
 
 describe("demo tokens", () => {
   const tw = config as Config;
@@ -17,11 +22,18 @@ describe("demo tokens", () => {
   it("match tailwind radius config", () => {
     const radius =
       (tw.theme?.extend?.borderRadius as Record<string, string>) ?? {};
-    const radiusFromConfig = Object.values(radius).map((v) => {
-      const match = String(v).match(/var\(([^)]+)\)/);
-      return match ? match[1] : v;
-    });
-    expect(radiusTokens).toEqual(radiusFromConfig);
+    const expectedRadius = Object.entries(radiusScale).reduce<
+      Record<string, string>
+    >((acc, [name, value]) => {
+      acc[name] = `${value}px`;
+      return acc;
+    }, {});
+    expect(radius).toEqual(expectedRadius);
+
+    const configRadiusTokens = Object.keys(radius).map(
+      (name) => `--radius-${name}`,
+    );
+    expect(radiusTokens).toEqual(configRadiusTokens);
   });
 
   it("use colors defined in tailwind config", () => {
