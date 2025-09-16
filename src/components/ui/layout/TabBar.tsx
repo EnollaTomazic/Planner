@@ -42,6 +42,11 @@ export type TabBarProps<K extends string = string> = {
   showBaseline?: boolean;
   linkPanels?: boolean;
   variant?: Variant;
+  /**
+   * Base string applied to tab and panel ids when linking panels.
+   * Defaults to an auto-generated React id to ensure uniqueness.
+   */
+  idBase?: string;
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
@@ -75,8 +80,10 @@ export default function TabBar<K extends string = string>({
   showBaseline = false,
   linkPanels = true,
   variant = "default",
+  idBase,
 }: TabBarProps<K>) {
   const uid = useId();
+  const baseId = idBase ?? uid;
   const isControlled = value !== undefined;
   const [internal, setInternal] = React.useState<K>(() => {
     if (value !== undefined) return value;
@@ -164,8 +171,8 @@ export default function TabBar<K extends string = string>({
         >
           {items.map((item) => {
             const active = item.key === activeKey;
-            const tabId = `${uid}-${item.id ?? `${item.key}-tab`}`;
-            const panelId = `${uid}-${item.controls ?? `${item.key}-panel`}`;
+            const tabId = `${baseId}-${item.id ?? `${item.key}-tab`}`;
+            const panelId = `${baseId}-${item.controls ?? `${item.key}-panel`}`;
             return (
               <button
                 key={item.key}
