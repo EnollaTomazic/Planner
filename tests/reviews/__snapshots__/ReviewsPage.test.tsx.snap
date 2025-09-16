@@ -263,16 +263,16 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="min-w-0"
                   >
                     <div
-                      class="flex items-baseline gap-[var(--space-2)]"
+                      class="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]"
                     >
                       <h2
-                        class="title-glow font-semibold tracking-[-0.01em] truncate text-title md:text-title"
+                        class="title-glow font-semibold tracking-[-0.01em] text-balance break-words text-title md:text-title"
                         data-text="Browse Reviews"
                       >
                         Browse Reviews
                       </h2>
                       <span
-                        class="text-ui md:text-body text-muted-foreground truncate font-normal"
+                        class="text-ui md:text-body text-muted-foreground break-words font-normal"
                       >
                         <span
                           class="pill"

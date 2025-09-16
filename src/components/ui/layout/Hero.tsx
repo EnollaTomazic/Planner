@@ -137,7 +137,7 @@ function Hero<Key extends string = string>({
     : "flex flex-wrap items-center gap-[var(--space-2)] md:flex-nowrap md:gap-[var(--space-3)] lg:gap-[var(--space-4)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
   const headingClassName = cx(
-    "title-glow font-semibold tracking-[-0.01em] truncate",
+    "title-glow font-semibold tracking-[-0.01em] text-balance break-words",
     frame ? "hero2-title" : undefined,
     isSupportiveTone
       ? "text-title md:text-title"
@@ -145,7 +145,7 @@ function Hero<Key extends string = string>({
   );
 
   const subtitleClassName = cx(
-    "text-ui md:text-body text-muted-foreground truncate",
+    "text-ui md:text-body text-muted-foreground break-words",
     isSupportiveTone ? "font-normal" : "font-medium",
   );
 
@@ -220,7 +220,7 @@ function Hero<Key extends string = string>({
               </div>
             ) : null}
 
-            <div className="flex items-baseline gap-[var(--space-2)]">
+            <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
               <h2 className={headingClassName} data-text={headingStr}>
                 {heading}
               </h2>
@@ -230,7 +230,9 @@ function Hero<Key extends string = string>({
             </div>
           </div>
 
-          {subTabsNode ? <div className="ml-auto">{subTabsNode}</div> : null}
+          {subTabsNode ? (
+            <div className="ml-auto self-start">{subTabsNode}</div>
+          ) : null}
         </div>
 
         {children || searchProps || actions ? (
