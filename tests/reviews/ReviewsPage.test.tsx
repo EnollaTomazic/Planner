@@ -100,7 +100,7 @@ describe("ReviewsPage", () => {
 
     expect(getTitles()).toEqual(["Alpha", "Gamma", "Beta"]);
 
-    const sortBtn = screen.getByRole("button", { name: "Select option" });
+    const sortBtn = screen.getByRole("button", { name: "Sort reviews" });
     fireEvent.click(sortBtn);
     fireEvent.click(screen.getByRole("option", { name: "Title" }));
 
