@@ -21,6 +21,9 @@ type LegacySnapshot = {
   tasks: DayTask[] | null;
 };
 
+const LEGACY_PROJECTS_KEY = "planner:projects";
+const LEGACY_TASKS_KEY = "planner:tasks";
+
 let legacyMigrated = false;
 function migrateLegacy(
   days: Record<ISODate, DayRecord>,
@@ -29,8 +32,8 @@ function migrateLegacy(
 ): Record<ISODate, DayRecord> {
   if (legacyMigrated || typeof window === "undefined") return days;
   const projects =
-    legacy?.projects ?? readLocal<Project[]>("planner:projects");
-  const tasks = legacy?.tasks ?? readLocal<DayTask[]>("planner:tasks");
+    legacy?.projects ?? readLocal<Project[]>(LEGACY_PROJECTS_KEY);
+  const tasks = legacy?.tasks ?? readLocal<DayTask[]>(LEGACY_TASKS_KEY);
   if (!projects && !tasks) {
     legacyMigrated = true;
     return days;
@@ -55,8 +58,8 @@ function migrateLegacy(
     updated.tasks,
   );
   next[iso] = { ...updated, doneCount, totalCount };
-  removeLocal("planner:projects");
-  removeLocal("planner:tasks");
+  removeLocal(LEGACY_PROJECTS_KEY);
+  removeLocal(LEGACY_TASKS_KEY);
   legacyMigrated = true;
   return next;
 }
@@ -80,8 +83,8 @@ export function usePlannerStore() {
 
   React.useEffect(() => {
     if (!legacyMigrated) {
-      const projects = readLocal<Project[]>("planner:projects");
-      const tasks = readLocal<DayTask[]>("planner:tasks");
+      const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
+      const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
 
       if (!projects && !tasks) {
         legacyMigrated = true;
