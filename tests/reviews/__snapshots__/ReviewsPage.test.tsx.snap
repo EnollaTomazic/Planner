@@ -6,7 +6,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     aria-labelledby="reviews-header"
     class="page-shell py-6 space-y-6"
   >
-    <section>
+    <header>
       <style
         global="true"
         jsx="true"
@@ -749,7 +749,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55"
         />
       </div>
-    </section>
+    </header>
     <div
       class="grid grid-cols-1 items-start gap-6 md:grid-cols-12"
     >
