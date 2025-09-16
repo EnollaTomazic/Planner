@@ -14,7 +14,9 @@ import {
 } from "@/components/prompts/constants";
 import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
 import { usePersistentState } from "@/lib/db";
+import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import styles from "./PromptsPage.module.css";
 
 export default function Page() {
   return (
@@ -147,17 +149,17 @@ function PageContent() {
           actions: (
             <div className="flex items-center gap-2">
               <div
-                className="hidden sm:flex items-center gap-2 rounded-full border px-3 py-1 text-label font-medium tracking-[-0.01em]"
-                style={{
-                  backgroundColor: "hsl(var(--accent-3) / 0.18)",
-                  borderColor: "hsl(var(--accent-3))",
-                  color: "hsl(var(--accent-foreground))",
-                }}
+                className={cn(
+                  "hidden sm:flex items-center gap-2 rounded-full border px-3 py-1 text-label font-medium tracking-[-0.01em]",
+                  styles.accentBadge,
+                )}
               >
                 <span
                   aria-hidden
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: "hsl(var(--accent-3))" }}
+                  className={cn(
+                    "h-2 w-2 rounded-full",
+                    styles.accentBadgeIndicator,
+                  )}
                 />
                 Accent 3
               </div>
