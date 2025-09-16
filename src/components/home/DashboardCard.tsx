@@ -20,7 +20,7 @@ export default function DashboardCard({
   return (
     <NeoCard className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold tracking-[-0.01em]">{title}</h2>
+        <h2 className="text-body font-semibold tracking-[-0.01em]">{title}</h2>
         {actions}
       </div>
       {children && (
@@ -31,7 +31,7 @@ export default function DashboardCard({
       {cta && (
         <Link
           href={cta.href}
-          className="text-sm font-medium text-accent underline"
+          className="text-ui font-medium text-accent underline"
         >
           {cta.label}
         </Link>

@@ -26,7 +26,7 @@ describe('Badge', () => {
     const badge = getByText('Small');
     expect(badge).toHaveClass('px-[var(--space-2)]');
     expect(badge).toHaveClass('py-[var(--space-1)]');
-    expect(badge).toHaveClass('text-xs');
+    expect(badge).toHaveClass('text-label');
   });
 });
 

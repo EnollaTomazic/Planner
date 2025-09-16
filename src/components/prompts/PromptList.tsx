@@ -20,13 +20,13 @@ export default function PromptList({ prompts, query }: PromptListProps) {
               <h3 className="font-semibold">{p.title}</h3>
               <time
                 dateTime={new Date(p.createdAt).toISOString()}
-                className="text-xs text-muted-foreground"
+                className="text-label text-muted-foreground"
               >
                 {new Date(p.createdAt).toLocaleString(LOCALE)}
               </time>
             </header>
             {p.text ? (
-              <p className="mt-1 whitespace-pre-wrap text-sm">{p.text}</p>
+              <p className="mt-1 whitespace-pre-wrap text-ui">{p.text}</p>
             ) : null}
           </Card>
         </li>

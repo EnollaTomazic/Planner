@@ -2,7 +2,15 @@
 // Tiny helpers. Keep dependencies minimal and SSR-safe.
 
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+const twMerge = extendTailwindMerge({
+  extend: {
+    theme: {
+      text: ["label", "ui", "body", "title", "title-lg"],
+    },
+  },
+});
 
 // Default locale for consistent date/time formatting.
 export const LOCALE = "en-US";

@@ -43,11 +43,11 @@ export default function PromptsDemos() {
     <>
       <OutlineGlowDemo />
       <SectionLabel>Section Label</SectionLabel>
-      <p className="text-sm text-muted-foreground">Divider used in reviews</p>
+      <p className="text-ui text-muted-foreground">Divider used in reviews</p>
 
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Input</h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           Customize focus rings with the <code>--theme-ring</code> variable.
         </p>
         <div className="space-y-3">
@@ -125,7 +125,7 @@ export default function PromptsDemos() {
           <code>textareaClassName</code> to target the inner element.
         </p>
         <FieldShell>
-          <div className="px-4 py-2 text-sm text-muted-foreground">
+          <div className="px-4 py-2 text-ui text-muted-foreground">
             Custom content
           </div>
         </FieldShell>
