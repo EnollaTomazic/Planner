@@ -22,8 +22,8 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <nav aria-label="Primary">
-      <ul className="flex items-center gap-2">
+    <nav aria-label="Primary" className="max-w-full overflow-x-auto md:overflow-visible">
+      <ul className="flex min-w-max items-center gap-2">
         {items.map(({ href, label }) => {
           const active = path === href || path.startsWith(href + "/");
 
