@@ -13,6 +13,8 @@ export * from "./Sheet";
 export { default as Toast } from "./Toast";
 export * from "./Toast";
 export { default as Progress } from "./feedback/Progress";
+export { default as Skeleton } from "./feedback/Skeleton";
+export * from "./feedback/Skeleton";
 export { default as Snackbar } from "./feedback/Snackbar";
 export { default as Spinner } from "./feedback/Spinner";
 export * from "./hooks/useDialogTrap";

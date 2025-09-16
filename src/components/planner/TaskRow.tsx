@@ -89,7 +89,6 @@ export default function TaskRow({
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
         >
-          <span className="sr-only">{`Select task ${task.title}`}</span>
         </button>
 
         <div
