@@ -94,4 +94,35 @@ describe("PageHeader", () => {
     expect(subtitle).toHaveClass("font-medium");
     expect(subtitle).not.toHaveClass("font-normal");
   });
+
+  it("balances header text when titles span multiple lines", () => {
+    const wrappingHeading =
+      "Expanded overview with multi-line planning guidance";
+    const eyebrow = "Planner daily briefing";
+
+    render(
+      <PageHeader
+        header={{
+          ...baseHeader,
+          eyebrow,
+          heading: wrappingHeading,
+        }}
+        hero={{
+          ...baseHero,
+          eyebrow: undefined,
+        }}
+      />,
+    );
+
+    const headerHeading = screen.getByRole("heading", {
+      level: 1,
+      name: wrappingHeading,
+    });
+    expect(headerHeading).toHaveClass("text-balance");
+    expect(headerHeading).toHaveClass("break-words");
+
+    const headerEyebrow = screen.getByText(eyebrow);
+    expect(headerEyebrow).toHaveClass("text-balance");
+    expect(headerEyebrow).toHaveClass("break-words");
+  });
 });

@@ -123,8 +123,8 @@ export default function PageHeaderDemo() {
     <div className="space-y-6">
       <Header
         eyebrow="Planner"
-        heading="Compact Header"
-        subtitle="Navigation & utilities"
+        heading="Compact Header Layout with Balanced Wrapping"
+        subtitle="Navigation & utilities stay aligned"
         compact
         sticky={false}
         topClassName="top-0"
@@ -148,8 +148,8 @@ export default function PageHeaderDemo() {
       <Header
         variant="minimal"
         eyebrow="Planner"
-        heading="Minimal Header"
-        subtitle="Lean chrome with neon focus"
+        heading="Minimal Header Layout for Extended Multi-line Titles"
+        subtitle="Lean chrome with neon focus even when headlines wrap"
         sticky={false}
         topClassName="top-0"
         rail={false}
@@ -232,7 +232,9 @@ export default function PageHeaderDemo() {
         }}
         header={{
           heading: (
-            <span id="page-header-demo-heading">Welcome to Planner</span>
+            <span id="page-header-demo-heading">
+              Welcome to Planner — plan smarter with multi-line titles
+            </span>
           ),
           subtitle: "Plan your day, track goals, and review games.",
           icon: (

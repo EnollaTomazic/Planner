@@ -192,12 +192,12 @@ export default function Header<Key extends string = string>({
               ) : null}
               <div className="min-w-0">
                 {eyebrow ? (
-                  <div className="mb-[var(--space-1)] truncate text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
+                  <div className="mb-[var(--space-1)] text-balance break-words text-label font-medium tracking-[0.02em] uppercase text-muted-foreground">
                     {eyebrow}
                   </div>
                 ) : null}
                 <div className="flex min-w-0 items-baseline gap-[var(--space-2)]">
-                  <h1 className="truncate text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
+                  <h1 className="text-balance break-words text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
                     {heading}
                   </h1>
                   {subtitle ? (
@@ -224,7 +224,7 @@ export default function Header<Key extends string = string>({
 
           {/* Right slot / tabs */}
           {showRightStack ? (
-            <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]">
+            <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] self-start sm:gap-[var(--space-4)]">
               {hasTabs ? tabControl : null}
               {hasRight ? (
                 <div className="flex shrink-0 items-center gap-[var(--space-2)]">
