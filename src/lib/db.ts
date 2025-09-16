@@ -170,8 +170,20 @@ export function scheduleWrite(key: string, value: unknown) {
     }
     return;
   }
-  const persistedValue =
-    value !== null && typeof value === "object" ? safeClone(value) : value;
+  let persistedValue: unknown = value;
+  if (value !== null && typeof value === "object") {
+    const clonedValue = safeClone(value);
+    if (typeof clonedValue === "undefined") {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          `Skipping persistence for "${key}" because value could not be cloned.`,
+          value,
+        );
+      }
+      return;
+    }
+    persistedValue = clonedValue;
+  }
   writeQueue.set(key, persistedValue);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);

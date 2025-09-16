@@ -117,7 +117,8 @@ const PageHeaderInner = <
         <div
           className={cn(
             "relative z-[2]",
-            contentClassName ?? "space-y-5 md:space-y-6",
+            contentClassName ??
+              "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
           )}
         >
           <Header {...header} underline={header.underline ?? false} />
