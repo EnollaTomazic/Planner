@@ -20,4 +20,15 @@ describe('Toggle', () => {
     expect(button).toHaveAttribute('aria-labelledby', `${left.id} ${right.id}`);
     expect(button).not.toHaveAttribute('aria-label');
   });
+
+  it('reflects loading state via aria-busy', () => {
+    const { getByRole, rerender } = render(<Toggle loading />);
+    const button = getByRole('switch');
+
+    expect(button).toHaveAttribute('aria-busy', 'true');
+
+    rerender(<Toggle loading={false} />);
+
+    expect(button).not.toHaveAttribute('aria-busy');
+  });
 });
