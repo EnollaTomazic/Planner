@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
@@ -8,6 +9,9 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import type { DayTask } from "./plannerStore";
+import tokens from "../../../tokens/tokens.js";
+
+const TASK_IMAGE_SIZE = Number.parseInt(tokens.spacing7, 10);
 
 type Props = {
   task: DayTask;
@@ -195,10 +199,12 @@ export default function TaskRow({
         <ul className="mt-2 space-y-2">
           {task.images.map((url) => (
             <li key={url} className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={url}
                 alt={`Image for ${task.title}`}
+                width={TASK_IMAGE_SIZE}
+                height={TASK_IMAGE_SIZE}
+                unoptimized
                 className="rounded-card r-card-md object-cover"
                 style={{
                   maxHeight: "var(--space-7)",

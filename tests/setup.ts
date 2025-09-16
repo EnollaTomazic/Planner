@@ -48,6 +48,46 @@ vi.mock("react", async () => {
   } satisfies ReactModule & { default: ReactModule };
 });
 
+vi.mock("next/image", async () => {
+  const React = (await vi.importActual<ReactModule>("react")) as ReactModule;
+  const MockNextImage = React.forwardRef<HTMLImageElement, any>((props, ref) => {
+    const {
+      src,
+      alt,
+      width,
+      height,
+      style,
+      className,
+      priority: _priority,
+      fill: _fill,
+      loader: _loader,
+      quality: _quality,
+      onLoadingComplete: _onLoadingComplete,
+      placeholder: _placeholder,
+      blurDataURL: _blurDataURL,
+      unoptimized: _unoptimized,
+      ...rest
+    } = props ?? {};
+
+    return React.createElement("img", {
+      ...rest,
+      src: typeof src === "string" ? src : "",
+      alt,
+      width,
+      height,
+      style,
+      className,
+      ref,
+    });
+  });
+
+  MockNextImage.displayName = "MockNextImage";
+
+  return {
+    default: MockNextImage,
+  };
+});
+
 const originalConsoleError = console.error;
 vi.spyOn(console, "error").mockImplementation((...args) => {
   const [format, value, attr, ...rest] = args;
