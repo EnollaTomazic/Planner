@@ -274,6 +274,14 @@ export default function PageHeaderDemo() {
           barClassName: "p-0",
         }}
       />
+      <p className="text-ui text-muted-foreground">
+        The PageHeader now keeps the inner hero calm by default. When you need
+        the full glitch shell for a marketing moment, pass the
+        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
+          hero.frame = true
+        </code>
+        flag to opt back into the beams and scanlines.
+      </p>
     </div>
   );
 }

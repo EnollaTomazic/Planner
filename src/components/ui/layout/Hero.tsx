@@ -108,6 +108,31 @@ function Hero<Key extends string = string>({
 
   const Component: HeroElement = as ?? "section";
 
+  const shellClass = cx(
+    sticky ? "sticky-blur" : "",
+    frame
+      ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
+      : "px-[var(--space-3)] sm:px-[var(--space-4)] lg:px-[var(--space-5)]",
+    sticky && topClassName,
+  );
+
+  const barSpacingClass = frame
+    ? "relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]"
+    : "relative z-[2] flex items-center gap-[var(--space-2)] md:gap-[var(--space-3)] lg:gap-[var(--space-4)] py-[var(--space-4)]";
+
+  const bodySpacingClass = frame
+    ? "relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]"
+    : "relative z-[2] mt-[var(--space-4)] md:mt-[var(--space-5)] flex flex-col gap-[var(--space-4)] md:gap-[var(--space-5)]";
+
+  const actionRowClass = frame
+    ? "flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
+    : "flex flex-wrap items-center gap-[var(--space-2)] md:flex-nowrap md:gap-[var(--space-3)] lg:gap-[var(--space-4)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
+
+  const headingClassName = cx(
+    "title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate",
+    frame ? "hero2-title" : undefined,
+  );
+
   // Compose right area: prefer built-in sub-tabs if provided.
   const subTabsNode = subTabs ? (
     <TabBar
@@ -152,18 +177,10 @@ function Hero<Key extends string = string>({
 
   return (
     <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
-      <HeroGlitchStyles />
-      <NeomorphicFrameStyles />
+      {frame ? <HeroGlitchStyles /> : null}
+      {frame ? <NeomorphicFrameStyles /> : null}
 
-      <div
-        className={cx(
-          sticky ? "sticky-blur" : "",
-          frame
-            ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] px-[var(--space-6)] hero2-frame hero2-neomorph"
-            : "",
-          sticky && topClassName,
-        )}
-      >
+      <div className={shellClass}>
         {frame ? (
           <>
             <span aria-hidden className="hero2-beams" />
@@ -172,12 +189,7 @@ function Hero<Key extends string = string>({
           </>
         ) : null}
 
-        <div
-          className={cx(
-            "relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]",
-            barClassName,
-          )}
-        >
+        <div className={cx(barSpacingClass, barClassName)}>
           {rail ? <span aria-hidden className="rail" /> : null}
           {icon ? (
             <div className="opacity-70 hover:opacity-100 focus-visible:opacity-100 transition-opacity">
@@ -193,10 +205,7 @@ function Hero<Key extends string = string>({
             ) : null}
 
             <div className="flex items-baseline gap-[var(--space-2)]">
-              <h2
-                className="hero2-title title-glow text-title-lg md:text-title-lg font-semibold tracking-[-0.01em] truncate"
-                data-text={headingStr}
-              >
+              <h2 className={headingClassName} data-text={headingStr}>
                 {heading}
               </h2>
               {subtitle ? (
@@ -211,7 +220,7 @@ function Hero<Key extends string = string>({
         </div>
 
         {children || searchProps || actions ? (
-          <div className="relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]">
+          <div className={bodySpacingClass}>
             {children ? (
               <div className={cx(bodyClassName)}>{children}</div>
             ) : null}
@@ -219,13 +228,20 @@ function Hero<Key extends string = string>({
               <div className="relative" style={dividerStyle}>
                 <span
                   aria-hidden
-                  className="hero2-divider-line block h-px bg-[hsl(var(--divider))/0.35]"
+                  className={cx(
+                    "block h-px",
+                    frame
+                      ? "hero2-divider-line bg-[hsl(var(--divider))/0.35]"
+                      : "bg-[hsl(var(--divider))/0.28]",
+                  )}
                 />
-                <span
-                  aria-hidden
-                  className="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
-                />
-                <div className="flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]">
+                {frame ? (
+                  <span
+                    aria-hidden
+                    className="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                  />
+                ) : null}
+                <div className={actionRowClass}>
                   {searchProps ? <HeroSearchBar {...searchProps} /> : null}
                   {actions ? (
                     <div className="flex items-center gap-[var(--space-2)]">{actions}</div>

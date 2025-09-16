@@ -73,6 +73,8 @@ function HomePageContent() {
             }}
             hero={{
               heading: "Your day at a glance",
+              sticky: false,
+              topClassName: "top-0",
               actions: (
                 <>
                   <ThemeToggle className="shrink-0" />
