@@ -115,7 +115,10 @@ function Inner() {
           </div>
 
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
-          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
+          <aside
+            aria-label="Week notes"
+            className="lg:col-span-4 space-y-6 lg:sticky lg:top-8"
+          >
             <WeekNotes iso={iso} />
           </aside>
         </section>

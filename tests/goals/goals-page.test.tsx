@@ -20,12 +20,35 @@ describe("GoalsPage", () => {
 
   it("renders hero heading and subtitle", () => {
     render(<GoalsPage />);
+    const heroRegion = screen.getByRole("region", {
+      name: "Goals overview",
+    });
     expect(
-      screen.getByRole("heading", { name: "Overview" }),
+      within(heroRegion).getByRole("heading", { name: "Goals overview" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
-    ).toBeInTheDocument();
+    const heroSummary = within(heroRegion).getByText((_, node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
+      return node.id === "goals-hero-summary";
+    });
+    const capSegment = within(heroSummary)
+      .getByText("Cap", { selector: "span" })
+      .parentElement as HTMLElement;
+    const activeSegment = within(heroSummary)
+      .getByText("Active", { selector: "span" })
+      .parentElement as HTMLElement;
+    const remainingSegment = within(heroSummary)
+      .getByText("Remaining", { selector: "span" })
+      .parentElement as HTMLElement;
+    const doneSegment = within(heroSummary)
+      .getByText("Done", { selector: "span" })
+      .parentElement as HTMLElement;
+
+    expect(capSegment).toHaveTextContent(/Cap\s*3/);
+    expect(activeSegment).toHaveTextContent(/Active\s*0/);
+    expect(remainingSegment).toHaveTextContent(/Remaining\s*3/);
+    expect(doneSegment).toHaveTextContent(/Done\s*0\s*\(0%\)/);
   });
 
   it("allows editing goal fields", async () => {
@@ -60,9 +83,18 @@ describe("GoalsPage", () => {
 
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
-    expect(
-      screen.getByText("Cap 3, 3 remaining (0 active, 0 done)"),
-    ).toBeInTheDocument();
+    const headerHeading = screen.getByRole("heading", {
+      name: "Today’s Goals",
+    });
+    const summaryElement = headerHeading.parentElement?.querySelector(
+      ":scope > span",
+    ) as HTMLElement | null;
+    if (!summaryElement) {
+      throw new Error("Expected header summary to render");
+    }
+    expect(summaryElement).toHaveTextContent(
+      /Cap\s*3\s*active\s*·\s*Remaining\s*3\s*·\s*Complete\s*0%\s*·\s*Total\s*0/,
+    );
   });
 
   it("shows domain in reminders hero and updates on change", () => {
