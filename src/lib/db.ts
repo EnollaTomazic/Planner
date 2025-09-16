@@ -123,11 +123,7 @@ export function readLocal<T>(key: string): T | null {
 export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
-    const persistedValue =
-      value !== null && (typeof value === "object" || typeof value === "function")
-        ? safeClone(value)
-        : value;
-    scheduleWrite(createStorageKey(key), persistedValue);
+    scheduleWrite(createStorageKey(key), value);
   } catch {
     // ignore quota/privacy errors
   }
