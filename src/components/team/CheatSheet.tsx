@@ -166,6 +166,16 @@ const DEFAULT_SHEET: Archetype[] = [
   },
 ];
 
+/* ───────────── sanitization helpers ───────────── */
+
+function handleSanitizedChange<
+  T extends HTMLInputElement | HTMLTextAreaElement,
+>(callback: (value: string) => void): React.ChangeEventHandler<T> {
+  return (event) => {
+    callback(sanitizeText(event.currentTarget.value));
+  };
+}
+
 /* ───────────── tiny UI helpers ───────────── */
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -221,7 +231,7 @@ function TitleEdit({
     <input
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
+      onChange={handleSanitizedChange(onChange)}
       className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
@@ -244,7 +254,7 @@ function ParagraphEdit({
     <Textarea
       dir="ltr"
       value={value}
-      onChange={(e) => onChange(sanitizeText(e.currentTarget.value))}
+      onChange={handleSanitizedChange(onChange)}
       rows={2}
       className="mt-1"
       resize="resize-y"
@@ -275,8 +285,9 @@ function BulletListEdit({
   }, [items]);
 
   function update(next: string[]) {
-    setList(next);
-    const cleaned = next.map((t) => sanitizeText(t).trim()).filter(Boolean);
+    const sanitized = sanitizeList(next);
+    setList(sanitized);
+    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
     onChange(cleaned.length ? cleaned : [""]);
   }
 
