@@ -80,9 +80,9 @@ describe("Button", () => {
   });
 
   it.each<[ButtonSize, string]>([
-    ["sm", "gap-1"],
-    ["md", "gap-2"],
-    ["lg", "gap-4"],
+    ["sm", "gap-[var(--space-1)]"],
+    ["md", "gap-[var(--space-2)]"],
+    ["lg", "gap-[var(--space-4)]"],
   ])("applies %s gap spacing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>

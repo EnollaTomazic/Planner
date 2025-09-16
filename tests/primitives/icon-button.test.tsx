@@ -1,7 +1,9 @@
 import React from "react";
 import { render, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import IconButton from "../../src/components/ui/primitives/IconButton";
+import IconButton, {
+  type IconButtonSize,
+} from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
 
@@ -24,20 +26,39 @@ describe("IconButton", () => {
     );
   });
 
-  const sizeCases = [
-    ["xs", "h-8 w-8"],
-    ["sm", "h-9 w-9"],
-    ["md", "h-10 w-10"],
-    ["lg", "h-11 w-11"],
-    ["xl", "h-12 w-12"],
-  ] as const;
+  const sizeCases: ReadonlyArray<[IconButtonSize, string[]]> = [
+    ["xs", ["h-[var(--space-6)]", "w-[var(--space-6)]"]],
+    [
+      "sm",
+      [
+        "h-[var(--control-h-sm)]",
+        "w-[var(--control-h-sm)]",
+      ],
+    ],
+    [
+      "md",
+      [
+        "h-[var(--control-h-md)]",
+        "w-[var(--control-h-md)]",
+      ],
+    ],
+    [
+      "lg",
+      [
+        "h-[var(--control-h-lg)]",
+        "w-[var(--control-h-lg)]",
+      ],
+    ],
+    ["xl", ["h-[var(--space-7)]", "w-[var(--space-7)]"]],
+  ];
 
-  sizeCases.forEach(([size, cls]) => {
+  sizeCases.forEach(([size, expectedClasses]) => {
     it(`applies ${size} size classes`, () => {
       const { getByRole } = render(
         <IconButton size={size} aria-label={size} />,
       );
-      expect(getByRole("button").className).toContain(cls);
+      const classes = getByRole("button").className;
+      expectedClasses.forEach((cls) => expect(classes).toContain(cls));
     });
   });
 

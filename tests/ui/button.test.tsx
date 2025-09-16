@@ -11,9 +11,9 @@ afterEach(cleanup);
 
 describe("Button", () => {
   const sizes: Record<ButtonSize, string> = {
-    sm: "h-9",
-    md: "h-10",
-    lg: "h-11",
+    sm: "h-[var(--control-h-sm)]",
+    md: "h-[var(--control-h-md)]",
+    lg: "h-[var(--control-h-lg)]",
   };
 
   const variantToneClasses: Record<

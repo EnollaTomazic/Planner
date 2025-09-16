@@ -10,24 +10,24 @@ import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
-    height: "h-9",
-    padding: "px-4",
+    height: "h-[var(--control-h-sm)]",
+    padding: "px-[var(--space-4)]",
     text: "text-label",
-    gap: "gap-1",
+    gap: "gap-[var(--space-1)]",
     icon: "[&_svg]:size-4",
   },
   md: {
-    height: "h-10",
-    padding: "px-4",
+    height: "h-[var(--control-h-md)]",
+    padding: "px-[var(--space-4)]",
     text: "text-ui",
-    gap: "gap-2",
+    gap: "gap-[var(--space-2)]",
     icon: "[&_svg]:size-5",
   },
   lg: {
-    height: "h-11",
-    padding: "px-8",
+    height: "h-[var(--control-h-lg)]",
+    padding: "px-[var(--space-6)]",
     text: "text-title",
-    gap: "gap-4",
+    gap: "gap-[var(--space-4)]",
     icon: "[&_svg]:size-8",
   },
 } as const;

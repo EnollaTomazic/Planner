@@ -46,13 +46,13 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <div
                 aria-label="Select lane/role"
-                class="inline-flex rounded-full gap-1 relative w-full bg-transparent p-0"
+                class="inline-flex rounded-full gap-[var(--space-1)] relative w-full bg-transparent p-0"
                 role="tablist"
               >
                 <button
                   aria-controls="TOP-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="TOP-tab"
                   role="tab"
                   tabindex="-1"
@@ -60,7 +60,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   value="TOP"
                 >
                   <span
-                    class="inline-flex h-4 w-4 items-center justify-center"
+                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
                       class="lucide lucide-flag h-4 w-4"
@@ -94,7 +94,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="JUNGLE-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="JUNGLE-tab"
                   role="tab"
                   tabindex="-1"
@@ -102,7 +102,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   value="JUNGLE"
                 >
                   <span
-                    class="inline-flex h-4 w-4 items-center justify-center"
+                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
                       class="lucide lucide-map-pin h-4 w-4"
@@ -135,7 +135,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="MID-panel"
                   aria-selected="true"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   data-selected="true"
                   id="MID-tab"
                   role="tab"
@@ -144,7 +144,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   value="MID"
                 >
                   <span
-                    class="inline-flex h-4 w-4 items-center justify-center"
+                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
                       class="lucide lucide-target h-4 w-4"
@@ -184,7 +184,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="BOT-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="BOT-tab"
                   role="tab"
                   tabindex="-1"
@@ -192,7 +192,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   value="BOT"
                 >
                   <span
-                    class="inline-flex h-4 w-4 items-center justify-center"
+                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
                       class="lucide lucide-crosshair h-4 w-4"
@@ -246,7 +246,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="SUPPORT-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-9 px-3 inline-flex items-center justify-center gap-2 text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
                   id="SUPPORT-tab"
                   role="tab"
                   tabindex="-1"
@@ -254,7 +254,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   value="SUPPORT"
                 >
                   <span
-                    class="inline-flex h-4 w-4 items-center justify-center"
+                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
                   >
                     <svg
                       class="lucide lucide-shield h-4 w-4"
@@ -762,7 +762,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
                 title="Wave"
               >
@@ -889,7 +889,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
                 title="Trading"
               >
@@ -1026,7 +1026,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
                 title="Vision"
               >
@@ -1152,7 +1152,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
                 title="Tempo"
               >
@@ -1287,7 +1287,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
                 title="Positioning"
               >
@@ -1434,7 +1434,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-9 px-4 text-ui gap-2"
+                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
                 style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
                 title="Comms"
               >
@@ -1888,7 +1888,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-10 w-10 [&_svg]:size-4"
+              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-4"
               disabled=""
               tabindex="0"
               title="Enter details"
@@ -1984,7 +1984,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
           <button
             aria-label="Add tag"
-            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-10 w-10 [&_svg]:size-4"
+            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-4"
             tabindex="0"
             title="Add tag"
             type="button"

@@ -43,9 +43,21 @@ export type TabBarProps<K extends string = string> = {
 };
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
-  sm: { h: "h-8", px: "px-3", text: "text-ui" },
-  md: { h: "h-10", px: "px-4", text: "text-ui" },
-  lg: { h: "h-11", px: "px-8", text: "text-body" },
+  sm: {
+    h: "h-[var(--space-6)]",
+    px: "px-[var(--space-3)]",
+    text: "text-ui",
+  },
+  md: {
+    h: "h-[var(--control-h-md)]",
+    px: "px-[var(--space-4)]",
+    text: "text-ui",
+  },
+  lg: {
+    h: "h-[var(--control-h-lg)]",
+    px: "px-[var(--space-6)]",
+    text: "text-body",
+  },
 };
 
 export default function TabBar<K extends string = string>({
@@ -125,14 +137,20 @@ export default function TabBar<K extends string = string>({
 
   return (
     <div className={cn("relative w-full", className)}>
-      <div className={cn("flex flex-wrap items-center", justify, "gap-3")}>
+      <div
+        className={cn(
+          "flex flex-wrap items-center",
+          justify,
+          "gap-[var(--space-3)]",
+        )}
+      >
         {/* Tabs group */}
         <div
           role="tablist"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
-          className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border/30 bg-card/60 p-1 shadow-inner"
+          className="inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border border-border/30 bg-card/60 p-[var(--space-1)] shadow-inner"
         >
           {items.map((item) => {
             const active = item.key === activeKey;
@@ -170,7 +188,7 @@ export default function TabBar<K extends string = string>({
                 {item.icon && (
                   <span
                     className={cn(
-                      "mr-2 grid place-items-center",
+                      "mr-[var(--space-2)] grid place-items-center",
                       size !== "lg"
                         ? "[&>svg]:h-4 [&>svg]:w-4"
                         : "[&>svg]:h-5 [&>svg]:w-5",
@@ -181,7 +199,7 @@ export default function TabBar<K extends string = string>({
                 )}
                 <span className="truncate">{item.label}</span>
                 {item.badge != null && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full px-2 py-1 text-label leading-none bg-primary-soft text-foreground">
+                  <span className="ml-[var(--space-2)] inline-flex items-center justify-center rounded-full px-[var(--space-2)] py-[var(--space-1)] text-label leading-none bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}
@@ -192,7 +210,9 @@ export default function TabBar<K extends string = string>({
 
         {/* Right slot */}
         {right && (
-          <div className="ml-auto flex items-center gap-2">{right}</div>
+          <div className="ml-auto flex items-center gap-[var(--space-2)]">
+            {right}
+          </div>
         )}
       </div>
 
