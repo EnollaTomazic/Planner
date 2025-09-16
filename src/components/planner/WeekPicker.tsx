@@ -88,6 +88,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
     return ratio;
   }, [done, total]);
   const completionTint = React.useMemo(() => {
+    if (total === 0) {
+      return "bg-card";
+    }
     if (completionRatio >= 2 / 3) {
       return "bg-success-soft";
     }
@@ -95,7 +98,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       return "bg-warning-soft";
     }
     return "bg-warning-soft-strong";
-  }, [completionRatio]);
+  }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
   const instructionsText = selected
