@@ -124,6 +124,7 @@ function PageContent() {
             items: VIEW_TABS,
             value: view,
             onChange: (k) => setView(k as View),
+            ariaLabel: "Playground view",
           },
         }}
         hero={{
@@ -137,6 +138,7 @@ function PageContent() {
           ...(view === "components"
             ? {
                 subTabs: {
+                  ariaLabel: "Component section",
                   items: SECTION_TABS,
                   value: section,
                   onChange: (k: string) => setSection(k as Section),
