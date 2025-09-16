@@ -101,6 +101,8 @@ export default {
   space6: "var(--spacing-6)",
   space7: "var(--spacing-7)",
   space8: "var(--spacing-8)",
+  space0_5: "calc(var(--space-1) / 2)",
+  space1_5: "calc(var(--space-1) + var(--space-0-5))",
   fontSizeMd: "20px",
   fontWeightBold: "800",
   shadowNeon:
@@ -112,6 +114,7 @@ export default {
   fontTitleLg: "24px",
   btnPrimaryHoverShadow: "0 2px 6px -1px hsl(var(--accent) / 0.25)",
   btnPrimaryActiveShadow: "inset 0 0 0 1px hsl(var(--accent) / 0.6)",
+  shadowAutofillMask: "1000px",
   spacing1: "4px",
   spacing2: "8px",
   spacing3: "12px",
