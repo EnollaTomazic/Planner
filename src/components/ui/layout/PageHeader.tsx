@@ -88,6 +88,7 @@ const PageHeaderInner = <
     subTabs: heroSubTabs,
     search: heroSearch,
     actions: heroActions,
+    tone: heroTone,
     frame: heroFrame,
     topClassName: heroTopClassName,
     as: heroAs,
@@ -138,6 +139,7 @@ const PageHeaderInner = <
             as={heroAs ?? "section"}
             frame={heroFrame ?? false}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
+            tone={heroTone ?? "supportive"}
             subTabs={resolvedSubTabs}
             search={resolvedSearch}
             actions={resolvedActions}

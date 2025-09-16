@@ -274,13 +274,82 @@ export default function PageHeaderDemo() {
           barClassName: "p-0",
         }}
       />
+      <PageHeader
+        id="page-header-elevated"
+        aria-labelledby="page-header-elevated-heading"
+        subTabs={{
+          items: heroFilters,
+          value: activeFilter,
+          onChange: (key) => setActiveFilter(key as HeroFilter),
+          ariaLabel: "Filter spotlight content",
+        }}
+        search={{
+          id: "page-header-elevated-search",
+          value: query,
+          onValueChange: setQuery,
+          debounceMs: 200,
+          placeholder: "Search highlight reels…",
+          "aria-label": "Search highlight reels",
+        }}
+        header={{
+          heading: (
+            <span id="page-header-elevated-heading">Planner Spotlight</span>
+          ),
+          subtitle: "Stage a high-energy announcement right in the app.",
+          icon: (
+            <Image
+              src="/planner-logo.svg"
+              alt="Planner logo"
+              width={48}
+              height={48}
+              className="h-12 w-auto object-contain"
+            />
+          ),
+          sticky: false,
+          rail: false,
+          barClassName: "p-0",
+        }}
+        hero={{
+          eyebrow: "Launch highlight",
+          heading: "Rally the squad",
+          subtitle: "Pull focus for milestone beats",
+          tone: "heroic",
+          frame: true,
+          children: (
+            <p className="text-ui text-muted-foreground">
+              Spotlight a major update with the neon treatment while keeping
+              navigation close at hand.
+            </p>
+          ),
+          actions: (
+            <div className="flex items-center gap-2">
+              <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+              <Button
+                variant="primary"
+                size="sm"
+                className="px-4 whitespace-nowrap"
+              >
+                Launch Event
+              </Button>
+            </div>
+          ),
+          sticky: false,
+          topClassName: "top-0",
+          barClassName: "p-0",
+        }}
+      />
       <p className="text-ui text-muted-foreground">
-        The PageHeader now keeps the inner hero calm by default. When you need
-        the full glitch shell for a marketing moment, pass the
+        PageHeader now keeps the inner hero calm by default. When a launch calls
+        for the elevated treatment, combine
+        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
+          {"hero.tone = \"heroic\""}
+        </code>
+        and
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
           hero.frame = true
         </code>
-        flag to opt back into the beams and scanlines.
+        to bring back the beams and scanlines while keeping the heading hierarchy
+        intact.
       </p>
     </div>
   );
