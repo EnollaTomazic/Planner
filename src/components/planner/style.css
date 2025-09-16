@@ -27,20 +27,6 @@
   }
 }
 
-/* ============ Row action buttons ============ */
-.daycard :where(.iconbtn) {
-  @apply size-8 rounded-full opacity-0 transition-opacity duration-140 ease-out;
-}
-.daycard :where(.iconbtn > svg) {
-  @apply size-4;
-}
-
-/* Reveal actions on hover or focus-within for a11y */
-.daycard .group:hover .iconbtn,
-.daycard .group:focus-within .iconbtn {
-  opacity: 1;
-}
-
 /* ============ Project cards (left column) ============ */
 .proj-card {
   display: grid;
