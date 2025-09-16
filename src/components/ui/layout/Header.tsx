@@ -97,6 +97,7 @@ export default function Header<Key extends string = string>({
       size: tabSize,
       align: tabAlign,
       className: tabClassName,
+      variant: tabVariant,
       ...tabBarRest
     } = tabs;
 
@@ -109,6 +110,7 @@ export default function Header<Key extends string = string>({
         size={tabSize ?? "sm"}
         align={tabAlign ?? "end"}
         className={cx("w-auto max-w-full shrink-0", tabClassName)}
+        variant={tabVariant ?? (isNeo ? "neo" : "default")}
         {...tabBarRest}
       />
     );
@@ -268,11 +270,13 @@ export function HeaderTabs<Key extends string = string>({
   activeKey,
   onChange,
   ariaLabel,
+  variant,
 }: {
   tabs: HeaderTab<Key>[];
   activeKey: Key;
   onChange: (key: Key) => void;
   ariaLabel?: string;
+  variant?: TabBarProps["variant"];
 }) {
   return (
     <TabBar
@@ -282,6 +286,7 @@ export function HeaderTabs<Key extends string = string>({
       ariaLabel={ariaLabel}
       align="end"
       size="sm"
+      variant={variant}
     />
   );
 }
