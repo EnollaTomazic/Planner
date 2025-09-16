@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
 import type { ElementType, ReactNode } from "react";
 
 type ReactModule = typeof import("react");
@@ -83,3 +84,7 @@ Object.defineProperty(window, "matchMedia", {
 export function resetLocalStorage() {
   window.localStorage.clear();
 }
+
+afterEach(() => {
+  cleanup();
+});
