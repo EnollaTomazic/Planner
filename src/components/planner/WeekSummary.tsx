@@ -2,10 +2,9 @@
 "use client";
 import "./style.css";
 
-import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { useWeek } from "./useFocusDate";
-import { usePlannerStore } from "./usePlannerStore";
+import { useWeekData } from "./useWeekData";
 import type { ISODate } from "./plannerStore";
 import { cn } from "@/lib/utils";
 import { formatWeekDay } from "@/lib/date";
@@ -42,19 +41,7 @@ export default function WeekSummary({
   bleed = false,
 }: Props) {
   const { days: weekDays, isToday } = useWeek(iso);
-  const { getDay } = usePlannerStore();
-
-  const stats = React.useMemo(() => {
-    return weekDays.map((d) => {
-      const rec = getDay(d);
-      const total = rec.tasks.length;
-      const done = rec.tasks.filter((t) => t.done).length;
-      return { iso: d, done, total };
-    });
-  }, [weekDays, getDay]);
-
-  const totalAll = stats.reduce((a, s) => a + s.total, 0);
-  const doneAll = stats.reduce((a, s) => a + s.done, 0);
+  const { per: stats, weekDone: doneAll, weekTotal: totalAll } = useWeekData(weekDays);
 
   const rangeLabel =
     weekDays.length === 7
