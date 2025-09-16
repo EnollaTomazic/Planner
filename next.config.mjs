@@ -13,7 +13,7 @@ const normalizedBasePath = cleanSlug ? `/${cleanSlug}` : undefined;
 
 const nextConfig = {
   reactStrictMode: true,
-  output: "export",
+  output: isGitHubPages ? "export" : undefined,
   basePath: isGitHubPages ? normalizedBasePath : undefined,
   assetPrefix: isGitHubPages ? normalizedBasePath : undefined,
   env: {
