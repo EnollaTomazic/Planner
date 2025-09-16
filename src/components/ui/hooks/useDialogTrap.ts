@@ -14,6 +14,8 @@ const FOCUSABLE_SELECTORS =
   "a[href], button, textarea, input, select, [tabindex]:not([tabindex='-1'])";
 
 export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
+  const focusableRef = React.useRef<HTMLElement[]>([]);
+
   React.useEffect(() => {
     if (!open) {
       return;
@@ -28,10 +30,14 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
     const previouslyActive = doc.activeElement as HTMLElement | null;
     const restoreTabIndex = new Set<HTMLElement>();
 
-    const getFocusable = () =>
-      Array.from(
+    const updateFocusable = () => {
+      const nodes = Array.from(
         element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS),
       ).filter((node) => !node.hasAttribute("disabled"));
+
+      focusableRef.current = nodes;
+    };
+    updateFocusable();
 
     const focusElement = (node: HTMLElement | undefined | null) => {
       if (!node) {
@@ -47,12 +53,12 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
     };
 
     const focusFirst = () => {
-      const [first] = getFocusable();
+      const [first] = focusableRef.current;
       focusElement(first ?? element);
     };
 
     const focusLast = () => {
-      const focusable = getFocusable();
+      const focusable = focusableRef.current;
       focusElement(focusable[focusable.length - 1] ?? element);
     };
 
@@ -68,7 +74,7 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
         return;
       }
 
-      const focusable = getFocusable();
+      const focusable = focusableRef.current;
       const hasFocusable = focusable.length > 0;
       const active = doc.activeElement as HTMLElement | null;
       const target = event.target as Node | null;
@@ -105,18 +111,34 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
 
     doc.addEventListener("keydown", handleKeyDown);
 
+    const observer =
+      typeof MutationObserver !== "undefined"
+        ? new MutationObserver(() => {
+            updateFocusable();
+          })
+        : null;
+
+    observer?.observe(element, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["tabindex", "disabled", "aria-hidden", "hidden"],
+    });
+
     const previousOverflow = doc.body.style.overflow;
     doc.body.style.overflow = "hidden";
 
     focusFirst();
 
     return () => {
+      observer?.disconnect();
       doc.removeEventListener("keydown", handleKeyDown);
       doc.body.style.overflow = previousOverflow;
       restoreTabIndex.forEach((node) => {
         node.removeAttribute("tabindex");
       });
       previouslyActive?.focus?.();
+      focusableRef.current = [];
     };
   }, [open, onClose, ref]);
 }
