@@ -44,6 +44,7 @@ export default function TeamCompPage() {
   const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
   const tabBaseId = React.useId();
+  const subTabBaseId = React.useId();
   const cheatRef = React.useRef<HTMLDivElement>(null);
   const builderRef = React.useRef<HTMLDivElement>(null);
   const builderApi = React.useRef<BuilderHandle>(null);
@@ -74,10 +75,16 @@ export default function TeamCompPage() {
   const subIds = React.useMemo(
     () =>
       ({
-        sheet: { tab: "sheet-tab", panel: "sheet-panel" },
-        comps: { tab: "comps-tab", panel: "comps-panel" },
+        sheet: {
+          tab: `${subTabBaseId}-sheet-tab`,
+          panel: `${subTabBaseId}-sheet-panel`,
+        },
+        comps: {
+          tab: `${subTabBaseId}-comps-tab`,
+          panel: `${subTabBaseId}-comps-panel`,
+        },
       }) satisfies Record<SubTab, { tab: string; panel: string }>,
-    [],
+    [subTabBaseId],
   );
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
