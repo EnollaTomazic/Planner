@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Label from "../Label";
 import Input, { type InputSize } from "./Input";
+import IconButton from "./IconButton";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -114,7 +115,7 @@ export default function SearchBar({
         placeholder={placeholder}
         indent
         height={height}
-        className={cn("w-full", showClear && "pr-7", fieldClassName)}
+        className={cn("w-full", showClear && "pr-12", fieldClassName)}
         aria-label={
           !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
         }
@@ -129,21 +130,24 @@ export default function SearchBar({
       />
 
       {showClear && (
-        <button
-          type="button"
+        <IconButton
+          size="sm"
+          variant="ring"
+          tone="primary"
           aria-label="Clear"
           title="Clear"
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none"
+          className="absolute right-3 top-1/2 -translate-y-1/2"
           disabled={disabled || loading}
-          data-loading={loading}
+          loading={loading}
+          iconSize="sm"
           onClick={() => {
             setQuery("");
             onValueChange?.("");
             inputRef.current?.focus();
           }}
         >
-          <X className="size-4" />
-        </button>
+          <X />
+        </IconButton>
       )}
     </>
   );
