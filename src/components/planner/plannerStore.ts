@@ -49,6 +49,17 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
     tasks: existing.tasks.map((t) => ({ ...t, images: t.images ?? [] })),
   };
 }
+
+function sanitizeDaysMap(map: Record<ISODate, DayRecord>) {
+  let mutated = false;
+  const next: Record<ISODate, DayRecord> = {};
+  for (const iso of Object.keys(map)) {
+    const ensured = ensureDay(map, iso);
+    next[iso] = ensured;
+    if (ensured !== map[iso]) mutated = true;
+  }
+  return mutated ? next : map;
+}
 type DaysState = {
   days: Record<ISODate, DayRecord>;
   setDays: React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>;
@@ -66,7 +77,7 @@ const FocusContext = React.createContext<FocusState | null>(null);
 const SelectionContext = React.createContext<SelectionState | null>(null);
 
 export function PlannerProvider({ children }: { children: React.ReactNode }) {
-  const [days, setDays] = usePersistentState<Record<ISODate, DayRecord>>(
+  const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
     "planner:days",
     {},
   );
@@ -77,6 +88,35 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [selected, setSelected] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
+
+  const days = React.useMemo(
+    () => sanitizeDaysMap(rawDays),
+    [rawDays],
+  );
+
+  React.useEffect(() => {
+    if (!Object.is(rawDays, days)) {
+      setRawDays(days);
+    }
+  }, [rawDays, days, setRawDays]);
+
+  const setDays = React.useCallback<
+    React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>
+  >(
+    (update) => {
+      setRawDays((prev) => {
+        const base = sanitizeDaysMap(prev);
+        const next =
+          typeof update === "function"
+            ? (update as (
+                current: Record<ISODate, DayRecord>,
+              ) => Record<ISODate, DayRecord>)(base)
+            : update;
+        return sanitizeDaysMap(next);
+      });
+    },
+    [setRawDays],
+  );
 
   const daysValue = React.useMemo(
     () => ({ days, setDays }),
