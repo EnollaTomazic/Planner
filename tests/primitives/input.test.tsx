@@ -1,7 +1,9 @@
-import React from "react";
+import * as React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
-import Input, { type InputSize } from "../../src/components/ui/primitives/Input";
+import Input, {
+  type InputSize,
+} from "../../src/components/ui/primitives/Input";
 
 afterEach(cleanup);
 
@@ -18,39 +20,29 @@ describe("Input", () => {
     ["md", "var(--control-h-md)"],
     ["lg", "var(--control-h-lg)"],
   ])("applies %s height", (size, value) => {
-    const { getByRole } = render(
-      <Input aria-label={size} height={size} />,
-    );
+    const { getByRole } = render(<Input aria-label={size} height={size} />);
     const wrapper = getByRole("textbox").parentElement as HTMLElement;
     expect(wrapper).toHaveStyle(`--control-h: ${value}`);
   });
 
   it("applies indent padding", () => {
-    const { getByRole } = render(
-      <Input aria-label="indent" indent />,
-    );
+    const { getByRole } = render(<Input aria-label="indent" indent />);
     expect(getByRole("textbox")).toHaveClass("pl-7");
   });
 
   it("reserves end slot padding when hasEndSlot is true", () => {
-    const { getByRole } = render(
-      <Input aria-label="slot" hasEndSlot />,
-    );
+    const { getByRole } = render(<Input aria-label="slot" hasEndSlot />);
     expect(getByRole("textbox")).toHaveClass("pr-7");
   });
 
   it("shows error state when aria-invalid is true", () => {
-    const { getByRole } = render(
-      <Input aria-label="error" aria-invalid />,
-    );
+    const { getByRole } = render(<Input aria-label="error" aria-invalid />);
     const wrapper = getByRole("textbox").parentElement as HTMLElement;
     expect(wrapper).toHaveClass("ring-2", "ring-danger/35", "ring-offset-0");
   });
 
   it("applies disabled state", () => {
-    const { getByRole } = render(
-      <Input aria-label="disabled" disabled />,
-    );
+    const { getByRole } = render(<Input aria-label="disabled" disabled />);
     const input = getByRole("textbox") as HTMLInputElement;
     expect(input).toBeDisabled();
     expect(input).toHaveClass(
@@ -65,16 +57,12 @@ describe("Input", () => {
   });
 
   it("applies readOnly state", () => {
-    const { getByRole } = render(
-      <Input aria-label="readonly" readOnly />,
-    );
+    const { getByRole } = render(<Input aria-label="readonly" readOnly />);
     const input = getByRole("textbox") as HTMLInputElement;
     expect(input).toHaveAttribute("readonly");
     expect(input).toHaveClass("read-only:cursor-default");
     const wrapper = input.parentElement as HTMLElement;
-    expect(wrapper).toHaveClass(
-      "focus-within:after:bg-[var(--ring-muted)]",
-    );
+    expect(wrapper).toHaveClass("focus-within:after:bg-[var(--ring-muted)]");
   });
 
   it("handles data-loading attribute", () => {
@@ -83,9 +71,7 @@ describe("Input", () => {
     );
     const input = getByRole("textbox");
     expect(input).toHaveAttribute("data-loading", "true");
-    expect(input).toHaveClass(
-      "data-[loading=true]:opacity-[var(--loading)]",
-    );
+    expect(input).toHaveClass("data-[loading=true]:opacity-[var(--loading)]");
   });
 
   it("defaults name to the generated id when no overrides are provided", () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { PromptsComposePanel } from "@/components/prompts";
@@ -27,7 +27,9 @@ describe("PromptsComposePanel", () => {
     expect(
       screen.queryByRole("button", { name: "Confirm" }),
     ).not.toBeInTheDocument();
-    expect(container.querySelector("svg[aria-hidden='true']")).toBeInTheDocument();
+    expect(
+      container.querySelector("svg[aria-hidden='true']"),
+    ).toBeInTheDocument();
 
     fireEvent.change(titleInput, { target: { value: "New" } });
     expect(handleTitle).toHaveBeenCalledWith("New");

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   render,
   screen,
@@ -32,7 +32,9 @@ describe("GoalsPage", () => {
     render(<GoalsPage />);
 
     const titleInput = screen.getByRole("textbox", { name: "Title" });
-    const metricInput = screen.getByRole("textbox", { name: "Metric (optional)" });
+    const metricInput = screen.getByRole("textbox", {
+      name: "Metric (optional)",
+    });
     const addButton = screen.getByRole("button", { name: /add goal/i });
 
     fireEvent.change(titleInput, { target: { value: "Initial" } });
@@ -42,7 +44,9 @@ describe("GoalsPage", () => {
     const goalTitle = await screen.findByText("Initial");
     const article = goalTitle.closest("article") as HTMLElement;
 
-    const editButton = within(article).getByRole("button", { name: "Edit goal" });
+    const editButton = within(article).getByRole("button", {
+      name: "Edit goal",
+    });
     fireEvent.click(editButton);
 
     const editTitle = await within(article).findByPlaceholderText("Title");
@@ -91,9 +95,7 @@ describe("GoalsPage", () => {
     render(<GoalsPage />);
     const timerTab = screen.getByRole("tab", { name: "Timer" });
     fireEvent.click(timerTab);
-    expect(
-      screen.getByRole("heading", { name: "Timer" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Timer" })).toBeInTheDocument();
     expect(
       screen.getByRole("tablist", { name: "Timer profiles" }),
     ).toBeInTheDocument();

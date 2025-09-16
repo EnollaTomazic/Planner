@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   cleanup,
   fireEvent,
@@ -59,7 +59,9 @@ describe("LaneOpponentForm", () => {
       />,
     );
 
-    const laneInput = screen.getByPlaceholderText("Ashe/Lulu") as HTMLInputElement;
+    const laneInput = screen.getByPlaceholderText(
+      "Ashe/Lulu",
+    ) as HTMLInputElement;
     const opponentInput = screen.getByPlaceholderText(
       "Draven/Thresh",
     ) as HTMLInputElement;
@@ -106,7 +108,9 @@ describe("LaneOpponentForm", () => {
     const commitMeta = vi.fn();
     render(<LaneOpponentForm commitMeta={commitMeta} />);
 
-    const laneInput = screen.getByPlaceholderText("Ashe/Lulu") as HTMLInputElement;
+    const laneInput = screen.getByPlaceholderText(
+      "Ashe/Lulu",
+    ) as HTMLInputElement;
     const opponentInput = screen.getByPlaceholderText(
       "Draven/Thresh",
     ) as HTMLInputElement;

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { render, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { AnimationToggle } from "@/components/ui";

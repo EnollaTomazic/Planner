@@ -1,12 +1,12 @@
-import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
-import { describe, it, expect, afterEach, vi } from 'vitest';
-import { SearchBar } from '@/components/ui';
+import * as React from "react";
+import { render, cleanup, fireEvent } from "@testing-library/react";
+import { describe, it, expect, afterEach, vi } from "vitest";
+import { SearchBar } from "@/components/ui";
 
 afterEach(cleanup);
 
-describe('SearchBar', () => {
-  it('invokes callbacks on submit', () => {
+describe("SearchBar", () => {
+  it("invokes callbacks on submit", () => {
     vi.useFakeTimers();
     const handleChange = vi.fn();
     const handleSubmit = vi.fn();
@@ -16,30 +16,30 @@ describe('SearchBar', () => {
         onValueChange={handleChange}
         onSubmit={handleSubmit}
         debounceMs={1000}
-      />
+      />,
     );
-    const input = getByRole('searchbox');
-    fireEvent.change(input, { target: { value: 'hello' } });
+    const input = getByRole("searchbox");
+    fireEvent.change(input, { target: { value: "hello" } });
     expect(handleChange).not.toHaveBeenCalled();
-    fireEvent.submit(getByRole('search'));
-    expect(handleChange).toHaveBeenCalledWith('hello');
-    expect(handleSubmit).toHaveBeenCalledWith('hello');
+    fireEvent.submit(getByRole("search"));
+    expect(handleChange).toHaveBeenCalledWith("hello");
+    expect(handleSubmit).toHaveBeenCalledWith("hello");
     vi.runAllTimers();
     vi.useRealTimers();
   });
 
-  it('disables browser text help by default', () => {
+  it("disables browser text help by default", () => {
     const { getByRole } = render(
-      <SearchBar value="" onValueChange={() => {}} />
+      <SearchBar value="" onValueChange={() => {}} />,
     );
-    const input = getByRole('searchbox');
-    expect(input).toHaveAttribute('autocomplete', 'off');
-    expect(input).toHaveAttribute('autocorrect', 'off');
-    expect(input).toHaveAttribute('autocapitalize', 'none');
-    expect(input).toHaveAttribute('spellcheck', 'false');
+    const input = getByRole("searchbox");
+    expect(input).toHaveAttribute("autocomplete", "off");
+    expect(input).toHaveAttribute("autocorrect", "off");
+    expect(input).toHaveAttribute("autocapitalize", "none");
+    expect(input).toHaveAttribute("spellcheck", "false");
   });
 
-  it('allows overriding text helpers', () => {
+  it("allows overriding text helpers", () => {
     const { getByRole } = render(
       <SearchBar
         value=""
@@ -48,34 +48,34 @@ describe('SearchBar', () => {
         autoCorrect="on"
         spellCheck={true}
         autoCapitalize="words"
-      />
+      />,
     );
-    const input = getByRole('searchbox');
-    expect(input).toHaveAttribute('autocomplete', 'on');
-    expect(input).toHaveAttribute('autocorrect', 'on');
-    expect(input).toHaveAttribute('autocapitalize', 'words');
-    expect(input).toHaveAttribute('spellcheck', 'true');
+    const input = getByRole("searchbox");
+    expect(input).toHaveAttribute("autocomplete", "on");
+    expect(input).toHaveAttribute("autocorrect", "on");
+    expect(input).toHaveAttribute("autocapitalize", "words");
+    expect(input).toHaveAttribute("spellcheck", "true");
   });
 
-  it('applies loading state', () => {
+  it("applies loading state", () => {
     const { getByRole } = render(
-      <SearchBar value="" onValueChange={() => {}} loading />
+      <SearchBar value="" onValueChange={() => {}} loading />,
     );
-    const form = getByRole('search');
-    expect(form).toHaveAttribute('data-loading', 'true');
-    const input = getByRole('searchbox');
+    const form = getByRole("search");
+    expect(form).toHaveAttribute("data-loading", "true");
+    const input = getByRole("searchbox");
     expect(input).toBeDisabled();
   });
 
-  it('renders an associated label when provided', () => {
+  it("renders an associated label when provided", () => {
     const { getByLabelText } = render(
-      <SearchBar value="" onValueChange={() => {}} label="Search tasks" />
+      <SearchBar value="" onValueChange={() => {}} label="Search tasks" />,
     );
 
-    expect(getByLabelText('Search tasks')).toBeInTheDocument();
+    expect(getByLabelText("Search tasks")).toBeInTheDocument();
   });
 
-  it('allows external labelling via aria-labelledby', () => {
+  it("allows external labelling via aria-labelledby", () => {
     const { getByRole } = render(
       <>
         <span id="search-title">Lookup</span>
@@ -84,11 +84,11 @@ describe('SearchBar', () => {
           onValueChange={() => {}}
           aria-labelledby="search-title"
         />
-      </>
+      </>,
     );
 
-    const input = getByRole('searchbox');
-    expect(input).toHaveAttribute('aria-labelledby', 'search-title');
-    expect(input).not.toHaveAttribute('aria-label');
+    const input = getByRole("searchbox");
+    expect(input).toHaveAttribute("aria-labelledby", "search-title");
+    expect(input).not.toHaveAttribute("aria-label");
   });
 });

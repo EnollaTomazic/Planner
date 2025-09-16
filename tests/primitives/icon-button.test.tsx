@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { render, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import IconButton from "../../src/components/ui/primitives/IconButton";

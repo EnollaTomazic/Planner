@@ -11,7 +11,8 @@
  */
 import "./style.css";
 
-import React, { useState } from "react";
+import * as React from "react";
+import { useState } from "react";
 import {
   Users2,
   BookOpenText,
@@ -153,9 +154,7 @@ export default function TeamCompPage() {
         label: "Builder",
         hint: "Fill allies vs enemies",
         icon: <Hammer />,
-        render: () => (
-          <Builder ref={builderApi} editing={editing.builder} />
-        ),
+        render: () => <Builder ref={builderApi} editing={editing.builder} />,
         ref: builderRef,
       },
       {
@@ -192,9 +191,7 @@ export default function TeamCompPage() {
           eyebrow={active?.label}
           heading="Comps"
           subtitle={
-            subTab === "sheet"
-              ? "Archetypes & tips"
-              : "Your saved compositions"
+            subTab === "sheet" ? "Archetypes & tips" : "Your saved compositions"
           }
           subTabs={{
             items: subTabs,
@@ -300,8 +297,8 @@ export default function TeamCompPage() {
         }
       >
         <p className="text-ui text-muted-foreground">
-          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
-          Path for fights, ganks, or cross-map trades.
+          If you’re on a <em>Medium</em> champ, don’t race farm vs{" "}
+          <em>Very Fast</em>. Path for fights, ganks, or cross-map trades.
         </p>
       </Hero>
     );

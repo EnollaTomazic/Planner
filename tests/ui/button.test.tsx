@@ -1,11 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import {
-  Button,
-  type ButtonProps,
-  type ButtonSize,
-} from "@/components/ui";
+import { Button, type ButtonProps, type ButtonSize } from "@/components/ui";
 
 afterEach(cleanup);
 
@@ -50,7 +46,7 @@ describe("Button", () => {
 
   for (const [size, sizeCls] of Object.entries(sizes) as [
     ButtonSize,
-    string
+    string,
   ][]) {
     for (const variant of Object.keys(variantToneClasses) as Array<
       NonNullable<ButtonProps["variant"]>
@@ -123,4 +119,3 @@ describe("Button", () => {
     );
   });
 });
-

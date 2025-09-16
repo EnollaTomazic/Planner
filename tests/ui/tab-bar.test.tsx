@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
 import { Header, Hero } from "@/components/ui";

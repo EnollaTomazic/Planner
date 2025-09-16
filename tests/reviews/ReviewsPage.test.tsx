@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   render,
   screen,
@@ -160,6 +160,8 @@ describe("ReviewsPage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Edit review" }));
     expect(screen.getByRole("button", { name: "Done" })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Done" }));
-    expect(screen.getByRole("button", { name: "Edit review" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Edit review" }),
+    ).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { render, cleanup, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import TimerRingIcon from "@/icons/TimerRingIcon";

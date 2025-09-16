@@ -11,7 +11,8 @@ import "./style.css";
  * - Titles and timers now use glitch-title + glitch-flicker + title-glow.
  */
 
-import React, { useMemo, useState, useEffect } from "react";
+import * as React from "react";
+import { useMemo, useState, useEffect } from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
