@@ -549,14 +549,14 @@ exports[`ReviewsPage > renders default state 1`] = `
                               class="glitch-wrap "
                             >
                               <div
-                                class="group inline-flex rounded-full border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
+                                class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
                               >
                                 <button
                                   aria-controls=":r1:-listbox"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
                                   aria-label="Select option"
-                                  class="glitch-trigger relative flex items-center h-9 rounded-full px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-4"
+                                  class="glitch-trigger relative flex items-center h-9 rounded-[var(--radius-full)] px-3 overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none h-10 px-4"
                                   data-lit="true"
                                   data-open="false"
                                   type="button"
@@ -838,12 +838,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </div>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-[var(--radius-2xl)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-btn-primary-hover active:translate-y-px active:shadow-btn-primary-active text-foreground"
+                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] h-10 gap-2 [&_svg]:size-5 px-4 whitespace-nowrap shadow-glow-sm bg-[hsl(var(--accent)/0.12)] border-[hsl(var(--accent)/0.35)] hover:bg-[hsl(var(--accent)/0.14)] hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active text-foreground"
+                            style="--glow-active: hsl(var(--foreground) / 0.35);"
                             tabindex="0"
                             type="button"
                           >
                             <span
-                              class="absolute inset-0 pointer-events-none rounded-[var(--radius-2xl)] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
+                              class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--foreground)/.18),hsl(var(--foreground)/.18))]"
                             />
                             <span
                               class="relative z-10 inline-flex items-center gap-2"

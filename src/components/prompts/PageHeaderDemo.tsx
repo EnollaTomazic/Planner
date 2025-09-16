@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import {
   PageHeader,
   Header,
@@ -236,9 +237,11 @@ export default function PageHeaderDemo() {
           ),
           subtitle: "Plan your day, track goals, and review games.",
           icon: (
-            <img
-              src="https://chatgpt.com/backend-api/estuary/content?id=file-PYBH1vD28Bzi3KruKxaiXa&ts=488268&p=fs&cid=1&sig=1e357c5433df95c196bb9530996ae68bb6ef1b29fde1a5dc741cdc1fce727ecb&v=0"
-              alt=""
+            <Image
+              src="/planner-logo.svg"
+              alt="Planner logo"
+              width={48}
+              height={48}
               className="h-12 w-auto object-contain"
             />
           ),
