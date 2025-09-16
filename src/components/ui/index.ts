@@ -70,4 +70,4 @@ export * from "./theme/ThemePicker";
 export { default as ThemeToggle } from "./theme/ThemeToggle";
 export { default as CheckCircle } from "./toggles/CheckCircle";
 export * from "./toggles/NeonIcon";
-export { default as Toggle } from "./toggles/toggle";
+export { default as Toggle } from "./toggles/Toggle";
