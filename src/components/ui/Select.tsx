@@ -4,6 +4,7 @@ import * as React from "react";
 
 import AnimatedSelect from "./select/AnimatedSelect";
 import NativeSelect from "./select/NativeSelect";
+import selectStyles from "./select/Select.module.css";
 import type {
   AnimatedSelectProps,
   NativeSelectProps,
@@ -35,6 +36,7 @@ const Select = React.forwardRef<SelectRef, SelectProps>(function Select(
   return (
     <AnimatedSelect
       ref={ref as React.Ref<HTMLButtonElement>}
+      styles={selectStyles}
       {...rest}
     />
   );
