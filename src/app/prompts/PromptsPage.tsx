@@ -145,7 +145,7 @@ function PageContent() {
       aria-labelledby="prompts-header"
     >
       <PageHeader
-        className="sticky top-0"
+        containerClassName="sticky top-0"
         header={{
           id: "prompts-header",
           heading: "Prompts Playground",
@@ -194,7 +194,7 @@ function PageContent() {
               >
                 <span
                   aria-hidden="true"
-                  className="h-2 w-2 rounded-full bg-[hsl(var(--accent-3))]"
+                  className="h-2 w-2 rounded-full bg-accent-overlay"
                 />
                 Accent 3
               </Badge>
