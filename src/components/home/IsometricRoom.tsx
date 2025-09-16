@@ -30,7 +30,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
       role="img"
       aria-label={`Isometric room with ${label}`}
       tabIndex={0}
-      className={`relative h-48 overflow-hidden bg-background border shadow transition-transform motion-reduce:transition-none hover:-translate-y-1 hover:shadow-md active:shadow focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 ${VARIANT_STYLES[variant]}`}
+      className={`relative h-48 overflow-hidden bg-background border shadow-neo transition-transform motion-reduce:transition-none hover:-translate-y-1 hover:shadow-neo active:shadow-neo-inset focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 ${VARIANT_STYLES[variant]}`}
     >
       <div className="absolute inset-0 [transform-style:preserve-3d]">
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[hsl(var(--room-floor))] origin-bottom [transform:rotateX(90deg)]" />

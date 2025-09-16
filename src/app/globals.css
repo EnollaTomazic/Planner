@@ -1333,7 +1333,7 @@ textarea:-webkit-autofill {
     @apply text-label font-medium tracking-[0.02em] text-muted-foreground;
   }
   .title-ghost {
-    @apply text-2xl font-semibold opacity-60;
+    @apply text-title-lg font-semibold opacity-60;
     filter: blur(1px);
   }
   .title-glow {
