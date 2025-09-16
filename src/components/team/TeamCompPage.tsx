@@ -219,6 +219,7 @@ export default function TeamCompPage() {
           items: subTabs,
           value: subTab,
           onChange: (next: SubTab) => setSubTab(next),
+          ariaLabel: "Cheat sheet sections",
           showBaseline: true,
         },
         search: {
@@ -352,7 +353,12 @@ export default function TeamCompPage() {
           heading: "Team Comps Today",
           subtitle: "Readable. Fast. On brand.",
           icon: <Users2 className="opacity-80" />,
-          tabs: { items: TABS, value: tab, onChange: (next: Tab) => setTab(next) },
+          tabs: {
+            items: TABS,
+            value: tab,
+            onChange: (next: Tab) => setTab(next),
+            ariaLabel: "Team comps mode",
+          },
           underline: true,
         }}
         hero={hero}
