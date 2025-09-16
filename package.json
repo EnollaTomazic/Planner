@@ -28,7 +28,7 @@
     "postinstall": "tsx scripts/regen-if-needed.ts",
     "prepare": "husky",
     "launch": "tsx scripts/launcher.ts",
-    "deploy": "GITHUB_PAGES=true npm run build && gh-pages -d out -b gh-pages"
+    "deploy": "tsx scripts/deploy-gh-pages.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
