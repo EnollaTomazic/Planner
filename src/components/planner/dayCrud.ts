@@ -52,8 +52,12 @@ export function addProject(day: DayRecord, id: string, name: string) {
 }
 
 export function renameProject(day: DayRecord, id: string, name: string) {
+  const title = name.trim();
+  if (!title) return day;
   return finalizeDay(day, {
-    projects: day.projects.map((p) => (p.id === id ? { ...p, name } : p)),
+    projects: day.projects.map((p) =>
+      p.id === id ? { ...p, name: title } : p,
+    ),
   });
 }
 

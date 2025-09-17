@@ -48,10 +48,13 @@ export default function ProjectList({
 
   const commitRename = React.useCallback(
     (projectId: string, fallbackName: string) => {
-      renameProject(projectId, editingProjectName || fallbackName);
+      const trimmed = editingProjectName.trim();
+      const nextName = trimmed || fallbackName;
+      renameProject(projectId, nextName);
+      setEditingProjectName(nextName);
       setEditingProjectId(null);
     },
-    [editingProjectName, renameProject, setEditingProjectId],
+    [editingProjectName, renameProject, setEditingProjectId, setEditingProjectName],
   );
 
   const onRowKey = React.useCallback(
