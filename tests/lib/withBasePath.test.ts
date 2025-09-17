@@ -41,6 +41,33 @@ describe("withBasePath", () => {
     expect(withBasePath("/assets/icon.svg")).toBe("/beta/assets/icon.svg");
     expect(withBasePath("assets/icon.svg")).toBe("/beta/assets/icon.svg");
   });
+
+  it("returns absolute URLs unchanged regardless of base path", async () => {
+    const urls = [
+      "https://cdn.example.com/assets/icon.svg",
+      "http://cdn.example.com/assets/icon.svg",
+      "//cdn.example.com/assets/icon.svg",
+      "mailto:test@example.com",
+    ];
+
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+    {
+      const { withBasePath } = await importBasePathUtils();
+      for (const url of urls) {
+        expect(withBasePath(url)).toBe(url);
+      }
+    }
+
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+    {
+      const { withBasePath } = await importBasePathUtils();
+      for (const url of urls) {
+        expect(withBasePath(url)).toBe(url);
+      }
+    }
+  });
 });
 
 describe("withoutBasePath", () => {
@@ -65,5 +92,32 @@ describe("withoutBasePath", () => {
     expect(withoutBasePath("/beta")).toBe("/");
     expect(withoutBasePath("/beta/")).toBe("/");
     expect(withoutBasePath("/other")).toBe("/other");
+  });
+
+  it("does not strip prefixes from absolute URLs", async () => {
+    const urls = [
+      "https://cdn.example.com/assets/icon.svg",
+      "http://cdn.example.com/assets/icon.svg",
+      "//cdn.example.com/assets/icon.svg",
+      "mailto:test@example.com",
+    ];
+
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+    {
+      const { withoutBasePath } = await importBasePathUtils();
+      for (const url of urls) {
+        expect(withoutBasePath(url)).toBe(url);
+      }
+    }
+
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+    {
+      const { withoutBasePath } = await importBasePathUtils();
+      for (const url of urls) {
+        expect(withoutBasePath(url)).toBe(url);
+      }
+    }
   });
 });
