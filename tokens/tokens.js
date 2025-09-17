@@ -88,7 +88,7 @@ export default {
   edgeIris:
     "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(var(--accent-3) / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
   segActiveGrad:
-    "linear-gradient(\n    90deg,\n    hsl(262 83% 58% / 0.95),\n    hsl(292 80% 60% / 0.95),\n    hsl(var(--accent-3) / 0.95)\n  )",
+    "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft)),\n    hsl(var(--accent-soft)),\n    hsl(var(--accent-2))\n  )",
   shadow: "0 10px 30px hsl(250 30% 2% / 0.35)",
   lgViolet: "var(--ring)",
   lgCyan: "var(--accent-2)",
