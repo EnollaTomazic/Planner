@@ -130,9 +130,9 @@ export const toneClasses: Record<
     primary:
       "text-foreground [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
     accent:
-      "text-accent [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
+      "text-accent-foreground bg-accent/20 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
     info:
-      "text-accent-2 [--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
+      "text-accent-2-foreground bg-accent-2/20 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:
       "text-danger [--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
   },
