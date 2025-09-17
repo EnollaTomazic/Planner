@@ -22,7 +22,11 @@ export default function DurationSelector({
   className,
 }: DurationSelectorProps) {
   return (
-    <div className={cn("flex flex-row gap-3", className)}>
+    <div
+      role="radiogroup"
+      aria-disabled={disabled || undefined}
+      className={cn("flex flex-row gap-3", className)}
+    >
       {options.map((m) => {
         const active = value === m;
         return (
@@ -31,6 +35,9 @@ export default function DurationSelector({
             type="button"
             disabled={disabled}
             onClick={() => !disabled && onChange?.(m)}
+            role="radio"
+            aria-checked={active}
+            aria-disabled={disabled || undefined}
             className={cn(
               "inline-flex items-center justify-center h-9 px-3 rounded-full text-center text-ui font-medium",
               "border transition-colors",
