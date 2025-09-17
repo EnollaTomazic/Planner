@@ -224,7 +224,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
           {editing && (
             <form
               onSubmit={addNew}
-              className="rounded-card flex items-left gap-6 glitch"
+              className="rounded-card flex items-center gap-6 glitch"
             >
               <Input
                 dir="ltr"
@@ -270,7 +270,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
                 >
                   {/* hover edit/save + delete + copy */}
-                  <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                  <div className="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editingCard ? (
                       <>
                         <IconButton
