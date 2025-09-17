@@ -40,12 +40,12 @@ function SpecCard({
   return (
     <div className="flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 shadow-[0_0_0_1px_var(--neon-soft)]">
       <header className="flex items-center justify-between">
-        <h3 className="text-body font-semibold tracking-[-0.01em]">{name}</h3>
+        <h3 className="text-title leading-[1.3] font-semibold tracking-[-0.01em]">{name}</h3>
         {code && (
           <button
             type="button"
             onClick={handleToggleCode}
-            className="text-label underline underline-offset-2"
+            className="inline-flex h-12 items-center justify-center rounded-full px-4 text-ui font-medium underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
           >
             {showCode ? "Hide code" : "Show code"}
           </button>

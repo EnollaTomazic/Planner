@@ -52,7 +52,12 @@ describe("Button", () => {
     },
     secondary: {
       primary: ["text-foreground"],
-      accent: ["text-accent", "bg-accent/15"],
+      accent: [
+        "text-accent-foreground",
+        "bg-accent/30",
+        "[--hover:hsl(var(--accent)/0.4)]",
+        "[--active:hsl(var(--accent)/0.5)]",
+      ],
       info: ["text-accent-2", "bg-accent-2/15"],
       danger: ["text-danger", "bg-danger/15"],
     },
