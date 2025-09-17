@@ -83,7 +83,7 @@ export type ButtonProps =
   | ButtonAsChildProps;
 
 export const colorVar: Record<Tone, string> = {
-  primary: "--foreground",
+  primary: "--primary",
   accent: "--accent",
   info: "--accent-2",
   danger: "--danger",
@@ -200,7 +200,8 @@ export const Button = React.forwardRef<
   const isDisabled = Boolean(disabledProp) || Boolean(loading);
   const isLink =
     !asChild && "href" in props && typeof props.href !== "undefined";
-    const s = buttonSizes[size];
+  const toneColorVar = colorVar[tone];
+  const s = buttonSizes[size];
     const spinnerSize = spinnerSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
@@ -238,11 +239,10 @@ export const Button = React.forwardRef<
     let resolvedStyle = style;
 
     if (variant === "primary") {
-      const toneColor = colorVar[tone];
       const glowStyles = {
-        "--glow-active": `hsl(var(${toneColor}) / 0.35)`,
-        "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColor}) / 0.25)`,
-        "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColor}) / 0.6)`,
+        "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
+        "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColorVar}) / 0.25)`,
+        "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColorVar}) / 0.6)`,
       } as CSSProperties;
       resolvedStyle = {
         ...glowStyles,
@@ -258,7 +258,7 @@ export const Button = React.forwardRef<
           <span
             className={cn(
               "absolute inset-0 pointer-events-none rounded-[inherit]",
-              `bg-[linear-gradient(90deg,hsl(var(${colorVar[tone]})/.18),hsl(var(${colorVar[tone]})/.18))]`,
+              `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
             )}
           />
         ) : (
