@@ -234,8 +234,8 @@ function GoalsPageContent() {
           <span className="text-foreground">{ACTIVE_CAP} active</span>
         </li>
         <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-accent">Remaining</span>
-          <span className="text-accent">{remaining}</span>
+          <span className="font-semibold text-accent-3">Remaining</span>
+          <span className="text-accent-3">{remaining}</span>
         </li>
         <li className="inline-flex items-center gap-[var(--space-1)]">
           <span className="font-semibold text-success">Complete</span>
@@ -248,7 +248,7 @@ function GoalsPageContent() {
       </ul>
     ) : tab === "reminders" ? (
       <>
-        Keep <span className="font-semibold text-accent">nudges</span> handy with quick edit loops.
+        Keep <span className="font-semibold text-accent-3">nudges</span> handy with quick edit loops.
       </>
     ) : (
       <>
@@ -281,8 +281,8 @@ function GoalsPageContent() {
           <span className="text-label text-primary">{activeCount}</span>
         </span>
         <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-accent">Remaining</span>
-          <span className="text-label text-accent">{remaining}</span>
+          <span className="text-label font-semibold text-accent-3">Remaining</span>
+          <span className="text-label text-accent-3">{remaining}</span>
         </span>
         <span className="inline-flex items-center gap-[var(--space-1)]">
           <span className="text-label font-semibold text-success">Done</span>
@@ -295,7 +295,7 @@ function GoalsPageContent() {
   } else if (tab === "reminders") {
     heroSubtitle = (
       <span id={heroSubtitleId} className="text-muted-foreground">
-        Stage <span className="font-semibold text-accent">nudges</span> with contexts and cadence.
+        Stage <span className="font-semibold text-accent-3">nudges</span> with contexts and cadence.
       </span>
     );
   } else {
