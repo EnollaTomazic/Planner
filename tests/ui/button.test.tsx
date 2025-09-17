@@ -23,7 +23,7 @@ describe("Button", () => {
     primary: {
       primary: [
         "text-[hsl(var(--primary-foreground))]",
-        "bg-[hsl(var(--primary)/0.12)]",
+        "bg-primary-soft",
         "border-[hsl(var(--primary)/0.35)]",
         "[--hover:theme('colors.interaction.primary.hover')]",
         "[--active:theme('colors.interaction.primary.active')]",
@@ -51,7 +51,7 @@ describe("Button", () => {
       ],
     },
     secondary: {
-      primary: ["text-foreground"],
+      primary: ["text-muted-foreground", "bg-panel/60"],
       accent: [
         "text-accent-foreground",
         "bg-accent/30",
