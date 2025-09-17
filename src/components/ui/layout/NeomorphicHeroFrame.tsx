@@ -105,19 +105,16 @@ const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
 
 const highContrastVariantMap: Record<
   Exclude<NeomorphicHeroFrameVariant, "unstyled">,
-  { container: string; divider: string }
+  { container: string }
 > = {
   default: {
     container: "border-border/70 shadow-neoSoft",
-    divider: "border-border/55",
   },
   compact: {
     container: "border-border/70 shadow-neoSoft",
-    divider: "border-border/55",
   },
   plain: {
     container: "border-border/55 shadow-outline-subtle",
-    divider: "border-border/50",
   },
 };
 
@@ -214,13 +211,17 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
         ? highContrastVariantMap[variant]
         : undefined;
     const slotContrastClass = highContrast ? "text-foreground" : undefined;
-    const actionDividerContrastClass =
-      contrastStyles?.divider ?? (highContrast ? "border-border/55" : undefined);
 
     const hasActionArea = Boolean(
       actionArea &&
         (actionArea.tabs || actionArea.actions || actionArea.search),
     );
+
+    const showActionDivider = hasActionArea && (actionArea?.divider ?? true);
+    const accentDividerLineClass = highContrast ? "opacity-90" : "opacity-70";
+    const accentDividerGlowClass = highContrast
+      ? "bg-[hsl(var(--accent))/0.7]"
+      : "bg-[hsl(var(--accent))/0.45]";
 
     const shouldWrapContent =
       variant !== "unstyled" || hasActionArea || Boolean(contentClassName);
@@ -276,18 +277,32 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               className={cn(
                 "relative z-[2]",
                 variantStyles?.action.mt ?? "mt-[var(--space-4)]",
-                (actionArea?.divider ?? true)
-                  ? cn(
-                      "border-t border-border/35",
-                      actionDividerContrastClass,
-                      variantStyles?.action.pt ?? "pt-[var(--space-4)]",
-                    )
-                  : null,
+                showActionDivider
+                  ? variantStyles?.action.pt ?? "pt-[var(--space-4)]"
+                  : undefined,
                 "grid gap-[var(--space-3)] md:grid-cols-12 md:gap-[var(--space-4)]",
                 variantStyles?.action.gap,
                 actionArea?.className,
               )}
             >
+              {showActionDivider ? (
+                <>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "pointer-events-none absolute inset-x-0 top-0 block h-px bg-[hsl(var(--accent))]",
+                      accentDividerLineClass,
+                    )}
+                  />
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "pointer-events-none absolute inset-x-0 top-0 block h-px blur-[6px]",
+                      accentDividerGlowClass,
+                    )}
+                  />
+                </>
+              ) : null}
               {actionArea?.tabs ? (
                 <div
                   data-area="tabs"

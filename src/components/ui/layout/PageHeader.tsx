@@ -163,7 +163,14 @@ const PageHeaderInner = <
 
   const stickyChildrenPresent = Boolean(headerSticky) || Boolean(heroSticky);
 
-  const heroShouldRenderActionArea = frameActionArea === null;
+  const heroHasUtilities =
+    (resolvedSearch !== undefined && resolvedSearch !== null) ||
+    (resolvedActions !== undefined && resolvedActions !== null);
+
+  const heroShouldRenderActionArea =
+    frameActionArea === null ||
+    (frameActionArea === undefined && heroHasUtilities);
+
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
 
   const heroTabVariant: TabBarProps["variant"] | undefined =
@@ -239,6 +246,10 @@ const PageHeaderInner = <
   const resolvedFrameActionArea = React.useMemo<
     NeomorphicHeroFrameActionAreaProps | null | undefined
   >(() => {
+    if (heroShouldRenderActionArea) {
+      return null;
+    }
+
     if (frameActionArea === null) {
       return null;
     }
@@ -281,7 +292,13 @@ const PageHeaderInner = <
       ...(search !== undefined ? { search } : {}),
       ...(actions !== undefined ? { actions } : {}),
     };
-  }, [frameActionArea, actionAreaTabs, actionAreaSearch, actionAreaActions]);
+  }, [
+    heroShouldRenderActionArea,
+    frameActionArea,
+    actionAreaTabs,
+    actionAreaSearch,
+    actionAreaActions,
+  ]);
 
   return (
     <Component
