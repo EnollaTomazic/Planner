@@ -72,6 +72,7 @@ function HomePageContent() {
               heading: "Welcome to Planner",
               subtitle: "Plan your day, track goals, and review games.",
               icon: <Home className="opacity-80" />,
+              sticky: true,
             }}
             hero={{
               heading: "Your day at a glance",

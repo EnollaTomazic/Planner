@@ -89,16 +89,15 @@ const PageHeaderInner = <
 ) => {
   const Component: PageHeaderElement = as ?? "section";
 
-  const headerSticky = header.sticky ?? true;
-  const heroSticky = hero.sticky ?? true;
-
   const {
+    sticky: headerSticky = false,
     tabs: headerTabs,
     underline: headerUnderline,
     ...headerRest
   } = header;
 
   const {
+    sticky: heroSticky = false,
     subTabs: heroSubTabs,
     search: heroSearch,
     actions: heroActions,
@@ -163,7 +162,7 @@ const PageHeaderInner = <
 
   const frameActionArea = frameActionAreaProp ?? null;
 
-  const stickyChildrenPresent = Boolean(headerSticky) || Boolean(heroSticky);
+  const stickyChildrenPresent = headerSticky || heroSticky;
 
   const heroShouldRenderActionArea = frameActionArea === null;
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
@@ -309,11 +308,13 @@ const PageHeaderInner = <
         >
           <Header
             {...headerRest}
+            sticky={headerSticky}
             tabs={tabsInHero ? undefined : headerTabs}
             underline={headerUnderline ?? false}
           />
           <Hero
             {...heroRest}
+            sticky={heroSticky}
             as={heroAs ?? "section"}
             frame={resolvedHeroFrame}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}

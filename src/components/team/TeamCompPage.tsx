@@ -213,6 +213,7 @@ export default function TeamCompPage() {
       return {
         as: "section",
         frame: false,
+        sticky: true,
         topClassName: "top-[var(--header-stack)]",
         eyebrow: active?.label,
         heading: "Comps",
@@ -250,6 +251,7 @@ export default function TeamCompPage() {
       return {
         as: "section",
         frame: false,
+        sticky: true,
         topClassName: "top-[var(--header-stack)]",
         eyebrow: "Comps",
         heading: "Builder",
@@ -371,6 +373,7 @@ export default function TeamCompPage() {
             ariaLabel: "Team comps mode",
           },
           underline: true,
+          sticky: true,
         }}
         hero={hero}
       />

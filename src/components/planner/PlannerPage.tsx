@@ -97,6 +97,7 @@ function Inner() {
             subtitle: "Plan your week",
             icon: <CalendarDays className="opacity-80" />,
             right,
+            sticky: true,
           }}
           hero={{
             frame: false,
