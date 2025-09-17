@@ -5,6 +5,8 @@ import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import NeonIcon from "@/components/reviews/NeonIcon";
+import ReviewSurface from "./ReviewSurface";
+import ReviewSliderTrack from "./ReviewSliderTrack";
 
 import * as React from "react";
 import type { Review, Role } from "@/lib/types";
@@ -253,7 +255,11 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-              <div className="mt-3 relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+              <ReviewSurface
+                className="mt-3 relative h-12"
+                padding="inline"
+                focusWithin
+              >
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -269,23 +275,12 @@ export default function ReviewEditor({
                   className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
                   aria-label="Focus from 0 to 10"
                 />
-                <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-                  <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
-                    <div
-                      className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]"
-                      style={{
-                        width: `calc(${(focus / 10) * 100}% + var(--space-2) + var(--space-1) / 2)`,
-                      }}
-                    />
-                    <div
-                      className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-                      style={{
-                        left: `calc(${(focus / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))`,
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
+                <ReviewSliderTrack
+                  value={focus}
+                  tone="focus"
+                  variant="input"
+                />
+              </ReviewSurface>
               <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
                 <span className="pill h-6 px-2 text-ui">{focus}/10</span>
                 <span>{focusMsg}</span>

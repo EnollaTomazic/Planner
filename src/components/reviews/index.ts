@@ -18,3 +18,5 @@ export { default as LaneOpponentForm } from "./LaneOpponentForm";
 export { default as ResultScoreSection } from "./ResultScoreSection";
 export { default as PillarsSelector } from "./PillarsSelector";
 export { default as TimestampMarkers } from "./TimestampMarkers";
+export { default as ReviewSurface } from "./ReviewSurface";
+export { default as ReviewSliderTrack } from "./ReviewSliderTrack";
