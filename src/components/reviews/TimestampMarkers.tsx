@@ -229,7 +229,7 @@ function TimestampMarkers(
           </IconButton>
         </div>
         {timeError && (
-          <p id="tTime-error" className="mt-1 text-label text-danger">
+          <p id="tTime-error" className="mt-1 text-ui text-danger">
             Enter time as mm:ss
           </p>
         )}
@@ -248,7 +248,7 @@ function TimestampMarkers(
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 w-16 px-3 text-label font-mono tabular-nums text-center">{m.time}</span>
+                  <span className="pill h-7 w-16 px-3 text-ui font-mono tabular-nums text-center">{m.time}</span>
                 )}
 
                 <span className="truncate text-ui">{m.note}</span>

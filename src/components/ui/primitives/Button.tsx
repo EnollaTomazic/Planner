@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
 
@@ -202,193 +202,97 @@ export const Button = React.forwardRef<
     !asChild && "href" in props && typeof props.href !== "undefined";
   const toneColorVar = colorVar[tone];
   const s = buttonSizes[size];
-    const spinnerSize = spinnerSizes[size];
-    const base = cn(
-      "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
-      "data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none",
-      s.height,
-      s.padding,
-      s.text,
-      s.gap,
-      s.icon,
-      className,
-    );
+  const spinnerSize = spinnerSizes[size];
+  const base = cn(
+    "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+    "data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none",
+    s.height,
+    s.padding,
+    s.text,
+    s.gap,
+    s.icon,
+    className,
+  );
 
-    const {
-      className: variantClass,
-      whileHover: variantHover,
-      whileTap,
-      overlay,
-      contentClass,
-    } = variants[variant];
+  const {
+    className: variantClass,
+    whileHover: variantHover,
+    whileTap,
+    overlay,
+    contentClass,
+  } = variants[variant];
 
-    const resolvedVariantClass =
-      typeof variantClass === "function" ? variantClass(tone) : variantClass;
+  const resolvedVariantClass =
+    typeof variantClass === "function" ? variantClass(tone) : variantClass;
 
-    const hoverAnimation = reduceMotion
-      ? undefined
-      : variant === "primary"
-        ? { scale: 1.03 }
-        : variantHover;
+  const hoverAnimation = reduceMotion
+    ? undefined
+    : variant === "primary"
+      ? { scale: 1.03 }
+      : variantHover;
 
-    const contentClasses = cn(
-      contentClass ?? cn("inline-flex items-center", s.gap),
-      loading && "opacity-0",
-    );
+  const contentClasses = cn(
+    contentClass ?? cn("inline-flex items-center", s.gap),
+    loading && "opacity-0",
+  );
 
-    let resolvedStyle = style;
+  let resolvedStyle = style;
 
-    if (variant === "primary") {
-      const glowStyles = {
-        "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
-        "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColorVar}) / 0.25)`,
-        "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColorVar}) / 0.6)`,
-      } as CSSProperties;
-      resolvedStyle = {
-        ...glowStyles,
-        ...(style ?? {}),
-      };
-    }
-
-    const mergedClassName = cn(base, resolvedVariantClass, toneClasses[variant][tone]);
-
-    const renderInnerContent = (contentChildren: React.ReactNode) => (
-      <>
-        {variant === "primary" ? (
-          <span
-            className={cn(
-              "absolute inset-0 pointer-events-none rounded-[inherit]",
-              `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
-            )}
-          />
-        ) : (
-          overlay
-        )}
-        {loading ? (
-          <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-            <Spinner size={spinnerSize} />
-          </span>
-        ) : null}
-        <span className={contentClasses}>{contentChildren}</span>
-      </>
-    );
-
-    if (asChild) {
-      const slotProps = {
-        ...(props as ButtonAsChildProps),
-      } as Record<string, unknown> & { tabIndex?: number };
-      const tabIndex = slotProps.tabIndex;
-      delete slotProps.tabIndex;
-      delete slotProps.asChild;
-      delete slotProps.size;
-      delete slotProps.variant;
-      delete slotProps.tone;
-      delete slotProps.loading;
-      delete slotProps.className;
-      delete slotProps.children;
-      delete slotProps.style;
-      delete slotProps.type;
-      delete slotProps.disabled;
-      const baseProps = {
-        className: mergedClassName,
-        "data-loading": loading ? "true" : undefined,
-        "data-disabled": isDisabled ? "true" : undefined,
-        "aria-busy": loading ? true : undefined,
-        style: resolvedStyle,
-        whileHover: hoverAnimation,
-        whileTap: reduceMotion ? undefined : whileTap,
-        tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
-        ...slotProps,
-      };
-      const child = React.Children.only(
-        children,
-      ) as React.ReactElement<{ children?: React.ReactNode }>;
-
-      return (
-        <MotionSlot
-          {...baseProps}
-          ref={ref as React.ForwardedRef<HTMLElement>}
-          aria-disabled={isDisabled ? true : undefined}
-        >
-          {React.cloneElement(child, undefined, renderInnerContent(child.props.children))}
-        </MotionSlot>
-      );
-    }
-
-    if (isLink) {
-      const anchorProps = {
-        ...(props as ButtonAsAnchorProps),
-      } as Record<string, unknown> & {
-        href: ButtonAsAnchorProps["href"];
-        target?: ButtonAsAnchorProps["target"];
-        rel?: ButtonAsAnchorProps["rel"];
-        download?: ButtonAsAnchorProps["download"];
-        tabIndex?: number;
-      };
-      const href = anchorProps.href as ButtonAsAnchorProps["href"];
-      const target = anchorProps.target as ButtonAsAnchorProps["target"];
-      const rel = anchorProps.rel as ButtonAsAnchorProps["rel"];
-      const download = anchorProps.download as ButtonAsAnchorProps["download"];
-      const tabIndex = anchorProps.tabIndex;
-      delete anchorProps.href;
-      delete anchorProps.target;
-      delete anchorProps.rel;
-      delete anchorProps.download;
-      delete anchorProps.tabIndex;
-      delete anchorProps.asChild;
-      delete anchorProps.size;
-      delete anchorProps.variant;
-      delete anchorProps.tone;
-      delete anchorProps.loading;
-      delete anchorProps.className;
-      delete anchorProps.children;
-      delete anchorProps.style;
-      const baseProps = {
-        className: mergedClassName,
-        "data-loading": loading ? "true" : undefined,
-        "data-disabled": isDisabled ? "true" : undefined,
-        "aria-busy": loading ? true : undefined,
-        style: resolvedStyle,
-        whileHover: hoverAnimation,
-        whileTap: reduceMotion ? undefined : whileTap,
-        tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
-        ...anchorProps,
-      };
-      return (
-        <MotionAnchor
-          {...baseProps}
-          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
-          href={href}
-          target={target}
-          rel={rel}
-          download={download}
-          aria-disabled={isDisabled ? true : undefined}
-        >
-          {renderInnerContent(children as React.ReactNode)}
-        </MotionAnchor>
-      );
-    }
-
-    const buttonProps = {
-      ...(props as ButtonAsButtonProps),
-    } as Record<string, unknown> & {
-      type?: HTMLMotionProps<"button">["type"];
-      tabIndex?: number;
+  if (variant === "primary") {
+    const glowStyles = {
+      "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
+      "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColorVar}) / 0.25)`,
+      "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColorVar}) / 0.6)`,
+    } as CSSProperties;
+    resolvedStyle = {
+      ...glowStyles,
+      ...(style ?? {}),
     };
-    const typeProp =
-      (buttonProps.type as HTMLMotionProps<"button">["type"]) ?? "button";
-    const tabIndex = buttonProps.tabIndex;
-    delete buttonProps.type;
-    delete buttonProps.tabIndex;
-    delete buttonProps.asChild;
-    delete buttonProps.size;
-    delete buttonProps.variant;
-    delete buttonProps.tone;
-    delete buttonProps.loading;
-    delete buttonProps.className;
-    delete buttonProps.children;
-    delete buttonProps.style;
-    delete buttonProps.disabled;
+  }
+
+  const mergedClassName = cn(
+    base,
+    resolvedVariantClass,
+    toneClasses[variant][tone],
+  );
+
+  const renderInnerContent = (contentChildren: React.ReactNode) => (
+    <>
+      {variant === "primary" ? (
+        <span
+          className={cn(
+            "absolute inset-0 pointer-events-none rounded-[inherit]",
+            `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
+          )}
+        />
+      ) : (
+        overlay
+      )}
+      {loading ? (
+        <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+          <Spinner size={spinnerSize} />
+        </span>
+      ) : null}
+      <span className={contentClasses}>{contentChildren}</span>
+    </>
+  );
+
+  if (asChild) {
+    const slotProps = {
+      ...(props as ButtonAsChildProps),
+    } as Record<string, unknown> & { tabIndex?: number };
+    const tabIndex = slotProps.tabIndex;
+    delete slotProps.tabIndex;
+    delete slotProps.asChild;
+    delete slotProps.size;
+    delete slotProps.variant;
+    delete slotProps.tone;
+    delete slotProps.loading;
+    delete slotProps.className;
+    delete slotProps.children;
+    delete slotProps.style;
+    delete slotProps.type;
+    delete slotProps.disabled;
     const baseProps = {
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
@@ -397,20 +301,140 @@ export const Button = React.forwardRef<
       style: resolvedStyle,
       whileHover: hoverAnimation,
       whileTap: reduceMotion ? undefined : whileTap,
-      tabIndex,
-      ...buttonProps,
+      tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+      ...slotProps,
     };
+    const child = React.Children.only(
+      children,
+    ) as React.ReactElement<{ children?: React.ReactNode }>;
 
     return (
-      <motion.button
+      <MotionSlot
         {...baseProps}
-        ref={ref as React.ForwardedRef<HTMLButtonElement>}
-        type={typeProp}
-        disabled={isDisabled}
+        ref={ref as React.ForwardedRef<HTMLElement>}
+        aria-disabled={isDisabled ? true : undefined}
+      >
+        {React.cloneElement(
+          child,
+          undefined,
+          renderInnerContent(child.props.children),
+        )}
+      </MotionSlot>
+    );
+  }
+
+  if (isLink) {
+    const anchorProps = {
+      ...(props as ButtonAsAnchorProps),
+    } as Record<string, unknown> & {
+      href: ButtonAsAnchorProps["href"];
+      target?: ButtonAsAnchorProps["target"];
+      rel?: ButtonAsAnchorProps["rel"];
+      download?: ButtonAsAnchorProps["download"];
+      tabIndex?: number;
+    };
+    const href = anchorProps.href as ButtonAsAnchorProps["href"];
+    const target = anchorProps.target as ButtonAsAnchorProps["target"];
+    const rel = anchorProps.rel as ButtonAsAnchorProps["rel"];
+    const download = anchorProps.download as ButtonAsAnchorProps["download"];
+    const tabIndex = anchorProps.tabIndex;
+    delete anchorProps.href;
+    delete anchorProps.target;
+    delete anchorProps.rel;
+    delete anchorProps.download;
+    delete anchorProps.tabIndex;
+    delete anchorProps.asChild;
+    delete anchorProps.size;
+    delete anchorProps.variant;
+    delete anchorProps.tone;
+    delete anchorProps.loading;
+    delete anchorProps.className;
+    delete anchorProps.children;
+    delete anchorProps.style;
+    const baseProps = {
+      className: mergedClassName,
+      "data-loading": loading ? "true" : undefined,
+      "data-disabled": isDisabled ? "true" : undefined,
+      "aria-busy": loading ? true : undefined,
+      style: resolvedStyle,
+      whileHover: hoverAnimation,
+      whileTap: reduceMotion ? undefined : whileTap,
+      tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+      ...anchorProps,
+    };
+    let resolvedHref = href;
+
+    if (typeof href === "string") {
+      const trimmedHref = href.trim();
+      const hasScheme = /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(trimmedHref);
+      const isProtocolRelative = trimmedHref.startsWith("//");
+      const isHash = trimmedHref.startsWith("#");
+      const shouldPrefixBasePath =
+        !isHash &&
+        (trimmedHref.startsWith("/") || (!hasScheme && !isProtocolRelative));
+
+      resolvedHref = shouldPrefixBasePath
+        ? withBasePath(trimmedHref)
+        : trimmedHref;
+    }
+
+    return (
+      <MotionAnchor
+        {...baseProps}
+        ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+        href={resolvedHref}
+        target={target}
+        rel={rel}
+        download={download}
+        aria-disabled={isDisabled ? true : undefined}
       >
         {renderInnerContent(children as React.ReactNode)}
-      </motion.button>
+      </MotionAnchor>
     );
+  }
+
+  const buttonProps = {
+    ...(props as ButtonAsButtonProps),
+  } as Record<string, unknown> & {
+    type?: HTMLMotionProps<"button">["type"];
+    tabIndex?: number;
+  };
+  const typeProp =
+    (buttonProps.type as HTMLMotionProps<"button">["type"]) ?? "button";
+  const tabIndex = buttonProps.tabIndex;
+  delete buttonProps.type;
+  delete buttonProps.tabIndex;
+  delete buttonProps.asChild;
+  delete buttonProps.size;
+  delete buttonProps.variant;
+  delete buttonProps.tone;
+  delete buttonProps.loading;
+  delete buttonProps.className;
+  delete buttonProps.children;
+  delete buttonProps.style;
+  delete buttonProps.disabled;
+  const baseProps = {
+    className: mergedClassName,
+    "data-loading": loading ? "true" : undefined,
+    "data-disabled": isDisabled ? "true" : undefined,
+    "aria-busy": loading ? true : undefined,
+    style: resolvedStyle,
+    whileHover: hoverAnimation,
+    whileTap: reduceMotion ? undefined : whileTap,
+    tabIndex,
+    ...buttonProps,
+  };
+
+  return (
+    <motion.button
+      {...baseProps}
+      ref={ref as React.ForwardedRef<HTMLButtonElement>}
+      type={typeProp}
+      disabled={isDisabled}
+    >
+      {renderInnerContent(children as React.ReactNode)}
+    </motion.button>
+  );
 });
 
 Button.displayName = "Button";
