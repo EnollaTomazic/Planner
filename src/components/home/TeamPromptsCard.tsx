@@ -22,6 +22,11 @@ const teamQuickActions = [
   },
 ];
 
+const promptsOverlayGradient = {
+  "--seg-active-grad":
+    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.85), hsl(var(--accent-soft) / 0.85), hsl(var(--accent-2) / 0.8))",
+} as React.CSSProperties;
+
 export default function TeamPromptsCard() {
   return (
     <div className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
@@ -46,6 +51,7 @@ export default function TeamPromptsCard() {
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[var(--seg-active-grad)]"
+              style={promptsOverlayGradient}
             />
             <span className="relative z-10 block">Get inspired with curated prompts</span>
           </div>

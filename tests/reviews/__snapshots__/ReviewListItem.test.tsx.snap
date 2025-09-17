@@ -5,16 +5,16 @@ exports[`ReviewListItem > renders default state 1`] = `
   <button
     aria-label="Open review: Sample Review"
     aria-selected="false"
-    class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     role="option"
     type="button"
   >
     <div
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-[var(--space-2)]"
     >
       <div
-        class="flex items-start justify-between gap-2"
+        class="flex items-start justify-between gap-[var(--space-2)]"
       >
         <div
           class="truncate font-medium text-body"
@@ -28,24 +28,24 @@ exports[`ReviewListItem > renders default state 1`] = `
         </div>
       </div>
       <div
-        class="flex items-center justify-between gap-2"
+        class="flex items-center justify-between gap-[var(--space-2)]"
       >
         <div
-          class="flex items-center gap-2"
+          class="flex items-center gap-[var(--space-2)]"
         >
           <span
             aria-hidden="true"
-            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
+            class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
+          class="px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
         >
           9
           /10
@@ -61,17 +61,17 @@ exports[`ReviewListItem > renders disabled state 1`] = `
   <button
     aria-label="Open review: Sample Review"
     aria-selected="false"
-    class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     disabled=""
     role="option"
     type="button"
   >
     <div
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-[var(--space-2)]"
     >
       <div
-        class="flex items-start justify-between gap-2"
+        class="flex items-start justify-between gap-[var(--space-2)]"
       >
         <div
           class="truncate font-medium text-body"
@@ -85,24 +85,24 @@ exports[`ReviewListItem > renders disabled state 1`] = `
         </div>
       </div>
       <div
-        class="flex items-center justify-between gap-2"
+        class="flex items-center justify-between gap-[var(--space-2)]"
       >
         <div
-          class="flex items-center gap-2"
+          class="flex items-center gap-[var(--space-2)]"
         >
           <span
             aria-hidden="true"
-            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
+            class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
+          class="px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
         >
           9
           /10
@@ -116,14 +116,14 @@ exports[`ReviewListItem > renders disabled state 1`] = `
 exports[`ReviewListItem > renders loading state 1`] = `
 <div>
   <div
-    class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent motion-safe:animate-pulse motion-reduce:animate-none"
+    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent motion-safe:animate-pulse motion-reduce:animate-none"
     data-scope="reviews"
   >
     <div
-      class="h-3 rounded-card bg-muted w-3/5 mb-3"
+      class="h-[var(--space-3)] rounded-card bg-muted w-3/5 mb-[var(--space-3)]"
     />
     <div
-      class="h-3 rounded-card bg-muted w-2/5"
+      class="h-[var(--space-3)] rounded-card bg-muted w-2/5"
     />
   </div>
 </div>
@@ -135,17 +135,17 @@ exports[`ReviewListItem > renders selected state 1`] = `
     aria-current="true"
     aria-label="Open review: Sample Review"
     aria-selected="true"
-    class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     data-selected="true"
     role="option"
     type="button"
   >
     <div
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-[var(--space-2)]"
     >
       <div
-        class="flex items-start justify-between gap-2"
+        class="flex items-start justify-between gap-[var(--space-2)]"
       >
         <div
           class="truncate font-medium text-body"
@@ -159,24 +159,24 @@ exports[`ReviewListItem > renders selected state 1`] = `
         </div>
       </div>
       <div
-        class="flex items-center justify-between gap-2"
+        class="flex items-center justify-between gap-[var(--space-2)]"
       >
         <div
-          class="flex items-center gap-2"
+          class="flex items-center gap-[var(--space-2)]"
         >
           <span
             aria-hidden="true"
-            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
+            class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
+          class="px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
         >
           9
           /10
@@ -192,16 +192,16 @@ exports[`ReviewListItem > renders untitled state 1`] = `
   <button
     aria-label="Open review: Untitled Review"
     aria-selected="false"
-    class="relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
     data-scope="reviews"
     role="option"
     type="button"
   >
     <div
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-[var(--space-2)]"
     >
       <div
-        class="flex items-start justify-between gap-2"
+        class="flex items-start justify-between gap-[var(--space-2)]"
       >
         <div
           aria-label="Untitled Review"
@@ -216,24 +216,24 @@ exports[`ReviewListItem > renders untitled state 1`] = `
         </div>
       </div>
       <div
-        class="flex items-center justify-between gap-2"
+        class="flex items-center justify-between gap-[var(--space-2)]"
       >
         <div
-          class="flex items-center gap-2"
+          class="flex items-center gap-[var(--space-2)]"
         >
           <span
             aria-hidden="true"
-            class="h-2 w-2 rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
+            class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-success ring-success"
           />
           <span
-            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-1 py-0"
+            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
           >
             MID
           </span>
         </div>
         <span
           aria-label="Rating 9 out of 10"
-          class="px-2 py-1 rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
+          class="px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2 hover:from-accent hover:to-accent-2 hover:ring-accent focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent active:from-accent active:to-accent-2 active:ring-accent"
         >
           9
           /10

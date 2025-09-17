@@ -162,6 +162,19 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
+  const copyTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isMountedRef = React.useRef(true);
+
+  React.useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (copyTimeoutRef.current !== null) {
+        clearTimeout(copyTimeoutRef.current);
+        copyTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   React.useEffect(() => {
     if (!editing) setEditingId(null);
@@ -186,8 +199,19 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   async function copyOne(c: TeamComp) {
     await copyText(stringify(c));
-    setCopiedId(c.id);
-    setTimeout(() => setCopiedId(null), 900);
+    if (copyTimeoutRef.current !== null) {
+      clearTimeout(copyTimeoutRef.current);
+      copyTimeoutRef.current = null;
+    }
+    if (isMountedRef.current) {
+      setCopiedId(c.id);
+    }
+    copyTimeoutRef.current = setTimeout(() => {
+      if (isMountedRef.current) {
+        setCopiedId(null);
+      }
+      copyTimeoutRef.current = null;
+    }, 900);
   }
 
   function addNew(e?: React.FormEvent) {
