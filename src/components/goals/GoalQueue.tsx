@@ -42,7 +42,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                     <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
                     <p className="flex-1 truncate text-ui font-medium">{it.text}</p>
                     <time
-                      className="text-label font-medium tracking-[0.02em] text-muted-foreground opacity-0 group-hover:opacity-100"
+                      className="text-label font-medium tracking-[0.02em] text-muted-foreground opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
                       dateTime={created.toISOString()}
                     >
                       {shortDate.format(created)}
@@ -55,7 +55,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                         size="sm"
                         iconSize="sm"
                         variant="ring"
-                        className="opacity-0 group-hover:opacity-100"
+                        className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
                       >
                         <Trash2 />
                       </IconButton>
