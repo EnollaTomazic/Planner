@@ -42,6 +42,16 @@ describe("withBasePath", () => {
     expect(withBasePath("assets/icon.svg")).toBe("/beta/assets/icon.svg");
   });
 
+  it("avoids double prefixing when path already includes the base path", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/beta/assets/icon.svg")).toBe("/beta/assets/icon.svg");
+    expect(withBasePath("beta/assets/icon.svg")).toBe("/beta/assets/icon.svg");
+  });
+
   it("returns absolute URLs unchanged regardless of base path", async () => {
     const urls = [
       "https://cdn.example.com/assets/icon.svg",
@@ -67,6 +77,18 @@ describe("withBasePath", () => {
         expect(withBasePath(url)).toBe(url);
       }
     }
+  });
+
+  it("normalizes duplicate slashes and whitespace in the base path", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = " //beta//v1// ";
+    vi.resetModules();
+
+    const { withBasePath, withoutBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/assets/icon.svg")).toBe(
+      "/beta/v1/assets/icon.svg",
+    );
+    expect(withoutBasePath("/beta/v1/assets/icon.svg")).toBe("/assets/icon.svg");
   });
 });
 

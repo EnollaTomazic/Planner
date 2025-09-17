@@ -12,11 +12,29 @@ const twMerge = extendTailwindMerge({
   },
 });
 
-const RAW_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const NORMALIZED_BASE =
-  RAW_BASE_PATH && RAW_BASE_PATH !== "/"
-    ? `/${RAW_BASE_PATH.replace(/^\/+|\/+$|\s+/g, "")}`
-    : "";
+function normalizeBasePath(raw: string | undefined): string {
+  if (!raw) {
+    return "";
+  }
+
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed === "/") {
+    return "";
+  }
+
+  const segments = trimmed
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length > 0);
+
+  if (segments.length === 0) {
+    return "";
+  }
+
+  return `/${segments.join("/")}`;
+}
+
+const NORMALIZED_BASE = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
 
 const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
 
@@ -43,6 +61,13 @@ export function withBasePath(path: string): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
   if (!NORMALIZED_BASE) {
+    return normalizedPath;
+  }
+
+  if (
+    normalizedPath === NORMALIZED_BASE ||
+    normalizedPath.startsWith(`${NORMALIZED_BASE}/`)
+  ) {
     return normalizedPath;
   }
 
