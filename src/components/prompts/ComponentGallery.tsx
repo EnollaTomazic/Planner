@@ -55,6 +55,7 @@ import {
   DayRow,
   ScrollTopFloatingButton,
   PlannerProvider,
+  PlannerListPanel,
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
@@ -243,6 +244,55 @@ export default function ComponentGallery() {
             ariaLabel="Filter items"
             className="w-56"
             linkPanels={false}
+          />
+        ),
+      },
+      {
+        label: "TabBar (glitch)",
+        element: (
+          <TabBar
+            items={[
+              { key: "overview", label: "Overview" },
+              { key: "tasks", label: "Tasks" },
+              { key: "notes", label: "Notes" },
+            ]}
+            defaultValue="tasks"
+            variant="glitch"
+            linkPanels={false}
+            renderItem={({ item, active, props, ref, disabled }) => {
+              const { className: baseClassName, onClick, ...restProps } = props;
+              const className = cn(
+                "btn-like-segmented font-mono text-ui",
+                baseClassName,
+                active && "btn-glitch is-active",
+                disabled && "pointer-events-none opacity-[var(--disabled)]",
+              );
+              const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+                onClick?.(event);
+              };
+              return (
+                <button
+                  type="button"
+                  {...restProps}
+                  ref={ref as React.Ref<HTMLButtonElement>}
+                  className={className}
+                  disabled={disabled}
+                  onClick={(event) => {
+                    if (disabled) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      return;
+                    }
+                    handleClick(event);
+                  }}
+                >
+                  <span className="relative z-10 truncate">{item.label}</span>
+                  {active && (
+                    <span className="pointer-events-none absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px underline-gradient" />
+                  )}
+                </button>
+              );
+            }}
           />
         ),
       },
@@ -511,6 +561,37 @@ export default function ComponentGallery() {
             />
           </ul>
         ),
+      },
+      {
+        label: "PlannerListPanel",
+        element: (
+          <PlannerListPanel
+            renderComposer={() => (
+              <form
+                className="w-full"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                }}
+              >
+                <Input className="w-full" placeholder="> add item…" aria-label="Add item" />
+              </form>
+            )}
+            isEmpty={false}
+            renderEmpty={() => <EmptyRow text="All caught up" />}
+            renderList={() => (
+              <ul className="space-y-[var(--space-2)]" aria-label="Demo items">
+                {demoProjects.map((project) => (
+                  <li key={project.id}>
+                    <div className="rounded-card border border-border/40 bg-surface/60 px-[var(--space-4)] py-[var(--space-2)] text-label font-medium">
+                      {project.name}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          />
+        ),
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "ProjectList",
