@@ -185,7 +185,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Delete review"
                 title="Delete review"
-                size="md"
+                size="lg"
                 iconSize="md"
                 variant="ring"
                 onClick={onDelete}
@@ -198,7 +198,7 @@ export default function ReviewEditor({
               <IconButton
                 aria-label="Done"
                 title="Save and close"
-                size="md"
+                size="lg"
                 iconSize="md"
                 variant="ring"
                 onClick={() => {

@@ -120,13 +120,13 @@ export default function ReviewsPage({
                     { value: "title", label: "Title" },
                   ]}
                   className="w-full sm:w-auto"
-                  buttonClassName="!h-[var(--control-h-md)] !px-[var(--space-4)]"
+                  buttonClassName="!h-[var(--control-h-lg)] !px-[var(--space-4)]"
                 />
               </label>
               <Button
                 type="button"
                 variant="primary"
-                size="md"
+                size="lg"
                 className="w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto"
                 onClick={() => {
                   setQ("");
