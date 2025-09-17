@@ -197,7 +197,7 @@ export default function Header<Key extends string = string>({
                   </div>
                 ) : null}
                 <div className="flex min-w-0 items-baseline gap-[var(--space-2)]">
-                  <h1 className="text-balance break-words text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow">
+                  <h1 className="text-balance break-words text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em]">
                     {heading}
                   </h1>
                   {subtitle ? (

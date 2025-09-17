@@ -148,7 +148,7 @@ function Hero<Key extends string = string>({
     : "flex flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center md:gap-[var(--space-3)] lg:gap-[var(--space-4)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
   const headingClassName = cx(
-    "title-glow font-semibold tracking-[-0.01em] text-balance break-words",
+    "font-semibold tracking-[-0.01em] text-balance break-words text-foreground",
     frame ? "hero2-title" : undefined,
     isSupportiveTone
       ? "text-title md:text-title"
