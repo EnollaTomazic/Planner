@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { ReviewMarker } from "@/lib/types";
 import NeonIcon from "@/components/reviews/NeonIcon";
+import ReviewSurface from "./ReviewSurface";
 import { FileText } from "lucide-react";
 
 export type ReviewSummaryTimestampsProps = {
@@ -28,9 +29,11 @@ export default function ReviewSummaryTimestamps({
           {[...markers]
             .sort((a, b) => a.seconds - b.seconds)
             .map((m) => (
-              <li
+              <ReviewSurface
+                as="li"
                 key={m.id}
-                className="grid grid-cols-[auto_1fr] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border bg-card px-[var(--space-3)] py-[var(--space-2)]"
+                padding="sm"
+                className="grid grid-cols-[auto_1fr] items-center gap-[var(--space-2)]"
               >
                 {m.noteOnly ? (
                   <span
@@ -46,7 +49,7 @@ export default function ReviewSummaryTimestamps({
                   </span>
                 )}
                 <span className="truncate text-ui">{m.note || "—"}</span>
-              </li>
+              </ReviewSurface>
             ))}
         </ul>
       )}
