@@ -44,9 +44,9 @@ export default {
   hardstuckBackground: "165 60% 3%",
   hardstuckForeground: "160 12% 95%",
   hardstuckBorder: "165 40% 22%",
-  success: "316 92% 70%",
+  success: "150 70% 45%",
   successSoft: "var(--success) / 0.2",
-  successGlow: "316 92% 52% / 0.6",
+  successGlow: "150 70% 35% / 0.6",
   toneTop: "38 92% 60%",
   toneJg: "152 52% 44%",
   toneMid: "265 72% 62%",
@@ -117,8 +117,10 @@ export default {
   fontBody: "16px",
   fontTitle: "20px",
   fontTitleLg: "24px",
-  btnPrimaryHoverShadow: "0 2px 6px -1px hsl(var(--accent) / 0.25)",
-  btnPrimaryActiveShadow: "inset 0 0 0 1px hsl(var(--accent) / 0.6)",
+  btnPrimaryHoverShadow:
+    "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)",
+  btnPrimaryActiveShadow:
+    "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)",
   spacing1: "4px",
   spacing2: "8px",
   spacing3: "12px",
@@ -131,4 +133,5 @@ export default {
   radiusLg: "12px",
   radiusXl: "16px",
   radius2xl: "24px",
+  radiusFull: "9999px",
 };
