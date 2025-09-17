@@ -40,6 +40,7 @@ import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
 import ReviewPanel from "@/components/reviews/ReviewPanel";
 import ReviewListItem from "@/components/reviews/ReviewListItem";
+import ScoreMeter from "@/components/reviews/ScoreMeter";
 import Banner from "@/components/chrome/Banner";
 import NavBar from "@/components/chrome/NavBar";
 import {
@@ -706,6 +707,15 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56">
             <ReviewListItem loading />
+          </div>
+        ),
+      },
+      {
+        label: "ScoreMeter",
+        element: (
+          <div className="w-56 space-y-[var(--space-2)]">
+            <ScoreMeter value={8} label="Score 8 of 10" />
+            <ScoreMeter value={4} label="Focus 4 of 10" tone="accent" />
           </div>
         ),
       },

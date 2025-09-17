@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import SectionLabel from "@/components/reviews/SectionLabel";
+import ScoreMeter from "@/components/reviews/ScoreMeter";
 import NeonIcon from "@/components/reviews/NeonIcon";
 
 export type ReviewSummaryScoreProps = {
@@ -26,15 +27,11 @@ export default function ReviewSummaryScore({
     <div>
       <SectionLabel>Score</SectionLabel>
       <div className="relative h-[var(--space-7)] rounded-card r-card-lg border border-border bg-card px-[var(--space-4)]">
-        <div className="absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 px-[var(--space-3)]">
-          <div
-            className="relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
-            style={{ "--progress": `${score * 10}%` } as React.CSSProperties}
-          >
-            <div className="absolute left-0 top-0 h-[var(--space-2)] w-[var(--progress)] rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]" />
-            <div className="absolute left-[var(--progress)] top-1/2 h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft" />
-          </div>
-        </div>
+        <ScoreMeter
+          value={score}
+          label={`Review score ${score} of 10`}
+          className="absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 px-[var(--space-3)]"
+        />
       </div>
       <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground">
         <span className="pill h-[var(--space-5)] px-[var(--space-2)] text-ui">{score}/10</span>
@@ -48,19 +45,12 @@ export default function ReviewSummaryScore({
             <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
           <div className="relative h-[var(--space-7)] rounded-card r-card-lg border border-border bg-card px-[var(--space-4)]">
-            <div className="absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 px-[var(--space-3)]">
-              <div
-                className="relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
-                style={
-                  {
-                    "--progress": `${(focus / 10) * 100}%`,
-                  } as React.CSSProperties
-                }
-              >
-                <div className="absolute left-0 top-0 h-[var(--space-2)] w-[var(--progress)] rounded-full bg-gradient-to-r from-accent to-primary shadow-ring [--ring:var(--accent)]" />
-                <div className="absolute left-[var(--progress)] top-1/2 h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft" />
-              </div>
-            </div>
+            <ScoreMeter
+              value={focus}
+              label={`Focus score ${focus} of 10`}
+              tone="accent"
+              className="absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 px-[var(--space-3)]"
+            />
           </div>
           <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground">
             <span className="pill h-[var(--space-5)] px-[var(--space-2)] text-ui">{focus}/10</span>

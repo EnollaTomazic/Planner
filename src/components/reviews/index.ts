@@ -7,6 +7,7 @@ export { default as ReviewListItem } from "./ReviewListItem";
 export { default as ReviewSummary } from "./ReviewSummary";
 export { default as ReviewSummaryHeader } from "./ReviewSummaryHeader";
 export { default as ReviewSummaryScore } from "./ReviewSummaryScore";
+export { default as ScoreMeter } from "./ScoreMeter";
 export { default as ReviewSummaryPillars } from "./ReviewSummaryPillars";
 export { default as ReviewSummaryTimestamps } from "./ReviewSummaryTimestamps";
 export { default as ReviewSummaryNotes } from "./ReviewSummaryNotes";

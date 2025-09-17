@@ -450,7 +450,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring"
+          class="relative h-[var(--space-7)] rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-ring"
         >
           <input
             aria-label="Score from 0 to 10"
@@ -462,18 +462,20 @@ exports[`ReviewEditor > renders default state 1`] = `
             value="5"
           />
           <div
-            class="absolute left-4 right-4 top-1/2 -translate-y-1/2"
+            aria-hidden="true"
+            class="w-full absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2"
+            style="--meter-progress: 50%;"
           >
             <div
-              class="relative h-2 w-full rounded-full bg-muted shadow-neo-inset"
+              class="relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
             >
               <div
-                class="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]"
-                style="width: calc(50% + var(--space-2) + var(--space-1) / 2);"
+                class="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r shadow-ring from-primary to-accent [--ring:var(--primary)]"
+                style="width: var(--meter-progress);"
               />
               <div
-                class="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-                style="left: calc(50% - (var(--space-2) + var(--space-1) / 2));"
+                class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full border border-border bg-card shadow-neoSoft h-[var(--space-5)] w-[var(--space-5)]"
+                style="left: var(--meter-progress);"
               />
             </div>
           </div>
