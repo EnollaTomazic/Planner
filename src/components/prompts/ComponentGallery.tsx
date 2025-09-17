@@ -210,6 +210,7 @@ export default function ComponentGallery() {
               { key: "three", label: "Three" },
             ]}
             className="w-56"
+            ariaLabel="Sample tabs"
             linkPanels={false}
           />
         ),
@@ -259,6 +260,7 @@ export default function ComponentGallery() {
             ]}
             defaultValue="tasks"
             variant="glitch"
+            ariaLabel="Glitch demo tabs"
             linkPanels={false}
             renderItem={({ item, active, props, ref, disabled }) => {
               const { className: baseClassName, onClick, ...restProps } = props;
@@ -921,6 +923,7 @@ export default function ComponentGallery() {
                 ],
                 value: headerTab,
                 onChange: setHeaderTab,
+                ariaLabel: "Gallery header tabs",
               }}
             />
           </div>
@@ -943,6 +946,7 @@ export default function ComponentGallery() {
                 ],
                 value: headerTab,
                 onChange: setHeaderTab,
+                ariaLabel: "Gallery hero tabs",
                 linkPanels: false,
               }}
               search={{ value: "", onValueChange: () => {}, round: true }}

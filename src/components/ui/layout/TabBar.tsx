@@ -62,7 +62,17 @@ export type TabRenderContext<
   variant: Variant;
 };
 
-export type TabBarProps<
+export type TabBarA11yProps =
+  | {
+      ariaLabel: string;
+      ariaLabelledBy?: string;
+    }
+  | {
+      ariaLabel?: string;
+      ariaLabelledBy: string;
+    };
+
+type TabBarBaseProps<
   K extends string = string,
   Extra extends Record<string, unknown> | undefined = undefined,
 > = {
@@ -74,7 +84,6 @@ export type TabBarProps<
   align?: Align;
   className?: string;
   right?: React.ReactNode;
-  ariaLabel?: string;
   showBaseline?: boolean;
   linkPanels?: boolean;
   variant?: Variant;
@@ -88,6 +97,11 @@ export type TabBarProps<
    */
   idBase?: string;
 };
+
+export type TabBarProps<
+  K extends string = string,
+  Extra extends Record<string, unknown> | undefined = undefined,
+> = TabBarBaseProps<K, Extra> & TabBarA11yProps;
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   sm: {
@@ -120,6 +134,7 @@ export default function TabBar<
   className,
   right,
   ariaLabel,
+  ariaLabelledBy,
   showBaseline = false,
   linkPanels = true,
   variant = "default",
@@ -127,6 +142,25 @@ export default function TabBar<
   renderItem,
   idBase,
 }: TabBarProps<K, Extra>) {
+  const ariaLabelAttr =
+    typeof ariaLabel === "string" && ariaLabel.trim().length > 0
+      ? ariaLabel.trim()
+      : undefined;
+  const ariaLabelledByAttr =
+    typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0
+      ? ariaLabelledBy.trim()
+      : undefined;
+
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      if (!ariaLabelAttr && !ariaLabelledByAttr) {
+        console.warn(
+          "TabBar requires an ariaLabel or ariaLabelledBy prop to describe the tablist.",
+        );
+      }
+    }
+  }, [ariaLabelAttr, ariaLabelledByAttr]);
+
   const uid = useId();
   const baseId = idBase ?? uid;
   const isControlled = value !== undefined;
@@ -243,7 +277,8 @@ export default function TabBar<
         {/* Tabs group */}
         <div
           role="tablist"
-          aria-label={ariaLabel}
+          aria-label={ariaLabelAttr}
+          aria-labelledby={ariaLabelledByAttr}
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
           data-variant={variant}
@@ -304,7 +339,7 @@ export default function TabBar<
                   size === "lg" ? "font-medium" : "font-normal",
                   "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
                   tabVariant,
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
                   "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
                   "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",

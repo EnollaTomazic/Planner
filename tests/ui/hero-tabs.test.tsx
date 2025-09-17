@@ -12,6 +12,7 @@ describe("HeroTabs", () => {
         activeKey="overview"
         onChange={() => {}}
         linkPanels
+        ariaLabel="Hero tabs demo"
         tabs={[
           {
             key: "overview",

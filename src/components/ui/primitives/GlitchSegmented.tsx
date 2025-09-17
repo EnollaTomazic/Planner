@@ -115,7 +115,7 @@ export const GlitchSegmentedButton = React.forwardRef<
         "bg-[var(--btn-bg)] text-[var(--btn-fg)]",
         "hover:-translate-y-px hover:shadow-neon-soft",
         "active:shadow-neon-soft active:scale-95",
-        "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft]",
+        "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)]",
         "disabled:opacity-50 disabled:pointer-events-none",
         className,
       )}
