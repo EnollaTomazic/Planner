@@ -78,15 +78,14 @@ function HomePageContent() {
               actions: (
                 <>
                   <ThemeToggle className="shrink-0" />
-                  <Link href="/planner">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      className="px-4 whitespace-nowrap"
-                    >
-                      Plan Week
-                    </Button>
-                  </Link>
+                  <Button
+                    asChild
+                    variant="primary"
+                    size="sm"
+                    className="px-4 whitespace-nowrap"
+                  >
+                    <Link href="/planner">Plan Week</Link>
+                  </Button>
                 </>
               ),
             }}
