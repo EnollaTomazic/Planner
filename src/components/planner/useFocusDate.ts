@@ -20,12 +20,12 @@ export function useFocusDate() {
  * @returns Week start/end dates, list of day ISO strings, and today checker.
  */
 export function useWeek(iso: ISODate) {
+  const today = todayISO();
   return React.useMemo(() => {
     const { start, end } = weekRangeFromISO(iso);
     const days: ISODate[] = [];
     for (let i = 0; i < 7; i++) days.push(toISODate(addDays(start, i)));
-    const today = todayISO();
     const isToday = (d: ISODate) => d === today;
     return { start, end, days, isToday } as const;
-  }, [iso]);
+  }, [iso, today]);
 }
