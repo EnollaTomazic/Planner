@@ -128,7 +128,7 @@ export const toneClasses: Record<
   },
   ghost: {
     primary:
-      "text-foreground [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
+      "text-foreground bg-card/60 [--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
     accent:
       "text-accent-foreground bg-accent/20 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
     info:
