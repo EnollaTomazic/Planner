@@ -153,13 +153,6 @@ export default function Header<Key extends string = string>({
         )}
         {...rest}
       >
-        {isNeo ? (
-          <>
-            <span aria-hidden className="hero2-beams" />
-            <span aria-hidden className="hero2-scanlines" />
-            <span aria-hidden className="hero2-noise opacity-[0.03]" />
-          </>
-        ) : null}
         {/* Top bar */}
         <div
           className={cx(

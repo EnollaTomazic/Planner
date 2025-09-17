@@ -208,7 +208,6 @@ function Hero<Key extends string = string>({
       {frame ? <NeomorphicFrameStyles /> : null}
 
       <div className={shellClass}>
-        {frame ? <span aria-hidden className="hero2-beams" /> : null}
 
         <div className={cx(barSpacingClass, barClassName)}>
           {rail ? <span aria-hidden className="rail" /> : null}
