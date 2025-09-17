@@ -516,7 +516,7 @@ export default function TimerTab() {
             {/* Complete state */}
             {finished && (
               <div className="mt-6 grid place-items-center">
-                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] px-3 py-1 text-ui font-medium text-foreground shadow-glow animate-pulse">
+                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)/0.35),hsl(var(--accent-2)/0.35)))] px-3 py-1 text-ui font-medium text-foreground shadow-glow ring-1 ring-inset ring-border/50 motion-safe:animate-pulse motion-reduce:animate-none">
                   Complete
                 </div>
                 <div className="mt-2 text-label font-medium tracking-[0.02em] text-muted-foreground">
