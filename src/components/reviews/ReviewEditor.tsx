@@ -353,7 +353,7 @@ export default function ReviewEditor({
                 <button
                   key={t}
                   type="button"
-                  className="chip h-9 px-4 text-ui group inline-flex items-center gap-1"
+                  className="chip h-[var(--control-h-lg)] px-4 text-ui group inline-flex items-center gap-1"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >
