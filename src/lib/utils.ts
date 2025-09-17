@@ -18,6 +18,12 @@ const NORMALIZED_BASE =
     ? `/${RAW_BASE_PATH.replace(/^\/+|\/+$|\s+/g, "")}`
     : "";
 
+const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
+
+function isAbsoluteUrl(path: string): boolean {
+  return ABSOLUTE_URL_PATTERN.test(path) || path.startsWith("//");
+}
+
 // Default locale for consistent date/time formatting.
 export const LOCALE = "en-US";
 
@@ -31,6 +37,9 @@ export function cn(...inputs: ClassValue[]): string {
  * Ensures consistent asset URLs for environments served from sub-paths.
  */
 export function withBasePath(path: string): string {
+  if (isAbsoluteUrl(path)) {
+    return path;
+  }
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
   if (!NORMALIZED_BASE) {
@@ -42,6 +51,9 @@ export function withBasePath(path: string): string {
 
 /** Remove the configured base path prefix from a pathname. */
 export function withoutBasePath(path: string): string {
+  if (isAbsoluteUrl(path)) {
+    return path;
+  }
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
   if (!NORMALIZED_BASE) {
