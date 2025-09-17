@@ -168,7 +168,7 @@ export default function ReviewsPage({
             <ReviewPanel
               className={cn(
                 panelClass,
-                "flex flex-col items-center justify-center gap-2 py-7 text-ui text-muted-foreground",
+                "flex flex-col items-center justify-center gap-2 py-8 text-ui text-muted-foreground",
               )}
             >
               <Ghost className="h-6 w-6 opacity-60" />
