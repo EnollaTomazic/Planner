@@ -25,6 +25,7 @@ type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
 
 const TASK_PREVIEW_LIMIT = 12;
+const PROJECT_PREVIEW_LIMIT = 12;
 
 export default function TodayHero({ iso }: Props) {
   const nowISO = useMemo(() => toISODate(), []);
@@ -84,6 +85,7 @@ export default function TodayHero({ iso }: Props) {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingTaskText, setEditingTaskText] = useState("");
   const [projectName, setProjectName] = useState("");
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllTasks, setShowAllTasks] = useState(false);
 
   // Progress of selected project only (animated)
@@ -115,11 +117,39 @@ export default function TodayHero({ iso }: Props) {
     }
   }, [showAllTasks, scopedTasks]);
 
+  useEffect(() => {
+    if (showAllProjects && projects.length <= PROJECT_PREVIEW_LIMIT) {
+      setShowAllProjects(false);
+    }
+  }, [showAllProjects, projects]);
+
+  useEffect(() => {
+    if (!selProjectId || showAllProjects) return;
+    if (projects.length <= PROJECT_PREVIEW_LIMIT) return;
+
+    const isSelectedVisible = projects
+      .slice(0, PROJECT_PREVIEW_LIMIT)
+      .some((project) => project.id === selProjectId);
+
+    if (!isSelectedVisible) {
+      setShowAllProjects(true);
+    }
+  }, [projects, selProjectId, showAllProjects]);
+
   const tasksListId = `today-hero-task-list-${selProjectId || "none"}`;
   const visibleTasks = showAllTasks
     ? scopedTasks
     : scopedTasks.slice(0, TASK_PREVIEW_LIMIT);
   const shouldShowTaskToggle = scopedTasks.length > TASK_PREVIEW_LIMIT;
+  const projectsListId = "today-hero-project-list";
+  const visibleProjects = showAllProjects
+    ? projects
+    : projects.slice(0, PROJECT_PREVIEW_LIMIT);
+  const hiddenProjectsCount = Math.max(
+    projects.length - visibleProjects.length,
+    0,
+  );
+  const shouldShowProjectToggle = projects.length > PROJECT_PREVIEW_LIMIT;
   // Date picker
   const dateRef = useRef<HTMLInputElement>(null);
   const openPicker = () => {
@@ -270,8 +300,14 @@ export default function TodayHero({ iso }: Props) {
         </form>
 
         {projects.length > 0 && (
-          <ul className="space-y-[var(--space-2)]" role="list" aria-label="Projects">
-            {projects.slice(0, 12).map((p) => {
+          <>
+            <ul
+              id={projectsListId}
+              className="space-y-[var(--space-2)]"
+              role="list"
+              aria-label="Projects"
+            >
+              {visibleProjects.map((p) => {
               const isEditing = editingProjectId === p.id;
               const isSelected = selProjectId === p.id;
               return (
@@ -370,12 +406,26 @@ export default function TodayHero({ iso }: Props) {
                 </li>
               );
             })}
-            {projects.length > 12 && (
-              <li className="pr-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] opacity-70">
-                + {projects.length - 12} more…
-              </li>
+              {hiddenProjectsCount > 0 && (
+                <li className="pr-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] opacity-70">
+                  + {hiddenProjectsCount} more…
+                </li>
+              )}
+            </ul>
+            {shouldShowProjectToggle && (
+              <div className="flex justify-end">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setShowAllProjects((prev) => !prev)}
+                  aria-expanded={showAllProjects}
+                  aria-controls={projectsListId}
+                >
+                  {showAllProjects ? "Show less" : "Show more"}
+                </Button>
+              </div>
             )}
-          </ul>
+          </>
         )}
       </div>
 
