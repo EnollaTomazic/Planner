@@ -11,21 +11,15 @@ export default function QuickActions() {
   return (
     <section aria-label="Quick actions" className="grid gap-[var(--space-4)]">
       <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
-        <Link href="/planner">
-          <Button className={quickActionButtonClassName}>
-            Planner Today
-          </Button>
-        </Link>
-        <Link href="/goals">
-          <Button className={quickActionButtonClassName} tone="accent">
-            New Goal
-          </Button>
-        </Link>
-        <Link href="/reviews">
-          <Button className={quickActionButtonClassName} tone="accent">
-            New Review
-          </Button>
-        </Link>
+        <Button asChild className={quickActionButtonClassName}>
+          <Link href="/planner">Planner Today</Link>
+        </Button>
+        <Button asChild className={quickActionButtonClassName} tone="accent">
+          <Link href="/goals">New Goal</Link>
+        </Button>
+        <Button asChild className={quickActionButtonClassName} tone="accent">
+          <Link href="/reviews">New Review</Link>
+        </Button>
       </div>
     </section>
   );

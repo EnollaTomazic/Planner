@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import type { CSSProperties } from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -42,15 +43,18 @@ const spinnerSizes: Record<ButtonSize, number> = {
   lg: 24,
 };
 
+const MotionSlot = motion.create(Slot);
+
 /**
  * Props for the {@link Button} component.
  * @property loading - When `true`, the button is disabled and `data-loading` is set.
  */
-export type ButtonProps = React.ComponentProps<typeof motion.button> & {
+export type ButtonProps = HTMLMotionProps<"button"> & {
   size?: ButtonSize;
   variant?: "primary" | "secondary" | "ghost";
   tone?: Tone;
   loading?: boolean;
+  asChild?: boolean;
 };
 
 export const colorVar: Record<Tone, string> = {
@@ -161,6 +165,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       disabled,
       style,
+      asChild = false,
       ...rest
     },
     ref,
@@ -171,6 +176,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const spinnerSize = spinnerSizes[size];
     const base = cn(
       "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+      "data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none",
       s.height,
       s.padding,
       s.text,
@@ -216,19 +222,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       };
     }
 
-    return (
-      <motion.button
-        ref={ref}
-        type={type}
-        className={cn(base, resolvedVariantClass, toneClasses[variant][tone])}
-        data-loading={loading}
-        disabled={isDisabled}
-        aria-busy={loading ? true : undefined}
-        style={resolvedStyle}
-        whileHover={hoverAnimation}
-        whileTap={reduceMotion ? undefined : whileTap}
-        {...rest}
-      >
+    const mergedClassName = cn(base, resolvedVariantClass, toneClasses[variant][tone]);
+
+    const baseProps = {
+      className: mergedClassName,
+      "data-loading": loading ? "true" : undefined,
+      "data-disabled": isDisabled ? "true" : undefined,
+      "aria-busy": loading ? true : undefined,
+      style: resolvedStyle,
+      whileHover: hoverAnimation,
+      whileTap: reduceMotion ? undefined : whileTap,
+      ...rest,
+    };
+
+    const renderInnerContent = (contentChildren: React.ReactNode) => (
+      <>
         {variant === "primary" ? (
           <span
             className={cn(
@@ -244,9 +252,34 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Spinner size={spinnerSize} />
           </span>
         ) : null}
-        <span className={contentClasses}>
-          {children as React.ReactNode}
-        </span>
+        <span className={contentClasses}>{contentChildren}</span>
+      </>
+    );
+
+    if (asChild) {
+      const child = React.Children.only(
+        children,
+      ) as React.ReactElement<{ children?: React.ReactNode }>;
+
+      return (
+        <MotionSlot
+          {...baseProps}
+          ref={ref as React.ForwardedRef<HTMLElement>}
+          aria-disabled={isDisabled ? true : undefined}
+        >
+          {React.cloneElement(child, undefined, renderInnerContent(child.props.children))}
+        </MotionSlot>
+      );
+    }
+
+    return (
+      <motion.button
+        {...baseProps}
+        ref={ref}
+        type={type}
+        disabled={isDisabled}
+      >
+        {renderInnerContent(children as React.ReactNode)}
       </motion.button>
     );
   },
