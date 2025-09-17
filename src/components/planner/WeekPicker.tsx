@@ -87,17 +87,17 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
     }
     return ratio;
   }, [done, total]);
-  const completionTint = React.useMemo(() => {
+  const { tint: completionTint, text: completionTextClass } = React.useMemo(() => {
     if (total === 0) {
-      return "bg-card";
+      return { tint: "bg-card", text: "text-muted-foreground" };
     }
     if (completionRatio >= 2 / 3) {
-      return "bg-success-soft";
+      return { tint: "bg-success-soft", text: "text-foreground" };
     }
     if (completionRatio >= 1 / 3) {
-      return "bg-warning-soft";
+      return { tint: "bg-warning-soft", text: "text-foreground" };
     }
-    return "bg-warning-soft-strong";
+    return { tint: "bg-warning-soft-strong", text: "text-foreground" };
   }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
@@ -174,7 +174,8 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       <div
         className={cn(
           "chip__date",
-          today ? "text-accent" : "text-muted-foreground",
+          completionTextClass,
+          today && completionTint === "bg-card" ? "text-accent" : undefined,
         )}
         data-text={localizedLabel}
       >

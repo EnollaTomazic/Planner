@@ -2,7 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Button from "@/components/ui/primitives/Button";
 import DashboardCard from "./DashboardCard";
+
+const quickActionClassName =
+  "col-span-12 w-full justify-start text-left border-border bg-card/60 [--focus:var(--theme-ring)] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4";
 
 export default function TeamPromptsCard() {
   return (
@@ -10,24 +14,15 @@ export default function TeamPromptsCard() {
       <div className="md:col-span-6">
         <DashboardCard title="Team quick actions">
           <div className="grid grid-cols-12 gap-[var(--space-4)]">
-            <Link
-              href="/team"
-              className="col-span-12 rounded-card r-card-md border border-border px-[var(--space-3)] py-[var(--space-1)] text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
-            >
-              Archetypes
-            </Link>
-            <Link
-              href="/team"
-              className="col-span-12 rounded-card r-card-md border border-border px-[var(--space-3)] py-[var(--space-1)] text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
-            >
-              Team Builder
-            </Link>
-            <Link
-              href="/team"
-              className="col-span-12 rounded-card r-card-md border border-border px-[var(--space-3)] py-[var(--space-1)] text-label hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4"
-            >
-              Jungle Clears
-            </Link>
+            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
+              <Link href="/team">Archetypes</Link>
+            </Button>
+            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
+              <Link href="/team">Team Builder</Link>
+            </Button>
+            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
+              <Link href="/team">Jungle Clears</Link>
+            </Button>
           </div>
         </DashboardCard>
       </div>
