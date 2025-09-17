@@ -23,8 +23,8 @@ describe("Button", () => {
     primary: {
       primary: [
         "text-[hsl(var(--primary-foreground))]",
-        "bg-[hsl(var(--foreground)/0.12)]",
-        "border-[hsl(var(--foreground)/0.35)]",
+        "bg-[hsl(var(--primary)/0.12)]",
+        "border-[hsl(var(--primary)/0.35)]",
         "[--hover:theme('colors.interaction.primary.hover')]",
         "[--active:theme('colors.interaction.primary.active')]",
       ],
