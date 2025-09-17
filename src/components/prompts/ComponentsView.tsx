@@ -124,16 +124,19 @@ export default function ComponentsView({
 
   return (
     <div className="space-y-8">
-      <ul className="grid grid-cols-12 gap-6">
+      <ul className="grid grid-cols-4 gap-6 md:grid-cols-6 lg:grid-cols-12">
         {specs.length === 0 ? (
-          <li className="col-span-12">
+          <li className="col-span-full">
             <Card>
               <CardContent>No results found</CardContent>
             </Card>
           </li>
         ) : (
           specs.map((spec) => (
-            <li key={spec.id} className="col-span-12 md:col-span-6">
+            <li
+              key={spec.id}
+              className="col-span-full md:col-span-3 lg:col-span-4 2xl:col-span-3"
+            >
               <SpecCard
                 {...spec}
                 onCodeVisibilityChange={handleCodeVisibilityChange}
