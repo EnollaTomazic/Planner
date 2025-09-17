@@ -148,7 +148,7 @@ export default function TaskRow({
               onChange={() => {
                 if (!editing) onToggle();
               }}
-              aria-label="Toggle task done"
+              aria-label={`Toggle ${task.title} done`}
               size="sm"
             />
           </div>
