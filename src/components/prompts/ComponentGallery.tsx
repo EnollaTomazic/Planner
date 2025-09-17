@@ -55,6 +55,7 @@ import {
   DayRow,
   ScrollTopFloatingButton,
   PlannerProvider,
+  PlannerListPanel,
 } from "@/components/planner";
 import type { Pillar, Review } from "@/lib/types";
 import type { GameSide } from "@/components/ui/league/SideSelector";
@@ -560,6 +561,37 @@ export default function ComponentGallery() {
             />
           </ul>
         ),
+      },
+      {
+        label: "PlannerListPanel",
+        element: (
+          <PlannerListPanel
+            renderComposer={() => (
+              <form
+                className="w-full"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                }}
+              >
+                <Input className="w-full" placeholder="> add item…" aria-label="Add item" />
+              </form>
+            )}
+            isEmpty={false}
+            renderEmpty={() => <EmptyRow text="All caught up" />}
+            renderList={() => (
+              <ul className="space-y-[var(--space-2)]" aria-label="Demo items">
+                {demoProjects.map((project) => (
+                  <li key={project.id}>
+                    <div className="rounded-card border border-border/40 bg-surface/60 px-[var(--space-4)] py-[var(--space-2)] text-label font-medium">
+                      {project.name}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          />
+        ),
+        className: "sm:col-span-12 md:col-span-12",
       },
       {
         label: "ProjectList",
