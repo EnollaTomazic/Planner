@@ -400,7 +400,7 @@ const AnimatedSelect = React.forwardRef<
           </div>
         ) : null}
 
-        <div className="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0">
+        <div className="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] focus-within:ring-offset-0">
           <button
             ref={setTriggerRef}
             type="button"
@@ -523,7 +523,7 @@ const AnimatedSelect = React.forwardRef<
                             active
                               ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
                               : undefined,
-                            "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[--theme-ring] focus:ring-offset-0 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                            "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[var(--theme-ring)] focus:ring-offset-0 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
                             it.className,
                           )}
                           data-loading={it.loading}

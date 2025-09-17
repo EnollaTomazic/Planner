@@ -338,7 +338,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         <div className="flex flex-wrap gap-4">
           <Button>Default</Button>
           <Button className="bg-[--hover]">Hover</Button>
-          <Button className="ring-2 ring-[--focus]">Focus</Button>
+          <Button className="ring-2 ring-[var(--focus)]">Focus</Button>
           <Button className="bg-[--active]">Active</Button>
           <Button disabled>Disabled</Button>
           <Button loading>Loading</Button>
@@ -348,7 +348,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<div className="flex flex-wrap gap-4">
   <Button>Default</Button>
   <Button className="bg-[--hover]">Hover</Button>
-  <Button className="ring-2 ring-[--focus]">Focus</Button>
+  <Button className="ring-2 ring-[var(--focus)]">Focus</Button>
   <Button className="bg-[--active]">Active</Button>
   <Button disabled>Disabled</Button>
   <Button loading>Loading</Button>
@@ -481,7 +481,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
           <IconButton className="bg-[--hover]" aria-label="Hover">
             <Plus />
           </IconButton>
-          <IconButton className="ring-2 ring-[--focus]" aria-label="Focus">
+          <IconButton className="ring-2 ring-[var(--focus)]" aria-label="Focus">
             <Plus />
           </IconButton>
           <IconButton className="bg-[--active]" aria-label="Active">
@@ -503,7 +503,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <IconButton className="bg-[--hover]" aria-label="Hover">
     <Plus />
   </IconButton>
-  <IconButton className="ring-2 ring-[--focus]" aria-label="Focus">
+  <IconButton className="ring-2 ring-[var(--focus)]" aria-label="Focus">
     <Plus />
   </IconButton>
   <IconButton className="bg-[--active]" aria-label="Active">
@@ -535,7 +535,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
         <div className="flex flex-col gap-2">
           <Input placeholder="Default" />
           <Input placeholder="Hover" className="bg-[--hover]" />
-          <Input placeholder="Focus" className="ring-2 ring-[--focus]" />
+          <Input placeholder="Focus" className="ring-2 ring-[var(--focus)]" />
           <Input placeholder="Active" className="bg-[--active]" />
           <Input placeholder="Disabled" disabled />
           <Input placeholder="Loading" data-loading="true" />
@@ -545,7 +545,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<div className="flex flex-col gap-2">
   <Input placeholder="Default" />
   <Input placeholder="Hover" className="bg-[--hover]" />
-  <Input placeholder="Focus" className="ring-2 ring-[--focus]" />
+  <Input placeholder="Focus" className="ring-2 ring-[var(--focus)]" />
   <Input placeholder="Active" className="bg-[--active]" />
   <Input placeholder="Disabled" disabled />
   <Input placeholder="Loading" data-loading="true" />

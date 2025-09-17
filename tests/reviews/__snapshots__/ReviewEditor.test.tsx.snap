@@ -52,7 +52,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="top-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-50 disabled:pointer-events-none"
                   id="top-tab"
                   role="tab"
                   tabindex="-1"
@@ -89,7 +89,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="jungle-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-50 disabled:pointer-events-none"
                   id="jungle-tab"
                   role="tab"
                   tabindex="-1"
@@ -131,7 +131,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="mid-panel"
                   aria-selected="true"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-50 disabled:pointer-events-none"
                   data-selected="true"
                   id="mid-tab"
                   role="tab"
@@ -181,7 +181,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="bot-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-50 disabled:pointer-events-none"
                   id="bot-tab"
                   role="tab"
                   tabindex="-1"
@@ -244,7 +244,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="support-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[--neon-soft] disabled:opacity-50 disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:-translate-y-px hover:shadow-neon-soft active:shadow-neon-soft active:scale-95 data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-50 disabled:pointer-events-none"
                   id="support-tab"
                   role="tab"
                   tabindex="-1"
@@ -1883,7 +1883,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
+              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
               disabled=""
               tabindex="0"
               title="Enter details"
@@ -1981,7 +1981,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
           <button
             aria-label="Add tag"
-            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
+            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
             tabindex="0"
             title="Add tag"
             type="button"

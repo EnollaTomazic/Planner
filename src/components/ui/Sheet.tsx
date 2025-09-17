@@ -34,7 +34,7 @@ export default function Sheet({
       <button
         type="button"
         aria-label="Close sheet"
-        className="absolute inset-0 bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus]"
+        className="absolute inset-0 bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         onClick={onClose}
       />
       <motion.div
