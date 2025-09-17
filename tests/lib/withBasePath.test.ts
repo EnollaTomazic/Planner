@@ -68,6 +68,18 @@ describe("withBasePath", () => {
       }
     }
   });
+
+  it("normalizes duplicate slashes and whitespace in the base path", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = " //beta//v1// ";
+    vi.resetModules();
+
+    const { withBasePath, withoutBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/assets/icon.svg")).toBe(
+      "/beta/v1/assets/icon.svg",
+    );
+    expect(withoutBasePath("/beta/v1/assets/icon.svg")).toBe("/assets/icon.svg");
+  });
 });
 
 describe("withoutBasePath", () => {
