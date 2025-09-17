@@ -7,6 +7,8 @@ import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
+import Spinner from "../feedback/Spinner";
+
 import defaultStyles from "./Select.module.css";
 import type { AnimatedSelectProps } from "./shared";
 
@@ -422,6 +424,8 @@ const AnimatedSelect = React.forwardRef<
                           aria-selected={active}
                           data-index={idx}
                           disabled={disabledItem}
+                          aria-disabled={disabledItem || undefined}
+                          aria-busy={it.loading || undefined}
                           onClick={() => selectByIndex(idx)}
                           onFocus={() => setActiveIndex(idx)}
                           className={cn(
@@ -442,15 +446,27 @@ const AnimatedSelect = React.forwardRef<
                             <span className={cn("text-ui leading-none", styles.glitchText)}>
                               {it.label}
                             </span>
-                            <Check
-                              className={cn(
-                                "size-[var(--space-4)] shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
-                                active
-                                  ? "opacity-90"
-                                  : "opacity-0 group-hover:opacity-30",
-                              )}
-                              aria-hidden="true"
-                            />
+                            {it.loading ? (
+                              <span
+                                aria-hidden="true"
+                                className="flex size-[var(--space-4)] shrink-0 items-center justify-center"
+                              >
+                                <Spinner
+                                  size="var(--space-4)"
+                                  className="border-border border-t-transparent opacity-80"
+                                />
+                              </span>
+                            ) : (
+                              <Check
+                                className={cn(
+                                  "size-[var(--space-4)] shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                                  active
+                                    ? "opacity-90"
+                                    : "opacity-0 group-hover:opacity-30",
+                                )}
+                                aria-hidden="true"
+                              />
+                            )}
                           </div>
 
                           <span
