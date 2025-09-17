@@ -93,9 +93,9 @@
   ) |
 | seg-active-grad | linear-gradient(
     90deg,
-    hsl(262 83% 58% / 0.35),
-    hsl(292 80% 60% / 0.35),
-    hsl(var(--accent-3) / 0.35)
+    hsl(var(--primary-soft) / 0.85),
+    hsl(var(--accent-soft) / 0.85),
+    hsl(var(--accent-2) / 0.8)
   ) |
 | seg-active-base | hsl(var(--card)) |
 | shadow | 0 10px 30px hsl(250 30% 2% / 0.35) |
