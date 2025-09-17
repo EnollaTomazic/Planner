@@ -18,10 +18,14 @@ export default function SiteChrome() {
   return (
     <header role="banner" className="sticky top-0 z-50 sticky-blur">
       {/* Bar content */}
-      <PageShell className="flex items-center justify-between py-2">
-        <Link href="/" aria-label="Home" className="flex items-center gap-2">
+      <PageShell className="flex items-center justify-between py-[var(--space-3)]">
+        <Link
+          href="/"
+          aria-label="Home"
+          className="flex items-center gap-[var(--space-3)]"
+        >
           <span
-            className="h-2 w-2 rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
+            className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
             aria-hidden
           />
           <span className="font-mono tracking-wide text-muted-foreground">
@@ -29,7 +33,7 @@ export default function SiteChrome() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-3)]">
           <div className="hidden min-w-0 items-center md:flex md:flex-1">
             <NavBar />
           </div>
@@ -41,7 +45,7 @@ export default function SiteChrome() {
       {/* Hairline (neon-friendly, non-interactive) */}
       <div
         aria-hidden
-        className="pointer-events-none h-px w-full bg-[linear-gradient(90deg,transparent,hsl(var(--border)),transparent)]"
+        className="pointer-events-none h-[var(--hairline-w)] w-full bg-[linear-gradient(90deg,transparent,hsl(var(--border)),transparent)]"
       />
     </header>
   );
