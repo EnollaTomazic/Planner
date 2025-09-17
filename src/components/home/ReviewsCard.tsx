@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
+import DashboardList from "./DashboardList";
 import { usePersistentState } from "@/lib/db";
 import type { Review } from "@/lib/types";
 import { LOCALE } from "@/lib/utils";
-import { CircleSlash } from "lucide-react";
 
 export default function ReviewsCard() {
   const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
@@ -20,30 +19,21 @@ export default function ReviewsCard() {
       title="Recent reviews"
       cta={{ label: "Open Reviews", href: "/reviews" }}
     >
-      <ul className="divide-y divide-[hsl(var(--border))]">
-        {recentReviews.map((r) => (
-          <li key={r.id} className="flex justify-between py-[var(--space-2)] text-ui">
-            <span>{r.title || "Untitled"}</span>
+      <DashboardList
+        items={recentReviews}
+        getKey={(review) => review.id}
+        itemClassName="flex justify-between text-ui"
+        empty="No reviews yet"
+        cta={{ label: "Create", href: "/reviews" }}
+        renderItem={(review) => (
+          <>
+            <span>{review.title || "Untitled"}</span>
             <span className="text-label text-muted-foreground">
-              {new Date(r.createdAt).toLocaleDateString(LOCALE)}
+              {new Date(review.createdAt).toLocaleDateString(LOCALE)}
             </span>
-          </li>
-        ))}
-        {recentReviews.length === 0 && (
-          <li className="flex justify-between py-[var(--space-2)] text-ui text-muted-foreground">
-            <span className="flex items-center gap-[var(--space-2)]">
-              <CircleSlash className="size-3" />
-              No reviews yet
-            </span>
-            <Link
-              href="/reviews"
-              className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent-3 active:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:transition-none"
-            >
-              Create
-            </Link>
-          </li>
+          </>
         )}
-      </ul>
+      />
     </DashboardCard>
   );
 }

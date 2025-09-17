@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
+import DashboardList from "./DashboardList";
 import { usePersistentState } from "@/lib/db";
 import type { Goal } from "@/lib/types";
 import { Progress } from "@/components/ui";
-import { CircleSlash } from "lucide-react";
 
 type GoalProgress = {
   value: number;
@@ -95,14 +94,18 @@ export default function GoalsCard() {
       title="Active goals"
       cta={{ label: "Manage Goals", href: "/goals" }}
     >
-      <ul className="divide-y divide-[hsl(var(--border))]">
-        {activeGoals.map((g) => {
-          const progress = deriveGoalProgress(g);
-          const statusText = getGoalStatus(g);
+      <DashboardList
+        items={activeGoals}
+        getKey={(goal) => goal.id}
+        empty="No active goals"
+        cta={{ label: "Create", href: "/goals" }}
+        renderItem={(goal) => {
+          const progress = deriveGoalProgress(goal);
+          const statusText = getGoalStatus(goal);
 
           return (
-            <li key={g.id} className="py-[var(--space-2)]">
-              <p className="text-ui">{g.title}</p>
+            <div>
+              <p className="text-ui">{goal.title}</p>
               <div className="mt-[var(--space-2)]">
                 {progress ? (
                   <>
@@ -117,24 +120,10 @@ export default function GoalsCard() {
                   <p className="text-label text-muted-foreground">{statusText}</p>
                 )}
               </div>
-            </li>
+            </div>
           );
-        })}
-        {activeGoals.length === 0 && (
-          <li className="flex justify-between py-[var(--space-2)] text-ui text-muted-foreground">
-            <span className="flex items-center gap-[var(--space-2)]">
-              <CircleSlash className="size-3" />
-              No active goals
-            </span>
-            <Link
-              href="/goals"
-              className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent-3 active:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:transition-none"
-            >
-              Create
-            </Link>
-          </li>
-        )}
-      </ul>
+        }}
+      />
     </DashboardCard>
   );
 }
