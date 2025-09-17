@@ -122,7 +122,7 @@ export const toneClasses: Record<
     accent:
       "text-accent-foreground bg-accent/30 [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info:
-      "text-accent-2 bg-accent-2/15 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
+      "text-accent-2-foreground bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.35)] [--active:hsl(var(--accent-2)/0.45)]",
     danger:
       "text-danger bg-danger/15 [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
   },
