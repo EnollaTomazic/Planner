@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   DashboardCard,
@@ -17,6 +18,7 @@ import {
 import { PageHeader, PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
+import heroImage from "../../public/ChatGPT Image Sep 17, 2025, 05_45_34 AM.png";
 
 type WeeklyHighlight = {
   id: string;
@@ -87,6 +89,23 @@ function HomePageContent() {
                     <Link href="/planner">Plan Week</Link>
                   </Button>
                 </>
+              ),
+              children: (
+                <div className="grid grid-cols-12 gap-[var(--space-4)] pt-[var(--space-4)]">
+                  <figure className="col-span-12 md:col-start-7 md:col-span-6 lg:col-start-8 lg:col-span-5">
+                    <div className="mx-auto w-full max-w-xl">
+                      <Image
+                        src={heroImage}
+                        alt="Planner dashboard illustration showing widgets for today's focus, goals, and reviews"
+                        className="w-full rounded-[var(--radius-2xl)] border border-[hsl(var(--border))] shadow-neoSoft"
+                        sizes="(min-width: 1280px) 28vw, (min-width: 1024px) 32vw, (min-width: 768px) 45vw, 92vw"
+                        width={1024}
+                        height={1024}
+                        priority
+                      />
+                    </div>
+                  </figure>
+                </div>
               ),
             }}
           />
