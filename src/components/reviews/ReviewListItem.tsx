@@ -7,14 +7,15 @@ import type { Review } from "@/lib/types";
 import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
-  "relative w-full text-left rounded-card r-card-lg p-3 bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
+  "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
   "hover:bg-accent/10 hover:ring-2 hover:ring-theme",
   "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme",
   "active:bg-accent/20 active:ring-2 active:ring-theme",
   "data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent",
 );
 
-const statusDotBase = "h-2 w-2 rounded-full ring-2";
+const statusDotBase =
+  "h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2";
 const statusDotWin = "bg-success ring-success";
 const statusDotLoss = "bg-danger ring-danger";
 const statusDotDefault = "bg-muted-foreground ring-muted-foreground";
@@ -26,9 +27,9 @@ const itemLoading = cn(
   shellBase,
   "motion-safe:animate-pulse motion-reduce:animate-none",
 );
-const loadingLine = "h-3 rounded-card bg-muted";
+const loadingLine = "h-[var(--space-3)] rounded-card bg-muted";
 const scoreBadge = cn(
-  "px-2 py-1 rounded-full text-ui leading-none font-medium",
+  "px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium",
   "text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
   "hover:from-accent hover:to-accent-2 hover:ring-accent",
   "focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent",
@@ -53,7 +54,9 @@ export default function ReviewListItem({
   if (loading) {
     return (
       <div data-scope="reviews" className={itemLoading}>
-        <div className={cn(loadingLine, "w-3/5 mb-3")} />
+        <div
+          className={cn(loadingLine, "w-3/5 mb-[var(--space-3)]")}
+        />
         <div className={cn(loadingLine, "w-2/5")} />
       </div>
     );
@@ -78,8 +81,8 @@ export default function ReviewListItem({
       data-selected={selected ? "true" : undefined}
       className={shellBase}
     >
-      <div className="flex flex-col gap-2">
-        <div className="flex items-start justify-between gap-2">
+      <div className="flex flex-col gap-[var(--space-2)]">
+        <div className="flex items-start justify-between gap-[var(--space-2)]">
           <div
             className={cn(
               "truncate font-medium text-body",
@@ -95,8 +98,8 @@ export default function ReviewListItem({
             </div>
           ) : null}
         </div>
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-[var(--space-2)]">
+          <div className="flex items-center gap-[var(--space-2)]">
             <span
               aria-hidden
               className={cn(
@@ -111,7 +114,11 @@ export default function ReviewListItem({
               )}
             />
             {role ? (
-              <Badge size="xs" tone="neutral" className="px-1 py-0">
+              <Badge
+                size="xs"
+                tone="neutral"
+                className="px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
+              >
                 {role}
               </Badge>
             ) : null}
