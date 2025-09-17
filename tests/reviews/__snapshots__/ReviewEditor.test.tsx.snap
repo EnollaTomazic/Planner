@@ -21,7 +21,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="mb-2 flex items-center gap-2"
             >
               <div
-                class="text-ui tracking-wide text-foreground/20"
+                class="text-ui tracking-wide text-muted-foreground"
               >
                 Lane
               </div>
@@ -338,7 +338,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 class="mb-2 flex items-center gap-2"
               >
                 <div
-                  class="text-ui tracking-wide text-foreground/20"
+                  class="text-ui tracking-wide text-muted-foreground"
                 >
                   <span
                     id=":r0:"
@@ -400,7 +400,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Result
           </div>
@@ -441,7 +441,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Score
           </div>
@@ -725,7 +725,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Pillars
           </div>
@@ -1539,7 +1539,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Timestamps
           </div>
@@ -1930,7 +1930,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Tags
           </div>
@@ -2020,7 +2020,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="mb-2 flex items-center gap-2"
         >
           <div
-            class="text-ui tracking-wide text-foreground/20"
+            class="text-ui tracking-wide text-muted-foreground"
           >
             Notes
           </div>
