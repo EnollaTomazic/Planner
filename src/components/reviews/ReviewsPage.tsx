@@ -167,7 +167,7 @@ export default function ReviewsPage({
                   onSelect(id);
                 }}
                 onCreate={onCreate}
-                className="h-[calc(100vh-var(--header-stack)-var(--space-6))] overflow-auto p-2"
+                className="h-auto overflow-auto p-2 md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
               />
             </div>
           </div>
