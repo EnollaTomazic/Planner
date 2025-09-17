@@ -41,6 +41,9 @@ describe("usePlannerStore", () => {
     act(() => result.current.planner.renameProject(projectId, "Proj B"));
     expect(result.current.day.projects[0].name).toBe("Proj B");
 
+    act(() => result.current.planner.renameProject(projectId, "   "));
+    expect(result.current.day.projects[0].name).toBe("Proj B");
+
     let taskId = "";
     let secondTaskId = "";
     act(() => {
