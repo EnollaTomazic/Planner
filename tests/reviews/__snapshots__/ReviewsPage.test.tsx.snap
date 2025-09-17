@@ -154,7 +154,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="flex min-w-0 items-baseline gap-[var(--space-2)]"
                       >
                         <h1
-                          class="text-balance break-words text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em] title-glow"
+                          class="text-balance break-words text-title leading-tight text-foreground sm:text-title-lg font-semibold tracking-[-0.01em]"
                         >
                           Reviews
                         </h1>
@@ -182,7 +182,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]"
                     >
                       <h2
-                        class="title-glow font-semibold tracking-[-0.01em] text-balance break-words text-title md:text-title"
+                        class="font-semibold tracking-[-0.01em] text-balance break-words text-foreground text-title md:text-title"
                         data-text="Browse Reviews"
                       >
                         Browse Reviews

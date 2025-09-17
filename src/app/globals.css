@@ -166,6 +166,16 @@ html.bg-intense body::after {
 .title-ghost,
 :where(h1, h2, h3, .card-title) {
   position: relative;
+}
+
+.title-ghost {
+  text-shadow:
+    var(--space-0-25) 0 hsl(var(--accent-2)),
+    calc(var(--space-0-25) * -1) 0 hsl(var(--lav-deep));
+  animation: ghost 3.2s ease-in-out infinite;
+}
+
+html.fx-overdrive :where(h1, h2, h3, .card-title) {
   text-shadow:
     var(--space-0-25) 0 hsl(var(--accent-2)),
     calc(var(--space-0-25) * -1) 0 hsl(var(--lav-deep));
@@ -176,7 +186,7 @@ html.bg-intense body::after {
   animation: none !important;
 }
 .title-glow {
-  text-shadow: 0 0 calc(var(--space-4) + var(--space-1)) hsl(var(--ring) / 0.3);
+  position: relative;
 }
 
 /* Glitch utility (subtle RGB offset) */
@@ -186,7 +196,7 @@ html.bg-intense body::after {
     drop-shadow(calc(var(--space-0-25) * -1) 0 0 hsl(var(--lav-deep)));
 }
 /* Hero glow rim (used on Hero card) */
-.title-glow {
+html.fx-overdrive .title-glow {
   text-shadow:
     0 0 calc(var(--space-2) - var(--space-0-5)) hsl(var(--ring) / 0.6),
     0 0 calc(var(--space-3) + var(--space-0-5)) hsl(var(--accent) / 0.5);
