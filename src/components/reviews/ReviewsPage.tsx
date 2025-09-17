@@ -145,10 +145,13 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-4 sm:gap-6 lg:gap-8 md:grid-cols-12",
+          "grid grid-cols-1 items-start gap-4 sm:gap-6 lg:gap-8 md:grid-cols-6 lg:grid-cols-12",
         )}
       >
-        <nav aria-label="Review list" className="md:col-span-4">
+        <nav
+          aria-label="Review list"
+          className="md:col-span-2 lg:col-span-4"
+        >
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
               <div className="mb-2 text-ui text-muted-foreground">
@@ -167,7 +170,7 @@ export default function ReviewsPage({
             </div>
           </div>
         </nav>
-        <div aria-live="polite" className="md:col-span-8">
+        <div aria-live="polite" className="md:col-span-4 lg:col-span-8">
           {!active ? (
             <ReviewPanel
               className={cn(
