@@ -382,7 +382,7 @@ export default function WeekPicker() {
           </span>
 
           <span className="text-ui text-muted-foreground">
-            <span className="opacity-70">Total tasks: </span>
+            Total tasks:{" "}
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}
             </span>
