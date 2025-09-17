@@ -45,7 +45,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
         <FieldShell
           className={cn(
             "group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]",
-            success && "border-[--theme-ring] focus-within:ring-[--theme-ring]",
+            success && "border-[--theme-ring] focus-within:ring-[var(--theme-ring)]",
             disabled &&
               "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
             className,

@@ -18,16 +18,19 @@ type Props = { iso: ISODate };
 export default function WeekNotes({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
     useDayNotes(iso);
+  const headerId = React.useMemo(() => `notes-${iso}-header`, [iso]);
 
   return (
     <SectionCard className="card-neo-soft">
-      <SectionCard.Header title="Notes" />
+      <SectionCard.Header id={headerId} title="Notes" />
       <SectionCard.Body>
         <Textarea
           placeholder="Jot down anything related to this day…"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           name={`notes-${iso}`}
+          aria-labelledby={headerId}
+          aria-label="Notes"
           resize="resize-y"
           textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           onBlur={commit}

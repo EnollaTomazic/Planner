@@ -8,10 +8,12 @@ import { cn } from "@/lib/utils";
 type RootProps = React.HTMLAttributes<HTMLElement> & {
   variant?: "neo" | "plain";
 };
-export type SectionCardHeaderProps = {
+export type SectionCardHeaderProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> & {
   sticky?: boolean;
   topClassName?: string; // sticky top offset
-  className?: string;
   children?: React.ReactNode; // if provided, we render this and ignore title/actions
   title?: React.ReactNode; // optional convenience API
   actions?: React.ReactNode; // optional convenience API
@@ -44,6 +46,7 @@ function Header({
   children,
   title,
   actions,
+  ...props
 }: SectionCardHeaderProps) {
   return (
     <div
@@ -52,6 +55,7 @@ function Header({
         sticky && clsx("sticky", topClassName),
         className,
       )}
+      {...props}
     >
       {children ?? (
         <div className="flex w-full items-center justify-between">

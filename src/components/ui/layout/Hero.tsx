@@ -11,7 +11,11 @@
  */
 
 import * as React from "react";
-import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
+import TabBar, {
+  type TabBarA11yProps,
+  type TabBarProps,
+  type TabItem,
+} from "./TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import SearchBar, {
   type SearchBarProps,
@@ -172,29 +176,51 @@ function Hero<Key extends string = string>({
   );
 
   // Compose right area: prefer built-in sub-tabs if provided.
-  const subTabsNode = subTabs ? (
-    <TabBar
-      items={subTabs.items.map(({ hint, ...item }) => {
-        void hint;
-        return item;
-      })}
-      value={String(subTabs.value)}
-      onValueChange={(k) => subTabs.onChange(k as Key)}
-      size={subTabs.size ?? "md"}
-      align={subTabs.align ?? "end"}
-      right={subTabs.right}
-      showBaseline={subTabs.showBaseline ?? true}
-      variant={subTabs.variant ?? heroVariant}
-      className={cx("justify-end", subTabs.className)}
-      ariaLabel={subTabs.ariaLabel ?? "Hero sub-tabs"}
-      linkPanels={subTabs.linkPanels}
-    />
-  ) : tabs ? (
-    <TabBar
-      items={tabs.items}
-      value={tabs.value}
-      onValueChange={tabs.onChange}
-      size={tabs.size ?? "md"}
+  const subTabsNode = subTabs
+    ? (() => {
+        const sanitizedLabel =
+          typeof subTabs.ariaLabel === "string" && subTabs.ariaLabel.trim().length > 0
+            ? subTabs.ariaLabel.trim()
+            : undefined;
+        const sanitizedLabelledBy =
+          typeof subTabs.ariaLabelledBy === "string" &&
+          subTabs.ariaLabelledBy.trim().length > 0
+            ? subTabs.ariaLabelledBy.trim()
+            : undefined;
+        const accessibilityProps: TabBarA11yProps = sanitizedLabelledBy
+          ? {
+              ariaLabelledBy: sanitizedLabelledBy,
+              ...(sanitizedLabel ? { ariaLabel: sanitizedLabel } : {}),
+            }
+          : {
+              ariaLabel: sanitizedLabel ?? "Hero sub-tabs",
+            };
+
+        return (
+          <TabBar
+            items={subTabs.items.map(({ hint, ...item }) => {
+              void hint;
+              return item;
+            })}
+            value={String(subTabs.value)}
+            onValueChange={(k) => subTabs.onChange(k as Key)}
+            size={subTabs.size ?? "md"}
+            align={subTabs.align ?? "end"}
+            right={subTabs.right}
+            showBaseline={subTabs.showBaseline ?? true}
+            variant={subTabs.variant ?? heroVariant}
+            className={cx("justify-end", subTabs.className)}
+            {...accessibilityProps}
+            linkPanels={subTabs.linkPanels}
+          />
+        );
+      })()
+    : tabs ? (
+      <TabBar
+        items={tabs.items}
+        value={tabs.value}
+        onValueChange={tabs.onChange}
+        size={tabs.size ?? "md"}
       align={tabs.align ?? "end"}
       showBaseline={tabs.showBaseline ?? true}
       variant={tabs.variant ?? heroVariant}
@@ -308,7 +334,6 @@ export function HeroTabs<K extends string>(props: {
   tabs: Array<HeroTab<K>>;
   activeKey: K;
   onChange: (k: K) => void;
-  ariaLabel?: string;
   className?: string;
   align?: TabBarProps["align"];
   size?: TabBarProps["size"];
@@ -316,12 +341,13 @@ export function HeroTabs<K extends string>(props: {
   showBaseline?: boolean;
   variant?: TabBarProps["variant"];
   linkPanels?: boolean;
-}) {
+} & TabBarA11yProps) {
   const {
     tabs,
     activeKey,
     onChange,
     ariaLabel,
+    ariaLabelledBy,
     className,
     align = "end",
     size = "md",
@@ -330,6 +356,23 @@ export function HeroTabs<K extends string>(props: {
     variant,
     linkPanels = false,
   } = props;
+
+  const sanitizedAriaLabel =
+    typeof ariaLabel === "string" && ariaLabel.trim().length > 0
+      ? ariaLabel.trim()
+      : undefined;
+  const sanitizedAriaLabelledBy =
+    typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0
+      ? ariaLabelledBy.trim()
+      : undefined;
+  const accessibilityProps: TabBarA11yProps = sanitizedAriaLabelledBy
+    ? {
+        ariaLabelledBy: sanitizedAriaLabelledBy,
+        ...(sanitizedAriaLabel ? { ariaLabel: sanitizedAriaLabel } : {}),
+      }
+    : {
+        ariaLabel: sanitizedAriaLabel ?? "Hero tabs",
+      };
 
   const items: TabItem[] = React.useMemo(
     () =>
@@ -352,7 +395,7 @@ export function HeroTabs<K extends string>(props: {
       align={align}
       size={size}
       right={right}
-      ariaLabel={ariaLabel ?? "Hero tabs"}
+      {...accessibilityProps}
       className={className}
       showBaseline={showBaseline}
       variant={variant}

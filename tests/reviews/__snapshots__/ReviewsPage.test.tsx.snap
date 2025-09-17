@@ -246,7 +246,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               class="glitch-wrap w-full sm:w-auto"
                             >
                               <div
-                                class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[--theme-ring] focus-within:ring-offset-0"
+                                class="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] focus-within:ring-offset-0"
                               >
                                 <button
                                   aria-controls=":r2:-listbox"
@@ -301,7 +301,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </div>
                           </label>
                           <button
-                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[--focus] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-lg)] text-title gap-[var(--space-4)] [&_svg]:size-[var(--space-8)] w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto shadow-glow-sm hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                            class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-lg)] text-title gap-[var(--space-4)] [&_svg]:size-[var(--space-8)] w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto shadow-glow-sm hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
                             style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 2px 6px -1px hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.6);"
                             tabindex="0"
                             type="button"
