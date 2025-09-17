@@ -5,6 +5,15 @@ import * as React from "react";
 import { usePlannerStore } from "./usePlannerStore";
 import type { ISODate } from "./plannerStore";
 
+const scheduleSavingReset = (callback: VoidFunction) => {
+  if (typeof queueMicrotask === "function") {
+    queueMicrotask(callback);
+    return;
+  }
+
+  setTimeout(callback, 0);
+};
+
 export function useDayNotes(iso: ISODate) {
   const { getDay, upsertDay } = usePlannerStore();
   const day = getDay(iso);
@@ -31,7 +40,9 @@ export function useDayNotes(iso: ISODate) {
       setNotesForIso(trimmed);
       lastSavedRef.current = trimmed;
     } finally {
-      setSaving(false);
+      scheduleSavingReset(() => {
+        setSaving(false);
+      });
     }
   }, [isDirty, setNotesForIso, trimmed]);
 
