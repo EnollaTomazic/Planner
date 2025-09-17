@@ -101,8 +101,8 @@ const config: Config = {
           danger: {
             hover: "hsl(var(--danger) / 0.14)",
             active: "hsl(var(--danger) / 0.2)",
-            surfaceHover: "hsl(var(--danger) / 0.25)",
-            surfaceActive: "hsl(var(--danger) / 0.35)",
+            surfaceHover: "hsl(var(--danger) / 0.12)",
+            surfaceActive: "hsl(var(--danger) / 0.1)",
             tintHover: "hsl(var(--danger) / 0.1)",
             tintActive: "hsl(var(--danger) / 0.2)",
           },
