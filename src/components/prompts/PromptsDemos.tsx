@@ -261,7 +261,7 @@ export default function PromptsDemos() {
         <div className="flex gap-2">
           <button
             type="button"
-            className="px-3 py-1 rounded-md bg-accent/20 transition-opacity duration-420 hover:opacity-60"
+            className="px-3 py-1 rounded-md bg-accent/20 text-foreground transition-colors duration-420 hover:bg-accent/30 hover:text-foreground"
           >
             Slow fade
           </button>
