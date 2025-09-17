@@ -62,6 +62,7 @@ import {
   ResultScoreSection,
   PillarsSelector as ReviewsPillarsSelector,
   TimestampMarkers,
+  ReviewSurface,
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review, Role } from "@/lib/types";
@@ -723,6 +724,33 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 >
   <p className="text-ui">Body</p>
 </NeoCard>`,
+    },
+    {
+      id: "review-surface",
+      name: "ReviewSurface",
+      element: (
+        <ReviewSurface padding="sm">
+          <div className="space-y-[var(--space-1)] text-ui">
+            <p className="font-medium text-foreground/80">
+              Shared review shell
+            </p>
+            <p className="text-muted-foreground">
+              Tokenized radius, border, and background for summaries,
+              sliders, and timeline items.
+            </p>
+          </div>
+        </ReviewSurface>
+      ),
+      tags: ["reviews", "card", "tokens"],
+      code: `<ReviewSurface padding="sm">
+  <div className="space-y-[var(--space-1)] text-ui">
+    <p className="font-medium text-foreground/80">Shared review shell</p>
+    <p className="text-muted-foreground">
+      Tokenized radius, border, and background for summaries,
+      sliders, and timeline items.
+    </p>
+  </div>
+</ReviewSurface>`,
     },
     {
       id: "section-card-variants",

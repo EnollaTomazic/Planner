@@ -3,6 +3,7 @@ import SectionLabel from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
+import ReviewSurface from "@/components/reviews/ReviewSurface";
 
 export type ResultScoreSectionHandle = {
   save: () => void;
@@ -54,32 +55,37 @@ function ResultScoreSection(
     <>
       <div>
         <SectionLabel>Result</SectionLabel>
-        <button
-          ref={resultRef}
-          type="button"
-          role="switch"
-          aria-checked={result === "Win"}
-          onClick={() => {
-            const next = result === "Win" ? "Loss" : "Win";
-            setResult(next);
-            commitMeta({ result: next });
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
+        <ReviewSurface
+          asChild
+          tone="default"
+          padding="none"
+          className={cn(
+            "relative inline-flex h-10 w-48 select-none items-center overflow-hidden",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          )}
+        >
+          <button
+            ref={resultRef}
+            type="button"
+            role="switch"
+            aria-checked={result === "Win"}
+            onClick={() => {
               const next = result === "Win" ? "Loss" : "Win";
               setResult(next);
               commitMeta({ result: next });
-              scoreRangeRef.current?.focus();
-            }
-          }}
-          className={cn(
-            "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg",
-            "border border-border bg-card",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          )}
-          title="Toggle Win/Loss"
-        >
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                const next = result === "Win" ? "Loss" : "Win";
+                setResult(next);
+                commitMeta({ result: next });
+                scoreRangeRef.current?.focus();
+              }
+            }}
+            title="Toggle Win/Loss"
+            className="w-full"
+          >
           <span
             aria-hidden
             className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
@@ -112,12 +118,16 @@ function ResultScoreSection(
               Loss
             </div>
           </div>
-        </button>
+          </button>
+        </ReviewSurface>
       </div>
 
       <div>
         <SectionLabel>Score</SectionLabel>
-        <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+        <ReviewSurface
+          paddingX="md"
+          className="relative h-12 focus-within:ring-2 focus-within:ring-ring"
+        >
           <input
             ref={scoreRangeRef}
             type="range"
@@ -151,7 +161,7 @@ function ResultScoreSection(
               />
             </div>
           </div>
-        </div>
+        </ReviewSurface>
         <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
           <span className="pill h-6 px-2 text-ui">{score}/10</span>
           <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />

@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { ReviewMarker } from "@/lib/types";
 import NeonIcon from "@/components/reviews/NeonIcon";
+import ReviewSurface from "@/components/reviews/ReviewSurface";
 import { FileText } from "lucide-react";
 
 export type ReviewSummaryTimestampsProps = {
@@ -28,25 +29,30 @@ export default function ReviewSummaryTimestamps({
           {[...markers]
             .sort((a, b) => a.seconds - b.seconds)
             .map((m) => (
-              <li
+              <ReviewSurface
                 key={m.id}
-                className="grid grid-cols-[auto_1fr] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border bg-card px-[var(--space-3)] py-[var(--space-2)]"
+                asChild
+                paddingX="sm"
+                paddingY="xs"
+                className="grid grid-cols-[auto_1fr] items-center gap-[var(--space-2)]"
               >
-                {m.noteOnly ? (
-                  <span
-                    className="pill flex h-7 w-14 items-center justify-center px-0"
-                    title="Note"
-                    aria-label="Note"
-                  >
-                    <FileText size={14} className="opacity-80" />
-                  </span>
-                ) : (
-                  <span className="pill h-7 px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
-                    {m.time ?? "00:00"}
-                  </span>
-                )}
-                <span className="truncate text-ui">{m.note || "—"}</span>
-              </li>
+                <li>
+                  {m.noteOnly ? (
+                    <span
+                      className="pill flex h-7 w-14 items-center justify-center px-0"
+                      title="Note"
+                      aria-label="Note"
+                    >
+                      <FileText size={14} className="opacity-80" />
+                    </span>
+                  ) : (
+                    <span className="pill h-7 px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
+                      {m.time ?? "00:00"}
+                    </span>
+                  )}
+                  <span className="truncate text-ui">{m.note || "—"}</span>
+                </li>
+              </ReviewSurface>
             ))}
         </ul>
       )}

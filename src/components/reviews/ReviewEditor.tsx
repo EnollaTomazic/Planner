@@ -5,6 +5,7 @@ import { RoleSelector } from "@/components/reviews";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import NeonIcon from "@/components/reviews/NeonIcon";
+import ReviewSurface from "@/components/reviews/ReviewSurface";
 
 import * as React from "react";
 import type { Review, Role } from "@/lib/types";
@@ -253,7 +254,10 @@ export default function ReviewEditor({
 
           {focusOn && (
             <>
-              <div className="mt-3 relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+              <ReviewSurface
+                paddingX="md"
+                className="mt-3 relative h-12 focus-within:ring-2 focus-within:ring-ring"
+              >
                 <input
                   ref={focusRangeRef}
                   type="range"
@@ -285,7 +289,7 @@ export default function ReviewEditor({
                     />
                   </div>
                 </div>
-              </div>
+              </ReviewSurface>
               <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
                 <span className="pill h-6 px-2 text-ui">{focus}/10</span>
                 <span>{focusMsg}</span>
