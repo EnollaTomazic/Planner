@@ -53,7 +53,7 @@ describe("TaskRow", () => {
         onRemoveImage={noop}
       />,
     );
-    fireEvent.click(screen.getAllByLabelText("Toggle task done")[0]);
+    fireEvent.click(screen.getAllByLabelText("Toggle Test task done")[0]);
     fireEvent.click(screen.getAllByLabelText("Edit task")[0]);
     fireEvent.click(screen.getAllByLabelText("Delete task")[0]);
     expect(onSelect).not.toHaveBeenCalled();
