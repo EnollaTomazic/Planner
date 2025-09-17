@@ -152,8 +152,8 @@ export default function ProjectList({
                   onKeyDown={isEditing ? undefined : handleRowKey}
                   onClick={() => {
                     if (isEditing || active) return;
-                    setSelectedProjectId(p.id);
                     setSelectedTaskId("");
+                    setSelectedProjectId(p.id);
                   }}
                   className={cn(
                     "proj-card group relative [overflow:visible] w-full text-left rounded-card r-card-lg border pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]",
