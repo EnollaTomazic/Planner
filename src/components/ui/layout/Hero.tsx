@@ -149,7 +149,6 @@ function Hero<Key extends string = string>({
 
   const headingClassName = cx(
     "font-semibold tracking-[-0.01em] text-balance break-words text-foreground",
-    frame ? "hero2-title" : undefined,
     isSupportiveTone
       ? "text-title md:text-title"
       : "text-title-lg md:text-title-lg",
@@ -386,10 +385,6 @@ export function HeroGlitchStyles() {
       /* === Glitch title ================================================== */
       .hero2-title {
         position: relative;
-        text-shadow:
-          -0.02em 0 hsl(var(--accent-2) / 0.65),
-          0.02em 0 hsl(var(--lav-deep) / 0.65),
-          0 0 0.25em hsl(var(--foreground) / 0.35);
       }
       .hero2-title::before,
       .hero2-title::after {
