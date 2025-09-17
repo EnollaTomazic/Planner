@@ -329,7 +329,7 @@ export default function TodayHero({ iso }: Props) {
                       <span
                         className={cn(
                           "truncate",
-                          p.done && "line-through-soft opacity-70",
+                          p.done && "line-through-soft text-muted-foreground",
                         )}
                       >
                         {p.name}
