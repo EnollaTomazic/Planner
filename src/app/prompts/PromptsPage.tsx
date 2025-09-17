@@ -159,9 +159,11 @@ function PageContent() {
             onChange: (k) => setView(k as View),
             ariaLabel: "Playground view",
           },
+          sticky: true,
         }}
         hero={{
           frame: false,
+          sticky: true,
           heading:
             view === "components"
               ? "Components"

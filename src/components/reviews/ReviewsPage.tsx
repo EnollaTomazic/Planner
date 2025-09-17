@@ -89,9 +89,11 @@ export default function ReviewsPage({
           icon: <BookOpen className="opacity-80" />,
           topClassName: "top-[var(--header-stack)]",
           underline: true,
+          sticky: true,
         }}
         hero={{
           frame: false,
+          sticky: true,
           topClassName: "top-[var(--header-stack)]",
           heading: "Browse Reviews",
           subtitle: <span className="pill">Total {base.length}</span>,
