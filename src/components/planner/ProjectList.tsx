@@ -119,13 +119,14 @@ export default function ProjectList({
             const active = p.id === selectedProjectId;
             const isEditing = editingProjectId === p.id;
             const handleRowKey = onRowKey(idx, p);
+            const projectLabel = p.name.trim() || "Untitled project";
             return (
               <li key={p.id} className="w-full">
                 <div
                   role="radio"
                   tabIndex={0}
                   aria-checked={active}
-                  aria-label={p.name || "Untitled project"}
+                  aria-label={projectLabel}
                   onKeyDown={isEditing ? undefined : handleRowKey}
                   onClick={() => {
                     if (isEditing) return;
@@ -148,7 +149,7 @@ export default function ProjectList({
                     <CheckCircle
                       checked={!!p.done}
                       onChange={() => toggleProject(p.id)}
-                      aria-label="Toggle project complete"
+                      aria-label={`Toggle ${projectLabel} complete`}
                       size="sm"
                     />
                   </span>
