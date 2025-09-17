@@ -118,7 +118,7 @@ export const toneClasses: Record<
     danger: toneInteractionTokens.danger,
   },
   secondary: {
-    primary: "text-foreground",
+    primary: "text-muted-foreground bg-panel/60",
     accent:
       "text-accent-foreground bg-accent/30 [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info:
@@ -154,7 +154,9 @@ export const variants: Record<
     className: (tone) =>
       cn(
         "shadow-glow-sm hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
-        `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
+        tone === "primary"
+          ? "bg-primary-soft"
+          : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
         `border-[hsl(var(${colorVar[tone]})/0.35)]`,
         `text-[hsl(var(${toneForegroundVar[tone]}))]`,
       ),
