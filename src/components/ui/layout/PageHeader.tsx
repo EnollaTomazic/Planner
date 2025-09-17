@@ -116,10 +116,15 @@ const PageHeaderInner = <
       return undefined;
     }
 
-    const { items, value, onChange, ...restHeaderTabs } = headerTabs;
+    const { items, value, onChange, renderItem, ...restHeaderTabs } = headerTabs;
 
     return {
       ...restHeaderTabs,
+      ...(renderItem
+        ? {
+            renderItem: renderItem as unknown as TabBarProps<HeroKey>["renderItem"],
+          }
+        : {}),
       items: items.map((item) => ({
         ...item,
         key: String(item.key) as HeroKey,
