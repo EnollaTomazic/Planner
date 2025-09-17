@@ -20,25 +20,31 @@ exports[`ReviewsPage > renders default state 1`] = `
           hsl(var(--card)),
           hsl(var(--panel))
         );
-        box-shadow:
-          inset var(--space-1) var(--space-1) var(--space-2)
-            hsl(var(--background) / 0.55),
-          inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
-            var(--space-2) hsl(var(--highlight) / 0.05),
-          0 0 var(--space-4) hsl(var(--ring) / 0.25);
+        --hero2-shadow-key: var(--shadow);
+        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
+          hsl(var(--shadow-color) / 0.18);
+        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
+      }
+      @supports (color: color-mix(in oklab, white, black)) {
+        .hero2-neomorph {
+          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
+            color-mix(
+              in oklab,
+              hsl(var(--shadow-color)) 28%,
+              hsl(var(--highlight))
+            );
+        }
       }
       @media (prefers-contrast: more) {
         .hero2-frame {
           border-color: hsl(var(--foreground) / 0.7) !important;
         }
         .hero2-neomorph {
-          box-shadow:
-            inset var(--space-1) var(--space-1) var(--space-2)
-              hsl(var(--background) / 0.65),
-            inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1))
-              var(--space-2) hsl(var(--highlight) / 0.08),
-            0 0 0 1px hsl(var(--ring) / 0.7),
-            0 0 var(--space-5) hsl(var(--ring) / 0.5);
+          --hero2-shadow-key: 0 0 var(--space-4)
+            hsl(var(--foreground) / 0.75);
+          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
+            hsl(var(--foreground) / 0.7);
+          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
         }
       }
       @media (forced-colors: active) {
