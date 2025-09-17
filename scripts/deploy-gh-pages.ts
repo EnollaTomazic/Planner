@@ -17,7 +17,7 @@ function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
 }
 
 function createGhPagesArgs(env: NodeJS.ProcessEnv): string[] {
-  const args = ["gh-pages", "-d", "out", "-b", "gh-pages"];
+  const args = ["gh-pages", "-d", "out", "-b", "gh-pages", "--nojekyll"];
   const token = env.GITHUB_TOKEN?.trim();
   const repository = env.GITHUB_REPOSITORY?.trim();
 
