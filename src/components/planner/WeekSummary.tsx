@@ -104,7 +104,6 @@ export default function WeekSummary({
               empty && "ws-tile--empty",
             )}
             data-today={today || undefined}
-            tabIndex={0}
             aria-label={`${friendlyDay}: ${countsLabel}`}
           >
             <div className="ws-tile__date">{friendlyDay}</div>
