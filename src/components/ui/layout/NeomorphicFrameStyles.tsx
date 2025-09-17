@@ -6,23 +6,6 @@ import * as React from "react";
 export function NeomorphicFrameStyles() {
   return (
     <style jsx global>{`
-      .hero2-beams {
-        position: absolute;
-        inset: var(--space-1);
-        border-radius: calc(var(--radius-2xl) - var(--space-1) / 2);
-        z-index: 0;
-        pointer-events: none;
-        background: linear-gradient(
-          150deg,
-          hsl(var(--highlight) / 0.16),
-          hsl(var(--accent) / 0.08) 45%,
-          hsl(var(--ring) / 0.06)
-        );
-      }
-      .hero2-scanlines,
-      .hero2-noise {
-        display: none !important;
-      }
       .hero2-neomorph {
         background: linear-gradient(
           145deg,
@@ -37,11 +20,6 @@ export function NeomorphicFrameStyles() {
           0 0 var(--space-4) hsl(var(--ring) / 0.25);
       }
       @media (prefers-contrast: more) {
-        .hero2-beams,
-        .hero2-scanlines,
-        .hero2-noise {
-          display: none !important;
-        }
         .hero2-frame {
           border-color: hsl(var(--foreground) / 0.7) !important;
         }
@@ -56,11 +34,6 @@ export function NeomorphicFrameStyles() {
         }
       }
       @media (forced-colors: active) {
-        .hero2-beams,
-        .hero2-scanlines,
-        .hero2-noise {
-          display: none !important;
-        }
         .hero2-frame {
           border-color: CanvasText !important;
           background: Canvas !important;

@@ -266,17 +266,6 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           )}
           {...rest}
         >
-          {showFrame ? (
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
-            >
-              <span aria-hidden className="hero2-beams" />
-              <span aria-hidden className="hero2-scanlines" />
-              <span aria-hidden className="hero2-noise opacity-[0.03]" />
-            </span>
-          ) : null}
-
           {content}
 
           {hasActionArea ? (
