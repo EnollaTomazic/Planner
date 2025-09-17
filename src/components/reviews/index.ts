@@ -20,3 +20,4 @@ export { default as PillarsSelector } from "./PillarsSelector";
 export { default as TimestampMarkers } from "./TimestampMarkers";
 export { default as ReviewSurface } from "./ReviewSurface";
 export { default as ReviewSliderTrack } from "./ReviewSliderTrack";
+export { default as ScoreMeter } from "./ScoreMeter";

@@ -3,8 +3,7 @@ import SectionLabel from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
-import ReviewSurface from "./ReviewSurface";
-import ReviewSliderTrack from "./ReviewSliderTrack";
+import ScoreMeter from "./ScoreMeter";
 
 export type ResultScoreSectionHandle = {
   save: () => void;
@@ -117,13 +116,13 @@ function ResultScoreSection(
         </button>
       </div>
 
-      <div>
-        <SectionLabel>Score</SectionLabel>
-        <ReviewSurface
-          className="relative h-12"
-          padding="inline"
-          focusWithin
-        >
+      <ScoreMeter
+        label="Score"
+        value={score}
+        tone="score"
+        variant="input"
+        surfaceProps={{ focusWithin: true }}
+        control={
           <input
             ref={scoreRangeRef}
             type="range"
@@ -145,14 +144,14 @@ function ResultScoreSection(
             className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
             aria-label="Score from 0 to 10"
           />
-          <ReviewSliderTrack value={score} tone="score" variant="input" />
-        </ReviewSurface>
-        <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
-          <span className="pill h-6 px-2 text-ui">{score}/10</span>
-          <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
-          <span>{msg}</span>
-        </div>
-      </div>
+        }
+        detail={
+          <>
+            <ScoreIcon className={cn("h-[var(--space-4)] w-[var(--space-4)]", scoreIconCls)} />
+            <span>{msg}</span>
+          </>
+        }
+      />
     </>
   );
 }

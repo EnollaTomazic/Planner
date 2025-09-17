@@ -450,7 +450,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-ring relative h-12"
+          class="rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-ring relative h-[var(--space-7)]"
         >
           <input
             aria-label="Score from 0 to 10"
@@ -479,17 +479,16 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
         </div>
         <div
-          class="mt-1 flex items-center gap-2 text-ui text-muted-foreground"
+          class="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground"
         >
           <span
-            class="pill h-6 px-2 text-ui"
+            class="pill h-[var(--space-5)] px-[var(--space-2)] text-ui"
           >
-            5
-            /10
+            5/10
           </span>
           <svg
             aria-hidden="true"
-            class="lucide lucide-meh h-4 w-4 text-warning"
+            class="lucide lucide-meh h-[var(--space-4)] w-[var(--space-4)] text-warning"
             fill="none"
             height="24"
             stroke="currentColor"
