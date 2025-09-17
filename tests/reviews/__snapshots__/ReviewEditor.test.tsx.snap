@@ -20,11 +20,12 @@ exports[`ReviewEditor > renders default state 1`] = `
             <div
               class="mb-2 flex items-center gap-2"
             >
-              <div
+              <h3
                 class="text-ui tracking-wide text-muted-foreground"
+                id=":r0:"
               >
                 Lane
-              </div>
+              </h3>
               <div
                 class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
               />
@@ -45,7 +46,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="width: calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count)); transform: translateX(calc(var(--idx) * (100% + var(--space-1))));"
               />
               <div
-                aria-label="Select lane/role"
+                aria-labelledby=":r0:"
                 class="inline-flex rounded-full gap-[var(--space-1)] relative w-full bg-transparent p-0"
                 role="tablist"
               >
@@ -325,7 +326,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 >
                   <input
                     class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                    id=":r1:"
+                    id=":r4:"
                     name="lane"
                     placeholder="Ashe/Lulu"
                     value="Sample Review"
@@ -337,15 +338,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <div
                 class="mb-2 flex items-center gap-2"
               >
-                <div
+                <h3
                   class="text-ui tracking-wide text-muted-foreground"
+                  id=":r3:"
                 >
-                  <span
-                    id=":r0:"
-                  >
-                    Opponent
-                  </span>
-                </div>
+                  Opponent
+                </h3>
                 <div
                   class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
                 />
@@ -375,9 +373,9 @@ exports[`ReviewEditor > renders default state 1`] = `
                   style="--control-h: var(--control-h-md);"
                 >
                   <input
-                    aria-labelledby=":r0:"
+                    aria-labelledby=":r3:"
                     class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                    id=":r2:"
+                    id=":r5:"
                     name="opponent"
                     placeholder="Draven/Thresh"
                     value=""
@@ -399,17 +397,19 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
+            id=":r6:"
           >
             Result
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <button
           aria-checked="true"
+          aria-labelledby=":r6:"
           class="relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           role="switch"
           title="Toggle Win/Loss"
@@ -440,11 +440,12 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
+            id=":r7:"
           >
             Score
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
@@ -454,6 +455,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <input
             aria-label="Score from 0 to 10"
+            aria-labelledby=":r7:"
             class="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
             max="10"
             min="0"
@@ -723,11 +725,11 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
           >
             Pillars
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
@@ -1537,11 +1539,11 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
           >
             Timestamps
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
@@ -1861,7 +1863,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 aria-describedby="tTime-error"
                 aria-invalid="true"
                 class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r3:"
+                id=":r8:"
                 inputmode="numeric"
                 name="timestamp-time"
                 pattern="^[0-9]?\\d:[0-5]\\d$"
@@ -1875,7 +1877,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <input
                 class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r4:"
+                id=":r9:"
                 name="timestamp-note"
                 placeholder="Quick note"
                 value=""
@@ -1928,11 +1930,12 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
+            id=":r1:"
           >
             Tags
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
@@ -1971,8 +1974,9 @@ exports[`ReviewEditor > renders default state 1`] = `
               style="--control-h: var(--control-h-md);"
             >
               <input
+                aria-labelledby=":r1:"
                 class="w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]"
-                id=":r5:"
+                id=":ra:"
                 name="tag-input"
                 placeholder="Add tag and press Enter"
                 value=""
@@ -2018,11 +2022,12 @@ exports[`ReviewEditor > renders default state 1`] = `
         <div
           class="mb-2 flex items-center gap-2"
         >
-          <div
+          <h3
             class="text-ui tracking-wide text-muted-foreground"
+            id=":r2:"
           >
             Notes
-          </div>
+          </h3>
           <div
             class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
@@ -2031,9 +2036,10 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="relative inline-flex w-full items-center overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 rounded-[var(--radius-2xl)]"
         >
           <textarea
+            aria-labelledby=":r2:"
             class="block w-full max-w-full px-[var(--space-3)] py-[var(--space-3)] text-body bg-transparent text-foreground placeholder:text-muted-foreground/70 focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
-            id=":r6:"
-            name="r6"
+            id=":rb:"
+            name="rb"
             placeholder="Key moments, mistakes to fix, drills to run…"
           />
         </div>
