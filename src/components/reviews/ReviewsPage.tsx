@@ -76,13 +76,13 @@ export default function ReviewsPage({
   return (
     <PageShell
       as="main"
-      className="py-6 space-y-6"
+      className="py-[var(--space-6)] space-y-[var(--space-6)]"
       aria-labelledby="reviews-header"
     >
       <PageHeader
         containerClassName="sticky top-0"
-        className="rounded-card r-card-lg px-4 py-4"
-        contentClassName="space-y-2"
+        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        contentClassName="space-y-[var(--space-2)]"
         header={{
           id: "reviews-header",
           heading: "Reviews",
@@ -147,7 +147,7 @@ export default function ReviewsPage({
 
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-4 sm:gap-6 lg:gap-8 md:grid-cols-6 lg:grid-cols-12",
+          "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",
         )}
       >
         <nav
@@ -156,7 +156,7 @@ export default function ReviewsPage({
         >
           <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
             <div className="section-b">
-              <div className="mb-2 text-ui text-muted-foreground">
+              <div className="mb-[var(--space-2)] text-ui text-muted-foreground">
                 {filtered.length} shown
               </div>
               <ReviewList
@@ -167,7 +167,7 @@ export default function ReviewsPage({
                   onSelect(id);
                 }}
                 onCreate={onCreate}
-                className="h-auto overflow-auto p-2 md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+                className="h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
               />
             </div>
           </div>
@@ -177,14 +177,14 @@ export default function ReviewsPage({
             <ReviewPanel
               className={cn(
                 panelClass,
-                "flex flex-col items-center justify-center gap-2 py-8 text-ui text-muted-foreground",
+                "flex flex-col items-center justify-center gap-[var(--space-2)] py-[var(--space-8)] text-ui text-muted-foreground",
               )}
             >
               <Ghost className="h-6 w-6 opacity-60" />
               <p>Select a review from the list or create a new one.</p>
             </ReviewPanel>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-[var(--space-4)]">
               <TabBar<DetailMode>
                 items={[
                   { key: "summary", label: "Summary" },
