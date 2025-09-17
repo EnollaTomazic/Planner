@@ -40,6 +40,29 @@ export function withBasePath(path: string): string {
   return `${NORMALIZED_BASE}${normalizedPath}`;
 }
 
+/** Remove the configured base path prefix from a pathname. */
+export function withoutBasePath(path: string): string {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (!NORMALIZED_BASE) {
+    return normalizedPath;
+  }
+
+  if (
+    normalizedPath === NORMALIZED_BASE ||
+    normalizedPath === `${NORMALIZED_BASE}/`
+  ) {
+    return "/";
+  }
+
+  if (normalizedPath.startsWith(`${NORMALIZED_BASE}/`)) {
+    const remainder = normalizedPath.slice(NORMALIZED_BASE.length);
+    return remainder.length > 0 ? remainder : "/";
+  }
+
+  return normalizedPath;
+}
+
 /** Capitalize first letter (not Unicode-smart on purpose). */
 export function capitalize(s: string): string {
   return s.length ? s[0].toUpperCase() + s.slice(1) : s;

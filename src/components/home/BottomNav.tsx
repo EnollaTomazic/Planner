@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, withoutBasePath } from "@/lib/utils";
 import {
   Flag,
   CalendarDays,
@@ -23,7 +23,8 @@ const LINKS = [
 ];
 
 export default function BottomNav() {
-  const pathname = usePathname();
+  const rawPathname = usePathname() ?? "/";
+  const pathname = withoutBasePath(rawPathname);
   return (
     <nav aria-label="Primary" className="border-t border-border pt-[var(--space-4)] md:hidden">
       <ul className="flex justify-around">

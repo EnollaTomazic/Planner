@@ -10,7 +10,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, withoutBasePath } from "@/lib/utils";
 import { NAV_ITEMS, NavItem } from "./nav-items";
 
 type NavBarProps = {
@@ -18,7 +18,8 @@ type NavBarProps = {
 };
 
 export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
-  const path = usePathname() ?? "/";
+  const rawPath = usePathname() ?? "/";
+  const path = withoutBasePath(rawPath);
   const reduceMotion = useReducedMotion();
 
   return (
