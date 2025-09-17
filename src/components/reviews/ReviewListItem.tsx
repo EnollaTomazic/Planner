@@ -28,7 +28,7 @@ const itemLoading = cn(
 );
 const loadingLine = "h-3 rounded-card bg-muted";
 const scoreBadge = cn(
-  "px-2 py-1 rounded-full text-label leading-none font-medium",
+  "px-2 py-1 rounded-full text-ui leading-none font-medium",
   "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
   "hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground",
   "focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground",
