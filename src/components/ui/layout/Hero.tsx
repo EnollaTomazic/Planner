@@ -340,7 +340,7 @@ export function HeroTabs<K extends string>(props: {
       align={align}
       size={size}
       right={right}
-      ariaLabel={ariaLabel}
+      ariaLabel={ariaLabel ?? "Hero tabs"}
       className={className}
       showBaseline={showBaseline}
       variant={variant}
