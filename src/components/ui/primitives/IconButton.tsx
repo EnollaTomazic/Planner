@@ -87,11 +87,11 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   solid: {
     primary:
-      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
+      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)]",
     accent:
       "border-transparent bg-accent/30 text-accent-foreground [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info:
-      "border-transparent bg-accent-2/30 text-accent-2-foreground [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
+      "border-transparent bg-accent-2/30 text-accent-2-foreground [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
     danger:
       "border-transparent bg-danger/20 text-danger-foreground [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
   },
