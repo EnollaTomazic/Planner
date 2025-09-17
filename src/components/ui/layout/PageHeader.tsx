@@ -156,10 +156,12 @@ const PageHeaderInner = <
   const {
     className: frameClassName,
     variant: frameVariant,
-    actionArea: frameActionArea,
+    actionArea: frameActionAreaProp,
     allowOverflow: frameAllowOverflow,
     ...restFrameProps
   } = frameProps ?? {};
+
+  const frameActionArea = frameActionAreaProp ?? null;
 
   const stickyChildrenPresent = Boolean(headerSticky) || Boolean(heroSticky);
 
