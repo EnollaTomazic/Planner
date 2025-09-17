@@ -390,7 +390,11 @@ export default function WeekPicker() {
         </div>
 
         {/* Day chips */}
-        <div className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible">
+        <div
+          role="listbox"
+          aria-label={`Select a focus day between ${rangeLabel}`}
+          className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible"
+        >
           {days.map((d, i) => (
             <DayChip
               key={d}
