@@ -49,7 +49,7 @@ export default function TaskRow({
   }, []);
 
   const handleBlurWithin = React.useCallback(
-    (event: React.FocusEvent<HTMLDivElement>) => {
+    (event: React.FocusEvent<HTMLElement>) => {
       const next = event.relatedTarget as Node | null;
       if (!next || !event.currentTarget.contains(next)) {
         setHasFocusWithin(false);
@@ -63,7 +63,7 @@ export default function TaskRow({
   }, [onSelect]);
 
   const handleRowKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.target !== event.currentTarget) return;
 
       if (event.key === "Enter") {
@@ -79,7 +79,7 @@ export default function TaskRow({
   );
 
   const handleRowKeyUp = React.useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.target !== event.currentTarget) return;
 
       if (event.key === " " || event.key === "Spacebar") {
@@ -112,31 +112,33 @@ export default function TaskRow({
 
   return (
     <li className="group">
-      <div className="relative">
-        <div
-          role="button"
-          tabIndex={0}
+      <div
+        className="relative"
+        onFocusCapture={handleFocusWithin}
+        onBlurCapture={handleBlurWithin}
+      >
+        <button
+          type="button"
           aria-label={`Select task ${task.title}`}
           onClick={handleRowClick}
           onKeyDown={handleRowKeyDown}
           onKeyUp={handleRowKeyUp}
           className={cn(
-            "w-full cursor-pointer rounded-card r-card-lg border transition-colors",
-            layoutClasses,
+            "absolute inset-0 w-full cursor-pointer rounded-card r-card-lg border transition-colors",
             "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
             "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
-        />
+        >
+          <span className="sr-only">{`Select task ${task.title}`}</span>
+        </button>
 
         <div
           className={cn(
-            "pointer-events-none absolute inset-0 z-[1]",
+            "pointer-events-none relative z-[1]",
             layoutClasses,
           )}
-          onFocusCapture={handleFocusWithin}
-          onBlurCapture={handleBlurWithin}
         >
           <div
             className="pointer-events-auto shrink-0 ml-[var(--space-1)]"
@@ -166,6 +168,7 @@ export default function TaskRow({
                   e.stopPropagation();
                   start();
                 }}
+                onPointerDown={(e) => e.stopPropagation()}
                 aria-pressed={task.done}
                 title="Click to toggle; double-click to edit"
               >
@@ -209,6 +212,7 @@ export default function TaskRow({
                 e.stopPropagation();
                 start();
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               size="sm"
               iconSize="xs"
               variant="ring"
@@ -222,6 +226,7 @@ export default function TaskRow({
                 e.stopPropagation();
                 onDelete();
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               size="sm"
               iconSize="xs"
               variant="ring"
