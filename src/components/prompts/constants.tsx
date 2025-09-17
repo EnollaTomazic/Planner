@@ -50,6 +50,7 @@ import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import {
   DashboardCard,
+  DashboardList,
   BottomNav,
   IsometricRoom,
   QuickActionGrid,
@@ -693,6 +694,43 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <DashboardCard title="Demo" />,
       tags: ["dashboard", "card"],
       code: `<DashboardCard title="Demo" />`,
+    },
+    {
+      id: "dashboard-list",
+      name: "DashboardList",
+      element: (
+        <DashboardList
+          items={[
+            { id: "sync", title: "Strategy sync", meta: "Today" },
+            { id: "retro", title: "Retro prep", meta: "Wed" },
+          ]}
+          getKey={(item) => item.id}
+          itemClassName="flex justify-between text-ui"
+          empty="No highlights"
+          renderItem={(item) => (
+            <>
+              <span>{item.title}</span>
+              <span className="text-label text-muted-foreground">{item.meta}</span>
+            </>
+          )}
+        />
+      ),
+      tags: ["dashboard", "list"],
+      code: `<DashboardList
+  items={[
+    { id: "sync", title: "Strategy sync", meta: "Today" },
+    { id: "retro", title: "Retro prep", meta: "Wed" },
+  ]}
+  getKey={(item) => item.id}
+  itemClassName="flex justify-between text-ui"
+  empty="No highlights"
+  renderItem={(item) => (
+    <>
+      <span>{item.title}</span>
+      <span className="text-label text-muted-foreground">{item.meta}</span>
+    </>
+  )}
+/>`,
     },
     {
       id: "card-demo",
