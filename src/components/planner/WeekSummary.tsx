@@ -89,6 +89,8 @@ export default function WeekSummary({
       {stats.map((s) => {
         const today = isToday(s.iso);
         const empty = s.total === 0;
+        const friendlyDay = formatWeekDay(s.iso);
+        const countsLabel = `${s.done} of ${s.total} done`;
         return (
           <div
             key={s.iso}
@@ -103,9 +105,9 @@ export default function WeekSummary({
             )}
             data-today={today || undefined}
             tabIndex={0}
-            aria-label={`${s.iso}: ${s.done} of ${s.total} done`}
+            aria-label={`${friendlyDay}: ${countsLabel}`}
           >
-            <div className="ws-tile__date">{s.iso}</div>
+            <div className="ws-tile__date">{friendlyDay}</div>
             <div
               className={cn(
                 "ws-tile__counts",
