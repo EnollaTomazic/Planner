@@ -47,8 +47,63 @@ const AnimatedSelect = React.forwardRef<
     const mounted = useMounted();
 
     const [open, setOpen] = React.useState(false);
-    const [activeIndex, setActiveIndex] = React.useState<number>(() =>
-      Math.max(0, items.findIndex((i) => i.value === value)),
+    const [activeIndex, setActiveIndex] = React.useState<number>(() => {
+      const selectedIndex = items.findIndex(
+        (i) => i.value === value && !i.disabled && !i.loading,
+      );
+      if (selectedIndex !== -1) {
+        return selectedIndex;
+      }
+      for (let i = 0; i < items.length; i += 1) {
+        const candidate = items[i];
+        if (candidate && !candidate.disabled && !candidate.loading) {
+          return i;
+        }
+      }
+      return -1;
+    });
+
+    const isOptionFocusable = React.useCallback(
+      (index: number) => {
+        const opt = items[index];
+        return !!opt && !opt.disabled && !opt.loading;
+      },
+      [items],
+    );
+
+    const getFirstFocusableIndex = React.useCallback(() => {
+      for (let i = 0; i < items.length; i += 1) {
+        if (isOptionFocusable(i)) {
+          return i;
+        }
+      }
+      return -1;
+    }, [items, isOptionFocusable]);
+
+    const getLastFocusableIndex = React.useCallback(() => {
+      for (let i = items.length - 1; i >= 0; i -= 1) {
+        if (isOptionFocusable(i)) {
+          return i;
+        }
+      }
+      return -1;
+    }, [items, isOptionFocusable]);
+
+    const getNextFocusableIndex = React.useCallback(
+      (start: number, direction: 1 | -1) => {
+        if (items.length === 0) {
+          return -1;
+        }
+        let idx = start;
+        for (let i = 0; i < items.length; i += 1) {
+          idx = (idx + direction + items.length) % items.length;
+          if (isOptionFocusable(idx)) {
+            return idx;
+          }
+        }
+        return -1;
+      },
+      [items, isOptionFocusable],
     );
 
     const triggerRef = React.useRef<HTMLButtonElement | null>(null);
@@ -64,6 +119,16 @@ const AnimatedSelect = React.forwardRef<
       [ref],
     );
     const listRef = React.useRef<HTMLUListElement | null>(null);
+
+    const focusItem = React.useCallback(
+      (index: number) => {
+        if (!isOptionFocusable(index)) return;
+        listRef.current
+          ?.querySelector<HTMLElement>(`[data-index="${index}"]`)
+          ?.focus();
+      },
+      [isOptionFocusable],
+    );
     const idBase = React.useId();
     const labelId = `${idBase}-label`;
 
@@ -123,15 +188,33 @@ const AnimatedSelect = React.forwardRef<
 
     React.useEffect(() => {
       if (!open) return;
-      const idx = Math.max(0, items.findIndex((i) => i.value === value));
-      setActiveIndex(idx);
+      const selectedIndex = items.findIndex((i) => i.value === value);
+      const nextIndex =
+        selectedIndex !== -1 && isOptionFocusable(selectedIndex)
+          ? selectedIndex
+          : getFirstFocusableIndex();
+      setActiveIndex(nextIndex);
+      if (nextIndex === -1) {
+        return;
+      }
       const t = setTimeout(() => {
-        listRef.current
-          ?.querySelector<HTMLElement>(`[data-index="${idx}"]`)
-          ?.focus();
+        focusItem(nextIndex);
       }, 0);
       return () => clearTimeout(t);
-    }, [open, items, value]);
+    }, [
+      open,
+      items,
+      value,
+      focusItem,
+      getFirstFocusableIndex,
+      isOptionFocusable,
+    ]);
+
+    React.useEffect(() => {
+      if (activeIndex === -1) return;
+      if (isOptionFocusable(activeIndex)) return;
+      setActiveIndex(getFirstFocusableIndex());
+    }, [activeIndex, getFirstFocusableIndex, isOptionFocusable, items]);
 
     React.useEffect(() => {
       if (open) return;
@@ -176,41 +259,44 @@ const AnimatedSelect = React.forwardRef<
       }
       if (e.key === "Home") {
         e.preventDefault();
-        setActiveIndex(0);
-        focusItem(0);
+        const first = getFirstFocusableIndex();
+        if (first !== -1) {
+          setActiveIndex(first);
+          focusItem(first);
+        }
         return;
       }
       if (e.key === "End") {
         e.preventDefault();
-        const last = items.length - 1;
-        setActiveIndex(last);
-        focusItem(last);
+        const last = getLastFocusableIndex();
+        if (last !== -1) {
+          setActiveIndex(last);
+          focusItem(last);
+        }
         return;
       }
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        const next = (activeIndex + 1) % items.length;
-        setActiveIndex(next);
-        focusItem(next);
+        const next = getNextFocusableIndex(activeIndex, 1);
+        if (next !== -1) {
+          setActiveIndex(next);
+          focusItem(next);
+        }
         return;
       }
       if (e.key === "ArrowUp") {
         e.preventDefault();
-        const prev = (activeIndex - 1 + items.length) % items.length;
-        setActiveIndex(prev);
-        focusItem(prev);
+        const prev = getNextFocusableIndex(activeIndex, -1);
+        if (prev !== -1) {
+          setActiveIndex(prev);
+          focusItem(prev);
+        }
         return;
       }
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         selectByIndex(activeIndex);
       }
-    }
-
-    function focusItem(index: number) {
-      listRef.current
-        ?.querySelector<HTMLElement>(`[data-index="${index}"]`)
-        ?.focus();
     }
 
     function selectByIndex(index: number) {
