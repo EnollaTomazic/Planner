@@ -52,13 +52,13 @@ describe("Button", () => {
     },
     secondary: {
       primary: ["text-foreground"],
-      accent: ["text-accent", "bg-accent/15"],
+      accent: ["text-accent-foreground", "bg-accent/15"],
       info: ["text-accent-2", "bg-accent-2/15"],
       danger: ["text-danger", "bg-danger/15"],
     },
     ghost: {
       primary: ["text-foreground"],
-      accent: ["text-accent"],
+      accent: ["text-accent-3"],
       info: ["text-accent-2"],
       danger: ["text-danger"],
     },

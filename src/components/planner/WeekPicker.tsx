@@ -174,7 +174,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       <div
         className={cn(
           "chip__date",
-          today ? "text-accent" : "text-muted-foreground",
+          today ? "text-accent-3" : "text-muted-foreground",
         )}
         data-text={localizedLabel}
       >

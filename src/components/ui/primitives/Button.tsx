@@ -95,7 +95,7 @@ export const toneClasses: Record<
   secondary: {
     primary: "text-foreground",
     accent:
-      "text-accent bg-accent/15 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+      "text-accent-foreground bg-accent/15 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
     info:
       "text-accent-2 bg-accent-2/15 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:
@@ -105,7 +105,7 @@ export const toneClasses: Record<
     primary:
       "text-foreground [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
     accent:
-      "text-accent [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
+      "text-accent-3 [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
     info:
       "text-accent-2 [--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
     danger:

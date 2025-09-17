@@ -106,7 +106,7 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain("border-transparent bg-accent/15 text-accent");
+    expect(classes).toContain("border-transparent bg-accent/15 text-accent-foreground");
     expect(classes).toContain("[--hover:hsl(var(--accent)/0.25)]");
   });
 

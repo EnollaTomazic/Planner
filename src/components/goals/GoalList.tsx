@@ -209,7 +209,9 @@ export default function GoalList({
                     </time>
                   </span>
                   <span
-                    className={g.done ? "text-muted-foreground" : "text-accent"}
+                    className={
+                      g.done ? "text-muted-foreground" : "text-accent-3"
+                    }
                   >
                     {g.done ? "Done" : "Active"}
                   </span>
