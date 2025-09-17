@@ -63,8 +63,18 @@ describe("Button", () => {
     },
     ghost: {
       primary: ["text-foreground"],
-      accent: ["text-accent"],
-      info: ["text-accent-2"],
+      accent: [
+        "text-accent-foreground",
+        "bg-accent/20",
+        "[--hover:theme('colors.interaction.accent.surfaceHover')]",
+        "[--active:theme('colors.interaction.accent.surfaceActive')]",
+      ],
+      info: [
+        "text-accent-2-foreground",
+        "bg-accent-2/20",
+        "[--hover:theme('colors.interaction.info.surfaceHover')]",
+        "[--active:theme('colors.interaction.info.surfaceActive')]",
+      ],
       danger: ["text-danger"],
     },
   };
