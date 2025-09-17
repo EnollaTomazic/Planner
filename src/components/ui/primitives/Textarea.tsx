@@ -59,6 +59,7 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={finalId}
           name={finalName}
+          aria-label={ariaLabel}
           className={cn(INNER, resize, textareaClassName)}
           {...props}
         />
