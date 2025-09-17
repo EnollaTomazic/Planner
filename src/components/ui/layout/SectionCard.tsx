@@ -24,7 +24,7 @@ const Root = React.forwardRef<HTMLElement, RootProps>(
       <section
         ref={ref}
         className={cn(
-          "shadow-neo-strong rounded-card r-card-lg",
+          "shadow-neo-strong rounded-card r-card-lg text-card-foreground",
           variant === "neo" ? "card-neo-soft" : "card-soft",
           className,
         )}

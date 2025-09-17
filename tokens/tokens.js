@@ -7,6 +7,7 @@ export default {
   foreground: "260 20% 96%",
   text: "var(--foreground)",
   card: "248 30% 10%",
+  cardForeground: "var(--foreground)",
   panel: "var(--card)",
   border: "252 20% 22%",
   line: "var(--border)",
@@ -88,7 +89,8 @@ export default {
   edgeIris:
     "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(var(--accent-3) / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
   segActiveGrad:
-    "linear-gradient(\n    90deg,\n    hsl(262 83% 58% / 0.95),\n    hsl(292 80% 60% / 0.95),\n    hsl(var(--accent-3) / 0.95)\n  )",
+    "linear-gradient(\n    90deg,\n    hsl(262 83% 58% / 0.35),\n    hsl(292 80% 60% / 0.35),\n    hsl(var(--accent-3) / 0.35)\n  )",
+  segActiveBase: "hsl(var(--card))",
   shadow: "0 10px 30px hsl(250 30% 2% / 0.35)",
   lgViolet: "var(--ring)",
   lgCyan: "var(--accent-2)",
@@ -121,6 +123,8 @@ export default {
     "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)",
   btnPrimaryActiveShadow:
     "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)",
+  destructive: "var(--danger)",
+  destructiveForeground: "var(--danger-foreground)",
   spacing1: "4px",
   spacing2: "8px",
   spacing3: "12px",

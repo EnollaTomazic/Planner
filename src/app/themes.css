@@ -12,6 +12,8 @@
   --lg-cyan: var(--accent-2);
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--danger-foreground);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --shadow-neon:
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
@@ -99,9 +101,9 @@ html.theme-aurora {
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(var(--accent-2) / 0.95),
-    hsl(var(--accent) / 0.95),
-    hsl(var(--accent-2) / 0.95)
+    hsl(var(--accent-2) / 0.35),
+    hsl(var(--accent) / 0.35),
+    hsl(var(--accent-2) / 0.35)
   );
   --shadow: 0 10px 30px hsl(var(--shadow-base) / 0.3);
 }
@@ -302,13 +304,7 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   body::before {
   content: "";
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-  width: min(100vw, var(--shell-max, var(--shell-width)));
-  max-width: var(--shell-max, var(--shell-width));
+  inset: 0;
   pointer-events: none;
   z-index: 0;
   opacity: 0.1;
@@ -326,12 +322,17 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   mix-blend-mode: screen;
   animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-lg .page-backdrop__layer,
-html.theme-lg-dark .page-backdrop__layer,
+html.theme-lg body::after,
+html.theme-lg-dark body::after,
 html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
     .theme-kitten
   ):not(.theme-aurora):not(.theme-hardstuck)
-  .page-backdrop__layer {
+  body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
   background:
     radial-gradient(
       60% 40% at 10% 0%,
@@ -886,8 +887,7 @@ html.bg-streak body::after {
 html.bg-intense body::before {
   opacity: 0.05;
 }
-html.bg-intense body::after,
-html.bg-intense .page-backdrop__layer {
+html.bg-intense body::after {
   filter: blur(2px) saturate(120%);
 }
 
