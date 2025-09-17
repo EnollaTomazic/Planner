@@ -47,7 +47,7 @@ export default function ReviewSummaryHeader({
     <div className="section-h sticky">
       <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
         <div className="min-w-0">
-          <div className="mb-1 text-ui font-medium tracking-[0.02em] text-foreground/25">Title</div>
+          <div className="mb-1 text-ui font-medium tracking-[0.02em] text-muted-foreground">Title</div>
           <div className="truncate text-title font-semibold tracking-[-0.01em] leading-7 text-foreground/70">
             {title || "Untitled review"}
           </div>
