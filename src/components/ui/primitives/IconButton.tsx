@@ -81,7 +81,7 @@ const variantBase: Record<Variant, string> = {
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ring: {
     primary: "border-line/35 text-foreground",
-    accent: "border-accent/35 text-accent",
+    accent: "border-accent/35 text-accent-foreground",
     info: "border-accent-2/35 text-accent-2",
     danger: "border-danger/35 text-danger",
   },
@@ -89,14 +89,14 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     primary:
       "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
     accent:
-      "border-transparent bg-accent/15 text-accent [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
+      "border-transparent bg-accent/30 text-accent-foreground [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info: "border-transparent bg-accent-2/15 text-accent-2 [--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
     danger:
       "border-transparent bg-danger/15 text-danger [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
   },
   glow: {
     primary: "border-foreground/35 text-foreground",
-    accent: "border-accent/35 text-accent",
+    accent: "border-accent/35 text-accent-foreground",
     info: "border-accent-2/35 text-accent-2",
     danger: "border-danger/35 text-danger",
   },
