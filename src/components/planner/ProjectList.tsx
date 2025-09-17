@@ -102,7 +102,6 @@ export default function ProjectList({
       renderEmpty={() => (
         <ul
           className="w-full space-y-[var(--space-2)] py-[var(--space-2)]"
-          role="radiogroup"
           aria-label="Projects"
         >
           <li className="w-full">
