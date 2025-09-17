@@ -39,6 +39,9 @@ const config: Config = {
           foreground: "hsl(var(--accent-foreground))",
           soft: "hsl(var(--accent-soft))",
         },
+        "accent-3": {
+          DEFAULT: "hsl(var(--accent-3))",
+        },
         "accent-2": {
           DEFAULT: "hsl(var(--accent-2))",
           foreground: "hsl(var(--accent-2-foreground))",
