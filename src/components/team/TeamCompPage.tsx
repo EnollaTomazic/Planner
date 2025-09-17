@@ -203,8 +203,16 @@ export default function TeamCompPage() {
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
-    TABS.find((t) => t.key === tab)?.ref.current?.focus();
-  }, [tab, TABS]);
+    if (tab === "cheat") {
+      cheatRef.current?.focus();
+      return;
+    }
+    if (tab === "builder") {
+      builderRef.current?.focus();
+      return;
+    }
+    clearsRef.current?.focus();
+  }, [tab]);
 
   const hero = React.useMemo<HeroProps<SubTab>>(() => {
     if (tab === "cheat") {
