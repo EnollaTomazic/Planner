@@ -17,6 +17,7 @@ export const rootVariables: VariableDefinition[] = [
   { name: "lg-cyan", value: "var(--accent-2)" },
   { name: "lg-pink", value: "var(--lav-deep)" },
   { name: "lg-black", value: "var(--background)" },
+  { name: "card-foreground", value: "var(--foreground)" },
   { name: "destructive", value: "var(--danger)" },
   {
     name: "destructive-foreground",
