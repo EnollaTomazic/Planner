@@ -12,12 +12,6 @@ const FILTER_ITEMS: TabItem<FilterKey>[] = [
   { key: "Done", label: "Done", icon: <CircleCheck aria-hidden="true" /> },
 ];
 
-const FILTER_ARIA_LABEL: Record<FilterKey, string> = {
-  All: "Show all goals",
-  Active: "Show active goals",
-  Done: "Show completed goals",
-};
-
 interface GoalsTabsProps {
   value: FilterKey;
   onChange: (val: FilterKey) => void;
@@ -30,7 +24,7 @@ export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
       value={value}
       onValueChange={onChange}
       size="sm"
-      ariaLabel={FILTER_ARIA_LABEL[value]}
+      ariaLabel="Filter goals"
       linkPanels={false}
     />
   );
