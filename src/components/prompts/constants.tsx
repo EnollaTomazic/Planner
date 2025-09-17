@@ -48,7 +48,12 @@ import SkeletonShowcase from "./SkeletonShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
-import { DashboardCard, BottomNav, IsometricRoom } from "@/components/home";
+import {
+  DashboardCard,
+  BottomNav,
+  IsometricRoom,
+  QuickActionGrid,
+} from "@/components/home";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
@@ -381,6 +386,32 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   ]}
   defaultValue="active"
   ariaLabel="Show active goals"
+/>`,
+    },
+    {
+      id: "quick-action-grid",
+      name: "QuickActionGrid",
+      description: "Maps quick action configs to styled buttons",
+      element: (
+        <QuickActionGrid
+          actions={[
+            { href: "/planner", label: "Planner Today" },
+            { href: "/goals", label: "New Goal", tone: "accent" },
+            { href: "/reviews", label: "New Review", tone: "accent" },
+          ]}
+          className="md:flex-row md:items-center md:justify-between"
+          buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+        />
+      ),
+      tags: ["button", "layout"],
+      code: `<QuickActionGrid
+  actions={[
+    { href: "/planner", label: "Planner Today" },
+    { href: "/goals", label: "New Goal", tone: "accent" },
+    { href: "/reviews", label: "New Review", tone: "accent" },
+  ]}
+  className="md:flex-row md:items-center md:justify-between"
+  buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
 />`,
     },
     {

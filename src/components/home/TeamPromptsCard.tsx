@@ -1,29 +1,40 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import Button from "@/components/ui/primitives/Button";
 import DashboardCard from "./DashboardCard";
+import QuickActionGrid from "./QuickActionGrid";
 
-const quickActionClassName =
-  "col-span-12 w-full justify-start text-left border-border bg-card/60 [--focus:var(--theme-ring)] focus-visible:ring-offset-0 sm:col-span-6 lg:col-span-4";
+const teamQuickActions = [
+  {
+    href: "/team",
+    label: "Archetypes",
+    asChild: true,
+  },
+  {
+    href: "/team",
+    label: "Team Builder",
+    asChild: true,
+  },
+  {
+    href: "/team",
+    label: "Jungle Clears",
+    asChild: true,
+  },
+];
 
 export default function TeamPromptsCard() {
   return (
     <div className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
       <div className="md:col-span-6">
         <DashboardCard title="Team quick actions">
-          <div className="grid grid-cols-12 gap-[var(--space-4)]">
-            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
-              <Link href="/team">Archetypes</Link>
-            </Button>
-            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
-              <Link href="/team">Team Builder</Link>
-            </Button>
-            <Button asChild size="sm" variant="ghost" className={quickActionClassName}>
-              <Link href="/team">Jungle Clears</Link>
-            </Button>
-          </div>
+          <QuickActionGrid
+            actions={teamQuickActions}
+            layout="grid"
+            className="grid-cols-12"
+            buttonVariant="ghost"
+            buttonSize="sm"
+            buttonClassName="col-span-12 w-full justify-start text-left border-border bg-card/60 sm:col-span-6 lg:col-span-4"
+          />
         </DashboardCard>
       </div>
       <div className="md:col-span-6">
