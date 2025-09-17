@@ -43,6 +43,7 @@ import {
   ReviewListItem,
   ReviewSurface,
   ReviewSliderTrack,
+  ScoreMeter,
 } from "@/components/reviews";
 import Banner from "@/components/chrome/Banner";
 import NavBar from "@/components/chrome/NavBar";
@@ -730,6 +731,18 @@ export default function ComponentGallery() {
             <ReviewSurface padding="inline" className="relative h-12">
               <ReviewSliderTrack value={7} tone="score" variant="display" />
             </ReviewSurface>
+          </div>
+        ),
+      },
+      {
+        label: "ScoreMeter",
+        element: (
+          <div className="w-56">
+            <ScoreMeter
+              label="Score"
+              value={8}
+              detail={<span>Great positioning</span>}
+            />
           </div>
         ),
       },

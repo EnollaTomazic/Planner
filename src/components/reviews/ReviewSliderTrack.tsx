@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-type ReviewSliderTone = "score" | "focus";
-type ReviewSliderVariant = "input" | "display";
+export type ReviewSliderTone = "score" | "focus";
+export type ReviewSliderVariant = "input" | "display";
 
 type ReviewSliderTrackProps = {
   value: number;

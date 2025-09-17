@@ -65,6 +65,7 @@ import {
   TimestampMarkers,
   ReviewSurface,
   ReviewSliderTrack,
+  ScoreMeter,
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review, Role } from "@/lib/types";
@@ -173,6 +174,10 @@ function ReviewSliderTrackDemo() {
       <ReviewSliderTrack value={7} tone="score" variant="input" />
     </ReviewSurface>
   );
+}
+
+function ScoreMeterDemo() {
+  return <ScoreMeter label="Score" value={8} detail={<span>Great positioning</span>} />;
 }
 
 function ChampListEditorDemo() {
@@ -805,6 +810,21 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<ReviewSurface padding="inline" className="relative h-12">
   <ReviewSliderTrack value={7} tone="score" variant="input" />
 </ReviewSurface>`,
+    },
+    {
+      id: "score-meter",
+      name: "ScoreMeter",
+      element: (
+        <div className="w-56">
+          <ScoreMeterDemo />
+        </div>
+      ),
+      tags: ["review", "slider", "summary"],
+      code: `<ScoreMeter
+  label="Score"
+  value={8}
+  detail={<span>Great positioning</span>}
+/>`,
     },
     {
       id: "section-card-variants",
