@@ -62,6 +62,9 @@ export default function ReviewEditor({
   const pillarsRef = React.useRef<PillarsSelectorHandle>(null);
   const timestampsRef = React.useRef<TimestampMarkersHandle>(null);
   const focusRangeRef = React.useRef<HTMLInputElement>(null);
+  const laneLabelId = React.useId();
+  const tagsLabelId = React.useId();
+  const notesLabelId = React.useId();
 
   const [lastRole, setLastRole] = usePersistentState<Role>(
     LAST_ROLE_KEY,
@@ -168,8 +171,12 @@ export default function ReviewEditor({
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
           <div className="min-w-0">
             <div className="mb-2">
-              <SectionLabel>Lane</SectionLabel>
-              <RoleSelector value={role} onChange={selectRole} />
+              <SectionLabel id={laneLabelId}>Lane</SectionLabel>
+              <RoleSelector
+                value={role}
+                onChange={selectRole}
+                ariaLabelledby={laneLabelId}
+              />
             </div>
 
             <LaneOpponentForm
@@ -303,7 +310,7 @@ export default function ReviewEditor({
 
         {/* Tags */}
         <div>
-          <SectionLabel>Tags</SectionLabel>
+          <SectionLabel id={tagsLabelId}>Tags</SectionLabel>
           <div className="mt-1 flex items-center gap-2">
             <div className="relative flex-1">
               <Tag className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -313,6 +320,7 @@ export default function ReviewEditor({
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
                 className="pl-6"
+                aria-labelledby={tagsLabelId}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -364,7 +372,7 @@ export default function ReviewEditor({
 
         {/* Notes */}
         <div>
-          <SectionLabel>Notes</SectionLabel>
+          <SectionLabel id={notesLabelId}>Notes</SectionLabel>
           <Textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
@@ -373,6 +381,7 @@ export default function ReviewEditor({
             className="rounded-[var(--radius-2xl)]"
             resize="resize-y"
             textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
+            aria-labelledby={notesLabelId}
           />
         </div>
       </div>

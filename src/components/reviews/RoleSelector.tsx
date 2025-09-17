@@ -10,13 +10,19 @@ type Props = {
   value: Role;
   onChange: (v: Role) => void;
   className?: string;
+  ariaLabelledby?: string;
 };
 
 /**
  * Segmented control for role selection.
  * Uses glitch-styled segmented buttons with sliding indicator.
  */
-export default function RoleSelector({ value, onChange, className }: Props) {
+export default function RoleSelector({
+  value,
+  onChange,
+  className,
+  ariaLabelledby,
+}: Props) {
   const count = ROLE_OPTIONS.length;
   const activeIdx = Math.max(
     0,
@@ -61,6 +67,7 @@ export default function RoleSelector({ value, onChange, className }: Props) {
         value={value}
         onChange={(v) => onChange(v as Role)}
         ariaLabel="Select lane/role"
+        ariaLabelledby={ariaLabelledby}
         className="relative w-full bg-transparent p-0"
       >
         {ROLE_OPTIONS.map(({ value: v, Icon, label }) => (

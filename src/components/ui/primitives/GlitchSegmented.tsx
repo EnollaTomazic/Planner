@@ -8,6 +8,7 @@ export interface GlitchSegmentedGroupProps {
   value: string;
   onChange?: (v: string) => void;
   ariaLabel?: string;
+  ariaLabelledby?: string;
   children: React.ReactNode;
   className?: string;
 }
@@ -24,6 +25,7 @@ export const GlitchSegmentedGroup = ({
   value,
   onChange = () => {},
   ariaLabel,
+  ariaLabelledby,
   children,
   className,
 }: GlitchSegmentedGroupProps) => {
@@ -66,7 +68,8 @@ export const GlitchSegmentedGroup = ({
   return (
     <div
       role="tablist"
-      aria-label={ariaLabel}
+      aria-label={ariaLabelledby ? undefined : ariaLabel}
+      aria-labelledby={ariaLabelledby}
       className={cn(
         "inline-flex rounded-full bg-[var(--btn-bg)] p-[var(--space-1)] gap-[var(--space-1)]",
         className,

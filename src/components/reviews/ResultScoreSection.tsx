@@ -32,6 +32,7 @@ function ResultScoreSection(
   const [score, setScore] = React.useState<number>(score0);
   const resultRef = React.useRef<HTMLButtonElement>(null);
   const scoreRangeRef = React.useRef<HTMLInputElement>(null);
+  const resultLabelId = React.useId();
 
   const save = React.useCallback(() => {
     commitMeta({ result, score });
@@ -54,12 +55,13 @@ function ResultScoreSection(
   return (
     <>
       <div>
-        <SectionLabel>Result</SectionLabel>
+        <SectionLabel id={resultLabelId}>Result</SectionLabel>
         <button
           ref={resultRef}
           type="button"
           role="switch"
           aria-checked={result === "Win"}
+          aria-labelledby={resultLabelId}
           onClick={() => {
             const next = result === "Win" ? "Loss" : "Win";
             setResult(next);

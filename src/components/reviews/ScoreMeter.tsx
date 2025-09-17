@@ -25,6 +25,11 @@ export type ScoreMeterProps = {
   valueFormatter?: (value: number) => React.ReactNode;
 };
 
+const isElementWithProps = (
+  node: React.ReactNode,
+): node is React.ReactElement<Record<string, unknown>> =>
+  React.isValidElement(node);
+
 export default function ScoreMeter({
   value,
   label,
@@ -45,15 +50,32 @@ export default function ScoreMeter({
   const { className: trackClassName, ...trackRest } = trackProps ?? {};
   const formatValue = valueFormatter ?? formatDefaultValue;
 
+  const labelId = React.useId();
+  let labelledControl: React.ReactNode = control;
+
+  if (label && isElementWithProps(control)) {
+    const existing = control.props["aria-labelledby"];
+    const merged = [
+      typeof existing === "string" ? existing : undefined,
+      labelId,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    labelledControl = React.cloneElement(control, {
+      "aria-labelledby": merged,
+    } as Record<string, unknown>);
+  }
+
   return (
     <div className={className}>
-      {label ? <SectionLabel>{label}</SectionLabel> : null}
+      {label ? <SectionLabel id={labelId}>{label}</SectionLabel> : null}
       <ReviewSurface
         padding={padding}
         {...surfaceRest}
         className={cn("relative h-[var(--space-7)]", surfaceClassName)}
       >
-        {control}
+        {labelledControl}
         <ReviewSliderTrack
           value={value}
           tone={tone}
