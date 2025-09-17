@@ -62,6 +62,8 @@ import {
   ResultScoreSection,
   PillarsSelector as ReviewsPillarsSelector,
   TimestampMarkers,
+  ReviewSurface,
+  ReviewSliderTrack,
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./usePrompts";
 import type { Review, Role } from "@/lib/types";
@@ -153,6 +155,22 @@ function BackgroundPickerDemo() {
       bg={t.bg}
       onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
     />
+  );
+}
+
+function ReviewSurfaceDemo() {
+  return (
+    <ReviewSurface padding="md" tone="muted">
+      <div className="text-ui text-foreground/70">Surface content</div>
+    </ReviewSurface>
+  );
+}
+
+function ReviewSliderTrackDemo() {
+  return (
+    <ReviewSurface padding="inline" className="relative h-12">
+      <ReviewSliderTrack value={7} tone="score" variant="input" />
+    </ReviewSurface>
   );
 }
 
@@ -723,6 +741,32 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 >
   <p className="text-ui">Body</p>
 </NeoCard>`,
+    },
+    {
+      id: "review-surface",
+      name: "ReviewSurface",
+      element: (
+        <div className="w-56">
+          <ReviewSurfaceDemo />
+        </div>
+      ),
+      tags: ["review", "surface"],
+      code: `<ReviewSurface padding="md" tone="muted">
+  <div className="text-ui text-foreground/70">Surface content</div>
+</ReviewSurface>`,
+    },
+    {
+      id: "review-slider-track",
+      name: "ReviewSliderTrack",
+      element: (
+        <div className="w-56">
+          <ReviewSliderTrackDemo />
+        </div>
+      ),
+      tags: ["review", "slider"],
+      code: `<ReviewSurface padding="inline" className="relative h-12">
+  <ReviewSliderTrack value={7} tone="score" variant="input" />
+</ReviewSurface>`,
     },
     {
       id: "section-card-variants",
