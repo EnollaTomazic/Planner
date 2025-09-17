@@ -111,9 +111,11 @@ export default function CompsPage() {
           id: "comps-header",
           heading: "Component Gallery",
           subtitle: "Browse Planner UI building blocks by category.",
+          sticky: true,
         }}
         hero={{
           frame: false,
+          sticky: true,
           heading: sectionLabel,
           icon: <PanelsTopLeft aria-hidden className="size-6" />,
           subTabs: {
