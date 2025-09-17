@@ -20,7 +20,7 @@ export default function ThemePicker({ variant, onVariantChange, className = "" }
       items={items}
       value={variant}
       onChange={v => onVariantChange(v as Variant)}
-      buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[--edge-iris] focus-visible:ring-2 focus-visible:ring-[--edge-iris]"
+      buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[var(--edge-iris)] focus-visible:ring-2 focus-visible:ring-[var(--edge-iris)]"
       matchTriggerWidth={false}
       className={className}
     />
