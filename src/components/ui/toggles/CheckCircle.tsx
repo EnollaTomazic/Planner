@@ -93,14 +93,14 @@ export default function CheckCircle({
     if (wantsOn !== prev.current) {
       if (wantsOn) {
         setPhase("ignite");
-        const t = window.setTimeout(() => setPhase("steady-on"), 620);
+        const t = setTimeout(() => setPhase("steady-on"), 620);
         prev.current = wantsOn;
-        return () => window.clearTimeout(t);
+        return () => clearTimeout(t);
       } else {
         setPhase("powerdown");
-        const t = window.setTimeout(() => setPhase("off"), 360);
+        const t = setTimeout(() => setPhase("off"), 360);
         prev.current = wantsOn;
-        return () => window.clearTimeout(t);
+        return () => clearTimeout(t);
       }
     }
     prev.current = wantsOn;
@@ -108,7 +108,7 @@ export default function CheckCircle({
 
   function retriggerIgnite() {
     setPhase("ignite");
-    window.setTimeout(() => setPhase(wantsOn ? "steady-on" : "off"), 620);
+    setTimeout(() => setPhase(wantsOn ? "steady-on" : "off"), 620);
   }
 
   function onKey(e: React.KeyboardEvent<HTMLButtonElement>) {

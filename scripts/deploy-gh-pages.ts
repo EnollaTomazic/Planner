@@ -6,6 +6,33 @@ import process from "node:process";
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
 
+function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
+  const value = env.CI;
+  if (!value) {
+    return false;
+  }
+
+  const normalized = value.toLowerCase();
+  return normalized !== "false" && normalized !== "0";
+}
+
+function createGhPagesArgs(env: NodeJS.ProcessEnv): string[] {
+  const args = ["gh-pages", "-d", "out", "-b", "gh-pages"];
+  const token = env.GITHUB_TOKEN?.trim();
+  const repository = env.GITHUB_REPOSITORY?.trim();
+
+  if (!token || !repository) {
+    return args;
+  }
+
+  if (isCiEnvironment(env)) {
+    const repoUrl = `https://x-access-token:${token}@github.com/${repository}.git`;
+    args.push("--repo", repoUrl);
+  }
+
+  return args;
+}
+
 function sanitizeSlug(value: string | undefined): string | undefined {
   const trimmed = value?.trim();
   if (!trimmed) {
@@ -83,7 +110,8 @@ function main(): void {
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);
-  runCommand(npxCommand, ["gh-pages", "-d", "out", "-b", "gh-pages"], process.env);
+  const ghPagesArgs = createGhPagesArgs(process.env);
+  runCommand(npxCommand, ghPagesArgs, process.env);
 }
 
 try {
