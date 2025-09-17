@@ -57,7 +57,8 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
       <SectionCard className="card-neo-soft">
         <SectionCard.Header
           className="flex items-center justify-between"
-          title={<h2 className="text-title font-semibold tracking-[-0.01em]">Add Goal</h2>}
+          title="Add Goal"
+          titleClassName="text-title font-semibold tracking-[-0.01em]"
           actions={
             <Button type="submit" size="sm" disabled={!title.trim()}>
               Add Goal
