@@ -103,7 +103,7 @@ export default function CompsPage() {
   return (
     <PageShell
       as="main"
-      className="space-y-6 py-6"
+      className="space-y-[var(--space-6)] py-[var(--space-6)]"
       aria-labelledby="comps-header"
     >
       <PageHeader
@@ -117,7 +117,11 @@ export default function CompsPage() {
           frame: false,
           sticky: true,
           heading: sectionLabel,
-          icon: <PanelsTopLeft aria-hidden className="size-6" />,
+          icon: (
+            <span className="[&_svg]:size-[var(--space-6)]">
+              <PanelsTopLeft aria-hidden />
+            </span>
+          ),
           subTabs: {
             ariaLabel: "Component section",
             items: heroTabs,
@@ -135,7 +139,7 @@ export default function CompsPage() {
           },
         }}
       />
-      <section className="grid gap-6">
+      <section className="grid gap-[var(--space-6)]">
         <div
           id="comps-components-panel"
           role="tabpanel"
