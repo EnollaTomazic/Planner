@@ -37,7 +37,7 @@ export default function WeekNotes({ iso }: Props) {
         />
         <div className="mt-[var(--space-2)] text-label text-muted-foreground" aria-live="polite">
           {saving
-            ? "Saving changes…"
+            ? "Saving…"
             : isDirty
               ? "Unsaved changes"
               : lastSavedRef.current
