@@ -93,7 +93,7 @@ export default function PageTabs({
     }: TabRenderContext<string, PageTabBarItem>) => {
       const { className: baseClassName, onClick, ...restProps } = props;
       const mergedClassName = cn(
-        "btn-like-segmented min-h-[var(--control-h-lg)] font-mono text-ui",
+        "btn-like-segmented min-h-[var(--control-h-lg)] font-mono text-ui px-[var(--space-4)] py-[var(--space-3)]",
         baseClassName,
         active && "btn-glitch is-active",
         disabled && "pointer-events-none opacity-[var(--disabled)]",
@@ -109,7 +109,7 @@ export default function PageTabs({
           {active && (
             <motion.span
               layoutId="glitch-tabs-underline"
-              className="pointer-events-none absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px underline-gradient"
+              className="pointer-events-none absolute inset-x-[var(--space-2)] bottom-[calc(var(--space-1)*-1)] h-[var(--hairline-w)] underline-gradient"
               transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
             />
           )}
@@ -177,7 +177,7 @@ export default function PageTabs({
           ariaLabel={ariaLabel}
           variant="glitch"
           renderItem={renderTab}
-          tablistClassName="data-[variant=glitch]:py-[var(--space-3)]"
+          tablistClassName="data-[variant=glitch]:gap-[var(--space-2)] data-[variant=glitch]:py-[var(--space-3)]"
         />
       </div>
     </div>
