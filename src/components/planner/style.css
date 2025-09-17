@@ -512,7 +512,8 @@
 
 /* compact internals */
 .chip__date {
-  @apply text-label font-medium tracking-[0.02em] text-muted-foreground;
+  @apply text-label font-medium tracking-[0.02em];
+  color: inherit;
 }
 .chip__counts {
   margin-top: var(--space-1);
