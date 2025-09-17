@@ -14,6 +14,7 @@ import {
   TeamPromptsCard,
   BottomNav,
   IsometricRoom,
+  DashboardList,
 } from "@/components/home";
 import { PageHeader, PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
@@ -135,23 +136,25 @@ function HomePageContent() {
             title="Weekly focus"
             cta={{ label: "Open planner", href: "/planner" }}
           >
-            <ul className="divide-y divide-[hsl(var(--border))]">
-              {weeklyHighlights.map((highlight) => (
-                <li key={highlight.id} className="py-3">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <p className="text-ui font-medium">{highlight.title}</p>
-                      <span className="text-label text-muted-foreground">
-                        {highlight.schedule}
-                      </span>
-                    </div>
-                    <p className="text-body text-muted-foreground">
-                      {highlight.summary}
-                    </p>
+            <DashboardList
+              items={weeklyHighlights}
+              getKey={(highlight) => highlight.id}
+              itemClassName="py-3"
+              empty="No highlights scheduled"
+              renderItem={(highlight) => (
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-ui font-medium">{highlight.title}</p>
+                    <span className="text-label text-muted-foreground">
+                      {highlight.schedule}
+                    </span>
                   </div>
-                </li>
-              ))}
-            </ul>
+                  <p className="text-body text-muted-foreground">
+                    {highlight.summary}
+                  </p>
+                </div>
+              )}
+            />
           </DashboardCard>
         </div>
         <div className="md:col-span-12">
