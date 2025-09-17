@@ -243,6 +243,55 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "TabBar (glitch)",
+        element: (
+          <TabBar
+            items={[
+              { key: "overview", label: "Overview" },
+              { key: "tasks", label: "Tasks" },
+              { key: "notes", label: "Notes" },
+            ]}
+            defaultValue="tasks"
+            variant="glitch"
+            linkPanels={false}
+            renderItem={({ item, active, props, ref, disabled }) => {
+              const { className: baseClassName, onClick, ...restProps } = props;
+              const className = cn(
+                "btn-like-segmented font-mono text-ui",
+                baseClassName,
+                active && "btn-glitch is-active",
+                disabled && "pointer-events-none opacity-[var(--disabled)]",
+              );
+              const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+                onClick?.(event);
+              };
+              return (
+                <button
+                  type="button"
+                  {...restProps}
+                  ref={ref as React.Ref<HTMLButtonElement>}
+                  className={className}
+                  disabled={disabled}
+                  onClick={(event) => {
+                    if (disabled) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      return;
+                    }
+                    handleClick(event);
+                  }}
+                >
+                  <span className="relative z-10 truncate">{item.label}</span>
+                  {active && (
+                    <span className="pointer-events-none absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px underline-gradient" />
+                  )}
+                </button>
+              );
+            }}
+          />
+        ),
+      },
+      {
         label: "SideSelector",
         element: (
           <SideSelector value={side} onChange={setSide} className="w-56" />
