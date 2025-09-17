@@ -29,12 +29,12 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
     <Card
       role="img"
       aria-label={`Isometric room with ${label}`}
-      className={`relative h-48 overflow-hidden bg-background border shadow-neo transition-transform motion-reduce:transition-none hover:-translate-y-1 hover:shadow-neo active:shadow-neo-inset focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 ${VARIANT_STYLES[variant]}`}
+      className={`relative h-[var(--room-size)] overflow-hidden bg-background border shadow-neo transition-transform motion-reduce:transition-none hover:-translate-y-1 hover:shadow-neo active:shadow-neo-inset focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 [--room-size:calc(var(--space-8)*3)] [--room-depth:calc(var(--room-size)/2)] ${VARIANT_STYLES[variant]}`}
     >
       <div className="absolute inset-0 [transform-style:preserve-3d]">
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[hsl(var(--room-floor))] origin-bottom [transform:rotateX(90deg)]" />
-        <div className="absolute inset-y-0 left-0 w-1/2 bg-[hsl(var(--room-wall))] origin-left [transform:rotateY(90deg)]" />
-        <div className="absolute inset-y-0 right-0 w-1/2 bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]" />
+        <div className="absolute inset-x-0 bottom-0 h-[var(--room-depth)] bg-[hsl(var(--room-floor))] origin-bottom [transform:rotateX(90deg)]" />
+        <div className="absolute inset-y-0 left-0 w-[var(--room-depth)] bg-[hsl(var(--room-wall))] origin-left [transform:rotateY(90deg)]" />
+        <div className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]" />
       </div>
       {variant === "lg" && (
         <div
