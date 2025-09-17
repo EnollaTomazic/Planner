@@ -17,23 +17,42 @@ export type SectionCardHeaderProps = Omit<
   children?: React.ReactNode; // if provided, we render this and ignore title/actions
   title?: React.ReactNode; // optional convenience API
   actions?: React.ReactNode; // optional convenience API
+  titleAs?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  titleClassName?: string;
 };
 type BodyProps = React.HTMLAttributes<HTMLDivElement>;
 
+type SectionCardContextValue = {
+  headingId?: string;
+  setHeadingId: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+
+const SectionCardContext = React.createContext<SectionCardContextValue | null>(
+  null,
+);
+
 const Root = React.forwardRef<HTMLElement, RootProps>(
   ({ variant = "neo", className, children, ...props }, ref) => {
+    const [headingId, setHeadingId] = React.useState<string | undefined>();
+    const contextValue = React.useMemo(
+      () => ({ headingId, setHeadingId }),
+      [headingId],
+    );
+
     return (
-      <section
-        ref={ref}
-        className={cn(
-          "shadow-neo-strong rounded-card r-card-lg text-card-foreground",
-          variant === "neo" ? "card-neo-soft" : "card-soft",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </section>
+      <SectionCardContext.Provider value={contextValue}>
+        <section
+          ref={ref}
+          className={cn(
+            "shadow-neo-strong rounded-card r-card-lg text-card-foreground",
+            variant === "neo" ? "card-neo-soft" : "card-soft",
+            className,
+          )}
+          {...props}
+        >
+          {children}
+        </section>
+      </SectionCardContext.Provider>
     );
   },
 );
@@ -46,8 +65,56 @@ function Header({
   children,
   title,
   actions,
+  titleAs = "h2",
+  titleClassName,
+  id,
   ...props
 }: SectionCardHeaderProps) {
+  const setHeadingId = React.useContext(SectionCardContext)?.setHeadingId;
+  const autoId = React.useId();
+  const shouldUseDefaultLayout = children === undefined || children === null;
+  const hasTitle = shouldUseDefaultLayout && title !== undefined && title !== null;
+  const headingId = hasTitle ? id ?? autoId : undefined;
+
+  React.useEffect(() => {
+    if (!setHeadingId) return;
+
+    setHeadingId(headingId);
+
+    return () => {
+      setHeadingId(undefined);
+    };
+  }, [setHeadingId, headingId]);
+
+  let renderedTitle: React.ReactNode = null;
+
+  if (hasTitle && headingId) {
+    if (
+      React.isValidElement(title) &&
+      typeof title.type === "string" &&
+      /^h[1-6]$/.test(title.type)
+    ) {
+      const headingElement = title as React.ReactElement<{
+        className?: string;
+        id?: string;
+      }>;
+
+      renderedTitle = React.cloneElement(headingElement, {
+        id: headingId,
+        className: cn(titleClassName, headingElement.props.className),
+      });
+    } else {
+      const HeadingTag = titleAs;
+      renderedTitle = (
+        <HeadingTag id={headingId} className={titleClassName}>
+          {title}
+        </HeadingTag>
+      );
+    }
+  } else if (title !== undefined && title !== null) {
+    renderedTitle = title;
+  }
+
   return (
     <div
       className={cn(
@@ -59,7 +126,7 @@ function Header({
     >
       {children ?? (
         <div className="flex w-full items-center justify-between">
-          <div>{title}</div>
+          <div>{renderedTitle}</div>
           <div>{actions}</div>
         </div>
       )}
@@ -68,7 +135,18 @@ function Header({
 }
 
 function Body({ className, ...props }: BodyProps) {
-  return <div className={cn("section-b", className)} {...props} />;
+  const context = React.useContext(SectionCardContext);
+  const labelledBy =
+    (props as React.HTMLAttributes<HTMLDivElement>)["aria-labelledby"] ??
+    context?.headingId;
+
+  return (
+    <div
+      {...props}
+      className={cn("section-b", className)}
+      aria-labelledby={labelledBy}
+    />
+  );
 }
 
 const SectionCard = Object.assign(Root, { Header, Body });
