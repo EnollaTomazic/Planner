@@ -38,8 +38,12 @@ import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
-import ReviewPanel from "@/components/reviews/ReviewPanel";
-import ReviewListItem from "@/components/reviews/ReviewListItem";
+import {
+  ReviewPanel,
+  ReviewListItem,
+  ReviewSurface,
+  ReviewSliderTrack,
+} from "@/components/reviews";
 import Banner from "@/components/chrome/Banner";
 import NavBar from "@/components/chrome/NavBar";
 import {
@@ -240,6 +244,55 @@ export default function ComponentGallery() {
             ariaLabel="Filter items"
             className="w-56"
             linkPanels={false}
+          />
+        ),
+      },
+      {
+        label: "TabBar (glitch)",
+        element: (
+          <TabBar
+            items={[
+              { key: "overview", label: "Overview" },
+              { key: "tasks", label: "Tasks" },
+              { key: "notes", label: "Notes" },
+            ]}
+            defaultValue="tasks"
+            variant="glitch"
+            linkPanels={false}
+            renderItem={({ item, active, props, ref, disabled }) => {
+              const { className: baseClassName, onClick, ...restProps } = props;
+              const className = cn(
+                "btn-like-segmented font-mono text-ui",
+                baseClassName,
+                active && "btn-glitch is-active",
+                disabled && "pointer-events-none opacity-[var(--disabled)]",
+              );
+              const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+                onClick?.(event);
+              };
+              return (
+                <button
+                  type="button"
+                  {...restProps}
+                  ref={ref as React.Ref<HTMLButtonElement>}
+                  className={className}
+                  disabled={disabled}
+                  onClick={(event) => {
+                    if (disabled) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      return;
+                    }
+                    handleClick(event);
+                  }}
+                >
+                  <span className="relative z-10 truncate">{item.label}</span>
+                  {active && (
+                    <span className="pointer-events-none absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px underline-gradient" />
+                  )}
+                </button>
+              );
+            }}
           />
         ),
       },
@@ -738,6 +791,26 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56">
             <ReviewListItem loading />
+          </div>
+        ),
+      },
+      {
+        label: "ReviewSurface",
+        element: (
+          <div className="w-56">
+            <ReviewSurface padding="md" tone="muted">
+              <div className="text-ui text-foreground/70">Surface content</div>
+            </ReviewSurface>
+          </div>
+        ),
+      },
+      {
+        label: "ReviewSliderTrack",
+        element: (
+          <div className="w-56">
+            <ReviewSurface padding="inline" className="relative h-12">
+              <ReviewSliderTrack value={7} tone="score" variant="display" />
+            </ReviewSurface>
           </div>
         ),
       },

@@ -31,9 +31,10 @@ export default function Sheet({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-background/80"
+      <button
+        type="button"
+        aria-label="Close sheet"
+        className="absolute inset-0 bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus]"
         onClick={onClose}
       />
       <motion.div

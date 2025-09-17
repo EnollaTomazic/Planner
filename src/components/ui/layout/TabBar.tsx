@@ -28,10 +28,45 @@ export type TabItem<K extends string = string> = {
 
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
-type Variant = "default" | "neo";
+type Variant = "default" | "neo" | "glitch";
 
-export type TabBarProps<K extends string = string> = {
-  items: TabItem<K>[];
+type WithExtras<
+  K extends string,
+  Extra extends Record<string, unknown> | undefined,
+> = Extra extends Record<string, unknown> ? TabItem<K> & Extra : TabItem<K>;
+
+export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
+  role: "tab";
+  tabIndex: number;
+  "aria-selected": boolean;
+  "aria-controls"?: string;
+  "aria-disabled"?: boolean;
+  "aria-busy"?: boolean;
+  "data-active"?: boolean;
+  "data-loading"?: boolean;
+};
+
+export type TabRenderContext<
+  K extends string = string,
+  Item extends TabItem<K> = TabItem<K>,
+> = {
+  item: Item;
+  active: boolean;
+  disabled: boolean;
+  loading: boolean;
+  select: () => void;
+  ref: React.RefCallback<HTMLElement>;
+  props: TabElementProps;
+  defaultChildren: React.ReactNode;
+  size: Size;
+  variant: Variant;
+};
+
+export type TabBarProps<
+  K extends string = string,
+  Extra extends Record<string, unknown> | undefined = undefined,
+> = {
+  items: Array<WithExtras<K, Extra>>;
   value?: K;
   defaultValue?: K;
   onValueChange?: (key: K) => void;
@@ -43,6 +78,10 @@ export type TabBarProps<K extends string = string> = {
   showBaseline?: boolean;
   linkPanels?: boolean;
   variant?: Variant;
+  tablistClassName?: string;
+  renderItem?: (
+    context: TabRenderContext<K, WithExtras<K, Extra>>,
+  ) => React.ReactNode;
   /**
    * Base string applied to tab and panel ids when linking panels.
    * Defaults to an auto-generated React id to ensure uniqueness.
@@ -68,7 +107,10 @@ const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   },
 };
 
-export default function TabBar<K extends string = string>({
+export default function TabBar<
+  K extends string = string,
+  Extra extends Record<string, unknown> | undefined = undefined,
+>({
   items,
   value,
   defaultValue,
@@ -81,8 +123,10 @@ export default function TabBar<K extends string = string>({
   showBaseline = false,
   linkPanels = true,
   variant = "default",
+  tablistClassName,
+  renderItem,
   idBase,
-}: TabBarProps<K>) {
+}: TabBarProps<K, Extra>) {
   const uid = useId();
   const baseId = idBase ?? uid;
   const isControlled = value !== undefined;
@@ -102,9 +146,9 @@ export default function TabBar<K extends string = string>({
     [isControlled, onValueChange],
   );
 
-  const tabRefs = React.useRef<Record<K, HTMLButtonElement | null>>({} as Record<
+  const tabRefs = React.useRef<Record<K, HTMLElement | null>>({} as Record<
     K,
-    HTMLButtonElement | null
+    HTMLElement | null
   >);
 
   const commitAndFocus = React.useCallback(
@@ -146,6 +190,7 @@ export default function TabBar<K extends string = string>({
 
   const s = sizeMap[size];
   const isNeo = variant === "neo";
+  const isGlitch = variant === "glitch";
 
   const neoTokens = React.useMemo<React.CSSProperties | undefined>(() => {
     if (!isNeo) return undefined;
@@ -167,11 +212,24 @@ export default function TabBar<K extends string = string>({
 
   const containerVariant = isNeo
     ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
-    : "border-border/30 bg-card/60 shadow-inner [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] [--focus:hsl(var(--ring))]";
+    : isGlitch
+      ? "[--focus:hsl(var(--ring))]"
+      : "border-border/30 bg-card/60 shadow-inner [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] [--focus:hsl(var(--ring))]";
+
+  const containerClasses = cn(
+    "inline-flex max-w-full items-center overflow-x-auto",
+    isGlitch
+      ? "gap-[var(--space-2)] py-[var(--space-2)]"
+      : "gap-[var(--space-1)] rounded-full border p-[var(--space-1)]",
+    containerVariant,
+    tablistClassName,
+  );
 
   const tabVariant = isNeo
     ? "bg-[var(--neo-tab-bg)] shadow-[var(--neo-tab-shadow)] hover:shadow-[var(--neo-tab-shadow-hover)] active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:hover:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
-    : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
+    : isGlitch
+      ? ""
+      : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -190,10 +248,7 @@ export default function TabBar<K extends string = string>({
           onKeyDown={onKeyDown}
           data-variant={variant}
           style={neoTokens}
-          className={cn(
-            "inline-flex max-w-full items-center gap-[var(--space-1)] overflow-x-auto rounded-full border p-[var(--space-1)]",
-            containerVariant,
-          )}
+          className={containerClasses}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
@@ -201,39 +256,15 @@ export default function TabBar<K extends string = string>({
             const panelId = `${baseId}-${item.controls ?? `${item.key}-panel`}`;
             const isLoading = Boolean(item.loading);
             const isDisabled = Boolean(item.disabled || isLoading);
-            return (
-              <button
-                key={item.key}
-                id={linkPanels ? tabId : undefined}
-                role="tab"
-                type="button"
-                disabled={isDisabled}
-                aria-selected={active}
-                aria-disabled={isDisabled || undefined}
-                aria-busy={isLoading || undefined}
-                aria-controls={linkPanels ? panelId : undefined}
-                tabIndex={isDisabled ? -1 : active ? 0 : -1}
-                ref={(el) => {
-                  tabRefs.current[item.key] = el;
-                }}
-                onClick={() => !isDisabled && commitValue(item.key)}
-                className={cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
-                  s.h,
-                  s.px,
-                  s.text,
-                  size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
-                  tabVariant,
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
-                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
-                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
-                  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
-                  item.className,
-                )}
-                data-active={active || undefined}
-                data-loading={isLoading || undefined}
-              >
+            const select = () => {
+              if (isDisabled) return;
+              commitValue(item.key);
+            };
+            const setRef: React.RefCallback<HTMLElement> = (el) => {
+              tabRefs.current[item.key] = el;
+            };
+            const defaultChildren = (
+              <>
                 {item.icon && (
                   <span
                     className={cn(
@@ -246,12 +277,88 @@ export default function TabBar<K extends string = string>({
                     {item.icon}
                   </span>
                 )}
-                <span className="truncate">{item.label}</span>
+                <span className={cn("truncate", isGlitch && "relative z-10")}>{
+                  item.label
+                }</span>
                 {item.badge != null && (
                   <span className="ml-[var(--space-2)] inline-flex items-center justify-center rounded-full px-[var(--space-2)] py-[var(--space-1)] text-label leading-none bg-primary-soft text-foreground">
                     {item.badge}
                   </span>
                 )}
+              </>
+            );
+
+            const baseClass = isGlitch
+              ? cn(
+                  "btn-like-segmented font-mono text-ui",
+                  size === "lg" ? "text-body" : "text-ui",
+                  active && "btn-glitch is-active",
+                  isDisabled && "pointer-events-none opacity-[var(--disabled)]",
+                  item.className,
+                )
+              : cn(
+                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
+                  s.h,
+                  s.px,
+                  s.text,
+                  size === "lg" ? "font-medium" : "font-normal",
+                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
+                  tabVariant,
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--focus] focus-visible:ring-offset-0",
+                  "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
+                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+                  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                  item.className,
+                );
+
+            const tabProps: TabElementProps = {
+              id: linkPanels ? tabId : undefined,
+              role: "tab",
+              "aria-selected": active,
+              "aria-disabled": isDisabled || undefined,
+              "aria-busy": isLoading || undefined,
+              "aria-controls": linkPanels ? panelId : undefined,
+              tabIndex: isDisabled ? -1 : active ? 0 : -1,
+              "data-active": active || undefined,
+              "data-loading": isLoading || undefined,
+              className: baseClass,
+              onClick: (event) => {
+                if (isDisabled) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  return;
+                }
+                select();
+              },
+            };
+
+            const context: TabRenderContext<K, WithExtras<K, Extra>> = {
+              item,
+              active,
+              disabled: isDisabled,
+              loading: isLoading,
+              select,
+              ref: setRef,
+              props: tabProps,
+              defaultChildren,
+              size,
+              variant,
+            };
+
+            const customNode = renderItem?.(context);
+            if (customNode != null) {
+              return <React.Fragment key={item.key}>{customNode}</React.Fragment>;
+            }
+
+            return (
+              <button
+                key={item.key}
+                type="button"
+                disabled={isDisabled}
+                {...tabProps}
+                ref={setRef as React.Ref<HTMLButtonElement>}
+              >
+                {defaultChildren}
               </button>
             );
           })}
