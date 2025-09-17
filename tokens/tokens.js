@@ -7,6 +7,7 @@ export default {
   foreground: "260 20% 96%",
   text: "var(--foreground)",
   card: "248 30% 10%",
+  cardForeground: "var(--foreground)",
   panel: "var(--card)",
   border: "252 20% 22%",
   line: "var(--border)",

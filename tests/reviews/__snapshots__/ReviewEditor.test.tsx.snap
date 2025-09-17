@@ -3,7 +3,7 @@
 exports[`ReviewEditor > renders default state 1`] = `
 <div>
   <section
-    class="shadow-neo-strong rounded-card r-card-lg card-soft transition-none shadow-none"
+    class="shadow-neo-strong rounded-card r-card-lg text-card-foreground card-soft transition-none shadow-none"
   >
     <div
       class="section-h sticky"
