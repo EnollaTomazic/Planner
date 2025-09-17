@@ -123,6 +123,8 @@ export default {
     "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)",
   btnPrimaryActiveShadow:
     "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)",
+  destructive: "var(--danger)",
+  destructiveForeground: "var(--danger-foreground)",
   spacing1: "4px",
   spacing2: "8px",
   spacing3: "12px",
