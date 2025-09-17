@@ -28,7 +28,10 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
 
   return (
     <SectionCard className="card-neo-soft">
-      <SectionCard.Header title={<h2 className="text-title font-semibold tracking-[-0.01em]">Goal Queue</h2>} />
+      <SectionCard.Header
+        title="Goal Queue"
+        titleClassName="text-title font-semibold tracking-[-0.01em]"
+      />
       <SectionCard.Body className="grid gap-6">
           <ul className="divide-y divide-border/10">
             {items.length === 0 ? (
