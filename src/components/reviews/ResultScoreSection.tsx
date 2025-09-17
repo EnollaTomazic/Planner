@@ -3,6 +3,8 @@ import SectionLabel from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
+import ReviewSurface from "./ReviewSurface";
+import ReviewSliderTrack from "./ReviewSliderTrack";
 
 export type ResultScoreSectionHandle = {
   save: () => void;
@@ -117,7 +119,11 @@ function ResultScoreSection(
 
       <div>
         <SectionLabel>Score</SectionLabel>
-        <div className="relative h-12 rounded-card r-card-lg border border-border bg-card px-4 focus-within:ring-2 focus-within:ring-ring">
+        <ReviewSurface
+          className="relative h-12"
+          padding="inline"
+          focusWithin
+        >
           <input
             ref={scoreRangeRef}
             type="range"
@@ -139,19 +145,8 @@ function ResultScoreSection(
             className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
             aria-label="Score from 0 to 10"
           />
-          <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2">
-            <div className="relative h-2 w-full rounded-full bg-muted shadow-neo-inset">
-              <div
-                className="absolute left-0 top-0 h-2 rounded-full bg-gradient-to-r from-primary to-accent shadow-ring [--ring:var(--primary)]"
-                style={{ width: `calc(${(score / 10) * 100}% + var(--space-2) + var(--space-1) / 2)` }}
-              />
-              <div
-                className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft"
-                style={{ left: `calc(${(score / 10) * 100}% - (var(--space-2) + var(--space-1) / 2))` }}
-              />
-            </div>
-          </div>
-        </div>
+          <ReviewSliderTrack value={score} tone="score" variant="input" />
+        </ReviewSurface>
         <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
           <span className="pill h-6 px-2 text-ui">{score}/10</span>
           <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />

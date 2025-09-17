@@ -38,8 +38,12 @@ import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
-import ReviewPanel from "@/components/reviews/ReviewPanel";
-import ReviewListItem from "@/components/reviews/ReviewListItem";
+import {
+  ReviewPanel,
+  ReviewListItem,
+  ReviewSurface,
+  ReviewSliderTrack,
+} from "@/components/reviews";
 import Banner from "@/components/chrome/Banner";
 import NavBar from "@/components/chrome/NavBar";
 import {
@@ -706,6 +710,26 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56">
             <ReviewListItem loading />
+          </div>
+        ),
+      },
+      {
+        label: "ReviewSurface",
+        element: (
+          <div className="w-56">
+            <ReviewSurface padding="md" tone="muted">
+              <div className="text-ui text-foreground/70">Surface content</div>
+            </ReviewSurface>
+          </div>
+        ),
+      },
+      {
+        label: "ReviewSliderTrack",
+        element: (
+          <div className="w-56">
+            <ReviewSurface padding="inline" className="relative h-12">
+              <ReviewSliderTrack value={7} tone="score" variant="display" />
+            </ReviewSurface>
           </div>
         ),
       },
