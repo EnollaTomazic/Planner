@@ -23,6 +23,8 @@
 | ring-muted | 248 20% 22% |
 | danger | 0 84% 60% |
 | warning | 43 96% 56% |
+| warning-soft | var(--warning) / 0.1 |
+| warning-soft-strong | var(--warning) / 0.2 |
 | muted | 248 26% 14% |
 | muted-foreground | 250 15% 70% |
 | surface | 248 24% 12% |
@@ -39,8 +41,9 @@
 | hardstuck-background | 165 60% 3% |
 | hardstuck-foreground | 160 12% 95% |
 | hardstuck-border | 165 40% 22% |
-| success | 316 92% 70% |
-| success-glow | 316 92% 52% / 0.6 |
+| success | 150 70% 45% |
+| success-soft | var(--success) / 0.2 |
+| success-glow | 150 70% 35% / 0.6 |
 | tone-top | 38 92% 60% |
 | tone-jg | 152 52% 44% |
 | tone-mid | 265 72% 62% |
@@ -100,6 +103,10 @@
 | lg-black | var(--background) |
 | glow-strong | var(--ring) / 0.55 |
 | glow-soft | var(--accent) / 0.25 |
+| space-0-125 | calc(var(--spacing-1) / 8) |
+| space-0-25 | calc(var(--spacing-1) / 4) |
+| space-0-5 | calc(var(--spacing-1) / 2) |
+| space-0-75 | calc(var(--spacing-1) * 0.75) |
 | space-1 | var(--spacing-1) |
 | space-2 | var(--spacing-2) |
 | space-3 | var(--spacing-3) |
@@ -118,8 +125,10 @@
 | font-body | 16px |
 | font-title | 20px |
 | font-title-lg | 24px |
-| btn-primary-hover-shadow | 0 2px 6px -1px hsl(var(--accent) / 0.25) |
-| btn-primary-active-shadow | inset 0 0 0 1px hsl(var(--accent) / 0.6) |
+| btn-primary-hover-shadow | 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
+    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
+| btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
+    hsl(var(--accent) / 0.6) |
 | spacing-1 | 4px |
 | spacing-2 | 8px |
 | spacing-3 | 12px |
@@ -132,3 +141,4 @@
 | radius-lg | 12px |
 | radius-xl | 16px |
 | radius-2xl | 24px |
+| radius-full | 9999px |

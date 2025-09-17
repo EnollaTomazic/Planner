@@ -69,7 +69,7 @@ export default function ReviewCard({
             </IconButton>
           </div>
 
-          <div className="mt-1 text-label text-muted-foreground grid grid-cols-2 gap-2">
+          <div className="mt-1 text-ui text-muted-foreground grid grid-cols-2 gap-2">
             <span>Opponent: {review.opponent || "—"}</span>
             <span>Lane: {review.lane || "—"}</span>
             <span>Side: {review.side || "—"}</span>

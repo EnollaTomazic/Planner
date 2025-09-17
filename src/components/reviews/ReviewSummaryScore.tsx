@@ -37,7 +37,7 @@ export default function ReviewSummaryScore({
         </div>
       </div>
       <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
-        <span className="pill h-6 px-2 text-label">{score}/10</span>
+        <span className="pill h-6 px-2 text-ui">{score}/10</span>
         <ScoreIcon className={cn("h-4 w-4", scoreIconCls)} />
         <span>{msg}</span>
       </div>
@@ -63,7 +63,7 @@ export default function ReviewSummaryScore({
             </div>
           </div>
           <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
-            <span className="pill h-6 px-2 text-label">{focus}/10</span>
+            <span className="pill h-6 px-2 text-ui">{focus}/10</span>
             <span>{focusMsg}</span>
           </div>
         </div>

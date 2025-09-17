@@ -82,8 +82,8 @@ html.theme-aurora {
   --muted-foreground: 279 20% 75%;
   --shadow-color: 150 100% 60%;
   --lav-deep: 272 80% 60%;
-  --success: 316 92% 70%;
-  --success-glow: 316 92% 52% / 0.6;
+  --success: 150 70% 45%;
+  --success-glow: 150 70% 35% / 0.6;
   --aurora-g: var(--accent-2);
   --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
   --aurora-p: var(--accent);

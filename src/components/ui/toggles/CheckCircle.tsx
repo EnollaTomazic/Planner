@@ -77,8 +77,8 @@ export default function CheckCircle({
   }, [checked, markJustCleared, justCleared]);
 
   // Theme-driven tones
-  const pink = "hsl(var(--success,316 92% 70%))";
-  const glow = "hsl(var(--success-glow,316 92% 52% / 0.6))";
+  const pink = "hsl(var(--success,150 70% 45%))";
+  const glow = "hsl(var(--success-glow,150 70% 35% / 0.6))";
 
   // Neon phase: ignite / steady-on / powerdown / off
   const effectiveHoverOrFocus = (hovered || focused) && !justCleared;

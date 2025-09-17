@@ -106,7 +106,7 @@ export default function ReviewsPage({
           actions: (
             <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
               <label className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
-                <span className="text-label font-medium text-muted-foreground">
+                <span className="text-ui font-medium text-muted-foreground">
                   Sort
                 </span>
                 <Select
