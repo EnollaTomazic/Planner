@@ -44,18 +44,43 @@ const spinnerSizes: Record<ButtonSize, number> = {
 };
 
 const MotionSlot = motion.create(Slot);
+const MotionAnchor = motion.a;
+
+type AnchorMotionProps = HTMLMotionProps<"a">;
+
+type ButtonBaseProps = {
+  size?: ButtonSize;
+  variant?: "primary" | "secondary" | "ghost";
+  tone?: Tone;
+  loading?: boolean;
+};
+
+type ButtonAsButtonProps = ButtonBaseProps &
+  Omit<HTMLMotionProps<"button">, "ref"> & {
+    asChild?: false;
+    href?: undefined;
+  };
+
+type ButtonAsAnchorProps = ButtonBaseProps &
+  Omit<AnchorMotionProps, "ref"> & {
+    asChild?: false;
+    href: AnchorMotionProps["href"];
+  };
+
+type ButtonAsChildProps = ButtonBaseProps &
+  Omit<HTMLMotionProps<"button">, "ref"> & {
+    asChild: true;
+    href?: undefined;
+  };
 
 /**
  * Props for the {@link Button} component.
  * @property loading - When `true`, the button is disabled and `data-loading` is set.
  */
-export type ButtonProps = HTMLMotionProps<"button"> & {
-  size?: ButtonSize;
-  variant?: "primary" | "secondary" | "ghost";
-  tone?: Tone;
-  loading?: boolean;
-  asChild?: boolean;
-};
+export type ButtonProps =
+  | ButtonAsButtonProps
+  | ButtonAsAnchorProps
+  | ButtonAsChildProps;
 
 export const colorVar: Record<Tone, string> = {
   primary: "--foreground",
@@ -153,25 +178,28 @@ export const variants: Record<
   },
 } as const;
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      size = "md",
-      variant = "secondary",
-      tone = "primary",
-      children,
-      type = "button",
-      loading,
-      disabled,
-      style,
-      asChild = false,
-      ...rest
-    },
-    ref,
-  ) => {
-    const reduceMotion = useReducedMotion();
-    const isDisabled = disabled || loading;
+export const Button = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  ButtonProps
+>((props, ref) => {
+  const {
+    className,
+    size = "md",
+    variant = "secondary",
+    tone = "primary",
+    children,
+    loading,
+    style,
+  } = props;
+  const asChild = props.asChild ?? false;
+  const reduceMotion = useReducedMotion();
+  const disabledProp =
+    "disabled" in props && typeof props.disabled !== "undefined"
+      ? props.disabled
+      : undefined;
+  const isDisabled = Boolean(disabledProp) || Boolean(loading);
+  const isLink =
+    !asChild && "href" in props && typeof props.href !== "undefined";
     const s = buttonSizes[size];
     const spinnerSize = spinnerSizes[size];
     const base = cn(
@@ -224,17 +252,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const mergedClassName = cn(base, resolvedVariantClass, toneClasses[variant][tone]);
 
-    const baseProps = {
-      className: mergedClassName,
-      "data-loading": loading ? "true" : undefined,
-      "data-disabled": isDisabled ? "true" : undefined,
-      "aria-busy": loading ? true : undefined,
-      style: resolvedStyle,
-      whileHover: hoverAnimation,
-      whileTap: reduceMotion ? undefined : whileTap,
-      ...rest,
-    };
-
     const renderInnerContent = (contentChildren: React.ReactNode) => (
       <>
         {variant === "primary" ? (
@@ -257,6 +274,32 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     if (asChild) {
+      const slotProps = {
+        ...(props as ButtonAsChildProps),
+      } as Record<string, unknown> & { tabIndex?: number };
+      const tabIndex = slotProps.tabIndex;
+      delete slotProps.tabIndex;
+      delete slotProps.asChild;
+      delete slotProps.size;
+      delete slotProps.variant;
+      delete slotProps.tone;
+      delete slotProps.loading;
+      delete slotProps.className;
+      delete slotProps.children;
+      delete slotProps.style;
+      delete slotProps.type;
+      delete slotProps.disabled;
+      const baseProps = {
+        className: mergedClassName,
+        "data-loading": loading ? "true" : undefined,
+        "data-disabled": isDisabled ? "true" : undefined,
+        "aria-busy": loading ? true : undefined,
+        style: resolvedStyle,
+        whileHover: hoverAnimation,
+        whileTap: reduceMotion ? undefined : whileTap,
+        tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+        ...slotProps,
+      };
       const child = React.Children.only(
         children,
       ) as React.ReactElement<{ children?: React.ReactNode }>;
@@ -272,18 +315,103 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
+    if (isLink) {
+      const anchorProps = {
+        ...(props as ButtonAsAnchorProps),
+      } as Record<string, unknown> & {
+        href: ButtonAsAnchorProps["href"];
+        target?: ButtonAsAnchorProps["target"];
+        rel?: ButtonAsAnchorProps["rel"];
+        download?: ButtonAsAnchorProps["download"];
+        tabIndex?: number;
+      };
+      const href = anchorProps.href as ButtonAsAnchorProps["href"];
+      const target = anchorProps.target as ButtonAsAnchorProps["target"];
+      const rel = anchorProps.rel as ButtonAsAnchorProps["rel"];
+      const download = anchorProps.download as ButtonAsAnchorProps["download"];
+      const tabIndex = anchorProps.tabIndex;
+      delete anchorProps.href;
+      delete anchorProps.target;
+      delete anchorProps.rel;
+      delete anchorProps.download;
+      delete anchorProps.tabIndex;
+      delete anchorProps.asChild;
+      delete anchorProps.size;
+      delete anchorProps.variant;
+      delete anchorProps.tone;
+      delete anchorProps.loading;
+      delete anchorProps.className;
+      delete anchorProps.children;
+      delete anchorProps.style;
+      const baseProps = {
+        className: mergedClassName,
+        "data-loading": loading ? "true" : undefined,
+        "data-disabled": isDisabled ? "true" : undefined,
+        "aria-busy": loading ? true : undefined,
+        style: resolvedStyle,
+        whileHover: hoverAnimation,
+        whileTap: reduceMotion ? undefined : whileTap,
+        tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+        ...anchorProps,
+      };
+      return (
+        <MotionAnchor
+          {...baseProps}
+          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+          href={href}
+          target={target}
+          rel={rel}
+          download={download}
+          aria-disabled={isDisabled ? true : undefined}
+        >
+          {renderInnerContent(children as React.ReactNode)}
+        </MotionAnchor>
+      );
+    }
+
+    const buttonProps = {
+      ...(props as ButtonAsButtonProps),
+    } as Record<string, unknown> & {
+      type?: HTMLMotionProps<"button">["type"];
+      tabIndex?: number;
+    };
+    const typeProp =
+      (buttonProps.type as HTMLMotionProps<"button">["type"]) ?? "button";
+    const tabIndex = buttonProps.tabIndex;
+    delete buttonProps.type;
+    delete buttonProps.tabIndex;
+    delete buttonProps.asChild;
+    delete buttonProps.size;
+    delete buttonProps.variant;
+    delete buttonProps.tone;
+    delete buttonProps.loading;
+    delete buttonProps.className;
+    delete buttonProps.children;
+    delete buttonProps.style;
+    delete buttonProps.disabled;
+    const baseProps = {
+      className: mergedClassName,
+      "data-loading": loading ? "true" : undefined,
+      "data-disabled": isDisabled ? "true" : undefined,
+      "aria-busy": loading ? true : undefined,
+      style: resolvedStyle,
+      whileHover: hoverAnimation,
+      whileTap: reduceMotion ? undefined : whileTap,
+      tabIndex,
+      ...buttonProps,
+    };
+
     return (
       <motion.button
         {...baseProps}
-        ref={ref}
-        type={type}
+        ref={ref as React.ForwardedRef<HTMLButtonElement>}
+        type={typeProp}
         disabled={isDisabled}
       >
         {renderInnerContent(children as React.ReactNode)}
       </motion.button>
     );
-  },
-);
+});
 
 Button.displayName = "Button";
 export default Button;
