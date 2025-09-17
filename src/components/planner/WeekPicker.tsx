@@ -175,7 +175,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         className={cn(
           "chip__date",
           completionTextClass,
-          today && completionTint === "bg-card" ? "text-accent" : undefined,
+          today && completionTint === "bg-card" ? "text-accent-3" : undefined,
         )}
         data-text={localizedLabel}
       >
