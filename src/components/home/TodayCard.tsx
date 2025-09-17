@@ -3,20 +3,13 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import DashboardList from "./DashboardList";
-import { usePersistentState } from "@/lib/db";
-import {
-  todayISO,
-  type DayRecord,
-  type ISODate,
-} from "@/components/planner/plannerStore";
+import { todayISO } from "@/components/planner/plannerStore";
+import { useDay } from "@/components/planner";
 
 export default function TodayCard() {
-  const [days] = usePersistentState<Record<ISODate, DayRecord>>(
-    "planner:days",
-    {},
-  );
-  const tasks = React.useMemo(() => days[todayISO()]?.tasks ?? [], [days]);
-  const topTasks = tasks.slice(0, 3);
+  const iso = todayISO();
+  const { tasks } = useDay(iso);
+  const topTasks = React.useMemo(() => tasks.slice(0, 3), [tasks]);
 
   return (
     <DashboardCard title="Today" cta={{ label: "Planner", href: "/planner" }}>
