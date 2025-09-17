@@ -41,7 +41,7 @@ export default function ReviewSummaryTimestamps({
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-3 text-label font-mono tabular-nums leading-none">
+                  <span className="pill h-7 px-3 text-ui font-mono tabular-nums leading-none">
                     {m.time ?? "00:00"}
                   </span>
                 )}

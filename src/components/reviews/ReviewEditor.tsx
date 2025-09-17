@@ -287,7 +287,7 @@ export default function ReviewEditor({
                 </div>
               </div>
               <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
-                <span className="pill h-6 px-2 text-label">{focus}/10</span>
+                <span className="pill h-6 px-2 text-ui">{focus}/10</span>
                 <span>{focusMsg}</span>
               </div>
             </>
