@@ -95,9 +95,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       return { tint: "bg-success-soft", text: "text-foreground" };
     }
     if (completionRatio >= 1 / 3) {
-      return { tint: "bg-warning-soft", text: "text-foreground" };
+      return { tint: "bg-accent-3/20", text: "text-foreground" };
     }
-    return { tint: "bg-warning-soft-strong", text: "text-foreground" };
+    return { tint: "bg-accent-3/30", text: "text-foreground" };
   }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
