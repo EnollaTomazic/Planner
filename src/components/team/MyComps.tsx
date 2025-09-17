@@ -157,6 +157,9 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
     });
   }, [items, query]);
 
+  const compCount = items.length;
+  const compCountLabel = `${compCount} ${compCount === 1 ? "comp" : "comps"}`;
+
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
@@ -210,7 +213,11 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
       <SectionCard className="card-neo-soft">
         <SectionCard.Header
           title="My Comps"
-          card-neo-soft={`${items.length} ${items.length === 1 ? "comp" : "comps"}`}
+          actions={
+            <span className="text-label font-medium text-muted-foreground tabular-nums">
+              {compCountLabel}
+            </span>
+          }
         />
         <SectionCard.Body className="space-y-8">
           {/* Add bar (inside the same panel) */}
