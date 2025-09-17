@@ -31,7 +31,7 @@ export default function DashboardCard({
       {cta && (
         <Link
           href={cta.href}
-          className="inline-flex items-center text-ui font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent-3 active:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:transition-none"
+          className="inline-flex items-center text-ui font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent-foreground active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-reduce:transition-none"
         >
           {cta.label}
         </Link>
