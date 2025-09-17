@@ -129,6 +129,8 @@
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
 | btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
     hsl(var(--accent) / 0.6) |
+| destructive | var(--danger) |
+| destructive-foreground | var(--danger-foreground) |
 | spacing-1 | 4px |
 | spacing-2 | 8px |
 | spacing-3 | 12px |
