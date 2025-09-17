@@ -16,21 +16,21 @@ export default function ReviewSummaryTimestamps({
 
   return (
     <div>
-      <div className="mb-2 flex items-center gap-2" aria-label="Timestamps">
+      <div className="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]" aria-label="Timestamps">
         <NeonIcon kind="clock" on={!!hasTimed} size={32} staticGlow />
         <NeonIcon kind="file" on={!!hasNoteOnly} size={32} staticGlow />
-        <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
+        <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
       </div>
       {!markers.length ? (
         <div className="text-ui text-muted-foreground">No timestamps yet.</div>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-[var(--space-2)]">
           {[...markers]
             .sort((a, b) => a.seconds - b.seconds)
             .map((m) => (
               <li
                 key={m.id}
-                className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
+                className="grid grid-cols-[auto_1fr] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border bg-card px-[var(--space-3)] py-[var(--space-2)]"
               >
                 {m.noteOnly ? (
                   <span
@@ -41,7 +41,7 @@ export default function ReviewSummaryTimestamps({
                     <FileText size={14} className="opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-3 text-ui font-mono tabular-nums leading-none">
+                  <span className="pill h-7 px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
                     {m.time ?? "00:00"}
                   </span>
                 )}

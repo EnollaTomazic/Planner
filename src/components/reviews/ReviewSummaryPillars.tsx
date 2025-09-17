@@ -30,7 +30,7 @@ export default function ReviewSummaryPillars({
     <div>
       <SectionLabel>Pillars</SectionLabel>
       {Array.isArray(pillars) && pillars.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-[var(--space-2)]">
           {pillars.map((p) => (
             <StaticNeonWrap key={p}>
               <PillarBadge pillar={p} size="md" active />
