@@ -42,10 +42,10 @@ export default function TeamPromptsCard() {
           title="Prompts peek"
           cta={{ label: "Explore Prompts", href: "/prompts" }}
         >
-          <div className="relative overflow-hidden rounded-card r-card-md bg-seg-active-grad p-[var(--space-4)] text-center text-ui text-primary-foreground">
+          <div className="relative overflow-hidden rounded-card r-card-md bg-card p-[var(--space-4)] text-center text-ui text-primary-foreground">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/0.35),hsl(var(--accent)/0.35),hsl(var(--accent-3)/0.35))]"
+              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[var(--seg-active-grad)]"
             />
             <span className="relative z-10 block">Get inspired with curated prompts</span>
           </div>
