@@ -4,6 +4,7 @@
 | foreground | 260 20% 96% |
 | text | var(--foreground) |
 | card | 248 30% 10% |
+| card-foreground | var(--foreground) |
 | panel | var(--card) |
 | border | 252 20% 22% |
 | line | var(--border) |
@@ -92,10 +93,11 @@
   ) |
 | seg-active-grad | linear-gradient(
     90deg,
-    hsl(262 83% 58% / 0.95),
-    hsl(292 80% 60% / 0.95),
-    hsl(var(--accent-3) / 0.95)
+    hsl(262 83% 58% / 0.35),
+    hsl(292 80% 60% / 0.35),
+    hsl(var(--accent-3) / 0.35)
   ) |
+| seg-active-base | hsl(var(--card)) |
 | shadow | 0 10px 30px hsl(250 30% 2% / 0.35) |
 | lg-violet | var(--ring) |
 | lg-cyan | var(--accent-2) |

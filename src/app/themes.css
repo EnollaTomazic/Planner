@@ -101,9 +101,9 @@ html.theme-aurora {
   );
   --seg-active-grad: linear-gradient(
     90deg,
-    hsl(var(--accent-2) / 0.95),
-    hsl(var(--accent) / 0.95),
-    hsl(var(--accent-2) / 0.95)
+    hsl(var(--accent-2) / 0.35),
+    hsl(var(--accent) / 0.35),
+    hsl(var(--accent-2) / 0.35)
   );
   --shadow: 0 10px 30px hsl(var(--shadow-base) / 0.3);
 }

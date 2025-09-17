@@ -102,9 +102,9 @@ export const themes: ThemeDefinition[] = [
         value: [
           "linear-gradient(",
           "90deg,",
-          "hsl(var(--accent-2) / 0.95),",
-          "hsl(var(--accent) / 0.95),",
-          "hsl(var(--accent-2) / 0.95)",
+          "hsl(var(--accent-2) / 0.35),",
+          "hsl(var(--accent) / 0.35),",
+          "hsl(var(--accent-2) / 0.35)",
           ")",
         ],
       },
