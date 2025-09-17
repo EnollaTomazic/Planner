@@ -1,6 +1,6 @@
 import * as React from "react";
 import SectionLabel from "@/components/reviews/SectionLabel";
-import SectionCard from "@/components/ui/layout/SectionCard";
+import ReviewSurface from "./ReviewSurface";
 
 export type ReviewSummaryNotesProps = {
   notes: string;
@@ -10,9 +10,9 @@ export default function ReviewSummaryNotes({ notes }: ReviewSummaryNotesProps) {
   return (
     <div>
       <SectionLabel>Notes</SectionLabel>
-      <SectionCard.Body className="text-ui leading-6 text-foreground/70">
-        {notes}
-      </SectionCard.Body>
+      <ReviewSurface padding="md" tone="muted">
+        <div className="text-ui leading-6 text-foreground/70">{notes}</div>
+      </ReviewSurface>
     </div>
   );
 }
