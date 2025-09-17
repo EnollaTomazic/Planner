@@ -66,8 +66,8 @@ export const themes: ThemeDefinition[] = [
       { name: "muted-foreground", value: "279 20% 75%" },
       { name: "shadow-color", value: "150 100% 60%" },
       { name: "lav-deep", value: "272 80% 60%" },
-      { name: "success", value: "316 92% 70%" },
-      { name: "success-glow", value: "316 92% 52% / 0.6" },
+      { name: "success", value: "150 70% 45%" },
+      { name: "success-glow", value: "150 70% 35% / 0.6" },
       { name: "aurora-g", value: "var(--accent-2)" },
       {
         name: "aurora-g-light",
