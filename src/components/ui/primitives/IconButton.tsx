@@ -87,7 +87,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
   },
   solid: {
     primary:
-      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.25)] [--active:hsl(var(--foreground)/0.35)]",
+      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)]",
     accent:
       "border-transparent bg-accent/30 text-accent-foreground [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info:
