@@ -93,7 +93,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     info:
       "border-transparent bg-accent-2/25 text-accent-2 [--hover:hsl(var(--accent-2)/0.35)] [--active:hsl(var(--accent-2)/0.45)]",
     danger:
-      "border-transparent bg-danger/15 text-danger [--hover:hsl(var(--danger)/0.25)] [--active:hsl(var(--danger)/0.35)]",
+      "border-transparent bg-danger/15 text-danger-foreground [--hover:hsl(var(--danger)/0.12)] [--active:hsl(var(--danger)/0.1)]",
   },
   glow: {
     primary: "border-foreground/35 text-foreground",

@@ -124,7 +124,7 @@ export const toneClasses: Record<
     info:
       "text-accent-2-foreground bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.35)] [--active:hsl(var(--accent-2)/0.45)]",
     danger:
-      "text-danger bg-danger/15 [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
+      "text-danger-foreground bg-danger/15 [--hover:hsl(var(--danger)/0.12)] [--active:hsl(var(--danger)/0.1)]",
   },
   ghost: {
     primary:
