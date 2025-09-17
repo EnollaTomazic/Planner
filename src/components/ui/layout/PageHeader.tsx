@@ -8,7 +8,7 @@ import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
   type NeomorphicHeroFrameActionAreaProps,
 } from "./NeomorphicHeroFrame";
-import TabBar, { type TabBarProps } from "./TabBar";
+import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
 import { cn } from "@/lib/utils";
 
 type PageHeaderElement = Extract<
@@ -188,6 +188,7 @@ const PageHeaderInner = <
       showBaseline,
       right: subTabsRight,
       ariaLabel,
+      ariaLabelledBy: subTabsAriaLabelledBy,
       variant: subTabsVariant,
       linkPanels,
       idBase,
@@ -197,6 +198,24 @@ const PageHeaderInner = <
       void hint;
       return item;
     });
+
+    const sanitizedAriaLabel =
+      typeof ariaLabel === "string" && ariaLabel.trim().length > 0
+        ? ariaLabel.trim()
+        : undefined;
+    const sanitizedAriaLabelledBy =
+      typeof subTabsAriaLabelledBy === "string" &&
+      subTabsAriaLabelledBy.trim().length > 0
+        ? subTabsAriaLabelledBy.trim()
+        : undefined;
+    const accessibilityProps: TabBarA11yProps = sanitizedAriaLabelledBy
+      ? {
+          ariaLabelledBy: sanitizedAriaLabelledBy,
+          ...(sanitizedAriaLabel ? { ariaLabel: sanitizedAriaLabel } : {}),
+        }
+      : {
+          ariaLabel: sanitizedAriaLabel ?? "Hero sub-tabs",
+        };
 
     return (
       <TabBar<HeroKey>
@@ -209,7 +228,7 @@ const PageHeaderInner = <
         showBaseline={showBaseline ?? true}
         right={subTabsRight}
         variant={subTabsVariant ?? heroTabVariant}
-        ariaLabel={ariaLabel ?? "Hero sub-tabs"}
+        {...accessibilityProps}
         linkPanels={linkPanels}
         idBase={idBase}
       />
