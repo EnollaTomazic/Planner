@@ -120,7 +120,7 @@ export const toneClasses: Record<
   secondary: {
     primary: "text-foreground",
     accent:
-      "text-accent bg-accent/15 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+      "text-accent-foreground bg-accent/30 [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
     info:
       "text-accent-2 bg-accent-2/15 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:

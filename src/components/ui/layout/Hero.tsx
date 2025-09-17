@@ -136,8 +136,20 @@ function Hero<Key extends string = string>({
   );
 
   const barSpacingClass = frame
-    ? "relative z-[2] flex items-center gap-[var(--space-3)] md:gap-[var(--space-4)] lg:gap-[var(--space-6)] py-[var(--space-6)]"
-    : "relative z-[2] flex items-center gap-[var(--space-2)] md:gap-[var(--space-3)] lg:gap-[var(--space-4)] py-[var(--space-4)]";
+    ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-3)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)] py-[var(--space-6)]"
+    : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-3)] lg:gap-x-[var(--space-4)] py-[var(--space-4)]";
+
+  const labelClusterClass = cx(
+    "col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
+    frame
+      ? "gap-[var(--space-3)] md:gap-[var(--space-4)]"
+      : "gap-[var(--space-2)] md:gap-[var(--space-3)]",
+  );
+
+  const utilitiesClass = cx(
+    "col-span-full flex w-full min-w-0 justify-start md:col-span-4 md:w-auto md:justify-end",
+    "flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center",
+  );
 
   const bodySpacingClass = frame
     ? "relative z-[2] mt-[var(--space-5)] md:mt-[var(--space-6)] flex flex-col gap-[var(--space-5)] md:gap-[var(--space-6)]"
@@ -209,33 +221,33 @@ function Hero<Key extends string = string>({
       <div className={shellClass}>
 
         <div className={cx(barSpacingClass, barClassName)}>
-          {rail ? <span aria-hidden className="rail" /> : null}
-          {icon ? (
-            <div className="opacity-70 hover:opacity-100 focus-visible:opacity-100 transition-opacity">
-              {icon}
-            </div>
-          ) : null}
-
-          <div className="min-w-0">
-            {eyebrow ? (
-              <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-                {eyebrow}
+          <div className={labelClusterClass}>
+            {rail ? <span aria-hidden className="rail shrink-0 self-stretch" /> : null}
+            {icon ? (
+              <div className="shrink-0 opacity-70 transition-opacity hover:opacity-100 focus-visible:opacity-100">
+                {icon}
               </div>
             ) : null}
 
-            <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
-              <h2 className={headingClassName} data-text={headingStr}>
-                {heading}
-              </h2>
-              {subtitle ? (
-                <span className={subtitleClassName}>{subtitle}</span>
+            <div className="min-w-0">
+              {eyebrow ? (
+                <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+                  {eyebrow}
+                </div>
               ) : null}
+
+              <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
+                <h2 className={headingClassName} data-text={headingStr}>
+                  {heading}
+                </h2>
+                {subtitle ? (
+                  <span className={subtitleClassName}>{subtitle}</span>
+                ) : null}
+              </div>
             </div>
           </div>
 
-          {subTabsNode ? (
-            <div className="ml-auto self-start">{subTabsNode}</div>
-          ) : null}
+          {subTabsNode ? <div className={utilitiesClass}>{subTabsNode}</div> : null}
         </div>
 
         {children || searchProps || actions ? (

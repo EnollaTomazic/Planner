@@ -106,8 +106,11 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain("border-transparent bg-accent/15 text-accent");
-    expect(classes).toContain("[--hover:hsl(var(--accent)/0.25)]");
+    expect(classes).toContain(
+      "border-transparent bg-accent/30 text-accent-foreground",
+    );
+    expect(classes).toContain("[--hover:hsl(var(--accent)/0.4)]");
+    expect(classes).toContain("[--active:hsl(var(--accent)/0.5)]");
   });
 
   it("applies glow variant with info tone", () => {
