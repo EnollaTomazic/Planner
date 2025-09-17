@@ -287,6 +287,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background-clip: padding-box;
     position: relative;
     isolation: isolate;
+    color: hsl(var(--card-foreground));
     transition:
       transform var(--dur-quick) var(--ease-out),
       box-shadow var(--dur-quick) var(--ease-out),
