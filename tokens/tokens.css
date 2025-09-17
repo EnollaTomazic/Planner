@@ -44,9 +44,9 @@
   --hardstuck-background: 165 60% 3%;
   --hardstuck-foreground: 160 12% 95%;
   --hardstuck-border: 165 40% 22%;
-  --success: 150 70% 45%;
+  --success: 160 70% 45%;
   --success-soft: var(--success) / 0.2;
-  --success-glow: 150 70% 35% / 0.6;
+  --success-glow: 160 70% 35% / 0.6;
   --tone-top: 38 92% 60%;
   --tone-jg: 152 52% 44%;
   --tone-mid: 265 72% 62%;
