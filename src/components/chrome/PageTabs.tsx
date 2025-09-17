@@ -93,7 +93,7 @@ export default function PageTabs({
     }: TabRenderContext<string, PageTabBarItem>) => {
       const { className: baseClassName, onClick, ...restProps } = props;
       const mergedClassName = cn(
-        "btn-like-segmented font-mono text-ui",
+        "btn-like-segmented min-h-[var(--control-h-lg)] font-mono text-ui",
         baseClassName,
         active && "btn-glitch is-active",
         disabled && "pointer-events-none opacity-[var(--disabled)]",
@@ -177,6 +177,7 @@ export default function PageTabs({
           ariaLabel={ariaLabel}
           variant="glitch"
           renderItem={renderTab}
+          tablistClassName="data-[variant=glitch]:py-[var(--space-3)]"
         />
       </div>
     </div>

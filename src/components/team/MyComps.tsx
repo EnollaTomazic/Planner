@@ -157,6 +157,9 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
     });
   }, [items, query]);
 
+  const compCount = items.length;
+  const compCountLabel = `${compCount} ${compCount === 1 ? "comp" : "comps"}`;
+
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
@@ -210,14 +213,18 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
       <SectionCard className="card-neo-soft">
         <SectionCard.Header
           title="My Comps"
-          card-neo-soft={`${items.length} ${items.length === 1 ? "comp" : "comps"}`}
+          actions={
+            <span className="text-label font-medium text-muted-foreground tabular-nums">
+              {compCountLabel}
+            </span>
+          }
         />
         <SectionCard.Body className="space-y-8">
           {/* Add bar (inside the same panel) */}
           {editing && (
             <form
               onSubmit={addNew}
-              className="rounded-card flex items-left gap-6 glitch"
+              className="rounded-card flex items-center gap-6 glitch"
             >
               <Input
                 dir="ltr"
@@ -263,7 +270,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
                 >
                   {/* hover edit/save + delete + copy */}
-                  <div className="absolute right-2 top-2 z-10 flex items-left gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                  <div className="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
                     {!editingCard ? (
                       <>
                         <IconButton
