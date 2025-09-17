@@ -29,10 +29,10 @@ const itemLoading = cn(
 const loadingLine = "h-3 rounded-card bg-muted";
 const scoreBadge = cn(
   "px-2 py-1 rounded-full text-ui leading-none font-medium",
-  "text-background ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
-  "hover:from-accent-foreground hover:to-accent-foreground hover:ring-accent-foreground",
-  "focus-visible:from-accent-foreground focus-visible:to-accent-foreground focus-visible:ring-accent-foreground",
-  "active:from-accent-foreground active:to-accent-foreground active:ring-accent-foreground",
+  "text-primary-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
+  "hover:from-accent hover:to-accent-2 hover:ring-accent",
+  "focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent",
+  "active:from-accent active:to-accent-2 active:ring-accent",
 );
 
 export type ReviewListItemProps = {
