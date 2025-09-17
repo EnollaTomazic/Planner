@@ -38,7 +38,7 @@ export default function BottomNav() {
                 className={cn(
                   "group flex flex-col items-center gap-[var(--space-1)] rounded-xl px-[var(--space-3)] py-[var(--space-2)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                   active
-                    ? "text-accent ring-2 ring-[--theme-ring]"
+                    ? "text-accent-3 ring-2 ring-[--theme-ring]"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >

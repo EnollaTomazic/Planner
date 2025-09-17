@@ -61,7 +61,7 @@ export default function ColorGallery() {
           )}
           {COLOR_PALETTES[p.key].map((c) => (
             <div key={c} className="flex flex-col items-center gap-2">
-              <span className="text-label uppercase tracking-wide text-accent">
+              <span className="text-label uppercase tracking-wide text-accent-3">
                 {c}
               </span>
               <div
