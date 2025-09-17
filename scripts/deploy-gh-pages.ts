@@ -6,6 +6,21 @@ import process from "node:process";
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
 
+function assertOriginRemote(env: NodeJS.ProcessEnv): void {
+  const repository = env.GITHUB_REPOSITORY?.trim();
+  const token = env.GITHUB_TOKEN?.trim();
+
+  const remoteResult = spawnSync("git", ["remote", "get-url", "origin"], {
+    stdio: ["ignore", "ignore", "ignore"],
+  });
+
+  if (remoteResult.status !== 0 && !repository && !token) {
+    throw new Error(
+      "No git remote named \"origin\" is configured. Add an origin remote or set GITHUB_REPOSITORY and GITHUB_TOKEN before running the deploy script.",
+    );
+  }
+}
+
 function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
   const value = env.CI;
   if (!value) {
@@ -99,6 +114,7 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
 }
 
 function main(): void {
+  assertOriginRemote(process.env);
   const slug = detectRepositorySlug();
   const basePath = `/${slug}`;
   console.log(`Deploying with base path ${basePath}`);
