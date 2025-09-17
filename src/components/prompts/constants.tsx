@@ -214,7 +214,12 @@ function HeaderTabsDemo() {
   return (
     <Header
       heading="Header"
-      tabs={{ items: tabs, value: tab, onChange: setTab }}
+      tabs={{
+        items: tabs,
+        value: tab,
+        onChange: setTab,
+        ariaLabel: "Header demo tabs",
+      }}
       sticky={false}
       topClassName="top-0"
     />
@@ -863,7 +868,12 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["header", "tabs"],
       code: `<Header
   heading="Header"
-  tabs={{ items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }], value: "one", onChange: () => {} }}
+  tabs={{
+    items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }],
+    value: "one",
+    onChange: () => {},
+    ariaLabel: "Header demo tabs",
+  }}
   sticky={false}
   topClassName="top-0"
 />`,
@@ -1089,10 +1099,15 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
             { key: "b", label: "B" },
           ]}
           defaultValue="a"
+          ariaLabel="Example tabs"
         />
       ),
       tags: ["tabs"],
-      code: `<TabBar items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]} defaultValue="a" />`,
+      code: `<TabBar
+  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
+  defaultValue="a"
+  ariaLabel="Example tabs"
+/>`,
     },
     {
       id: "tab-bar-app-nav",

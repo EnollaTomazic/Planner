@@ -11,7 +11,11 @@
  */
 
 import * as React from "react";
-import TabBar, { type TabBarProps, type TabItem } from "./TabBar";
+import TabBar, {
+  type TabBarA11yProps,
+  type TabBarProps,
+  type TabItem,
+} from "./TabBar";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 
 function cx(...parts: Array<string | false | null | undefined>) {
@@ -22,16 +26,14 @@ export interface HeaderTab<Key extends string = string> extends TabItem<Key> {
   hint?: string;
 }
 
-export interface HeaderTabsProps<Key extends string = string>
-  extends Omit<
-    TabBarProps<Key>,
-    "items" | "value" | "defaultValue" | "onValueChange"
-  > {
+export type HeaderTabsProps<Key extends string = string> = Omit<
+  TabBarProps<Key>,
+  "items" | "value" | "defaultValue" | "onValueChange"
+> & {
   items: HeaderTab<Key>[];
   value: Key;
   onChange: (key: Key) => void;
-  ariaLabel?: string;
-}
+};
 
 export interface HeaderProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
@@ -94,23 +96,40 @@ export default function Header<Key extends string = string>({
       value: tabValue,
       onChange: tabOnChange,
       ariaLabel: tabAriaLabel,
+      ariaLabelledBy: tabAriaLabelledBy,
       size: tabSize,
       align: tabAlign,
       className: tabClassName,
       variant: tabVariant,
       ...tabBarRest
     } = tabs;
+    const sanitizedTabAriaLabel =
+      typeof tabAriaLabel === "string" && tabAriaLabel.trim().length > 0
+        ? tabAriaLabel.trim()
+        : undefined;
+    const sanitizedTabAriaLabelledBy =
+      typeof tabAriaLabelledBy === "string" && tabAriaLabelledBy.trim().length > 0
+        ? tabAriaLabelledBy.trim()
+        : undefined;
+    const accessibilityProps: TabBarA11yProps = sanitizedTabAriaLabelledBy
+      ? {
+          ariaLabelledBy: sanitizedTabAriaLabelledBy,
+          ...(sanitizedTabAriaLabel ? { ariaLabel: sanitizedTabAriaLabel } : {}),
+        }
+      : {
+          ariaLabel: sanitizedTabAriaLabel ?? "Header tabs",
+        };
 
     tabControl = (
       <TabBar
         items={tabItems}
         value={tabValue}
         onValueChange={tabOnChange}
-        ariaLabel={tabAriaLabel}
         size={tabSize ?? "sm"}
         align={tabAlign ?? "end"}
         className={cx("w-auto max-w-full shrink-0", tabClassName)}
         variant={tabVariant ?? (isNeo ? "neo" : "default")}
+        {...accessibilityProps}
         {...tabBarRest}
       />
     );
@@ -265,23 +284,40 @@ export function HeaderTabs<Key extends string = string>({
   activeKey,
   onChange,
   ariaLabel,
+  ariaLabelledBy,
   variant,
 }: {
   tabs: HeaderTab<Key>[];
   activeKey: Key;
   onChange: (key: Key) => void;
-  ariaLabel?: string;
   variant?: TabBarProps["variant"];
-}) {
+} & TabBarA11yProps) {
+  const sanitizedAriaLabel =
+    typeof ariaLabel === "string" && ariaLabel.trim().length > 0
+      ? ariaLabel.trim()
+      : undefined;
+  const sanitizedAriaLabelledBy =
+    typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0
+      ? ariaLabelledBy.trim()
+      : undefined;
+  const accessibilityProps: TabBarA11yProps = sanitizedAriaLabelledBy
+    ? {
+        ariaLabelledBy: sanitizedAriaLabelledBy,
+        ...(sanitizedAriaLabel ? { ariaLabel: sanitizedAriaLabel } : {}),
+      }
+    : {
+        ariaLabel: sanitizedAriaLabel ?? "Header tabs",
+      };
+
   return (
     <TabBar
       items={tabs}
       value={activeKey}
       onValueChange={onChange}
-      ariaLabel={ariaLabel}
       align="end"
       size="sm"
       variant={variant}
+      {...accessibilityProps}
     />
   );
 }
