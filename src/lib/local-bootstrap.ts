@@ -35,6 +35,6 @@ export function localBootstrapScript(): string {
   return [
     "function parseJSON(raw){if(!raw)return null;try{return JSON.parse(raw);}catch{return null;}}",
     "function readLocal(key){try{return parseJSON(localStorage.getItem(key));}catch{return null;}}",
-    "function writeLocal(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch{}}",
+    "function writeLocal(key,val){try{if(val==null)localStorage.removeItem(key);else localStorage.setItem(key,JSON.stringify(val));}catch{}}",
   ].join("");
 }
