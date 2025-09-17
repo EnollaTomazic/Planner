@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 import styles from "./GlitchSegmented.module.css";
 
 export interface GlitchSegmentedGroupProps {
@@ -79,14 +79,16 @@ export const GlitchSegmentedGroup = ({
         const selected = child.props.value === value;
         const buttonChild =
           child as React.ReactElement<GlitchSegmentedButtonProps>;
+        const normalizedValue = normalizeValueForId(child.props.value);
+
         return React.cloneElement(buttonChild, {
           ref: setBtnRef(i),
           tabIndex: selected ? 0 : -1,
           selected,
           onSelect: () => onChange(child.props.value),
-          id: child.props.id ?? `${child.props.value}-tab`,
+          id: child.props.id ?? `${normalizedValue}-tab`,
           "aria-controls":
-            child.props["aria-controls"] ?? `${child.props.value}-panel`,
+            child.props["aria-controls"] ?? `${normalizedValue}-panel`,
         } as Partial<GlitchSegmentedButtonProps> &
           React.RefAttributes<HTMLButtonElement>);
       })}
@@ -130,3 +132,16 @@ export const GlitchSegmentedButton = React.forwardRef<
 });
 
 GlitchSegmentedButton.displayName = "GlitchSegmentedButton";
+
+const normalizeValueForId = (value: string): string => {
+  const slug = slugify(value);
+  if (slug) return slug;
+
+  const hexFallback = Array.from(value).reduce((acc, char) => {
+    const codePoint = char.codePointAt(0);
+    if (codePoint === undefined) return acc;
+    return acc + codePoint.toString(16).padStart(2, "0");
+  }, "");
+
+  return hexFallback || "segment";
+};
