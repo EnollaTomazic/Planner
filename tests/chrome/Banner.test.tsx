@@ -35,10 +35,13 @@ describe("Banner", () => {
 
     const header = screen.getByRole("banner");
 
-    expect(header).toHaveClass("sticky", "top-0", "z-30", "sticky-blur", "border-b");
-    expect(header).toHaveAttribute(
-      "style",
-      expect.stringContaining("border-color: hsl(var(--border))"),
+    expect(header).toHaveClass(
+      "sticky",
+      "top-0",
+      "z-30",
+      "sticky-blur",
+      "border-b",
+      "border-border",
     );
     expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
   });
