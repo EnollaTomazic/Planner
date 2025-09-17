@@ -136,8 +136,8 @@ function Hero<Key extends string = string>({
   );
 
   const barSpacingClass = frame
-    ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-3)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)] py-[var(--space-6)]"
-    : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-3)] lg:gap-x-[var(--space-4)] py-[var(--space-4)]";
+    ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-3)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)] py-[var(--space-4)] md:py-[var(--space-5)]"
+    : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-3)] lg:gap-x-[var(--space-4)] py-[var(--space-4)] md:py-[var(--space-5)]";
 
   const labelClusterClass = cx(
     "col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
