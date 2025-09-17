@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NAV_ITEMS } from "@/components/chrome/nav-items";
 import { cn, withoutBasePath } from "@/lib/utils";
 import {
   Flag,
@@ -11,16 +12,19 @@ import {
   Users,
   Sparkles,
   PanelsTopLeft,
+  type LucideIcon,
 } from "lucide-react";
 
-const LINKS = [
-  { href: "/goals", label: "Goals", icon: Flag },
-  { href: "/planner", label: "Planner", icon: CalendarDays },
-  { href: "/reviews", label: "Reviews", icon: BookOpen },
-  { href: "/team", label: "Team", icon: Users },
-  { href: "/comps", label: "Components", icon: PanelsTopLeft },
-  { href: "/prompts", label: "Prompts", icon: Sparkles },
-];
+type NavHref = (typeof NAV_ITEMS)[number]["href"];
+
+const ICONS = {
+  "/reviews": BookOpen,
+  "/planner": CalendarDays,
+  "/goals": Flag,
+  "/team": Users,
+  "/comps": PanelsTopLeft,
+  "/prompts": Sparkles,
+} satisfies Record<NavHref, LucideIcon>;
 
 export default function BottomNav() {
   const rawPathname = usePathname() ?? "/";
@@ -28,8 +32,11 @@ export default function BottomNav() {
   return (
     <nav aria-label="Primary" className="border-t border-border pt-[var(--space-4)] md:hidden">
       <ul className="flex justify-around">
-        {LINKS.map(({ href, label, icon: Icon }) => {
+        {NAV_ITEMS.map((item) => {
+          const { href, label } = item;
+          const Icon = ICONS[href];
           const active = pathname.startsWith(href);
+          const mobileLabel = "mobileLabel" in item ? item.mobileLabel : undefined;
           return (
             <li key={href}>
               <Link
@@ -44,7 +51,7 @@ export default function BottomNav() {
                 )}
               >
                 <Icon aria-hidden="true" className="size-5" />
-                <span>{label}</span>
+                <span>{mobileLabel ?? label}</span>
               </Link>
             </li>
           );
