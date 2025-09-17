@@ -36,9 +36,26 @@ export default function ProjectList({
   );
   const [editingProjectName, setEditingProjectName] = React.useState("");
   const [draftProject, setDraftProject] = React.useState("");
+  const projectRefs = React.useRef<Map<string, HTMLDivElement | null>>(new Map());
   const projectsScrollable = projects.length > 3;
   const multiple = projects.length > 1;
   const projectListEmpty = projects.length === 0;
+
+  const registerProjectRef = React.useCallback(
+    (projectId: string, node: HTMLDivElement | null) => {
+      if (node) {
+        projectRefs.current.set(projectId, node);
+      } else {
+        projectRefs.current.delete(projectId);
+      }
+    },
+    [],
+  );
+
+  const focusProjectRadio = React.useCallback((projectId: string) => {
+    const node = projectRefs.current.get(projectId);
+    node?.focus();
+  }, []);
 
   function addProjectCommit() {
     const v = draftProject.trim();
@@ -68,15 +85,19 @@ export default function ProjectList({
       if (multiple && (e.key === "ArrowDown" || e.key === "ArrowRight")) {
         e.preventDefault();
         const next = (idx + 1) % projects.length;
-        setSelectedProjectId(projects[next].id);
+        const nextId = projects[next].id;
+        setSelectedProjectId(nextId);
+        focusProjectRadio(nextId);
       }
       if (multiple && (e.key === "ArrowUp" || e.key === "ArrowLeft")) {
         e.preventDefault();
         const prev = (idx - 1 + projects.length) % projects.length;
-        setSelectedProjectId(projects[prev].id);
+        const prevId = projects[prev].id;
+        setSelectedProjectId(prevId);
+        focusProjectRadio(prevId);
       }
     },
-    [multiple, projects, setSelectedProjectId],
+    [focusProjectRadio, multiple, projects, setSelectedProjectId],
   );
 
   return (
@@ -124,9 +145,10 @@ export default function ProjectList({
               <li key={p.id} className="w-full">
                 <div
                   role="radio"
-                  tabIndex={0}
+                  tabIndex={active ? 0 : -1}
                   aria-checked={active}
                   aria-label={projectLabel}
+                  ref={(node) => registerProjectRef(p.id, node)}
                   onKeyDown={isEditing ? undefined : handleRowKey}
                   onClick={() => {
                     if (isEditing || active) return;
