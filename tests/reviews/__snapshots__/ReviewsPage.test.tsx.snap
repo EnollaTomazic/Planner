@@ -144,7 +144,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       class="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]"
                     >
                       <h2
-                        class="font-semibold tracking-[-0.01em] text-balance break-words text-foreground text-title md:text-title"
+                        class="font-bold tracking-[-0.01em] text-balance break-words text-foreground text-title md:text-title"
                         data-text="Browse Reviews"
                       >
                         Browse Reviews
