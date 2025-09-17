@@ -64,6 +64,13 @@ export function withBasePath(path: string): string {
     return normalizedPath;
   }
 
+  if (
+    normalizedPath === NORMALIZED_BASE ||
+    normalizedPath.startsWith(`${NORMALIZED_BASE}/`)
+  ) {
+    return normalizedPath;
+  }
+
   return `${NORMALIZED_BASE}${normalizedPath}`;
 }
 
