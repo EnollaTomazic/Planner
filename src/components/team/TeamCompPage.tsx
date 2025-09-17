@@ -265,7 +265,7 @@ export default function TeamCompPage() {
         heading: "Builder",
         subtitle: "Fill allies vs enemies. Swap in one click.",
         actions: (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[var(--space-2)]">
             <IconButton
               title="Swap Allies ↔ Enemies"
               aria-label="Swap Allies and Enemies"
@@ -315,11 +315,11 @@ export default function TeamCompPage() {
         ),
       },
       actions: (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-2)]">
           <Button
             variant="primary"
             size="sm"
-            className="px-4 whitespace-nowrap"
+            className="px-[var(--space-4)] whitespace-nowrap"
             onClick={() => clearsApi.current?.addRow("Medium")}
           >
             <Plus />
@@ -360,13 +360,13 @@ export default function TeamCompPage() {
   return (
     <PageShell
       as="main"
-      className="py-6 space-y-6 md:grid md:grid-cols-12 md:gap-4"
+      className="py-[var(--space-6)] space-y-[var(--space-6)] md:grid md:grid-cols-12 md:gap-[var(--space-4)]"
       aria-labelledby="teamcomp-header"
     >
       <PageHeader
         containerClassName="sticky top-0 md:col-span-12"
-        className="rounded-card r-card-lg px-4 py-4"
-        contentClassName="space-y-2"
+        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        contentClassName="space-y-[var(--space-2)]"
         frameProps={{ variant: "unstyled" }}
         header={{
           id: "teamcomp-header",
@@ -386,7 +386,7 @@ export default function TeamCompPage() {
         hero={hero}
       />
 
-      <section className="grid gap-4 md:col-span-12 md:grid-cols-12">
+      <section className="grid gap-[var(--space-4)] md:col-span-12 md:grid-cols-12">
         {TABS.map((t) => {
           const ids = tabIds[t.key];
           return (
