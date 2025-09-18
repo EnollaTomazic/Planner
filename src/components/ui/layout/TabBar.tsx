@@ -235,12 +235,12 @@ export default function TabBar<
         "inset var(--space-1) var(--space-1) var(--space-3) hsl(var(--background) / 0.55), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3) hsl(var(--highlight) / 0.08), 0 0 var(--space-4) hsl(var(--ring) / 0.25)",
       "--neo-tab-bg":
         "linear-gradient(145deg, hsl(var(--card) / 0.92), hsl(var(--panel) / 0.78))",
-      "--neo-tab-shadow":
+      "--shadow-raised":
         "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.5), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.05), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
-      "--neo-tab-shadow-hover":
+      "--shadow-raised-hover":
         "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.46), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.08), 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)",
-      "--neo-tab-shadow-active":
-        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.58), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.12), 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)",
+      "--shadow-inset":
+        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.58), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.12), inset 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)",
     } as React.CSSProperties;
   }, [isNeo]);
 
@@ -260,7 +260,7 @@ export default function TabBar<
   );
 
   const tabVariant = isNeo
-    ? "bg-[var(--neo-tab-bg)] shadow-[var(--neo-tab-shadow)] hover:shadow-[var(--neo-tab-shadow-hover)] active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:hover:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:active:shadow-[var(--neo-tab-shadow-active)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
+    ? "bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
     : isGlitch
       ? ""
       : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
