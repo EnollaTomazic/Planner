@@ -54,6 +54,7 @@ import {
   BottomNav,
   IsometricRoom,
   QuickActionGrid,
+  HeroPortraitFrame,
 } from "@/components/home";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
@@ -1011,6 +1012,25 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     <div className="text-ui text-muted-foreground">Body content</div>
   </Hero>
 </NeomorphicHeroFrame>`,
+    },
+    {
+      id: "hero-portrait-frame",
+      name: "HeroPortraitFrame",
+      description:
+        "Circular neumorphic portrait frame with lavender glow and glitch accent rim built from semantic tokens.",
+      element: (
+        <div className="flex justify-center">
+          <HeroPortraitFrame
+            imageSrc="/pixel_cat_yawn.gif"
+            imageAlt="Planner companion stretching before planning"
+          />
+        </div>
+      ),
+      tags: ["hero", "portrait", "glitch"],
+      code: `<HeroPortraitFrame
+  imageSrc="/pixel_cat_yawn.gif"
+  imageAlt="Planner companion stretching before planning"
+/>`,
     },
     {
       id: "page-shell",

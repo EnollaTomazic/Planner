@@ -14,6 +14,7 @@ import {
   BottomNav,
   IsometricRoom,
   DashboardList,
+  HeroPortraitFrame,
 } from "@/components/home";
 import {
   PageHeader,
@@ -375,6 +376,12 @@ function HomePageContent() {
                 topClassName: "top-0",
                 actions: (
                   <>
+                    <HeroPortraitFrame
+                      imageSrc="/pixel_cat_yawn.gif"
+                      imageAlt="Planner companion stretching before planning"
+                      priority
+                      className="max-sm:mx-auto"
+                    />
                     <ThemeToggle className="shrink-0" />
                     <Button
                       asChild
