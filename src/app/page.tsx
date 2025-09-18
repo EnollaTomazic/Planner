@@ -362,13 +362,12 @@ function HomePageContent() {
         >
           <div className="col-span-12">
             <PageHeader
-              containerClassName="sticky top-0"
               header={{
                 id: "home-header",
                 heading: "Welcome to Planner",
                 subtitle: "Plan your day, track goals, and review games.",
                 icon: <Home className="opacity-80" />,
-                sticky: true,
+                sticky: false,
               }}
               hero={{
                 heading: "Your day at a glance",
