@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Browse Planner UI building blocks and examples.",
 };
 
-export default function CompsRoute() {
+export default function ComponentsRoute() {
   return (
     <Suspense
       fallback={

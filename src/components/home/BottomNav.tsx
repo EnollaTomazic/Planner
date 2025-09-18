@@ -18,7 +18,7 @@ const LINKS = [
   { href: "/planner", label: "Planner", icon: CalendarDays },
   { href: "/reviews", label: "Reviews", icon: BookOpen },
   { href: "/team", label: "Team", icon: Users },
-  { href: "/comps", label: "Components", icon: PanelsTopLeft },
+  { href: "/components", label: "Components", icon: PanelsTopLeft },
   { href: "/prompts", label: "Prompts", icon: Sparkles },
 ];
 
