@@ -80,6 +80,7 @@ export default function GoalList({
       ) : (
         goals.map((g) => {
           const isEditing = editingId === g.id;
+          const headingId = `goal-${g.id}-heading`;
           return (
             <li key={g.id} className="flex">
               <article
@@ -95,20 +96,30 @@ export default function GoalList({
                   className="pointer-events-none absolute inset-0 rounded-card r-card-lg p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] [mask-composite:exclude]"
                 />
                 <header className="relative z-[1] flex items-start justify-between gap-2">
-                  {isEditing ? (
-                    <Input
-                      value={draft.title}
-                      onChange={(e) =>
-                        setDraft((d) => ({ ...d, title: e.target.value }))
-                      }
-                      className="pr-6 font-semibold"
-                      placeholder="Title"
-                    />
-                  ) : (
-                    <h3 className="pr-6 text-title font-semibold tracking-[-0.01em] leading-tight line-clamp-2">
-                      {g.title}
+                  <div className="flex-1 pr-6">
+                    <h3
+                      id={headingId}
+                      className={[
+                        "text-title font-semibold tracking-[-0.01em] leading-tight",
+                        isEditing ? "sr-only" : "line-clamp-2",
+                      ].join(" ")}
+                    >
+                      {isEditing
+                        ? draft.title || g.title || "Goal title"
+                        : g.title}
                     </h3>
-                  )}
+                    {isEditing ? (
+                      <Input
+                        aria-labelledby={headingId}
+                        value={draft.title}
+                        onChange={(e) =>
+                          setDraft((d) => ({ ...d, title: e.target.value }))
+                        }
+                        className="font-semibold"
+                        placeholder="Title"
+                      />
+                    ) : null}
+                  </div>
                   <div className="flex items-center gap-2">
                     {isEditing ? (
                       <>

@@ -381,6 +381,17 @@ export const Button = React.forwardRef<
       tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
       ...slotProps,
     };
+    const childCount = React.Children.count(children);
+
+    if (childCount !== 1 || !React.isValidElement(children)) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          "[Button] `asChild` requires a single valid React element child.",
+        );
+      }
+
+      return null;
+    }
     const child = React.Children.only(
       children,
     ) as React.ReactElement<{ children?: React.ReactNode }>;
