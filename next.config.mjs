@@ -6,21 +6,33 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 
-const repositorySlug = process.env.BASE_PATH ?? process.env.GITHUB_REPOSITORY?.split("/")[1];
-const trimmedSlug = repositorySlug?.trim();
-const cleanSlug = trimmedSlug?.replace(new RegExp("^/+|/+$", "g"), "");
-const normalizedBasePath = cleanSlug ? `/${cleanSlug}` : undefined;
+const sanitizeSlug = (value) => {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  const cleaned = trimmed.replace(/^\/+|\/+$/gu, "");
+  return cleaned.length > 0 ? cleaned : undefined;
+};
+
+const envSlug = sanitizeSlug(process.env.BASE_PATH);
+const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/")[1]);
+const slug = envSlug ?? repositorySlug;
+const normalizedBasePath = slug ? `/${slug}` : undefined;
+const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
+const shouldApplyBasePath = Boolean(isGitHubPages && normalizedBasePath && !isUserOrOrgGitHubPage);
 
 const nextConfig = {
   reactStrictMode: true,
   output: isGitHubPages ? "export" : undefined,
-  basePath: isGitHubPages ? normalizedBasePath : undefined,
-  assetPrefix: isGitHubPages ? normalizedBasePath : undefined,
+  basePath: shouldApplyBasePath ? normalizedBasePath : undefined,
+  assetPrefix: shouldApplyBasePath ? normalizedBasePath : undefined,
   images: {
     unoptimized: isGitHubPages,
   },
   env: {
-    NEXT_PUBLIC_BASE_PATH: isGitHubPages ? normalizedBasePath ?? "" : "",
+    NEXT_PUBLIC_BASE_PATH: shouldApplyBasePath ? normalizedBasePath : "",
   },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
