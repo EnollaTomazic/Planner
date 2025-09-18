@@ -21,6 +21,7 @@ import SearchBar, {
   type SearchBarProps,
 } from "@/components/ui/primitives/SearchBar";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
+import type { Align } from "./NeomorphicHeroFrame";
 
 function cx(...p: Array<string | false | null | undefined>) {
   return p.filter(Boolean).join(" ");
@@ -84,7 +85,7 @@ export interface HeroProps<Key extends string = string>
   };
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
-  search?: (SearchBarProps & { round?: boolean }) | null;
+  search?: (SearchBarProps & { round?: boolean; align?: Align }) | null;
 }
 
 function Hero<Key extends string = string>({
@@ -259,22 +260,31 @@ function Hero<Key extends string = string>({
         value={tabs.value}
         onValueChange={tabs.onChange}
         size={tabs.size ?? "md"}
-      align={tabs.align ?? "end"}
-      showBaseline={tabs.showBaseline ?? true}
-      variant={tabs.variant ?? heroVariant}
-      className={cx("justify-end", tabs.className)}
-      ariaLabel="Hero tabs"
-      linkPanels={tabs.linkPanels}
-    />
-  ) : null;
+        align={tabs.align ?? "end"}
+        showBaseline={tabs.showBaseline ?? true}
+        variant={tabs.variant ?? heroVariant}
+        className={cx("justify-end", tabs.className)}
+        ariaLabel="Hero tabs"
+        linkPanels={tabs.linkPanels}
+      />
+    ) : null;
 
   const searchProps =
     search != null
-      ? {
-          ...search,
-          round: search.round ?? true,
-          variant: search.variant ?? heroVariant,
-        }
+      ? (() => {
+          const {
+            align: _searchAlign,
+            round,
+            variant,
+            ...restSearch
+          } = search;
+          void _searchAlign;
+          return {
+            ...restSearch,
+            round: round ?? true,
+            variant: variant ?? heroVariant,
+          };
+        })()
       : search;
 
   return (

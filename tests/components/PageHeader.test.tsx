@@ -180,4 +180,82 @@ describe("PageHeader", () => {
       }),
     ).toBeNull();
   });
+
+  it("centers the frame when only the search slot renders", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          search: {
+            value: "",
+            onValueChange: vi.fn(),
+            "aria-label": "Search",
+          },
+        }}
+      />,
+    );
+
+    const slotGroup = container.querySelector('[data-align]');
+    expect(slotGroup).not.toBeNull();
+    expect(slotGroup).toHaveAttribute("data-align", "center");
+    const slots = container.querySelectorAll('[data-slot]');
+    expect(slots).toHaveLength(1);
+    expect(slots[0]).toHaveAttribute("data-slot", "search");
+  });
+
+  it("biases toward center when search and actions slots render", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          search: {
+            value: "",
+            onValueChange: vi.fn(),
+            "aria-label": "Search",
+          },
+          actions: <button type="button">Sync</button>,
+        }}
+      />,
+    );
+
+    const slotGroup = container.querySelector('[data-align]');
+    expect(slotGroup).not.toBeNull();
+    expect(slotGroup).toHaveAttribute("data-align", "center");
+    const slotKeys = Array.from(
+      container.querySelectorAll('[data-slot]'),
+      (node) => node.getAttribute("data-slot"),
+    );
+    expect(slotKeys).toContain("search");
+    expect(slotKeys).toContain("actions");
+  });
+
+  it("leans toward the end when only tabs and actions render", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          subTabs: {
+            items: [
+              { key: "overview", label: "Overview" },
+              { key: "insights", label: "Insights" },
+            ],
+            value: "overview",
+            onChange: vi.fn(),
+            ariaLabel: "Hero tabs",
+          },
+          actions: <button type="button">Sync</button>,
+        }}
+      />,
+    );
+
+    const slotGroup = container.querySelector('[data-align]');
+    expect(slotGroup).not.toBeNull();
+    expect(slotGroup).toHaveAttribute("data-align", "end");
+    const slots = container.querySelectorAll('[data-slot]');
+    expect(slots).toHaveLength(2);
+    expect(slots[0]).toHaveAttribute("data-slot", "tabs");
+  });
 });
