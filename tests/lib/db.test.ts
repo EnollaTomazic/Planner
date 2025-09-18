@@ -178,18 +178,18 @@ describe("scheduleWrite", () => {
   });
 
   it("skips persistence when cloning fails", async () => {
-    const safeCloneMock = vi.fn(() => undefined);
-    vi.doMock("@/lib/utils", async () => {
-      const actual = await vi.importActual<typeof import("@/lib/utils")>(
-        "@/lib/utils",
-      );
-      return {
-        ...actual,
-        safeClone: safeCloneMock as typeof actual.safeClone,
-      };
-    });
-
+    const stringifySpy = vi
+      .spyOn(JSON, "stringify")
+      .mockImplementation(() => {
+        throw new Error("nope");
+      });
+    const structuredCloneSpy = vi
+      .spyOn(globalThis, "structuredClone")
+      .mockImplementation(() => {
+        throw new Error("still nope");
+      });
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
     const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
 
     const key = "noxis-planner:clone-fail";
@@ -197,8 +197,8 @@ describe("scheduleWrite", () => {
 
     scheduleWrite(key, value);
 
-    expect(safeCloneMock).toHaveBeenCalledTimes(1);
-    expect(safeCloneMock).toHaveBeenCalledWith(value);
+    expect(stringifySpy).toHaveBeenCalledTimes(1);
+    expect(structuredCloneSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(
       `Skipping persistence for "${key}" because value could not be cloned.`,
       value,
@@ -207,7 +207,8 @@ describe("scheduleWrite", () => {
     flushWriteLocal();
     expect(storageMock.setItem).not.toHaveBeenCalled();
 
-    vi.doUnmock("@/lib/utils");
+    stringifySpy.mockRestore();
+    structuredCloneSpy.mockRestore();
     warnSpy.mockRestore();
   });
 
@@ -235,6 +236,40 @@ describe("scheduleWrite", () => {
       vi.unstubAllEnvs();
       warnSpy.mockRestore();
     }
+  });
+});
+
+describe("writeLocal", () => {
+  it("serializes objects once and ignores subsequent mutations", async () => {
+    vi.useFakeTimers();
+
+    const key = "mutations";
+    const value = { count: 1, nested: { done: false } };
+    const expectedSerialized = JSON.stringify(value);
+    const stringifySpy = vi.spyOn(JSON, "stringify");
+
+    const { writeLocal, flushWriteLocal, createStorageKey } = await import(
+      "@/lib/db"
+    );
+
+    writeLocal(key, value);
+    value.count = 9;
+    value.nested.done = true;
+
+    expect(storageMock.setItem).not.toHaveBeenCalled();
+
+    vi.runAllTimers();
+    flushWriteLocal();
+
+    const fullKey = createStorageKey(key);
+    expect(storageMock.setItem).toHaveBeenCalledWith(
+      fullKey,
+      expectedSerialized,
+    );
+    expect(storageMock.store.get(fullKey)).toBe(expectedSerialized);
+    expect(stringifySpy).toHaveBeenCalledTimes(1);
+
+    stringifySpy.mockRestore();
   });
 });
 
