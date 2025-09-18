@@ -116,13 +116,16 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
 function main(): void {
   assertOriginRemote(process.env);
   const slug = detectRepositorySlug();
-  const basePath = `/${slug}`;
-  console.log(`Deploying with base path ${basePath}`);
+  const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
+  const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
+  const shouldUseBasePath = slug.length > 0 && !isUserOrOrgGitHubPage;
+  const basePath = shouldUseBasePath ? `/${slug}` : "";
+  console.log(`Deploying with base path ${basePath || "/"}`);
 
   const buildEnv: NodeJS.ProcessEnv = {
     ...process.env,
     GITHUB_PAGES: "true",
-    BASE_PATH: slug,
+    BASE_PATH: shouldUseBasePath ? slug : "",
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);
