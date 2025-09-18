@@ -35,7 +35,12 @@ export default function DashboardList<T>({
   const hasItems = items.length > 0;
 
   return (
-    <ul className={cn("divide-y divide-[hsl(var(--border))]", className)}>
+    <ul
+      className={cn(
+        "divide-y divide-[hsl(var(--foreground)/0.16)]",
+        className,
+      )}
+    >
       {hasItems
         ? items.map((item, index) => {
             const key = getKey ? getKey(item, index) : index;

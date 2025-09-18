@@ -24,7 +24,9 @@ export default function DashboardCard({
         {actions}
       </div>
       {children && (
-        <div className="border-t border-border pt-[var(--space-4)] space-y-[var(--space-4)]">
+        <div
+          className="border-t border-[hsl(var(--foreground)/0.16)] pt-[var(--space-4)] space-y-[var(--space-4)]"
+        >
           {children}
         </div>
       )}
