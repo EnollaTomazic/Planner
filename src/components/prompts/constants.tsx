@@ -81,6 +81,7 @@ import {
   TimerRing,
   TimerTab,
 } from "@/components/goals";
+import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
@@ -757,9 +758,15 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "reminders-tab",
       name: "RemindersTab",
-      element: <RemindersTab />,
+      element: (
+        <RemindersProvider>
+          <RemindersTab />
+        </RemindersProvider>
+      ),
       tags: ["reminders", "tab"],
-      code: `<RemindersTab />`,
+      code: `<RemindersProvider>
+  <RemindersTab />
+</RemindersProvider>`,
     },
     {
       id: "timer-ring",
