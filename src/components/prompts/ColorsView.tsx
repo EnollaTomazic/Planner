@@ -70,9 +70,9 @@ function Swatch({ token }: SwatchProps) {
 function GradientSwatch() {
   return (
     <li className="col-span-full xl:col-span-6 flex flex-col items-center gap-[var(--space-2)]">
-      <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-transparent" />
+      <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-[hsl(var(--accent-2))]" />
       <span className="text-label font-medium">
-        from-primary via-accent to-transparent
+        from-primary via-accent to-[hsl(var(--accent-2))]
       </span>
     </li>
   );
