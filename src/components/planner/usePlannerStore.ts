@@ -83,6 +83,7 @@ export function usePlannerStore() {
 
   React.useEffect(() => {
     if (!legacyMigrated) {
+      if (!focus) return;
       const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
       const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
 

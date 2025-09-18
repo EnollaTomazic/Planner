@@ -87,6 +87,7 @@ export type Section =
   | "prompts"
   | "planner"
   | "cards"
+  | "page-header"
   | "layout"
   | "feedback"
   | "toggles"
@@ -880,6 +881,138 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 />`,
     },
     {
+      id: "page-shell",
+      name: "PageShell",
+      description: "Responsive page container",
+      element: (
+        <PageShell className="space-y-3 py-6">
+          <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+            Page shell content
+          </div>
+          <Button size="sm">Action</Button>
+        </PageShell>
+      ),
+      tags: ["layout", "shell"],
+      code: `<PageShell className="space-y-3 py-6">
+  <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+    Page shell content
+  </div>
+  <Button size="sm">Action</Button>
+</PageShell>`,
+    },
+    {
+      id: "sheet-demo",
+      name: "Sheet",
+      element: <SheetDemo />,
+      tags: ["sheet", "overlay"],
+      code: `<Button size="sm">Open</Button>
+<Sheet open>
+  <Card>
+    <CardHeader>
+      <CardTitle>Sheet</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-ui">Content</p>
+    </CardContent>
+  </Card>
+</Sheet>`,
+    },
+    {
+      id: "modal-demo",
+      name: "Modal",
+      element: <ModalDemo />,
+      tags: ["modal", "overlay"],
+      code: `<Button size="sm">Open</Button>
+<Modal open>
+  <Card>
+    <CardHeader>
+      <CardTitle>Modal</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-ui">Content</p>
+    </CardContent>
+    <CardFooter>
+      <Button size="sm">Close</Button>
+    </CardFooter>
+  </Card>
+</Modal>`,
+    },
+    {
+      id: "toast-demo",
+      name: "Toast",
+      element: <ToastDemo />,
+      tags: ["toast", "feedback"],
+      code: `<Button size="sm">Show</Button>
+<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
+    },
+    {
+      id: "split",
+      name: "Split",
+      element: (
+        <Split
+          left={<div className="p-4">Left</div>}
+          right={<div className="p-4">Right</div>}
+        />
+      ),
+      tags: ["split", "layout"],
+      code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
+    },
+    {
+      id: "tab-bar",
+      name: "TabBar",
+      element: (
+        <TabBar
+          items={[
+            { key: "a", label: "A" },
+            { key: "b", label: "B" },
+          ]}
+          defaultValue="a"
+          ariaLabel="Example tabs"
+        />
+      ),
+      tags: ["tabs"],
+      code: `<TabBar
+  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
+  defaultValue="a"
+  ariaLabel="Example tabs"
+/>`,
+    },
+    {
+      id: "tab-bar-app-nav",
+      name: "TabBar (app nav)",
+      description: "Controlled TabBar for section switching",
+      element: (
+        <TabBar
+          items={[
+            { key: "reviews", label: "Reviews" },
+            { key: "planner", label: "Planner" },
+            { key: "goals", label: "Goals" },
+          ]}
+          defaultValue="reviews"
+          ariaLabel="Planner areas"
+        />
+      ),
+      tags: ["tabs"],
+      code: `<TabBar
+  items={[
+    { key: "reviews", label: "Reviews" },
+    { key: "planner", label: "Planner" },
+    { key: "goals", label: "Goals" },
+  ]}
+  defaultValue="reviews"
+  ariaLabel="Planner areas"
+/>`,
+    },
+    {
+      id: "title-bar",
+      name: "TitleBar",
+      element: <TitleBar label="Title" />,
+      tags: ["title", "bar"],
+      code: `<TitleBar label="Title" />`,
+    },
+  ],
+  "page-header": [
+    {
       id: "neomorphic-hero-frame",
       name: "NeomorphicHeroFrame",
       description:
@@ -1031,136 +1164,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   imageSrc="/hero_image.png"
   imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
 />`,
-    },
-    {
-      id: "page-shell",
-      name: "PageShell",
-      description: "Responsive page container",
-      element: (
-        <PageShell className="space-y-3 py-6">
-          <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
-            Page shell content
-          </div>
-          <Button size="sm">Action</Button>
-        </PageShell>
-      ),
-      tags: ["layout", "shell"],
-      code: `<PageShell className="space-y-3 py-6">
-  <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
-    Page shell content
-  </div>
-  <Button size="sm">Action</Button>
-</PageShell>`,
-    },
-    {
-      id: "sheet-demo",
-      name: "Sheet",
-      element: <SheetDemo />,
-      tags: ["sheet", "overlay"],
-      code: `<Button size="sm">Open</Button>
-<Sheet open>
-  <Card>
-    <CardHeader>
-      <CardTitle>Sheet</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-ui">Content</p>
-    </CardContent>
-  </Card>
-</Sheet>`,
-    },
-    {
-      id: "modal-demo",
-      name: "Modal",
-      element: <ModalDemo />,
-      tags: ["modal", "overlay"],
-      code: `<Button size="sm">Open</Button>
-<Modal open>
-  <Card>
-    <CardHeader>
-      <CardTitle>Modal</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-ui">Content</p>
-    </CardContent>
-    <CardFooter>
-      <Button size="sm">Close</Button>
-    </CardFooter>
-  </Card>
-</Modal>`,
-    },
-    {
-      id: "toast-demo",
-      name: "Toast",
-      element: <ToastDemo />,
-      tags: ["toast", "feedback"],
-      code: `<Button size="sm">Show</Button>
-<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
-    },
-    {
-      id: "split",
-      name: "Split",
-      element: (
-        <Split
-          left={<div className="p-4">Left</div>}
-          right={<div className="p-4">Right</div>}
-        />
-      ),
-      tags: ["split", "layout"],
-      code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
-    },
-    {
-      id: "tab-bar",
-      name: "TabBar",
-      element: (
-        <TabBar
-          items={[
-            { key: "a", label: "A" },
-            { key: "b", label: "B" },
-          ]}
-          defaultValue="a"
-          ariaLabel="Example tabs"
-        />
-      ),
-      tags: ["tabs"],
-      code: `<TabBar
-  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
-  defaultValue="a"
-  ariaLabel="Example tabs"
-/>`,
-    },
-    {
-      id: "tab-bar-app-nav",
-      name: "TabBar (app nav)",
-      description: "Controlled TabBar for section switching",
-      element: (
-        <TabBar
-          items={[
-            { key: "reviews", label: "Reviews" },
-            { key: "planner", label: "Planner" },
-            { key: "goals", label: "Goals" },
-          ]}
-          defaultValue="reviews"
-          ariaLabel="Planner areas"
-        />
-      ),
-      tags: ["tabs"],
-      code: `<TabBar
-  items={[
-    { key: "reviews", label: "Reviews" },
-    { key: "planner", label: "Planner" },
-    { key: "goals", label: "Goals" },
-  ]}
-  defaultValue="reviews"
-  ariaLabel="Planner areas"
-/>`,
-    },
-    {
-      id: "title-bar",
-      name: "TitleBar",
-      element: <TitleBar label="Title" />,
-      tags: ["title", "bar"],
-      code: `<TitleBar label="Title" />`,
     },
   ],
   feedback: [
@@ -1395,9 +1398,15 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   ],
 };
 
+const formatSectionLabel = (section: Section) =>
+  section
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
 export const SECTION_TABS: HeaderTab<Section>[] = (
   Object.keys(SPEC_DATA) as Section[]
 ).map((key) => ({
   key,
-  label: key.charAt(0).toUpperCase() + key.slice(1),
+  label: formatSectionLabel(key),
 }));
