@@ -14,7 +14,7 @@ import {
   BottomNav,
   IsometricRoom,
   DashboardList,
-  HeroPortraitFrame,
+  WelcomeHeroFigure,
 } from "@/components/home";
 import {
   PageHeader,
@@ -463,35 +463,38 @@ function HomePageContent() {
                     icon: <Home className="opacity-80" />,
                     sticky: false,
                   }}
-                  hero={{
-                    heading: "Your day at a glance",
-                    sticky: false,
-                    barVariant: "raised",
-                    topClassName: "top-0",
-                    actions: (
-                      <>
-                        <HeroPortraitFrame
-                          imageSrc="/hero_image.png"
-                          imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
-                          priority
-                          className="max-sm:mx-auto"
-                        />
-                        <ThemeToggle className="shrink-0" />
-                        <Button
-                          asChild
-                          variant="primary"
-                          size="sm"
-                          tactile
-                          className="px-4 whitespace-nowrap"
+                    hero={{
+                      heading: "Your day at a glance",
+                      sticky: false,
+                      barVariant: "raised",
+                      topClassName: "top-0",
+                      actions: (
+                        <div
+                          className="flex w-full flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]"
                         >
-                          <Link href="/planner">Plan Week</Link>
-                        </Button>
-                      </>
-                    ),
-                    children: (
-                      <div className="pt-[var(--space-4)]">
-                        <HeroPlannerCards />
-                      </div>
+                          <div
+                            className="flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:w-auto sm:flex-nowrap"
+                          >
+                            <ThemeToggle className="shrink-0" />
+                            <Button
+                              asChild
+                              variant="primary"
+                              size="sm"
+                              tactile
+                              className="whitespace-nowrap px-4"
+                            >
+                              <Link href="/planner">Plan Week</Link>
+                            </Button>
+                          </div>
+                          <WelcomeHeroFigure
+                            className="hidden w-full shrink-0 sm:flex sm:max-w-[min(52vw,calc(var(--space-8) * 4))] md:basis-[33%] md:max-w-[34%] lg:basis-[42%] lg:max-w-[44%]"
+                          />
+                        </div>
+                      ),
+                      children: (
+                        <div className="pt-[var(--space-4)]">
+                          <HeroPlannerCards />
+                        </div>
                     ),
                   }}
                 />
