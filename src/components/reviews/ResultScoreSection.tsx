@@ -92,8 +92,8 @@ function ResultScoreSection(
               transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
               background:
                 result === "Win"
-                  ? "linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28))"
-                  : "linear-gradient(90deg, hsl(var(--danger)/0.30), hsl(var(--primary)/0.26))",
+                  ? "linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18))"
+                  : "linear-gradient(90deg, hsl(var(--danger)/0.24), hsl(var(--primary)/0.20))",
               boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
             }}
           />
@@ -101,7 +101,7 @@ function ResultScoreSection(
             <div
               className={cn(
                 "py-2 text-center",
-                result === "Win" ? "text-foreground/70" : "text-muted-foreground",
+                result === "Win" ? "text-foreground" : "text-muted-foreground",
               )}
             >
               Win
@@ -109,7 +109,7 @@ function ResultScoreSection(
             <div
               className={cn(
                 "py-2 text-center",
-                result === "Loss" ? "text-foreground/70" : "text-muted-foreground",
+                result === "Loss" ? "text-foreground" : "text-muted-foreground",
               )}
             >
               Loss

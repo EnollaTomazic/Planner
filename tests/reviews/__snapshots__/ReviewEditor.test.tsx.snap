@@ -418,13 +418,13 @@ exports[`ReviewEditor > renders default state 1`] = `
           <span
             aria-hidden="true"
             class="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
-            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28)); box-shadow: 0 10px 30px hsl(var(--shadow-color) / .25);"
+            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18)); box-shadow: 0 10px 30px hsl(var(--shadow-color) / .25);"
           />
           <div
             class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
           >
             <div
-              class="py-2 text-center text-foreground/70"
+              class="py-2 text-center text-foreground"
             >
               Win
             </div>
@@ -758,7 +758,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(257, 90%, 70%, 1); --g2: hsla(198, 90%, 62%, 1); --shadow: hsla(258, 90%, 38%, 0.35);"
+                style="--g1: hsl(var(--pillar-wave-start)); --g2: hsl(var(--pillar-wave-end)); --shadow: hsl(var(--pillar-wave-shadow));"
                 title="Wave"
               >
                 <svg
@@ -885,7 +885,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(292, 85%, 72%, 1); --g2: hsla(6, 85%, 66%, 1); --shadow: hsla(292, 85%, 38%, 0.35);"
+                style="--g1: hsl(var(--pillar-trading-start)); --g2: hsl(var(--pillar-trading-end)); --shadow: hsl(var(--pillar-trading-shadow));"
                 title="Trading"
               >
                 <svg
@@ -1022,7 +1022,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(157, 70%, 55%, 1); --g2: hsla(192, 75%, 60%, 1); --shadow: hsla(170, 70%, 30%, 0.35);"
+                style="--g1: hsl(var(--pillar-vision-start)); --g2: hsl(var(--pillar-vision-end)); --shadow: hsl(var(--pillar-vision-shadow));"
                 title="Vision"
               >
                 <svg
@@ -1148,7 +1148,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(260, 85%, 70%, 1); --g2: hsla(280, 85%, 65%, 1); --shadow: hsla(270, 80%, 35%, 0.35);"
+                style="--g1: hsl(var(--pillar-tempo-start)); --g2: hsl(var(--pillar-tempo-end)); --shadow: hsl(var(--pillar-tempo-shadow));"
                 title="Tempo"
               >
                 <svg
@@ -1283,7 +1283,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(190, 90%, 66%, 1); --g2: hsla(220, 90%, 66%, 1); --shadow: hsla(205, 85%, 35%, 0.35);"
+                style="--g1: hsl(var(--pillar-positioning-start)); --g2: hsl(var(--pillar-positioning-end)); --shadow: hsl(var(--pillar-positioning-shadow));"
                 title="Positioning"
               >
                 <svg
@@ -1430,7 +1430,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsla(40, 95%, 62%, 1); --g2: hsla(18, 90%, 60%, 1); --shadow: hsla(28, 90%, 35%, 0.35);"
+                style="--g1: hsl(var(--pillar-comms-start)); --g2: hsl(var(--pillar-comms-end)); --shadow: hsl(var(--pillar-comms-shadow));"
                 title="Comms"
               >
                 <svg

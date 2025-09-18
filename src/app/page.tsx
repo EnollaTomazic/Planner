@@ -35,10 +35,11 @@ import {
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import { usePersistentState } from "@/lib/db";
-import type { Goal } from "@/lib/types";
+import type { Goal, Review } from "@/lib/types";
 import { formatWeekRangeLabel, fromISODate } from "@/lib/date";
 import { LOCALE, cn } from "@/lib/utils";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
+import type { Prompt } from "@/components/prompts/usePrompts";
 
 type WeeklyHighlight = {
   id: string;
@@ -110,6 +111,8 @@ function HeroPlannerCards() {
   );
 
   const [goals] = usePersistentState<Goal[]>("goals.v2", []);
+  const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
+  const [prompts] = usePersistentState<Prompt[]>("prompts.v1", []);
   const goalStats = React.useMemo(() => {
     let completed = 0;
     const active: Goal[] = [];
@@ -133,6 +136,84 @@ function HeroPlannerCards() {
     return Math.max(0, Math.min(100, Math.round(pct)));
   }, [goalStats.completed, goalStats.total]);
 
+  const flaggedReviewCount = React.useMemo(
+    () => reviews.filter((review) => review.focusOn).length,
+    [reviews],
+  );
+  const reviewCount = reviews.length;
+  const promptCount = prompts.length;
+
+  const heroSummaryItems = React.useMemo(
+    () => {
+      const reviewValue =
+        flaggedReviewCount > 0
+          ? `${flaggedReviewCount} review${flaggedReviewCount === 1 ? "" : "s"}`
+          : reviewCount > 0
+            ? "All caught up"
+            : "No reviews yet";
+      const promptValue =
+        promptCount > 0 ? `${promptCount} saved` : "Start a prompt";
+      return [
+        {
+          key: "focus" as const,
+          label: "Next focus",
+          value: focusLabel,
+          href: "/planner",
+          cta: "Open planner",
+        },
+        {
+          key: "reviews" as const,
+          label: "Open reviews",
+          value: reviewValue,
+          href: "/reviews",
+          cta: flaggedReviewCount > 0 ? "Review now" : "View reviews",
+        },
+        {
+          key: "prompts" as const,
+          label: "Team prompts",
+          value: promptValue,
+          href: "/prompts",
+          cta: promptCount > 0 ? "View prompts" : "Browse prompts",
+        },
+      ] as const;
+    },
+    [flaggedReviewCount, focusLabel, promptCount, reviewCount],
+  );
+
+  const heroSummary = (
+    <div className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col gap-[var(--space-3)]">
+      <div className="space-y-[var(--space-1)]">
+        <p className="text-label text-muted-foreground">Highlights</p>
+        <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
+          Quick summary
+        </h3>
+      </div>
+      <ul className="grid gap-[var(--space-2)]" role="list">
+        {heroSummaryItems.map((item) => (
+          <li key={item.key}>
+            <Link
+              href={item.href}
+              className={cn(
+                "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
+                "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+              )}
+            >
+              <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
+                <span className="text-label text-muted-foreground">{item.label}</span>
+                <span className="text-ui font-semibold text-card-foreground text-balance">
+                  {item.value}
+                </span>
+              </div>
+              <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground">
+                {item.cta}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
   const { start, end, days, isToday } = useWeek(iso);
   const { per, weekDone, weekTotal } = useWeekData(days);
   const weekLabel = React.useMemo(
@@ -149,6 +230,7 @@ function HeroPlannerCards() {
 
   return (
     <div className="grid grid-cols-12 gap-[var(--space-4)]">
+      {heroSummary}
       <div className="col-span-12 md:col-span-6 lg:col-span-4">
         <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
           <header className="flex items-start justify-between gap-[var(--space-3)]">
@@ -373,6 +455,7 @@ function HomePageContent() {
               hero={{
                 heading: "Your day at a glance",
                 sticky: false,
+                barVariant: "raised",
                 topClassName: "top-0",
                 actions: (
                   <>
@@ -387,6 +470,7 @@ function HomePageContent() {
                       asChild
                       variant="primary"
                       size="sm"
+                      tactile
                       className="px-4 whitespace-nowrap"
                     >
                       <Link href="/planner">Plan Week</Link>
