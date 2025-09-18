@@ -147,7 +147,6 @@ function PageContent() {
       aria-labelledby="prompts-header"
     >
       <PageHeader
-        containerClassName="sticky top-0"
         header={{
           id: "prompts-header",
           heading: "Prompts Playground",
@@ -159,11 +158,11 @@ function PageContent() {
             onChange: (k) => setView(k as View),
             ariaLabel: "Playground view",
           },
-          sticky: true,
+          sticky: false,
         }}
         hero={{
           frame: false,
-          sticky: true,
+          sticky: false,
           heading:
             view === "components"
               ? "Components"

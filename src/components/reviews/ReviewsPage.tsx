@@ -80,7 +80,6 @@ export default function ReviewsPage({
       aria-labelledby="reviews-header"
     >
       <PageHeader
-        containerClassName="sticky top-0"
         className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         contentClassName="space-y-[var(--space-2)]"
         header={{
@@ -89,11 +88,11 @@ export default function ReviewsPage({
           icon: <BookOpen className="opacity-80" />,
           topClassName: "top-[var(--header-stack)]",
           underline: true,
-          sticky: true,
+          sticky: false,
         }}
         hero={{
           frame: false,
-          sticky: true,
+          sticky: false,
           topClassName: "top-[var(--header-stack)]",
           heading: "Browse Reviews",
           subtitle: <span className="pill">Total {base.length}</span>,

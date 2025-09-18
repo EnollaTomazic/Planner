@@ -111,11 +111,11 @@ export default function CompsPage() {
           id: "comps-header",
           heading: "Component Gallery",
           subtitle: "Browse Planner UI building blocks by category.",
-          sticky: true,
+          sticky: false,
         }}
         hero={{
           frame: false,
-          sticky: true,
+          sticky: false,
           heading: sectionLabel,
           icon: (
             <span className="[&_svg]:size-[var(--space-6)]">
