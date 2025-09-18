@@ -180,9 +180,11 @@ describe("usePlannerStore", () => {
     });
 
     const { result } = renderHook(() => useStore(), { wrapper: localWrapper });
-    await waitFor(() =>
-      expect(result.current.day.projects[0].name).toBe("Legacy"),
-    );
+    await waitFor(() => {
+      expect(result.current.day.projects[0].name).toBe("Legacy");
+      expect(result.current.day.tasksByProject).toEqual({ p1: ["t1"] });
+    });
+    expect(result.current.day.tasksById["t1"]?.title).toBe("Old");
     expect(result.current.day.tasks[0].title).toBe("Old");
     expect(store["planner:projects"]).toBeUndefined();
     expect(store["planner:tasks"]).toBeUndefined();
