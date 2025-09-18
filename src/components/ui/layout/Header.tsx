@@ -11,18 +11,19 @@
  */
 
 import * as React from "react";
-import TabBar, {
-  type TabBarA11yProps,
-  type TabBarProps,
-  type TabItem,
-} from "./TabBar";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
+import {
+  HeaderTabs as HeaderTabsControl,
+  type HeaderTabItem,
+} from "@/components/tabs/HeaderTabs";
+import type { TabBarProps } from "./TabBar";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export interface HeaderTab<Key extends string = string> extends TabItem<Key> {
+export interface HeaderTab<Key extends string = string>
+  extends HeaderTabItem<Key> {
   hint?: string;
 }
 
@@ -97,12 +98,25 @@ export default function Header<Key extends string = string>({
       onChange: tabOnChange,
       ariaLabel: tabAriaLabel,
       ariaLabelledBy: tabAriaLabelledBy,
-      size: tabSize,
-      align: tabAlign,
+      size: _tabSize,
+      align: _tabAlign,
       className: tabClassName,
-      variant: tabVariant,
-      ...tabBarRest
+      variant: _tabVariant,
+      right: _tabRight,
+      showBaseline: _tabShowBaseline,
+      tablistClassName: _tablistClassName,
+      renderItem: _tabRenderItem,
+      idBase: tabIdBase,
+      linkPanels: tabLinkPanels,
+      ...tabRest
     } = tabs;
+    void _tabSize;
+    void _tabAlign;
+    void _tabVariant;
+    void _tabRight;
+    void _tabShowBaseline;
+    void _tablistClassName;
+    void _tabRenderItem;
     const sanitizedTabAriaLabel =
       typeof tabAriaLabel === "string" && tabAriaLabel.trim().length > 0
         ? tabAriaLabel.trim()
@@ -111,26 +125,22 @@ export default function Header<Key extends string = string>({
       typeof tabAriaLabelledBy === "string" && tabAriaLabelledBy.trim().length > 0
         ? tabAriaLabelledBy.trim()
         : undefined;
-    const accessibilityProps: TabBarA11yProps = sanitizedTabAriaLabelledBy
-      ? {
-          ariaLabelledBy: sanitizedTabAriaLabelledBy,
-          ...(sanitizedTabAriaLabel ? { ariaLabel: sanitizedTabAriaLabel } : {}),
-        }
-      : {
-          ariaLabel: sanitizedTabAriaLabel ?? "Header tabs",
-        };
+    const sanitizedItems = tabItems.map(({ hint, ...item }) => {
+      void hint;
+      return item;
+    });
 
     tabControl = (
-      <TabBar
-        items={tabItems}
+      <HeaderTabsControl
+        items={sanitizedItems}
         value={tabValue}
-        onValueChange={tabOnChange}
-        size={tabSize ?? "sm"}
-        align={tabAlign ?? "end"}
+        onChange={tabOnChange}
+        ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
+        ariaLabelledBy={sanitizedTabAriaLabelledBy}
+        idBase={tabIdBase}
+        linkPanels={tabLinkPanels}
         className={cx("w-auto max-w-full shrink-0", tabClassName)}
-        variant={tabVariant ?? (isNeo ? "neo" : "default")}
-        {...accessibilityProps}
-        {...tabBarRest}
+        {...tabRest}
       />
     );
   }
@@ -285,13 +295,13 @@ export function HeaderTabs<Key extends string = string>({
   onChange,
   ariaLabel,
   ariaLabelledBy,
-  variant,
 }: {
   tabs: HeaderTab<Key>[];
   activeKey: Key;
   onChange: (key: Key) => void;
-  variant?: TabBarProps["variant"];
-} & TabBarA11yProps) {
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
+}) {
   const sanitizedAriaLabel =
     typeof ariaLabel === "string" && ariaLabel.trim().length > 0
       ? ariaLabel.trim()
@@ -300,24 +310,18 @@ export function HeaderTabs<Key extends string = string>({
     typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0
       ? ariaLabelledBy.trim()
       : undefined;
-  const accessibilityProps: TabBarA11yProps = sanitizedAriaLabelledBy
-    ? {
-        ariaLabelledBy: sanitizedAriaLabelledBy,
-        ...(sanitizedAriaLabel ? { ariaLabel: sanitizedAriaLabel } : {}),
-      }
-    : {
-        ariaLabel: sanitizedAriaLabel ?? "Header tabs",
-      };
+  const sanitizedItems = tabs.map(({ hint, ...item }) => {
+    void hint;
+    return item;
+  });
 
   return (
-    <TabBar
-      items={tabs}
+    <HeaderTabsControl
+      items={sanitizedItems}
       value={activeKey}
-      onValueChange={onChange}
-      align="end"
-      size="sm"
-      variant={variant}
-      {...accessibilityProps}
+      onChange={onChange}
+      ariaLabel={sanitizedAriaLabel ?? "Header tabs"}
+      ariaLabelledBy={sanitizedAriaLabelledBy}
     />
   );
 }

@@ -11,6 +11,7 @@
 import * as React from "react";
 import { useId } from "react";
 import { cn } from "@/lib/utils";
+import { useRovingTabState } from "@/components/tabs/useRovingTabState";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -163,57 +164,13 @@ export default function TabBar<
 
   const uid = useId();
   const baseId = idBase ?? uid;
-  const isControlled = value !== undefined;
-  const [internal, setInternal] = React.useState<K>(() => {
-    if (value !== undefined) return value;
-    if (defaultValue) return defaultValue;
-    return (items.find((i) => !i.disabled)?.key ?? items[0]?.key ?? "") as K;
-  });
-
-  const activeKey = isControlled ? (value as K) : internal;
-
-  const commitValue = React.useCallback(
-    (next: K) => {
-      if (!isControlled) setInternal(next);
-      onValueChange?.(next);
-    },
-    [isControlled, onValueChange],
-  );
-
-  const tabRefs = React.useRef<Record<K, HTMLElement | null>>({} as Record<
-    K,
-    HTMLElement | null
-  >);
-
-  const commitAndFocus = React.useCallback(
-    (next: K) => {
-      commitValue(next);
-      tabRefs.current[next]?.focus();
-    },
-    [commitValue],
-  );
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-    e.preventDefault();
-
-    const enabled = items.filter((i) => !i.disabled);
-    const curIndex = enabled.findIndex((i) => i.key === activeKey);
-    if (enabled.length === 0) return;
-
-    if (e.key === "Home") return commitAndFocus(enabled[0].key);
-    if (e.key === "End")
-      return commitAndFocus(enabled[enabled.length - 1].key);
-
-    if (e.key === "ArrowLeft") {
-      const next = curIndex <= 0 ? enabled.length - 1 : curIndex - 1;
-      return commitAndFocus(enabled[next].key);
-    }
-    if (e.key === "ArrowRight") {
-      const next = curIndex >= enabled.length - 1 ? 0 : curIndex + 1;
-      return commitAndFocus(enabled[next].key);
-    }
-  };
+  const { activeKey, setActiveValue, registerTab, onKeyDown } =
+    useRovingTabState({
+      items,
+      value,
+      defaultValue,
+      onValueChange,
+    });
 
   const justify = {
     start: "justify-start",
@@ -302,10 +259,10 @@ export default function TabBar<
             const isDisabled = Boolean(item.disabled || isLoading);
             const select = () => {
               if (isDisabled) return;
-              commitValue(item.key);
+              setActiveValue(item.key);
             };
             const setRef: React.RefCallback<HTMLElement> = (el) => {
-              tabRefs.current[item.key] = el;
+              registerTab(item.key, el);
             };
             const defaultChildren = (
               <>
