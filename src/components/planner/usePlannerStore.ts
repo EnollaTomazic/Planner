@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   ensureDay,
   computeDayCounts,
+  buildTaskLookups,
   useDays,
   useFocus,
   type DayRecord,
@@ -45,13 +46,7 @@ function migrateLegacy(
     updated = { ...updated, projects };
   }
   if (tasks) {
-    const map: Record<string, string[]> = {};
-    const byId: Record<string, DayTask> = {};
-    for (const t of tasks) {
-      byId[t.id] = t;
-      if (t.projectId) (map[t.projectId] ??= []).push(t.id);
-    }
-    updated = { ...updated, tasks, tasksById: byId, tasksByProject: map };
+    updated = { ...updated, tasks, ...buildTaskLookups(tasks) };
   }
   const { doneCount, totalCount } = computeDayCounts(
     updated.projects,
