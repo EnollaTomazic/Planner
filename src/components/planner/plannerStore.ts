@@ -148,7 +148,14 @@ export function pruneOldDays(
     return days;
   }
 
-  const reference = now === undefined ? new Date() : new Date(now);
+  let reference: Date;
+  if (now === undefined) {
+    reference = new Date();
+  } else if (typeof now === "string") {
+    reference = fromISODate(now) ?? new Date(now);
+  } else {
+    reference = new Date(now);
+  }
   if (Number.isNaN(reference.getTime())) {
     return days;
   }
