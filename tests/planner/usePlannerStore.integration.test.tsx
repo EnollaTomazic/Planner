@@ -1,5 +1,13 @@
 import * as React from "react";
-import { beforeAll, beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+import {
+  beforeAll,
+  beforeEach,
+  afterEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
 
 type PlannerModule = typeof import("@/components/planner");
@@ -27,9 +35,7 @@ describe("usePlannerStore integration", () => {
     setWriteLocalDelay = dbModule.setWriteLocalDelay;
     originalWriteDelay = dbModule.writeLocalDelay;
 
-    wrapper = ({ children }) => (
-      <PlannerProvider>{children}</PlannerProvider>
-    );
+    wrapper = ({ children }) => <PlannerProvider>{children}</PlannerProvider>;
   });
 
   beforeEach(() => {
@@ -46,9 +52,7 @@ describe("usePlannerStore integration", () => {
   it("migrates legacy storage into planner days", async () => {
     window.localStorage.setItem(
       "planner:projects",
-      JSON.stringify([
-        { id: "p1", name: "Legacy", done: false, createdAt: 1 },
-      ]),
+      JSON.stringify([{ id: "p1", name: "Legacy", done: false, createdAt: 1 }]),
     );
     window.localStorage.setItem(
       "planner:tasks",
@@ -133,10 +137,38 @@ describe("usePlannerStore integration", () => {
     const second = renderHook(() => usePlannerStore(), { wrapper });
 
     await waitFor(() => {
-      expect(second.result.current.day.projects[0]?.name).toBe(
-        "Persist me",
-      );
+      expect(second.result.current.day.projects[0]?.name).toBe("Persist me");
     });
+  });
+
+  it("normalizes non-array task images when hydrating", async () => {
+    const iso = "2024-05-11";
+    window.localStorage.setItem(
+      "noxis-planner:planner:days",
+      JSON.stringify({
+        [iso]: {
+          tasks: [
+            {
+              id: "t1",
+              title: "Needs repair",
+              done: false,
+              createdAt: 1,
+              images: "oops",
+            },
+          ],
+        },
+      }),
+    );
+
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.days[iso]?.tasks).toHaveLength(1);
+    });
+
+    const task = result.current.days[iso]?.tasks[0];
+    expect(task?.images).toEqual([]);
+    expect(result.current.days[iso]?.tasksById["t1"]).toBe(task);
   });
 
   it("repairs corrupted planner storage blobs", async () => {
