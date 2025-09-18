@@ -20,21 +20,21 @@ type SwatchProps = { token: string };
 
 function Swatch({ token }: SwatchProps) {
   return (
-    <li className="flex flex-col items-center gap-[var(--space-2)] xl:col-span-3">
+    <li className="flex flex-col items-start gap-[var(--space-2)] xl:col-span-3">
       <div
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
       />
-      <span className="text-label font-medium">{token}</span>
+      <span className="w-full text-left text-label font-medium">{token}</span>
     </li>
   );
 }
 
 function GradientSwatch() {
   return (
-    <li className="col-span-full xl:col-span-6 flex flex-col items-center gap-[var(--space-2)]">
+    <li className="col-span-full xl:col-span-6 flex flex-col items-start gap-[var(--space-2)]">
       <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-transparent" />
-      <span className="text-label font-medium">
+      <span className="w-full text-left text-label font-medium">
         from-primary via-accent to-transparent
       </span>
     </li>
