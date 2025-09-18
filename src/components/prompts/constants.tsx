@@ -38,6 +38,9 @@ import {
   Label,
   type HeaderTab,
 } from "@/components/ui";
+import HeaderTabsControl, {
+  type HeaderTabItem as HeaderTabsItem,
+} from "@/components/tabs/HeaderTabs";
 import Badge from "@/components/ui/primitives/Badge";
 import GoalListDemo from "./GoalListDemo";
 import PromptList from "./PromptList";
@@ -220,6 +223,41 @@ function HeaderTabsDemo() {
       }}
       sticky={false}
       topClassName="top-0"
+    />
+  );
+}
+
+function HeaderTabsControlDemo() {
+  const [active, setActive] = React.useState("plan");
+  const items = React.useMemo<HeaderTabsItem<string>[]>(
+    () => [
+      {
+        key: "plan",
+        label: "Plan",
+        icon: <Circle aria-hidden />, 
+      },
+      {
+        key: "review",
+        label: "Review",
+        icon: <CircleDot aria-hidden />, 
+      },
+      {
+        key: "archive",
+        label: "Archive",
+        icon: <CircleCheck aria-hidden />, 
+        disabled: true,
+      },
+    ],
+    [],
+  );
+
+  return (
+    <HeaderTabsControl
+      items={items}
+      value={active}
+      onChange={setActive}
+      ariaLabel="Header tab demo"
+      idBase="header-tabs-demo"
     />
   );
 }
@@ -864,6 +902,29 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     },
   ],
   layout: [
+    {
+      id: "header-tabs-control",
+      name: "HeaderTabs",
+      description: "Neomorphic header tab control",
+      element: (
+        <div className="w-56">
+          <HeaderTabsControlDemo />
+        </div>
+      ),
+      tags: ["tabs", "navigation"],
+      code: `const tabs = [
+  { key: "plan", label: "Plan" },
+  { key: "review", label: "Review" },
+  { key: "archive", label: "Archive", disabled: true },
+];
+
+<HeaderTabs
+  items={tabs}
+  value="plan"
+  onChange={() => {}}
+  ariaLabel="Header tab demo"
+/>`,
+    },
     {
       id: "header-tabs",
       name: "Header Tabs",
