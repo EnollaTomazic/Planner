@@ -39,6 +39,27 @@ export type Selection = {
   taskId?: string;
 };
 
+type DaysUpdateMetadata = {
+  days: Record<ISODate, DayRecord>;
+  changed?: Iterable<ISODate>;
+};
+
+type DaysUpdateTuple = readonly [
+  Record<ISODate, DayRecord>,
+  Iterable<ISODate>,
+];
+
+type DaysUpdateResult =
+  | Record<ISODate, DayRecord>
+  | DaysUpdateMetadata
+  | DaysUpdateTuple;
+
+type DaysSetStateAction =
+  | DaysUpdateResult
+  | ((current: Record<ISODate, DayRecord>) => DaysUpdateResult);
+
+type DaysDispatch = (action: DaysSetStateAction) => void;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -352,6 +373,43 @@ function sanitizeDay(
   return ensured === map[iso] ? undefined : ensured;
 }
 
+function isDaysUpdateMetadata(value: DaysUpdateResult): value is DaysUpdateMetadata {
+  if (!isRecord(value)) return false;
+  if (!Object.prototype.hasOwnProperty.call(value, "days")) return false;
+  const candidate = (value as { days?: unknown }).days;
+  return isRecord(candidate);
+}
+
+function normalizeChangedList(
+  changed?: Iterable<ISODate>,
+): ISODate[] | undefined {
+  if (!changed) return undefined;
+  if (typeof changed === "string") {
+    return [changed as ISODate];
+  }
+  const seen = new Set<ISODate>();
+  for (const iso of changed) {
+    if (typeof iso === "string") {
+      seen.add(iso as ISODate);
+    }
+  }
+  return seen.size ? Array.from(seen) : undefined;
+}
+
+function extractDaysUpdate(update: DaysUpdateResult) {
+  if (Array.isArray(update)) {
+    const [days, changed] = update;
+    return { days, changed: normalizeChangedList(changed) };
+  }
+  if (isDaysUpdateMetadata(update)) {
+    return {
+      days: update.days,
+      changed: normalizeChangedList(update.changed),
+    };
+  }
+  return { days: update as Record<ISODate, DayRecord>, changed: undefined };
+}
+
 function cleanupSelections(
   selected: Record<ISODate, Selection>,
   days: Record<ISODate, DayRecord>,
@@ -404,7 +462,7 @@ type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
 
 type DaysState = {
   days: Record<ISODate, DayRecord>;
-  setDays: React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>;
+  setDays: DaysDispatch;
   tasksById: TaskIdMap;
 };
 
@@ -469,24 +527,29 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [rawDays, days, setRawDays]);
 
-  const setDays = React.useCallback<
-    React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>
-  >(
-    (update) => {
+  const setDays = React.useCallback<DaysDispatch>(
+    (action) => {
       setRawDays((prev) => {
-        const next =
-          typeof update === "function"
-            ? (
-                update as (
-                  current: Record<ISODate, DayRecord>,
-                ) => Record<ISODate, DayRecord>
-              )(prev)
-            : update;
+        const resolved =
+          typeof action === "function"
+            ? (action as (
+                current: Record<ISODate, DayRecord>,
+              ) => DaysUpdateResult)(prev)
+            : action;
+
+        const { days: next, changed } = extractDaysUpdate(resolved);
 
         let result = pruneOldDays(next);
         let mutated = !Object.is(result, next);
 
-        for (const iso of Object.keys(result)) {
+        const targetIsos =
+          changed === undefined
+            ? (Object.keys(result) as ISODate[])
+            : changed.filter((iso) =>
+                Object.prototype.hasOwnProperty.call(result, iso),
+              );
+
+        for (const iso of targetIsos) {
           if (prev[iso] === result[iso]) continue;
           const ensured = sanitizeDay(result, iso);
           if (!ensured) continue;
