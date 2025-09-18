@@ -9,3 +9,4 @@ export { default as TeamPromptsCard } from "./TeamPromptsCard";
 export { default as QuickActionGrid } from "./QuickActionGrid";
 export { default as BottomNav } from "./BottomNav";
 export { default as IsometricRoom } from "./IsometricRoom";
+export { default as HeroPortraitFrame } from "./HeroPortraitFrame";

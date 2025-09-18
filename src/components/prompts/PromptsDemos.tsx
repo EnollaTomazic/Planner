@@ -3,6 +3,7 @@
 import * as React from "react";
 import OutlineGlowDemo from "./OutlineGlowDemo";
 import SectionLabel from "@/components/reviews/SectionLabel";
+import { HeroPortraitFrame } from "@/components/home";
 import {
   Card,
   Input,
@@ -37,6 +38,7 @@ import {
   radiusClasses,
   typeRamp,
 } from "./demoData";
+import heroImage from "../../../public/ChatGPT Image Sep 17, 2025, 05_45_34 AM.png";
 
 export default function PromptsDemos() {
   return (
@@ -197,6 +199,19 @@ export default function PromptsDemos() {
           </SectionCard.Header>
           <SectionCard.Body />
         </SectionCard>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">HeroPortraitFrame</h3>
+        <p className="text-ui text-muted-foreground">
+          Circular neumorphic frame with lavender glow and glitch rim for hero portraits.
+        </p>
+        <div className="grid place-items-center py-[var(--space-4)]">
+          <HeroPortraitFrame
+            src={heroImage}
+            alt="Planner hero portrait frame"
+            sizes="(min-width: 1280px) 16rem, (min-width: 768px) 14rem, 60vw"
+          />
+        </div>
       </Card>
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Shadows</h3>
