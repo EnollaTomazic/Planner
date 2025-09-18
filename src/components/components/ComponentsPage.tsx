@@ -336,12 +336,27 @@ export default function ComponentsPage() {
                   tablistClassName: "max-w-full shadow-neo-inset",
                   className: "max-w-full",
                   renderItem: ({ item, props, ref, disabled }) => {
-                    const { className: baseClassName, onClick, ...restProps } = props;
+                    const {
+                      className: baseClassName,
+                      onClick,
+                      "aria-label": ariaLabelProp,
+                      "aria-labelledby": ariaLabelledByProp,
+                      title: titleProp,
+                      ...restProps
+                    } = props;
                     const handleClick: React.MouseEventHandler<HTMLElement> = (
                       event,
                     ) => {
                       onClick?.(event);
                     };
+                    const labelText =
+                      typeof item.label === "string" || typeof item.label === "number"
+                        ? String(item.label)
+                        : undefined;
+                    const computedTitle = titleProp ?? labelText;
+                    const computedAriaLabel =
+                      ariaLabelProp ??
+                      (labelText && !ariaLabelledByProp ? labelText : undefined);
                     return (
                       <button
                         type="button"
@@ -362,6 +377,9 @@ export default function ComponentsPage() {
                           handleClick(event);
                         }}
                         disabled={disabled}
+                        aria-labelledby={ariaLabelledByProp}
+                        aria-label={computedAriaLabel}
+                        title={computedTitle}
                       >
                         <span className="truncate">{item.label}</span>
                       </button>
