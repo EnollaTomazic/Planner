@@ -70,8 +70,22 @@ export function usePlannerStore() {
   const applyDaysUpdate = React.useCallback(
     (
       updater: (prev: Record<ISODate, DayRecord>) => Record<ISODate, DayRecord>,
+      changed?: ISODate | Iterable<ISODate>,
     ) => {
-      setDays(updater);
+      if (changed === undefined) {
+        setDays(updater);
+        return;
+      }
+
+      const list =
+        typeof changed === "string"
+          ? [changed]
+          : Array.from(changed);
+
+      setDays((prev) => {
+        const next = updater(prev);
+        return [next, list] as const;
+      });
     },
     [setDays],
   );
@@ -87,19 +101,23 @@ export function usePlannerStore() {
         return;
       }
 
-      applyDaysUpdate((prev) =>
-        migrateLegacy(prev, focus, { projects, tasks }),
+      applyDaysUpdate(
+        (prev) => migrateLegacy(prev, focus, { projects, tasks }),
+        focus,
       );
     }
   }, [applyDaysUpdate, focus]);
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
-      applyDaysUpdate((prev) => {
-        const base = ensureDay(prev, date);
-        const next = fn(base);
-        return { ...prev, [date]: next };
-      });
+      applyDaysUpdate(
+        (prev) => {
+          const base = ensureDay(prev, date);
+          const next = fn(base);
+          return { ...prev, [date]: next };
+        },
+        date,
+      );
     },
     [applyDaysUpdate],
   );
@@ -111,7 +129,7 @@ export function usePlannerStore() {
 
   const setDay = React.useCallback(
     (date: ISODate, next: DayRecord) => {
-      applyDaysUpdate((prev) => ({ ...prev, [date]: next }));
+      applyDaysUpdate((prev) => ({ ...prev, [date]: next }), date);
     },
     [applyDaysUpdate],
   );
