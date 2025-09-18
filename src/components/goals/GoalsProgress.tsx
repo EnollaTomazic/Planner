@@ -20,7 +20,7 @@ export default function GoalsProgress({
   if (total === 0) {
     return (
       <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
-        <p className="mb-4 text-ui font-medium text-muted-foreground">No goals yet.</p>
+        <p className="mb-4 text-muted-foreground text-ui font-medium">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto">
             Add a first goal
