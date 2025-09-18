@@ -3,6 +3,8 @@ import { render, fireEvent, cleanup, act } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import ScrollTopFloatingButton from "@/components/planner/ScrollTopFloatingButton";
 
+const originalIntersectionObserver = window.IntersectionObserver;
+
 describe("ScrollTopFloatingButton", () => {
   let observerCallback: IntersectionObserverCallback;
   beforeEach(() => {
@@ -21,6 +23,11 @@ describe("ScrollTopFloatingButton", () => {
 
   afterEach(() => {
     cleanup();
+    if (originalIntersectionObserver) {
+      window.IntersectionObserver = originalIntersectionObserver;
+    } else {
+      Reflect.deleteProperty(window, "IntersectionObserver");
+    }
   });
 
   it("scrolls to top when clicked", () => {
@@ -68,5 +75,14 @@ describe("ScrollTopFloatingButton", () => {
       observerCallback([entry], {} as IntersectionObserver);
     });
     expect(queryByRole("button")).not.toBeNull();
+  });
+
+  it("falls back gracefully when IntersectionObserver is unavailable", async () => {
+    Reflect.deleteProperty(window, "IntersectionObserver");
+
+    const ref = React.createRef<HTMLElement>();
+    const { findByRole } = render(<ScrollTopFloatingButton watchRef={ref} />);
+
+    await findByRole("button", { name: "Scroll to top" });
   });
 });

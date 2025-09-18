@@ -21,6 +21,9 @@ export default function ScrollTopFloatingButton({
     () => watchRef.current,
   );
 
+  const supportsIntersectionObserver =
+    typeof window !== "undefined" && "IntersectionObserver" in window;
+
   React.useEffect(() => {
     if (watchRef.current !== target) {
       setTarget(watchRef.current ?? null);
@@ -28,6 +31,11 @@ export default function ScrollTopFloatingButton({
   }, [watchRef, target]);
 
   React.useEffect(() => {
+    if (!supportsIntersectionObserver) {
+      setVisible(true);
+      return undefined;
+    }
+
     if (!target) {
       return undefined;
     }
@@ -42,7 +50,7 @@ export default function ScrollTopFloatingButton({
       obs.unobserve(target);
       obs.disconnect();
     };
-  }, [target]);
+  }, [supportsIntersectionObserver, target]);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
