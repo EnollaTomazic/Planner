@@ -2,8 +2,12 @@ import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SPEC_DATA, type View, type Section } from "./constants";
 
+function hasSection(value: string): value is Section {
+  return Object.prototype.hasOwnProperty.call(SPEC_DATA, value);
+}
+
 function getValidSection(value: string | null): Section {
-  return value && value in SPEC_DATA ? (value as Section) : "buttons";
+  return value && hasSection(value) ? value : "buttons";
 }
 
 export function usePromptsRouter() {
