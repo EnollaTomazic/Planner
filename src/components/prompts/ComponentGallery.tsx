@@ -65,6 +65,8 @@ import type { GameSide } from "@/components/ui/league/SideSelector";
 import { Star, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import GalleryItem from "./GalleryItem";
+
+const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery";
 import IconButtonShowcase from "./IconButtonShowcase";
 
 type View = "buttons" | "inputs" | "prompts" | "planner" | "misc";
@@ -363,9 +365,19 @@ export default function ComponentGallery() {
       {
         label: "Field",
         element: (
-          <Field.Root className="w-56">
-            <Field.Input placeholder="Primitive input" />
-          </Field.Root>
+          <div className="w-56 space-y-[var(--space-2)]">
+            <Field.Root>
+              <Field.Input placeholder="Primitive input" />
+            </Field.Root>
+            <a
+              href={fieldStoryHref}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-[var(--space-1)] text-label font-medium text-accent-foreground transition-colors duration-[var(--dur-quick)] ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--bg))]"
+            >
+              Explore Field states
+            </a>
+          </div>
         ),
       },
       {
