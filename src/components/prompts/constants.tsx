@@ -1413,3 +1413,10 @@ export const SECTION_TABS: HeaderTab<Section>[] = (
   key,
   label: formatSectionLabel(key),
 }));
+
+export type CompsView = "components" | "colors";
+
+export const COMPS_VIEW_TABS: HeaderTab<CompsView>[] = [
+  { key: "components", label: "Components", controls: "components-panel" },
+  { key: "colors", label: "Colors", controls: "colors-panel" },
+];
