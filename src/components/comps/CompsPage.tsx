@@ -17,15 +17,71 @@ function getValidSection(value: string | null): Section {
   return value && value in SPEC_DATA ? (value as Section) : "buttons";
 }
 
-function getNodeText(node: React.ReactNode): string {
-  if (node == null || typeof node === "boolean") return "";
-  if (typeof node === "string" || typeof node === "number") return `${node}`;
-  if (Array.isArray(node)) return node.map(getNodeText).join("");
-  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
-    return getNodeText(node.props.children ?? null);
-  }
-  return "";
-}
+const SECTION_HERO_COPY = {
+  buttons: {
+    eyebrow: "Action triggers",
+    heading: "Action-ready button components",
+    subtitle:
+      "Primary, segmented, and icon buttons that keep Planner workflows moving.",
+  },
+  inputs: {
+    eyebrow: "Data entry",
+    heading: "Focused input components",
+    subtitle:
+      "Fields, textareas, and selectors tuned for confident capture and review.",
+  },
+  prompts: {
+    eyebrow: "Guidance",
+    heading: "Prompt and messaging components",
+    subtitle:
+      "Dialogs, sheets, and toasts that deliver the right nudge at the right moment.",
+  },
+  planner: {
+    eyebrow: "Core surfaces",
+    heading: "Planner workflow components",
+    subtitle:
+      "Boards, goals, and schedule pieces that build the heart of Planner.",
+  },
+  cards: {
+    eyebrow: "Summaries",
+    heading: "Card and surface components",
+    subtitle:
+      "Progress cards and shells that package Planner insights cleanly.",
+  },
+  layout: {
+    eyebrow: "Structure",
+    heading: "Layout and framing components",
+    subtitle:
+      "Headers, heroes, and containers that define the product experience.",
+  },
+  feedback: {
+    eyebrow: "Status",
+    heading: "Feedback and state components",
+    subtitle:
+      "Spinners, skeletons, and snackbars for communicating system status.",
+  },
+  toggles: {
+    eyebrow: "Preferences",
+    heading: "Toggle and control components",
+    subtitle:
+      "Switches and selectors that flip Planner settings instantly.",
+  },
+  league: {
+    eyebrow: "Esports",
+    heading: "League companion components",
+    subtitle:
+      "Role, matchup, and score UI shaped for competitive recaps.",
+  },
+  misc: {
+    eyebrow: "Utilities",
+    heading: "Utility and experimental components",
+    subtitle:
+      "Supporting patterns and helpers that round out the system.",
+  },
+} satisfies Record<
+  Section,
+  { eyebrow: string; heading: string; subtitle: string }
+>;
 
 export default function CompsPage() {
   const router = useRouter();
@@ -53,14 +109,18 @@ export default function CompsPage() {
     [],
   );
 
-  const sectionLabel = React.useMemo(() => {
-    const labelNode = heroTabs.find((tab) => tab.key === section)?.label;
-    const label = getNodeText(labelNode);
-    return label || "Components";
-  }, [heroTabs, section]);
+  const sectionCopy = React.useMemo(
+    () => SECTION_HERO_COPY[section] ?? SECTION_HERO_COPY.buttons,
+    [section],
+  );
+
+  const sectionLabel = React.useMemo(
+    () => sectionCopy.heading,
+    [sectionCopy],
+  );
 
   const searchLabel = React.useMemo(
-    () => `Search ${sectionLabel.toLowerCase()} components`,
+    () => `Search ${sectionLabel}`,
     [sectionLabel],
   );
 
@@ -125,7 +185,9 @@ export default function CompsPage() {
         hero={{
           frame: false,
           sticky: false,
-          heading: sectionLabel,
+          eyebrow: sectionCopy.eyebrow,
+          heading: sectionCopy.heading,
+          subtitle: sectionCopy.subtitle,
           icon: (
             <span className="[&_svg]:size-[var(--space-6)]">
               <PanelsTopLeft aria-hidden />
