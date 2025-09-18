@@ -35,6 +35,22 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
 
+      - name: Audit dependencies
+        run: |
+          set +e
+          npm audit --audit-level=moderate --json > audit-report.json
+          AUDIT_STATUS=$?
+          node scripts/audit-ci-report.mjs audit-report.json
+          REPORT_STATUS=$?
+
+          if [ "$REPORT_STATUS" -ne 0 ]; then
+            exit "$REPORT_STATUS"
+          fi
+
+          if [ "$AUDIT_STATUS" -ne 0 ]; then
+            echo "npm audit reported issues below the high severity threshold."
+          fi
+
       - name: Run checks
         run: npm run check
 
