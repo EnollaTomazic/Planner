@@ -2,7 +2,7 @@ import * as React from "react";
 import { Card } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { LOCALE } from "@/lib/utils";
-import type { PromptWithTitle } from "./usePrompts";
+import type { PromptWithTitle } from "./types";
 
 export type PromptListProps = {
   prompts: PromptWithTitle[];
