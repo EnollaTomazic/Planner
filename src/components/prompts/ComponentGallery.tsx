@@ -33,6 +33,9 @@ import {
   PillarSelector,
   Field,
   Label,
+  Tabs,
+  TabList,
+  TabPanel,
   type TabItem,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
@@ -245,6 +248,37 @@ export default function ComponentGallery() {
             ariaLabel="Sample tabs"
             linkPanels={false}
           />
+        ),
+      },
+      {
+        label: "Tabs primitive",
+        element: (
+          <Tabs defaultValue="chat" className="max-w-md">
+            <TabList
+              items={[
+                { key: "chat", label: "Chat" },
+                { key: "codex", label: "Codex" },
+                { key: "notes", label: "Notes" },
+              ]}
+              ariaLabel="Tabs primitive demo"
+              showBaseline
+            />
+            <TabPanel value="chat">
+              <Card className="p-[var(--space-4)] text-ui">
+                Compose prompts
+              </Card>
+            </TabPanel>
+            <TabPanel value="codex">
+              <Card className="p-[var(--space-4)] text-ui">
+                Review checklists
+              </Card>
+            </TabPanel>
+            <TabPanel value="notes">
+              <Card className="p-[var(--space-4)] text-ui">
+                Autosave notes
+              </Card>
+            </TabPanel>
+          </Tabs>
         ),
       },
       {

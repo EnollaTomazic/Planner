@@ -1,58 +1,180 @@
 "use client";
 
-/**
- * PromptsPage — Title + Search in Header (hero)
- * - Sticky header holds: Title + count (left), Search + Save (right)
- * - Body: compose panel (title + text) and the list
- */
-
 import * as React from "react";
-import { SectionCard } from "@/components/ui";
+
+import { Tabs, TabList, TabPanel, type TabListItem } from "@/components/ui/primitives/Tabs";
+import { usePersistentState } from "@/lib/db";
 import PromptsHeader from "./PromptsHeader";
-import PromptsComposePanel from "./PromptsComposePanel";
-import PromptsDemos from "./PromptsDemos";
-import PromptList from "./PromptList";
+import ChatPromptsTab from "./ChatPromptsTab";
+import CodexPromptsTab from "./CodexPromptsTab";
+import NotesTab from "./NotesTab";
 import { useChatPrompts } from "./useChatPrompts";
+import { useCodexPrompts } from "./useCodexPrompts";
 import { useNotes } from "./useNotes";
+import { usePersonas } from "./usePersonas";
+
+const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
+
+const BASE_TAB_ITEMS = [
+  { key: "chat", label: "ChatGPT" },
+  { key: "codex", label: "Codex review" },
+  { key: "notes", label: "Notes" },
+] as const;
+
+type PromptsTabKey = (typeof BASE_TAB_ITEMS)[number]["key"];
 
 export default function PromptsPage() {
-  const { prompts, query, setQuery, filtered, save } = useChatPrompts();
+  const {
+    prompts: chatPrompts,
+    query: chatQuery,
+    setQuery: setChatQuery,
+    filtered: chatFiltered,
+    save: saveChatPrompt,
+  } = useChatPrompts();
+  const {
+    prompts: codexPrompts,
+    query: codexQuery,
+    setQuery: setCodexQuery,
+    filtered: codexFiltered,
+    save: saveCodexPrompt,
+  } = useCodexPrompts();
+  const [personas] = usePersonas();
   const [notes, setNotes] = useNotes();
 
-  // Drafts
-  const [titleDraft, setTitleDraft] = React.useState("");
+  const [activeTab, setActiveTab] = usePersistentState<PromptsTabKey>(
+    TAB_STORAGE_KEY,
+    "chat",
+  );
+
+  const [chatTitleDraft, setChatTitleDraft] = React.useState("");
+  const [chatTextDraft, setChatTextDraft] = React.useState("");
+  const [codexTitleDraft, setCodexTitleDraft] = React.useState("");
+  const [codexTextDraft, setCodexTextDraft] = React.useState("");
+
+  const handleChatSave = React.useCallback(() => {
+    if (saveChatPrompt(chatTitleDraft, chatTextDraft)) {
+      setChatTitleDraft("");
+      setChatTextDraft("");
+    }
+  }, [chatTitleDraft, chatTextDraft, saveChatPrompt]);
+
+  const handleCodexSave = React.useCallback(() => {
+    if (saveCodexPrompt(codexTitleDraft, codexTextDraft)) {
+      setCodexTitleDraft("");
+      setCodexTextDraft("");
+    }
+  }, [codexTextDraft, codexTitleDraft, saveCodexPrompt]);
+
+  const tabItems = React.useMemo<TabListItem<PromptsTabKey>[]>(() => {
+    return BASE_TAB_ITEMS.map<TabListItem<PromptsTabKey>>((item) => {
+      if (item.key === "chat") {
+        return {
+          ...item,
+          badge: chatPrompts.length > 0 ? chatPrompts.length : undefined,
+        };
+      }
+      if (item.key === "codex") {
+        return {
+          ...item,
+          badge: codexPrompts.length > 0 ? codexPrompts.length : undefined,
+        };
+      }
+      const hasNotes = notes.trim().length > 0;
+      return {
+        ...item,
+        badge: hasNotes ? 1 : undefined,
+      };
+    });
+  }, [chatPrompts.length, codexPrompts.length, notes]);
+
+  const activeQuery = React.useMemo(() => {
+    if (activeTab === "chat") return chatQuery;
+    if (activeTab === "codex") return codexQuery;
+    return "";
+  }, [activeTab, chatQuery, codexQuery]);
+
+  const handleQueryChange = React.useCallback(
+    (value: string) => {
+      if (activeTab === "chat") {
+        setChatQuery(value);
+        return;
+      }
+      if (activeTab === "codex") {
+        setCodexQuery(value);
+      }
+    },
+    [activeTab, setChatQuery, setCodexQuery],
+  );
 
   const handleSave = React.useCallback(() => {
-    if (save(titleDraft, notes)) {
-      setTitleDraft("");
-      setNotes("");
+    if (activeTab === "chat") {
+      handleChatSave();
+      return;
     }
-  }, [notes, save, setNotes, titleDraft]);
+    if (activeTab === "codex") {
+      handleCodexSave();
+    }
+  }, [activeTab, handleChatSave, handleCodexSave]);
+
+  const saveDisabled = React.useMemo(() => {
+    if (activeTab === "chat") {
+      return !chatTitleDraft.trim() && !chatTextDraft.trim();
+    }
+    if (activeTab === "codex") {
+      return !codexTitleDraft.trim() && !codexTextDraft.trim();
+    }
+    return true;
+  }, [activeTab, chatTitleDraft, chatTextDraft, codexTitleDraft, codexTextDraft]);
+
+  const activeCount = React.useMemo(() => {
+    if (activeTab === "chat") return chatPrompts.length;
+    if (activeTab === "codex") return codexPrompts.length;
+    return notes.trim().length > 0 ? 1 : 0;
+  }, [activeTab, chatPrompts.length, codexPrompts.length, notes]);
 
   return (
-    <SectionCard>
-      <SectionCard.Header sticky topClassName="top-8" className="gap-3">
-        <PromptsHeader
-          count={prompts.length}
-          query={query}
-          onQueryChange={setQuery}
-          onSave={handleSave}
-          disabled={!titleDraft.trim() && !notes.trim()}
-        />
-      </SectionCard.Header>
-      <SectionCard.Body>
-        <PromptsComposePanel
-          title={titleDraft}
-          onTitleChange={setTitleDraft}
-          text={notes}
-          onTextChange={setNotes}
-        />
+    <Tabs value={activeTab} onValueChange={setActiveTab} idBase="prompts-tabs">
+      <PromptsHeader
+        count={activeCount}
+        query={activeQuery}
+        onQueryChange={handleQueryChange}
+        onSave={handleSave}
+        disabled={saveDisabled}
+      />
 
-        <PromptList prompts={filtered} query={query} />
+      <TabList
+        items={tabItems}
+        ariaLabel="Prompt workspaces"
+        showBaseline
+      />
 
-        <PromptsDemos />
-      </SectionCard.Body>
-    </SectionCard>
+      <TabPanel value="chat" className="pb-[var(--space-8)]">
+        <ChatPromptsTab
+          title={chatTitleDraft}
+          text={chatTextDraft}
+          onTitleChange={setChatTitleDraft}
+          onTextChange={setChatTextDraft}
+          prompts={chatFiltered}
+          query={chatQuery}
+          personas={personas}
+        />
+      </TabPanel>
+
+      <TabPanel value="codex" className="pb-[var(--space-8)]">
+        <CodexPromptsTab
+          title={codexTitleDraft}
+          text={codexTextDraft}
+          onTitleChange={setCodexTitleDraft}
+          onTextChange={setCodexTextDraft}
+          prompts={codexFiltered}
+          query={codexQuery}
+        />
+      </TabPanel>
+
+      <TabPanel value="notes" className="pb-[var(--space-8)]">
+        <NotesTab value={notes} onChange={setNotes} />
+      </TabPanel>
+    </Tabs>
   );
 }
 
