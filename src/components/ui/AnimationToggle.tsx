@@ -53,7 +53,7 @@ export default function AnimationToggle({
           "border border-border bg-card",
           "hover:shadow-glow-md",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          "active:bg-surface-1",
+          "active:bg-surface",
           "disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
         )}
       >
