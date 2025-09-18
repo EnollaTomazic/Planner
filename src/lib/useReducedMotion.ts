@@ -22,7 +22,9 @@ export function prefersReducedMotion(): boolean {
 }
 
 export function usePrefersReducedMotion(): boolean {
-  const [reduceMotion, setReduceMotion] = React.useState(prefersReducedMotion);
+  const [reduceMotion, setReduceMotion] = React.useState(() =>
+    prefersReducedMotion()
+  );
 
   React.useEffect(() => {
     const mediaQuery = getMediaQuery();
