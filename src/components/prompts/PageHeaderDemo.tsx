@@ -221,21 +221,27 @@ export default function PageHeaderDemo() {
         align="end"
         label="Frame-ready hero"
         slots={{
-          search: (
-            <SearchBar
-              id="hero-flush-search"
-              value={query}
-              onValueChange={setQuery}
-              debounceMs={150}
-              placeholder="Search frame highlights…"
-              aria-label="Search frame highlights"
-            />
-          ),
-          actions: (
-            <Button size="sm" variant="secondary" className="whitespace-nowrap">
-              Assign scout
-            </Button>
-          ),
+          search: {
+            node: (
+              <SearchBar
+                id="hero-flush-search"
+                value={query}
+                onValueChange={setQuery}
+                debounceMs={150}
+                placeholder="Search frame highlights…"
+                aria-label="Search frame highlights"
+              />
+            ),
+            label: "Search frame highlights",
+          },
+          actions: {
+            node: (
+              <Button size="sm" variant="secondary" className="whitespace-nowrap">
+                Assign scout
+              </Button>
+            ),
+            label: "Frame quick actions",
+          },
         }}
       >
         <div className="space-y-[var(--space-4)]">

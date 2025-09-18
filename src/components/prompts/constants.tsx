@@ -1159,39 +1159,48 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<NeomorphicHeroFrame
   as="header"
   slots={{
-    tabs: (
-      <TabBar
-        items={[
-          { key: "missions", label: "Missions" },
-          { key: "briefings", label: "Briefings" },
-          { key: "archive", label: "Archive", disabled: true },
-        ]}
-        value="missions"
-        onValueChange={() => {}}
-        ariaLabel="Switch mission focus"
-        showBaseline
-      />
-    ),
-    search: (
-      <SearchBar
-        value=""
-        onValueChange={() => {}}
-        placeholder="Search mission intel…"
-        aria-label="Search mission intel"
-        loading
-      />
-    ),
-    actions: (
-      <div className="flex items-center gap-2">
-        <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-        <Button size="sm" variant="primary" loading>
-          Deploy
-        </Button>
-        <Button size="sm" variant="ghost" disabled>
-          Disabled
-        </Button>
-      </div>
-    ),
+    tabs: {
+      node: (
+        <TabBar
+          items={[
+            { key: "missions", label: "Missions" },
+            { key: "briefings", label: "Briefings" },
+            { key: "archive", label: "Archive", disabled: true },
+          ]}
+          value="missions"
+          onValueChange={() => {}}
+          ariaLabel="Switch mission focus"
+          showBaseline
+        />
+      ),
+      label: "Switch mission focus",
+    },
+    search: {
+      node: (
+        <SearchBar
+          value=""
+          onValueChange={() => {}}
+          placeholder="Search mission intel…"
+          aria-label="Search mission intel"
+          loading
+        />
+      ),
+      label: "Search mission intel",
+    },
+    actions: {
+      node: (
+        <div className="flex items-center gap-2">
+          <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+          <Button size="sm" variant="primary" loading>
+            Deploy
+          </Button>
+          <Button size="sm" variant="ghost" disabled>
+            Disabled
+          </Button>
+        </div>
+      ),
+      label: "Mission quick actions",
+    },
   }}
 >
   <HeroGrid>
