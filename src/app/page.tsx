@@ -460,8 +460,8 @@ function HomePageContent() {
                 actions: (
                   <>
                     <HeroPortraitFrame
-                      imageSrc="/pixel_cat_yawn.gif"
-                      imageAlt="Planner companion stretching before planning"
+                      imageSrc="/hero_image.png"
+                      imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
                       priority
                       className="max-sm:mx-auto"
                     />
