@@ -230,6 +230,14 @@ describe("PageHeader", () => {
     expect(searchSlot).toHaveAttribute("aria-label", "Search planner highlights");
   });
 
+  it("omits the actions slot container when actions resolve to false", () => {
+    const { container } = render(
+      <PageHeader header={baseHeader} hero={baseHero} actions={false} />,
+    );
+
+    expect(container.querySelector('[data-slot="actions"]')).toBeNull();
+  });
+
   describe("frame alignment fallbacks", () => {
     const createSubTabs = () => ({
       items: [
