@@ -352,98 +352,160 @@ function HomePageContent() {
       <PageShell
         as="main"
         aria-labelledby="home-header"
-        className="py-6 space-y-6 md:space-y-8 md:pb-8"
+        className="relative py-6 md:pb-8"
       >
-        <section
-          id="landing-hero"
-          role="region"
-          aria-label="Intro"
-          className="relative grid grid-cols-12 gap-4"
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
         >
-          <div className="col-span-12">
-            <PageHeader
-              header={{
-                id: "home-header",
-                heading: "Welcome to Planner",
-                subtitle: "Plan your day, track goals, and review games.",
-                icon: <Home className="opacity-80" />,
-                sticky: false,
-              }}
-              hero={{
-                heading: "Your day at a glance",
-                sticky: false,
-                topClassName: "top-0",
-                actions: (
-                  <>
-                    <ThemeToggle className="shrink-0" />
-                    <Button
-                      asChild
-                      variant="primary"
-                      size="sm"
-                      className="px-4 whitespace-nowrap"
-                    >
-                      <Link href="/planner">Plan Week</Link>
-                    </Button>
-                  </>
-                ),
-                children: (
-                  <div className="pt-[var(--space-4)]">
-                    <HeroPlannerCards />
-                  </div>
-                ),
-              }}
-            />
-          </div>
-        </section>
-        <div className="grid gap-4 md:grid-cols-12 items-start">
-          <div className="md:col-span-6">
-            <QuickActions />
-          </div>
-          <div className="md:col-span-6">
-            <IsometricRoom variant={theme.variant} />
-          </div>
+          <div className="home-panel h-full w-full shadow-neo-inset" />
         </div>
-        <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <TodayCard />
-          </div>
-          <div className="md:col-span-4">
-            <GoalsCard />
-          </div>
-          <div className="md:col-span-4">
-            <ReviewsCard />
-          </div>
-          <div className="md:col-span-4">
-            <DashboardCard
-              title="Weekly focus"
-              cta={{ label: "Open planner", href: "/planner" }}
-            >
-              <DashboardList
-                items={weeklyHighlights}
-                getKey={(highlight) => highlight.id}
-                itemClassName="py-3"
-                empty="No highlights scheduled"
-                renderItem={(highlight) => (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <p className="text-ui font-medium">{highlight.title}</p>
-                      <span className="text-label text-muted-foreground">
-                        {highlight.schedule}
-                      </span>
+        <div className="relative z-10 space-y-6 md:space-y-8">
+          <section
+            id="landing-hero"
+            role="region"
+            aria-label="Intro"
+            className="relative grid grid-cols-12 gap-4"
+          >
+            <div className="col-span-12">
+              <PageHeader
+                header={{
+                  id: "home-header",
+                  heading: "Welcome to Planner",
+                  subtitle: "Plan your day, track goals, and review games.",
+                  icon: <Home className="opacity-80" />,
+                  sticky: false,
+                }}
+                hero={{
+                  heading: "Your day at a glance",
+                  sticky: false,
+                  topClassName: "top-0",
+                  actions: (
+                    <>
+                      <ThemeToggle className="shrink-0" />
+                      <Button
+                        asChild
+                        variant="primary"
+                        size="sm"
+                        className="px-4 whitespace-nowrap"
+                      >
+                        <Link href="/planner">Plan Week</Link>
+                      </Button>
+                    </>
+                  ),
+                  children: (
+                    <div className="pt-[var(--space-4)]">
+                      <HeroPlannerCards />
                     </div>
-                    <p className="text-body text-muted-foreground">
-                      {highlight.summary}
-                    </p>
-                  </div>
-                )}
+                  ),
+                }}
               />
-            </DashboardCard>
+            </div>
+          </section>
+          <div className="grid gap-4 md:grid-cols-12 items-start">
+            <div className="md:col-span-6">
+              <QuickActions />
+            </div>
+            <div className="md:col-span-6">
+              <IsometricRoom variant={theme.variant} />
+            </div>
           </div>
-          <div className="md:col-span-12">
-            <TeamPromptsCard />
-          </div>
-        </section>
-        <BottomNav />
+          <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
+            <div className="md:col-span-4">
+              <TodayCard />
+            </div>
+            <div className="md:col-span-4">
+              <GoalsCard />
+            </div>
+            <div className="md:col-span-4">
+              <ReviewsCard />
+            </div>
+            <div className="md:col-span-4">
+              <DashboardCard
+                title="Weekly focus"
+                cta={{ label: "Open planner", href: "/planner" }}
+              >
+                <DashboardList
+                  items={weeklyHighlights}
+                  getKey={(highlight) => highlight.id}
+                  itemClassName="py-3"
+                  empty="No highlights scheduled"
+                  renderItem={(highlight) => (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="text-ui font-medium">{highlight.title}</p>
+                        <span className="text-label text-muted-foreground">
+                          {highlight.schedule}
+                        </span>
+                      </div>
+                      <p className="text-body text-muted-foreground">
+                        {highlight.summary}
+                      </p>
+                    </div>
+                  )}
+                />
+              </DashboardCard>
+            </div>
+            <div className="md:col-span-12">
+              <TeamPromptsCard />
+            </div>
+          </section>
+          <BottomNav />
+        </div>
+        <style jsx>{`
+          .home-panel {
+            position: relative;
+            border-radius: var(--radius-2xl);
+            border: var(--hairline-w, 1px) solid hsl(var(--card-hairline) / 0.45);
+            background: linear-gradient(
+              145deg,
+              hsl(var(--panel) / 0.94),
+              hsl(var(--background) / 0.88)
+            );
+            overflow: hidden;
+            isolation: isolate;
+            filter: drop-shadow(
+              0 var(--space-2) var(--space-6) hsl(var(--shadow-color) / 0.18)
+            );
+          }
+          .home-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+              circle at 20% 15%,
+              hsl(var(--foreground) / 0.12),
+              transparent 55%
+            );
+            pointer-events: none;
+            opacity: 0.45;
+          }
+          .home-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(
+              to bottom right,
+              transparent,
+              hsl(var(--foreground) / 0.04)
+            );
+            pointer-events: none;
+            opacity: 0.35;
+            mix-blend-mode: screen;
+          }
+          @media (prefers-contrast: more) {
+            .home-panel {
+              filter: none;
+              background: hsl(var(--panel));
+            }
+            .home-panel::before,
+            .home-panel::after {
+              opacity: 0.2;
+            }
+          }
+        `}</style>
       </PageShell>
     </PlannerProvider>
   );
