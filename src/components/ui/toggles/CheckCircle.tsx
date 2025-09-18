@@ -47,6 +47,25 @@ export default function CheckCircle({
   const btnRef = React.useRef<HTMLButtonElement>(null);
   const reduceMotion = usePrefersReducedMotion();
 
+  const justClearedTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const igniteTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearJustClearedTimeout = React.useCallback(() => {
+    if (justClearedTimeoutRef.current !== null) {
+      clearTimeout(justClearedTimeoutRef.current);
+      justClearedTimeoutRef.current = null;
+    }
+  }, []);
+
+  const clearIgniteTimeout = React.useCallback(() => {
+    if (igniteTimeoutRef.current !== null) {
+      clearTimeout(igniteTimeoutRef.current);
+      igniteTimeoutRef.current = null;
+    }
+  }, []);
+
   // Hover/focus tracking
   const [hovered, setHovered] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
@@ -59,9 +78,13 @@ export default function CheckCircle({
     setHovered(false);
     setFocused(false);
     btnRef.current?.blur();
-    const t = setTimeout(() => setJustCleared(false), 420);
-    return () => clearTimeout(t);
-  }, []);
+    clearJustClearedTimeout();
+    justClearedTimeoutRef.current = setTimeout(() => {
+      setJustCleared(false);
+      justClearedTimeoutRef.current = null;
+    }, 420);
+    return clearJustClearedTimeout;
+  }, [clearJustClearedTimeout]);
 
   // If our checked state flips off from an external source while hovered or
   // focused, ensure we still run the "just cleared" power-down sequence so the
@@ -106,10 +129,22 @@ export default function CheckCircle({
     prev.current = wantsOn;
   }, [wantsOn]);
 
-  function retriggerIgnite() {
+  const retriggerIgnite = React.useCallback(() => {
     setPhase("ignite");
-    setTimeout(() => setPhase(wantsOn ? "steady-on" : "off"), 620);
-  }
+    clearIgniteTimeout();
+    igniteTimeoutRef.current = setTimeout(() => {
+      setPhase(wantsOn ? "steady-on" : "off");
+      igniteTimeoutRef.current = null;
+    }, 620);
+  }, [clearIgniteTimeout, wantsOn]);
+
+  React.useEffect(
+    () => () => {
+      clearIgniteTimeout();
+      clearJustClearedTimeout();
+    },
+    [clearIgniteTimeout, clearJustClearedTimeout],
+  );
 
   function onKey(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (disabled) return;

@@ -20,7 +20,7 @@ type SwatchProps = { token: string };
 
 function Swatch({ token }: SwatchProps) {
   return (
-    <li className="col-span-3 flex flex-col items-center gap-3">
+    <li className="col-span-6 sm:col-span-4 lg:col-span-3 flex flex-col items-center gap-3">
       <div
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
