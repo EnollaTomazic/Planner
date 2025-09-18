@@ -160,7 +160,10 @@ function describeNonSerializable(
 }
 
 export function scheduleWrite(key: string, value: unknown) {
-  const issue = describeNonSerializable(value);
+  let issue: string | null = null;
+  if (process.env.NODE_ENV !== "production") {
+    issue = describeNonSerializable(value);
+  }
   if (issue) {
     if (process.env.NODE_ENV !== "production") {
       console.warn(
