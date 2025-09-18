@@ -7,6 +7,7 @@ import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
   type HeroSlot,
+  type HeroSlotInput,
   type HeroSlots,
 } from "./NeomorphicHeroFrame";
 import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
@@ -31,6 +32,64 @@ type FrameSlotPresence = {
   tabs: boolean;
   search: boolean;
   actions: boolean;
+};
+
+const hasRenderableNode = (node: React.ReactNode): boolean => {
+  if (node === null || node === undefined) {
+    return false;
+  }
+  if (typeof node === "boolean") {
+    return false;
+  }
+  if (Array.isArray(node)) {
+    return node.some((child) => hasRenderableNode(child));
+  }
+  return true;
+};
+
+const sanitizeActionsNode = <HeroKey extends string>(
+  node: HeroProps<HeroKey>["actions"] | null | undefined,
+): HeroProps<HeroKey>["actions"] | null | undefined => {
+  if (node === undefined) {
+    return undefined;
+  }
+  if (node === null) {
+    return null;
+  }
+  return hasRenderableNode(node) ? node : null;
+};
+
+const hasRenderableSlotValue = (
+  value: HeroSlotInput | null | undefined,
+): boolean => {
+  if (value === null || value === undefined) {
+    return false;
+  }
+  if (typeof value === "boolean") {
+    return false;
+  }
+  if (Array.isArray(value)) {
+    return value.some((child) => hasRenderableNode(child));
+  }
+  if (
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    !React.isValidElement(value) &&
+    Object.prototype.hasOwnProperty.call(value, "node")
+  ) {
+    const slot = value as HeroSlot;
+    return hasRenderableNode(slot.node);
+  }
+  return true;
+};
+
+const sanitizeSlotValue = (
+  value: HeroSlotInput | null | undefined,
+): HeroSlotInput | null | undefined => {
+  if (value === undefined) {
+    return undefined;
+  }
+  return hasRenderableSlotValue(value) ? value : null;
 };
 
 export interface PageHeaderBaseProps<
@@ -158,7 +217,10 @@ const PageHeaderInner = <
   }, [heroSearch, search]);
 
   const resolvedActions = React.useMemo(
-    () => (heroActions === null ? null : heroActions ?? actions),
+    () =>
+      sanitizeActionsNode<HeroKey>(
+        heroActions === null ? null : heroActions ?? actions,
+      ),
     [heroActions, actions],
   );
 
@@ -322,21 +384,36 @@ const PageHeaderInner = <
       return { resolvedFrameSlots: null, frameSlotPresence: emptyPresence };
     }
 
-    const defaultSlots: HeroSlots = {
-      tabs: actionAreaTabsSlot,
-      search: actionAreaSearchSlot,
-      actions: actionAreaActions,
+    const slotKeys: Array<keyof FrameSlotPresence> = [
+      "tabs",
+      "search",
+      "actions",
+    ];
+
+    const defaultSlotCandidates: Record<
+      keyof FrameSlotPresence,
+      HeroSlotInput | null | undefined
+    > = {
+      tabs: sanitizeSlotValue(actionAreaTabsSlot),
+      search: sanitizeSlotValue(actionAreaSearchSlot),
+      actions: sanitizeSlotValue(actionAreaActions),
     };
 
-    const slotKeys: Array<keyof HeroSlots> = ["tabs", "search", "actions"];
+    const defaultSlots: HeroSlots = {};
+    for (const key of slotKeys) {
+      const value = defaultSlotCandidates[key];
+      if (value !== undefined) {
+        defaultSlots[key] = value;
+      }
+    }
 
     if (frameSlotsProp === undefined) {
       const presence = { ...emptyPresence };
       let hasRenderable = false;
 
       for (const key of slotKeys) {
-        const value = defaultSlots[key];
-        if (value !== undefined && value !== null) {
+        const value = defaultSlotCandidates[key];
+        if (hasRenderableSlotValue(value)) {
           presence[key] = true;
           hasRenderable = true;
         }
@@ -354,11 +431,14 @@ const PageHeaderInner = <
 
     for (const key of slotKeys) {
       const provided = Object.prototype.hasOwnProperty.call(frameSlotsProp, key);
-      const value = provided ? frameSlotsProp[key] : defaultSlots[key];
+      const candidate = provided
+        ? (frameSlotsProp[key] as HeroSlotInput | null | undefined)
+        : defaultSlotCandidates[key];
+      const value = sanitizeSlotValue(candidate);
       if (value !== undefined) {
         merged[key] = value;
       }
-      if (value !== undefined && value !== null) {
+      if (hasRenderableSlotValue(value)) {
         presence[key] = true;
         hasRenderable = true;
       }

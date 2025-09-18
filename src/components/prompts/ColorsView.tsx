@@ -4,6 +4,13 @@ import * as React from "react";
 import { SectionCard as UiSectionCard } from "@/components/ui";
 import { COLOR_SECTIONS } from "./constants";
 
+const CHECKERBOARD_STYLE: React.CSSProperties = {
+  backgroundImage:
+    "linear-gradient(45deg, hsl(var(--surface)) 25%, hsl(var(--surface-2)) 25%, hsl(var(--surface-2)) 50%, hsl(var(--surface)) 50%, hsl(var(--surface)) 75%, hsl(var(--surface-2)) 75%, hsl(var(--surface-2)) 100%), linear-gradient(45deg, hsl(var(--surface-2)) 25%, hsl(var(--surface)) 25%, hsl(var(--surface)) 50%, hsl(var(--surface-2)) 50%, hsl(var(--surface-2)) 75%, hsl(var(--surface)) 75%, hsl(var(--surface)) 100%)",
+  backgroundPosition: "0 0, var(--space-2) var(--space-2)",
+  backgroundSize: "calc(var(--space-2) * 2) calc(var(--space-2) * 2)",
+};
+
 type SectionCardProps = {
   title: string;
   children: React.ReactNode;
@@ -23,6 +30,7 @@ type SwatchProps = { token: string };
 function Swatch({ token }: SwatchProps) {
   const swatchRef = React.useRef<HTMLDivElement | null>(null);
   const [resolvedColor, setResolvedColor] = React.useState<string | null>(null);
+  const [isTranslucent, setIsTranslucent] = React.useState(false);
 
   React.useEffect(() => {
     const node = swatchRef.current;
@@ -35,11 +43,25 @@ function Swatch({ token }: SwatchProps) {
 
     if (!rawValue) {
       setResolvedColor(null);
+      setIsTranslucent(false);
       return;
     }
 
     let color = rawValue;
     const supportsColor = window.CSS?.supports;
+    let translucent = false;
+
+    const slashMatch = rawValue.match(/\/(\s*[0-9.]+)(%?)/);
+
+    if (slashMatch) {
+      const numeric = parseFloat(slashMatch[1]);
+      if (!Number.isNaN(numeric)) {
+        const alpha = slashMatch[2] === "%" ? numeric / 100 : numeric;
+        translucent = alpha < 1;
+      }
+    } else if (rawValue.includes("transparent")) {
+      translucent = true;
+    }
 
     if (typeof supportsColor === "function") {
       if (!supportsColor("color", rawValue)) {
@@ -51,15 +73,25 @@ function Swatch({ token }: SwatchProps) {
     }
 
     setResolvedColor(color);
+    setIsTranslucent(translucent);
   }, [token]);
 
   return (
     <li className="flex flex-col items-center gap-[var(--space-2)] xl:col-span-3">
-      <div
-        ref={swatchRef}
-        className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
-        style={{ backgroundColor: resolvedColor ?? undefined }}
-      />
+      <div className="relative h-16 w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]">
+        {isTranslucent ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-40"
+            style={CHECKERBOARD_STYLE}
+          />
+        ) : null}
+        <div
+          ref={swatchRef}
+          className="relative h-full w-full"
+          style={{ backgroundColor: resolvedColor ?? undefined }}
+        />
+      </div>
       <span className="block w-full break-words text-center text-label font-medium">
         --{token}
       </span>
