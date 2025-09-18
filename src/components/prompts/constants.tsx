@@ -81,7 +81,7 @@ import {
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
-export type View = "components" | "colors" | "onboarding";
+export type CompsView = "components" | "colors";
 export type Section =
   | "buttons"
   | "inputs"
@@ -105,10 +105,9 @@ export type Spec = {
   code: string;
 };
 
-export const VIEW_TABS: HeaderTab<View>[] = [
+export const COMPS_VIEW_TABS: HeaderTab<CompsView>[] = [
   { key: "components", label: "Components" },
   { key: "colors", label: "Colors" },
-  { key: "onboarding", label: "Onboarding" },
 ];
 
 export const COLOR_SECTIONS = [

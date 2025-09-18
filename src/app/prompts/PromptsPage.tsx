@@ -9,20 +9,23 @@ import {
   Skeleton,
   Badge,
 } from "@/components/ui";
+import type { HeaderTab } from "@/components/ui";
 import { Sparkles, Plus, Clipboard } from "lucide-react";
 import ComponentsView from "@/components/prompts/ComponentsView";
-import ColorsView from "@/components/prompts/ColorsView";
 import OnboardingTabs from "@/components/prompts/OnboardingTabs";
+import { SECTION_TABS, type Section } from "@/components/prompts/constants";
 import {
-  VIEW_TABS,
-  SECTION_TABS,
-  type View,
-  type Section,
-} from "@/components/prompts/constants";
-import { usePromptsRouter } from "@/components/prompts/usePromptsRouter";
+  usePromptsRouter,
+  type PromptsView,
+} from "@/components/prompts/usePromptsRouter";
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
 import { copyText } from "@/lib/clipboard";
+
+const PROMPTS_VIEW_TABS: HeaderTab<PromptsView>[] = [
+  { key: "components", label: "Components" },
+  { key: "onboarding", label: "Onboarding" },
+];
 
 function getNodeText(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return "";
@@ -91,10 +94,9 @@ function PageContent() {
   const [query, setQuery] = usePersistentState("prompts-query", "");
   const [currentCode, setCurrentCode] = React.useState<string | null>(null);
   const componentsRef = React.useRef<HTMLDivElement>(null);
-  const colorsRef = React.useRef<HTMLDivElement>(null);
   const onboardingRef = React.useRef<HTMLDivElement>(null);
   const searchLabel = React.useMemo(() => {
-    const tab = VIEW_TABS.find((item) => item.key === view);
+    const tab = PROMPTS_VIEW_TABS.find((item) => item.key === view);
     const labelText = getNodeText(tab?.label ?? null).trim();
     if (!labelText) return "Search";
     return `Search ${labelText.toLocaleLowerCase()}`;
@@ -117,9 +119,8 @@ function PageContent() {
   }, [query, router, searchParams, startTransition]);
 
   React.useEffect(() => {
-    const map: Record<View, React.RefObject<HTMLDivElement | null>> = {
+    const map: Record<PromptsView, React.RefObject<HTMLDivElement | null>> = {
       components: componentsRef,
-      colors: colorsRef,
       onboarding: onboardingRef,
     };
     map[view].current?.focus();
@@ -153,9 +154,9 @@ function PageContent() {
           subtitle: "Explore components and tokens",
           icon: <Sparkles className="opacity-80" />,
           tabs: {
-            items: VIEW_TABS,
+            items: PROMPTS_VIEW_TABS,
             value: view,
-            onChange: (k) => setView(k as View),
+            onChange: (k) => setView(k as PromptsView),
             ariaLabel: "Playground view",
           },
           sticky: false,
@@ -163,12 +164,7 @@ function PageContent() {
         hero={{
           frame: false,
           sticky: false,
-          heading:
-            view === "components"
-              ? "Components"
-              : view === "colors"
-                ? "Colors"
-                : "Onboarding",
+          heading: view === "components" ? "Components" : "Onboarding",
           ...(view === "components"
             ? {
                 subTabs: {
@@ -233,16 +229,6 @@ function PageContent() {
                 section={section}
                 onCurrentCodeChange={handleCurrentCodeChange}
               />
-            </div>
-            <div
-              role="tabpanel"
-              id="colors-panel"
-              aria-labelledby="colors-tab"
-              hidden={view !== "colors"}
-              tabIndex={view === "colors" ? 0 : -1}
-              ref={colorsRef}
-            >
-              <ColorsView />
             </div>
             <div
               role="tabpanel"

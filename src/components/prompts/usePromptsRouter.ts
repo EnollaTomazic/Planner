@@ -1,6 +1,10 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SPEC_DATA, type View, type Section } from "./constants";
+import { SPEC_DATA, type Section } from "./constants";
+
+const PROMPTS_VIEW_KEYS = ["components", "onboarding"] as const;
+
+export type PromptsView = (typeof PROMPTS_VIEW_KEYS)[number];
 
 function hasSection(value: string): value is Section {
   return Object.prototype.hasOwnProperty.call(SPEC_DATA, value);
@@ -8,6 +12,10 @@ function hasSection(value: string): value is Section {
 
 function getValidSection(value: string | null): Section {
   return value && hasSection(value) ? value : "buttons";
+}
+
+function isPromptsView(value: string | null): value is PromptsView {
+  return PROMPTS_VIEW_KEYS.includes((value ?? "") as PromptsView);
 }
 
 export function usePromptsRouter() {
@@ -34,13 +42,13 @@ export function usePromptsRouter() {
     [params, router, startTransition],
   );
 
-  const view = (viewParam as View) || "components";
+  const view = isPromptsView(viewParam) ? viewParam : "components";
   const section = React.useMemo(
     () => getValidSection(sectionParam),
     [sectionParam],
   );
   const setView = React.useCallback(
-    (v: View) => replaceParam("view", v),
+    (v: PromptsView) => replaceParam("view", v),
     [replaceParam],
   );
   const setSection = React.useCallback(
