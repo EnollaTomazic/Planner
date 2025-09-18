@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
-import { usePrompts } from "./usePrompts";
+import { useChatPrompts } from "./useChatPrompts";
 
 type Role = "designer" | "developer";
 
@@ -23,7 +23,7 @@ const ROLE_TABS: TabItem<Role>[] = [
 
 export default function OnboardingTabs() {
   const [role, setRole] = React.useState<Role>("designer");
-  const { prompts } = usePrompts();
+  const { prompts } = useChatPrompts();
   const [updatedAt, setUpdatedAt] = React.useState(Date.now());
   const designerRef = React.useRef<HTMLDivElement>(null);
   const developerRef = React.useRef<HTMLDivElement>(null);

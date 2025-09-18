@@ -14,7 +14,7 @@ vi.mock("@/lib/db", async () => {
   };
 });
 
-import { usePrompts } from "@/components/prompts";
+import { useChatPrompts } from "@/components/prompts";
 
 describe("deriveTitle", () => {
   it("uses the first non-empty line", () => {
@@ -25,7 +25,7 @@ describe("deriveTitle", () => {
       text: "\n\nHello world\nMore",
       createdAt: 0,
     });
-    const { result } = renderHook(() => usePrompts());
+    const { result } = renderHook(() => useChatPrompts());
     expect(result.current.filtered[0].title).toBe("Hello world");
   });
 });
