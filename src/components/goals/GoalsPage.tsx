@@ -242,8 +242,10 @@ function GoalsPageContent() {
           <span className="text-success">{pctDone}%</span>
         </li>
         <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-primary">Total</span>
-          <span className="text-primary">{totalCount}</span>
+          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
+            <span className="font-semibold">Total</span>
+            <span>{totalCount}</span>
+          </span>
         </li>
       </ul>
     ) : tab === "reminders" ? (
@@ -252,7 +254,10 @@ function GoalsPageContent() {
       </>
     ) : (
       <>
-        <span className="font-semibold text-primary">Timebox</span> focus runs and reset between sets.
+        <span className="inline-flex items-center rounded-full bg-primary-soft px-[var(--space-2)] font-semibold text-primary-foreground">
+          Timebox
+        </span>{" "}
+        focus runs and reset between sets.
       </>
     );
 
@@ -277,8 +282,10 @@ function GoalsPageContent() {
           <span className="text-label text-foreground">{ACTIVE_CAP}</span>
         </span>
         <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-primary">Active</span>
-          <span className="text-label text-primary">{activeCount}</span>
+          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
+            <span className="font-semibold">Active</span>
+            <span>{activeCount}</span>
+          </span>
         </span>
         <span className="inline-flex items-center gap-[var(--space-1)]">
           <span className="text-label font-semibold text-accent-3">Remaining</span>
@@ -301,7 +308,11 @@ function GoalsPageContent() {
   } else {
     heroSubtitle = (
       <span id={heroSubtitleId} className="text-muted-foreground">
-        Dial in <span className="font-semibold text-primary">focus sprints</span> and steady breaks.
+        Dial in{" "}
+        <span className="inline-flex items-center rounded-full bg-primary-soft px-[var(--space-2)] font-semibold text-primary-foreground">
+          focus sprints
+        </span>{" "}
+        and steady breaks.
       </span>
     );
   }
