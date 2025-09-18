@@ -1021,15 +1021,15 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: (
         <div className="flex justify-center">
           <HeroPortraitFrame
-            imageSrc="/pixel_cat_yawn.gif"
-            imageAlt="Planner companion stretching before planning"
+            imageSrc="/hero_image.png"
+            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
           />
         </div>
       ),
       tags: ["hero", "portrait", "glitch"],
       code: `<HeroPortraitFrame
-  imageSrc="/pixel_cat_yawn.gif"
-  imageAlt="Planner companion stretching before planning"
+  imageSrc="/hero_image.png"
+  imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
 />`,
     },
     {
