@@ -264,7 +264,7 @@ html.theme-hardstuck {
   --accent: 120 100% 60%;
   --accent-2: 120 100% 20%;
   --accent-foreground: 0 0% 0%;
-  --text-on-accent: hsl(var(--background));
+  --text-on-accent: hsl(var(--hardstuck-foreground));
   --accent-soft: 120 100% 12%;
   --glow: 120 100% 60%;
   --ring-muted: 120 30% 20%;
