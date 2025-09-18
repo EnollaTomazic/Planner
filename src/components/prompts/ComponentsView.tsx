@@ -30,6 +30,7 @@ function SpecCard({
 }: SpecCardProps) {
   const [showCode, setShowCode] = React.useState(false);
   const [isPressed, setIsPressed] = React.useState(false);
+  const codeId = React.useMemo(() => `${id}-source`, [id]);
   const handleToggleCode = React.useCallback(() => {
     setShowCode((prev) => {
       const next = !prev;
@@ -67,7 +68,9 @@ function SpecCard({
           <button
             type="button"
             onClick={handleToggleCode}
-            className="inline-flex h-12 items-center justify-center rounded-full px-4 text-ui font-medium underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+            aria-expanded={showCode}
+            aria-controls={codeId}
+            className="inline-flex h-12 items-center justify-center rounded-full px-4 text-ui font-medium underline underline-offset-4 transition-colors motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
           >
             {showCode ? "Hide code" : "Show code"}
           </button>
@@ -78,7 +81,10 @@ function SpecCard({
       ) : null}
       <div className="rounded-card r-card-md bg-background p-4">{element}</div>
       {showCode && code ? (
-        <pre className="rounded-card r-card-md bg-muted p-4 text-label overflow-x-auto">
+        <pre
+          id={codeId}
+          className="rounded-card r-card-md bg-muted p-4 text-label overflow-x-auto"
+        >
           <code>{code}</code>
         </pre>
       ) : null}
