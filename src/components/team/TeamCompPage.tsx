@@ -24,17 +24,25 @@ import {
 } from "lucide-react";
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import type { HeroProps } from "@/components/ui/layout/Hero";
-import Builder, { type BuilderHandle } from "./Builder";
+import Builder, {
+  type BuilderHandle,
+  type LaneKey,
+  useTeamBuilderState,
+  LANES as BUILDER_LANES,
+} from "./Builder";
 import JungleClears, { type JungleClearsHandle } from "./JungleClears";
 import CheatSheet from "./CheatSheet";
 import MyComps from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
-import { PageHeader, PageShell } from "@/components/ui";
+import { PageHeader, PageShell, Badge } from "@/components/ui";
+import type { BadgeProps } from "@/components/ui";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
+
+type LaneTone = Extract<BadgeProps["tone"], LaneKey>;
 
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
@@ -111,6 +119,7 @@ export default function TeamCompPage() {
   });
   const [clearsQuery, setClearsQuery] = React.useState("");
   const [clearsCount, setClearsCount] = React.useState(0);
+  const [builderState, setBuilderState] = useTeamBuilderState();
   const toggleEditing = React.useCallback((key: keyof typeof editing) => {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
@@ -175,7 +184,12 @@ export default function TeamCompPage() {
         hint: "Fill allies vs enemies",
         icon: <Hammer />,
         render: () => (
-          <Builder ref={builderApi} editing={editing.builder} />
+          <Builder
+            ref={builderApi}
+            editing={editing.builder}
+            state={builderState}
+            onStateChange={setBuilderState}
+          />
         ),
         ref: builderRef,
         id: tabIds.builder.tab,
@@ -199,7 +213,7 @@ export default function TeamCompPage() {
         controls: tabIds.clears.panel,
       },
     ],
-    [renderCheat, editing, clearsQuery, tabIds],
+    [renderCheat, editing, clearsQuery, tabIds, builderState, setBuilderState],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
@@ -256,16 +270,86 @@ export default function TeamCompPage() {
       };
     }
     if (tab === "builder") {
+      const laneSummaries = BUILDER_LANES.map((lane) => {
+        const ally = builderState.allies[lane.key].trim();
+        const enemy = builderState.enemies[lane.key].trim();
+        return {
+          ...lane,
+          ally,
+          enemy,
+          isOpen: ally.length === 0 && enemy.length === 0,
+          isContested: ally.length > 0 && enemy.length > 0,
+        };
+      });
+      const alliesFilled = laneSummaries.filter((lane) => lane.ally.length > 0).length;
+      const enemiesFilled = laneSummaries.filter((lane) => lane.enemy.length > 0).length;
+      const openLanes = laneSummaries.filter((lane) => lane.isOpen);
+      const contestedLanes = laneSummaries.filter((lane) => lane.isContested);
+      const subtitleParts = [
+        `Allies ${alliesFilled}/5 locked`,
+        `Enemies ${enemiesFilled}/5 scouted`,
+      ];
+      subtitleParts.push(
+        openLanes.length === 0
+          ? "All lanes accounted"
+          : `${openLanes.length} lane${openLanes.length > 1 ? "s" : ""} open`,
+      );
+      const subtitle = subtitleParts.join(" • ");
+      const openLabel =
+        openLanes.length === 0
+          ? "No lane gaps"
+          : `Gaps: ${openLanes.map((lane) => lane.label).join(", ")}`;
+      const clashLabel =
+        contestedLanes.length === 0
+          ? "No direct clashes"
+          : `Clashes: ${contestedLanes.map((lane) => lane.label).join(", ")}`;
+      const gapTone: BadgeProps["tone"] = openLanes.length ? "accent" : "neutral";
+      const clashTone: BadgeProps["tone"] = contestedLanes.length ? "primary" : "neutral";
+
       return {
         as: "section",
-        frame: false,
+        frame: true,
         sticky: true,
         topClassName: "top-[var(--header-stack)]",
-        eyebrow: "Comps",
+        eyebrow: active?.label ?? "Comps",
         heading: "Builder",
-        subtitle: "Fill allies vs enemies. Swap in one click.",
+        subtitle,
+        children: (
+          <div className="flex flex-col gap-[var(--space-4)]">
+            <div className="flex flex-col gap-[var(--space-2)]">
+              <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
+                Lane coverage
+              </span>
+              <div className="flex flex-wrap gap-[var(--space-2)]">
+                {laneSummaries.map((lane) => (
+                  <Badge
+                    key={lane.key}
+                    size="xs"
+                    tone={lane.key as LaneTone}
+                    className="min-w-[calc(var(--space-8)+var(--space-3))]"
+                  >
+                    {`${lane.label}: ${lane.ally || "Open"} / ${lane.enemy || "Open"}`}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+              <Badge size="xs" tone={gapTone}>
+                {openLabel}
+              </Badge>
+              <Badge size="xs" tone={clashTone}>
+                {clashLabel}
+              </Badge>
+              {active?.hint ? (
+                <Badge size="xs" tone="accent">
+                  {active.hint}
+                </Badge>
+              ) : null}
+            </div>
+          </div>
+        ),
         actions: (
-          <div className="flex items-center gap-[var(--space-2)]">
+          <div className="flex flex-wrap items-center gap-[var(--space-3)] md:gap-[var(--space-4)]">
             <IconButton
               title="Swap Allies ↔ Enemies"
               aria-label="Swap Allies and Enemies"
@@ -345,6 +429,7 @@ export default function TeamCompPage() {
   }, [
     tab,
     active,
+    builderState,
     subTab,
     subTabs,
     subTabBaseId,
