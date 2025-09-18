@@ -304,7 +304,7 @@ export default function ComponentsView({
   }, [filteredCount, onFilteredCountChange]);
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-[var(--space-6)]">
       <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
         <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
           {sectionLabel} specs
