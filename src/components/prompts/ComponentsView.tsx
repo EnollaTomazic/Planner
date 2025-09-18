@@ -1,6 +1,6 @@
 import * as React from "react";
 import Fuse from "fuse.js";
-import { Card, CardContent } from "@/components/ui";
+import { Card } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
 
@@ -60,7 +60,7 @@ function SpecCard({
           ? "var(--shadow-inset, var(--shadow))"
           : "var(--shadow-raised, var(--shadow))",
       }}
-      className="relative flex flex-col gap-[var(--space-4)] rounded-card r-card-lg border border-[var(--card-hairline)] bg-card px-[var(--space-6)] py-[var(--space-4)] transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
+      className="relative flex flex-1 flex-col gap-[var(--space-4)] rounded-card r-card-lg border border-[var(--card-hairline)] bg-card px-[var(--space-6)] py-[var(--space-4)] transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
     >
       <header className="flex items-center justify-between">
         <h3 className="text-title leading-[1.3] font-semibold tracking-[-0.01em]">{name}</h3>
@@ -187,20 +187,22 @@ export default function ComponentsView({
         </Badge>
       </header>
       <ul
-        className="grid grid-cols-1 gap-[var(--space-4)] md:grid-cols-12 md:gap-[var(--space-5)] xl:gap-[var(--space-6)]"
+        className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         aria-describedby={countDescriptionId}
       >
         {specs.length === 0 ? (
-          <li className="col-span-full">
-            <Card>
-              <CardContent>No results found</CardContent>
+          <li className="flex">
+            <Card
+              className="relative isolate flex flex-1 items-center justify-center overflow-hidden rounded-card border border-[var(--card-hairline)] bg-card/60 px-[var(--space-6)] py-[var(--space-7)] text-center text-ui font-medium text-muted-foreground shadow-[var(--shadow-raised,var(--shadow))] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(120%_80%_at_0%_-20%,hsl(var(--accent)/0.22),transparent_60%),radial-gradient(120%_80%_at_100%_-20%,hsl(var(--ring)/0.24),transparent_65%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-[var(--hairline-w)] after:-z-20 after:rounded-[calc(var(--radius-card)-var(--hairline-w))] after:bg-[linear-gradient(165deg,hsl(var(--surface)/0.75),hsl(var(--card)/0.5))]"
+            >
+              No results found
             </Card>
           </li>
         ) : (
           specs.map((spec) => (
             <li
               key={spec.id}
-              className="col-span-full md:col-span-6 lg:col-span-4 xl:col-span-3"
+              className="flex"
             >
               <SpecCard
                 {...spec}
