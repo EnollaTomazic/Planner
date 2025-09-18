@@ -43,6 +43,8 @@ export interface HeroProps<Key extends string = string>
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
+  /** Visual treatment for the label cluster bar. */
+  barVariant?: "flat" | "raised";
   rail?: boolean;
   /** Typography profile for the heading/subtitle. */
   tone?: "heroic" | "supportive";
@@ -98,6 +100,7 @@ function Hero<Key extends string = string>({
   topClassName = "top-[var(--space-8)]",
   barClassName,
   bodyClassName,
+  barVariant = "flat",
   rail = true,
   dividerTint = "primary",
   subTabs,
@@ -120,6 +123,7 @@ function Hero<Key extends string = string>({
   const Component: HeroElement = as ?? "section";
 
   const isSupportiveTone = tone === "supportive";
+  const isRaisedBar = barVariant === "raised";
 
   const stickyClasses = sticky
     ? cx("sticky sticky-blur", topClassName)
@@ -143,11 +147,20 @@ function Hero<Key extends string = string>({
     ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-3)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)] py-[var(--space-4)] md:py-[var(--space-5)]"
     : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-3)] lg:gap-x-[var(--space-4)] py-[var(--space-4)] md:py-[var(--space-5)]";
 
+  const clusterGapClass = frame
+    ? "gap-[var(--space-3)] md:gap-[var(--space-4)]"
+    : "gap-[var(--space-2)] md:gap-[var(--space-3)]";
+
   const labelClusterClass = cx(
-    "col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
-    frame
-      ? "gap-[var(--space-3)] md:gap-[var(--space-4)]"
-      : "gap-[var(--space-2)] md:gap-[var(--space-3)]",
+    "col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap",
+    isRaisedBar ? "md:items-stretch" : "md:items-center",
+    clusterGapClass,
+  );
+
+  const raisedLabelBarClass = cx(
+    "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
+    clusterGapClass,
+    "overflow-hidden rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
   );
 
   const utilitiesClass = cx(
@@ -173,6 +186,31 @@ function Hero<Key extends string = string>({
   const subtitleClassName = cx(
     "text-ui md:text-body text-muted-foreground break-words",
     isSupportiveTone ? "font-normal" : "font-medium",
+  );
+
+  const iconNode = icon ? (
+    <div className="shrink-0 opacity-70 transition-opacity hover:opacity-100 focus-visible:opacity-100">
+      {icon}
+    </div>
+  ) : null;
+
+  const headingContent = (
+    <div className="min-w-0">
+      {eyebrow ? (
+        <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+          {eyebrow}
+        </div>
+      ) : null}
+
+      <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
+        <h2 className={headingClassName} data-text={headingStr}>
+          {heading}
+        </h2>
+        {subtitle ? (
+          <span className={subtitleClassName}>{subtitle}</span>
+        ) : null}
+      </div>
+    </div>
   );
 
   // Compose right area: prefer built-in sub-tabs if provided.
@@ -242,35 +280,24 @@ function Hero<Key extends string = string>({
   return (
     <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
       {frame ? <HeroGlitchStyles /> : null}
-      {frame ? <NeomorphicFrameStyles /> : null}
+      {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={shellClass}>
 
         <div className={cx(barSpacingClass, barClassName)}>
           <div className={labelClusterClass}>
             {rail ? <span aria-hidden className="rail shrink-0 self-stretch" /> : null}
-            {icon ? (
-              <div className="shrink-0 opacity-70 transition-opacity hover:opacity-100 focus-visible:opacity-100">
-                {icon}
+            {isRaisedBar ? (
+              <div className={raisedLabelBarClass}>
+                {iconNode}
+                {headingContent}
               </div>
-            ) : null}
-
-            <div className="min-w-0">
-              {eyebrow ? (
-                <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-                  {eyebrow}
-                </div>
-              ) : null}
-
-              <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
-                <h2 className={headingClassName} data-text={headingStr}>
-                  {heading}
-                </h2>
-                {subtitle ? (
-                  <span className={subtitleClassName}>{subtitle}</span>
-                ) : null}
-              </div>
-            </div>
+            ) : (
+              <>
+                {iconNode}
+                {headingContent}
+              </>
+            )}
           </div>
 
           {subTabsNode ? <div className={utilitiesClass}>{subTabsNode}</div> : null}
