@@ -2,12 +2,11 @@
 
 import * as React from "react";
 import { useId } from "react";
-import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
 import Label from "../Label";
-import Input, { type InputSize } from "./Input";
-import IconButton from "./IconButton";
+import Field from "./Field";
+import type { InputSize } from "./Input";
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -22,7 +21,7 @@ export type SearchBarProps = Omit<
   debounceMs?: number;
   /** Visual height of the control */
   height?: InputSize | number;
-  /** Additional classes for the outer FieldShell */
+  /** Additional classes for the outer Field.Root */
   fieldClassName?: string;
   /** When `true`, the search bar is disabled and `data-loading` is set */
   loading?: boolean;
@@ -84,7 +83,6 @@ export default function SearchBar({
     return cancelValueChange;
   }, [query, onValueChange, emitValueChange, cancelValueChange]);
 
-  const showClear = clearable && query.length > 0;
   const ariaLabelledby = restProps["aria-labelledby"];
   const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
   const labelFor = resolvedId;
@@ -94,63 +92,39 @@ export default function SearchBar({
       : undefined;
 
   const inputField = (
-    <>
-      <Search
-        className="pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 size-[var(--space-4)] text-muted-foreground"
-        aria-hidden
-      />
-
-      <Input
+    <Field.Root
+      height={height}
+      wrapperClassName="min-w-0"
+      className={cn("w-full", variantFieldClasses, fieldClassName)}
+      disabled={disabled}
+      loading={loading}
+    >
+      <Field.Search
         id={resolvedId}
         ref={inputRef}
         value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          onChange?.(e);
+        onChange={(event) => {
+          setQuery(event.target.value);
+          onChange?.(event);
         }}
         placeholder={placeholder}
-        indent
-        height={height}
-        className={cn(
-          "w-full",
-          showClear && "pr-[var(--space-7)]",
-          variantFieldClasses,
-          fieldClassName,
-        )}
+        clearable={clearable}
+        onClear={() => {
+          setQuery("");
+          onValueChange?.("");
+        }}
         aria-label={
           !label && !ariaLabelledby && !hasCustomAriaLabel ? "Search" : undefined
         }
-        type="search"
         autoComplete={autoComplete}
         autoCorrect={autoCorrect}
         spellCheck={spellCheck}
         autoCapitalize={autoCapitalize}
+        disabled={disabled}
+        loading={loading}
         {...restProps}
-        data-loading={loading}
-        disabled={disabled || loading}
       />
-
-      {showClear && (
-        <IconButton
-          size="sm"
-          variant="ring"
-          tone="primary"
-          aria-label="Clear"
-          title="Clear"
-          className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2"
-          disabled={disabled || loading}
-          loading={loading}
-          iconSize="sm"
-          onClick={() => {
-            setQuery("");
-            onValueChange?.("");
-            inputRef.current?.focus();
-          }}
-        >
-          <X />
-        </IconButton>
-      )}
-    </>
+    </Field.Root>
   );
 
   return (
@@ -174,10 +148,10 @@ export default function SearchBar({
       {label ? (
         <div className="min-w-0">
           <Label htmlFor={labelFor}>{label}</Label>
-          <div className="relative min-w-0">{inputField}</div>
+          {inputField}
         </div>
       ) : (
-        <div className="relative min-w-0">{inputField}</div>
+        <div className="min-w-0">{inputField}</div>
       )}
 
       {/* Right slot (filters, etc.) */}

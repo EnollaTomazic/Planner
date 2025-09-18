@@ -29,7 +29,7 @@ import {
   SideSelector,
   PillarBadge,
   PillarSelector,
-  FieldShell,
+  Field,
   Label,
   type TabItem,
 } from "@/components/ui";
@@ -359,13 +359,11 @@ export default function ComponentGallery() {
         element: <Textarea placeholder="Write here" className="w-56" />,
       },
       {
-        label: "FieldShell",
+        label: "Field",
         element: (
-          <FieldShell className="w-56">
-            <div className="px-4 py-2 text-ui font-medium text-muted-foreground">
-              Custom content
-            </div>
-          </FieldShell>
+          <Field.Root className="w-56">
+            <Field.Input placeholder="Primitive input" />
+          </Field.Root>
         ),
       },
       {

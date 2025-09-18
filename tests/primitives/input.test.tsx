@@ -21,8 +21,8 @@ describe("Input", () => {
     const { getByRole } = render(
       <Input aria-label={size} height={size} />,
     );
-    const wrapper = getByRole("textbox").parentElement as HTMLElement;
-    expect(wrapper).toHaveStyle(`--control-h: ${value}`);
+    const field = getByRole("textbox").parentElement as HTMLElement;
+    expect(field).toHaveStyle(`--field-h: ${value}`);
   });
 
   it("applies indent padding", () => {
@@ -43,8 +43,9 @@ describe("Input", () => {
     const { getByRole } = render(
       <Input aria-label="error" aria-invalid />,
     );
-    const wrapper = getByRole("textbox").parentElement as HTMLElement;
-    expect(wrapper).toHaveClass("ring-2", "ring-danger/35", "ring-offset-0");
+    const field = getByRole("textbox").parentElement as HTMLElement;
+    expect(field.dataset.invalid).toBe("true");
+    expect(field.className).toContain("border-[hsl(var(--danger)/0.6)]");
   });
 
   it("applies disabled state", () => {
@@ -53,15 +54,9 @@ describe("Input", () => {
     );
     const input = getByRole("textbox") as HTMLInputElement;
     expect(input).toBeDisabled();
-    expect(input).toHaveClass(
-      "disabled:opacity-[var(--disabled)]",
-      "disabled:cursor-not-allowed",
-    );
-    const wrapper = input.parentElement as HTMLElement;
-    expect(wrapper).toHaveClass(
-      "opacity-[var(--disabled)]",
-      "pointer-events-none",
-    );
+    expect(input.className).toContain("group-data-[disabled=true]/field:placeholder:text-muted-foreground/50");
+    const field = input.parentElement as HTMLElement;
+    expect(field.dataset.disabled).toBe("true");
   });
 
   it("applies readOnly state", () => {
@@ -71,10 +66,8 @@ describe("Input", () => {
     const input = getByRole("textbox") as HTMLInputElement;
     expect(input).toHaveAttribute("readonly");
     expect(input).toHaveClass("read-only:cursor-default");
-    const wrapper = input.parentElement as HTMLElement;
-    expect(wrapper).toHaveClass(
-      "focus-within:after:bg-[var(--ring-muted)]",
-    );
+    const field = input.parentElement as HTMLElement;
+    expect(field.dataset.readonly).toBe("true");
   });
 
   it("handles data-loading attribute", () => {
@@ -83,9 +76,11 @@ describe("Input", () => {
     );
     const input = getByRole("textbox");
     expect(input).toHaveAttribute("data-loading", "true");
-    expect(input).toHaveClass(
-      "data-[loading=true]:opacity-[var(--loading)]",
+    expect(input.className).toContain(
+      "group-data-[loading=true]/field:opacity-[var(--loading)]",
     );
+    const field = input.parentElement as HTMLElement;
+    expect(field.dataset.loading).toBe("true");
   });
 
   it("defaults name to the generated id when no overrides are provided", () => {
