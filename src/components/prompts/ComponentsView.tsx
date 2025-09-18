@@ -1,8 +1,10 @@
 import * as React from "react";
 import Fuse from "fuse.js";
-import { Card, CardContent } from "@/components/ui";
+import { Card, CardContent, NeoCard } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
+import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 type ComponentsViewProps = {
   query: string;
@@ -12,6 +14,7 @@ type ComponentsViewProps = {
 };
 
 type SpecCardProps = Spec & {
+  disabled?: boolean;
   onCodeVisibilityChange?: (
     specId: string,
     code: string | null,
@@ -26,81 +29,148 @@ function SpecCard({
   element,
   props,
   code,
+  disabled,
   onCodeVisibilityChange,
 }: SpecCardProps) {
   const [showCode, setShowCode] = React.useState(false);
   const [isPressed, setIsPressed] = React.useState(false);
   const codeId = React.useMemo(() => `${id}-source`, [id]);
+  const headingId = React.useId();
+  const descriptionId = React.useMemo(
+    () => (description ? `${id}-description` : undefined),
+    [description, id],
+  );
+  const reduceMotion = usePrefersReducedMotion();
+  const cardTokens = React.useMemo(
+    () =>
+      ({
+        "--spec-card-shadow-rest":
+          "0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset, 0 calc(var(--space-6) - var(--space-0-5)) calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-base) / 0.32)",
+        "--spec-card-shadow-hover":
+          "0 calc(var(--space-5) - var(--space-0-5)) var(--space-7) hsl(var(--shadow-color) / 0.28)",
+        "--spec-card-shadow-active":
+          "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline)), inset 0 var(--space-0-5) 0 hsl(var(--foreground) / 0.06), 0 calc(var(--space-4) - var(--space-0-5)) var(--space-6) hsl(var(--shadow-color) / 0.33)",
+        "--spec-card-shadow-disabled":
+          "inset 0 0 0 var(--space-0-25) hsl(var(--card-hairline) / 0.7)",
+        "--spec-card-raise": reduceMotion
+          ? "calc(var(--space-0-25) * 0)"
+          : "var(--space-0-25)",
+        "--spec-card-press": reduceMotion
+          ? "calc(var(--space-0-25) * 0)"
+          : "var(--space-0-25)",
+      }) as React.CSSProperties,
+    [reduceMotion],
+  );
+  const isDisabled = Boolean(disabled);
+
   const handleToggleCode = React.useCallback(() => {
+    if (!code || isDisabled) {
+      return;
+    }
+
     setShowCode((prev) => {
       const next = !prev;
-      if (code) {
-        onCodeVisibilityChange?.(id, code, next);
-      }
+      onCodeVisibilityChange?.(id, code, next);
       return next;
     });
-  }, [code, id, onCodeVisibilityChange]);
+  }, [code, id, isDisabled, onCodeVisibilityChange]);
 
   const handlePointerDown = React.useCallback(() => {
+    if (isDisabled) return;
     setIsPressed(true);
-  }, []);
+  }, [isDisabled]);
+
   const handlePointerReset = React.useCallback(() => {
     setIsPressed(false);
   }, []);
 
+  const cardClassName = cn(
+    "group/spec-card relative flex flex-col gap-[var(--space-4)] px-[var(--space-6)] py-[var(--space-4)]",
+    "shadow-[var(--spec-card-shadow-rest)] hover:shadow-[var(--spec-card-shadow-hover)]",
+    "transition-[transform,box-shadow,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+    "motion-safe:hover:-translate-y-[var(--spec-card-raise)] data-[active=true]:translate-y-[var(--spec-card-press)]",
+    "data-[active=true]:shadow-[var(--spec-card-shadow-active)]",
+    "motion-reduce:hover:translate-y-0 motion-reduce:data-[active=true]:translate-y-0",
+    "aria-[disabled=true]:pointer-events-none aria-[disabled=true]:shadow-[var(--spec-card-shadow-disabled)] aria-[disabled=true]:opacity-60",
+    "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[active=true]:before:opacity-100",
+  );
+
+  const frameClassName = cn(
+    "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
+    "shadow-[inset_0_0_0_var(--space-0-25)_hsl(var(--card-hairline)/0.55),inset_0_var(--space-0-25)_0_hsl(var(--foreground)/0.06)]",
+    "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--space-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
+    "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--space-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
+    "group-data-[active=true]/spec-card:before:opacity-55",
+  );
+
   return (
-    <div
-      data-pressed={isPressed}
+    <NeoCard
+      asChild
+      data-active={isPressed ? "true" : undefined}
+      aria-disabled={isDisabled ? "true" : undefined}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerReset}
       onPointerLeave={handlePointerReset}
       onPointerCancel={handlePointerReset}
-      style={{
-        boxShadow: isPressed
-          ? "var(--shadow-inset, var(--shadow))"
-          : "var(--shadow-raised, var(--shadow))",
-      }}
-      className="relative flex flex-col gap-[var(--space-4)] rounded-card r-card-lg border border-[var(--card-hairline)] bg-card px-[var(--space-6)] py-[var(--space-4)] transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
+      style={cardTokens}
+      className={cardClassName}
+      tabIndex={isDisabled ? -1 : 0}
+      aria-labelledby={headingId}
+      aria-describedby={descriptionId}
     >
-      <header className="flex items-center justify-between">
-        <h3 className="text-title leading-[1.3] font-semibold tracking-[-0.01em]">{name}</h3>
-        {code && (
-          <button
-            type="button"
-            onClick={handleToggleCode}
-            aria-expanded={showCode}
-            aria-controls={codeId}
-            className="inline-flex h-12 items-center justify-center rounded-full px-4 text-ui font-medium underline underline-offset-4 transition-colors motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+      <article>
+        <header className="flex items-center justify-between">
+          <h3
+            id={headingId}
+            className="text-title leading-[1.3] font-semibold tracking-[-0.01em]"
           >
-            {showCode ? "Hide code" : "Show code"}
-          </button>
-        )}
-      </header>
-      {description ? (
-        <p className="text-ui text-muted-foreground line-clamp-2">{description}</p>
-      ) : null}
-      <div className="rounded-card r-card-md bg-background p-4">{element}</div>
-      {showCode && code ? (
-        <pre
-          id={codeId}
-          className="rounded-card r-card-md bg-muted p-4 text-label overflow-x-auto"
-        >
-          <code>{code}</code>
-        </pre>
-      ) : null}
-      {props ? (
-        <footer className="mt-auto">
-          <ul className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-2)] text-label text-muted-foreground">
-            {props.map((p) => (
-              <li key={p.label} className="flex items-center gap-[var(--space-1)]">
-                <span className="font-medium text-foreground">{p.label}</span>
-                <span>{p.value}</span>
-              </li>
-            ))}
-          </ul>
-        </footer>
-      ) : null}
-    </div>
+            {name}
+          </h3>
+          {code ? (
+            <button
+              type="button"
+              onClick={handleToggleCode}
+              aria-expanded={showCode}
+              aria-controls={codeId}
+              disabled={isDisabled}
+              className="inline-flex h-12 items-center justify-center rounded-full px-4 text-ui font-medium underline underline-offset-4 transition-colors motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+            >
+              {showCode ? "Hide code" : "Show code"}
+            </button>
+          ) : null}
+        </header>
+        {description ? (
+          <p
+            id={descriptionId}
+            className="text-ui text-muted-foreground line-clamp-2"
+          >
+            {description}
+          </p>
+        ) : null}
+        <div className={frameClassName}>{element}</div>
+        {showCode && code ? (
+          <pre
+            id={codeId}
+            className="rounded-card r-card-md bg-muted p-4 text-label overflow-x-auto"
+          >
+            <code>{code}</code>
+          </pre>
+        ) : null}
+        {props ? (
+          <footer className="mt-auto">
+            <ul className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-2)] text-label text-muted-foreground">
+              {props.map((p) => (
+                <li key={p.label} className="flex items-center gap-[var(--space-1)]">
+                  <span className="font-medium text-foreground">{p.label}</span>
+                  <span>{p.value}</span>
+                </li>
+              ))}
+            </ul>
+          </footer>
+        ) : null}
+      </article>
+    </NeoCard>
   );
 }
 

@@ -1,12 +1,17 @@
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
-export type CardProps = React.HTMLAttributes<HTMLDivElement>;
+export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
+  asChild?: boolean;
+};
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, ...props }, ref) => {
+const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
+  ({ className, asChild = false, ...props }, ref) => {
+    const Component = asChild ? Slot : "div";
+
     return (
-      <div
+      <Component
         ref={ref}
         className={cn(
           "rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 text-card-foreground shadow-outline-subtle",
