@@ -27,7 +27,7 @@ import { copyText } from "@/lib/clipboard";
 
 /* ───────────────── types & constants ───────────────── */
 
-type Team = {
+export type Team = {
   top: string;
   jungle: string;
   mid: string;
@@ -35,9 +35,10 @@ type Team = {
   support: string;
   notes?: string;
 };
-type TeamState = { allies: Team; enemies: Team };
+export type TeamState = { allies: Team; enemies: Team };
+export type LaneKey = Exclude<keyof Team, "notes">;
 
-const TEAM_KEY = "team_comp_v1";
+export const TEAM_KEY = "team_comp_v1";
 const EMPTY_TEAM: Team = {
   top: "",
   jungle: "",
@@ -46,13 +47,24 @@ const EMPTY_TEAM: Team = {
   support: "",
   notes: "",
 };
-const LANES: { key: keyof Team; label: string }[] = [
+export const LANES: { key: LaneKey; label: string }[] = [
   { key: "top", label: "Top" },
   { key: "jungle", label: "Jungle" },
   { key: "mid", label: "Mid" },
   { key: "bot", label: "Bot" },
   { key: "support", label: "Support" },
 ];
+
+export function createInitialTeamState(): TeamState {
+  return {
+    allies: { ...EMPTY_TEAM },
+    enemies: { ...EMPTY_TEAM },
+  };
+}
+
+export function useTeamBuilderState() {
+  return usePersistentState<TeamState>(TEAM_KEY, createInitialTeamState());
+}
 
 /* ───────────────── helpers ───────────────── */
 
@@ -90,13 +102,18 @@ export type BuilderHandle = {
   copyAll: () => void;
 };
 
-export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
-  function Builder({ editing }: { editing?: boolean }, ref) {
+type BuilderProps = {
+  editing?: boolean;
+  state?: TeamState;
+  onStateChange?: React.Dispatch<React.SetStateAction<TeamState>>;
+};
+
+export default React.forwardRef<BuilderHandle, BuilderProps>(
+  function Builder({ editing, state: providedState, onStateChange }: BuilderProps, ref) {
     void editing;
-    const [state, setState] = usePersistentState<TeamState>(TEAM_KEY, {
-      allies: { ...EMPTY_TEAM },
-      enemies: { ...EMPTY_TEAM },
-    });
+    const [internalState, setInternalState] = useTeamBuilderState();
+    const state = providedState ?? internalState;
+    const setState = onStateChange ?? setInternalState;
 
   const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
@@ -107,33 +124,32 @@ export default React.forwardRef<BuilderHandle, { editing?: boolean }>(
     };
   }, [state]);
 
-  function setLane(
-    side: "allies" | "enemies",
-    lane: keyof Team,
-    value: string,
-  ) {
-    setState({
-      ...state,
-      [side]: { ...state[side], [lane]: value },
-    });
+  function setLane(side: "allies" | "enemies", lane: LaneKey, value: string) {
+    setState((prev) => ({
+      ...prev,
+      [side]: { ...prev[side], [lane]: value },
+    }));
   }
 
   function setNotes(side: "allies" | "enemies", value: string) {
-    setState({
-      ...state,
-      [side]: { ...state[side], notes: value },
-    });
+    setState((prev) => ({
+      ...prev,
+      [side]: { ...prev[side], notes: value },
+    }));
   }
 
   function clearSide(side: "allies" | "enemies") {
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       [side]: { ...EMPTY_TEAM },
-    });
+    }));
   }
 
   function swapSides() {
-    setState({ allies: state.enemies, enemies: state.allies });
+    setState((prev) => ({
+      allies: { ...prev.enemies },
+      enemies: { ...prev.allies },
+    }));
   }
 
   async function copy(selection: "all" | "allies" | "enemies") {
@@ -208,7 +224,7 @@ function SideEditor(props: {
   title: string;
   icon: React.ReactNode;
   value: Team;
-  onLane: (lane: keyof Team, v: string) => void;
+  onLane: (lane: LaneKey, v: string) => void;
   onNotes: (v: string) => void;
   onClear: () => void;
   onCopy: () => void;
