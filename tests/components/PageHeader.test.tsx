@@ -180,4 +180,53 @@ describe("PageHeader", () => {
       }),
     ).toBeNull();
   });
+
+  it("labels hero frame slots using sanitized tab and search metadata", () => {
+    const tabLabelId = "hero-tabs-label";
+    render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          sticky: false,
+          children: (
+            <span id={tabLabelId} className="sr-only">
+              Filter planner highlights
+            </span>
+          ),
+        }}
+        subTabs={{
+          items: [
+            { key: "overview", label: "Overview" },
+            { key: "insights", label: "Insights" },
+          ],
+          value: "overview",
+          onChange: vi.fn(),
+          ariaLabel: "  Filter planner highlights  ",
+          ariaLabelledBy: ` ${tabLabelId} `,
+        }}
+        search={{
+          value: "",
+          onValueChange: () => {},
+          "aria-label": "  Search planner highlights  ",
+        }}
+      />,
+    );
+
+    const tabsSlot = screen.getByRole("group", {
+      name: "Filter planner highlights",
+    });
+    const searchSlot = screen.getByRole("group", {
+      name: "Search planner highlights",
+    });
+
+    expect(tabsSlot).not.toBeNull();
+    expect(tabsSlot).toHaveAttribute("data-slot", "tabs");
+    expect(tabsSlot).toHaveAttribute("aria-labelledby", tabLabelId);
+    expect(tabsSlot).toHaveAttribute("aria-label", "Filter planner highlights");
+
+    expect(searchSlot).not.toBeNull();
+    expect(searchSlot).toHaveAttribute("data-slot", "search");
+    expect(searchSlot).toHaveAttribute("aria-label", "Search planner highlights");
+  });
 });

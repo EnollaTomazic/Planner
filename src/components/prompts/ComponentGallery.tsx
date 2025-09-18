@@ -1010,20 +1010,26 @@ export default function ComponentGallery() {
               align="end"
               label="Hero frame demo"
               slots={{
-                search: (
-                  <SearchBar
-                    value={query}
-                    onValueChange={setQuery}
-                    placeholder="Search layout patterns…"
-                    aria-label="Search layout patterns"
-                    className="w-full"
-                  />
-                ),
-                actions: (
-                  <Button size="sm" variant="secondary" className="whitespace-nowrap">
-                    Assign scout
-                  </Button>
-                ),
+                search: {
+                  node: (
+                    <SearchBar
+                      value={query}
+                      onValueChange={setQuery}
+                      placeholder="Search layout patterns…"
+                      aria-label="Search layout patterns"
+                      className="w-full"
+                    />
+                  ),
+                  label: "Search layout patterns",
+                },
+                actions: {
+                  node: (
+                    <Button size="sm" variant="secondary" className="whitespace-nowrap">
+                      Assign scout
+                    </Button>
+                  ),
+                  label: "Layout quick actions",
+                },
               }}
             >
               <Hero
