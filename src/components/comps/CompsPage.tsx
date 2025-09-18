@@ -12,8 +12,12 @@ import {
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
 
+function hasSection(value: string): value is Section {
+  return Object.prototype.hasOwnProperty.call(SPEC_DATA, value);
+}
+
 function getValidSection(value: string | null): Section {
-  return value && value in SPEC_DATA ? (value as Section) : "buttons";
+  return value && hasSection(value) ? value : "buttons";
 }
 
 const SECTION_HERO_COPY = {
@@ -49,9 +53,15 @@ const SECTION_HERO_COPY = {
   },
   layout: {
     eyebrow: "Structure",
-    heading: "Layout and framing components",
+    heading: "Layout and container components",
     subtitle:
-      "Headers, heroes, and containers that define the product experience.",
+      "Shells, overlays, and navigation scaffolding that organize Planner surfaces.",
+  },
+  "page-header": {
+    eyebrow: "First impression",
+    heading: "Hero and page header components",
+    subtitle:
+      "Framed intros, hero shells, and portrait accents for high-impact screens.",
   },
   feedback: {
     eyebrow: "Status",
