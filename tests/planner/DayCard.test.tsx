@@ -6,9 +6,10 @@ import {
   PlannerProvider,
   useDay,
   useSelectedProject,
+  todayISO,
 } from "@/components/planner";
 
-const iso = "2024-01-01";
+const iso = todayISO();
 
 interface TestHandle {
   day: ReturnType<typeof useDay>;

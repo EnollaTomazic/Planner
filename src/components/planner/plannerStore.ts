@@ -131,6 +131,52 @@ export function decodePlannerDays(value: unknown): Record<ISODate, DayRecord> {
 }
 
 const FOCUS_PLACEHOLDER: ISODate = "";
+const DEFAULT_MAX_DAY_AGE_DAYS = 365;
+
+export type PruneOldDaysOptions = {
+  maxAgeDays?: number;
+  now?: Date | number | string;
+};
+
+export function pruneOldDays(
+  days: Record<ISODate, DayRecord>,
+  options: PruneOldDaysOptions = {},
+) {
+  const { maxAgeDays = DEFAULT_MAX_DAY_AGE_DAYS, now } = options;
+  const normalizedMaxAge = Math.floor(maxAgeDays);
+  if (!Number.isFinite(normalizedMaxAge) || normalizedMaxAge < 0) {
+    return days;
+  }
+
+  const reference = now === undefined ? new Date() : new Date(now);
+  if (Number.isNaN(reference.getTime())) {
+    return days;
+  }
+
+  const cutoff = new Date(reference.getTime());
+  cutoff.setDate(cutoff.getDate() - normalizedMaxAge);
+  cutoff.setHours(0, 0, 0, 0);
+  const cutoffTime = cutoff.getTime();
+
+  let result = days;
+  let mutated = false;
+
+  for (const iso of Object.keys(days)) {
+    const isoDate = new Date(`${iso}T00:00:00.000Z`);
+    if (Number.isNaN(isoDate.getTime())) {
+      continue;
+    }
+    if (isoDate.getTime() < cutoffTime) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...days };
+      }
+      delete result[iso as ISODate];
+    }
+  }
+
+  return mutated ? result : days;
+}
 
 export function todayISO(): ISODate {
   return toISODate(new Date());
@@ -386,15 +432,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
               ) => Record<ISODate, DayRecord>)(prev)
             : update;
 
-        if (Object.is(prev, next)) {
-          return prev;
-        }
+        let result = pruneOldDays(next);
+        let mutated = !Object.is(result, next);
 
-        let result = next;
-        let mutated = false;
-
-        for (const iso of Object.keys(next)) {
-          if (prev[iso] === next[iso]) continue;
+        for (const iso of Object.keys(result)) {
+          if (prev[iso] === result[iso]) continue;
           const ensured = sanitizeDay(result, iso);
           if (!ensured) continue;
           if (!mutated) {
@@ -404,7 +446,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
           result[iso] = ensured;
         }
 
-        return mutated ? result : next;
+        if (!mutated && Object.is(prev, result)) {
+          return prev;
+        }
+
+        return result;
       });
     },
     [setRawDays],
