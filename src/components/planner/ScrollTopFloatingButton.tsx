@@ -17,18 +17,32 @@ export default function ScrollTopFloatingButton({
   const [visible, setVisible] = React.useState(false);
   const reduceMotion = usePrefersReducedMotion();
 
+  const [target, setTarget] = React.useState<HTMLElement | null>(
+    () => watchRef.current,
+  );
+
   React.useEffect(() => {
-    const target = watchRef.current;
-    if (!target) return;
+    if (watchRef.current !== target) {
+      setTarget(watchRef.current ?? null);
+    }
+  }, [watchRef, target]);
+
+  React.useEffect(() => {
+    if (!target) {
+      return undefined;
+    }
+
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e) => setVisible(!e.isIntersecting));
     });
+
     obs.observe(target);
+
     return () => {
       obs.unobserve(target);
       obs.disconnect();
     };
-  }, [watchRef]);
+  }, [target]);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
