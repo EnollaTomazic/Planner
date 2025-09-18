@@ -383,11 +383,83 @@ function cleanupSelections(
 }
 type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
 
+type DaysMap = Record<ISODate, DayRecord>;
+
+type DaysUpdateTuple = readonly [DaysMap, Iterable<ISODate>?];
+
+type DaysUpdateEnvelope = {
+  days: DaysMap;
+  changed?: Iterable<ISODate>;
+};
+
+type DaysUpdateResult = DaysMap | DaysUpdateTuple | DaysUpdateEnvelope;
+
+type DaysUpdateAction =
+  | DaysUpdateResult
+  | ((current: DaysMap) => DaysUpdateResult);
+
+type SetDays = (update: DaysUpdateAction) => void;
+
 type DaysState = {
-  days: Record<ISODate, DayRecord>;
-  setDays: React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>;
+  days: DaysMap;
+  setDays: SetDays;
   tasksById: TaskIdMap;
 };
+
+function isDaysUpdateEnvelope(value: unknown): value is DaysUpdateEnvelope {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.prototype.hasOwnProperty.call(value, "days")
+  );
+}
+
+function normalizeChangedIterable(
+  source: Iterable<ISODate> | undefined,
+): Set<ISODate> | null {
+  if (!source) return null;
+  if (typeof source === "string") {
+    return new Set<ISODate>([source as ISODate]);
+  }
+  const set = new Set<ISODate>();
+  for (const iso of source) {
+    if (typeof iso === "string") {
+      set.add(iso as ISODate);
+    }
+  }
+  return set;
+}
+
+function resolveDaysUpdate(
+  prev: DaysMap,
+  update: DaysUpdateAction,
+): { next: DaysMap; changed: Iterable<ISODate> | undefined } {
+  const resolved = typeof update === "function" ? update(prev) : update;
+  if (Array.isArray(resolved)) {
+    const [days, changed] = resolved;
+    return { next: days, changed };
+  }
+  if (isDaysUpdateEnvelope(resolved)) {
+    return { next: resolved.days, changed: resolved.changed };
+  }
+  return { next: resolved as DaysMap, changed: undefined };
+}
+
+function collectChangedKeys(
+  prev: DaysMap,
+  next: DaysMap,
+  provided: Iterable<ISODate> | undefined,
+): Set<ISODate> {
+  const base = normalizeChangedIterable(provided) ?? new Set<ISODate>();
+  for (const key of Object.keys(next)) {
+    const iso = key as ISODate;
+    if (prev[iso] !== next[iso]) {
+      base.add(iso);
+    }
+  }
+  return base;
+}
 
 type FocusState = {
   focus: ISODate;
@@ -452,23 +524,20 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [rawDays, days, setRawDays]);
 
-  const setDays = React.useCallback<
-    React.Dispatch<React.SetStateAction<Record<ISODate, DayRecord>>>
-  >(
+  const setDays = React.useCallback<SetDays>(
     (update) => {
       setRawDays((prev) => {
-        const next =
-          typeof update === "function"
-            ? (update as (
-                current: Record<ISODate, DayRecord>,
-              ) => Record<ISODate, DayRecord>)(prev)
-            : update;
+        const { next, changed } = resolveDaysUpdate(prev, update);
 
         let result = pruneOldDays(next);
         let mutated = !Object.is(result, next);
 
-        for (const iso of Object.keys(result)) {
-          if (prev[iso] === result[iso]) continue;
+        const changedKeys = collectChangedKeys(prev, result, changed);
+        if (!changedKeys.size) {
+          return !mutated && Object.is(prev, result) ? prev : result;
+        }
+
+        for (const iso of changedKeys) {
           const ensured = sanitizeDay(result, iso);
           if (!ensured) continue;
           if (!mutated) {

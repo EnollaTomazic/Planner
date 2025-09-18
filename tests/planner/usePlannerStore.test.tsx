@@ -11,7 +11,12 @@ vi.mock("@/lib/db", async () => {
   };
 });
 
-import { PlannerProvider, usePlannerStore, useDay } from "@/components/planner";
+import {
+  PlannerProvider,
+  usePlannerStore,
+  useDay,
+} from "@/components/planner";
+import type { DayRecord, ISODate } from "@/components/planner";
 
 describe("usePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -105,6 +110,89 @@ describe("usePlannerStore", () => {
     expect(
       result.current.planner.day.tasksByProject[projectId],
     ).toBeUndefined();
+  });
+
+  it("keeps untouched days referentially equal across planner CRUD helpers", () => {
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    const otherIso: ISODate = "2999-12-31";
+    const otherDay: DayRecord = {
+      projects: [
+        { id: "p-other", name: "Other", done: false, createdAt: 1 },
+      ],
+      tasks: [],
+      tasksById: {},
+      tasksByProject: {},
+      doneCount: 0,
+      totalCount: 1,
+    };
+
+    act(() => {
+      result.current.setDay(otherIso, otherDay);
+    });
+
+    const untouched = result.current.days[otherIso];
+    expect(untouched).toBeDefined();
+
+    let projectId = "";
+    act(() => {
+      projectId = result.current.addProject("Focus Project");
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.renameProject(projectId, "Focus Project 2");
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    let taskId = "";
+    act(() => {
+      taskId = result.current.addTask("Task 1", projectId);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.renameTask(taskId, "Task 1 renamed");
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    const imageUrl = "https://example.com/image.jpg";
+    act(() => {
+      result.current.addTaskImage(taskId, imageUrl);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.removeTaskImage(taskId, imageUrl);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.toggleTask(taskId);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.toggleProject(projectId);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.setNotes("Focus notes");
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.removeTask(taskId);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    act(() => {
+      result.current.removeProject(projectId);
+    });
+    expect(result.current.days[otherIso]).toBe(untouched);
+
+    expect(result.current.days[otherIso]).toBe(untouched);
   });
 
   it("provides day-scoped utilities via useDay", () => {
