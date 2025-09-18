@@ -372,6 +372,7 @@ function HomePageContent() {
               hero={{
                 heading: "Your day at a glance",
                 sticky: false,
+                barVariant: "raised",
                 topClassName: "top-0",
                 actions: (
                   <>
