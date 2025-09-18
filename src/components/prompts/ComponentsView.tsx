@@ -80,6 +80,31 @@ function SpecCard({
     setIsPressed(false);
   }, []);
 
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (isDisabled) return;
+
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        if (event.key !== "Enter") {
+          event.preventDefault();
+        }
+        setIsPressed(true);
+      }
+    },
+    [isDisabled],
+  );
+
+  const handleKeyUp = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (isDisabled) return;
+
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        setIsPressed(false);
+      }
+    },
+    [isDisabled],
+  );
+
   const cardClassName = cn(
     "group/spec-card relative isolate flex flex-col gap-[var(--space-4)] overflow-hidden",
     "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
@@ -116,6 +141,9 @@ function SpecCard({
       onPointerUp={handlePointerReset}
       onPointerLeave={handlePointerReset}
       onPointerCancel={handlePointerReset}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      onBlur={handlePointerReset}
       style={{
         ...cardTokens,
         "--spec-card-shadow": isPressed
@@ -276,7 +304,7 @@ export default function ComponentsView({
   }, [filteredCount, onFilteredCountChange]);
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-[var(--space-6)]">
       <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
         <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
           {sectionLabel} specs

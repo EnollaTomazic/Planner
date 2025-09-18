@@ -72,7 +72,7 @@ import {
   ReviewSliderTrack,
   ScoreMeter,
 } from "@/components/reviews";
-import type { PromptWithTitle } from "./usePrompts";
+import type { PromptWithTitle } from "./types";
 import type { Review, Role } from "@/lib/types";
 import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
 import {

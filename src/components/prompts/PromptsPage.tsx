@@ -12,21 +12,22 @@ import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
 import PromptList from "./PromptList";
-import { usePrompts } from "./usePrompts";
+import { useChatPrompts } from "./useChatPrompts";
+import { useNotes } from "./useNotes";
 
 export default function PromptsPage() {
-  const { prompts, query, setQuery, filtered, save } = usePrompts();
+  const { prompts, query, setQuery, filtered, save } = useChatPrompts();
+  const [notes, setNotes] = useNotes();
 
   // Drafts
   const [titleDraft, setTitleDraft] = React.useState("");
-  const [textDraft, setTextDraft] = React.useState("");
 
   const handleSave = React.useCallback(() => {
-    if (save(titleDraft, textDraft)) {
+    if (save(titleDraft, notes)) {
       setTitleDraft("");
-      setTextDraft("");
+      setNotes("");
     }
-  }, [save, titleDraft, textDraft]);
+  }, [notes, save, setNotes, titleDraft]);
 
   return (
     <SectionCard>
@@ -36,15 +37,15 @@ export default function PromptsPage() {
           query={query}
           onQueryChange={setQuery}
           onSave={handleSave}
-          disabled={!titleDraft.trim() && !textDraft.trim()}
+          disabled={!titleDraft.trim() && !notes.trim()}
         />
       </SectionCard.Header>
       <SectionCard.Body>
         <PromptsComposePanel
           title={titleDraft}
           onTitleChange={setTitleDraft}
-          text={textDraft}
-          onTextChange={setTextDraft}
+          text={notes}
+          onTextChange={setNotes}
         />
 
         <PromptList prompts={filtered} query={query} />
