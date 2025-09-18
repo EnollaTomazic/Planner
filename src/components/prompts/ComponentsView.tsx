@@ -59,7 +59,7 @@ function SpecCard({
           ? "var(--shadow-inset, var(--shadow))"
           : "var(--shadow-raised, var(--shadow))",
       }}
-      className="relative flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
+      className="relative flex flex-col gap-[var(--space-4)] rounded-card r-card-lg border border-[var(--card-hairline)] bg-card px-[var(--space-6)] py-[var(--space-4)] transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
     >
       <header className="flex items-center justify-between">
         <h3 className="text-title leading-[1.3] font-semibold tracking-[-0.01em]">{name}</h3>
@@ -74,7 +74,7 @@ function SpecCard({
         )}
       </header>
       {description ? (
-        <p className="text-ui font-medium text-muted-foreground">{description}</p>
+        <p className="text-ui text-muted-foreground line-clamp-2">{description}</p>
       ) : null}
       <div className="rounded-card r-card-md bg-background p-4">{element}</div>
       {showCode && code ? (
@@ -83,14 +83,16 @@ function SpecCard({
         </pre>
       ) : null}
       {props ? (
-        <ul className="flex flex-wrap gap-3 text-label">
-          {props.map((p) => (
-            <li key={p.label} className="flex gap-1">
-              <span className="font-medium tracking-[0.02em]">{p.label}</span>
-              <span className="text-muted-foreground">{p.value}</span>
-            </li>
-          ))}
-        </ul>
+        <footer className="mt-auto">
+          <ul className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-2)] text-label text-muted-foreground">
+            {props.map((p) => (
+              <li key={p.label} className="flex items-center gap-[var(--space-1)]">
+                <span className="font-medium text-foreground">{p.label}</span>
+                <span>{p.value}</span>
+              </li>
+            ))}
+          </ul>
+        </footer>
       ) : null}
     </div>
   );
@@ -179,7 +181,7 @@ export default function ComponentsView({
         </Badge>
       </header>
       <ul
-        className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-12 sm:gap-[var(--space-6)]"
+        className="grid grid-cols-1 gap-[var(--space-4)] md:grid-cols-12 md:gap-[var(--space-5)] xl:gap-[var(--space-6)]"
         aria-describedby={countDescriptionId}
       >
         {specs.length === 0 ? (
@@ -192,7 +194,7 @@ export default function ComponentsView({
           specs.map((spec) => (
             <li
               key={spec.id}
-              className="col-span-full sm:col-span-6 lg:col-span-4 xl:col-span-3"
+              className="col-span-full md:col-span-6 lg:col-span-4 xl:col-span-3"
             >
               <SpecCard
                 {...spec}
