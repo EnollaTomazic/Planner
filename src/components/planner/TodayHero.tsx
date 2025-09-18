@@ -518,10 +518,14 @@ export default function TodayHero({ iso }: Props) {
                             "task-tile__text",
                             t.done && "line-through-soft",
                           )}
-                          onClick={() => setEditingTaskId(t.id)}
+                          onClick={() => {
+                            setEditingTaskText(t.title);
+                            setEditingTaskId(t.id);
+                          }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
+                              setEditingTaskText(t.title);
                               setEditingTaskId(t.id);
                             }
                           }}
@@ -538,8 +542,8 @@ export default function TodayHero({ iso }: Props) {
                         aria-label={`Edit task ${t.title}`}
                         title="Edit"
                         onClick={() => {
-                          setEditingTaskId(t.id);
                           setEditingTaskText(t.title);
+                          setEditingTaskId(t.id);
                           setSelTaskId(t.id);
                         }}
                         size="sm"
