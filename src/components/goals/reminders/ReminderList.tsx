@@ -78,6 +78,13 @@ function RemTile({
   }, [body, onChange, tagsText, title]);
 
   const pinned = !!value.pinned;
+  const togglePinned = React.useCallback(() => {
+    onChange({ pinned: !pinned });
+  }, [onChange, pinned]);
+  const togglePinnedLabel = React.useMemo(() => {
+    const baseLabel = pinned ? "Unpin reminder" : "Pin reminder";
+    return value.title ? `${baseLabel} ${value.title}` : baseLabel;
+  }, [pinned, value.title]);
 
   return (
     <article className="card-neo rounded-card card-pad relative group">
@@ -137,9 +144,9 @@ function RemTile({
 
           <IconButton
             aria-pressed={pinned}
-            title={pinned ? "Unpin" : "Pin"}
-            aria-label={pinned ? "Unpin" : "Pin"}
-            onClick={() => onChange({ pinned: !pinned })}
+            title={togglePinnedLabel}
+            aria-label={togglePinnedLabel}
+            onClick={togglePinned}
             size="sm"
             iconSize="sm"
           >
@@ -264,8 +271,11 @@ function RemTile({
 
               <button
                 className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] py-[var(--space-1)] text-label font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
-                onClick={() => onChange({ pinned: !pinned })}
-                title={pinned ? "Unpin" : "Pin"}
+                onClick={togglePinned}
+                title={togglePinnedLabel}
+                aria-label={togglePinnedLabel}
+                aria-pressed={pinned}
+                data-state={pinned ? "on" : "off"}
                 type="button"
               >
                 {pinned ? "Pinned" : "Pin"}
