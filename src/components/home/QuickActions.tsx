@@ -22,7 +22,10 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <section aria-label="Quick actions" className="grid gap-[var(--space-4)]">
+    <section
+      aria-label="Quick actions"
+      className="relative overflow-hidden rounded-card r-card-lg border border-border/40 bg-[hsl(var(--surface)/0.72)] p-[var(--space-4)] shadow-neoSoft backdrop-blur-md md:p-[var(--space-6)]"
+    >
       <QuickActionGrid
         actions={actions}
         className="md:flex-row md:items-center md:justify-between"
