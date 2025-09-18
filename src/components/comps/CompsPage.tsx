@@ -3,7 +3,6 @@
 import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import {
   SECTION_TABS,
@@ -39,9 +38,6 @@ export default function CompsPage() {
     getValidSection(sectionParam),
   );
   const [query, setQuery] = usePersistentState("comps-query", "");
-  const [filteredCount, setFilteredCount] = React.useState(() =>
-    SPEC_DATA[getValidSection(sectionParam)].length,
-  );
   const panelRef = React.useRef<HTMLDivElement>(null);
 
   const heroTabs = React.useMemo(
@@ -63,11 +59,6 @@ export default function CompsPage() {
     () => `Search ${sectionLabel.toLowerCase()} components`,
     [sectionLabel],
   );
-
-  const filteredLabel = React.useMemo(() => {
-    const suffix = filteredCount === 1 ? "component" : "components";
-    return `${filteredCount} ${suffix}`;
-  }, [filteredCount]);
 
   React.useEffect(() => {
     const next = getValidSection(sectionParam);
@@ -146,11 +137,6 @@ export default function CompsPage() {
             round: true,
             "aria-label": searchLabel,
           },
-          actions: (
-            <Badge tone="support" size="sm" className="text-muted-foreground">
-              {filteredLabel}
-            </Badge>
-          ),
         }}
       />
       <section className="grid gap-[var(--space-6)]">
@@ -165,7 +151,6 @@ export default function CompsPage() {
           <ComponentsView
             query={query}
             section={section}
-            onFilteredCountChange={setFilteredCount}
           />
         </div>
       </section>
