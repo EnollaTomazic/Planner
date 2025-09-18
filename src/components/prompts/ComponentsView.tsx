@@ -80,6 +80,31 @@ function SpecCard({
     setIsPressed(false);
   }, []);
 
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (isDisabled) return;
+
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        if (event.key !== "Enter") {
+          event.preventDefault();
+        }
+        setIsPressed(true);
+      }
+    },
+    [isDisabled],
+  );
+
+  const handleKeyUp = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (isDisabled) return;
+
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        setIsPressed(false);
+      }
+    },
+    [isDisabled],
+  );
+
   const cardClassName = cn(
     "group/spec-card relative isolate flex flex-col gap-[var(--space-4)] overflow-hidden",
     "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
@@ -116,6 +141,9 @@ function SpecCard({
       onPointerUp={handlePointerReset}
       onPointerLeave={handlePointerReset}
       onPointerCancel={handlePointerReset}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      onBlur={handlePointerReset}
       style={{
         ...cardTokens,
         "--spec-card-shadow": isPressed
