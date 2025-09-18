@@ -1,9 +1,18 @@
 import React from "react";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  act,
+} from "@testing-library/react";
+import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import TimerTab from "@/components/goals/TimerTab";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 
 describe("TimerTab", () => {
   beforeEach(() => {
@@ -35,5 +44,20 @@ describe("TimerTab", () => {
     fireEvent.click(screen.getByTitle("Minus 1 minute"));
     fireEvent.click(screen.getByTitle("Minus 1 minute"));
     expect(screen.getByText("24:00")).toBeInTheDocument();
+  });
+
+  it("stops running when the timer completes", () => {
+    vi.useFakeTimers();
+    render(<TimerTab />);
+    fireEvent.click(screen.getByRole("tab", { name: "Custom" }));
+    const customInput = screen.getByLabelText("Custom minutes and seconds");
+    fireEvent.change(customInput, { target: { value: "0:01" } });
+    fireEvent.keyDown(customInput, { key: "Enter", code: "Enter", charCode: 13 });
+    fireEvent.click(screen.getByRole("button", { name: "Start" }));
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(screen.getByText("00:00")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Start" })).toBeInTheDocument();
   });
 });
