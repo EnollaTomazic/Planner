@@ -30,6 +30,16 @@ const nextConfig = {
   assetPrefix: shouldApplyBasePath ? normalizedBasePath : undefined,
   images: {
     unoptimized: isGitHubPages,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+    ],
   },
   env: {
     NEXT_PUBLIC_BASE_PATH: shouldApplyBasePath ? normalizedBasePath : "",
