@@ -537,11 +537,11 @@ function HomePageContent() {
                     <DashboardList
                       items={weeklyHighlights}
                       getKey={(highlight) => highlight.id}
-                      itemClassName="py-3"
+                      itemClassName="py-[var(--space-2)]"
                       empty="No highlights scheduled"
                       renderItem={(highlight) => (
-                        <div className="flex flex-col gap-2">
-                          <div className="flex items-baseline justify-between gap-3">
+                        <div className="flex flex-col gap-[var(--space-2)]">
+                          <div className="flex items-baseline justify-between gap-[var(--space-3)]">
                             <p className="text-ui font-medium">{highlight.title}</p>
                             <span className="text-label text-muted-foreground">
                               {highlight.schedule}
