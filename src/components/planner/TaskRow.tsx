@@ -42,8 +42,26 @@ export default function TaskRow({
   const [imageUrl, setImageUrl] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
+  const [imageError, setImageError] = React.useState<string | null>(null);
   const trimmedImageUrl = imageUrl.trim();
   const canAttachImage = trimmedImageUrl.length > 0;
+
+  const validateImageUrl = React.useCallback((value: string) => {
+    if (!value) {
+      return "Enter an image URL.";
+    }
+
+    try {
+      const parsed = new URL(value);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return "Image URL must start with http or https.";
+      }
+    } catch {
+      return "Enter a valid image URL.";
+    }
+
+    return null;
+  }, []);
 
   useAutoFocus({ ref: inputRef, when: editing });
 
@@ -117,9 +135,15 @@ export default function TaskRow({
   }
 
   function addImage() {
-    if (!trimmedImageUrl) return;
+    const error = validateImageUrl(trimmedImageUrl);
+    if (error) {
+      setImageError(error);
+      return;
+    }
+
     onAddImage(trimmedImageUrl);
     setImageUrl("");
+    setImageError(null);
   }
 
   return (
@@ -296,9 +320,23 @@ export default function TaskRow({
           id={`task-image-${task.id}`}
           type="url"
           value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          onChange={(e) => {
+            const nextValue = e.target.value;
+            setImageUrl(nextValue);
+            if (imageError) {
+              const trimmedValue = nextValue.trim();
+              if (!trimmedValue) {
+                setImageError(null);
+                return;
+              }
+              const nextError = validateImageUrl(trimmedValue);
+              setImageError(nextError);
+            }
+          }}
           placeholder="https://example.com/image.jpg"
           className="flex-1"
+          aria-invalid={imageError ? "true" : undefined}
+          aria-describedby={imageError ? `task-image-${task.id}-error` : undefined}
         />
         <Button
           type="submit"
@@ -309,6 +347,16 @@ export default function TaskRow({
           Attach image
         </Button>
       </form>
+      {imageError && (
+        <p
+          id={`task-image-${task.id}-error`}
+          className="mt-[var(--space-1)] text-ui text-danger"
+          role="alert"
+          aria-live="polite"
+        >
+          {imageError}
+        </p>
+      )}
     </li>
   );
 }
