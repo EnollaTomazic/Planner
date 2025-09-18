@@ -157,22 +157,54 @@ export function pruneOldDays(
   cutoff.setDate(cutoff.getDate() - normalizedMaxAge);
   cutoff.setHours(0, 0, 0, 0);
   const cutoffTime = cutoff.getTime();
+  const ceiling = new Date(reference.getTime());
+  ceiling.setHours(23, 59, 59, 999);
+  const ceilingTime = ceiling.getTime();
+
+  const keys = Object.keys(days);
+  if (!keys.length) {
+    return days;
+  }
+
+  type ParsedEntry = { iso: ISODate; time: number | null };
+  const parsed: ParsedEntry[] = [];
+  let hasValid = false;
+  let oldestTime = Number.POSITIVE_INFINITY;
+  let newestTime = Number.NEGATIVE_INFINITY;
+
+  for (const key of keys) {
+    const isoDate = fromISODate(key);
+    if (!isoDate) {
+      parsed.push({ iso: key as ISODate, time: null });
+      continue;
+    }
+    const time = isoDate.getTime();
+    parsed.push({ iso: key as ISODate, time });
+    hasValid = true;
+    if (time < oldestTime) {
+      oldestTime = time;
+    }
+    if (time > newestTime) {
+      newestTime = time;
+    }
+  }
+
+  if (hasValid && oldestTime >= cutoffTime && newestTime <= ceilingTime) {
+    return days;
+  }
 
   let result = days;
   let mutated = false;
 
-  for (const iso of Object.keys(days)) {
-    const isoDate = fromISODate(iso);
-    if (!isoDate) {
+  for (const { iso, time } of parsed) {
+    if (time === null || time >= cutoffTime) {
       continue;
     }
-    if (isoDate.getTime() < cutoffTime) {
-      if (!mutated) {
-        mutated = true;
-        result = { ...days };
-      }
-      delete result[iso as ISODate];
+    if (!mutated) {
+      mutated = true;
+      result = { ...days };
     }
+    delete result[iso];
   }
 
   return mutated ? result : days;

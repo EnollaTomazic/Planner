@@ -51,6 +51,27 @@ describe("pruneOldDays", () => {
     expect(result).toBe(map);
   });
 
+  it("removes entries once the cutoff advances past them", () => {
+    const reference = new Date("2024-03-05T12:00:00Z");
+    const maxAgeDays = 30;
+    const thresholdIso = isoDaysAgo(reference, maxAgeDays);
+
+    const map: Record<string, DayRecord> = {
+      [thresholdIso]: createDay(),
+    };
+
+    const beforeCutoff = pruneOldDays(map, { now: reference, maxAgeDays });
+    expect(beforeCutoff).toBe(map);
+
+    const advanced = new Date(reference.getTime());
+    advanced.setDate(advanced.getDate() + 1);
+
+    const afterCutoff = pruneOldDays(map, { now: advanced, maxAgeDays });
+    expect(afterCutoff).not.toBe(map);
+    expect(afterCutoff[thresholdIso]).toBeUndefined();
+    expect(map[thresholdIso]).toBeDefined();
+  });
+
   it("honors a custom retention window", () => {
     const reference = new Date("2024-03-05T12:00:00Z");
     const withinIso = isoDaysAgo(reference, 20);
