@@ -78,7 +78,7 @@ export default function Toggle({
         className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
         style={{
           width: "calc(50% - var(--space-1))",
-          transform: `translateX(${isRight ? "calc(100% + var(--space-1) / 2)" : "0"})`,
+          transform: `translateX(${isRight ? "100%" : "0"})`,
         }}
       />
 
