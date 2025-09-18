@@ -61,6 +61,8 @@ export { default as SearchBar } from "./primitives/SearchBar";
 export * from "./primitives/SearchBar";
 export { default as SegmentedButton } from "./primitives/SegmentedButton";
 export * from "./primitives/SegmentedButton";
+export { default as Tabs } from "./primitives/Tabs";
+export * from "./primitives/Tabs";
 export { default as Textarea } from "./primitives/Textarea";
 export * from "./primitives/Textarea";
 export { default as AnimatedSelect } from "./select/AnimatedSelect";
