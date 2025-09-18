@@ -1137,6 +1137,10 @@ textarea:-webkit-autofill {
   @apply p-4 md:p-5;
 }
 
+.card-pad-lg {
+  @apply p-6 sm:p-8;
+}
+
 /* === Pretty Badges (Lavender-Glitch hairline + glow) === */
 .badge {
   display: inline-flex;
@@ -1961,21 +1965,6 @@ a:active .lucide {
       transparent
     );
     animation: shimmer var(--dur-slow) linear infinite;
-  }
-
-  .card-pad {
-    padding: 1.5rem;
-  }
-  .card-pad-lg {
-    padding: 1.5rem;
-  }
-  @media (min-width: 640px) {
-    .card-pad {
-      padding: 1rem;
-    }
-    .card-pad-lg {
-      padding: 2rem;
-    }
   }
 
   .toolbar {
