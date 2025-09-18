@@ -1,6 +1,7 @@
 import * as React from "react";
 import Fuse from "fuse.js";
 import { Card, CardContent } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
 
 type ComponentsViewProps = {
@@ -81,6 +82,7 @@ export default function ComponentsView({
   onCurrentCodeChange,
   onFilteredCountChange,
 }: ComponentsViewProps) {
+  const countDescriptionId = React.useId();
   const [, setActiveSpecId] = React.useState<string | null>(null);
   const handleCodeVisibilityChange = React.useCallback(
     (specId: string, nextCode: string | null, visible: boolean) => {
@@ -124,14 +126,42 @@ export default function ComponentsView({
     return fuse.search(query).map((r) => r.item);
   }, [query, fuse, section]);
 
+  const sectionLabel = React.useMemo(
+    () => section.charAt(0).toUpperCase() + section.slice(1),
+    [section],
+  );
+
+  const filteredCount = specs.length;
+
+  const countLabel = React.useMemo(() => {
+    const suffix = filteredCount === 1 ? "spec" : "specs";
+    return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
+  }, [filteredCount, sectionLabel]);
+
   React.useEffect(() => {
     if (!onFilteredCountChange) return;
-    onFilteredCountChange(specs.length);
-  }, [specs, onFilteredCountChange]);
+    onFilteredCountChange(filteredCount);
+  }, [filteredCount, onFilteredCountChange]);
 
   return (
     <div className="space-y-8">
-      <ul className="grid grid-cols-4 gap-6 md:grid-cols-6 lg:grid-cols-12">
+      <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+        <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
+          {sectionLabel} specs
+        </h2>
+        <Badge
+          id={countDescriptionId}
+          tone="support"
+          size="sm"
+          className="text-muted-foreground"
+        >
+          {countLabel}
+        </Badge>
+      </header>
+      <ul
+        className="grid grid-cols-4 gap-6 md:grid-cols-6 lg:grid-cols-12"
+        aria-describedby={countDescriptionId}
+      >
         {specs.length === 0 ? (
           <li className="col-span-full">
             <Card>
