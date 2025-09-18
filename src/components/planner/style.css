@@ -138,7 +138,7 @@
     hsl(var(--accent) / 0.18);
 }
 .task-tile__text:active {
-  color: hsl(var(--accent));
+  color: hsl(var(--primary-foreground));
   cursor: pointer;
   text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
     hsl(var(--accent) / 0.28);
