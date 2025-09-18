@@ -331,12 +331,11 @@ export default function ComponentsPage() {
                   idBase: "components",
                   linkPanels: true,
                   size: "sm",
-                  variant: "neo",
+                  variant: "default",
                   showBaseline: true,
-                  tablistClassName: NEO_TABLIST_SHARED_CLASSES,
-                  className:
-                    "max-w-full data-[variant=neo]:[&>div[aria-hidden]]:[background:linear-gradient(90deg,transparent,hsl(var(--accent)/0.45),transparent)] data-[variant=neo]:[&>div[aria-hidden]]:opacity-80",
-                  renderItem: ({ item, active, props, ref, disabled }) => {
+                  tablistClassName: "max-w-full shadow-neo-inset",
+                  className: "max-w-full",
+                  renderItem: ({ item, props, ref, disabled }) => {
                     const { className: baseClassName, onClick, ...restProps } = props;
                     const handleClick: React.MouseEventHandler<HTMLElement> = (
                       event,
@@ -350,14 +349,9 @@ export default function ComponentsPage() {
                         ref={ref as React.Ref<HTMLButtonElement>}
                         className={cn(
                           baseClassName,
-                          "relative isolate overflow-hidden px-[var(--space-4)] font-medium transition-[color,box-shadow,transform] duration-200 ease-out",
-                          "before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[radial-gradient(120%_120%_at_50%_0%,hsl(var(--highlight)/0.22),transparent)] before:opacity-0 before:transition-opacity before:duration-200",
-                          !disabled && "hover:before:opacity-100",
-                          "focus-visible:ring-offset-2 focus-visible:[--tw-ring-offset-color:hsl(var(--card)/0.78)]",
-                          active
-                            ? "shadow-[var(--shadow-inset)]"
-                            : "text-foreground/80 shadow-[inset_var(--space-1)_var(--space-1)_var(--space-3)_hsl(var(--background)/0.55),inset_-var(--space-1)_-var(--space-1)_var(--space-3)_hsl(var(--highlight)/0.12)]",
-                          disabled && "pointer-events-none opacity-[var(--disabled)]",
+                          "text-label font-normal text-muted-foreground transition-colors",
+                          "data-[active=true]:text-foreground data-[active=true]:font-medium",
+                          disabled && "pointer-events-none",
                         )}
                         onClick={(event) => {
                           if (disabled) {
@@ -369,14 +363,7 @@ export default function ComponentsPage() {
                         }}
                         disabled={disabled}
                       >
-                        <span className="relative z-10 truncate">{item.label}</span>
-                        <span
-                          aria-hidden
-                          className={cn(
-                            "pointer-events-none absolute left-[var(--space-3)] right-[var(--space-3)] -bottom-[var(--space-2)] h-px underline-gradient transition-opacity duration-200 ease-out",
-                            active ? "opacity-100" : "opacity-0",
-                          )}
-                        />
+                        <span className="truncate">{item.label}</span>
                       </button>
                     );
                   },
