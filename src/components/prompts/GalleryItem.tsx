@@ -15,7 +15,12 @@ export default function GalleryItem({
   className,
 }: GalleryItemProps) {
   return (
-    <div className={cn("flex flex-col items-center space-y-2", className)}>
+    <div
+      className={cn(
+        "flex flex-col items-center space-y-2 px-2 sm:px-3 md:px-0",
+        className,
+      )}
+    >
       <span className="text-ui font-medium">{label}</span>
       {children}
     </div>
