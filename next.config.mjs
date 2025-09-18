@@ -1,10 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { readFileSync } from "node:fs";
-
-const securityHeadersMap = JSON.parse(
-  readFileSync(new URL("./security-headers.json", import.meta.url), "utf8"),
-);
+import { securityHeaders } from "./security-headers.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,10 +23,6 @@ const slug = envSlug ?? repositorySlug;
 const normalizedBasePath = slug ? `/${slug}` : undefined;
 const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
 const shouldApplyBasePath = Boolean(isGitHubPages && normalizedBasePath && !isUserOrOrgGitHubPage);
-
-const securityHeaders = Object.entries(securityHeadersMap).map(
-  ([key, value]) => ({ key, value }),
-);
 
 const nextConfig = {
   reactStrictMode: true,

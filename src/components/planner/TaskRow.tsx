@@ -53,8 +53,8 @@ export default function TaskRow({
 
     try {
       const parsed = new URL(value);
-      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-        return "Image URL must start with http or https.";
+      if (parsed.protocol !== "https:") {
+        return "Image URL must start with https.";
       }
     } catch {
       return "Enter a valid image URL.";
