@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import FieldShell from "./FieldShell";
+import Field from "./Field";
 
 /**
  * Textarea primitive.
@@ -19,11 +19,6 @@ export type TextareaProps =
     /** Tailwind `resize-*` utility to control resizing behavior */
     resize?: string;
   };
-
-const INNER =
-  "block w-full max-w-full min-h-[var(--space-7)] px-[var(--space-3)] py-[var(--space-3)] text-body bg-transparent " +
-  "text-foreground placeholder:text-muted-foreground/70 " +
-  "focus:[outline:none] focus-visible:[outline:none] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default";
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
@@ -49,21 +44,21 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
 
     return (
-      <FieldShell
-        error={isInvalid}
+      <Field.Root
+        invalid={isInvalid}
         disabled={props.disabled}
         readOnly={props.readOnly}
-        className={className}
+        className={cn("items-start", className)}
       >
-        <textarea
+        <Field.Textarea
           ref={ref}
           id={finalId}
           name={finalName}
           aria-label={ariaLabel}
-          className={cn(INNER, resize, textareaClassName)}
+          className={cn(resize, textareaClassName)}
           {...props}
         />
-      </FieldShell>
+      </Field.Root>
     );
   },
 );

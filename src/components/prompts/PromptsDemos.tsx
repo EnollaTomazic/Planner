@@ -8,7 +8,7 @@ import {
   Input,
   Select,
   Textarea,
-  FieldShell,
+  Field,
   Button,
   Label,
   Snackbar,
@@ -115,20 +115,17 @@ export default function PromptsDemos() {
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
-        <h3 className="type-title">FieldShell</h3>
+        <h3 className="type-title">Field</h3>
         <p className="type-body">
-          Shared wrapper that provides consistent borders, background, and focus
-          states for inputs. <code>Input</code>, <code>Select</code>, and
-          <code>Textarea</code> all use this wrapper internally. Extend styles
-          with the <code>className</code> prop on each component; use
-          <code>inputClassName</code>, <code>selectClassName</code>, or
-          <code>textareaClassName</code> to target the inner element.
+          The Field primitive centralizes spacing, shadows, and interactive
+          states for our inputs. Pair <code>Field.Root</code> with
+          <code>Field.Input</code>, <code>Field.Textarea</code>, or
+          <code>Field.Select</code> to compose custom controls while staying on
+          token.
         </p>
-        <FieldShell>
-          <div className="px-4 py-2 text-ui text-muted-foreground">
-            Custom content
-          </div>
-        </FieldShell>
+        <Field.Root className="max-w-xs">
+          <Field.Input placeholder="Compose primitives" />
+        </Field.Root>
       </Card>
       <Card className="mt-8 space-y-4">
         <h3 className="type-title">Button</h3>
