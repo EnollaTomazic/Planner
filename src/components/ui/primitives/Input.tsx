@@ -4,7 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import FieldShell from "./FieldShell";
+import Field from "./Field";
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -20,12 +20,8 @@ export type InputProps = Omit<
   inputClassName?: string;
   /** Reserve space for a trailing slot even if no children are provided */
   hasEndSlot?: boolean;
-};
-
-const HEIGHT: Record<InputSize, string> = {
-  sm: "var(--control-h-sm)",
-  md: "var(--control-h-md)",
-  lg: "var(--control-h-lg)",
+  /** Optional loading state forwarded via `data-loading` */
+  "data-loading"?: string | boolean | number;
 };
 
 /**
@@ -62,37 +58,35 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   );
   const disabled = props.disabled;
   const readOnly = props.readOnly;
+  const loadingAttr = props["data-loading"];
+  const loading =
+    loadingAttr === "" ||
+    loadingAttr === true ||
+    loadingAttr === "true" ||
+    loadingAttr === 1;
 
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
-  const controlHeight =
-    typeof height === "string"
-      ? HEIGHT[height]
-      : typeof height === "number"
-        ? `${height / 4}rem`
-        : HEIGHT.md;
-
   return (
-    <FieldShell
-      error={isInvalid}
+    <Field.Root
+      height={height}
+      invalid={isInvalid}
       disabled={disabled}
       readOnly={readOnly}
+      loading={loading}
       className={className}
-      style={{ "--control-h": controlHeight, ...style } as React.CSSProperties}
+      style={style as React.CSSProperties}
     >
-      <input
+      <Field.Input
         ref={ref}
         id={finalId}
         name={finalName}
-        className={cn(
-          "w-full rounded-[inherit] bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent border-none focus:outline-none focus-visible:outline-none h-[var(--control-h)] hover:bg-[--hover] active:bg-[--active] disabled:opacity-[var(--disabled)] disabled:cursor-not-allowed read-only:cursor-default data-[loading=true]:opacity-[var(--loading)]",
-          indent && "pl-[var(--space-7)]",
-          showEndSlot && "pr-[var(--space-7)]",
-          inputClassName,
-        )}
+        className={cn(inputClassName)}
+        indent={indent}
+        hasEndSlot={showEndSlot || loading}
         {...props}
       />
       {children}
-    </FieldShell>
+    </Field.Root>
   );
 });

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
-import FieldShell from "../primitives/FieldShell";
+import Field from "../primitives/Field";
 import { useFieldIds } from "@/lib/useFieldIds";
 import { cn } from "@/lib/utils";
 
@@ -40,20 +40,25 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
       [errorId, helperId, success ? successId : undefined]
         .filter(Boolean)
         .join(" ") || undefined;
+    const helperTone = errorText ? "danger" : success ? "success" : "muted";
+
     return (
       <div className="space-y-[var(--space-1)]">
-        <FieldShell
+        <Field.Root
+          height="md"
+          invalid={isInvalid}
+          disabled={disabled}
+          helper={errorText || helperText}
+          helperId={errorId || helperId}
+          helperTone={helperTone}
           className={cn(
-            "group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]",
-            success && "border-[--theme-ring] focus-within:ring-[var(--theme-ring)]",
-            disabled &&
-              "cursor-not-allowed focus-within:ring-0 focus-within:shadow-none",
+            "group jitter",
+            success && !isInvalid &&
+              "border-[var(--theme-ring)] focus-within:ring-[var(--theme-ring)]",
             className,
           )}
-          error={isInvalid}
-          disabled={disabled}
         >
-          <select
+          <Field.Select
             ref={ref}
             id={finalId}
             name={finalName}
@@ -62,10 +67,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             onChange={(e) => onChange?.(e.target.value)}
             aria-invalid={errorText ? "true" : props["aria-invalid"]}
             aria-describedby={describedBy}
-            className={cn(
-              "flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none",
-              selectClassName,
-            )}
+            className={cn("pr-[var(--space-14)]", selectClassName)}
             {...props}
           >
             {items.map((it) => (
@@ -73,9 +75,9 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
                 {it.label}
               </option>
             ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground" />
-        </FieldShell>
+          </Field.Select>
+          <ChevronDown className="pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground" />
+        </Field.Root>
         {success && (
           <p
             id={successId}
@@ -84,17 +86,6 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             aria-live="polite"
           >
             Selection saved
-          </p>
-        )}
-        {(helperText || errorText) && (
-          <p
-            id={errorId || helperId}
-            className={cn(
-              "text-label mt-[var(--space-1)] line-clamp-2",
-              errorText ? "text-danger" : "text-muted-foreground",
-            )}
-          >
-            {errorText || helperText}
           </p>
         )}
       </div>
