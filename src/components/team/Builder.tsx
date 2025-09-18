@@ -37,6 +37,7 @@ export type Team = {
 };
 export type TeamState = { allies: Team; enemies: Team };
 export type LaneKey = Exclude<keyof Team, "notes">;
+type Side = "allies" | "enemies";
 
 export const TEAM_KEY = "team_comp_v1";
 const EMPTY_TEAM: Team = {
@@ -124,21 +125,21 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
     };
   }, [state]);
 
-  function setLane(side: "allies" | "enemies", lane: LaneKey, value: string) {
+  function setLane(side: Side, lane: LaneKey, value: string) {
     setState((prev) => ({
       ...prev,
       [side]: { ...prev[side], [lane]: value },
     }));
   }
 
-  function setNotes(side: "allies" | "enemies", value: string) {
+  function setNotes(side: Side, value: string) {
     setState((prev) => ({
       ...prev,
       [side]: { ...prev[side], notes: value },
     }));
   }
 
-  function clearSide(side: "allies" | "enemies") {
+  function clearSide(side: Side) {
     setState((prev) => ({
       ...prev,
       [side]: { ...EMPTY_TEAM },
@@ -179,6 +180,7 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
             {/* Allies */}
             <div className="md:col-span-5">
               <SideEditor
+                side="allies"
                 title="Allies"
                 icon={<Shield />}
                 value={state.allies}
@@ -201,6 +203,7 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
               {/* Enemies */}
             <div className="md:col-span-5">
               <SideEditor
+                side="enemies"
                 title="Enemies"
                 icon={<Swords />}
                 value={state.enemies}
@@ -221,6 +224,7 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
 /* ───────────────── subcomponents ───────────────── */
 
 function SideEditor(props: {
+  side: Side;
   title: string;
   icon: React.ReactNode;
   value: Team;
@@ -230,7 +234,7 @@ function SideEditor(props: {
   onCopy: () => void;
   count: number;
 }) {
-  const { title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
+  const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
     <div className="rounded-card p-4 glitch-card card-neo relative">
@@ -253,32 +257,39 @@ function SideEditor(props: {
       </header>
 
       <div className="grid gap-3">
-        {LANES.map(({ key, label }) => (
-          <div
-            key={key}
-            className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
-          >
-            <label
-              className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
-              data-text={label}
+        {LANES.map(({ key, label }) => {
+          const inputId = `${side}-${key}`;
+          return (
+            <div
+              key={key}
+              className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
             >
-              {label}
-            </label>
-            <Input
-              aria-label={`${title} ${label}`}
-              placeholder={`Enter ${label} champion`}
-              value={value[key] as string}
-              onChange={(e) => onLane(key, e.currentTarget.value)}
-            />
-          </div>
-        ))}
+              <label
+                className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
+                data-text={label}
+                htmlFor={inputId}
+              >
+                {label}
+              </label>
+              <Input
+                id={inputId}
+                placeholder={`Enter ${label} champion`}
+                value={value[key] as string}
+                onChange={(e) => onLane(key, e.currentTarget.value)}
+              />
+            </div>
+          );
+        })}
 
         <div className="grid gap-3">
-          <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
+          <label
+            className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2"
+            htmlFor={`${side}-notes`}
+          >
             <NotebookPen className="opacity-80" /> Notes
           </label>
           <Textarea
-            aria-label={`${title} notes`}
+            id={`${side}-notes`}
             placeholder="Short plan, spikes, target calls…"
             value={value.notes ?? ""}
             onChange={(e) => onNotes(e.currentTarget.value)}
