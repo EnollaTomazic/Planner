@@ -68,6 +68,8 @@ describe("usePlannerStore integration", () => {
 
     await waitFor(() => {
       expect(result.current.day.projects[0]?.name).toBe("Legacy");
+      expect(result.current.day.tasksByProject).toEqual({ p1: ["t1"] });
+      expect(result.current.day.tasksById["t1"]?.title).toBe("Old Task");
     });
 
     flushWriteLocal();
@@ -85,12 +87,16 @@ describe("usePlannerStore integration", () => {
       {
         projects?: { name?: string }[];
         tasks?: { title?: string }[];
+        tasksByProject?: Record<string, string[]>;
+        tasksById?: Record<string, { title?: string }>;
       }
     >;
 
     const focus = result.current.focus;
     expect(storedDays[focus]?.projects?.[0]?.name).toBe("Legacy");
     expect(storedDays[focus]?.tasks?.[0]?.title).toBe("Old Task");
+    expect(storedDays[focus]?.tasksByProject).toEqual({ p1: ["t1"] });
+    expect(storedDays[focus]?.tasksById?.["t1"]?.title).toBe("Old Task");
   });
 
   it("persists planner updates across provider instances", async () => {
