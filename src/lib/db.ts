@@ -13,7 +13,6 @@ import {
   writeLocal as baseWriteLocal,
 } from "./local-bootstrap";
 import { createStorageKey, OLD_STORAGE_PREFIX } from "./storage-key";
-import { safeClone } from "./utils";
 
 export { createStorageKey } from "./storage-key";
 
@@ -26,8 +25,12 @@ declare global {
   }
 }
 
+type QueuedWrite =
+  | { type: "raw"; value: unknown }
+  | { type: "json"; serialized: string };
+
 // Debounced write queue
-const writeQueue = new Map<string, unknown>();
+const writeQueue = new Map<string, QueuedWrite>();
 let writeTimer: ReturnType<typeof setTimeout> | null = null;
 
 export let writeLocalDelay = 50;
@@ -40,9 +43,14 @@ function flushWriteQueue() {
     clearTimeout(writeTimer);
     writeTimer = null;
   }
-  for (const [k, v] of writeQueue) {
+  for (const [k, entry] of writeQueue) {
     try {
-      baseWriteLocal(k, v);
+      if (entry.type === "json") {
+        if (typeof window === "undefined") continue;
+        window.localStorage.setItem(k, entry.serialized);
+      } else {
+        baseWriteLocal(k, entry.value);
+      }
     } catch {
       // ignore
     }
@@ -173,21 +181,46 @@ export function scheduleWrite(key: string, value: unknown) {
     }
     return;
   }
-  let persistedValue: unknown = value;
+  let entry: QueuedWrite;
   if (value !== null && typeof value === "object") {
-    const clonedValue = safeClone(value);
-    if (typeof clonedValue === "undefined") {
-      if (process.env.NODE_ENV !== "production") {
-        console.warn(
-          `Skipping persistence for "${key}" because value could not be cloned.`,
-          value,
-        );
+    let serialized: string | null = null;
+    try {
+      const maybeSerialized = JSON.stringify(value);
+      if (typeof maybeSerialized === "string") {
+        serialized = maybeSerialized;
       }
-      return;
+    } catch {
+      serialized = null;
     }
-    persistedValue = clonedValue;
+
+    if (serialized !== null) {
+      entry = { type: "json", serialized };
+    } else {
+      const clonedValue =
+        typeof structuredClone === "function"
+          ? (() => {
+              try {
+                return structuredClone(value);
+              } catch {
+                return undefined;
+              }
+            })()
+          : undefined;
+      if (typeof clonedValue === "undefined") {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn(
+            `Skipping persistence for "${key}" because value could not be cloned.`,
+            value,
+          );
+        }
+        return;
+      }
+      entry = { type: "raw", value: clonedValue };
+    }
+  } else {
+    entry = { type: "raw", value };
   }
-  writeQueue.set(key, persistedValue);
+  writeQueue.set(key, entry);
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(flushWriteQueue, writeLocalDelay);
 }

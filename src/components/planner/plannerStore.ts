@@ -247,10 +247,7 @@ export function buildTaskLookups(tasks: DayTask[]) {
   return { tasksById, tasksByProject };
 }
 
-function taskMapsEqual(
-  a: Record<string, DayTask>,
-  b: Record<string, DayTask>,
-) {
+function taskMapsEqual(a: Record<string, DayTask>, b: Record<string, DayTask>) {
   const aKeys = Object.keys(a);
   const bKeys = Object.keys(b);
   if (aKeys.length !== bKeys.length) return false;
@@ -292,9 +289,24 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate) {
     };
   let tasks = existing.tasks;
   let tasksChanged = false;
-  if (!existing.tasks.every((t) => Array.isArray(t.images))) {
-    tasksChanged = true;
-    tasks = existing.tasks.map((t) => ({ ...t, images: t.images ?? [] }));
+
+  for (let i = 0; i < tasks.length; i += 1) {
+    const task = tasks[i];
+    const rawImages = (task as { images: unknown }).images;
+    const hasValidImages =
+      Array.isArray(rawImages) &&
+      rawImages.every((image) => typeof image === "string");
+
+    if (hasValidImages) continue;
+
+    const normalizedImages = decodeImages(rawImages);
+
+    if (!tasksChanged) {
+      tasksChanged = true;
+      tasks = tasks.slice();
+    }
+
+    tasks[i] = { ...task, images: normalizedImages };
   }
 
   const { tasksById: nextTasksById, tasksByProject: nextTasksByProject } =
@@ -428,9 +440,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     if (focus === FOCUS_PLACEHOLDER) {
-      setFocus((prev) =>
-        prev === FOCUS_PLACEHOLDER ? todayISO() : prev,
-      );
+      setFocus((prev) => (prev === FOCUS_PLACEHOLDER ? todayISO() : prev));
     }
   }, [focus, setFocus]);
 
@@ -466,9 +476,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       setRawDays((prev) => {
         const next =
           typeof update === "function"
-            ? (update as (
-                current: Record<ISODate, DayRecord>,
-              ) => Record<ISODate, DayRecord>)(prev)
+            ? (
+                update as (
+                  current: Record<ISODate, DayRecord>,
+                ) => Record<ISODate, DayRecord>
+              )(prev)
             : update;
 
         let result = pruneOldDays(next);
@@ -510,9 +522,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       setSelectedState((prev) => {
         const next =
           typeof update === "function"
-            ? (update as (
-                current: Record<ISODate, Selection>,
-              ) => Record<ISODate, Selection>)(prev)
+            ? (
+                update as (
+                  current: Record<ISODate, Selection>,
+                ) => Record<ISODate, Selection>
+              )(prev)
             : update;
 
         if (Object.is(prev, next)) {
