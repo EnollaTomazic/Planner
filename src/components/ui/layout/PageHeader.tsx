@@ -6,7 +6,7 @@ import Header, { type HeaderProps } from "./Header";
 import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
-  type NeomorphicHeroFrameActionAreaProps,
+  type HeroSlots,
 } from "./NeomorphicHeroFrame";
 import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
 import { cn } from "@/lib/utils";
@@ -160,16 +160,14 @@ const PageHeaderInner = <
   const {
     className: frameClassName,
     variant: frameVariant,
-    actionArea: frameActionAreaProp,
-    allowOverflow: frameAllowOverflow,
+    slots: frameSlotsProp,
+    align: frameAlign,
+    label: frameLabel,
+    labelledById: frameLabelledById,
     ...restFrameProps
   } = frameProps ?? {};
 
-  const frameActionArea = frameActionAreaProp ?? null;
-
-  const stickyChildrenPresent = headerSticky || heroSticky;
-
-  const heroShouldRenderActionArea = frameActionArea === null;
+  const heroShouldRenderActionArea = frameSlotsProp === null;
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
 
   const heroTabVariant: TabBarProps["variant"] | undefined =
@@ -261,52 +259,43 @@ const PageHeaderInner = <
     resolvedActions,
   ]);
 
-  const resolvedFrameActionArea = React.useMemo<
-    NeomorphicHeroFrameActionAreaProps | null | undefined
-  >(() => {
-    if (frameActionArea === null) {
+  const resolvedFrameSlots = React.useMemo<HeroSlots | null | undefined>(() => {
+    if (frameSlotsProp === null) {
       return null;
     }
 
-    const tabsProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "tabs");
-    const searchProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "search");
-    const actionsProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "actions");
-
-    const tabs = tabsProvided ? frameActionArea?.tabs : actionAreaTabs;
-    const search = searchProvided ? frameActionArea?.search : actionAreaSearch;
-    const actions = actionsProvided ? frameActionArea?.actions : actionAreaActions;
-
-    if (
-      frameActionArea === undefined &&
-      tabs === undefined &&
-      search === undefined &&
-      actions === undefined
-    ) {
-      return undefined;
-    }
-
-    if (
-      frameActionArea &&
-      tabs === frameActionArea.tabs &&
-      search === frameActionArea.search &&
-      actions === frameActionArea.actions
-    ) {
-      return frameActionArea;
-    }
-
-    return {
-      ...(frameActionArea ?? {}),
-      ...(tabs !== undefined ? { tabs } : {}),
-      ...(search !== undefined ? { search } : {}),
-      ...(actions !== undefined ? { actions } : {}),
+    const defaultSlots: HeroSlots = {
+      tabs: actionAreaTabs,
+      search: actionAreaSearch,
+      actions: actionAreaActions,
     };
-  }, [frameActionArea, actionAreaTabs, actionAreaSearch, actionAreaActions]);
+
+    const slotKeys: Array<keyof HeroSlots> = ["tabs", "search", "actions"];
+
+    if (frameSlotsProp === undefined) {
+      const hasAnyDefault = slotKeys.some((key) => {
+        const value = defaultSlots[key];
+        return value !== undefined && value !== null;
+      });
+      return hasAnyDefault ? defaultSlots : undefined;
+    }
+
+    const merged: HeroSlots = {};
+    let hasRenderable = false;
+
+    for (const key of slotKeys) {
+      const provided = Object.prototype.hasOwnProperty.call(frameSlotsProp, key);
+      const value = provided ? frameSlotsProp[key] : defaultSlots[key];
+      if (value !== undefined) {
+        merged[key] = value;
+      }
+      if (value !== undefined && value !== null) {
+        hasRenderable = true;
+      }
+    }
+
+    return hasRenderable ? merged : undefined;
+  }, [frameSlotsProp, actionAreaTabs, actionAreaSearch, actionAreaActions]);
 
   return (
     <Component
@@ -316,10 +305,12 @@ const PageHeaderInner = <
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
-        actionArea={resolvedFrameActionArea}
-        allowOverflow={
-          frameAllowOverflow ?? stickyChildrenPresent
-        }
+        align={frameAlign ?? "between"}
+        {...(resolvedFrameSlots !== undefined
+          ? { slots: resolvedFrameSlots }
+          : {})}
+        label={frameLabel}
+        labelledById={frameLabelledById}
         {...restFrameProps}
         className={cn(className, frameClassName)}
       >
