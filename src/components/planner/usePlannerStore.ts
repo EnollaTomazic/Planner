@@ -138,6 +138,7 @@ export function usePlannerStore() {
     () => makeCrud(focus, upsertDay),
     [focus, upsertDay],
   );
+  const { setFocus: setDayFocus, ...restCrud } = crud;
 
   return {
     days,
@@ -147,6 +148,7 @@ export function usePlannerStore() {
     getDay,
     setDay,
     upsertDay,
-    ...crud,
+    setDayFocus,
+    ...restCrud,
   } as const;
 }

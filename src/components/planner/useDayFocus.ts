@@ -1,9 +1,9 @@
-// src/components/planner/useDayNotes.ts
+// src/components/planner/useDayFocus.ts
 "use client";
 
 import * as React from "react";
 
-import { setNotes as applyNotes } from "./plannerCrud";
+import { setFocus as applyFocus } from "./plannerCrud";
 import { usePlannerStore } from "./usePlannerStore";
 import type { ISODate } from "./plannerStore";
 
@@ -16,21 +16,21 @@ const scheduleSavingReset = (callback: VoidFunction) => {
   setTimeout(callback, 0);
 };
 
-export function useDayNotes(iso: ISODate) {
+export function useDayFocus(iso: ISODate) {
   const { getDay, upsertDay } = usePlannerStore();
   const day = getDay(iso);
-  const persistedNotes = day.notes ?? "";
+  const persistedFocus = day.focus ?? "";
 
-  const setNotesForIso = React.useCallback(
-    (notes: string) => {
-      upsertDay(iso, (d) => applyNotes(d, notes));
+  const setFocusForIso = React.useCallback(
+    (focusValue: string) => {
+      upsertDay(iso, (d) => applyFocus(d, focusValue));
     },
     [iso, upsertDay],
   );
 
-  const [value, setValue] = React.useState<string>(() => persistedNotes);
+  const [value, setValue] = React.useState<string>(() => persistedFocus);
   const [saving, setSaving] = React.useState(false);
-  const lastSavedRef = React.useRef(persistedNotes.trim());
+  const lastSavedRef = React.useRef(persistedFocus.trim());
 
   const trimmed = React.useMemo(() => value.trim(), [value]);
   const isDirty = trimmed !== lastSavedRef.current;
@@ -39,19 +39,19 @@ export function useDayNotes(iso: ISODate) {
     if (!isDirty) return;
     setSaving(true);
     try {
-      setNotesForIso(trimmed);
+      setFocusForIso(trimmed);
       lastSavedRef.current = trimmed;
     } finally {
       scheduleSavingReset(() => {
         setSaving(false);
       });
     }
-  }, [isDirty, setNotesForIso, trimmed]);
+  }, [isDirty, setFocusForIso, trimmed]);
 
   React.useEffect(() => {
-    setValue(persistedNotes);
-    lastSavedRef.current = persistedNotes.trim();
-  }, [iso, persistedNotes]);
+    setValue(persistedFocus);
+    lastSavedRef.current = persistedFocus.trim();
+  }, [iso, persistedFocus]);
 
   return { value, setValue, saving, isDirty, lastSavedRef, commit } as const;
 }

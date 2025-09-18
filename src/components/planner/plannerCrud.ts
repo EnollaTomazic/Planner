@@ -15,6 +15,14 @@ import type { ISODate, DayRecord } from "./plannerStore";
 
 export type UpsertDay = (iso: ISODate, fn: (d: DayRecord) => DayRecord) => void;
 
+export function setNotes(day: DayRecord, notes: string): DayRecord {
+  return { ...day, notes };
+}
+
+export function setFocus(day: DayRecord, focus: string): DayRecord {
+  return { ...day, focus };
+}
+
 export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const addProject = (name: string) => {
     const id = uid("proj");
@@ -52,7 +60,11 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const removeTaskImage = (id: string, url: string) =>
     upsertDay(iso, (d) => dayRemoveTaskImage(d, id, url));
 
-  const setNotes = (notes: string) => upsertDay(iso, (d) => ({ ...d, notes }));
+  const setNotesForDay = (notes: string) =>
+    upsertDay(iso, (d) => setNotes(d, notes));
+
+  const setFocusForDay = (focus: string) =>
+    upsertDay(iso, (d) => setFocus(d, focus));
 
   return {
     addProject,
@@ -65,6 +77,7 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     removeTask,
     addTaskImage,
     removeTaskImage,
-    setNotes,
+    setNotes: setNotesForDay,
+    setFocus: setFocusForDay,
   } as const;
 }
