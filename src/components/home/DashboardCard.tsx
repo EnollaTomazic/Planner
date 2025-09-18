@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { NeoCard } from "@/components/ui";
+import { Button, NeoCard } from "@/components/ui";
 
 interface DashboardCardProps {
   title: string;
@@ -31,12 +31,9 @@ export default function DashboardCard({
         </div>
       )}
       {cta && (
-        <Link
-          href={cta.href}
-          className="inline-flex items-center text-ui font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-accent-foreground active:text-accent-foreground active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-reduce:transition-none"
-        >
-          {cta.label}
-        </Link>
+        <Button asChild variant="primary" size="sm" className="self-start">
+          <Link href={cta.href}>{cta.label}</Link>
+        </Button>
       )}
     </NeoCard>
   );

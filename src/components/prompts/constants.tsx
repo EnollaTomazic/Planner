@@ -55,6 +55,7 @@ import {
   IsometricRoom,
   QuickActionGrid,
   HeroPortraitFrame,
+  WelcomeHeroFigure,
 } from "@/components/home";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
@@ -1164,6 +1165,19 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   imageSrc="/hero_image.png"
   imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
 />`,
+    },
+    {
+      id: "welcome-hero-figure",
+      name: "WelcomeHeroFigure",
+      description:
+        "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
+      element: (
+        <div className="mx-auto flex w-full max-w-[calc(var(--space-8) * 4.5)] justify-center">
+          <WelcomeHeroFigure />
+        </div>
+      ),
+      tags: ["hero", "figure", "neomorphic"],
+      code: `<WelcomeHeroFigure />`,
     },
   ],
   feedback: [

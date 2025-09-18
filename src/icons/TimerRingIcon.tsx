@@ -7,6 +7,8 @@ interface TimerRingIconProps {
 }
 
 export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
+  const uniqueId = React.useId();
+  const gradientId = `timer-ring-grad-${uniqueId}`;
   const radius = size / 2 - 6;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
@@ -20,7 +22,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
       aria-label={accessibleLabel}
     >
       <defs>
-        <linearGradient id="timer-ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="hsl(var(--accent))" />
           <stop offset="100%" stopColor="hsl(var(--accent-2))" />
         </linearGradient>
@@ -37,7 +39,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="url(#timer-ring-grad)"
+        stroke={`url(#${gradientId})`}
         strokeWidth={4}
         strokeLinecap="round"
         strokeDasharray={circumference}
