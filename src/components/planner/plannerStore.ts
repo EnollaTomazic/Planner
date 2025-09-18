@@ -173,11 +173,35 @@ function cleanupSelections(
 
   for (const iso of Object.keys(selected)) {
     const selection = selected[iso];
-    const hasDay = Object.prototype.hasOwnProperty.call(days, iso);
-    const hasProject = Boolean(selection?.projectId);
-    const hasTask = Boolean(selection?.taskId);
+    const day = days[iso];
+    const projectId = selection?.projectId;
+    const taskId = selection?.taskId;
 
-    if (!hasDay || (!hasProject && !hasTask)) {
+    if (!day || (!projectId && !taskId)) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+      continue;
+    }
+
+    if (
+      projectId &&
+      !day.projects.some((project) => project.id === projectId)
+    ) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+      continue;
+    }
+
+    if (
+      taskId &&
+      !(day.tasksById?.[taskId] ?? day.tasks.find((task) => task.id === taskId))
+    ) {
       if (!mutated) {
         mutated = true;
         result = { ...result };
@@ -317,12 +341,10 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
         if (Object.is(prev, next)) {
           return prev;
         }
-
-        const cleaned = cleanupSelections(next, days);
-        return Object.is(prev, cleaned) ? prev : cleaned;
+        return next;
       });
     },
-    [days, setSelectedState],
+    [setSelectedState],
   );
   const selectionValue = React.useMemo(
     () => ({ selected, setSelected }),

@@ -33,7 +33,7 @@ import {
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
-  FieldShell,
+  Field,
   SearchBar,
   Label,
   type HeaderTab,
@@ -585,22 +585,18 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </div>`,
     },
     {
-      id: "field-shell",
-      name: "FieldShell",
-      description: "Frame for custom field content",
+      id: "field",
+      name: "Field",
+      description: "Primitive wrapper for custom inputs",
       element: (
-        <FieldShell className="w-56">
-          <div className="px-4 py-2 text-ui text-muted-foreground">
-            Custom content
-          </div>
-        </FieldShell>
+        <Field.Root className="w-56">
+          <Field.Input placeholder="Compose primitives" />
+        </Field.Root>
       ),
-      tags: ["field", "shell"],
-      code: `<FieldShell className="w-56">
-  <div className="px-4 py-2 text-ui text-muted-foreground">
-    Custom content
-  </div>
-</FieldShell>`,
+      tags: ["field", "input"],
+      code: `<Field.Root className="w-56">
+  <Field.Input placeholder="Compose primitives" />
+</Field.Root>`,
     },
     {
       id: "label",
@@ -1417,3 +1413,10 @@ export const SECTION_TABS: HeaderTab<Section>[] = (
   key,
   label: formatSectionLabel(key),
 }));
+
+export type CompsView = "components" | "colors";
+
+export const COMPS_VIEW_TABS: HeaderTab<CompsView>[] = [
+  { key: "components", label: "Components", controls: "components-panel" },
+  { key: "colors", label: "Colors", controls: "colors-panel" },
+];

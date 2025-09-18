@@ -5,42 +5,47 @@ exports[`Select > renders default state 1`] = `
   class="space-y-[var(--space-1)]"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="flex w-full flex-col gap-[var(--space-1)]"
   >
-    <select
-      aria-label="test"
-      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
-      id=":r0:"
-      name="test"
+    <div
+      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden group jitter"
+      style="--field-h: var(--control-h-md);"
     >
-      <option
-        value=""
+      <select
+        aria-label="test"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        id=":r0:"
+        name="test"
       >
-        Choose…
-      </option>
-      <option
-        value="a"
+        <option
+          value=""
+        >
+          Choose…
+        </option>
+        <option
+          value="a"
+        >
+          A
+        </option>
+      </select>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        A
-      </option>
-    </select>
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="m6 9 6 6 6-6"
-      />
-    </svg>
+        <path
+          d="m6 9 6 6 6-6"
+        />
+      </svg>
+    </div>
   </div>
 </div>
 `;
@@ -50,38 +55,45 @@ exports[`Select > renders disabled state 1`] = `
   class="space-y-[var(--space-1)]"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 opacity-[var(--disabled)] pointer-events-none group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] cursor-not-allowed focus-within:ring-0 focus-within:shadow-none"
+    class="flex w-full flex-col gap-[var(--space-1)]"
   >
-    <select
-      aria-label="test"
-      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
-      disabled=""
-      id=":r4:"
-      name="test"
+    <div
+      aria-disabled="true"
+      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden group jitter"
+      data-disabled="true"
+      style="--field-h: var(--control-h-md);"
     >
-      <option
-        value=""
+      <select
+        aria-label="test"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        disabled=""
+        id=":r4:"
+        name="test"
       >
-        Choose…
-      </option>
-    </select>
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="m6 9 6 6 6-6"
-      />
-    </svg>
+        <option
+          value=""
+        >
+          Choose…
+        </option>
+      </select>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m6 9 6 6 6-6"
+        />
+      </svg>
+    </div>
   </div>
 </div>
 `;
@@ -91,46 +103,56 @@ exports[`Select > renders error state 1`] = `
   class="space-y-[var(--space-1)]"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] ring-2 ring-danger/35 ring-offset-0 group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="flex w-full flex-col gap-[var(--space-1)]"
   >
-    <select
-      aria-describedby=":r2:-error"
-      aria-invalid="true"
-      aria-label="test"
-      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
-      id=":r2:"
-      name="test"
+    <div
+      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden group jitter"
+      data-invalid="true"
+      style="--field-h: var(--control-h-md);"
     >
-      <option
-        value=""
+      <select
+        aria-describedby=":r2:-error"
+        aria-invalid="true"
+        aria-label="test"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        id=":r2:"
+        name="test"
       >
-        Choose…
-      </option>
-    </select>
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
+        <option
+          value=""
+        >
+          Choose…
+        </option>
+      </select>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m6 9 6 6 6-6"
+        />
+      </svg>
+    </div>
+    <div
+      class="flex items-start gap-[var(--space-2)] text-label leading-tight justify-start"
     >
-      <path
-        d="m6 9 6 6 6-6"
-      />
-    </svg>
+      <span
+        class="text-danger"
+        id=":r2:-error"
+      >
+        Error
+      </span>
+    </div>
   </div>
-  <p
-    class="text-label mt-[var(--space-1)] line-clamp-2 text-danger"
-    id=":r2:-error"
-  >
-    Error
-  </p>
 </div>
 `;
 
@@ -139,42 +161,47 @@ exports[`Select > renders focus state 1`] = `
   class="space-y-[var(--space-1)]"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border border-card-hairline bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)]"
+    class="flex w-full flex-col gap-[var(--space-1)]"
   >
-    <select
-      aria-label="test"
-      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
-      id=":r1:"
-      name="test"
+    <div
+      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden group jitter"
+      style="--field-h: var(--control-h-md);"
     >
-      <option
-        value=""
+      <select
+        aria-label="test"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        id=":r1:"
+        name="test"
       >
-        Choose…
-      </option>
-      <option
-        value="a"
+        <option
+          value=""
+        >
+          Choose…
+        </option>
+        <option
+          value="a"
+        >
+          A
+        </option>
+      </select>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        A
-      </option>
-    </select>
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="m6 9 6 6 6-6"
-      />
-    </svg>
+        <path
+          d="m6 9 6 6 6-6"
+        />
+      </svg>
+    </div>
   </div>
 </div>
 `;
@@ -184,38 +211,43 @@ exports[`Select > renders success state 1`] = `
   class="space-y-[var(--space-1)]"
 >
   <div
-    class="relative inline-flex w-full items-center rounded-[var(--control-radius)] overflow-hidden border bg-card/60 backdrop-blur-[2px] shadow-control transition-[box-shadow,transform] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] hover:border-[--border-hover] active:border-[--border-active] [--border-hover:hsl(var(--border)/0.38)] [--border-active:hsl(var(--border)/0.5)] hover:shadow-control-hover focus-within:outline-none focus-within:ring-2 data-[loading=true]:opacity-[var(--loading)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:opacity-[0.05] before:bg-[repeating-linear-gradient(0deg,hsl(var(--accent-2)/0.4)_0_1px,transparent_1px_3px),var(--asset-noise-url,none)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-px after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out after:motion-reduce:transition-none after:bg-[var(--edge-iris,var(--accent))] after:[mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] after:[mask-composite:exclude] focus-within:after:opacity-100 group jitter hover:shadow-[0_0_0_1px_hsl(var(--border)/0.2)] border-[--theme-ring] focus-within:ring-[var(--theme-ring)]"
+    class="flex w-full flex-col gap-[var(--space-1)]"
   >
-    <select
-      aria-describedby=":r3:-success"
-      aria-label="test"
-      class="flex-1 h-[var(--control-h)] px-[var(--space-14)] pr-[var(--space-36)] text-ui bg-transparent text-foreground placeholder:text-muted-foreground/70 caret-accent appearance-none disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none"
-      id=":r3:"
-      name="test"
+    <div
+      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden group jitter border-[var(--theme-ring)] focus-within:ring-[var(--theme-ring)]"
+      style="--field-h: var(--control-h-md);"
     >
-      <option
-        value=""
+      <select
+        aria-describedby=":r3:-success"
+        aria-label="test"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        id=":r3:"
+        name="test"
       >
-        Choose…
-      </option>
-    </select>
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="m6 9 6 6 6-6"
-      />
-    </svg>
+        <option
+          value=""
+        >
+          Choose…
+        </option>
+      </select>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m6 9 6 6 6-6"
+        />
+      </svg>
+    </div>
   </div>
   <p
     aria-live="polite"
