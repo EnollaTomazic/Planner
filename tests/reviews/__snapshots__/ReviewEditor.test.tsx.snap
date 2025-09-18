@@ -418,13 +418,13 @@ exports[`ReviewEditor > renders default state 1`] = `
           <span
             aria-hidden="true"
             class="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
-            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, hsl(var(--success)/0.32), hsl(var(--accent)/0.28)); box-shadow: 0 10px 30px hsl(var(--shadow-color) / .25);"
+            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18)); box-shadow: 0 10px 30px hsl(var(--shadow-color) / .25);"
           />
           <div
             class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
           >
             <div
-              class="py-2 text-center text-foreground/70"
+              class="py-2 text-center text-foreground"
             >
               Win
             </div>
