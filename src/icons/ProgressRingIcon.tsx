@@ -23,7 +23,7 @@ export default function ProgressRingIcon({
         r={radius}
         stroke="currentColor"
         strokeWidth={4}
-        className="text-fg/20"
+        className="text-muted-foreground/30"
         fill="none"
       />
       <circle
