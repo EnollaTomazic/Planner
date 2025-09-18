@@ -248,7 +248,16 @@ export default function TabBar<
     ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
     : isGlitch
       ? "[--focus:hsl(var(--ring))]"
-      : "border-border/30 bg-card/60 shadow-inner [--hover:hsl(var(--primary)/0.2)] [--active:hsl(var(--primary)/0.3)] [--focus:hsl(var(--ring))]";
+      : cn(
+          "border-border/30 bg-card/60 shadow-inner",
+          "[--hover:hsl(var(--primary)/0.18)]",
+          "[--active:hsl(var(--primary)/0.28)]",
+          "[--focus:hsl(var(--ring))]",
+          "[--tab-stroke:hsl(var(--border)/0.55)]",
+          "[--tab-shadow:inset_0_0_0_1px_var(--tab-stroke),_inset_0_1px_0_hsl(var(--border)/0.18)]",
+          "[--tab-shadow-hover:inset_0_0_0_1px_hsl(var(--border)/0.62),_inset_0_1px_0_hsl(var(--border)/0.24)]",
+          "[--tab-shadow-active:inset_0_0_0_1px_hsl(var(--border)/0.68),_inset_0_1px_0_hsl(var(--border)/0.3)]",
+        );
 
   const containerClasses = cn(
     "inline-flex max-w-full items-center overflow-x-auto",
@@ -263,7 +272,7 @@ export default function TabBar<
     ? "bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
     : isGlitch
       ? ""
-      : "shadow-[inset_0_1px_0_hsl(var(--border)/0.2)] hover:shadow-[inset_0_1px_0_hsl(var(--border)/0.25)] active:shadow-[inset_0_1px_0_hsl(var(--border)/0.3)] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
+      : "shadow-[var(--tab-shadow)] hover:shadow-[var(--tab-shadow-hover,var(--tab-shadow))] active:shadow-[var(--tab-shadow-active,var(--tab-shadow-hover,var(--tab-shadow)))] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -337,7 +346,7 @@ export default function TabBar<
                   s.px,
                   s.text,
                   size === "lg" ? "font-medium" : "font-normal",
-                  "text-foreground/70 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
+                  "text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
                   tabVariant,
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
