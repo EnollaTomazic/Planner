@@ -202,23 +202,56 @@ function ChampListEditorDemo() {
 }
 
 function HeaderTabsDemo() {
-  const [tab, setTab] = React.useState("one");
-  const tabs: HeaderTab<string>[] = [
-    { key: "one", label: "One" },
-    { key: "two", label: "Two" },
-  ];
+  const tabs = React.useMemo<HeaderTab<string>[]>(
+    () => [
+      {
+        key: "summary",
+        label: "Summary",
+        icon: <Circle aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
+      },
+      {
+        key: "timeline",
+        label: "Timeline",
+        icon: <CircleDot aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
+      },
+      {
+        key: "insights",
+        label: "Insights",
+        icon: <CircleCheck aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
+        disabled: true,
+      },
+    ],
+    [],
+  );
+  const [tab, setTab] = React.useState<string>(
+    () => tabs.find((item) => !item.disabled)?.key ?? tabs[0]?.key ?? "",
+  );
+  const activeLabel = React.useMemo(
+    () => tabs.find((item) => item.key === tab)?.label ?? null,
+    [tab, tabs],
+  );
+
   return (
     <Header
       heading="Header"
+      subtitle="Segmented navigation anchored to the header"
       tabs={{
         items: tabs,
         value: tab,
         onChange: setTab,
         ariaLabel: "Header demo tabs",
+        size: "md",
       }}
       sticky={false}
       topClassName="top-0"
-    />
+    >
+      <p className="text-ui text-muted-foreground">
+        Viewing
+        <span className="ml-[var(--space-1)] font-medium text-foreground">
+          {activeLabel}
+        </span>
+      </p>
+    </Header>
   );
 }
 
@@ -860,15 +893,56 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["header", "tabs"],
       code: `<Header
   heading="Header"
+  subtitle="Segmented navigation anchored to the header"
   tabs={{
-    items: [{ key: "one", label: "One" }, { key: "two", label: "Two" }],
-    value: "one",
+    items: [
+      {
+        key: "summary",
+        label: "Summary",
+        icon: (
+          <Circle
+            aria-hidden="true"
+            className="h-[var(--space-4)] w-[var(--space-4)]"
+          />
+        ),
+      },
+      {
+        key: "timeline",
+        label: "Timeline",
+        icon: (
+          <CircleDot
+            aria-hidden="true"
+            className="h-[var(--space-4)] w-[var(--space-4)]"
+          />
+        ),
+      },
+      {
+        key: "insights",
+        label: "Insights",
+        icon: (
+          <CircleCheck
+            aria-hidden="true"
+            className="h-[var(--space-4)] w-[var(--space-4)]"
+          />
+        ),
+        disabled: true,
+      },
+    ],
+    value: "summary",
     onChange: () => {},
     ariaLabel: "Header demo tabs",
+    size: "md",
   }}
   sticky={false}
   topClassName="top-0"
-/>`,
+>
+  <p className="text-ui text-muted-foreground">
+    Viewing
+    <span className="ml-[var(--space-1)] font-medium text-foreground">
+      Summary
+    </span>
+  </p>
+</Header>`,
     },
     {
       id: "page-shell",
