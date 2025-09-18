@@ -385,7 +385,7 @@ function GoalsPageContent() {
             heading: "Today’s Goals",
             subtitle: summary,
             icon: <Flag className="opacity-80" />,
-            sticky: true,
+            sticky: false,
             barClassName:
               "flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between",
             tabs: {
