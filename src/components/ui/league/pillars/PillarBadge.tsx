@@ -71,9 +71,9 @@ export default function PillarBadge({
 
   // Shared inline CSS variables for gradient + shadow per pillar
   const style = {
-    "--g1": theme.g1,
-    "--g2": theme.g2,
-    "--shadow": theme.shadow,
+    "--g1": `hsl(var(--${theme.start}))`,
+    "--g2": `hsl(var(--${theme.end}))`,
+    "--shadow": `hsl(var(--${theme.shadow}))`,
   } as React.CSSProperties;
 
   // If not a real button but still clickable, apply minimal semantics
@@ -187,14 +187,48 @@ export default function PillarBadge({
   );
 }
 
-const PILLAR_THEME: Record<
-  Pillar,
-  { g1: string; g2: string; shadow: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }
-> = {
-  Wave: { g1: "hsla(257, 90%, 70%, 1)", g2: "hsla(198, 90%, 62%, 1)", shadow: "hsla(258, 90%, 38%, 0.35)", icon: Waves },
-  Trading: { g1: "hsla(292, 85%, 72%, 1)", g2: "hsla(6, 85%, 66%, 1)", shadow: "hsla(292, 85%, 38%, 0.35)", icon: HandCoins },
-  Vision: { g1: "hsla(157, 70%, 55%, 1)", g2: "hsla(192, 75%, 60%, 1)", shadow: "hsla(170, 70%, 30%, 0.35)", icon: Eye },
-  Tempo: { g1: "hsla(260, 85%, 70%, 1)", g2: "hsla(280, 85%, 65%, 1)", shadow: "hsla(270, 80%, 35%, 0.35)", icon: Timer },
-  Positioning: { g1: "hsla(190, 90%, 66%, 1)", g2: "hsla(220, 90%, 66%, 1)", shadow: "hsla(205, 85%, 35%, 0.35)", icon: Crosshair },
-  Comms: { g1: "hsla(40, 95%, 62%, 1)", g2: "hsla(18, 90%, 60%, 1)", shadow: "hsla(28, 90%, 35%, 0.35)", icon: MessagesSquare },
+type PillarThemeEntry = {
+  start: string;
+  end: string;
+  shadow: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
+
+const PILLAR_THEME: Record<Pillar, PillarThemeEntry> = {
+  Wave: {
+    start: "pillar-wave-start",
+    end: "pillar-wave-end",
+    shadow: "pillar-wave-shadow",
+    icon: Waves,
+  },
+  Trading: {
+    start: "pillar-trading-start",
+    end: "pillar-trading-end",
+    shadow: "pillar-trading-shadow",
+    icon: HandCoins,
+  },
+  Vision: {
+    start: "pillar-vision-start",
+    end: "pillar-vision-end",
+    shadow: "pillar-vision-shadow",
+    icon: Eye,
+  },
+  Tempo: {
+    start: "pillar-tempo-start",
+    end: "pillar-tempo-end",
+    shadow: "pillar-tempo-shadow",
+    icon: Timer,
+  },
+  Positioning: {
+    start: "pillar-positioning-start",
+    end: "pillar-positioning-end",
+    shadow: "pillar-positioning-shadow",
+    icon: Crosshair,
+  },
+  Comms: {
+    start: "pillar-comms-start",
+    end: "pillar-comms-end",
+    shadow: "pillar-comms-shadow",
+    icon: MessagesSquare,
+  },
 };
