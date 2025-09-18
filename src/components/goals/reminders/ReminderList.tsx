@@ -263,7 +263,7 @@ function RemTile({
               </div>
 
               <button
-                className="text-label font-medium tracking-[0.02em] underline underline-offset-2 text-primary hover:brightness-75"
+                className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] py-[var(--space-1)] text-label font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
                 onClick={() => onChange({ pinned: !pinned })}
                 title={pinned ? "Unpin" : "Pin"}
                 type="button"
