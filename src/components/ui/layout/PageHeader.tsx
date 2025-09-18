@@ -27,6 +27,12 @@ type PageHeaderFrameElement = React.ElementRef<typeof NeomorphicHeroFrame>;
 type HeaderKey = string;
 type HeroKey = string;
 
+type FrameSlotPresence = {
+  tabs: boolean;
+  search: boolean;
+  actions: boolean;
+};
+
 export interface PageHeaderBaseProps<
   HeaderKey extends string = string,
   HeroKey extends string = string,
@@ -302,9 +308,18 @@ const PageHeaderInner = <
     resolvedActions,
   ]);
 
-  const resolvedFrameSlots = React.useMemo<HeroSlots | null | undefined>(() => {
+  const { resolvedFrameSlots, frameSlotPresence } = React.useMemo<{
+    resolvedFrameSlots: HeroSlots | null | undefined;
+    frameSlotPresence: FrameSlotPresence;
+  }>(() => {
+    const emptyPresence: FrameSlotPresence = {
+      tabs: false,
+      search: false,
+      actions: false,
+    };
+
     if (frameSlotsProp === null) {
-      return null;
+      return { resolvedFrameSlots: null, frameSlotPresence: emptyPresence };
     }
 
     const defaultSlots: HeroSlots = {
@@ -316,14 +331,25 @@ const PageHeaderInner = <
     const slotKeys: Array<keyof HeroSlots> = ["tabs", "search", "actions"];
 
     if (frameSlotsProp === undefined) {
-      const hasAnyDefault = slotKeys.some((key) => {
+      const presence = { ...emptyPresence };
+      let hasRenderable = false;
+
+      for (const key of slotKeys) {
         const value = defaultSlots[key];
-        return value !== undefined && value !== null;
-      });
-      return hasAnyDefault ? defaultSlots : undefined;
+        if (value !== undefined && value !== null) {
+          presence[key] = true;
+          hasRenderable = true;
+        }
+      }
+
+      return {
+        resolvedFrameSlots: hasRenderable ? defaultSlots : undefined,
+        frameSlotPresence: presence,
+      };
     }
 
     const merged: HeroSlots = {};
+    const presence = { ...emptyPresence };
     let hasRenderable = false;
 
     for (const key of slotKeys) {
@@ -333,17 +359,98 @@ const PageHeaderInner = <
         merged[key] = value;
       }
       if (value !== undefined && value !== null) {
+        presence[key] = true;
         hasRenderable = true;
       }
     }
 
-    return hasRenderable ? merged : undefined;
+    if (!hasRenderable) {
+      return { resolvedFrameSlots: undefined, frameSlotPresence: emptyPresence };
+    }
+
+    return { resolvedFrameSlots: merged, frameSlotPresence: presence };
   }, [
     frameSlotsProp,
     actionAreaTabsSlot,
     actionAreaSearchSlot,
     actionAreaActions,
   ]);
+
+  const fallbackFrameAlign = React.useMemo<
+    NeomorphicHeroFrameProps["align"] | undefined
+  >(() => {
+    if (resolvedFrameSlots === null) {
+      return undefined;
+    }
+
+    const { tabs: hasTabs, search: hasSearch, actions: hasActions } =
+      frameSlotPresence;
+
+    const activeCount = Number(hasTabs) + Number(hasSearch) + Number(hasActions);
+
+    if (activeCount === 0) {
+      return undefined;
+    }
+
+    if (activeCount === 3) {
+      return "between";
+    }
+
+    const tabPreference = hasTabs
+      ? resolvedSubTabs?.align ?? "end"
+      : undefined;
+
+    let searchPreference: NeomorphicHeroFrameProps["align"] | undefined;
+    if (hasSearch) {
+      if (resolvedSearch && typeof resolvedSearch === "object") {
+        const candidate = (resolvedSearch as {
+          align?: NeomorphicHeroFrameProps["align"];
+        }).align;
+        if (
+          candidate === "start" ||
+          candidate === "center" ||
+          candidate === "end" ||
+          candidate === "between"
+        ) {
+          searchPreference = candidate;
+        }
+      }
+      if (!searchPreference) {
+        searchPreference = "center";
+      }
+    }
+
+    const actionsPreference = hasActions ? "end" : undefined;
+
+    if (activeCount === 1) {
+      if (hasTabs) return tabPreference ?? "end";
+      if (hasSearch) return searchPreference ?? "center";
+      return "center";
+    }
+
+    const preferenceOrder: Array<
+      [present: boolean, value: NeomorphicHeroFrameProps["align"] | undefined]
+    > = [
+      [hasSearch, searchPreference],
+      [hasTabs, tabPreference],
+      [hasActions, actionsPreference],
+    ];
+
+    for (const [present, value] of preferenceOrder) {
+      if (!present) continue;
+      if (value) return value;
+    }
+
+    return "center";
+  }, [
+    resolvedFrameSlots,
+    frameSlotPresence,
+    resolvedSubTabs,
+    resolvedSearch,
+  ]);
+
+  const effectiveFrameAlign =
+    frameAlign ?? fallbackFrameAlign ?? "between";
 
   return (
     <Component
@@ -353,7 +460,7 @@ const PageHeaderInner = <
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
-        align={frameAlign ?? "between"}
+        align={effectiveFrameAlign}
         {...(resolvedFrameSlots !== undefined
           ? { slots: resolvedFrameSlots }
           : {})}
