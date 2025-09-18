@@ -248,7 +248,7 @@ export default function TabBar<
     ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
     : isGlitch
       ? "[--focus:hsl(var(--ring))]"
-      : "border-border/30 bg-card/60 shadow-inner [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] [--focus:hsl(var(--ring))]";
+      : "border-border/30 bg-card/60 shadow-inner [--hover:hsl(var(--primary)/0.2)] [--active:hsl(var(--primary)/0.3)] [--focus:hsl(var(--ring))]";
 
   const containerClasses = cn(
     "inline-flex max-w-full items-center overflow-x-auto",
