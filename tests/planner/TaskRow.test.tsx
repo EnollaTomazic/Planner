@@ -130,4 +130,37 @@ describe("TaskRow", () => {
     expect(input).toHaveValue("");
     expect(attachButton).toBeDisabled();
   });
+
+  it("rejects non-https image URLs", async () => {
+    const handleAddImage = vi.fn();
+    render(
+      <TaskRow
+        task={{
+          id: "1",
+          title: "Attachable",
+          done: false,
+          createdAt: Date.now(),
+          images: [],
+        }}
+        onToggle={noop}
+        onDelete={noop}
+        onEdit={noop}
+        onSelect={noop}
+        onAddImage={handleAddImage}
+        onRemoveImage={noop}
+      />,
+    );
+
+    const input = screen.getByLabelText("Add image URL");
+    const form = input.closest("form") as HTMLFormElement;
+
+    fireEvent.change(input, {
+      target: { value: "http://example.com/insecure.png" },
+    });
+    fireEvent.submit(form);
+
+    await screen.findByText("Image URL must start with https.");
+    expect(handleAddImage).not.toHaveBeenCalled();
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
 });
