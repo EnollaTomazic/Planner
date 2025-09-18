@@ -8,7 +8,7 @@ vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
   return {
     ...actual,
-    usePersistentState: <T,>(key: string, initial: T) => {
+    usePersistentState: <T,>(key: string, initial: T, _options?: unknown) => {
       const [state, setState] = React.useState(initial);
       const trackedSetState = React.useCallback<typeof setState>(
         (value) => {

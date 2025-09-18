@@ -330,4 +330,69 @@ describe("usePersistentState", () => {
 
     expect(result.current[0]).toEqual(initialState);
   });
+
+  it("applies decode and encode callbacks when provided", async () => {
+    const {
+      usePersistentState,
+      createStorageKey,
+      flushWriteLocal,
+    } = await import("@/lib/db");
+
+    const key = "encoded";
+    const fullKey = createStorageKey(key);
+
+    window.localStorage.setItem(
+      fullKey,
+      JSON.stringify({ value: "3" }),
+    );
+
+    const decode = vi.fn((raw: unknown) => {
+      if (!raw || typeof raw !== "object") return null;
+      const value = (raw as { value?: unknown }).value;
+      return typeof value === "string" ? Number.parseInt(value, 10) : null;
+    });
+    const encode = vi.fn((value: number) => ({ value: String(value) }));
+
+    const { result } = renderHook(() =>
+      usePersistentState<number>(key, 0, { decode, encode }),
+    );
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe(3);
+    });
+    expect(decode).toHaveBeenCalledWith({ value: "3" });
+
+    act(() => {
+      result.current[1](7);
+    });
+
+    flushWriteLocal();
+
+    expect(encode).toHaveBeenCalledWith(7);
+    expect(window.localStorage.getItem(fullKey)).toBe(
+      JSON.stringify({ value: "7" }),
+    );
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ value: "11" }),
+        storageArea: window.localStorage,
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe(11);
+    });
+
+    act(() => {
+      dispatchStorageEvent({
+        key: fullKey,
+        newValue: JSON.stringify({ wrong: true }),
+        storageArea: window.localStorage,
+      });
+    });
+
+    expect(result.current[0]).toBe(0);
+  });
 });
