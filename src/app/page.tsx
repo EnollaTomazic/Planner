@@ -487,7 +487,7 @@ function HomePageContent() {
                             </Button>
                           </div>
                           <WelcomeHeroFigure
-                            className="hidden w-full shrink-0 sm:flex sm:max-w-[min(52vw,calc(var(--space-8) * 4))] md:basis-[33%] md:max-w-[34%] lg:basis-[42%] lg:max-w-[44%]"
+                            className="flex w-full shrink-0 sm:max-w-[min(52vw,calc(var(--space-8) * 4))] md:basis-[33%] md:max-w-[34%] lg:basis-[42%] lg:max-w-[44%]"
                           />
                         </div>
                       ),
