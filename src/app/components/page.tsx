@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import CompsPage from "@/components/comps/CompsPage";
+import ComponentsPage from "@/components/components/ComponentsPage";
 import { Spinner } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Browse Planner UI building blocks and examples.",
 };
 
-export default function CompsRoute() {
+export default function ComponentsRoute() {
   return (
     <Suspense
       fallback={
@@ -17,7 +17,7 @@ export default function CompsRoute() {
         </div>
       }
     >
-      <CompsPage />
+      <ComponentsPage />
     </Suspense>
   );
 }
