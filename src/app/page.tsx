@@ -452,11 +452,7 @@ function HomePageContent() {
               id="landing-hero"
               role="region"
               aria-label="Intro"
-              className={cn(
-                "grid grid-cols-12 gap-4",
-                floatingSurfaceClass,
-                floatingPaddingClass,
-              )}
+              className="grid grid-cols-12 gap-4 pb-[var(--space-2)] md:pb-[var(--space-3)]"
             >
               <div className="col-span-12">
                 <PageHeader
@@ -503,71 +499,62 @@ function HomePageContent() {
             </section>
             <div
               className={cn(
-                "grid items-start gap-4 md:grid-cols-12",
+                "space-y-6",
                 floatingSurfaceClass,
                 floatingPaddingClass,
               )}
             >
-              <div className="md:col-span-6">
-                <QuickActions />
+              <div className="grid items-start gap-4 md:grid-cols-12">
+                <div className="md:col-span-6">
+                  <QuickActions />
+                </div>
+                <div className="md:col-span-6">
+                  <IsometricRoom variant={theme.variant} />
+                </div>
               </div>
-              <div className="md:col-span-6">
-                <IsometricRoom variant={theme.variant} />
-              </div>
-            </div>
-            <section
-              className={cn(
-                "grid grid-cols-1 gap-6 md:grid-cols-12",
-                floatingSurfaceClass,
-                floatingPaddingClass,
-              )}
-            >
-              <div className="md:col-span-4">
-                <TodayCard />
-              </div>
-              <div className="md:col-span-4">
-                <GoalsCard />
-              </div>
-              <div className="md:col-span-4">
-                <ReviewsCard />
-              </div>
-              <div className="md:col-span-4">
-                <DashboardCard
-                  title="Weekly focus"
-                  cta={{ label: "Open planner", href: "/planner" }}
-                >
-                  <DashboardList
-                    items={weeklyHighlights}
-                    getKey={(highlight) => highlight.id}
-                    itemClassName="py-3"
-                    empty="No highlights scheduled"
-                    renderItem={(highlight) => (
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-baseline justify-between gap-3">
-                          <p className="text-ui font-medium">{highlight.title}</p>
-                          <span className="text-label text-muted-foreground">
-                            {highlight.schedule}
-                          </span>
+              <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
+                <div className="md:col-span-4">
+                  <TodayCard />
+                </div>
+                <div className="md:col-span-4">
+                  <GoalsCard />
+                </div>
+                <div className="md:col-span-4">
+                  <ReviewsCard />
+                </div>
+                <div className="md:col-span-4">
+                  <DashboardCard
+                    title="Weekly focus"
+                    cta={{ label: "Open planner", href: "/planner" }}
+                  >
+                    <DashboardList
+                      items={weeklyHighlights}
+                      getKey={(highlight) => highlight.id}
+                      itemClassName="py-3"
+                      empty="No highlights scheduled"
+                      renderItem={(highlight) => (
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-baseline justify-between gap-3">
+                            <p className="text-ui font-medium">{highlight.title}</p>
+                            <span className="text-label text-muted-foreground">
+                              {highlight.schedule}
+                            </span>
+                          </div>
+                          <p className="text-body text-muted-foreground">
+                            {highlight.summary}
+                          </p>
                         </div>
-                        <p className="text-body text-muted-foreground">
-                          {highlight.summary}
-                        </p>
-                      </div>
-                    )}
-                  />
-                </DashboardCard>
+                      )}
+                    />
+                  </DashboardCard>
+                </div>
+                <div className="md:col-span-12">
+                  <TeamPromptsCard />
+                </div>
+              </section>
+              <div className="p-[var(--space-3)] md:hidden">
+                <BottomNav />
               </div>
-              <div className="md:col-span-12">
-                <TeamPromptsCard />
-              </div>
-            </section>
-            <div
-              className={cn(
-                floatingSurfaceClass,
-                "p-[var(--space-3)] md:hidden",
-              )}
-            >
-              <BottomNav />
             </div>
           </div>
         </div>
