@@ -49,6 +49,23 @@ describe("AnimationToggle", () => {
     });
   });
 
+  it("leaves reduced motion class in place when unmounted while disabled", async () => {
+    const { getByRole, unmount } = render(<AnimationToggle />);
+    const button = getByRole("button");
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(document.documentElement.classList.contains("no-animations")).toBe(
+        true,
+      );
+    });
+
+    unmount();
+
+    expect(document.documentElement.classList.contains("no-animations")).toBe(true);
+  });
+
   it("is focusable for keyboard users", () => {
     const { getByRole } = render(<AnimationToggle />);
     const button = getByRole("button");
