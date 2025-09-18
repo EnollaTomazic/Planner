@@ -1,6 +1,6 @@
 import * as React from "react";
 import Fuse from "fuse.js";
-import { Card, CardContent } from "@/components/ui";
+import { Button, NeoCard } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
 
@@ -9,6 +9,8 @@ type ComponentsViewProps = {
   section: Section;
   onCurrentCodeChange?: (code: string | null) => void;
   onFilteredCountChange?: (count: number) => void;
+  onSuggestionSelect?: (suggestion: string) => void;
+  onResetFilters?: () => void;
 };
 
 type SpecCardProps = Spec & {
@@ -18,6 +20,10 @@ type SpecCardProps = Spec & {
     visible: boolean,
   ) => void;
 };
+
+const GRID_ITEM_CLASS =
+  "col-span-full sm:col-span-6 lg:col-span-4 xl:col-span-3";
+const SUGGESTION_LIMIT = 4;
 
 function SpecCard({
   id,
@@ -101,6 +107,8 @@ export default function ComponentsView({
   section,
   onCurrentCodeChange,
   onFilteredCountChange,
+  onSuggestionSelect,
+  onResetFilters,
 }: ComponentsViewProps) {
   const countDescriptionId = React.useId();
   const [, setActiveSpecId] = React.useState<string | null>(null);
@@ -158,6 +166,45 @@ export default function ComponentsView({
     return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
   }, [filteredCount, sectionLabel]);
 
+  const suggestions = React.useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const counts = new Map<string, number>();
+
+    for (const spec of SPEC_DATA[section]) {
+      const uniqueTags = new Set(
+        spec.tags.map((tag) => tag.trim()).filter(Boolean),
+      );
+
+      for (const tag of uniqueTags) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+
+    return Array.from(counts.entries())
+      .sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1];
+        return a[0].localeCompare(b[0]);
+      })
+      .map(([tag]) => tag)
+      .filter((tag) => tag.toLowerCase() !== normalizedQuery)
+      .slice(0, SUGGESTION_LIMIT);
+  }, [query, section]);
+
+  const handleSuggestionSelect = React.useCallback(
+    (value: string) => {
+      onSuggestionSelect?.(value);
+    },
+    [onSuggestionSelect],
+  );
+
+  const handleResetFilters = React.useCallback(() => {
+    onResetFilters?.();
+  }, [onResetFilters]);
+
+  const canSuggest = Boolean(onSuggestionSelect);
+  const canReset = Boolean(onResetFilters);
+  const displayQuery = query.trim();
+
   React.useEffect(() => {
     if (!onFilteredCountChange) return;
     onFilteredCountChange(filteredCount);
@@ -183,17 +230,49 @@ export default function ComponentsView({
         aria-describedby={countDescriptionId}
       >
         {specs.length === 0 ? (
-          <li className="col-span-full">
-            <Card>
-              <CardContent>No results found</CardContent>
-            </Card>
+          <li className={GRID_ITEM_CLASS}>
+            <NeoCard className="flex h-full flex-col gap-[var(--space-5)] p-[var(--space-5)]">
+              <div className="space-y-[var(--space-2)]">
+                <h3 className="text-title font-semibold tracking-[-0.01em]">
+                  No matches found
+                </h3>
+                <p className="text-ui text-muted-foreground">
+                  {displayQuery
+                    ? `We couldn’t find ${sectionLabel.toLowerCase()} specs for “${displayQuery}”. Try a different keyword or explore these popular tags.`
+                    : `We couldn’t find ${sectionLabel.toLowerCase()} specs for the current filters. Explore these popular tags or reset to start fresh.`}
+                </p>
+              </div>
+              {suggestions.length > 0 ? (
+                <div className="flex flex-wrap gap-[var(--space-2)]">
+                  {suggestions.map((tag) => (
+                    <Badge
+                      key={tag}
+                      interactive={canSuggest}
+                      disabled={!canSuggest}
+                      onClick={() => handleSuggestionSelect(tag)}
+                      aria-label={`Filter by ${tag}`}
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
+              <div className="mt-auto flex flex-wrap items-center gap-[var(--space-2)]">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={handleResetFilters}
+                  disabled={!canReset}
+                >
+                  Reset filters
+                </Button>
+              </div>
+            </NeoCard>
           </li>
         ) : (
           specs.map((spec) => (
-            <li
-              key={spec.id}
-              className="col-span-full sm:col-span-6 lg:col-span-4 xl:col-span-3"
-            >
+            <li key={spec.id} className={GRID_ITEM_CLASS}>
               <SpecCard
                 {...spec}
                 onCodeVisibilityChange={handleCodeVisibilityChange}

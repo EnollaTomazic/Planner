@@ -170,6 +170,17 @@ export default function CompsPage() {
     panelRef.current?.focus();
   }, [section]);
 
+  const handleSuggestionSelect = React.useCallback(
+    (value: string) => {
+      setQuery(value);
+    },
+    [setQuery],
+  );
+
+  const handleResetFilters = React.useCallback(() => {
+    setQuery("");
+  }, [setQuery]);
+
   return (
     <PageShell
       as="main"
@@ -223,6 +234,8 @@ export default function CompsPage() {
           <ComponentsView
             query={query}
             section={section}
+            onSuggestionSelect={handleSuggestionSelect}
+            onResetFilters={handleResetFilters}
           />
         </div>
       </section>

@@ -140,6 +140,17 @@ function PageContent() {
     void copyText(currentCode);
   }, [currentCode]);
 
+  const handleSuggestionSelect = React.useCallback(
+    (value: string) => {
+      setQuery(value);
+    },
+    [setQuery],
+  );
+
+  const handleResetFilters = React.useCallback(() => {
+    setQuery("");
+  }, [setQuery]);
+
   return (
     <PageShell
       as="main"
@@ -232,6 +243,8 @@ function PageContent() {
                 query={query}
                 section={section}
                 onCurrentCodeChange={handleCurrentCodeChange}
+                onSuggestionSelect={handleSuggestionSelect}
+                onResetFilters={handleResetFilters}
               />
             </div>
             <div
