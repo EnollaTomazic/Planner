@@ -29,7 +29,6 @@ function SpecCard({
   onCodeVisibilityChange,
 }: SpecCardProps) {
   const [showCode, setShowCode] = React.useState(false);
-  const [isPressed, setIsPressed] = React.useState(false);
   const handleToggleCode = React.useCallback(() => {
     setShowCode((prev) => {
       const next = !prev;
@@ -40,26 +39,10 @@ function SpecCard({
     });
   }, [code, id, onCodeVisibilityChange]);
 
-  const handlePointerDown = React.useCallback(() => {
-    setIsPressed(true);
-  }, []);
-  const handlePointerReset = React.useCallback(() => {
-    setIsPressed(false);
-  }, []);
-
   return (
-    <div
-      data-pressed={isPressed}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerReset}
-      onPointerLeave={handlePointerReset}
-      onPointerCancel={handlePointerReset}
-      style={{
-        boxShadow: isPressed
-          ? "var(--shadow-inset, var(--shadow))"
-          : "var(--shadow-raised, var(--shadow))",
-      }}
-      className="relative flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 transition-[box-shadow] duration-[var(--dur-quick)] ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out data-[pressed=true]:before:opacity-100"
+    <article
+      tabIndex={0}
+      className="relative flex flex-col gap-4 rounded-card r-card-lg border border-[var(--card-hairline)] bg-card p-6 [--card-shadow:var(--shadow)] shadow-[var(--card-shadow)] transition-[box-shadow] duration-[var(--dur-quick)] ease-out motion-safe:transition-transform motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-card motion-safe:hover:-translate-y-0.5 hover:[--card-shadow:var(--shadow-raised,var(--shadow))] active:[--card-shadow:var(--shadow-inset,var(--shadow))] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[var(--hairline-w)] before:rounded-t-[calc(var(--radius-card)-var(--hairline-w))] before:bg-gradient-to-r before:from-transparent before:via-[hsl(var(--ring)/0.4)] before:to-transparent before:opacity-75 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out focus-visible:before:opacity-100 active:before:opacity-100 hover:before:opacity-90"
     >
       <header className="flex items-center justify-between">
         <h3 className="text-title leading-[1.3] font-semibold tracking-[-0.01em]">{name}</h3>
@@ -92,7 +75,7 @@ function SpecCard({
           ))}
         </ul>
       ) : null}
-    </div>
+    </article>
   );
 }
 
