@@ -39,6 +39,8 @@ export type Selection = {
   taskId?: string;
 };
 
+const FOCUS_PLACEHOLDER: ISODate = "";
+
 export function todayISO(): ISODate {
   return toISODate(new Date());
 }
@@ -194,7 +196,10 @@ type DaysState = {
   tasksById: TaskIdMap;
 };
 
-type FocusState = { focus: ISODate; setFocus: (iso: ISODate) => void };
+type FocusState = {
+  focus: ISODate;
+  setFocus: React.Dispatch<React.SetStateAction<ISODate>>;
+};
 
 type SelectionState = {
   selected: Record<ISODate, Selection>;
@@ -212,13 +217,21 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   );
   const [focus, setFocus] = usePersistentState<ISODate>(
     "planner:focus",
-    todayISO(),
+    FOCUS_PLACEHOLDER,
   );
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
 
   const days = rawDays;
+
+  React.useEffect(() => {
+    if (focus === FOCUS_PLACEHOLDER) {
+      setFocus((prev) =>
+        prev === FOCUS_PLACEHOLDER ? todayISO() : prev,
+      );
+    }
+  }, [focus, setFocus]);
 
   const selected = React.useMemo(
     () => cleanupSelections(selectedState, days),
