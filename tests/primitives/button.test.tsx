@@ -101,6 +101,27 @@ describe("Button", () => {
     expect(content).not.toMatch(/\bpx-(5|6)\b/);
   });
 
+  it("warns and renders nothing when asChild is missing a valid child", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    let renderResult: ReturnType<typeof render> | undefined;
+
+    try {
+      expect(() => {
+        renderResult = render(<Button asChild />);
+      }).not.toThrow();
+
+      expect(renderResult).toBeDefined();
+      const container = renderResult!.container;
+
+      expect(container.firstChild).toBeNull();
+      expect(warnSpy).toHaveBeenCalledWith(
+        "[Button] `asChild` requires a single valid React element child.",
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
   it("matches snapshot for secondary danger tone", () => {
     const { container } = render(
       <Button variant="secondary" tone="danger">
