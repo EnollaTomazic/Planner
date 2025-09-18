@@ -211,6 +211,32 @@ describe("scheduleWrite", () => {
     structuredCloneSpy.mockRestore();
     warnSpy.mockRestore();
   });
+
+  it("warns about circular references during development", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    try {
+      const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+      const key = "noxis-planner:circular";
+      const value: Record<string, unknown> = {};
+      value.self = value;
+
+      scheduleWrite(key, value);
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        `Skipping persistence for "${key}" because value.self contains a circular reference.`,
+        value,
+      );
+
+      flushWriteLocal();
+      expect(storageMock.setItem).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+      warnSpy.mockRestore();
+    }
+  });
 });
 
 describe("writeLocal", () => {

@@ -75,4 +75,40 @@ describe("NeomorphicHeroFrame", () => {
     expect(outsideButton).toHaveFocus();
     expect(frame).not.toHaveAttribute("data-has-focus");
   });
+
+  it("applies accessible metadata to slot wrappers when provided", () => {
+    render(
+      <NeomorphicHeroFrame
+        slots={{
+          tabs: {
+            node: <div>Tabs area</div>,
+            label: "  Primary tabs  ",
+          },
+          actions: {
+            node: (
+              <div>
+                <span id="actions-heading">Actions</span>
+              </div>
+            ),
+            labelledById: " actions-heading ",
+          },
+        }}
+      >
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const tabsSlot = screen.getByRole("group", { name: "Primary tabs" });
+    const actionsSlot = screen.getByRole("group", { name: "Actions" });
+
+    expect(tabsSlot).not.toBeNull();
+    expect(tabsSlot).toHaveAttribute("data-slot", "tabs");
+    expect(tabsSlot).toHaveAttribute("aria-label", "Primary tabs");
+    expect(tabsSlot).not.toHaveAttribute("aria-labelledby");
+
+    expect(actionsSlot).not.toBeNull();
+    expect(actionsSlot).toHaveAttribute("data-slot", "actions");
+    expect(actionsSlot).toHaveAttribute("aria-labelledby", "actions-heading");
+    expect(actionsSlot).not.toHaveAttribute("aria-label");
+  });
 });
