@@ -14,21 +14,23 @@ const scheduleSavingReset = (callback: VoidFunction) => {
   setTimeout(callback, 0);
 };
 
-export function useDayNotes(iso: ISODate) {
+type DayTextField = "notes" | "focus";
+
+function useDayTextField(iso: ISODate, field: DayTextField) {
   const { getDay, upsertDay } = usePlannerStore();
   const day = getDay(iso);
-  const persistedNotes = day.notes ?? "";
+  const persistedValue = (day[field] ?? "") as string;
 
-  const setNotesForIso = React.useCallback(
-    (notes: string) => {
-      upsertDay(iso, (d) => ({ ...d, notes }));
+  const setValueForIso = React.useCallback(
+    (next: string) => {
+      upsertDay(iso, (d) => ({ ...d, [field]: next }));
     },
-    [iso, upsertDay],
+    [field, iso, upsertDay],
   );
 
-  const [value, setValue] = React.useState<string>(() => persistedNotes);
+  const [value, setValue] = React.useState<string>(() => persistedValue);
   const [saving, setSaving] = React.useState(false);
-  const lastSavedRef = React.useRef(persistedNotes.trim());
+  const lastSavedRef = React.useRef(persistedValue.trim());
 
   const trimmed = React.useMemo(() => value.trim(), [value]);
   const isDirty = trimmed !== lastSavedRef.current;
@@ -37,19 +39,27 @@ export function useDayNotes(iso: ISODate) {
     if (!isDirty) return;
     setSaving(true);
     try {
-      setNotesForIso(trimmed);
+      setValueForIso(trimmed);
       lastSavedRef.current = trimmed;
     } finally {
       scheduleSavingReset(() => {
         setSaving(false);
       });
     }
-  }, [isDirty, setNotesForIso, trimmed]);
+  }, [isDirty, setValueForIso, trimmed]);
 
   React.useEffect(() => {
-    setValue(persistedNotes);
-    lastSavedRef.current = persistedNotes.trim();
-  }, [iso, persistedNotes]);
+    setValue(persistedValue);
+    lastSavedRef.current = persistedValue.trim();
+  }, [iso, persistedValue]);
 
   return { value, setValue, saving, isDirty, lastSavedRef, commit } as const;
+}
+
+export function useDayNotes(iso: ISODate) {
+  return useDayTextField(iso, "notes");
+}
+
+export function useDayFocus(iso: ISODate) {
+  return useDayTextField(iso, "focus");
 }
