@@ -67,5 +67,31 @@ describe("pruneOldDays", () => {
     expect(result[expiredIso]).toBeUndefined();
     expect(map[expiredIso]).toBeDefined();
   });
+
+  it("retains the threshold day for negative timezone offsets", () => {
+    const originalTZ = process.env.TZ;
+    process.env.TZ = "America/Los_Angeles";
+
+    try {
+      const maxAgeDays = 30;
+      const reference = new Date("2024-03-05T00:00:00-08:00");
+      const thresholdIso = isoDaysAgo(reference, maxAgeDays);
+
+      const map: Record<string, DayRecord> = {
+        [thresholdIso]: createDay(),
+      };
+
+      const result = pruneOldDays(map, { now: reference, maxAgeDays });
+
+      expect(result).toBe(map);
+      expect(result[thresholdIso]).toBe(map[thresholdIso]);
+    } finally {
+      if (originalTZ === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTZ;
+      }
+    }
+  });
 });
 
