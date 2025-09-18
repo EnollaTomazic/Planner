@@ -3,7 +3,6 @@
 import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 import ComponentsViewPanel from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
@@ -160,10 +159,6 @@ export default function ComponentsPage() {
   const [query, setQuery] = usePersistentState("components-query", "");
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const colorsPanelRef = React.useRef<HTMLDivElement>(null);
-  const [filteredCount, setFilteredCount] = React.useState(() =>
-    SPEC_DATA[getValidSection(sectionParam)].length,
-  );
-
   const sectionLabel = React.useMemo(
     () =>
       section
@@ -172,11 +167,6 @@ export default function ComponentsPage() {
         .join(" "),
     [section],
   );
-
-  const resultsLabel = React.useMemo(() => {
-    const suffix = filteredCount === 1 ? "spec" : "specs";
-    return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
-  }, [filteredCount, sectionLabel]);
 
   const heroTabs = React.useMemo(
     () =>
@@ -276,10 +266,6 @@ export default function ComponentsPage() {
       colorsPanelRef.current?.focus();
     }
   }, [view]);
-
-  React.useEffect(() => {
-    setFilteredCount(SPEC_DATA[section].length);
-  }, [section]);
 
   return (
     <PageShell
@@ -408,22 +394,6 @@ export default function ComponentsPage() {
                     "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
                     "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-inset motion-reduce:active:!shadow-neo-inset motion-reduce:focus-within:!shadow-neo-soft",
                   ),
-                  right: (
-                    <Badge
-                      tone="accent"
-                      size="sm"
-                      aria-live="polite"
-                      className={cn(
-                        "border-[hsl(var(--accent)/0.5)]",
-                        "bg-[linear-gradient(140deg,hsl(var(--accent)/0.24),hsl(var(--accent-2)/0.18))]",
-                        "text-[hsl(var(--accent-foreground))]",
-                        "shadow-[0_var(--space-2)_var(--space-5)_hsl(var(--shadow-color)/0.28),0_0_0_1px_hsl(var(--accent)/0.32)]",
-                        "motion-reduce:transition-none",
-                      )}
-                    >
-                      {resultsLabel}
-                    </Badge>
-                  ),
                 }
               : undefined,
         }}
@@ -442,7 +412,6 @@ export default function ComponentsPage() {
           <ComponentsViewPanel
             query={query}
             section={section}
-            onFilteredCountChange={setFilteredCount}
           />
         </div>
         <div
