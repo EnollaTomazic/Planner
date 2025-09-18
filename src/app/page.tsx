@@ -39,7 +39,8 @@ import type { Goal, Review } from "@/lib/types";
 import { formatWeekRangeLabel, fromISODate } from "@/lib/date";
 import { LOCALE, cn } from "@/lib/utils";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
-import type { Prompt } from "@/components/prompts/usePrompts";
+import { CHAT_PROMPTS_STORAGE_KEY } from "@/components/prompts/useChatPrompts";
+import type { Prompt } from "@/components/prompts/types";
 
 type WeeklyHighlight = {
   id: string;
@@ -112,7 +113,10 @@ function HeroPlannerCards() {
 
   const [goals] = usePersistentState<Goal[]>("goals.v2", []);
   const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
-  const [prompts] = usePersistentState<Prompt[]>("prompts.v1", []);
+  const [prompts] = usePersistentState<Prompt[]>(
+    CHAT_PROMPTS_STORAGE_KEY,
+    [],
+  );
   const goalStats = React.useMemo(() => {
     let completed = 0;
     const active: Goal[] = [];
