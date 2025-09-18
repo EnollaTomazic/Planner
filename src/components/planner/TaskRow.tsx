@@ -250,8 +250,11 @@ export default function TaskRow({
       </div>
       {task.images.length > 0 && (
         <ul className="mt-[var(--space-2)] space-y-[var(--space-2)]">
-          {task.images.map((url) => (
-            <li key={url} className="flex items-center gap-[var(--space-2)]">
+          {task.images.map((url, index) => (
+            <li
+              key={`${url}-${index}`}
+              className="flex items-center gap-[var(--space-2)]"
+            >
               <Image
                 src={url}
                 alt={`Task image for ${task.title}`}
