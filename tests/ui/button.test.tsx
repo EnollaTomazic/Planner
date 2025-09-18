@@ -66,9 +66,9 @@ describe("Button", () => {
       ],
       danger: [
         "text-danger-foreground",
-        "bg-danger/15",
-        "[--hover:hsl(var(--danger)/0.12)]",
-        "[--active:hsl(var(--danger)/0.1)]",
+        "bg-danger/25",
+        "[--hover:theme('colors.interaction.danger.hover')]",
+        "[--active:theme('colors.interaction.danger.active')]",
       ],
     },
     ghost: {
