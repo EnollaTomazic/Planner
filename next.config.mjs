@@ -1,6 +1,10 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import securityHeadersMap from "./security-headers.json" assert { type: "json" };
+import { readFileSync } from "node:fs";
+
+const securityHeadersMap = JSON.parse(
+  readFileSync(new URL("./security-headers.json", import.meta.url), "utf8"),
+);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
