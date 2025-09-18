@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import type { InputSize } from "../primitives/Input";
+
 export type SelectItem = {
   value: string;
   label: React.ReactNode;
@@ -30,6 +32,7 @@ export type AnimatedSelectProps = CommonSelectProps & {
   ariaLabel?: string;
   align?: Align;
   matchTriggerWidth?: boolean;
+  size?: InputSize;
 };
 
 export interface NativeSelectProps

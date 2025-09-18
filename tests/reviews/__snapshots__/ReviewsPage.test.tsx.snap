@@ -295,7 +295,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-label="Sort reviews"
-                        class="_glitchTrigger_843152 relative flex items-center h-[var(--control-h-sm)] rounded-[var(--radius-full)] px-[var(--space-3)] overflow-hidden bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none !h-[var(--control-h-lg)] !px-[var(--space-4)]"
+                        class="_glitchTrigger_843152 relative flex items-center rounded-[var(--radius-full)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
                         data-lit="true"
                         data-open="false"
                         type="button"
@@ -307,7 +307,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         </span>
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-chevron-down _caret_843152 ml-auto size-[var(--space-4)] shrink-0 opacity-75"
+                          class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-6)]"
                           fill="none"
                           height="24"
                           stroke="currentColor"

@@ -145,7 +145,8 @@ export default function ThemeToggle({
         items={items}
         value={variant}
         onChange={handleChange}
-        buttonClassName="!h-[var(--control-h-sm)] !px-[var(--space-3)] !rounded-full !text-ui !w-auto"
+        size="sm"
+        buttonClassName="!rounded-full !text-ui !w-auto"
         matchTriggerWidth={false}
         align="right"
         className="shrink-0"
