@@ -3,6 +3,7 @@
 import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import {
@@ -128,6 +129,23 @@ export default function CompsPage() {
   const [query, setQuery] = usePersistentState("comps-query", "");
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const colorsPanelRef = React.useRef<HTMLDivElement>(null);
+  const [filteredCount, setFilteredCount] = React.useState(() =>
+    SPEC_DATA[getValidSection(sectionParam)].length,
+  );
+
+  const sectionLabel = React.useMemo(
+    () =>
+      section
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" "),
+    [section],
+  );
+
+  const resultsLabel = React.useMemo(() => {
+    const suffix = filteredCount === 1 ? "spec" : "specs";
+    return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
+  }, [filteredCount, sectionLabel]);
 
   const heroTabs = React.useMemo(
     () =>
@@ -223,6 +241,10 @@ export default function CompsPage() {
     }
   }, [view]);
 
+  React.useEffect(() => {
+    setFilteredCount(SPEC_DATA[section].length);
+  }, [section]);
+
   return (
     <PageShell
       as="main"
@@ -244,8 +266,12 @@ export default function CompsPage() {
             linkPanels: true,
           },
         }}
+        frameProps={{
+          className:
+            "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit] before:bg-[radial-gradient(120%_85%_at_10%_-25%,hsl(var(--accent)/0.22),transparent_60%),radial-gradient(120%_85%_at_90%_-25%,hsl(var(--ring)/0.24),transparent_60%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:rounded-[inherit] after:bg-[linear-gradient(135deg,hsl(var(--ring)/0.12)_0%,transparent_65%,hsl(var(--accent)/0.16)_100%)] after:opacity-60 after:mix-blend-soft-light",
+        }}
         hero={{
-          frame: false,
+          frame: true,
           sticky: false,
           eyebrow: heroCopy.eyebrow,
           heading: heroCopy.heading,
@@ -255,6 +281,8 @@ export default function CompsPage() {
               <PanelsTopLeft aria-hidden />
             </span>
           ),
+          barClassName:
+            "isolate overflow-hidden rounded-[var(--radius-2xl)] before:pointer-events-none before:absolute before:inset-0 before:z-0 before:bg-[radial-gradient(120%_80%_at_15%_-20%,hsl(var(--accent)/0.35),transparent_60%),radial-gradient(110%_70%_at_85%_-10%,hsl(var(--ring)/0.3),transparent_65%)] before:opacity-75 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.1)_0%,transparent_55%,hsl(var(--ring)/0.14)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.1)_0,hsl(var(--ring)/0.1)_1px,transparent_1px,transparent_var(--space-3))] after:opacity-70 after:mix-blend-soft-light motion-reduce:after:opacity-50",
           subTabs:
             view === "components"
               ? {
@@ -264,6 +292,13 @@ export default function CompsPage() {
                   onChange: (key) => setSection(key as Section),
                   idBase: "comps",
                   linkPanels: true,
+                  size: "sm",
+                  variant: "neo",
+                  showBaseline: true,
+                  tablistClassName:
+                    "data-[variant=neo]:[--ring:var(--accent)] data-[variant=neo]:px-[calc(var(--space-1)*0.75)] data-[variant=neo]:py-[calc(var(--space-1)*0.75)] data-[variant=neo]:gap-[calc(var(--space-1)*0.75)] data-[variant=neo]:[--neo-tablist-bg:linear-gradient(140deg,hsl(var(--card)/0.9),hsl(var(--surface-2)/0.74))] data-[variant=neo]:[--neo-tab-bg:linear-gradient(145deg,hsl(var(--background)/0.96),hsl(var(--card)/0.82))] motion-reduce:transition-none",
+                  className:
+                    "max-w-full data-[variant=neo]:[&>div[aria-hidden]]:[background:linear-gradient(90deg,transparent,hsl(var(--accent)/0.55),transparent)] data-[variant=neo]:[&>div[aria-hidden]]:opacity-85",
                 }
               : undefined,
           search:
@@ -274,6 +309,19 @@ export default function CompsPage() {
                   onValueChange: setQuery,
                   debounceMs: 250,
                   round: true,
+                  variant: "neo",
+                  fieldClassName:
+                    "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-inset motion-reduce:active:!shadow-neo-inset motion-reduce:focus-within:!shadow-neo-soft",
+                  right: (
+                    <Badge
+                      tone="accent"
+                      size="sm"
+                      aria-live="polite"
+                      className="shadow-none bg-[hsl(var(--surface-2)/0.68)] text-[hsl(var(--foreground)/0.92)] border-[hsl(var(--accent)/0.55)] motion-reduce:transition-none"
+                    >
+                      {resultsLabel}
+                    </Badge>
+                  ),
                   "aria-label": searchLabel,
                 }
               : undefined,
@@ -293,6 +341,7 @@ export default function CompsPage() {
           <ComponentsView
             query={query}
             section={section}
+            onFilteredCountChange={setFilteredCount}
           />
         </div>
         <div
