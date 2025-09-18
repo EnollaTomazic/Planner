@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { IconButton, Input, Textarea, CheckCircle } from "@/components/ui";
+import { Card, IconButton, Input, Textarea, CheckCircle } from "@/components/ui";
 import { Trash2, Flag, Pencil, X, Check } from "lucide-react";
 import { shortDate } from "@/lib/date";
 import type { Goal } from "@/lib/types";
@@ -52,25 +52,39 @@ export default function GoalList({
   }
 
   return (
-    <ul className="grid grid-cols-12 gap-6 [grid-auto-rows:minmax(0,1fr)] list-none m-0 p-0">
+    <ul
+      className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [grid-auto-rows:minmax(0,1fr)] list-none m-0 p-0"
+    >
       {goals.length === 0 ? (
-        <li className="col-span-12">
-          <div className="flex flex-col items-center justify-center rounded-card r-card-lg border border-dashed border-accent/40 bg-card/20 p-6 text-center text-ui font-medium text-muted-foreground backdrop-blur-md shadow-ring [--ring:var(--accent)]">
-            <Flag
+        <li className="flex">
+          <Card
+            className={[
+              "relative isolate flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] overflow-hidden text-center text-ui font-medium text-muted-foreground",
+              "border border-border/50 bg-[radial-gradient(115%_90%_at_50%_0%,hsl(var(--accent)/0.24),transparent_70%),linear-gradient(160deg,hsl(var(--card)/0.86),hsl(var(--surface-2)/0.72))] shadow-neoSoft backdrop-blur-lg",
+            ].join(" ")}
+          >
+            <span
               aria-hidden
-              className="mb-2 h-6 w-6 text-accent shadow-ring motion-safe:animate-bounce [--ring:var(--accent)]"
+              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] p-[var(--space-0-25)] [background:var(--edge-iris)] [mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] [mask-composite:exclude]"
             />
-            <p>No goals here. Add one simple, finishable thing.</p>
-          </div>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-20 rounded-[inherit] bg-[radial-gradient(120%_85%_at_50%_0%,hsl(var(--accent)/0.32),transparent_75%)] opacity-80"
+            />
+            <Flag aria-hidden className="relative z-[1] mb-[var(--space-1)] h-6 w-6 text-accent" />
+            <p className="relative z-[1] max-w-[30ch]">
+              No goals here. Add one simple, finishable thing.
+            </p>
+          </Card>
         </li>
       ) : (
         goals.map((g) => {
           const isEditing = editingId === g.id;
           return (
-            <li key={g.id} className="col-span-12 md:col-span-6 lg:col-span-4">
+            <li key={g.id} className="flex">
               <article
                 className={[
-                  "relative overflow-hidden rounded-card r-card-lg p-6 min-h-8 flex flex-col",
+                  "relative flex min-h-8 w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-6",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
                   "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",
