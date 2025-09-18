@@ -4,10 +4,13 @@ import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/ui";
 import ComponentsView from "@/components/prompts/ComponentsView";
+import ColorsView from "@/components/prompts/ColorsView";
 import {
+  COMPS_VIEW_TABS,
   SECTION_TABS,
   SPEC_DATA,
   type Section,
+  type CompsView,
 } from "@/components/prompts/constants";
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,6 +21,14 @@ function hasSection(value: string): value is Section {
 
 function getValidSection(value: string | null): Section {
   return value && hasSection(value) ? value : "buttons";
+}
+
+function hasView(value: string): value is CompsView {
+  return value === "components" || value === "colors";
+}
+
+function getValidView(value: string | null): CompsView {
+  return value && hasView(value) ? value : "components";
 }
 
 const SECTION_HERO_COPY = {
@@ -92,19 +103,31 @@ const SECTION_HERO_COPY = {
   { eyebrow: string; heading: string; subtitle: string }
 >;
 
+const COLORS_HERO_COPY = {
+  eyebrow: "Palette",
+  heading: "Planner color tokens",
+  subtitle:
+    "Core palettes, gradients, and section cards for Planner surfaces.",
+};
+
 export default function CompsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paramsString = searchParams.toString();
   const sectionParam = searchParams.get("section");
   const queryParam = searchParams.get("q");
+  const viewParam = searchParams.get("view");
   const [, startTransition] = React.useTransition();
 
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(sectionParam),
   );
+  const [view, setView] = React.useState<CompsView>(() =>
+    getValidView(viewParam),
+  );
   const [query, setQuery] = usePersistentState("comps-query", "");
-  const panelRef = React.useRef<HTMLDivElement>(null);
+  const componentsPanelRef = React.useRef<HTMLDivElement>(null);
+  const colorsPanelRef = React.useRef<HTMLDivElement>(null);
 
   const heroTabs = React.useMemo(
     () =>
@@ -115,25 +138,33 @@ export default function CompsPage() {
     [],
   );
 
+  const heroCopy = React.useMemo(
+    () =>
+      view === "colors"
+        ? COLORS_HERO_COPY
+        : SECTION_HERO_COPY[section] ?? SECTION_HERO_COPY.buttons,
+    [section, view],
+  );
+
   const sectionCopy = React.useMemo(
     () => SECTION_HERO_COPY[section] ?? SECTION_HERO_COPY.buttons,
     [section],
   );
 
-  const sectionLabel = React.useMemo(
-    () => sectionCopy.heading,
-    [sectionCopy],
-  );
-
   const searchLabel = React.useMemo(
-    () => `Search ${sectionLabel}`,
-    [sectionLabel],
+    () => `Search ${sectionCopy.heading}`,
+    [sectionCopy.heading],
   );
 
   React.useEffect(() => {
     const next = getValidSection(sectionParam);
     setSection((prev) => (prev === next ? prev : next));
   }, [sectionParam]);
+
+  React.useEffect(() => {
+    const next = getValidView(viewParam);
+    setView((prev) => (prev === next ? prev : next));
+  }, [viewParam]);
 
   React.useEffect(() => {
     const next = queryParam ?? "";
@@ -153,6 +184,20 @@ export default function CompsPage() {
   }, [paramsString, router, section, sectionParam, startTransition]);
 
   React.useEffect(() => {
+    const current = getValidView(viewParam);
+    if (current === view) return;
+    const next = new URLSearchParams(paramsString);
+    if (view === "components") {
+      next.delete("view");
+    } else {
+      next.set("view", view);
+    }
+    startTransition(() => {
+      router.replace(`?${next.toString()}`, { scroll: false });
+    });
+  }, [paramsString, router, startTransition, view, viewParam]);
+
+  React.useEffect(() => {
     const current = queryParam ?? "";
     if (current === query) return;
     const next = new URLSearchParams(paramsString);
@@ -167,8 +212,16 @@ export default function CompsPage() {
   }, [paramsString, query, queryParam, router, startTransition]);
 
   React.useEffect(() => {
-    panelRef.current?.focus();
-  }, [section]);
+    if (view === "components") {
+      componentsPanelRef.current?.focus();
+    }
+  }, [section, view]);
+
+  React.useEffect(() => {
+    if (view === "colors") {
+      colorsPanelRef.current?.focus();
+    }
+  }, [view]);
 
   return (
     <PageShell
@@ -182,49 +235,77 @@ export default function CompsPage() {
           heading: "Component Gallery",
           subtitle: "Browse Planner UI building blocks by category.",
           sticky: false,
+          tabs: {
+            items: COMPS_VIEW_TABS,
+            value: view,
+            onChange: (key) => setView(key as CompsView),
+            ariaLabel: "Component gallery view",
+            idBase: "comps",
+            linkPanels: true,
+          },
         }}
         hero={{
           frame: false,
           sticky: false,
-          eyebrow: sectionCopy.eyebrow,
-          heading: sectionCopy.heading,
-          subtitle: sectionCopy.subtitle,
+          eyebrow: heroCopy.eyebrow,
+          heading: heroCopy.heading,
+          subtitle: heroCopy.subtitle,
           icon: (
             <span className="[&_svg]:size-[var(--space-6)]">
               <PanelsTopLeft aria-hidden />
             </span>
           ),
-          subTabs: {
-            ariaLabel: "Component section",
-            items: heroTabs,
-            value: section,
-            onChange: (key) => setSection(key as Section),
-            idBase: "comps",
-            linkPanels: true,
-          },
-          search: {
-            id: "comps-search",
-            value: query,
-            onValueChange: setQuery,
-            debounceMs: 250,
-            round: true,
-            "aria-label": searchLabel,
-          },
+          subTabs:
+            view === "components"
+              ? {
+                  ariaLabel: "Component section",
+                  items: heroTabs,
+                  value: section,
+                  onChange: (key) => setSection(key as Section),
+                  idBase: "comps",
+                  linkPanels: true,
+                }
+              : undefined,
+          search:
+            view === "components"
+              ? {
+                  id: "comps-search",
+                  value: query,
+                  onValueChange: setQuery,
+                  debounceMs: 250,
+                  round: true,
+                  "aria-label": searchLabel,
+                }
+              : undefined,
         }}
       />
       <section className="grid gap-[var(--space-6)]">
         <div
           id="comps-components-panel"
           role="tabpanel"
-          aria-labelledby={`comps-${section}-tab`}
+          aria-labelledby={`comps-components-tab comps-${section}-tab`}
           tabIndex={-1}
-          ref={panelRef}
+          ref={componentsPanelRef}
+          hidden={view !== "components"}
+          aria-hidden={view !== "components"}
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <ComponentsView
             query={query}
             section={section}
           />
+        </div>
+        <div
+          id="comps-colors-panel"
+          role="tabpanel"
+          aria-labelledby="comps-colors-tab"
+          tabIndex={-1}
+          ref={colorsPanelRef}
+          hidden={view !== "colors"}
+          aria-hidden={view !== "colors"}
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          <ColorsView />
         </div>
       </section>
     </PageShell>
