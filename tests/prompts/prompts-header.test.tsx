@@ -12,6 +12,7 @@ describe("PromptsHeader", () => {
   it("renders count, search input, and disabled save button", () => {
     const handleQuery = vi.fn();
     const handleSave = vi.fn();
+    vi.useFakeTimers();
     render(
       <PromptsHeader
         count={2}
@@ -31,11 +32,9 @@ describe("PromptsHeader", () => {
     const save = screen.getByRole("button", { name: "Save" });
     expect(save).toBeDisabled();
 
-    vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "changed" } });
     vi.advanceTimersByTime(300);
     expect(handleQuery).toHaveBeenCalledWith("changed");
-    vi.useRealTimers();
   });
 
   it("calls onSave when save button clicked", () => {
