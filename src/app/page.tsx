@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Suspense } from "react";
 import { Home } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   DashboardCard,
@@ -16,11 +15,29 @@ import {
   IsometricRoom,
   DashboardList,
 } from "@/components/home";
-import { PageHeader, PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
-import { PlannerProvider } from "@/components/planner";
+import {
+  PageHeader,
+  PageShell,
+  Button,
+  ThemeToggle,
+  Spinner,
+  NeoCard,
+  CheckCircle,
+} from "@/components/ui";
+import {
+  PlannerProvider,
+  useDay,
+  useFocusDate,
+  useWeek,
+  useWeekData,
+} from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
-import heroImage from "../../public/ChatGPT Image Sep 17, 2025, 05_45_34 AM.png";
+import { usePersistentState } from "@/lib/db";
+import type { Goal } from "@/lib/types";
+import { formatWeekRangeLabel, fromISODate } from "@/lib/date";
+import { LOCALE, cn } from "@/lib/utils";
+import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 type WeeklyHighlight = {
   id: string;
@@ -49,6 +66,282 @@ const weeklyHighlights = [
     summary: "Encourage the team to log highlights before the week wraps.",
   },
 ] as const satisfies readonly WeeklyHighlight[];
+
+const focusDayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+});
+
+const calendarWeekdayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  weekday: "short",
+});
+
+const calendarDayFormatter = new Intl.DateTimeFormat(LOCALE, {
+  day: "2-digit",
+});
+
+function HeroPlannerCards() {
+  const { iso, setIso } = useFocusDate();
+  const { projects, tasks, toggleTask, doneCount, totalCount } = useDay(iso);
+  const tasksPreview = React.useMemo(() => tasks.slice(0, 4), [tasks]);
+  const remainingTasks = Math.max(tasks.length - tasksPreview.length, 0);
+
+  const projectNames = React.useMemo(() => {
+    const map = new Map<string, string>();
+    for (const project of projects) {
+      map.set(project.id, project.name);
+    }
+    return map;
+  }, [projects]);
+
+  const focusDate = React.useMemo(() => fromISODate(iso), [iso]);
+  const focusLabel = React.useMemo(() => {
+    if (!focusDate) return iso;
+    return focusDayFormatter.format(focusDate);
+  }, [focusDate, iso]);
+
+  const handleToggleTask = React.useCallback(
+    (taskId: string) => {
+      toggleTask(taskId);
+    },
+    [toggleTask],
+  );
+
+  const [goals] = usePersistentState<Goal[]>("goals.v2", []);
+  const goalStats = React.useMemo(() => {
+    let completed = 0;
+    const active: Goal[] = [];
+    for (const goal of goals) {
+      if (goal.done) {
+        completed += 1;
+      } else if (active.length < 2) {
+        active.push(goal);
+      }
+    }
+    return {
+      total: goals.length,
+      completed,
+      active,
+    } as const;
+  }, [goals]);
+
+  const goalPct = React.useMemo(() => {
+    if (goalStats.total === 0) return 0;
+    const pct = (goalStats.completed / goalStats.total) * 100;
+    return Math.max(0, Math.min(100, Math.round(pct)));
+  }, [goalStats.completed, goalStats.total]);
+
+  const { start, end, days, isToday } = useWeek(iso);
+  const { per, weekDone, weekTotal } = useWeekData(days);
+  const weekLabel = React.useMemo(
+    () => formatWeekRangeLabel(start, end),
+    [start, end],
+  );
+
+  const handleSelectDay = React.useCallback(
+    (nextIso: string) => {
+      setIso(nextIso);
+    },
+    [setIso],
+  );
+
+  return (
+    <div className="grid grid-cols-12 gap-[var(--space-4)]">
+      <div className="col-span-12 md:col-span-6 lg:col-span-4">
+        <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
+          <header className="flex items-start justify-between gap-[var(--space-3)]">
+            <div className="space-y-[var(--space-1)]">
+              <p className="text-label text-muted-foreground">Focus day</p>
+              <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
+                {focusLabel}
+              </h3>
+            </div>
+            <div className="text-right">
+              <p className="text-label text-muted-foreground">Progress</p>
+              <p className="text-ui font-medium tabular-nums text-card-foreground">
+                {doneCount}/{totalCount}
+              </p>
+            </div>
+          </header>
+          <ul className="flex flex-col gap-[var(--space-3)]" aria-live="polite">
+            {tasksPreview.length > 0 ? (
+              tasksPreview.map((task) => {
+                const projectName = task.projectId
+                  ? projectNames.get(task.projectId) ?? null
+                  : null;
+                return (
+                  <li key={task.id} className="flex items-start gap-[var(--space-3)]">
+                    <CheckCircle
+                      checked={task.done}
+                      onChange={() => handleToggleTask(task.id)}
+                      aria-label={
+                        task.done
+                          ? `Mark ${task.title} as not done`
+                          : `Mark ${task.title} as done`
+                      }
+                      size="sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleToggleTask(task.id)}
+                      className={cn(
+                        "flex flex-col items-start gap-[var(--space-1)] rounded-card r-card-sm px-[var(--space-1)] py-[var(--space-1)] text-left transition",
+                        "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                        "active:text-foreground/80",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "text-ui font-medium text-card-foreground",
+                          task.done && "line-through-soft text-muted-foreground",
+                        )}
+                      >
+                        {task.title}
+                      </span>
+                      {projectName ? (
+                        <span className="text-label text-muted-foreground">{projectName}</span>
+                      ) : null}
+                    </button>
+                  </li>
+                );
+              })
+            ) : (
+              <li className="rounded-card r-card-md border border-dashed border-border px-[var(--space-3)] py-[var(--space-3)] text-label text-muted-foreground">
+                No tasks captured for this day.
+              </li>
+            )}
+          </ul>
+          {remainingTasks > 0 ? (
+            <p className="text-label text-muted-foreground">
+              +{remainingTasks} more task{remainingTasks === 1 ? "" : "s"} in planner
+            </p>
+          ) : null}
+        </NeoCard>
+      </div>
+      <div className="col-span-12 md:col-span-6 lg:col-span-4">
+        <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
+          <header className="flex items-start justify-between gap-[var(--space-3)]">
+            <div className="space-y-[var(--space-1)]">
+              <p className="text-label text-muted-foreground">Goals overview</p>
+              <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
+                Momentum
+              </h3>
+            </div>
+            <div className="text-right">
+              <p className="text-label text-muted-foreground">Completed</p>
+              <p className="text-ui font-medium tabular-nums text-card-foreground">
+                {goalStats.completed}/{goalStats.total}
+              </p>
+            </div>
+          </header>
+          <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:gap-[var(--space-5)]">
+            <div className="flex items-center justify-center">
+              <div className="relative flex h-[var(--space-8)] w-[var(--space-8)] items-center justify-center">
+                <ProgressRingIcon pct={goalPct} size={64} />
+                <span className="absolute text-ui font-semibold tabular-nums text-card-foreground">
+                  {goalStats.total === 0 ? "0%" : `${goalPct}%`}
+                </span>
+              </div>
+            </div>
+            <div className="flex-1 space-y-[var(--space-3)]">
+              {goalStats.total === 0 ? (
+                <p className="text-label text-muted-foreground">
+                  No goals tracked yet. Capture one in the goals workspace to see it here.
+                </p>
+              ) : goalStats.active.length > 0 ? (
+                goalStats.active.map((goal) => (
+                  <div key={goal.id} className="space-y-[var(--space-1)]">
+                    <p className="text-ui font-medium text-card-foreground">{goal.title}</p>
+                    {goal.metric ? (
+                      <p className="text-label text-muted-foreground">{goal.metric}</p>
+                    ) : goal.notes ? (
+                      <p className="text-label text-muted-foreground">{goal.notes}</p>
+                    ) : null}
+                  </div>
+                ))
+              ) : (
+                <p className="text-label text-muted-foreground">
+                  All active goals are complete. Great work!
+                </p>
+              )}
+            </div>
+          </div>
+        </NeoCard>
+      </div>
+      <div className="col-span-12 md:col-span-12 lg:col-span-4">
+        <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
+          <header className="space-y-[var(--space-1)]">
+            <p className="text-label text-muted-foreground">Weekly calendar</p>
+            <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
+              {weekLabel}
+            </h3>
+            <p className="text-label text-muted-foreground">
+              {weekTotal > 0 ? (
+                <span className="tabular-nums text-card-foreground">
+                  {weekDone}/{weekTotal}
+                </span>
+              ) : (
+                "No tasks scheduled this week"
+              )}
+            </p>
+          </header>
+          <div className="flex overflow-x-auto rounded-card r-card-lg border border-border/60 p-[var(--space-2)]">
+            <ul className="flex w-full min-w-0 gap-[var(--space-2)]" role="listbox" aria-label="Select focus day">
+              {per.map((day) => {
+                const dayDate = fromISODate(day.iso);
+                const weekday = dayDate
+                  ? calendarWeekdayFormatter.format(dayDate)
+                  : day.iso;
+                const dayNumber = dayDate
+                  ? calendarDayFormatter.format(dayDate)
+                  : "--";
+                const selected = day.iso === iso;
+                const todayMarker = isToday(day.iso);
+                return (
+                  <li
+                    key={day.iso}
+                    className="flex-1 min-w-[calc(var(--space-8)+var(--space-2))]"
+                  >
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={selected}
+                      aria-current={todayMarker ? "date" : undefined}
+                      onClick={() => handleSelectDay(day.iso)}
+                      className={cn(
+                        "flex w-full flex-col items-start gap-[var(--space-1)] rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
+                        "border-card-hairline bg-card/70 hover:border-primary/40 hover:bg-card/80",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                        "active:bg-card/90",
+                        selected && "border-primary/70 bg-card",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "text-label text-muted-foreground",
+                          todayMarker && "text-accent-3",
+                        )}
+                      >
+                        {weekday}
+                      </span>
+                      <span className="text-ui font-semibold tabular-nums text-card-foreground">
+                        {dayNumber}
+                      </span>
+                      <span className="text-label text-muted-foreground tabular-nums">
+                        {day.done}/{day.total}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </NeoCard>
+      </div>
+    </div>
+  );
+}
 
 function HomePageContent() {
   const [theme] = useTheme();
@@ -94,20 +387,8 @@ function HomePageContent() {
                   </>
                 ),
                 children: (
-                  <div className="grid grid-cols-12 gap-[var(--space-4)] pt-[var(--space-4)]">
-                    <figure className="col-span-12 md:col-start-7 md:col-span-6 lg:col-start-8 lg:col-span-5">
-                      <div className="mx-auto w-full max-w-xl">
-                        <Image
-                          src={heroImage}
-                          alt="Planner dashboard illustration showing widgets for today's focus, goals, and reviews"
-                          className="w-full rounded-[var(--radius-2xl)] border border-[hsl(var(--border))] shadow-neoSoft"
-                          sizes="(min-width: 1280px) 28vw, (min-width: 1024px) 32vw, (min-width: 768px) 45vw, 92vw"
-                          width={1024}
-                          height={1024}
-                          priority
-                        />
-                      </div>
-                    </figure>
+                  <div className="pt-[var(--space-4)]">
+                    <HeroPlannerCards />
                   </div>
                 ),
               }}
