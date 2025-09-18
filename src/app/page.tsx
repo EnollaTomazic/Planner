@@ -380,6 +380,7 @@ function HomePageContent() {
                       asChild
                       variant="primary"
                       size="sm"
+                      tactile
                       className="px-4 whitespace-nowrap"
                     >
                       <Link href="/planner">Plan Week</Link>
