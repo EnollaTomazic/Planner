@@ -119,7 +119,8 @@ export const toneClasses: Record<
     danger: toneInteractionTokens.danger,
   },
   secondary: {
-    primary: "text-muted-foreground bg-panel/60",
+    primary:
+      "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]",
     accent:
       "text-accent-foreground bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
     info:
