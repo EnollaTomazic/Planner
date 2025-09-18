@@ -20,7 +20,7 @@ type SwatchProps = { token: string };
 
 function Swatch({ token }: SwatchProps) {
   return (
-    <li className="col-span-6 sm:col-span-4 lg:col-span-3 flex flex-col items-center gap-3">
+    <li className="flex flex-col items-center gap-[var(--space-2)] xl:col-span-3">
       <div
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
@@ -32,7 +32,7 @@ function Swatch({ token }: SwatchProps) {
 
 function GradientSwatch() {
   return (
-    <li className="col-span-12 md:col-span-6 flex flex-col items-center gap-3">
+    <li className="col-span-full xl:col-span-6 flex flex-col items-center gap-[var(--space-2)]">
       <div className="h-16 w-full rounded-card r-card-md bg-gradient-to-r from-primary via-accent to-transparent" />
       <span className="text-label font-medium">
         from-primary via-accent to-transparent
@@ -46,7 +46,7 @@ export default function ColorsView() {
     <div className="space-y-8">
       {COLOR_SECTIONS.map((p) => (
         <SectionCard key={p.title} title={p.title}>
-          <ul className="grid grid-cols-12 gap-6">
+          <ul className="grid grid-cols-2 gap-[var(--space-3)] sm:grid-cols-3 md:grid-cols-4 md:gap-[var(--space-4)] xl:grid-cols-12 xl:gap-[var(--space-5)]">
             {p.tokens.map((t) => (
               <Swatch key={t} token={t} />
             ))}
@@ -54,7 +54,7 @@ export default function ColorsView() {
         </SectionCard>
       ))}
       <SectionCard title="Gradients">
-        <ul className="grid grid-cols-12 gap-6">
+        <ul className="grid grid-cols-2 gap-[var(--space-3)] sm:grid-cols-3 md:grid-cols-4 md:gap-[var(--space-4)] xl:grid-cols-12 xl:gap-[var(--space-5)]">
           <GradientSwatch />
         </ul>
       </SectionCard>
