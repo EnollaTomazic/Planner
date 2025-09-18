@@ -7,6 +7,7 @@ type ComponentsViewProps = {
   query: string;
   section: Section;
   onCurrentCodeChange?: (code: string | null) => void;
+  onFilteredCountChange?: (count: number) => void;
 };
 
 type SpecCardProps = Spec & {
@@ -78,6 +79,7 @@ export default function ComponentsView({
   query,
   section,
   onCurrentCodeChange,
+  onFilteredCountChange,
 }: ComponentsViewProps) {
   const [, setActiveSpecId] = React.useState<string | null>(null);
   const handleCodeVisibilityChange = React.useCallback(
@@ -121,6 +123,11 @@ export default function ComponentsView({
     if (!query) return SPEC_DATA[section];
     return fuse.search(query).map((r) => r.item);
   }, [query, fuse, section]);
+
+  React.useEffect(() => {
+    if (!onFilteredCountChange) return;
+    onFilteredCountChange(specs.length);
+  }, [specs, onFilteredCountChange]);
 
   return (
     <div className="space-y-8">
