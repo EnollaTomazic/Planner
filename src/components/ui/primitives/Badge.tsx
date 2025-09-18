@@ -56,18 +56,34 @@ export default function Badge<T extends React.ElementType = "span">({
   children,
   ...rest
 }: BadgeProps<T>) {
-  const Comp = as ?? "span";
+  const Comp = (as ?? (interactive ? "button" : "span")) as React.ElementType;
+  const isStringElement = typeof Comp === "string";
+  const isButtonElement = isStringElement && Comp === "button";
+  const restProps = rest as Record<string, unknown>;
 
-  const componentProps = {
-    ...rest,
-    ...(typeof disabled !== "undefined" &&
-      (Comp === "button" || typeof Comp !== "string")
-        ? { disabled }
-        : {}),
-  } as typeof rest & { disabled?: boolean };
+  const typeProps =
+    isButtonElement && !Object.prototype.hasOwnProperty.call(restProps, "type")
+      ? { type: "button" as const }
+      : {};
+
+  const roleProps =
+    interactive && isStringElement && !isButtonElement
+      ? {
+          role: "button" as const,
+          ...(Object.prototype.hasOwnProperty.call(restProps, "tabIndex")
+            ? {}
+            : { tabIndex: 0 }),
+        }
+      : {};
+  const disabledProps =
+    isButtonElement || !isStringElement ? { disabled } : {};
 
   return (
     <Comp
+      {...rest}
+      {...typeProps}
+      {...roleProps}
+      {...disabledProps}
       data-selected={selected ? "true" : undefined}
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled ? "true" : undefined}
@@ -79,14 +95,13 @@ export default function Badge<T extends React.ElementType = "span">({
         sizeMap[size],
         toneBorder[tone],
         interactive &&
-          "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))] hover:bg-muted/28 active:bg-muted/36 active:translate-y-[var(--space-1)] motion-reduce:active:translate-y-0 data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
+          "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))] hover:bg-muted/28 active:bg-muted/36 active:translate-y-[var(--space-1)] motion-reduce:active:translate-y-0 data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:cursor-default",
         selected &&
           "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-inset-contrast shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
           "shadow-inset-hairline shadow-glow-md hover:shadow-inset-contrast hover:shadow-glow-lg",
         className,
       )}
-      {...componentProps}
     >
       {children}
     </Comp>
