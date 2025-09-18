@@ -5,12 +5,40 @@ import * as React from "react";
 import Header, { type HeaderProps } from "./Header";
 import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
+  type Align,
   type NeomorphicHeroFrameProps,
   type HeroSlot,
+  type HeroSlotInput,
   type HeroSlots,
 } from "./NeomorphicHeroFrame";
 import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
 import { cn } from "@/lib/utils";
+
+const frameSlotOrder = ["tabs", "search", "actions"] as const;
+type FrameSlotKey = (typeof frameSlotOrder)[number];
+
+const allowedFrameAligns = new Set<Align>([
+  "start",
+  "center",
+  "end",
+  "between",
+]);
+
+function normalizeFrameAlign(value: unknown): Align | undefined {
+  if (typeof value !== "string") return undefined;
+  return allowedFrameAligns.has(value as Align) ? (value as Align) : undefined;
+}
+
+function isHeroSlotConfig(
+  value: HeroSlotInput | null | undefined,
+): value is HeroSlot {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !React.isValidElement(value) &&
+    Object.prototype.hasOwnProperty.call(value, "node")
+  );
+}
 
 type PageHeaderElement = Extract<
   keyof React.JSX.IntrinsicElements,
@@ -345,6 +373,115 @@ const PageHeaderInner = <
     actionAreaActions,
   ]);
 
+  const renderedFrameSlotKeys = React.useMemo<FrameSlotKey[] | undefined>(() => {
+    if (resolvedFrameSlots === undefined) return undefined;
+    if (resolvedFrameSlots === null) return [];
+
+    const keys: FrameSlotKey[] = [];
+
+    for (const key of frameSlotOrder) {
+      const slot = resolvedFrameSlots[key];
+      if (slot === null || slot === undefined) {
+        continue;
+      }
+      if (isHeroSlotConfig(slot)) {
+        const { node } = slot;
+        if (node !== null && node !== undefined && node !== false) {
+          keys.push(key);
+        }
+        continue;
+      }
+      if (slot !== false) {
+        keys.push(key);
+      }
+    }
+
+    return keys;
+  }, [resolvedFrameSlots]);
+
+  const derivedFrameAlign = React.useMemo<NeomorphicHeroFrameProps["align"]>(() => {
+    if (frameAlign !== undefined) {
+      return frameAlign;
+    }
+
+    if (renderedFrameSlotKeys === undefined) {
+      return "between";
+    }
+
+    if (renderedFrameSlotKeys.length === 0) {
+      return "between";
+    }
+
+    const hasTabs = renderedFrameSlotKeys.includes("tabs");
+    const hasSearch = renderedFrameSlotKeys.includes("search");
+    const hasActions = renderedFrameSlotKeys.includes("actions");
+    const slotCount = renderedFrameSlotKeys.length;
+
+    const tabAlignExplicit = normalizeFrameAlign(resolvedSubTabs?.align);
+    const searchAlignExplicit = normalizeFrameAlign(
+      resolvedSearch && typeof resolvedSearch === "object"
+        ? (resolvedSearch as { align?: unknown }).align
+        : undefined,
+    );
+
+    const tabAlignResolved = tabAlignExplicit ?? "end";
+    const searchAlignResolved = searchAlignExplicit ?? "center";
+
+    if (slotCount === 1) {
+      if (hasTabs) {
+        return tabAlignResolved;
+      }
+      if (hasSearch) {
+        return searchAlignResolved;
+      }
+      return "center";
+    }
+
+    if (slotCount === 3) {
+      return "between";
+    }
+
+    if (hasTabs && hasSearch) {
+      if (tabAlignExplicit && searchAlignExplicit) {
+        if (tabAlignExplicit === searchAlignExplicit) {
+          return tabAlignExplicit;
+        }
+        if (
+          (tabAlignExplicit === "end" && searchAlignExplicit === "center") ||
+          (tabAlignExplicit === "center" && searchAlignExplicit === "end")
+        ) {
+          return "end";
+        }
+        return tabAlignExplicit;
+      }
+      if (tabAlignExplicit) {
+        return tabAlignExplicit;
+      }
+      if (searchAlignExplicit) {
+        return searchAlignExplicit;
+      }
+      if (tabAlignResolved === searchAlignResolved) {
+        return tabAlignResolved;
+      }
+      return "end";
+    }
+
+    if (hasTabs && hasActions) {
+      return tabAlignExplicit ?? tabAlignResolved;
+    }
+
+    if (hasSearch && hasActions) {
+      return searchAlignExplicit ?? "center";
+    }
+
+    return "between";
+  }, [
+    frameAlign,
+    renderedFrameSlotKeys,
+    resolvedSubTabs,
+    resolvedSearch,
+  ]);
+
   return (
     <Component
       className={containerClassName}
@@ -353,7 +490,7 @@ const PageHeaderInner = <
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
-        align={frameAlign ?? "between"}
+        align={derivedFrameAlign}
         {...(resolvedFrameSlots !== undefined
           ? { slots: resolvedFrameSlots }
           : {})}

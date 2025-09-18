@@ -229,4 +229,94 @@ describe("PageHeader", () => {
     expect(searchSlot).toHaveAttribute("data-slot", "search");
     expect(searchSlot).toHaveAttribute("aria-label", "Search planner highlights");
   });
+
+  it("centers the frame slots when only hero actions render", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          actions: <button type="button">Act</button>,
+        }}
+      />,
+    );
+
+    const slotStrip = container.querySelector("[data-align]") as HTMLElement | null;
+    if (!slotStrip) {
+      throw new Error("Expected hero frame slots to render");
+    }
+    expect(slotStrip).toHaveAttribute("data-align", "center");
+  });
+
+  it("mirrors search alignment when it is the lone frame slot", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={baseHero}
+        search={{
+          value: "",
+          onValueChange: () => {},
+          "aria-label": "Search", 
+        }}
+      />,
+    );
+
+    const slotStrip = container.querySelector("[data-align]") as HTMLElement | null;
+    if (!slotStrip) {
+      throw new Error("Expected hero frame slots to render");
+    }
+    expect(slotStrip).toHaveAttribute("data-align", "center");
+  });
+
+  it("leans toward the tab intent when tabs and search share the frame", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={baseHero}
+        subTabs={{
+          items: [
+            { key: "overview", label: "Overview" },
+            { key: "insights", label: "Insights" },
+          ],
+          value: "overview",
+          onChange: vi.fn(),
+          ariaLabel: "Switch view",
+        }}
+        search={{
+          value: "",
+          onValueChange: () => {},
+          "aria-label": "Search",
+        }}
+      />,
+    );
+
+    const slotStrip = container.querySelector("[data-align]") as HTMLElement | null;
+    if (!slotStrip) {
+      throw new Error("Expected hero frame slots to render");
+    }
+    expect(slotStrip).toHaveAttribute("data-align", "end");
+  });
+
+  it("balances search and actions toward the center when both render", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          actions: <button type="button">Act</button>,
+        }}
+        search={{
+          value: "",
+          onValueChange: () => {},
+          "aria-label": "Search",
+        }}
+      />,
+    );
+
+    const slotStrip = container.querySelector("[data-align]") as HTMLElement | null;
+    if (!slotStrip) {
+      throw new Error("Expected hero frame slots to render");
+    }
+    expect(slotStrip).toHaveAttribute("data-align", "center");
+  });
 });
