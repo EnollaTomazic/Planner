@@ -229,4 +229,113 @@ describe("PageHeader", () => {
     expect(searchSlot).toHaveAttribute("data-slot", "search");
     expect(searchSlot).toHaveAttribute("aria-label", "Search planner highlights");
   });
+
+  describe("frame alignment fallbacks", () => {
+    const createSubTabs = () => ({
+      items: [
+        { key: "overview", label: "Overview" },
+        { key: "insights", label: "Insights" },
+      ],
+      value: "overview",
+      onChange: vi.fn(),
+      ariaLabel: "Hero filters",
+    });
+
+    const createSearch = () => ({
+      value: "",
+      onValueChange: vi.fn(),
+      "aria-label": "Search hero content",
+    });
+
+    const getSlotArea = (container: HTMLElement) =>
+      container.querySelector("[data-align]") as HTMLElement | null;
+
+    it("mirrors search alignment when only search renders", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          search={createSearch()}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "center");
+    });
+
+    it("centers lone action slots when only actions render", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          actions={<button type="button">Primary action</button>}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "center");
+    });
+
+    it("uses tab alignment when only sub-tabs render", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          subTabs={createSubTabs()}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "end");
+    });
+
+    it("centers mixed search and action slots", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          search={createSearch()}
+          actions={<button type="button">Primary action</button>}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "center");
+    });
+
+    it("leans into end alignment when sub-tabs and actions render", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          subTabs={createSubTabs()}
+          actions={<button type="button">Primary action</button>}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "end");
+    });
+
+    it("keeps between alignment when all slots render", () => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={baseHero}
+          subTabs={createSubTabs()}
+          search={createSearch()}
+          actions={<button type="button">Primary action</button>}
+        />,
+      );
+
+      const slotArea = getSlotArea(container);
+      expect(slotArea).not.toBeNull();
+      expect(slotArea).toHaveAttribute("data-align", "between");
+    });
+  });
 });
