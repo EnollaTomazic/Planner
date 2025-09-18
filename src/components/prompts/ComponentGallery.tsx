@@ -11,6 +11,10 @@ import {
   TabBar,
   Progress,
   GlitchProgress,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
   Spinner,
   ThemeToggle,
   AnimationToggle,
@@ -70,6 +74,7 @@ const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery"
 import IconButtonShowcase from "./IconButtonShowcase";
 
 type View = "buttons" | "inputs" | "prompts" | "planner" | "misc";
+type DemoTabKey = "overview" | "prompts" | "notes";
 
 const viewTabs: TabItem<View>[] = [
   { key: "buttons", label: "Buttons" },
@@ -148,6 +153,7 @@ export default function ComponentGallery() {
   const [side, setSide] = React.useState<GameSide>("Blue");
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
+  const [tabsDemo, setTabsDemo] = React.useState<DemoTabKey>("overview");
   const [view, setView] = React.useState<View>("buttons");
   const [headerTab, setHeaderTab] = React.useState("one");
   const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
@@ -332,6 +338,39 @@ export default function ComponentGallery() {
         ),
       },
       {
+        label: "Tabs (panels)",
+        element: (
+          <Tabs<DemoTabKey>
+            value={tabsDemo}
+            onValueChange={(next) => setTabsDemo(next as DemoTabKey)}
+            className="w-full max-w-md"
+          >
+            <TabList ariaLabel="Tabs demo">
+              <Tab value="overview">Overview</Tab>
+              <Tab value="prompts">Prompts</Tab>
+              <Tab value="notes">Notes</Tab>
+            </TabList>
+            <div className="mt-[var(--space-3)] rounded-card border border-border/30 bg-card/60 p-[var(--space-4)] text-ui">
+              <TabPanel value="overview">
+                <p className="text-ui text-muted-foreground">
+                  Compare Planner personas and tone options.
+                </p>
+              </TabPanel>
+              <TabPanel value="prompts">
+                <p className="text-ui text-muted-foreground">
+                  Reuse prompt starters for different reviews.
+                </p>
+              </TabPanel>
+              <TabPanel value="notes">
+                <p className="text-ui text-muted-foreground">
+                  Capture follow-ups and action items for later.
+                </p>
+              </TabPanel>
+            </div>
+          </Tabs>
+        ),
+      },
+      {
         label: "SideSelector",
         element: (
           <SideSelector value={side} onChange={setSide} className="w-56" />
@@ -347,6 +386,7 @@ export default function ComponentGallery() {
       side,
       tactilePrimaryActive,
       tactileSecondaryActive,
+      tabsDemo,
     ],
   );
 
