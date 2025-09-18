@@ -444,19 +444,19 @@ function HomePageContent() {
       <PageShell
         as="main"
         aria-labelledby="home-header"
-        className="py-6 md:pb-8"
+        className="py-[var(--space-6)] md:pb-[var(--space-8)]"
       >
         <div className="relative isolate rounded-[var(--radius-2xl)]">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset"
           />
-          <div className="relative space-y-6 p-[var(--space-4)] md:space-y-8 md:p-[var(--space-5)]">
+          <div className="relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]">
             <section
               id="landing-hero"
               role="region"
               aria-label="Intro"
-              className="grid grid-cols-12 gap-4 pb-[var(--space-2)] md:pb-[var(--space-3)]"
+              className="grid grid-cols-12 gap-[var(--space-4)] pb-[var(--space-2)] md:pb-[var(--space-3)]"
             >
               <div className="col-span-12">
                 <PageHeader
@@ -506,12 +506,12 @@ function HomePageContent() {
             </section>
             <div
               className={cn(
-                "space-y-6",
+                "space-y-[var(--space-6)]",
                 floatingSurfaceClass,
                 floatingPaddingClass,
               )}
             >
-              <div className="grid items-start gap-4 md:grid-cols-12">
+              <div className="grid items-start gap-[var(--space-4)] md:grid-cols-12">
                 <div className="md:col-span-6">
                   <QuickActions />
                 </div>
@@ -519,7 +519,7 @@ function HomePageContent() {
                   <IsometricRoom variant={theme.variant} />
                 </div>
               </div>
-              <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
+              <section className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
                 <div className="md:col-span-4">
                   <TodayCard />
                 </div>
