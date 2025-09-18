@@ -3,7 +3,7 @@
 import "./style.css";
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
-import { toISODate } from "@/lib/date";
+import { fromISODate, toISODate } from "@/lib/date";
 
 export type ISODate = string;
 
@@ -162,8 +162,8 @@ export function pruneOldDays(
   let mutated = false;
 
   for (const iso of Object.keys(days)) {
-    const isoDate = new Date(`${iso}T00:00:00.000Z`);
-    if (Number.isNaN(isoDate.getTime())) {
+    const isoDate = fromISODate(iso);
+    if (!isoDate) {
       continue;
     }
     if (isoDate.getTime() < cutoffTime) {
