@@ -13,7 +13,7 @@ vi.mock("@/lib/db", async () => {
   const initialFocus = "2024-01-01";
   return {
     ...actual,
-    usePersistentState: <T,>(key: string, initial: T) => {
+    usePersistentState: <T,>(key: string, initial: T, _options?: unknown) => {
       if (key === "planner:focus") {
         return React.useState(initialFocus) as unknown as [
           T,

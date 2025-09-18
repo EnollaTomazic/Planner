@@ -138,4 +138,76 @@ describe("usePlannerStore integration", () => {
       );
     });
   });
+
+  it("repairs corrupted planner storage blobs", async () => {
+    const iso = "2024-05-10";
+    window.localStorage.setItem(
+      "noxis-planner:planner:days",
+      JSON.stringify({
+        [iso]: {
+          projects: [
+            { id: "p1", name: "Valid", done: true, createdAt: 1 },
+            { id: 2, name: "Bad", done: false, createdAt: 2 },
+          ],
+          tasks: [
+            {
+              id: "t1",
+              title: "Keep",
+              done: false,
+              createdAt: 3,
+              projectId: "p1",
+              images: ["ok", 123, "again"],
+            },
+            {
+              id: "t2",
+              title: 42,
+              done: true,
+              createdAt: 4,
+              projectId: "p1",
+              images: "bad",
+            },
+          ],
+          tasksByProject: { p1: ["t1", "t2"] },
+          tasksById: {
+            t1: { id: "t1", title: "Stale" },
+          },
+          doneCount: 10,
+          totalCount: 20,
+          focus: "t1",
+          notes: 99,
+        },
+        invalid: {
+          projects: [{ id: null }],
+        },
+      }),
+    );
+
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.days[iso]?.projects).toHaveLength(1);
+    });
+
+    const day = result.current.days[iso]!;
+    expect(day.projects).toEqual([
+      { id: "p1", name: "Valid", done: true, createdAt: 1 },
+    ]);
+    expect(day.tasks).toHaveLength(1);
+    expect(day.tasks[0]).toEqual({
+      id: "t1",
+      title: "Keep",
+      done: false,
+      createdAt: 3,
+      projectId: "p1",
+      images: ["ok", "again"],
+    });
+    expect(day.tasksByProject).toEqual({ p1: ["t1"] });
+    expect(day.tasksById["t1"]).toBe(day.tasks[0]);
+    expect(day.doneCount).toBe(1);
+    expect(day.totalCount).toBe(2);
+    expect(day.focus).toBe("t1");
+    expect(day.notes).toBeUndefined();
+
+    expect(result.current.days.invalid).toBeUndefined();
+  });
 });

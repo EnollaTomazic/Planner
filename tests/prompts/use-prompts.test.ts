@@ -9,7 +9,7 @@ vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
   return {
     ...actual,
-    usePersistentState: <T>(_key: string, _initial: T) =>
+    usePersistentState: <T>(_key: string, _initial: T, _options?: unknown) =>
       React.useState(mockInitialPrompts as T),
   };
 });
