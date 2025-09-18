@@ -74,7 +74,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               </option>
             ))}
           </select>
-          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent" />
+          <ChevronDown className="pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground" />
         </FieldShell>
         {success && (
           <p

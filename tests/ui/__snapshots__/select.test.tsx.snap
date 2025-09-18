@@ -26,7 +26,7 @@ exports[`Select > renders default state 1`] = `
     </select>
     <svg
       aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -67,7 +67,7 @@ exports[`Select > renders disabled state 1`] = `
     </select>
     <svg
       aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -109,7 +109,7 @@ exports[`Select > renders error state 1`] = `
     </select>
     <svg
       aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -160,7 +160,7 @@ exports[`Select > renders focus state 1`] = `
     </select>
     <svg
       aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -201,7 +201,7 @@ exports[`Select > renders success state 1`] = `
     </select>
     <svg
       aria-hidden="true"
-      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent"
+      class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-14)] h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground group-focus-within:text-accent-foreground"
       fill="none"
       height="24"
       stroke="currentColor"
