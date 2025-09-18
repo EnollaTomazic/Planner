@@ -39,6 +39,97 @@ export type Selection = {
   taskId?: string;
 };
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function decodeProject(value: unknown): Project | null {
+  if (!isRecord(value)) return null;
+  const id = value["id"];
+  const name = value["name"];
+  const done = value["done"];
+  const createdAt = value["createdAt"];
+  if (typeof id !== "string") return null;
+  if (typeof name !== "string") return null;
+  if (typeof done !== "boolean") return null;
+  if (typeof createdAt !== "number" || !Number.isFinite(createdAt)) return null;
+  return { id, name, done, createdAt };
+}
+
+function decodeImages(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const result: string[] = [];
+  for (const item of value) {
+    if (typeof item === "string") result.push(item);
+  }
+  return result;
+}
+
+function decodeTask(value: unknown): DayTask | null {
+  if (!isRecord(value)) return null;
+  const id = value["id"];
+  const title = value["title"];
+  const done = value["done"];
+  const createdAt = value["createdAt"];
+  if (typeof id !== "string") return null;
+  if (typeof title !== "string") return null;
+  if (typeof done !== "boolean") return null;
+  if (typeof createdAt !== "number" || !Number.isFinite(createdAt)) return null;
+  const projectId = value["projectId"];
+  const images = decodeImages(value["images"]);
+  return {
+    id,
+    title,
+    done,
+    createdAt,
+    ...(typeof projectId === "string" ? { projectId } : {}),
+    images,
+  };
+}
+
+function decodeDayRecord(value: unknown): DayRecord | null {
+  if (!isRecord(value)) return null;
+  const rawProjects = value["projects"];
+  const rawTasks = value["tasks"];
+  const projects = Array.isArray(rawProjects)
+    ? rawProjects.map(decodeProject).filter((p): p is Project => p !== null)
+    : [];
+  const tasks = Array.isArray(rawTasks)
+    ? rawTasks.map(decodeTask).filter((t): t is DayTask => t !== null)
+    : [];
+  const { tasksById, tasksByProject } = buildTaskLookups(tasks);
+  const { doneCount, totalCount } = computeDayCounts(projects, tasks);
+  const focusValue = value["focus"];
+  const notesValue = value["notes"];
+  const hasFocus = typeof focusValue === "string";
+  const hasNotes = typeof notesValue === "string";
+  if (!projects.length && !tasks.length && !hasFocus && !hasNotes) {
+    return null;
+  }
+  const day: DayRecord = {
+    projects,
+    tasks,
+    tasksById,
+    tasksByProject,
+    doneCount,
+    totalCount,
+  };
+  if (hasFocus) day.focus = focusValue as string;
+  if (hasNotes) day.notes = notesValue as string;
+  return day;
+}
+
+export function decodePlannerDays(value: unknown): Record<ISODate, DayRecord> {
+  if (!isRecord(value)) return {};
+  const result: Record<ISODate, DayRecord> = {};
+  for (const [iso, rawDay] of Object.entries(value)) {
+    const decoded = decodeDayRecord(rawDay);
+    if (!decoded) continue;
+    result[iso as ISODate] = decoded;
+  }
+  return result;
+}
+
 const FOCUS_PLACEHOLDER: ISODate = "";
 
 export function todayISO(): ISODate {
@@ -238,6 +329,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
     "planner:days",
     {},
+    { decode: decodePlannerDays },
   );
   const [focus, setFocus] = usePersistentState<ISODate>(
     "planner:focus",

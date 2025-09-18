@@ -272,9 +272,18 @@ export function useStorageSync(
  *  - Any change to state is persisted to localStorage.
  *  - Cross-tab: uses `useStorageSync` to stay in sync.
  */
+type PersistentStateDecode<T> = (value: unknown) => T | null | undefined;
+type PersistentStateEncode<T> = (value: T) => unknown;
+
+type PersistentStateOptions<T> = {
+  decode?: PersistentStateDecode<T>;
+  encode?: PersistentStateEncode<T>;
+};
+
 export function usePersistentState<T>(
   key: string,
   initial: T,
+  options?: PersistentStateOptions<T>,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = React.useState<T>(initial);
 
@@ -286,6 +295,48 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     initialRef.current = initial;
   }, [initial]);
+
+  const decodeRef = React.useRef<PersistentStateDecode<T> | null>(
+    options?.decode ?? null,
+  );
+  const encodeRef = React.useRef<PersistentStateEncode<T> | null>(
+    options?.encode ?? null,
+  );
+  React.useEffect(() => {
+    decodeRef.current = options?.decode ?? null;
+  }, [options?.decode]);
+  React.useEffect(() => {
+    encodeRef.current = options?.encode ?? null;
+  }, [options?.encode]);
+
+  const decodeValue = React.useCallback(
+    (value: unknown): T | null => {
+      if (value === null) return null;
+      const decode = decodeRef.current;
+      if (!decode) return value as T;
+      try {
+        const result = decode(value);
+        if (typeof result === "undefined" || result === null) return null;
+        return result;
+      } catch {
+        return null;
+      }
+    },
+    [],
+  );
+
+  const encodeValue = React.useCallback(
+    (value: T): unknown => {
+      const encode = encodeRef.current;
+      if (!encode) return value;
+      try {
+        return encode(value);
+      } catch {
+        return value;
+      }
+    },
+    [],
+  );
 
   const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
@@ -301,19 +352,24 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     if (!isBrowser) return;
     if (!loadedRef.current) {
-      let fromStorage = baseReadLocal<T>(fullKeyRef.current);
+      let fromStorage = baseReadLocal<unknown>(fullKeyRef.current);
       if (fromStorage === null) {
-        fromStorage = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
+        fromStorage = baseReadLocal<unknown>(`${OLD_STORAGE_PREFIX}${key}`);
       }
       if (fromStorage !== null) {
-        if (!Object.is(stateRef.current, fromStorage)) setState(fromStorage);
+        const decoded = decodeValue(fromStorage);
+        if (decoded !== null) {
+          if (!Object.is(stateRef.current, decoded)) setState(decoded);
+        } else if (!Object.is(stateRef.current, initialRef.current)) {
+          setState(initialRef.current);
+        }
       } else {
         if (!Object.is(stateRef.current, initialRef.current))
           setState(initialRef.current);
       }
       loadedRef.current = true;
     }
-  }, [key]);
+  }, [key, decodeValue]);
 
   const handleExternal = React.useCallback((raw: string | null) => {
     if (raw === null) {
@@ -321,9 +377,16 @@ export function usePersistentState<T>(
         setState(initialRef.current);
       return;
     }
-    const next = parseJSON<T>(raw);
-    if (next !== null && !Object.is(stateRef.current, next)) setState(next);
-  }, []);
+    const parsed = parseJSON<unknown>(raw);
+    if (parsed === null) return;
+    const decoded = decodeValue(parsed);
+    if (decoded !== null) {
+      if (!Object.is(stateRef.current, decoded)) setState(decoded);
+      return;
+    }
+    if (!Object.is(stateRef.current, initialRef.current))
+      setState(initialRef.current);
+  }, [decodeValue]);
 
   useStorageSync(key, handleExternal);
 
@@ -331,11 +394,12 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
-      scheduleWrite(fullKeyRef.current, state);
+      const encoded = encodeValue(state);
+      scheduleWrite(fullKeyRef.current, encoded);
     } catch {
       // ignore
     }
-  }, [state]);
+  }, [state, encodeValue]);
 
   return [state, setState];
 }

@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import securityHeadersMap from "./security-headers.json" assert { type: "json" };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,6 +24,10 @@ const normalizedBasePath = slug ? `/${slug}` : undefined;
 const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
 const shouldApplyBasePath = Boolean(isGitHubPages && normalizedBasePath && !isUserOrOrgGitHubPage);
 
+const securityHeaders = Object.entries(securityHeadersMap).map(
+  ([key, value]) => ({ key, value }),
+);
+
 const nextConfig = {
   reactStrictMode: true,
   output: isGitHubPages ? "export" : undefined,
@@ -43,6 +48,14 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_BASE_PATH: shouldApplyBasePath ? normalizedBasePath : "",
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders.map((header) => ({ ...header })),
+      },
+    ];
   },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
