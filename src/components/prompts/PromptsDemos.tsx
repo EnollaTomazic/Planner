@@ -14,6 +14,8 @@ import {
   Snackbar,
   Spinner,
   SectionCard,
+  FloatingSurface,
+  RecessedPanel,
   TitleBar,
   SideSelector,
   PillarBadge,
@@ -187,6 +189,41 @@ export default function PromptsDemos() {
             value="a"
             onChange={() => {}}
           />
+        </div>
+      </Card>
+      <Card className="mt-8 space-y-4">
+        <h3 className="type-title">Recessed Surfaces</h3>
+        <p className="text-ui text-muted-foreground">
+          Pair <code>RecessedPanel</code> with <code>FloatingSurface</code> to
+          create layered canvases that keep content elevated.
+        </p>
+        <div
+          className="relative isolate overflow-hidden"
+          style={
+            {
+              borderRadius: "calc(var(--radius-2xl) * 1.2)",
+              minHeight: "calc(var(--space-8) * 2)",
+            } as React.CSSProperties
+          }
+        >
+          <RecessedPanel />
+          <FloatingSurface
+            className="relative mx-auto flex w-full flex-col items-center gap-[var(--space-2)] px-[var(--space-4)] py-[var(--space-5)] text-center"
+            style={
+              {
+                maxWidth: "min(100%, calc(var(--shell-width) / 2))",
+              } as React.CSSProperties
+            }
+          >
+            <span className="text-label text-muted-foreground">Floating demo</span>
+            <p className="type-body text-card-foreground text-balance">
+              Content stays luminous above a recessed backdrop with ambient
+              blur applied by the floating surface.
+            </p>
+            <Button variant="primary" size="sm">
+              Explore layers
+            </Button>
+          </FloatingSurface>
         </div>
       </Card>
       <Card className="mt-8 space-y-4">
