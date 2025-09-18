@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { SectionCard as UiSectionCard } from "@/components/ui";
 import { COLOR_SECTIONS } from "./constants";
@@ -19,11 +21,44 @@ function SectionCard({ title, children }: SectionCardProps) {
 type SwatchProps = { token: string };
 
 function Swatch({ token }: SwatchProps) {
+  const swatchRef = React.useRef<HTMLDivElement | null>(null);
+  const [resolvedColor, setResolvedColor] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const node = swatchRef.current;
+    if (!node) {
+      return;
+    }
+
+    const computed = window.getComputedStyle(node);
+    const rawValue = computed.getPropertyValue(`--${token}`).trim();
+
+    if (!rawValue) {
+      setResolvedColor(null);
+      return;
+    }
+
+    let color = rawValue;
+    const supportsColor = window.CSS?.supports;
+
+    if (typeof supportsColor === "function") {
+      if (!supportsColor("color", rawValue)) {
+        const hslValue = `hsl(${rawValue})`;
+        color = supportsColor("color", hslValue) ? hslValue : rawValue;
+      }
+    } else if (!rawValue.includes("(")) {
+      color = `hsl(${rawValue})`;
+    }
+
+    setResolvedColor(color);
+  }, [token]);
+
   return (
     <li className="flex flex-col items-center gap-[var(--space-2)] xl:col-span-3">
       <div
+        ref={swatchRef}
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
-        style={{ backgroundColor: `hsl(var(--${token}))` }}
+        style={{ backgroundColor: resolvedColor ?? undefined }}
       />
       <span className="text-label font-medium">{token}</span>
     </li>
