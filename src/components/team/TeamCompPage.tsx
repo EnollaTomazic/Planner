@@ -452,7 +452,7 @@ export default function TeamCompPage() {
         containerClassName="sticky top-0 md:col-span-12"
         className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         contentClassName="space-y-[var(--space-2)]"
-        frameProps={{ variant: "unstyled" }}
+        frameProps={{ variant: "default" }}
         header={{
           id: "teamcomp-header",
           eyebrow: "Comps",

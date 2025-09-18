@@ -993,7 +993,7 @@ export default function ComponentGallery() {
                 Body
               </div>
             </Hero>
-            <NeomorphicHeroFrame variant="plain">
+            <NeomorphicHeroFrame variant="dense">
               <Hero
                 heading="Frame-ready"
                 eyebrow="No padding"
@@ -1006,7 +1006,8 @@ export default function ComponentGallery() {
                 padding="none"
               >
                 <div className="text-ui text-muted-foreground">
-                  Flush to the frame
+                  Dense frame keeps the hero flush while preserving the
+                  neomorphic halo
                 </div>
               </Hero>
             </NeomorphicHeroFrame>

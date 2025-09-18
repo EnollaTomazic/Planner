@@ -6,7 +6,7 @@ import Header, { type HeaderProps } from "./Header";
 import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
-  type NeomorphicHeroFrameActionAreaProps,
+  type HeroSlots,
 } from "./NeomorphicHeroFrame";
 import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,7 @@ type PageHeaderElementProps = Omit<
 >;
 
 type PageHeaderFrameElement = React.ElementRef<typeof NeomorphicHeroFrame>;
+type PageHeaderFrameProps = Omit<NeomorphicHeroFrameProps, "children">;
 
 type HeaderKey = string;
 type HeroKey = string;
@@ -39,7 +40,7 @@ export interface PageHeaderBaseProps<
   /** Optional className for the semantic wrapper */
   containerClassName?: string;
   /** Additional props for the outer frame */
-  frameProps?: NeomorphicHeroFrameProps;
+  frameProps?: PageHeaderFrameProps;
   /** Optional className for the inner content wrapper */
   contentClassName?: string;
   /** Semantic element for the header container (defaults to a <section>) */
@@ -160,22 +161,20 @@ const PageHeaderInner = <
   const {
     className: frameClassName,
     variant: frameVariant,
-    actionArea: frameActionAreaProp,
-    allowOverflow: frameAllowOverflow,
+    slots: frameSlotsProp,
     ...restFrameProps
   } = frameProps ?? {};
 
-  const frameActionArea = frameActionAreaProp ?? null;
+  const frameSlots =
+    frameSlotsProp === undefined ? undefined : frameSlotsProp;
 
-  const stickyChildrenPresent = headerSticky || heroSticky;
-
-  const heroShouldRenderActionArea = frameActionArea === null;
-  const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
+  const heroShouldRenderSlots = frameSlots === null;
+  const heroShouldRenderTabs = heroShouldRenderSlots || tabsInHero;
 
   const heroTabVariant: TabBarProps["variant"] | undefined =
     resolvedHeroFrame ? "neo" : undefined;
 
-  const actionAreaTabs = React.useMemo(() => {
+  const frameTabs = React.useMemo(() => {
     if (!resolvedSubTabs || heroShouldRenderTabs) return undefined;
 
     const {
@@ -235,55 +234,55 @@ const PageHeaderInner = <
     );
   }, [resolvedSubTabs, heroTabVariant, heroShouldRenderTabs]);
 
-  const actionAreaSearch = React.useMemo(() => {
+  const frameSearch = React.useMemo(() => {
     if (resolvedSearch === null) return null;
     if (!resolvedSearch) return undefined;
     return <HeroSearchBar {...resolvedSearch} />;
   }, [resolvedSearch]);
 
-  const actionAreaActions = resolvedActions;
+  const frameActions = resolvedActions;
 
   const heroActionProps = React.useMemo<
     Pick<HeroProps<HeroKey>, "subTabs" | "search" | "actions"> | undefined
   >(() => {
-    if (!heroShouldRenderActionArea && !heroShouldRenderTabs) return undefined;
+    if (!heroShouldRenderSlots && !heroShouldRenderTabs) return undefined;
     return {
       ...(heroShouldRenderTabs ? { subTabs: resolvedSubTabs } : {}),
-      ...(heroShouldRenderActionArea
+      ...(heroShouldRenderSlots
         ? { search: resolvedSearch, actions: resolvedActions }
         : {}),
     };
   }, [
-    heroShouldRenderActionArea,
+    heroShouldRenderSlots,
     heroShouldRenderTabs,
     resolvedSubTabs,
     resolvedSearch,
     resolvedActions,
   ]);
 
-  const resolvedFrameActionArea = React.useMemo<
-    NeomorphicHeroFrameActionAreaProps | null | undefined
+  const resolvedFrameSlots = React.useMemo<
+    HeroSlots | null | undefined
   >(() => {
-    if (frameActionArea === null) {
+    if (frameSlots === null) {
       return null;
     }
 
     const tabsProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "tabs");
+      frameSlots !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameSlots, "tabs");
     const searchProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "search");
+      frameSlots !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameSlots, "search");
     const actionsProvided =
-      frameActionArea !== undefined &&
-      Object.prototype.hasOwnProperty.call(frameActionArea, "actions");
+      frameSlots !== undefined &&
+      Object.prototype.hasOwnProperty.call(frameSlots, "actions");
 
-    const tabs = tabsProvided ? frameActionArea?.tabs : actionAreaTabs;
-    const search = searchProvided ? frameActionArea?.search : actionAreaSearch;
-    const actions = actionsProvided ? frameActionArea?.actions : actionAreaActions;
+    const tabs = tabsProvided ? frameSlots?.tabs : frameTabs;
+    const search = searchProvided ? frameSlots?.search : frameSearch;
+    const actions = actionsProvided ? frameSlots?.actions : frameActions;
 
     if (
-      frameActionArea === undefined &&
+      frameSlots === undefined &&
       tabs === undefined &&
       search === undefined &&
       actions === undefined
@@ -292,21 +291,21 @@ const PageHeaderInner = <
     }
 
     if (
-      frameActionArea &&
-      tabs === frameActionArea.tabs &&
-      search === frameActionArea.search &&
-      actions === frameActionArea.actions
+      frameSlots &&
+      tabs === frameSlots.tabs &&
+      search === frameSlots.search &&
+      actions === frameSlots.actions
     ) {
-      return frameActionArea;
+      return frameSlots;
     }
 
     return {
-      ...(frameActionArea ?? {}),
+      ...(frameSlots ?? {}),
       ...(tabs !== undefined ? { tabs } : {}),
       ...(search !== undefined ? { search } : {}),
       ...(actions !== undefined ? { actions } : {}),
     };
-  }, [frameActionArea, actionAreaTabs, actionAreaSearch, actionAreaActions]);
+  }, [frameSlots, frameTabs, frameSearch, frameActions]);
 
   return (
     <Component
@@ -316,10 +315,9 @@ const PageHeaderInner = <
       <NeomorphicHeroFrame
         ref={ref}
         variant={frameVariant ?? "default"}
-        actionArea={resolvedFrameActionArea}
-        allowOverflow={
-          frameAllowOverflow ?? stickyChildrenPresent
-        }
+        {...(resolvedFrameSlots !== undefined
+          ? { slots: resolvedFrameSlots }
+          : {})}
         {...restFrameProps}
         className={cn(className, frameClassName)}
       >

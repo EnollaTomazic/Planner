@@ -1010,13 +1010,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "neomorphic-hero-frame",
       name: "NeomorphicHeroFrame",
       description:
-        "Composable neomorphic frame with semantic wrappers, tokenized spacing, and an action row for tabs, search, and buttons.",
+        "Composable neomorphic frame with semantic wrappers, tokenized spacing, and a slot grid for tabs, search, and buttons.",
       element: <NeomorphicHeroFrameDemo />,
       tags: ["hero", "layout", "tokens"],
       code: `<NeomorphicHeroFrame
   as="header"
-  variant="default"
-  actionArea={{
+  label="Mission controls"
+  slots={{
     tabs: (
       <TabBar
         items={[
@@ -1040,7 +1040,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       />
     ),
     actions: (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-[var(--space-2)]">
         <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
         <Button size="sm" variant="primary" loading>
           Deploy
@@ -1052,23 +1052,23 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     ),
   }}
 >
-  <div className="grid gap-4 md:grid-cols-12">
-    <div className="md:col-span-7 space-y-3">
+  <HeroGrid className="gap-[var(--space-4)] md:gap-[var(--space-6)]">
+    <HeroCol span={7} className="space-y-3">
       <p className="text-ui text-muted-foreground">
         Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
       </p>
-    </div>
-  </div>
+    </HeroCol>
+  </HeroGrid>
 </NeomorphicHeroFrame>
 
-<NeomorphicHeroFrame as="nav" variant="compact" actionArea={{ align: "between" }}>
-  <div className="grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-6">
+<NeomorphicHeroFrame as="nav" variant="compact" align="between" label="Mission filters">
+  <HeroGrid className="gap-[var(--space-3)] md:gap-[var(--space-4)]">
+    <HeroCol span={6}>
       <p className="text-ui text-muted-foreground">
         Compact variant swaps to r-card-md radius with px-4/md:px-5/lg:px-6 spacing.
       </p>
-    </div>
-  </div>
+    </HeroCol>
+  </HeroGrid>
 </NeomorphicHeroFrame>`,
     },
     {
@@ -1084,7 +1084,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "hero",
       name: "Hero",
       description:
-        "Stacked hero shell with search and actions — default spacing plus frame-ready paddingless variant.",
+        "Stacked hero shell with search and actions — default spacing plus a dense frame-ready variant.",
       element: (
         <div className="space-y-[var(--space-4)]">
           <Hero
@@ -1097,7 +1097,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
           >
             <div className="text-ui text-muted-foreground">Body content</div>
           </Hero>
-          <NeomorphicHeroFrame variant="plain">
+          <NeomorphicHeroFrame variant="dense">
             <Hero
               heading="Frame-ready hero"
               eyebrow="No padding"
@@ -1125,7 +1125,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <div className="text-ui text-muted-foreground">Body content</div>
 </Hero>
 
-<NeomorphicHeroFrame variant="plain">
+<NeomorphicHeroFrame variant="dense">
   <Hero
     heading="Frame-ready hero"
     eyebrow="No padding"

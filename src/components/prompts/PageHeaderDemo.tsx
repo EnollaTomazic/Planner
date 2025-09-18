@@ -214,41 +214,40 @@ export default function PageHeaderDemo() {
         </p>
       </Hero>
 
-      <NeomorphicHeroFrame
-        as="section"
-        variant="plain"
-        contentClassName="space-y-[var(--space-4)]"
-      >
-        <Hero
-          as="section"
-          eyebrow="Frame-ready hero"
-          heading="Flush supportive layout"
-          subtitle="Let the outer frame handle breathing room."
-          sticky={false}
-          topClassName="top-0"
-          tone="supportive"
-          frame={false}
-          rail={false}
-          padding="none"
-          search={{
-            id: "hero-flush-search",
-            value: query,
-            onValueChange: setQuery,
-            debounceMs: 150,
-            placeholder: "Search frame highlights…",
-            "aria-label": "Search frame highlights",
-          }}
-          actions={
-            <Button size="sm" variant="secondary" className="whitespace-nowrap">
-              Assign scout
-            </Button>
-          }
-        >
-          <p className="text-ui text-muted-foreground">
-            When the hero sits inside another shell, drop its padding so the
-            divider and actions align perfectly with the parent grid.
-          </p>
-        </Hero>
+      <NeomorphicHeroFrame as="section" variant="dense">
+        <div className="space-y-[var(--space-4)]">
+          <Hero
+            as="section"
+            eyebrow="Frame-ready hero"
+            heading="Flush supportive layout"
+            subtitle="Let the outer frame handle breathing room."
+            sticky={false}
+            topClassName="top-0"
+            tone="supportive"
+            frame={false}
+            rail={false}
+            padding="none"
+            search={{
+              id: "hero-flush-search",
+              value: query,
+              onValueChange: setQuery,
+              debounceMs: 150,
+              placeholder: "Search frame highlights…",
+              "aria-label": "Search frame highlights",
+            }}
+            actions={
+              <Button size="sm" variant="secondary" className="whitespace-nowrap">
+                Assign scout
+              </Button>
+            }
+          >
+            <p className="text-ui text-muted-foreground">
+              When the hero sits inside another shell, drop its padding so the
+              dense frame keeps dividers and actions aligned with the parent
+              grid.
+            </p>
+          </Hero>
+        </div>
       </NeomorphicHeroFrame>
 
       <PageHeader
@@ -396,7 +395,7 @@ export default function PageHeaderDemo() {
         so the content hugs the frame. Want the Hero divider row instead? Pass
         {" "}
         <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-1.5 py-0.5 font-mono text-[0.75rem] text-foreground/80">
-          {"frameProps={{ actionArea: null }}"}
+          {"frameProps={{ slots: null }}"}
         </code>{" "}
         to hand control back to Hero while keeping tone overrides intact.
       </p>
