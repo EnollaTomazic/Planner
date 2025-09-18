@@ -3,8 +3,7 @@
 
 import * as React from "react";
 import { Image as ImageIcon } from "lucide-react";
-import { Select, type SelectItem } from "@/components/ui";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Button, Select, type SelectItem } from "@/components/ui";
 import useMounted from "@/lib/useMounted";
 import { useTheme } from "@/lib/theme-context";
 import {
@@ -124,18 +123,20 @@ export default function ThemeToggle({
   return (
     <div className={`flex items-center gap-[var(--space-2)] whitespace-nowrap ${className}`}>
       {/* background cycle */}
-      <IconButton
+      <Button
         id={id}
+        variant="secondary"
+        size="sm"
+        tactile
+        className="shrink-0 px-[var(--space-2)]"
         aria-label={`${aria}: cycle background`}
         title="Change background"
         onClick={cycleBg}
         disabled={isCycleDisabled}
         loading={isCycleLoading}
-        size="sm"
-        className="shrink-0"
       >
         <ImageIcon className="h-[var(--space-4)] w-[var(--space-4)]" />
-      </IconButton>
+      </Button>
 
       {/* dropdown — no visible title; uses aria label */}
       <Select

@@ -53,6 +53,7 @@ type ButtonBaseProps = {
   variant?: "primary" | "secondary" | "ghost";
   tone?: Tone;
   loading?: boolean;
+  tactile?: boolean;
 };
 
 type ButtonAsButtonProps = ButtonBaseProps &
@@ -137,46 +138,60 @@ export const toneClasses: Record<
   },
 };
 
-type VariantConfig = {
-  className: string | ((tone: Tone) => string);
+type VariantConfigResult = {
+  className: string;
   whileHover?: HTMLMotionProps<"button">["whileHover"];
   whileTap?: HTMLMotionProps<"button">["whileTap"];
   overlay?: React.ReactNode;
   contentClass?: string;
 };
 
+type VariantConfig = (options: {
+  tone: Tone;
+  tactile: boolean;
+}) => VariantConfigResult;
+
+const composeShadow = (layers: string[]) => layers.join(", ");
+
 export const variants: Record<
   NonNullable<ButtonProps["variant"]>,
   VariantConfig
 > = {
-  primary: {
-    className: (tone) =>
-      cn(
-        "shadow-glow-sm hover:shadow-glow-md active:translate-y-px active:shadow-btn-primary-active",
-        tone === "primary"
-          ? "bg-primary-soft"
-          : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
-        `border-[hsl(var(${colorVar[tone]})/0.35)]`,
-        `text-[hsl(var(${toneForegroundVar[tone]}))]`,
-      ),
+  primary: ({ tone, tactile }) => ({
+    className: cn(
+      "shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
+      tactile ? "active:translate-y-0" : "active:translate-y-px",
+      tone === "primary"
+        ? "bg-primary-soft"
+        : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
+      `border-[hsl(var(${colorVar[tone]})/0.35)]`,
+      `text-[hsl(var(${toneForegroundVar[tone]}))]`,
+    ),
     whileTap: {
-      scale: 0.97,
+      scale: tactile ? 0.98 : 0.97,
     },
     contentClass:
       "relative z-10 inline-flex items-center gap-[var(--space-2)]",
-  },
-  secondary: {
-    className: "bg-panel/80 shadow-neo",
-    whileHover: { scale: 1.02, boxShadow: neuRaised(15) },
-    whileTap: {
-      scale: 0.97,
-      boxShadow: neuInset(9) as CSSProperties["boxShadow"],
-    },
-  },
-  ghost: {
+  }),
+  secondary: ({ tactile }) => ({
+    className: cn(
+      "bg-panel/80 shadow-[var(--btn-secondary-shadow-rest)] hover:shadow-[var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
+      tactile && "active:translate-y-0",
+    ),
+    whileHover: tactile
+      ? { scale: 1.01 }
+      : { scale: 1.02, boxShadow: neuRaised(15) },
+    whileTap: tactile
+      ? { scale: 0.98 }
+      : {
+          scale: 0.97,
+          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+        },
+  }),
+  ghost: () => ({
     className: "bg-transparent",
     whileTap: { scale: 0.97 },
-  },
+  }),
 } as const;
 
 export const Button = React.forwardRef<
@@ -190,6 +205,7 @@ export const Button = React.forwardRef<
     tone = "primary",
     children,
     loading,
+    tactile = false,
     style,
   } = props;
   const asChild = props.asChild ?? false;
@@ -216,20 +232,17 @@ export const Button = React.forwardRef<
   );
 
   const {
-    className: variantClass,
+    className: resolvedVariantClass,
     whileHover: variantHover,
     whileTap,
     overlay,
     contentClass,
-  } = variants[variant];
-
-  const resolvedVariantClass =
-    typeof variantClass === "function" ? variantClass(tone) : variantClass;
+  } = variants[variant]({ tone, tactile });
 
   const hoverAnimation = reduceMotion
     ? undefined
     : variant === "primary"
-      ? { scale: 1.03 }
+      ? { scale: tactile ? 1.02 : 1.03 }
       : variantHover;
 
   const contentClasses = cn(
@@ -240,13 +253,73 @@ export const Button = React.forwardRef<
   let resolvedStyle = style;
 
   if (variant === "primary") {
-    const glowStyles = {
+    const basePrimaryShadows = {
       "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
       "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColorVar}) / 0.25)`,
       "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColorVar}) / 0.6)`,
+      "--btn-primary-shadow-rest": "0 0 calc(var(--space-4) / 2) var(--glow-active)",
+      "--btn-primary-shadow-hover": "0 0 var(--space-4) var(--glow-active)",
+      "--btn-primary-shadow-active": "var(--btn-primary-active-shadow)",
     } as CSSProperties;
+
+    const tactilePrimary = tactile
+      ? {
+          "--btn-primary-shadow-rest": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.18)`,
+            `inset 0 0 0 var(--space-0-25) hsl(var(${toneColorVar}) / 0.4)`,
+          ]),
+          "--btn-primary-shadow-hover": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.22)`,
+            `0 0 0 var(--space-0-5) hsl(var(${toneColorVar}) / 0.4)`,
+            `0 var(--space-4) var(--space-8) hsl(var(${toneColorVar}) / 0.25)`,
+          ]),
+          "--btn-primary-shadow-active": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.45)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.28)`,
+            `0 0 0 var(--space-0-5) hsl(var(${toneColorVar}) / 0.45)`,
+          ]),
+        }
+      : {};
+
     resolvedStyle = {
-      ...glowStyles,
+      ...basePrimaryShadows,
+      ...tactilePrimary,
+      ...(style ?? {}),
+    };
+  } else if (variant === "secondary") {
+    const accentVar = tone === "primary" ? "--ring" : colorVar[tone];
+    const baseSecondaryShadows = {
+      "--btn-secondary-shadow-rest": neuRaised(),
+      "--btn-secondary-shadow-hover": neuRaised(15),
+      "--btn-secondary-shadow-active": neuInset(9),
+    } as CSSProperties;
+
+    const tactileSecondary = tactile
+      ? {
+          "--btn-secondary-shadow-rest": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.18)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.22)`,
+            `0 0 0 var(--space-0-25) hsl(var(${accentVar}) / 0.22)`,
+          ]),
+          "--btn-secondary-shadow-hover": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.2)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.26)`,
+            `0 0 0 var(--space-0-5) hsl(var(${accentVar}) / 0.28)`,
+            `0 var(--space-3) var(--space-6) hsl(var(${accentVar}) / 0.22)`,
+          ]),
+          "--btn-secondary-shadow-active": composeShadow([
+            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.28)`,
+            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.3)`,
+            `0 0 0 var(--space-0-5) hsl(var(${accentVar}) / 0.32)`,
+          ]),
+        }
+      : {};
+
+    resolvedStyle = {
+      ...baseSecondaryShadows,
+      ...tactileSecondary,
       ...(style ?? {}),
     };
   }
@@ -289,6 +362,7 @@ export const Button = React.forwardRef<
     delete slotProps.variant;
     delete slotProps.tone;
     delete slotProps.loading;
+    delete slotProps.tactile;
     delete slotProps.className;
     delete slotProps.children;
     delete slotProps.style;
@@ -298,6 +372,7 @@ export const Button = React.forwardRef<
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
+      "data-tactile": tactile ? "true" : undefined,
       "aria-busy": loading ? true : undefined,
       style: resolvedStyle,
       whileHover: hoverAnimation,
@@ -349,6 +424,7 @@ export const Button = React.forwardRef<
     delete anchorProps.variant;
     delete anchorProps.tone;
     delete anchorProps.loading;
+    delete anchorProps.tactile;
     delete anchorProps.className;
     delete anchorProps.children;
     delete anchorProps.style;
@@ -356,6 +432,7 @@ export const Button = React.forwardRef<
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
+      "data-tactile": tactile ? "true" : undefined,
       "aria-busy": loading ? true : undefined,
       style: resolvedStyle,
       whileHover: hoverAnimation,
@@ -407,17 +484,19 @@ export const Button = React.forwardRef<
   delete buttonProps.tabIndex;
   delete buttonProps.asChild;
   delete buttonProps.size;
-  delete buttonProps.variant;
-  delete buttonProps.tone;
-  delete buttonProps.loading;
-  delete buttonProps.className;
-  delete buttonProps.children;
+    delete buttonProps.variant;
+    delete buttonProps.tone;
+    delete buttonProps.loading;
+    delete buttonProps.tactile;
+    delete buttonProps.className;
+    delete buttonProps.children;
   delete buttonProps.style;
   delete buttonProps.disabled;
   const baseProps = {
     className: mergedClassName,
     "data-loading": loading ? "true" : undefined,
     "data-disabled": isDisabled ? "true" : undefined,
+    "data-tactile": tactile ? "true" : undefined,
     "aria-busy": loading ? true : undefined,
     style: resolvedStyle,
     whileHover: hoverAnimation,

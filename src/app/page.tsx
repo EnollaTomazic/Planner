@@ -454,6 +454,7 @@ function HomePageContent() {
               hero={{
                 heading: "Your day at a glance",
                 sticky: false,
+                barVariant: "raised",
                 topClassName: "top-0",
                 actions: (
                   <>
@@ -462,6 +463,7 @@ function HomePageContent() {
                       asChild
                       variant="primary"
                       size="sm"
+                      tactile
                       className="px-4 whitespace-nowrap"
                     >
                       <Link href="/planner">Plan Week</Link>
