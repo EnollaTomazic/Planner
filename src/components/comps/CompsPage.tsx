@@ -200,6 +200,7 @@ export default function CompsPage() {
             value: section,
             onChange: (key) => setSection(key as Section),
             idBase: "comps",
+            linkPanels: true,
           },
           search: {
             id: "comps-search",
