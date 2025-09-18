@@ -136,13 +136,6 @@ describe("usePlannerStore", () => {
   });
 
   it("migrates legacy storage and stops syncing", async () => {
-    vi.resetModules();
-    const { PlannerProvider: PProvider, usePlannerStore: useStore } =
-      await import("@/components/planner");
-    const localWrapper = ({ children }: { children: React.ReactNode }) => (
-      <PProvider>{children}</PProvider>
-    );
-
     const original = window.localStorage;
     const store: Record<string, string> = {
       "planner:projects": JSON.stringify([
@@ -179,7 +172,7 @@ describe("usePlannerStore", () => {
       configurable: true,
     });
 
-    const { result } = renderHook(() => useStore(), { wrapper: localWrapper });
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
     await waitFor(() =>
       expect(result.current.day.projects[0].name).toBe("Legacy"),
     );
