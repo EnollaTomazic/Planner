@@ -81,6 +81,8 @@ import {
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
+const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery";
+
 export type Section =
   | "buttons"
   | "inputs"
@@ -589,12 +591,22 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "Field",
       description: "Primitive wrapper for custom inputs",
       element: (
-        <Field.Root className="w-56">
-          <Field.Input placeholder="Compose primitives" />
-        </Field.Root>
+        <div className="flex w-56 flex-col gap-[var(--space-2)]">
+          <Field.Root>
+            <Field.Input placeholder="Compose primitives" />
+          </Field.Root>
+          <a
+            href={fieldStoryHref}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-[var(--space-1)] text-label font-medium text-accent-foreground transition-colors duration-[var(--dur-quick)] ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--bg))]"
+          >
+            Explore Field states in Storybook
+          </a>
+        </div>
       ),
       tags: ["field", "input"],
-      code: `<Field.Root className="w-56">
+      code: `<Field.Root>
   <Field.Input placeholder="Compose primitives" />
 </Field.Root>`,
     },
