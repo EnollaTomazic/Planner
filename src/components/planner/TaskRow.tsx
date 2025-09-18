@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Button from "@/components/ui/primitives/Button";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,8 @@ export default function TaskRow({
   const [imageUrl, setImageUrl] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
+  const trimmedImageUrl = imageUrl.trim();
+  const canAttachImage = trimmedImageUrl.length > 0;
 
   useAutoFocus({ ref: inputRef, when: editing });
 
@@ -104,9 +107,8 @@ export default function TaskRow({
   }
 
   function addImage() {
-    const v = imageUrl.trim();
-    if (!v) return;
-    onAddImage(v);
+    if (!trimmedImageUrl) return;
+    onAddImage(trimmedImageUrl);
     setImageUrl("");
   }
 
@@ -272,7 +274,7 @@ export default function TaskRow({
           e.preventDefault();
           addImage();
         }}
-        className="mt-[var(--space-2)]"
+        className="mt-[var(--space-2)] flex items-center gap-[var(--space-2)]"
       >
         <label htmlFor={`task-image-${task.id}`} className="sr-only">
           Add image URL
@@ -283,7 +285,16 @@ export default function TaskRow({
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
           placeholder="https://example.com/image.jpg"
+          className="flex-1"
         />
+        <Button
+          type="submit"
+          size="sm"
+          disabled={!canAttachImage}
+          className="shrink-0"
+        >
+          Attach image
+        </Button>
       </form>
     </li>
   );

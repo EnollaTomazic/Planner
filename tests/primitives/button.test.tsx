@@ -100,4 +100,14 @@ describe("Button", () => {
     );
     expect(content).not.toMatch(/\bpx-(5|6)\b/);
   });
+
+  it("matches snapshot for secondary danger tone", () => {
+    const { container } = render(
+      <Button variant="secondary" tone="danger">
+        Delete
+      </Button>,
+    );
+
+    expect(container.firstChild).toMatchSnapshot();
+  });
 });
