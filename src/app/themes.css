@@ -259,11 +259,11 @@ html.theme-hardstuck {
   --ring: 120 100% 60%;
   --theme-ring: hsl(var(--ring));
   --primary: 120 100% 60%;
-  --primary-foreground: 0 0% 0%;
+  --primary-foreground: var(--hardstuck-foreground);
   --primary-soft: 120 100% 24%;
   --accent: 120 100% 60%;
   --accent-2: 120 100% 20%;
-  --accent-foreground: 0 0% 0%;
+  --accent-foreground: var(--hardstuck-foreground);
   --text-on-accent: hsl(var(--background));
   --accent-soft: 120 100% 12%;
   --glow: 120 100% 60%;
