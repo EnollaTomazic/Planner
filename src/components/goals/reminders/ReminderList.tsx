@@ -64,6 +64,16 @@ function RemTile({
 
   useAutoFocus({ ref: titleRef, when: editing });
 
+  React.useEffect(() => {
+    if (editing) {
+      return;
+    }
+
+    setTitle(value.title);
+    setBody(value.body ?? "");
+    setTagsText(value.tags.join(", "));
+  }, [editing, value.body, value.tags, value.title]);
+
   const save = React.useCallback(() => {
     const cleanTags = tagsText
       .split(",")
