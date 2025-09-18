@@ -120,7 +120,7 @@ export const toneClasses: Record<
   },
   secondary: {
     primary:
-      "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]",
+      "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)] hover:text-foreground active:text-foreground focus-visible:text-foreground",
     accent:
       "text-accent-foreground bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
     info:
