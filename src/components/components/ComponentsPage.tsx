@@ -4,14 +4,14 @@ import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
-import ComponentsView from "@/components/prompts/ComponentsView";
+import ComponentsViewPanel from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import {
   COMPONENTS_VIEW_TABS,
   SECTION_TABS,
   SPEC_DATA,
   type Section,
-  type CompsView,
+  type ComponentsView,
 } from "@/components/prompts/constants";
 import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,11 +24,11 @@ function getValidSection(value: string | null): Section {
   return value && hasSection(value) ? value : "buttons";
 }
 
-function hasView(value: string): value is CompsView {
+function hasView(value: string): value is ComponentsView {
   return value === "components" || value === "colors";
 }
 
-function getValidView(value: string | null): CompsView {
+function getValidView(value: string | null): ComponentsView {
   return value && hasView(value) ? value : "components";
 }
 
@@ -123,7 +123,7 @@ export default function ComponentsPage() {
   const [section, setSection] = React.useState<Section>(() =>
     getValidSection(sectionParam),
   );
-  const [view, setView] = React.useState<CompsView>(() =>
+  const [view, setView] = React.useState<ComponentsView>(() =>
     getValidView(viewParam),
   );
   const [query, setQuery] = usePersistentState("components-query", "");
@@ -260,7 +260,7 @@ export default function ComponentsPage() {
           tabs: {
             items: COMPONENTS_VIEW_TABS,
             value: view,
-            onChange: (key) => setView(key as CompsView),
+            onChange: (key) => setView(key as ComponentsView),
             ariaLabel: "Component gallery view",
             idBase: "components",
             linkPanels: true,
@@ -338,7 +338,7 @@ export default function ComponentsPage() {
           aria-hidden={view !== "components"}
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <ComponentsView
+          <ComponentsViewPanel
             query={query}
             section={section}
             onFilteredCountChange={setFilteredCount}

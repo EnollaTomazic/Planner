@@ -1560,9 +1560,9 @@ export const SECTION_TABS: HeaderTab<Section>[] = (
   label: formatSectionLabel(key),
 }));
 
-export type CompsView = "components" | "colors";
+export type ComponentsView = "components" | "colors";
 
-export const COMPONENTS_VIEW_TABS: HeaderTab<CompsView>[] = [
+export const COMPONENTS_VIEW_TABS: HeaderTab<ComponentsView>[] = [
   { key: "components", label: "Components", controls: "components-panel" },
   { key: "colors", label: "Colors", controls: "colors-panel" },
 ];
