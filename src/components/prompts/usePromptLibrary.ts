@@ -4,35 +4,27 @@ import * as React from "react";
 import Fuse from "fuse.js";
 import type { FuseResult } from "fuse.js";
 import { usePersistentState, uid } from "@/lib/db";
+import {
+  derivePromptTitle,
+  type Prompt,
+  type PromptWithTitle,
+} from "./types";
 
-export type Prompt = {
-  id: string;
-  title?: string;
-  text: string;
-  createdAt: number;
-};
-
-export type PromptWithTitle = Prompt & { title: string };
-
-export function usePrompts() {
-  const [prompts, setPrompts] = usePersistentState<Prompt[]>("prompts.v1", []);
+export function usePromptLibrary(storageKey: string) {
+  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, []);
   const [query, setQuery] = React.useState("");
 
-  const deriveTitle = React.useCallback((p: Prompt) => {
-    if (p.title && p.title.trim()) return p.title.trim();
-    const firstLine = (p.text || "")
-      .split(/\r?\n/)
-      .find((line) => line.trim())?.trim();
-    return firstLine || "Untitled";
-  }, []);
-
   const withTitles = React.useMemo(
-    () => prompts.map((p) => ({ ...p, title: deriveTitle(p) })),
-    [prompts, deriveTitle],
+    () => prompts.map((prompt) => ({ ...prompt, title: derivePromptTitle(prompt) })),
+    [prompts],
   );
 
   const fuse = React.useMemo(
-    () => new Fuse(withTitles, { keys: ["title", "text"], threshold: 0.3 }),
+    () =>
+      new Fuse(withTitles, {
+        keys: ["title", "text"],
+        threshold: 0.3,
+      }),
     [withTitles],
   );
 
@@ -62,4 +54,3 @@ export function usePrompts() {
 
   return { prompts, query, setQuery, filtered, save } as const;
 }
-

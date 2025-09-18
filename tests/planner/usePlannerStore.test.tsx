@@ -11,7 +11,12 @@ vi.mock("@/lib/db", async () => {
   };
 });
 
-import { PlannerProvider, usePlannerStore, useDay } from "@/components/planner";
+import {
+  PlannerProvider,
+  usePlannerStore,
+  useDay,
+  type DayRecord,
+} from "@/components/planner";
 
 describe("usePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -105,6 +110,90 @@ describe("usePlannerStore", () => {
     expect(
       result.current.planner.day.tasksByProject[projectId],
     ).toBeUndefined();
+  });
+
+  it("preserves untouched days when using CRUD helpers", () => {
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    const otherIso = "2030-01-02";
+    const otherDay: DayRecord = {
+      projects: [
+        { id: "p-other", name: "Elsewhere", done: false, createdAt: 1 },
+      ],
+      tasks: [],
+      tasksById: {},
+      tasksByProject: {},
+      doneCount: 0,
+      totalCount: 1,
+    };
+
+    act(() => {
+      result.current.setDay(otherIso, otherDay);
+    });
+
+    const preserved = result.current.days[otherIso];
+    expect(preserved).toBeDefined();
+
+    const expectUntouched = () => {
+      expect(result.current.days[otherIso]).toBe(preserved);
+    };
+
+    let projectId = "";
+    act(() => {
+      projectId = result.current.addProject("Focus Project");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.renameProject(projectId, "Renamed Project");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.toggleProject(projectId);
+    });
+    expectUntouched();
+
+    let taskId = "";
+    act(() => {
+      taskId = result.current.addTask("Focus Task", projectId);
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.addTaskImage(taskId, "https://example.com/image.png");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.removeTaskImage(taskId, "https://example.com/image.png");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.renameTask(taskId, "Task renamed");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.toggleTask(taskId);
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.setNotes("Focus notes");
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.removeTask(taskId);
+    });
+    expectUntouched();
+
+    act(() => {
+      result.current.removeProject(projectId);
+    });
+    expectUntouched();
   });
 
   it("provides day-scoped utilities via useDay", () => {
