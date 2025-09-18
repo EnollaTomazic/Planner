@@ -10,6 +10,16 @@ const paletteTabs: TabItem<ColorPalette>[] = [
   { key: "accents", label: "Accents" },
 ];
 
+const auroraSwatchStyle: React.CSSProperties = {
+  blockSize: "calc(var(--space-7) - var(--space-2))",
+  inlineSize: "calc(var(--space-7) - var(--space-2))",
+};
+
+const paletteSwatchStyle: React.CSSProperties = {
+  blockSize: "var(--space-8)",
+  inlineSize: "calc(var(--space-8) + var(--space-6))",
+};
+
 export default function ColorGallery() {
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
@@ -47,10 +57,22 @@ export default function ColorGallery() {
             <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
               <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-2">
-                <div className="w-10 h-10 rounded-md bg-aurora-g" />
-                <div className="w-10 h-10 rounded-md bg-aurora-g-light" />
-                <div className="w-10 h-10 rounded-md bg-aurora-p" />
-                <div className="w-10 h-10 rounded-md bg-aurora-p-light" />
+                <div
+                  className="rounded-[var(--radius-md)] bg-aurora-g"
+                  style={auroraSwatchStyle}
+                />
+                <div
+                  className="rounded-[var(--radius-md)] bg-aurora-g-light"
+                  style={auroraSwatchStyle}
+                />
+                <div
+                  className="rounded-[var(--radius-md)] bg-aurora-p"
+                  style={auroraSwatchStyle}
+                />
+                <div
+                  className="rounded-[var(--radius-md)] bg-aurora-p-light"
+                  style={auroraSwatchStyle}
+                />
               </div>
               <p className="mt-2 text-center text-label text-muted-foreground">
                 Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
@@ -65,8 +87,11 @@ export default function ColorGallery() {
                 {c}
               </span>
               <div
-                className="h-16 w-24 rounded-md border"
-                style={{ backgroundColor: `hsl(var(--${c}))` }}
+                className="rounded-[var(--radius-lg)] border"
+                style={{
+                  ...paletteSwatchStyle,
+                  backgroundColor: `hsl(var(--${c}))`,
+                }}
               />
             </div>
           ))}
