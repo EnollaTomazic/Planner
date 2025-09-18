@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Fuse from "fuse.js";
 import { Card, CardContent, NeoCard } from "@/components/ui";
