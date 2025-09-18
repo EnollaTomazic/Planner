@@ -290,7 +290,6 @@ export default function TaskRow({
                   height: taskImageCssValue,
                   width: taskImageCssValue,
                 }}
-                unoptimized
               />
               <IconButton
                 aria-label="Remove image"

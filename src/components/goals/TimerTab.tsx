@@ -207,10 +207,33 @@ export default function TimerTab() {
   React.useEffect(() => {
     if (!running) return;
     const id = window.setInterval(() => {
-      setTimer((prev) => ({
-        ...prev,
-        remaining: Math.max(0, prev.remaining - 250),
-      }));
+      let shouldStop = false;
+      setTimer((prev) => {
+        if (prev.remaining <= 0) {
+          if (!prev.running) return prev;
+          shouldStop = true;
+          return {
+            ...prev,
+            running: false,
+          };
+        }
+        const nextRemaining = prev.remaining - 250;
+        if (nextRemaining <= 0) {
+          shouldStop = true;
+          return {
+            ...prev,
+            remaining: 0,
+            running: false,
+          };
+        }
+        return {
+          ...prev,
+          remaining: nextRemaining,
+        };
+      });
+      if (shouldStop) {
+        window.clearInterval(id);
+      }
     }, 250);
     return () => window.clearInterval(id);
   }, [running, setTimer]);
