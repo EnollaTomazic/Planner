@@ -7,7 +7,7 @@ import Badge from "@/components/ui/primitives/Badge";
 import ComponentsView from "@/components/prompts/ComponentsView";
 import ColorsView from "@/components/prompts/ColorsView";
 import {
-  COMPS_VIEW_TABS,
+  COMPONENTS_VIEW_TABS,
   SECTION_TABS,
   SPEC_DATA,
   type Section,
@@ -111,7 +111,7 @@ const COLORS_HERO_COPY = {
     "Core palettes, gradients, and section cards for Planner surfaces.",
 };
 
-export default function CompsPage() {
+export default function ComponentsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paramsString = searchParams.toString();
@@ -126,7 +126,7 @@ export default function CompsPage() {
   const [view, setView] = React.useState<CompsView>(() =>
     getValidView(viewParam),
   );
-  const [query, setQuery] = usePersistentState("comps-query", "");
+  const [query, setQuery] = usePersistentState("components-query", "");
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const colorsPanelRef = React.useRef<HTMLDivElement>(null);
   const [filteredCount, setFilteredCount] = React.useState(() =>
@@ -249,20 +249,20 @@ export default function CompsPage() {
     <PageShell
       as="main"
       className="space-y-[var(--space-6)] py-[var(--space-6)]"
-      aria-labelledby="comps-header"
+      aria-labelledby="components-header"
     >
       <PageHeader
         header={{
-          id: "comps-header",
+          id: "components-header",
           heading: "Component Gallery",
           subtitle: "Browse Planner UI building blocks by category.",
           sticky: false,
           tabs: {
-            items: COMPS_VIEW_TABS,
+            items: COMPONENTS_VIEW_TABS,
             value: view,
             onChange: (key) => setView(key as CompsView),
             ariaLabel: "Component gallery view",
-            idBase: "comps",
+            idBase: "components",
             linkPanels: true,
           },
         }}
@@ -290,7 +290,7 @@ export default function CompsPage() {
                   items: heroTabs,
                   value: section,
                   onChange: (key) => setSection(key as Section),
-                  idBase: "comps",
+                  idBase: "components",
                   linkPanels: true,
                   size: "sm",
                   variant: "neo",
@@ -304,7 +304,7 @@ export default function CompsPage() {
           search:
             view === "components"
               ? {
-                  id: "comps-search",
+                  id: "components-search",
                   value: query,
                   onValueChange: setQuery,
                   debounceMs: 250,
@@ -329,9 +329,9 @@ export default function CompsPage() {
       />
       <section className="grid gap-[var(--space-6)]">
         <div
-          id="comps-components-panel"
+          id="components-components-panel"
           role="tabpanel"
-          aria-labelledby={`comps-components-tab comps-${section}-tab`}
+          aria-labelledby={`components-components-tab components-${section}-tab`}
           tabIndex={-1}
           ref={componentsPanelRef}
           hidden={view !== "components"}
@@ -345,9 +345,9 @@ export default function CompsPage() {
           />
         </div>
         <div
-          id="comps-colors-panel"
+          id="components-colors-panel"
           role="tabpanel"
-          aria-labelledby="comps-colors-tab"
+          aria-labelledby="components-colors-tab"
           tabIndex={-1}
           ref={colorsPanelRef}
           hidden={view !== "colors"}
