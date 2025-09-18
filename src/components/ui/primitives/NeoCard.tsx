@@ -6,7 +6,7 @@ export type NeoCardProps = CardProps & {
   overlay?: React.ReactNode;
 };
 
-const NeoCard = React.forwardRef<HTMLDivElement, NeoCardProps>(
+const NeoCard = React.forwardRef<React.ElementRef<"div">, NeoCardProps>(
   ({ className, children, overlay, ...props }, ref) => (
     <Card
       ref={ref}
