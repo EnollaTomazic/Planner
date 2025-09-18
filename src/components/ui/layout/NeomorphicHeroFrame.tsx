@@ -21,6 +21,8 @@ type HeroSlotKey = (typeof heroSlotOrder)[number];
 export interface HeroSlot {
   node: React.ReactNode;
   className?: string;
+  label?: string;
+  labelledById?: string;
 }
 
 export type HeroSlotInput = React.ReactNode | HeroSlot;
@@ -406,6 +408,15 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
         {heroSlotOrder.map((key) => {
           const slot = normalizedSlots[key];
           if (!slot) return null;
+          const slotLabel =
+            typeof slot.label === "string" && slot.label.trim().length > 0
+              ? slot.label.trim()
+              : undefined;
+          const slotLabelledById =
+            typeof slot.labelledById === "string" &&
+            slot.labelledById.trim().length > 0
+              ? slot.labelledById.trim()
+              : undefined;
           return (
             <div
               key={key}
@@ -416,6 +427,9 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
                 aligns[key],
                 slot.className,
               )}
+              role="group"
+              aria-label={slotLabel}
+              aria-labelledby={slotLabelledById}
             >
               <div className={slotContentClass}>{slot.node}</div>
             </div>

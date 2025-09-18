@@ -6,6 +6,7 @@ import Header, { type HeaderProps } from "./Header";
 import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
+  type HeroSlot,
   type HeroSlots,
 } from "./NeomorphicHeroFrame";
 import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
@@ -173,7 +174,7 @@ const PageHeaderInner = <
   const heroTabVariant: TabBarProps["variant"] | undefined =
     resolvedHeroFrame ? "neo" : undefined;
 
-  const actionAreaTabs = React.useMemo(() => {
+  const actionAreaTabsSlot = React.useMemo<HeroSlot | null | undefined>(() => {
     if (!resolvedSubTabs || heroShouldRenderTabs) return undefined;
 
     const {
@@ -215,28 +216,70 @@ const PageHeaderInner = <
           ariaLabel: sanitizedAriaLabel ?? "Hero sub-tabs",
         };
 
-    return (
-      <TabBar<HeroKey>
-        items={sanitizedItems}
-        value={String(value) as HeroKey}
-        onValueChange={(key) => onChange(key as HeroKey)}
-        size={size ?? "md"}
-        align={align ?? "end"}
-        className={cn("justify-end", subTabsClassName)}
-        showBaseline={showBaseline ?? true}
-        right={subTabsRight}
-        variant={subTabsVariant ?? heroTabVariant}
-        {...accessibilityProps}
-        linkPanels={linkPanels}
-        idBase={idBase}
-      />
-    );
-  }, [resolvedSubTabs, heroTabVariant, heroShouldRenderTabs]);
+    const slotLabel = sanitizedAriaLabelledBy
+      ? sanitizedAriaLabel ?? undefined
+      : sanitizedAriaLabel ?? "Hero sub-tabs";
 
-  const actionAreaSearch = React.useMemo(() => {
+    return {
+      node: (
+        <TabBar<HeroKey>
+          items={sanitizedItems}
+          value={String(value) as HeroKey}
+          onValueChange={(key) => onChange(key as HeroKey)}
+          size={size ?? "md"}
+          align={align ?? "end"}
+          className={cn("justify-end", subTabsClassName)}
+          showBaseline={showBaseline ?? true}
+          right={subTabsRight}
+          variant={subTabsVariant ?? heroTabVariant}
+          {...accessibilityProps}
+          linkPanels={linkPanels}
+          idBase={idBase}
+        />
+      ),
+      ...(slotLabel ? { label: slotLabel } : {}),
+      ...(sanitizedAriaLabelledBy
+        ? { labelledById: sanitizedAriaLabelledBy }
+        : {}),
+    };
+  }, [
+    resolvedSubTabs,
+    heroTabVariant,
+    heroShouldRenderTabs,
+  ]);
+
+  const actionAreaSearchSlot = React.useMemo<HeroSlot | null | undefined>(() => {
     if (resolvedSearch === null) return null;
     if (!resolvedSearch) return undefined;
-    return <HeroSearchBar {...resolvedSearch} />;
+
+    const rawAriaLabel = resolvedSearch["aria-label"];
+    const sanitizedAriaLabel =
+      typeof rawAriaLabel === "string" && rawAriaLabel.trim().length > 0
+        ? rawAriaLabel.trim()
+        : undefined;
+    const rawAriaLabelledBy = resolvedSearch["aria-labelledby"];
+    const sanitizedAriaLabelledBy =
+      typeof rawAriaLabelledBy === "string" &&
+      rawAriaLabelledBy.trim().length > 0
+        ? rawAriaLabelledBy.trim()
+        : undefined;
+    const visibleLabel = resolvedSearch.label;
+    const sanitizedVisibleLabel =
+      typeof visibleLabel === "string" && visibleLabel.trim().length > 0
+        ? visibleLabel.trim()
+        : undefined;
+
+    const slotLabel = sanitizedAriaLabelledBy
+      ? sanitizedAriaLabel ?? sanitizedVisibleLabel
+      : sanitizedAriaLabel ?? sanitizedVisibleLabel ?? "Hero search";
+
+    return {
+      node: <HeroSearchBar {...resolvedSearch} />,
+      ...(slotLabel ? { label: slotLabel } : {}),
+      ...(sanitizedAriaLabelledBy
+        ? { labelledById: sanitizedAriaLabelledBy }
+        : {}),
+    };
   }, [resolvedSearch]);
 
   const actionAreaActions = resolvedActions;
@@ -265,8 +308,8 @@ const PageHeaderInner = <
     }
 
     const defaultSlots: HeroSlots = {
-      tabs: actionAreaTabs,
-      search: actionAreaSearch,
+      tabs: actionAreaTabsSlot,
+      search: actionAreaSearchSlot,
       actions: actionAreaActions,
     };
 
@@ -295,7 +338,12 @@ const PageHeaderInner = <
     }
 
     return hasRenderable ? merged : undefined;
-  }, [frameSlotsProp, actionAreaTabs, actionAreaSearch, actionAreaActions]);
+  }, [
+    frameSlotsProp,
+    actionAreaTabsSlot,
+    actionAreaSearchSlot,
+    actionAreaActions,
+  ]);
 
   return (
     <Component

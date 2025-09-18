@@ -39,48 +39,57 @@ export default function NeomorphicHeroFrameDemo() {
         as="header"
         label="Mission controls"
         slots={{
-          tabs: (
-            <TabBar
-              items={missionTabs}
-              value={activeView}
-              onValueChange={(key) => setActiveView(key as MissionView)}
-              ariaLabel="Switch mission focus"
-              right={
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="px-2 text-label font-semibold uppercase tracking-[0.08em]"
-                >
-                  View all
+          tabs: {
+            node: (
+              <TabBar
+                items={missionTabs}
+                value={activeView}
+                onValueChange={(key) => setActiveView(key as MissionView)}
+                ariaLabel="Switch mission focus"
+                right={
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="px-2 text-label font-semibold uppercase tracking-[0.08em]"
+                  >
+                    View all
+                  </Button>
+                }
+                showBaseline
+                variant="neo"
+              />
+            ),
+            label: "Switch mission focus",
+          },
+          search: {
+            node: (
+              <SearchBar
+                value={query}
+                onValueChange={setQuery}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                loading={activeView === "archive"}
+              />
+            ),
+            label: "Search mission intel",
+          },
+          actions: {
+            node: (
+              <div className="flex items-center gap-2">
+                <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+                <Button size="sm" variant="secondary">
+                  Draft
                 </Button>
-              }
-              showBaseline
-              variant="neo"
-            />
-          ),
-          search: (
-            <SearchBar
-              value={query}
-              onValueChange={setQuery}
-              placeholder="Search mission intel…"
-              aria-label="Search mission intel"
-              loading={activeView === "archive"}
-            />
-          ),
-          actions: (
-            <div className="flex items-center gap-2">
-              <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-              <Button size="sm" variant="secondary">
-                Draft
-              </Button>
-              <Button size="sm" variant="primary" loading>
-                Deploy
-              </Button>
-              <Button size="sm" variant="ghost" disabled>
-                Disabled
-              </Button>
-            </div>
-          ),
+                <Button size="sm" variant="primary" loading>
+                  Deploy
+                </Button>
+                <Button size="sm" variant="ghost" disabled>
+                  Disabled
+                </Button>
+              </div>
+            ),
+            label: "Mission quick actions",
+          },
         }}
       >
         <HeroGrid variant="default">
@@ -123,35 +132,44 @@ export default function NeomorphicHeroFrameDemo() {
         align="between"
         label="Mission filters"
         slots={{
-          tabs: (
-            <TabBar
-              items={statusTabs}
-              value={status}
-              onValueChange={(key) => setStatus(key as MissionStatus)}
-              ariaLabel="Filter mission status"
-              size="sm"
-              variant="neo"
-            />
-          ),
-          search: (
-            <SearchBar
-              value={compactQuery}
-              onValueChange={setCompactQuery}
-              placeholder="Quick search…"
-              aria-label="Search mission status"
-              loading={status === "queued"}
-            />
-          ),
-          actions: (
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="secondary">
-                Pin view
-              </Button>
-              <Button size="sm" variant="ghost">
-                More
-              </Button>
-            </div>
-          ),
+          tabs: {
+            node: (
+              <TabBar
+                items={statusTabs}
+                value={status}
+                onValueChange={(key) => setStatus(key as MissionStatus)}
+                ariaLabel="Filter mission status"
+                size="sm"
+                variant="neo"
+              />
+            ),
+            label: "Filter mission status",
+          },
+          search: {
+            node: (
+              <SearchBar
+                value={compactQuery}
+                onValueChange={setCompactQuery}
+                placeholder="Quick search…"
+                aria-label="Search mission status"
+                loading={status === "queued"}
+              />
+            ),
+            label: "Search mission status",
+          },
+          actions: {
+            node: (
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="secondary">
+                  Pin view
+                </Button>
+                <Button size="sm" variant="ghost">
+                  More
+                </Button>
+              </div>
+            ),
+            label: "Mission frame actions",
+          },
         }}
       >
         <HeroGrid variant="compact">
