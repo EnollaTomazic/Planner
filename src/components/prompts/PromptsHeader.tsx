@@ -1,13 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Button, SearchBar } from "@/components/ui";
+import { Button, PageHeader } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
-import useDebouncedCallback from "@/lib/useDebouncedCallback";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
 
 interface PromptsHeaderProps {
+  id?: string;
   count: number;
   query: string;
   onQueryChange: (value: string) => void;
@@ -16,59 +16,69 @@ interface PromptsHeaderProps {
 }
 
 export default function PromptsHeader({
+  id = "prompts-header",
   count,
   query,
   onQueryChange,
   onSave,
   disabled,
 }: PromptsHeaderProps) {
-  const [localQuery, setLocalQuery] = React.useState(query);
-  const [emitQueryChange] = useDebouncedCallback(onQueryChange, 300);
-
-  React.useEffect(() => {
-    setLocalQuery(query);
-  }, [query]);
-
-  const handleChange = React.useCallback(
-    (val: string) => {
-      setLocalQuery(val);
-      emitQueryChange(val);
+  const handleChip = React.useCallback(
+    (chip: string) => {
+      onQueryChange(chip);
     },
-    [emitQueryChange],
+    [onQueryChange],
   );
 
-  const handleChip = (chip: string) => {
-    setLocalQuery(chip);
-    onQueryChange(chip);
-  };
+  const searchId = `${id}-search`;
 
   return (
-    <div className="flex items-center justify-between w-full">
-      <div className="flex items-center gap-3">
-        <h2 className="card-title">Prompts</h2>
-        <span className="pill">{count} saved</span>
-      </div>
-      <div className="flex items-center gap-2 min-w-0">
-        <div className="w-48 sm:w-64 md:w-80">
-          <SearchBar
-            value={localQuery}
-            onValueChange={handleChange}
-            placeholder="Search prompts…"
-            debounceMs={0}
-          />
-        </div>
-        <div className="hidden sm:flex gap-1">
-          {chips.map((c) => (
-            <Badge key={c} interactive onClick={() => handleChip(c)}>
-              {c}
-            </Badge>
-          ))}
-        </div>
-        <Button variant="primary" onClick={onSave} disabled={disabled}>
-          Save
-        </Button>
-      </div>
-    </div>
+    <PageHeader
+      containerClassName="relative isolate"
+      header={{
+        id,
+        heading: "Prompts",
+        sticky: false,
+        right: (
+          <span className="pill" aria-live="polite">
+            {count} saved
+          </span>
+        ),
+      }}
+      hero={{
+        frame: false,
+        sticky: false,
+        tone: "supportive",
+        topClassName: "top-[var(--header-stack)]",
+        heading: (
+          <span className="sr-only" id={`${id}-hero`}>
+            Prompt workspace controls
+          </span>
+        ),
+        children: (
+          <div className="hidden sm:flex flex-wrap items-center gap-[var(--space-2)]">
+            {chips.map((chip) => (
+              <Badge key={chip} interactive onClick={() => handleChip(chip)}>
+                {chip}
+              </Badge>
+            ))}
+          </div>
+        ),
+        search: {
+          id: searchId,
+          value: query,
+          onValueChange: onQueryChange,
+          debounceMs: 300,
+          placeholder: "Search prompts…",
+          "aria-label": "Search prompts",
+        },
+        actions: (
+          <Button type="button" variant="primary" onClick={onSave} disabled={disabled}>
+            Save
+          </Button>
+        ),
+      }}
+    />
   );
 }
 
