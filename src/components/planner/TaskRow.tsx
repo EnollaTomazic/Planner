@@ -47,6 +47,12 @@ export default function TaskRow({
 
   useAutoFocus({ ref: inputRef, when: editing });
 
+  React.useEffect(() => {
+    if (!editing) {
+      setTitle(task.title);
+    }
+  }, [editing, task.title]);
+
   const handleFocusWithin = React.useCallback(() => {
     setHasFocusWithin(true);
   }, []);
@@ -99,7 +105,11 @@ export default function TaskRow({
   function commit() {
     const v = title.trim();
     setEditing(false);
-    if (v && v !== task.title) onEdit(v);
+    if (!v) {
+      setTitle(task.title);
+      return;
+    }
+    if (v !== task.title) onEdit(v);
   }
   function cancel() {
     setEditing(false);
