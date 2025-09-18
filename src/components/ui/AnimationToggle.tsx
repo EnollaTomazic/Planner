@@ -17,6 +17,9 @@ export default function AnimationToggle({
   const [enabled, setEnabled] = usePersistentState<boolean>(KEY, true);
   const [showNotice, setShowNotice] = React.useState(false);
   const reduceMotion = usePrefersReducedMotion();
+  const appliedByToggleRef = React.useRef(false);
+  const latestEnabledRef = React.useRef(enabled);
+  latestEnabledRef.current = enabled;
 
   React.useEffect(() => {
     if (readLocal<boolean>(KEY) === null && reduceMotion) {
@@ -27,9 +30,20 @@ export default function AnimationToggle({
   }, [reduceMotion, setEnabled]);
 
   React.useEffect(() => {
-    document.documentElement.classList.toggle("no-animations", !enabled);
+    const root = document.documentElement;
+
+    if (!enabled) {
+      if (!root.classList.contains("no-animations")) {
+        root.classList.add("no-animations");
+      }
+      appliedByToggleRef.current = true;
+    }
+
     return () => {
-      document.documentElement.classList.remove("no-animations");
+      if (latestEnabledRef.current && appliedByToggleRef.current) {
+        root.classList.remove("no-animations");
+        appliedByToggleRef.current = false;
+      }
     };
   }, [enabled]);
 
