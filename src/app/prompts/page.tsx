@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import PromptsPage from "./PromptsPage";
+import PromptsPage from "@/components/prompts/PromptsPage";
 
 export const metadata: Metadata = {
-  title: "Component Gallery",
+  title: "Saved Prompts Library",
   description:
-    "Browse and explore UI components like NeoCard, the PageHeader hero variant, and the compact header navigation demo.",
+    "Browse saved Planner prompts, capture new ideas, and explore demos for composing, saving, and reusing prompts.",
 };
 
 export default function PromptsRoute() {

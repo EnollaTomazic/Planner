@@ -27,4 +27,3 @@ export { default as ToggleShowcase } from "./ToggleShowcase";
 export * from "./constants";
 export * from "./demoData";
 export * from "./usePrompts";
-export * from "./usePromptsRouter";
