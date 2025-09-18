@@ -146,6 +146,8 @@ export default function ComponentGallery() {
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
   const [view, setView] = React.useState<View>("buttons");
   const [headerTab, setHeaderTab] = React.useState("one");
+  const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
+  const [tactileSecondaryActive, setTactileSecondaryActive] = React.useState(false);
 
   const buttonItems = React.useMemo(
     () => [
@@ -169,6 +171,32 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56 flex justify-center">
             <ThemeToggle />
+          </div>
+        ),
+      },
+      {
+        label: "Button (tactile toggle)",
+        element: (
+          <div className="w-56 flex flex-col gap-[var(--space-2)]">
+            <Button
+              size="sm"
+              variant="primary"
+              tactile
+              aria-pressed={tactilePrimaryActive}
+              onClick={() => setTactilePrimaryActive((prev) => !prev)}
+            >
+              {tactilePrimaryActive ? "Primary active" : "Primary idle"}
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              tone="accent"
+              tactile
+              aria-pressed={tactileSecondaryActive}
+              onClick={() => setTactileSecondaryActive((prev) => !prev)}
+            >
+              {tactileSecondaryActive ? "Accent active" : "Accent idle"}
+            </Button>
           </div>
         ),
       },
@@ -306,7 +334,16 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [seg, appTab, filterTab, checked, toggleSide, side],
+    [
+      seg,
+      appTab,
+      filterTab,
+      checked,
+      toggleSide,
+      side,
+      tactilePrimaryActive,
+      tactileSecondaryActive,
+    ],
   );
 
   const inputItems = React.useMemo(
