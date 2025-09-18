@@ -89,8 +89,8 @@ export default function WelcomeHeroFigure({
             style={overlayStyle}
           />
           <Image
-            src="/tryHero.png"
-            alt="Planner assistant reviewing a holographic agenda"
+            src="/BEST_ONE_EVAH.png"
+            alt="Planner assistant sharing a colorful dashboard scene"
             fill
             priority
             loading="eager"
