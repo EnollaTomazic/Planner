@@ -159,7 +159,7 @@ export default function ComponentsView({
         </Badge>
       </header>
       <ul
-        className="grid grid-cols-4 gap-6 md:grid-cols-6 lg:grid-cols-12"
+        className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-12 sm:gap-[var(--space-6)]"
         aria-describedby={countDescriptionId}
       >
         {specs.length === 0 ? (
@@ -172,7 +172,7 @@ export default function ComponentsView({
           specs.map((spec) => (
             <li
               key={spec.id}
-              className="col-span-full md:col-span-3 lg:col-span-4 2xl:col-span-3"
+              className="col-span-full sm:col-span-6 lg:col-span-4 xl:col-span-3"
             >
               <SpecCard
                 {...spec}
