@@ -31,6 +31,8 @@ import {
   useSelectedTask,
   useSelection,
   useDays,
+  todayISO,
+  type DayRecord,
 } from "@/components/planner";
 
 describe("useSelection hooks", () => {
@@ -87,7 +89,7 @@ describe("useSelection hooks", () => {
   });
 
   it("clears stale selections once when data disappears", async () => {
-    const iso = "2024-01-02";
+    const iso = todayISO();
 
     const { result } = renderHook(
       () => {
@@ -200,5 +202,61 @@ describe("useSelection hooks", () => {
     });
 
     expect(selectionSetSpy.mock.calls.length).toBe(dayCleanupCalls + 1);
+  });
+
+  it("prunes aged days and clears related selections", async () => {
+    vi.useFakeTimers();
+    try {
+      const initial = new Date("2023-01-01T12:00:00Z");
+      vi.setSystemTime(initial);
+
+      const { result } = renderHook(
+        () => {
+          const { days, setDays } = useDays();
+          const { selected, setSelected } = useSelection();
+          return { days, setDays, selected, setSelected } as const;
+        },
+        { wrapper },
+      );
+
+      const iso = "2023-01-01";
+      const day: DayRecord = {
+        projects: [
+          { id: "p1", name: "Project", done: false, createdAt: 0 },
+        ],
+        tasks: [],
+        tasksById: {},
+        tasksByProject: {},
+        doneCount: 0,
+        totalCount: 1,
+      };
+
+      act(() => {
+        result.current.setDays(() => ({
+          [iso]: day,
+        }));
+      });
+      expect(result.current.days[iso]).toBeDefined();
+
+      act(() => {
+        result.current.setSelected((prev) => ({
+          ...prev,
+          [iso]: { projectId: "p1" },
+        }));
+      });
+      expect(result.current.selected[iso]?.projectId).toBe("p1");
+
+      vi.setSystemTime(new Date("2024-02-01T12:00:00Z"));
+
+      await act(async () => {
+        result.current.setDays((prev) => ({ ...prev }));
+        await Promise.resolve();
+      });
+
+      expect(result.current.days[iso]).toBeUndefined();
+      expect(result.current.selected[iso]).toBeUndefined();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
