@@ -1011,8 +1011,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["hero", "layout", "tokens"],
       code: `<NeomorphicHeroFrame
   as="header"
-  variant="default"
-  actionArea={{
+  slots={{
     tabs: (
       <TabBar
         items={[
@@ -1048,23 +1047,23 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     ),
   }}
 >
-  <div className="grid gap-4 md:grid-cols-12">
-    <div className="md:col-span-7 space-y-3">
+  <HeroGrid>
+    <HeroCol span={7} className="space-y-3">
       <p className="text-ui text-muted-foreground">
         Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
       </p>
-    </div>
-  </div>
+    </HeroCol>
+  </HeroGrid>
 </NeomorphicHeroFrame>
 
-<NeomorphicHeroFrame as="nav" variant="compact" actionArea={{ align: "between" }}>
-  <div className="grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-6">
+<NeomorphicHeroFrame as="nav" variant="compact" align="between">
+  <HeroGrid variant="compact">
+    <HeroCol span={6}>
       <p className="text-ui text-muted-foreground">
         Compact variant swaps to r-card-md radius with px-4/md:px-5/lg:px-6 spacing.
       </p>
-    </div>
-  </div>
+    </HeroCol>
+  </HeroGrid>
 </NeomorphicHeroFrame>`,
     },
     {
@@ -1093,7 +1092,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
           >
             <div className="text-ui text-muted-foreground">Body content</div>
           </Hero>
-          <NeomorphicHeroFrame variant="plain">
+          <NeomorphicHeroFrame variant="dense">
             <Hero
               heading="Frame-ready hero"
               eyebrow="No padding"
@@ -1121,7 +1120,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   <div className="text-ui text-muted-foreground">Body content</div>
 </Hero>
 
-<NeomorphicHeroFrame variant="plain">
+<NeomorphicHeroFrame variant="dense">
   <Hero
     heading="Frame-ready hero"
     eyebrow="No padding"

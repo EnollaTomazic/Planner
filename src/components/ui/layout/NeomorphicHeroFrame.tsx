@@ -2,7 +2,9 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
+
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 
 type FrameElement = Extract<
@@ -10,157 +12,85 @@ type FrameElement = Extract<
   "div" | "header" | "section" | "nav" | "article" | "aside" | "main"
 >;
 
-type Align = "start" | "center" | "end" | "between";
+export type HeroVariant = "default" | "compact" | "dense" | "unstyled";
+export type Align = "start" | "center" | "end" | "between";
 
-export type NeomorphicHeroFrameVariant =
-  | "default"
-  | "compact"
-  | "plain"
-  | "unstyled";
+const heroSlotOrder = ["tabs", "search", "actions"] as const;
+type HeroSlotKey = (typeof heroSlotOrder)[number];
 
-export interface NeomorphicHeroFrameActionAreaProps {
-  /** Optional segmented tabs rendered on the left */
-  tabs?: React.ReactNode;
-  /** Optional primary actions rendered on the right */
-  actions?: React.ReactNode;
-  /** Optional search control rendered inline */
-  search?: React.ReactNode;
-  /** Layout alignment across the action row */
-  align?: Align;
-  /** Adds a top divider when true (default) */
-  divider?: boolean;
-  /**
-   * Additional class for the action row wrapper. Useful for controlling
-   * grid spans when composing with other primitives.
-   */
+export interface HeroSlot {
+  node: React.ReactNode;
   className?: string;
-  tabsClassName?: string;
-  actionsClassName?: string;
-  searchClassName?: string;
-  "aria-label"?: string;
-  "aria-labelledby"?: string;
 }
+
+export type HeroSlotInput = React.ReactNode | HeroSlot;
+
+export type HeroSlots = Partial<Record<HeroSlotKey, HeroSlotInput>>;
 
 export interface NeomorphicHeroFrameProps
   extends React.HTMLAttributes<HTMLElement> {
-  /** Semantic element for the frame */
   as?: FrameElement;
-  /** Built-in shell styles */
-  variant?: NeomorphicHeroFrameVariant;
-  /** Toggle animated frame layers */
-  frame?: boolean;
-  /** Allow content to overflow the frame while clipping neon backdrops */
-  allowOverflow?: boolean;
-  /** Optional class applied to the inner content wrapper */
-  contentClassName?: string;
-  /** Optional action row (tabs, search, buttons) */
-  actionArea?: NeomorphicHeroFrameActionAreaProps | null;
-  /** Boost surface contrast for accessibility */
-  highContrast?: boolean;
+  variant?: HeroVariant;
+  align?: Align;
+  label?: string;
+  labelledById?: string;
+  slots?: HeroSlots | null;
+  children?: React.ReactNode;
 }
 
-const variantMap: Record<Exclude<NeomorphicHeroFrameVariant, "unstyled">, {
-  container: string;
+type VariantConfig = {
+  radius: string;
   padding: string;
-  content: string;
-  action: { mt: string; pt: string; gap: string };
-}> = {
+  contentSpacing: string;
+  slot: {
+    marginTop: string;
+    paddingTop: string;
+    gapY: string;
+    gapMd: string;
+  };
+};
+
+const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
   default: {
-    container:
-      "rounded-card r-card-lg border border-border/40 bg-card/70 shadow-outline-subtle",
+    radius: "rounded-card r-card-lg",
     padding:
       "px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]",
-    content: "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
-    action: {
-      mt: "mt-[var(--space-6)] md:mt-[var(--space-7)]",
-      pt: "pt-[var(--space-5)] md:pt-[var(--space-6)]",
-      gap: "gap-[var(--space-4)]",
+    contentSpacing:
+      "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
+    slot: {
+      marginTop: "mt-[var(--space-6)] md:mt-[var(--space-7)]",
+      paddingTop: "pt-[var(--space-5)] md:pt-[var(--space-6)]",
+      gapY: "gap-[var(--space-3)]",
+      gapMd: "md:gap-[var(--space-4)]",
     },
   },
   compact: {
-    container:
-      "rounded-card r-card-md border border-border/35 bg-card/65 shadow-outline-subtle",
+    radius: "rounded-card r-card-md",
     padding:
       "px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-5)] md:py-[var(--space-5)] lg:px-[var(--space-6)] lg:py-[var(--space-6)]",
-    content: "space-y-[var(--space-4)] md:space-y-[var(--space-5)]",
-    action: {
-      mt: "mt-[var(--space-4)] md:mt-[var(--space-5)]",
-      pt: "pt-[var(--space-4)] md:pt-[var(--space-5)]",
-      gap: "gap-[var(--space-3)]",
+    contentSpacing:
+      "space-y-[var(--space-4)] md:space-y-[var(--space-5)]",
+    slot: {
+      marginTop: "mt-[var(--space-5)]",
+      paddingTop: "pt-[var(--space-4)] md:pt-[var(--space-5)]",
+      gapY: "gap-[var(--space-3)]",
+      gapMd: "md:gap-[var(--space-3)]",
     },
   },
-  plain: {
-    container:
-      "rounded-card r-card-md border border-border/30 bg-card/60 shadow-outline-faint",
+  dense: {
+    radius: "rounded-card r-card-md",
     padding:
-      "px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-5)] md:py-[var(--space-5)]",
-    content: "space-y-[var(--space-3)] md:space-y-[var(--space-4)]",
-    action: {
-      mt: "mt-[var(--space-4)]",
-      pt: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
-      gap: "gap-[var(--space-3)]",
+      "px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)] lg:px-[var(--space-5)] lg:py-[var(--space-5)]",
+    contentSpacing:
+      "space-y-[var(--space-3)] md:space-y-[var(--space-4)]",
+    slot: {
+      marginTop: "mt-[var(--space-4)]",
+      paddingTop: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
+      gapY: "gap-[var(--space-2)]",
+      gapMd: "md:gap-[var(--space-3)]",
     },
   },
 };
-
-const highContrastVariantMap: Record<
-  Exclude<NeomorphicHeroFrameVariant, "unstyled">,
-  { container: string }
-> = {
-  default: {
-    container: "border-border/70 shadow-neoSoft",
-  },
-  compact: {
-    container: "border-border/70 shadow-neoSoft",
-  },
-  plain: {
-    container: "border-border/55 shadow-outline-subtle",
-  },
-};
-
-function slotLayout({
-  hasTabs,
-  hasSearch,
-  hasActions,
-}: {
-  hasTabs: boolean;
-  hasSearch: boolean;
-  hasActions: boolean;
-}) {
-  if (hasTabs && hasSearch && hasActions) {
-    return {
-      tabs: "md:col-span-5",
-      search: "md:col-span-4",
-      actions: "md:col-span-3",
-    };
-  }
-  if (hasTabs && hasSearch) {
-    return {
-      tabs: "md:col-span-6",
-      search: "md:col-span-6",
-      actions: "md:col-span-12",
-    };
-  }
-  if (hasTabs && hasActions) {
-    return {
-      tabs: "md:col-span-7",
-      search: "md:col-span-12",
-      actions: "md:col-span-5",
-    };
-  }
-  if (hasSearch && hasActions) {
-    return {
-      tabs: "md:col-span-12",
-      search: "md:col-span-7",
-      actions: "md:col-span-5",
-    };
-  }
-  return {
-    tabs: "md:col-span-12",
-    search: "md:col-span-12",
-    actions: "md:col-span-12",
-  };
-}
 
 const alignClassMap: Record<Align, { tabs: string; search: string; actions: string }> = {
   start: {
@@ -185,61 +115,271 @@ const alignClassMap: Record<Align, { tabs: string; search: string; actions: stri
   },
 };
 
+const spanClassMap = {
+  tabs: {
+    three: "md:col-span-5",
+    twoWithActions: "md:col-span-7",
+    two: "md:col-span-6",
+    solo: "md:col-span-12",
+  },
+  search: {
+    three: "md:col-span-4",
+    twoWithActions: "md:col-span-7",
+    two: "md:col-span-6",
+    solo: "md:col-span-12",
+  },
+  actions: {
+    three: "md:col-span-3",
+    twoWithTabs: "md:col-span-5",
+    two: "md:col-span-5",
+    solo: "md:col-span-12",
+  },
+} as const satisfies Record<HeroSlotKey, Record<string, string>>;
+
+type LayoutState = {
+  tabs?: string;
+  search?: string;
+  actions?: string;
+};
+
+function getSlotLayout(
+  present: Record<HeroSlotKey, boolean>,
+): LayoutState {
+  const { tabs, search, actions } = present;
+  if (tabs && search && actions) {
+    return {
+      tabs: spanClassMap.tabs.three,
+      search: spanClassMap.search.three,
+      actions: spanClassMap.actions.three,
+    };
+  }
+  if (tabs && search) {
+    return {
+      tabs: spanClassMap.tabs.two,
+      search: spanClassMap.search.two,
+      actions: spanClassMap.actions.solo,
+    };
+  }
+  if (tabs && actions) {
+    return {
+      tabs: spanClassMap.tabs.twoWithActions,
+      search: spanClassMap.search.solo,
+      actions: spanClassMap.actions.twoWithTabs,
+    };
+  }
+  if (search && actions) {
+    return {
+      tabs: spanClassMap.tabs.solo,
+      search: spanClassMap.search.twoWithActions,
+      actions: spanClassMap.actions.two,
+    };
+  }
+  return {
+    tabs: spanClassMap.tabs.solo,
+    search: spanClassMap.search.solo,
+    actions: spanClassMap.actions.solo,
+  };
+}
+
+function isSlotConfig(value: HeroSlotInput | undefined): value is HeroSlot {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !React.isValidElement(value) &&
+    Object.prototype.hasOwnProperty.call(value, "node")
+  );
+}
+
+function normalizeSlot(value: HeroSlotInput | undefined): HeroSlot | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  if (isSlotConfig(value)) {
+    return value.node === null || value.node === undefined
+      ? null
+      : value;
+  }
+  return { node: value };
+}
+
+const slotWellBaseClass =
+  "group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md border border-border/45 bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus shadow-neo-inset transition-shadow focus-within:shadow-neoSoft focus-within:ring-1 focus-within:ring-ring/60";
+
+const slotContentClass = "relative z-[1] flex w-full min-w-0 flex-col";
+
+const heroGridGaps: Record<Exclude<HeroVariant, "unstyled">, string> = {
+  default: "gap-[var(--space-4)] md:gap-[var(--space-6)]",
+  compact: "gap-[var(--space-3)] md:gap-[var(--space-4)]",
+  dense: "gap-[var(--space-2)] md:gap-[var(--space-3)]",
+};
+
+export interface HeroGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: Exclude<HeroVariant, "unstyled">;
+}
+
+export const HeroGrid = React.forwardRef<HTMLDivElement, HeroGridProps>(
+  ({ variant = "default", className, ...rest }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "grid grid-cols-1 md:grid-cols-12",
+          heroGridGaps[variant],
+          className,
+        )}
+        {...rest}
+      />
+    );
+  },
+);
+
+HeroGrid.displayName = "HeroGrid";
+
+const heroColSpanClasses = {
+  1: "md:col-span-1",
+  2: "md:col-span-2",
+  3: "md:col-span-3",
+  4: "md:col-span-4",
+  5: "md:col-span-5",
+  6: "md:col-span-6",
+  7: "md:col-span-7",
+  8: "md:col-span-8",
+  9: "md:col-span-9",
+  10: "md:col-span-10",
+  11: "md:col-span-11",
+  12: "md:col-span-12",
+} as const;
+
+const heroColSpanLgClasses = {
+  1: "lg:col-span-1",
+  2: "lg:col-span-2",
+  3: "lg:col-span-3",
+  4: "lg:col-span-4",
+  5: "lg:col-span-5",
+  6: "lg:col-span-6",
+  7: "lg:col-span-7",
+  8: "lg:col-span-8",
+  9: "lg:col-span-9",
+  10: "lg:col-span-10",
+  11: "lg:col-span-11",
+  12: "lg:col-span-12",
+} as const;
+
+export interface HeroColProps extends React.HTMLAttributes<HTMLDivElement> {
+  span?: keyof typeof heroColSpanClasses;
+  spanLg?: keyof typeof heroColSpanLgClasses;
+}
+
+export const HeroCol = React.forwardRef<HTMLDivElement, HeroColProps>(
+  ({ span = 12, spanLg, className, ...rest }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "col-span-full min-w-0",
+          heroColSpanClasses[span],
+          spanLg ? heroColSpanLgClasses[spanLg] : undefined,
+          className,
+        )}
+        {...rest}
+      />
+    );
+  },
+);
+
+HeroCol.displayName = "HeroCol";
+
 const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFrameProps>(
   (
     {
       as,
       variant = "default",
-      frame = true,
-      className,
-      contentClassName,
+      align = "between",
+      label,
+      labelledById,
+      slots,
       children,
-      actionArea,
-      highContrast,
-      allowOverflow = false,
+      className,
+      role: roleProp,
+      tabIndex,
+      onFocusCapture,
+      onBlurCapture,
       ...rest
     },
     ref,
   ) => {
     const Component = (as ?? "div") as FrameElement;
     const Comp = Component as React.ElementType;
-    const showFrame = frame !== false;
     const variantStyles =
       variant !== "unstyled" ? variantMap[variant] : undefined;
-    const contrastStyles =
-      highContrast && variant !== "unstyled"
-        ? highContrastVariantMap[variant]
-        : undefined;
-    const slotContrastClass = highContrast ? "text-foreground" : undefined;
+    const [hasFocus, setHasFocus] = React.useState(false);
 
-    const hasActionArea = Boolean(
-      actionArea &&
-        (actionArea.tabs || actionArea.actions || actionArea.search),
+    const normalizedSlots = React.useMemo(() => {
+      if (slots === null) return null;
+      if (!slots) return undefined;
+      const entries: Partial<Record<HeroSlotKey, HeroSlot>> = {};
+      let any = false;
+      for (const key of heroSlotOrder) {
+        const normalized = normalizeSlot(slots[key]);
+        if (normalized) {
+          entries[key] = normalized;
+          any = true;
+        }
+      }
+      return any ? entries : undefined;
+    }, [slots]);
+
+    const hasTabs = Boolean(normalizedSlots?.tabs);
+    const hasSearch = Boolean(normalizedSlots?.search);
+    const hasActions = Boolean(normalizedSlots?.actions);
+
+    const layout = React.useMemo(
+      () =>
+        normalizedSlots
+          ? getSlotLayout({
+              tabs: hasTabs,
+              search: hasSearch,
+              actions: hasActions,
+            })
+          : ({} as LayoutState),
+      [normalizedSlots, hasTabs, hasSearch, hasActions],
     );
 
-    const showDivider = actionArea?.divider ?? true;
-    const actionPaddingClass = showDivider
-      ? variantStyles?.action.pt ?? "pt-[var(--space-4)]"
-      : undefined;
+    const aligns = alignClassMap[align];
 
-    const shouldWrapContent =
-      variant !== "unstyled" || hasActionArea || Boolean(contentClassName);
+    const handleFocusCapture = React.useCallback(
+      (event: React.FocusEvent<HTMLElement>) => {
+        setHasFocus(true);
+        onFocusCapture?.(event);
+      },
+      [onFocusCapture],
+    );
 
-    const actionAlign = actionArea?.align ?? "between";
-    const slots = slotLayout({
-      hasTabs: Boolean(actionArea?.tabs),
-      hasSearch: Boolean(actionArea?.search),
-      hasActions: Boolean(actionArea?.actions),
-    });
-    const aligns = alignClassMap[actionAlign];
+    const handleBlurCapture = React.useCallback(
+      (event: React.FocusEvent<HTMLElement>) => {
+        const nextTarget = event.relatedTarget as Node | null;
+        if (nextTarget && event.currentTarget.contains(nextTarget)) {
+          onBlurCapture?.(event);
+          return;
+        }
+        setHasFocus(false);
+        onBlurCapture?.(event);
+      },
+      [onBlurCapture],
+    );
 
-    const content = shouldWrapContent ? (
+    const roleFromElement =
+      as === "header"
+        ? "banner"
+        : as === "nav"
+        ? "navigation"
+        : undefined;
+
+    const resolvedChildren = variantStyles ? (
       <div
         className={cn(
-          "relative z-[2]",
-          variantStyles?.content,
-          !variantStyles && hasActionArea && "space-y-4 md:space-y-5",
-          contentClassName,
+          "relative z-[1]",
+          variantStyles.contentSpacing,
         )}
       >
         {children}
@@ -248,108 +388,76 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       children
     );
 
-    return (
-      <>
-        {showFrame ? <NeomorphicFrameStyles /> : null}
-        <Comp
-          ref={ref}
-          className={cn(
-            "relative",
-            showFrame &&
-              (allowOverflow
-                ? "overflow-visible hero2-frame hero2-neomorph"
-                : "overflow-hidden hero2-frame hero2-neomorph"),
-            variantStyles?.container,
-            contrastStyles?.container,
-            variantStyles?.padding,
-            className,
-          )}
-          {...rest}
-        >
-          {content}
-
-          {hasActionArea ? (
+    const slotArea = normalizedSlots ? (
+      <div
+        role="group"
+        className={cn(
+          "group/hero-slots relative z-[1] isolate w-full grid grid-cols-1",
+          variantStyles?.slot.marginTop,
+          variantStyles?.slot.paddingTop,
+          variantStyles?.slot.gapY,
+          variantStyles?.slot.gapMd,
+          "md:grid-cols-12",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-['']",
+          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:blur-sm after:content-['']",
+        )}
+        data-align={align}
+      >
+        {heroSlotOrder.map((key) => {
+          const slot = normalizedSlots[key];
+          if (!slot) return null;
+          return (
             <div
-              role="group"
-              aria-label={actionArea?.["aria-label"]}
-              aria-labelledby={actionArea?.["aria-labelledby"]}
+              key={key}
+              data-slot={key}
               className={cn(
-                "relative z-[2]",
-                variantStyles?.action.mt ?? "mt-[var(--space-4)]",
-                actionPaddingClass,
-                "grid gap-[var(--space-3)] md:grid-cols-12 md:gap-[var(--space-4)]",
-                variantStyles?.action.gap,
-                actionArea?.className,
+                slotWellBaseClass,
+                layout[key as keyof LayoutState],
+                aligns[key],
+                slot.className,
               )}
             >
-              {showDivider ? (
-                <>
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[hsl(var(--accent))]"
-                  />
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[hsl(var(--accent))] blur-[6px] opacity-60"
-                  />
-                </>
-              ) : null}
-              {actionArea?.tabs ? (
-                <div
-                  data-area="tabs"
-                  className={cn(
-                    "flex flex-col gap-[var(--space-2)]",
-                    slotContrastClass,
-                    slots.tabs,
-                    aligns.tabs,
-                    actionArea.tabsClassName,
-                  )}
-                >
-                  {actionArea.tabs}
-                </div>
-              ) : null}
-
-              {actionArea?.search ? (
-                <div
-                  data-area="search"
-                  className={cn(
-                    "flex flex-col gap-[var(--space-2)]",
-                    slotContrastClass,
-                    slots.search,
-                    aligns.search,
-                    actionArea.searchClassName,
-                  )}
-                >
-                  {actionArea.search}
-                </div>
-              ) : null}
-
-              {actionArea?.actions ? (
-                <div
-                  data-area="actions"
-                  className={cn(
-                    "flex flex-wrap items-center justify-end gap-[var(--space-2)]",
-                    slotContrastClass,
-                    slots.actions,
-                    aligns.actions,
-                    actionArea.actionsClassName,
-                  )}
-                >
-                  {actionArea.actions}
-                </div>
-              ) : null}
+              <div className={slotContentClass}>{slot.node}</div>
             </div>
-          ) : null}
+          );
+        })}
+      </div>
+    ) : null;
 
-          {showFrame ? (
-            <div
-              aria-hidden
-              className={cn(
-                "absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-border/55",
-                highContrast && "ring-border/70",
-              )}
-            />
-          ) : null}
+    const haloClasses =
+      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_2px_hsl(var(--ring)),0_0_24px_hsl(var(--glow)/0.35)] motion-reduce:before:transition-none";
+
+    return (
+      <>
+        {variant !== "unstyled" ? <NeomorphicFrameStyles /> : null}
+        <Comp
+          ref={ref}
+          {...rest}
+          className={cn(
+            "group/hero-frame relative isolate flex flex-col overflow-visible hero-focus",
+            variantStyles
+              ? cn(
+                  "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
+                  haloClasses,
+                  "has-[:focus-visible]:before:opacity-100",
+                  "data-[has-focus=true]:before:opacity-100",
+                  variantStyles.radius,
+                  variantStyles.padding,
+                )
+              : undefined,
+            className,
+          )}
+          data-has-focus={hasFocus ? "true" : undefined}
+          data-variant={variant}
+          role={roleProp ?? roleFromElement}
+          aria-label={label}
+          aria-labelledby={labelledById}
+          tabIndex={tabIndex ?? -1}
+          onFocusCapture={handleFocusCapture}
+          onBlurCapture={handleBlurCapture}
+        >
+          {resolvedChildren}
+          {slotArea}
         </Comp>
       </>
     );

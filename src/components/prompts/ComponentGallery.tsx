@@ -19,6 +19,8 @@ import {
   Header,
   Hero,
   NeomorphicHeroFrame,
+  HeroGrid,
+  HeroCol,
   PageShell,
   SearchBar,
   Snackbar,
@@ -991,7 +993,27 @@ export default function ComponentGallery() {
                 Body
               </div>
             </Hero>
-            <NeomorphicHeroFrame variant="plain">
+            <NeomorphicHeroFrame
+              variant="dense"
+              align="end"
+              label="Hero frame demo"
+              slots={{
+                search: (
+                  <SearchBar
+                    value={query}
+                    onValueChange={setQuery}
+                    placeholder="Search layout patterns…"
+                    aria-label="Search layout patterns"
+                    className="w-full"
+                  />
+                ),
+                actions: (
+                  <Button size="sm" variant="secondary" className="whitespace-nowrap">
+                    Assign scout
+                  </Button>
+                ),
+              }}
+            >
               <Hero
                 heading="Frame-ready"
                 eyebrow="No padding"
@@ -1003,9 +1025,25 @@ export default function ComponentGallery() {
                 rail={false}
                 padding="none"
               >
-                <div className="text-ui text-muted-foreground">
-                  Flush to the frame
-                </div>
+                <HeroGrid variant="dense">
+                  <HeroCol span={7} className="space-y-2 text-ui text-muted-foreground">
+                    <p className="font-semibold text-foreground">Flush to the frame</p>
+                    <p>
+                      Dense spacing trims the padding while the slot row keeps
+                      search and quick actions aligned with the hero copy.
+                    </p>
+                  </HeroCol>
+                  <HeroCol span={5} className="space-y-2 text-label text-muted-foreground">
+                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+                      <span className="font-semibold text-foreground">Slot order</span>
+                      <div>Tabs → Search → Actions</div>
+                    </div>
+                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+                      <span className="font-semibold text-foreground">Grid helpers</span>
+                      <div>HeroGrid + HeroCol</div>
+                    </div>
+                  </HeroCol>
+                </HeroGrid>
               </Hero>
             </NeomorphicHeroFrame>
           </div>
@@ -1108,7 +1146,7 @@ export default function ComponentGallery() {
         className: "sm:col-span-12 md:col-span-12",
       },
     ],
-    [headerTab],
+    [headerTab, query],
   );
 
   const itemsMap: Record<
