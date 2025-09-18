@@ -18,6 +18,39 @@ type AnimatedSelectComponentProps = AnimatedSelectProps & {
   styles?: SelectStyles;
 };
 
+type SelectSize = NonNullable<AnimatedSelectProps["size"]>;
+
+const DEFAULT_TRIGGER_SIZE: SelectSize = "md";
+
+const SIZE_STYLES: Record<
+  SelectSize,
+  {
+    height: string;
+    paddingX: string;
+    caret: string;
+    prefix: string;
+  }
+> = {
+  sm: {
+    height: "h-[var(--control-h-sm)]",
+    paddingX: "px-[var(--space-3)]",
+    caret: "size-[var(--space-4)]",
+    prefix: "size-[var(--space-4)]",
+  },
+  md: {
+    height: "h-[var(--control-h-md)]",
+    paddingX: "px-[var(--space-3)]",
+    caret: "size-[var(--space-5)]",
+    prefix: "size-[var(--space-5)]",
+  },
+  lg: {
+    height: "h-[var(--control-h-lg)]",
+    paddingX: "px-[var(--space-4)]",
+    caret: "size-[var(--space-6)]",
+    prefix: "size-[var(--space-6)]",
+  },
+};
+
 const AnimatedSelect = React.forwardRef<
   HTMLButtonElement,
   AnimatedSelectComponentProps
@@ -39,11 +72,13 @@ const AnimatedSelect = React.forwardRef<
       ariaLabel,
       align = "left",
       matchTriggerWidth = true,
+      size = DEFAULT_TRIGGER_SIZE,
       styles: stylesOverride,
     },
     ref,
   ) {
     const styles = stylesOverride ?? defaultStyles;
+    const sizeStyles = SIZE_STYLES[size] ?? SIZE_STYLES[DEFAULT_TRIGGER_SIZE];
     const mounted = useMounted();
 
     const [open, setOpen] = React.useState(false);
@@ -185,6 +220,11 @@ const AnimatedSelect = React.forwardRef<
         window.removeEventListener("scroll", handler);
       };
     }, [open, scheduleMeasure]);
+
+    React.useEffect(() => {
+      if (!open) return;
+      scheduleMeasure();
+    }, [open, scheduleMeasure, size]);
 
     React.useEffect(() => {
       if (!open) return;
@@ -372,7 +412,9 @@ const AnimatedSelect = React.forwardRef<
 
     const triggerCls = cn(
       styles.glitchTrigger,
-      "relative flex items-center h-[var(--control-h-sm)] rounded-[var(--radius-full)] px-[var(--space-3)] overflow-hidden",
+      "relative flex items-center rounded-[var(--radius-full)] overflow-hidden",
+      sizeStyles.height,
+      sizeStyles.paddingX,
       "bg-muted/12 hover:bg-muted/18",
       "focus:[outline:none] focus-visible:[outline:none]",
       "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
@@ -381,7 +423,8 @@ const AnimatedSelect = React.forwardRef<
 
     const caretCls = cn(
       styles.caret,
-      "ml-auto size-[var(--space-4)] shrink-0 opacity-75",
+      "ml-auto shrink-0 opacity-75",
+      sizeStyles.caret,
       open && styles.caretOpen,
     );
 
@@ -422,7 +465,10 @@ const AnimatedSelect = React.forwardRef<
             {prefixLabel ? (
               <ChevronRight
                 aria-hidden="true"
-                className="h-[var(--space-4)] w-[var(--space-4)] shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+                className={cn(
+                  "shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                  sizeStyles.prefix,
+                )}
               />
             ) : null}
 

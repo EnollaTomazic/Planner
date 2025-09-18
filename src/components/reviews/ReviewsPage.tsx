@@ -121,7 +121,7 @@ export default function ReviewsPage({
                     { value: "title", label: "Title" },
                   ]}
                   className="w-full sm:w-auto"
-                  buttonClassName="!h-[var(--control-h-lg)] !px-[var(--space-4)]"
+                  size="lg"
                 />
               </label>
               <Button

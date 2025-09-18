@@ -509,14 +509,37 @@ export default function ComponentGallery() {
       {
         label: "AnimatedSelect",
         element: (
-          <Select
-            variant="animated"
-            items={selectItems}
-            value={selectValue}
-            onChange={setSelectValue}
-            className="w-56"
-            hideLabel
-          />
+          <div className="w-56 space-y-2">
+            <Select
+              variant="animated"
+              size="sm"
+              items={selectItems}
+              value={selectValue}
+              onChange={setSelectValue}
+              className="w-full"
+              hideLabel
+              placeholder="Small"
+            />
+            <Select
+              variant="animated"
+              items={selectItems}
+              value={selectValue}
+              onChange={setSelectValue}
+              className="w-full"
+              hideLabel
+              placeholder="Medium"
+            />
+            <Select
+              variant="animated"
+              size="lg"
+              items={selectItems}
+              value={selectValue}
+              onChange={setSelectValue}
+              className="w-full"
+              hideLabel
+              placeholder="Large"
+            />
+          </div>
         ),
       },
     ],

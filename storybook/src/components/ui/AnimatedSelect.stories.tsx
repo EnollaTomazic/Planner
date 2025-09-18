@@ -5,6 +5,12 @@ import { AnimatedSelect } from "@/components/ui";
 const meta: Meta<typeof AnimatedSelect> = {
   title: "Primitives/AnimatedSelect",
   component: AnimatedSelect,
+  argTypes: {
+    size: {
+      options: ["sm", "md", "lg"],
+      control: { type: "inline-radio" },
+    },
+  },
   parameters: {
     layout: "fullscreen",
     docs: {
@@ -13,6 +19,9 @@ const meta: Meta<typeof AnimatedSelect> = {
           "AnimatedSelect automatically repositions the floating menu to stay visible within the viewport.",
       },
     },
+  },
+  args: {
+    size: "md",
   },
 };
 
