@@ -188,7 +188,7 @@ function PageContent() {
             "aria-label": searchLabel,
           },
           actions: (
-            <div className="flex items-center gap-2">
+            <>
               <Badge
                 tone="accent"
                 size="sm"
@@ -213,7 +213,7 @@ function PageContent() {
               <IconButton size="sm" aria-label="Add">
                 <Plus />
               </IconButton>
-            </div>
+            </>
           ),
         }}
       />
