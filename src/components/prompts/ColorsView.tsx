@@ -25,7 +25,9 @@ function Swatch({ token }: SwatchProps) {
         className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)]"
         style={{ backgroundColor: `hsl(var(--${token}))` }}
       />
-      <span className="text-label font-medium">{token}</span>
+      <span className="block w-full break-words text-center text-label font-medium">
+        --{token}
+      </span>
     </li>
   );
 }
