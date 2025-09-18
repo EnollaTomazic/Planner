@@ -176,8 +176,10 @@ exports[`ReviewsPage > renders default state 1`] = `
           role="group"
         >
           <div
+            aria-label="Search reviews"
             class="group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md border border-border/45 bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus shadow-neo-inset transition-shadow focus-within:shadow-neoSoft focus-within:ring-1 focus-within:ring-ring/60 md:col-span-7 md:justify-self-stretch"
             data-slot="search"
+            role="group"
           >
             <div
               class="relative z-[1] flex w-full min-w-0 flex-col"
@@ -266,6 +268,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           <div
             class="group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md border border-border/45 bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus shadow-neo-inset transition-shadow focus-within:shadow-neoSoft focus-within:ring-1 focus-within:ring-ring/60 md:col-span-5 md:justify-self-end"
             data-slot="actions"
+            role="group"
           >
             <div
               class="relative z-[1] flex w-full min-w-0 flex-col"

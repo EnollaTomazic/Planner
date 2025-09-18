@@ -89,39 +89,48 @@ function HeroPreview({
       align={align}
       label={frameLabel}
       slots={{
-        tabs: (
-          <TabBar<PlannerView>
-            items={plannerTabs}
-            value={activeView}
-            onValueChange={(key) => setActiveView(key as PlannerView)}
-            ariaLabel="Switch planner view"
-            variant="neo"
-            showBaseline
-          />
-        ),
-        search: (
-          <SearchBar
-            value={searchValue}
-            onValueChange={setSearchValue}
-            placeholder="Search workstreams…"
-            aria-label="Search workstreams"
-            loading={activeView === "resources"}
-          />
-        ),
-        actions: (
-          <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-            <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-            <Button size="sm" variant="secondary">
-              Save view
-            </Button>
-            <Button size="sm" variant="primary" loading>
-              Sync
-            </Button>
-            <Button size="sm" variant="ghost" disabled>
-              Disabled
-            </Button>
-          </div>
-        ),
+        tabs: {
+          node: (
+            <TabBar<PlannerView>
+              items={plannerTabs}
+              value={activeView}
+              onValueChange={(key) => setActiveView(key as PlannerView)}
+              ariaLabel="Switch planner view"
+              variant="neo"
+              showBaseline
+            />
+          ),
+          label: "Switch planner view",
+        },
+        search: {
+          node: (
+            <SearchBar
+              value={searchValue}
+              onValueChange={setSearchValue}
+              placeholder="Search workstreams…"
+              aria-label="Search workstreams"
+              loading={activeView === "resources"}
+            />
+          ),
+          label: "Search workstreams",
+        },
+        actions: {
+          node: (
+            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+              <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+              <Button size="sm" variant="secondary">
+                Save view
+              </Button>
+              <Button size="sm" variant="primary" loading>
+                Sync
+              </Button>
+              <Button size="sm" variant="ghost" disabled>
+                Disabled
+              </Button>
+            </div>
+          ),
+          label: "Planner frame actions",
+        },
       }}
     >
       <div className="grid gap-[var(--space-4)] md:grid-cols-2 md:gap-[var(--space-6)]">
