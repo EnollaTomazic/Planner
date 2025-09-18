@@ -159,6 +159,7 @@ export default function ComponentsPage() {
   const [query, setQuery] = usePersistentState("components-query", "");
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const colorsPanelRef = React.useRef<HTMLDivElement>(null);
+  const previousViewRef = React.useRef<ComponentsView | null>(null);
   const sectionLabel = React.useMemo(
     () =>
       section
@@ -256,10 +257,12 @@ export default function ComponentsPage() {
   }, [paramsString, query, queryParam, router, startTransition]);
 
   React.useEffect(() => {
-    if (view === "components") {
+    const previousView = previousViewRef.current;
+    if (view === "components" && previousView !== "components") {
       componentsPanelRef.current?.focus();
     }
-  }, [section, view]);
+    previousViewRef.current = view;
+  }, [view]);
 
   React.useEffect(() => {
     if (view === "colors") {
