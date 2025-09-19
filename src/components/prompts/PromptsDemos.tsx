@@ -45,12 +45,12 @@ export default function PromptsDemos() {
       <SectionLabel>Section Label</SectionLabel>
       <p className="text-ui text-muted-foreground">Divider used in reviews</p>
 
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Input</h3>
         <p className="text-ui text-muted-foreground">
           Customize focus rings with the <code>--theme-ring</code> variable.
         </p>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <Input height="sm" placeholder="Small" />
           <Input placeholder="Medium" />
           <Input height="lg" placeholder="Large" />
@@ -68,16 +68,16 @@ export default function PromptsDemos() {
             <IconButton
               size="sm"
               aria-label="Confirm"
-              className="absolute right-2 top-1/2 -translate-y-1/2"
+              className="absolute right-[var(--space-2)] top-1/2 -translate-y-1/2"
             >
               <CheckIcon aria-hidden />
             </IconButton>
           </Input>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Select</h3>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <Select
             variant="native"
             aria-label="Default"
@@ -99,22 +99,22 @@ export default function PromptsDemos() {
           />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Textarea</h3>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <Textarea placeholder="Default" resize="resize-y" />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Label</h3>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <div>
             <Label htmlFor="label-demo">Label</Label>
             <Input id="label-demo" placeholder="With spacing" />
           </div>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Field</h3>
         <p className="type-body">
           The Field primitive centralizes spacing, shadows, and interactive
@@ -127,39 +127,39 @@ export default function PromptsDemos() {
           <Field.Input placeholder="Compose primitives" />
         </Field.Root>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Button</h3>
-        <div className="space-x-3">
+        <div className="space-x-[var(--space-3)]">
           <Button>Default</Button>
           <Button variant="primary">Primary</Button>
           <Button variant="ghost">Ghost</Button>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Card</h3>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <Card>Card content</Card>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">IconButton</h3>
-        <div className="space-x-3">
+        <div className="space-x-[var(--space-3)]">
           <IconButton aria-label="Scroll to top" size="md">
             <ArrowUp />
           </IconButton>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Feedback</h3>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-[var(--space-4)]">
           <Spinner />
           <Badge>Badge</Badge>
           <Snackbar message="Saved" />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Toggles</h3>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-[var(--space-4)]">
           <AnimationToggle />
           <ThemeToggle />
           <CheckCircle checked={false} onChange={() => {}} size="md" />
@@ -167,16 +167,16 @@ export default function PromptsDemos() {
           <SideSelector value="Blue" onChange={() => {}} />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Pillars</h3>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-[var(--space-4)]">
           <PillarBadge pillar="Wave" />
           <PillarSelector value={[]} onChange={() => {}} />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Inputs</h3>
-        <div className="space-y-3">
+        <div className="space-y-[var(--space-3)]">
           <SearchBar value="" onValueChange={() => {}} />
           <Select
             variant="animated"
@@ -186,7 +186,7 @@ export default function PromptsDemos() {
           />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Layout</h3>
         <SectionCard>
           <SectionCard.Header>
@@ -195,18 +195,18 @@ export default function PromptsDemos() {
           <SectionCard.Body />
         </SectionCard>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Shadows</h3>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-[var(--space-4)]">
           <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo" />
           <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-strong" />
           <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-inset" />
           <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-ring" />
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Task Tile Text</h3>
-        <div className="space-y-2">
+        <div className="space-y-[var(--space-2)]">
           <button type="button" className="task-tile__text">
             Editable task
           </button>
@@ -215,11 +215,11 @@ export default function PromptsDemos() {
           </button>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Design Tokens</h3>
         <div>
           <h4 className="type-subtitle">Colors</h4>
-          <div className="flex gap-2">
+          <div className="flex gap-[var(--space-2)]">
             {colorTokens.map((c) => (
               <div key={c} className={`size-6 rounded-md ${c}`} />
             ))}
@@ -242,7 +242,7 @@ export default function PromptsDemos() {
         <div>
           <h4 className="type-subtitle">Radius</h4>
           <p className="type-body">{radiusTokens.join(", ")}</p>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-[var(--space-2)] flex gap-[var(--space-2)]">
             {radiusClasses.map((cls) => (
               <div key={cls} className={`size-6 bg-panel/80 ${cls}`} />
             ))}
@@ -253,12 +253,12 @@ export default function PromptsDemos() {
           <p className="type-body">{typeRamp.join(", ")}</p>
         </div>
       </Card>
-      <Card className="mt-8 space-y-4">
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Motion</h3>
-        <div className="flex gap-2">
+        <div className="flex gap-[var(--space-2)]">
           <button
             type="button"
-            className="px-3 py-1 rounded-md bg-accent/20 text-foreground transition-colors duration-420 hover:bg-accent/30 hover:text-foreground"
+            className="px-[var(--space-3)] py-[var(--space-1)] rounded-md bg-accent/20 text-foreground transition-colors duration-420 hover:bg-accent/30 hover:text-foreground"
           >
             Slow fade
           </button>
