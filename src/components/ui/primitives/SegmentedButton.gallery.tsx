@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { createGalleryPreview, defineGallerySection } from "@/components/gallery";
+import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
 import SegmentedButton from "./SegmentedButton";
 

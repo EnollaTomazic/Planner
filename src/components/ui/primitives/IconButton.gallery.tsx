@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Plus } from "lucide-react";
 
-import { createGalleryPreview, defineGallerySection } from "@/components/gallery";
+import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
 import IconButton from "./IconButton";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Circle, CircleCheck, CircleDot } from "lucide-react";
 
-import { createGalleryPreview, defineGallerySection } from "@/components/gallery";
+import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
 import Header, { type HeaderTabsProps } from "./Header";
 
