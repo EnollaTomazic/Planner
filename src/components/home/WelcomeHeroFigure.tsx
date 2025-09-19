@@ -41,7 +41,7 @@ const haloSecondaryStyle: React.CSSProperties = {
 };
 
 const defaultSizes =
-  "(max-width: 639px) 100vw, (max-width: 1023px) 33vw, 40vw";
+  "(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw / 3), calc(100vw * 5 / 12)";
 
 export interface WelcomeHeroFigureProps {
   className?: string;
