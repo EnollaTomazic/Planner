@@ -6,7 +6,7 @@
  * - Animated progress bar for the selected project's tasks.
  */
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { toISODate } from "@/lib/date";
 import { useFocusDate } from "./useFocusDate";
@@ -87,6 +87,39 @@ export default function TodayHero({ iso }: Props) {
   const [projectName, setProjectName] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllTasks, setShowAllTasks] = useState(false);
+
+  const commitProjectRename = useCallback(
+    (projectId: string, nextName: string, fallbackName: string) => {
+      renameProject(projectId, nextName || fallbackName);
+      setEditingProjectId(null);
+    },
+    [renameProject, setEditingProjectId],
+  );
+
+  const openProjectEditor = useCallback(
+    (projectId: string, name: string) => {
+      setEditingProjectId(projectId);
+      setEditingProjectName(name);
+    },
+    [setEditingProjectId, setEditingProjectName],
+  );
+
+  const commitTaskRename = useCallback(
+    (taskId: string, nextTitle: string, fallbackTitle: string) => {
+      renameTask(taskId, nextTitle || fallbackTitle);
+      setEditingTaskId(null);
+    },
+    [renameTask, setEditingTaskId],
+  );
+
+  const openTaskEditor = useCallback(
+    (taskId: string, title: string, options?: { select?: boolean }) => {
+      setEditingTaskText(title);
+      setEditingTaskId(taskId);
+      if (options?.select) setSelTaskId(taskId);
+    },
+    [setEditingTaskId, setEditingTaskText, setSelTaskId],
+  );
 
   // Progress of selected project only (animated)
   const scopedTasks = useMemo(
@@ -336,14 +369,12 @@ export default function TodayHero({ iso }: Props) {
                       onChange={(e) => setEditingProjectName(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          renameProject(p.id, editingProjectName || p.name);
-                          setEditingProjectId(null);
+                          commitProjectRename(p.id, editingProjectName, p.name);
                         }
                         if (e.key === "Escape") setEditingProjectId(null);
                       }}
                       onBlur={() => {
-                        renameProject(p.id, editingProjectName || p.name);
-                        setEditingProjectId(null);
+                        commitProjectRename(p.id, editingProjectName, p.name);
                       }}
                       aria-label={`Rename project ${p.name}`}
                       onClick={(e) => e.stopPropagation()}
@@ -379,8 +410,7 @@ export default function TodayHero({ iso }: Props) {
                       title="Edit"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setEditingProjectId(p.id);
-                        setEditingProjectName(p.name);
+                        openProjectEditor(p.id, p.name);
                       }}
                       size="sm"
                       variant="ring"
@@ -500,14 +530,12 @@ export default function TodayHero({ iso }: Props) {
                           onChange={(e) => setEditingTaskText(e.target.value)}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                              renameTask(t.id, editingTaskText || t.title);
-                              setEditingTaskId(null);
+                              commitTaskRename(t.id, editingTaskText, t.title);
                             }
                             if (e.key === "Escape") setEditingTaskId(null);
                           }}
                           onBlur={() => {
-                            renameTask(t.id, editingTaskText || t.title);
-                            setEditingTaskId(null);
+                            commitTaskRename(t.id, editingTaskText, t.title);
                           }}
                           aria-label={`Rename task ${t.title}`}
                         />
@@ -519,14 +547,12 @@ export default function TodayHero({ iso }: Props) {
                             t.done && "line-through-soft",
                           )}
                           onClick={() => {
-                            setEditingTaskText(t.title);
-                            setEditingTaskId(t.id);
+                            openTaskEditor(t.id, t.title);
                           }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
-                              setEditingTaskText(t.title);
-                              setEditingTaskId(t.id);
+                              openTaskEditor(t.id, t.title);
                             }
                           }}
                           aria-label={`Edit task ${t.title}`}
@@ -542,9 +568,7 @@ export default function TodayHero({ iso }: Props) {
                         aria-label={`Edit task ${t.title}`}
                         title="Edit"
                         onClick={() => {
-                          setEditingTaskText(t.title);
-                          setEditingTaskId(t.id);
-                          setSelTaskId(t.id);
+                          openTaskEditor(t.id, t.title, { select: true });
                         }}
                         size="sm"
                         variant="ring"
