@@ -274,11 +274,13 @@ export default function ComponentsPage() {
   return (
     <PageShell
       as="main"
-      className="space-y-[var(--space-6)] py-[var(--space-6)]"
+      grid
       aria-labelledby="components-header"
+      className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+      contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]"
     >
       <PageHeader
-        containerClassName="relative isolate"
+        containerClassName="relative isolate col-span-full"
         header={{
           id: "components-header",
           heading: "Component Gallery",
@@ -292,7 +294,10 @@ export default function ComponentsPage() {
             idBase: "components",
             linkPanels: true,
             variant: "neo",
-            tablistClassName: NEO_TABLIST_SHARED_CLASSES,
+            tablistClassName: cn(
+              NEO_TABLIST_SHARED_CLASSES,
+              "w-full md:w-auto",
+            ),
           },
         }}
         frameProps={{
@@ -323,8 +328,11 @@ export default function ComponentsPage() {
                   size: "sm",
                   variant: "default",
                   showBaseline: true,
-                  tablistClassName: "max-w-full shadow-neo-inset",
-                  className: "max-w-full",
+                  tablistClassName: cn(
+                    "max-w-full shadow-neo-inset",
+                    "w-full md:w-auto",
+                  ),
+                  className: "max-w-full w-full md:w-auto",
                   renderItem: ({ item, props, ref, disabled }) => {
                     const {
                       className: baseClassName,
@@ -402,7 +410,9 @@ export default function ComponentsPage() {
               : undefined,
         }}
       />
-      <section className="grid gap-[var(--space-6)]">
+      <section
+        className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]"
+      >
         <div
           id="components-components-panel"
           role="tabpanel"
