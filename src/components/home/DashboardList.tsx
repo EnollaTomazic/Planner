@@ -6,6 +6,41 @@ import { CircleSlash } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+function isReactKey(value: unknown): value is React.Key {
+  return typeof value === "string" || typeof value === "number";
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function resolveDeterministicKey<T>(
+  item: T,
+  index: number,
+  getKey?: (item: T, itemIndex: number) => React.Key,
+): React.Key | undefined {
+  if (typeof getKey === "function") {
+    const customKey = getKey(item, index);
+    if (customKey != null) {
+      return customKey;
+    }
+  }
+
+  if (isReactKey(item)) {
+    return item;
+  }
+
+  if (isRecord(item)) {
+    const maybeId = item.id;
+
+    if (isReactKey(maybeId)) {
+      return maybeId;
+    }
+  }
+
+  return undefined;
+}
+
 export type DashboardListRenderItem<T> = (
   item: T,
   index: number,
@@ -33,6 +68,7 @@ export default function DashboardList<T>({
   className,
 }: DashboardListProps<T>): React.ReactElement {
   const hasItems = items.length > 0;
+  const missingKeyWarnedRef = React.useRef(false);
 
   return (
     <ul
@@ -43,7 +79,20 @@ export default function DashboardList<T>({
     >
       {hasItems
         ? items.map((item, index) => {
-            const key = getKey ? getKey(item, index) : index;
+            const resolvedKey = resolveDeterministicKey(item, index, getKey);
+
+            if (
+              process.env.NODE_ENV !== "production" &&
+              !missingKeyWarnedRef.current &&
+              resolvedKey === undefined
+            ) {
+              missingKeyWarnedRef.current = true;
+              console.warn(
+                "DashboardList: unable to determine a stable key for one or more items. Provide a `getKey` prop when rendering DashboardList to ensure stable item identity.",
+              );
+            }
+
+            const key = resolvedKey ?? index;
             const itemCls =
               typeof itemClassName === "function"
                 ? itemClassName(item, index)
