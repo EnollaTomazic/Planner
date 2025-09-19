@@ -24,7 +24,7 @@ const teamQuickActions = [
 
 const promptsOverlayGradient = {
   "--seg-active-grad":
-    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.85), hsl(var(--accent-soft) / 0.85), hsl(var(--accent-2) / 0.8))",
+    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.75), hsl(var(--accent-soft) / 0.75), hsl(var(--accent-2) / 0.7))",
 } as React.CSSProperties;
 
 export default function TeamPromptsCard() {
@@ -47,7 +47,7 @@ export default function TeamPromptsCard() {
           title="Prompts peek"
           cta={{ label: "Explore Prompts", href: "/prompts" }}
         >
-          <div className="relative overflow-hidden rounded-card r-card-md bg-card p-[var(--space-4)] text-center text-ui text-primary-foreground">
+          <div className="relative overflow-hidden rounded-card r-card-md bg-card p-[var(--space-4)] text-center text-ui text-foreground">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[var(--seg-active-grad)]"
