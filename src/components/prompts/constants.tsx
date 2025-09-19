@@ -1604,6 +1604,8 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
           items={[
             { key: "a", label: "A" },
             { key: "b", label: "B" },
+            { key: "c", label: "Disabled", disabled: true },
+            { key: "d", label: "Syncing", loading: true },
           ]}
           defaultValue="a"
           ariaLabel="Example tabs"
@@ -1611,7 +1613,12 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       ),
       tags: ["tab", "toggle"],
       code: `<TabBar
-  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
+  items={[
+    { key: "a", label: "A" },
+    { key: "b", label: "B" },
+    { key: "c", label: "Disabled", disabled: true },
+    { key: "d", label: "Syncing", loading: true },
+  ]}
   defaultValue="a"
   ariaLabel="Example tabs"
 />`,
