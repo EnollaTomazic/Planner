@@ -152,6 +152,9 @@ export default function ComponentGallery() {
   const [side, setSide] = React.useState<GameSide>("Blue");
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
+  const [nativeSelectValue, setNativeSelectValue] = React.useState("");
+  const [nativeSelectVariantValue, setNativeSelectVariantValue] = React.useState("");
+  const [nativeSelectSuccessValue, setNativeSelectSuccessValue] = React.useState("");
   const [view, setView] = React.useState<View>("buttons");
   const [headerTab, setHeaderTab] = React.useState("one");
   const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
@@ -454,7 +457,8 @@ export default function ComponentGallery() {
               { value: "orange", label: "Orange" },
               { value: "pear", label: "Pear" },
             ]}
-            value=""
+            value={nativeSelectValue}
+            onChange={setNativeSelectValue}
           />
         ),
       },
@@ -482,7 +486,8 @@ export default function ComponentGallery() {
                 { value: "a", label: "A" },
                 { value: "b", label: "B" },
               ]}
-              value=""
+              value={nativeSelectVariantValue}
+              onChange={setNativeSelectVariantValue}
             />
             <Select
               variant="native"
@@ -491,7 +496,8 @@ export default function ComponentGallery() {
                 { value: "", label: "Choose…" },
                 { value: "a", label: "A" },
               ]}
-              value=""
+              value={nativeSelectSuccessValue}
+              onChange={setNativeSelectSuccessValue}
             />
           </div>
         ),
@@ -557,7 +563,13 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [query, selectValue],
+    [
+      query,
+      selectValue,
+      nativeSelectValue,
+      nativeSelectVariantValue,
+      nativeSelectSuccessValue,
+    ],
   );
 
   const promptItems = React.useMemo(
