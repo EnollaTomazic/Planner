@@ -25,8 +25,8 @@ export default function QuickActions() {
     <section aria-label="Quick actions" className="grid gap-[var(--space-4)]">
       <QuickActionGrid
         actions={actions}
-        className="md:flex-row md:items-center md:justify-between"
-        buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+        layout="inline"
+        hoverLift
       />
     </section>
   );
