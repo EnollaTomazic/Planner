@@ -33,10 +33,11 @@ export default function Modal({
   if (!open || !mounted) return null;
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <button
-        type="button"
-        aria-label="Close modal"
-        className="absolute inset-0 bg-background/80 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+      <div
+        role="presentation"
+        aria-hidden="true"
+        tabIndex={-1}
+        className="absolute inset-0 bg-background/80 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)]"
         onClick={onClose}
       />
       <Card
