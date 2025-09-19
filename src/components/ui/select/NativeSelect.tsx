@@ -52,7 +52,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
           helperId={errorId || helperId}
           helperTone={helperTone}
           className={cn(
-            "group jitter",
+            "group",
             success && !isInvalid &&
               "border-[var(--theme-ring)] focus-within:ring-[var(--theme-ring)]",
             className,
