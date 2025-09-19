@@ -938,8 +938,8 @@ html.bg-intense body::after {
 .pretty-border::before {
   content: "";
   position: absolute;
-  inset: -1px;
-  padding: 1px;
+  inset: calc(var(--hairline-w) * -1);
+  padding: var(--hairline-w);
   border-radius: inherit;
   pointer-events: none;
   background: conic-gradient(
