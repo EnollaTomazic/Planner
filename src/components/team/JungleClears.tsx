@@ -166,8 +166,11 @@ export default React.forwardRef<
   React.useImperativeHandle(ref, () => ({ addRow }), [addRow]);
 
   return (
-    <div data-scope="team" className="grid gap-4 sm:gap-6">
-      <div className="grid grid-cols-12 gap-6">
+    <div
+      data-scope="team"
+      className="grid gap-[var(--space-4)] sm:gap-[var(--space-6)]"
+    >
+      <div className="grid grid-cols-12 gap-[var(--space-6)]">
         {BUCKETS.map((bucket) => {
           const rowsAll = items.filter((r) => r.speed === bucket);
           const rows = filtered.filter((r) => r.speed === bucket);
@@ -177,7 +180,7 @@ export default React.forwardRef<
               <SectionCard.Header
                 sticky
                 title={
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-[var(--space-2)]">
                     <Timer className="opacity-80" />
                     {/* Glitch title + glow */}
                     <span
@@ -201,8 +204,8 @@ export default React.forwardRef<
                 }
               />
               <SectionCard.Body>
-                <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-border bg-card px-2 py-1 text-label tracking-wide uppercase">
+                <div className="mb-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
+                  <span className="rounded-[var(--radius-full)] border border-border bg-card px-[var(--space-2)] py-[var(--space-1)] text-label tracking-wide uppercase">
                     {SPEED_PERSONA[bucket].tag}
                   </span>
                   <span className="text-ui text-muted-foreground">
@@ -211,7 +214,7 @@ export default React.forwardRef<
                 </div>
 
                 {/* Example row (canonical pills) */}
-                <div className="mb-3 flex flex-wrap items-center gap-2">
+                <div className="mb-[var(--space-3)] flex flex-wrap items-center gap-[var(--space-2)]">
                   <span className="text-muted-foreground text-ui">
                     Example:
                   </span>
@@ -224,7 +227,7 @@ export default React.forwardRef<
                 </div>
 
                 {editing && (
-                  <div className="mb-2 flex justify-end">
+                  <div className="mb-[var(--space-2)] flex justify-end">
                     <IconButton
                       size="sm"
                       iconSize="xs"
@@ -244,16 +247,16 @@ export default React.forwardRef<
                     </caption>
                     <thead className="text-left text-muted-foreground">
                       <tr className="h-9">
-                        <th scope="col" className="pr-3">
+                        <th scope="col" className="pr-[var(--space-3)]">
                           Champion
                         </th>
-                        <th scope="col" className="pr-3">
+                        <th scope="col" className="pr-[var(--space-3)]">
                           Type
                         </th>
-                        <th scope="col" className="pr-3">
+                        <th scope="col" className="pr-[var(--space-3)]">
                           Notes
                         </th>
-                        <th scope="col" className="w-12 pr-3">
+                        <th scope="col" className="w-12 pr-[var(--space-3)]">
                           <span className="sr-only">Actions</span>
                         </th>
                       </tr>
@@ -265,7 +268,7 @@ export default React.forwardRef<
                             key={r.id}
                             className="h-10 border-t border-border/40 hover:bg-card/45"
                           >
-                            <td className="py-2 pr-3 font-medium">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
                               <Input
                                 aria-label="Champion"
                                 name="champion"
@@ -278,7 +281,7 @@ export default React.forwardRef<
                                 }
                               />
                             </td>
-                            <td className="py-2 pr-3">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
                               <Input
                                 aria-label="Type"
                                 placeholder="AD, Assassin"
@@ -292,7 +295,7 @@ export default React.forwardRef<
                                 }
                               />
                             </td>
-                            <td className="py-2 pr-3">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
                               <Input
                                 aria-label="Notes"
                                 name="notes"
@@ -305,8 +308,8 @@ export default React.forwardRef<
                                 }
                               />
                             </td>
-                            <td className="py-2 pr-3">
-                              <div className="flex gap-1">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+                              <div className="flex gap-[var(--space-1)]">
                                 <IconButton
                                   size="sm"
                                   iconSize="xs"
@@ -332,9 +335,9 @@ export default React.forwardRef<
                             key={r.id}
                             className="h-10 border-t border-border/40 hover:bg-card/45"
                           >
-                            <td className="py-2 pr-3 font-medium">{r.champ}</td>
-                            <td className="py-2 pr-3">
-                              <div className="flex flex-wrap gap-2">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">{r.champ}</td>
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+                              <div className="flex flex-wrap gap-[var(--space-2)]">
                                 {(r.type ?? []).map((t) => (
                                   <span
                                     key={t}
@@ -345,10 +348,10 @@ export default React.forwardRef<
                                 ))}
                               </div>
                             </td>
-                            <td className="py-2 pr-3">{r.notes ?? "-"}</td>
-                            <td className="py-2 pr-3">
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">{r.notes ?? "-"}</td>
+                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
                               {editing && (
-                                <div className="flex gap-1">
+                                <div className="flex gap-[var(--space-1)]">
                                   <IconButton
                                     size="sm"
                                     iconSize="xs"
