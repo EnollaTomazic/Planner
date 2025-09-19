@@ -391,7 +391,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                           <ChampListEditor
                             list={list}
                             onChange={setList}
-                            editing={editing}
+                            editing={editing && editingCard}
                             emptyLabel="-"
                             viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
                           />

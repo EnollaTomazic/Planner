@@ -378,7 +378,7 @@ export default function ReviewEditor({
             onChange={(e) => setNotes(e.target.value)}
             onBlur={commitNotes}
             placeholder="Key moments, mistakes to fix, drills to run…"
-            className="rounded-[var(--radius-2xl)]"
+            className="rounded-[var(--control-radius)]"
             resize="resize-y"
             textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
             aria-labelledby={notesLabelId}
