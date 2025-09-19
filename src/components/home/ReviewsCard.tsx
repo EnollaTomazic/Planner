@@ -3,16 +3,11 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import DashboardList from "./DashboardList";
-import { usePersistentState } from "@/lib/db";
-import type { Review } from "@/lib/types";
+import { useReviews } from "@/components/reviews";
 import { LOCALE } from "@/lib/utils";
 
 export default function ReviewsCard() {
-  const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
-  const recentReviews = React.useMemo(
-    () => [...reviews].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
-    [reviews],
-  );
+  const { recentReviews } = useReviews();
 
   return (
     <DashboardCard
