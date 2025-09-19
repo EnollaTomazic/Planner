@@ -71,6 +71,27 @@ export default React.forwardRef<
     notes: string;
   } | null>(null);
 
+  useEffect(() => {
+    if (items.every((row) => typeof (row as unknown as { champ?: unknown }).champ === "string")) {
+      return;
+    }
+
+    setItems((prev) => {
+      let changed = false;
+      const next = prev.map((row) => {
+        const champValue = (row as unknown as { champ?: unknown }).champ;
+        if (typeof champValue === "string") {
+          return row;
+        }
+
+        changed = true;
+        return { ...row, champ: "" };
+      });
+
+      return changed ? next : prev;
+    });
+  }, [items, setItems]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return items.filter((r) => {
@@ -89,8 +110,12 @@ export default React.forwardRef<
   const exampleByBucket = useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
-      const row = items.find((r) => r.speed === b && r.champ.trim());
-      map[b] = row?.champ ?? "-";
+      const row = items.find((r) => {
+        const champ = (r.champ ?? "").trim();
+        return r.speed === b && champ !== "";
+      });
+      const champ = (row?.champ ?? "").trim();
+      map[b] = champ === "" ? "-" : champ;
     }
     return map;
   }, [items]);
@@ -99,7 +124,7 @@ export default React.forwardRef<
     (r: JunglerRow) => {
       setEditingRow({
         id: r.id,
-        champ: r.champ,
+        champ: r.champ ?? "",
         type: (r.type ?? []).join(", "),
         notes: r.notes ?? "",
       });
@@ -110,7 +135,8 @@ export default React.forwardRef<
   const cancelEdit = React.useCallback(() => {
     if (editingRow) {
       const existing = items.find((r) => r.id === editingRow.id);
-      if (existing && !existing.champ.trim()) {
+      const champ = (existing?.champ ?? "").trim();
+      if (existing && champ === "") {
         setItems((prev) => prev.filter((r) => r.id !== editingRow.id));
       }
     }
@@ -119,20 +145,30 @@ export default React.forwardRef<
 
   const saveEdit = React.useCallback(() => {
     if (!editingRow) return;
+    const champInput = (editingRow.champ ?? "").trim();
+    const typeInput = editingRow.type ?? "";
+    const notesInput = (editingRow.notes ?? "").trim();
+
     setItems((prev) =>
-      prev.map((r) =>
-        r.id === editingRow.id
-          ? {
-              ...r,
-              champ: editingRow.champ.trim() || r.champ,
-              type: editingRow.type
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean),
-              notes: editingRow.notes.trim() || undefined,
-            }
-          : r,
-      ),
+      prev.map((r) => {
+        if (r.id !== editingRow.id) {
+          return r;
+        }
+
+        const nextType = typeInput
+          .split(",")
+          .map((t) => t.trim())
+          .filter((t) => t.length > 0);
+        const nextChamp = champInput !== "" ? champInput : (r.champ ?? "");
+        const nextNotes = notesInput === "" ? undefined : notesInput;
+
+        return {
+          ...r,
+          champ: nextChamp,
+          type: nextType,
+          notes: nextNotes,
+        };
+      }),
     );
     setEditingRow(null);
   }, [editingRow, setItems, setEditingRow]);
