@@ -11,3 +11,4 @@ export { default as BottomNav } from "../chrome/BottomNav";
 export { default as IsometricRoom } from "./IsometricRoom";
 export { default as HeroPortraitFrame } from "./HeroPortraitFrame";
 export { default as WelcomeHeroFigure } from "./WelcomeHeroFigure";
+export * from "./hero";

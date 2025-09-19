@@ -67,6 +67,16 @@ import {
   QuickActionGrid,
   HeroPortraitFrame,
   WelcomeHeroFigure,
+  HeroSummaryList,
+  FocusDayCard,
+  GoalMomentumCard,
+  WeeklyCalendarCard,
+} from "@/components/home";
+import type {
+  HeroSummaryItem,
+  FocusDayCardProps,
+  GoalMomentumCardProps,
+  WeeklyCalendarCardProps,
 } from "@/components/home";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
@@ -144,6 +154,107 @@ export const demoReview: Review = {
   role: "MID",
   score: 8,
   result: "Win",
+};
+
+const HERO_SUMMARY_DEMO_ITEMS: HeroSummaryItem[] = [
+  {
+    key: "focus",
+    label: "Next focus",
+    value: "Tuesday · 14 May",
+    href: "/planner",
+    cta: "Open planner",
+  },
+  {
+    key: "reviews",
+    label: "Open reviews",
+    value: "2 reviews",
+    href: "/reviews",
+    cta: "Review now",
+  },
+  {
+    key: "prompts",
+    label: "Team prompts",
+    value: "6 saved",
+    href: "/prompts",
+    cta: "View prompts",
+  },
+];
+
+const FOCUS_DAY_CARD_DEMO: FocusDayCardProps = {
+  focusLabel: "Tuesday, May 14",
+  doneCount: 2,
+  totalCount: 4,
+  tasks: [
+    { id: "t1", title: "Ship sprint plan", done: false, projectName: "Aurora" },
+    { id: "t2", title: "Sync with research", done: true, projectName: "Pulse" },
+    { id: "t3", title: "Review backlog", done: false, projectName: null },
+  ],
+  remainingTasks: 3,
+  onToggleTask: () => {},
+};
+
+const GOAL_MOMENTUM_CARD_DEMO: GoalMomentumCardProps = {
+  total: 4,
+  completed: 2,
+  pct: 50,
+  activeGoals: [
+    { id: "g1", title: "Launch planner beta", metric: "Ship invite list" },
+    { id: "g2", title: "Improve retention", notes: "Draft success brief" },
+  ],
+};
+
+const WEEKLY_CALENDAR_CARD_DEMO: WeeklyCalendarCardProps = {
+  weekLabel: "May 13 – May 19",
+  done: 8,
+  total: 12,
+  days: [
+    {
+      iso: "2024-05-13",
+      weekday: "Mon",
+      dayNumber: "13",
+      done: 1,
+      total: 2,
+      isToday: false,
+      isSelected: false,
+    },
+    {
+      iso: "2024-05-14",
+      weekday: "Tue",
+      dayNumber: "14",
+      done: 2,
+      total: 3,
+      isToday: false,
+      isSelected: true,
+    },
+    {
+      iso: "2024-05-15",
+      weekday: "Wed",
+      dayNumber: "15",
+      done: 1,
+      total: 2,
+      isToday: false,
+      isSelected: false,
+    },
+    {
+      iso: "2024-05-16",
+      weekday: "Thu",
+      dayNumber: "16",
+      done: 3,
+      total: 3,
+      isToday: false,
+      isSelected: false,
+    },
+    {
+      iso: "2024-05-17",
+      weekday: "Fri",
+      dayNumber: "17",
+      done: 1,
+      total: 2,
+      isToday: false,
+      isSelected: false,
+    },
+  ],
+  onSelectDay: () => {},
 };
 
 function RoleSelectorDemo() {
@@ -893,6 +1004,82 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
   className="md:flex-row md:items-center md:justify-between"
   buttonSize="lg"
   buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+/>`,
+    },
+    {
+      id: "hero-summary-list",
+      name: "HeroSummaryList",
+      element: (
+        <HeroSummaryList
+          className="max-w-xl"
+          items={HERO_SUMMARY_DEMO_ITEMS}
+        />
+      ),
+      tags: ["hero", "summary"],
+      code: `<HeroSummaryList
+  items={[
+    { key: "focus", label: "Next focus", value: "Tuesday · 14 May", href: "/planner", cta: "Open planner" },
+  ]}
+/>`,
+    },
+    {
+      id: "focus-day-card",
+      name: "FocusDayCard",
+      element: (
+        <FocusDayCard
+          {...FOCUS_DAY_CARD_DEMO}
+          className="max-w-xl"
+        />
+      ),
+      tags: ["hero", "tasks"],
+      code: `<FocusDayCard
+  focusLabel="Tuesday, May 14"
+  doneCount={2}
+  totalCount={4}
+  tasks={[
+    { id: "t1", title: "Ship sprint plan", done: false, projectName: "Aurora" },
+  ]}
+  remainingTasks={3}
+  onToggleTask={() => {}}
+/>`,
+    },
+    {
+      id: "goal-momentum-card",
+      name: "GoalMomentumCard",
+      element: (
+        <GoalMomentumCard
+          {...GOAL_MOMENTUM_CARD_DEMO}
+          className="max-w-xl"
+        />
+      ),
+      tags: ["hero", "goals"],
+      code: `<GoalMomentumCard
+  total={4}
+  completed={2}
+  pct={50}
+  activeGoals={[
+    { id: "g1", title: "Launch planner beta", metric: "Ship invite list" },
+  ]}
+/>`,
+    },
+    {
+      id: "weekly-calendar-card",
+      name: "WeeklyCalendarCard",
+      element: (
+        <WeeklyCalendarCard
+          {...WEEKLY_CALENDAR_CARD_DEMO}
+          className="max-w-2xl"
+        />
+      ),
+      tags: ["hero", "calendar"],
+      code: `<WeeklyCalendarCard
+  weekLabel="May 13 – May 19"
+  done={8}
+  total={12}
+  days={[
+    { iso: "2024-05-13", weekday: "Mon", dayNumber: "13", done: 1, total: 2, isToday: false, isSelected: false },
+  ]}
+  onSelectDay={() => {}}
 />`,
     },
     {
