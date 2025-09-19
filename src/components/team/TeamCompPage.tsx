@@ -286,8 +286,8 @@ export default function TeamCompPage() {
     }
     if (tab === "builder") {
       const laneSummaries = BUILDER_LANES.map((lane) => {
-        const ally = builderState.allies[lane.key].trim();
-        const enemy = builderState.enemies[lane.key].trim();
+        const ally = (builderState.allies[lane.key] ?? "").trim();
+        const enemy = (builderState.enemies[lane.key] ?? "").trim();
         return {
           ...lane,
           ally,

@@ -2,6 +2,8 @@ import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import TeamCompPage from "@/components/team/TeamCompPage";
+import * as BuilderModule from "@/components/team/Builder";
+import type { TeamState } from "@/components/team/Builder";
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -15,12 +17,31 @@ afterEach(() => {
 describe("TeamCompPage builder tab", () => {
   it("shows builder hero with spacing", () => {
     render(<TeamCompPage />);
-    const builderTab = screen.getByRole("tab", { name: "Builder" });
+    const builderTab = screen.getAllByRole("tab", { name: "Builder" })[0];
     fireEvent.click(builderTab);
     const heroHeading = screen.getByRole("heading", { name: "Builder" });
     expect(heroHeading).toBeInTheDocument();
     const cardParent = screen.getByText("Allies").closest("section")?.parentElement;
     expect(cardParent).toHaveClass("mt-6");
+  });
+
+  it("handles missing lane entries gracefully", () => {
+    const partialState = {
+      allies: { top: "Garen" },
+      enemies: {},
+    } as unknown as TeamState;
+    const initSpy = vi
+      .spyOn(BuilderModule, "createInitialTeamState")
+      .mockReturnValue(partialState);
+    try {
+      render(<TeamCompPage />);
+      const builderTab = screen.getAllByRole("tab", { name: "Builder" })[0];
+      fireEvent.click(builderTab);
+      expect(screen.getByText("Lane coverage")).toBeInTheDocument();
+      expect(screen.getByText("Mid: Open / Open")).toBeInTheDocument();
+    } finally {
+      initSpy.mockRestore();
+    }
   });
 });
 
