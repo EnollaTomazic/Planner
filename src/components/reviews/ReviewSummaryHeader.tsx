@@ -33,7 +33,7 @@ export default function ReviewSummaryHeader({
         "inline-flex h-10 items-center rounded-card r-card-lg border px-3 text-ui font-medium",
         "border-border bg-card",
         result === "Win"
-          ? "shadow-[0_0_0_1px_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
+          ? "shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
           : "bg-gradient-to-r from-danger/18 to-primary/16",
       )}
       aria-label={`Result: ${result}`}
