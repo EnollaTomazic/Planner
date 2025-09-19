@@ -671,7 +671,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 
   /* Inputs */
   .input-base {
-    @apply rounded-[var(--radius-2xl)] border text-ui font-medium;
+    @apply rounded-[var(--control-radius)] border text-ui font-medium;
     height: var(--control-h);
     padding: 0 var(--control-px);
     font-size: var(--control-fs);
