@@ -13,8 +13,6 @@
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
-  --destructive: var(--danger);
-  --destructive-foreground: var(--danger-foreground);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --shadow-neon:
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
@@ -266,7 +264,7 @@ html.theme-hardstuck {
   --accent-foreground: 0 0% 0%;
   --text-on-accent: hsl(var(--hardstuck-foreground));
   --accent-soft: 120 100% 12%;
-  --glow: 120 100% 60%;
+  --glow: 120 100% 68%;
   --ring-muted: 120 30% 20%;
   --danger: 0 84% 60%;
   --warning: 43 96% 56%;
