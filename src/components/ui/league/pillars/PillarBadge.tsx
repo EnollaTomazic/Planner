@@ -126,7 +126,7 @@ export default function PillarBadge({
           background: hsl(var(--card) / 0.75);
           color: hsl(var(--foreground));
           border: 1px solid hsl(var(--border));
-          box-shadow: 0 10px 30px hsl(var(--shadow-color) / 0.18);
+          box-shadow: var(--shadow-neo);
           transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
           backdrop-filter: blur(6px);
           -webkit-backdrop-filter: blur(6px);
@@ -135,7 +135,7 @@ export default function PillarBadge({
         /* Hover = shadow only, no translate */
         .lg-pillar-badge:hover,
         .lg-pillar-badge:focus-visible {
-          box-shadow: 0 14px 36px hsl(var(--shadow-color) / 0.22);
+          box-shadow: var(--shadow-neo-strong);
           outline: none;
         }
 
@@ -148,7 +148,7 @@ export default function PillarBadge({
             color-mix(in oklab, var(--g2), transparent 82%)
           );
           border-color: transparent;
-          box-shadow: 0 0 0 1px hsl(var(--ring) / 0.28), 0 16px 40px hsl(var(--shadow-color) / 0.28);
+          box-shadow: var(--shadow-nav-active);
         }
         .lg-pillar-badge.active::before {
           content: "";
