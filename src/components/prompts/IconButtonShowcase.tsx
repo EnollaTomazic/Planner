@@ -70,15 +70,15 @@ const PRESSED_ICON_BUTTONS = [
 
 export default function IconButtonShowcase() {
   return (
-    <div className="mb-8 flex flex-col gap-4">
-      <div className="flex gap-2">
+    <div className="mb-[var(--space-8)] flex flex-col gap-[var(--space-4)]">
+      <div className="flex gap-[var(--space-2)]">
         {ICON_BUTTONS.map((props) => (
           <IconButton key={props.title} {...props}>
             <Plus aria-hidden />
           </IconButton>
         ))}
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-[var(--space-2)]">
         {PRESSED_ICON_BUTTONS.map((props) => (
           <IconButton key={props.title} {...props}>
             <Plus aria-hidden />
