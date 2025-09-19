@@ -1251,19 +1251,19 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       description: "Focus ring glow tokens and disabled outline states.",
       element: <OutlineGlowDemo />,
       tags: ["focus", "state", "demo"],
-      code: `<div className="space-x-2">
+      code: `<div className="flex gap-[var(--space-2)]">
   <button
     type="button"
-    className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface"
-    style={{ "--focus": "var(--theme-ring)" }}
+    className="inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface"
+    style={{ "--focus": "var(--focus)" }}
   >
     Focus me to see the glow
   </button>
   <button
     type="button"
-    aria-disabled="true"
-    className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed"
-    style={{ "--focus": "var(--theme-ring)" }}
+    disabled
+    className="inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed"
+    style={{ "--focus": "var(--focus)" }}
   >
     Disabled example
   </button>
