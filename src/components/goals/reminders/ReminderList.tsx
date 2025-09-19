@@ -178,7 +178,7 @@ function RemTile({
               }
               className="rounded-[var(--radius-2xl)]"
               resize="resize-y"
-              textareaClassName="min-h-40 leading-relaxed"
+              textareaClassName="min-h-[calc(var(--space-8)*2_+_var(--space-3))] leading-relaxed"
             />
 
             <label className="text-label font-medium tracking-[0.02em] opacity-70">Tags</label>
