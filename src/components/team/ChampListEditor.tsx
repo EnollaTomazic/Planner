@@ -44,12 +44,13 @@ export default function ChampListEditor({
   const workingList = sanitized.length ? sanitized : [""];
 
   function commit(next: string[]) {
-    onChange(sanitizeList(next));
+    const sanitizedNext = sanitizeList(next);
+    onChange(sanitizedNext.length ? sanitizedNext : []);
   }
 
   function commitWithoutBlanks(next: string[]) {
     const cleaned = sanitizeList(next).filter((item) => item.trim().length);
-    onChange(cleaned);
+    onChange(cleaned.length ? cleaned : []);
   }
 
   function setAt(index: number, value: string) {
