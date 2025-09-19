@@ -5,6 +5,7 @@ import "./themes.css";
 
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -31,11 +32,13 @@ const htmlStyle = {
   "--asset-glitch-gif-url": `url('${withBasePath("/glitch-gif.gif")}')`,
 } as CSSProperties;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const nonceHeader = await headers();
+  const nonce = nonceHeader.get("x-nonce") ?? undefined;
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
     <html
@@ -48,6 +51,7 @@ export default function RootLayout({
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
+          nonce={nonce}
           src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
         />
       </head>

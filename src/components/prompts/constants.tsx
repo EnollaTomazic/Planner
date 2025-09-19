@@ -542,76 +542,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </div>`,
     },
     {
-      id: "tab-bar-filters",
-      name: "TabBar (filters)",
-      description: "Preset filter tabs with icons",
-      element: (
-        <TabBar
-          items={[
-            { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
-            {
-              key: "active",
-              label: "Active",
-              icon: <CircleDot aria-hidden="true" />,
-            },
-            {
-              key: "done",
-              label: "Done",
-              icon: <CircleCheck aria-hidden="true" />,
-            },
-          ]}
-          defaultValue="active"
-          ariaLabel="Show active goals"
-        />
-      ),
-      tags: ["button", "segmented"],
-      code: `<TabBar
-  items={[
-    { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
-    {
-      key: "active",
-      label: "Active",
-      icon: <CircleDot aria-hidden="true" />,
-    },
-    {
-      key: "done",
-      label: "Done",
-      icon: <CircleCheck aria-hidden="true" />,
-    },
-  ]}
-  defaultValue="active"
-  ariaLabel="Show active goals"
-/>`,
-    },
-    {
-      id: "quick-action-grid",
-      name: "QuickActionGrid",
-      description: "Maps quick action configs to styled buttons",
-      element: (
-        <QuickActionGrid
-          actions={[
-            { href: "/planner", label: "Planner Today" },
-            { href: "/goals", label: "New Goal", tone: "accent" },
-            { href: "/reviews", label: "New Review", tone: "accent" },
-          ]}
-          className="md:flex-row md:items-center md:justify-between"
-          buttonSize="lg"
-          buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
-        />
-      ),
-      tags: ["button", "layout"],
-      code: `<QuickActionGrid
-  actions={[
-    { href: "/planner", label: "Planner Today" },
-    { href: "/goals", label: "New Goal", tone: "accent" },
-    { href: "/reviews", label: "New Review", tone: "accent" },
-  ]}
-  className="md:flex-row md:items-center md:justify-between"
-  buttonSize="lg"
-  buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
-/>`,
-    },
-    {
       id: "icon-button",
       name: "IconButton",
       description: "Size and variant showcase",
@@ -846,13 +776,6 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<PromptList prompts={demoPrompts} query="" />`,
     },
     {
-      id: "goal-list-demo",
-      name: "GoalListDemo",
-      element: <GoalListDemo />,
-      tags: ["goal", "list"],
-      code: `<GoalListDemo />`,
-    },
-    {
       id: "prompts-header",
       name: "PromptsHeader",
       description: "Prompts workspace header with search, chips, and save action.",
@@ -925,6 +848,41 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <GoalsProgress total={3} pct={50} />,
       tags: ["goals", "progress"],
       code: `<GoalsProgress total={3} pct={50} />`,
+    },
+    {
+      id: "goal-list-demo",
+      name: "GoalListDemo",
+      element: <GoalListDemo />,
+      tags: ["goal", "list"],
+      code: `<GoalListDemo />`,
+    },
+    {
+      id: "quick-action-grid",
+      name: "QuickActionGrid",
+      description: "Maps quick action configs to styled planner shortcuts",
+      element: (
+        <QuickActionGrid
+          actions={[
+            { href: "/planner", label: "Planner Today" },
+            { href: "/goals", label: "New Goal", tone: "accent" },
+            { href: "/reviews", label: "New Review", tone: "accent" },
+          ]}
+          className="md:flex-row md:items-center md:justify-between"
+          buttonSize="lg"
+          buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+        />
+      ),
+      tags: ["actions", "planner"],
+      code: `<QuickActionGrid
+  actions={[
+    { href: "/planner", label: "Planner Today" },
+    { href: "/goals", label: "New Goal", tone: "accent" },
+    { href: "/reviews", label: "New Review", tone: "accent" },
+  ]}
+  className="md:flex-row md:items-center md:justify-between"
+  buttonSize="lg"
+  buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+/>`,
     },
     {
       id: "reminders-tab",
@@ -1274,70 +1232,16 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
 </Modal>`,
     },
     {
-      id: "toast-demo",
-      name: "Toast",
-      element: <ToastDemo />,
-      tags: ["toast", "feedback"],
-      code: `<Button size="sm">Show</Button>
-<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
-    },
-    {
       id: "split",
       name: "Split",
       element: (
         <Split
-          left={<div className="p-4">Left</div>}
-          right={<div className="p-4">Right</div>}
+          left={<div className="p-[var(--space-4)]">Left</div>}
+          right={<div className="p-[var(--space-4)]">Right</div>}
         />
       ),
       tags: ["split", "layout"],
       code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
-    },
-    {
-      id: "tab-bar",
-      name: "TabBar",
-      element: (
-        <TabBar
-          items={[
-            { key: "a", label: "A" },
-            { key: "b", label: "B" },
-          ]}
-          defaultValue="a"
-          ariaLabel="Example tabs"
-        />
-      ),
-      tags: ["tabs"],
-      code: `<TabBar
-  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
-  defaultValue="a"
-  ariaLabel="Example tabs"
-/>`,
-    },
-    {
-      id: "tab-bar-app-nav",
-      name: "TabBar (app nav)",
-      description: "Controlled TabBar for section switching",
-      element: (
-        <TabBar
-          items={[
-            { key: "reviews", label: "Reviews" },
-            { key: "planner", label: "Planner" },
-            { key: "goals", label: "Goals" },
-          ]}
-          defaultValue="reviews"
-          ariaLabel="Planner areas"
-        />
-      ),
-      tags: ["tabs"],
-      code: `<TabBar
-  items={[
-    { key: "reviews", label: "Reviews" },
-    { key: "planner", label: "Planner" },
-    { key: "goals", label: "Goals" },
-  ]}
-  defaultValue="reviews"
-  ariaLabel="Planner areas"
-/>`,
     },
     {
       id: "title-bar",
@@ -1584,6 +1488,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />`,
     },
     {
+      id: "toast-demo",
+      name: "Toast",
+      element: <ToastDemo />,
+      tags: ["toast", "feedback"],
+      code: `<Button size="sm">Show</Button>
+<Toast open closable showProgress><p className="text-ui">Toast message</p></Toast>`,
+    },
+    {
       id: "skeleton",
       name: "Skeleton",
       description: "Shimmer placeholder for loading layouts.",
@@ -1630,6 +1542,94 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       tags: ["toggle", "animation"],
       code: `<AnimationToggle />
 <AnimationToggle loading />`,
+    },
+    {
+      id: "tab-bar-filters",
+      name: "TabBar (filters)",
+      description: "Preset filter tabs with icons",
+      element: (
+        <TabBar
+          items={[
+            { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+            {
+              key: "active",
+              label: "Active",
+              icon: <CircleDot aria-hidden="true" />,
+            },
+            {
+              key: "done",
+              label: "Done",
+              icon: <CircleCheck aria-hidden="true" />,
+            },
+          ]}
+          defaultValue="active"
+          ariaLabel="Show active goals"
+        />
+      ),
+      tags: ["tab", "toggle"],
+      code: `<TabBar
+  items={[
+    { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
+    {
+      key: "active",
+      label: "Active",
+      icon: <CircleDot aria-hidden="true" />,
+    },
+    {
+      key: "done",
+      label: "Done",
+      icon: <CircleCheck aria-hidden="true" />,
+    },
+  ]}
+  defaultValue="active"
+  ariaLabel="Show active goals"
+/>`,
+    },
+    {
+      id: "tab-bar",
+      name: "TabBar",
+      element: (
+        <TabBar
+          items={[
+            { key: "a", label: "A" },
+            { key: "b", label: "B" },
+          ]}
+          defaultValue="a"
+          ariaLabel="Example tabs"
+        />
+      ),
+      tags: ["tab", "toggle"],
+      code: `<TabBar
+  items={[{ key: "a", label: "A" }, { key: "b", label: "B" }]}
+  defaultValue="a"
+  ariaLabel="Example tabs"
+/>`,
+    },
+    {
+      id: "tab-bar-app-nav",
+      name: "TabBar (app nav)",
+      description: "Controlled TabBar for section switching",
+      element: (
+        <TabBar
+          items={[
+            { key: "reviews", label: "Reviews" },
+            { key: "planner", label: "Planner" },
+            { key: "goals", label: "Goals" },
+          ]}
+          defaultValue="reviews"
+          ariaLabel="Planner areas"
+        />
+      ),
+      tags: ["tab", "toggle"],
+      code: `<TabBar
+  items={[
+    { key: "reviews", label: "Reviews" },
+    { key: "planner", label: "Planner" },
+    { key: "goals", label: "Goals" },
+  ]}
+  defaultValue="reviews"
+  ariaLabel="Planner areas"
+/>`,
     },
     {
       id: "theme-toggle",
@@ -1784,14 +1784,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "badge-tones",
       name: "Badge Tones",
       element: (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-[var(--space-2)]">
           <Badge tone="neutral">Neutral</Badge>
           <Badge tone="accent">Accent</Badge>
           <Badge tone="primary">Primary</Badge>
         </div>
       ),
       tags: ["badge", "tone"],
-      code: `<div className="flex flex-wrap gap-2">
+      code: `<div className="flex flex-wrap gap-[var(--space-2)]">
   <Badge tone="neutral">Neutral</Badge>
   <Badge tone="accent">Accent</Badge>
   <Badge tone="primary">Primary</Badge>
