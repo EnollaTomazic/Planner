@@ -34,11 +34,10 @@ export default function TeamPromptsCard() {
         <DashboardCard title="Team quick actions">
           <QuickActionGrid
             actions={teamQuickActions}
-            layout="grid"
-            className="grid-cols-12"
+            layout="twelveColumn"
             buttonVariant="ghost"
             buttonSize="lg"
-            buttonClassName="col-span-12 w-full justify-start text-left border-border bg-card/60 sm:col-span-6 lg:col-span-4"
+            buttonClassName="col-span-12 w-full justify-start text-left border-border bg-card/60 md:col-span-6 lg:col-span-4"
           />
         </DashboardCard>
       </div>

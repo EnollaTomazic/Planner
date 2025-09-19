@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button, { type ButtonProps } from "@/components/ui/primitives/Button";
 import { cn } from "@/lib/utils";
 
-type QuickActionLayout = "stacked" | "grid" | "inline";
+type QuickActionLayout = "stacked" | "grid" | "twelveColumn" | "inline";
 
 const ROOT_CLASSNAME =
   "[--quick-actions-gap:var(--space-4)] [--quick-actions-column-width:calc(var(--space-4)*14)] [--quick-actions-lift:var(--spacing-0-5)]";
@@ -13,6 +13,7 @@ const ROOT_CLASSNAME =
 const layoutClassNames: Record<QuickActionLayout, string> = {
   stacked: "flex flex-col gap-[var(--quick-actions-gap)]",
   grid: "grid grid-cols-1 gap-[var(--quick-actions-gap)] sm:grid-cols-[repeat(auto-fit,minmax(var(--quick-actions-column-width),1fr))]",
+  twelveColumn: "grid grid-cols-12 gap-[var(--quick-actions-gap)]",
   inline:
     "flex flex-col gap-[var(--quick-actions-gap)] md:flex-row md:items-center md:justify-between",
 };
