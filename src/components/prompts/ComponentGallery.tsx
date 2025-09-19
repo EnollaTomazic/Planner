@@ -779,7 +779,7 @@ export default function ComponentGallery() {
       {
         label: "Accent Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-[var(--accent-overlay)] text-accent-foreground">
+          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-overlay)] text-accent-foreground">
             Overlay
           </div>
         ),
@@ -787,7 +787,7 @@ export default function ComponentGallery() {
       {
         label: "Foreground Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-md border border-border/10 bg-foreground/5 text-foreground/70">
+          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] border border-border/10 bg-foreground/5 text-foreground/70">
             FG Overlay
           </div>
         ),
@@ -795,7 +795,7 @@ export default function ComponentGallery() {
       {
         label: "Surface",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-surface">
+          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface">
             Surface
           </div>
         ),
@@ -803,7 +803,7 @@ export default function ComponentGallery() {
       {
         label: "Surface 2",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-md bg-surface-2">
+          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface-2">
             Surface 2
           </div>
         ),
@@ -811,7 +811,7 @@ export default function ComponentGallery() {
       {
         label: "Ring Subtle",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-md ring-1 ring-ring/5">
+          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] ring-1 ring-ring/5">
             Ring 5%
           </div>
         ),
@@ -962,8 +962,8 @@ export default function ComponentGallery() {
         label: "Review Layout",
         element: (
           <div className="grid w-full gap-4 md:grid-cols-12">
-            <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-md" />
-            <div className="md:col-span-8 bg-muted h-10 rounded-md" />
+            <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-[var(--radius-md)]" />
+            <div className="md:col-span-8 bg-muted h-10 rounded-[var(--radius-md)]" />
           </div>
         ),
         className: "sm:col-span-2 md:col-span-12 w-full",
@@ -995,7 +995,7 @@ export default function ComponentGallery() {
       {
         label: "Aurora Background",
         element: (
-          <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-md flex items-center justify-center">
+          <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center">
             Backdrop
           </div>
         ),
@@ -1004,7 +1004,7 @@ export default function ComponentGallery() {
         label: "Noir Background",
         element: (
           <div
-            className="w-56 h-24 rounded-md flex items-center justify-center"
+            className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
             style={{
               backgroundColor: "hsl(var(--noir-background))",
               color: "hsl(var(--noir-foreground))",
@@ -1019,7 +1019,7 @@ export default function ComponentGallery() {
         label: "Hardstuck Background",
         element: (
           <div
-            className="w-56 h-24 rounded-md flex items-center justify-center"
+            className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
             style={{
               backgroundColor: "hsl(var(--hardstuck-background))",
               color: "hsl(var(--hardstuck-foreground))",
@@ -1228,10 +1228,10 @@ export default function ComponentGallery() {
         label: "Widths",
         element: (
           <div className="flex gap-2">
-            <div className="h-10 w-72 border rounded-md flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+            <div className="h-10 w-72 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
               w-72
             </div>
-            <div className="h-10 w-80 border rounded-md flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+            <div className="h-10 w-80 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
               w-80
             </div>
           </div>
