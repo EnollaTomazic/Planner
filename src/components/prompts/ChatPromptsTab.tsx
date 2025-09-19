@@ -84,7 +84,7 @@ export default function ChatPromptsTab({
                       Added {new Date(persona.createdAt).toLocaleString(LOCALE)}
                     </time>
                   </header>
-                  <p className="whitespace-pre-wrap rounded-lg bg-card/60 p-[var(--space-3)] text-ui">
+                  <p className="whitespace-pre-wrap rounded-[var(--radius-md)] bg-card/60 p-[var(--space-3)] text-ui">
                     {persona.prompt}
                   </p>
                 </Card>
