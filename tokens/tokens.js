@@ -103,6 +103,9 @@ export default {
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
   shadowNeoSoft:
     "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))",
+  shadowGlowSmall:
+    "0 0 calc(var(--spacing-3) / 2) hsl(var(--glow) / 0.5)",
+  shadowGlowStrong: "0 0 var(--spacing-2) hsl(var(--glow))",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
   shadowGlowLg: "0 0 var(--spacing-5) var(--glow-active)",
