@@ -11,6 +11,7 @@
     "dev": "npm run prebuild && next dev -p 3000",
     "prebuild": "tsx scripts/regen-if-needed.ts && npm run generate-themes && npm run generate-tokens",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
+    "build-gallery-usage": "node --import tsx --import ./scripts/register-loaders.mjs scripts/build-gallery-usage.ts",
     "regen-feature": "tsx scripts/generate-feature-index.ts",
     "generate-themes": "tsx scripts/generate-themes.ts",
     "generate-tokens": "tsx scripts/generate-tokens.ts",

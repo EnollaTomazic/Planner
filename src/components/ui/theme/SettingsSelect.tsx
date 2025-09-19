@@ -6,7 +6,7 @@ import type { AnimatedSelectProps } from "../select/shared";
 import { cn } from "@/lib/utils";
 
 const SETTINGS_SELECT_BUTTON_CLASS =
-  "!rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[var(--edge-iris)] focus-visible:ring-2 focus-visible:ring-[var(--edge-iris)]";
+  "!rounded-full !text-ui !shadow-neo-inset [--settings-select-width:var(--settings-column-width,calc(var(--space-4)*14))] min-w-[var(--settings-select-width)] hover:ring-2 hover:ring-[var(--edge-iris)] focus-visible:ring-2 focus-visible:ring-[var(--edge-iris)]";
 
 export type SettingsSelectProps = Omit<
   AnimatedSelectProps,

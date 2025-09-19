@@ -3,6 +3,7 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import fg from "fast-glob";
+import tokens from "../../../tokens/tokens.js";
 import {
   createGalleryRegistry,
   type GalleryEntryKind,
@@ -10,20 +11,96 @@ import {
   type GallerySection,
   type GallerySectionId,
   type GallerySerializableEntry,
+  type GalleryRelatedSurface,
   formatGallerySectionLabel,
 } from "./registry";
+import usage from "./usage.json";
 import {
   GALLERY_SECTION_GROUPS,
   type GalleryHeroCopy,
   type GallerySectionGroupKey,
   type GallerySectionMeta,
 } from "./metadata";
+import {
+  buildDesignTokenGroups,
+  type DesignTokenGroup,
+} from "@/lib/design-token-registry";
+
+const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
 interface GalleryModule {
   default: GallerySection | GallerySection[];
 }
 
 const GALLERY_GLOB = "src/components/**/**/*.gallery.{ts,tsx}";
+
+type GalleryUsageMap = Record<string, readonly string[]>;
+
+const usageMap = usage as GalleryUsageMap;
+
+const mergeUsageIntoSections = (
+  sections: readonly GallerySection[],
+  surfacesByEntry: GalleryUsageMap,
+): GallerySection[] => {
+  return sections.map((section) => {
+    let changed = false;
+    const entries = section.entries.map((entry) => {
+      const routes = surfacesByEntry[entry.id];
+      if (!routes || routes.length === 0) {
+        return entry;
+      }
+      const existingSurfaces = entry.related?.surfaces ?? [];
+      const mergedSurfaces = mergeSurfaces(existingSurfaces, routes);
+      if (mergedSurfaces === existingSurfaces) {
+        return entry;
+      }
+      changed = true;
+      return {
+        ...entry,
+        related: {
+          ...entry.related,
+          surfaces: mergedSurfaces,
+        },
+      };
+    });
+    if (!changed) {
+      return section;
+    }
+    return {
+      ...section,
+      entries,
+    } satisfies GallerySection;
+  });
+};
+
+const mergeSurfaces = (
+  existingSurfaces: readonly GalleryRelatedSurface[],
+  routes: readonly string[],
+): readonly GalleryRelatedSurface[] => {
+  const map = new Map<string, GalleryRelatedSurface>();
+  for (const surface of existingSurfaces) {
+    map.set(surface.id, surface);
+  }
+  for (const route of routes) {
+    if (!map.has(route)) {
+      map.set(route, { id: route });
+    }
+  }
+  const next = Array.from(map.values()).sort((a, b) => a.id.localeCompare(b.id));
+  if (next.length === existingSurfaces.length) {
+    let matches = true;
+    for (let index = 0; index < next.length; index += 1) {
+      if (next[index]?.id !== existingSurfaces[index]?.id) {
+        matches = false;
+        break;
+      }
+    }
+    if (matches) {
+      return existingSurfaces;
+    }
+  }
+  return next;
+};
 
 export const loadGalleryRegistry = async (): Promise<GalleryRegistry> => {
   const files = await fg(GALLERY_GLOB, { absolute: true });
@@ -38,7 +115,9 @@ export const loadGalleryRegistry = async (): Promise<GalleryRegistry> => {
     sections.push(...moduleSections);
   }
 
-  return createGalleryRegistry(sections);
+  const enrichedSections = mergeUsageIntoSections(sections, usageMap);
+
+  return createGalleryRegistry(enrichedSections);
 };
 
 export interface GalleryLoaderSlices {
@@ -46,7 +125,7 @@ export interface GalleryLoaderSlices {
   primitives: readonly GallerySerializableEntry[];
   components: readonly GallerySerializableEntry[];
   complex: readonly GallerySerializableEntry[];
-  tokens: readonly GallerySerializableEntry[];
+  tokens: readonly DesignTokenGroup[];
 }
 
 export const loadGallerySlices = async (): Promise<GalleryLoaderSlices> => {
@@ -57,9 +136,13 @@ export const loadGallerySlices = async (): Promise<GalleryLoaderSlices> => {
     primitives: payload.byKind.primitive,
     components: payload.byKind.component,
     complex: payload.byKind.complex,
-    tokens: payload.byKind.token,
+    tokens: DESIGN_TOKEN_GROUPS,
   };
 };
+
+export const loadDesignTokenGroups = async (): Promise<
+  readonly DesignTokenGroup[]
+> => DESIGN_TOKEN_GROUPS;
 
 export const loadGalleryByKind = async (
   kind: GalleryEntryKind,
@@ -123,3 +206,4 @@ export const loadGalleryNavigation = async (): Promise<GalleryNavigationData> =>
 };
 
 export type { GalleryHeroCopy, GallerySectionGroupKey } from "./metadata";
+export type { DesignTokenGroup } from "@/lib/design-token-registry";

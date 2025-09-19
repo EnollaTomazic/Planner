@@ -27,11 +27,24 @@ export interface GalleryAxis {
 export interface GalleryUsageNote {
   title: string;
   description: string;
+  kind: "do" | "dont";
+}
+
+export interface GalleryStateDefinition {
+  id: string;
+  name: string;
+  description?: string;
+  code?: string;
+  preview: GalleryPreview;
 }
 
 export interface GalleryRelatedSurface {
   id: string;
   description?: string;
+}
+
+export interface GalleryEntryRelated {
+  surfaces?: readonly GalleryRelatedSurface[];
 }
 
 export type GalleryPreviewRenderer = () => ReactNode;
@@ -50,9 +63,10 @@ export interface GalleryEntry {
   props?: readonly GalleryPropMeta[];
   axes?: readonly GalleryAxis[];
   usage?: readonly GalleryUsageNote[];
-  related?: readonly GalleryRelatedSurface[];
+  related?: GalleryEntryRelated;
   preview: GalleryPreview;
   code?: string;
+  states?: readonly GalleryStateDefinition[];
 }
 
 export const GALLERY_SECTION_IDS = [
@@ -91,8 +105,19 @@ export interface GallerySerializablePreview {
   id: string;
 }
 
-export type GallerySerializableEntry = Omit<GalleryEntry, "preview"> & {
+export type GallerySerializableStateDefinition = Omit<
+  GalleryStateDefinition,
+  "preview"
+> & {
   preview: GallerySerializablePreview;
+};
+
+export type GallerySerializableEntry = Omit<
+  GalleryEntry,
+  "preview" | "states"
+> & {
+  preview: GallerySerializablePreview;
+  states?: readonly GallerySerializableStateDefinition[];
 };
 
 export interface GallerySerializableSection {
@@ -117,11 +142,20 @@ export const createGalleryRegistry = (
   const serializableSections: GallerySerializableSection[] = sections.map((section) => ({
     id: section.id,
     entries: section.entries.map((entry) => {
-      previews.set(entry.preview.id, entry.preview.render);
-      const { preview, ...rest } = entry;
+      const { preview, states, ...rest } = entry;
+      previews.set(preview.id, preview.render);
+      const serializableStates = states?.map((state) => {
+        previews.set(state.preview.id, state.preview.render);
+        const { preview: statePreview, ...stateRest } = state;
+        return {
+          ...stateRest,
+          preview: { id: statePreview.id },
+        } satisfies GallerySerializableStateDefinition;
+      });
       return {
         ...rest,
         preview: { id: preview.id },
+        states: serializableStates,
       } satisfies GallerySerializableEntry;
     }),
   }));

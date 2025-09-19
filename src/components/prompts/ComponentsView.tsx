@@ -1,469 +1,582 @@
 "use client";
 
 import * as React from "react";
-import Fuse from "fuse.js";
-import { Card, CardContent, Skeleton, Snackbar } from "@/components/ui";
+
 import Badge from "@/components/ui/primitives/Badge";
 import {
-  getGalleryPreview,
-  getGallerySectionEntries,
-  type GallerySpec,
-  type Section,
-} from "./constants";
+  type GalleryAxis,
+  type GallerySerializableEntry,
+  type GallerySerializableStateDefinition,
+} from "@/components/gallery";
 import { cn } from "@/lib/utils";
-import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
-type ComponentsViewProps = {
-  query: string;
-  section: Section;
+import { getGalleryPreview } from "./constants";
+
+interface ComponentsViewProps {
+  entry: GallerySerializableEntry;
   onCurrentCodeChange?: (code: string | null) => void;
-  onFilteredCountChange?: (count: number) => void;
-};
+}
 
-type ViewSpec = GallerySpec & {
-  previewNode: React.ReactNode;
-};
-
-type SpecCardProps = ViewSpec & {
+interface ShowCodeButtonProps {
+  controls: string;
+  expanded: boolean;
+  onToggle: () => void;
   disabled?: boolean;
-  onCodeVisibilityChange?: (
-    specId: string,
-    code: string | null,
-    visible: boolean,
-  ) => void;
-};
+}
 
-function SpecCard({
-  id,
-  name,
-  description,
-  previewNode,
-  props,
-  code,
+const containerClassName = cn(
+  "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
+  "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
+  "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
+  "px-[var(--space-6)] py-[var(--space-5)]",
+  "shadow-neo",
+  "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-card",
+  "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
+  "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
+  "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
+  "after:pointer-events-none after:absolute after:-inset-px after:-z-10 after:rounded-[inherit]",
+  "after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.12)_0%,transparent_58%,hsl(var(--ring)/0.16)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0,hsl(var(--ring)/0.12)_1px,transparent_1px,transparent_calc(var(--space-3)))]",
+  "after:opacity-65 after:mix-blend-soft-light motion-reduce:after:opacity-45",
+);
+
+const frameClassName = cn(
+  "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
+  "shadow-[var(--shadow-inset-hairline)]",
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
+  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
+  "group-focus-within/component-view:before:opacity-55",
+);
+
+function ShowCodeButton({
+  controls,
+  expanded,
+  onToggle,
   disabled,
-  onCodeVisibilityChange,
-}: SpecCardProps) {
-  const [showCode, setShowCode] = React.useState(false);
-  const [isPressed, setIsPressed] = React.useState(false);
-  const codeId = React.useMemo(() => `${id}-source`, [id]);
+}: ShowCodeButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={expanded}
+      aria-controls={controls}
+      disabled={disabled}
+      data-pressed={expanded ? "true" : undefined}
+      className={cn(
+        "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
+        "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
+        "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
+        "border border-[hsl(var(--ring)/0.45)]",
+        "shadow-neo hover:shadow-neo-soft focus-visible:shadow-neo-soft",
+        "transition-[transform,box-shadow,background,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+        "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
+        "active:translate-y-[var(--spacing-0-25)] active:shadow-neo-inset",
+        "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-neo-inset",
+        "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+        "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out",
+        "focus-visible:before:opacity-100",
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out",
+        "hover:after:opacity-100 focus-visible:after:opacity-100",
+        "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-neo-inset disabled:translate-y-0",
+      )}
+    >
+      {expanded ? "Hide code" : "Show code"}
+    </button>
+  );
+}
+
+function SectionHeading({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <h3
+      id={id}
+      className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground"
+    >
+      {children}
+    </h3>
+  );
+}
+
+function PropsTable({
+  props,
+}: {
+  props: NonNullable<GallerySerializableEntry["props"]>;
+}) {
   const headingId = React.useId();
-  const descriptionId = React.useMemo(
-    () => (description ? `${id}-description` : undefined),
-    [description, id],
-  );
-  const reduceMotion = usePrefersReducedMotion();
-  const cardTokens = React.useMemo(
-    () =>
-      ({
-        "--spec-card-raise": reduceMotion ? "0px" : "var(--spacing-0-25)",
-        "--spec-card-press": reduceMotion ? "0px" : "var(--spacing-0-25)",
-      }) as React.CSSProperties,
-    [reduceMotion],
-  );
-  const isDisabled = Boolean(disabled);
 
-  const handleToggleCode = React.useCallback(() => {
-    if (!code || isDisabled) {
-      return;
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>Props</SectionHeading>
+      <div
+        className="overflow-x-auto rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] shadow-[var(--shadow-inset-hairline)]"
+      >
+        <table className="w-full min-w-[28rem] border-separate border-spacing-0 text-left">
+          <thead>
+            <tr className="text-label text-muted-foreground">
+              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+                Prop
+              </th>
+              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+                Type
+              </th>
+              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+                Default
+              </th>
+              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.map((prop) => (
+              <tr
+                key={prop.name}
+                className="border-t border-[hsl(var(--card-hairline)/0.4)] text-label"
+              >
+                <td className="px-[var(--space-4)] py-[var(--space-3)] font-medium text-foreground">
+                  {prop.name}
+                  {prop.required ? (
+                    <span className="ml-[var(--space-2)] text-caption text-danger">
+                      Required
+                    </span>
+                  ) : null}
+                </td>
+                <td className="px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground">
+                  <code className="whitespace-pre">
+                    {prop.type}
+                  </code>
+                </td>
+                <td className="px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground">
+                  {prop.defaultValue ?? "—"}
+                </td>
+                <td className="px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground">
+                  {prop.description ?? ""}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
+  const headingId = React.useId();
+
+  if (axes.length === 0) {
+    return null;
+  }
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>Variants</SectionHeading>
+      <div className="grid gap-[var(--space-3)] md:grid-cols-2">
+        {axes.map((axis) => (
+          <article
+            key={axis.id}
+            className="rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+          >
+            <div className="space-y-[var(--space-1)]">
+              <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
+                {axis.label}
+              </h4>
+              {axis.description ? (
+                <p className="text-caption text-muted-foreground">
+                  {axis.description}
+                </p>
+              ) : null}
+            </div>
+            <ul className="mt-[var(--space-3)] flex flex-wrap gap-[var(--space-2)]">
+              {axis.values.map((value) => (
+                <li key={value.value} className="flex flex-col gap-[var(--space-1)]">
+                  <Badge tone="support" size="sm" className="text-muted-foreground">
+                    {value.value}
+                  </Badge>
+                  {value.description ? (
+                    <span className="text-caption text-muted-foreground">
+                      {value.description}
+                    </span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+type UsageNotes = NonNullable<GallerySerializableEntry["usage"]>;
+
+function UsageSection({ notes }: { notes: UsageNotes }) {
+  const headingId = React.useId();
+
+  if (notes.length === 0) {
+    return null;
+  }
+
+  const doNotes = notes.filter((note) => note.kind === "do");
+  const dontNotes = notes.filter((note) => note.kind === "dont");
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>Usage</SectionHeading>
+      <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+        {doNotes.length > 0 ? (
+          <div className="space-y-[var(--space-2)]">
+            <h4 className="text-ui font-semibold tracking-[-0.01em] text-success">
+              Do
+            </h4>
+            <ul className="space-y-[var(--space-2)]">
+              {doNotes.map((note) => (
+                <li key={note.title} className="space-y-[var(--space-1)]">
+                  <p className="text-label font-medium text-foreground">
+                    {note.title}
+                  </p>
+                  <p className="text-label text-muted-foreground">
+                    {note.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {dontNotes.length > 0 ? (
+          <div className="space-y-[var(--space-2)]">
+            <h4 className="text-ui font-semibold tracking-[-0.01em] text-danger">
+              Don’t
+            </h4>
+            <ul className="space-y-[var(--space-2)]">
+              {dontNotes.map((note) => (
+                <li key={note.title} className="space-y-[var(--space-1)]">
+                  <p className="text-label font-medium text-foreground">
+                    {note.title}
+                  </p>
+                  <p className="text-label text-muted-foreground">
+                    {note.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+interface StatesSectionProps {
+  states: readonly GallerySerializableStateDefinition[];
+  stateAxes: readonly GalleryAxis[];
+  activeSnippet: string | null;
+  onToggleState: (stateId: string) => void;
+}
+
+function StatesSection({
+  states,
+  stateAxes,
+  activeSnippet,
+  onToggleState,
+}: StatesSectionProps) {
+  const headingId = React.useId();
+
+  if (states.length === 0 && stateAxes.length === 0) {
+    return null;
+  }
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>States</SectionHeading>
+      {stateAxes.length > 0 ? (
+        <div className="rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+          <div className="grid gap-[var(--space-3)] md:grid-cols-2">
+            {stateAxes.map((axis) => (
+              <div key={axis.id} className="space-y-[var(--space-2)]">
+                <p className="text-label font-medium text-muted-foreground">
+                  {axis.label}
+                </p>
+                <ul className="flex flex-wrap gap-[var(--space-2)]">
+                  {axis.values.map((value) => (
+                    <li key={value.value}>
+                      <Badge tone="support" size="sm" className="text-muted-foreground">
+                        {value.value}
+                      </Badge>
+                    </li>
+                  ))}
+                </ul>
+                {axis.description ? (
+                  <p className="text-caption text-muted-foreground">
+                    {axis.description}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {states.length > 0 ? (
+        <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+          {states.map((state) => {
+            const key = `state:${state.id}`;
+            return (
+              <StatePreviewCard
+                key={state.id}
+                state={state}
+                expanded={activeSnippet === key}
+                onToggle={() => onToggleState(state.id)}
+              />
+            );
+          })}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function StatePreviewCard({
+  state,
+  expanded,
+  onToggle,
+}: {
+  state: GallerySerializableStateDefinition;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const headingId = React.useId();
+  const descriptionId = state.description
+    ? `${headingId}-description`
+    : undefined;
+  const codeId = React.useId();
+
+  const previewRenderer = React.useMemo(
+    () => getGalleryPreview(state.preview.id),
+    [state.preview.id],
+  );
+
+  const previewNode = React.useMemo(() => {
+    if (!previewRenderer) {
+      return (
+        <div className="text-ui text-muted-foreground">Preview unavailable</div>
+      );
     }
-
-    setShowCode((prev) => {
-      const next = !prev;
-      onCodeVisibilityChange?.(id, code, next);
-      return next;
-    });
-  }, [code, id, isDisabled, onCodeVisibilityChange]);
-
-  const handlePointerDown = React.useCallback(() => {
-    if (isDisabled) return;
-    setIsPressed(true);
-  }, [isDisabled]);
-
-  const handlePointerReset = React.useCallback(() => {
-    setIsPressed(false);
-  }, []);
-
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (isDisabled) return;
-
-      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
-        if (event.key !== "Enter") {
-          event.preventDefault();
-        }
-        setIsPressed(true);
-      }
-    },
-    [isDisabled],
-  );
-
-  const handleKeyUp = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (isDisabled) return;
-
-      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
-        setIsPressed(false);
-      }
-    },
-    [isDisabled],
-  );
-
-  const cardClassName = cn(
-    "group/spec-card relative isolate flex flex-col gap-[var(--space-4)] overflow-hidden",
-    "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
-    "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
-    "px-[var(--space-6)] py-[var(--space-5)]",
-    "shadow-neo",
-    "hover:shadow-neo-soft focus-visible:shadow-neo-soft",
-    "transition-[transform,box-shadow,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
-    "hover:-translate-y-[var(--spec-card-raise)] focus-visible:-translate-y-[var(--spec-card-raise)] data-[active=true]:translate-y-[var(--spec-card-press)]",
-    "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:data-[active=true]:translate-y-0",
-    "active:shadow-neo-inset data-[active=true]:shadow-neo-inset",
-    "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-60 data-[disabled=true]:shadow-neo-inset",
-    "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
-    "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
-    "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
-    "after:pointer-events-none after:absolute after:-inset-px after:-z-10 after:rounded-[inherit]",
-    "after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.12)_0%,transparent_58%,hsl(var(--ring)/0.16)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0,hsl(var(--ring)/0.12)_1px,transparent_1px,transparent_calc(var(--space-3)))]",
-    "after:opacity-65 after:mix-blend-soft-light motion-reduce:after:opacity-45",
-  );
-
-  const frameClassName = cn(
-    "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
-    "shadow-[var(--shadow-inset-hairline)]",
-    "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
-    "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
-    "group-data-[active=true]/spec-card:before:opacity-55",
-  );
+    return <>{previewRenderer()}</>;
+  }, [previewRenderer]);
 
   return (
     <article
-      data-active={isPressed ? "true" : undefined}
-      data-disabled={isDisabled ? "true" : undefined}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerReset}
-      onPointerLeave={handlePointerReset}
-      onPointerCancel={handlePointerReset}
-      onKeyDown={handleKeyDown}
-      onKeyUp={handleKeyUp}
-      onBlur={handlePointerReset}
-      style={cardTokens}
-      className={cardClassName}
-      tabIndex={isDisabled ? -1 : 0}
+      className="flex flex-col gap-[var(--space-3)] rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >
-      <header className="flex items-center justify-between">
-        <h3
-          id={headingId}
-          className="text-title leading-[1.3] font-semibold tracking-[-0.01em]"
-        >
-          {name}
-        </h3>
-        {code ? (
-          <button
-            type="button"
-            onClick={handleToggleCode}
-            aria-expanded={showCode}
-            aria-controls={codeId}
-            disabled={isDisabled}
-            data-pressed={showCode ? "true" : undefined}
-            className={cn(
-              "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
-              "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
-              "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
-              "border border-[hsl(var(--ring)/0.45)]",
-              "shadow-neo hover:shadow-neo-soft focus-visible:shadow-neo-soft",
-              "transition-[transform,box-shadow,background,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
-              "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
-              "active:translate-y-[var(--spacing-0-25)] active:shadow-neo-inset",
-              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-neo-inset",
-              "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
-              "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out",
-              "focus-visible:before:opacity-100",
-              "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out",
-              "hover:after:opacity-100 focus-visible:after:opacity-100",
-              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-neo-inset disabled:translate-y-0",
-            )}
+      <header className="flex items-start justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          <h4
+            id={headingId}
+            className="text-ui font-semibold tracking-[-0.01em] text-foreground"
           >
-            {showCode ? "Hide code" : "Show code"}
-          </button>
+            {state.name}
+          </h4>
+          {state.description ? (
+            <p
+              id={descriptionId}
+              className="text-label text-muted-foreground"
+            >
+              {state.description}
+            </p>
+          ) : null}
+        </div>
+        {state.code ? (
+          <ShowCodeButton
+            controls={codeId}
+            expanded={expanded}
+            onToggle={onToggle}
+          />
         ) : null}
       </header>
-      {description ? (
-        <p
-          id={descriptionId}
-          className="text-ui text-muted-foreground line-clamp-2"
-        >
-          {description}
-        </p>
-      ) : null}
       <div className={frameClassName}>{previewNode}</div>
-      {code ? (
+      {state.code ? (
         <pre
           id={codeId}
-          hidden={!showCode}
-          aria-hidden={showCode ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset-hairline)]"
+          hidden={!expanded}
+          aria-hidden={expanded ? undefined : true}
+          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
         >
-          <code>{code}</code>
+          <code>{state.code}</code>
         </pre>
-      ) : null}
-      {props ? (
-        <footer className="mt-auto">
-          <ul className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-2)] text-label text-muted-foreground">
-            {props.map((p) => (
-              <li key={p.name} className="flex items-center gap-[var(--space-1)]">
-                <span className="font-medium text-foreground">{p.name}</span>
-                <span>{p.type}</span>
-              </li>
-            ))}
-          </ul>
-        </footer>
       ) : null}
     </article>
   );
 }
 
 export default function ComponentsView({
-  query,
-  section,
+  entry,
   onCurrentCodeChange,
-  onFilteredCountChange,
 }: ComponentsViewProps) {
-  const countDescriptionId = React.useId();
-  const [, setActiveSpecId] = React.useState<string | null>(null);
-  const handleCodeVisibilityChange = React.useCallback(
-    (specId: string, nextCode: string | null, visible: boolean) => {
-      if (!onCurrentCodeChange) return;
-      if (visible && nextCode) {
-        setActiveSpecId(specId);
-        onCurrentCodeChange(nextCode);
-        return;
-      }
-
-      if (!visible) {
-        setActiveSpecId((current) => {
-          if (current === specId) {
-            onCurrentCodeChange(null);
-            return null;
-          }
-          return current;
-        });
-      }
-    },
-    [onCurrentCodeChange],
+  const previewRenderer = React.useMemo(
+    () => getGalleryPreview(entry.preview.id),
+    [entry.preview.id],
   );
 
-  React.useEffect(() => {
-    if (!onCurrentCodeChange) return;
-    onCurrentCodeChange(null);
-    setActiveSpecId(null);
-  }, [query, section, onCurrentCodeChange]);
-
-  const sectionSpecs = React.useMemo<ViewSpec[]>(() => {
-    const rawSpecs = getGallerySectionEntries(section);
-    const baseSpecs: ViewSpec[] = rawSpecs.map((spec) => {
-      const renderPreview = getGalleryPreview(spec.preview.id);
-      const previewNode = renderPreview ? (
-        <>{renderPreview()}</>
-      ) : (
+  const previewNode = React.useMemo(() => {
+    if (!previewRenderer) {
+      return (
         <div className="text-ui text-muted-foreground">Preview unavailable</div>
       );
-
-      return {
-        ...spec,
-        previewNode,
-      };
-    });
-
-    if (section !== "cards") {
-      return baseSpecs;
     }
+    return <>{previewRenderer()}</>;
+  }, [previewRenderer]);
 
-    const loadingCard: ViewSpec = {
-      id: "card-loading-state",
-      name: "Card Loading State",
-      description: "Skeleton placeholders communicate asynchronous loading.",
-      tags: ["card", "state", "loading"],
-      code: `<Card>
-  <CardContent className="space-y-[var(--space-4)]">
-    <div className="space-y-[var(--space-2)]">
-      <Skeleton
-        ariaHidden={false}
-        role="status"
-        aria-label="Loading summary"
-        className="h-[var(--space-6)] w-3/4"
-        radius="sm"
-      />
-      <Skeleton className="w-full" />
-      <Skeleton className="w-4/5" />
-    </div>
-    <div className="flex items-center gap-[var(--space-3)]">
-      <Skeleton
-        className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
-        radius="full"
-      />
-      <div className="flex-1 space-y-[var(--space-2)]">
-        <Skeleton className="w-3/4" />
-        <Skeleton className="w-2/3" />
-      </div>
-    </div>
-  </CardContent>
-</Card>`,
-      kind: "component",
-      preview: { id: "card-loading-state-preview" },
-      previewNode: (
-        <Card>
-          <CardContent className="space-y-[var(--space-4)]">
-            <div className="space-y-[var(--space-2)]">
-              <Skeleton
-                ariaHidden={false}
-                role="status"
-                aria-label="Loading summary"
-                className="h-[var(--space-6)] w-3/4"
-                radius="sm"
-              />
-              <Skeleton className="w-full" />
-              <Skeleton className="w-4/5" />
-            </div>
-            <div className="flex items-center gap-[var(--space-3)]">
-              <Skeleton
-                className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
-                radius="full"
-              />
-              <div className="flex-1 space-y-[var(--space-2)]">
-                <Skeleton className="w-3/4" />
-                <Skeleton className="w-2/3" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ),
-    };
-
-    const errorCard: ViewSpec = {
-      id: "card-error-state",
-      name: "Card Error State",
-      description: "Snackbar feedback surfaces failure messaging and retry.",
-      tags: ["card", "state", "error"],
-      code: `<Card>
-  <CardContent className="space-y-[var(--space-3)]">
-    <div className="space-y-[var(--space-1)]">
-      <h4 className="text-ui font-semibold tracking-[-0.01em]">
-        Data unavailable
-      </h4>
-      <p className="text-label text-muted-foreground">
-        Refresh to request the latest match insights.
-      </p>
-    </div>
-    <Snackbar
-      message="Sync failed"
-      actionLabel="Retry"
-      onAction={() => {}}
-      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
-    />
-  </CardContent>
-</Card>`,
-      kind: "component",
-      preview: { id: "card-error-state-preview" },
-      previewNode: (
-        <Card>
-          <CardContent className="space-y-[var(--space-3)]">
-            <div className="space-y-[var(--space-1)]">
-              <h4 className="text-ui font-semibold tracking-[-0.01em]">
-                Data unavailable
-              </h4>
-              <p className="text-label text-muted-foreground">
-                Refresh to request the latest match insights.
-              </p>
-            </div>
-            <Snackbar
-              message="Sync failed"
-              actionLabel="Retry"
-              onAction={() => {}}
-              className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
-            />
-          </CardContent>
-        </Card>
-      ),
-    };
-
-    return [...baseSpecs, loadingCard, errorCard];
-  }, [section]);
-
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(sectionSpecs, {
-        keys: ["name", "tags", "props.name", "props.type"],
-        threshold: 0.3,
-      }),
-    [sectionSpecs],
+  const variantAxes = React.useMemo(
+    () => entry.axes?.filter((axis) => axis.type === "variant") ?? [],
+    [entry.axes],
   );
 
-  const specs = React.useMemo(() => {
-    if (!query) return sectionSpecs;
-    return fuse.search(query).map((r) => r.item);
-  }, [query, fuse, sectionSpecs]);
-
-  const sectionLabel = React.useMemo(
-    () => section.charAt(0).toUpperCase() + section.slice(1),
-    [section],
+  const stateAxes = React.useMemo(
+    () => entry.axes?.filter((axis) => axis.type === "state") ?? [],
+    [entry.axes],
   );
 
-  const filteredCount = specs.length;
+  const states = React.useMemo(
+    () => entry.states ?? [],
+    [entry.states],
+  );
 
-  const countLabel = React.useMemo(() => {
-    const suffix = filteredCount === 1 ? "spec" : "specs";
-    return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
-  }, [filteredCount, sectionLabel]);
+  const usage = entry.usage ?? [];
+
+  const [openSnippet, setOpenSnippet] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (!onFilteredCountChange) return;
-    onFilteredCountChange(filteredCount);
-  }, [filteredCount, onFilteredCountChange]);
+    setOpenSnippet(null);
+  }, [entry.id]);
+
+  const stateMap = React.useMemo(() => {
+    const map = new Map<string, GallerySerializableStateDefinition>();
+    for (const state of states) {
+      map.set(`state:${state.id}`, state);
+    }
+    return map;
+  }, [states]);
+
+  const currentCode = React.useMemo(() => {
+    if (!openSnippet) {
+      return null;
+    }
+    if (openSnippet === "component") {
+      return entry.code ?? null;
+    }
+    return stateMap.get(openSnippet)?.code ?? null;
+  }, [entry.code, openSnippet, stateMap]);
+
+  React.useEffect(() => {
+    if (!onCurrentCodeChange) {
+      return;
+    }
+    onCurrentCodeChange(currentCode ?? null);
+  }, [currentCode, onCurrentCodeChange]);
+
+  const handleToggleMainCode = React.useCallback(() => {
+    if (!entry.code) {
+      return;
+    }
+    setOpenSnippet((current) =>
+      current === "component" ? null : "component",
+    );
+  }, [entry.code]);
+
+  const handleToggleStateCode = React.useCallback(
+    (stateId: string) => {
+      const key = `state:${stateId}`;
+      const state = stateMap.get(key);
+      if (!state?.code) {
+        return;
+      }
+      setOpenSnippet((current) => (current === key ? null : key));
+    },
+    [stateMap],
+  );
+
+  const componentCodeId = React.useMemo(
+    () => `${entry.id}-code`,
+    [entry.id],
+  );
 
   return (
-    <div className="flex flex-col gap-[var(--space-6)]">
-      <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
-        <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
-          {sectionLabel} specs
-        </h2>
-        <Badge
-          id={countDescriptionId}
-          tone="support"
-          size="sm"
-          className="text-muted-foreground"
-        >
-          {countLabel}
-        </Badge>
+    <article className={containerClassName}>
+      <header className="flex flex-wrap items-start justify-between gap-[var(--space-4)]">
+        <div className="flex-1 space-y-[var(--space-2)]">
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
+            {entry.name}
+          </h2>
+          {entry.description ? (
+            <p className="text-ui text-muted-foreground">
+              {entry.description}
+            </p>
+          ) : null}
+          {entry.tags && entry.tags.length > 0 ? (
+            <ul className="flex flex-wrap gap-[var(--space-2)]">
+              {entry.tags.map((tag) => (
+                <li key={tag}>
+                  <Badge
+                    tone="support"
+                    size="sm"
+                    className="text-muted-foreground"
+                  >
+                    {tag}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+        {entry.code ? (
+          <ShowCodeButton
+            controls={componentCodeId}
+            expanded={openSnippet === "component"}
+            onToggle={handleToggleMainCode}
+          />
+        ) : null}
       </header>
-      <ul
-        className="grid grid-cols-1 gap-[var(--space-4)] md:grid-cols-12 md:gap-[var(--space-5)] xl:gap-[var(--space-6)]"
-        aria-describedby={countDescriptionId}
-      >
-        {specs.length === 0 ? (
-          <li className="col-span-full">
-            <Card>
-              <CardContent>No results found</CardContent>
-            </Card>
-          </li>
-        ) : (
-          specs.map((spec) => (
-            <li
-              key={spec.id}
-              className="col-span-full md:col-span-6 lg:col-span-4 xl:col-span-3"
-            >
-              <SpecCard
-                {...spec}
-                onCodeVisibilityChange={handleCodeVisibilityChange}
-              />
-            </li>
-          ))
-        )}
-      </ul>
-    </div>
+      <div className={frameClassName}>{previewNode}</div>
+      {entry.code ? (
+        <pre
+          id={componentCodeId}
+          hidden={openSnippet !== "component"}
+          aria-hidden={openSnippet === "component" ? undefined : true}
+          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
+        >
+          <code>{entry.code}</code>
+        </pre>
+      ) : null}
+      {entry.props && entry.props.length > 0 ? (
+        <PropsTable props={entry.props} />
+      ) : null}
+      {variantAxes.length > 0 ? <VariantsMatrix axes={variantAxes} /> : null}
+      <StatesSection
+        states={states}
+        stateAxes={stateAxes}
+        activeSnippet={openSnippet}
+        onToggleState={handleToggleStateCode}
+      />
+      <UsageSection notes={usage} />
+    </article>
   );
 }
