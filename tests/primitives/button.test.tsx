@@ -22,6 +22,16 @@ describe("Button", () => {
     expect(getByRole("button")).toHaveClass("btn-primary");
   });
 
+  it("keeps child button type when rendered asChild", () => {
+    const { getByRole } = render(
+      <Button asChild>
+        <button type="submit">Submit</button>
+      </Button>,
+    );
+
+    expect(getByRole("button")).toHaveAttribute("type", "submit");
+  });
+
   it("has no outline when focused", () => {
     const { getByRole } = render(<Button>Focus</Button>);
     const btn = getByRole("button");
