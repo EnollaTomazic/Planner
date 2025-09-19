@@ -220,7 +220,7 @@ export default function TabBar<
     "inline-flex max-w-full items-center overflow-x-auto",
     isGlitch
       ? "gap-[var(--space-2)] py-[var(--space-2)]"
-      : "gap-[var(--space-1)] rounded-full border p-[var(--space-1)]",
+      : "gap-[var(--space-1)] rounded-[var(--control-radius)] border p-[var(--space-1)]",
     containerVariant,
     tablistClassName,
   );
@@ -298,7 +298,7 @@ export default function TabBar<
                   item.className,
                 )
               : cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-[var(--control-radius)] transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
                   s.h,
                   s.px,
                   s.text,
