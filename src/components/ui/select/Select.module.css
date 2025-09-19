@@ -46,13 +46,13 @@
 .gbFlicker,
 .gbScan {
   position: absolute;
-  inset: -1px;
+  inset: calc(var(--hairline-w) * -1);
   border-radius: var(--control-radius);
   pointer-events: none;
 }
 
 .gbIris {
-  padding: 1px;
+  padding: var(--hairline-w);
   background: conic-gradient(
     from 180deg,
     hsl(var(--ring) / 0),
@@ -77,7 +77,7 @@
 }
 
 .gbChroma {
-  padding: 1px;
+  padding: var(--hairline-w);
   background: conic-gradient(
     from 90deg,
     hsl(var(--ring) / 0),
@@ -116,7 +116,7 @@
 }
 
 .gbFlicker {
-  inset: -2px;
+  inset: calc(var(--hairline-w) * -2);
   border-radius: var(--control-radius);
   background: radial-gradient(
     120% 120% at 50% 50%,
@@ -169,7 +169,7 @@
 }
 
 .gbScan {
-  padding: 1px;
+  padding: var(--hairline-w);
   -webkit-mask:
     linear-gradient(hsl(var(--foreground)) 0 0) content-box,
     linear-gradient(hsl(var(--foreground)) 0 0);
