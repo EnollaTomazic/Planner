@@ -152,6 +152,11 @@ export default function ComponentGallery() {
   const [side, setSide] = React.useState<GameSide>("Blue");
   const [pillars, setPillars] = React.useState<Pillar[]>([]);
   const [selectValue, setSelectValue] = React.useState<string | undefined>();
+  const [nativeSelectValue, setNativeSelectValue] = React.useState("");
+  const [defaultVariantSelectValue, setDefaultVariantSelectValue] =
+    React.useState("");
+  const [successVariantSelectValue, setSuccessVariantSelectValue] =
+    React.useState("");
   const [view, setView] = React.useState<View>("buttons");
   const [headerTab, setHeaderTab] = React.useState("one");
   const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
@@ -467,7 +472,8 @@ export default function ComponentGallery() {
               { value: "orange", label: "Orange" },
               { value: "pear", label: "Pear" },
             ]}
-            value=""
+            value={nativeSelectValue}
+            onChange={setNativeSelectValue}
           />
         ),
       },
@@ -495,7 +501,8 @@ export default function ComponentGallery() {
                 { value: "a", label: "A" },
                 { value: "b", label: "B" },
               ]}
-              value=""
+              value={defaultVariantSelectValue}
+              onChange={setDefaultVariantSelectValue}
               aria-label="Default native select demo"
             />
             <Select
@@ -505,7 +512,8 @@ export default function ComponentGallery() {
                 { value: "", label: "Choose…" },
                 { value: "a", label: "A" },
               ]}
-              value=""
+              value={successVariantSelectValue}
+              onChange={setSuccessVariantSelectValue}
               aria-label="Success native select demo"
             />
           </div>
@@ -575,7 +583,13 @@ export default function ComponentGallery() {
         ),
       },
     ],
-    [query, selectValue],
+    [
+      query,
+      nativeSelectValue,
+      selectValue,
+      defaultVariantSelectValue,
+      successVariantSelectValue,
+    ],
   );
 
   const promptItems = React.useMemo(
