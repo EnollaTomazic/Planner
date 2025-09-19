@@ -7,18 +7,11 @@ import {
   type GallerySectionId,
   type GallerySerializableEntry,
 } from "@/components/gallery";
-import { COLOR_PALETTES } from "@/lib/theme";
 
 export type Section = GallerySectionId;
 export type GallerySpec = GallerySerializableEntry;
 
 export const SECTIONS = GALLERY_SECTION_IDS;
-
-export const COLOR_SECTIONS = [
-  { title: "Aurora", tokens: COLOR_PALETTES.aurora },
-  { title: "Neutrals", tokens: COLOR_PALETTES.neutrals },
-  { title: "Accents", tokens: COLOR_PALETTES.accents },
-] as const;
 
 const SECTION_ENTRIES = new Map<Section, readonly GallerySerializableEntry[]>(
   galleryPayload.sections.map((section) => [section.id, section.entries] as const),

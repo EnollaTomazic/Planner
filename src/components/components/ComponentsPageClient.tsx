@@ -13,6 +13,7 @@ import {
   type GalleryNavigationData,
   type GalleryNavigationSection,
   type GallerySectionGroupKey,
+  type DesignTokenGroup,
 } from "@/components/gallery/loader";
 import { formatGallerySectionLabel } from "@/components/gallery";
 import type { GallerySerializableEntry } from "@/components/gallery";
@@ -57,6 +58,7 @@ type ComponentsView = GallerySectionGroupKey;
 
 interface ComponentsPageClientProps {
   navigation: GalleryNavigationData;
+  tokenGroups: readonly DesignTokenGroup[];
 }
 
 const DEFAULT_FALLBACK_COPY: GalleryHeroCopy = {
@@ -67,6 +69,7 @@ const DEFAULT_FALLBACK_COPY: GalleryHeroCopy = {
 
 export default function ComponentsPageClient({
   navigation,
+  tokenGroups,
 }: ComponentsPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -574,7 +577,7 @@ export default function ComponentsPageClient({
           aria-hidden={view !== "tokens"}
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <ColorsView />
+          <ColorsView groups={tokenGroups} />
         </div>
       </section>
     </PageShell>

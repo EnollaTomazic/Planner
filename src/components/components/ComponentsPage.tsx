@@ -1,7 +1,16 @@
 import ComponentsPageClient from "./ComponentsPageClient";
-import { loadGalleryNavigation } from "@/components/gallery/loader";
+import {
+  loadDesignTokenGroups,
+  loadGalleryNavigation,
+} from "@/components/gallery/loader";
 
 export default async function ComponentsPage() {
-  const navigation = await loadGalleryNavigation();
-  return <ComponentsPageClient navigation={navigation} />;
+  const [navigation, tokenGroups] = await Promise.all([
+    loadGalleryNavigation(),
+    loadDesignTokenGroups(),
+  ]);
+
+  return (
+    <ComponentsPageClient navigation={navigation} tokenGroups={tokenGroups} />
+  );
 }

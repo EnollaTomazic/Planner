@@ -3,6 +3,7 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import fg from "fast-glob";
+import tokens from "../../../tokens/tokens.js";
 import {
   createGalleryRegistry,
   type GalleryEntryKind,
@@ -18,6 +19,12 @@ import {
   type GallerySectionGroupKey,
   type GallerySectionMeta,
 } from "./metadata";
+import {
+  buildDesignTokenGroups,
+  type DesignTokenGroup,
+} from "@/lib/design-token-registry";
+
+const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
 interface GalleryModule {
   default: GallerySection | GallerySection[];
@@ -46,7 +53,7 @@ export interface GalleryLoaderSlices {
   primitives: readonly GallerySerializableEntry[];
   components: readonly GallerySerializableEntry[];
   complex: readonly GallerySerializableEntry[];
-  tokens: readonly GallerySerializableEntry[];
+  tokens: readonly DesignTokenGroup[];
 }
 
 export const loadGallerySlices = async (): Promise<GalleryLoaderSlices> => {
@@ -57,9 +64,13 @@ export const loadGallerySlices = async (): Promise<GalleryLoaderSlices> => {
     primitives: payload.byKind.primitive,
     components: payload.byKind.component,
     complex: payload.byKind.complex,
-    tokens: payload.byKind.token,
+    tokens: DESIGN_TOKEN_GROUPS,
   };
 };
+
+export const loadDesignTokenGroups = async (): Promise<
+  readonly DesignTokenGroup[]
+> => DESIGN_TOKEN_GROUPS;
 
 export const loadGalleryByKind = async (
   kind: GalleryEntryKind,
@@ -123,3 +134,4 @@ export const loadGalleryNavigation = async (): Promise<GalleryNavigationData> =>
 };
 
 export type { GalleryHeroCopy, GallerySectionGroupKey } from "./metadata";
+export type { DesignTokenGroup } from "@/lib/design-token-registry";
