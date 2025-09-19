@@ -233,14 +233,18 @@ function ParagraphEdit({
   editing: boolean;
 }) {
   if (!editing)
-    return <p className="mt-1 text-ui font-medium text-muted-foreground">{value}</p>;
+    return (
+      <p className="mt-[var(--space-1)] text-ui font-medium text-muted-foreground">
+        {value}
+      </p>
+    );
   return (
     <Textarea
       dir="ltr"
       value={value}
       onChange={handleSanitizedChange(onChange)}
       rows={2}
-      className="mt-1"
+      className="mt-[var(--space-1)]"
       resize="resize-y"
       textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-ui font-medium text-muted-foreground leading-relaxed"
       aria-label="Description"
@@ -306,13 +310,13 @@ function BulletListEdit({
 
   if (!editing) {
     return (
-      <ul className="mt-1 list-none pl-6 space-y-1 text-ui font-medium leading-5 text-foreground">
+      <ul className="mt-[var(--space-1)] list-none pl-[var(--space-6)] space-y-[var(--space-1)] text-ui font-medium leading-5 text-foreground">
         {list
           .filter((w) => w.trim().length)
           .map((w, idx) => (
             <li
               key={idx}
-              className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current"
+              className="relative pl-[var(--space-3)] before:absolute before:left-0 before:top-[var(--space-2)] before:h-[var(--space-2)] before:w-[var(--space-2)] before:rounded-full before:bg-current"
             >
               {w}
             </li>
@@ -323,7 +327,7 @@ function BulletListEdit({
 
   return (
     <ul
-      className="mt-1 list-none pl-6 space-y-1 text-ui font-medium leading-5 text-foreground"
+      className="mt-[var(--space-1)] list-none pl-[var(--space-6)] space-y-[var(--space-1)] text-ui font-medium leading-5 text-foreground"
       aria-label={ariaLabel}
     >
       {list.map((w, idx) => (
@@ -341,7 +345,7 @@ function BulletListEdit({
           suppressContentEditableWarning
           onInput={(e) => handleItemInput(idx, e)}
           onKeyDown={(e) => handleKeyDown(idx, e)}
-          className="relative pl-3 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-current"
+          className="relative pl-[var(--space-3)] before:absolute before:left-0 before:top-[var(--space-2)] before:h-[var(--space-2)] before:w-[var(--space-2)] before:rounded-full before:bg-current"
         >
           {w}
         </li>
