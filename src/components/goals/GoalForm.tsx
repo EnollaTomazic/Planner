@@ -42,6 +42,9 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
   const helpId = "goal-form-help";
   const errorId = "goal-form-error";
   const describedBy = [helpId, err ? errorId : null].filter(Boolean).join(" ");
+  const trimmedTitle = title.trim();
+  const isAtCap = activeCount >= activeCap;
+  const canSubmit = Boolean(trimmedTitle) && !isAtCap;
 
   React.useImperativeHandle(ref, () => ({
     focus: (options?: FocusOptions) => titleRef.current?.focus(options),
@@ -51,6 +54,9 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        if (!canSubmit) {
+          return;
+        }
         onSubmit();
       }}
     >
@@ -60,7 +66,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           title="Add Goal"
           titleClassName="text-title font-semibold tracking-[-0.01em]"
           actions={
-            <Button type="submit" size="sm" disabled={!title.trim()}>
+            <Button type="submit" size="sm" disabled={!canSubmit}>
               Add Goal
             </Button>
           }
@@ -102,7 +108,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </Label>
 
           <div id={helpId} className="text-label font-medium tracking-[0.02em] text-muted-foreground">
-            {activeCount >= activeCap ? (
+            {isAtCap ? (
               <span className="text-danger">
                 Cap reached. Finish one to add more.
               </span>
@@ -115,12 +121,12 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
           </div>
 
           {err ? (
-              <p
-                id={errorId}
-                role="status"
-                aria-live="polite"
-                className="text-label font-medium tracking-[0.02em] text-danger"
-              >
+            <p
+              id={errorId}
+              role="status"
+              aria-live="polite"
+              className="text-label font-medium tracking-[0.02em] text-danger"
+            >
               {err}
             </p>
           ) : null}
