@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Select, type SelectItem } from "@/components/ui";
+import type { SelectItem } from "@/components/ui";
 import { BG_CLASSES, Background } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import SettingsSelect from "./SettingsSelect";
 
 const BG_NAMES = ["Default", "Alt 1", "Alt 2", "VHS", "Streak"];
 
@@ -47,16 +48,12 @@ export default function BackgroundPicker({
     [],
   );
   return (
-    <Select
-      variant="animated"
+    <SettingsSelect
       ariaLabel="Background"
       prefixLabel="Background"
       items={items}
       value={String(bg)}
       onChange={(v) => onBgChange(Number(v) as Background)}
-      size="sm"
-      buttonClassName="!rounded-full !text-ui !shadow-neo-inset hover:ring-2 hover:ring-[var(--edge-iris)] focus-visible:ring-2 focus-visible:ring-[var(--edge-iris)]"
-      matchTriggerWidth={false}
       className={className}
     />
   );
