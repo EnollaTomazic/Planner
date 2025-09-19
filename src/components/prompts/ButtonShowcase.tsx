@@ -4,8 +4,8 @@ import { Plus } from "lucide-react";
 
 export default function ButtonShowcase() {
   return (
-    <div className="mb-8 space-y-4">
-      <div className="flex flex-wrap gap-2">
+    <div className="mb-[var(--space-8)] space-y-[var(--space-4)]">
+      <div className="flex flex-wrap gap-[var(--space-2)]">
         <Button tone="primary">Primary tone</Button>
         <Button tone="accent">Accent tone</Button>
         <Button tone="info" variant="ghost">
@@ -16,7 +16,7 @@ export default function ButtonShowcase() {
         </Button>
         <Button disabled>Disabled</Button>
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-[var(--space-2)]">
         <Button size="sm">
           <Plus />
           Small
