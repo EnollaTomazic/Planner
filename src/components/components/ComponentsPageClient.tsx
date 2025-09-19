@@ -409,6 +409,9 @@ export default function ComponentsPageClient({
   }, [groupSectionIds, groups, section, view]);
 
   React.useEffect(() => {
+    if (view === "tokens") {
+      return;
+    }
     const owner = sectionGroupMap.get(section);
     if (!owner) {
       return;
