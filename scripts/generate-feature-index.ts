@@ -36,9 +36,10 @@ async function saveManifest(manifest: Manifest) {
 
 function toExportName(file: string): string {
   const base = path.basename(file).replace(/\.(tsx|ts)$/, "");
-  return base
-    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
+  const sanitized = base
+    .replace(/[^A-Za-z0-9]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ""))
     .replace(/^(.)/, (c) => c.toUpperCase());
+  return sanitized;
 }
 
 type ExportInfo = { name?: string; lines: string[] };
@@ -82,7 +83,17 @@ async function generate(
     "// Do not edit directly.",
   ];
   const used = new Set<string>();
-  for (const file of files.sort()) {
+  const sortedFiles = files.sort((a, b) => {
+    const aRel = path.relative(dir, a).replace(/\\/g, "/");
+    const bRel = path.relative(dir, b).replace(/\\/g, "/");
+    const aIsGallery = /\.gallery\.(tsx|ts)$/.test(aRel);
+    const bIsGallery = /\.gallery\.(tsx|ts)$/.test(bRel);
+    if (aIsGallery !== bIsGallery) {
+      return aIsGallery ? 1 : -1;
+    }
+    return aRel.localeCompare(bRel);
+  });
+  for (const file of sortedFiles) {
     const rel = path.relative(rootDir, file).replace(/\\/g, "/");
     const stat = await fs.stat(file);
     let info = manifest[rel];
