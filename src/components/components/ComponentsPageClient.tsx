@@ -9,14 +9,14 @@ import ComponentSpecView from "@/components/prompts/ComponentsView";
 import { getGallerySectionEntries } from "@/components/prompts/constants";
 import ColorsView from "@/components/prompts/ColorsView";
 import {
+  type DesignTokenGroup,
   type GalleryHeroCopy,
   type GalleryNavigationData,
   type GalleryNavigationSection,
   type GallerySectionGroupKey,
-  type DesignTokenGroup,
-} from "@/components/gallery/loader";
-import { formatGallerySectionLabel } from "@/components/gallery";
-import type { GallerySerializableEntry } from "@/components/gallery";
+} from "@/components/gallery/types";
+import { formatGallerySectionLabel } from "@/components/gallery/registry";
+import type { GallerySerializableEntry } from "@/components/gallery/registry";
 import { Card, CardContent, PageHeader, PageShell } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { usePersistentState } from "@/lib/db";
