@@ -37,7 +37,7 @@ export default function TeamPromptsCard() {
             layout="grid"
             className="grid-cols-12"
             buttonVariant="ghost"
-            buttonSize="sm"
+            buttonSize="lg"
             buttonClassName="col-span-12 w-full justify-start text-left border-border bg-card/60 sm:col-span-6 lg:col-span-4"
           />
         </DashboardCard>
