@@ -1236,8 +1236,8 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "Split",
       element: (
         <Split
-          left={<div className="p-4">Left</div>}
-          right={<div className="p-4">Right</div>}
+          left={<div className="p-[var(--space-4)]">Left</div>}
+          right={<div className="p-[var(--space-4)]">Right</div>}
         />
       ),
       tags: ["split", "layout"],
@@ -1784,14 +1784,14 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       id: "badge-tones",
       name: "Badge Tones",
       element: (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-[var(--space-2)]">
           <Badge tone="neutral">Neutral</Badge>
           <Badge tone="accent">Accent</Badge>
           <Badge tone="primary">Primary</Badge>
         </div>
       ),
       tags: ["badge", "tone"],
-      code: `<div className="flex flex-wrap gap-2">
+      code: `<div className="flex flex-wrap gap-[var(--space-2)]">
   <Badge tone="neutral">Neutral</Badge>
   <Badge tone="accent">Accent</Badge>
   <Badge tone="primary">Primary</Badge>
