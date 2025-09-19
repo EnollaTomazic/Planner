@@ -310,7 +310,7 @@ export default function ComponentsPage() {
             </span>
           ),
           barClassName:
-            "isolate overflow-hidden rounded-[var(--radius-2xl)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(118%_82%_at_15%_-18%,hsl(var(--accent)/0.34),transparent_65%),radial-gradient(112%_78%_at_85%_-12%,hsl(var(--ring)/0.3),transparent_70%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0_hsl(var(--ring)/0.12)_1px,transparent_1px,transparent_var(--space-2))] after:opacity-70 after:mix-blend-soft-light motion-reduce:after:opacity-50",
+            "isolate overflow-hidden rounded-card r-card-lg before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(118%_82%_at_15%_-18%,hsl(var(--accent)/0.34),transparent_65%),radial-gradient(112%_78%_at_85%_-12%,hsl(var(--ring)/0.3),transparent_70%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0_hsl(var(--ring)/0.12)_1px,transparent_1px,transparent_var(--space-2))] after:opacity-70 after:mix-blend-soft-light motion-reduce:after:opacity-50",
           subTabs:
             view === "components"
               ? {
@@ -390,10 +390,10 @@ export default function ComponentsPage() {
                   placeholder: searchPlaceholder,
                   fieldClassName: cn(
                     "bg-[linear-gradient(135deg,hsl(var(--card)/0.95),hsl(var(--panel)/0.82))]",
-                    "!shadow-[inset_var(--space-1)_var(--space-1)_var(--space-3)_hsl(var(--background)/0.52),inset_-var(--space-1)_-var(--space-1)_var(--space-3)_hsl(var(--highlight)/0.1),0_var(--space-3)_var(--space-6)_hsl(var(--shadow-color)/0.28)]",
-                    "hover:!shadow-[inset_var(--space-1)_var(--space-1)_var(--space-3)_hsl(var(--background)/0.46),inset_-var(--space-1)_-var(--space-1)_var(--space-3)_hsl(var(--highlight)/0.14),0_var(--space-3)_var(--space-6)_hsl(var(--shadow-color)/0.32)]",
-                    "active:!shadow-[inset_var(--space-1)_var(--space-1)_var(--space-3)_hsl(var(--background)/0.6),inset_-var(--space-1)_-var(--space-1)_var(--space-3)_hsl(var(--highlight)/0.16)]",
-                    "focus-within:!shadow-[inset_var(--space-1)_var(--space-1)_var(--space-3)_hsl(var(--background)/0.45),inset_-var(--space-1)_-var(--space-1)_var(--space-3)_hsl(var(--highlight)/0.12),0_var(--space-3)_var(--space-6)_hsl(var(--shadow-color)/0.32)]",
+                    "!shadow-neo-inset",
+                    "hover:!shadow-neo-soft",
+                    "active:!shadow-neo-inset",
+                    "focus-within:!shadow-neo-soft",
                     "focus-within:[--tw-ring-offset-width:var(--space-1)]",
                     "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
                     "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-inset motion-reduce:active:!shadow-neo-inset motion-reduce:focus-within:!shadow-neo-soft",

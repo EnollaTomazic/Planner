@@ -48,12 +48,6 @@ function SpecCard({
       ({
         "--spec-card-raise": reduceMotion ? "0px" : "var(--spacing-0-25)",
         "--spec-card-press": reduceMotion ? "0px" : "var(--spacing-0-25)",
-        "--shadow-raised":
-          "0 calc(var(--space-4) - var(--spacing-0-5)) var(--space-7) hsl(var(--shadow-color) / 0.3)",
-        "--shadow-raised-hover":
-          "0 calc(var(--space-5)) calc(var(--space-8) - var(--spacing-0-5)) hsl(var(--shadow-color) / 0.36)",
-        "--shadow-inset":
-          "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline)), inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08), 0 calc(var(--space-3) + var(--spacing-0-25)) var(--space-6) hsl(var(--shadow-color) / 0.33)",
       }) as React.CSSProperties,
     [reduceMotion],
   );
@@ -110,13 +104,14 @@ function SpecCard({
     "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
     "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
     "px-[var(--space-6)] py-[var(--space-5)]",
-    "shadow-[var(--spec-card-shadow,var(--shadow-raised))]",
-    "hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] focus-visible:shadow-[var(--shadow-raised-hover,var(--shadow-raised))]",
+    "shadow-neo",
+    "hover:shadow-neo-soft focus-visible:shadow-neo-soft",
     "transition-[transform,box-shadow,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
     "hover:-translate-y-[var(--spec-card-raise)] focus-visible:-translate-y-[var(--spec-card-raise)] data-[active=true]:translate-y-[var(--spec-card-press)]",
     "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:data-[active=true]:translate-y-0",
-    "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-60 data-[disabled=true]:shadow-[var(--shadow-inset)]",
+    "active:shadow-neo-inset data-[active=true]:shadow-neo-inset",
+    "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-60 data-[disabled=true]:shadow-neo-inset",
     "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
     "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
     "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
@@ -144,12 +139,7 @@ function SpecCard({
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
       onBlur={handlePointerReset}
-      style={{
-        ...cardTokens,
-        "--spec-card-shadow": isPressed
-          ? "var(--shadow-inset)"
-          : "var(--shadow-raised)",
-      } as React.CSSProperties}
+      style={cardTokens}
       className={cardClassName}
       tabIndex={isDisabled ? -1 : 0}
       aria-labelledby={headingId}
