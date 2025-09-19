@@ -88,7 +88,7 @@ function ResultScoreSection(
             className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
             style={{
               width: "calc(50% - var(--space-1))",
-              transform: `translate3d(${result === "Win" ? "0" : "calc(100% + var(--space-1) / 2)"},0,0)`,
+              transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
               transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
               background:
                 result === "Win"
