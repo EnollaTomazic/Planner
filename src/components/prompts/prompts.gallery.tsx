@@ -170,14 +170,13 @@ function SettingsSelectDemo() {
   );
 
   return (
-    <div className="space-y-[var(--space-2)]">
+    <div className="stack-sm">
       <SettingsSelect
         ariaLabel="Theme"
         prefixLabel="Theme"
         items={items}
         value={value}
         onChange={setValue}
-        className="w-56"
       />
       <SettingsSelect
         ariaLabel="Theme (disabled)"
@@ -185,7 +184,6 @@ function SettingsSelectDemo() {
         items={items}
         value={value}
         onChange={setValue}
-        className="w-56"
         disabled
       />
     </div>
@@ -287,8 +285,8 @@ function CardLoadingState() {
 function CardErrorState() {
   return (
     <Card>
-      <CardContent className="space-y-[var(--space-3)]">
-        <div className="space-y-[var(--space-1)]">
+      <CardContent className="stack-md">
+        <div className="stack-xs">
           <h4 className="text-ui font-semibold tracking-[-0.01em]">
             Data unavailable
           </h4>
@@ -300,7 +298,8 @@ function CardErrorState() {
           message="Sync failed"
           actionLabel="Retry"
           onAction={() => {}}
-          className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+          className="mx-0 w-full justify-between"
+          tone="danger"
         />
       </CardContent>
     </Card>
@@ -310,9 +309,8 @@ function CardErrorState() {
 function NeoCardDemo() {
   return (
     <NeoCard
-      className="p-4"
       overlay={
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay [--neo-card-overlay-opacity:0.2] opacity-[var(--neo-card-overlay-opacity)]" />
       }
     >
       <p className="text-ui">Body</p>
@@ -322,9 +320,9 @@ function NeoCardDemo() {
 
 function NeoCardLoadingState() {
   return (
-    <NeoCard className="p-[var(--space-4)]">
-      <div className="space-y-[var(--space-4)]">
-        <div className="space-y-[var(--space-2)]">
+    <NeoCard>
+      <div className="stack-lg">
+        <div className="stack-sm">
           <Skeleton
             ariaHidden={false}
             role="status"
@@ -340,7 +338,7 @@ function NeoCardLoadingState() {
             className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
             radius="full"
           />
-          <div className="flex-1 space-y-[var(--space-2)]">
+          <div className="flex-1 stack-sm">
             <Skeleton className="w-3/4" />
             <Skeleton className="w-2/3" />
           </div>
@@ -352,9 +350,9 @@ function NeoCardLoadingState() {
 
 function NeoCardErrorState() {
   return (
-    <NeoCard className="p-[var(--space-4)]">
-      <div className="space-y-[var(--space-3)]">
-        <div className="space-y-[var(--space-1)]">
+    <NeoCard>
+      <div className="stack-md">
+        <div className="stack-xs">
           <h4 className="text-ui font-semibold tracking-[-0.01em]">
             Overlay unavailable
           </h4>
@@ -366,7 +364,8 @@ function NeoCardErrorState() {
           message="Sync failed"
           actionLabel="Retry"
           onAction={() => {}}
-          className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+          className="mx-0 w-full justify-between"
+          tone="danger"
         />
       </div>
     </NeoCard>
@@ -587,7 +586,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           ]}
           className="md:flex-row md:items-center md:justify-between"
           buttonSize="lg"
-          buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+          buttonClassName="motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none"
         />
       ),
       tags: ["actions", "planner"],
@@ -599,7 +598,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   ]}
   className="md:flex-row md:items-center md:justify-between"
   buttonSize="lg"
-  buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
+  buttonClassName="motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none"
 />`,
     },
     {

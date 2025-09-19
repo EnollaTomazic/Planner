@@ -7,13 +7,16 @@ import { cn } from "@/lib/utils";
 
 type QuickActionLayout = "stacked" | "grid";
 
+const ROOT_CLASSNAME =
+  "[--quick-actions-gap:var(--space-4)] [--quick-actions-column-width:calc(var(--space-4)*14)] [--quick-actions-lift:var(--spacing-0-5)]";
+
 const layoutClassNames: Record<QuickActionLayout, string> = {
-  stacked: "flex flex-col gap-[var(--space-4)]",
-  grid: "grid gap-[var(--space-4)]",
+  stacked: "flex flex-col gap-[var(--quick-actions-gap)]",
+  grid: "grid grid-cols-1 gap-[var(--quick-actions-gap)] sm:grid-cols-[repeat(auto-fit,minmax(var(--quick-actions-column-width),1fr))]",
 };
 
 const buttonBaseClassName =
-  "rounded-[var(--control-radius)] [--focus:var(--theme-ring)] focus-visible:ring-offset-0";
+  "rounded-[var(--control-radius)] [--focus:var(--theme-ring)] focus-visible:ring-offset-0 transition-transform duration-[var(--dur-quick)] ease-out motion-reduce:transition-none";
 
 type QuickActionDefinition = {
   href: string;
@@ -46,7 +49,7 @@ export default function QuickActionGrid({
   buttonVariant = "secondary",
 }: QuickActionGridProps) {
   return (
-    <div className={cn(layoutClassNames[layout], className)}>
+    <div className={cn(ROOT_CLASSNAME, layoutClassNames[layout], className)}>
       {actions.map((action, index) => {
         const {
           href,
