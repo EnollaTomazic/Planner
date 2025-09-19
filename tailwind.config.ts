@@ -124,6 +124,7 @@ const config: Config = {
         "outline-subtle": "var(--shadow-outline-subtle)",
         "outline-faint": "var(--shadow-outline-faint)",
         badge: "var(--shadow-badge)",
+        dropdown: "var(--shadow-dropdown)",
         "inset-contrast": "var(--shadow-inset-contrast)",
         "inset-hairline": "var(--shadow-inset-hairline)",
         "glow-current": "var(--shadow-glow-current)",
