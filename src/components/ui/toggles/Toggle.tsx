@@ -1,10 +1,20 @@
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
 
 type Side = "Left" | "Right";
+
+type ToggleStyle = CSSProperties & {
+  "--glow-active"?: string;
+};
+
+const createLabelGlow = (color: string): ToggleStyle => ({
+  "--glow-active": color,
+  textShadow: "var(--shadow-glow-md)",
+});
 
 export default function Toggle({
   leftLabel = "Left",
@@ -27,6 +37,17 @@ export default function Toggle({
   const id = React.useId();
   const leftId = `${id}-left`;
   const rightId = `${id}-right`;
+  const indicatorStyle: ToggleStyle = {
+    width: "calc(50% - var(--space-1))",
+    transform: `translateX(${isRight ? "100%" : "0"})`,
+    "--glow-active": "hsl(var(--shadow-color) / 0.25)",
+  };
+  const leftLabelStyle = !isRight
+    ? createLabelGlow("hsl(var(--team-blue) / 0.35)")
+    : undefined;
+  const rightLabelStyle = isRight
+    ? createLabelGlow("hsl(var(--team-red) / 0.35)")
+    : undefined;
 
   function toggle() {
     if (disabled || loading) return;
@@ -75,11 +96,8 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[0_10px_30px_hsl(var(--shadow-color)/0.25)]"
-        style={{
-          width: "calc(50% - var(--space-1))",
-          transform: `translateX(${isRight ? "100%" : "0"})`,
-        }}
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[var(--shadow-glow-xl)]"
+        style={indicatorStyle}
       />
 
       {/* Labels */}
@@ -89,11 +107,7 @@ export default function Toggle({
           "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           !isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
-        style={{
-          textShadow: !isRight
-            ? "0 0 10px hsl(var(--team-blue)/.35)"
-            : undefined,
-        }}
+        style={leftLabelStyle}
       >
         {leftLabel}
       </span>
@@ -103,11 +117,7 @@ export default function Toggle({
           "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
-        style={{
-          textShadow: isRight
-            ? "0 0 10px hsl(var(--team-red)/.35)"
-            : undefined,
-        }}
+        style={rightLabelStyle}
       >
         {rightLabel}
       </span>
