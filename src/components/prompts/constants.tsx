@@ -178,14 +178,25 @@ function SettingsSelectDemo() {
   );
 
   return (
-    <SettingsSelect
-      ariaLabel="Theme"
-      prefixLabel="Theme"
-      items={items}
-      value={value}
-      onChange={setValue}
-      className="w-56"
-    />
+    <div className="space-y-[var(--space-2)]">
+      <SettingsSelect
+        ariaLabel="Theme"
+        prefixLabel="Theme"
+        items={items}
+        value={value}
+        onChange={setValue}
+        className="w-56"
+      />
+      <SettingsSelect
+        ariaLabel="Theme (disabled)"
+        prefixLabel="Theme (disabled)"
+        items={items}
+        value={value}
+        onChange={setValue}
+        className="w-56"
+        disabled
+      />
+    </div>
   );
 }
 
@@ -1771,7 +1782,23 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       name: "SettingsSelect",
       element: <SettingsSelectDemo />,
       tags: ["select", "settings"],
-      code: `<SettingsSelect ariaLabel="Theme" prefixLabel="Theme" items={[{ value: "lg", label: "Glitch" }]} value="lg" />`,
+      code: `<div className="space-y-[var(--space-2)]">
+  <SettingsSelect
+    ariaLabel="Theme"
+    prefixLabel="Theme"
+    items={[{ value: "lg", label: "Glitch" }]}
+    value="lg"
+    className="w-56"
+  />
+  <SettingsSelect
+    ariaLabel="Theme (disabled)"
+    prefixLabel="Theme (disabled)"
+    items={[{ value: "lg", label: "Glitch" }]}
+    value="lg"
+    className="w-56"
+    disabled
+  />
+</div>`,
     },
     {
       id: "role-selector",
