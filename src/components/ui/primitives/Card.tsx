@@ -31,7 +31,7 @@ export const CardHeader = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex flex-col space-y-[calc(var(--space-3)/2)]",
+      "flex flex-col space-y-[var(--space-2)]",
       className,
     )}
     {...props}

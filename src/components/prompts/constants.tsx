@@ -845,6 +845,8 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "card-demo",
       name: "Card",
+      description:
+        "Standard card surface with header spacing set to the space-2 token for consistent vertical rhythm.",
       element: <CardDemo />,
       tags: ["card", "layout"],
       code: `<Card>

@@ -23,6 +23,9 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 
 - Use a 12‑column grid with 24px gutters.
 - Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
+- Wrap page-level content with `.page-shell` or the `<PageShell />` component to get the shared container rhythm: `space-6` on
+  small screens, `space-7` at `md`, and `space-8` at `lg`. Add vertical padding per view instead of redefining horizontal
+  gutters.
 
 ## Typography
 
