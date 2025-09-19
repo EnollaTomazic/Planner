@@ -415,7 +415,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   <button
                     aria-label="Open review: Alpha"
                     aria-selected="false"
-                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
                     role="option"
                     type="button"
@@ -448,7 +448,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             MID
                           </span>
@@ -461,7 +461,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   <button
                     aria-label="Open review: Gamma"
                     aria-selected="false"
-                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
                     role="option"
                     type="button"
@@ -494,7 +494,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             BOT
                           </span>
@@ -507,7 +507,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   <button
                     aria-label="Open review: Beta"
                     aria-selected="false"
-                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-theme focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme active:bg-accent/20 active:ring-2 active:ring-theme data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                    class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
                     data-scope="reviews"
                     role="option"
                     type="button"
@@ -540,7 +540,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out text-label leading-none border-card-hairline px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             TOP
                           </span>
