@@ -83,7 +83,7 @@ export default {
   controlHLg: "48px",
   controlH: "var(--control-h-md)",
   controlRadius: "var(--radius-xl)",
-  controlFs: "0.9rem",
+  controlFs: "var(--font-ui)",
   controlPx: "var(--spacing-3)",
   headerStack: "calc(var(--spacing-8) + var(--spacing-4))",
   edgeIris:
@@ -141,15 +141,15 @@ export default {
   space6: "var(--spacing-6)",
   space7: "var(--spacing-7)",
   space8: "var(--spacing-8)",
-  fontSizeMd: "20px",
+  fontSizeMd: "var(--font-body)",
   fontWeightBold: "800",
   shadowNeon:
     "0 0 var(--space-1) hsl(var(--neon) / 0.55),\n    0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),\n    0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)",
   fontLabel: "12px",
-  fontUi: "14px",
-  fontBody: "16px",
-  fontTitle: "20px",
-  fontTitleLg: "24px",
+  fontUi: "15px",
+  fontBody: "19px",
+  fontTitle: "24px",
+  fontTitleLg: "30px",
   btnPrimaryHoverShadow:
     "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)",
   btnPrimaryActiveShadow:

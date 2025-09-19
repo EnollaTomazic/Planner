@@ -80,7 +80,7 @@
 | control-h-lg | 48px |
 | control-h | var(--control-h-md) |
 | control-radius | var(--radius-xl) |
-| control-fs | 0.9rem |
+| control-fs | var(--font-ui) |
 | control-px | var(--spacing-3) |
 | header-stack | calc(var(--spacing-8) + var(--spacing-4)) |
 | edge-iris | conic-gradient(
@@ -146,16 +146,16 @@
 | space-6 | var(--spacing-6) |
 | space-7 | var(--spacing-7) |
 | space-8 | var(--spacing-8) |
-| font-size-md | 20px |
+| font-size-md | var(--font-body) |
 | font-weight-bold | 800 |
 | shadow-neon | 0 0 var(--space-1) hsl(var(--neon) / 0.55),
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
     0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2) |
 | font-label | 12px |
-| font-ui | 14px |
-| font-body | 16px |
-| font-title | 20px |
-| font-title-lg | 24px |
+| font-ui | 15px |
+| font-body | 19px |
+| font-title | 24px |
+| font-title-lg | 30px |
 | btn-primary-hover-shadow | 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
 | btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
