@@ -12,7 +12,7 @@ export default function ComponentsRoute() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center p-6">
+        <div className="flex justify-center p-[var(--space-5)]">
           <Spinner />
         </div>
       }
