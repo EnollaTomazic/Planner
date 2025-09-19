@@ -150,10 +150,12 @@ describe("GoalsPage", () => {
 
     await Promise.all(goalCreationPromises);
 
-    // Attempt to add a fourth active goal, expect cap error
+    // Attempt to add a fourth active goal, expect disabled state and help text
     fireEvent.change(titleInput, { target: { value: "Goal 4" } });
-    fireEvent.click(addButton);
-    expect(screen.getByRole("status")).toHaveTextContent("Cap reached");
+    expect(addButton).toBeDisabled();
+    expect(
+      screen.getByText(/Cap reached\. Finish one to add more\./),
+    ).toBeInTheDocument();
 
     // Mark the first goal as done
     const goal1Article = screen
@@ -173,10 +175,18 @@ describe("GoalsPage", () => {
 
     // Now adding another goal should succeed
     fireEvent.change(titleInput, { target: { value: "Goal 4" } });
+    await waitFor(() => expect(addButton).not.toBeDisabled());
+    await waitFor(() =>
+      expect(screen.getByText(/1 active slot left/)).toBeInTheDocument(),
+    );
     fireEvent.click(addButton);
-    await waitFor(() => expect(screen.queryByRole("status")).toBeNull());
     const goal4 = await screen.findByText("Goal 4");
     expect(goal4).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.getByText(/Cap reached\. Finish one to add more\./),
+      ).toBeInTheDocument(),
+    );
 
     // Remove the new goal and then undo
     const goal4Article = goal4.closest("article") as HTMLElement;
