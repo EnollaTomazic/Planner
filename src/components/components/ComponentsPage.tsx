@@ -9,7 +9,7 @@ import ColorsView from "@/components/prompts/ColorsView";
 import {
   COMPONENTS_VIEW_TABS,
   SECTION_TABS,
-  SPEC_DATA,
+  SECTIONS,
   type Section,
   type ComponentsView,
 } from "@/components/prompts/constants";
@@ -17,7 +17,7 @@ import { usePersistentState } from "@/lib/db";
 import { useRouter, useSearchParams } from "next/navigation";
 
 function hasSection(value: string): value is Section {
-  return Object.prototype.hasOwnProperty.call(SPEC_DATA, value);
+  return (SECTIONS as readonly string[]).includes(value);
 }
 
 function getValidSection(value: string | null): Section {
