@@ -1029,21 +1029,40 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "page-shell",
       name: "PageShell",
-      description: "Responsive page container",
+      description:
+        "Responsive page container. Enable the grid prop and wrap sections in col-span-* to align to the shell template.",
       element: (
-        <PageShell className="space-y-3 py-6">
-          <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+        <PageShell
+          grid
+          className="py-6"
+          contentClassName="items-start"
+        >
+          <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
             Page shell content
           </div>
-          <Button size="sm">Action</Button>
+          <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end">
+            <Button size="sm">Primary</Button>
+            <Button size="sm" variant="ghost">
+              Secondary
+            </Button>
+          </div>
         </PageShell>
       ),
       tags: ["layout", "shell"],
-      code: `<PageShell className="space-y-3 py-6">
-  <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+      code: `<PageShell
+  grid
+  className="py-6"
+  contentClassName="items-start"
+>
+  <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
     Page shell content
   </div>
-  <Button size="sm">Action</Button>
+  <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end">
+    <Button size="sm">Primary</Button>
+    <Button size="sm" variant="ghost">
+      Secondary
+    </Button>
+  </div>
 </PageShell>`,
     },
     {
