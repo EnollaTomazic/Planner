@@ -221,9 +221,9 @@
   border-color: hsl(var(--ring) / 0.45);
   --ws-shadow-inner: 0 0 0 calc(var(--hairline-w) * 1.5)
     hsl(var(--ring) / 0.35) inset;
-  --ws-shadow-outer: 0 calc(var(--space-2) - var(--space-0-5))
+  --ws-shadow-outer: 0 calc(var(--space-2) - var(--spacing-0-5))
     calc(var(--space-5)) hsl(var(--shadow-color) / 0.18);
-  transform: translateY(calc(var(--space-0-5) * -1));
+  transform: translateY(calc(var(--spacing-0-5) * -1));
 }
 .ws-tile:focus-visible {
   border-color: hsl(var(--ring));
@@ -288,7 +288,7 @@
   top: var(--space-1);
   bottom: var(--space-1);
   left: var(--space-1);
-  width: calc(var(--space-0-5) + var(--hairline-w));
+  width: calc(var(--spacing-0-5) + var(--hairline-w));
   border-radius: var(--radius-xl);
   background: linear-gradient(
     180deg,
@@ -308,7 +308,7 @@
 .ws-tile__counts {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--space-0-5);
+  gap: var(--spacing-0-5);
   color: hsl(var(--foreground));
   @apply text-title font-semibold tracking-[-0.01em];
 }

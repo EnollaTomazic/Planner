@@ -65,7 +65,7 @@ export default function GoalList({
           >
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] p-[var(--space-0-25)] [background:var(--edge-iris)] [mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] [mask-composite:exclude]"
+              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] p-[var(--spacing-0-25)] [background:var(--edge-iris)] [mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] [mask-composite:exclude]"
             />
             <span
               aria-hidden
