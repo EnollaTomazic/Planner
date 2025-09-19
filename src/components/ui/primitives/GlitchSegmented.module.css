@@ -22,7 +22,7 @@
 
 .glitchScanlines:hover::after {
   opacity: 0.28;
-  filter: drop-shadow(0 0 6px hsl(var(--glow) / 0.5));
+  filter: drop-shadow(var(--shadow-glow-small));
   animation: crt-scan 4s linear infinite;
 }
 
@@ -30,7 +30,7 @@
 .glitchScanlines[aria-pressed="true"]::after,
 .glitchScanlines[data-selected="true"]::after {
   opacity: 0.45;
-  filter: drop-shadow(0 0 8px hsl(var(--glow)));
+  filter: drop-shadow(var(--shadow-glow-strong));
   animation:
     crt-scan 1s linear infinite,
     crt-jitter 200ms steps(2, end) infinite;
@@ -39,7 +39,7 @@
 .glitchScanlines::before {
   content: "";
   position: absolute;
-  inset: -2px;
+  inset: calc(-1 * var(--spacing-0-5));
   border-radius: inherit;
   pointer-events: none;
   background: radial-gradient(
