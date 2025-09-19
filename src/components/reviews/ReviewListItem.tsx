@@ -117,7 +117,7 @@ export default function ReviewListItem({
               <Badge
                 size="xs"
                 tone="neutral"
-                className="px-[var(--space-1)] py-[calc(var(--space-1)*0)]"
+                className="px-[var(--space-1)]"
               >
                 {role}
               </Badge>
