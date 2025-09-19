@@ -93,21 +93,20 @@ export default {
   segActiveBase: "hsl(var(--card))",
   shadow: "0 10px 30px hsl(250 30% 2% / 0.35)",
   shadowNeoSm:
-    "calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2)) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2)) hsl(var(--foreground) / 0.06)",
+    "calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))\n      hsl(var(--foreground) / 0.06)",
   shadowNeo:
-    "calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5) hsl(var(--foreground) / 0.06)",
+    "calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)\n      hsl(var(--foreground) / 0.06)",
   shadowNeoStrong:
-    "var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6) hsl(var(--foreground) / 0.08)",
+    "var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6)\n      hsl(var(--foreground) / 0.08)",
   shadowNeoInset:
-    "inset var(--spacing-1) var(--spacing-1) var(--spacing-3) hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3) hsl(var(--foreground) / 0.08)",
+    "inset var(--spacing-1) var(--spacing-1) var(--spacing-3)\n      hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)\n      hsl(var(--foreground) / 0.08)",
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
   shadowNeoSoft:
-    "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1) hsl(var(--shadow-color))",
+    "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
   shadowGlowLg: "0 0 var(--spacing-5) var(--glow-active)",
-  shadowGlowXl:
-    "0 var(--spacing-2) var(--spacing-6) var(--glow-active)",
+  shadowGlowXl: "0 var(--spacing-2) var(--spacing-6) var(--glow-active)",
   shadowNavActive:
     "0 0 0 var(--hairline-w) hsl(var(--ring) / 0.35),\n    0 var(--spacing-2) var(--spacing-6) hsl(var(--ring) / 0.2)",
   shadowOutlineSubtle: "0 0 0 var(--hairline-w) hsl(var(--border) / 0.12)",
@@ -115,10 +114,13 @@ export default {
   shadowBadge:
     "inset 0 var(--hairline-w) 0 hsl(var(--foreground) / 0.06),\n    0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.35),\n    0 var(--spacing-3) var(--spacing-4) hsl(var(--shadow-color) / 0.18)",
   shadowInsetContrast: "inset 0 0 0 var(--hairline-w) var(--ring-contrast)",
-  shadowInsetHairline: "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline))",
+  shadowInsetHairline:
+    "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline))",
   shadowGlowCurrent: "0 0 var(--spacing-2) currentColor",
-  shadowNeonSoft: "0 0 var(--spacing-2) var(--neon), 0 0 var(--spacing-4) var(--neon-soft)",
-  shadowNeonStrong: "0 0 var(--spacing-3) var(--neon), 0 0 var(--spacing-5) var(--neon-soft)",
+  shadowNeonSoft:
+    "0 0 var(--spacing-2) var(--neon),\n    0 0 var(--spacing-4) var(--neon-soft)",
+  shadowNeonStrong:
+    "0 0 var(--spacing-3) var(--neon),\n    0 0 var(--spacing-5) var(--neon-soft)",
   shadowControl:
     "inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),\n    0 0 0 var(--hairline-w) hsl(var(--border) / 0.12)",
   shadowControlHover:
@@ -129,10 +131,6 @@ export default {
   lgBlack: "var(--background)",
   glowStrong: "var(--ring) / 0.55",
   glowSoft: "var(--accent) / 0.25",
-  spacing0125: "calc(var(--spacing-1) / 8)",
-  spacing025: "calc(var(--spacing-1) / 4)",
-  spacing05: "calc(var(--spacing-1) / 2)",
-  spacing075: "calc(var(--spacing-1) * 0.75)",
   space1: "var(--spacing-1)",
   space2: "var(--spacing-2)",
   space3: "var(--spacing-3)",
@@ -172,6 +170,12 @@ export default {
   pillarCommsStart: "286 90% 68%",
   pillarCommsEnd: "312 88% 66%",
   pillarCommsShadow: "300 80% 36% / 0.35",
+  cardOverlayScanlines:
+    "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
+  spacing0125: "calc(var(--spacing-1) / 8)",
+  spacing025: "calc(var(--spacing-1) / 4)",
+  spacing05: "calc(var(--spacing-1) / 2)",
+  spacing075: "calc(var(--spacing-1) * 0.75)",
   spacing1: "4px",
   spacing2: "8px",
   spacing3: "12px",
