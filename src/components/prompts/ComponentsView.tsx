@@ -192,9 +192,11 @@ function SpecCard({
         </p>
       ) : null}
       <div className={frameClassName}>{element}</div>
-      {showCode && code ? (
+      {code ? (
         <pre
           id={codeId}
+          hidden={!showCode}
+          aria-hidden={showCode ? undefined : true}
           className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset)]"
         >
           <code>{code}</code>
