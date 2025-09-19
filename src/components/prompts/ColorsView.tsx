@@ -18,7 +18,7 @@ type SectionCardProps = {
 
 function SectionCard({ title, children }: SectionCardProps) {
   return (
-    <section className="space-y-4">
+    <section className="space-y-[var(--space-4)]">
       <h2 className="text-title font-semibold tracking-[-0.01em]">{title}</h2>
       {children}
     </section>
@@ -78,7 +78,7 @@ function Swatch({ token }: SwatchProps) {
 
   return (
     <li className="flex flex-col items-center gap-[var(--space-2)] xl:col-span-3">
-      <div className="relative h-16 w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]">
+      <div className="relative h-[var(--space-8)] w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]">
         {isTranslucent ? (
           <div
             aria-hidden="true"
@@ -102,7 +102,7 @@ function Swatch({ token }: SwatchProps) {
 function GradientSwatch() {
   return (
     <li className="col-span-full flex flex-col items-center gap-[var(--space-2)]">
-      <div className="h-16 w-full rounded-card r-card-md border border-[var(--card-hairline)] bg-gradient-to-r from-primary via-accent to-[hsl(var(--accent-2))]" />
+      <div className="h-[var(--space-8)] w-full rounded-card r-card-md border border-[var(--card-hairline)] bg-gradient-to-r from-primary via-accent to-[hsl(var(--accent-2))]" />
       <span className="block w-full text-center text-label font-medium">
         from-primary via-accent to-[hsl(var(--accent-2))]
       </span>
@@ -112,7 +112,7 @@ function GradientSwatch() {
 
 export default function ColorsView() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-[var(--space-6)]">
       {COLOR_SECTIONS.map((p) => (
         <SectionCard key={p.title} title={p.title}>
           <ul className="grid grid-cols-2 gap-[var(--space-3)] sm:grid-cols-3 md:grid-cols-4 md:gap-[var(--space-4)] xl:grid-cols-12 xl:gap-[var(--space-5)]">
@@ -128,7 +128,7 @@ export default function ColorsView() {
         </ul>
       </SectionCard>
       <SectionCard title="SectionCard Variants">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[var(--space-4)]">
           <UiSectionCard>
             <UiSectionCard.Header title="Neo (default)" />
             <UiSectionCard.Body>Content</UiSectionCard.Body>
