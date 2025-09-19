@@ -85,7 +85,7 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-xl transition-transform duration-300"
+            className="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300"
             style={{
               width: "calc(50% - var(--space-1))",
               transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
