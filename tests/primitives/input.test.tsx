@@ -36,7 +36,9 @@ describe("Input", () => {
     const { getByRole } = render(
       <Input aria-label="slot" hasEndSlot />,
     );
-    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
+    expect(getByRole("textbox")).toHaveClass(
+      "pr-[calc(var(--space-6)+var(--space-2))]",
+    );
   });
 
   it("shows error state when aria-invalid is true", () => {

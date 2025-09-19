@@ -172,7 +172,7 @@ export const FieldInput = React.forwardRef<HTMLInputElement, FieldInputProps>(
         "group-data-[disabled=true]/field:placeholder:text-muted-foreground/50",
         "group-data-[loading=true]/field:opacity-[var(--loading)]",
         indent && "pl-[var(--space-7)]",
-        (hasEndSlot ?? false) && "pr-[var(--space-7)]",
+        (hasEndSlot ?? false) && "pr-[calc(var(--space-6)+var(--space-2))]",
         className,
       )}
       {...props}
@@ -220,7 +220,7 @@ export const FieldSelect = React.forwardRef<HTMLSelectElement, FieldSelectProps>
         "transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70",
         "group-data-[disabled=true]/field:placeholder:text-muted-foreground/50",
         "group-data-[loading=true]/field:opacity-[var(--loading)]",
-        (hasEndSlot ?? false) && "pr-[var(--space-12)]",
+        (hasEndSlot ?? false) && "pr-[calc(var(--space-6)+var(--space-2))]",
         className,
       )}
       {...props}
