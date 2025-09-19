@@ -390,19 +390,32 @@ export default function ComponentGallery() {
       {
         label: "Input",
         element: (
-          <Input placeholder="Type here" className="w-56 rounded-full" />
+          <Input
+            aria-label="Demo input"
+            placeholder="Type here"
+            className="w-56 rounded-full"
+          />
         ),
       },
       {
         label: "Textarea",
-        element: <Textarea placeholder="Write here" className="w-56" />,
+        element: (
+          <Textarea
+            aria-label="Demo textarea"
+            placeholder="Write here"
+            className="w-56"
+          />
+        ),
       },
       {
         label: "Field",
         element: (
           <div className="w-56 space-y-[var(--space-2)]">
             <Field.Root>
-              <Field.Input placeholder="Primitive input" />
+              <Field.Input
+                aria-label="Field input demo"
+                placeholder="Primitive input"
+              />
             </Field.Root>
             <a
               href={fieldStoryHref}
@@ -483,6 +496,7 @@ export default function ComponentGallery() {
                 { value: "b", label: "B" },
               ]}
               value=""
+              aria-label="Default native select demo"
             />
             <Select
               variant="native"
@@ -492,6 +506,7 @@ export default function ComponentGallery() {
                 { value: "a", label: "A" },
               ]}
               value=""
+              aria-label="Success native select demo"
             />
           </div>
         ),
@@ -501,7 +516,7 @@ export default function ComponentGallery() {
         label: "Textarea Variants",
         element: (
           <div className="w-56 space-y-2">
-            <Textarea placeholder="Default" />
+            <Textarea aria-label="Default textarea demo" placeholder="Default" />
           </div>
         ),
       },
@@ -509,11 +524,11 @@ export default function ComponentGallery() {
         label: "Input Variants",
         element: (
           <div className="w-56 space-y-2">
-            <Input height="sm" placeholder="Small" />
-            <Input placeholder="Medium" />
-            <Input height="lg" placeholder="Large" />
-            <Input height={12} placeholder="h-12" />
-            <Input placeholder="With icon" hasEndSlot>
+            <Input aria-label="Small input demo" height="sm" placeholder="Small" />
+            <Input aria-label="Medium input demo" placeholder="Medium" />
+            <Input aria-label="Large input demo" height="lg" placeholder="Large" />
+            <Input aria-label="Tall input demo" height={12} placeholder="h-12" />
+            <Input aria-label="Input with icon demo" placeholder="With icon" hasEndSlot>
               <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             </Input>
           </div>
@@ -533,6 +548,7 @@ export default function ComponentGallery() {
               className="w-full"
               hideLabel
               placeholder="Small"
+              ariaLabel="Small animated select demo"
             />
             <Select
               variant="animated"
@@ -542,6 +558,7 @@ export default function ComponentGallery() {
               className="w-full"
               hideLabel
               placeholder="Medium"
+              ariaLabel="Medium animated select demo"
             />
             <Select
               variant="animated"
@@ -552,6 +569,7 @@ export default function ComponentGallery() {
               className="w-full"
               hideLabel
               placeholder="Large"
+              ariaLabel="Large animated select demo"
             />
           </div>
         ),
