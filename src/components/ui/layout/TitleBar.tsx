@@ -27,11 +27,11 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
             ),
             hsl(var(--card));
           box-shadow:
-            0 0 0 1px
+            0 0 0 var(--hairline-w)
               color-mix(in oklab, hsl(var(--shadow-color)) 28%, transparent),
-            0 10px 20px -14px
-              color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent),
-            inset 0 1px 0 hsl(var(--foreground) / 0.03);
+            var(--shadow-neo-soft),
+            var(--shadow),
+            inset 0 var(--hairline-w) 0 hsl(var(--foreground) / 0.03);
         }
         .term-mini__text {
           font-family:
