@@ -531,7 +531,7 @@ const AnimatedSelect = React.forwardRef<
                   className={cn(
                     "relative pointer-events-auto rounded-[var(--radius-2xl)] overflow-hidden",
                     "bg-card/92 backdrop-blur-xl",
-                    "shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] ring-1 ring-ring/18",
+                    "shadow-[var(--shadow-raised)] ring-1 ring-ring/18",
                     "p-[var(--space-2)]",
                     "max-h-[60vh] min-w-[calc(var(--space-8)*3.5)] overflow-y-auto scrollbar-thin",
                     "scrollbar-thumb-foreground/12 scrollbar-track-transparent",
