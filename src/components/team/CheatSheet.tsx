@@ -333,6 +333,10 @@ function BulletListEdit({
             liRefs.current[idx] = el;
           }}
           contentEditable
+          role="textbox"
+          aria-multiline="true"
+          aria-label={ariaLabel}
+          tabIndex={0}
           dir="ltr"
           suppressContentEditableWarning
           onInput={(e) => handleItemInput(idx, e)}
