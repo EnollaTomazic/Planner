@@ -41,7 +41,7 @@ export default function QuickActionGrid({
   layout = "stacked",
   className,
   buttonClassName,
-  buttonSize = "md",
+  buttonSize = "lg",
   buttonTone = "primary",
   buttonVariant = "secondary",
 }: QuickActionGridProps) {
@@ -60,10 +60,11 @@ export default function QuickActionGrid({
         } = action;
         const key = `${href}-${index}`;
         const resolvedTone = tone ?? buttonTone;
-        const resolvedSize = size ?? buttonSize;
+        const resolvedSize = (size ?? buttonSize) ?? "lg";
         const resolvedVariant = variant ?? buttonVariant;
         const mergedClassName = cn(
           buttonBaseClassName,
+          resolvedSize === "lg" && "min-h-[length:var(--control-h-lg)]",
           buttonClassName,
           actionClassName,
         );
