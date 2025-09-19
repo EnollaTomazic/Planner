@@ -177,6 +177,16 @@ export default function ComponentsPageClient({
     normalizeSection(sectionParam),
   );
 
+  const previousSectionParamRef = React.useRef<string | null | undefined>(
+    undefined,
+  );
+  const previousViewParamRef = React.useRef<string | null | undefined>(
+    undefined,
+  );
+  const previousQueryParamRef = React.useRef<string | null | undefined>(
+    undefined,
+  );
+
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const tokensPanelRef = React.useRef<HTMLDivElement>(null);
   const previousViewRef = React.useRef<ComponentsView | null>(null);
@@ -291,16 +301,28 @@ export default function ComponentsPageClient({
   }, [heroTabs.length, section, view]);
 
   React.useEffect(() => {
+    if (previousSectionParamRef.current === sectionParam) {
+      return;
+    }
+    previousSectionParamRef.current = sectionParam;
     const next = normalizeSection(sectionParam);
     setSection((prev) => (prev === next ? prev : next));
   }, [normalizeSection, sectionParam]);
 
   React.useEffect(() => {
+    if (previousViewParamRef.current === viewParam) {
+      return;
+    }
+    previousViewParamRef.current = viewParam;
     const next = normalizeView(viewParam);
     setView((prev) => (prev === next ? prev : next));
   }, [normalizeView, viewParam]);
 
   React.useEffect(() => {
+    if (previousQueryParamRef.current === queryParam) {
+      return;
+    }
+    previousQueryParamRef.current = queryParam;
     const next = queryParam ?? "";
     if (next !== query) {
       setQuery(next);
