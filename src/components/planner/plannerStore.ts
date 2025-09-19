@@ -152,6 +152,12 @@ export function decodePlannerDays(value: unknown): Record<ISODate, DayRecord> {
 }
 
 const FOCUS_PLACEHOLDER: ISODate = "";
+
+function decodeFocus(value: unknown): ISODate | null {
+  if (typeof value !== "string") return null;
+  if (value === FOCUS_PLACEHOLDER) return value;
+  return fromISODate(value) ? (value as ISODate) : null;
+}
 const DEFAULT_MAX_DAY_AGE_DAYS = 365;
 
 export type PruneOldDaysOptions = {
@@ -489,6 +495,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [focus, setFocus] = usePersistentState<ISODate>(
     "planner:focus",
     FOCUS_PLACEHOLDER,
+    { decode: decodeFocus },
   );
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>

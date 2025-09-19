@@ -16,6 +16,7 @@ type DbModule = typeof import("@/lib/db");
 describe("usePlannerStore integration", () => {
   let PlannerProvider: PlannerModule["PlannerProvider"];
   let usePlannerStore: PlannerModule["usePlannerStore"];
+  let todayISO: PlannerModule["todayISO"];
 
   let flushWriteLocal: DbModule["flushWriteLocal"];
   let setWriteLocalDelay: DbModule["setWriteLocalDelay"];
@@ -29,6 +30,7 @@ describe("usePlannerStore integration", () => {
     const plannerModule = await import("@/components/planner");
     PlannerProvider = plannerModule.PlannerProvider;
     usePlannerStore = plannerModule.usePlannerStore;
+    todayISO = plannerModule.todayISO;
 
     const dbModule = await import("@/lib/db");
     flushWriteLocal = dbModule.flushWriteLocal;
@@ -139,6 +141,39 @@ describe("usePlannerStore integration", () => {
     await waitFor(() => {
       expect(second.result.current.day.projects[0]?.name).toBe("Persist me");
     });
+  });
+
+  it("falls back to today when persisted focus is malformed", async () => {
+    const invalidFocus = "2024-13-40";
+    window.localStorage.setItem(
+      "noxis-planner:planner:focus",
+      JSON.stringify(invalidFocus),
+    );
+    window.localStorage.setItem(
+      "noxis-planner:planner:days",
+      JSON.stringify({
+        [invalidFocus]: {
+          tasks: [
+            {
+              id: "bad-task",
+              title: "Should not show",
+              done: false,
+              createdAt: 1,
+              images: [],
+            },
+          ],
+        },
+      }),
+    );
+
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.focus).toBe(todayISO());
+    });
+
+    expect(result.current.focus).not.toBe(invalidFocus);
+    expect(result.current.day.tasks).toHaveLength(0);
   });
 
   it("normalizes non-array task images when hydrating", async () => {
