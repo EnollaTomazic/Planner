@@ -1884,6 +1884,36 @@ a:active .lucide {
 }
 
 @layer utilities {
+  .stack-xs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .stack-sm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .stack-md {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .stack-lg {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .stack-xl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
   .text-muted-foreground {
     color: hsl(var(--muted-foreground));
   }
