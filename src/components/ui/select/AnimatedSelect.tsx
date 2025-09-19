@@ -412,7 +412,7 @@ const AnimatedSelect = React.forwardRef<
 
     const triggerCls = cn(
       styles.glitchTrigger,
-      "relative flex items-center rounded-[var(--radius-full)] overflow-hidden",
+      "relative flex items-center rounded-[var(--control-radius)] overflow-hidden",
       sizeStyles.height,
       sizeStyles.paddingX,
       "bg-muted/12 hover:bg-muted/18",
@@ -443,7 +443,7 @@ const AnimatedSelect = React.forwardRef<
           </div>
         ) : null}
 
-        <div className="group inline-flex rounded-[var(--radius-full)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] focus-within:ring-offset-0">
+        <div className="group inline-flex rounded-[var(--control-radius)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] focus-within:ring-offset-0">
           <button
             ref={setTriggerRef}
             type="button"
