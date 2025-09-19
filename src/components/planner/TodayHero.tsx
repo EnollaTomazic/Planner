@@ -19,7 +19,6 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
 import Button from "@/components/ui/primitives/Button";
 import { Pencil, Trash2, Calendar } from "lucide-react";
-import type React from "react";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
