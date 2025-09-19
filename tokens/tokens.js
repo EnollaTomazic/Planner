@@ -20,7 +20,7 @@ export default {
   accent: "292 90% 55%",
   accent2: "192 90% 35%",
   accent3: "192 90% 50%",
-  accentForeground: "var(--background)",
+  accentForeground: "0 0% 100%",
   accentSoft: "292 90% 30%",
   highlight: "0 0% 100%",
   glow: "292 90% 35%",

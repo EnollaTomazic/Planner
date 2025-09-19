@@ -17,7 +17,7 @@
 | accent | 292 90% 55% |
 | accent-2 | 192 90% 35% |
 | accent-3 | 192 90% 50% |
-| accent-foreground | var(--background) |
+| accent-foreground | 0 0% 100% |
 | accent-soft | 292 90% 30% |
 | highlight | 0 0% 100% |
 | glow | 292 90% 35% |
