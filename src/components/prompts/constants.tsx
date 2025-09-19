@@ -519,6 +519,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
             { href: "/reviews", label: "New Review", tone: "accent" },
           ]}
           className="md:flex-row md:items-center md:justify-between"
+          buttonSize="lg"
           buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
         />
       ),
@@ -530,6 +531,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     { href: "/reviews", label: "New Review", tone: "accent" },
   ]}
   className="md:flex-row md:items-center md:justify-between"
+  buttonSize="lg"
   buttonClassName="motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none"
 />`,
     },
