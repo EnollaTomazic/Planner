@@ -162,6 +162,8 @@ export default function ComponentGallery() {
   const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
   const [tactileSecondaryActive, setTactileSecondaryActive] = React.useState(false);
 
+  const labelDemoId = React.useId();
+
   const buttonItems = React.useMemo(
     () => [
       { label: "Button", element: <Button className="w-56">Click me</Button> },
@@ -437,8 +439,8 @@ export default function ComponentGallery() {
         label: "Label",
         element: (
           <div className="w-56">
-            <Label htmlFor="label-demo">Label</Label>
-            <Input id="label-demo" placeholder="With spacing" />
+            <Label htmlFor={labelDemoId}>Label</Label>
+            <Input id={labelDemoId} placeholder="With spacing" />
           </div>
         ),
       },
@@ -589,6 +591,7 @@ export default function ComponentGallery() {
       selectValue,
       defaultVariantSelectValue,
       successVariantSelectValue,
+      labelDemoId,
     ],
   );
 
