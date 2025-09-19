@@ -38,6 +38,7 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
 import { PageHeader, PageShell, Badge } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
+import type { ClearSpeed } from "./data";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -120,6 +121,11 @@ export default function TeamCompPage() {
   const [clearsQuery, setClearsQuery] = React.useState("");
   const [clearsCount, setClearsCount] = React.useState(0);
   const [builderState, setBuilderState] = useTeamBuilderState();
+  const [targetBucket, setTargetBucket] = React.useState<ClearSpeed>("Medium");
+  const handleTargetBucketChange = React.useCallback(
+    (bucket: ClearSpeed) => setTargetBucket(bucket),
+    [],
+  );
   const toggleEditing = React.useCallback((key: keyof typeof editing) => {
     setEditing((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
@@ -205,6 +211,7 @@ export default function TeamCompPage() {
             ref={clearsApi}
             editing={editing.clears}
             query={clearsQuery}
+            onTargetBucketChange={handleTargetBucketChange}
             onCountChange={setClearsCount}
           />
         ),
@@ -213,7 +220,15 @@ export default function TeamCompPage() {
         controls: tabIds.clears.panel,
       },
     ],
-    [renderCheat, editing, clearsQuery, tabIds, builderState, setBuilderState],
+    [
+      renderCheat,
+      editing,
+      clearsQuery,
+      tabIds,
+      builderState,
+      setBuilderState,
+      handleTargetBucketChange,
+    ],
   );
   const active = TABS.find((t) => t.key === tab);
   React.useEffect(() => {
@@ -399,16 +414,26 @@ export default function TeamCompPage() {
         ),
       },
       actions: (
-        <div className="flex items-center gap-[var(--space-2)]">
-          <Button
-            variant="primary"
-            size="sm"
-            className="px-[var(--space-4)] whitespace-nowrap"
-            onClick={() => clearsApi.current?.addRow("Medium")}
-          >
-            <Plus />
-            <span>New Row</span>
-          </Button>
+        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+          <div className="flex flex-col items-start gap-[var(--space-1)]">
+            <Button
+              variant="primary"
+              size="sm"
+              className="px-[var(--space-4)] whitespace-nowrap"
+              title={`Add row to ${targetBucket} bucket`}
+              aria-label={`Add row to ${targetBucket} bucket`}
+              onClick={() => clearsApi.current?.addRow(targetBucket)}
+            >
+              <Plus />
+              <span>New Row</span>
+            </Button>
+            <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
+              <span>Sends to</span>
+              <Badge size="xs" tone="accent">
+                {targetBucket}
+              </Badge>
+            </div>
+          </div>
           <Button
             size="sm"
             variant="ghost"
@@ -436,6 +461,7 @@ export default function TeamCompPage() {
     query,
     clearsQuery,
     clearsCount,
+    targetBucket,
     editing,
     setQuery,
     setSubTab,
