@@ -39,8 +39,9 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
   ref
 ) {
   const titleRef = React.useRef<HTMLInputElement>(null);
-  const helpId = "goal-form-help";
-  const errorId = "goal-form-error";
+  const id = React.useId();
+  const helpId = `${id}-help`;
+  const errorId = `${id}-error`;
   const describedBy = [helpId, err ? errorId : null].filter(Boolean).join(" ");
   const trimmedTitle = title.trim();
   const isAtCap = activeCount >= activeCap;
