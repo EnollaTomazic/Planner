@@ -61,8 +61,12 @@ export default React.forwardRef<
     editing: boolean;
     query: string;
     onCountChange?: (n: number) => void;
+    onTargetBucketChange?: (bucket: ClearSpeed) => void;
   }
->(function JungleClears({ editing, query, onCountChange }, ref) {
+>(function JungleClears(
+  { editing, query, onCountChange, onTargetBucketChange },
+  ref,
+) {
   const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS);
   const [editingRow, setEditingRow] = useState<{
     id: string;
@@ -122,6 +126,7 @@ export default React.forwardRef<
 
   const startEdit = React.useCallback(
     (r: JunglerRow) => {
+      onTargetBucketChange?.(r.speed);
       setEditingRow({
         id: r.id,
         champ: r.champ ?? "",
@@ -129,7 +134,7 @@ export default React.forwardRef<
         notes: r.notes ?? "",
       });
     },
-    [setEditingRow],
+    [setEditingRow, onTargetBucketChange],
   );
 
   const cancelEdit = React.useCallback(() => {
@@ -191,8 +196,9 @@ export default React.forwardRef<
       };
       setItems((prev) => [...prev, newRow]);
       setEditingRow({ id: newRow.id, champ: "", type: "", notes: "" });
+      onTargetBucketChange?.(bucket);
     },
-    [setItems, setEditingRow],
+    [setItems, setEditingRow, onTargetBucketChange],
   );
 
   useEffect(() => {

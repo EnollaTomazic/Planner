@@ -43,8 +43,15 @@ import HeaderTabsControl, {
   type HeaderTabItem as HeaderTabsItem,
 } from "@/components/tabs/HeaderTabs";
 import Badge from "@/components/ui/primitives/Badge";
+import ButtonShowcase from "./ButtonShowcase";
+import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
+import IconButtonShowcase from "./IconButtonShowcase";
+import OutlineGlowDemo from "./OutlineGlowDemo";
 import PromptList from "./PromptList";
+import PromptsComposePanel from "./PromptsComposePanel";
+import PromptsDemos from "./PromptsDemos";
+import PromptsHeader from "./PromptsHeader";
 import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
@@ -406,23 +413,92 @@ function ToastDemo() {
     </>
   );
 }
+
+function PromptsHeaderDemo() {
+  const [saved, setSaved] = React.useState(6);
+  const [query, setQuery] = React.useState("focus");
+  const handleSave = React.useCallback(() => {
+    setSaved((prev) => prev + 1);
+  }, []);
+
+  return (
+    <PromptsHeader
+      count={saved}
+      query={query}
+      onQueryChange={setQuery}
+      onSave={handleSave}
+      disabled={query.trim().length === 0}
+    />
+  );
+}
+
+function PromptsComposePanelDemo() {
+  const [title, setTitle] = React.useState("Review after scrims");
+  const [text, setText] = React.useState(
+    "Summarize three high-impact plays and next steps.",
+  );
+
+  return (
+    <PromptsComposePanel
+      title={title}
+      onTitleChange={setTitle}
+      text={text}
+      onTextChange={setText}
+    />
+  );
+}
+
+function DemoHeaderShowcase() {
+  const [role, setRole] = React.useState<Role>("MID");
+  const [fruit, setFruit] = React.useState<string>("apple");
+
+  return (
+    <DemoHeader
+      role={role}
+      onRoleChange={setRole}
+      fruit={fruit}
+      onFruitChange={setFruit}
+    />
+  );
+}
 export const SPEC_DATA: Record<Section, Spec[]> = {
   buttons: [
     {
       id: "button",
       name: "Button",
-      description: "Primary and ghost buttons",
-      element: (
-        <div className="flex gap-4">
-          <Button>Primary</Button>
-          <Button variant="ghost">Ghost</Button>
-        </div>
-      ),
-      tags: ["button", "action"],
-      props: [{ label: "sizes", value: "sm md lg" }],
-      code: `<div className="flex gap-4">
-  <Button>Primary</Button>
-  <Button variant="ghost">Ghost</Button>
+      description: "Tone and size matrix",
+      element: <ButtonShowcase />,
+      tags: ["button", "action", "demo"],
+      props: [
+        { label: "tones", value: "primary accent info danger" },
+        { label: "sizes", value: "sm md lg" },
+      ],
+      code: `<div className="space-y-4">
+  <div className="flex flex-wrap gap-2">
+    <Button tone="primary">Primary tone</Button>
+    <Button tone="accent">Accent tone</Button>
+    <Button tone="info" variant="ghost">
+      Info ghost
+    </Button>
+    <Button tone="danger" variant="primary">
+      Danger primary
+    </Button>
+    <Button disabled>Disabled</Button>
+  </div>
+  <div className="flex flex-wrap items-center gap-2">
+    <Button size="sm">
+      <Plus />
+      Small
+    </Button>
+    <Button size="md">
+      <Plus />
+      Medium
+    </Button>
+    <Button size="lg">
+      <Plus />
+      Large
+    </Button>
+  </div>
 </div>`,
     },
     {
@@ -538,32 +614,54 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
     {
       id: "icon-button",
       name: "IconButton",
-      description: "Size variants (neon proportions)",
-      element: (
-        <div className="flex items-center gap-4">
-          <IconButton size="xs" aria-label="Add">
-            <Plus />
-          </IconButton>
-          <IconButton size="sm" aria-label="Add">
-            <Plus />
-          </IconButton>
-          <IconButton size="md" aria-label="Add">
-            <Plus />
-          </IconButton>
-        </div>
-      ),
-      tags: ["icon", "button"],
-      props: [{ label: "sizes", value: "xs sm md" }],
-      code: `<div className="flex items-center gap-4">
-  <IconButton size="xs" aria-label="Add">
-    <Plus />
-  </IconButton>
-  <IconButton size="sm" aria-label="Add">
-    <Plus />
-  </IconButton>
-  <IconButton size="md" aria-label="Add">
-    <Plus />
-  </IconButton>
+      description: "Size and variant showcase",
+      element: <IconButtonShowcase />,
+      tags: ["icon", "button", "demo"],
+      props: [
+        { label: "sizes", value: "xs sm md lg xl" },
+        { label: "variants", value: "ring glow" },
+      ],
+      code: `<div className="flex flex-col gap-4">
+  <div className="flex gap-2">
+    <IconButton size="xs" variant="ring" aria-label="Add item xs">
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton size="sm" variant="ring" aria-label="Add item sm">
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton size="md" variant="ring" aria-label="Add item md">
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton size="lg" variant="ring" aria-label="Add item lg">
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton size="xl" variant="ring" aria-label="Add item xl">
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton size="md" variant="glow" aria-label="Add item glow">
+      <Plus aria-hidden />
+    </IconButton>
+  </div>
+  <div className="flex gap-2">
+    <IconButton
+      variant="ring"
+      size="md"
+      className="bg-[--active]"
+      aria-pressed
+      aria-label="Add item ring pressed"
+    >
+      <Plus aria-hidden />
+    </IconButton>
+    <IconButton
+      variant="glow"
+      size="md"
+      className="bg-[--active]"
+      aria-pressed
+      aria-label="Add item glow pressed"
+    >
+      <Plus aria-hidden />
+    </IconButton>
+  </div>
 </div>`,
     },
     {
@@ -753,6 +851,57 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <GoalListDemo />,
       tags: ["goal", "list"],
       code: `<GoalListDemo />`,
+    },
+    {
+      id: "prompts-header",
+      name: "PromptsHeader",
+      description: "Prompts workspace header with search, chips, and save action.",
+      element: <PromptsHeaderDemo />,
+      tags: ["prompts", "header", "search"],
+      code: `function PromptsHeaderDemo() {
+  const [saved, setSaved] = React.useState(6);
+  const [query, setQuery] = React.useState("focus");
+
+  return (
+    <PromptsHeader
+      count={saved}
+      query={query}
+      onQueryChange={setQuery}
+      onSave={() => setSaved((prev) => prev + 1)}
+      disabled={query.trim().length === 0}
+    />
+  );
+}`,
+    },
+    {
+      id: "prompts-compose-panel",
+      name: "PromptsComposePanel",
+      description: "Compose prompts with labelled title and textarea controls.",
+      element: <PromptsComposePanelDemo />,
+      tags: ["prompts", "form"],
+      code: `function PromptsComposePanelDemo() {
+  const [title, setTitle] = React.useState("Review after scrims");
+  const [text, setText] = React.useState(
+    "Summarize three high-impact plays and next steps.",
+  );
+
+  return (
+    <PromptsComposePanel
+      title={title}
+      onTitleChange={setTitle}
+      text={text}
+      onTextChange={setText}
+    />
+  );
+}`,
+    },
+    {
+      id: "prompts-demos",
+      name: "PromptsDemos",
+      description: "Comprehensive component playground for prompts surfaces.",
+      element: <PromptsDemos />,
+      tags: ["prompts", "gallery", "demo"],
+      code: `<PromptsDemos />`,
     },
   ],
   planner: [
@@ -1282,6 +1431,27 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       code: `<PageHeaderDemo />`,
     },
     {
+      id: "demo-header",
+      name: "DemoHeader",
+      description:
+        "Composite header, hero, banner, and review highlights wired together for hand-off demos.",
+      element: <DemoHeaderShowcase />,
+      tags: ["header", "hero", "layout"],
+      code: `function DemoHeaderShowcase() {
+  const [role, setRole] = React.useState("MID");
+  const [fruit, setFruit] = React.useState("apple");
+
+  return (
+    <DemoHeader
+      role={role}
+      onRoleChange={setRole}
+      fruit={fruit}
+      onFruitChange={setFruit}
+    />
+  );
+}`,
+    },
+    {
       id: "hero",
       name: "Hero",
       description:
@@ -1381,6 +1551,30 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <Progress value={33} />,
       tags: ["progress"],
       code: `<Progress value={33} />`,
+    },
+    {
+      id: "outline-glow",
+      name: "OutlineGlowDemo",
+      description: "Focus ring glow tokens and disabled outline states.",
+      element: <OutlineGlowDemo />,
+      tags: ["focus", "state", "demo"],
+      code: `<div className="space-x-2">
+  <button
+    type="button"
+    className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface"
+    style={{ "--focus": "var(--theme-ring)" }}
+  >
+    Focus me to see the glow
+  </button>
+  <button
+    type="button"
+    aria-disabled="true"
+    className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed"
+    style={{ "--focus": "var(--theme-ring)" }}
+  >
+    Disabled example
+  </button>
+</div>`,
     },
     {
       id: "snackbar",
