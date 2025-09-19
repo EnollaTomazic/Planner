@@ -152,7 +152,7 @@ function Hero<Key extends string = string>({
     : "gap-[var(--space-2)] md:gap-[var(--space-4)]";
 
   const labelClusterClass = cx(
-    "col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap",
+    "relative col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap",
     isRaisedBar ? "md:items-stretch" : "md:items-center",
     clusterGapClass,
   );
@@ -286,7 +286,12 @@ function Hero<Key extends string = string>({
 
         <div className={cx(barSpacingClass, barClassName)}>
           <div className={labelClusterClass}>
-            {rail ? <span aria-hidden className="rail shrink-0 self-stretch" /> : null}
+            {rail ? (
+              <span
+                aria-hidden
+                className="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+              />
+            ) : null}
             {isRaisedBar ? (
               <div className={raisedLabelBarClass}>
                 {iconNode}
