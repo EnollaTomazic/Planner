@@ -47,7 +47,7 @@
 .gbScan {
   position: absolute;
   inset: -1px;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--control-radius);
   pointer-events: none;
 }
 
@@ -117,7 +117,7 @@
 
 .gbFlicker {
   inset: -2px;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--control-radius);
   background: radial-gradient(
     120% 120% at 50% 50%,
     hsl(var(--ring) / 0.18),
