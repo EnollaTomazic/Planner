@@ -239,6 +239,34 @@ describe("scheduleWrite", () => {
   });
 });
 
+describe("readLocal", () => {
+  it("loads legacy 13lr-prefixed data when migration fails", async () => {
+    const originalSetItem = storageMock.setItem.getMockImplementation();
+    expect(originalSetItem).toBeTypeOf("function");
+
+    storageMock.store.set("13lr:legacy", JSON.stringify({ ready: true }));
+
+    storageMock.setItem.mockImplementation((key: string, value: string) => {
+      if (key.startsWith("noxis-planner:")) {
+        throw new Error("migration unavailable");
+      }
+      return (originalSetItem as (key: string, value: string) => void)(
+        key,
+        value,
+      );
+    });
+
+    const { readLocal } = await import("@/lib/db");
+
+    expect(readLocal<{ ready: boolean }>("legacy")).toEqual({ ready: true });
+    expect(storageMock.store.has("noxis-planner:legacy")).toBe(false);
+
+    storageMock.setItem.mockImplementation(
+      originalSetItem as (key: string, value: string) => void,
+    );
+  });
+});
+
 describe("writeLocal", () => {
   it("serializes objects once and ignores subsequent mutations", async () => {
     vi.useFakeTimers();

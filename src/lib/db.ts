@@ -242,8 +242,10 @@ export function readLocal<T>(key: string): T | null {
     const value = baseReadLocal<T>(storageKey);
     if (value !== null) return value;
     if (storageKey !== key) {
-      const legacyValue = baseReadLocal<T>(key);
+      const legacyValue = baseReadLocal<T>(`${OLD_STORAGE_PREFIX}${key}`);
       if (legacyValue !== null) return legacyValue;
+      const rawValue = baseReadLocal<T>(key);
+      if (rawValue !== null) return rawValue;
     }
     return null;
   } catch {
