@@ -153,8 +153,8 @@ export default function PillarBadge({
         .lg-pillar-badge.active::before {
           content: "";
           position: absolute;
-          inset: 0;
-          padding: 1px;
+          inset: calc(var(--hairline-w) * -1);
+          padding: var(--hairline-w);
           border-radius: inherit;
           background: linear-gradient(90deg, var(--g1), var(--g2));
           -webkit-mask:
