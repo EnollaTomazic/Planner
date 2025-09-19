@@ -1404,7 +1404,7 @@ textarea:-webkit-autofill {
     filter: blur(1px);
   }
   .title-glow {
-    @apply text-2xl font-semibold;
+    @apply text-title font-semibold;
   }
 }
 .ds-grid-gap {
