@@ -2,16 +2,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
-import { usePersistentState, uid } from "@/lib/db";
+import { uid } from "@/lib/db";
 import ReviewsPage from "./ReviewsPage";
 import { primeReviewSearch } from "./reviewSearch";
+import { useReviews } from "./useReviews";
 
 /**
  * ReviewPage — container with local-first persistence.
  * Hydration-safe: usePersistentState returns initial value on first render, then loads.
 */
 export default function ReviewPage() {
-  const [reviews, setReviews] = usePersistentState<Review[]>("reviews.v1", []);
+  const { reviews, setReviews } = useReviews();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // After local DB hydration, select the first review if none is chosen

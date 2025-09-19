@@ -31,15 +31,15 @@ import {
   useWeek,
   useWeekData,
 } from "@/components/planner";
+import { useGoals } from "@/components/goals";
+import { useReviews } from "@/components/reviews";
+import { useChatPrompts } from "@/components/prompts";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
-import { usePersistentState } from "@/lib/db";
-import type { Goal, Review } from "@/lib/types";
+import type { Goal } from "@/lib/types";
 import { formatWeekRangeLabel, fromISODate } from "@/lib/date";
 import { LOCALE, cn } from "@/lib/utils";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
-import { CHAT_PROMPTS_STORAGE_KEY } from "@/components/prompts/useChatPrompts";
-import type { Prompt } from "@/components/prompts/types";
 
 type WeeklyHighlight = {
   id: string;
@@ -110,12 +110,9 @@ function HeroPlannerCards() {
     [toggleTask],
   );
 
-  const [goals] = usePersistentState<Goal[]>("goals.v2", []);
-  const [reviews] = usePersistentState<Review[]>("reviews.v1", []);
-  const [prompts] = usePersistentState<Prompt[]>(
-    CHAT_PROMPTS_STORAGE_KEY,
-    [],
-  );
+  const { goals } = useGoals();
+  const { totalCount: reviewCount, flaggedReviewCount } = useReviews();
+  const { prompts } = useChatPrompts();
   const goalStats = React.useMemo(() => {
     let completed = 0;
     const active: Goal[] = [];
@@ -138,12 +135,6 @@ function HeroPlannerCards() {
     const pct = (goalStats.completed / goalStats.total) * 100;
     return Math.max(0, Math.min(100, Math.round(pct)));
   }, [goalStats.completed, goalStats.total]);
-
-  const flaggedReviewCount = React.useMemo(
-    () => reviews.filter((review) => review.focusOn).length,
-    [reviews],
-  );
-  const reviewCount = reviews.length;
   const promptCount = prompts.length;
 
   const heroSummaryItems = React.useMemo(
