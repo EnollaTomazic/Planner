@@ -8,8 +8,8 @@ export const glowTokens = ["--glow-strong", "--glow-soft"];
 
 export const focusRingToken = "--theme-ring";
 export const radiusClasses = [
-  "rounded-md",
-  "rounded-lg",
+  "rounded-[var(--radius-md)]",
+  "rounded-[var(--radius-lg)]",
   "rounded-card r-card-md",
   "rounded-card r-card-lg",
 ];

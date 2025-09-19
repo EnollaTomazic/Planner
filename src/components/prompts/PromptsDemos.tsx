@@ -221,7 +221,10 @@ export default function PromptsDemos() {
           <h4 className="type-subtitle">Colors</h4>
           <div className="flex gap-[var(--space-2)]">
             {colorTokens.map((c) => (
-              <div key={c} className={`size-6 rounded-md ${c}`} />
+              <div
+                key={c}
+                className={`size-6 rounded-[var(--radius-md)] ${c}`}
+              />
             ))}
           </div>
         </div>
@@ -258,7 +261,7 @@ export default function PromptsDemos() {
         <div className="flex gap-[var(--space-2)]">
           <button
             type="button"
-            className="px-[var(--space-3)] py-[var(--space-1)] rounded-md bg-accent/20 text-foreground transition-colors duration-420 hover:bg-accent/30 hover:text-foreground"
+            className="px-[var(--space-3)] py-[var(--space-1)] rounded-[var(--control-radius)] bg-accent/20 text-foreground transition-colors duration-420 hover:bg-accent/30 hover:text-foreground"
           >
             Slow fade
           </button>
