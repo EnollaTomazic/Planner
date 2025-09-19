@@ -11,7 +11,6 @@ import {
   GoalsCard,
   ReviewsCard,
   TeamPromptsCard,
-  BottomNav,
   IsometricRoom,
   DashboardList,
   WelcomeHeroFigure,
@@ -553,9 +552,6 @@ function HomePageContent() {
                   <TeamPromptsCard />
                 </div>
               </section>
-              <div className="p-[var(--space-3)] md:hidden">
-                <BottomNav />
-              </div>
             </div>
           </div>
         </div>

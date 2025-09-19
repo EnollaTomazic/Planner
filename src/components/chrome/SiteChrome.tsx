@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
+import BottomNav from "@/components/chrome/BottomNav";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
@@ -20,7 +21,7 @@ export default function SiteChrome() {
       {/* Bar content */}
       <PageShell
         grid
-        className="py-[var(--space-3)]"
+        className="pt-[var(--space-3)] pb-0 md:pb-[var(--space-3)]"
         contentClassName="items-center"
       >
         <Link
@@ -44,6 +45,10 @@ export default function SiteChrome() {
         <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-3 md:justify-self-end">
           <ThemeToggle />
           <AnimationToggle />
+        </div>
+
+        <div className="col-span-full md:hidden">
+          <BottomNav />
         </div>
       </PageShell>
 

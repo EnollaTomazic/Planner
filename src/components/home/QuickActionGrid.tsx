@@ -13,7 +13,7 @@ const layoutClassNames: Record<QuickActionLayout, string> = {
 };
 
 const buttonBaseClassName =
-  "rounded-[var(--radius-2xl)] [--focus:var(--theme-ring)] focus-visible:ring-offset-0";
+  "rounded-[var(--control-radius)] [--focus:var(--theme-ring)] focus-visible:ring-offset-0";
 
 type QuickActionDefinition = {
   href: string;
