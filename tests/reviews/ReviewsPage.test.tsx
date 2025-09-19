@@ -94,10 +94,19 @@ describe("ReviewsPage", () => {
       />,
     );
 
-    const list = screen.getAllByRole("listbox")[0];
+    const list = screen
+      .getAllByRole("list")
+      .find(
+        (candidate) =>
+          within(candidate).queryAllByRole("button", { name: /Open review:/i })
+            .length > 0,
+      );
+
+    expect(list).toBeDefined();
+
     const getTitles = () =>
-      within(list)
-        .getAllByRole("option")
+      within(list!)
+        .getAllByRole("button", { name: /Open review:/i })
         .map((b) => b.getAttribute("aria-label")?.replace("Open review: ", ""));
 
     expect(getTitles()).toEqual(["Alpha", "Gamma", "Beta"]);

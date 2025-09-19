@@ -31,18 +31,15 @@ export default function GoalsProgress({
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const size = maxWidth
-    ? typeof maxWidth === "number"
-      ? maxWidth
-      : parseInt(maxWidth, 10)
-    : 64;
+  const sizeStyle = maxWidth ?? 64;
+  const ringSize = typeof maxWidth === "number" ? maxWidth : undefined;
   return (
     <div
       className="relative inline-flex items-center justify-center"
-      style={{ width: size, height: size }}
+      style={{ width: sizeStyle, height: sizeStyle }}
       aria-label="Progress"
     >
-      <ProgressRingIcon pct={v} size={size} />
+      <ProgressRingIcon pct={v} size={ringSize} />
       <span
         aria-live="polite"
         className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
