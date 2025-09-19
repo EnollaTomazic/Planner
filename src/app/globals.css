@@ -113,15 +113,15 @@ html.no-animations *::after {
 
 /* Global focus & selection styling */
 *:focus-visible {
-  outline: var(--space-0-5) solid hsl(var(--ring-contrast));
-  outline-offset: var(--space-0-5);
-  box-shadow: 0 0 calc(var(--space-2) - var(--space-0-5)) hsl(var(--glow) / 0.6);
+  outline: var(--spacing-0-5) solid hsl(var(--ring-contrast));
+  outline-offset: var(--spacing-0-5);
+  box-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--glow) / 0.6);
 }
 
 @media (forced-colors: active) {
   *:focus-visible {
-    outline: var(--space-0-5) solid CanvasText;
-    outline-offset: var(--space-0-5);
+    outline: var(--spacing-0-5) solid CanvasText;
+    outline-offset: var(--spacing-0-5);
     box-shadow: none;
   }
 }
@@ -186,8 +186,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 /* Glitch utility (subtle RGB offset) */
 .glitch {
   position: relative;
-  filter: drop-shadow(var(--space-0-25) 0 0 hsl(var(--accent-2)))
-    drop-shadow(calc(var(--space-0-25) * -1) 0 0 hsl(var(--lav-deep)));
+  filter: drop-shadow(var(--spacing-0-25) 0 0 hsl(var(--accent-2)))
+    drop-shadow(calc(var(--spacing-0-25) * -1) 0 0 hsl(var(--lav-deep)));
 }
 /* Hero glow rim (used on Hero card) */
 /* Neon text glow */
@@ -299,7 +299,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background: hsl(var(--card) / 0.75);
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      0 calc(var(--space-6) - var(--space-0-5))
+      0 calc(var(--space-6) - var(--spacing-0-5))
         calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-base) / 0.35);
   }
   .card-neo-soft {
@@ -312,8 +312,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     backdrop-filter: blur(6px);
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      inset 0 var(--space-0-25) 0 hsl(var(--foreground) / 0.05),
-      0 calc(var(--space-6) - var(--space-0-5))
+      inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.05),
+      0 calc(var(--space-6) - var(--spacing-0-5))
         calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-base) / 0.35);
   }
   .card-neo::before,
@@ -321,8 +321,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     content: "";
     position: absolute;
     inset: -1px;
-    padding: var(--space-0-25);
-    border-radius: calc(var(--_r) + var(--space-0-25));
+    padding: var(--spacing-0-25);
+    border-radius: calc(var(--_r) + var(--spacing-0-25));
     background: var(--edge-iris);
     mask:
       linear-gradient(hsl(var(--foreground)) 0 0) content-box,
@@ -343,9 +343,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background: repeating-linear-gradient(
       to bottom,
       hsl(var(--foreground) / 0.035) 0,
-      hsl(var(--foreground) / 0.035) var(--space-0-25),
-      transparent var(--space-0-5),
-      transparent calc(var(--space-0-5) + var(--space-0-25))
+      hsl(var(--foreground) / 0.035) var(--spacing-0-25),
+      transparent var(--spacing-0-5),
+      transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
     );
     mix-blend-mode: soft-light;
     opacity: 0;
@@ -354,7 +354,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   /* HOVER: no translate */
   .card-neo:hover,
   .card-neo-soft:hover {
-    box-shadow: 0 calc(var(--space-5) - var(--space-0-5)) var(--space-7)
+    box-shadow: 0 calc(var(--space-5) - var(--spacing-0-5)) var(--space-7)
       hsl(var(--shadow-color) / 0.25);
   }
   .card-neo:hover::before,
@@ -369,16 +369,16 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   .card-neo-soft[data-active="true"] {
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
-      0 0 0 var(--space-0-5) hsl(var(--ring) / 0.22),
-      0 calc(var(--space-5) + var(--space-0-5))
+      0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.22),
+      0 calc(var(--space-5) + var(--spacing-0-5))
         calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-color) / 0.28);
   }
   .card-neo:focus-within,
   .card-neo-soft:focus-within {
     outline: none;
     box-shadow:
-      0 0 0 var(--space-0-75) hsl(var(--ring) / 0.35),
-      0 calc(var(--space-5) + var(--space-0-5))
+      0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
+      0 calc(var(--space-5) + var(--spacing-0-5))
         calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-color) / 0.28);
   }
 
@@ -590,7 +590,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
       linear-gradient(90deg, hsl(var(--primary) / 0.12) 0%, transparent 100%),
       hsl(var(--card));
     color: hsl(var(--foreground));
-    text-shadow: 0 0 calc(var(--space-2) - var(--space-0-5))
+    text-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5))
       hsl(var(--accent) / 0.25);
   }
   .btn-like-segmented:active {
@@ -630,7 +630,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background: color-mix(in oklab, hsl(var(--card)) 75%, transparent);
     border-color: hsl(var(--ring));
     box-shadow:
-      0 0 0 var(--space-0-5) hsl(var(--ring) / 0.35),
+      0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.35),
       0 var(--space-3) calc(var(--space-5) + var(--space-1))
         hsl(var(--ring) / 0.25);
   }
@@ -642,8 +642,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background-image: var(--seg-active-grad);
     background-repeat: no-repeat;
     box-shadow:
-      0 0 calc(var(--space-5) + var(--space-0-25)) hsl(var(--accent) / 0.6),
-      0 0 calc(var(--space-7) + var(--space-0-5)) hsl(var(--accent-2) / 0.4);
+      0 0 calc(var(--space-5) + var(--spacing-0-25)) hsl(var(--accent) / 0.6),
+      0 0 calc(var(--space-7) + var(--spacing-0-5)) hsl(var(--accent-2) / 0.4);
     transition:
       transform var(--dur-quick) var(--ease-out),
       filter var(--dur-quick);
@@ -656,14 +656,14 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     border-radius: var(--radius-2xl);
     background: hsl(var(--card));
     border: 1px solid hsl(var(--card-hairline));
-    box-shadow: 0 calc(var(--space-2) - var(--space-0-5))
-      calc(var(--space-4) + var(--space-0-5)) hsl(var(--shadow-color) / 0.18);
+    box-shadow: 0 calc(var(--space-2) - var(--spacing-0-5))
+      calc(var(--space-4) + var(--spacing-0-5)) hsl(var(--shadow-color) / 0.18);
     transition:
       transform var(--dur-quick) var(--ease-out),
       box-shadow var(--dur-quick);
   }
   .btn-lift:hover {
-    box-shadow: 0 calc(var(--space-3) - var(--space-0-5)) var(--space-5)
+    box-shadow: 0 calc(var(--space-3) - var(--spacing-0-5)) var(--space-5)
       hsl(var(--shadow-color) / 0.25);
   }
 
@@ -689,7 +689,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   }
   .input-base:focus {
     outline: none;
-    box-shadow: 0 0 0 var(--space-0-75) hsl(var(--ring) / 0.35);
+    box-shadow: 0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35);
     border-color: hsl(var(--ring));
   }
 
@@ -700,14 +700,14 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background: hsl(var(--card));
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      0 calc(var(--space-3) - var(--space-0-5))
-        calc(var(--space-6) - var(--space-0-5)) hsl(var(--shadow-base) / 0.25);
+      0 calc(var(--space-3) - var(--spacing-0-5))
+        calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--shadow-base) / 0.25);
   }
   .section-h {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: calc(var(--space-3) + var(--space-0-5)) var(--space-4);
+    padding: calc(var(--space-3) + var(--spacing-0-5)) var(--space-4);
     border-bottom: 1px solid hsl(var(--card-hairline) / 0.55);
     border-top-left-radius: calc(var(--radius-card) - var(--hairline-w));
     border-top-right-radius: calc(var(--radius-card) - var(--hairline-w));
@@ -737,7 +737,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     content: "";
     position: absolute;
     inset: 0;
-    padding: var(--space-0-25);
+    padding: var(--spacing-0-25);
     border-radius: var(--radius-card);
     background: conic-gradient(
       from var(--a, 0deg),
@@ -777,9 +777,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
       ),
       linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
     box-shadow:
-      0 var(--space-0-25) 0 hsl(var(--foreground) / 0.08) inset,
-      0 0 0 var(--space-0-25) hsl(var(--card-hairline) / 0.65),
-      0 calc(var(--space-3) + var(--space-0-5))
+      0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08) inset,
+      0 0 0 var(--spacing-0-25) hsl(var(--card-hairline) / 0.65),
+      0 calc(var(--space-3) + var(--spacing-0-5))
         calc(var(--space-6) + var(--space-2)) hsl(var(--shadow-color) / 0.45);
   }
   .bg-hero-soft::after {
@@ -791,9 +791,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background-image: repeating-linear-gradient(
       to bottom,
       hsl(var(--foreground) / 0.04),
-      hsl(var(--foreground) / 0.04) var(--space-0-25),
-      transparent var(--space-0-25),
-      transparent calc(var(--space-0-5) + var(--space-0-25))
+      hsl(var(--foreground) / 0.04) var(--spacing-0-25),
+      transparent var(--spacing-0-25),
+      transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
     );
   }
 
@@ -878,10 +878,10 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   background: hsl(var(--foreground) / 0.08);
   overflow: hidden;
   box-shadow:
-    inset 0 0 0 var(--space-0-25) hsl(var(--foreground) / 0.06),
-    inset var(--space-0-5) var(--space-0-5) var(--space-1)
+    inset 0 0 0 var(--spacing-0-25) hsl(var(--foreground) / 0.06),
+    inset var(--spacing-0-5) var(--spacing-0-5) var(--space-1)
       hsl(var(--shadow-color) / 0.45),
-    inset calc(var(--space-0-5) * -1) calc(var(--space-0-5) * -1)
+    inset calc(var(--spacing-0-5) * -1) calc(var(--spacing-0-5) * -1)
       var(--space-1) hsl(var(--foreground) / 0.06);
 }
 .glitch-fill {
@@ -900,9 +900,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   background: repeating-linear-gradient(
     to bottom,
       transparent 0,
-      transparent var(--space-0-5),
-      hsl(var(--foreground) / 0.06) var(--space-0-5)
-        calc(var(--space-0-5) + var(--space-0-25))
+      transparent var(--spacing-0-5),
+      hsl(var(--foreground) / 0.06) var(--spacing-0-5)
+        calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   mix-blend-mode: screen;
   pointer-events: none;
@@ -935,7 +935,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   background: linear-gradient(180deg, var(--bg), hsl(var(--card)));
   color: hsl(var(--muted-foreground));
   text-transform: uppercase;
-  box-shadow: inset 0 0 0 var(--space-0-25) hsl(var(--card-hairline) / 0.4);
+  box-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--card-hairline) / 0.4);
 }
 .pill--trace {
   border-color: transparent;
@@ -963,7 +963,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 .pill--pulse::after {
   content: "";
   position: absolute;
-  inset: calc(var(--space-0-5) * -1);
+  inset: calc(var(--spacing-0-5) * -1);
   border-radius: var(--radius-full);
   border: 1px solid hsl(var(--accent) / 0.45);
   animation: pill-pulse 1.6s ease-out infinite;
@@ -1031,7 +1031,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   box-shadow:
-    0 calc(var(--space-4) + var(--space-0-5)) var(--space-7)
+    0 calc(var(--space-4) + var(--spacing-0-5)) var(--space-7)
       hsl(var(--shadow-color) / 0.35),
     inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline));
   overflow: hidden;
@@ -1042,7 +1042,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   inset: -1px;
   border-radius: inherit;
   pointer-events: none;
-  padding: var(--space-0-25);
+  padding: var(--spacing-0-25);
   background: conic-gradient(
     from 180deg,
     hsl(var(--ring) / 0),
@@ -1066,15 +1066,15 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--accent) / 0.22) 0 var(--space-0-25),
-      transparent var(--space-0-25)
-        calc(var(--space-5) + var(--space-0-5))
+      hsl(var(--accent) / 0.22) 0 var(--spacing-0-25),
+      transparent var(--spacing-0-25)
+        calc(var(--space-5) + var(--spacing-0-5))
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--accent) / 0.18) 0 var(--space-0-25),
-      transparent var(--space-0-25)
-        calc(var(--space-5) + var(--space-0-5))
+      hsl(var(--accent) / 0.18) 0 var(--spacing-0-25),
+      transparent var(--spacing-0-25)
+        calc(var(--space-5) + var(--spacing-0-5))
     ),
     linear-gradient(
       90deg,
@@ -1094,7 +1094,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 
 .week-outline .section-header {
   border-bottom: 0 !important;
-  box-shadow: 0 var(--space-0-25) 0 hsl(var(--accent) / 0.14) inset;
+  box-shadow: 0 var(--spacing-0-25) 0 hsl(var(--accent) / 0.14) inset;
   background: color-mix(in oklab, hsl(var(--background)) 72%, transparent);
   backdrop-filter: blur(8px);
 }
@@ -1154,9 +1154,9 @@ textarea:-webkit-autofill {
   background: color-mix(in oklab, hsl(var(--muted)) 18%, transparent);
   border: 1px solid hsl(var(--card-hairline));
   box-shadow:
-    inset 0 var(--space-0-25) 0 hsl(var(--foreground) / 0.06),
-    0 0 0 var(--space-0-125) hsl(var(--card-hairline) / 0.35),
-    0 calc(var(--space-3) - var(--space-0-5))
+    inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.06),
+    0 0 0 var(--spacing-0-125) hsl(var(--card-hairline) / 0.35),
+    0 calc(var(--space-3) - var(--spacing-0-5))
       calc(var(--space-4) + var(--space-1)) hsl(var(--shadow-color) / 0.18);
   transition:
     background 0.15s ease,
@@ -1185,8 +1185,8 @@ textarea:-webkit-autofill {
   background: color-mix(in oklab, hsl(var(--primary-soft)) 36%, transparent);
   border-color: hsl(var(--ring));
   box-shadow:
-    0 0 0 var(--space-0-25) hsl(var(--ring) / 0.6) inset,
-    0 var(--space-2) calc(var(--space-5) - var(--space-0-5))
+    0 0 0 var(--spacing-0-25) hsl(var(--ring) / 0.6) inset,
+    0 var(--space-2) calc(var(--space-5) - var(--spacing-0-5))
       hsl(var(--shadow-color) / 0.6);
 }
 .badge[data-tone="primary"] {
@@ -1222,7 +1222,7 @@ textarea:-webkit-autofill {
   background-size: 100% 200%;
   animation: lg-railShift 5.5s ease-in-out infinite;
   box-shadow:
-    0 0 calc(var(--space-3) + var(--space-0-5))
+    0 0 calc(var(--space-3) + var(--spacing-0-5))
       hsl(var(--primary) / 0.35),
     0 0 calc(var(--space-5) + var(--space-1))
       hsl(var(--accent) / 0.25);
@@ -1233,8 +1233,8 @@ textarea:-webkit-autofill {
   border: 1px solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
   box-shadow:
-    inset 0 var(--space-0-25) 0 hsl(var(--foreground) / 0.05),
-    0 calc(var(--space-3) - var(--space-0-5)) var(--space-5)
+    inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.05),
+    0 calc(var(--space-3) - var(--spacing-0-5)) var(--space-5)
       hsl(var(--shadow-color) / 0.35);
   transition:
     transform 0.12s ease,
@@ -1242,8 +1242,8 @@ textarea:-webkit-autofill {
     background 0.2s ease;
 }
 .glitch-card:hover {
-  box-shadow: 0 calc(var(--space-3) + var(--space-0-5))
-    calc(var(--space-6) - var(--space-0-5)) hsl(var(--shadow-color) / 0.42);
+  box-shadow: 0 calc(var(--space-3) + var(--spacing-0-5))
+    calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--shadow-color) / 0.42);
 }
 .glitch-card::after {
   content: "";
@@ -1251,7 +1251,7 @@ textarea:-webkit-autofill {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  padding: var(--space-0-25);
+  padding: var(--spacing-0-25);
   background: linear-gradient(
     90deg,
     hsl(var(--primary) / 0.55),
@@ -1279,9 +1279,9 @@ textarea:-webkit-autofill {
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    hsl(var(--foreground) / 0.035) 0 var(--space-0-25),
-    transparent var(--space-0-25)
-      calc(var(--space-0-5) + var(--space-0-25))
+    hsl(var(--foreground) / 0.035) 0 var(--spacing-0-25),
+    transparent var(--spacing-0-25)
+      calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   mix-blend-mode: overlay;
   opacity: 0.2;
@@ -1289,9 +1289,9 @@ textarea:-webkit-autofill {
 .glitch-title {
   position: relative;
   text-shadow:
-    0 0 calc(var(--space-2) - var(--space-0-5))
+    0 0 calc(var(--space-2) - var(--spacing-0-5))
       hsl(var(--primary) / 0.45),
-    0 0 calc(var(--space-4) + var(--space-0-5))
+    0 0 calc(var(--space-4) + var(--spacing-0-5))
       hsl(var(--accent) / 0.35);
   transition:
     text-shadow 0.18s ease,
@@ -1308,10 +1308,10 @@ textarea:-webkit-autofill {
   .glitch-title:hover,
   .glitch-title:focus-visible {
     text-shadow:
-      var(--space-0-25) 0 hsl(var(--accent) / 0.9),
-      calc(var(--space-0-25) * -1) 0 hsl(var(--primary) / 0.9),
+      var(--spacing-0-25) 0 hsl(var(--accent) / 0.9),
+      calc(var(--spacing-0-25) * -1) 0 hsl(var(--primary) / 0.9),
       0 0 var(--space-3) hsl(var(--ring) / 0.6),
-      0 0 calc(var(--space-5) + var(--space-0-5)) hsl(var(--accent) / 0.35);
+      0 0 calc(var(--space-5) + var(--spacing-0-5)) hsl(var(--accent) / 0.35);
   }
 }
 .badge[data-glitch="true"] {
@@ -1321,12 +1321,12 @@ textarea:-webkit-autofill {
     color-mix(in oklab, hsl(var(--muted)) 34%, transparent) 100%
   );
   box-shadow:
-    0 0 0 var(--space-0-25) hsl(var(--card-hairline)) inset,
+    0 0 0 var(--spacing-0-25) hsl(var(--card-hairline)) inset,
     0 0 var(--space-4) hsl(var(--accent) / 0.25);
 }
 .badge[data-glitch="true"]:hover {
   box-shadow:
-    0 0 0 var(--space-0-25) hsl(var(--ring)) inset,
+    0 0 0 var(--spacing-0-25) hsl(var(--ring)) inset,
     0 0 calc(var(--space-4) + var(--space-1)) hsl(var(--accent) / 0.35);
 }
 
@@ -1665,16 +1665,16 @@ textarea:-webkit-autofill {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-0-5);
-  padding: var(--space-0-5);
+  gap: var(--spacing-0-5);
+  padding: var(--spacing-0-5);
   border: 1px solid hsl(var(--card-hairline));
   border-radius: var(--gt-radius);
   background: linear-gradient(90deg, hsl(var(--card)), hsl(var(--card)));
   box-shadow:
-    0 0 0 var(--space-0-25)
+    0 0 0 var(--spacing-0-25)
       color-mix(in oklab, hsl(var(--shadow-color)) 30%, transparent),
-    0 calc(var(--space-3) - var(--space-0-5))
-      calc(var(--space-6) - var(--space-0-5))
+    0 calc(var(--space-3) - var(--spacing-0-5))
+      calc(var(--space-6) - var(--spacing-0-5))
       calc(var(--space-3) * -1)
       color-mix(in oklab, hsl(var(--shadow-color)) 55%, transparent);
   isolation: isolate;
@@ -1685,7 +1685,7 @@ textarea:-webkit-autofill {
   position: absolute;
   inset: 0;
   border-radius: var(--gt-radius);
-  padding: var(--space-0-25);
+  padding: var(--spacing-0-25);
   background: linear-gradient(
     90deg,
     hsl(var(--accent)) 0%,
@@ -1710,9 +1710,9 @@ textarea:-webkit-autofill {
   pointer-events: none;
   background: repeating-linear-gradient(
     180deg,
-    hsl(var(--foreground) / 0.06) 0 var(--space-0-25),
-    transparent var(--space-0-25)
-      calc(var(--space-0-5) + var(--space-0-25))
+    hsl(var(--foreground) / 0.06) 0 var(--spacing-0-25),
+    transparent var(--spacing-0-25)
+      calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   mix-blend-mode: overlay;
   opacity: 0.35;
@@ -1729,7 +1729,7 @@ textarea:-webkit-autofill {
 .glitch-toggle__seg {
   position: relative;
   z-index: 1;
-  padding: calc(var(--space-1) + var(--space-0-5)) var(--space-3);
+  padding: calc(var(--space-1) + var(--spacing-0-5)) var(--space-3);
   @apply text-label font-medium tracking-[0.02em];
   color: hsl(var(--muted-foreground));
   border-radius: var(--radius-full);
@@ -1742,9 +1742,9 @@ textarea:-webkit-autofill {
 .glitch-toggle__seg.is-active {
   color: hsl(var(--primary-foreground));
   text-shadow:
-    0 0 calc(var(--space-3) - var(--space-0-5))
+    0 0 calc(var(--space-3) - var(--spacing-0-5))
       color-mix(in oklab, hsl(var(--primary)) 70%, transparent),
-    0 0 calc(var(--space-4) + var(--space-0-5))
+    0 0 calc(var(--space-4) + var(--spacing-0-5))
       color-mix(in oklab, hsl(var(--accent)) 40%, transparent);
   transform: translateZ(0);
 }
@@ -1752,8 +1752,8 @@ textarea:-webkit-autofill {
 .glitch-toggle__indicator {
   content: "";
   position: absolute;
-  inset: var(--space-0-5);
-  width: calc(50% - var(--space-0-5));
+  inset: var(--spacing-0-5);
+  width: calc(50% - var(--spacing-0-5));
   border-radius: var(--radius-full);
   background:
     radial-gradient(
@@ -1767,9 +1767,9 @@ textarea:-webkit-autofill {
       color-mix(in oklab, hsl(var(--accent)) 55%, transparent)
     );
   box-shadow:
-    0 0 calc(var(--space-4) + var(--space-0-5))
+    0 0 calc(var(--space-4) + var(--spacing-0-5))
       color-mix(in oklab, hsl(var(--primary)) 50%, transparent),
-    inset 0 0 calc(var(--space-3) + var(--space-0-5))
+    inset 0 0 calc(var(--space-3) + var(--spacing-0-5))
       color-mix(in oklab, hsl(var(--primary)) 40%, transparent);
   transform: translateX(0%);
   transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -1814,16 +1814,16 @@ textarea:-webkit-autofill {
   0%,
   100% {
     box-shadow:
-      0 0 calc(var(--space-4) + var(--space-0-5))
+      0 0 calc(var(--space-4) + var(--spacing-0-5))
         hsl(var(--foreground) / 0.18),
-      inset 0 0 calc(var(--space-3) + var(--space-0-5))
+      inset 0 0 calc(var(--space-3) + var(--spacing-0-5))
         hsl(var(--foreground) / 0.15);
   }
   50% {
     box-shadow:
       0 0 calc(var(--space-5) + var(--space-1))
         hsl(var(--foreground) / 0.28),
-      inset 0 0 calc(var(--space-4) + var(--space-0-5))
+      inset 0 0 calc(var(--space-4) + var(--spacing-0-5))
         hsl(var(--foreground) / 0.22);
   }
 }
@@ -1840,7 +1840,7 @@ textarea:-webkit-autofill {
     hsl(var(--card-hairline))
   );
   box-shadow:
-    0 0 0 var(--space-0-25) hsl(var(--ring) / 0.28),
+    0 0 0 var(--spacing-0-25) hsl(var(--ring) / 0.28),
     0 var(--space-3) calc(var(--space-5) + var(--space-1))
       hsl(var(--shadow-color) / 0.28);
 }
@@ -1852,7 +1852,7 @@ textarea:-webkit-autofill {
   background-repeat: no-repeat;
   color: hsl(var(--primary-foreground));
   box-shadow:
-    0 0 0 var(--space-0-5) hsl(var(--ring) / 0.38),
+    0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.38),
     0 var(--space-4) calc(var(--space-6) + var(--space-1))
       hsl(var(--shadow-color) / 0.35);
 }
@@ -1872,7 +1872,7 @@ a:hover .lucide,
 a:active .lucide {
   color: hsl(var(--accent));
   filter: drop-shadow(
-    0 0 calc(var(--space-2) - var(--space-0-5)) hsl(var(--accent) / 0.8)
+    0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--accent) / 0.8)
   );
 }
 
@@ -2011,9 +2011,9 @@ a:active .lucide {
     border-radius: inherit;
     background: repeating-linear-gradient(
       to bottom,
-      hsl(var(--foreground) / 0.06) 0 var(--space-0-25),
-      transparent var(--space-0-25)
-        calc(var(--space-0-5) + var(--space-0-25))
+      hsl(var(--foreground) / 0.06) 0 var(--spacing-0-25),
+      transparent var(--spacing-0-25)
+        calc(var(--spacing-0-5) + var(--spacing-0-25))
     );
     mix-blend-mode: overlay;
   }
@@ -2032,8 +2032,8 @@ a:active .lucide {
       hsl(var(--surface))
     );
     box-shadow:
-      0 0 0 var(--space-0-25) hsl(var(--border)) inset,
-      0 0 calc(var(--space-6) - var(--space-0-5)) hsl(var(--accent) / 0.15);
+      0 0 0 var(--spacing-0-25) hsl(var(--border)) inset,
+      0 0 calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--accent) / 0.15);
   }
   .goal-card::before {
     content: "";
@@ -2041,9 +2041,9 @@ a:active .lucide {
     border-radius: inherit;
     background: repeating-linear-gradient(
       to bottom,
-      hsl(var(--foreground) / 0.06) 0 var(--space-0-25),
-      transparent var(--space-0-25)
-        calc(var(--space-0-5) + var(--space-0-25))
+      hsl(var(--foreground) / 0.06) 0 var(--spacing-0-25),
+      transparent var(--spacing-0-25)
+        calc(var(--spacing-0-5) + var(--spacing-0-25))
     );
     mix-blend-mode: overlay;
   }
@@ -2062,9 +2062,9 @@ a:active .lucide {
   .nav-scanlines {
     background: repeating-linear-gradient(
       0deg,
-      hsl(var(--foreground) / 0.04) 0 var(--space-0-25),
-      transparent var(--space-0-25)
-        calc(var(--space-0-5) + var(--space-0-25))
+      hsl(var(--foreground) / 0.04) 0 var(--spacing-0-25),
+      transparent var(--spacing-0-25)
+        calc(var(--spacing-0-5) + var(--spacing-0-25))
     );
   }
 
