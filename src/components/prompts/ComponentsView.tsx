@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Fuse from "fuse.js";
-import { Card, CardContent } from "@/components/ui";
+import { Card, CardContent, Skeleton, Snackbar } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
 import { cn } from "@/lib/utils";
@@ -161,33 +161,23 @@ function SpecCard({
             disabled={isDisabled}
             data-pressed={showCode ? "true" : undefined}
             className={cn(
-              "group/button relative inline-flex h-12 items-center justify-center gap-[var(--space-1)]",
+              "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
               "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
               "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
               "border border-[hsl(var(--ring)/0.45)]",
-              "shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] focus-visible:shadow-[var(--shadow-raised-hover,var(--shadow-raised))]",
+              "shadow-neo hover:shadow-neo-soft focus-visible:shadow-neo-soft",
               "transition-[transform,box-shadow,background,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
               "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
-              "active:translate-y-[var(--spacing-0-25)] active:shadow-[var(--shadow-inset)]",
-              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-[var(--shadow-inset)]",
+              "active:translate-y-[var(--spacing-0-25)] active:shadow-neo-inset",
+              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-neo-inset",
               "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
               "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out",
               "focus-visible:before:opacity-100",
               "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out",
               "hover:after:opacity-100 focus-visible:after:opacity-100",
-              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-[var(--shadow-inset)] disabled:translate-y-0",
+              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-neo-inset disabled:translate-y-0",
             )}
-            style={
-              {
-                "--shadow-raised":
-                  "0 var(--space-1) calc(var(--space-3) + var(--spacing-0-25)) hsl(var(--shadow-color) / 0.26)",
-                "--shadow-raised-hover":
-                  "0 calc(var(--space-2) - var(--spacing-0-25)) var(--space-4) hsl(var(--shadow-color) / 0.32)",
-                "--shadow-inset":
-                  "inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.45), inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
-              } as React.CSSProperties
-            }
           >
             {showCode ? "Hide code" : "Show code"}
           </button>
@@ -202,9 +192,11 @@ function SpecCard({
         </p>
       ) : null}
       <div className={frameClassName}>{element}</div>
-      {showCode && code ? (
+      {code ? (
         <pre
           id={codeId}
+          hidden={!showCode}
+          aria-hidden={showCode ? undefined : true}
           className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset)]"
         >
           <code>{code}</code>
@@ -262,19 +254,132 @@ export default function ComponentsView({
     setActiveSpecId(null);
   }, [query, section, onCurrentCodeChange]);
 
+  const sectionSpecs = React.useMemo<Spec[]>(() => {
+    const baseSpecs = SPEC_DATA[section];
+    if (section !== "cards") {
+      return baseSpecs;
+    }
+
+    const loadingCard: Spec = {
+      id: "card-loading-state",
+      name: "Card Loading State",
+      description: "Skeleton placeholders communicate asynchronous loading.",
+      element: (
+        <Card>
+          <CardContent className="space-y-[var(--space-4)]">
+            <div className="space-y-[var(--space-2)]">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading summary"
+                className="h-[var(--space-6)] w-3/4"
+                radius="sm"
+              />
+              <Skeleton className="w-full" />
+              <Skeleton className="w-4/5" />
+            </div>
+            <div className="flex items-center gap-[var(--space-3)]">
+              <Skeleton
+                className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+                radius="full"
+              />
+              <div className="flex-1 space-y-[var(--space-2)]">
+                <Skeleton className="w-3/4" />
+                <Skeleton className="w-2/3" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ),
+      tags: ["card", "state", "loading"],
+      code: `<Card>
+  <CardContent className="space-y-[var(--space-4)]">
+    <div className="space-y-[var(--space-2)]">
+      <Skeleton
+        ariaHidden={false}
+        role="status"
+        aria-label="Loading summary"
+        className="h-[var(--space-6)] w-3/4"
+        radius="sm"
+      />
+      <Skeleton className="w-full" />
+      <Skeleton className="w-4/5" />
+    </div>
+    <div className="flex items-center gap-[var(--space-3)]">
+      <Skeleton
+        className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+        radius="full"
+      />
+      <div className="flex-1 space-y-[var(--space-2)]">
+        <Skeleton className="w-3/4" />
+        <Skeleton className="w-2/3" />
+      </div>
+    </div>
+  </CardContent>
+</Card>`,
+    };
+
+    const errorCard: Spec = {
+      id: "card-error-state",
+      name: "Card Error State",
+      description: "Snackbar feedback surfaces failure messaging and retry.",
+      element: (
+        <Card>
+          <CardContent className="space-y-[var(--space-3)]">
+            <div className="space-y-[var(--space-1)]">
+              <h4 className="text-ui font-semibold tracking-[-0.01em]">
+                Data unavailable
+              </h4>
+              <p className="text-label text-muted-foreground">
+                Refresh to request the latest match insights.
+              </p>
+            </div>
+            <Snackbar
+              message="Sync failed"
+              actionLabel="Retry"
+              onAction={() => {}}
+              className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+            />
+          </CardContent>
+        </Card>
+      ),
+      tags: ["card", "state", "error"],
+      code: `<Card>
+  <CardContent className="space-y-[var(--space-3)]">
+    <div className="space-y-[var(--space-1)]">
+      <h4 className="text-ui font-semibold tracking-[-0.01em]">
+        Data unavailable
+      </h4>
+      <p className="text-label text-muted-foreground">
+        Refresh to request the latest match insights.
+      </p>
+    </div>
+    <Snackbar
+      message="Sync failed"
+      actionLabel="Retry"
+      onAction={() => {}}
+      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+    />
+  </CardContent>
+</Card>`,
+    };
+
+    return [...baseSpecs, loadingCard, errorCard];
+  }, [section]);
+
   const fuse = React.useMemo(
     () =>
-      new Fuse(SPEC_DATA[section], {
+      new Fuse(sectionSpecs, {
         keys: ["name", "tags", "props.value"],
         threshold: 0.3,
       }),
-    [section],
+    [sectionSpecs],
   );
 
   const specs = React.useMemo(() => {
-    if (!query) return SPEC_DATA[section];
+    if (!query) return sectionSpecs;
     return fuse.search(query).map((r) => r.item);
-  }, [query, fuse, section]);
+  }, [query, fuse, sectionSpecs]);
 
   const sectionLabel = React.useMemo(
     () => section.charAt(0).toUpperCase() + section.slice(1),

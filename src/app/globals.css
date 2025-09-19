@@ -352,13 +352,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      hsl(var(--foreground) / 0.035) 0,
-      hsl(var(--foreground) / 0.035) var(--spacing-0-25),
-      transparent var(--spacing-0-5),
-      transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
-    );
+    background: var(--card-overlay-scanlines);
     mix-blend-mode: soft-light;
     opacity: 0;
     transition: opacity var(--dur-quick) var(--ease-out);

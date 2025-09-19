@@ -3,7 +3,7 @@
 import "./style.css";
 
 /**
- * CheatSheet — hover-only edit per card, write-through persistence.
+ * CheatSheet — edit per card with persistent controls, write-through persistence.
  * Titles use Lavender-Glitch (glitch-title + glitch-flicker + title-glow).
  * Lane labels (TOP/JUNGLE/MID/BOT/SUPPORT) also flicker via team scope.
  * Scoped with data-scope="team" to avoid global glitch leakage.
@@ -479,9 +479,9 @@ export default function CheatSheet({
                 : "p-5",
             ].join(" ")}
           >
-            {/* Hover-only top-right edit/save button */}
+            {/* Top-right edit/save control */}
             {editing && (
-              <div className="absolute right-2 top-2 z-10 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+              <div className="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-100 pointer-events-auto">
                 {!isEditing ? (
                   <IconButton
                     title="Edit"
