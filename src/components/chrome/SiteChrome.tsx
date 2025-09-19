@@ -30,7 +30,7 @@ export default function SiteChrome() {
           className="col-span-full flex items-center gap-[var(--space-3)] md:col-span-4"
         >
           <span
-            className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
+            className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[var(--shadow-glow-sm)]"
             aria-hidden
           />
           <span className="font-mono tracking-wide text-muted-foreground">
