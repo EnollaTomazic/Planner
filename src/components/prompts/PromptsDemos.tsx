@@ -39,6 +39,8 @@ import {
 } from "./demoData";
 
 export default function PromptsDemos() {
+  const labelDemoId = React.useId();
+
   return (
     <>
       <OutlineGlowDemo />
@@ -109,8 +111,8 @@ export default function PromptsDemos() {
         <h3 className="type-title">Label</h3>
         <div className="space-y-[var(--space-3)]">
           <div>
-            <Label htmlFor="label-demo">Label</Label>
-            <Input id="label-demo" placeholder="With spacing" />
+            <Label htmlFor={labelDemoId}>Label</Label>
+            <Input id={labelDemoId} placeholder="With spacing" />
           </div>
         </div>
       </Card>

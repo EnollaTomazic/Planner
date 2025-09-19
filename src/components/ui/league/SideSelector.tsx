@@ -6,6 +6,10 @@ import { cn } from "@/lib/utils";
 
 export type GameSide = "Blue" | "Red";
 
+type SideIndicatorStyle = React.CSSProperties & {
+  "--side-indicator-gradient"?: string;
+};
+
 type Props = {
   value?: GameSide;
   onChange?: (v: GameSide) => void;
@@ -32,6 +36,12 @@ export default function SideSelector({
 }: Props) {
   const isRight = value === "Red";
   const [flick, setFlick] = React.useState(false);
+  const indicatorStyle: SideIndicatorStyle = {
+    width: "calc(50% - var(--space-1))",
+    transform: `translateX(${isRight ? "100%" : "0"})`,
+    "--side-indicator-gradient":
+      "linear-gradient(90deg, hsl(var(--primary)/0.35), hsl(var(--accent)/0.35))",
+  };
 
   function toggle() {
     if (disabled || loading) return;
@@ -92,14 +102,8 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))]"
-        style={{
-          width: "calc(50% - var(--space-1))",
-          transform: `translateX(${isRight ? "100%" : "0"})`,
-          background:
-            "linear-gradient(90deg, hsl(var(--primary)/.35), hsl(var(--accent)/.35))",
-          boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-        }}
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))] [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+        style={indicatorStyle}
       />
 
       {/* Labels */}

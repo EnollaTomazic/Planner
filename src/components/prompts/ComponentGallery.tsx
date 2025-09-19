@@ -162,6 +162,8 @@ export default function ComponentGallery() {
   const [tactilePrimaryActive, setTactilePrimaryActive] = React.useState(false);
   const [tactileSecondaryActive, setTactileSecondaryActive] = React.useState(false);
 
+  const labelDemoId = React.useId();
+
   const buttonItems = React.useMemo(
     () => [
       { label: "Button", element: <Button className="w-56">Click me</Button> },
@@ -425,7 +427,7 @@ export default function ComponentGallery() {
             <a
               href={fieldStoryHref}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-[var(--space-1)] text-label font-medium text-accent-foreground transition-colors duration-[var(--dur-quick)] ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--bg))]"
             >
               Explore Field states
@@ -437,8 +439,8 @@ export default function ComponentGallery() {
         label: "Label",
         element: (
           <div className="w-56">
-            <Label htmlFor="label-demo">Label</Label>
-            <Input id="label-demo" placeholder="With spacing" />
+            <Label htmlFor={labelDemoId}>Label</Label>
+            <Input id={labelDemoId} placeholder="With spacing" />
           </div>
         ),
       },
@@ -589,6 +591,7 @@ export default function ComponentGallery() {
       selectValue,
       defaultVariantSelectValue,
       successVariantSelectValue,
+      labelDemoId,
     ],
   );
 

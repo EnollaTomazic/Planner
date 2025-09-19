@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button, { type ButtonProps } from "@/components/ui/primitives/Button";
 import { cn } from "@/lib/utils";
 
-type QuickActionLayout = "stacked" | "grid";
+type QuickActionLayout = "stacked" | "grid" | "inline";
 
 const ROOT_CLASSNAME =
   "[--quick-actions-gap:var(--space-4)] [--quick-actions-column-width:calc(var(--space-4)*14)] [--quick-actions-lift:var(--spacing-0-5)]";
@@ -13,10 +13,15 @@ const ROOT_CLASSNAME =
 const layoutClassNames: Record<QuickActionLayout, string> = {
   stacked: "flex flex-col gap-[var(--quick-actions-gap)]",
   grid: "grid grid-cols-1 gap-[var(--quick-actions-gap)] sm:grid-cols-[repeat(auto-fit,minmax(var(--quick-actions-column-width),1fr))]",
+  inline:
+    "flex flex-col gap-[var(--quick-actions-gap)] md:flex-row md:items-center md:justify-between",
 };
 
 const buttonBaseClassName =
   "rounded-[var(--control-radius)] [--focus:var(--theme-ring)] focus-visible:ring-offset-0 transition-transform duration-[var(--dur-quick)] ease-out motion-reduce:transition-none";
+
+const buttonHoverLiftClassName =
+  "motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none";
 
 type QuickActionDefinition = {
   href: string;
@@ -37,6 +42,7 @@ type QuickActionGridProps = {
   buttonSize?: ButtonProps["size"];
   buttonTone?: ButtonProps["tone"];
   buttonVariant?: ButtonProps["variant"];
+  hoverLift?: boolean;
 };
 
 export default function QuickActionGrid({
@@ -47,6 +53,7 @@ export default function QuickActionGrid({
   buttonSize = "md",
   buttonTone = "primary",
   buttonVariant = "secondary",
+  hoverLift = false,
 }: QuickActionGridProps) {
   return (
     <div className={cn(ROOT_CLASSNAME, layoutClassNames[layout], className)}>
@@ -67,6 +74,7 @@ export default function QuickActionGrid({
         const resolvedVariant = variant ?? buttonVariant;
         const mergedClassName = cn(
           buttonBaseClassName,
+          hoverLift && buttonHoverLiftClassName,
           buttonClassName,
           actionClassName,
         );
