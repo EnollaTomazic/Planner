@@ -8,9 +8,9 @@ import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
-  "hover:bg-accent/10 hover:ring-2 hover:ring-theme",
-  "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-theme",
-  "active:bg-accent/20 active:ring-2 active:ring-theme",
+  "hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)]",
+  "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)]",
+  "active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)]",
   "data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent",
 );
 
