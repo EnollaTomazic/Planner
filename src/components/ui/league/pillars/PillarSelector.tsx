@@ -7,6 +7,10 @@ import type { Pillar } from "@/lib/types";
 
 const ORDER: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
 
+type PillarHighlightStyle = React.CSSProperties & {
+  "--pillar-indicator-gradient"?: string;
+};
+
 export default function PillarSelector({
   value = [],
   onChange,
@@ -33,22 +37,24 @@ export default function PillarSelector({
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {ORDER.map((p) => {
           const active = set.has(p);
+          const activeStyle: PillarHighlightStyle | undefined = active
+            ? {
+                "--pillar-indicator-gradient":
+                  "linear-gradient(90deg, hsl(var(--primary)/0.18), hsl(var(--accent)/0.18))",
+              }
+            : undefined;
           return (
             <button
               key={p}
               type="button"
               aria-pressed={active}
               onClick={() => toggle(p)}
-              className={cn("pill transition", active ? "pill--medium text-foreground" : "")}
-              style={
-                active
-                  ? {
-                      background:
-                        "linear-gradient(90deg, hsl(var(--primary)/.18), hsl(var(--accent)/.18))",
-                      boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-                    }
-                  : undefined
-              }
+              className={cn(
+                "pill transition",
+                active &&
+                  "pill--medium text-foreground shadow-[var(--shadow-neo-soft)] [background:var(--pillar-indicator-gradient)]",
+              )}
+              style={activeStyle}
             >
               <span
                 aria-hidden

@@ -19,6 +19,10 @@ type ResultScoreSectionProps = {
   onScoreEnter?: () => void;
 };
 
+type ResultIndicatorStyle = React.CSSProperties & {
+  "--result-indicator-gradient"?: string;
+};
+
 function ResultScoreSection(
   {
     result: result0 = "Win",
@@ -51,6 +55,15 @@ function ResultScoreSection(
   const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
   const msg = pool[msgIndex];
   const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
+  const resultIndicatorStyle: ResultIndicatorStyle = {
+    width: "calc(50% - var(--space-1))",
+    transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
+    transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
+    "--result-indicator-gradient":
+      result === "Win"
+        ? "linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18))"
+        : "linear-gradient(90deg, hsl(var(--danger)/0.24), hsl(var(--primary)/0.20))",
+  };
 
   return (
     <>
@@ -85,17 +98,8 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300"
-            style={{
-              width: "calc(50% - var(--space-1))",
-              transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
-              transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-              background:
-                result === "Win"
-                  ? "linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18))"
-                  : "linear-gradient(90deg, hsl(var(--danger)/0.24), hsl(var(--primary)/0.20))",
-              boxShadow: "0 10px 30px hsl(var(--shadow-color) / .25)",
-            }}
+            className="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            style={resultIndicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
             <div
