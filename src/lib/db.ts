@@ -323,7 +323,7 @@ export function usePersistentState<T>(
   initial: T,
   options?: PersistentStateOptions<T>,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
-  const [state, setState] = React.useState<T>(initial);
+  const [state, setState] = React.useState<T>(() => initial);
 
   const initialRef = React.useRef(initial);
   const stateRef = React.useRef(state);
@@ -331,7 +331,9 @@ export function usePersistentState<T>(
     stateRef.current = state;
   }, [state]);
   React.useEffect(() => {
-    initialRef.current = initial;
+    if (!Object.is(initialRef.current, initial)) {
+      initialRef.current = initial;
+    }
   }, [initial]);
 
   const decodeRef = React.useRef<PersistentStateDecode<T> | null>(
