@@ -32,16 +32,22 @@ export default function Banner({
         className
       )}
     >
-      <PageShell className="py-[var(--space-3)]">
-        {title || actions ? (
-          <div className="flex items-center justify-between gap-[var(--space-4)]">
-            <div className="font-mono text-ui text-muted-foreground">
-              {title}
-            </div>
-            <div className="flex items-center gap-[var(--space-3)]">{actions}</div>
+      <PageShell
+        grid
+        className="py-[var(--space-3)]"
+        contentClassName="items-center"
+      >
+        {title ? (
+          <div className="col-span-full font-mono text-ui text-muted-foreground md:col-span-8 lg:col-span-9">
+            {title}
           </div>
         ) : null}
-        {children}
+        {actions ? (
+          <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-4 md:justify-self-end lg:col-span-3">
+            {actions}
+          </div>
+        ) : null}
+        {children ? <div className="col-span-full">{children}</div> : null}
       </PageShell>
     </header>
   );
