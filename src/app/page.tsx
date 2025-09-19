@@ -473,12 +473,8 @@ function HomePageContent() {
                       barVariant: "raised",
                       topClassName: "top-0",
                       actions: (
-                        <div
-                          className="flex w-full flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]"
-                        >
-                          <div
-                            className="flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:w-auto sm:flex-nowrap"
-                          >
+                        <div className="grid w-full grid-cols-12 gap-[var(--space-3)] sm:items-center">
+                          <div className="col-span-12 flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:flex-nowrap md:col-span-8 lg:col-span-7">
                             <ThemeToggle className="shrink-0" />
                             <Button
                               asChild
@@ -490,9 +486,7 @@ function HomePageContent() {
                               <Link href="/planner">Plan Week</Link>
                             </Button>
                           </div>
-                          <WelcomeHeroFigure
-                            className="flex w-full shrink-0 sm:max-w-[min(52vw,calc(var(--space-8) * 4))] md:basis-[33%] md:max-w-[34%] lg:basis-[42%] lg:max-w-[44%]"
-                          />
+                          <WelcomeHeroFigure className="col-span-12 md:col-span-4 lg:col-span-5" />
                         </div>
                       ),
                       children: (
