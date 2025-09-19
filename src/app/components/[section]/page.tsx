@@ -15,13 +15,14 @@ export function generateStaticParams() {
 }
 
 interface ComponentsSectionPageProps {
-  params: { section: string };
+  params: Promise<{ section: string }>;
 }
 
-export default function ComponentsSectionPage({
+export default async function ComponentsSectionPage({
   params,
 }: ComponentsSectionPageProps) {
-  const resolved = resolveComponentsSlug(params.section);
+  const { section } = await params;
+  const resolved = resolveComponentsSlug(section);
   if (!resolved) {
     notFound();
   }
