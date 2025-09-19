@@ -8,7 +8,7 @@ import { GOAL_DEMO_ITEMS } from "./demoData";
 export default function GoalListDemo() {
   const [items, setItems] = React.useState<Goal[]>(GOAL_DEMO_ITEMS);
   return (
-    <div className="mb-8">
+    <div className="mb-[var(--space-8)]">
       <GoalList
         goals={items}
         onToggleDone={(id) =>
