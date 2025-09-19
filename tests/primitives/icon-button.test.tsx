@@ -107,7 +107,7 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain(
-      "border-transparent bg-accent/30 text-accent-foreground",
+      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
     );
     expect(classes).toContain("[--hover:hsl(var(--accent)/0.4)]");
     expect(classes).toContain("[--active:hsl(var(--accent)/0.5)]");
@@ -122,7 +122,9 @@ describe("IconButton", () => {
     expect(classes).toContain("hover:bg-[--hover]");
     expect(classes).toContain("shadow-glow-current");
     expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
-    expect(classes).toContain("border-accent-2/35 text-accent-2");
+    expect(classes).toContain(
+      "border-accent-2/35 text-[var(--text-on-accent)]",
+    );
   });
 
   it("applies ring variant with danger tone", () => {

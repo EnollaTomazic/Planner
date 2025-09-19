@@ -311,7 +311,7 @@ export const FieldSearch = React.forwardRef<HTMLInputElement, FieldSearchProps>(
             "pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2",
             "text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out",
             "opacity-60 group-focus-within:opacity-100",
-            "group-focus-within:text-accent-foreground",
+            "group-focus-within:text-accent-3",
             "group-data-[disabled=true]/field:opacity-[var(--disabled)]",
             "group-data-[loading=true]/field:opacity-[var(--loading)]",
             "group-data-[invalid=true]/field:text-danger",
