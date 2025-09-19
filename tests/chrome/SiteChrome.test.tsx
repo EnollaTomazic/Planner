@@ -5,6 +5,9 @@ import { describe, it, expect, vi } from "vitest";
 vi.mock("@/components/chrome/NavBar", () => ({
   default: () => <nav />,
 }));
+vi.mock("@/components/chrome/BottomNav", () => ({
+  default: () => <nav data-testid="mobile-nav" />,
+}));
 vi.mock("@/components/ui/theme/ThemeToggle", () => ({
   default: () => <button />,
 }));
@@ -20,5 +23,10 @@ describe("SiteChrome", () => {
     const link = screen.getByRole("link", { name: "Home" });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/");
+  });
+
+  it("renders the mobile navigation", () => {
+    render(<SiteChrome />);
+    expect(screen.getAllByTestId("mobile-nav")).not.toHaveLength(0);
   });
 });

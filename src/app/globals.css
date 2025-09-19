@@ -9,6 +9,16 @@
     --danger-foreground: var(--primary-foreground);
   }
 
+  body {
+    --header-stack: calc(var(--space-8) + var(--space-7));
+  }
+
+  @media (min-width: 48rem) {
+    body {
+      --header-stack: calc(var(--space-8) + var(--space-4));
+    }
+  }
+
   .page-shell {
     width: 100%;
     max-width: var(--shell-max, var(--shell-width));

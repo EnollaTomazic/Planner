@@ -4,16 +4,30 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, isNavActive } from "../chrome/nav-items";
+import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
 
-export default function BottomNav() {
+type BottomNavProps = {
+  className?: string;
+  items?: readonly NavItem[];
+};
+
+export default function BottomNav({
+  className,
+  items = NAV_ITEMS,
+}: BottomNavProps = {}) {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
-  const mobileItems = React.useMemo(() => NAV_ITEMS, []);
+
   return (
-    <nav aria-label="Primary" className="border-t border-border pt-[var(--space-4)] md:hidden">
+    <nav
+      aria-label="Primary"
+      className={cn(
+        "border-t border-border pt-[var(--space-4)] md:hidden",
+        className,
+      )}
+    >
       <ul className="flex justify-around">
-        {mobileItems.map(({ href, label, mobileIcon: Icon }) => {
+        {items.map(({ href, label, mobileIcon: Icon }) => {
           if (!Icon) {
             return null;
           }
