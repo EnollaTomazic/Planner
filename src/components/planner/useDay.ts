@@ -35,7 +35,5 @@ export function useDay(iso: ISODate) {
     removeTaskImage: crud.removeTaskImage,
     doneCount,
     totalCount,
-    doneTasks: doneCount,
-    totalTasks: totalCount,
   } as const;
 }
