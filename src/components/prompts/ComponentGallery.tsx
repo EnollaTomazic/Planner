@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
   Select,
+  SettingsSelect,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
   TabBar,
@@ -454,6 +455,19 @@ export default function ComponentGallery() {
               { value: "pear", label: "Pear" },
             ]}
             value=""
+          />
+        ),
+      },
+      {
+        label: "SettingsSelect",
+        element: (
+          <SettingsSelect
+            ariaLabel="Theme"
+            prefixLabel="Theme"
+            items={selectItems}
+            value={selectValue}
+            onChange={setSelectValue}
+            className="w-56"
           />
         ),
       },
