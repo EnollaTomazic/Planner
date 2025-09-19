@@ -4,6 +4,7 @@
 import * as React from "react";
 
 import type { DayRecord, ISODate } from "./plannerStore";
+import { scheduleSavingReset as defaultScheduleSavingReset } from "./scheduleSavingReset";
 import { usePlannerStore } from "./usePlannerStore";
 
 type DayTextSelector = (day: DayRecord) => string | undefined;
@@ -18,21 +19,14 @@ type UseDayTextField = (iso: ISODate) => {
   commit: VoidFunction;
 };
 
-const scheduleSavingReset = (callback: VoidFunction) => {
-  if (typeof queueMicrotask === "function") {
-    queueMicrotask(callback);
-    return;
-  }
-
-  setTimeout(callback, 0);
-};
-
 export function createDayTextFieldHook({
   selectValue,
   applyValue,
+  scheduleSavingReset = defaultScheduleSavingReset,
 }: {
   selectValue: DayTextSelector;
   applyValue: DayTextMutator;
+  scheduleSavingReset?: typeof defaultScheduleSavingReset;
 }): UseDayTextField {
   return function useDayTextField(iso: ISODate) {
     const { getDay, upsertDay } = usePlannerStore();
