@@ -7,11 +7,15 @@ import Spinner from "../feedback/Spinner";
 
 type Side = "Left" | "Right";
 
-type ToggleStyle = CSSProperties & {
+type ToggleLabelStyle = CSSProperties & {
   "--glow-active"?: string;
 };
 
-const createLabelGlow = (color: string): ToggleStyle => ({
+type ToggleIndicatorStyle = CSSProperties & {
+  "--toggle-indicator-gradient"?: string;
+};
+
+const createLabelGlow = (color: string): ToggleLabelStyle => ({
   "--glow-active": color,
   textShadow: "var(--shadow-glow-md)",
 });
@@ -37,10 +41,10 @@ export default function Toggle({
   const id = React.useId();
   const leftId = `${id}-left`;
   const rightId = `${id}-right`;
-  const indicatorStyle: ToggleStyle = {
+  const indicatorStyle: ToggleIndicatorStyle = {
     width: "calc(50% - var(--space-1))",
     transform: `translateX(${isRight ? "100%" : "0"})`,
-    "--glow-active": "hsl(var(--shadow-color) / 0.25)",
+    "--toggle-indicator-gradient": "var(--seg-active-grad)",
   };
   const leftLabelStyle = !isRight
     ? createLabelGlow("hsl(var(--team-blue) / 0.35)")
@@ -96,7 +100,7 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring bg-[var(--seg-active-grad)] shadow-[var(--shadow-glow-xl)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring [background:var(--toggle-indicator-gradient,var(--seg-active-grad))] shadow-[var(--shadow-neo-soft)]"
         style={indicatorStyle}
       />
 
