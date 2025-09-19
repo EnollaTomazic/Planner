@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   NeoCard,
+  neoCardOverlayClassName,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -298,8 +299,8 @@ function CardErrorState() {
           message="Sync failed"
           actionLabel="Retry"
           onAction={() => {}}
-          className="mx-0 w-full justify-between"
           tone="danger"
+          width="full"
         />
       </CardContent>
     </Card>
@@ -310,7 +311,7 @@ function NeoCardDemo() {
   return (
     <NeoCard
       overlay={
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay [--neo-card-overlay-opacity:0.2] opacity-[var(--neo-card-overlay-opacity)]" />
+        <div className={neoCardOverlayClassName} />
       }
     >
       <p className="text-ui">Body</p>
@@ -364,8 +365,8 @@ function NeoCardErrorState() {
           message="Sync failed"
           actionLabel="Retry"
           onAction={() => {}}
-          className="mx-0 w-full justify-between"
           tone="danger"
+          width="full"
         />
       </div>
     </NeoCard>
@@ -584,9 +585,9 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
             { href: "/goals", label: "New Goal", tone: "accent" },
             { href: "/reviews", label: "New Review", tone: "accent" },
           ]}
-          className="md:flex-row md:items-center md:justify-between"
+          layout="inline"
           buttonSize="lg"
-          buttonClassName="motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none"
+          hoverLift
         />
       ),
       tags: ["actions", "planner"],
@@ -596,9 +597,9 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     { href: "/goals", label: "New Goal", tone: "accent" },
     { href: "/reviews", label: "New Review", tone: "accent" },
   ]}
-  className="md:flex-row md:items-center md:justify-between"
+  layout="inline"
   buttonSize="lg"
-  buttonClassName="motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none"
+  hoverLift
 />`,
     },
     {
@@ -760,7 +761,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       message="Sync failed"
       actionLabel="Retry"
       onAction={() => {}}
-      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+      tone="danger"
+      width="full"
     />
   </CardContent>
 </Card>`,
@@ -793,8 +795,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <NeoCardDemo />,
       tags: ["card", "overlay", "layout"],
       code: `<NeoCard
-  className="p-4"
-  overlay={<div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[var(--accent-overlay)] mix-blend-overlay opacity-20" />}
+  overlay={<div className="neo-card__overlay" />}
 >
   <p className="text-ui">Body</p>
 </NeoCard>`,
@@ -851,7 +852,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       message="Sync failed"
       actionLabel="Retry"
       onAction={() => {}}
-      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+      tone="danger"
+      width="full"
     />
   </div>
 </NeoCard>`,
@@ -1456,20 +1458,18 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       name: "SettingsSelect",
       element: <SettingsSelectDemo />,
       tags: ["select", "settings"],
-      code: `<div className="space-y-[var(--space-2)]">
+      code: `<div className="stack-sm">
   <SettingsSelect
     ariaLabel="Theme"
     prefixLabel="Theme"
     items={[{ value: "lg", label: "Glitch" }]}
     value="lg"
-    className="w-56"
   />
   <SettingsSelect
     ariaLabel="Theme (disabled)"
     prefixLabel="Theme (disabled)"
     items={[{ value: "lg", label: "Glitch" }]}
     value="lg"
-    className="w-56"
     disabled
   />
 </div>`,
