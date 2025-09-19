@@ -5,7 +5,7 @@
   :root {
     --shell-width: 1280px;
     --shell-max: var(--shell-width);
-    --accent-2-foreground: var(--primary-foreground);
+    --accent-2-foreground: var(--background);
     --danger-foreground: var(--primary-foreground);
   }
 

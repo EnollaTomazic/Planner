@@ -9,16 +9,16 @@
 | border | 252 20% 22% |
 | line | var(--border) |
 | input | 250 22% 12% |
-| ring | 262 83% 58% |
+| ring | 262 83% 65% |
 | theme-ring | hsl(var(--ring)) |
 | primary | 262 83% 58% |
 | primary-foreground | 0 0% 100% |
 | primary-soft | 262 83% 18% |
-| accent | 292 90% 35% |
-| accent-2 | 192 100% 25% |
+| accent | 292 90% 55% |
+| accent-2 | 192 90% 35% |
 | accent-3 | 192 90% 50% |
-| accent-foreground | 0 0% 100% |
-| accent-soft | 292 90% 15% |
+| accent-foreground | var(--background) |
+| accent-soft | 292 90% 30% |
 | highlight | 0 0% 100% |
 | glow | 292 90% 35% |
 | ring-muted | 248 20% 22% |
