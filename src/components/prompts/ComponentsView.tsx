@@ -122,7 +122,7 @@ function SpecCard({
 
   const frameClassName = cn(
     "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
-    "shadow-[var(--shadow-inset)]",
+    "shadow-[var(--shadow-inset-hairline)]",
     "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
     "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
     "group-data-[active=true]/spec-card:before:opacity-55",
@@ -197,7 +197,7 @@ function SpecCard({
           id={codeId}
           hidden={!showCode}
           aria-hidden={showCode ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset)]"
+          className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset-hairline)]"
         >
           <code>{code}</code>
         </pre>
