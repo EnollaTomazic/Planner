@@ -357,7 +357,10 @@ export const Button = React.forwardRef<
   if (asChild) {
     const slotProps = {
       ...(props as ButtonAsChildProps),
-    } as Record<string, unknown> & { tabIndex?: number };
+    } as Record<string, unknown> & {
+      tabIndex?: number;
+      type?: HTMLMotionProps<"button">["type"];
+    };
     const tabIndex = slotProps.tabIndex;
     delete slotProps.tabIndex;
     delete slotProps.asChild;
@@ -369,7 +372,6 @@ export const Button = React.forwardRef<
     delete slotProps.className;
     delete slotProps.children;
     delete slotProps.style;
-    delete slotProps.type;
     delete slotProps.disabled;
     const baseProps = {
       className: mergedClassName,
