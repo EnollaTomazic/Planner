@@ -99,16 +99,24 @@
   ) |
 | seg-active-base | hsl(var(--card)) |
 | shadow | 0 10px 30px hsl(250 30% 2% / 0.35) |
-| shadow-neo-sm | calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2)) hsl(var(--panel) / 0.72),
-    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2)) hsl(var(--foreground) / 0.06) |
-| shadow-neo | calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5) hsl(var(--panel) / 0.72),
-    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5) hsl(var(--foreground) / 0.06) |
+| shadow-neo-sm | calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))
+      hsl(var(--panel) / 0.72),
+    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))
+      hsl(var(--foreground) / 0.06) |
+| shadow-neo | calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--panel) / 0.72),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06) |
 | shadow-neo-strong | var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),
-    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6) hsl(var(--foreground) / 0.08) |
-| shadow-neo-inset | inset var(--spacing-1) var(--spacing-1) var(--spacing-3) hsl(var(--panel) / 0.85),
-    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3) hsl(var(--foreground) / 0.08) |
+    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6)
+      hsl(var(--foreground) / 0.08) |
+| shadow-neo-inset | inset var(--spacing-1) var(--spacing-1) var(--spacing-3)
+      hsl(var(--panel) / 0.85),
+    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)
+      hsl(var(--foreground) / 0.08) |
 | shadow-ring | 0 0 var(--spacing-3) hsl(var(--ring)) |
-| shadow-neo-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1) hsl(var(--shadow-color)) |
+| shadow-neo-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
+      hsl(var(--shadow-color)) |
 | shadow-glow-sm | 0 0 var(--spacing-2) var(--glow-active) |
 | shadow-glow-md | 0 0 var(--spacing-4) var(--glow-active) |
 | shadow-glow-lg | 0 0 var(--spacing-5) var(--glow-active) |
@@ -123,8 +131,10 @@
 | shadow-inset-contrast | inset 0 0 0 var(--hairline-w) var(--ring-contrast) |
 | shadow-inset-hairline | inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline)) |
 | shadow-glow-current | 0 0 var(--spacing-2) currentColor |
-| shadow-neon-soft | 0 0 var(--spacing-2) var(--neon), 0 0 var(--spacing-4) var(--neon-soft) |
-| shadow-neon-strong | 0 0 var(--spacing-3) var(--neon), 0 0 var(--spacing-5) var(--neon-soft) |
+| shadow-neon-soft | 0 0 var(--spacing-2) var(--neon),
+    0 0 var(--spacing-4) var(--neon-soft) |
+| shadow-neon-strong | 0 0 var(--spacing-3) var(--neon),
+    0 0 var(--spacing-5) var(--neon-soft) |
 | shadow-control | inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),
     0 0 0 var(--hairline-w) hsl(var(--border) / 0.12) |
 | shadow-control-hover | 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3) |
@@ -134,10 +144,6 @@
 | lg-black | var(--background) |
 | glow-strong | var(--ring) / 0.55 |
 | glow-soft | var(--accent) / 0.25 |
-| spacing-0-125 | calc(var(--spacing-1) / 8) |
-| spacing-0-25 | calc(var(--spacing-1) / 4) |
-| spacing-0-5 | calc(var(--spacing-1) / 2) |
-| spacing-0-75 | calc(var(--spacing-1) * 0.75) |
 | space-1 | var(--spacing-1) |
 | space-2 | var(--spacing-2) |
 | space-3 | var(--spacing-3) |
@@ -178,6 +184,17 @@
 | pillar-comms-start | 286 90% 68% |
 | pillar-comms-end | 312 88% 66% |
 | pillar-comms-shadow | 300 80% 36% / 0.35 |
+| card-overlay-scanlines | repeating-linear-gradient(
+    to bottom,
+    hsl(var(--foreground) / 0.035) 0,
+    hsl(var(--foreground) / 0.035) var(--spacing-0-25),
+    transparent var(--spacing-0-5),
+    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
+  ) |
+| spacing-0-125 | calc(var(--spacing-1) / 8) |
+| spacing-0-25 | calc(var(--spacing-1) / 4) |
+| spacing-0-5 | calc(var(--spacing-1) / 2) |
+| spacing-0-75 | calc(var(--spacing-1) * 0.75) |
 | spacing-1 | 4px |
 | spacing-2 | 8px |
 | spacing-3 | 12px |
