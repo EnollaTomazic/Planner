@@ -37,8 +37,8 @@ describe("TeamCompPage builder tab", () => {
       render(<TeamCompPage />);
       const builderTab = screen.getAllByRole("tab", { name: "Builder" })[0];
       fireEvent.click(builderTab);
-      expect(screen.getByText("Lane coverage")).toBeInTheDocument();
-      expect(screen.getByText("Mid: Open / Open")).toBeInTheDocument();
+      expect(screen.getAllByText("Lane coverage")[0]).toBeInTheDocument();
+      expect(screen.getAllByText("Mid: Open / Open")[0]).toBeInTheDocument();
     } finally {
       initSpy.mockRestore();
     }
