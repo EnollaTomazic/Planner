@@ -17,6 +17,7 @@ import {
   Toast,
   ThemePicker,
   BackgroundPicker,
+  SettingsSelect,
   Progress,
   Split,
   TabBar,
@@ -74,7 +75,7 @@ import {
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./types";
 import type { Review, Role } from "@/lib/types";
-import { COLOR_PALETTES, defaultTheme } from "@/lib/theme";
+import { COLOR_PALETTES, VARIANTS, defaultTheme } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -158,6 +159,25 @@ function BackgroundPickerDemo() {
     <BackgroundPicker
       bg={t.bg}
       onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
+    />
+  );
+}
+
+function SettingsSelectDemo() {
+  const [value, setValue] = React.useState<string>(VARIANTS[0]?.id ?? "");
+  const items = React.useMemo(
+    () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+    [],
+  );
+
+  return (
+    <SettingsSelect
+      ariaLabel="Theme"
+      prefixLabel="Theme"
+      items={items}
+      value={value}
+      onChange={setValue}
+      className="w-56"
     />
   );
 }
@@ -1542,6 +1562,13 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       element: <BackgroundPickerDemo />,
       tags: ["background", "picker"],
       code: `<BackgroundPicker bg="aurora" />`,
+    },
+    {
+      id: "settings-select",
+      name: "SettingsSelect",
+      element: <SettingsSelectDemo />,
+      tags: ["select", "settings"],
+      code: `<SettingsSelect ariaLabel="Theme" prefixLabel="Theme" items={[{ value: "lg", label: "Glitch" }]} value="lg" />`,
     },
     {
       id: "role-selector",

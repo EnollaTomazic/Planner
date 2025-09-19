@@ -70,6 +70,8 @@ export { default as NativeSelect } from "./select/NativeSelect";
 export * from "./select/shared";
 export { default as BackgroundPicker } from "./theme/BackgroundPicker";
 export * from "./theme/BackgroundPicker";
+export { default as SettingsSelect } from "./theme/SettingsSelect";
+export * from "./theme/SettingsSelect";
 export { default as ThemePicker } from "./theme/ThemePicker";
 export * from "./theme/ThemePicker";
 export { default as ThemeToggle } from "./theme/ThemeToggle";

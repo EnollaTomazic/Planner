@@ -4,32 +4,21 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
-import {
-  Flag,
-  CalendarDays,
-  BookOpen,
-  Users,
-  Sparkles,
-  PanelsTopLeft,
-} from "lucide-react";
-
-const LINKS = [
-  { href: "/goals", label: "Goals", icon: Flag },
-  { href: "/planner", label: "Planner", icon: CalendarDays },
-  { href: "/reviews", label: "Reviews", icon: BookOpen },
-  { href: "/team", label: "Team", icon: Users },
-  { href: "/components", label: "Components", icon: PanelsTopLeft },
-  { href: "/prompts", label: "Prompts", icon: Sparkles },
-];
+import { NAV_ITEMS, isNavActive } from "../chrome/nav-items";
 
 export default function BottomNav() {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
+  const mobileItems = React.useMemo(() => NAV_ITEMS, []);
   return (
     <nav aria-label="Primary" className="border-t border-border pt-[var(--space-4)] md:hidden">
       <ul className="flex justify-around">
-        {LINKS.map(({ href, label, icon: Icon }) => {
-          const active = pathname.startsWith(href);
+        {mobileItems.map(({ href, label, mobileIcon: Icon }) => {
+          if (!Icon) {
+            return null;
+          }
+
+          const active = isNavActive(pathname, href);
           return (
             <li key={href}>
               <Link
