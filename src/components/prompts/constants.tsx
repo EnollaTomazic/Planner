@@ -1536,7 +1536,7 @@ export const SPEC_DATA: Record<Section, Spec[]> = {
       description:
         "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
       element: (
-        <div className="mx-auto flex w-full max-w-[calc(var(--space-8) * 4.5)] justify-center">
+        <div className="mx-auto flex w-full max-w-[calc(var(--space-8) * 5)] justify-center">
           <WelcomeHeroFigure />
         </div>
       ),
