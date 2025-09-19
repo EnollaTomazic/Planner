@@ -300,6 +300,31 @@ export default function ComponentsPageClient({
     return base;
   }, [heroTabs.length, section, view]);
 
+  const handleViewChange = React.useCallback(
+    (key: string | number) => {
+      const rawValue = typeof key === "string" ? key : String(key);
+      const nextView = normalizeView(rawValue);
+      if (nextView === view) {
+        return;
+      }
+      setView(nextView);
+      if (nextView === "tokens") {
+        return;
+      }
+      const allowedSections = groupSectionIds.get(nextView);
+      if (allowedSections?.has(section)) {
+        return;
+      }
+      const fallbackSection = groups
+        .find((group) => group.id === nextView)
+        ?.sections[0]?.id;
+      if (fallbackSection && fallbackSection !== section) {
+        setSection(fallbackSection);
+      }
+    },
+    [groupSectionIds, groups, normalizeView, section, view],
+  );
+
   React.useEffect(() => {
     if (previousSectionParamRef.current === sectionParam) {
       return;
@@ -385,13 +410,18 @@ export default function ComponentsPageClient({
 
   React.useEffect(() => {
     const owner = sectionGroupMap.get(section);
-    if (!owner || view === "tokens") {
+    if (!owner) {
       return;
     }
-    if (owner !== view) {
-      setView(owner);
+    if (owner === view) {
+      return;
     }
-  }, [section, sectionGroupMap, view]);
+    const allowed = groupSectionIds.get(view);
+    if (allowed?.has(section)) {
+      return;
+    }
+    setView(owner);
+  }, [groupSectionIds, section, sectionGroupMap, view]);
 
   React.useEffect(() => {
     const previousView = previousViewRef.current;
@@ -427,7 +457,7 @@ export default function ComponentsPageClient({
           tabs: {
             items: viewTabs,
             value: view,
-            onChange: (key) => setView(key as ComponentsView),
+            onChange: handleViewChange,
             ariaLabel: "Component gallery view",
             idBase: "components",
             linkPanels: true,
