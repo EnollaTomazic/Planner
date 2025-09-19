@@ -34,6 +34,28 @@ export type Archetype = {
   examples: LaneExamples;
 };
 
+function ensureExamples(examples?: LaneExamples): [LaneExamples, boolean] {
+  if (!examples) {
+    const safe = ROLES.reduce<LaneExamples>((acc, role) => {
+      acc[role] = [];
+      return acc;
+    }, {} as LaneExamples);
+    return [safe, true];
+  }
+
+  let changed = false;
+  const safe: LaneExamples = { ...examples };
+
+  for (const role of ROLES) {
+    const lane = examples[role];
+    if (Array.isArray(lane)) continue;
+    safe[role] = [];
+    if (!changed) changed = true;
+  }
+
+  return changed ? [safe, true] : [examples, false];
+}
+
 export type CheatSheetProps = {
   className?: string;
   dense?: boolean;
@@ -370,6 +392,23 @@ export default function CheatSheet({
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
+    let needsUpdate = false;
+    const next = sheet.map((arc) => {
+      const [safeExamples, changed] = ensureExamples(arc.examples);
+      if (!changed) return arc;
+      needsUpdate = true;
+      return {
+        ...arc,
+        examples: safeExamples,
+      };
+    });
+
+    if (needsUpdate) {
+      setSheet(next);
+    }
+  }, [sheet, setSheet]);
+
+  React.useEffect(() => {
     if (!editing) setEditingId(null);
   }, [editing]);
 
@@ -383,7 +422,7 @@ export default function CheatSheet({
         ...(a.wins ?? []),
         ...(a.struggles ?? []),
         ...(a.tips ?? []),
-        ...Object.values(a.examples).flat(),
+        ...Object.values(a.examples ?? {}).flat(),
       ]
         .join(" ")
         .toLowerCase();
@@ -394,7 +433,26 @@ export default function CheatSheet({
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
       setSheet((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, ...partial } : a)),
+        prev.map((a) => {
+          if (a.id !== id) return a;
+
+          const base = { ...a, ...partial };
+          const mergedExamples =
+            "examples" in partial
+              ? {
+                  ...(a.examples ?? {}),
+                  ...(partial.examples ?? {}),
+                }
+              : base.examples;
+
+          const [safeExamples, changed] = ensureExamples(mergedExamples);
+
+          if ("examples" in partial || changed) {
+            base.examples = safeExamples;
+          }
+
+          return base;
+        }),
       );
     },
     [setSheet],
@@ -505,12 +563,12 @@ export default function CheatSheet({
                 <div className="mt-2 space-y-2">
                   {ROLES.map(
                     (role) => {
-                      const champs = a.examples[role];
+                      const champs = a.examples?.[role] ?? [];
                       const setChamps = (list: string[]) =>
                         patchArc(a.id, {
-                          examples: { ...a.examples, [role]: list },
+                          examples: { [role]: list } as LaneExamples,
                         });
-                      const showRow = champs?.length || isEditing;
+                      const showRow = champs.length || isEditing;
                       if (!showRow) return null;
 
                       return (
