@@ -1,6 +1,6 @@
 .root {
   --header-tabs-height: var(--control-h-sm);
-  --header-tabs-radius: var(--radius-full);
+  --header-tabs-radius: var(--control-radius);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -26,7 +26,7 @@
   content: "";
   position: absolute;
   inset: calc(var(--hairline-w) * 1.5);
-  border-radius: inherit;
+  border-radius: var(--header-tabs-radius);
   background: linear-gradient(
     180deg,
     hsl(var(--highlight) / 0.22),
@@ -39,7 +39,7 @@
 .track {
   position: absolute;
   inset: calc(var(--space-1) + var(--hairline-w));
-  border-radius: inherit;
+  border-radius: var(--header-tabs-radius);
   background: linear-gradient(
     140deg,
     hsl(var(--card) / 0.75),
@@ -95,7 +95,7 @@
   content: "";
   position: absolute;
   inset: calc(var(--hairline-w) * 1.25);
-  border-radius: inherit;
+  border-radius: var(--header-tabs-radius);
   background: linear-gradient(
     180deg,
     hsl(var(--highlight) / 0.28),
