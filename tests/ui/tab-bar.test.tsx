@@ -52,4 +52,17 @@ describe("navigation tabs", () => {
     );
     expect(screen.getByRole("tab", { name: "Buttons" })).toBeInTheDocument();
   });
+
+  it("renders the animated header rail when enabled", () => {
+    const { container } = render(<Hero heading="Components" rail />);
+    const rail = container.querySelector(".header-rail");
+    expect(rail).not.toBeNull();
+    expect(rail).toHaveAttribute("aria-hidden", "true");
+    expect(rail?.className).toContain("pointer-events-none");
+  });
+
+  it("omits the decorative rail when disabled", () => {
+    const { container } = render(<Hero heading="Components" rail={false} />);
+    expect(container.querySelector(".header-rail")).toBeNull();
+  });
 });
