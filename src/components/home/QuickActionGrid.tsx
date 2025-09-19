@@ -25,6 +25,7 @@ const buttonHoverLiftClassName =
   "motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none";
 
 type QuickActionDefinition = {
+  id?: string;
   href: string;
   label: React.ReactNode;
   tone?: ButtonProps["tone"];
@@ -58,8 +59,9 @@ export default function QuickActionGrid({
 }: QuickActionGridProps) {
   return (
     <div className={cn(ROOT_CLASSNAME, layoutClassNames[layout], className)}>
-      {actions.map((action, index) => {
+      {actions.map((action) => {
         const {
+          id,
           href,
           label,
           tone,
@@ -69,7 +71,7 @@ export default function QuickActionGrid({
           variant,
           linkProps,
         } = action;
-        const key = `${href}-${index}`;
+        const key = id ?? href;
         const resolvedTone = tone ?? buttonTone;
         const resolvedSize = size ?? buttonSize;
         const resolvedVariant = variant ?? buttonVariant;

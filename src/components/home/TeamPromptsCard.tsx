@@ -6,16 +6,19 @@ import QuickActionGrid from "./QuickActionGrid";
 
 const teamQuickActions = [
   {
+    id: "team-archetypes",
     href: "/team",
     label: "Archetypes",
     asChild: true,
   },
   {
+    id: "team-builder",
     href: "/team",
     label: "Team Builder",
     asChild: true,
   },
   {
+    id: "team-jungle-clears",
     href: "/team",
     label: "Jungle Clears",
     asChild: true,
