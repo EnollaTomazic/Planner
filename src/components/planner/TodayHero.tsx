@@ -6,26 +6,20 @@
  * - Animated progress bar for the selected project's tasks.
  */
 
-import { useMemo, useRef, useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { useMemo, useRef, useEffect } from "react";
 import { toISODate } from "@/lib/date";
 import { useFocusDate } from "./useFocusDate";
 import { useSelectedProject, useSelectedTask } from "./useSelection";
 import type { ISODate } from "./plannerStore";
 import { useDay } from "./useDay";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
-import Button from "@/components/ui/primitives/Button";
-import { Pencil, Trash2, Calendar } from "lucide-react";
-import type React from "react";
+import { Calendar } from "lucide-react";
+import TodayProjectPanel from "./TodayProjectPanel";
+import TodayTaskPanel from "./TodayTaskPanel";
 
 type DateInputWithPicker = HTMLInputElement & { showPicker?: () => void };
 type Props = { iso?: ISODate };
-
-const TASK_PREVIEW_LIMIT = 12;
-const PROJECT_PREVIEW_LIMIT = 12;
 
 export default function TodayHero({ iso }: Props) {
   const nowISO = useMemo(() => toISODate(), []);
@@ -50,187 +44,44 @@ export default function TodayHero({ iso }: Props) {
     toggleProject,
   } = useDay(viewIso);
 
-  // Shared selection
   const [selProjectId, setSelProjectId] = useSelectedProject(viewIso);
   const [, setSelTaskId] = useSelectedTask(viewIso);
 
   const selectedProjectName = useMemo(() => {
-    const project = projects.find((p) => p.id === selProjectId);
+    const project = projects.find((candidate) => candidate.id === selProjectId);
     return project?.name ?? "";
   }, [projects, selProjectId]);
 
-  const [taskAnnouncement, setTaskAnnouncement] = useState<{
-    text: string;
-    toggleMarker: boolean;
-  }>({
-    text: "",
-    toggleMarker: false,
-  });
-  const taskAnnouncementText = taskAnnouncement.text;
-  const prevProjectIdRef = useRef<string | null>(null);
-  const prevTasksRef = useRef<Map<string, { title: string; done: boolean }>>(
-    new Map<string, { title: string; done: boolean }>(),
-  );
-
-  // If selected project disappears, clear selection
   useEffect(() => {
-    if (selProjectId && !projects.some((p) => p.id === selProjectId)) {
+    if (selProjectId && !projects.some((project) => project.id === selProjectId)) {
       setSelProjectId("");
     }
   }, [projects, selProjectId, setSelProjectId]);
 
-  // Local edit state
-  const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [editingProjectName, setEditingProjectName] = useState("");
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
-  const [editingTaskText, setEditingTaskText] = useState("");
-  const [projectName, setProjectName] = useState("");
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  const [showAllTasks, setShowAllTasks] = useState(false);
-
-  // Progress of selected project only (animated)
   const scopedTasks = useMemo(
-    () =>
-      selProjectId ? tasks.filter((t) => t.projectId === selProjectId) : [],
+    () => (selProjectId ? tasks.filter((task) => task.projectId === selProjectId) : []),
     [tasks, selProjectId],
   );
-  const { done, total } = useMemo<{ done: number; total: number }>(
+
+  const { done, total } = useMemo(
     () =>
-      scopedTasks.reduce<{ done: number; total: number }>(
-        (acc, t) => {
-          acc.total += 1;
-          if (t.done) acc.done += 1;
-          return acc;
+      scopedTasks.reduce(
+        (accumulator, task) => {
+          accumulator.total += 1;
+          if (task.done) accumulator.done += 1;
+          return accumulator;
         },
         { done: 0, total: 0 },
       ),
     [scopedTasks],
   );
 
-  useEffect(() => {
-    setShowAllTasks(false);
-  }, [selProjectId]);
-
-  useEffect(() => {
-    if (showAllTasks && scopedTasks.length <= TASK_PREVIEW_LIMIT) {
-      setShowAllTasks(false);
-    }
-  }, [showAllTasks, scopedTasks]);
-
-  useEffect(() => {
-    if (showAllProjects && projects.length <= PROJECT_PREVIEW_LIMIT) {
-      setShowAllProjects(false);
-    }
-  }, [showAllProjects, projects]);
-
-  useEffect(() => {
-    if (!selProjectId || showAllProjects) return;
-    if (projects.length <= PROJECT_PREVIEW_LIMIT) return;
-
-    const isSelectedVisible = projects
-      .slice(0, PROJECT_PREVIEW_LIMIT)
-      .some((project) => project.id === selProjectId);
-
-    if (!isSelectedVisible) {
-      setShowAllProjects(true);
-    }
-  }, [projects, selProjectId, showAllProjects]);
-
-  const tasksListId = `today-hero-task-list-${selProjectId || "none"}`;
-  const visibleTasks = showAllTasks
-    ? scopedTasks
-    : scopedTasks.slice(0, TASK_PREVIEW_LIMIT);
-  const shouldShowTaskToggle = scopedTasks.length > TASK_PREVIEW_LIMIT;
-  const projectsListId = "today-hero-project-list";
-  const visibleProjects = showAllProjects
-    ? projects
-    : projects.slice(0, PROJECT_PREVIEW_LIMIT);
-  const hiddenProjectsCount = Math.max(
-    projects.length - visibleProjects.length,
-    0,
-  );
-  const shouldShowProjectToggle = projects.length > PROJECT_PREVIEW_LIMIT;
-  // Date picker
   const dateRef = useRef<HTMLInputElement>(null);
   const openPicker = () => {
     const el = dateRef.current as DateInputWithPicker | null;
     if (el?.showPicker) el.showPicker();
     else dateRef.current?.focus();
   };
-
-  useEffect(() => {
-    if (!selProjectId) {
-      prevProjectIdRef.current = null;
-      prevTasksRef.current = new Map<string, { title: string; done: boolean }>();
-      setTaskAnnouncement((prev) =>
-        prev.text ? { text: "", toggleMarker: prev.toggleMarker } : prev,
-      );
-      return;
-    }
-
-    const currentTasksMap = new Map<string, { title: string; done: boolean }>(
-      scopedTasks.map((task) => [task.id, { title: task.title, done: task.done }]),
-    );
-
-    if (prevProjectIdRef.current !== selProjectId) {
-      prevProjectIdRef.current = selProjectId;
-      prevTasksRef.current = currentTasksMap;
-      setTaskAnnouncement((prev) =>
-        prev.text ? { text: "", toggleMarker: prev.toggleMarker } : prev,
-      );
-      return;
-    }
-
-    const prevTasksMap = prevTasksRef.current;
-    let message: string | null = null;
-    const projectSuffix = selectedProjectName
-      ? ` in project "${selectedProjectName}"`
-      : "";
-
-    for (const [id, task] of currentTasksMap) {
-      if (!prevTasksMap.has(id)) {
-        message = `Task "${task.title}" added${projectSuffix}.`;
-        break;
-      }
-    }
-
-    if (!message) {
-      for (const [id, prevTask] of prevTasksMap) {
-        if (!currentTasksMap.has(id)) {
-          message = `Task "${prevTask.title}" removed${projectSuffix}.`;
-          break;
-        }
-      }
-    }
-
-    if (!message) {
-      for (const [id, task] of currentTasksMap) {
-        const prevTask = prevTasksMap.get(id);
-        if (!prevTask) continue;
-
-        if (prevTask.title !== task.title) {
-          message = `Task "${prevTask.title}" renamed to "${task.title}"${projectSuffix}.`;
-          break;
-        }
-
-        if (prevTask.done !== task.done) {
-          message = task.done
-            ? `Task "${task.title}" marked complete${projectSuffix}.`
-            : `Task "${task.title}" marked incomplete${projectSuffix}.`;
-          break;
-        }
-      }
-    }
-
-    if (message) {
-      setTaskAnnouncement((prev) => ({
-        text: `${message}${prev.toggleMarker ? "" : "\u200B"}`,
-        toggleMarker: !prev.toggleMarker,
-      }));
-    }
-
-    prevTasksRef.current = currentTasksMap;
-  }, [scopedTasks, selProjectId, selectedProjectName]);
 
   return (
     <section className="bg-hero-soft rounded-card r-card-lg card-pad-lg anim-in">
@@ -250,7 +101,7 @@ export default function TodayHero({ iso }: Props) {
             ref={dateRef}
             type="date"
             value={viewIso || nowISO}
-            onChange={(e) => setIso(e.target.value)}
+            onChange={(event) => setIso(event.target.value)}
             aria-label="Change focused date"
             className="sr-only"
           />
@@ -278,156 +129,16 @@ export default function TodayHero({ iso }: Props) {
       />
 
       {/* Projects */}
-      <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const title = projectName.trim();
-            if (!title) return;
-            const id = addProject(title);
-            setProjectName("");
-            if (id) setSelProjectId(id);
-          }}
-        >
-          <Input
-            name="new-project"
-            placeholder="> new project…"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            aria-label="New project"
-            className="w-full"
-          />
-        </form>
-
-        {projects.length > 0 && (
-          <>
-            <ul
-              id={projectsListId}
-              className="space-y-[var(--space-2)]"
-              role="list"
-              aria-label="Projects"
-            >
-              {visibleProjects.map((p) => {
-              const isEditing = editingProjectId === p.id;
-              const isSelected = selProjectId === p.id;
-              return (
-                <li
-                  key={p.id}
-                  className={cn(
-                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition",
-                    "border-border bg-card/55 hover:bg-card/70",
-                    isSelected && "ring-1 ring-ring",
-                  )}
-                  onClick={() => !isEditing && setSelProjectId(p.id)}
-                  title={
-                    isEditing
-                      ? "Editing…"
-                      : isSelected
-                        ? "Selected"
-                        : "Click to select"
-                  }
-                  role="listitem"
-                >
-                  {isEditing ? (
-                    <Input
-                      name={`rename-project-${p.id}`}
-                      autoFocus
-                      value={editingProjectName}
-                      onChange={(e) => setEditingProjectName(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          renameProject(p.id, editingProjectName || p.name);
-                          setEditingProjectId(null);
-                        }
-                        if (e.key === "Escape") setEditingProjectId(null);
-                      }}
-                      onBlur={() => {
-                        renameProject(p.id, editingProjectName || p.name);
-                        setEditingProjectId(null);
-                      }}
-                      aria-label={`Rename project ${p.name}`}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  ) : (
-                    <div className="flex items-center gap-[var(--space-3)] min-w-0">
-                      <span
-                        className="shrink-0"
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <CheckCircle
-                          size="sm"
-                          checked={p.done}
-                          onChange={() => toggleProject(p.id)}
-                          aria-label={`Toggle completion for ${p.name}`}
-                        />
-                      </span>
-                      <span
-                        className={cn(
-                          "truncate",
-                          p.done && "line-through-soft text-muted-foreground",
-                        )}
-                      >
-                        {p.name}
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-[var(--space-2)]">
-                    <IconButton
-                      aria-label={`Edit project ${p.name}`}
-                      title="Edit"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEditingProjectId(p.id);
-                        setEditingProjectName(p.name);
-                      }}
-                      size="sm"
-                      variant="ring"
-                      iconSize="xs"
-                    >
-                      <Pencil />
-                    </IconButton>
-                    <IconButton
-                      aria-label={`Remove project ${p.name}`}
-                      title="Remove"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteProject(p.id);
-                        if (selProjectId === p.id) setSelProjectId("");
-                      }}
-                      size="sm"
-                      variant="ring"
-                      iconSize="xs"
-                    >
-                      <Trash2 />
-                    </IconButton>
-                  </div>
-                </li>
-              );
-            })}
-              {hiddenProjectsCount > 0 && (
-                <li className="pr-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] opacity-70">
-                  + {hiddenProjectsCount} more…
-                </li>
-              )}
-            </ul>
-            {shouldShowProjectToggle && (
-              <div className="flex justify-end">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setShowAllProjects((prev) => !prev)}
-                  aria-expanded={showAllProjects}
-                  aria-controls={projectsListId}
-                >
-                  {showAllProjects ? "Show less" : "Show more"}
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      <TodayProjectPanel
+        projects={projects}
+        selectedProjectId={selProjectId}
+        onSelectProject={setSelProjectId}
+        onClearSelection={() => setSelProjectId("")}
+        addProject={addProject}
+        renameProject={renameProject}
+        deleteProject={deleteProject}
+        toggleProject={toggleProject}
+      />
 
       {/* Tasks (only when a project is selected) */}
       {!selProjectId ? (
@@ -435,157 +146,16 @@ export default function TodayHero({ iso }: Props) {
           Select a project to add and view tasks.
         </div>
       ) : (
-        <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const el = e.currentTarget.elements.namedItem(
-                `new-task-${selProjectId}`,
-              ) as HTMLInputElement | null;
-              const v = el?.value ?? "";
-              if (!v.trim()) return;
-              const id = addTask(v, selProjectId);
-              if (el) el.value = "";
-              if (id) setSelTaskId(id);
-            }}
-          >
-            <Input
-              name={`new-task-${selProjectId}`}
-              placeholder={`> task for "${selectedProjectName || "Project"}"`}
-              aria-label="New task"
-              className="w-full"
-            />
-          </form>
-
-          <div aria-live="polite" className="sr-only">
-            {taskAnnouncementText}
-          </div>
-
-          {scopedTasks.length === 0 ? (
-            <div className="tasks-placeholder">No tasks yet.</div>
-          ) : (
-            <div className="space-y-[var(--space-2)]">
-              <ul
-                id={tasksListId}
-                className="space-y-[var(--space-2)]"
-                role="list"
-                aria-label="Tasks"
-              >
-                {visibleTasks.map((t) => {
-                  const isEditing = editingTaskId === t.id;
-                  return (
-                    <li
-                      key={t.id}
-                      className={cn(
-                      "task-tile flex items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)]",
-                      "border-border bg-card/55 hover:bg-card/70",
-                    )}
-                    role="listitem"
-                    onClick={() => setSelTaskId(t.id)}
-                  >
-                    <div className="flex items-center gap-[var(--space-3)]">
-                      <CheckCircle
-                        checked={t.done}
-                        onChange={() => {
-                          toggleTask(t.id);
-                          setSelTaskId(t.id);
-                        }}
-                        size="sm"
-                      />
-                      {isEditing ? (
-                        <Input
-                          name={`rename-task-${t.id}`}
-                          autoFocus
-                          value={editingTaskText}
-                          onChange={(e) => setEditingTaskText(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              renameTask(t.id, editingTaskText || t.title);
-                              setEditingTaskId(null);
-                            }
-                            if (e.key === "Escape") setEditingTaskId(null);
-                          }}
-                          onBlur={() => {
-                            renameTask(t.id, editingTaskText || t.title);
-                            setEditingTaskId(null);
-                          }}
-                          aria-label={`Rename task ${t.title}`}
-                        />
-                      ) : (
-                        <button
-                          type="button"
-                          className={cn(
-                            "task-tile__text",
-                            t.done && "line-through-soft",
-                          )}
-                          onClick={() => {
-                            setEditingTaskText(t.title);
-                            setEditingTaskId(t.id);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              setEditingTaskText(t.title);
-                              setEditingTaskId(t.id);
-                            }
-                          }}
-                          aria-label={`Edit task ${t.title}`}
-                          title="Edit task"
-                        >
-                          {t.title}
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-[var(--space-2)]">
-                      <IconButton
-                        aria-label={`Edit task ${t.title}`}
-                        title="Edit"
-                        onClick={() => {
-                          setEditingTaskText(t.title);
-                          setEditingTaskId(t.id);
-                          setSelTaskId(t.id);
-                        }}
-                        size="sm"
-                        variant="ring"
-                        iconSize="xs"
-                      >
-                        <Pencil />
-                      </IconButton>
-                      <IconButton
-                        aria-label="Remove task"
-                        title="Remove"
-                        onClick={() => {
-                          deleteTask(t.id);
-                          setSelTaskId("");
-                        }}
-                        size="sm"
-                        variant="ring"
-                        iconSize="xs"
-                      >
-                        <Trash2 />
-                      </IconButton>
-                    </div>
-                  </li>
-                );
-                })}
-              </ul>
-              {shouldShowTaskToggle && (
-                <div className="flex justify-end">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => setShowAllTasks((prev) => !prev)}
-                    aria-expanded={showAllTasks}
-                    aria-controls={tasksListId}
-                  >
-                    {showAllTasks ? "Show less" : "Show more"}
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        <TodayTaskPanel
+          projectId={selProjectId}
+          projectName={selectedProjectName}
+          tasks={scopedTasks}
+          addTask={addTask}
+          renameTask={renameTask}
+          deleteTask={deleteTask}
+          toggleTask={toggleTask}
+          setSelectedTaskId={setSelTaskId}
+        />
       )}
     </section>
   );
