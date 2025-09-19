@@ -161,33 +161,23 @@ function SpecCard({
             disabled={isDisabled}
             data-pressed={showCode ? "true" : undefined}
             className={cn(
-              "group/button relative inline-flex h-12 items-center justify-center gap-[var(--space-1)]",
+              "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
               "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
               "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
               "border border-[hsl(var(--ring)/0.45)]",
-              "shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] focus-visible:shadow-[var(--shadow-raised-hover,var(--shadow-raised))]",
+              "shadow-neo hover:shadow-neo-soft focus-visible:shadow-neo-soft",
               "transition-[transform,box-shadow,background,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
               "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
-              "active:translate-y-[var(--spacing-0-25)] active:shadow-[var(--shadow-inset)]",
-              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-[var(--shadow-inset)]",
+              "active:translate-y-[var(--spacing-0-25)] active:shadow-neo-inset",
+              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-neo-inset",
               "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
               "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out",
               "focus-visible:before:opacity-100",
               "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-[var(--dur-quick)] after:ease-out",
               "hover:after:opacity-100 focus-visible:after:opacity-100",
-              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-[var(--shadow-inset)] disabled:translate-y-0",
+              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-neo-inset disabled:translate-y-0",
             )}
-            style={
-              {
-                "--shadow-raised":
-                  "0 var(--space-1) calc(var(--space-3) + var(--spacing-0-25)) hsl(var(--shadow-color) / 0.26)",
-                "--shadow-raised-hover":
-                  "0 calc(var(--space-2) - var(--spacing-0-25)) var(--space-4) hsl(var(--shadow-color) / 0.32)",
-                "--shadow-inset":
-                  "inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.45), inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
-              } as React.CSSProperties
-            }
           >
             {showCode ? "Hide code" : "Show code"}
           </button>

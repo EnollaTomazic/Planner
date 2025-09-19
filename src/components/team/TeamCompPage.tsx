@@ -11,7 +11,7 @@
  */
 import "./style.css";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Users2,
   BookOpenText,
@@ -45,11 +45,21 @@ type SubTab = "sheet" | "comps";
 
 type LaneTone = Extract<BadgeProps["tone"], LaneKey>;
 
+const TAB_KEY = "team:page:activeTab.v1";
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
 
+const decodeTab = (value: unknown): Tab | null => {
+  if (value === "cheat" || value === "builder" || value === "clears") {
+    return value;
+  }
+  return null;
+};
+
 export default function TeamCompPage() {
-  const [tab, setTab] = useState<Tab>("cheat");
+  const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
+    decode: decodeTab,
+  });
   const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
   const tabBaseId = React.useId();
