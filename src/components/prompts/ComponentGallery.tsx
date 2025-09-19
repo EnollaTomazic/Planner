@@ -850,14 +850,18 @@ export default function ComponentGallery() {
       {
         label: "PageShell",
         element: (
-          <PageShell className="space-y-3 rounded-card border border-border/40 bg-surface/60 py-6">
-            <div className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
+          <PageShell
+            grid
+            className="rounded-card border border-border/40 bg-surface/60 py-6"
+            contentClassName="items-start"
+          >
+            <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
               PageShell
             </div>
-            <p className="text-ui text-muted-foreground">
+            <p className="col-span-full text-ui text-muted-foreground md:col-span-7">
               Constrains page content to the shell width.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="col-span-full flex flex-wrap justify-end gap-2 md:col-span-5 md:justify-self-end">
               <Button size="sm">Primary</Button>
               <Button size="sm" variant="ghost">
                 Ghost
