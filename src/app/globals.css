@@ -135,6 +135,8 @@ html.no-animations *::after {
 body {
   color: hsl(var(--foreground));
   background: hsl(var(--background));
+  font-size: var(--font-body);
+  line-height: 1.6;
   min-height: 100dvh;
   position: relative;
   overflow-x: hidden;

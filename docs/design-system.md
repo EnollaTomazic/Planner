@@ -29,7 +29,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 
 ## Typography
 
-- Font sizes: 12px for labels, 14px for UI text, 16px for body copy, and 20/24px for titles.
+- Font sizes: 12px for labels, 15px for UI text, 19px for body copy, and 24/30px for titles.
 - Tracking: headers `-0.01em`; pills and labels `+0.02em`.
 - Use one weight per tier – `500` for UI, `600` for titles.
 
