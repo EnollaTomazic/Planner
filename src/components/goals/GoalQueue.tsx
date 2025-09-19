@@ -72,7 +72,8 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
           <form onSubmit={submit} className="flex items-center gap-2 pt-3">
             <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
             <Input
-              className="flex-1 h-9 text-ui font-medium"
+              className="flex-1 text-ui font-medium"
+              height="sm"
               value={val}
               onChange={(e) => setVal(e.currentTarget.value)}
               placeholder="Add to queue and press Enter"
