@@ -10,6 +10,13 @@ type PageShellOwnProps<T extends PageShellElement = "div"> = {
   /** Semantic element for the shell container. Defaults to a <div>. */
   as?: T;
   className?: string;
+  /**
+   * Enables the standardized 12-column grid within the page shell.
+   * When set, children should define their own col-span wrappers.
+   */
+  grid?: boolean;
+  /** Additional classes for the inner grid container when `grid` is enabled. */
+  contentClassName?: string;
 };
 
 export type PageShellProps<T extends PageShellElement = "div"> =
@@ -18,10 +25,13 @@ export type PageShellProps<T extends PageShellElement = "div"> =
 
 /**
  * PageShell — width-constrained wrapper that applies the global `page-shell` class.
+ * Use the `grid` prop to opt into the standard 12-column layout inside the shell.
  */
 export default function PageShell<T extends PageShellElement = "div">({
   as,
   className,
+  grid = false,
+  contentClassName,
   children,
   ...rest
 }: PageShellProps<T>) {
@@ -29,7 +39,18 @@ export default function PageShell<T extends PageShellElement = "div">({
 
   return (
     <Component className={cn("page-shell", className)} {...rest}>
-      {children}
+      {grid ? (
+        <div
+          className={cn(
+            "grid gap-[var(--space-4)] md:grid-cols-12 lg:gap-[var(--space-5)]",
+            contentClassName
+          )}
+        >
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </Component>
   );
 }

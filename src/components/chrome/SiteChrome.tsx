@@ -18,11 +18,15 @@ export default function SiteChrome() {
   return (
     <header role="banner" className="sticky top-0 z-50 sticky-blur">
       {/* Bar content */}
-      <PageShell className="flex items-center justify-between py-[var(--space-3)]">
+      <PageShell
+        grid
+        className="py-[var(--space-3)]"
+        contentClassName="items-center"
+      >
         <Link
           href="/"
           aria-label="Home"
-          className="flex items-center gap-[var(--space-3)]"
+          className="col-span-full flex items-center gap-[var(--space-3)] md:col-span-4"
         >
           <span
             className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[0_0_6px_hsl(var(--glow-active))]"
@@ -33,10 +37,11 @@ export default function SiteChrome() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-[var(--space-3)]">
-          <div className="hidden min-w-0 items-center md:flex md:flex-1">
-            <NavBar />
-          </div>
+        <div className="col-span-full hidden min-w-0 items-center md:col-span-5 md:flex">
+          <NavBar />
+        </div>
+
+        <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-3 md:justify-self-end">
           <ThemeToggle />
           <AnimationToggle />
         </div>
