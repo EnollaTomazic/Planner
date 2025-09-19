@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, NavItem } from "./nav-items";
+import { NAV_ITEMS, NavItem, isNavActive } from "./nav-items";
 
 type NavBarProps = {
   items?: readonly NavItem[];
@@ -26,7 +26,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
     <nav aria-label="Primary" className="max-w-full overflow-x-auto md:overflow-visible">
       <ul className="flex min-w-max items-center gap-[var(--space-2)]">
         {items.map(({ href, label }) => {
-          const active = path === href || path.startsWith(href + "/");
+          const active = isNavActive(path, href);
 
           return (
             <li key={href} className="relative">

@@ -1,7 +1,7 @@
 # Navigation Configuration
 
 The primary navigation bar reads from [`NAV_ITEMS`](../src/components/chrome/nav-items.ts), a shared list of `{ href, label }`
-objects. Update that array when you need to rename, reorder, add, or remove top-level sections. Because the component consumes
+objects (with an optional `mobileIcon` glyph for compact menus). Update that array when you need to rename, reorder, add, or remove top-level sections. Because the component consumes
 the exported list by default, no edits inside [`NavBar`](../src/components/chrome/NavBar.tsx) are required.
 
 For feature- or context-specific navigation, pass an `items` prop to `<NavBar />`:
