@@ -5,7 +5,7 @@
  * MyComps — CRUD for custom comps, single-panel version.
  * - One SectionCard: header + add bar + cards grid inside the same panel
  * - Add comp (title), edit per-role champs (inline chips), notes
- * - Hover-only actions: Copy / Edit / Delete; Save when editing
+ * - Actions stay reachable on touch: Copy / Edit / Delete; Save when editing
  * - Local-first via usePersistentState("team:mycomps.v1")
  * - Scoped with data-scope="team" so glitch effects don't bleed globally
  */
@@ -16,6 +16,7 @@ import * as React from "react";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
+import { useCoarsePointer } from "@/lib/useCoarsePointer";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -164,6 +165,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const copyTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMountedRef = React.useRef(true);
+  const isCoarsePointer = useCoarsePointer();
 
   React.useEffect(() => {
     isMountedRef.current = true;
@@ -287,14 +289,21 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
           <div className="grid grid-cols-12 gap-4">
             {filtered.map((c) => {
               const editingCard = editingId === c.id;
+              const showActions = isCoarsePointer || editing || editingCard;
+              const actionClasses = [
+                "absolute right-2 top-2 z-10 flex items-center gap-1 transition-opacity",
+                showActions
+                  ? "opacity-100 pointer-events-auto"
+                  : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto",
+              ].join(" ");
 
               return (
                 <article
                   key={c.id}
                   className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
                 >
-                  {/* hover edit/save + delete + copy */}
-                  <div className="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto">
+                  {/* Action controls: copy, edit, delete, save */}
+                  <div className={actionClasses}>
                     {!editingCard ? (
                       <>
                         <IconButton
