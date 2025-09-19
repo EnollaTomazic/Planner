@@ -8,6 +8,9 @@
     --accent-2-foreground: var(--background);
     --danger-foreground: var(--primary-foreground);
     --shadow-dropdown: 0 12px 40px hsl(var(--shadow-color) / 0.55);
+    --settings-column-width: calc(var(--space-4) * 14);
+    --surface-overlay-soft: 0.12;
+    --surface-overlay-strong: 0.2;
   }
 
   body {
@@ -357,6 +360,16 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     mix-blend-mode: soft-light;
     opacity: 0;
     transition: opacity var(--dur-quick) var(--ease-out);
+  }
+
+  .neo-card__overlay {
+    position: absolute;
+    inset: var(--neo-card-overlay-inset, 0);
+    pointer-events: none;
+    border-radius: inherit;
+    background: var(--accent-overlay);
+    mix-blend-mode: overlay;
+    opacity: var(--neo-card-overlay-opacity, var(--surface-overlay-strong));
   }
   /* HOVER: no translate */
   .card-neo:hover,
