@@ -72,11 +72,9 @@ export default function ReviewListItem({
     <button
       data-scope="reviews"
       type="button"
-      role="option"
       disabled={disabled}
       onClick={onClick}
       aria-label={`Open review: ${title}`}
-      aria-selected={selected}
       aria-current={selected ? "true" : undefined}
       data-selected={selected ? "true" : undefined}
       className={shellBase}
