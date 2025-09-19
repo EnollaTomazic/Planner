@@ -212,16 +212,12 @@ describe("usePlannerStore", () => {
     });
     expect(result.current.totalCount).toBe(2);
     expect(result.current.doneCount).toBe(0);
-    expect(result.current.totalTasks).toBe(2);
-    expect(result.current.doneTasks).toBe(0);
 
     act(() => result.current.toggleTask(t1));
     expect(result.current.doneCount).toBe(1);
-    expect(result.current.doneTasks).toBe(1);
 
     act(() => result.current.deleteTask(t1));
     expect(result.current.totalCount).toBe(1);
-    expect(result.current.totalTasks).toBe(1);
   });
 
   it("migrates legacy storage and stops syncing", async () => {
