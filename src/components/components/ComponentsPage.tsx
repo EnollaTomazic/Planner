@@ -1,14 +1,59 @@
 import ComponentsPageClient from "./ComponentsPageClient";
+import tokens from "../../../tokens/tokens.js";
 import {
-  loadDesignTokenGroups,
-  loadGalleryNavigation,
-} from "@/components/gallery/loader";
+  GALLERY_SECTION_GROUPS,
+  type GallerySectionMeta,
+} from "@/components/gallery/metadata";
+import { galleryPayload } from "@/components/gallery";
+import { formatGallerySectionLabel } from "@/components/gallery/registry";
+import type {
+  GalleryNavigationData,
+  GalleryNavigationGroup,
+  GalleryNavigationSection,
+  DesignTokenGroup,
+} from "@/components/gallery/types";
+import { buildDesignTokenGroups } from "@/lib/design-token-registry";
 
-export default async function ComponentsPage() {
-  const [navigation, tokenGroups] = await Promise.all([
-    loadGalleryNavigation(),
-    loadDesignTokenGroups(),
-  ]);
+const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
+
+const formatSectionLabel = (section: GallerySectionMeta): string => {
+  if (section.label) {
+    return section.label;
+  }
+  return formatGallerySectionLabel(section.id);
+};
+
+const buildGalleryNavigation = (): GalleryNavigationData => {
+  const availableSections = new Set(
+    galleryPayload.sections.map((section) => section.id),
+  );
+
+  const groups: GalleryNavigationGroup[] = GALLERY_SECTION_GROUPS.map(
+    (group) => {
+      const sections: GalleryNavigationSection[] = group.sections
+        .filter((section) => availableSections.has(section.id))
+        .map((section) => ({
+          id: section.id,
+          label: formatSectionLabel(section),
+          copy: section.copy,
+          groupId: group.id,
+        }));
+
+      return {
+        id: group.id,
+        label: group.label,
+        copy: group.copy,
+        sections,
+      } satisfies GalleryNavigationGroup;
+    },
+  );
+
+  return { groups } satisfies GalleryNavigationData;
+};
+
+export default function ComponentsPage() {
+  const navigation = buildGalleryNavigation();
+  const tokenGroups: readonly DesignTokenGroup[] = DESIGN_TOKEN_GROUPS;
 
   return (
     <ComponentsPageClient navigation={navigation} tokenGroups={tokenGroups} />

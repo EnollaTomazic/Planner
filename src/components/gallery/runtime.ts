@@ -1,3 +1,4 @@
+import modules from "./generated-manifest";
 import {
   createGalleryRegistry,
   type GalleryEntryKind,
@@ -6,20 +7,11 @@ import {
   type GallerySectionId,
 } from "./registry";
 
-interface GalleryModule {
-  default: GallerySection | GallerySection[];
-}
-
-const galleryModules = import.meta.glob<GalleryModule>(
-  "../**/*.gallery.{ts,tsx}",
-  { eager: true },
-);
-
 const collectedSections: GallerySection[] = [];
 
-for (const mod of Object.values(galleryModules)) {
-  const sections = Array.isArray(mod.default) ? mod.default : [mod.default];
-  collectedSections.push(...sections);
+for (const mod of modules) {
+  const moduleSections = Array.isArray(mod) ? mod : [mod];
+  collectedSections.push(...moduleSections);
 }
 
 const registry = createGalleryRegistry(collectedSections);

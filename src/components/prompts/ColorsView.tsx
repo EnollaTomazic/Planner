@@ -9,7 +9,7 @@ import {
   SectionCard as UiSectionCard,
   IconButton,
 } from "@/components/ui";
-import type { DesignTokenGroup } from "@/components/gallery/loader";
+import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 
 const CHECKERBOARD_STYLE: React.CSSProperties = {
