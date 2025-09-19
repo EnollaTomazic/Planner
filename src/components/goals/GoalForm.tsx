@@ -81,6 +81,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
               className="h-10 text-ui font-medium"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
+              required
               aria-required="true"
               aria-describedby={describedBy || undefined}
             />
