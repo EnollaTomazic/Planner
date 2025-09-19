@@ -3,8 +3,7 @@
  */
 
 /** @type {Readonly<Record<string, string>>} */
-export const securityHeadersMap = Object.freeze({
-  "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self' blob:; frame-src 'none'",
+export const baseSecurityHeadersMap = Object.freeze({
   "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "X-Frame-Options": "DENY",
@@ -13,8 +12,43 @@ export const securityHeadersMap = Object.freeze({
 });
 
 /** @type {ReadonlyArray<SecurityHeader>} */
-export const securityHeaders = Object.freeze(
-  Object.entries(securityHeadersMap).map(([key, value]) =>
+export const baseSecurityHeaders = Object.freeze(
+  Object.entries(baseSecurityHeadersMap).map(([key, value]) =>
     Object.freeze({ key, value }),
   ),
 );
+
+/**
+ * @param {string} nonce
+ * @returns {string}
+ */
+export const createContentSecurityPolicy = (nonce) =>
+  [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `style-src 'self' 'nonce-${nonce}'`,
+    "img-src 'self' data:",
+    "font-src 'self' data:",
+    "connect-src 'self'",
+    "media-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "manifest-src 'self'",
+    "worker-src 'self' blob:",
+    "frame-src 'none'",
+  ].join("; ");
+
+/**
+ * @param {string} nonce
+ * @returns {ReadonlyArray<SecurityHeader>}
+ */
+export const createSecurityHeaders = (nonce) =>
+  Object.freeze([
+    Object.freeze({
+      key: "Content-Security-Policy",
+      value: createContentSecurityPolicy(nonce),
+    }),
+    ...baseSecurityHeaders,
+  ]);

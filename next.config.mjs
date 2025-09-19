@@ -1,6 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { securityHeaders } from "./security-headers.mjs";
+import { baseSecurityHeaders } from "./security-headers.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,7 +49,7 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        headers: securityHeaders.map((header) => ({ ...header })),
+        headers: baseSecurityHeaders.map((header) => ({ ...header })),
       },
     ];
   },

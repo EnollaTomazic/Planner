@@ -3,5 +3,7 @@ export interface SecurityHeader {
   readonly value: string;
 }
 
-export declare const securityHeadersMap: Readonly<Record<string, string>>;
-export declare const securityHeaders: ReadonlyArray<SecurityHeader>;
+export declare const baseSecurityHeadersMap: Readonly<Record<string, string>>;
+export declare const baseSecurityHeaders: ReadonlyArray<SecurityHeader>;
+export declare const createContentSecurityPolicy: (nonce: string) => string;
+export declare const createSecurityHeaders: (nonce: string) => ReadonlyArray<SecurityHeader>;
