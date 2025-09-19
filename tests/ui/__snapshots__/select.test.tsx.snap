@@ -30,7 +30,7 @@ exports[`Select > renders default state 1`] = `
       </select>
       <svg
         aria-hidden="true"
-        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -78,7 +78,7 @@ exports[`Select > renders disabled state 1`] = `
       </select>
       <svg
         aria-hidden="true"
-        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -126,7 +126,7 @@ exports[`Select > renders error state 1`] = `
       </select>
       <svg
         aria-hidden="true"
-        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -186,7 +186,7 @@ exports[`Select > renders focus state 1`] = `
       </select>
       <svg
         aria-hidden="true"
-        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -232,7 +232,7 @@ exports[`Select > renders success state 1`] = `
       </select>
       <svg
         aria-hidden="true"
-        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+        class="lucide lucide-chevron-down pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3"
         fill="none"
         height="24"
         stroke="currentColor"
