@@ -93,8 +93,16 @@ function run(cmd: string): void {
   execSync(cmd, { stdio: "inherit" });
 }
 
+const isCiEnvironment = (() => {
+  const value = process.env.CI;
+  if (!value) {
+    return false;
+  }
+  return value !== "false" && value !== "0";
+})();
+
 async function main() {
-  if (process.env.CI === "true") {
+  if (isCiEnvironment) {
     console.log("Skipping regeneration tasks");
     return;
   }
