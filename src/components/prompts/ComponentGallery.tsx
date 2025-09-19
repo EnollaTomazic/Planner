@@ -224,7 +224,7 @@ export default function ComponentGallery() {
       {
         label: "CheckCircle",
         element: (
-          <div className="w-56 flex justify-center gap-2">
+          <div className="w-56 flex justify-center gap-[var(--space-2)]">
             <CheckCircle checked={checked} onChange={setChecked} size="sm" />
             <CheckCircle checked={checked} onChange={setChecked} size="md" />
             <CheckCircle checked={checked} onChange={setChecked} size="lg" />
@@ -493,7 +493,7 @@ export default function ComponentGallery() {
       {
         label: "Select Variants",
         element: (
-          <div className="w-56 space-y-2">
+          <div className="w-56 space-y-[var(--space-2)]">
             <Select
               variant="native"
               items={[
@@ -523,7 +523,7 @@ export default function ComponentGallery() {
       {
         label: "Textarea Variants",
         element: (
-          <div className="w-56 space-y-2">
+          <div className="w-56 space-y-[var(--space-2)]">
             <Textarea aria-label="Default textarea demo" placeholder="Default" />
           </div>
         ),
@@ -531,13 +531,13 @@ export default function ComponentGallery() {
       {
         label: "Input Variants",
         element: (
-          <div className="w-56 space-y-2">
+          <div className="w-56 space-y-[var(--space-2)]">
             <Input aria-label="Small input demo" height="sm" placeholder="Small" />
             <Input aria-label="Medium input demo" placeholder="Medium" />
             <Input aria-label="Large input demo" height="lg" placeholder="Large" />
             <Input aria-label="Tall input demo" height={12} placeholder="h-12" />
             <Input aria-label="Input with icon demo" placeholder="With icon" hasEndSlot>
-              <Plus className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Plus className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             </Input>
           </div>
         ),
@@ -546,7 +546,7 @@ export default function ComponentGallery() {
       {
         label: "AnimatedSelect",
         element: (
-          <div className="w-56 space-y-2">
+          <div className="w-56 space-y-[var(--space-2)]">
             <Select
               variant="animated"
               size="sm"
@@ -607,7 +607,7 @@ export default function ComponentGallery() {
         label: "Prompts Header",
         element: (
           <SectionCard className="w-full">
-            <SectionCard.Header sticky topClassName="top-8">
+            <SectionCard.Header sticky topClassName="top-[var(--space-8)]">
               <PromptsHeader
                 count={0}
                 query=""
@@ -648,8 +648,8 @@ export default function ComponentGallery() {
         label: "Prompts Layout",
         element: (
           <div className="w-full">
-            <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-12 lg:col-span-8 space-y-6">
+            <div className="grid grid-cols-12 gap-[var(--space-6)]">
+              <div className="col-span-12 lg:col-span-8 space-y-[var(--space-6)]">
                 <SearchBar value="" onValueChange={() => {}} />
                 <TabBar
                   items={[{ key: "demo", label: "Demo" }]}
@@ -863,7 +863,7 @@ export default function ComponentGallery() {
             current={3}
             total={5}
             showPercentage
-            className="w-56 flex items-center gap-3"
+            className="w-56 flex items-center gap-[var(--space-3)]"
             trackClassName="flex-1"
             percentageClassName="w-12 text-right"
           />
@@ -898,7 +898,7 @@ export default function ComponentGallery() {
         element: (
           <PageShell
             grid
-            className="rounded-card border border-border/40 bg-surface/60 py-6"
+            className="rounded-card border border-border/40 bg-surface/60 py-[var(--space-6)]"
             contentClassName="items-start"
           >
             <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
@@ -907,7 +907,7 @@ export default function ComponentGallery() {
             <p className="col-span-full text-ui text-muted-foreground md:col-span-7">
               Constrains page content to the shell width.
             </p>
-            <div className="col-span-full flex flex-wrap justify-end gap-2 md:col-span-5 md:justify-self-end">
+            <div className="col-span-full flex flex-wrap justify-end gap-[var(--space-2)] md:col-span-5 md:justify-self-end">
               <Button size="sm">Primary</Button>
               <Button size="sm" variant="ghost">
                 Ghost
@@ -993,7 +993,7 @@ export default function ComponentGallery() {
       {
         label: "Review Layout",
         element: (
-          <div className="grid w-full gap-4 md:grid-cols-12">
+          <div className="grid w-full gap-[var(--space-4)] md:grid-cols-12">
             <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-[var(--radius-md)]" />
             <div className="md:col-span-8 bg-muted h-10 rounded-[var(--radius-md)]" />
           </div>
@@ -1088,7 +1088,7 @@ export default function ComponentGallery() {
       {
         label: "Hero",
         element: (
-          <div className="w-56 space-y-4">
+          <div className="w-56 space-y-[var(--space-4)]">
             <Hero
               heading="Hero"
               eyebrow="Eyebrow"
@@ -1151,19 +1151,19 @@ export default function ComponentGallery() {
                 padding="none"
               >
                 <HeroGrid variant="dense">
-                  <HeroCol span={7} className="space-y-2 text-ui text-muted-foreground">
+                  <HeroCol span={7} className="space-y-[var(--space-2)] text-ui text-muted-foreground">
                     <p className="font-semibold text-foreground">Flush to the frame</p>
                     <p>
                       Dense spacing trims the padding while the slot row keeps
                       search and quick actions aligned with the hero copy.
                     </p>
                   </HeroCol>
-                  <HeroCol span={5} className="space-y-2 text-label text-muted-foreground">
-                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+                  <HeroCol span={5} className="space-y-[var(--space-2)] text-label text-muted-foreground">
+                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-[var(--space-3)] py-[var(--space-2)]">
                       <span className="font-semibold text-foreground">Slot order</span>
                       <div>Tabs → Search → Actions</div>
                     </div>
-                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+                    <div className="rounded-card r-card-md border border-border/25 bg-card/60 px-[var(--space-3)] py-[var(--space-2)]">
                       <span className="font-semibold text-foreground">Grid helpers</span>
                       <div>HeroGrid + HeroCol</div>
                     </div>
@@ -1177,7 +1177,7 @@ export default function ComponentGallery() {
       {
         label: "Header + Hero",
         element: (
-          <div className="w-56 h-56 overflow-auto space-y-6">
+          <div className="w-56 h-56 overflow-auto space-y-[var(--space-6)]">
             <Header heading="Stacked" icon={<Star className="opacity-80" />} />
             <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
             <div className="h-96" />
@@ -1216,7 +1216,7 @@ export default function ComponentGallery() {
       {
         label: "Badge Tones",
         element: (
-          <div className="w-56 flex justify-center gap-2">
+          <div className="w-56 flex justify-center gap-[var(--space-2)]">
             <Badge tone="neutral">Neutral</Badge>
             <Badge tone="accent">Accent</Badge>
             <Badge tone="primary">Primary</Badge>
@@ -1226,7 +1226,7 @@ export default function ComponentGallery() {
       {
         label: "Badge Sizes",
         element: (
-          <div className="w-56 flex justify-center gap-2">
+          <div className="w-56 flex justify-center gap-[var(--space-2)]">
             <Badge size="xs">XS</Badge>
             <Badge size="sm">SM</Badge>
           </div>
@@ -1248,18 +1248,18 @@ export default function ComponentGallery() {
       {
         label: "Grid Auto Rows",
         element: (
-          <div className="w-56 grid grid-cols-2 gap-2 [grid-auto-rows:minmax(0,1fr)]">
-            <div className="card-neo p-2">A</div>
-            <div className="card-neo p-4">B with more content</div>
-            <div className="card-neo p-4">C</div>
-            <div className="card-neo p-2">D</div>
+          <div className="w-56 grid grid-cols-2 gap-[var(--space-2)] [grid-auto-rows:minmax(0,1fr)]">
+            <div className="card-neo p-[var(--space-2)]">A</div>
+            <div className="card-neo p-[var(--space-4)]">B with more content</div>
+            <div className="card-neo p-[var(--space-4)]">C</div>
+            <div className="card-neo p-[var(--space-2)]">D</div>
           </div>
         ),
       },
       {
         label: "Widths",
         element: (
-          <div className="flex gap-2">
+          <div className="flex gap-[var(--space-2)]">
             <div className="h-10 w-72 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
               w-72
             </div>
@@ -1286,7 +1286,7 @@ export default function ComponentGallery() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-[var(--space-8)]">
       <TabBar
         items={viewTabs}
         value={view}
@@ -1294,7 +1294,7 @@ export default function ComponentGallery() {
         ariaLabel="Component gallery"
         linkPanels={false}
       />
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-12 md:gap-8">
+      <div className="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2 md:grid-cols-12 md:gap-[var(--space-8)]">
         {itemsMap[view].map((item) => (
           <GalleryItem
             key={item.label}
