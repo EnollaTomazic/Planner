@@ -12,10 +12,10 @@ export type PromptListProps = {
 export default function PromptList({ prompts, query }: PromptListProps) {
   const q = query.trim();
   return (
-    <ul className="mt-4 space-y-3">
+    <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
       {prompts.map((p) => (
         <li key={p.id}>
-          <Card className="p-3">
+          <Card className="p-[var(--space-3)]">
             <header className="flex items-center justify-between">
               <h3 className="font-semibold">{p.title}</h3>
               <time
@@ -26,13 +26,13 @@ export default function PromptList({ prompts, query }: PromptListProps) {
               </time>
             </header>
             {p.text ? (
-              <p className="mt-1 whitespace-pre-wrap text-ui">{p.text}</p>
+              <p className="mt-[var(--space-1)] whitespace-pre-wrap text-ui">{p.text}</p>
             ) : null}
           </Card>
         </li>
       ))}
       {prompts.length === 0 ? (
-        <li className="text-muted-foreground flex items-center gap-1">
+        <li className="text-muted-foreground flex items-center gap-[var(--space-1)]">
           {q ? (
             <>
               No prompts match
