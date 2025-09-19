@@ -42,7 +42,6 @@ export default function FocusPanel({ iso }: Props) {
             name={`focus-${iso}`}
             autoComplete="off"
             className="flex-1"
-            aria-label="Daily focus"
             aria-labelledby={headerId}
           />
           <Button
