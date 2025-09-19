@@ -67,7 +67,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
             onChange={(e) => onChange?.(e.target.value)}
             aria-invalid={errorText ? "true" : props["aria-invalid"]}
             aria-describedby={describedBy}
-            className={cn("pr-[var(--space-14)]", selectClassName)}
+            className={cn("pr-[calc(var(--space-6)+var(--space-2))]", selectClassName)}
             {...props}
           >
             {items.map((it) => (
