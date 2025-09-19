@@ -37,8 +37,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const nonceHeader = await headers();
-  const nonce = nonceHeader.get("x-nonce") ?? undefined;
+  let nonce: string | undefined;
+
+  if (process.env.GITHUB_PAGES === "true") {
+    // Static exports (GitHub Pages) do not provide response headers,
+    // so skip reading the nonce in that environment.
+    nonce = undefined;
+  } else {
+    const nonceHeader = await headers();
+    nonce = nonceHeader.get("x-nonce") ?? undefined;
+  }
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
     <html
