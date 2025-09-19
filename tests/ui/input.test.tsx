@@ -45,12 +45,16 @@ describe("Input", () => {
         <span />
       </Input>,
     );
-    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
+    expect(getByRole("textbox")).toHaveClass(
+      "pr-[calc(var(--space-6)+var(--space-2))]",
+    );
   });
 
   it("adds padding when hasEndSlot is true", () => {
     const { getByRole } = render(<Input aria-label="test" hasEndSlot />);
-    expect(getByRole("textbox")).toHaveClass("pr-[var(--space-7)]");
+    expect(getByRole("textbox")).toHaveClass(
+      "pr-[calc(var(--space-6)+var(--space-2))]",
+    );
   });
 
   it("applies left padding when indent is true", () => {

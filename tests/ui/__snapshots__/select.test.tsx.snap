@@ -13,7 +13,7 @@ exports[`Select > renders default state 1`] = `
     >
       <select
         aria-label="test"
-        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[calc(var(--space-6)+var(--space-2))]"
         id=":r0:"
         name="test"
       >
@@ -65,7 +65,7 @@ exports[`Select > renders disabled state 1`] = `
     >
       <select
         aria-label="test"
-        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[calc(var(--space-6)+var(--space-2))]"
         disabled=""
         id=":r4:"
         name="test"
@@ -114,7 +114,7 @@ exports[`Select > renders error state 1`] = `
         aria-describedby=":r2:-error"
         aria-invalid="true"
         aria-label="test"
-        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[calc(var(--space-6)+var(--space-2))]"
         id=":r2:"
         name="test"
       >
@@ -169,7 +169,7 @@ exports[`Select > renders focus state 1`] = `
     >
       <select
         aria-label="test"
-        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[calc(var(--space-6)+var(--space-2))]"
         id=":r1:"
         name="test"
       >
@@ -220,7 +220,7 @@ exports[`Select > renders success state 1`] = `
       <select
         aria-describedby=":r3:-success"
         aria-label="test"
-        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[var(--space-14)]"
+        class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pr-[calc(var(--space-6)+var(--space-2))]"
         id=":r3:"
         name="test"
       >
