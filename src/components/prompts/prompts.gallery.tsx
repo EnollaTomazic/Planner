@@ -28,6 +28,8 @@ import {
   CatCompanion,
   ThemeToggle,
   CheckCircle,
+  Snackbar,
+  Skeleton,
   SideSelector,
   PillarBadge,
   PillarSelector,
@@ -90,6 +92,14 @@ type LegacySpec = {
   tags: string[];
   props?: { label: string; value: string }[];
   code: string;
+  states?: {
+    id: string;
+    name: string;
+    description?: string;
+    element: React.ReactNode;
+    code?: string;
+  }[];
+  usage?: { kind: "do" | "dont"; title: string; description: string }[];
 };
 
 const demoPrompts: PromptWithTitle[] = [
@@ -244,6 +254,59 @@ function CardDemo() {
   );
 }
 
+function CardLoadingState() {
+  return (
+    <Card>
+      <CardContent className="space-y-[var(--space-4)]">
+        <div className="space-y-[var(--space-2)]">
+          <Skeleton
+            ariaHidden={false}
+            role="status"
+            aria-label="Loading summary"
+            className="h-[var(--space-6)] w-3/4"
+            radius="sm"
+          />
+          <Skeleton className="w-full" />
+          <Skeleton className="w-4/5" />
+        </div>
+        <div className="flex items-center gap-[var(--space-3)]">
+          <Skeleton
+            className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+            radius="full"
+          />
+          <div className="flex-1 space-y-[var(--space-2)]">
+            <Skeleton className="w-3/4" />
+            <Skeleton className="w-2/3" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CardErrorState() {
+  return (
+    <Card>
+      <CardContent className="space-y-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          <h4 className="text-ui font-semibold tracking-[-0.01em]">
+            Data unavailable
+          </h4>
+          <p className="text-label text-muted-foreground">
+            Refresh to request the latest match insights.
+          </p>
+        </div>
+        <Snackbar
+          message="Sync failed"
+          actionLabel="Retry"
+          onAction={() => {}}
+          className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function NeoCardDemo() {
   return (
     <NeoCard
@@ -253,6 +316,59 @@ function NeoCardDemo() {
       }
     >
       <p className="text-ui">Body</p>
+    </NeoCard>
+  );
+}
+
+function NeoCardLoadingState() {
+  return (
+    <NeoCard className="p-[var(--space-4)]">
+      <div className="space-y-[var(--space-4)]">
+        <div className="space-y-[var(--space-2)]">
+          <Skeleton
+            ariaHidden={false}
+            role="status"
+            aria-label="Loading summary"
+            className="h-[var(--space-6)] w-3/4"
+            radius="sm"
+          />
+          <Skeleton className="w-full" />
+          <Skeleton className="w-4/5" />
+        </div>
+        <div className="flex items-center gap-[var(--space-3)]">
+          <Skeleton
+            className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+            radius="full"
+          />
+          <div className="flex-1 space-y-[var(--space-2)]">
+            <Skeleton className="w-3/4" />
+            <Skeleton className="w-2/3" />
+          </div>
+        </div>
+      </div>
+    </NeoCard>
+  );
+}
+
+function NeoCardErrorState() {
+  return (
+    <NeoCard className="p-[var(--space-4)]">
+      <div className="space-y-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          <h4 className="text-ui font-semibold tracking-[-0.01em]">
+            Overlay unavailable
+          </h4>
+          <p className="text-label text-muted-foreground">
+            Refresh to retry the sync and restore overlay content.
+          </p>
+        </div>
+        <Snackbar
+          message="Sync failed"
+          actionLabel="Retry"
+          onAction={() => {}}
+          className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+        />
+      </div>
     </NeoCard>
   );
 }
@@ -592,6 +708,85 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     <Button size="sm">Action</Button>
   </CardFooter>
 </Card>`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Skeleton placeholders mirror card layout to communicate asynchronous loading.",
+          element: <CardLoadingState />,
+          code: `<Card>
+  <CardContent className="space-y-[var(--space-4)]">
+    <div className="space-y-[var(--space-2)]">
+      <Skeleton
+        ariaHidden={false}
+        role="status"
+        aria-label="Loading summary"
+        className="h-[var(--space-6)] w-3/4"
+        radius="sm"
+      />
+      <Skeleton className="w-full" />
+      <Skeleton className="w-4/5" />
+    </div>
+    <div className="flex items-center gap-[var(--space-3)]">
+      <Skeleton
+        className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+        radius="full"
+      />
+      <div className="flex-1 space-y-[var(--space-2)]">
+        <Skeleton className="w-3/4" />
+        <Skeleton className="w-2/3" />
+      </div>
+    </div>
+  </CardContent>
+</Card>`,
+        },
+        {
+          id: "error",
+          name: "Error",
+          description:
+            "Snackbar feedback surfaces failure messaging with a retry action inside the card shell.",
+          element: <CardErrorState />,
+          code: `<Card>
+  <CardContent className="space-y-[var(--space-3)]">
+    <div className="space-y-[var(--space-1)]">
+      <h4 className="text-ui font-semibold tracking-[-0.01em]">
+        Data unavailable
+      </h4>
+      <p className="text-label text-muted-foreground">
+        Refresh to request the latest match insights.
+      </p>
+    </div>
+    <Snackbar
+      message="Sync failed"
+      actionLabel="Retry"
+      onAction={() => {}}
+      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+    />
+  </CardContent>
+</Card>`,
+        },
+      ],
+      usage: [
+        {
+          kind: "do",
+          title: "Use skeletons for async fetches",
+          description:
+            "Mirror the content hierarchy with Skeleton components so loading feels intentional and steady.",
+        },
+        {
+          kind: "do",
+          title: "Keep messaging concise",
+          description:
+            "Card headlines should be short and scannable to reinforce the surrounding dashboard context.",
+        },
+        {
+          kind: "dont",
+          title: "Do not mix button tones",
+          description:
+            "Cards should avoid multiple competing button tones; reserve the primary action for the footer.",
+        },
+      ],
     },
     {
       id: "neo-card-demo",
@@ -604,6 +799,79 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
 >
   <p className="text-ui">Body</p>
 </NeoCard>`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Neo shell supports skeletons while preserving raised lighting cues.",
+          element: <NeoCardLoadingState />,
+          code: `<NeoCard className="p-[var(--space-4)]">
+  <div className="space-y-[var(--space-4)]">
+    <div className="space-y-[var(--space-2)]">
+      <Skeleton
+        ariaHidden={false}
+        role="status"
+        aria-label="Loading summary"
+        className="h-[var(--space-6)] w-3/4"
+        radius="sm"
+      />
+      <Skeleton className="w-full" />
+      <Skeleton className="w-4/5" />
+    </div>
+    <div className="flex items-center gap-[var(--space-3)]">
+      <Skeleton
+        className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+        radius="full"
+      />
+      <div className="flex-1 space-y-[var(--space-2)]">
+        <Skeleton className="w-3/4" />
+        <Skeleton className="w-2/3" />
+      </div>
+    </div>
+  </div>
+</NeoCard>`,
+        },
+        {
+          id: "error",
+          name: "Error",
+          description:
+            "Surface retry messaging within the Neo overlay while maintaining blend effects.",
+          element: <NeoCardErrorState />,
+          code: `<NeoCard className="p-[var(--space-4)]">
+  <div className="space-y-[var(--space-3)]">
+    <div className="space-y-[var(--space-1)]">
+      <h4 className="text-ui font-semibold tracking-[-0.01em]">
+        Overlay unavailable
+      </h4>
+      <p className="text-label text-muted-foreground">
+        Refresh to retry the sync and restore overlay content.
+      </p>
+    </div>
+    <Snackbar
+      message="Sync failed"
+      actionLabel="Retry"
+      onAction={() => {}}
+      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+    />
+  </div>
+</NeoCard>`,
+        },
+      ],
+      usage: [
+        {
+          kind: "do",
+          title: "Use overlays for featured content",
+          description:
+            "Neo cards work best when highlighting premium or hero content that benefits from glow and depth.",
+        },
+        {
+          kind: "dont",
+          title: "Avoid dense layouts",
+          description:
+            "Do not overload Neo cards with complex forms; reserve them for concise summaries or highlights.",
+        },
+      ],
     },
     {
       id: "review-surface",
@@ -1250,6 +1518,17 @@ const gallerySections: GallerySection[] = Object.entries(LEGACY_SPEC_DATA).map(
           render: () => spec.element,
         }),
         code: spec.code,
+        states: spec.states?.map((state) => ({
+          id: state.id,
+          name: state.name,
+          description: state.description,
+          code: state.code,
+          preview: createGalleryPreview({
+            id: `prompts:${sectionId}:${spec.id}:state:${state.id}`,
+            render: () => state.element,
+          }),
+        })),
+        usage: spec.usage,
       })),
     }),
 );

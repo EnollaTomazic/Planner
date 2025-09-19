@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Fuse from "fuse.js";
 import { PanelsTopLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import ComponentsViewPanel from "@/components/prompts/ComponentsView";
+import ComponentSpecView from "@/components/prompts/ComponentsView";
+import { getGallerySectionEntries } from "@/components/prompts/constants";
 import ColorsView from "@/components/prompts/ColorsView";
 import {
   type GalleryHeroCopy,
@@ -12,7 +14,10 @@ import {
   type GalleryNavigationSection,
   type GallerySectionGroupKey,
 } from "@/components/gallery/loader";
-import { PageHeader, PageShell } from "@/components/ui";
+import { formatGallerySectionLabel } from "@/components/gallery";
+import type { GallerySerializableEntry } from "@/components/gallery";
+import { Card, CardContent, PageHeader, PageShell } from "@/components/ui";
+import Badge from "@/components/ui/primitives/Badge";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
 
@@ -84,18 +89,18 @@ export default function ComponentsPageClient({
     [viewOrder],
   );
 
-  const sectionEntries = React.useMemo(
+  const navSectionEntries = React.useMemo(
     () => groups.flatMap((group) => group.sections),
     [groups],
   );
 
   const sectionMap = React.useMemo(() => {
     const map = new Map<Section, GalleryNavigationSection>();
-    for (const section of sectionEntries) {
+    for (const section of navSectionEntries) {
       map.set(section.id, section);
     }
     return map;
-  }, [sectionEntries]);
+  }, [navSectionEntries]);
 
   const sectionGroupMap = React.useMemo(() => {
     const map = new Map<Section, ComponentsView>();
@@ -124,11 +129,11 @@ export default function ComponentsPageClient({
         return group.sections[0].id;
       }
     }
-    return (sectionEntries[0]?.id ?? "buttons") as Section;
-  }, [groups, sectionEntries]);
+    return (navSectionEntries[0]?.id ?? "buttons") as Section;
+  }, [groups, navSectionEntries]);
 
   const fallbackCopy = React.useMemo<GalleryHeroCopy>(() => {
-    const firstSection = sectionEntries[0];
+    const firstSection = navSectionEntries[0];
     if (firstSection) {
       return firstSection.copy;
     }
@@ -137,7 +142,7 @@ export default function ComponentsPageClient({
       return firstGroup.copy;
     }
     return DEFAULT_FALLBACK_COPY;
-  }, [groups, sectionEntries]);
+  }, [groups, navSectionEntries]);
 
   const normalizeView = React.useCallback(
     (value: string | null): ComponentsView => {
@@ -197,6 +202,42 @@ export default function ComponentsPageClient({
 
   const currentGroupLabel = currentGroup?.label ?? "";
   const activeSectionLabel = sectionMeta?.label ?? "";
+  const sectionMetaLabel = sectionMeta?.label;
+
+  const sectionSpecs = React.useMemo<readonly GallerySerializableEntry[]>(
+    () => getGallerySectionEntries(section),
+    [section],
+  );
+
+  const sectionFuse = React.useMemo(() => {
+    return new Fuse<GallerySerializableEntry>(sectionSpecs, {
+      keys: ["name", "tags", "description", "props.name", "props.type"],
+      threshold: 0.3,
+    });
+  }, [sectionSpecs]);
+
+  const filteredSpecs = React.useMemo(() => {
+    if (!query) {
+      return sectionSpecs;
+    }
+    return sectionFuse.search(query).map((result) => result.item);
+  }, [query, sectionFuse, sectionSpecs]);
+
+  const filteredCount = filteredSpecs.length;
+
+  const sectionLabel = React.useMemo(() => {
+    if (sectionMetaLabel) {
+      return sectionMetaLabel;
+    }
+    return formatGallerySectionLabel(section);
+  }, [section, sectionMetaLabel]);
+
+  const countLabel = React.useMemo(() => {
+    const suffix = filteredCount === 1 ? "spec" : "specs";
+    return `${filteredCount} ${sectionLabel.toLowerCase()} ${suffix}`;
+  }, [filteredCount, sectionLabel]);
+
+  const countDescriptionId = React.useId();
 
   const heroCopy = React.useMemo(() => {
     if (view === "tokens") {
@@ -489,9 +530,39 @@ export default function ComponentsPageClient({
           ref={componentsPanelRef}
           hidden={view === "tokens"}
           aria-hidden={view === "tokens"}
-          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          <ComponentsViewPanel query={query} section={section} />
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+          <div
+            className="flex flex-col gap-[var(--space-6)]"
+            aria-describedby={countDescriptionId}
+          >
+            <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+              <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
+                {sectionLabel} specs
+              </h2>
+              <Badge
+                id={countDescriptionId}
+                tone="support"
+                size="sm"
+                className="text-muted-foreground"
+              >
+                {countLabel}
+              </Badge>
+            </header>
+            <div className="grid gap-[var(--space-6)]">
+              {filteredSpecs.length === 0 ? (
+                <Card>
+                  <CardContent className="text-ui text-muted-foreground">
+                    No results found
+                  </CardContent>
+                </Card>
+              ) : (
+                filteredSpecs.map((spec) => (
+                  <ComponentSpecView key={spec.id} entry={spec} />
+                ))
+              )}
+            </div>
+          </div>
         </div>
         <div
           id="components-tokens-panel"
