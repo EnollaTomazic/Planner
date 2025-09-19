@@ -20,7 +20,7 @@
 | accent-foreground | 0 0% 100% |
 | accent-soft | 292 90% 15% |
 | highlight | 0 0% 100% |
-| glow | 292 90% 35% |
+| glow | 292 95% 52% |
 | ring-muted | 248 20% 22% |
 | danger | 0 84% 60% |
 | warning | 43 96% 56% |
@@ -131,8 +131,6 @@
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
 | btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
     hsl(var(--accent) / 0.6) |
-| destructive | var(--danger) |
-| destructive-foreground | var(--danger-foreground) |
 | pillar-wave-start | 257 90% 70% |
 | pillar-wave-end | 198 90% 62% |
 | pillar-wave-shadow | 258 90% 38% / 0.35 |

@@ -18,11 +18,6 @@ export const rootVariables: VariableDefinition[] = [
   { name: "lg-pink", value: "var(--lav-deep)" },
   { name: "lg-black", value: "var(--background)" },
   { name: "card-foreground", value: "var(--foreground)" },
-  { name: "destructive", value: "var(--danger)" },
-  {
-    name: "destructive-foreground",
-    value: "var(--danger-foreground)",
-  },
   { name: "header-stack", value: "calc(var(--spacing-8) + var(--spacing-4))" },
   {
     name: "shadow-neon",
@@ -279,7 +274,7 @@ export const themes: ThemeDefinition[] = [
       { name: "accent-foreground", value: "0 0% 0%" },
       { name: "text-on-accent", value: "hsl(var(--background))" },
       { name: "accent-soft", value: "120 100% 12%" },
-      { name: "glow", value: "120 100% 60%" },
+      { name: "glow", value: "120 100% 68%" },
       { name: "ring-muted", value: "120 30% 20%" },
       { name: "danger", value: "0 84% 60%" },
       { name: "warning", value: "43 96% 56%" },
