@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Fuse from "fuse.js";
-import { Card, CardContent } from "@/components/ui";
+import { Card, CardContent, Skeleton, Snackbar } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import { SPEC_DATA, type Section, type Spec } from "./constants";
 import { cn } from "@/lib/utils";
@@ -192,9 +192,11 @@ function SpecCard({
         </p>
       ) : null}
       <div className={frameClassName}>{element}</div>
-      {showCode && code ? (
+      {code ? (
         <pre
           id={codeId}
+          hidden={!showCode}
+          aria-hidden={showCode ? undefined : true}
           className="rounded-card r-card-md bg-muted/80 p-4 text-label overflow-x-auto shadow-[var(--shadow-inset)]"
         >
           <code>{code}</code>
@@ -252,19 +254,132 @@ export default function ComponentsView({
     setActiveSpecId(null);
   }, [query, section, onCurrentCodeChange]);
 
+  const sectionSpecs = React.useMemo<Spec[]>(() => {
+    const baseSpecs = SPEC_DATA[section];
+    if (section !== "cards") {
+      return baseSpecs;
+    }
+
+    const loadingCard: Spec = {
+      id: "card-loading-state",
+      name: "Card Loading State",
+      description: "Skeleton placeholders communicate asynchronous loading.",
+      element: (
+        <Card>
+          <CardContent className="space-y-[var(--space-4)]">
+            <div className="space-y-[var(--space-2)]">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading summary"
+                className="h-[var(--space-6)] w-3/4"
+                radius="sm"
+              />
+              <Skeleton className="w-full" />
+              <Skeleton className="w-4/5" />
+            </div>
+            <div className="flex items-center gap-[var(--space-3)]">
+              <Skeleton
+                className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+                radius="full"
+              />
+              <div className="flex-1 space-y-[var(--space-2)]">
+                <Skeleton className="w-3/4" />
+                <Skeleton className="w-2/3" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ),
+      tags: ["card", "state", "loading"],
+      code: `<Card>
+  <CardContent className="space-y-[var(--space-4)]">
+    <div className="space-y-[var(--space-2)]">
+      <Skeleton
+        ariaHidden={false}
+        role="status"
+        aria-label="Loading summary"
+        className="h-[var(--space-6)] w-3/4"
+        radius="sm"
+      />
+      <Skeleton className="w-full" />
+      <Skeleton className="w-4/5" />
+    </div>
+    <div className="flex items-center gap-[var(--space-3)]">
+      <Skeleton
+        className="h-[var(--space-7)] w-[var(--space-7)] flex-none"
+        radius="full"
+      />
+      <div className="flex-1 space-y-[var(--space-2)]">
+        <Skeleton className="w-3/4" />
+        <Skeleton className="w-2/3" />
+      </div>
+    </div>
+  </CardContent>
+</Card>`,
+    };
+
+    const errorCard: Spec = {
+      id: "card-error-state",
+      name: "Card Error State",
+      description: "Snackbar feedback surfaces failure messaging and retry.",
+      element: (
+        <Card>
+          <CardContent className="space-y-[var(--space-3)]">
+            <div className="space-y-[var(--space-1)]">
+              <h4 className="text-ui font-semibold tracking-[-0.01em]">
+                Data unavailable
+              </h4>
+              <p className="text-label text-muted-foreground">
+                Refresh to request the latest match insights.
+              </p>
+            </div>
+            <Snackbar
+              message="Sync failed"
+              actionLabel="Retry"
+              onAction={() => {}}
+              className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+            />
+          </CardContent>
+        </Card>
+      ),
+      tags: ["card", "state", "error"],
+      code: `<Card>
+  <CardContent className="space-y-[var(--space-3)]">
+    <div className="space-y-[var(--space-1)]">
+      <h4 className="text-ui font-semibold tracking-[-0.01em]">
+        Data unavailable
+      </h4>
+      <p className="text-label text-muted-foreground">
+        Refresh to request the latest match insights.
+      </p>
+    </div>
+    <Snackbar
+      message="Sync failed"
+      actionLabel="Retry"
+      onAction={() => {}}
+      className="mx-0 w-full justify-between border-danger/40 bg-danger/15 text-danger-foreground"
+    />
+  </CardContent>
+</Card>`,
+    };
+
+    return [...baseSpecs, loadingCard, errorCard];
+  }, [section]);
+
   const fuse = React.useMemo(
     () =>
-      new Fuse(SPEC_DATA[section], {
+      new Fuse(sectionSpecs, {
         keys: ["name", "tags", "props.value"],
         threshold: 0.3,
       }),
-    [section],
+    [sectionSpecs],
   );
 
   const specs = React.useMemo(() => {
-    if (!query) return SPEC_DATA[section];
+    if (!query) return sectionSpecs;
     return fuse.search(query).map((r) => r.item);
-  }, [query, fuse, section]);
+  }, [query, fuse, sectionSpecs]);
 
   const sectionLabel = React.useMemo(
     () => section.charAt(0).toUpperCase() + section.slice(1),
