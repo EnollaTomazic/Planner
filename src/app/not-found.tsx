@@ -16,11 +16,11 @@ export default function NotFound() {
 
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center"
+      className="flex min-h-screen flex-col items-center justify-center gap-[var(--space-4)] p-[var(--space-6)] text-center"
       aria-labelledby={headerId}
     >
       <PageHeader
-        className="rounded-card r-card-lg px-4 py-4"
+        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         header={{
           id: headerId,
           heading: "Page not found",
@@ -31,7 +31,7 @@ export default function NotFound() {
           heading: "This page does not exist",
           actions: (
             <Link href="/">
-              <Button className="px-4">Go home</Button>
+              <Button className="px-[var(--space-4)]">Go home</Button>
             </Link>
           ),
           children: (
