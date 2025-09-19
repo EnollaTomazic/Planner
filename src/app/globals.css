@@ -725,7 +725,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     backdrop-filter: blur(8px);
   }
   .section-b {
-    padding: 1.5rem;
+    padding: var(--space-5);
   }
 
   /* Sheen border utility */
