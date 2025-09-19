@@ -266,20 +266,20 @@ export const Button = React.forwardRef<
     const tactilePrimary = tactile
       ? {
           "--btn-primary-shadow-rest": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.18)`,
-            `inset 0 0 0 var(--space-0-25) hsl(var(${toneColorVar}) / 0.4)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.18)`,
+            `inset 0 0 0 var(--spacing-0-25) hsl(var(${toneColorVar}) / 0.4)`,
           ]),
           "--btn-primary-shadow-hover": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.22)`,
-            `0 0 0 var(--space-0-5) hsl(var(${toneColorVar}) / 0.4)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.22)`,
+            `0 0 0 var(--spacing-0-5) hsl(var(${toneColorVar}) / 0.4)`,
             `0 var(--space-4) var(--space-8) hsl(var(${toneColorVar}) / 0.25)`,
           ]),
           "--btn-primary-shadow-active": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.45)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.28)`,
-            `0 0 0 var(--space-0-5) hsl(var(${toneColorVar}) / 0.45)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.45)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.28)`,
+            `0 0 0 var(--spacing-0-5) hsl(var(${toneColorVar}) / 0.45)`,
           ]),
         }
       : {};
@@ -300,20 +300,20 @@ export const Button = React.forwardRef<
     const tactileSecondary = tactile
       ? {
           "--btn-secondary-shadow-rest": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.18)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.22)`,
-            `0 0 0 var(--space-0-25) hsl(var(${accentVar}) / 0.22)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.18)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.22)`,
+            `0 0 0 var(--spacing-0-25) hsl(var(${accentVar}) / 0.22)`,
           ]),
           "--btn-secondary-shadow-hover": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.2)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.26)`,
-            `0 0 0 var(--space-0-5) hsl(var(${accentVar}) / 0.28)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.2)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.26)`,
+            `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.28)`,
             `0 var(--space-3) var(--space-6) hsl(var(${accentVar}) / 0.22)`,
           ]),
           "--btn-secondary-shadow-active": composeShadow([
-            `inset 0 var(--space-0-5) var(--space-2) hsl(var(${accentVar}) / 0.28)`,
-            `inset 0 calc(-1 * var(--space-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.3)`,
-            `0 0 0 var(--space-0-5) hsl(var(${accentVar}) / 0.32)`,
+            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.28)`,
+            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.3)`,
+            `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.32)`,
           ]),
         }
       : {};

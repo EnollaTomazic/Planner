@@ -46,14 +46,14 @@ function SpecCard({
   const cardTokens = React.useMemo(
     () =>
       ({
-        "--spec-card-raise": reduceMotion ? "0px" : "var(--space-0-25)",
-        "--spec-card-press": reduceMotion ? "0px" : "var(--space-0-25)",
+        "--spec-card-raise": reduceMotion ? "0px" : "var(--spacing-0-25)",
+        "--spec-card-press": reduceMotion ? "0px" : "var(--spacing-0-25)",
         "--shadow-raised":
-          "0 calc(var(--space-4) - var(--space-0-5)) var(--space-7) hsl(var(--shadow-color) / 0.3)",
+          "0 calc(var(--space-4) - var(--spacing-0-5)) var(--space-7) hsl(var(--shadow-color) / 0.3)",
         "--shadow-raised-hover":
-          "0 calc(var(--space-5)) calc(var(--space-8) - var(--space-0-5)) hsl(var(--shadow-color) / 0.36)",
+          "0 calc(var(--space-5)) calc(var(--space-8) - var(--spacing-0-5)) hsl(var(--shadow-color) / 0.36)",
         "--shadow-inset":
-          "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline)), inset 0 var(--space-0-25) 0 hsl(var(--foreground) / 0.08), 0 calc(var(--space-3) + var(--space-0-25)) var(--space-6) hsl(var(--shadow-color) / 0.33)",
+          "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline)), inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08), 0 calc(var(--space-3) + var(--spacing-0-25)) var(--space-6) hsl(var(--shadow-color) / 0.33)",
       }) as React.CSSProperties,
     [reduceMotion],
   );
@@ -128,8 +128,8 @@ function SpecCard({
   const frameClassName = cn(
     "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
     "shadow-[var(--shadow-inset)]",
-    "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--space-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
-    "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--space-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
+    "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
+    "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
     "group-data-[active=true]/spec-card:before:opacity-55",
   );
 
@@ -177,9 +177,9 @@ function SpecCard({
               "border border-[hsl(var(--ring)/0.45)]",
               "shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] focus-visible:shadow-[var(--shadow-raised-hover,var(--shadow-raised))]",
               "transition-[transform,box-shadow,background,filter] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
-              "hover:-translate-y-[var(--space-0-25)] focus-visible:-translate-y-[var(--space-0-25)]",
-              "active:translate-y-[var(--space-0-25)] active:shadow-[var(--shadow-inset)]",
-              "data-[pressed=true]:translate-y-[var(--space-0-25)] data-[pressed=true]:shadow-[var(--shadow-inset)]",
+              "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
+              "active:translate-y-[var(--spacing-0-25)] active:shadow-[var(--shadow-inset)]",
+              "data-[pressed=true]:translate-y-[var(--spacing-0-25)] data-[pressed=true]:shadow-[var(--shadow-inset)]",
               "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
               "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-[var(--dur-quick)] before:ease-out",
@@ -191,11 +191,11 @@ function SpecCard({
             style={
               {
                 "--shadow-raised":
-                  "0 var(--space-1) calc(var(--space-3) + var(--space-0-25)) hsl(var(--shadow-color) / 0.26)",
+                  "0 var(--space-1) calc(var(--space-3) + var(--spacing-0-25)) hsl(var(--shadow-color) / 0.26)",
                 "--shadow-raised-hover":
-                  "0 calc(var(--space-2) - var(--space-0-25)) var(--space-4) hsl(var(--shadow-color) / 0.32)",
+                  "0 calc(var(--space-2) - var(--spacing-0-25)) var(--space-4) hsl(var(--shadow-color) / 0.32)",
                 "--shadow-inset":
-                  "inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.45), inset 0 var(--space-0-25) 0 hsl(var(--foreground) / 0.08), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
+                  "inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.45), inset 0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
               } as React.CSSProperties
             }
           >
