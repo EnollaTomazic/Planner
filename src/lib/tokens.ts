@@ -36,8 +36,6 @@ export const colorTokens = [
   "bg-surface-vhs",
   "bg-surface-streak",
   "bg-card-foreground",
-  "bg-destructive",
-  "bg-destructive-foreground",
   "bg-interaction-primary-hover",
   "bg-interaction-primary-active",
   "bg-interaction-accent-hover",
