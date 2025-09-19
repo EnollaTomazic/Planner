@@ -1,11 +1,12 @@
 import type { HeaderTab } from "@/components/ui";
-import { galleryPayload, getGalleryPreviewRenderer } from "@/components/gallery/runtime";
 import {
+  galleryPayload,
+  getGalleryPreviewRenderer,
   formatGallerySectionLabel,
   GALLERY_SECTION_IDS,
   type GallerySectionId,
   type GallerySerializableEntry,
-} from "@/components/gallery/registry";
+} from "@/components/gallery";
 import { COLOR_PALETTES } from "@/lib/theme";
 
 export type Section = GallerySectionId;
@@ -19,8 +20,6 @@ export const COLOR_SECTIONS = [
   { title: "Accents", tokens: COLOR_PALETTES.accents },
 ] as const;
 
-export const GALLERY_PAYLOAD = galleryPayload;
-
 const SECTION_ENTRIES = new Map<Section, readonly GallerySerializableEntry[]>(
   galleryPayload.sections.map((section) => [section.id, section.entries] as const),
 );
@@ -30,11 +29,6 @@ export function getGallerySectionEntries(
 ): readonly GallerySerializableEntry[] {
   return SECTION_ENTRIES.get(section) ?? [];
 }
-
-export const PRIMITIVE_ENTRIES = galleryPayload.byKind.primitive;
-export const COMPONENT_ENTRIES = galleryPayload.byKind.component;
-export const COMPLEX_ENTRIES = galleryPayload.byKind.complex;
-export const TOKEN_ENTRIES = galleryPayload.byKind.token;
 
 export const getGalleryPreview = getGalleryPreviewRenderer;
 

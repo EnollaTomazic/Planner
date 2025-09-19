@@ -29,7 +29,9 @@ async function getUiComponents(): Promise<string[]> {
     if (
       base === "index.ts" ||
       base === "index.tsx" ||
-      base.endsWith("Page.tsx")
+      base.endsWith("Page.tsx") ||
+      base.includes(".gallery.") ||
+      base.includes(".meta.")
     ) {
       continue;
     }

@@ -8,10 +8,6 @@ import {
 } from "@/components/gallery/registry";
 import {
   Button,
-  IconButton,
-  Input,
-  Textarea,
-  SegmentedButton,
   Card,
   NeoCard,
   CardHeader,
@@ -27,7 +23,6 @@ import {
   SettingsSelect,
   Progress,
   Split,
-  TabBar,
   TitleBar,
   AnimationToggle,
   CatCompanion,
@@ -36,30 +31,18 @@ import {
   SideSelector,
   PillarBadge,
   PillarSelector,
-  Header,
   Hero,
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
-  Field,
-  SearchBar,
-  Label,
-  type HeaderTab,
 } from "@/components/ui";
-import HeaderTabsControl, {
-  type HeaderTabItem as HeaderTabsItem,
-} from "@/components/tabs/HeaderTabs";
-import Badge from "@/components/ui/primitives/Badge";
-import ButtonShowcase from "./ButtonShowcase";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
-import IconButtonShowcase from "./IconButtonShowcase";
 import OutlineGlowDemo from "./OutlineGlowDemo";
 import PromptList from "./PromptList";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
 import PromptsHeader from "./PromptsHeader";
-import SelectShowcase from "./SelectShowcase";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import SkeletonShowcase from "./SkeletonShowcase";
@@ -98,9 +81,6 @@ import {
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
-import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
-
-const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery";
 
 type LegacySpec = {
   id: string;
@@ -247,95 +227,6 @@ function ChampListEditorDemo() {
   );
 }
 
-function HeaderTabsDemo() {
-  const tabs = React.useMemo<HeaderTab<string>[]>(
-    () => [
-      {
-        key: "summary",
-        label: "Summary",
-        icon: <Circle aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
-      },
-      {
-        key: "timeline",
-        label: "Timeline",
-        icon: <CircleDot aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
-      },
-      {
-        key: "insights",
-        label: "Insights",
-        icon: <CircleCheck aria-hidden="true" className="h-[var(--space-4)] w-[var(--space-4)]" />,
-        disabled: true,
-      },
-    ],
-    [],
-  );
-  const [tab, setTab] = React.useState<string>(
-    () => tabs.find((item) => !item.disabled)?.key ?? tabs[0]?.key ?? "",
-  );
-  const activeLabel = React.useMemo(
-    () => tabs.find((item) => item.key === tab)?.label ?? null,
-    [tab, tabs],
-  );
-
-  return (
-    <Header
-      heading="Header"
-      subtitle="Segmented navigation anchored to the header"
-      tabs={{
-        items: tabs,
-        value: tab,
-        onChange: setTab,
-        ariaLabel: "Header demo tabs",
-        size: "md",
-      }}
-      sticky={false}
-      topClassName="top-0"
-    >
-      <p className="text-ui text-muted-foreground">
-        Viewing
-        <span className="ml-[var(--space-1)] font-medium text-foreground">
-          {activeLabel}
-        </span>
-      </p>
-    </Header>
-  );
-}
-
-function HeaderTabsControlDemo() {
-  const [active, setActive] = React.useState("plan");
-  const items = React.useMemo<HeaderTabsItem<string>[]>(
-    () => [
-      {
-        key: "plan",
-        label: "Plan",
-        icon: <Circle aria-hidden />, 
-      },
-      {
-        key: "review",
-        label: "Review",
-        icon: <CircleDot aria-hidden />, 
-      },
-      {
-        key: "archive",
-        label: "Archive",
-        icon: <CircleCheck aria-hidden />, 
-        disabled: true,
-      },
-    ],
-    [],
-  );
-
-  return (
-    <HeaderTabsControl
-      items={items}
-      value={active}
-      onChange={setActive}
-      ariaLabel="Header tab demo"
-      idBase="header-tabs-demo"
-    />
-  );
-}
-
 function CardDemo() {
   return (
     <Card>
@@ -475,310 +366,8 @@ function DemoHeaderShowcase() {
   );
 }
 const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
-  buttons: [
-    {
-      id: "button",
-      name: "Button",
-      description: "Tone and size matrix",
-      element: <ButtonShowcase />,
-      tags: ["button", "action", "demo"],
-      props: [
-        { label: "tones", value: "primary accent info danger" },
-        { label: "sizes", value: "sm md lg" },
-      ],
-      code: `<div className="space-y-4">
-  <div className="flex flex-wrap gap-2">
-    <Button tone="primary">Primary tone</Button>
-    <Button tone="accent">Accent tone</Button>
-    <Button tone="info" variant="ghost">
-      Info ghost
-    </Button>
-    <Button tone="danger" variant="primary">
-      Danger primary
-    </Button>
-    <Button disabled>Disabled</Button>
-  </div>
-  <div className="flex flex-wrap items-center gap-2">
-    <Button size="sm">
-      <Plus />
-      Small
-    </Button>
-    <Button size="md">
-      <Plus />
-      Medium
-    </Button>
-    <Button size="lg">
-      <Plus />
-      Large
-    </Button>
-  </div>
-</div>`,
-    },
-    {
-      id: "button-states",
-      name: "Button States",
-      description: "State tokens",
-      element: (
-        <div className="flex flex-wrap gap-4">
-          <Button>Default</Button>
-          <Button className="bg-[--hover]">Hover</Button>
-          <Button className="ring-2 ring-[var(--focus)]">Focus</Button>
-          <Button className="bg-[--active]">Active</Button>
-          <Button disabled>Disabled</Button>
-          <Button loading>Loading</Button>
-        </div>
-      ),
-      tags: ["button", "states"],
-      code: `<div className="flex flex-wrap gap-4">
-  <Button>Default</Button>
-  <Button className="bg-[--hover]">Hover</Button>
-  <Button className="ring-2 ring-[var(--focus)]">Focus</Button>
-  <Button className="bg-[--active]">Active</Button>
-  <Button disabled>Disabled</Button>
-  <Button loading>Loading</Button>
-</div>`,
-    },
-    {
-      id: "segmented-button",
-      name: "SegmentedButton",
-      description: "Segmented control button",
-      element: (
-        <div className="flex gap-4">
-          <SegmentedButton>Default</SegmentedButton>
-          <SegmentedButton isActive>Active</SegmentedButton>
-        </div>
-      ),
-      tags: ["button", "segmented"],
-      code: `<div className="flex gap-4">
-  <SegmentedButton>Default</SegmentedButton>
-  <SegmentedButton isActive>Active</SegmentedButton>
-</div>`,
-    },
-    {
-      id: "icon-button",
-      name: "IconButton",
-      description: "Size and variant showcase",
-      element: <IconButtonShowcase />,
-      tags: ["icon", "button", "demo"],
-      props: [
-        { label: "sizes", value: "xs sm md lg xl" },
-        { label: "variants", value: "ring glow" },
-      ],
-      code: `<div className="flex flex-col gap-4">
-  <div className="flex gap-2">
-    <IconButton size="xs" variant="ring" aria-label="Add item xs">
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton size="sm" variant="ring" aria-label="Add item sm">
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton size="md" variant="ring" aria-label="Add item md">
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton size="lg" variant="ring" aria-label="Add item lg">
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton size="xl" variant="ring" aria-label="Add item xl">
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton size="md" variant="glow" aria-label="Add item glow">
-      <Plus aria-hidden />
-    </IconButton>
-  </div>
-  <div className="flex gap-2">
-    <IconButton
-      variant="ring"
-      size="md"
-      className="bg-[--active]"
-      aria-pressed
-      aria-label="Add item ring pressed"
-    >
-      <Plus aria-hidden />
-    </IconButton>
-    <IconButton
-      variant="glow"
-      size="md"
-      className="bg-[--active]"
-      aria-pressed
-      aria-label="Add item glow pressed"
-    >
-      <Plus aria-hidden />
-    </IconButton>
-  </div>
-</div>`,
-    },
-    {
-      id: "icon-button-states",
-      name: "IconButton States",
-      description: "State tokens",
-      element: (
-        <div className="flex flex-wrap gap-4">
-          <IconButton aria-label="Default">
-            <Plus />
-          </IconButton>
-          <IconButton className="bg-[--hover]" aria-label="Hover">
-            <Plus />
-          </IconButton>
-          <IconButton className="ring-2 ring-[var(--focus)]" aria-label="Focus">
-            <Plus />
-          </IconButton>
-          <IconButton className="bg-[--active]" aria-label="Active">
-            <Plus />
-          </IconButton>
-          <IconButton disabled aria-label="Disabled">
-            <Plus />
-          </IconButton>
-          <IconButton loading aria-label="Loading">
-            <Plus />
-          </IconButton>
-        </div>
-      ),
-      tags: ["icon", "button", "states"],
-      code: `<div className="flex flex-wrap gap-4">
-  <IconButton aria-label="Default">
-    <Plus />
-  </IconButton>
-  <IconButton className="bg-[--hover]" aria-label="Hover">
-    <Plus />
-  </IconButton>
-  <IconButton className="ring-2 ring-[var(--focus)]" aria-label="Focus">
-    <Plus />
-  </IconButton>
-  <IconButton className="bg-[--active]" aria-label="Active">
-    <Plus />
-  </IconButton>
-  <IconButton disabled aria-label="Disabled">
-    <Plus />
-  </IconButton>
-  <IconButton loading aria-label="Loading">
-    <Plus />
-  </IconButton>
-</div>`,
-    },
-  ],
-  inputs: [
-    {
-      id: "input",
-      name: "Input",
-      description: "Standard text input",
-      element: <Input placeholder="Type here" />,
-      tags: ["input", "text"],
-      code: `<Input placeholder="Type here" />`,
-    },
-    {
-      id: "input-states",
-      name: "Input States",
-      description: "State tokens",
-      element: (
-        <div className="flex flex-col gap-2">
-          <Input placeholder="Default" />
-          <Input placeholder="Hover" className="bg-[--hover]" />
-          <Input placeholder="Focus" className="ring-2 ring-[var(--focus)]" />
-          <Input placeholder="Active" className="bg-[--active]" />
-          <Input placeholder="Disabled" disabled />
-          <Input placeholder="Loading" data-loading="true" />
-        </div>
-      ),
-      tags: ["input", "states"],
-      code: `<div className="flex flex-col gap-2">
-  <Input placeholder="Default" />
-  <Input placeholder="Hover" className="bg-[--hover]" />
-  <Input placeholder="Focus" className="ring-2 ring-[var(--focus)]" />
-  <Input placeholder="Active" className="bg-[--active]" />
-  <Input placeholder="Disabled" disabled />
-  <Input placeholder="Loading" data-loading="true" />
-</div>`,
-    },
-    {
-      id: "select",
-      name: "Select",
-      description: "Animated and native select",
-      element: <SelectShowcase />,
-      tags: ["select", "input"],
-      code: `const items = [
-  { value: "one", label: "One" },
-  { value: "two", label: "Two" },
-];
-<>
-  <AnimatedSelect items={items} placeholder="Animated" />
-  <NativeSelect items={items} />
-  <Select items={items} disabled placeholder="Disabled" />
-</>`,
-    },
-    {
-      id: "textarea",
-      name: "Textarea",
-      description: "Multi-line text input",
-      element: (
-        <div className="flex flex-col gap-2">
-          <Textarea placeholder="Type here" />
-          <Textarea placeholder="Disabled" disabled />
-        </div>
-      ),
-      tags: ["textarea", "input"],
-      code: `<div className="flex flex-col gap-2">
-  <Textarea placeholder="Type here" />
-  <Textarea placeholder="Disabled" disabled />
-</div>`,
-    },
-    {
-      id: "field",
-      name: "Field",
-      description: "Primitive wrapper for custom inputs",
-      element: (
-        <div className="flex w-56 flex-col gap-[var(--space-2)]">
-          <Field.Root>
-            <Field.Input placeholder="Compose primitives" />
-          </Field.Root>
-          <a
-            href={fieldStoryHref}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-[var(--space-1)] text-label font-medium text-accent-foreground transition-colors duration-[var(--dur-quick)] ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--bg))]"
-          >
-            Explore Field states in Storybook
-          </a>
-        </div>
-      ),
-      tags: ["field", "input"],
-      code: `<Field.Root>
-  <Field.Input placeholder="Compose primitives" />
-</Field.Root>`,
-    },
-    {
-      id: "label",
-      name: "Label",
-      element: (
-        <div className="flex w-56 flex-col gap-2">
-          <Label htmlFor="label-demo">Label</Label>
-          <Input id="label-demo" placeholder="With label" />
-        </div>
-      ),
-      tags: ["label", "input"],
-      code: `<div className="flex w-56 flex-col gap-2">
-  <Label htmlFor="label-demo">Label</Label>
-  <Input id="label-demo" placeholder="With label" />
-</div>`,
-    },
-    {
-      id: "search-bar",
-      name: "SearchBar",
-      description: "Debounced search input",
-      element: (
-        <SearchBar
-          value=""
-          placeholder="Search components"
-          className="w-56"
-        />
-      ),
-      tags: ["search", "input"],
-      code: `<SearchBar
-  value=""
-  placeholder="Search components"
-  className="w-56"
-/>`,
-    },
-  ],
+  buttons: [],
+  inputs: [],
   prompts: [
     {
       id: "prompt-list",
@@ -1086,88 +675,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     },
   ],
   layout: [
-    {
-      id: "header-tabs-control",
-      name: "HeaderTabs",
-      description: "Neomorphic header tab control",
-      element: (
-        <div className="w-56">
-          <HeaderTabsControlDemo />
-        </div>
-      ),
-      tags: ["tabs", "navigation"],
-      code: `const tabs = [
-  { key: "plan", label: "Plan" },
-  { key: "review", label: "Review" },
-  { key: "archive", label: "Archive", disabled: true },
-];
-
-<HeaderTabs
-  items={tabs}
-  value="plan"
-  onChange={() => {}}
-  ariaLabel="Header tab demo"
-/>`,
-    },
-    {
-      id: "header-tabs",
-      name: "Header Tabs",
-      description: "Header with segmented tabs",
-      element: <HeaderTabsDemo />,
-      tags: ["header", "tabs"],
-      code: `<Header
-  heading="Header"
-  subtitle="Segmented navigation anchored to the header"
-  tabs={{
-    items: [
-      {
-        key: "summary",
-        label: "Summary",
-        icon: (
-          <Circle
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-      },
-      {
-        key: "timeline",
-        label: "Timeline",
-        icon: (
-          <CircleDot
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-      },
-      {
-        key: "insights",
-        label: "Insights",
-        icon: (
-          <CircleCheck
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-        disabled: true,
-      },
-    ],
-    value: "summary",
-    onChange: () => {},
-    ariaLabel: "Header demo tabs",
-    size: "md",
-  }}
-  sticky={false}
-  topClassName="top-0"
->
-  <p className="text-ui text-muted-foreground">
-    Viewing
-    <span className="ml-[var(--space-1)] font-medium text-foreground">
-      Summary
-    </span>
-  </p>
-</Header>`,
-    },
     {
       id: "page-shell",
       name: "PageShell",
@@ -1557,101 +1064,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
 <AnimationToggle loading />`,
     },
     {
-      id: "tab-bar-filters",
-      name: "TabBar (filters)",
-      description: "Preset filter tabs with icons",
-      element: (
-        <TabBar
-          items={[
-            { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
-            {
-              key: "active",
-              label: "Active",
-              icon: <CircleDot aria-hidden="true" />,
-            },
-            {
-              key: "done",
-              label: "Done",
-              icon: <CircleCheck aria-hidden="true" />,
-            },
-          ]}
-          defaultValue="active"
-          ariaLabel="Show active goals"
-        />
-      ),
-      tags: ["tab", "toggle"],
-      code: `<TabBar
-  items={[
-    { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
-    {
-      key: "active",
-      label: "Active",
-      icon: <CircleDot aria-hidden="true" />,
-    },
-    {
-      key: "done",
-      label: "Done",
-      icon: <CircleCheck aria-hidden="true" />,
-    },
-  ]}
-  defaultValue="active"
-  ariaLabel="Show active goals"
-/>`,
-    },
-    {
-      id: "tab-bar",
-      name: "TabBar",
-      element: (
-        <TabBar
-          items={[
-            { key: "a", label: "A" },
-            { key: "b", label: "B" },
-            { key: "c", label: "Disabled", disabled: true },
-            { key: "d", label: "Syncing", loading: true },
-          ]}
-          defaultValue="a"
-          ariaLabel="Example tabs"
-        />
-      ),
-      tags: ["tab", "toggle"],
-      code: `<TabBar
-  items={[
-    { key: "a", label: "A" },
-    { key: "b", label: "B" },
-    { key: "c", label: "Disabled", disabled: true },
-    { key: "d", label: "Syncing", loading: true },
-  ]}
-  defaultValue="a"
-  ariaLabel="Example tabs"
-/>`,
-    },
-    {
-      id: "tab-bar-app-nav",
-      name: "TabBar (app nav)",
-      description: "Controlled TabBar for section switching",
-      element: (
-        <TabBar
-          items={[
-            { key: "reviews", label: "Reviews" },
-            { key: "planner", label: "Planner" },
-            { key: "goals", label: "Goals" },
-          ]}
-          defaultValue="reviews"
-          ariaLabel="Planner areas"
-        />
-      ),
-      tags: ["tab", "toggle"],
-      code: `<TabBar
-  items={[
-    { key: "reviews", label: "Reviews" },
-    { key: "planner", label: "Planner" },
-    { key: "goals", label: "Goals" },
-  ]}
-  defaultValue="reviews"
-  ariaLabel="Planner areas"
-/>`,
-    },
-    {
       id: "theme-toggle",
       name: "ThemeToggle",
       element: <ThemeToggle />,
@@ -1759,13 +1171,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   ],
   misc: [
     {
-      id: "badge",
-      name: "Badge",
-      element: <Badge>Badge</Badge>,
-      tags: ["badge"],
-      code: `<Badge>Badge</Badge>`,
-    },
-    {
       id: "theme-picker",
       name: "ThemePicker",
       element: <ThemePickerDemo />,
@@ -1815,23 +1220,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <ReviewListItem review={demoReview} />,
       tags: ["review", "list"],
       code: `<ReviewListItem review={demoReview} />`,
-    },
-    {
-      id: "badge-tones",
-      name: "Badge Tones",
-      element: (
-        <div className="flex flex-wrap gap-[var(--space-2)]">
-          <Badge tone="neutral">Neutral</Badge>
-          <Badge tone="accent">Accent</Badge>
-          <Badge tone="primary">Primary</Badge>
-        </div>
-      ),
-      tags: ["badge", "tone"],
-      code: `<div className="flex flex-wrap gap-[var(--space-2)]">
-  <Badge tone="neutral">Neutral</Badge>
-  <Badge tone="accent">Accent</Badge>
-  <Badge tone="primary">Primary</Badge>
-</div>`,
     },
     {
       id: "cat-companion",
