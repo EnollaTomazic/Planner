@@ -58,7 +58,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="group/hero-frame relative isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_2px_hsl(var(--ring)),0_0_24px_hsl(var(--glow)/0.35)] motion-reduce:before:transition-none has-[:focus-visible]:before:opacity-100 data-[has-focus=true]:before:opacity-100 rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        class="group/hero-frame relative isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_var(--hairline-w)_hsl(var(--ring)),var(--shadow-glow-lg)] motion-reduce:before:transition-none has-[:focus-visible]:before:opacity-100 data-[has-focus=true]:before:opacity-100 rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         data-variant="default"
         tabindex="-1"
       >
