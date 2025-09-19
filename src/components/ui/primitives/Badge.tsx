@@ -59,7 +59,14 @@ export default function Badge<T extends React.ElementType = "span">({
   const Comp = (as ?? (interactive ? "button" : "span")) as React.ElementType;
   const isStringElement = typeof Comp === "string";
   const isButtonElement = isStringElement && Comp === "button";
-  const restProps = rest as Record<string, unknown>;
+  const {
+    onKeyDown: userOnKeyDown,
+    onClick: userOnClick,
+    ...restProps
+  } = rest as typeof rest & {
+    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+  };
 
   const typeProps =
     isButtonElement && !Object.prototype.hasOwnProperty.call(restProps, "type")
@@ -77,13 +84,35 @@ export default function Badge<T extends React.ElementType = "span">({
       : {};
   const disabledProps =
     isButtonElement || !isStringElement ? { disabled } : {};
+  const mergedOnKeyDown: React.KeyboardEventHandler<HTMLElement> | undefined =
+    interactive && !isButtonElement
+      ? (event) => {
+          userOnKeyDown?.(event);
+          if (event.defaultPrevented || disabled) {
+            return;
+          }
+
+          if (
+            event.key === "Enter" ||
+            event.key === " " ||
+            event.key === "Space" ||
+            event.key === "Spacebar"
+          ) {
+            event.preventDefault();
+            const element = event.currentTarget as HTMLElement | null;
+            element?.click();
+          }
+        }
+      : userOnKeyDown;
 
   return (
     <Comp
-      {...rest}
+      {...restProps}
       {...typeProps}
       {...roleProps}
       {...disabledProps}
+      onClick={userOnClick}
+      onKeyDown={mergedOnKeyDown}
       data-selected={selected ? "true" : undefined}
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled ? "true" : undefined}
