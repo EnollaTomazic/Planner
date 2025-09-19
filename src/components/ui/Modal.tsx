@@ -36,7 +36,7 @@ export default function Modal({
       <button
         type="button"
         aria-label="Close modal"
-        className="absolute inset-0 bg-background/80 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+        className="absolute inset-0 bg-background/80 transition-colors duration-200 ease-standard motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         onClick={onClose}
       />
       <Card

@@ -63,9 +63,9 @@
   border: var(--hairline-w) solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.55);
   transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    box-shadow 0.15s var(--ease-out);
+    background var(--motion-duration-200) var(--motion-easing-standard),
+    border-color var(--motion-duration-200) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-200) var(--motion-easing-standard);
 }
 .proj-card:hover {
   background: hsl(var(--card) / 0.7);
@@ -129,8 +129,8 @@
   cursor: pointer;
   color: hsl(var(--foreground));
   transition:
-    color 0.15s var(--ease-out),
-    text-shadow 0.15s var(--ease-out);
+    color var(--motion-duration-200) var(--motion-easing-standard),
+    text-shadow var(--motion-duration-200) var(--motion-easing-standard);
 }
 .task-tile__text:hover {
   color: hsl(var(--primary-foreground));
@@ -207,10 +207,10 @@
     hsl(var(--shadow-color) / 0.12);
   box-shadow: var(--ws-shadow-inner), var(--ws-shadow-outer);
   transition:
-    background var(--dur-quick) var(--ease-out),
-    border-color var(--dur-quick) var(--ease-out),
-    box-shadow var(--dur-quick) var(--ease-out),
-    transform var(--dur-quick) var(--ease-out);
+    background var(--motion-duration-200) var(--motion-easing-standard),
+    border-color var(--motion-duration-200) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-200) var(--motion-easing-standard),
+    transform var(--motion-duration-200) var(--motion-easing-standard);
 }
 .ws-tile:hover {
   background: linear-gradient(
@@ -477,7 +477,7 @@
   );
   mix-blend-mode: overlay;
   opacity: 0;
-  transition: opacity 0.18s var(--ease-out);
+  transition: opacity var(--motion-duration-200) var(--motion-easing-standard);
 }
 .chip:hover .chip__scan {
   opacity: 0.45;

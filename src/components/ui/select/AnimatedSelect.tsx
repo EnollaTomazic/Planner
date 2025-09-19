@@ -22,6 +22,13 @@ type SelectSize = NonNullable<AnimatedSelectProps["size"]>;
 
 const DEFAULT_TRIGGER_SIZE: SelectSize = "md";
 
+const FALLBACK_EASING: [number, number, number, number] = [
+  0.16,
+  1,
+  0.3,
+  1,
+];
+
 const SIZE_STYLES: Record<
   SelectSize,
   {
@@ -168,14 +175,30 @@ const AnimatedSelect = React.forwardRef<
     const labelId = `${idBase}-label`;
 
     const [rect, setRect] = React.useState<DOMRect | null>(null);
-    const durQuick = React.useMemo(() => {
-      if (typeof window === "undefined") return 0.14;
+    const menuDuration = React.useMemo(() => {
+      if (typeof window === "undefined") return 0.2;
       const v = parseFloat(
         getComputedStyle(document.documentElement).getPropertyValue(
-          "--dur-quick",
+          "--motion-duration-200",
         ),
       );
-      return (Number.isNaN(v) ? 140 : v) / 1000;
+      return (Number.isNaN(v) ? 200 : v) / 1000;
+    }, []);
+
+    const menuEase = React.useMemo<[number, number, number, number]>(() => {
+      if (typeof window === "undefined") return FALLBACK_EASING;
+      const raw = getComputedStyle(
+        document.documentElement,
+      ).getPropertyValue("--motion-easing-standard");
+      const match = raw.match(/cubic-bezier\(([^)]+)\)/i);
+      if (!match) return FALLBACK_EASING;
+      const parts = match[1]
+        .split(",")
+        .map((part) => parseFloat(part.trim()));
+      if (parts.length !== 4 || parts.some((value) => Number.isNaN(value))) {
+        return FALLBACK_EASING;
+      }
+      return parts as [number, number, number, number];
     }, []);
     const [menuW, setMenuW] = React.useState<number | null>(null);
     const reduceMotion = useReducedMotion();
@@ -417,7 +440,7 @@ const AnimatedSelect = React.forwardRef<
       sizeStyles.paddingX,
       "bg-muted/12 hover:bg-muted/18",
       "focus:[outline:none] focus-visible:[outline:none]",
-      "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+      "transition-colors duration-200 ease-standard motion-reduce:transition-none",
       buttonClassName,
     );
 
@@ -466,7 +489,7 @@ const AnimatedSelect = React.forwardRef<
               <ChevronRight
                 aria-hidden="true"
                 className={cn(
-                  "shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                  "shrink-0 opacity-70 transition-colors duration-200 ease-standard motion-reduce:transition-none",
                   sizeStyles.prefix,
                 )}
               />
@@ -524,7 +547,7 @@ const AnimatedSelect = React.forwardRef<
                   transition={
                     reduceMotion
                       ? { duration: 0 }
-                      : { duration: durQuick, ease: "easeOut" }
+                      : { duration: menuDuration, ease: menuEase }
                   }
                   style={fixedStyles}
                   onKeyDown={onListKeyDown}
@@ -561,7 +584,7 @@ const AnimatedSelect = React.forwardRef<
                           onClick={() => selectByIndex(idx)}
                           onFocus={() => setActiveIndex(idx)}
                           className={cn(
-                            "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                            "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-200 ease-standard motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
                             disabledItem
                               ? "cursor-not-allowed"
                               : "cursor-pointer",
@@ -591,7 +614,7 @@ const AnimatedSelect = React.forwardRef<
                             ) : (
                               <Check
                                 className={cn(
-                                  "size-[var(--space-4)] shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                                  "size-[var(--space-4)] shrink-0 transition-opacity duration-200 ease-standard motion-reduce:transition-none",
                                   active
                                     ? "opacity-90"
                                     : "opacity-0 group-hover:opacity-30",

@@ -42,7 +42,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute top-1 bottom-1 left-1 rounded-full bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none"
+                class="pointer-events-none absolute top-1 bottom-1 left-1 rounded-full bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-200 ease-entrance motion-reduce:transition-none"
                 style="width: calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count)); transform: translateX(calc(var(--idx) * (100% + var(--space-1))));"
               />
               <div
@@ -324,7 +324,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
@@ -377,7 +377,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
@@ -565,7 +565,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 0.38; transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); transform: scale(1);"
+                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 0.38; transition: opacity var(--motion-duration-200) var(--motion-easing-standard), transform var(--motion-duration-200) var(--motion-easing-standard); transform: scale(1);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -604,7 +604,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.06; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.06; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -643,7 +643,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.04; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.04; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -676,7 +676,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-0"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
@@ -759,12 +759,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -886,12 +886,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1023,12 +1023,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1149,12 +1149,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1284,12 +1284,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1431,12 +1431,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1583,7 +1583,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 1; transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); transform: scale(1);"
+                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 1; transition: opacity var(--motion-duration-200) var(--motion-easing-standard), transform var(--motion-duration-200) var(--motion-easing-standard); transform: scale(1);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1606,7 +1606,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.78; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.78; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1629,7 +1629,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.42; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.42; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1646,7 +1646,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-35 animate-[niScan_2.1s_linear_infinite]"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
@@ -1721,7 +1721,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 0.38; transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); transform: scale(1);"
+                style="width: var(--ni-k); height: var(--ni-k); stroke-width: 2; color: var(--ni-color); opacity: 0.38; transition: opacity var(--motion-duration-200) var(--motion-easing-standard), transform var(--motion-duration-200) var(--motion-easing-standard); transform: scale(1);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1751,7 +1751,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.06; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.06; filter: blur(2.5px) drop-shadow(0 0 12px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1781,7 +1781,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.04; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity 220ms var(--ease-out);"
+                style="width: var(--ni-k); height: var(--ni-k); color: var(--ni-color); opacity: 0.04; filter: blur(7px) drop-shadow(0 0 22px var(--ni-color)); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1805,7 +1805,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-0"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity var(--motion-duration-200) var(--motion-easing-standard);"
               />
               <span
                 aria-hidden="true"
@@ -1869,7 +1869,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden text-center font-mono tabular-nums"
+                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden text-center font-mono tabular-nums"
                 data-invalid="true"
                 style="--field-h: var(--control-h-md); width: calc(5ch + var(--space-5) + (var(--space-1) * 4 / 5));"
               >
@@ -1891,7 +1891,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden flex-1"
+                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden flex-1"
                 style="--field-h: var(--control-h-md);"
               >
                 <input
@@ -1906,7 +1906,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
+              class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-200 ease-standard motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
               disabled=""
               tabindex="0"
               title="Enter details"
@@ -1994,7 +1994,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--radius-2xl)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
                 style="--field-h: var(--control-h-md);"
               >
                 <input
@@ -2011,7 +2011,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
           <button
             aria-label="Add tag"
-            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
+            class="inline-flex items-center justify-center select-none rounded-full transition-colors duration-200 ease-standard motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-4)]"
             tabindex="0"
             title="Add tag"
             type="button"
@@ -2062,7 +2062,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="flex w-full flex-col gap-[var(--space-1)]"
         >
           <div
-            class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden items-start rounded-[var(--radius-2xl)]"
+            class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden items-start rounded-[var(--radius-2xl)]"
             style="--field-h: var(--control-h-md);"
           >
             <textarea

@@ -54,7 +54,7 @@ export default function RoleSelector({
 
       <span
         aria-hidden
-        className="pointer-events-none absolute top-1 bottom-1 left-1 rounded-full bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none"
+        className="pointer-events-none absolute top-1 bottom-1 left-1 rounded-full bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-200 ease-entrance motion-reduce:transition-none"
         style={{
           width:
             "calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count))",

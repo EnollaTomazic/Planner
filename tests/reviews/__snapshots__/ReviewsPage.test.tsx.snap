@@ -58,7 +58,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="group/hero-frame relative isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_2px_hsl(var(--ring)),0_0_24px_hsl(var(--glow)/0.35)] motion-reduce:before:transition-none has-[:focus-visible]:before:opacity-100 data-[has-focus=true]:before:opacity-100 rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        class="group/hero-frame relative isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-standard before:content-[''] before:[box-shadow:0_0_0_2px_hsl(var(--ring)),0_0_24px_hsl(var(--glow)/0.35)] motion-reduce:before:transition-none has-[:focus-visible]:before:opacity-100 data-[has-focus=true]:before:opacity-100 rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         data-variant="default"
         tabindex="-1"
       >
@@ -195,12 +195,12 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                   >
                     <div
-                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-inset hover:!shadow-neo-soft active:!shadow-neo-inset focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.08),inset_0_-1px_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-200 ease-standard focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_1px_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-inset hover:!shadow-neo-soft active:!shadow-neo-inset focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                       style="--field-h: var(--control-h-md);"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-foreground group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
+                        class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-200 ease-standard opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-foreground group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -233,7 +233,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       />
                       <button
                         aria-label="Clear"
-                        class="inline-flex items-center justify-center select-none rounded-full duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[var(--space-4)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                        class="inline-flex items-center justify-center select-none rounded-full duration-200 ease-standard motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[var(--space-4)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
                         tabindex="0"
                         title="Clear"
                         type="button"
@@ -295,7 +295,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-label="Sort reviews"
-                        class="_glitchTrigger_843152 relative flex items-center rounded-[var(--radius-full)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+                        class="_glitchTrigger_843152 relative flex items-center rounded-[var(--radius-full)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-200 ease-standard motion-reduce:transition-none"
                         data-lit="true"
                         data-open="false"
                         type="button"
@@ -343,7 +343,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   </div>
                 </label>
                 <button
-                  class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-lg)] text-title gap-[var(--space-4)] [&_svg]:size-[var(--space-8)] w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-px bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                  class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-200 ease-standard motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-lg)] text-title gap-[var(--space-4)] [&_svg]:size-[var(--space-8)] w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-px bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
                   style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 2px 6px -1px hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
                   tabindex="0"
                   type="button"
@@ -448,7 +448,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-200 ease-standard py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             MID
                           </span>
@@ -494,7 +494,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-200 ease-standard py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             BOT
                           </span>
@@ -540,7 +540,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                           />
                           <span
-                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
+                            class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-200 ease-standard py-[var(--space-1)] text-label leading-none border-card-hairline px-[var(--space-1)]"
                           >
                             TOP
                           </span>

@@ -289,10 +289,10 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     isolation: isolate;
     color: hsl(var(--card-foreground));
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      box-shadow var(--dur-quick) var(--ease-out),
-      border-color var(--dur-quick) var(--ease-out),
-      background var(--dur-quick) var(--ease-out);
+      transform var(--motion-duration-200) var(--motion-easing-standard),
+      box-shadow var(--motion-duration-200) var(--motion-easing-standard),
+      border-color var(--motion-duration-200) var(--motion-easing-standard),
+      background var(--motion-duration-200) var(--motion-easing-standard);
     will-change: transform, box-shadow;
   }
   .card-neo {
@@ -331,7 +331,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     mask-composite: exclude;
     opacity: 0.45;
     pointer-events: none;
-    transition: opacity var(--dur-quick) var(--ease-out);
+    transition: opacity var(--motion-duration-200) var(--motion-easing-standard);
   }
   .card-neo::after,
   .card-neo-soft::after {
@@ -349,7 +349,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     );
     mix-blend-mode: soft-light;
     opacity: 0;
-    transition: opacity var(--dur-quick) var(--ease-out);
+    transition: opacity var(--motion-duration-200) var(--motion-easing-standard);
   }
   /* HOVER: no translate */
   .card-neo:hover,
@@ -576,7 +576,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   }
 
   .btn-like-segmented {
-    @apply inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 text-ui font-medium tracking-[0.02em] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
+    @apply inline-flex items-center rounded-[var(--radius-2xl)] border px-4 py-2 text-ui font-medium tracking-[0.02em] transition-colors duration-200 ease-standard motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));
@@ -616,7 +616,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     opacity: 0;
   }
   .btn-like-segmented:hover::after {
-    animation: sheenSweep var(--dur-slow) var(--ease-out) 1 forwards;
+    animation: sheenSweep var(--motion-duration-500) var(--motion-easing-standard) 1 forwards;
     opacity: 1;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -645,8 +645,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
       0 0 calc(var(--space-5) + var(--space-0-25)) hsl(var(--accent) / 0.6),
       0 0 calc(var(--space-7) + var(--space-0-5)) hsl(var(--accent-2) / 0.4);
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      filter var(--dur-quick);
+      transform var(--motion-duration-200) var(--motion-easing-standard),
+      filter var(--motion-duration-200);
   }
   .btn-glitch:hover {
     filter: brightness(1.05);
@@ -659,8 +659,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     box-shadow: 0 calc(var(--space-2) - var(--space-0-5))
       calc(var(--space-4) + var(--space-0-5)) hsl(var(--shadow-color) / 0.18);
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      box-shadow var(--dur-quick);
+      transform var(--motion-duration-200) var(--motion-easing-standard),
+      box-shadow var(--motion-duration-200);
   }
   .btn-lift:hover {
     box-shadow: 0 calc(var(--space-3) - var(--space-0-5)) var(--space-5)
@@ -678,9 +678,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     border-color: hsl(var(--card-hairline));
     color: hsl(var(--foreground));
     transition:
-      box-shadow var(--dur-quick),
-      border-color var(--dur-quick),
-      background var(--dur-quick);
+      box-shadow var(--motion-duration-200),
+      border-color var(--motion-duration-200),
+      background var(--motion-duration-200);
     display: inline-flex;
     align-items: center;
   }
@@ -966,7 +966,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   inset: calc(var(--space-0-5) * -1);
   border-radius: var(--radius-full);
   border: 1px solid hsl(var(--accent) / 0.45);
-  animation: pill-pulse 1.6s ease-out infinite;
+  animation: pill-pulse 1.6s var(--motion-easing-standard) infinite;
 }
 
 /* ---------- Misc helpers ---------- */
@@ -1104,7 +1104,7 @@ input:-webkit-autofill,
 textarea:-webkit-autofill {
   box-shadow: 0 0 0 calc(var(--space-8) * 15.625) hsl(var(--card)) inset;
   -webkit-text-fill-color: hsl(var(--foreground));
-  transition: background-color 9999s ease-out 0s;
+  transition: background-color 9999s var(--motion-easing-standard) 0s;
   caret-color: hsl(var(--foreground));
 }
 
@@ -1159,9 +1159,9 @@ textarea:-webkit-autofill {
     0 calc(var(--space-3) - var(--space-0-5))
       calc(var(--space-4) + var(--space-1)) hsl(var(--shadow-color) / 0.18);
   transition:
-    background 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.12s ease;
+    background var(--motion-duration-200) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-200) var(--motion-easing-standard),
+    transform var(--motion-duration-100) var(--motion-easing-standard);
 }
 .badge--xs {
   padding: calc(var(--space-1) - var(--space-1) / 4) var(--space-2);
@@ -1237,9 +1237,9 @@ textarea:-webkit-autofill {
     0 calc(var(--space-3) - var(--space-0-5)) var(--space-5)
       hsl(var(--shadow-color) / 0.35);
   transition:
-    transform 0.12s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    transform var(--motion-duration-100) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-300) var(--motion-easing-standard),
+    background var(--motion-duration-300) var(--motion-easing-standard);
 }
 .glitch-card:hover {
   box-shadow: 0 calc(var(--space-3) + var(--space-0-5))
@@ -1294,8 +1294,8 @@ textarea:-webkit-autofill {
     0 0 calc(var(--space-4) + var(--space-0-5))
       hsl(var(--accent) / 0.35);
   transition:
-    text-shadow 0.18s ease,
-    transform 0.12s ease;
+    text-shadow var(--motion-duration-200) var(--motion-easing-standard),
+    transform var(--motion-duration-100) var(--motion-easing-standard);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1481,9 +1481,9 @@ textarea:-webkit-autofill {
   line-height: 1;
   white-space: nowrap;
   transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    color 0.15s var(--ease-out);
+    background var(--motion-duration-200) var(--motion-easing-standard),
+    border-color var(--motion-duration-200) var(--motion-easing-standard),
+    color var(--motion-duration-200) var(--motion-easing-standard);
 }
 .champ-badge:hover {
   background: hsl(var(--primary-soft));
@@ -1734,9 +1734,9 @@ textarea:-webkit-autofill {
   color: hsl(var(--muted-foreground));
   border-radius: var(--radius-full);
   transition:
-    color 0.18s ease,
-    text-shadow 0.18s ease,
-    transform 0.18s ease;
+    color var(--motion-duration-200) var(--motion-easing-standard),
+    text-shadow var(--motion-duration-200) var(--motion-easing-standard),
+    transform var(--motion-duration-200) var(--motion-easing-standard);
   user-select: none;
 }
 .glitch-toggle__seg.is-active {
@@ -1772,7 +1772,7 @@ textarea:-webkit-autofill {
     inset 0 0 calc(var(--space-3) + var(--space-0-5))
       color-mix(in oklab, hsl(var(--primary)) 40%, transparent);
   transform: translateX(0%);
-  transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform var(--motion-duration-200) var(--motion-easing-entrance);
   mix-blend-mode: screen;
   pointer-events: none;
 }
@@ -1860,8 +1860,8 @@ textarea:-webkit-autofill {
 .lucide {
   color: hsl(var(--muted-foreground));
   transition:
-    color var(--dur-quick) var(--ease-out),
-    filter var(--dur-quick) var(--ease-out);
+    color var(--motion-duration-200) var(--motion-easing-standard),
+    filter var(--motion-duration-200) var(--motion-easing-standard);
 }
 
 .lucide:hover,
@@ -1933,10 +1933,10 @@ a:active .lucide {
   }
 
   .anim-in {
-    animation: fadeSlideIn var(--dur-chill) var(--ease-out) both;
+    animation: fadeSlideIn var(--motion-duration-300) var(--motion-easing-standard) both;
   }
   .anim-pop {
-    animation: popIn var(--dur-quick) var(--ease-out) both;
+    animation: popIn var(--motion-duration-200) var(--motion-easing-standard) both;
   }
 
   .animate-glx-flicker {
@@ -1964,7 +1964,7 @@ a:active .lucide {
       hsl(var(--foreground) / 0.08),
       transparent
     );
-    animation: shimmer var(--dur-slow) linear infinite;
+    animation: shimmer var(--motion-duration-500) linear infinite;
   }
 
   .toolbar {

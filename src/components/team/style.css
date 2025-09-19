@@ -7,10 +7,10 @@
 .champ-badge {
   @apply inline-flex items-center h-6 px-2 rounded-full border text-label leading-none whitespace-nowrap;
   transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    color 0.15s var(--ease-out),
-    box-shadow 0.15s var(--ease-out);
+    background var(--motion-duration-200) var(--motion-easing-standard),
+    border-color var(--motion-duration-200) var(--motion-easing-standard),
+    color var(--motion-duration-200) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-200) var(--motion-easing-standard);
 }
 .champ-badge:hover {
   @apply bg-[--hover] border-ring;

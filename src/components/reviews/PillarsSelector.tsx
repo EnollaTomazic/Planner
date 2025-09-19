@@ -55,7 +55,7 @@ function NeonPillarChip({
           filter: "blur(10px)",
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
         }}
         aria-hidden
       />
@@ -70,7 +70,7 @@ function NeonPillarChip({
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%)",
           filter: "blur(2px)",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
         }}
         aria-hidden
       />

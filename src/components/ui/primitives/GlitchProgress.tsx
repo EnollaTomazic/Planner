@@ -69,7 +69,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
         ref={showPercentage ? undefined : ref}
       >
         <div
-          className="glitch-fill transition-[width] duration-500 ease-out"
+          className="glitch-fill transition-[width] duration-500 ease-standard"
           style={{ width: `${percent}%` }}
         />
         <div className="glitch-scan" />

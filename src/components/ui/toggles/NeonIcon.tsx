@@ -90,7 +90,8 @@ export function NeonIcon({
           strokeWidth: 2,
           color: "var(--ni-color)",
           opacity: lit ? 1 : 0.38,
-          transition: "opacity 220ms var(--ease-out), transform 220ms var(--ease-out)",
+          transition:
+            "opacity var(--motion-duration-200) var(--motion-easing-standard), transform var(--motion-duration-200) var(--motion-easing-standard)",
           transform:
             phase === "ignite" ? "scale(1.02)" : phase === "powerdown" ? "scale(0.985)" : "scale(1)",
         }}
@@ -105,7 +106,7 @@ export function NeonIcon({
           color: "var(--ni-color)",
           opacity: lit ? 0.78 : 0.06,
           filter: "blur(2.5px) drop-shadow(0 0 12px var(--ni-color))",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
         }}
         aria-hidden
       />
@@ -120,7 +121,7 @@ export function NeonIcon({
             color: "var(--ni-color)",
             opacity: lit ? 0.42 : 0.04,
             filter: "blur(7px) drop-shadow(0 0 22px var(--ni-color))",
-            transition: "opacity 220ms var(--ease-out)",
+            transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
           }}
           aria-hidden
         />
@@ -136,7 +137,7 @@ export function NeonIcon({
           style={{
           background:
             "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px)",
-            transition: "opacity 220ms var(--ease-out)",
+            transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
           }}
           aria-hidden
         />
@@ -222,7 +223,7 @@ export function NeonGlowWrap({ lit, children }: { lit: boolean; children: React.
           filter: "blur(10px)",
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
         }}
         aria-hidden
       />
@@ -235,7 +236,7 @@ export function NeonGlowWrap({ lit, children }: { lit: boolean; children: React.
           filter: "blur(14px)",
           background:
             "radial-gradient(80% 80% at 50% 50%, hsl(var(--primary)/.35), transparent 75%)",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--motion-duration-200) var(--motion-easing-standard)",
         }}
         aria-hidden
       />

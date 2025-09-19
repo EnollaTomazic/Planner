@@ -298,7 +298,7 @@ export default function TabBar<
                   item.className,
                 )
               : cn(
-                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-full transition-[background,box-shadow,color] duration-200 ease-standard",
                   s.h,
                   s.px,
                   s.text,

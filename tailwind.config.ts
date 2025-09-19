@@ -144,14 +144,15 @@ const config: Config = {
         "control-hover": "0 2px 4px hsl(var(--shadow)/0.3)",
       },
       transitionTimingFunction: {
-        out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        snap: "var(--ease-snap)",
+        standard: "var(--motion-easing-standard)",
+        entrance: "var(--motion-easing-entrance)",
+        exit: "var(--motion-easing-exit)",
       },
       transitionDuration: {
-        140: "140ms",
-        200: "200ms",
-        220: "220ms",
-        420: "420ms",
+        100: "var(--motion-duration-100)",
+        200: "var(--motion-duration-200)",
+        300: "var(--motion-duration-300)",
+        500: "var(--motion-duration-500)",
       },
       spacing: spacingTokens.reduce(
         (acc, token, idx) => {
@@ -167,7 +168,7 @@ const config: Config = {
         },
       },
       animation: {
-        shimmer: "shimmer 120ms linear",
+        shimmer: "shimmer var(--motion-duration-500) linear",
       },
       fontSize: {
         label: "var(--font-label)",

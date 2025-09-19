@@ -41,7 +41,7 @@ Text follows the token ramp from compact captions to bold display headings. High
 
 ### Interaction & States
 
-Interactive elements reference `hover`, `ring`, `active`, `disabled`, and `loading` tokens. Corners draw from `radius-md`–`radius-xl` (8–16px), `shadow` adds depth, and motion tokens (`dur-quick`, `dur-chill`, `dur-slow`) provide smooth, reduced-motion-aware transitions.
+Interactive elements reference `hover`, `ring`, `active`, `disabled`, and `loading` tokens. Corners draw from `radius-md`–`radius-xl` (8–16px), `shadow` adds depth, and motion tokens (`motion-duration-100/200/300/500` with `motion-easing-standard/entrance/exit`) provide smooth, reduced-motion-aware transitions.
 
 ## Directories
 

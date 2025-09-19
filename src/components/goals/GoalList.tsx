@@ -88,7 +88,7 @@ export default function GoalList({
                   "relative flex min-h-8 w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-6",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
-                  "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",
+                  "transition-all duration-200 hover:-translate-y-1 hover:shadow-ring",
                 ].join(" ")}
               >
                 <span

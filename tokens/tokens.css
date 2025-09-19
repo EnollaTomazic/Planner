@@ -73,11 +73,13 @@
   --loading: 0.6;
   --card-hairline: hsl(var(--border));
   --hairline-w: 1px;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --dur-quick: 140ms;
-  --dur-chill: 220ms;
-  --dur-slow: 420ms;
+  --motion-easing-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-easing-entrance: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --motion-duration-100: 100ms;
+  --motion-duration-200: 200ms;
+  --motion-duration-300: 300ms;
+  --motion-duration-500: 500ms;
   --control-h-sm: 36px;
   --control-h-md: 40px;
   --control-h-lg: 44px;
