@@ -43,6 +43,10 @@ export interface GalleryRelatedSurface {
   description?: string;
 }
 
+export interface GalleryEntryRelated {
+  surfaces?: readonly GalleryRelatedSurface[];
+}
+
 export type GalleryPreviewRenderer = () => ReactNode;
 
 export interface GalleryPreview {
@@ -59,7 +63,7 @@ export interface GalleryEntry {
   props?: readonly GalleryPropMeta[];
   axes?: readonly GalleryAxis[];
   usage?: readonly GalleryUsageNote[];
-  related?: readonly GalleryRelatedSurface[];
+  related?: GalleryEntryRelated;
   preview: GalleryPreview;
   code?: string;
   states?: readonly GalleryStateDefinition[];

@@ -11,8 +11,10 @@ import {
   type GallerySection,
   type GallerySectionId,
   type GallerySerializableEntry,
+  type GalleryRelatedSurface,
   formatGallerySectionLabel,
 } from "./registry";
+import usage from "./usage.json";
 import {
   GALLERY_SECTION_GROUPS,
   type GalleryHeroCopy,
@@ -32,6 +34,74 @@ interface GalleryModule {
 
 const GALLERY_GLOB = "src/components/**/**/*.gallery.{ts,tsx}";
 
+type GalleryUsageMap = Record<string, readonly string[]>;
+
+const usageMap = usage as GalleryUsageMap;
+
+const mergeUsageIntoSections = (
+  sections: readonly GallerySection[],
+  surfacesByEntry: GalleryUsageMap,
+): GallerySection[] => {
+  return sections.map((section) => {
+    let changed = false;
+    const entries = section.entries.map((entry) => {
+      const routes = surfacesByEntry[entry.id];
+      if (!routes || routes.length === 0) {
+        return entry;
+      }
+      const existingSurfaces = entry.related?.surfaces ?? [];
+      const mergedSurfaces = mergeSurfaces(existingSurfaces, routes);
+      if (mergedSurfaces === existingSurfaces) {
+        return entry;
+      }
+      changed = true;
+      return {
+        ...entry,
+        related: {
+          ...entry.related,
+          surfaces: mergedSurfaces,
+        },
+      };
+    });
+    if (!changed) {
+      return section;
+    }
+    return {
+      ...section,
+      entries,
+    } satisfies GallerySection;
+  });
+};
+
+const mergeSurfaces = (
+  existingSurfaces: readonly GalleryRelatedSurface[],
+  routes: readonly string[],
+): readonly GalleryRelatedSurface[] => {
+  const map = new Map<string, GalleryRelatedSurface>();
+  for (const surface of existingSurfaces) {
+    map.set(surface.id, surface);
+  }
+  for (const route of routes) {
+    if (!map.has(route)) {
+      map.set(route, { id: route });
+    }
+  }
+  const next = Array.from(map.values()).sort((a, b) => a.id.localeCompare(b.id));
+  if (next.length === existingSurfaces.length) {
+    let matches = true;
+    for (let index = 0; index < next.length; index += 1) {
+      if (next[index]?.id !== existingSurfaces[index]?.id) {
+        matches = false;
+        break;
+      }
+    }
+    if (matches) {
+      return existingSurfaces;
+    }
+  }
+  return next;
+};
+
 export const loadGalleryRegistry = async (): Promise<GalleryRegistry> => {
   const files = await fg(GALLERY_GLOB, { absolute: true });
   const sections: GallerySection[] = [];
@@ -45,7 +115,9 @@ export const loadGalleryRegistry = async (): Promise<GalleryRegistry> => {
     sections.push(...moduleSections);
   }
 
-  return createGalleryRegistry(sections);
+  const enrichedSections = mergeUsageIntoSections(sections, usageMap);
+
+  return createGalleryRegistry(enrichedSections);
 };
 
 export interface GalleryLoaderSlices {

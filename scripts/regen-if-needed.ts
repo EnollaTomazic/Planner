@@ -19,6 +19,7 @@ const featureDirs = [
 
 const uiManifestFile = path.join(cacheDir, "generate-ui-index.json");
 const featureManifestFile = path.join(cacheDir, "generate-feature-index.json");
+const usageManifestFile = path.join(cacheDir, "build-gallery-usage.json");
 
 type ManifestEntry = { mtimeMs: number };
 type Manifest = Record<string, ManifestEntry>;
@@ -74,27 +75,43 @@ async function featureChanged(): Promise<boolean> {
   );
 }
 
+async function usageChanged(): Promise<boolean> {
+  const patterns = [
+    "src/app/**/*.{ts,tsx}",
+    "src/components/**/*.gallery.{ts,tsx}",
+  ];
+  const files = await fg(patterns, { cwd: rootDir, absolute: true });
+  const manifest = await loadManifest(usageManifestFile);
+  return hasChanges(
+    manifest,
+    Array.from(new Set(files)),
+    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  );
+}
+
 function run(cmd: string): void {
   execSync(cmd, { stdio: "inherit" });
 }
 
 async function main() {
   if (process.env.CI === "true") {
-    console.log("Skipping UI and feature regeneration");
+    console.log("Skipping regeneration tasks");
     return;
   }
 
-  const [needsUi, needsFeature] = await Promise.all([
+  const [needsUi, needsFeature, needsUsage] = await Promise.all([
     uiChanged(),
     featureChanged(),
+    usageChanged(),
   ]);
 
-  if (!needsUi && !needsFeature) {
-    console.log("Skipping UI and feature regeneration");
+  if (!needsUi && !needsFeature && !needsUsage) {
+    console.log("Skipping regeneration tasks");
     return;
   }
 
-  const total = (needsUi ? 1 : 0) + (needsFeature ? 1 : 0);
+  const total =
+    (needsUi ? 1 : 0) + (needsFeature ? 1 : 0) + (needsUsage ? 1 : 0);
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
     Presets.shades_grey,
@@ -107,6 +124,10 @@ async function main() {
   }
   if (needsFeature) {
     run("npm run regen-feature");
+    taskBar.increment();
+  }
+  if (needsUsage) {
+    run("npm run build-gallery-usage");
     taskBar.increment();
   }
 
