@@ -172,18 +172,23 @@ export default function Reminders() {
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
             {/* search */}
             <div className="relative flex-1 min-w-56">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70" />
+              <Search
+                size={18}
+                className="pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground opacity-70"
+              />
               <Input
                 aria-label="Search reminders"
                 placeholder="Search title, text, tags…"
                 name="search-reminders"
-                className="pl-6"
+                height="md"
+                indent
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-label font-medium tracking-[0.02em] text-muted-foreground">
-                {filtered.length}
-              </span>
+              >
+                <span className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-label font-medium tracking-[0.02em] text-muted-foreground">
+                  {filtered.length}
+                </span>
+              </Input>
             </div>
 
             {/* groups */}
@@ -196,21 +201,25 @@ export default function Reminders() {
             />
 
             {/* pinned */}
-              <SegmentedButton
-                className="h-10"
-                onClick={() => setOnlyPinned(v => !v)}
-                aria-pressed={onlyPinned}
-                title="Pinned only"
-                isActive={onlyPinned}
-              >
-                {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
-                {onlyPinned ? "Pinned only" : "Any pin"}
-              </SegmentedButton>
+            <SegmentedButton
+              className="min-h-[var(--control-h-md)]"
+              onClick={() => setOnlyPinned(v => !v)}
+              aria-pressed={onlyPinned}
+              title="Pinned only"
+              isActive={onlyPinned}
+            >
+              {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+              {onlyPinned ? "Pinned only" : "Any pin"}
+            </SegmentedButton>
 
             {/* actions */}
-              <SegmentedButton className="h-10" onClick={resetSeeds} title="Replace with curated seeds">
-                Reset
-              </SegmentedButton>
+            <SegmentedButton
+              className="min-h-[var(--control-h-md)]"
+              onClick={resetSeeds}
+              title="Replace with curated seeds"
+            >
+              Reset
+            </SegmentedButton>
           </div>
         </SectionCard.Header>
 
