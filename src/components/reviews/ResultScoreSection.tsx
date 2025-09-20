@@ -90,7 +90,7 @@ function ResultScoreSection(
             }
           }}
           className={cn(
-            "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg",
+            "relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg",
             "border border-border bg-card",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           )}
@@ -98,13 +98,13 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style={resultIndicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
             <div
               className={cn(
-                "py-2 text-center",
+                "py-[var(--space-2)] text-center",
                 result === "Win" ? "text-foreground" : "text-muted-foreground",
               )}
             >
@@ -112,7 +112,7 @@ function ResultScoreSection(
             </div>
             <div
               className={cn(
-                "py-2 text-center",
+                "py-[var(--space-2)] text-center",
                 result === "Loss" ? "text-foreground" : "text-muted-foreground",
               )}
             >

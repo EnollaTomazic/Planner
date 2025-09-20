@@ -30,7 +30,7 @@ export default function ReviewSummaryHeader({
   const ResultBadge = result && (
     <span
       className={cn(
-        "inline-flex h-10 items-center rounded-card r-card-lg border px-3 text-ui font-medium",
+        "inline-flex h-[var(--control-h-md)] items-center rounded-card r-card-lg border px-[var(--space-3)] text-ui font-medium",
         "border-border bg-card",
         result === "Win"
           ? "shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
@@ -52,12 +52,12 @@ export default function ReviewSummaryHeader({
             {title || "Untitled review"}
           </div>
         </div>
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-[var(--space-2)]">
           {role ? (
             <span
               className={cn(
-                "inline-flex h-10 items-center gap-2 rounded-card r-card-lg border border-border",
-                "bg-card px-3 text-ui font-medium",
+                "inline-flex h-[var(--control-h-md)] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border",
+                "bg-card px-[var(--space-3)] text-ui font-medium",
               )}
               title={roleLabel}
             >
