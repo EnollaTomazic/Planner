@@ -33,7 +33,7 @@ export default function ColorGallery() {
   }, [palette]);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-[var(--space-8)]">
       <TabBar
         items={paletteTabs}
         value={palette}
@@ -51,12 +51,12 @@ export default function ColorGallery() {
           ref={(el) => {
             panelRefs.current[p.key] = el;
           }}
-          className="grid gap-8 sm:grid-cols-2 md:grid-cols-3"
+          className="grid gap-[var(--space-8)] sm:grid-cols-2 md:grid-cols-3"
         >
           {p.key === "aurora" && (
-            <div className="flex flex-col items-center gap-2 sm:col-span-2 md:col-span-3">
+            <div className="flex flex-col items-center gap-[var(--space-2)] sm:col-span-2 md:col-span-3">
               <span className="text-ui font-medium">Aurora Palette</span>
-              <div className="flex gap-2">
+              <div className="flex gap-[var(--space-2)]">
                 <div
                   className="rounded-[var(--radius-md)] bg-aurora-g"
                   style={auroraSwatchStyle}
@@ -82,7 +82,7 @@ export default function ColorGallery() {
             </div>
           )}
           {COLOR_PALETTES[p.key].map((c) => (
-            <div key={c} className="flex flex-col items-center gap-2">
+            <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
               <span className="text-label uppercase tracking-wide text-accent-3">
                 {c}
               </span>

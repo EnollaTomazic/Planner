@@ -9,7 +9,7 @@ const items = [
 export default function SelectShowcase() {
   const [value, setValue] = React.useState<string>();
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-[var(--space-4)]">
       <AnimatedSelect
         items={items}
         value={value}
