@@ -72,10 +72,35 @@ const getSizeClass = (s: IconButtonSize) => {
   return sizeMap[s];
 };
 
-const variantBase: Record<Variant, string> = {
-  ring: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)]",
-  solid: "border",
-  glow: "border bg-card/35 hover:bg-[--hover] [--hover:hsl(var(--panel)/0.45)] [--active:hsl(var(--panel)/0.55)] shadow-glow-current",
+const toneTintTokens = {
+  primary:
+    "[--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
+  accent:
+    "[--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
+  info:
+    "[--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
+  danger:
+    "[--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
+} satisfies Record<Tone, string>;
+
+const surfaceInteractionTokens = {
+  accent:
+    "[--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+  info:
+    "[--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
+  danger:
+    "[--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
+} satisfies Record<Exclude<Tone, "primary">, string>;
+
+const variantBase: Record<Variant, (tone: Tone) => string> = {
+  ring: (tone) =>
+    cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
+  solid: () => "border",
+  glow: (tone) =>
+    cn(
+      "border bg-card/35 hover:bg-[--hover] shadow-glow-current",
+      toneTintTokens[tone],
+    ),
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -86,14 +111,22 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     danger: "border-danger/35 text-danger",
   },
   solid: {
-    primary:
-      "border-transparent bg-foreground/15 text-foreground [--hover:hsl(var(--foreground)/0.12)] [--active:hsl(var(--foreground)/0.08)]",
-    accent:
-      "border-transparent bg-accent/30 text-[var(--text-on-accent)] [--hover:hsl(var(--accent)/0.4)] [--active:hsl(var(--accent)/0.5)]",
-    info:
-      "border-transparent bg-accent-2/30 text-[var(--text-on-accent)] [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
-    danger:
-      "border-transparent bg-danger/20 text-danger-foreground [--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
+    primary: cn(
+      "border-transparent bg-foreground/15 text-foreground",
+      toneTintTokens.primary,
+    ),
+    accent: cn(
+      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
+      surfaceInteractionTokens.accent,
+    ),
+    info: cn(
+      "border-transparent bg-accent-2/30 text-[var(--text-on-accent)]",
+      surfaceInteractionTokens.info,
+    ),
+    danger: cn(
+      "border-transparent bg-danger/20 text-danger-foreground",
+      surfaceInteractionTokens.danger,
+    ),
   },
   glow: {
     primary: "border-foreground/35 text-foreground",
@@ -164,7 +197,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         type="button"
         className={cn(
           "inline-flex items-center justify-center select-none rounded-full transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
-          variantBase[variant],
+          variantBase[variant](tone),
           toneClasses[variant][tone],
           sizeClass,
           iconMap[appliedIconSize],
