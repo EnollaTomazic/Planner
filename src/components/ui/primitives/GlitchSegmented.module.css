@@ -22,18 +22,30 @@
 
 .glitchScanlines:hover::after {
   opacity: 0.28;
-  filter: drop-shadow(var(--shadow-glow-small));
+  filter: drop-shadow(0 0 var(--space-3) var(--hover, hsl(var(--glow) / 0.5)));
   animation: crt-scan 4s linear infinite;
+}
+
+.glitchScanlines:focus-visible::after {
+  opacity: 0.35;
+  filter: drop-shadow(0 0 var(--space-4) var(--focus, hsl(var(--ring))));
 }
 
 .glitchScanlines:active::after,
 .glitchScanlines[aria-pressed="true"]::after,
 .glitchScanlines[data-selected="true"]::after {
   opacity: 0.45;
-  filter: drop-shadow(var(--shadow-glow-strong));
+  filter: drop-shadow(0 0 var(--space-4) var(--active, hsl(var(--glow))));
   animation:
     crt-scan 1s linear infinite,
     crt-jitter 200ms steps(2, end) infinite;
+}
+
+.glitchScanlines:disabled::after,
+.glitchScanlines[aria-disabled="true"]::after {
+  opacity: var(--disabled, 0.5);
+  filter: none;
+  animation: none;
 }
 
 .glitchScanlines::before {
@@ -47,6 +59,11 @@
     hsl(var(--glow) / 0.35),
     transparent 70%
   );
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    color-mix(in srgb, var(--focus, hsl(var(--glow))) 35%, transparent),
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 200ms;
 }
@@ -56,10 +73,20 @@
   animation: crt-glow 2.4s ease-in-out infinite alternate;
 }
 
+.glitchScanlines:focus-visible::before {
+  opacity: 0.35;
+}
+
 .glitchScanlines:active::before,
 .glitchScanlines[aria-pressed="true"]::before,
 .glitchScanlines[data-selected="true"]::before {
   opacity: 0.45;
+}
+
+.glitchScanlines:disabled::before,
+.glitchScanlines[aria-disabled="true"]::before {
+  opacity: calc(var(--disabled, 0.5) * 0.4);
+  animation: none;
 }
 
 @keyframes crt-scan {

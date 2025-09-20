@@ -26,6 +26,7 @@ import {
   SearchBar,
   Snackbar,
   Card,
+  NeoCard,
   CheckCircle,
   NeonIcon,
   Toggle,
@@ -40,6 +41,7 @@ import {
   type TabItem,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
@@ -172,7 +174,17 @@ export default function ComponentGallery() {
         element: <IconButtonShowcase />,
       },
       {
-        label: "Segmented",
+        label: "SegmentedButton",
+        element: (
+          <div className="w-56 flex gap-[var(--space-2)]">
+            <SegmentedButton>Default</SegmentedButton>
+            <SegmentedButton isActive>Active</SegmentedButton>
+            <SegmentedButton disabled>Disabled</SegmentedButton>
+          </div>
+        ),
+      },
+      {
+        label: "GlitchSegmented",
         element: (
           <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
             <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
@@ -244,7 +256,7 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Tabs",
+        label: "TabBar (default)",
         element: (
           <TabBar
             items={[
@@ -400,7 +412,7 @@ export default function ComponentGallery() {
           <Input
             aria-label="Demo input"
             placeholder="Type here"
-            className="w-56 rounded-full"
+            className="w-56"
           />
         ),
       },
@@ -537,7 +549,7 @@ export default function ComponentGallery() {
             <Input aria-label="Small input demo" height="sm" placeholder="Small" />
             <Input aria-label="Medium input demo" placeholder="Medium" />
             <Input aria-label="Large input demo" height="lg" placeholder="Large" />
-            <Input aria-label="Tall input demo" height={12} placeholder="h-12" />
+            <Input aria-label="Tall input demo" height="xl" placeholder="Extra large" />
             <Input aria-label="Input with icon demo" placeholder="With icon" hasEndSlot>
               <Plus className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             </Input>
@@ -1190,9 +1202,9 @@ export default function ComponentGallery() {
       {
         label: "Card Neo",
         element: (
-          <div className="card-neo w-56 h-8 flex items-center justify-center">
+          <NeoCard className="w-56 flex items-center justify-center text-center">
             Card Neo
-          </div>
+          </NeoCard>
         ),
       },
       {
