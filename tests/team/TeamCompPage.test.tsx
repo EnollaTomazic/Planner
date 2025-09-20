@@ -4,6 +4,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import TeamCompPage from "@/components/team/TeamCompPage";
 import * as BuilderModule from "@/components/team/Builder";
 import type { TeamState } from "@/components/team/Builder";
+import { createStorageKey } from "@/lib/db";
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -12,6 +13,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.runAllTimers();
   vi.useRealTimers();
+  window.localStorage.clear();
 });
 
 describe("TeamCompPage builder tab", () => {
@@ -59,5 +61,18 @@ describe("TeamCompPage jungle clears tab", () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText(/\d+ shown/i)).toBeInTheDocument();
+  });
+});
+
+describe("TeamCompPage cheat sheet sub-tab", () => {
+  it("falls back to sheet when cached value is invalid", () => {
+    const storageKey = createStorageKey("team:cheatsheet:activeSubTab.v1");
+    window.localStorage.setItem(storageKey, JSON.stringify("invalid"));
+
+    render(<TeamCompPage />);
+
+    const sheetPanel = screen.getByRole("tabpanel", { name: "Cheat Sheet" });
+    expect(sheetPanel).not.toHaveAttribute("hidden");
+    window.localStorage.removeItem(storageKey);
   });
 });
