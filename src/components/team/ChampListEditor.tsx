@@ -22,8 +22,9 @@ export type ChampListEditorProps = {
   inputClassName?: string;
 };
 
-const VIEW_CONTAINER = "champ-badges mt-1";
-const EDIT_CONTAINER = "champ-badges mt-1 flex flex-wrap gap-2";
+const VIEW_CONTAINER = "champ-badges mt-[var(--space-1)]";
+const EDIT_CONTAINER =
+  "champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]";
 const PILL_BASE =
   "champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]";
 const INPUT_BASE =

@@ -16,6 +16,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
+import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
 import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";
 
@@ -24,6 +25,64 @@ type JunglerRow = JunglerRowSeed & { id: string };
 const STORE_KEY = "team:jungle.clears.v1";
 const SEEDS: JunglerRow[] = JUNGLE_ROWS.map((r) => ({ ...r, id: uid("jg") }));
 const BUCKETS: ClearSpeed[] = ["Very Fast", "Fast", "Medium", "Slow"];
+const SPEED_SET = new Set<ClearSpeed>(BUCKETS);
+const NEEDS_PERSIST = Symbol("team:jungle.clears.needsPersist");
+type NormalizedRows = JunglerRow[] & { [NEEDS_PERSIST]?: true };
+
+function decodeRows(value: unknown): JunglerRow[] | null {
+  if (!Array.isArray(value)) return null;
+
+  const next: NormalizedRows = [];
+  let assignedNewId = false;
+
+  for (const raw of value) {
+    if (!isRecord(raw)) {
+      continue;
+    }
+
+    const rawSpeed = raw.speed;
+    const speed: ClearSpeed =
+      typeof rawSpeed === "string" && SPEED_SET.has(rawSpeed as ClearSpeed)
+        ? (rawSpeed as ClearSpeed)
+        : "Medium";
+
+    const champ = typeof raw.champ === "string" ? raw.champ : "";
+    const type = isStringArray(raw.type)
+      ? raw.type.filter((tag) => tag.length > 0)
+      : [];
+    const notes =
+      typeof raw.notes === "string" ? raw.notes : undefined;
+
+    let id: string;
+    if (typeof raw.id === "string" && raw.id.trim() !== "") {
+      id = raw.id;
+    } else {
+      id = uid("jg");
+      assignedNewId = true;
+    }
+
+    next.push({
+      id,
+      champ,
+      speed,
+      type,
+      notes,
+    });
+  }
+
+  if (assignedNewId) {
+    Object.defineProperty(next, NEEDS_PERSIST, {
+      value: true,
+      enumerable: false,
+    });
+  }
+
+  return next;
+}
+
+function needsPersist(rows: JunglerRow[]): rows is NormalizedRows {
+  return Boolean((rows as NormalizedRows)[NEEDS_PERSIST]);
+}
 
 const SPEED_PERSONA: Record<ClearSpeed, { tag: string; line: string }> = {
   "Very Fast": {
@@ -67,7 +126,9 @@ export default React.forwardRef<
   { editing, query, onCountChange, onTargetBucketChange },
   ref,
 ) {
-  const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS);
+  const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS, {
+    decode: decodeRows,
+  });
   const [editingRow, setEditingRow] = useState<{
     id: string;
     champ: string;
@@ -94,6 +155,11 @@ export default React.forwardRef<
 
       return changed ? next : prev;
     });
+  }, [items, setItems]);
+
+  useEffect(() => {
+    if (!needsPersist(items)) return;
+    setItems((current) => current.map((row) => ({ ...row })));
   }, [items, setItems]);
 
   const filtered = useMemo(() => {
