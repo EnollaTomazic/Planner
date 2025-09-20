@@ -138,25 +138,70 @@ export const GALLERY_SECTION_GROUPS: readonly GallerySectionGroupMeta[] = [
       eyebrow: "Workflows",
       heading: "Planner experience frameworks",
       subtitle:
-        "Boards, dashboards, and league companions that orchestrate end-to-end flows.",
+        "Boards, dashboards, and companion surfaces that orchestrate end-to-end flows.",
     },
     sections: [
+      {
+        id: "homepage",
+        copy: {
+          eyebrow: "Landing",
+          heading: "Homepage welcome surfaces",
+          subtitle:
+            "Hero frames, portraits, and quick actions that open Planner with energy.",
+        },
+      },
+      {
+        id: "reviews",
+        copy: {
+          eyebrow: "Insights",
+          heading: "Review analysis surfaces",
+          subtitle:
+            "Score panels, scouting forms, and pillar tools tuned for match retrospectives.",
+        },
+      },
       {
         id: "planner",
         copy: {
           eyebrow: "Core surfaces",
-          heading: "Planner workflow components",
+          heading: "Planner navigation systems",
           subtitle:
-            "Boards, goals, and schedule pieces that build the heart of Planner.",
+            "Boards, schedules, and route controls that anchor day-to-day focus.",
         },
       },
       {
-        id: "league",
+        id: "goals",
         copy: {
-          eyebrow: "Esports",
-          heading: "League companion components",
+          eyebrow: "Progress",
+          heading: "Goals tracking flows",
           subtitle:
-            "Role, matchup, and score UI shaped for competitive recaps.",
+            "Lists, reminders, and focus timers that keep momentum visible.",
+        },
+      },
+      {
+        id: "team",
+        copy: {
+          eyebrow: "Roster",
+          heading: "Team collaboration surfaces",
+          subtitle:
+            "Champion lists, side selectors, and pillar badges for coordinating the squad.",
+        },
+      },
+      {
+        id: "components",
+        copy: {
+          eyebrow: "Library",
+          heading: "Components workspace shells",
+          subtitle:
+            "Gallery scaffolding, theming controls, and reference frames for deep dives.",
+        },
+      },
+      {
+        id: "prompts",
+        copy: {
+          eyebrow: "Guidance",
+          heading: "Prompts workspace surfaces",
+          subtitle:
+            "Lists, editors, and demos shaping Planner's coaching moments.",
         },
       },
     ],
