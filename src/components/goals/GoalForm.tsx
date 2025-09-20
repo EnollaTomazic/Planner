@@ -78,7 +78,8 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             <Input
               ref={titleRef}
               id="goal-title"
-              className="h-10 text-ui font-medium"
+              height="md"
+              inputClassName="font-medium"
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               required
@@ -91,7 +92,8 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Metric (optional)
             <Input
               id="goal-metric"
-              className="h-10 text-ui font-medium tabular-nums"
+              height="md"
+              inputClassName="font-medium tabular-nums"
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
               aria-describedby={describedBy || undefined}
