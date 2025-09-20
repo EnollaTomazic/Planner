@@ -244,7 +244,7 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Tabs",
+        label: "TabBar (default)",
         element: (
           <TabBar
             items={[
