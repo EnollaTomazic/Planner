@@ -7,6 +7,7 @@ import {
   type GallerySectionId,
 } from "@/components/gallery/registry";
 import {
+  Badge,
   Button,
   Card,
   NeoCard,
@@ -16,8 +17,12 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
+  Field,
+  Input,
+  Label,
   Sheet,
   Modal,
+  Textarea,
   Toast,
   ThemePicker,
   BackgroundPicker,
@@ -42,6 +47,7 @@ import {
   SectionCard as UiSectionCard,
   Spinner,
 } from "@/components/ui";
+import { Check as CheckIcon } from "lucide-react";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
 import OutlineGlowDemo from "./OutlineGlowDemo";
@@ -129,6 +135,243 @@ const demoReview: Review = {
   score: 8,
   result: "Win",
 };
+
+const FIELD_HOVER_SHADOW =
+  "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]";
+const CHIP_FOCUS_RING =
+  "ring-2 ring-[var(--focus)] ring-offset-2 ring-offset-[hsl(var(--surface-2))] outline-none";
+
+type ChipState =
+  | "hover"
+  | "focus-visible"
+  | "pressed"
+  | "disabled"
+  | "loading";
+
+function PromptsHeaderChipStatePreview({ state }: { state: ChipState }) {
+  const labelMap: Record<ChipState, string> = {
+    hover: "Hover",
+    "focus-visible": "Focus visible",
+    pressed: "Pressed",
+    disabled: "Disabled",
+    loading: "Loading",
+  };
+
+  const isDisabled = state === "disabled" || state === "loading";
+
+  return (
+    <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+      <Badge interactive>Default</Badge>
+      <Badge
+        interactive
+        disabled={isDisabled}
+        className={cn(
+          "capitalize",
+          state === "hover" && "bg-muted/28",
+          state === "focus-visible" && CHIP_FOCUS_RING,
+          state === "pressed" &&
+            "bg-muted/36 translate-y-[var(--space-1)] shadow-badge",
+          state === "loading" && "pointer-events-none",
+        )}
+        aria-pressed={state === "pressed" ? "true" : undefined}
+      >
+        <span>{labelMap[state]}</span>
+        {state === "loading" ? (
+          <Spinner
+            size={16}
+            className="ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent"
+          />
+        ) : null}
+      </Badge>
+    </div>
+  );
+}
+
+type SearchState =
+  | "hover"
+  | "focus-visible"
+  | "active"
+  | "disabled"
+  | "loading"
+  | "error"
+  | "empty";
+
+function PromptsHeaderSearchStatePreview({ state }: { state: SearchState }) {
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const helperId = React.useId();
+  const helperText = React.useMemo(() => {
+    if (state === "error") {
+      return "No prompts match \"reaction windows\".";
+    }
+    if (state === "empty") {
+      return "Type to filter saved prompts.";
+    }
+    return undefined;
+  }, [state]);
+
+  React.useEffect(() => {
+    if (state !== "focus-visible") {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [state]);
+
+  const valueMap: Record<SearchState, string> = {
+    hover: "Focus cues",
+    "focus-visible": "Focus cues",
+    active: "Reaction windows",
+    disabled: "Focus cues",
+    loading: "Syncing prompts",
+    error: "Reaction windows",
+    empty: "",
+  };
+
+  const isDisabled = state === "disabled";
+  const isLoading = state === "loading";
+  const isError = state === "error";
+
+  return (
+    <Field.Root
+      className={cn(
+        "max-w-[min(100%,var(--space-72))]",
+        state === "hover" && FIELD_HOVER_SHADOW,
+      )}
+      disabled={isDisabled}
+      loading={isLoading}
+      invalid={isError}
+      helper={helperText}
+      helperTone={isError ? "danger" : "muted"}
+      helperId={helperText ? helperId : undefined}
+    >
+      <Field.Search
+        ref={inputRef}
+        placeholder="Search prompts…"
+        aria-label="Search prompts"
+        aria-describedby={helperText ? helperId : undefined}
+        aria-invalid={isError ? "true" : undefined}
+        value={valueMap[state]}
+        readOnly
+        clearable={state === "active"}
+        onClear={state === "active" ? () => {} : undefined}
+        disabled={isDisabled}
+        loading={isLoading}
+      />
+    </Field.Root>
+  );
+}
+
+type ComposeState =
+  | "hover"
+  | "focus-visible"
+  | "active"
+  | "disabled"
+  | "loading"
+  | "error"
+  | "empty";
+
+function PromptsComposePanelStatePreview({ state }: { state: ComposeState }) {
+  const titleId = React.useId();
+  const titleHelperId = React.useId();
+  const promptId = React.useId();
+  const promptHelperId = React.useId();
+  const titleRef = React.useRef<HTMLInputElement | null>(null);
+
+  React.useEffect(() => {
+    if (state !== "focus-visible") {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      if (titleRef.current) {
+        titleRef.current.focus();
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [state]);
+
+  const isDisabled = state === "disabled";
+  const isLoading = state === "loading";
+  const isError = state === "error";
+  const isEmpty = state === "empty";
+
+  const fieldAccentShadow =
+    state === "active" ? "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08)]" : undefined;
+
+  return (
+    <div className="space-y-[var(--space-3)]">
+      <div>
+        <Label htmlFor={titleId}>Title</Label>
+        <Input
+          ref={titleRef}
+          id={titleId}
+          placeholder="Title"
+          value={isEmpty || isError ? "" : "Review after scrims"}
+          readOnly
+          disabled={isDisabled}
+          aria-invalid={isError ? "true" : undefined}
+          aria-describedby={titleHelperId}
+          data-loading={isLoading}
+          className={cn(
+            state === "hover" && FIELD_HOVER_SHADOW,
+            fieldAccentShadow,
+          )}
+        >
+          <CheckIcon
+            aria-hidden="true"
+            className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+          />
+        </Input>
+        <p
+          id={titleHelperId}
+          className={cn(
+            "mt-[var(--space-1)] text-label",
+            isError ? "text-danger" : "text-muted-foreground",
+          )}
+        >
+          {isError ? "Title is required before saving." : "Add a short title"}
+        </p>
+      </div>
+      <div>
+        <Label htmlFor={promptId}>Prompt</Label>
+        <Textarea
+          id={promptId}
+          placeholder="Write your prompt or snippet…"
+          value={
+            isEmpty
+              ? ""
+              : "Summarize three high-impact plays and next steps."
+          }
+          readOnly
+          disabled={isDisabled}
+          aria-invalid={isError ? "true" : undefined}
+          aria-describedby={
+            isEmpty ? promptHelperId : undefined
+          }
+          data-loading={isLoading}
+          resize="resize-y"
+          className={cn(
+            state === "hover" && FIELD_HOVER_SHADOW,
+            fieldAccentShadow,
+          )}
+        />
+        {isEmpty ? (
+          <p
+            id={promptHelperId}
+            className="mt-[var(--space-1)] text-label text-muted-foreground"
+          >
+            Describe the context or goal for this prompt.
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 const SECTION_KIND_MAP: Record<GallerySectionId, GalleryEntryKind> = {
   buttons: "primitive",
@@ -435,8 +678,20 @@ function ReviewSurfaceDemo() {
   );
 }
 
-type BottomNavState = "default" | "active" | "disabled" | "syncing";
-type BottomNavDemoMode = "combined" | "active" | "disabled" | "syncing";
+type BottomNavState =
+  | "default"
+  | "active"
+  | "disabled"
+  | "syncing"
+  | "hover"
+  | "focus-visible";
+type BottomNavDemoMode =
+  | "combined"
+  | "active"
+  | "disabled"
+  | "syncing"
+  | "hover"
+  | "focus-visible";
 type BottomNavDemoItem = NavItem & { state: BottomNavState };
 
 const BOTTOM_NAV_STATE_DETAILS: Array<{
@@ -449,6 +704,18 @@ const BOTTOM_NAV_STATE_DETAILS: Array<{
     title: "Active tab",
     description:
       "Accent typography and the theme ring token pin the current Planner route.",
+  },
+  {
+    key: "hover",
+    title: "Hover tab",
+    description:
+      "Foreground copy brightens while motion-safe elevation nudges the button for pointer feedback.",
+  },
+  {
+    key: "focus-visible",
+    title: "Keyboard focus",
+    description:
+      "Press Tab to move focus; focus-visible:ring-[var(--theme-ring)] keeps keyboard users anchored with the theme ring.",
   },
   {
     key: "disabled",
@@ -473,6 +740,14 @@ function createBottomNavItems(mode: BottomNavDemoMode = "combined") {
 
   if (mode === "combined" || mode === "active") {
     states.set("/planner", "active");
+  }
+
+  if (mode === "combined" || mode === "hover") {
+    states.set("/goals", "hover");
+  }
+
+  if (mode === "combined" || mode === "focus-visible") {
+    states.set("/components", "focus-visible");
   }
 
   if (mode === "combined" || mode === "syncing") {
@@ -516,6 +791,10 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                     "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-[var(--disabled)] motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                     state === "active" &&
                       "text-accent-3 ring-2 ring-[var(--theme-ring)]",
+                    state === "hover" &&
+                      "text-foreground motion-safe:-translate-y-0.5 motion-reduce:transform-none",
+                    state === "focus-visible" &&
+                      "text-foreground ring-2 ring-[var(--theme-ring)] ring-offset-0",
                     state === "default" &&
                       "text-muted-foreground hover:text-foreground",
                     state === "disabled" && "text-muted-foreground/70",
@@ -1200,6 +1479,205 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     />
   );
 }`,
+      states: [
+        {
+          id: "chip-hover",
+          name: "Chip hover",
+          description:
+            "The muted overlay token appears on hover so filter chips advertise interactivity without shifting layout.",
+          element: <PromptsHeaderChipStatePreview state="hover" />,
+          code: `<div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  <Badge interactive>Default</Badge>
+  <Badge interactive className="bg-muted/28">
+    Hover
+  </Badge>
+</div>`,
+        },
+        {
+          id: "chip-focus-visible",
+          name: "Chip focus-visible",
+          description:
+            "Focus rings use the global \`--focus\` token to keep keyboard navigation visible across themed surfaces.",
+          element: <PromptsHeaderChipStatePreview state="focus-visible" />,
+          code: `<div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  <Badge interactive>Default</Badge>
+  <Badge
+    interactive
+    className="ring-2 ring-[var(--focus)] ring-offset-2 ring-offset-[hsl(var(--surface-2))] outline-none"
+  >
+    Focus visible
+  </Badge>
+</div>`,
+        },
+        {
+          id: "chip-pressed",
+          name: "Chip pressed",
+          description:
+            "Pressed chips dip by \`var(--space-1)\` and deepen the muted overlay so selection feedback remains tactile.",
+          element: <PromptsHeaderChipStatePreview state="pressed" />,
+          code: `<div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  <Badge interactive>Default</Badge>
+  <Badge
+    interactive
+    aria-pressed="true"
+    className="bg-muted/36 translate-y-[var(--space-1)] shadow-badge"
+  >
+    Pressed
+  </Badge>
+</div>`,
+        },
+        {
+          id: "chip-disabled",
+          name: "Chip disabled",
+          description:
+            "Disabled chips lean on the shared opacity token so unavailable filters fade without breaking rhythm.",
+          element: <PromptsHeaderChipStatePreview state="disabled" />,
+          code: `<div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  <Badge interactive>Default</Badge>
+  <Badge interactive disabled>
+    Disabled
+  </Badge>
+</div>`,
+        },
+        {
+          id: "chip-loading",
+          name: "Chip loading",
+          description:
+            "While sync runs the badge disables interaction and shows an accent spinner anchored by the spacing scale.",
+          element: <PromptsHeaderChipStatePreview state="loading" />,
+          code: `<div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  <Badge interactive>Default</Badge>
+  <Badge
+    interactive
+    disabled
+    className="pointer-events-none"
+  >
+    Loading
+    <Spinner
+      size={16}
+      className="ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent"
+    />
+  </Badge>
+</div>`,
+        },
+        {
+          id: "search-hover",
+          name: "Search hover",
+          description:
+            "Hovering the header search lifts the hairline shadow using the shared highlight token.",
+          element: <PromptsHeaderSearchStatePreview state="hover" />,
+          code: `<Field.Root
+  className="max-w-[min(100%,var(--space-72))] shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]"
+>
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Focus cues"
+    aria-label="Search prompts"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-focus-visible",
+          name: "Search focus-visible",
+          description:
+            "Auto focus applies the planner ring token so keyboard users keep orientation while filtering.",
+          element: <PromptsHeaderSearchStatePreview state="focus-visible" />,
+          code: `<Field.Root className="max-w-[min(100%,var(--space-72))]">
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Focus cues"
+    autoFocus
+    aria-label="Search prompts"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-active",
+          name: "Search active",
+          description:
+            "Typing a query reveals the clear affordance so the chip filters and search stay in sync.",
+          element: <PromptsHeaderSearchStatePreview state="active" />,
+          code: `<Field.Root className="max-w-[min(100%,var(--space-72))]">
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Reaction windows"
+    clearable
+    onClear={() => {}}
+    aria-label="Search prompts"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-disabled",
+          name: "Search disabled",
+          description:
+            "When search is disabled, tokens desaturate the field and the clear control stays hidden.",
+          element: <PromptsHeaderSearchStatePreview state="disabled" />,
+          code: `<Field.Root className="max-w-[min(100%,var(--space-72))]" disabled>
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Focus cues"
+    disabled
+    aria-label="Search prompts"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-loading",
+          name: "Search loading",
+          description:
+            "The loading state locks the field and shows the inline spinner supplied by the field primitive.",
+          element: <PromptsHeaderSearchStatePreview state="loading" />,
+          code: `<Field.Root className="max-w-[min(100%,var(--space-72))]" loading>
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Syncing prompts"
+    loading
+    aria-label="Search prompts"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-error",
+          name: "Search error",
+          description:
+            "Danger helpers and border tokens communicate empty matches without collapsing the layout.",
+          element: <PromptsHeaderSearchStatePreview state="error" />,
+          code: `<Field.Root
+  className="max-w-[min(100%,var(--space-72))]"
+  invalid
+  helper="No prompts match \"reaction windows\"."
+  helperTone="danger"
+  helperId="search-error"
+>
+  <Field.Search
+    placeholder="Search prompts…"
+    defaultValue="Reaction windows"
+    aria-label="Search prompts"
+    aria-describedby="search-error"
+    aria-invalid="true"
+  />
+</Field.Root>`,
+        },
+        {
+          id: "search-empty",
+          name: "Search empty",
+          description:
+            "An empty helper keeps guidance visible when no query is applied yet.",
+          element: <PromptsHeaderSearchStatePreview state="empty" />,
+          code: `<Field.Root
+  className="max-w-[min(100%,var(--space-72))]"
+  helper="Type to filter saved prompts."
+  helperId="search-helper"
+>
+  <Field.Search
+    placeholder="Search prompts…"
+    aria-label="Search prompts"
+    aria-describedby="search-helper"
+  />
+</Field.Root>`,
+        },
+      ],
     },
     {
       id: "prompts-compose-panel",
@@ -1222,6 +1700,265 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     />
   );
 }`,
+      states: [
+        {
+          id: "compose-hover",
+          name: "Compose hover",
+          description:
+            "Hovering either field lifts the shared highlight shadow while preserving the matte prompt shell.",
+          element: <PromptsComposePanelStatePreview state="hover" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      defaultValue="Review after scrims"
+      className="shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]"
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      resize="resize-y"
+      className="shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]"
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-focus-visible",
+          name: "Compose focus-visible",
+          description:
+            "Focus-visible rings lean on the planner ring token so keyboard users keep context while editing prompts.",
+          element: <PromptsComposePanelStatePreview state="focus-visible" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      defaultValue="Review after scrims"
+      autoFocus
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      resize="resize-y"
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-active",
+          name: "Compose active",
+          description:
+            "Active editing introduces a subtle inset highlight so long-form prompts feel anchored while typing.",
+          element: <PromptsComposePanelStatePreview state="active" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      defaultValue="Review after scrims"
+      className="shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08)]"
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      resize="resize-y"
+      className="shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08)]"
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-disabled",
+          name: "Compose disabled",
+          description:
+            "Disabled compose fields lean on the shared disabled opacity and remove pointer cues while saves settle.",
+          element: <PromptsComposePanelStatePreview state="disabled" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      defaultValue="Review after scrims"
+      disabled
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      resize="resize-y"
+      disabled
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-loading",
+          name: "Compose loading",
+          description:
+            "Loading states trigger the field spinner via \`data-loading\` so writers know saves are in progress.",
+          element: <PromptsComposePanelStatePreview state="loading" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      defaultValue="Review after scrims"
+      data-loading
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      resize="resize-y"
+      data-loading
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-error",
+          name: "Compose error",
+          description:
+            "Danger helpers communicate required titles, keeping validation inline with the prompt scaffold.",
+          element: <PromptsComposePanelStatePreview state="error" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+      aria-invalid="true"
+      aria-describedby="prompt-title-error"
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p
+      id="prompt-title-error"
+      className="mt-[var(--space-1)] text-label text-danger"
+    >
+      Title is required before saving.
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      defaultValue="Summarize three high-impact plays and next steps."
+      aria-invalid="true"
+      resize="resize-y"
+    />
+  </div>
+</div>`,
+        },
+        {
+          id: "compose-empty",
+          name: "Compose empty",
+          description:
+            "Empty compose fields keep helper copy visible so players know what to write before saving.",
+          element: <PromptsComposePanelStatePreview state="empty" />,
+          code: `<div className="space-y-[var(--space-3)]">
+  <div>
+    <Label htmlFor="prompt-title">Title</Label>
+    <Input
+      id="prompt-title"
+      placeholder="Title"
+    >
+      <CheckIcon
+        aria-hidden="true"
+        className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+      />
+    </Input>
+    <p className="mt-[var(--space-1)] text-label text-muted-foreground">
+      Add a short title
+    </p>
+  </div>
+  <div>
+    <Label htmlFor="prompt-body">Prompt</Label>
+    <Textarea
+      id="prompt-body"
+      placeholder="Write your prompt or snippet…"
+      aria-describedby="prompt-body-helper"
+      resize="resize-y"
+    />
+    <p
+      id="prompt-body-helper"
+      className="mt-[var(--space-1)] text-label text-muted-foreground"
+    >
+      Describe the context or goal for this prompt.
+    </p>
+  </div>
+</div>`,
+        },
+      ],
     },
     {
       id: "prompts-demos",
@@ -1237,7 +1974,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       id: "bottom-nav",
       name: "BottomNav",
       description:
-        "Mobile Planner nav demo showing active, disabled, and syncing tabs styled with tokens.",
+        "Mobile Planner nav demo showing active, hover, focus-visible, disabled, and syncing tabs styled with tokens.",
       element: <BottomNavStatesDemo />,
       tags: ["nav", "bottom"],
       code: `<BottomNavStatesDemo />`,
@@ -1249,6 +1986,22 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
             "Accent text plus the theme ring token anchor the current Planner route.",
           element: <BottomNavStatesDemo mode="active" />,
           code: `<BottomNavStatesDemo mode="active" />`,
+        },
+        {
+          id: "hover",
+          name: "Hover tab",
+          description:
+            "Cursor hover brightens the label and nudges the button using motion-safe elevation cues.",
+          element: <BottomNavStatesDemo mode="hover" />,
+          code: `<BottomNavStatesDemo mode="hover" />`,
+        },
+        {
+          id: "focus-visible",
+          name: "Keyboard focus",
+          description:
+            "Press Tab to cycle across tabs; focus-visible:ring-[var(--theme-ring)] draws the accessible theme ring for keyboard travelers.",
+          element: <BottomNavStatesDemo mode="focus-visible" />,
+          code: `<BottomNavStatesDemo mode="focus-visible" />`,
         },
         {
           id: "disabled",
