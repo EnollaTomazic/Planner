@@ -173,8 +173,8 @@ export default function Reminders() {
             {/* search */}
             <div className="relative flex-1 min-w-56">
               <Search
-                size={18}
-                className="pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground opacity-70"
+                aria-hidden
+                className="icon-md pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground opacity-70"
               />
               <Input
                 aria-label="Search reminders"

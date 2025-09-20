@@ -40,7 +40,7 @@ export default function ReminderFilters() {
               title="Filters"
               isActive={showFilters}
             >
-              <SlidersHorizontal size={16} aria-hidden />
+              <SlidersHorizontal className="icon-sm" aria-hidden />
               Filters
             </SegmentedButton>
           }

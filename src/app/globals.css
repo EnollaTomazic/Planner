@@ -27,6 +27,11 @@
     --team-glitch-accent-color: hsl(var(--accent) / 0.35);
     --team-glitch-accent-blur: var(--spacing-0-5);
     --team-glitch-accent-shadow: 0 0 var(--team-glitch-accent-blur) var(--team-glitch-accent-color);
+    --icon-size-xs: calc(var(--space-4) - var(--spacing-0-5));
+    --icon-size-sm: var(--space-4);
+    --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
+    --icon-size-lg: var(--space-5);
+    --icon-size-xl: var(--space-6);
   }
 
   body {
@@ -845,6 +850,12 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     background: hsl(var(--card));
     color: hsl(var(--foreground));
     border-color: hsl(var(--border) / 0.35);
+    --pill-icon-size: var(--icon-size-xs);
+  }
+  .pill > svg,
+  .pill svg {
+    width: var(--pill-icon-size);
+    height: var(--pill-icon-size);
   }
   .pill--low {
     background: hsl(var(--accent) / 0.15);
@@ -1916,6 +1927,31 @@ a:active .lucide {
 }
 
 @layer utilities {
+  .icon-xs {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
+  .icon-sm {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+  }
+
+  .icon-md {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+
+  .icon-lg {
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
+  }
+
+  .icon-xl {
+    width: var(--icon-size-xl);
+    height: var(--icon-size-xl);
+  }
+
   .stack-xs {
     display: flex;
     flex-direction: column;

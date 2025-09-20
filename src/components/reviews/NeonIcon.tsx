@@ -13,10 +13,30 @@ type Props = {
   staticGlow?: boolean;
 };
 
+type SizeToken = "xs" | "sm" | "md" | "lg" | "xl";
+
+const sizeTokens: Record<SizeToken, string> = {
+  xs: "var(--icon-size-xs)",
+  sm: "var(--icon-size-sm)",
+  md: "var(--icon-size-md)",
+  lg: "var(--icon-size-lg)",
+  xl: "var(--icon-size-xl)",
+};
+
+function resolveSize(size: Props["size"]): Props["size"] {
+  if (typeof size === "string") {
+    const token = sizeTokens[size as SizeToken];
+    if (token) {
+      return token;
+    }
+  }
+  return size;
+}
+
 export default function NeonIcon({
   kind,
   on,
-  size = "1em",
+  size: sizeProp = "1em",
   className,
   title,
   staticGlow = false,
@@ -30,7 +50,7 @@ export default function NeonIcon({
       key={staticGlow ? `${kind}-${on}` : undefined}
       icon={Icon}
       on={on}
-      size={size}
+      size={resolveSize(sizeProp)}
       colorVar={colorVar}
       className={className}
       title={title}
