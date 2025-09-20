@@ -10,4 +10,5 @@ export { default as QuickActionGrid } from "./QuickActionGrid";
 export { default as BottomNav } from "../chrome/BottomNav";
 export { default as IsometricRoom } from "./IsometricRoom";
 export { default as HeroPortraitFrame } from "./HeroPortraitFrame";
+export type { HeroPortraitFrameProps } from "./HeroPortraitFrame";
 export { default as WelcomeHeroFigure } from "./WelcomeHeroFigure";
