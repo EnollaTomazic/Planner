@@ -65,6 +65,10 @@ function ButtonGalleryPreview() {
           <Plus aria-hidden />
           Large
         </Button>
+        <Button size="xl">
+          <Plus aria-hidden />
+          Extra large
+        </Button>
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {BUTTON_STATES.map(({ label, className, props }) => (
@@ -95,7 +99,7 @@ export default defineGallerySection({
         },
         {
           name: "size",
-          type: '"sm" | "md" | "lg"',
+          type: '"sm" | "md" | "lg" | "xl"',
         },
         {
           name: "loading",
@@ -150,6 +154,10 @@ export default defineGallerySection({
     <Button size="lg">
       <Plus />
       Large
+    </Button>
+    <Button size="xl">
+      <Plus />
+      Extra large
     </Button>
   </div>
   <div className="flex flex-wrap gap-[var(--space-2)]">

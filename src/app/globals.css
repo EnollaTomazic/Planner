@@ -312,6 +312,18 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     animation: hero-rail-flicker 3.2s steps(24, end) infinite alternate;
     opacity: 0.3;
   }
+  .header-rail--subtle {
+    opacity: 0.65;
+  }
+  .header-rail--subtle::before {
+    opacity: 0.35;
+    filter: saturate(0.85);
+    animation: hero-hue-sweep 12s linear infinite;
+  }
+  .header-rail--subtle::after {
+    opacity: 0.16;
+    animation: hero-rail-flicker 6s steps(24, end) infinite alternate;
+  }
 }
 
 @layer components {

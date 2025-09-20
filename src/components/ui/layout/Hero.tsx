@@ -52,6 +52,9 @@ export interface HeroProps<Key extends string = string>
   /** Whether to include glitchy frame and background layers. */
   frame?: boolean;
 
+  /** Level of glitch treatment for frame overlays. */
+  glitch?: "default" | "subtle" | "off";
+
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
 
@@ -96,6 +99,7 @@ function Hero<Key extends string = string>({
   actions,
   tone = "heroic",
   frame = true,
+  glitch = "default",
   sticky = true,
   topClassName = "top-[var(--space-8)]",
   barClassName,
@@ -112,6 +116,10 @@ function Hero<Key extends string = string>({
   ...rest
 }: HeroProps<Key>) {
   const headingStr = typeof heading === "string" ? heading : undefined;
+  const glitchMode = glitch ?? "default";
+  const isGlitchSubtle = glitchMode === "subtle";
+  const isGlitchOff = glitchMode === "off";
+  const isGlitchCalm = isGlitchSubtle || isGlitchOff;
   const dividerStyle = {
     "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
   } as React.CSSProperties;
@@ -119,6 +127,8 @@ function Hero<Key extends string = string>({
   const heroVariant: TabBarProps["variant"] | undefined = frame
     ? "neo"
     : undefined;
+
+  const shouldRenderGlitchStyles = frame && !isGlitchCalm;
 
   const Component: HeroElement = as ?? "section";
 
@@ -279,17 +289,21 @@ function Hero<Key extends string = string>({
 
   return (
     <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
-      {frame ? <HeroGlitchStyles /> : null}
+      {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={shellClass}>
 
         <div className={cx(barSpacingClass, barClassName)}>
           <div className={labelClusterClass}>
-            {rail ? (
+            {rail && !isGlitchOff ? (
               <span
                 aria-hidden
-                className="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+                className={cx(
+                  "header-rail",
+                  "pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
+                  isGlitchSubtle && "header-rail--subtle",
+                )}
               />
             ) : null}
             {isRaisedBar ? (
@@ -320,14 +334,21 @@ function Hero<Key extends string = string>({
                   className={cx(
                     "block h-px",
                     frame
-                      ? "hero2-divider-line bg-[hsl(var(--divider))/0.35]"
+                      ? isGlitchOff
+                        ? "hero2-divider-line bg-[hsl(var(--divider))/0.18]"
+                        : isGlitchSubtle
+                          ? "hero2-divider-line bg-[hsl(var(--divider))/0.24]"
+                          : "hero2-divider-line bg-[hsl(var(--divider))/0.35]"
                       : "bg-[hsl(var(--divider))/0.28]",
                   )}
                 />
-                {frame ? (
+                {frame && !isGlitchOff ? (
                   <span
                     aria-hidden
-                    className="hero2-divider-glow absolute inset-x-0 top-0 h-px opacity-60 bg-[hsl(var(--divider))]"
+                    className={cx(
+                      "hero2-divider-glow absolute inset-x-0 top-0 h-px bg-[hsl(var(--divider))]",
+                      isGlitchSubtle ? "opacity-35" : "opacity-60",
+                    )}
                   />
                 ) : null}
                 <div className={actionRowClass}>
