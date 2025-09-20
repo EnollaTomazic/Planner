@@ -46,7 +46,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
         strokeDashoffset={offset}
         className={cn(
           "drop-shadow-[0_0_6px_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-[var(--dur-quick)] ease-linear motion-reduce:transition-none",
-          pulse && "animate-pulse",
+          pulse && "motion-safe:animate-pulse motion-reduce:animate-none",
         )}
         fill="none"
       />
