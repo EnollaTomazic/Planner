@@ -12,12 +12,6 @@ type ShowcaseButtonProps = Pick<
 
 const ICON_BUTTONS = [
   {
-    size: "xs",
-    variant: "ring",
-    "aria-label": "Add item xs",
-    title: "Add item xs",
-  },
-  {
     size: "sm",
     variant: "ring",
     "aria-label": "Add item sm",

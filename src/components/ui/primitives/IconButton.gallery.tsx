@@ -54,7 +54,7 @@ const ICON_BUTTON_STATES = [
   props: React.ComponentProps<typeof IconButton>;
 }>;
 
-const ICON_BUTTON_SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
+const ICON_BUTTON_SIZES = ["sm", "md", "lg", "xl"] as const;
 
 function IconButtonGalleryPreview() {
   return (
@@ -104,7 +104,7 @@ export default defineGallerySection({
         },
         {
           name: "size",
-          type: '"xs" | "sm" | "md" | "lg" | "xl"',
+          type: '"sm" | "md" | "lg" | "xl"',
         },
         {
           name: "loading",
@@ -136,9 +136,6 @@ export default defineGallerySection({
       }),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
-    <IconButton size="xs" variant="ring" aria-label="Add item xs">
-      <Plus />
-    </IconButton>
     <IconButton size="sm" variant="ring" aria-label="Add item sm">
       <Plus />
     </IconButton>
