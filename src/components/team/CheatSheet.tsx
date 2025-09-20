@@ -285,20 +285,24 @@ function BulletListEdit({
   editing: boolean;
   ariaLabel: string;
 }) {
-  const [list, setList] = React.useState<string[]>(
-    items.length ? sanitizeList(items) : [""],
-  );
+  const [list, setList] = React.useState<string[]>(() => {
+    const sanitized = sanitizeList(items);
+    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
+    return cleaned.length ? sanitized : [""];
+  });
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   React.useEffect(() => {
-    setList(items.length ? sanitizeList(items) : [""]);
+    const sanitized = sanitizeList(items);
+    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
+    setList(cleaned.length ? sanitized : [""]);
   }, [items]);
 
   function update(next: string[]) {
     const sanitized = sanitizeList(next);
-    setList(sanitized);
     const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
-    onChange(cleaned.length ? cleaned : [""]);
+    setList(cleaned.length ? sanitized : [""]);
+    onChange(cleaned.length ? cleaned : []);
   }
 
   function handleItemInput(i: number, e: React.FormEvent<HTMLLIElement>) {
