@@ -56,11 +56,20 @@ const decodeTab = (value: unknown): Tab | null => {
   return null;
 };
 
+const decodeSubTab = (value: unknown): SubTab | null => {
+  if (value === "sheet" || value === "comps") {
+    return value;
+  }
+  return null;
+};
+
 export default function TeamCompPage() {
   const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
     decode: decodeTab,
   });
-  const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet");
+  const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet", {
+    decode: decodeSubTab,
+  });
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
   const tabBaseId = React.useId();
   const subTabBaseId = React.useId();
