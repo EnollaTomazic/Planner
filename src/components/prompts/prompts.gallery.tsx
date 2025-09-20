@@ -468,6 +468,40 @@ function PromptsComposePanelDemo() {
   );
 }
 
+function PromptListLoadingState() {
+  return (
+    <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <li key={index}>
+          <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+            <div className="flex items-center justify-between">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading prompt title"
+                className="h-[var(--space-5)] w-[calc(100%-var(--space-6))]"
+                radius="sm"
+              />
+              <Skeleton
+                className="h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]"
+                radius="sm"
+              />
+            </div>
+            <div className="space-y-[var(--space-2)]">
+              <Skeleton className="w-full" />
+              <Skeleton className="w-[calc(100%-var(--space-6))]" />
+            </div>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PromptListEmptyState() {
+  return <PromptList prompts={[]} query="" />;
+}
+
 function DemoHeaderShowcase() {
   const [role, setRole] = React.useState<Role>("MID");
   const [fruit, setFruit] = React.useState<string>("apple");
@@ -492,6 +526,68 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <PromptList prompts={demoPrompts} query="" />,
       tags: ["prompt", "list"],
       code: `<PromptList prompts={demoPrompts} query="" />`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Skeleton cards preserve the prompt layout while entries sync from storage.",
+          element: <PromptListLoadingState />,
+          code: `<ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
+  {Array.from({ length: 3 }).map((_, index) => (
+    <li key={index}>
+      <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+        <div className="flex items-center justify-between">
+          <Skeleton
+            ariaHidden={false}
+            role="status"
+            aria-label="Loading prompt title"
+            className="h-[var(--space-5)] w-[calc(100%-var(--space-6))]"
+            radius="sm"
+          />
+          <Skeleton
+            className="h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]"
+            radius="sm"
+          />
+        </div>
+        <div className="space-y-[var(--space-2)]">
+          <Skeleton className="w-full" />
+          <Skeleton className="w-[calc(100%-var(--space-6))]" />
+        </div>
+      </Card>
+    </li>
+  ))}
+</ul>`,
+        },
+        {
+          id: "empty",
+          name: "Empty",
+          description:
+            "Muted guidance keeps the workspace clear when no prompts have been saved yet.",
+          element: <PromptListEmptyState />,
+          code: `<PromptList prompts={[]} query="" />`,
+        },
+      ],
+      usage: [
+        {
+          kind: "do",
+          title: "Match skeleton rhythm to saved cards",
+          description:
+            "Align placeholder spacing with prompt titles and bodies so loading feels stable.",
+        },
+        {
+          kind: "do",
+          title: "Confirm empty states with guidance",
+          description:
+            "Surface contextual copy that explains whether no prompts exist or filters removed results.",
+        },
+        {
+          kind: "dont",
+          title: "Avoid blank panels",
+          description:
+            "Never leave the list empty without skeletons or helper text; it reads as a rendering failure.",
+        },
+      ],
     },
     {
       id: "prompts-header",
