@@ -2546,7 +2546,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       id: "section-card-variants",
       name: "SectionCard Variants",
       element: (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[var(--space-4)]">
           <UiSectionCard>
             <UiSectionCard.Header title="Neo (default)" />
             <UiSectionCard.Body>Content</UiSectionCard.Body>
@@ -2558,7 +2558,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
         </div>
       ),
       tags: ["section", "card"],
-      code: `<div className="flex flex-col gap-4">
+      code: `<div className="flex flex-col gap-[var(--space-4)]">
   <SectionCard>
     <SectionCard.Header title="Neo (default)" />
     <SectionCard.Body>Content</SectionCard.Body>
@@ -2579,7 +2579,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: (
         <PageShell
           grid
-          className="py-6"
+          className="py-[var(--space-6)]"
           contentClassName="items-start"
         >
           <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
@@ -2596,7 +2596,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       tags: ["layout", "shell"],
       code: `<PageShell
   grid
-  className="py-6"
+  className="py-[var(--space-6)]"
   contentClassName="items-start"
 >
   <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
