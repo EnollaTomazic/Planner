@@ -122,6 +122,12 @@ const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   },
 };
 
+const glitchSizeClass: Record<Size, string> = {
+  sm: "btn-like-segmented--sm",
+  md: "btn-like-segmented--md",
+  lg: "btn-like-segmented--lg",
+};
+
 export default function TabBar<
   K extends string = string,
   Extra extends Record<string, unknown> | undefined = undefined,
@@ -292,6 +298,7 @@ export default function TabBar<
             const baseClass = isGlitch
               ? cn(
                   "btn-like-segmented font-mono text-ui",
+                  glitchSizeClass[size],
                   size === "lg" ? "text-body" : "text-ui",
                   active && "btn-glitch is-active",
                   isDisabled && "pointer-events-none opacity-[var(--disabled)]",

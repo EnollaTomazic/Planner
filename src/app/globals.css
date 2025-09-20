@@ -596,7 +596,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   }
 
   .btn-like-segmented {
-    @apply inline-flex items-center rounded-[var(--control-radius)] border px-4 py-2 text-ui font-medium tracking-[0.02em] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
+    --btn-like-segmented-h: var(--control-h-md);
+    --btn-like-segmented-px: var(--space-4);
+    @apply inline-flex items-center rounded-[var(--control-radius)] border text-ui font-medium tracking-[0.02em] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));
@@ -604,6 +606,20 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
       linear-gradient(90deg, hsl(var(--primary-soft)) 0%, transparent 100%),
       hsl(var(--card));
     color: hsl(var(--muted-foreground));
+    min-height: var(--btn-like-segmented-h);
+    padding-inline: var(--btn-like-segmented-px);
+  }
+  .btn-like-segmented--sm {
+    --btn-like-segmented-h: var(--control-h-sm);
+    --btn-like-segmented-px: var(--space-4);
+  }
+  .btn-like-segmented--md {
+    --btn-like-segmented-h: var(--control-h-md);
+    --btn-like-segmented-px: var(--space-4);
+  }
+  .btn-like-segmented--lg {
+    --btn-like-segmented-h: var(--control-h-lg);
+    --btn-like-segmented-px: var(--space-8);
   }
   .btn-like-segmented:hover {
     background:
