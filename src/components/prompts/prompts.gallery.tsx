@@ -470,13 +470,25 @@ function useSelectOpen(
   }, [open, rootRef]);
 }
 
-const EDGE_IRIS_RING = "ring-2 ring-[var(--edge-iris)]";
-const EDGE_IRIS_RING_SURFACE = `${EDGE_IRIS_RING} bg-surface-2`;
-const EDGE_IRIS_FOCUS_RING = `${EDGE_IRIS_RING} ring-offset-2 ring-offset-[var(--background)]`;
-const THEME_ACTIVE_RING =
-  "ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]";
+const HOVER_BG_TOKENS = "bg-[--hover] hover:bg-[--hover]";
+const ACTIVE_BG_TOKENS = "bg-[--active] data-[open=true]:bg-[--active]";
+const BUTTON_FOCUS_VISIBLE_TOKENS =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]";
+const WRAPPER_FOCUS_RING_TOKENS = "ring-2 ring-[var(--focus)]";
+const THEME_TOGGLE_TRIGGER_SELECTOR = "[&_button[aria-haspopup='listbox']]";
+const THEME_TOGGLE_HOVER_CLASS = `${THEME_TOGGLE_TRIGGER_SELECTOR}:bg-[--hover] ${THEME_TOGGLE_TRIGGER_SELECTOR}:hover:bg-[--hover]`;
+const THEME_TOGGLE_FOCUS_CLASS = [
+  `${THEME_TOGGLE_TRIGGER_SELECTOR}:outline-none`,
+  `${THEME_TOGGLE_TRIGGER_SELECTOR}:ring-2`,
+  `${THEME_TOGGLE_TRIGGER_SELECTOR}:ring-[var(--focus)]`,
+  `focus-visible:${THEME_TOGGLE_TRIGGER_SELECTOR}:outline-none`,
+  `focus-visible:${THEME_TOGGLE_TRIGGER_SELECTOR}:ring-2`,
+  `focus-visible:${THEME_TOGGLE_TRIGGER_SELECTOR}:ring-[var(--focus)]`,
+].join(" ");
+const THEME_TOGGLE_ACTIVE_CLASS = `${THEME_TOGGLE_TRIGGER_SELECTOR}:bg-[--active]`;
 
 type ThemePickerStatePreviewProps = {
+  className?: string;
   buttonClassName?: string;
   disabled?: boolean;
   loading?: boolean;
@@ -484,6 +496,7 @@ type ThemePickerStatePreviewProps = {
 };
 
 function ThemePickerStatePreview({
+  className,
   buttonClassName,
   disabled = false,
   loading = false,
@@ -498,6 +511,7 @@ function ThemePickerStatePreview({
       <ThemePicker
         variant={variant}
         onVariantChange={setVariant}
+        className={className}
         buttonClassName={buttonClassName}
         disabled={disabled}
         loadingVariant={loading ? variant : null}
@@ -507,17 +521,22 @@ function ThemePickerStatePreview({
 }
 
 function ThemePickerHoverState() {
-  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+  return <ThemePickerStatePreview buttonClassName={HOVER_BG_TOKENS} />;
 }
 
 function ThemePickerFocusState() {
-  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+  return (
+    <ThemePickerStatePreview
+      className={WRAPPER_FOCUS_RING_TOKENS}
+      buttonClassName={BUTTON_FOCUS_VISIBLE_TOKENS}
+    />
+  );
 }
 
 function ThemePickerActiveState() {
   return (
     <ThemePickerStatePreview
-      buttonClassName={THEME_ACTIVE_RING}
+      buttonClassName={ACTIVE_BG_TOKENS}
       openMenu
     />
   );
@@ -530,7 +549,7 @@ function ThemePickerDisabledState() {
 function ThemePickerLoadingState() {
   return (
     <ThemePickerStatePreview
-      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      buttonClassName={HOVER_BG_TOKENS}
       loading
       openMenu
     />
@@ -538,6 +557,7 @@ function ThemePickerLoadingState() {
 }
 
 type BackgroundPickerStatePreviewProps = {
+  className?: string;
   buttonClassName?: string;
   disabled?: boolean;
   loading?: boolean;
@@ -545,6 +565,7 @@ type BackgroundPickerStatePreviewProps = {
 };
 
 function BackgroundPickerStatePreview({
+  className,
   buttonClassName,
   disabled = false,
   loading = false,
@@ -559,6 +580,7 @@ function BackgroundPickerStatePreview({
       <BackgroundPicker
         bg={bg}
         onBgChange={setBg}
+        className={className}
         buttonClassName={buttonClassName}
         disabled={disabled}
         loadingBackground={loading ? bg : null}
@@ -568,17 +590,22 @@ function BackgroundPickerStatePreview({
 }
 
 function BackgroundPickerHoverState() {
-  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+  return <BackgroundPickerStatePreview buttonClassName={HOVER_BG_TOKENS} />;
 }
 
 function BackgroundPickerFocusState() {
-  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+  return (
+    <BackgroundPickerStatePreview
+      className={WRAPPER_FOCUS_RING_TOKENS}
+      buttonClassName={BUTTON_FOCUS_VISIBLE_TOKENS}
+    />
+  );
 }
 
 function BackgroundPickerActiveState() {
   return (
     <BackgroundPickerStatePreview
-      buttonClassName={THEME_ACTIVE_RING}
+      buttonClassName={ACTIVE_BG_TOKENS}
       openMenu
     />
   );
@@ -591,7 +618,7 @@ function BackgroundPickerDisabledState() {
 function BackgroundPickerLoadingState() {
   return (
     <BackgroundPickerStatePreview
-      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      buttonClassName={HOVER_BG_TOKENS}
       loading
       openMenu
     />
@@ -599,6 +626,7 @@ function BackgroundPickerLoadingState() {
 }
 
 type SettingsSelectStatePreviewProps = {
+  className?: string;
   buttonClassName?: string;
   disabled?: boolean;
   loadingIndex?: number | null;
@@ -606,6 +634,7 @@ type SettingsSelectStatePreviewProps = {
 };
 
 function SettingsSelectStatePreview({
+  className,
   buttonClassName,
   disabled = false,
   loadingIndex = null,
@@ -632,6 +661,7 @@ function SettingsSelectStatePreview({
         items={items}
         value={value}
         onChange={setValue}
+        className={className}
         buttonClassName={buttonClassName}
         disabled={disabled}
       />
@@ -640,17 +670,22 @@ function SettingsSelectStatePreview({
 }
 
 function SettingsSelectHoverState() {
-  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+  return <SettingsSelectStatePreview buttonClassName={HOVER_BG_TOKENS} />;
 }
 
 function SettingsSelectFocusState() {
-  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+  return (
+    <SettingsSelectStatePreview
+      className={WRAPPER_FOCUS_RING_TOKENS}
+      buttonClassName={BUTTON_FOCUS_VISIBLE_TOKENS}
+    />
+  );
 }
 
 function SettingsSelectActiveState() {
   return (
     <SettingsSelectStatePreview
-      buttonClassName={THEME_ACTIVE_RING}
+      buttonClassName={ACTIVE_BG_TOKENS}
       openMenu
     />
   );
@@ -663,11 +698,69 @@ function SettingsSelectDisabledState() {
 function SettingsSelectLoadingState() {
   return (
     <SettingsSelectStatePreview
-      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      buttonClassName={HOVER_BG_TOKENS}
       loadingIndex={0}
       openMenu
     />
   );
+}
+
+type ThemeToggleStatePreviewProps = {
+  className?: string;
+  openMenu?: boolean;
+  cycleDisabled?: boolean;
+  cycleLoading?: boolean;
+};
+
+function ThemeToggleStatePreview({
+  className,
+  openMenu = false,
+  cycleDisabled = false,
+  cycleLoading = false,
+}: ThemeToggleStatePreviewProps) {
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <ThemeToggle
+        ariaLabel="Theme toggle demo"
+        className={cn(className)}
+        cycleDisabled={cycleDisabled}
+        cycleLoading={cycleLoading}
+      />
+    </div>
+  );
+}
+
+function ThemeToggleHoverState() {
+  return <ThemeToggleStatePreview className={THEME_TOGGLE_HOVER_CLASS} />;
+}
+
+function ThemeToggleFocusState() {
+  return <ThemeToggleStatePreview className={THEME_TOGGLE_FOCUS_CLASS} />;
+}
+
+function ThemeToggleActiveState() {
+  return (
+    <ThemeToggleStatePreview
+      className={`${THEME_TOGGLE_ACTIVE_CLASS} ${THEME_TOGGLE_HOVER_CLASS}`}
+      openMenu
+    />
+  );
+}
+
+function ThemeToggleDisabledState() {
+  return (
+    <ThemeToggleStatePreview
+      className="pointer-events-none opacity-[var(--disabled)]"
+      cycleDisabled
+    />
+  );
+}
+
+function ThemeToggleLoadingState() {
+  return <ThemeToggleStatePreview cycleLoading />;
 }
 
 type SideSelectorStatePreviewProps = {
@@ -3473,6 +3566,57 @@ React.useEffect(() => {
       element: <ThemeToggle />,
       tags: ["theme", "toggle"],
       code: `<ThemeToggle />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Applying the hover token to the dropdown trigger keeps the toggle consistent with other select controls.",
+          element: <ThemeToggleHoverState />,
+          code: `<ThemeToggle
+  className="[&_button[aria-haspopup='listbox']]:bg-[--hover] [&_button[aria-haspopup='listbox']]:hover:bg-[--hover]"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "The nested `focus-visible` utility outlines the variant trigger without needing extra DOM wrappers.",
+          element: <ThemeToggleFocusState />,
+          code: `<ThemeToggle
+  className="[&_button[aria-haspopup='listbox']]:outline-none [&_button[aria-haspopup='listbox']]:ring-2 [&_button[aria-haspopup='listbox']]:ring-[var(--focus)] focus-visible:[&_button[aria-haspopup='listbox']]:outline-none focus-visible:[&_button[aria-haspopup='listbox']]:ring-2 focus-visible:[&_button[aria-haspopup='listbox']]:ring-[var(--focus)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "When the variant menu opens we swap to the shared active token so the current selection stays anchored.",
+          element: <ThemeToggleActiveState />,
+          code: `<ThemeToggle
+  className="[&_button[aria-haspopup='listbox']]:bg-[--active] [&_button[aria-haspopup='listbox'][data-open='true']]:bg-[--active] [&_button[aria-haspopup='listbox']]:hover:bg-[--hover]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabling the control mutes both the cycle button and dropdown using the global disabled token.",
+          element: <ThemeToggleDisabledState />,
+          code: `<ThemeToggle
+  cycleDisabled
+  className="pointer-events-none opacity-[var(--disabled)]"
+/>`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Longer background transitions can show progress by enabling the built-in loading spinner on the cycle button.",
+          element: <ThemeToggleLoadingState />,
+          code: `<ThemeToggle cycleLoading />`,
+        },
+      ],
     },
     {
       id: "check-circle",
@@ -4060,36 +4204,37 @@ React.useEffect(() => {
           id: "hover",
           name: "Hover",
           description:
-            "Edge iris ring tokens and a surface-2 wash preview the next theme when the control is hovered.",
+            "The shared hover token fills the trigger so pointer users preview the upcoming theme before selection.",
           element: <ThemePickerHoverState />,
           code: `<ThemePicker
   variant="lg"
   onVariantChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
         {
           id: "focus",
           name: "Focus-visible",
           description:
-            "Keyboard focus keeps the edge-iris ring while adding a background offset so the glow clears adjacent controls.",
+            "Keyboard focus relies on the global `focus-visible` token, outlining the trigger without introducing extra wrappers.",
           element: <ThemePickerFocusState />,
           code: `<ThemePicker
   variant="lg"
   onVariantChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+  className="ring-2 ring-[var(--focus)]"
+  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
 />`,
         },
         {
           id: "active",
           name: "Active / selected",
           description:
-            "Opening the menu highlights the trigger with the theme-ring token and a surface fill while the chosen option glows in the list.",
+            "When the dropdown is open we pin the trigger with the shared active token so the current theme remains grounded.",
           element: <ThemePickerActiveState />,
           code: `<ThemePicker
   variant="lg"
   onVariantChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+  buttonClassName="bg-[--active] data-[open=true]:bg-[--active]"
 />`,
         },
         {
@@ -4110,7 +4255,7 @@ React.useEffect(() => {
   variant="lg"
   onVariantChange={() => {}}
   loadingVariant="lg"
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
       ],
@@ -4126,36 +4271,37 @@ React.useEffect(() => {
           id: "hover",
           name: "Hover",
           description:
-            "Edge iris rings and the surface-2 overlay preview the selected background before committing the change.",
+            "The hover fill token mirrors ThemePicker so background previews share the same affordance pattern.",
           element: <BackgroundPickerHoverState />,
           code: `<BackgroundPicker
   bg={0}
   onBgChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
         {
           id: "focus",
           name: "Focus-visible",
           description:
-            "Keyboard focus adds a background ring offset so the glow stays legible over the wallpaper swatches.",
+            "The `focus-visible` utility outlines the trigger directly, keeping the indicator consistent with other settings controls.",
           element: <BackgroundPickerFocusState />,
           code: `<BackgroundPicker
   bg={0}
   onBgChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+  className="ring-2 ring-[var(--focus)]"
+  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
 />`,
         },
         {
           id: "active",
           name: "Active / selected",
           description:
-            "Opening the palette locks the trigger with the theme-ring token so the current background remains anchored while browsing.",
+            "While the menu is open we keep the active token applied so the current background is obvious as you explore options.",
           element: <BackgroundPickerActiveState />,
           code: `<BackgroundPicker
   bg={0}
   onBgChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+  buttonClassName="bg-[--active] data-[open=true]:bg-[--active]"
 />`,
         },
         {
@@ -4176,7 +4322,7 @@ React.useEffect(() => {
   bg={0}
   onBgChange={() => {}}
   loadingBackground={0}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
       ],
@@ -4206,7 +4352,7 @@ React.useEffect(() => {
           id: "hover",
           name: "Hover",
           description:
-            "The edge-iris ring and surface-2 background appear on hover to preview the selection affordance.",
+            "Hover uses the shared token fill so every settings row communicates interactivity the same way.",
           element: <SettingsSelectHoverState />,
           code: `<SettingsSelect
   ariaLabel="Theme"
@@ -4214,14 +4360,14 @@ React.useEffect(() => {
   items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
   value="lg"
   onChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
         {
           id: "focus",
           name: "Focus-visible",
           description:
-            "Keyboard focus adds the edge-iris ring with a background offset so the glow clears the surrounding settings rail.",
+            "`focus-visible` keeps the focus ring within the control, matching buttons and toggles in the settings column.",
           element: <SettingsSelectFocusState />,
           code: `<SettingsSelect
   ariaLabel="Theme"
@@ -4229,14 +4375,15 @@ React.useEffect(() => {
   items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
   value="lg"
   onChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+  className="ring-2 ring-[var(--focus)]"
+  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
 />`,
         },
         {
           id: "active",
           name: "Active / selected",
           description:
-            "Opening the list locks the trigger with the theme-ring token and surface fill while the chosen option glows inside the dropdown.",
+            "An active dropdown keeps the trigger in the shared active fill so you never lose track of the selected row.",
           element: <SettingsSelectActiveState />,
           code: `<SettingsSelect
   ariaLabel="Theme"
@@ -4244,7 +4391,7 @@ React.useEffect(() => {
   items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
   value="lg"
   onChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+  buttonClassName="bg-[--active] data-[open=true]:bg-[--active]"
 />`,
         },
         {
@@ -4277,7 +4424,7 @@ React.useEffect(() => {
   ]}
   value="lg"
   onChange={() => {}}
-  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+  buttonClassName="bg-[--hover] hover:bg-[--hover]"
 />`,
         },
       ],
