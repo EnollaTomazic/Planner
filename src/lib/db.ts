@@ -272,6 +272,7 @@ export function removeLocal(key: string) {
   } catch {
     // ignore
   }
+  targets.add(`${OLD_STORAGE_PREFIX}${key}`);
   targets.add(key);
   for (const target of targets) {
     try {
