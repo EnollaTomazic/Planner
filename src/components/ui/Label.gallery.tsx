@@ -7,7 +7,7 @@ import Label from "./Label";
 
 function LabelGalleryPreview() {
   return (
-    <div className="flex w-64 flex-col gap-[var(--space-3)]">
+    <div className="flex w-[calc(var(--space-8)*4)] flex-col gap-[var(--space-3)]">
       <div>
         <Label htmlFor="label-default">Email</Label>
         <Input id="label-default" placeholder="player@example.gg" />
@@ -48,7 +48,7 @@ export default defineGallerySection({
         id: "ui:label:pairing",
         render: () => <LabelGalleryPreview />,
       }),
-      code: `<div className="w-64 space-y-[var(--space-3)]">
+      code: `<div className="w-[calc(var(--space-8)*4)] space-y-[var(--space-3)]">
   <div>
     <Label htmlFor="label-default">Email</Label>
     <Input id="label-default" placeholder="player@example.gg" />
