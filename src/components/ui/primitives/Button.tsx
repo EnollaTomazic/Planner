@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
-import { neuRaised, neuInset } from "./Neu";
 
 export const buttonSizes = {
   sm: {
@@ -183,12 +182,12 @@ export const variants: Record<
     ),
     whileHover: tactile
       ? { scale: 1.01 }
-      : { scale: 1.02, boxShadow: neuRaised(15) },
+      : { scale: 1.02, boxShadow: "var(--shadow-neo-soft)" as CSSProperties["boxShadow"] },
     whileTap: tactile
       ? { scale: 0.98 }
       : {
           scale: 0.97,
-          boxShadow: neuInset(9) as CSSProperties["boxShadow"],
+          boxShadow: "var(--shadow-neo-inset)" as CSSProperties["boxShadow"],
         },
   }),
   ghost: () => ({
@@ -294,25 +293,29 @@ export const Button = React.forwardRef<
   } else if (variant === "secondary") {
     const accentVar = tone === "primary" ? "--ring" : colorVar[tone];
     const baseSecondaryShadows = {
-      "--btn-secondary-shadow-rest": neuRaised(),
-      "--btn-secondary-shadow-hover": neuRaised(15),
-      "--btn-secondary-shadow-active": neuInset(9),
+      "--btn-secondary-shadow-rest": "var(--shadow-neo)",
+      "--btn-secondary-shadow-hover": "var(--shadow-neo-soft)",
+      "--btn-secondary-shadow-active": "var(--shadow-neo-inset)",
     } as CSSProperties;
 
     const tactileSecondary = tactile
       ? {
           "--btn-secondary-shadow-rest": composeShadow([
+            "var(--shadow-neo-inset)",
             `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.18)`,
             `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.22)`,
             `0 0 0 var(--spacing-0-25) hsl(var(${accentVar}) / 0.22)`,
           ]),
           "--btn-secondary-shadow-hover": composeShadow([
+            "var(--shadow-neo-inset)",
+            "var(--shadow-neo-soft)",
             `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.2)`,
             `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.26)`,
             `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.28)`,
             `0 var(--space-3) var(--space-6) hsl(var(${accentVar}) / 0.22)`,
           ]),
           "--btn-secondary-shadow-active": composeShadow([
+            "var(--shadow-neo-inset)",
             `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.28)`,
             `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.3)`,
             `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.32)`,
