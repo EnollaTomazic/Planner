@@ -3,7 +3,7 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import DashboardList from "./DashboardList";
-import { usePersistentState } from "@/lib/db";
+import { useGoals } from "@/components/goals";
 import type { Goal } from "@/lib/types";
 import { Progress } from "@/components/ui";
 
@@ -83,7 +83,7 @@ function getGoalStatus(goal: Goal): string {
 }
 
 export default function GoalsCard() {
-  const [goals] = usePersistentState<Goal[]>("goals.v2", []);
+  const { goals } = useGoals();
   const activeGoals = React.useMemo(
     () => goals.filter((g) => !g.done).slice(0, 3),
     [goals],
