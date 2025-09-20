@@ -34,7 +34,7 @@ export default function ReminderFilters() {
           className="overflow-x-auto"
           right={
             <SegmentedButton
-              className="inline-flex items-center gap-1"
+              className="inline-flex items-center gap-[var(--space-1)]"
               onClick={toggleFilters}
               aria-expanded={showFilters}
               title="Filters"
@@ -48,7 +48,7 @@ export default function ReminderFilters() {
       )}
 
       {showFilters && (
-        <div className="flex flex-wrap items-center gap-4 pl-1">
+        <div className="flex flex-wrap items-center gap-[var(--space-4)] pl-[var(--space-1)]">
           <TabBar
             items={sourceTabs}
             value={source}
@@ -62,7 +62,7 @@ export default function ReminderFilters() {
             title="Pinned only"
             isActive={onlyPinned}
           >
-            {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+            {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
             {onlyPinned ? "Pinned only" : "Any pin"}
           </SegmentedButton>
         </div>

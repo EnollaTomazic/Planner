@@ -35,25 +35,25 @@ const PROFILES: Profile[] = [
   {
     key: "study",
     label: "Studying",
-    icon: <BookOpen className="mr-1" />,
+    icon: <BookOpen className="mr-[var(--space-1)]" />,
     defaultMin: 45,
   },
   {
     key: "clean",
     label: "Cleaning",
-    icon: <Brush className="mr-1" />,
+    icon: <Brush className="mr-[var(--space-1)]" />,
     defaultMin: 30,
   },
   {
     key: "code",
     label: "Coding",
-    icon: <Code2 className="mr-1" />,
+    icon: <Code2 className="mr-[var(--space-1)]" />,
     defaultMin: 60,
   },
   {
     key: "custom",
     label: "Custom",
-    icon: <User className="mr-1" />,
+    icon: <User className="mr-[var(--space-1)]" />,
     defaultMin: 25,
   },
 ];
@@ -332,7 +332,7 @@ export default function TimerTab() {
 
   // Right slot content for Custom: quick duration chips + custom time field
   const rightSlot = isCustom ? (
-    <div className="flex items-center flex-wrap gap-2">
+    <div className="flex items-center flex-wrap gap-[var(--space-2)]">
       <DurationSelector
         value={minutes}
         onChange={(m) => {
@@ -358,7 +358,7 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-ui font-medium backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-[var(--space-2)] text-center text-ui font-medium backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         type="text"
       />
     </div>
@@ -491,7 +491,7 @@ export default function TimerTab() {
             </div>
 
             {/* progress bar */}
-            <div className="mt-6 w-full">
+            <div className="mt-[var(--space-6)] w-full">
               <div className="relative h-2 w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
@@ -499,13 +499,13 @@ export default function TimerTab() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <div className="mt-1 text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
+              <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
                 {pct}%
               </div>
             </div>
 
             {/* controls */}
-            <div className="mt-6 flex w-full flex-wrap justify-center gap-2 overflow-x-auto">
+            <div className="mt-[var(--space-6)] flex w-full flex-wrap justify-center gap-[var(--space-2)] overflow-x-auto">
               {!running ? (
                 <SegmentedButton
                   className="gap-[var(--space-2)]"
@@ -538,11 +538,11 @@ export default function TimerTab() {
 
             {/* Complete state */}
             {finished && (
-              <div className="mt-6 grid place-items-center">
-                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)/0.35),hsl(var(--accent-2)/0.35)))] px-3 py-1 text-ui font-medium text-foreground shadow-[var(--shadow-glow-md)] ring-1 ring-inset ring-border/50 motion-safe:animate-pulse motion-reduce:animate-none">
+              <div className="mt-[var(--space-6)] grid place-items-center">
+                <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)/0.35),hsl(var(--accent-2)/0.35)))] px-[var(--space-3)] py-[var(--space-1)] text-ui font-medium text-foreground shadow-[var(--shadow-glow-md)] ring-1 ring-inset ring-border/50 motion-safe:animate-pulse motion-reduce:animate-none">
                   Complete
                 </div>
-                <div className="mt-2 text-label font-medium tracking-[0.02em] text-muted-foreground">
+                <div className="mt-[var(--space-2)] text-label font-medium tracking-[0.02em] text-muted-foreground">
                   Good. Now do the review, not Twitter.
                 </div>
               </div>

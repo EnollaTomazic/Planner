@@ -11,7 +11,7 @@ export default function RemindersTab() {
   return (
     <SectionCard className="goal-card">
       <SectionCard.Body>
-        <div className="grid gap-3">
+        <div className="grid gap-[var(--space-3)]">
           <ReminderQuickAddForm />
           <ReminderFilters />
           <ReminderList />

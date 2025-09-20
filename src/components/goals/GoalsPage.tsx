@@ -74,9 +74,9 @@ const DOMAIN_ITEMS: Array<{
   label: string;
   icon: React.ReactNode;
 }> = [
-  { key: "Life", label: "Life", icon: <Sparkles className="mr-1" /> },
-  { key: "League", label: "League", icon: <Gamepad2 className="mr-1" /> },
-  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-1" /> },
+  { key: "Life", label: "Life", icon: <Sparkles className="mr-[var(--space-1)]" /> },
+  { key: "League", label: "League", icon: <Gamepad2 className="mr-[var(--space-1)]" /> },
+  { key: "Learn", label: "Learn", icon: <GraduationCap className="mr-[var(--space-1)]" /> },
 ];
 
 const HERO_HEADINGS: Record<Tab, string> = {
@@ -344,7 +344,7 @@ function GoalsPageContent() {
       placeholder: "Search title, text, tags…",
       debounceMs: 80,
       right: (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-2)]">
           <span className="text-label font-medium tracking-[0.02em] opacity-75">
             {reminderCount}
           </span>
@@ -360,7 +360,7 @@ function GoalsPageContent() {
       <Button
         variant="primary"
         size="md"
-        className="px-4 whitespace-nowrap"
+        className="px-[var(--space-4)] whitespace-nowrap"
         onClick={handleAddReminder}
       >
         <Plus />
@@ -374,9 +374,9 @@ function GoalsPageContent() {
       as="main"
       id="goals-main"
       aria-labelledby="goals-header"
-      className="py-6"
+      className="py-[var(--space-6)]"
     >
-      <div className="grid gap-6">
+      <div className="grid gap-[var(--space-6)]">
         {/* ======= HEADER ======= */}
         <PageHeader
           header={{
@@ -387,7 +387,7 @@ function GoalsPageContent() {
             icon: <Flag className="opacity-80" />,
             sticky: false,
             barClassName:
-              "flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:justify-between",
+              "flex-col items-start justify-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]",
             tabs: {
               items: TABS,
               value: tab,
@@ -422,8 +422,8 @@ function GoalsPageContent() {
           ref={goalsRef}
         >
           {tab === "goals" && (
-            <div className="grid gap-4">
-              <div className="space-y-2">
+            <div className="grid gap-[var(--space-4)]">
+              <div className="space-y-[var(--space-2)]">
                 {totalCount === 0 ? (
                   <GoalsProgress
                     total={totalCount}
@@ -437,7 +437,7 @@ function GoalsPageContent() {
                       topClassName="top-0"
                       className="flex items-center justify-between"
                     >
-                      <div className="flex items-center gap-2 sm:gap-4">
+                      <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
                         <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
                         <GoalsProgress total={totalCount} pct={pctDone} />
                       </div>
@@ -492,7 +492,7 @@ function GoalsPageContent() {
           hidden={tab !== "reminders"}
           tabIndex={tab === "reminders" ? 0 : -1}
           ref={remindersRef}
-          className="grid gap-4"
+          className="grid gap-[var(--space-4)]"
         >
           {tab === "reminders" && <RemindersTab />}
         </div>
@@ -504,7 +504,7 @@ function GoalsPageContent() {
           hidden={tab !== "timer"}
           tabIndex={tab === "timer" ? 0 : -1}
           ref={timerRef}
-          className="grid gap-4"
+          className="grid gap-[var(--space-4)]"
         >
           {tab === "timer" && <TimerTab />}
         </div>
