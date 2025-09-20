@@ -267,6 +267,41 @@ describe("readLocal", () => {
   });
 });
 
+describe("removeLocal", () => {
+  it("removes legacy-only entries when migration fails", async () => {
+    const { OLD_STORAGE_PREFIX } = await import("@/lib/storage-key");
+    const legacyKey = "legacy-only";
+    const legacyPrefixedKey = `${OLD_STORAGE_PREFIX}${legacyKey}`;
+
+    storageMock.store.set(legacyPrefixedKey, JSON.stringify({ stored: true }));
+
+    const lengthDescriptor = Object.getOwnPropertyDescriptor(
+      window.localStorage,
+      "length",
+    );
+
+    Object.defineProperty(window.localStorage, "length", {
+      configurable: true,
+      get: () => {
+        throw new Error("length unavailable");
+      },
+    });
+
+    try {
+      const { removeLocal } = await import("@/lib/db");
+
+      removeLocal(legacyKey);
+
+      expect(storageMock.removeItem).toHaveBeenCalledWith(legacyPrefixedKey);
+      expect(storageMock.store.has(legacyPrefixedKey)).toBe(false);
+    } finally {
+      if (lengthDescriptor) {
+        Object.defineProperty(window.localStorage, "length", lengthDescriptor);
+      }
+    }
+  });
+});
+
 describe("writeLocal", () => {
   it("serializes objects once and ignores subsequent mutations", async () => {
     vi.useFakeTimers();
