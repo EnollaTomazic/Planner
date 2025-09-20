@@ -109,19 +109,24 @@ export default function NeomorphicHeroFrameDemo() {
               each control to preview the full range of feedback.
             </p>
           </HeroCol>
-          <HeroCol span={5} className="grid gap-2 text-label uppercase tracking-[0.08em] text-muted-foreground">
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
-              <dt className="font-semibold text-foreground">Layer tokens</dt>
-              <dd className="text-label">bg-card/70 · ring-border/55</dd>
-            </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
-              <dt className="font-semibold text-foreground">Grid rhythm</dt>
-              <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
-            </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
-              <dt className="font-semibold text-foreground">Slot spans</dt>
-              <dd className="text-label">HeroCol 7 / 5 alignment</dd>
-            </div>
+          <HeroCol
+            span={5}
+            className="text-label uppercase tracking-[0.08em] text-muted-foreground"
+          >
+            <dl className="grid gap-2">
+              <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+                <dt className="font-semibold text-foreground">Layer tokens</dt>
+                <dd className="text-label">bg-card/70 · ring-border/55</dd>
+              </div>
+              <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+                <dt className="font-semibold text-foreground">Grid rhythm</dt>
+                <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
+              </div>
+              <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+                <dt className="font-semibold text-foreground">Slot spans</dt>
+                <dd className="text-label">HeroCol 7 / 5 alignment</dd>
+              </div>
+            </dl>
           </HeroCol>
         </HeroGrid>
       </NeomorphicHeroFrame>
