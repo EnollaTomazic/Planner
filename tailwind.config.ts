@@ -27,6 +27,14 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          foreground: "hsl(var(--foreground))",
+        },
+        "surface-2": {
+          DEFAULT: "hsl(var(--surface-2))",
+          foreground: "hsl(var(--foreground))",
+        },
         panel: { DEFAULT: "hsl(var(--panel))" },
         "card-hairline": "hsl(var(--card-hairline))",
         primary: {
