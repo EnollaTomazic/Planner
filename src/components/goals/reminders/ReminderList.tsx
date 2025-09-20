@@ -121,7 +121,7 @@ function RemTile({
           ) : (
             <div className="flex items-center gap-[var(--space-2)] min-w-0">
               <h4
-                className="font-semibold uppercase tracking-wide pr-2 title-glow glitch leading-6 truncate"
+                className="font-semibold uppercase tracking-wide pr-[var(--space-2)] title-glow glitch leading-6 truncate"
                 title={value.title}
               >
                 {value.title}

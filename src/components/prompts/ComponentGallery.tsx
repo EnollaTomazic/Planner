@@ -43,6 +43,7 @@ import {
 import Badge from "@/components/ui/primitives/Badge";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
+import WelcomeHeroFigure from "@/components/home/WelcomeHeroFigure";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
@@ -656,6 +657,28 @@ export default function ComponentGallery() {
         element: (
           <div className="w-full">
             <PromptsDemos />
+          </div>
+        ),
+        className: "sm:col-span-2 md:col-span-12 w-full",
+      },
+      {
+        label: "WelcomeHeroFigure",
+        element: (
+          <div className="w-full space-y-[var(--space-3)]">
+            <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2">
+              <div className="flex flex-col items-center gap-[var(--space-2)]">
+                <span className="text-label font-medium text-muted-foreground">Default halo</span>
+                <div className="w-full max-w-[calc(var(--space-8)*4)]">
+                  <WelcomeHeroFigure />
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-[var(--space-2)]">
+                <span className="text-label font-medium text-muted-foreground">Toned-down halo</span>
+                <div className="w-full max-w-[calc(var(--space-8)*4)]">
+                  <WelcomeHeroFigure haloTone="subtle" showGlitchRail={false} />
+                </div>
+              </div>
+            </div>
           </div>
         ),
         className: "sm:col-span-2 md:col-span-12 w-full",

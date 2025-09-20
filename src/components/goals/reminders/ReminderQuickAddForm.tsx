@@ -25,7 +25,7 @@ export default function ReminderQuickAddForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="rounded-card flex items-center gap-2 sm:gap-6 glitch"
+        className="rounded-card flex items-center gap-[var(--space-2)] sm:gap-[var(--space-6)] glitch"
       >
         <Input
           aria-label="Quick add reminder"

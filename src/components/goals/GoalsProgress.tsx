@@ -19,8 +19,8 @@ export default function GoalsProgress({
 }: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
-        <p className="mb-4 text-muted-foreground text-ui font-medium">No goals yet.</p>
+      <div className="rounded-card r-card-md border border-border bg-surface-2 p-[var(--space-6)] text-center">
+        <p className="mb-[var(--space-4)] text-muted-foreground text-ui font-medium">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto">
             Add a first goal
@@ -31,12 +31,23 @@ export default function GoalsProgress({
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const sizeStyle = maxWidth ?? 64;
+  const customSize =
+    maxWidth == null
+      ? undefined
+      : typeof maxWidth === "number"
+        ? `${maxWidth}px`
+        : maxWidth;
   const ringSize = typeof maxWidth === "number" ? maxWidth : undefined;
   return (
     <div
-      className="relative inline-flex items-center justify-center"
-      style={{ width: sizeStyle, height: sizeStyle }}
+      className="relative inline-flex size-[var(--goals-progress-size,var(--space-8))] items-center justify-center"
+      style={
+        customSize
+          ? ({
+              "--goals-progress-size": customSize,
+            } as React.CSSProperties)
+          : undefined
+      }
       aria-label="Progress"
     >
       <ProgressRingIcon pct={v} size={ringSize} />
