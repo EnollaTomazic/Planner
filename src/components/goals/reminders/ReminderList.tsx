@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Badge from "@/components/ui/primitives/Badge";
 import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -22,7 +23,7 @@ export default function ReminderList() {
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-3">
+      <div className="grid grid-cols-12 gap-[var(--space-3)]">
         {filtered.map((reminder) => (
           <div key={reminder.id} className="col-span-12 md:col-span-6 lg:col-span-4">
             <RemTile
@@ -98,7 +99,7 @@ function RemTile({
 
   return (
     <article className="card-neo rounded-card card-pad relative group">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-[var(--space-2)]">
         <div className="flex-1 min-w-0">
           {editing ? (
             <Input
@@ -114,7 +115,7 @@ function RemTile({
               className="font-semibold uppercase tracking-wide"
             />
           ) : (
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-[var(--space-2)] min-w-0">
               <h4
                 className="font-semibold uppercase tracking-wide pr-2 title-glow glitch leading-6 truncate"
                 title={value.title}
@@ -139,7 +140,7 @@ function RemTile({
           )}
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-[var(--space-1)]">
           <IconButton
             title="Delete"
             aria-label="Delete"
@@ -165,7 +166,7 @@ function RemTile({
         </div>
       </div>
 
-      <div className="mt-2 space-y-3">
+      <div className="mt-[var(--space-2)] space-y-[var(--space-3)]">
         {editing ? (
           <>
             <label className="text-label font-medium tracking-[0.02em] opacity-70">Note</label>
@@ -191,7 +192,7 @@ function RemTile({
               }
             />
 
-            <div className="segmented flex flex-wrap -m-1">
+            <div className="segmented flex flex-wrap -m-[var(--space-1)]">
               {(
                 [
                   "pregame",
@@ -206,21 +207,21 @@ function RemTile({
                   key={groupKey}
                   onClick={() => onChange({ group: groupKey })}
                   isActive={value.group === groupKey}
-                  className="m-1"
+                  className="m-[var(--space-1)]"
                 >
                   {groupKey === "pregame" ? "Pre-Game" : capitalize(groupKey)}
                 </SegmentedButton>
               ))}
             </div>
 
-            <div className="segmented flex flex-wrap -m-1">
+            <div className="segmented flex flex-wrap -m-[var(--space-1)]">
               {(["MLA", "BLA", "BrokenByConcept", "Custom"] as Source[]).map(
                 (sourceKey) => (
                   <SegmentedButton
                     key={sourceKey}
                     onClick={() => onChange({ source: sourceKey })}
                     isActive={value.source === sourceKey}
-                    className="m-1"
+                    className="m-[var(--space-1)]"
                   >
                     {sourceKey}
                   </SegmentedButton>
@@ -228,20 +229,20 @@ function RemTile({
               )}
             </div>
 
-            <div className="segmented flex flex-wrap -m-1">
+            <div className="segmented flex flex-wrap -m-[var(--space-1)]">
               {(["Life", "League", "Learn"] as Domain[]).map((domainKey) => (
                 <SegmentedButton
                   key={domainKey}
                   onClick={() => onChange({ domain: domainKey })}
                   isActive={(value.domain ?? "League") === domainKey}
-                  className="m-1"
+                  className="m-[var(--space-1)]"
                 >
                   {domainKey}
                 </SegmentedButton>
               ))}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-[var(--space-2)]">
               <Button size="sm" onClick={save}>
                 Save
               </Button>
@@ -270,26 +271,28 @@ function RemTile({
               )}
             </p>
 
-            <div className="mt-1 flex items-center justify-between text-ui font-medium">
-              <div className="flex items-center gap-2">
+            <div className="mt-[var(--space-1)] flex items-center justify-between text-ui font-medium">
+              <div className="flex items-center gap-[var(--space-2)]">
                 <span
                   aria-hidden="true"
-                  className="inline-block h-2 w-2 rounded-full bg-[hsl(var(--accent-overlay))]"
+                  className="inline-block size-[var(--space-2)] rounded-full bg-[hsl(var(--accent-overlay))]"
                 />
                 <span className="text-label font-medium tracking-[0.02em]">{fmtDate(value.createdAt)}</span>
               </div>
 
-              <button
-                className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] py-[var(--space-1)] text-label font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+              <Badge
+                as="button"
+                interactive
+                tone="primary"
+                size="xs"
                 onClick={togglePinned}
                 title={togglePinnedLabel}
                 aria-label={togglePinnedLabel}
                 aria-pressed={pinned}
-                data-state={pinned ? "on" : "off"}
-                type="button"
+                selected={pinned}
               >
                 {pinned ? "Pinned" : "Pin"}
-              </button>
+              </Badge>
             </div>
           </>
         )}
