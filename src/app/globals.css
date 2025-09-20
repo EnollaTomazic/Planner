@@ -600,23 +600,22 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));
-    background:
-      linear-gradient(90deg, hsl(var(--primary-soft)) 0%, transparent 100%),
-      hsl(var(--card));
+    --seg-hover-base: hsl(var(--foreground) / 0.08);
+    --seg-active-base: hsl(var(--foreground) / 0.12);
+    background: var(
+      --seg-fill,
+      color-mix(in oklab, hsl(var(--card)) 92%, var(--seg-hover-base) 8%)
+    );
     color: hsl(var(--muted-foreground));
   }
   .btn-like-segmented:hover {
-    background:
-      linear-gradient(90deg, hsl(var(--primary) / 0.12) 0%, transparent 100%),
-      hsl(var(--card));
+    background: var(--hover, var(--seg-hover-base));
     color: hsl(var(--foreground));
     text-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5))
       hsl(var(--accent) / 0.25);
   }
   .btn-like-segmented:active {
-    background:
-      linear-gradient(90deg, hsl(var(--primary) / 0.18) 0%, transparent 100%),
-      hsl(var(--card));
+    background: var(--active, var(--seg-active-base));
     color: hsl(var(--foreground));
   }
   .btn-like-segmented::after {
@@ -647,14 +646,21 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   .btn-like-segmented[aria-current="page"],
   .btn-like-segmented.is-active {
     color: hsl(var(--foreground));
-    background: color-mix(in oklab, hsl(var(--card)) 75%, transparent);
+    background: var(
+      --seg-selected,
+      color-mix(in oklab, hsl(var(--card)) 88%, var(--seg-active-base) 12%)
+    );
     border-color: hsl(var(--ring));
-    box-shadow: var(--shadow-nav-active);
+    box-shadow: var(--shadow-neo-soft);
   }
 
   .btn-glitch {
     border-radius: var(--control-radius);
     color: hsl(var(--primary-foreground));
+    --seg-fill: var(--seg-active-grad);
+    --seg-selected: var(--seg-active-grad);
+    --hover: var(--seg-active-grad);
+    --active: var(--seg-active-grad);
     background-color: var(--seg-active-base);
     background-image: var(--seg-active-grad);
     background-repeat: no-repeat;
