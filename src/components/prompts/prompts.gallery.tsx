@@ -3561,64 +3561,6 @@ React.useEffect(() => {
 <AnimationToggle loading />`,
     },
     {
-      id: "theme-toggle",
-      name: "ThemeToggle",
-      element: <ThemeToggle />,
-      tags: ["theme", "toggle"],
-      code: `<ThemeToggle />`,
-      states: [
-        {
-          id: "hover",
-          name: "Hover",
-          description:
-            "Applying the hover token to the dropdown trigger keeps the toggle consistent with other select controls.",
-          element: <ThemeToggleHoverState />,
-          code: `<ThemeToggle
-  className="[&_button[aria-haspopup='listbox']]:bg-[--hover] [&_button[aria-haspopup='listbox']]:hover:bg-[--hover]"
-/>`,
-        },
-        {
-          id: "focus",
-          name: "Focus-visible",
-          description:
-            "The nested `focus-visible` utility outlines the variant trigger without needing extra DOM wrappers.",
-          element: <ThemeToggleFocusState />,
-          code: `<ThemeToggle
-  className="[&_button[aria-haspopup='listbox']]:outline-none [&_button[aria-haspopup='listbox']]:ring-2 [&_button[aria-haspopup='listbox']]:ring-[var(--focus)] focus-visible:[&_button[aria-haspopup='listbox']]:outline-none focus-visible:[&_button[aria-haspopup='listbox']]:ring-2 focus-visible:[&_button[aria-haspopup='listbox']]:ring-[var(--focus)]"
-/>`,
-        },
-        {
-          id: "active",
-          name: "Active / selected",
-          description:
-            "When the variant menu opens we swap to the shared active token so the current selection stays anchored.",
-          element: <ThemeToggleActiveState />,
-          code: `<ThemeToggle
-  className="[&_button[aria-haspopup='listbox']]:bg-[--active] [&_button[aria-haspopup='listbox'][data-open='true']]:bg-[--active] [&_button[aria-haspopup='listbox']]:hover:bg-[--hover]"
-/>`,
-        },
-        {
-          id: "disabled",
-          name: "Disabled",
-          description:
-            "Disabling the control mutes both the cycle button and dropdown using the global disabled token.",
-          element: <ThemeToggleDisabledState />,
-          code: `<ThemeToggle
-  cycleDisabled
-  className="pointer-events-none opacity-[var(--disabled)]"
-/>`,
-        },
-        {
-          id: "loading",
-          name: "Loading",
-          description:
-            "Longer background transitions can show progress by enabling the built-in loading spinner on the cycle button.",
-          element: <ThemeToggleLoadingState />,
-          code: `<ThemeToggle cycleLoading />`,
-        },
-      ],
-    },
-    {
       id: "check-circle",
       name: "CheckCircle",
       element: (
