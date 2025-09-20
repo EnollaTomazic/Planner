@@ -133,12 +133,16 @@ const SECTION_KIND_MAP: Record<GallerySectionId, GalleryEntryKind> = {
   toggles: "primitive",
   feedback: "primitive",
   prompts: "component",
-  planner: "complex",
   cards: "component",
   layout: "component",
   "page-header": "component",
-  league: "complex",
   misc: "component",
+  homepage: "complex",
+  reviews: "complex",
+  planner: "complex",
+  goals: "complex",
+  team: "complex",
+  components: "complex",
 };
 
 function RoleSelectorDemo() {
@@ -795,142 +799,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
         },
       ],
     },
-    {
-      id: "isometric-room",
-      name: "IsometricRoom",
-      element: <IsometricRoom variant="aurora" />,
-      tags: ["room", "3d"],
-      code: `<IsometricRoom variant="aurora" />`,
-    },
-    {
-      id: "goals-progress",
-      name: "GoalsProgress",
-      element: <GoalsProgress total={3} pct={50} />,
-      tags: ["goals", "progress"],
-      code: `<GoalsProgress total={3} pct={50} />`,
-    },
-    {
-      id: "goal-list-demo",
-      name: "GoalListDemo",
-      element: <GoalListDemo />,
-      tags: ["goal", "list"],
-      code: `<GoalListDemo />`,
-    },
-    {
-      id: "quick-action-grid",
-      name: "QuickActionGrid",
-      description: "Maps quick action configs to styled planner shortcuts",
-      element: (
-        <QuickActionGrid
-          actions={[
-            { href: "/planner", label: "Planner Today" },
-            { href: "/goals", label: "New Goal", tone: "accent" },
-            { href: "/reviews", label: "New Review", tone: "accent" },
-          ]}
-          layout="inline"
-          buttonSize="lg"
-          hoverLift
-        />
-      ),
-      tags: ["actions", "planner"],
-      code: `<QuickActionGrid
-  actions={[
-    { href: "/planner", label: "Planner Today" },
-    { href: "/goals", label: "New Goal", tone: "accent" },
-    { href: "/reviews", label: "New Review", tone: "accent" },
-  ]}
-  layout="inline"
-  buttonSize="lg"
-  hoverLift
-/>`,
-    },
-    {
-      id: "reminders-tab",
-      name: "RemindersTab",
-      element: (
-        <RemindersProvider>
-          <RemindersTab />
-        </RemindersProvider>
-      ),
-      tags: ["reminders", "tab"],
-      code: `<RemindersProvider>
-  <RemindersTab />
-</RemindersProvider>`,
-    },
-    {
-      id: "timer-ring",
-      name: "TimerRing",
-      element: <TimerRing pct={42} />,
-      tags: ["timer", "ring"],
-      code: `<TimerRing pct={42} />`,
-    },
-    {
-      id: "timer-tab",
-      name: "TimerTab",
-      element: <TimerTab />,
-      tags: ["timer", "tab"],
-      code: `<TimerTab />`,
-    },
-    {
-      id: "progress-ring-icon",
-      name: "ProgressRingIcon",
-      element: <ProgressRingIcon pct={50} />,
-      tags: ["icon", "progress"],
-      code: `<ProgressRingIcon pct={50} />`,
-    },
-    {
-      id: "timer-ring-icon",
-      name: "TimerRingIcon",
-      element: <TimerRingIcon pct={75} />,
-      tags: ["icon", "timer"],
-      code: `<TimerRingIcon pct={75} />`,
-    },
   ],
   cards: [
-    {
-      id: "dashboard-card",
-      name: "DashboardCard",
-      element: <DashboardCard title="Demo" />,
-      tags: ["dashboard", "card"],
-      code: `<DashboardCard title="Demo" />`,
-    },
-    {
-      id: "dashboard-list",
-      name: "DashboardList",
-      element: (
-        <DashboardList
-          items={[
-            { id: "sync", title: "Strategy sync", meta: "Today" },
-            { id: "retro", title: "Retro prep", meta: "Wed" },
-          ]}
-          getKey={(item) => item.id}
-          itemClassName="flex justify-between text-ui"
-          empty="No highlights"
-          renderItem={(item) => (
-            <>
-              <span>{item.title}</span>
-              <span className="text-label text-muted-foreground">{item.meta}</span>
-            </>
-          )}
-        />
-      ),
-      tags: ["dashboard", "list"],
-      code: `<DashboardList
-  items={[
-    { id: "sync", title: "Strategy sync", meta: "Today" },
-    { id: "retro", title: "Retro prep", meta: "Wed" },
-  ]}
-  getKey={(item) => item.id}
-  itemClassName="flex justify-between text-ui"
-  empty="No highlights"
-  renderItem={(item) => (
-    <>
-      <span>{item.title}</span>
-      <span className="text-label text-muted-foreground">{item.meta}</span>
-    </>
-  )}
-/>`,
-    },
     {
       id: "card-demo",
       name: "Card",
@@ -1115,47 +985,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
             "Do not overload Neo cards with complex forms; reserve them for concise summaries or highlights.",
         },
       ],
-    },
-    {
-      id: "review-surface",
-      name: "ReviewSurface",
-      element: (
-        <div className="w-56">
-          <ReviewSurfaceDemo />
-        </div>
-      ),
-      tags: ["review", "surface"],
-      code: `<ReviewSurface padding="md" tone="muted">
-  <div className="text-ui text-foreground/70">Surface content</div>
-</ReviewSurface>`,
-    },
-    {
-      id: "review-slider-track",
-      name: "ReviewSliderTrack",
-      element: (
-        <div className="w-56">
-          <ReviewSliderTrackDemo />
-        </div>
-      ),
-      tags: ["review", "slider"],
-      code: `<ReviewSurface padding="inline" className="relative h-12">
-  <ReviewSliderTrack value={7} tone="score" variant="input" />
-</ReviewSurface>`,
-    },
-    {
-      id: "score-meter",
-      name: "ScoreMeter",
-      element: (
-        <div className="w-56">
-          <ScoreMeterDemo />
-        </div>
-      ),
-      tags: ["review", "slider", "summary"],
-      code: `<ScoreMeter
-  label="Score"
-  value={8}
-  detail={<span>Great positioning</span>}
-/>`,
     },
     {
       id: "section-card-variants",
@@ -1446,38 +1275,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   </Hero>
 </NeomorphicHeroFrame>`,
     },
-    {
-      id: "hero-portrait-frame",
-      name: "HeroPortraitFrame",
-      description:
-        "Circular neumorphic portrait frame with lavender glow and glitch accent rim built from semantic tokens.",
-      element: (
-        <div className="flex justify-center">
-          <HeroPortraitFrame
-            imageSrc="/hero_image.png"
-            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
-          />
-        </div>
-      ),
-      tags: ["hero", "portrait", "glitch"],
-      code: `<HeroPortraitFrame
-  imageSrc="/hero_image.png"
-  imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
-/>`,
-    },
-    {
-      id: "welcome-hero-figure",
-      name: "WelcomeHeroFigure",
-      description:
-        "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
-      element: (
-        <div className="mx-auto flex w-full max-w-[calc(var(--space-8) * 5)] justify-center">
-          <WelcomeHeroFigure />
-        </div>
-      ),
-      tags: ["hero", "figure", "neomorphic"],
-      code: `<WelcomeHeroFigure />`,
-    },
   ],
   feedback: [
     {
@@ -1595,7 +1392,263 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
 <CheckCircle checked onChange={() => {}} size="md" />`,
     },
   ],
-  league: [
+  homepage: [
+    {
+      id: "dashboard-card",
+      name: "DashboardCard",
+      element: <DashboardCard title="Demo" />,
+      tags: ["dashboard", "card"],
+      code: `<DashboardCard title="Demo" />`,
+    },
+    {
+      id: "dashboard-list",
+      name: "DashboardList",
+      element: (
+        <DashboardList
+          items={[
+            { id: "sync", title: "Strategy sync", meta: "Today" },
+            { id: "retro", title: "Retro prep", meta: "Wed" },
+          ]}
+          getKey={(item) => item.id}
+          itemClassName="flex justify-between text-ui"
+          empty="No highlights"
+          renderItem={(item) => (
+            <>
+              <span>{item.title}</span>
+              <span className="text-label text-muted-foreground">{item.meta}</span>
+            </>
+          )}
+        />
+      ),
+      tags: ["dashboard", "list"],
+      code: `<DashboardList
+  items={[
+    { id: "sync", title: "Strategy sync", meta: "Today" },
+    { id: "retro", title: "Retro prep", meta: "Wed" },
+  ]}
+  getKey={(item) => item.id}
+  itemClassName="flex justify-between text-ui"
+  empty="No highlights"
+  renderItem={(item) => (
+    <>
+      <span>{item.title}</span>
+      <span className="text-label text-muted-foreground">{item.meta}</span>
+    </>
+  )}
+/>`,
+    },
+    {
+      id: "isometric-room",
+      name: "IsometricRoom",
+      element: <IsometricRoom variant="aurora" />,
+      tags: ["room", "3d"],
+      code: `<IsometricRoom variant="aurora" />`,
+    },
+    {
+      id: "quick-action-grid",
+      name: "QuickActionGrid",
+      description: "Maps quick action configs to styled planner shortcuts",
+      element: (
+        <QuickActionGrid
+          actions={[
+            { href: "/planner", label: "Planner Today" },
+            { href: "/goals", label: "New Goal", tone: "accent" },
+            { href: "/reviews", label: "New Review", tone: "accent" },
+          ]}
+          layout="inline"
+          buttonSize="lg"
+          hoverLift
+        />
+      ),
+      tags: ["actions", "planner"],
+      code: `<QuickActionGrid
+  actions={[
+    { href: "/planner", label: "Planner Today" },
+    { href: "/goals", label: "New Goal", tone: "accent" },
+    { href: "/reviews", label: "New Review", tone: "accent" },
+  ]}
+  layout="inline"
+  buttonSize="lg"
+  hoverLift
+/>`,
+    },
+    {
+      id: "hero-portrait-frame",
+      name: "HeroPortraitFrame",
+      description:
+        "Circular neumorphic portrait frame with lavender glow and glitch accent rim built from semantic tokens.",
+      element: (
+        <div className="flex justify-center">
+          <HeroPortraitFrame
+            imageSrc="/hero_image.png"
+            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+          />
+        </div>
+      ),
+      tags: ["hero", "portrait", "glitch"],
+      code: `<HeroPortraitFrame
+  imageSrc="/hero_image.png"
+  imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+/>`,
+    },
+    {
+      id: "welcome-hero-figure",
+      name: "WelcomeHeroFigure",
+      description:
+        "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
+      element: (
+        <div className="mx-auto flex w-full max-w-[calc(var(--space-8) * 5)] justify-center">
+          <WelcomeHeroFigure />
+        </div>
+      ),
+      tags: ["hero", "figure", "neomorphic"],
+      code: `<WelcomeHeroFigure />`,
+    },
+  ],
+  reviews: [
+    {
+      id: "review-surface",
+      name: "ReviewSurface",
+      element: (
+        <div className="w-56">
+          <ReviewSurfaceDemo />
+        </div>
+      ),
+      tags: ["review", "surface"],
+      code: `<ReviewSurface padding="md" tone="muted">
+  <div className="text-ui text-foreground/70">Surface content</div>
+</ReviewSurface>`,
+    },
+    {
+      id: "review-slider-track",
+      name: "ReviewSliderTrack",
+      element: (
+        <div className="w-56">
+          <ReviewSliderTrackDemo />
+        </div>
+      ),
+      tags: ["review", "slider"],
+      code: `<ReviewSurface padding="inline" className="relative h-12">
+  <ReviewSliderTrack value={7} tone="score" variant="input" />
+</ReviewSurface>`,
+    },
+    {
+      id: "score-meter",
+      name: "ScoreMeter",
+      element: (
+        <div className="w-56">
+          <ScoreMeterDemo />
+        </div>
+      ),
+      tags: ["review", "slider", "summary"],
+      code: `<ScoreMeter
+  label="Score"
+  value={8}
+  detail={<span>Great positioning</span>}
+/>`,
+    },
+    {
+      id: "review-list-item",
+      name: "ReviewListItem",
+      element: <ReviewListItem review={demoReview} />,
+      tags: ["review", "list"],
+      code: `<ReviewListItem review={demoReview} />`,
+    },
+    {
+      id: "lane-opponent-form",
+      name: "LaneOpponentForm",
+      element: (
+        <LaneOpponentForm
+          lane="Ashe/Lulu"
+          opponent="Draven/Thresh"
+          commitMeta={() => {}}
+        />
+      ),
+      tags: ["lane", "opponent"],
+      code: `<LaneOpponentForm lane="Ashe/Lulu" opponent="Draven/Thresh" commitMeta={() => {}} />`,
+    },
+    {
+      id: "result-score-section",
+      name: "ResultScoreSection",
+      element: (
+        <ResultScoreSection result="Win" score={5} commitMeta={() => {}} />
+      ),
+      tags: ["result", "score"],
+      code: `<ResultScoreSection result="Win" score={5} commitMeta={() => {}} />`,
+    },
+    {
+      id: "pillars-selector", // new component
+      name: "PillarsSelector",
+      element: <ReviewsPillarsSelector commitMeta={() => {}} pillars={[]} />,
+      tags: ["pillars", "selector"],
+      code: `<PillarsSelector pillars={[]} commitMeta={() => {}} />`,
+    },
+    {
+      id: "timestamp-markers",
+      name: "TimestampMarkers",
+      element: <TimestampMarkers markers={[]} commitMeta={() => {}} />,
+      tags: ["timestamp", "marker"],
+      code: `<TimestampMarkers markers={[]} commitMeta={() => {}} />`,
+    },
+  ],
+  goals: [
+    {
+      id: "goals-progress",
+      name: "GoalsProgress",
+      element: <GoalsProgress total={3} pct={50} />,
+      tags: ["goals", "progress"],
+      code: `<GoalsProgress total={3} pct={50} />`,
+    },
+    {
+      id: "goal-list-demo",
+      name: "GoalListDemo",
+      element: <GoalListDemo />,
+      tags: ["goal", "list"],
+      code: `<GoalListDemo />`,
+    },
+    {
+      id: "reminders-tab",
+      name: "RemindersTab",
+      element: (
+        <RemindersProvider>
+          <RemindersTab />
+        </RemindersProvider>
+      ),
+      tags: ["reminders", "tab"],
+      code: `<RemindersProvider>
+  <RemindersTab />
+</RemindersProvider>`,
+    },
+    {
+      id: "timer-ring",
+      name: "TimerRing",
+      element: <TimerRing pct={42} />,
+      tags: ["timer", "ring"],
+      code: `<TimerRing pct={42} />`,
+    },
+    {
+      id: "timer-tab",
+      name: "TimerTab",
+      element: <TimerTab />,
+      tags: ["timer", "tab"],
+      code: `<TimerTab />`,
+    },
+    {
+      id: "progress-ring-icon",
+      name: "ProgressRingIcon",
+      element: <ProgressRingIcon pct={50} />,
+      tags: ["icon", "progress"],
+      code: `<ProgressRingIcon pct={50} />`,
+    },
+    {
+      id: "timer-ring-icon",
+      name: "TimerRingIcon",
+      element: <TimerRingIcon pct={75} />,
+      tags: ["icon", "timer"],
+      code: `<TimerRingIcon pct={75} />`,
+    },
+  ],
+  team: [
     {
       id: "side-selector",
       name: "SideSelector",
@@ -1644,43 +1697,14 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       code: `<PillarSelector />`,
     },
     {
-      id: "lane-opponent-form",
-      name: "LaneOpponentForm",
-      element: (
-        <LaneOpponentForm
-          lane="Ashe/Lulu"
-          opponent="Draven/Thresh"
-          commitMeta={() => {}}
-        />
-      ),
-      tags: ["lane", "opponent"],
-      code: `<LaneOpponentForm lane="Ashe/Lulu" opponent="Draven/Thresh" commitMeta={() => {}} />`,
-    },
-    {
-      id: "result-score-section",
-      name: "ResultScoreSection",
-      element: (
-        <ResultScoreSection result="Win" score={5} commitMeta={() => {}} />
-      ),
-      tags: ["result", "score"],
-      code: `<ResultScoreSection result="Win" score={5} commitMeta={() => {}} />`,
-    },
-    {
-      id: "pillars-selector", // new component
-      name: "PillarsSelector",
-      element: <ReviewsPillarsSelector commitMeta={() => {}} pillars={[]} />,
-      tags: ["pillars", "selector"],
-      code: `<PillarsSelector pillars={[]} commitMeta={() => {}} />`,
-    },
-    {
-      id: "timestamp-markers",
-      name: "TimestampMarkers",
-      element: <TimestampMarkers markers={[]} commitMeta={() => {}} />,
-      tags: ["timestamp", "marker"],
-      code: `<TimestampMarkers markers={[]} commitMeta={() => {}} />`,
+      id: "role-selector",
+      name: "RoleSelector",
+      element: <RoleSelectorDemo />,
+      tags: ["role", "selector"],
+      code: `<RoleSelector value={role} onChange={setRole} />`,
     },
   ],
-  misc: [
+  components: [
     {
       id: "theme-picker",
       name: "ThemePicker",
@@ -1716,20 +1740,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   />
 </div>`,
     },
-    {
-      id: "role-selector",
-      name: "RoleSelector",
-      element: <RoleSelectorDemo />,
-      tags: ["role", "selector"],
-      code: `<RoleSelector value={role} onChange={setRole} />`,
-    },
-    {
-      id: "review-list-item",
-      name: "ReviewListItem",
-      element: <ReviewListItem review={demoReview} />,
-      tags: ["review", "list"],
-      code: `<ReviewListItem review={demoReview} />`,
-    },
+  ],
+  misc: [
     {
       id: "cat-companion",
       name: "CatCompanion",

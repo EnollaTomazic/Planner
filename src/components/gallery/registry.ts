@@ -72,15 +72,19 @@ export interface GalleryEntry {
 export const GALLERY_SECTION_IDS = [
   "buttons",
   "inputs",
-  "prompts",
-  "planner",
-  "cards",
-  "page-header",
-  "layout",
-  "feedback",
   "toggles",
-  "league",
+  "feedback",
+  "prompts",
+  "cards",
+  "layout",
+  "page-header",
   "misc",
+  "homepage",
+  "reviews",
+  "planner",
+  "goals",
+  "team",
+  "components",
 ] as const;
 
 export type GallerySectionId = (typeof GALLERY_SECTION_IDS)[number];
