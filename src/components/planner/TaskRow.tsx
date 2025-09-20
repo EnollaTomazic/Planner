@@ -25,7 +25,7 @@ type Props = {
   onEdit: (title: string) => void;
   onSelect: () => void;
   onAddImage: (url: string) => void;
-  onRemoveImage: (url: string) => void;
+  onRemoveImage: (url: string, index: number) => void;
 };
 
 export default function TaskRow({
@@ -294,7 +294,7 @@ export default function TaskRow({
               <IconButton
                 aria-label="Remove image"
                 title="Remove image"
-                onClick={() => onRemoveImage(url)}
+                onClick={() => onRemoveImage(url, index)}
                 size="sm"
                 iconSize="xs"
                 variant="ring"

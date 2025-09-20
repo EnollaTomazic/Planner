@@ -8,6 +8,7 @@ export interface HeroPortraitFrameProps {
   imageSizes?: string;
   priority?: boolean;
   className?: string;
+  frame?: boolean;
 }
 
 type CSSVarStyle = React.CSSProperties & Record<`--${string}`, string>;
@@ -39,6 +40,14 @@ const innerStyle: React.CSSProperties = {
   boxShadow: "var(--portrait-outline)",
 };
 
+const framelessContainerStyle: CSSVarStyle = {
+  ...frameVariables,
+  width: innerStyle.width,
+  height: innerStyle.height,
+  background: innerStyle.background,
+  boxShadow: innerStyle.boxShadow,
+};
+
 const glowStyle: React.CSSProperties = {
   background: "var(--portrait-glow-gradient)",
 };
@@ -52,15 +61,37 @@ export default function HeroPortraitFrame({
   imageSizes = defaultSizes,
   priority = false,
   className,
+  frame = true,
 }: HeroPortraitFrameProps) {
+  const baseClassName = "relative isolate flex shrink-0 items-center justify-center";
+  const portraitImage = (
+    <Image
+      src={imageSrc}
+      alt={imageAlt}
+      sizes={imageSizes}
+      priority={priority}
+      fill
+      className="object-contain object-center"
+    />
+  );
+
+  if (!frame) {
+    return (
+      <div
+        className={cn(
+          baseClassName,
+          "overflow-hidden rounded-full shadow-neo",
+          className,
+        )}
+        style={framelessContainerStyle}
+      >
+        {portraitImage}
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={cn(
-        "relative isolate flex shrink-0 items-center justify-center",
-        className,
-      )}
-      style={frameVariables}
-    >
+    <div className={cn(baseClassName, className)} style={frameVariables}>
       <span
         aria-hidden
         className="pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.6)] rounded-full blur-[var(--portrait-glow)] opacity-80"
@@ -78,14 +109,7 @@ export default function HeroPortraitFrame({
           className="relative flex items-center justify-center overflow-hidden rounded-full"
           style={innerStyle}
         >
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            sizes={imageSizes}
-            priority={priority}
-            fill
-            className="object-contain object-center"
-          />
+          {portraitImage}
         </div>
       </div>
     </div>
