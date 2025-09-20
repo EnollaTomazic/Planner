@@ -334,7 +334,7 @@ function ChampListEditorDemo() {
   const [list, setList] = React.useState<string[]>(["Ashe", "Lulu"]);
 
   return (
-    <div className="space-y-3" data-scope="team">
+    <div className="space-y-[var(--space-3)]" data-scope="team">
       <div className="flex items-center justify-between">
         <span className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
           Champions
@@ -348,7 +348,7 @@ function ChampListEditorDemo() {
         onChange={setList}
         editing={editing}
         emptyLabel="-"
-        viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+        viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
       />
     </div>
   );
@@ -1227,7 +1227,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     },
     actions: {
       node: (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-2)]">
           <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
           <Button size="sm" variant="primary" loading>
             Deploy
@@ -1242,7 +1242,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   }}
 >
   <HeroGrid>
-    <HeroCol span={7} className="space-y-3">
+    <HeroCol span={7} className="space-y-[var(--space-3)]">
       <p className="text-ui text-muted-foreground">
         Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
       </p>
@@ -1524,7 +1524,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   onChange={setList}
   editing={editing}
   emptyLabel="-"
-  viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+  viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
 />`,
     },
     {

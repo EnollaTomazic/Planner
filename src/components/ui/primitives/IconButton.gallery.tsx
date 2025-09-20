@@ -73,6 +73,9 @@ function IconButtonGalleryPreview() {
         <IconButton size="md" variant="glow" aria-label="Add item glow">
           <Plus aria-hidden />
         </IconButton>
+        <IconButton size="md" variant="solid" aria-label="Add item solid">
+          <Plus aria-hidden />
+        </IconButton>
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {ICON_BUTTON_STATES.map(({ label, className, props }) => (
@@ -95,7 +98,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"ring" | "glow"',
+          type: '"ring" | "glow" | "solid"',
+          description:
+            'Visual treatment of the button. Choose "ring", "glow", or "solid".',
         },
         {
           name: "size",
@@ -115,6 +120,7 @@ export default defineGallerySection({
           values: [
             { value: "Ring" },
             { value: "Glow" },
+            { value: "Solid" },
           ],
         },
         {
@@ -146,6 +152,9 @@ export default defineGallerySection({
       <Plus />
     </IconButton>
     <IconButton size="md" variant="glow" aria-label="Add item glow">
+      <Plus />
+    </IconButton>
+    <IconButton size="md" variant="solid" aria-label="Add item solid">
       <Plus />
     </IconButton>
   </div>
