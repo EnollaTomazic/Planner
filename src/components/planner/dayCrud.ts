@@ -125,12 +125,26 @@ export function addTaskImage(day: DayRecord, id: string, url: string) {
   });
 }
 
-export function removeTaskImage(day: DayRecord, id: string, url: string) {
+export function removeTaskImage(
+  day: DayRecord,
+  id: string,
+  url: string,
+  imageIndex?: number,
+) {
   return finalizeDay(day, {
-    tasks: day.tasks.map((t) =>
-      t.id === id
-        ? { ...t, images: t.images.filter((img) => img !== url) }
-        : t,
-    ),
+    tasks: day.tasks.map((t) => {
+      if (t.id !== id) return t;
+
+      const indexToRemove =
+        imageIndex !== undefined && t.images[imageIndex] === url
+          ? imageIndex
+          : t.images.indexOf(url);
+
+      if (indexToRemove < 0) return t;
+
+      const images = t.images.slice();
+      images.splice(indexToRemove, 1);
+      return { ...t, images };
+    }),
   });
 }
