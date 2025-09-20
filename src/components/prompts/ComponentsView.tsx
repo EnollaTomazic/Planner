@@ -116,9 +116,9 @@ function PropsTable({
     >
       <SectionHeading id={headingId}>Props</SectionHeading>
       <div
-        className="overflow-x-auto rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] shadow-[var(--shadow-inset-hairline)]"
+        className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] shadow-[var(--shadow-inset-hairline)]"
       >
-        <table className="w-full min-w-[28rem] border-separate border-spacing-0 text-left">
+        <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
           <thead>
             <tr className="text-label text-muted-foreground">
               <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
@@ -186,7 +186,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
         {axes.map((axis) => (
           <article
             key={axis.id}
-            className="rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+            className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
           >
             <div className="space-y-[var(--space-1)]">
               <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
@@ -307,7 +307,7 @@ function StatesSection({
     >
       <SectionHeading id={headingId}>States</SectionHeading>
       {stateAxes.length > 0 ? (
-        <div className="rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div className="grid gap-[var(--space-3)] md:grid-cols-2">
             {stateAxes.map((axis) => (
               <div key={axis.id} className="space-y-[var(--space-2)]">
@@ -383,7 +383,7 @@ function StatePreviewCard({
 
   return (
     <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
+      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >
