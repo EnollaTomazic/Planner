@@ -54,6 +54,7 @@ import {
   ScoreMeter,
 } from "@/components/reviews";
 import Banner from "@/components/chrome/Banner";
+import BrandWordmark from "@/components/chrome/BrandWordmark";
 import NavBar from "@/components/chrome/NavBar";
 import {
   DayCardHeader,
@@ -952,6 +953,14 @@ export default function ComponentGallery() {
               title="Banner"
               actions={<Button size="sm">Action</Button>}
             />
+          </div>
+        ),
+      },
+      {
+        label: "BrandWordmark",
+        element: (
+          <div className="w-56 flex justify-center">
+            <BrandWordmark />
           </div>
         ),
       },
