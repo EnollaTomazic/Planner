@@ -53,8 +53,14 @@
 }
 [data-scope="team"] .glitch-flicker {
   text-shadow:
-    0 0 0.45rem hsl(var(--ring) / 0.55),
-    0 0 0.1rem hsl(var(--accent) / 0.35);
+    var(
+      --team-glitch-ring-shadow,
+      0 0 var(--space-2) hsl(var(--ring) / 0.55)
+    ),
+    var(
+      --team-glitch-accent-shadow,
+      0 0 var(--spacing-0-5) hsl(var(--accent) / 0.35)
+    );
 }
 
 @media (prefers-reduced-motion: no-preference) {
