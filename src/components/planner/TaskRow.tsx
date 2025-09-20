@@ -45,6 +45,10 @@ export default function TaskRow({
   const [imageError, setImageError] = React.useState<string | null>(null);
   const trimmedImageUrl = imageUrl.trim();
   const canAttachImage = trimmedImageUrl.length > 0;
+  const trimmedTaskTitle = task.title.trim();
+  const renameTaskLabel = trimmedTaskTitle
+    ? `Rename task ${trimmedTaskTitle}`
+    : "Rename task";
 
   const validateImageUrl = React.useCallback((value: string) => {
     if (!value) {
@@ -228,7 +232,7 @@ export default function TaskRow({
                   if (e.key === "Enter") commit();
                   if (e.key === "Escape") cancel();
                 }}
-                aria-label="Rename task"
+                aria-label={renameTaskLabel}
               />
             )}
           </div>

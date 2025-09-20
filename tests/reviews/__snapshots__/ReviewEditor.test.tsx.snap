@@ -328,6 +328,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
+                      aria-label="Lane (used as Title)"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
                       id=":r4:"
                       name="lane"
@@ -1972,6 +1973,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <input
                   aria-describedby="tTime-error"
                   aria-invalid="true"
+                  aria-label="Timestamp time in mm:ss"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
                   id=":r8:"
                   inputmode="numeric"
@@ -1991,6 +1993,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="--field-h: var(--control-h-md);"
               >
                 <input
+                  aria-label="Timestamp note"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
                   id=":r9:"
                   name="timestamp-note"
