@@ -40,6 +40,7 @@ import {
   type TabItem,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { GoalsTabs, GoalsProgress, type FilterKey } from "@/components/goals";
 import PromptsHeader from "./PromptsHeader";
 import PromptsComposePanel from "./PromptsComposePanel";
@@ -172,7 +173,17 @@ export default function ComponentGallery() {
         element: <IconButtonShowcase />,
       },
       {
-        label: "Segmented",
+        label: "SegmentedButton",
+        element: (
+          <div className="w-56 flex gap-[var(--space-2)]">
+            <SegmentedButton>Default</SegmentedButton>
+            <SegmentedButton isActive>Active</SegmentedButton>
+            <SegmentedButton disabled>Disabled</SegmentedButton>
+          </div>
+        ),
+      },
+      {
+        label: "GlitchSegmented",
         element: (
           <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
             <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
