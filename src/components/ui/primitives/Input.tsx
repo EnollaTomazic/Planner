@@ -84,6 +84,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         className={cn(inputClassName)}
         indent={indent}
         hasEndSlot={showEndSlot || loading}
+        aria-label={ariaLabel}
         {...props}
       />
       {children}

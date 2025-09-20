@@ -35,7 +35,7 @@ describe("TaskRow", () => {
     );
     const textButton = screen.getByRole("button", { name: "Test task" });
     fireEvent.doubleClick(textButton);
-    const input = screen.getAllByRole("textbox")[0];
+    const input = screen.getByLabelText("Rename task Test task");
     await waitFor(() => {
       expect(input).toHaveFocus();
     });
@@ -191,5 +191,30 @@ describe("TaskRow", () => {
     await screen.findByText("Image URL must start with https.");
     expect(handleAddImage).not.toHaveBeenCalled();
     expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("falls back to a generic rename label when the task title is empty", () => {
+    render(
+      <TaskRow
+        task={{
+          id: "1",
+          title: "   ",
+          done: false,
+          createdAt: Date.now(),
+          images: [],
+        }}
+        onToggle={noop}
+        onDelete={noop}
+        onEdit={noop}
+        onSelect={noop}
+        onAddImage={noop}
+        onRemoveImage={noop}
+      />,
+    );
+
+    const editButton = screen.getAllByLabelText("Edit task")[0];
+    fireEvent.click(editButton);
+
+    expect(screen.getByLabelText("Rename task")).toBeInTheDocument();
   });
 });
