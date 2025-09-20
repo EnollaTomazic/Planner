@@ -31,12 +31,23 @@ export default function GoalsProgress({
   }
 
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const sizeStyle = maxWidth ?? 64;
+  const customSize =
+    maxWidth == null
+      ? undefined
+      : typeof maxWidth === "number"
+        ? `${maxWidth}px`
+        : maxWidth;
   const ringSize = typeof maxWidth === "number" ? maxWidth : undefined;
   return (
     <div
-      className="relative inline-flex items-center justify-center"
-      style={{ width: sizeStyle, height: sizeStyle }}
+      className="relative inline-flex size-[var(--goals-progress-size,var(--space-8))] items-center justify-center"
+      style={
+        customSize
+          ? ({
+              "--goals-progress-size": customSize,
+            } as React.CSSProperties)
+          : undefined
+      }
       aria-label="Progress"
     >
       <ProgressRingIcon pct={v} size={ringSize} />

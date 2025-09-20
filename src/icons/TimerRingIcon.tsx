@@ -1,4 +1,5 @@
 import * as React from "react";
+import { spacingTokens } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
 
 interface TimerRingIconProps {
@@ -6,10 +7,17 @@ interface TimerRingIconProps {
   size?: number;
 }
 
-export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
+const RING_DIAMETER = (spacingTokens[7] * 7) / 2;
+const TRACK_INSET = spacingTokens[2] / 2;
+const STROKE_WIDTH = spacingTokens[0];
+
+export default function TimerRingIcon({
+  pct,
+  size = RING_DIAMETER,
+}: TimerRingIconProps) {
   const uniqueId = React.useId();
   const gradientId = `timer-ring-grad-${uniqueId}`;
-  const radius = size / 2 - 6;
+  const radius = size / 2 - TRACK_INSET;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   const pulse = pct >= 90;
@@ -32,7 +40,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
         cy={size / 2}
         r={radius}
         stroke="hsl(var(--card-hairline))"
-        strokeWidth={4}
+        strokeWidth={STROKE_WIDTH}
         fill="none"
       />
       <circle
@@ -40,7 +48,7 @@ export default function TimerRingIcon({ pct, size = 200 }: TimerRingIconProps) {
         cy={size / 2}
         r={radius}
         stroke={`url(#${gradientId})`}
-        strokeWidth={4}
+        strokeWidth={STROKE_WIDTH}
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
