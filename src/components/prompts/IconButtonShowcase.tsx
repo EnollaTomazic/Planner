@@ -47,6 +47,12 @@ const ICON_BUTTONS = [
     "aria-label": "Add item glow",
     title: "Add item glow",
   },
+  {
+    size: "md",
+    variant: "solid",
+    "aria-label": "Add item solid",
+    title: "Add item solid",
+  },
 ] satisfies ShowcaseButtonProps[];
 
 const PRESSED_ICON_BUTTONS = [
@@ -65,6 +71,14 @@ const PRESSED_ICON_BUTTONS = [
     "aria-pressed": true,
     "aria-label": "Add item glow pressed",
     title: "Add item glow pressed",
+  },
+  {
+    variant: "solid",
+    size: "md",
+    className: "bg-[--active]",
+    "aria-pressed": true,
+    "aria-label": "Add item solid pressed",
+    title: "Add item solid pressed",
   },
 ] satisfies ShowcaseButtonProps[];
 

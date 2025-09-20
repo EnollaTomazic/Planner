@@ -1,15 +1,15 @@
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
-export default function Spinner({
-  className,
-  size = 24,
-}: {
+type SpinnerProps = {
   className?: string;
-  size?: string | number;
-}) {
+  size?: CSSProperties["width"];
+};
+
+export default function Spinner({ className, size = 24 }: SpinnerProps) {
   return (
     <div
       role="status"

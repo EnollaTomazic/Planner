@@ -25,11 +25,11 @@ describe("IconButton", () => {
   });
 
   const sizeCases = [
-    ["xs", "h-[var(--space-8)] w-[var(--space-8)]"],
+    ["xs", "h-[var(--space-5)] w-[var(--space-5)]"],
     ["sm", "h-[var(--control-h-sm)] w-[var(--control-h-sm)]"],
     ["md", "h-[var(--control-h-md)] w-[var(--control-h-md)]"],
     ["lg", "h-[var(--control-h-lg)] w-[var(--control-h-lg)]"],
-    ["xl", "h-[var(--space-7)] w-[var(--space-7)]"],
+    ["xl", "h-[var(--space-8)] w-[var(--space-8)]"],
   ] as const;
 
   sizeCases.forEach(([size, cls]) => {
@@ -96,7 +96,12 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.foreground.tintHover')]",
+    );
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.foreground.tintActive')]",
+    );
     expect(classes).toContain("border-line/35 text-foreground");
   });
 
@@ -109,8 +114,12 @@ describe("IconButton", () => {
     expect(classes).toContain(
       "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
     );
-    expect(classes).toContain("[--hover:hsl(var(--accent)/0.4)]");
-    expect(classes).toContain("[--active:hsl(var(--accent)/0.5)]");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.accent.surfaceHover')]",
+    );
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.accent.surfaceActive')]",
+    );
   });
 
   it("applies glow variant with info tone", () => {
@@ -121,7 +130,12 @@ describe("IconButton", () => {
     expect(classes).toContain("border bg-card/35");
     expect(classes).toContain("hover:bg-[--hover]");
     expect(classes).toContain("shadow-glow-current");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.info.tintHover')]",
+    );
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.info.tintActive')]",
+    );
     expect(classes).toContain(
       "border-accent-2/35 text-[var(--text-on-accent)]",
     );
@@ -133,7 +147,12 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain("[--hover:hsl(var(--panel)/0.45)]");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.danger.tintHover')]",
+    );
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.danger.tintActive')]",
+    );
     expect(classes).toContain("border-danger/35 text-danger");
     expect(classes).not.toContain("shadow-glow-current");
   });

@@ -38,6 +38,7 @@ import {
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
+  Spinner,
 } from "@/components/ui";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
@@ -55,12 +56,12 @@ import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import {
   DashboardCard,
   DashboardList,
-  BottomNav,
   IsometricRoom,
   QuickActionGrid,
   HeroPortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
+import { NAV_ITEMS, type NavItem } from "@/components/chrome/nav-items";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
@@ -84,6 +85,7 @@ import {
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
+import { cn } from "@/lib/utils";
 
 type LegacySpec = {
   id: string;
@@ -199,6 +201,122 @@ function ReviewSurfaceDemo() {
   );
 }
 
+type BottomNavState = "default" | "active" | "disabled" | "syncing";
+type BottomNavDemoMode = "combined" | "active" | "disabled" | "syncing";
+type BottomNavDemoItem = NavItem & { state: BottomNavState };
+
+const BOTTOM_NAV_STATE_DETAILS: Array<{
+  key: Exclude<BottomNavDemoMode, "combined">;
+  title: string;
+  description: string;
+}> = [
+  {
+    key: "active",
+    title: "Active tab",
+    description:
+      "Accent typography and the theme ring token pin the current Planner route.",
+  },
+  {
+    key: "disabled",
+    title: "Disabled tab",
+    description:
+      "Muted foreground copy with the global disabled opacity token communicates unavailable sections.",
+  },
+  {
+    key: "syncing",
+    title: "Syncing tab",
+    description:
+      "A compact spinner uses accent border tokens to show background sync progress next to the label.",
+  },
+];
+
+function createBottomNavItems(mode: BottomNavDemoMode = "combined") {
+  const states = new Map<string, BottomNavState>();
+
+  NAV_ITEMS.forEach((item) => {
+    states.set(item.href, "default");
+  });
+
+  if (mode === "combined" || mode === "active") {
+    states.set("/planner", "active");
+  }
+
+  if (mode === "combined" || mode === "syncing") {
+    states.set("/reviews", "syncing");
+  }
+
+  if (mode === "combined" || mode === "disabled") {
+    states.set("/team", "disabled");
+  }
+
+  return NAV_ITEMS.map<BottomNavDemoItem>((item) => ({
+    ...item,
+    state: states.get(item.href) ?? "default",
+  }));
+}
+
+function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }) {
+  const items = React.useMemo(() => createBottomNavItems(mode), [mode]);
+
+  return (
+    <div className="space-y-[var(--space-4)]">
+      <nav
+        aria-label="Planner bottom navigation"
+        className="rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-3)] shadow-neoSoft"
+      >
+        <ul className="flex items-stretch justify-around gap-[var(--space-2)]">
+          {items.map(({ href, label, mobileIcon: Icon, state }) => {
+            if (!Icon) {
+              return null;
+            }
+
+            return (
+              <li key={`${mode}-${href}`}>
+                <button
+                  type="button"
+                  disabled={state === "disabled"}
+                  aria-pressed={state === "active" ? true : undefined}
+                  aria-busy={state === "syncing" ? true : undefined}
+                  data-state={state}
+                  className={cn(
+                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-[var(--disabled)] motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                    state === "active" &&
+                      "text-accent-3 ring-2 ring-[var(--theme-ring)]",
+                    state === "default" &&
+                      "text-muted-foreground hover:text-foreground",
+                    state === "disabled" && "text-muted-foreground/70",
+                    state === "syncing" && "text-foreground",
+                  )}
+                >
+                  <span className="[&_svg]:size-[var(--space-4)]">
+                    <Icon aria-hidden="true" />
+                  </span>
+                  <span className="flex items-center gap-[var(--space-1)]">
+                    {label}
+                    {state === "syncing" ? (
+                      <Spinner size="var(--space-3)" />
+                    ) : null}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+      {mode === "combined" ? (
+        <dl className="grid gap-[var(--space-3)] text-label text-muted-foreground">
+          {BOTTOM_NAV_STATE_DETAILS.map(({ key, title, description }) => (
+            <div key={key} className="space-y-[var(--space-1)]">
+              <dt className="text-ui font-semibold text-foreground">{title}</dt>
+              <dd>{description}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+    </div>
+  );
+}
+
 function ReviewSliderTrackDemo() {
   return (
     <ReviewSurface padding="inline" className="relative h-12">
@@ -216,7 +334,7 @@ function ChampListEditorDemo() {
   const [list, setList] = React.useState<string[]>(["Ashe", "Lulu"]);
 
   return (
-    <div className="space-y-3" data-scope="team">
+    <div className="space-y-[var(--space-3)]" data-scope="team">
       <div className="flex items-center justify-between">
         <span className="text-label font-semibold tracking-[0.02em] text-muted-foreground">
           Champions
@@ -230,7 +348,7 @@ function ChampListEditorDemo() {
         onChange={setList}
         editing={editing}
         emptyLabel="-"
-        viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+        viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
       />
     </div>
   );
@@ -468,6 +586,40 @@ function PromptsComposePanelDemo() {
   );
 }
 
+function PromptListLoadingState() {
+  return (
+    <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <li key={index}>
+          <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+            <div className="flex items-center justify-between">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading prompt title"
+                className="h-[var(--space-5)] w-[calc(100%-var(--space-6))]"
+                radius="sm"
+              />
+              <Skeleton
+                className="h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]"
+                radius="sm"
+              />
+            </div>
+            <div className="space-y-[var(--space-2)]">
+              <Skeleton className="w-full" />
+              <Skeleton className="w-[calc(100%-var(--space-6))]" />
+            </div>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PromptListEmptyState() {
+  return <PromptList prompts={[]} query="" />;
+}
+
 function DemoHeaderShowcase() {
   const [role, setRole] = React.useState<Role>("MID");
   const [fruit, setFruit] = React.useState<string>("apple");
@@ -492,6 +644,68 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <PromptList prompts={demoPrompts} query="" />,
       tags: ["prompt", "list"],
       code: `<PromptList prompts={demoPrompts} query="" />`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Skeleton cards preserve the prompt layout while entries sync from storage.",
+          element: <PromptListLoadingState />,
+          code: `<ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
+  {Array.from({ length: 3 }).map((_, index) => (
+    <li key={index}>
+      <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+        <div className="flex items-center justify-between">
+          <Skeleton
+            ariaHidden={false}
+            role="status"
+            aria-label="Loading prompt title"
+            className="h-[var(--space-5)] w-[calc(100%-var(--space-6))]"
+            radius="sm"
+          />
+          <Skeleton
+            className="h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]"
+            radius="sm"
+          />
+        </div>
+        <div className="space-y-[var(--space-2)]">
+          <Skeleton className="w-full" />
+          <Skeleton className="w-[calc(100%-var(--space-6))]" />
+        </div>
+      </Card>
+    </li>
+  ))}
+</ul>`,
+        },
+        {
+          id: "empty",
+          name: "Empty",
+          description:
+            "Muted guidance keeps the workspace clear when no prompts have been saved yet.",
+          element: <PromptListEmptyState />,
+          code: `<PromptList prompts={[]} query="" />`,
+        },
+      ],
+      usage: [
+        {
+          kind: "do",
+          title: "Match skeleton rhythm to saved cards",
+          description:
+            "Align placeholder spacing with prompt titles and bodies so loading feels stable.",
+        },
+        {
+          kind: "do",
+          title: "Confirm empty states with guidance",
+          description:
+            "Surface contextual copy that explains whether no prompts exist or filters removed results.",
+        },
+        {
+          kind: "dont",
+          title: "Avoid blank panels",
+          description:
+            "Never leave the list empty without skeletons or helper text; it reads as a rendering failure.",
+        },
+      ],
     },
     {
       id: "prompts-header",
@@ -549,9 +763,37 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     {
       id: "bottom-nav",
       name: "BottomNav",
-      element: <BottomNav />,
+      description:
+        "Mobile Planner nav demo showing active, disabled, and syncing tabs styled with tokens.",
+      element: <BottomNavStatesDemo />,
       tags: ["nav", "bottom"],
-      code: `<BottomNav />`,
+      code: `<BottomNavStatesDemo />`,
+      states: [
+        {
+          id: "active",
+          name: "Active tab",
+          description:
+            "Accent text plus the theme ring token anchor the current Planner route.",
+          element: <BottomNavStatesDemo mode="active" />,
+          code: `<BottomNavStatesDemo mode="active" />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled tab",
+          description:
+            "Muted foreground copy and the global disabled opacity token signal unavailable sections.",
+          element: <BottomNavStatesDemo mode="disabled" />,
+          code: `<BottomNavStatesDemo mode="disabled" />`,
+        },
+        {
+          id: "syncing",
+          name: "Syncing tab",
+          description:
+            "A compact spinner with accent borders communicates background sync progress beside the label.",
+          element: <BottomNavStatesDemo mode="syncing" />,
+          code: `<BottomNavStatesDemo mode="syncing" />`,
+        },
+      ],
     },
     {
       id: "isometric-room",
@@ -1081,7 +1323,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     },
     actions: {
       node: (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[var(--space-2)]">
           <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
           <Button size="sm" variant="primary" loading>
             Deploy
@@ -1096,7 +1338,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   }}
 >
   <HeroGrid>
-    <HeroCol span={7} className="space-y-3">
+    <HeroCol span={7} className="space-y-[var(--space-3)]">
       <p className="text-ui text-muted-foreground">
         Default variant uses r-card-lg radius with px-6/md:px-7/lg:px-8 tokens and aligns content to the 12-column grid.
       </p>
@@ -1378,7 +1620,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   onChange={setList}
   editing={editing}
   emptyLabel="-"
-  viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+  viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
 />`,
     },
     {
