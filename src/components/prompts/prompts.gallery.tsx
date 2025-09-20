@@ -1750,42 +1750,48 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       id: "review-surface",
       name: "ReviewSurface",
       element: (
-        <div className="w-56">
+        <div className="w-[calc(var(--space-8)*3.5)]">
           <ReviewSurfaceDemo />
         </div>
       ),
       tags: ["review", "surface"],
-      code: `<ReviewSurface padding="md" tone="muted">
-  <div className="text-ui text-foreground/70">Surface content</div>
-</ReviewSurface>`,
+      code: `<div className="w-[calc(var(--space-8)*3.5)]">
+  <ReviewSurface padding="md" tone="muted">
+    <div className="text-ui text-foreground/70">Surface content</div>
+  </ReviewSurface>
+</div>`,
     },
     {
       id: "review-slider-track",
       name: "ReviewSliderTrack",
       element: (
-        <div className="w-56">
+        <div className="w-[calc(var(--space-8)*3.5)]">
           <ReviewSliderTrackDemo />
         </div>
       ),
       tags: ["review", "slider"],
-      code: `<ReviewSurface padding="inline" className="relative h-12">
-  <ReviewSliderTrack value={7} tone="score" variant="input" />
-</ReviewSurface>`,
+      code: `<div className="w-[calc(var(--space-8)*3.5)]">
+  <ReviewSurface padding="inline" className="relative h-12">
+    <ReviewSliderTrack value={7} tone="score" variant="input" />
+  </ReviewSurface>
+</div>`,
     },
     {
       id: "score-meter",
       name: "ScoreMeter",
       element: (
-        <div className="w-56">
+        <div className="w-[calc(var(--space-8)*3.5)]">
           <ScoreMeterDemo />
         </div>
       ),
       tags: ["review", "slider", "summary"],
-      code: `<ScoreMeter
-  label="Score"
-  value={8}
-  detail={<span>Great positioning</span>}
-/>`,
+      code: `<div className="w-[calc(var(--space-8)*3.5)]">
+  <ScoreMeter
+    label="Score"
+    value={8}
+    detail={<span>Great positioning</span>}
+  />
+</div>`,
     },
     {
       id: "review-list-item",
