@@ -85,7 +85,7 @@ export default function GoalList({
             <li key={g.id} className="flex">
               <article
                 className={[
-                  "relative flex min-h-8 w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-6",
+                  "relative flex min-h-8 w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-[var(--space-6)]",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
                   "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",
@@ -95,8 +95,8 @@ export default function GoalList({
                   aria-hidden
                   className="pointer-events-none absolute inset-0 rounded-card r-card-lg p-px [background:linear-gradient(135deg,hsl(var(--primary)),hsl(var(--accent)),transparent)] [mask:linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))_content-box,linear-gradient(hsl(var(--foreground)),hsl(var(--foreground)))] [mask-composite:exclude]"
                 />
-                <header className="relative z-[1] flex items-start justify-between gap-2">
-                  <div className="flex-1 pr-6">
+                <header className="relative z-[1] flex items-start justify-between gap-[var(--space-2)]">
+                  <div className="flex-1 pr-[var(--space-6)]">
                     <h3
                       id={headingId}
                       className={[
@@ -120,7 +120,7 @@ export default function GoalList({
                       />
                     ) : null}
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-[var(--space-2)]">
                     {isEditing ? (
                       <>
                         <IconButton
@@ -179,9 +179,9 @@ export default function GoalList({
                     )}
                   </div>
                 </header>
-                <div className="relative z-[1] mt-4 space-y-2 text-ui font-medium text-muted-foreground">
+                <div className="relative z-[1] mt-[var(--space-4)] space-y-[var(--space-2)] text-ui font-medium text-muted-foreground">
                   {isEditing ? (
-                    <div className="space-y-2">
+                    <div className="space-y-[var(--space-2)]">
                       <Input
                         aria-label="Metric"
                         value={draft.metric}
@@ -215,8 +215,8 @@ export default function GoalList({
                     </>
                   )}
                 </div>
-                <footer className="relative z-[1] mt-auto pt-3 flex items-center justify-between text-label font-medium tracking-[0.02em] text-muted-foreground">
-                  <span className="inline-flex items-center gap-2">
+                <footer className="relative z-[1] mt-auto pt-[var(--space-3)] flex items-center justify-between text-label font-medium tracking-[0.02em] text-muted-foreground">
+                  <span className="inline-flex items-center gap-[var(--space-2)]">
                     <span
                       aria-hidden
                       className={[

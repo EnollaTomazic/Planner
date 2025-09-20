@@ -19,8 +19,8 @@ export default function GoalsProgress({
 }: GoalsProgressProps) {
   if (total === 0) {
     return (
-      <div className="rounded-card r-card-md border border-border bg-surface-2 p-6 text-center">
-        <p className="mb-4 text-muted-foreground text-ui font-medium">No goals yet.</p>
+      <div className="rounded-card r-card-md border border-border bg-surface-2 p-[var(--space-6)] text-center">
+        <p className="mb-[var(--space-4)] text-muted-foreground text-ui font-medium">No goals yet.</p>
         {onAddFirst && (
           <Button onClick={onAddFirst} size="sm" className="mx-auto">
             Add a first goal

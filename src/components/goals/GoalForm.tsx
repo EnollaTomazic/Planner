@@ -72,8 +72,8 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             </Button>
           }
         />
-        <SectionCard.Body className="grid gap-6">
-          <Label htmlFor="goal-title" className="mb-0 grid gap-2">
+        <SectionCard.Body className="grid gap-[var(--space-6)]">
+          <Label htmlFor="goal-title" className="mb-0 grid gap-[var(--space-2)]">
             Title
             <Input
               ref={titleRef}
@@ -88,7 +88,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             />
           </Label>
 
-          <Label htmlFor="goal-metric" className="mb-0 grid gap-2">
+          <Label htmlFor="goal-metric" className="mb-0 grid gap-[var(--space-2)]">
             Metric (optional)
             <Input
               id="goal-metric"
@@ -100,7 +100,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             />
           </Label>
 
-          <Label htmlFor="goal-notes" className="mb-0 grid gap-2">
+          <Label htmlFor="goal-notes" className="mb-0 grid gap-[var(--space-2)]">
             Notes (optional)
             <Textarea
               id="goal-notes"

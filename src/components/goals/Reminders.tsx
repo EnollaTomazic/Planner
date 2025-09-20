@@ -165,11 +165,11 @@ export default function Reminders() {
   }
 
   return (
-    <div className="grid gap-3">
+    <div className="grid gap-[var(--space-3)]">
       <SectionCard className="card-neo-soft">
         <SectionCard.Header sticky topClassName="top-0">
           {/* header row (no Quick Add here anymore) */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
+          <div className="flex flex-wrap items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] w-full">
             {/* search */}
             <div className="relative flex-1 min-w-56">
               <Search
@@ -208,7 +208,7 @@ export default function Reminders() {
               title="Pinned only"
               isActive={onlyPinned}
             >
-              {onlyPinned ? <PinOff className="mr-1" /> : <Pin className="mr-1" />}
+              {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
               {onlyPinned ? "Pinned only" : "Any pin"}
             </SegmentedButton>
 
@@ -224,9 +224,9 @@ export default function Reminders() {
         </SectionCard.Header>
 
         {/* Panel body now holds Quick Add + neon quote + cards grid */}
-        <SectionCard.Body className="grid gap-3">
+        <SectionCard.Body className="grid gap-[var(--space-3)]">
           {/* Quick Add row (in the SAME panel as cards) */}
-          <div className="sm:p-4 flex items-center gap-4">
+          <div className="sm:p-[var(--space-4)] flex items-center gap-[var(--space-4)]">
             <Input
               aria-label="Quick add"
               placeholder={`Quick add to ${group === "all" ? "Pre-Game" : group.charAt(0).toUpperCase() + group.slice(1)}…`}
@@ -245,7 +245,7 @@ export default function Reminders() {
           </div>
 
           {/* Cards grid */}
-          <div className="grid card-neo-soft gap-3 sm:gap-4 md:grid-cols-12">
+          <div className="grid card-neo-soft gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
             {filtered.map((r) => (
               <div key={r.id} className="md:col-span-6">
                 <ReminderCard
@@ -307,12 +307,12 @@ function ReminderCard({
   const cancelLabel = `Cancel ${currentTitle}`;
 
   return (
-    <article className="card-neo rounded-card p-4 sm:p-5 relative">
+    <article className="card-neo rounded-card p-[var(--space-4)] sm:p-[var(--space-5)] relative">
       {value.pinned && (
-        <span aria-hidden className="absolute inset-y-3 left-0 w-0.5 rounded-full bg-primary/55" />
+        <span aria-hidden className="absolute inset-y-[var(--space-3)] left-0 w-0.5 rounded-full bg-primary/55" />
       )}
 
-      <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-[var(--space-2)] mb-[var(--space-2)]">
         {editing ? (
           <Input
             ref={titleRef}
@@ -326,7 +326,7 @@ function ReminderCard({
             className="font-semibold"
           />
         ) : (
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-[var(--space-2)] min-w-0">
             <h3 className="font-semibold title-glow truncate" title={value.title}>
               {value.title}
             </h3>
@@ -343,7 +343,7 @@ function ReminderCard({
           </div>
         )}
 
-        <div className="card-neo flex items-center gap-1">
+        <div className="card-neo flex items-center gap-[var(--space-1)]">
           <IconButton
             title={value.pinned ? "Unpin" : "Pin"}
             aria-label={value.pinned ? "Unpin" : "Pin"}
@@ -399,7 +399,7 @@ function ReminderCard({
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-[var(--space-3)]">
         {editing ? (
           <>
             <Textarea
@@ -438,7 +438,7 @@ function ReminderCard({
             ) : (
               <p className="text-ui font-medium text-muted-foreground/80">No text. Click to edit.</p>
             )}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-[var(--space-2)] pt-[var(--space-1)]">
               {value.tags.map((t) => <span key={t} className="pill">{t}</span>)}
               <Badge size="xs" tone="neutral" className="opacity-75">{value.group}</Badge>
               <Badge
