@@ -4,9 +4,8 @@ import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
-import type { ButtonSize } from "./Button";
 
-export type IconButtonSize = ButtonSize | "xl";
+export type IconButtonSize = "sm" | "md" | "lg" | "xl";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
@@ -48,7 +47,7 @@ export type IconButtonProps =
     };
 
 const iconMap: Record<Icon, string> = {
-  xs: "[&_svg]:size-[var(--space-3)]",
+  xs: "[&_svg]:size-[calc(var(--control-h-xs)/2)]",
   sm: "[&_svg]:size-[calc(var(--control-h-sm)/2)]",
   md: "[&_svg]:size-[calc(var(--control-h-md)/2)]",
   lg: "[&_svg]:size-[calc(var(--control-h-lg)/2)]",

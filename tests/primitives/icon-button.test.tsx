@@ -41,7 +41,7 @@ describe("IconButton", () => {
   });
 
   const iconCases = [
-    ["xs", "[&_svg]:size-[var(--space-3)]"],
+    ["xs", "[&_svg]:size-[calc(var(--control-h-xs)/2)]"],
     ["sm", "[&_svg]:size-[calc(var(--control-h-sm)/2)]"],
     ["md", "[&_svg]:size-[calc(var(--control-h-md)/2)]"],
     ["lg", "[&_svg]:size-[calc(var(--control-h-lg)/2)]"],

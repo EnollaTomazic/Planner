@@ -75,6 +75,7 @@
 | dur-quick | 140ms |
 | dur-chill | 220ms |
 | dur-slow | 420ms |
+| control-h-xs | 24px |
 | control-h-sm | 32px |
 | control-h-md | 40px |
 | control-h-lg | 48px |
