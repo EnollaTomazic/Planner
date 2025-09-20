@@ -255,7 +255,7 @@ export default function TaskRow({
               onPointerDown={(e) => e.stopPropagation()}
               size="sm"
               iconSize="xs"
-              variant="ring"
+              variant="ghost"
             >
               <Pencil />
             </IconButton>
@@ -269,7 +269,7 @@ export default function TaskRow({
               onPointerDown={(e) => e.stopPropagation()}
               size="sm"
               iconSize="xs"
-              variant="ring"
+              variant="ghost"
             >
               <Trash2 />
             </IconButton>
@@ -301,7 +301,7 @@ export default function TaskRow({
                 onClick={() => onRemoveImage(url, index)}
                 size="sm"
                 iconSize="xs"
-                variant="ring"
+                variant="ghost"
               >
                 <Trash2 />
               </IconButton>

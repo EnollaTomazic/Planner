@@ -9,7 +9,7 @@ export type IconButtonSize = "sm" | "md" | "lg" | "xl";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
-type Variant = "ring" | "glow" | "solid";
+type Variant = "primary" | "secondary" | "ghost";
 
 type RequireAtLeastOne<T, Keys extends keyof T> = Pick<
   T,
@@ -90,10 +90,10 @@ const surfaceInteractionTokens = {
 } satisfies Record<Exclude<Tone, "primary">, string>;
 
 const variantBase: Record<Variant, (tone: Tone) => string> = {
-  ring: (tone) =>
+  ghost: (tone) =>
     cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
-  solid: () => "border",
-  glow: (tone) =>
+  primary: () => "border",
+  secondary: (tone) =>
     cn(
       "border bg-card/35 hover:bg-[--hover] shadow-glow-current",
       toneTintTokens[tone],
@@ -101,13 +101,13 @@ const variantBase: Record<Variant, (tone: Tone) => string> = {
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
-  ring: {
+  ghost: {
     primary: "border-line/35 text-foreground",
     accent: "border-accent/35 text-[var(--text-on-accent)]",
     info: "border-accent-2/35 text-[var(--text-on-accent)]",
     danger: "border-danger/35 text-danger",
   },
-  solid: {
+  primary: {
     primary: cn(
       "border-transparent bg-foreground/15 text-foreground",
       toneTintTokens.primary,
@@ -125,7 +125,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
       surfaceInteractionTokens.danger,
     ),
   },
-  glow: {
+  secondary: {
     primary: "border-foreground/35 text-foreground",
     accent: "border-accent/35 text-[var(--text-on-accent)]",
     info: "border-accent-2/35 text-[var(--text-on-accent)]",
@@ -140,7 +140,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       iconSize,
       className,
       tone = "primary",
-      variant = "ring",
+      variant = "ghost",
       loading,
       disabled,
       children,

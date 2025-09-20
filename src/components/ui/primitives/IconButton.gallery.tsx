@@ -64,16 +64,24 @@ function IconButtonGalleryPreview() {
           <IconButton
             key={size}
             size={size}
-            variant="ring"
+            variant="ghost"
             aria-label={`Add item ${size}`}
           >
             <Plus aria-hidden />
           </IconButton>
         ))}
-        <IconButton size="md" variant="glow" aria-label="Add item glow">
+        <IconButton
+          size="md"
+          variant="secondary"
+          aria-label="Add item secondary"
+        >
           <Plus aria-hidden />
         </IconButton>
-        <IconButton size="md" variant="solid" aria-label="Add item solid">
+        <IconButton
+          size="md"
+          variant="primary"
+          aria-label="Add item primary"
+        >
           <Plus aria-hidden />
         </IconButton>
       </div>
@@ -98,9 +106,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"ring" | "glow" | "solid"',
+          type: '"primary" | "secondary" | "ghost"',
           description:
-            'Visual treatment of the button. Choose "ring", "glow", or "solid".',
+            'Visual treatment of the button. Choose "ghost", "secondary", or "primary".',
         },
         {
           name: "size",
@@ -118,9 +126,9 @@ export default defineGallerySection({
           label: "Variant",
           type: "variant",
           values: [
-            { value: "Ring" },
-            { value: "Glow" },
-            { value: "Solid" },
+            { value: "Ghost" },
+            { value: "Secondary" },
+            { value: "Primary" },
           ],
         },
         {
@@ -136,22 +144,22 @@ export default defineGallerySection({
       }),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
-    <IconButton size="sm" variant="ring" aria-label="Add item sm">
+    <IconButton size="sm" variant="ghost" aria-label="Add item sm">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="ring" aria-label="Add item md">
+    <IconButton size="md" variant="ghost" aria-label="Add item md">
       <Plus />
     </IconButton>
-    <IconButton size="lg" variant="ring" aria-label="Add item lg">
+    <IconButton size="lg" variant="ghost" aria-label="Add item lg">
       <Plus />
     </IconButton>
-    <IconButton size="xl" variant="ring" aria-label="Add item xl">
+    <IconButton size="xl" variant="ghost" aria-label="Add item xl">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="glow" aria-label="Add item glow">
+    <IconButton size="md" variant="secondary" aria-label="Add item secondary">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="solid" aria-label="Add item solid">
+    <IconButton size="md" variant="primary" aria-label="Add item primary">
       <Plus />
     </IconButton>
   </div>

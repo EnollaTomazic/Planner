@@ -120,7 +120,7 @@ export default function GoalSlot({
                 size="sm"
                 iconSize="xs"
                 tone={goal.done ? "accent" : "primary"}
-                variant="ring"
+                variant="ghost"
                 className="absolute bottom-[var(--space-1)] right-[var(--space-1)]"
                 aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
                 aria-pressed={goal.done}
@@ -135,7 +135,7 @@ export default function GoalSlot({
                   ref={editButtonRef}
                   size="sm"
                   iconSize="xs"
-                  variant="ring"
+                  variant="ghost"
                   aria-label="Edit goal"
                   title="Edit goal"
                   onClick={startEdit}
@@ -146,7 +146,7 @@ export default function GoalSlot({
                   size="sm"
                   iconSize="xs"
                   tone="danger"
-                  variant="ring"
+                  variant="ghost"
                   aria-label="Delete goal"
                   title="Delete goal"
                   onClick={() => onDelete?.(goal.id)}

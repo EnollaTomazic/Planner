@@ -88,9 +88,9 @@ describe("IconButton", () => {
     });
   });
 
-  it("applies ring variant with primary tone", () => {
+  it("applies ghost variant with primary tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ring" tone="primary" aria-label="rp" />,
+      <IconButton variant="ghost" tone="primary" aria-label="gp" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
@@ -103,9 +103,9 @@ describe("IconButton", () => {
     expect(classes).toContain("border-line/35 text-foreground");
   });
 
-  it("applies solid variant with accent tone", () => {
+  it("applies primary variant with accent tone", () => {
     const { getByRole } = render(
-      <IconButton variant="solid" tone="accent" aria-label="sa" />,
+      <IconButton variant="primary" tone="accent" aria-label="pa" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
@@ -120,9 +120,9 @@ describe("IconButton", () => {
     );
   });
 
-  it("applies glow variant with info tone", () => {
+  it("applies secondary variant with info tone", () => {
     const { getByRole } = render(
-      <IconButton variant="glow" tone="info" aria-label="gi" />,
+      <IconButton variant="secondary" tone="info" aria-label="si" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35");
@@ -139,9 +139,9 @@ describe("IconButton", () => {
     );
   });
 
-  it("applies ring variant with danger tone", () => {
+  it("applies ghost variant with danger tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ring" tone="danger" aria-label="rd" />,
+      <IconButton variant="ghost" tone="danger" aria-label="gd" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
