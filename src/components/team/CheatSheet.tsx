@@ -367,6 +367,52 @@ function BulletListEdit({
     setList(cleaned.length ? [...items] : [""]);
   }, [items]);
 
+  function scrubItemText(el: HTMLLIElement): string {
+    el.normalize();
+    const text = el.textContent ?? "";
+    const hasUnsafeNodes = Array.from(el.childNodes).some(
+      (node) => node.nodeType !== Node.TEXT_NODE,
+    );
+    if (hasUnsafeNodes) {
+      el.textContent = text;
+      return el.textContent ?? "";
+    }
+    return text;
+  }
+
+  function insertPlainText(el: HTMLLIElement, text: string) {
+    const selection = window.getSelection();
+    if (!selection?.rangeCount) {
+      el.textContent = text;
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (!el.contains(range.commonAncestorContainer)) {
+      el.textContent = text;
+      return;
+    }
+
+    range.deleteContents();
+    const textNode = document.createTextNode(text);
+    range.insertNode(textNode);
+    range.setStart(textNode, textNode.length);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function handlePaste(i: number, e: React.ClipboardEvent<HTMLLIElement>) {
+    e.preventDefault();
+    const el = e.currentTarget;
+    const plain = e.clipboardData?.getData("text/plain") ?? "";
+    insertPlainText(el, plain);
+    const text = scrubItemText(el);
+    const next = [...list];
+    next[i] = text;
+    update(next);
+  }
+
   function update(next: string[]) {
     const trimmed = next.map((item) => item.trim());
     const filtered = trimmed.filter(Boolean);
@@ -376,7 +422,7 @@ function BulletListEdit({
 
   function handleItemInput(i: number, e: React.FormEvent<HTMLLIElement>) {
     const el = e.currentTarget;
-    const text = el.textContent ?? "";
+    const text = scrubItemText(el);
     const next = [...list];
     next[i] = text;
     update(next);
@@ -439,6 +485,8 @@ function BulletListEdit({
           suppressContentEditableWarning
           onInput={(e) => handleItemInput(idx, e)}
           onKeyDown={(e) => handleKeyDown(idx, e)}
+          onPaste={(e) => handlePaste(idx, e)}
+          onDrop={(event) => event.preventDefault()}
           className="relative pl-[var(--space-3)] before:absolute before:left-0 before:top-[var(--space-2)] before:h-[var(--space-2)] before:w-[var(--space-2)] before:rounded-full before:bg-current"
         >
           {w}
