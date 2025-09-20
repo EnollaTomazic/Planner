@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function Spinner({
   className,
-  size = 24,
+  size = "var(--space-6)",
 }: {
   className?: string;
   size?: string | number;

@@ -1307,7 +1307,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       name: "Spinner",
       element: <SpinnerShowcase />,
       tags: ["spinner", "loading"],
-      code: `<Spinner size={24} />`,
+      code: `<Spinner size="var(--space-6)" />`,
     },
   ],
   toggles: [

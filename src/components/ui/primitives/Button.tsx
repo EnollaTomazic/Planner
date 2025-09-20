@@ -37,10 +37,10 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
 
-const spinnerSizes: Record<ButtonSize, number> = {
-  sm: 16,
-  md: 20,
-  lg: 24,
+const spinnerSizes: Record<ButtonSize, string> = {
+  sm: "var(--space-4)",
+  md: "calc(var(--space-5) - var(--space-1))",
+  lg: "var(--space-5)",
 };
 
 const MotionSlot = motion.create(Slot);
