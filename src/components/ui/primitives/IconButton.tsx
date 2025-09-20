@@ -6,7 +6,7 @@ import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
 import type { ButtonSize } from "./Button";
 
-export type IconButtonSize = ButtonSize | "xl" | "xs";
+export type IconButtonSize = ButtonSize | "xl";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
@@ -49,25 +49,23 @@ export type IconButtonProps =
 
 const iconMap: Record<Icon, string> = {
   xs: "[&_svg]:size-[var(--space-3)]",
-  sm: "[&_svg]:size-[var(--space-4)]",
-  md: "[&_svg]:size-[var(--space-5)]",
-  lg: "[&_svg]:size-[var(--space-6)]",
-  xl: "[&_svg]:size-[var(--space-7)]",
+  sm: "[&_svg]:size-[calc(var(--control-h-sm)/2)]",
+  md: "[&_svg]:size-[calc(var(--control-h-md)/2)]",
+  lg: "[&_svg]:size-[calc(var(--control-h-lg)/2)]",
+  xl: "[&_svg]:size-[calc(var(--control-h-xl)/2)]",
 };
 const defaultIcon: Record<IconButtonSize, Icon> = {
-  xs: "xs",
-  sm: "xs",
-  md: "sm",
-  lg: "md",
-  xl: "lg",
+  sm: "sm",
+  md: "md",
+  lg: "lg",
+  xl: "xl",
 };
 const getSizeClass = (s: IconButtonSize) => {
   const sizeMap: Record<IconButtonSize, string> = {
-    xs: "h-[var(--space-5)] w-[var(--space-5)]",
     sm: "h-[var(--control-h-sm)] w-[var(--control-h-sm)]",
     md: "h-[var(--control-h-md)] w-[var(--control-h-md)]",
     lg: "h-[var(--control-h-lg)] w-[var(--control-h-lg)]",
-    xl: "h-[var(--space-8)] w-[var(--space-8)]",
+    xl: "h-[var(--control-h-xl)] w-[var(--control-h-xl)]",
   };
   return sizeMap[s];
 };
