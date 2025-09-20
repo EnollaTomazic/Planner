@@ -327,7 +327,7 @@ function Hero<Key extends string = string>({
                 {frame ? (
                   <span
                     aria-hidden
-                    className="hero2-divider-glow absolute inset-x-0 top-0 h-px blur-[6px] opacity-60 bg-[hsl(var(--divider))]"
+                    className="hero2-divider-glow absolute inset-x-0 top-0 h-px opacity-60 bg-[hsl(var(--divider))]"
                   />
                 ) : null}
                 <div className={actionRowClass}>
@@ -545,6 +545,9 @@ export function HeroGlitchStyles() {
       }
 
       /* === Neon divider (unchanged) ===================================== */
+      .hero2-divider-glow {
+        filter: blur(var(--hero-divider-blur, calc(var(--spacing-1) * 1.5)));
+      }
       .neon-primary {
         --neon: var(--primary);
       }
