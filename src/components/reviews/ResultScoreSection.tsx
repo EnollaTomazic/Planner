@@ -98,7 +98,7 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            className="absolute top-1 bottom-1 left-1 rounded-[inherit] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style={resultIndicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
