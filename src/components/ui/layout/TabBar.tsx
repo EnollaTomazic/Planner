@@ -206,7 +206,7 @@ export default function TabBar<
     : isGlitch
       ? "[--focus:hsl(var(--ring))]"
       : cn(
-          "border-border/30 bg-card/60 shadow-neo-inset",
+          "border-border/30 bg-card/60 shadow-[var(--shadow-neo-inset)]",
           "[--hover:hsl(var(--primary)/0.18)]",
           "[--active:hsl(var(--primary)/0.28)]",
           "[--focus:hsl(var(--ring))]",
