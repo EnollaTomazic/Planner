@@ -67,6 +67,9 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
   attribute remains available for setting character width.
 - `Button` automatically sizes any `svg` icons based on the `size` option
   and sets icon gaps: `gap-1` for `sm`, `gap-2` for `md`, `gap-3` for `lg`.
+- `Button` and `IconButton` share the `variant` options
+  `"primary" | "secondary" | "ghost"`. Update any IconButton usage from
+  `solid` → `primary`, `glow` → `secondary`, and `ring` → `ghost`.
 
 ```tsx
 import { Button } from "@/components/ui/primitives/Button";

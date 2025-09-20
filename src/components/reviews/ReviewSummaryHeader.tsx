@@ -68,7 +68,7 @@ export default function ReviewSummaryHeader({
           {ResultBadge}
           {onEdit ? (
             <IconButton
-              variant="ring"
+              variant="ghost"
               size="md"
               aria-label="Edit review"
               title="Edit review"
