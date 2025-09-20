@@ -118,7 +118,7 @@ function PropsTable({
       <div
         className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] shadow-[var(--shadow-inset-hairline)]"
       >
-        <table className="w-full min-w-[28rem] border-separate border-spacing-0 text-left">
+        <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
           <thead>
             <tr className="text-label text-muted-foreground">
               <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
