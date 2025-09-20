@@ -39,6 +39,11 @@ export default defineGallerySection({
         { name: "isActive", type: "boolean", defaultValue: "false" },
         { name: "loading", type: "boolean", defaultValue: "false" },
         { name: "disabled", type: "boolean", defaultValue: "false" },
+        {
+          name: "size",
+          type: '"sm" | "md" | "lg" | "xl"',
+          defaultValue: '"md"',
+        },
       ],
       axes: [
         {

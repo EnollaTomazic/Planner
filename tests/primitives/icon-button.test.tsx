@@ -25,11 +25,10 @@ describe("IconButton", () => {
   });
 
   const sizeCases = [
-    ["xs", "h-[var(--space-5)] w-[var(--space-5)]"],
     ["sm", "h-[var(--control-h-sm)] w-[var(--control-h-sm)]"],
     ["md", "h-[var(--control-h-md)] w-[var(--control-h-md)]"],
     ["lg", "h-[var(--control-h-lg)] w-[var(--control-h-lg)]"],
-    ["xl", "h-[var(--space-8)] w-[var(--space-8)]"],
+    ["xl", "h-[var(--control-h-xl)] w-[var(--control-h-xl)]"],
   ] as const;
 
   sizeCases.forEach(([size, cls]) => {
@@ -72,7 +71,6 @@ describe("IconButton", () => {
   });
 
   const defaultIconCases = [
-    ["xs", "[&_svg]:size-[var(--space-3)]"],
     ["sm", "[&_svg]:size-[var(--space-3)]"],
     ["md", "[&_svg]:size-[var(--space-4)]"],
     ["lg", "[&_svg]:size-[var(--space-5)]"],

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn, slugify } from "@/lib/utils";
+import { buttonSizes, type ButtonSize } from "./Button";
 import styles from "./GlitchSegmented.module.css";
 
 export interface GlitchSegmentedGroupProps {
@@ -11,6 +12,7 @@ export interface GlitchSegmentedGroupProps {
   ariaLabelledby?: string;
   children: React.ReactNode;
   className?: string;
+  size?: ButtonSize;
 }
 
 export interface GlitchSegmentedButtonProps
@@ -19,7 +21,52 @@ export interface GlitchSegmentedButtonProps
   icon?: React.ReactNode;
   selected?: boolean;
   onSelect?: () => void;
+  size?: ButtonSize;
 }
+
+type GlitchSegmentedSizeStyles = {
+  height: string;
+  paddingX: string;
+  gap: string;
+  text: string;
+  icon: string;
+  iconWrap: string;
+};
+
+const GLITCH_SEGMENTED_SIZE_STYLES: Record<ButtonSize, GlitchSegmentedSizeStyles> = {
+  sm: {
+    height: buttonSizes.sm.height,
+    paddingX: "px-[var(--space-3)]",
+    gap: "gap-[var(--space-2)]",
+    text: "text-ui",
+    icon: "[&_svg]:size-[var(--space-4)]",
+    iconWrap: "size-[var(--space-4)]",
+  },
+  md: {
+    height: buttonSizes.md.height,
+    paddingX: "px-[var(--space-4)]",
+    gap: "gap-[var(--space-3)]",
+    text: "text-ui",
+    icon: "[&_svg]:size-[var(--space-5)]",
+    iconWrap: "size-[var(--space-5)]",
+  },
+  lg: {
+    height: buttonSizes.lg.height,
+    paddingX: "px-[var(--space-5)]",
+    gap: "gap-[var(--space-3)]",
+    text: "text-title",
+    icon: "[&_svg]:size-[var(--space-6)]",
+    iconWrap: "size-[var(--space-6)]",
+  },
+  xl: {
+    height: buttonSizes.xl.height,
+    paddingX: "px-[var(--space-6)]",
+    gap: "gap-[var(--space-4)]",
+    text: "text-title-lg",
+    icon: "[&_svg]:size-[var(--space-7)]",
+    iconWrap: "size-[var(--space-7)]",
+  },
+};
 
 export const GlitchSegmentedGroup = ({
   value,
@@ -28,6 +75,7 @@ export const GlitchSegmentedGroup = ({
   ariaLabelledby,
   children,
   className,
+  size = "sm",
 }: GlitchSegmentedGroupProps) => {
   const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const setBtnRef = (index: number) => (el: HTMLButtonElement | null) => {
@@ -90,6 +138,7 @@ export const GlitchSegmentedGroup = ({
           tabIndex: selected ? 0 : -1,
           selected,
           onSelect: () => onChange(child.props.value),
+          size: buttonChild.props.size ?? size,
           id: child.props.id ?? `${normalizedValue}-tab`,
           "aria-controls":
             child.props["aria-controls"] ?? `${normalizedValue}-panel`,
@@ -103,7 +152,9 @@ export const GlitchSegmentedGroup = ({
 export const GlitchSegmentedButton = React.forwardRef<
   HTMLButtonElement,
   GlitchSegmentedButtonProps
->(({ icon, children, className, selected, onSelect, ...rest }, ref) => {
+>(({ icon, children, className, selected, onSelect, size = "sm", ...rest }, ref) => {
+  const sizeStyles = GLITCH_SEGMENTED_SIZE_STYLES[size] ??
+    GLITCH_SEGMENTED_SIZE_STYLES.sm;
   return (
     <button
       ref={ref}
@@ -114,19 +165,29 @@ export const GlitchSegmentedButton = React.forwardRef<
       onClick={onSelect}
       className={cn(
         styles.glitchScanlines,
-        "flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none",
+        "flex-1 inline-flex items-center justify-center font-medium select-none",
         "rounded-full transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
         "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active]",
         "motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft",
         "motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none",
         "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)]",
         "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+        sizeStyles.height,
+        sizeStyles.paddingX,
+        sizeStyles.gap,
+        sizeStyles.text,
+        sizeStyles.icon,
         className,
       )}
       {...rest}
     >
       {icon ? (
-        <span className="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center">
+        <span
+          className={cn(
+            "inline-flex items-center justify-center",
+            sizeStyles.iconWrap,
+          )}
+        >
           {icon}
         </span>
       ) : null}

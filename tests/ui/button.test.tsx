@@ -14,6 +14,7 @@ describe("Button", () => {
     sm: "h-[var(--control-h-sm)]",
     md: "h-[var(--control-h-md)]",
     lg: "h-[var(--control-h-lg)]",
+    xl: "h-[var(--control-h-xl)]",
   };
 
   const variantToneClasses: Record<

@@ -122,7 +122,8 @@ export default function OnboardingTabs() {
           <li className="flex gap-[var(--space-2)]">
             <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
             <span>
-              IconButton adds a compact <code>xs</code> size.
+              IconButton now mirrors Button sizing, spanning shared <code>sm</code>
+              through <code>xl</code> control heights.
             </span>
           </li>
           <li className="flex gap-[var(--space-2)]">

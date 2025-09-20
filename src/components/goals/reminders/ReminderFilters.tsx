@@ -34,6 +34,7 @@ export default function ReminderFilters() {
           className="overflow-x-auto"
           right={
             <SegmentedButton
+              size="sm"
               className="inline-flex items-center gap-1"
               onClick={toggleFilters}
               aria-expanded={showFilters}
@@ -57,6 +58,7 @@ export default function ReminderFilters() {
             size="sm"
           />
           <SegmentedButton
+            size="sm"
             onClick={togglePinned}
             aria-pressed={onlyPinned}
             title="Pinned only"

@@ -197,7 +197,7 @@ export default function Reminders() {
 
             {/* pinned */}
               <SegmentedButton
-                className="h-10"
+                size="md"
                 onClick={() => setOnlyPinned(v => !v)}
                 aria-pressed={onlyPinned}
                 title="Pinned only"
@@ -208,7 +208,11 @@ export default function Reminders() {
               </SegmentedButton>
 
             {/* actions */}
-              <SegmentedButton className="h-10" onClick={resetSeeds} title="Replace with curated seeds">
+              <SegmentedButton
+                size="md"
+                onClick={resetSeeds}
+                title="Replace with curated seeds"
+              >
                 Reset
               </SegmentedButton>
           </div>
