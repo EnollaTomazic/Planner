@@ -27,25 +27,35 @@ export type BackgroundPickerProps = {
   bg: Background;
   onBgChange: (bg: Background) => void;
   className?: string;
+  buttonClassName?: string;
+  disabled?: boolean;
+  loadingBackground?: Background | null;
 };
 
 export default function BackgroundPicker({
   bg,
   onBgChange,
   className = "",
+  buttonClassName,
+  disabled = false,
+  loadingBackground = null,
 }: BackgroundPickerProps) {
   const items: SelectItem[] = React.useMemo(
     () =>
-      BG_CLASSES.map((cls, idx) => ({
-        value: String(idx),
-        label: (
-          <div className="flex items-center gap-[var(--space-2)]">
-            <Swatch className={cls} />
-            <span>{BG_NAMES[idx]}</span>
-          </div>
-        ),
-      })),
-    [],
+      BG_CLASSES.map((cls, idx) => {
+        const background = idx as Background;
+        return {
+          value: String(idx),
+          label: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Swatch className={cls} />
+              <span>{BG_NAMES[idx]}</span>
+            </div>
+          ),
+          loading: loadingBackground === background,
+        } satisfies SelectItem;
+      }),
+    [loadingBackground],
   );
   return (
     <SettingsSelect
@@ -55,6 +65,8 @@ export default function BackgroundPicker({
       value={String(bg)}
       onChange={(v) => onBgChange(Number(v) as Background)}
       className={className}
+      buttonClassName={buttonClassName}
+      disabled={disabled}
     />
   );
 }

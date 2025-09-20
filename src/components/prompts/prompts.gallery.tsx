@@ -77,6 +77,7 @@ import {
 import type { PromptWithTitle } from "./types";
 import type { Review, Role } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
+import type { Background, Variant } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -194,6 +195,233 @@ function SettingsSelectDemo() {
         disabled
       />
     </div>
+  );
+}
+
+function useSelectOpen(
+  rootRef: React.RefObject<HTMLDivElement | null>,
+  open: boolean,
+) {
+  React.useEffect(() => {
+    if (!open) return;
+    if (typeof window === "undefined") return;
+    const root = rootRef.current;
+    if (!root) return;
+
+    const trigger = root.querySelector<HTMLButtonElement>(
+      "button[aria-haspopup=\"listbox\"]",
+    );
+    if (!trigger) return;
+    if (trigger.getAttribute("aria-expanded") === "true") return;
+
+    trigger.click();
+
+    return () => {
+      if (!trigger.isConnected) return;
+      if (trigger.getAttribute("aria-expanded") === "true") {
+        trigger.click();
+      }
+    };
+  }, [open, rootRef]);
+}
+
+const EDGE_IRIS_RING = "ring-2 ring-[var(--edge-iris)]";
+const EDGE_IRIS_RING_SURFACE = `${EDGE_IRIS_RING} bg-surface-2`;
+const EDGE_IRIS_FOCUS_RING = `${EDGE_IRIS_RING} ring-offset-2 ring-offset-[var(--background)]`;
+const THEME_ACTIVE_RING =
+  "ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]";
+
+type ThemePickerStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  openMenu?: boolean;
+};
+
+function ThemePickerStatePreview({
+  buttonClassName,
+  disabled = false,
+  loading = false,
+  openMenu = false,
+}: ThemePickerStatePreviewProps) {
+  const [variant, setVariant] = React.useState<Variant>(() => defaultTheme().variant);
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <ThemePicker
+        variant={variant}
+        onVariantChange={setVariant}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+        loadingVariant={loading ? variant : null}
+      />
+    </div>
+  );
+}
+
+function ThemePickerHoverState() {
+  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function ThemePickerFocusState() {
+  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function ThemePickerActiveState() {
+  return (
+    <ThemePickerStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function ThemePickerDisabledState() {
+  return <ThemePickerStatePreview disabled />;
+}
+
+function ThemePickerLoadingState() {
+  return (
+    <ThemePickerStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loading
+      openMenu
+    />
+  );
+}
+
+type BackgroundPickerStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  openMenu?: boolean;
+};
+
+function BackgroundPickerStatePreview({
+  buttonClassName,
+  disabled = false,
+  loading = false,
+  openMenu = false,
+}: BackgroundPickerStatePreviewProps) {
+  const [bg, setBg] = React.useState<Background>(() => defaultTheme().bg);
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <BackgroundPicker
+        bg={bg}
+        onBgChange={setBg}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+        loadingBackground={loading ? bg : null}
+      />
+    </div>
+  );
+}
+
+function BackgroundPickerHoverState() {
+  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function BackgroundPickerFocusState() {
+  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function BackgroundPickerActiveState() {
+  return (
+    <BackgroundPickerStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function BackgroundPickerDisabledState() {
+  return <BackgroundPickerStatePreview disabled />;
+}
+
+function BackgroundPickerLoadingState() {
+  return (
+    <BackgroundPickerStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loading
+      openMenu
+    />
+  );
+}
+
+type SettingsSelectStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loadingIndex?: number | null;
+  openMenu?: boolean;
+};
+
+function SettingsSelectStatePreview({
+  buttonClassName,
+  disabled = false,
+  loadingIndex = null,
+  openMenu = false,
+}: SettingsSelectStatePreviewProps) {
+  const [value, setValue] = React.useState<string>(VARIANTS[0]?.id ?? "");
+  const items = React.useMemo(
+    () =>
+      VARIANTS.map(({ id, label }, index) => ({
+        value: id,
+        label,
+        loading: loadingIndex === index,
+      })),
+    [loadingIndex],
+  );
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <SettingsSelect
+        ariaLabel="Theme"
+        prefixLabel="Theme"
+        items={items}
+        value={value}
+        onChange={setValue}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
+function SettingsSelectHoverState() {
+  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function SettingsSelectFocusState() {
+  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function SettingsSelectActiveState() {
+  return (
+    <SettingsSelectStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function SettingsSelectDisabledState() {
+  return <SettingsSelectStatePreview disabled />;
+}
+
+function SettingsSelectLoadingState() {
+  return (
+    <SettingsSelectStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loadingIndex={0}
+      openMenu
+    />
   );
 }
 
@@ -1722,14 +1950,132 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       name: "ThemePicker",
       element: <ThemePickerDemo />,
       tags: ["theme", "picker"],
-      code: `<ThemePicker variant="default" />`,
+      code: `<ThemePicker variant="lg" onVariantChange={() => {}} />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Edge iris ring tokens and a surface-2 wash preview the next theme when the control is hovered.",
+          element: <ThemePickerHoverState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus keeps the edge-iris ring while adding a background offset so the glow clears adjacent controls.",
+          element: <ThemePickerFocusState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the menu highlights the trigger with the theme-ring token and a surface fill while the chosen option glows in the list.",
+          element: <ThemePickerActiveState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "The disabled opacity token mutes the control and removes pointer events while preserving the theme label.",
+          element: <ThemePickerDisabledState />,
+          code: `<ThemePicker variant="lg" onVariantChange={() => {}} disabled />`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "List options can mark the active variant as loading to stream theme assets, showing the spinner token inside the dropdown.",
+          element: <ThemePickerLoadingState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  loadingVariant="lg"
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
     {
       id: "background-picker",
       name: "BackgroundPicker",
       element: <BackgroundPickerDemo />,
       tags: ["background", "picker"],
-      code: `<BackgroundPicker bg="aurora" />`,
+      code: `<BackgroundPicker bg={0} onBgChange={() => {}} />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Edge iris rings and the surface-2 overlay preview the selected background before committing the change.",
+          element: <BackgroundPickerHoverState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus adds a background ring offset so the glow stays legible over the wallpaper swatches.",
+          element: <BackgroundPickerFocusState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the palette locks the trigger with the theme-ring token so the current background remains anchored while browsing.",
+          element: <BackgroundPickerActiveState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabled opacity tokens dim the control and swatch preview while removing pointer affordances.",
+          element: <BackgroundPickerDisabledState />,
+          code: `<BackgroundPicker bg={0} onBgChange={() => {}} disabled />`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "When wallpapers stream in, the loading flag shows the spinner token beside the active swatch inside the dropdown.",
+          element: <BackgroundPickerLoadingState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  loadingBackground={0}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
     {
       id: "settings-select",
@@ -1751,6 +2097,86 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     disabled
   />
 </div>`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "The edge-iris ring and surface-2 background appear on hover to preview the selection affordance.",
+          element: <SettingsSelectHoverState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus adds the edge-iris ring with a background offset so the glow clears the surrounding settings rail.",
+          element: <SettingsSelectFocusState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the list locks the trigger with the theme-ring token and surface fill while the chosen option glows inside the dropdown.",
+          element: <SettingsSelectActiveState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "The global disabled token desaturates the trigger and removes pointer events while keeping the label readable.",
+          element: <SettingsSelectDisabledState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }]}
+  value="lg"
+  onChange={() => {}}
+  disabled
+/>`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Individual options can stream data; marking one as loading reveals the spinner token beside the label in the dropdown.",
+          element: <SettingsSelectLoadingState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[
+    { value: "lg", label: "Glitch", loading: true },
+    { value: "aurora", label: "Aurora" },
+  ]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
   ],
   misc: [
