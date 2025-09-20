@@ -78,6 +78,7 @@
 | control-h-sm | 32px |
 | control-h-md | 40px |
 | control-h-lg | 48px |
+| control-h-xl | 56px |
 | control-h | var(--control-h-md) |
 | control-radius | var(--radius-xl) |
 | control-fs | var(--font-ui) |

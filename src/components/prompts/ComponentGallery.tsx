@@ -412,7 +412,7 @@ export default function ComponentGallery() {
           <Input
             aria-label="Demo input"
             placeholder="Type here"
-            className="w-56 rounded-full"
+            className="w-56"
           />
         ),
       },
@@ -549,7 +549,7 @@ export default function ComponentGallery() {
             <Input aria-label="Small input demo" height="sm" placeholder="Small" />
             <Input aria-label="Medium input demo" placeholder="Medium" />
             <Input aria-label="Large input demo" height="lg" placeholder="Large" />
-            <Input aria-label="Tall input demo" height={12} placeholder="h-12" />
+            <Input aria-label="Tall input demo" height="xl" placeholder="Extra large" />
             <Input aria-label="Input with icon demo" placeholder="With icon" hasEndSlot>
               <Plus className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             </Input>
