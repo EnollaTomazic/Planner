@@ -11,8 +11,16 @@ const KEY = "ui:animations";
 
 export default function AnimationToggle({
   loading = false,
+  disabled = false,
+  className,
+  buttonClassName,
+  forceEnabled,
 }: {
   loading?: boolean;
+  disabled?: boolean;
+  className?: string;
+  buttonClassName?: string;
+  forceEnabled?: boolean;
 }) {
   const [enabled, setEnabled] = usePersistentState<boolean>(KEY, true);
   const [showNotice, setShowNotice] = React.useState(false);
@@ -20,6 +28,9 @@ export default function AnimationToggle({
   const appliedByToggleRef = React.useRef(false);
   const latestEnabledRef = React.useRef(enabled);
   latestEnabledRef.current = enabled;
+
+  const isDisabled = disabled || loading;
+  const displayEnabled = forceEnabled ?? enabled;
 
   React.useEffect(() => {
     if (readLocal<boolean>(KEY) === null && reduceMotion) {
@@ -48,20 +59,24 @@ export default function AnimationToggle({
   }, [enabled]);
 
   function toggle() {
+    if (isDisabled || typeof forceEnabled === "boolean") {
+      return;
+    }
+
     const next = !enabled;
     setEnabled(next);
     setShowNotice(false);
   }
 
   return (
-    <div className="flex items-center gap-[var(--space-2)]">
+    <div className={cn("flex items-center gap-[var(--space-2)]", className)}>
       <button
         type="button"
-        aria-pressed={enabled}
-        aria-label={enabled ? "Disable animations" : "Enable animations"}
+        aria-pressed={displayEnabled}
+        aria-label={displayEnabled ? "Disable animations" : "Enable animations"}
         onClick={toggle}
         aria-busy={loading}
-        disabled={loading}
+        disabled={isDisabled}
         className={cn(
           "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-[var(--control-radius)]",
           "border border-border bg-card shadow-[var(--shadow-control)]",
@@ -69,11 +84,12 @@ export default function AnimationToggle({
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           "active:bg-surface",
           "disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
+          buttonClassName,
         )}
       >
         {loading ? (
           <Spinner size="var(--space-4)" />
-        ) : enabled ? (
+        ) : displayEnabled ? (
           <Zap className="h-[var(--space-4)] w-[var(--space-4)]" />
         ) : (
           <ZapOff className="h-[var(--space-4)] w-[var(--space-4)]" />

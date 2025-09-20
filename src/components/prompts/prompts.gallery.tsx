@@ -34,6 +34,7 @@ import {
   CatCompanion,
   ThemeToggle,
   CheckCircle,
+  Toggle,
   Snackbar,
   Skeleton,
   SideSelector,
@@ -486,6 +487,11 @@ const THEME_TOGGLE_FOCUS_CLASS = [
   `focus-visible:${THEME_TOGGLE_TRIGGER_SELECTOR}:ring-[var(--focus)]`,
 ].join(" ");
 const THEME_TOGGLE_ACTIVE_CLASS = `${THEME_TOGGLE_TRIGGER_SELECTOR}:bg-[--active]`;
+const TOGGLE_STATE_BASE_CLASS = "pointer-events-none";
+const TOGGLE_HOVER_CLASS = "bg-[--hover]";
+const TOGGLE_ACTIVE_CLASS = "bg-[--active]";
+const TOGGLE_FOCUS_RING_CLASS =
+  "ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]";
 
 type ThemePickerStatePreviewProps = {
   className?: string;
@@ -761,6 +767,147 @@ function ThemeToggleDisabledState() {
 
 function ThemeToggleLoadingState() {
   return <ThemeToggleStatePreview cycleLoading />;
+}
+
+type ToggleStateKind = "hover" | "focus-visible" | "pressed";
+
+function ToggleStatePreview({ state }: { state: ToggleStateKind }) {
+  const classMap: Record<ToggleStateKind, string> = {
+    hover: TOGGLE_HOVER_CLASS,
+    "focus-visible": TOGGLE_FOCUS_RING_CLASS,
+    pressed: TOGGLE_ACTIVE_CLASS,
+  };
+
+  return (
+    <Toggle
+      value={state === "pressed" ? "Right" : "Left"}
+      onChange={() => {}}
+      className={cn(TOGGLE_STATE_BASE_CLASS, classMap[state])}
+    />
+  );
+}
+
+function ToggleHoverState() {
+  return <ToggleStatePreview state="hover" />;
+}
+
+function ToggleFocusVisibleState() {
+  return <ToggleStatePreview state="focus-visible" />;
+}
+
+function TogglePressedState() {
+  return <ToggleStatePreview state="pressed" />;
+}
+
+type AnimationToggleState =
+  | "hover"
+  | "focus-visible"
+  | "pressed"
+  | "disabled"
+  | "loading";
+
+function AnimationToggleStatePreview({
+  state,
+}: {
+  state: AnimationToggleState;
+}) {
+  return (
+    <AnimationToggle
+      className="pointer-events-none"
+      buttonClassName={cn(
+        state === "hover"
+          ? "shadow-[var(--shadow-control-hover)]"
+          : undefined,
+        state === "focus-visible"
+          ? "outline-none ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+          : undefined,
+        state === "pressed" ? "bg-surface" : undefined,
+      )}
+      disabled={state === "disabled"}
+      loading={state === "loading"}
+      forceEnabled={state === "pressed" ? false : undefined}
+    />
+  );
+}
+
+function AnimationToggleHoverState() {
+  return <AnimationToggleStatePreview state="hover" />;
+}
+
+function AnimationToggleFocusVisibleState() {
+  return <AnimationToggleStatePreview state="focus-visible" />;
+}
+
+function AnimationTogglePressedState() {
+  return <AnimationToggleStatePreview state="pressed" />;
+}
+
+function AnimationToggleDisabledState() {
+  return <AnimationToggleStatePreview state="disabled" />;
+}
+
+function AnimationToggleLoadingState() {
+  return <AnimationToggleStatePreview state="loading" />;
+}
+
+type CheckCircleState =
+  | "hover"
+  | "focus-visible"
+  | "pressed"
+  | "disabled"
+  | "loading";
+
+function CheckCircleStatePreview({ state }: { state: CheckCircleState }) {
+  const isPressed = state === "pressed";
+  const isDisabled = state === "disabled";
+  const isLoading = state === "loading";
+  const shouldForceLit =
+    state === "hover" || state === "focus-visible" || state === "loading";
+  const ringClass =
+    state === "focus-visible"
+      ? "[&_button]:ring-2 [&_button]:ring-[var(--ring)] [&_button]:ring-offset-2 [&_button]:ring-offset-[var(--background)]"
+      : undefined;
+
+  return (
+    <div className="relative inline-grid place-items-center pointer-events-none">
+      <CheckCircle
+        checked={isPressed || isLoading}
+        onChange={() => {}}
+        size="md"
+        disabled={isDisabled}
+        aria-label={`Check circle ${state} preview`}
+        forceLit={shouldForceLit ? true : undefined}
+        className={cn(
+          "pointer-events-none",
+          ringClass,
+          isLoading ? "opacity-80" : undefined,
+        )}
+      />
+      {isLoading ? (
+        <Spinner className="absolute h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground" />
+      ) : null}
+    </div>
+  );
+}
+
+function CheckCircleHoverState() {
+  return <CheckCircleStatePreview state="hover" />;
+}
+
+function CheckCircleFocusVisibleState() {
+  return <CheckCircleStatePreview state="focus-visible" />;
+}
+
+function CheckCirclePressedState() {
+  return <CheckCircleStatePreview state="pressed" />;
+}
+
+function CheckCircleDisabledState() {
+  return <CheckCircleStatePreview state="disabled" />;
+}
+
+function CheckCircleLoadingState() {
+  return <CheckCircleStatePreview state="loading" />;
 }
 
 type SideSelectorStatePreviewProps = {
@@ -3545,7 +3692,55 @@ React.useEffect(() => {
       element: <ToggleShowcase />,
       tags: ["toggle"],
       code: `const [value, setValue] = React.useState<"Left" | "Right">("Left");
-<Toggle value={value} onChange={setValue} />`,
+<Toggle value={value} onChange={setValue} />
+
+<div className="grid gap-[var(--space-3)] sm:grid-cols-3">
+  <Toggle
+    value="Left"
+    onChange={() => {}}
+    className="pointer-events-none bg-[--hover]"
+  />
+  <Toggle
+    value="Left"
+    onChange={() => {}}
+    className="pointer-events-none ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+  />
+  <Toggle
+    value="Right"
+    onChange={() => {}}
+    className="pointer-events-none bg-[--active]"
+  />
+</div>`,
+      states: [
+        {
+          id: "toggle-hover",
+          name: "Hover",
+          description:
+            "Ghost surface lifts with the --hover wash while the indicator stays put until commit.",
+          element: <ToggleHoverState />,
+          code: `<Toggle value="Left" onChange={() => {}} className="pointer-events-none bg-[--hover]" />`,
+        },
+        {
+          id: "toggle-focus-visible",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus wraps the pill with the standard ring token so the active rail remains obvious over neutral cards.",
+          element: <ToggleFocusVisibleState />,
+          code: `<Toggle
+  value="Left"
+  onChange={() => {}}
+  className="pointer-events-none ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "toggle-pressed",
+          name: "Pressed",
+          description:
+            "Active press drives the indicator right and deepens the rail with the --active tint for immediate confirmation.",
+          element: <TogglePressedState />,
+          code: `<Toggle value="Right" onChange={() => {}} className="pointer-events-none bg-[--active]" />`,
+        },
+      ],
     },
     {
       id: "animation-toggle",
@@ -3558,7 +3753,74 @@ React.useEffect(() => {
       ),
       tags: ["toggle", "animation"],
       code: `<AnimationToggle />
-<AnimationToggle loading />`,
+<AnimationToggle loading />
+
+<div className="grid gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-5">
+  <AnimationToggle
+    className="pointer-events-none"
+    buttonClassName="shadow-[var(--shadow-control-hover)]"
+  />
+  <AnimationToggle
+    className="pointer-events-none"
+    buttonClassName="outline-none ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+  />
+  <AnimationToggle
+    className="pointer-events-none"
+    buttonClassName="bg-surface"
+    forceEnabled={false}
+  />
+  <AnimationToggle className="pointer-events-none" disabled />
+  <AnimationToggle className="pointer-events-none" loading />
+</div>`,
+      states: [
+        {
+          id: "animation-toggle-hover",
+          name: "Hover",
+          description:
+            "Hover lifts the control with the shadow-control-hover token while keeping the icon steady.",
+          element: <AnimationToggleHoverState />,
+          code: `<AnimationToggle className="pointer-events-none" buttonClassName="shadow-[var(--shadow-control-hover)]" />`,
+        },
+        {
+          id: "animation-toggle-focus-visible",
+          name: "Focus-visible",
+          description:
+            "Focus-visible wraps the switch in the shared ring token so keyboard toggles mirror pointer affordances.",
+          element: <AnimationToggleFocusVisibleState />,
+          code: `<AnimationToggle
+  className="pointer-events-none"
+  buttonClassName="outline-none ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "animation-toggle-pressed",
+          name: "Pressed",
+          description:
+            "Active press dims to surface while presenting the ZapOff glyph, illustrating the moment the user powers animations down.",
+          element: <AnimationTogglePressedState />,
+          code: `<AnimationToggle
+  className="pointer-events-none"
+  buttonClassName="bg-surface"
+  forceEnabled={false}
+/>`,
+        },
+        {
+          id: "animation-toggle-disabled",
+          name: "Disabled",
+          description:
+            "Disabled state mutes the control and removes pointer handlers so global animation settings stay locked during sync.",
+          element: <AnimationToggleDisabledState />,
+          code: `<AnimationToggle className="pointer-events-none" disabled />`,
+        },
+        {
+          id: "animation-toggle-loading",
+          name: "Loading",
+          description:
+            "Loading replaces the icon with the standard spinner while aria-busy conveys progress to assistive tech.",
+          element: <AnimationToggleLoadingState />,
+          code: `<AnimationToggle className="pointer-events-none" loading />`,
+        },
+      ],
     },
     {
       id: "check-circle",
@@ -3571,7 +3833,99 @@ React.useEffect(() => {
       ),
       tags: ["checkbox", "toggle"],
       code: `<CheckCircle checked={false} onChange={() => {}} size="md" />
-<CheckCircle checked onChange={() => {}} size="md" />`,
+<CheckCircle checked onChange={() => {}} size="md" />
+
+<div className="grid gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-5">
+  <CheckCircle
+    checked={false}
+    onChange={() => {}}
+    size="md"
+    forceLit
+    className="pointer-events-none"
+  />
+  <CheckCircle
+    checked={false}
+    onChange={() => {}}
+    size="md"
+    forceLit
+    className="pointer-events-none [&_button]:ring-2 [&_button]:ring-[var(--ring)] [&_button]:ring-offset-2 [&_button]:ring-offset-[var(--background)]"
+  />
+  <CheckCircle checked onChange={() => {}} size="md" className="pointer-events-none" />
+  <CheckCircle
+    checked={false}
+    onChange={() => {}}
+    size="md"
+    disabled
+    className="pointer-events-none"
+  />
+  <div className="relative inline-grid place-items-center pointer-events-none">
+    <CheckCircle
+      checked
+      onChange={() => {}}
+      size="md"
+      forceLit
+      className="pointer-events-none opacity-80"
+    />
+    <Spinner className="absolute h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground" />
+  </div>
+</div>`,
+      states: [
+        {
+          id: "check-circle-hover",
+          name: "Hover",
+          description:
+            "Hover ignites the neon rim via forceLit so designers can reference the glow without needing live pointer events.",
+          element: <CheckCircleHoverState />,
+          code: `<CheckCircle checked={false} onChange={() => {}} size="md" forceLit className="pointer-events-none" />`,
+        },
+        {
+          id: "check-circle-focus-visible",
+          name: "Focus-visible",
+          description:
+            "Focus-visible keeps the rim ignited and layers the shared ring token for accessible keyboard targeting.",
+          element: <CheckCircleFocusVisibleState />,
+          code: `<CheckCircle
+  checked={false}
+  onChange={() => {}}
+  size="md"
+  forceLit
+  className="pointer-events-none [&_button]:ring-2 [&_button]:ring-[var(--ring)] [&_button]:ring-offset-2 [&_button]:ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "check-circle-pressed",
+          name: "Pressed",
+          description:
+            "Pressed view shows the steady-on phase once a task is marked complete, highlighting the tick without extra glow hacks.",
+          element: <CheckCirclePressedState />,
+          code: `<CheckCircle checked onChange={() => {}} size="md" className="pointer-events-none" />`,
+        },
+        {
+          id: "check-circle-disabled",
+          name: "Disabled",
+          description:
+            "Disabled removes interactivity and neon while preserving layout, matching the planner’s locked task styling.",
+          element: <CheckCircleDisabledState />,
+          code: `<CheckCircle checked={false} onChange={() => {}} size="md" disabled className="pointer-events-none" />`,
+        },
+        {
+          id: "check-circle-loading",
+          name: "Loading",
+          description:
+            "Loading pairs the lit rim with a centered spinner so async confirmations read instantly across light and dark themes.",
+          element: <CheckCircleLoadingState />,
+          code: `<div className="relative inline-grid place-items-center pointer-events-none">
+  <CheckCircle
+    checked
+    onChange={() => {}}
+    size="md"
+    forceLit
+    className="pointer-events-none opacity-80"
+  />
+  <Spinner className="absolute h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground" />
+</div>`,
+        },
+      ],
     },
   ],
   homepage: [

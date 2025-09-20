@@ -36,6 +36,7 @@ export default function CheckCircle({
   className,
   disabled = false,
   "aria-label": ariaLabel = "Toggle",
+  forceLit,
 }: {
   checked: boolean;
   onChange?: (next: boolean) => void;
@@ -43,6 +44,7 @@ export default function CheckCircle({
   className?: string;
   disabled?: boolean;
   "aria-label"?: string;
+  forceLit?: boolean;
 }) {
   const btnRef = React.useRef<HTMLButtonElement>(null);
   const reduceMotion = usePrefersReducedMotion();
@@ -105,7 +107,10 @@ export default function CheckCircle({
 
   // Neon phase: ignite / steady-on / powerdown / off
   const effectiveHoverOrFocus = (hovered || focused) && !justCleared;
-  const wantsOn = checked || effectiveHoverOrFocus;
+  const wantsOn =
+    typeof forceLit === "boolean"
+      ? forceLit
+      : checked || effectiveHoverOrFocus;
 
   const prev = React.useRef(wantsOn);
   const [phase, setPhase] = React.useState<
