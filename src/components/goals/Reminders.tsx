@@ -281,6 +281,13 @@ function ReminderCard({
 
   useAutoFocus({ ref: titleRef, when: editing });
 
+  const storedTitle = value.title.trim();
+  const draftTitle = title.trim();
+  const reminderName = storedTitle ? `reminder "${storedTitle}"` : "untitled reminder";
+  const editingReminderName = draftTitle
+    ? `reminder "${draftTitle}"`
+    : reminderName;
+
   function save() {
     const cleanTags = tagsText.split(",").map(t => t.trim()).filter(Boolean);
     onChange({ title: title.trim() || "Untitled", body: body.trim(), tags: cleanTags });
@@ -338,8 +345,8 @@ function ReminderCard({
             {value.pinned ? <PinOff /> : <Pin />}
           </IconButton>
           <IconButton
-            title="Duplicate"
-            aria-label="Duplicate"
+            title={`Duplicate ${reminderName}`}
+            aria-label={`Duplicate ${reminderName}`}
             onClick={onDuplicate}
             size="sm"
             iconSize="sm"
@@ -349,8 +356,8 @@ function ReminderCard({
           {editing ? (
             <>
               <IconButton
-                title="Save (Enter)"
-                aria-label="Save"
+                title={`Save ${editingReminderName} (Enter)`}
+                aria-label={`Save ${editingReminderName}`}
                 onClick={save}
                 size="sm"
                 iconSize="sm"
@@ -358,8 +365,8 @@ function ReminderCard({
                 <Check />
               </IconButton>
               <IconButton
-                title="Cancel (Esc)"
-                aria-label="Cancel"
+                title={`Cancel edits for ${editingReminderName} (Esc)`}
+                aria-label={`Cancel edits for ${editingReminderName}`}
                 onClick={cancel}
                 size="sm"
                 iconSize="sm"
@@ -370,8 +377,8 @@ function ReminderCard({
           ) : (
             <>
               <IconButton
-                title="Delete"
-                aria-label="Delete"
+                title={`Delete ${reminderName}`}
+                aria-label={`Delete ${reminderName}`}
                 onClick={onDelete}
                 size="sm"
                 iconSize="sm"
