@@ -1478,18 +1478,30 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       description:
         "Circular neumorphic portrait frame with lavender glow and glitch accent rim built from semantic tokens.",
       element: (
-        <div className="flex justify-center">
+        <div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
           <HeroPortraitFrame
+            imageSrc="/hero_image.png"
+            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+          />
+          <HeroPortraitFrame
+            frame={false}
             imageSrc="/hero_image.png"
             imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
           />
         </div>
       ),
       tags: ["hero", "portrait", "glitch"],
-      code: `<HeroPortraitFrame
-  imageSrc="/hero_image.png"
-  imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
-/>`,
+      code: `<div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+  <HeroPortraitFrame
+    imageSrc="/hero_image.png"
+    imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+  />
+  <HeroPortraitFrame
+    frame={false}
+    imageSrc="/hero_image.png"
+    imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+  />
+</div>`,
     },
     {
       id: "welcome-hero-figure",
