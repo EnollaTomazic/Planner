@@ -13,6 +13,12 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
+  argTypes: {
+    size: {
+      control: "inline-radio",
+      options: ["sm", "md", "lg", "xl"],
+    },
+  },
   args: {
     tone: "primary",
     variant: "secondary",
