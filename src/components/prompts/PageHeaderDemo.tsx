@@ -68,7 +68,7 @@ export default function PageHeaderDemo() {
 
   const primaryNav = (
     <nav aria-label="Planner views" className="w-full">
-      <ul className="flex items-center gap-1 list-none">
+      <ul className="flex items-center gap-[var(--space-1)] list-none">
         {compactNavItems.map((item) => {
           const isActive = activePrimaryNav === item.key;
           return (
@@ -113,7 +113,7 @@ export default function PageHeaderDemo() {
           }
         }}
         data-state={profileOpen ? "open" : "inactive"}
-        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
+        className="inline-flex items-center gap-[var(--space-2)] rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
         <CircleUser className="h-4 w-4" />
         <span className="hidden sm:inline">Profile</span>
@@ -122,7 +122,7 @@ export default function PageHeaderDemo() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-[var(--space-6)]">
       <Header
         eyebrow="Planner"
         heading="Compact Header Layout with Balanced Wrapping"
@@ -163,9 +163,9 @@ export default function PageHeaderDemo() {
           ariaLabel: "Switch dashboard view",
         }}
       >
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-[var(--space-3)]">
           <p className="text-ui text-muted-foreground">{tabCopy[activeTab]}</p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[var(--space-2)]">
             <Button size="sm" variant="secondary">
               Invite teammate
             </Button>
@@ -198,12 +198,12 @@ export default function PageHeaderDemo() {
           "aria-label": "Search scouting intel",
         }}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[var(--space-2)]">
             <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
             <Button
               size="sm"
               variant="primary"
-              className="px-4 whitespace-nowrap"
+              className="px-[var(--space-4)] whitespace-nowrap"
             >
               New report
             </Button>
@@ -325,7 +325,7 @@ export default function PageHeaderDemo() {
               <Button
                 variant="primary"
                 size="sm"
-                className="px-4 whitespace-nowrap"
+                className="px-[var(--space-4)] whitespace-nowrap"
               >
                 Plan Week
               </Button>
@@ -384,12 +384,12 @@ export default function PageHeaderDemo() {
             </p>
           ),
           actions: (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-[var(--space-2)]">
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
                 variant="primary"
                 size="sm"
-                className="px-4 whitespace-nowrap"
+                className="px-[var(--space-4)] whitespace-nowrap"
               >
                 Launch Event
               </Button>
@@ -404,12 +404,12 @@ export default function PageHeaderDemo() {
         PageHeader now routes shared sub-tabs, search, and quick actions into
         the frame’s action grid so controls align with the 12-column layout
         while the inner hero stays calm, single-framed, and flush. It forwards
-        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
+        <code className="ml-[var(--space-1)] rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
           {"hero.padding = \"none\""}
         </code>{" "}
         so the content hugs the frame. Want the Hero divider row instead? Pass
         {" "}
-        <code className="ml-1 rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
+        <code className="ml-[var(--space-1)] rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
           {"frameProps={{ slots: null }}"}
         </code>{" "}
         to hand control back to Hero while keeping tone overrides intact.
