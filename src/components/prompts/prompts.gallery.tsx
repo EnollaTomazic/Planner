@@ -112,6 +112,37 @@ const demoPrompts: PromptWithTitle[] = [
   },
 ];
 
+const promptSkeletonItems = Array.from({ length: 3 });
+
+function PromptListLoadingState() {
+  return (
+    <ul
+      className="mt-[var(--space-4)] space-y-[var(--space-3)]"
+      aria-busy="true"
+      aria-label="Loading saved prompts"
+    >
+      {promptSkeletonItems.map((_, index) => (
+        <li key={index}>
+          <Card className="space-y-[var(--space-2)] p-[var(--space-3)]">
+            <div className="flex items-center justify-between gap-[var(--space-2)]">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading prompt title"
+                className="h-[var(--space-5)] w-1/3"
+                radius="sm"
+              />
+              <Skeleton className="w-1/4 flex-none" />
+            </div>
+            <Skeleton className="w-full" />
+            <Skeleton className="w-5/6" />
+          </Card>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 const demoReview: Review = {
   id: "r1",
   title: "Sample Review",
@@ -492,6 +523,47 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <PromptList prompts={demoPrompts} query="" />,
       tags: ["prompt", "list"],
       code: `<PromptList prompts={demoPrompts} query="" />`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Skeleton placeholders maintain card rhythm while prompt history loads.",
+          element: <PromptListLoadingState />,
+          code: `<ul
+  className="mt-[var(--space-4)] space-y-[var(--space-3)]"
+  aria-busy="true"
+  aria-label="Loading saved prompts"
+>
+  {Array.from({ length: 3 }).map((_, index) => (
+    <li key={index}>
+      <Card className="space-y-[var(--space-2)] p-[var(--space-3)]">
+        <div className="flex items-center justify-between gap-[var(--space-2)]">
+          <Skeleton
+            ariaHidden={false}
+            role="status"
+            aria-label="Loading prompt title"
+            className="h-[var(--space-5)] w-1/3"
+            radius="sm"
+          />
+          <Skeleton className="w-1/4 flex-none" />
+        </div>
+        <Skeleton className="w-full" />
+        <Skeleton className="w-5/6" />
+      </Card>
+    </li>
+  ))}
+</ul>`,
+        },
+        {
+          id: "empty",
+          name: "Empty",
+          description:
+            "Neutral empty state messaging guides players to save prompts or adjust search filters.",
+          element: <PromptList prompts={[]} query="focus" />,
+          code: `<PromptList prompts={[]} query="focus" />`,
+        },
+      ],
     },
     {
       id: "prompts-header",
