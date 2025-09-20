@@ -63,11 +63,11 @@ const defaultIcon: Record<IconButtonSize, Icon> = {
 };
 const getSizeClass = (s: IconButtonSize) => {
   const sizeMap: Record<IconButtonSize, string> = {
-    xs: "h-[var(--space-8)] w-[var(--space-8)]",
+    xs: "h-[var(--space-5)] w-[var(--space-5)]",
     sm: "h-[var(--control-h-sm)] w-[var(--control-h-sm)]",
     md: "h-[var(--control-h-md)] w-[var(--control-h-md)]",
     lg: "h-[var(--control-h-lg)] w-[var(--control-h-lg)]",
-    xl: "h-[var(--space-7)] w-[var(--space-7)]",
+    xl: "h-[var(--space-8)] w-[var(--space-8)]",
   };
   return sizeMap[s];
 };
