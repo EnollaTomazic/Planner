@@ -10,7 +10,7 @@ import {
 import { describe, it, expect, vi, afterEach } from "vitest";
 import TaskRow from "@/components/planner/TaskRow";
 
-const noop = (): void => {};
+const noop = (..._args: unknown[]): void => {};
 
 describe("TaskRow", () => {
   afterEach(cleanup);
@@ -91,7 +91,36 @@ describe("TaskRow", () => {
     const img = screen.getByRole("img", { name: /image for with image/i });
     expect(img).toBeInTheDocument();
     fireEvent.click(screen.getAllByLabelText("Remove image")[0]);
-    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg");
+    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg", 0);
+  });
+
+  it("passes the correct index when removing duplicate images", () => {
+    const onRemoveImage = vi.fn();
+    render(
+      <TaskRow
+        task={{
+          id: "1",
+          title: "With duplicates",
+          done: false,
+          createdAt: Date.now(),
+          images: [
+            "https://example.com/a.jpg",
+            "https://example.com/a.jpg",
+          ],
+        }}
+        onToggle={noop}
+        onDelete={noop}
+        onEdit={noop}
+        onSelect={noop}
+        onAddImage={noop}
+        onRemoveImage={onRemoveImage}
+      />,
+    );
+
+    const removeButtons = screen.getAllByLabelText("Remove image");
+    fireEvent.click(removeButtons[1]);
+    expect(onRemoveImage).toHaveBeenCalledTimes(1);
+    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg", 1);
   });
 
   it("allows adding an image via the attach button", () => {
