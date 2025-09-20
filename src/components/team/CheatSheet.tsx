@@ -14,8 +14,6 @@ import { usePersistentState } from "@/lib/db";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Textarea from "@/components/ui/primitives/Textarea";
 import { Pencil, Check } from "lucide-react";
-import { sanitizeText } from "@/lib/utils";
-import { sanitizeList } from "@/lib/sanitizeList";
 import { ROLES } from "./constants";
 import type { Role } from "./constants";
 import ChampListEditor from "./ChampListEditor";
@@ -189,16 +187,6 @@ const DEFAULT_SHEET: Archetype[] = [
   },
 ];
 
-/* ───────────── sanitization helpers ───────────── */
-
-function handleSanitizedChange<
-  T extends HTMLInputElement | HTMLTextAreaElement,
->(callback: (value: string) => void): React.ChangeEventHandler<T> {
-  return (event) => {
-    callback(sanitizeText(event.currentTarget.value));
-  };
-}
-
 /* ───────────── tiny UI helpers ───────────── */
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -237,7 +225,7 @@ function TitleEdit({
     <input
       dir="ltr"
       value={value}
-      onChange={handleSanitizedChange(onChange)}
+      onChange={(event) => onChange(event.currentTarget.value)}
       className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
@@ -264,7 +252,7 @@ function ParagraphEdit({
     <Textarea
       dir="ltr"
       value={value}
-      onChange={handleSanitizedChange(onChange)}
+      onChange={(event) => onChange(event.currentTarget.value)}
       rows={2}
       className="mt-[var(--space-1)]"
       resize="resize-y"
@@ -286,29 +274,30 @@ function BulletListEdit({
   ariaLabel: string;
 }) {
   const [list, setList] = React.useState<string[]>(() => {
-    const sanitized = sanitizeList(items);
-    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
-    return cleaned.length ? sanitized : [""];
+    const trimmed = items.map((item) => item.trim());
+    return trimmed.some((value) => value.length > 0) ? [...items] : [""];
   });
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   React.useEffect(() => {
-    const sanitized = sanitizeList(items);
-    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
-    setList(cleaned.length ? sanitized : [""]);
+    const trimmed = items.map((item) => item.trim());
+    setList(trimmed.some((value) => value.length > 0) ? [...items] : [""]);
   }, [items]);
 
   function update(next: string[]) {
-    const sanitized = sanitizeList(next);
-    const cleaned = sanitized.map((item) => item.trim()).filter(Boolean);
-    setList(cleaned.length ? sanitized : [""]);
-    onChange(cleaned.length ? cleaned : []);
+    const trimmed = next.map((item) => item.trim());
+    const hasContent = trimmed.some((value) => value.length > 0);
+    const display = hasContent ? [...next] : [""];
+    setList(display);
+    const normalized = hasContent
+      ? trimmed.filter((value) => value.length > 0)
+      : [];
+    onChange(normalized);
   }
 
   function handleItemInput(i: number, e: React.FormEvent<HTMLLIElement>) {
     const el = e.currentTarget;
-    const text = sanitizeText(el.textContent ?? "");
-    el.textContent = text;
+    const text = el.textContent ?? "";
     const next = [...list];
     next[i] = text;
     update(next);
