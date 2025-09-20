@@ -95,7 +95,7 @@ function stringify(c: TeamComp) {
 }
 
 /** Normalize arbitrary localStorage entries into the TeamComp shape. */
-function normalize(list: unknown[]): TeamComp[] {
+export function normalizeTeamComps(list: unknown[]): TeamComp[] {
   if (!Array.isArray(list)) return [];
   return list.map((raw): TeamComp => {
     if (!isRecord(raw)) {
@@ -117,7 +117,9 @@ function normalize(list: unknown[]): TeamComp[] {
       const next: Partial<Record<Role, string[]>> = {};
       for (const r of ROLES) {
         const v = raw.roles[r as keyof typeof raw.roles];
-        next[r] = isStringArray(v) ? v.filter(Boolean) : [];
+        next[r] = isStringArray(v)
+          ? v.map((name) => name.trim()).filter((name) => name.length > 0)
+          : [];
       }
       roles = next;
     } else {
@@ -142,7 +144,10 @@ export type MyCompsProps = { query?: string; editing?: boolean };
 export default function MyComps({ query = "", editing = false }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
   const [raw, setRaw] = usePersistentState<TeamComp[]>(DB_KEY, SEEDS);
-  const items = React.useMemo(() => normalize(raw as unknown[]), [raw]);
+  const items = React.useMemo(
+    () => normalizeTeamComps(raw as unknown[]),
+    [raw],
+  );
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return items;
