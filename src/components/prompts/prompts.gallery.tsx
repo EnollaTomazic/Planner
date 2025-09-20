@@ -197,6 +197,129 @@ function SettingsSelectDemo() {
   );
 }
 
+type SelectInteractionState =
+  | "hover"
+  | "focus"
+  | "active"
+  | "disabled"
+  | "loading";
+
+const SELECT_STATE_WRAPPER_CLASSES: Record<SelectInteractionState, string> = {
+  hover: "[&_button]:bg-muted/18",
+  focus:
+    "[&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_.group]:ring-offset-0",
+  active:
+    "[&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_.group]:ring-offset-0 [&_button]:bg-muted/18 [&_button]:text-foreground",
+  disabled:
+    "pointer-events-none [&_.group]:opacity-[var(--disabled)] [&_button]:text-muted-foreground/70",
+  loading: "pointer-events-none [&_.group]:opacity-[var(--loading)]",
+};
+
+function SelectStateWrapper({
+  state,
+  children,
+}: React.PropsWithChildren<{ state: SelectInteractionState }>) {
+  return (
+    <div
+      data-state={state}
+      className={cn("relative w-full max-w-xs", SELECT_STATE_WRAPPER_CLASSES[state])}
+      aria-disabled={state === "disabled" ? true : undefined}
+      aria-busy={state === "loading" ? true : undefined}
+    >
+      {children}
+      {state === "loading" ? (
+        <Spinner
+          size="var(--space-3)"
+          className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-foreground/80"
+          aria-hidden="true"
+        />
+      ) : null}
+    </div>
+  );
+}
+
+function ThemePickerState({ state }: { state: SelectInteractionState }) {
+  const [variant, setVariant] = React.useState(defaultTheme().variant);
+
+  return (
+    <SelectStateWrapper state={state}>
+      <ThemePicker
+        variant={variant}
+        onVariantChange={(next) => setVariant(next)}
+        className="w-full"
+        disabled={state === "disabled" || state === "loading"}
+      />
+    </SelectStateWrapper>
+  );
+}
+
+function BackgroundPickerState({ state }: { state: SelectInteractionState }) {
+  const [bg, setBg] = React.useState(defaultTheme().bg);
+
+  return (
+    <SelectStateWrapper state={state}>
+      <BackgroundPicker
+        bg={bg}
+        onBgChange={(next) => setBg(next)}
+        className="w-full"
+        disabled={state === "disabled" || state === "loading"}
+      />
+    </SelectStateWrapper>
+  );
+}
+
+function SettingsSelectState({ state }: { state: SelectInteractionState }) {
+  const items = React.useMemo(
+    () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+    [],
+  );
+  const [value, setValue] = React.useState<string>(items[0]?.value ?? "");
+
+  return (
+    <SelectStateWrapper state={state}>
+      <SettingsSelect
+        ariaLabel="Theme"
+        prefixLabel="Theme"
+        items={items}
+        value={value}
+        onChange={setValue}
+        className="w-full"
+        disabled={state === "disabled" || state === "loading"}
+      />
+    </SelectStateWrapper>
+  );
+}
+
+const THEME_TOGGLE_STATE_CLASSES: Record<SelectInteractionState, string> = {
+  hover:
+    "pointer-events-none [&>button:first-child]:bg-[--hover] [&>button:first-child]:text-foreground",
+  focus:
+    "pointer-events-none [&>button:first-child]:ring-2 [&>button:first-child]:ring-[var(--focus)] [&>button:first-child]:ring-offset-0",
+  active:
+    "pointer-events-none [&>button:first-child]:bg-[--active] [&>button:first-child]:text-foreground [&>button:first-child]:translate-y-[1px]",
+  disabled: "pointer-events-none [&_button]:opacity-[var(--disabled)]",
+  loading: "pointer-events-none [&_button]:opacity-[var(--loading)]",
+};
+
+function ThemeToggleState({ state }: { state: SelectInteractionState }) {
+  return (
+    <div
+      data-state={state}
+      className={cn("relative w-full max-w-xs", THEME_TOGGLE_STATE_CLASSES[state])}
+      aria-disabled={state === "disabled" ? true : undefined}
+      aria-busy={state === "loading" ? true : undefined}
+    >
+      <ThemeToggle
+        ariaLabel="Toggle theme"
+        className="w-full"
+        cycleDisabled={state === "disabled"}
+        cycleLoading={state === "loading"}
+      />
+    </div>
+  );
+}
+
+
 function ReviewSurfaceDemo() {
   return (
     <ReviewSurface padding="md" tone="muted">
@@ -1377,6 +1500,59 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <ThemeToggle />,
       tags: ["theme", "toggle"],
       code: `<ThemeToggle />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Cycle button uses the shared hover:bg-[--hover] token to hint at interactivity.",
+          element: <ThemeToggleState state="hover" />,
+          code: `<ThemeToggle
+  ariaLabel="Toggle theme"
+  className="max-w-xs [&>button:first-child]:bg-[--hover] [&>button:first-child]:text-foreground"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus",
+          description:
+            "Focus-visible ring wraps the cycle control with the global focus token for keyboard clarity.",
+          element: <ThemeToggleState state="focus" />,
+          code: `<div className="max-w-xs pointer-events-none [&>button:first-child]:ring-2 [&>button:first-child]:ring-[var(--focus)] [&>button:first-child]:ring-offset-0">
+  <ThemeToggle ariaLabel="Toggle theme" />
+</div>`,
+        },
+        {
+          id: "active",
+          name: "Active",
+          description:
+            "Pressed state leans on the --active token so the cycle button compresses consistently across themes.",
+          element: <ThemeToggleState state="active" />,
+          code: `<div className="max-w-xs pointer-events-none [&>button:first-child]:bg-[--active] [&>button:first-child]:text-foreground [&>button:first-child]:translate-y-[1px]">
+  <ThemeToggle ariaLabel="Toggle theme" />
+</div>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabled opacity token mutes both controls and removes pointer events.",
+          element: <ThemeToggleState state="disabled" />,
+          code: `<div className="max-w-xs pointer-events-none [&_button]:opacity-[var(--disabled)]">
+  <ThemeToggle ariaLabel="Toggle theme" cycleDisabled />
+</div>`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Loading keeps the select pinned while the cycle button shows the built-in spinner.",
+          element: <ThemeToggleState state="loading" />,
+          code: `<div className="max-w-xs pointer-events-none [&_button]:opacity-[var(--loading)]">
+  <ThemeToggle ariaLabel="Toggle theme" cycleLoading />
+</div>`,
+        },
+      ],
     },
     {
       id: "check-circle",
@@ -1723,6 +1899,91 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <ThemePickerDemo />,
       tags: ["theme", "picker"],
       code: `<ThemePicker variant="default" />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Muted hover tint highlights the trigger using the select hover token.",
+          element: <ThemePickerState state="hover" />,
+          code: `const [variant, setVariant] = React.useState(defaultTheme().variant);
+return (
+  <ThemePicker
+    variant={variant}
+    onVariantChange={setVariant}
+    className="max-w-xs [&_button]:bg-muted/18"
+  />
+);`,
+        },
+        {
+          id: "focus",
+          name: "Focus",
+          description:
+            "Focus ring reuses the focus-visible theme ring token to stay accessible on keyboard navigation.",
+          element: <ThemePickerState state="focus" />,
+          code: `const [variant, setVariant] = React.useState(defaultTheme().variant);
+return (
+  <ThemePicker
+    variant={variant}
+    onVariantChange={setVariant}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_.group]:ring-offset-0"
+  />
+);`,
+        },
+        {
+          id: "active",
+          name: "Active",
+          description:
+            "Pressed styling keeps the ring in place while the dropdown animates open.",
+          element: <ThemePickerState state="active" />,
+          code: `const [variant, setVariant] = React.useState(defaultTheme().variant);
+return (
+  <ThemePicker
+    variant={variant}
+    onVariantChange={setVariant}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_button]:bg-muted/18 [&_button]:text-foreground"
+  />
+);`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Global disabled opacity token reduces contrast while pointer events are removed.",
+          element: <ThemePickerState state="disabled" />,
+          code: `const [variant, setVariant] = React.useState(defaultTheme().variant);
+return (
+  <div className="max-w-xs pointer-events-none [&_.group]:opacity-[var(--disabled)]">
+    <ThemePicker
+      variant={variant}
+      onVariantChange={setVariant}
+      disabled
+    />
+  </div>
+);`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Loading dims the control with the loading opacity token and overlays a spinner.",
+          element: <ThemePickerState state="loading" />,
+          code: `const [variant, setVariant] = React.useState(defaultTheme().variant);
+return (
+  <div className="relative max-w-xs pointer-events-none [&_.group]:opacity-[var(--loading)]">
+    <ThemePicker
+      variant={variant}
+      onVariantChange={setVariant}
+      disabled
+    />
+    <Spinner
+      size="var(--space-3)"
+      className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-foreground/80"
+    />
+  </div>
+);`,
+        },
+      ],
     },
     {
       id: "background-picker",
@@ -1730,6 +1991,91 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <BackgroundPickerDemo />,
       tags: ["background", "picker"],
       code: `<BackgroundPicker bg="aurora" />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Hover tint lifts the swatch stack so backgrounds feel tappable.",
+          element: <BackgroundPickerState state="hover" />,
+          code: `const [bg, setBg] = React.useState(defaultTheme().bg);
+return (
+  <BackgroundPicker
+    bg={bg}
+    onBgChange={setBg}
+    className="max-w-xs [&_button]:bg-muted/18"
+  />
+);`,
+        },
+        {
+          id: "focus",
+          name: "Focus",
+          description:
+            "Focus-visible ring hugs the picker rail to confirm keyboard access.",
+          element: <BackgroundPickerState state="focus" />,
+          code: `const [bg, setBg] = React.useState(defaultTheme().bg);
+return (
+  <BackgroundPicker
+    bg={bg}
+    onBgChange={setBg}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_.group]:ring-offset-0"
+  />
+);`,
+        },
+        {
+          id: "active",
+          name: "Active",
+          description:
+            "Pressed state keeps the ring and hover tint while the dropdown animates.",
+          element: <BackgroundPickerState state="active" />,
+          code: `const [bg, setBg] = React.useState(defaultTheme().bg);
+return (
+  <BackgroundPicker
+    bg={bg}
+    onBgChange={setBg}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_button]:bg-muted/18 [&_button]:text-foreground"
+  />
+);`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabled opacity token mutes the swatches without breaking layout alignment.",
+          element: <BackgroundPickerState state="disabled" />,
+          code: `const [bg, setBg] = React.useState(defaultTheme().bg);
+return (
+  <div className="max-w-xs pointer-events-none [&_.group]:opacity-[var(--disabled)]">
+    <BackgroundPicker
+      bg={bg}
+      onBgChange={setBg}
+      disabled
+    />
+  </div>
+);`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Loading keeps the picker visible with the loading opacity token and a spinner overlay.",
+          element: <BackgroundPickerState state="loading" />,
+          code: `const [bg, setBg] = React.useState(defaultTheme().bg);
+return (
+  <div className="relative max-w-xs pointer-events-none [&_.group]:opacity-[var(--loading)]">
+    <BackgroundPicker
+      bg={bg}
+      onBgChange={setBg}
+      disabled
+    />
+    <Spinner
+      size="var(--space-3)"
+      className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-foreground/80"
+    />
+  </div>
+);`,
+        },
+      ],
     },
     {
       id: "settings-select",
@@ -1751,6 +2097,126 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     disabled
   />
 </div>`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Hover state uses the shared select hover token for consistent tactile feedback.",
+          element: <SettingsSelectState state="hover" />,
+          code: `const items = React.useMemo(
+  () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+  [],
+);
+const [value, setValue] = React.useState(items[0]?.value ?? "");
+return (
+  <SettingsSelect
+    ariaLabel="Theme"
+    prefixLabel="Theme"
+    items={items}
+    value={value}
+    onChange={setValue}
+    className="max-w-xs [&_button]:bg-muted/18"
+  />
+);`,
+        },
+        {
+          id: "focus",
+          name: "Focus",
+          description:
+            "Focus-visible ring ties into the theme ring token so keyboard users get the same highlight.",
+          element: <SettingsSelectState state="focus" />,
+          code: `const items = React.useMemo(
+  () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+  [],
+);
+const [value, setValue] = React.useState(items[0]?.value ?? "");
+return (
+  <SettingsSelect
+    ariaLabel="Theme"
+    prefixLabel="Theme"
+    items={items}
+    value={value}
+    onChange={setValue}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_.group]:ring-offset-0"
+  />
+);`,
+        },
+        {
+          id: "active",
+          name: "Active",
+          description:
+            "Pressed state keeps the ring visible and tints the trigger while the dropdown animates open.",
+          element: <SettingsSelectState state="active" />,
+          code: `const items = React.useMemo(
+  () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+  [],
+);
+const [value, setValue] = React.useState(items[0]?.value ?? "");
+return (
+  <SettingsSelect
+    ariaLabel="Theme"
+    prefixLabel="Theme"
+    items={items}
+    value={value}
+    onChange={setValue}
+    className="max-w-xs [&_.group]:ring-2 [&_.group]:ring-[var(--theme-ring)] [&_button]:bg-muted/18 [&_button]:text-foreground"
+  />
+);`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabled state applies the global opacity token and removes pointer events.",
+          element: <SettingsSelectState state="disabled" />,
+          code: `const items = React.useMemo(
+  () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+  [],
+);
+const [value, setValue] = React.useState(items[0]?.value ?? "");
+return (
+  <div className="max-w-xs pointer-events-none [&_.group]:opacity-[var(--disabled)]">
+    <SettingsSelect
+      ariaLabel="Theme"
+      prefixLabel="Theme"
+      items={items}
+      value={value}
+      onChange={setValue}
+      disabled
+    />
+  </div>
+);`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Loading keeps structure visible with the loading opacity token and the same spinner overlay used elsewhere.",
+          element: <SettingsSelectState state="loading" />,
+          code: `const items = React.useMemo(
+  () => VARIANTS.map(({ id, label }) => ({ value: id, label })),
+  [],
+);
+const [value, setValue] = React.useState(items[0]?.value ?? "");
+return (
+  <div className="relative max-w-xs pointer-events-none [&_.group]:opacity-[var(--loading)]">
+    <SettingsSelect
+      ariaLabel="Theme"
+      prefixLabel="Theme"
+      items={items}
+      value={value}
+      onChange={setValue}
+      disabled
+    />
+    <Spinner
+      size="var(--space-3)"
+      className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-foreground/80"
+    />
+  </div>
+);`,
+        },
+      ],
     },
   ],
   misc: [

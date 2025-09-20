@@ -9,18 +9,28 @@ export type ThemePickerProps = {
   variant: Variant;
   onVariantChange: (v: Variant) => void;
   className?: string;
+  disabled?: boolean;
 };
 
-export default function ThemePicker({ variant, onVariantChange, className = "" }: ThemePickerProps) {
-  const items: SelectItem[] = React.useMemo(() => VARIANTS.map(v => ({ value: v.id, label: v.label })), []);
+export default function ThemePicker({
+  variant,
+  onVariantChange,
+  className = "",
+  disabled = false,
+}: ThemePickerProps) {
+  const items: SelectItem[] = React.useMemo(
+    () => VARIANTS.map((v) => ({ value: v.id, label: v.label })),
+    [],
+  );
   return (
     <SettingsSelect
       ariaLabel="Theme"
       prefixLabel="Theme"
       items={items}
       value={variant}
-      onChange={v => onVariantChange(v as Variant)}
+      onChange={(v) => onVariantChange(v as Variant)}
       className={className}
+      disabled={disabled}
     />
   );
 }

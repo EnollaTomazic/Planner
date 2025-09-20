@@ -27,12 +27,14 @@ export type BackgroundPickerProps = {
   bg: Background;
   onBgChange: (bg: Background) => void;
   className?: string;
+  disabled?: boolean;
 };
 
 export default function BackgroundPicker({
   bg,
   onBgChange,
   className = "",
+  disabled = false,
 }: BackgroundPickerProps) {
   const items: SelectItem[] = React.useMemo(
     () =>
@@ -55,6 +57,7 @@ export default function BackgroundPicker({
       value={String(bg)}
       onChange={(v) => onBgChange(Number(v) as Background)}
       className={className}
+      disabled={disabled}
     />
   );
 }
