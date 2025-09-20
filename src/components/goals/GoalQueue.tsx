@@ -48,10 +48,10 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
         title="Goal Queue"
         titleClassName="text-title font-semibold tracking-[-0.01em]"
       />
-      <SectionCard.Body className="grid gap-6">
+      <SectionCard.Body className="grid gap-[var(--space-6)]">
           <ul className="divide-y divide-border/10">
             {items.length === 0 ? (
-              <li className="py-3 text-ui font-medium text-muted-foreground">No queued goals</li>
+              <li className="py-[var(--space-3)] text-ui font-medium text-muted-foreground">No queued goals</li>
             ) : (
               items.map((it) => {
                 const created = new Date(it.createdAt);
@@ -60,7 +60,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                 const deleteLabel = `Delete queued goal ${goalLabel}`;
 
                 return (
-                  <li key={it.id} className="group flex items-center gap-2 py-3">
+                  <li key={it.id} className="group flex items-center gap-[var(--space-2)] py-[var(--space-3)]">
                     <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
                     <p className="flex-1 truncate text-ui font-medium">{it.text}</p>
                     <time
@@ -69,7 +69,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                     >
                       {shortDate.format(created)}
                     </time>
-                    <div className="flex items-center gap-1 ml-2">
+                    <div className="flex items-center gap-[var(--space-1)] ml-[var(--space-2)]">
                       <IconButton
                         title={deleteLabel}
                         aria-label={deleteLabel}
@@ -88,7 +88,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
             )}
           </ul>
 
-          <form onSubmit={submit} className="flex items-center gap-2 pt-3">
+          <form onSubmit={submit} className="flex items-center gap-[var(--space-2)] pt-[var(--space-3)]">
             <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
             <label className="sr-only" htmlFor={inputId}>
               Add to queue and press Enter
