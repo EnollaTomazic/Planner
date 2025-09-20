@@ -110,15 +110,15 @@ export default function NeomorphicHeroFrameDemo() {
             </p>
           </HeroCol>
           <HeroCol span={5} className="grid gap-2 text-label uppercase tracking-[0.08em] text-muted-foreground">
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
               <dt className="font-semibold text-foreground">Layer tokens</dt>
               <dd className="text-label">bg-card/70 · ring-border/55</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
               <dt className="font-semibold text-foreground">Grid rhythm</dt>
               <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
               <dt className="font-semibold text-foreground">Slot spans</dt>
               <dd className="text-label">HeroCol 7 / 5 alignment</dd>
             </div>
@@ -189,16 +189,16 @@ export default function NeomorphicHeroFrameDemo() {
           <HeroCol span={6} className="space-y-2 text-label text-muted-foreground">
             <p className="font-semibold text-foreground">Interaction checklist</p>
             <ul className="grid grid-cols-2 gap-2">
-              <li className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
                 Hover or focus the tabs to see accent glows.
               </li>
-              <li className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
                 Toggle statuses—the queued tab marks the search as loading.
               </li>
-              <li className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
                 Buttons surface pressed and disabled states from tokenized styles.
               </li>
-              <li className="rounded-card r-card-md border border-border/25 bg-card/60 px-3 py-2">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
                 Keyboard focus rings respect the global focus token.
               </li>
             </ul>
