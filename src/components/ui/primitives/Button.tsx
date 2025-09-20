@@ -32,24 +32,37 @@ export const buttonSizes = {
     gap: "gap-[var(--space-4)]",
     icon: "[&_svg]:size-[var(--space-8)]",
   },
+  xl: {
+    height: "h-[var(--control-h-xl)]",
+    padding: "px-[calc(var(--control-h-xl)*4/3)]",
+    text: "text-title-lg",
+    gap: "gap-[calc(var(--control-h-xl)/3)]",
+    icon: "[&_svg]:size-[calc(var(--control-h-xl)*4/3)]",
+  },
 } as const;
 
 export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
 
-type ControlHeightToken = "controlHSm" | "controlHMd" | "controlHLg";
+type ControlHeightToken =
+  | "controlHSm"
+  | "controlHMd"
+  | "controlHLg"
+  | "controlHXl";
 
 const FALLBACK_CONTROL_HEIGHTS: Record<ButtonSize, number> = {
   sm: 32,
   md: 40,
   lg: 48,
+  xl: 56,
 };
 
 const CONTROL_HEIGHT_TOKENS: Record<ButtonSize, ControlHeightToken> = {
   sm: "controlHSm",
   md: "controlHMd",
   lg: "controlHLg",
+  xl: "controlHXl",
 };
 
 const parsePxTokenValue = (value: unknown): number | null => {
@@ -85,6 +98,10 @@ const spinnerSizes: Record<ButtonSize, string> = {
   lg: halfControlHeight(
     CONTROL_HEIGHT_TOKENS.lg,
     FALLBACK_CONTROL_HEIGHTS.lg,
+  ),
+  xl: halfControlHeight(
+    CONTROL_HEIGHT_TOKENS.xl,
+    FALLBACK_CONTROL_HEIGHTS.xl,
   ),
 };
 

@@ -82,6 +82,7 @@ export default {
   controlHSm: "32px",
   controlHMd: "40px",
   controlHLg: "48px",
+  controlHXl: "56px",
   controlH: "var(--control-h-md)",
   controlRadius: "var(--radius-xl)",
   controlFs: "var(--font-ui)",
