@@ -508,7 +508,7 @@ export default function TimerTab() {
             <div className="mt-6 flex w-full flex-wrap justify-center gap-2 overflow-x-auto">
               {!running ? (
                 <SegmentedButton
-                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
+                  className="gap-[var(--space-2)]"
                   onClick={start}
                   title="Start"
                 >
@@ -517,7 +517,7 @@ export default function TimerTab() {
                 </SegmentedButton>
               ) : (
                 <SegmentedButton
-                  className="inline-flex min-w-[4.5rem] items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
+                  className="gap-[var(--space-2)]"
                   onClick={pause}
                   title="Pause"
                   isActive
@@ -527,7 +527,7 @@ export default function TimerTab() {
                 </SegmentedButton>
               )}
               <SegmentedButton
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors duration-[var(--dur-quick)] ease-in-out"
+                className="gap-[var(--space-2)]"
                 onClick={reset}
                 title="Reset"
               >
