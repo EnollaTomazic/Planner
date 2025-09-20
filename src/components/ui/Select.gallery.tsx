@@ -3,6 +3,45 @@ import * as React from "react";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
 import Select from "./Select";
+import type { AnimatedSelectProps } from "./select/shared";
+
+type SelectStateConfig = {
+  label: string;
+  buttonClassName?: string;
+  className?: string;
+  props?:
+    | (Partial<Omit<AnimatedSelectProps, "items">> & {
+        items?: AnimatedSelectProps["items"];
+      })
+    | undefined;
+};
+
+const SELECT_STATES: ReadonlyArray<SelectStateConfig> = [
+  {
+    label: "Default",
+  },
+  {
+    label: "Hover",
+    buttonClassName: "bg-[--hover]",
+  },
+  {
+    label: "Focus-visible",
+    className:
+      "rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0",
+  },
+  {
+    label: "Active",
+    buttonClassName: "bg-[--active]",
+  },
+  {
+    label: "Disabled",
+    props: { disabled: true },
+  },
+  {
+    label: "Loading",
+    buttonClassName: "pointer-events-none opacity-[var(--loading)]",
+  },
+];
 
 const ITEMS = [
   { value: "one", label: "One" },
@@ -16,21 +55,49 @@ function SelectGalleryPreview() {
   const [value, setValue] = React.useState<ItemValue>(ITEMS[0]?.value ?? "one");
 
   return (
-    <div className="flex flex-col gap-[var(--space-3)]">
-      <Select
-        items={[...ITEMS]}
-        value={value}
-        onChange={(next) => setValue(next as ItemValue)}
-        placeholder="Animated select"
-      />
-      <Select
-        items={[...ITEMS]}
-        variant="native"
-        value={value}
-        onChange={(next) => setValue(next as ItemValue)}
-        aria-label="Native select"
-      />
-      <Select items={[...ITEMS]} disabled placeholder="Disabled select" />
+    <div className="flex flex-col gap-[var(--space-4)]">
+      <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2">
+        <Select
+          items={[...ITEMS]}
+          value={value}
+          onChange={(next) => setValue(next as ItemValue)}
+          placeholder="Animated select"
+          className="w-full sm:w-auto"
+        />
+        <Select
+          items={[...ITEMS]}
+          variant="native"
+          value={value}
+          onChange={(next) => setValue(next as ItemValue)}
+          aria-label="Native select"
+          className="w-full sm:w-auto"
+        />
+      </div>
+      <div className="flex flex-col gap-[var(--space-2)]">
+        <p className="text-caption text-muted-foreground">States</p>
+        <div className="flex flex-wrap gap-[var(--space-2)]">
+          {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {
+            const { items: stateItems, ...restProps } = props ?? {};
+            const sampleItems = stateItems ?? ITEMS;
+            const baseClassName = "w-full sm:w-auto";
+            const finalClassName = className
+              ? `${baseClassName} ${className}`
+              : baseClassName;
+
+            return (
+              <Select
+                key={label}
+                items={[...sampleItems]}
+                placeholder={label}
+                ariaLabel={label}
+                buttonClassName={buttonClassName}
+                className={finalClassName}
+                {...restProps}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -70,10 +137,7 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: [
-            { value: "Default" },
-            { value: "Disabled" },
-          ],
+          values: SELECT_STATES.map(({ label }) => ({ value: label })),
         },
       ],
       preview: createGalleryPreview({
@@ -85,11 +149,68 @@ export default defineGallerySection({
   { value: "two", label: "Two" },
   { value: "three", label: "Three" },
 ];
+
+const SELECT_STATES = [
+  { label: "Default" },
+  { label: "Hover", buttonClassName: "bg-[--hover]" },
+  {
+    label: "Focus-visible",
+    className: "rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0",
+  },
+  { label: "Active", buttonClassName: "bg-[--active]" },
+  { label: "Disabled", props: { disabled: true } },
+  {
+    label: "Loading",
+    buttonClassName: "pointer-events-none opacity-[var(--loading)]",
+  },
+];
+
 const [value, setValue] = React.useState(items[0]?.value ?? "");
 
-<Select items={items} value={value} onChange={setValue} placeholder="Animated select" />
-<Select items={items} variant="native" value={value} onChange={setValue} />
-<Select items={items} disabled placeholder="Disabled select" />`,
+<div className="flex flex-col gap-[var(--space-4)]">
+  <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2">
+    <Select
+      items={items}
+      value={value}
+      onChange={setValue}
+      placeholder="Animated select"
+      className="w-full sm:w-auto"
+    />
+    <Select
+      items={items}
+      variant="native"
+      value={value}
+      onChange={setValue}
+      aria-label="Native select"
+      className="w-full sm:w-auto"
+    />
+  </div>
+  <div className="flex flex-col gap-[var(--space-2)]">
+    <p className="text-caption text-muted-foreground">States</p>
+    <div className="flex flex-wrap gap-[var(--space-2)]">
+      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {
+        const { items: stateItems, ...restProps } = props ?? {};
+        const sampleItems = stateItems ?? items;
+        const baseClassName = "w-full sm:w-auto";
+        const finalClassName = className
+          ? baseClassName + " " + className
+          : baseClassName;
+
+        return (
+          <Select
+            key={label}
+            items={[...sampleItems]}
+            placeholder={label}
+            ariaLabel={label}
+            buttonClassName={buttonClassName}
+            className={finalClassName}
+            {...restProps}
+          />
+        );
+      })}
+    </div>
+  </div>
+</div>`,
     },
   ],
 });
