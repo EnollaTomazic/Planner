@@ -80,4 +80,16 @@ describe("AnimationToggle", () => {
     expect(button).toHaveAttribute("aria-busy", "true");
     expect(getByLabelText("Loading")).toBeInTheDocument();
   });
+
+  it("accepts an explicit disabled state without loading", () => {
+    const { getByRole } = render(<AnimationToggle disabled />);
+    const button = getByRole("button");
+
+    expect(button).toBeDisabled();
+    expect(button).not.toHaveAttribute("aria-busy");
+
+    fireEvent.click(button);
+
+    expect(button).toHaveAttribute("aria-pressed", "true");
+  });
 });

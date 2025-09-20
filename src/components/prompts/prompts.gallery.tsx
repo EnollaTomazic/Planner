@@ -33,6 +33,7 @@ import {
   AnimationToggle,
   CatCompanion,
   ThemeToggle,
+  Toggle,
   CheckCircle,
   Snackbar,
   Skeleton,
@@ -761,6 +762,234 @@ function ThemeToggleDisabledState() {
 
 function ThemeToggleLoadingState() {
   return <ThemeToggleStatePreview cycleLoading />;
+}
+
+const TOGGLE_PREVIEW_BASE = "pointer-events-none";
+const TOGGLE_HOVER_CLASS = "bg-[--hover] hover:bg-[--hover]";
+const TOGGLE_FOCUS_RING_CLASS =
+  "ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)] outline-none";
+const TOGGLE_ACTIVE_CLASS =
+  "bg-[--active] [&>span:nth-of-type(1)]:scale-95 [&>span:nth-of-type(1)]:shadow-[var(--shadow-neo-soft)]";
+
+type ToggleStatePreviewProps = {
+  value?: "Left" | "Right";
+  className?: string;
+  disabled?: boolean;
+  loading?: boolean;
+};
+
+function ToggleStatePreview({
+  value = "Left",
+  className,
+  disabled = false,
+  loading = false,
+}: ToggleStatePreviewProps) {
+  return (
+    <Toggle
+      value={value}
+      onChange={() => {}}
+      disabled={disabled}
+      loading={loading}
+      className={cn(TOGGLE_PREVIEW_BASE, className)}
+    />
+  );
+}
+
+function ToggleHoverState() {
+  return <ToggleStatePreview className={TOGGLE_HOVER_CLASS} />;
+}
+
+function ToggleFocusState() {
+  return <ToggleStatePreview className={TOGGLE_FOCUS_RING_CLASS} />;
+}
+
+function TogglePressedState() {
+  return (
+    <ToggleStatePreview
+      value="Right"
+      className={TOGGLE_ACTIVE_CLASS}
+    />
+  );
+}
+
+function ToggleDisabledState() {
+  return <ToggleStatePreview disabled />;
+}
+
+function ToggleLoadingState() {
+  return <ToggleStatePreview loading />;
+}
+
+const ANIMATION_TOGGLE_PREVIEW_BASE =
+  "inline-flex [&>button]:pointer-events-none";
+const ANIMATION_TOGGLE_HOVER_CLASS =
+  "[&>button]:shadow-[var(--shadow-control-hover)]";
+const ANIMATION_TOGGLE_FOCUS_CLASS =
+  "[&>button]:ring-2 [&>button]:ring-[var(--ring)] [&>button]:ring-offset-2 [&>button]:ring-offset-[var(--background)] [&>button]:outline-none";
+const ANIMATION_TOGGLE_PRESSED_CLASS =
+  "[&>button]:bg-surface [&>button]:shadow-[var(--shadow-control)] [&>button]:scale-95";
+
+type AnimationToggleStatePreviewProps = {
+  className?: string;
+  buttonClassName?: string;
+  loading?: boolean;
+  disabled?: boolean;
+};
+
+function AnimationToggleStatePreview({
+  className,
+  buttonClassName,
+  loading = false,
+  disabled = false,
+}: AnimationToggleStatePreviewProps) {
+  return (
+    <AnimationToggle
+      loading={loading}
+      disabled={disabled}
+      className={cn(ANIMATION_TOGGLE_PREVIEW_BASE, className)}
+      buttonClassName={cn(buttonClassName)}
+    />
+  );
+}
+
+function AnimationToggleHoverState() {
+  return (
+    <AnimationToggleStatePreview buttonClassName={ANIMATION_TOGGLE_HOVER_CLASS} />
+  );
+}
+
+function AnimationToggleFocusState() {
+  return (
+    <AnimationToggleStatePreview buttonClassName={ANIMATION_TOGGLE_FOCUS_CLASS} />
+  );
+}
+
+function AnimationTogglePressedState() {
+  return (
+    <AnimationToggleStatePreview
+      buttonClassName={ANIMATION_TOGGLE_PRESSED_CLASS}
+    />
+  );
+}
+
+function AnimationToggleDisabledState() {
+  return <AnimationToggleStatePreview disabled />;
+}
+
+function AnimationToggleLoadingState() {
+  return <AnimationToggleStatePreview loading />;
+}
+
+type CheckCircleState =
+  | "hover"
+  | "focus-visible"
+  | "pressed"
+  | "disabled"
+  | "loading";
+
+function CheckCircleStatePreview({ state }: { state: CheckCircleState }) {
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const button = wrapper.querySelector<HTMLButtonElement>("button");
+    if (!button) return;
+
+    if (state === "hover") {
+      const mouseOver = new MouseEvent("mouseover", { bubbles: true });
+      const mouseEnter = new MouseEvent("mouseenter", { bubbles: false });
+      button.dispatchEvent(mouseOver);
+      button.dispatchEvent(mouseEnter);
+      return () => {
+        button.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
+        button.dispatchEvent(new MouseEvent("mouseleave", { bubbles: false }));
+      };
+    }
+
+    if (state === "focus-visible") {
+      const focusEvent =
+        typeof window.FocusEvent === "function"
+          ? new window.FocusEvent("focus", { bubbles: true })
+          : new Event("focus", { bubbles: true });
+      button.dispatchEvent(focusEvent);
+      button.classList.add(
+        "ring-2",
+        "ring-[var(--focus)]",
+        "ring-offset-2",
+        "ring-offset-[var(--background)]",
+        "outline-none",
+      );
+      return () => {
+        const blurEvent =
+          typeof window.FocusEvent === "function"
+            ? new window.FocusEvent("blur", { bubbles: true })
+            : new Event("blur", { bubbles: true });
+        button.dispatchEvent(blurEvent);
+        button.classList.remove(
+          "ring-2",
+          "ring-[var(--focus)]",
+          "ring-offset-2",
+          "ring-offset-[var(--background)]",
+          "outline-none",
+        );
+      };
+    }
+
+    return undefined;
+  }, [state]);
+
+  const checked = state === "pressed";
+  const disabled = state === "disabled" || state === "loading";
+  const showSpinner = state === "loading";
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative inline-grid place-items-center [&_button]:pointer-events-none"
+    >
+      <CheckCircle
+        checked={checked}
+        onChange={() => {}}
+        disabled={disabled}
+        size="md"
+      />
+      {showSpinner ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 grid place-items-center rounded-full bg-[hsl(var(--surface)/0.72)]"
+        >
+          <Spinner
+            size={16}
+            className="border-[hsl(var(--ring))] border-t-transparent"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function CheckCircleHoverState() {
+  return <CheckCircleStatePreview state="hover" />;
+}
+
+function CheckCircleFocusState() {
+  return <CheckCircleStatePreview state="focus-visible" />;
+}
+
+function CheckCirclePressedState() {
+  return <CheckCircleStatePreview state="pressed" />;
+}
+
+function CheckCircleDisabledState() {
+  return <CheckCircleStatePreview state="disabled" />;
+}
+
+function CheckCircleLoadingState() {
+  return <CheckCircleStatePreview state="loading" />;
 }
 
 type SideSelectorStatePreviewProps = {
@@ -3545,7 +3774,66 @@ React.useEffect(() => {
       element: <ToggleShowcase />,
       tags: ["toggle"],
       code: `const [value, setValue] = React.useState<"Left" | "Right">("Left");
-<Toggle value={value} onChange={setValue} />`,
+<Toggle value={value} onChange={setValue} />
+<Toggle disabled />
+<Toggle loading />`,
+      states: [
+        {
+          id: "toggle-hover",
+          name: "Hover",
+          description:
+            "Hover applies the shared `--hover` token so the switch picks up the same interactive wash as our buttons and selects.",
+          element: <ToggleHoverState />,
+          code: `const [value, setValue] = React.useState<"Left" | "Right">("Left");
+<Toggle
+  value={value}
+  onChange={setValue}
+  className="bg-[--hover] hover:bg-[--hover]"
+/>`,
+        },
+        {
+          id: "toggle-focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus keeps the glow inside the track using the global `--ring` color with the background offset token.",
+          element: <ToggleFocusState />,
+          code: `const [value, setValue] = React.useState<"Left" | "Right">("Left");
+<Toggle
+  value={value}
+  onChange={setValue}
+  className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)] outline-none"
+/>`,
+        },
+        {
+          id: "toggle-pressed",
+          name: "Pressed",
+          description:
+            "Pressed state leans on the shared `--active` token and compresses the indicator so toggling feels tactile.",
+          element: <TogglePressedState />,
+          code: `const [value, setValue] = React.useState<"Left" | "Right">("Right");
+<Toggle
+  value={value}
+  onChange={setValue}
+  className="bg-[--active] [&>span:nth-of-type(1)]:scale-95 [&>span:nth-of-type(1)]:shadow-[var(--shadow-neo-soft)]"
+/>`,
+        },
+        {
+          id: "toggle-disabled",
+          name: "Disabled",
+          description:
+            "Disabled toggles rely on the global opacity token so the control fades without shifting the segmented layout.",
+          element: <ToggleDisabledState />,
+          code: `<Toggle disabled />`,
+        },
+        {
+          id: "toggle-loading",
+          name: "Loading",
+          description:
+            "Loading freezes interaction and shows the inline spinner anchored to the indicator so progress reads instantly.",
+          element: <ToggleLoadingState />,
+          code: `<Toggle loading />`,
+        },
+      ],
     },
     {
       id: "animation-toggle",
@@ -3558,7 +3846,56 @@ React.useEffect(() => {
       ),
       tags: ["toggle", "animation"],
       code: `<AnimationToggle />
+<AnimationToggle disabled />
 <AnimationToggle loading />`,
+      states: [
+        {
+          id: "animation-toggle-hover",
+          name: "Hover",
+          description:
+            "Hover swaps to the raised control shadow token so the button reads as clickable without shifting alignment.",
+          element: <AnimationToggleHoverState />,
+          code: `<AnimationToggle
+  buttonClassName="shadow-[var(--shadow-control-hover)]"
+/>`,
+        },
+        {
+          id: "animation-toggle-focus",
+          name: "Focus-visible",
+          description:
+            "Focus-visible routes the `--ring` color through `ring-offset` so keyboard users see a crisp halo around the pill.",
+          element: <AnimationToggleFocusState />,
+          code: `<AnimationToggle
+  buttonClassName="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)] outline-none"
+/>`,
+        },
+        {
+          id: "animation-toggle-pressed",
+          name: "Pressed",
+          description:
+            "Pressed state dips the surface token and scales the icon container slightly to acknowledge the click.",
+          element: <AnimationTogglePressedState />,
+          code: `<AnimationToggle
+  buttonClassName="bg-surface shadow-[var(--shadow-control)] scale-95"
+/>`,
+        },
+        {
+          id: "animation-toggle-disabled",
+          name: "Disabled",
+          description:
+            "Disabled keeps the toggle visible while applying the shared disabled opacity so settings can signal lockout.",
+          element: <AnimationToggleDisabledState />,
+          code: `<AnimationToggle disabled />`,
+        },
+        {
+          id: "animation-toggle-loading",
+          name: "Loading",
+          description:
+            "Loading shows the inline spinner and disables the switch while longer preference syncs run.",
+          element: <AnimationToggleLoadingState />,
+          code: `<AnimationToggle loading />`,
+        },
+      ],
     },
     {
       id: "check-circle",
@@ -3572,6 +3909,54 @@ React.useEffect(() => {
       tags: ["checkbox", "toggle"],
       code: `<CheckCircle checked={false} onChange={() => {}} size="md" />
 <CheckCircle checked onChange={() => {}} size="md" />`,
+      states: [
+        {
+          id: "check-circle-hover",
+          name: "Hover",
+          description:
+            "Hover triggers the ignite animation so the neon rim pulses before the player commits the selection.",
+          element: <CheckCircleHoverState />,
+          code: `<CheckCircle checked={false} onChange={() => {}} size="md" />`,
+        },
+        {
+          id: "check-circle-focus",
+          name: "Focus-visible",
+          description:
+            "Focus-visible wraps the button in the shared focus ring while the neon rim stays active for keyboard navigation.",
+          element: <CheckCircleFocusState />,
+          code: `<CheckCircle checked={false} onChange={() => {}} size="md" />`,
+        },
+        {
+          id: "check-circle-pressed",
+          name: "Pressed",
+          description:
+            "Pressed (checked) locks the neon glow and glyph color so completion reads even after the animation settles.",
+          element: <CheckCirclePressedState />,
+          code: `<CheckCircle checked onChange={() => {}} size="md" />`,
+        },
+        {
+          id: "check-circle-disabled",
+          name: "Disabled",
+          description:
+            "Disabled relies on the component's opacity tokens to quiet the control while keeping the concentric shell intact.",
+          element: <CheckCircleDisabledState />,
+          code: `<CheckCircle checked={false} onChange={() => {}} size="md" disabled />`,
+        },
+        {
+          id: "check-circle-loading",
+          name: "Loading",
+          description:
+            "Loading overlays the accent spinner while holding the disabled state so asynchronous saves communicate progress.",
+          element: <CheckCircleLoadingState />,
+          code: `<div className="relative inline-grid place-items-center">
+  <CheckCircle checked={false} onChange={() => {}} size="md" disabled />
+  <Spinner
+    size={16}
+    className="absolute border-[hsl(var(--ring))] border-t-transparent"
+  />
+</div>`,
+        },
+      ],
     },
   ],
   homepage: [
