@@ -20,64 +20,141 @@ import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
 import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";
 
-type JunglerRowSeed = (typeof JUNGLE_ROWS)[number];
-type JunglerRow = JunglerRowSeed & { id: string };
+type JunglerRow = {
+  id: string;
+  champ: string;
+  speed: ClearSpeed;
+  type: string[];
+  notes?: string;
+};
 const STORE_KEY = "team:jungle.clears.v1";
-const SEEDS: JunglerRow[] = JUNGLE_ROWS.map((r) => ({ ...r, id: uid("jg") }));
+const SEEDS: JunglerRow[] = JUNGLE_ROWS.map((r) => {
+  const row: JunglerRow = {
+    id: uid("jg"),
+    champ: r.champ,
+    speed: r.speed,
+    type: isStringArray(r.type) ? [...r.type] : [],
+  };
+
+  if (typeof r.notes === "string") {
+    row.notes = r.notes;
+  }
+
+  return row;
+});
 const BUCKETS: ClearSpeed[] = ["Very Fast", "Fast", "Medium", "Slow"];
 const SPEED_SET = new Set<ClearSpeed>(BUCKETS);
 const NEEDS_PERSIST = Symbol("team:jungle.clears.needsPersist");
 type NormalizedRows = JunglerRow[] & { [NEEDS_PERSIST]?: true };
 
-function decodeRows(value: unknown): JunglerRow[] | null {
+function normalizeType(
+  value: unknown,
+): { value: string[]; mutated: boolean } {
+  if (isStringArray(value)) {
+    const trimmed = value
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+    const mutated =
+      trimmed.length !== value.length ||
+      trimmed.some((tag, index) => tag !== value[index]);
+    return { value: trimmed, mutated };
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+    return { value: trimmed, mutated: true };
+  }
+
+  if (value === undefined) {
+    return { value: [], mutated: true };
+  }
+
+  return { value: [], mutated: true };
+}
+
+function decodeRows(value: unknown): NormalizedRows | null {
   if (!Array.isArray(value)) return null;
 
-  const next: NormalizedRows = [];
+  const next: JunglerRow[] = [];
   let assignedNewId = false;
+  let mutated = false;
 
   for (const raw of value) {
     if (!isRecord(raw)) {
+      mutated = true;
       continue;
     }
 
     const rawSpeed = raw.speed;
-    const speed: ClearSpeed =
-      typeof rawSpeed === "string" && SPEED_SET.has(rawSpeed as ClearSpeed)
-        ? (rawSpeed as ClearSpeed)
-        : "Medium";
+    let speed: ClearSpeed;
+    if (typeof rawSpeed === "string" && SPEED_SET.has(rawSpeed as ClearSpeed)) {
+      speed = rawSpeed as ClearSpeed;
+    } else {
+      speed = "Medium";
+      mutated = true;
+    }
 
-    const champ = typeof raw.champ === "string" ? raw.champ : "";
-    const type = isStringArray(raw.type)
-      ? raw.type.filter((tag) => tag.length > 0)
-      : [];
-    const notes =
-      typeof raw.notes === "string" ? raw.notes : undefined;
+    let champ: string;
+    if (typeof raw.champ === "string") {
+      champ = raw.champ;
+    } else {
+      champ = "";
+      mutated = true;
+    }
+
+    const { value: type, mutated: typeMutated } = normalizeType(raw.type);
+    if (typeMutated) {
+      mutated = true;
+    }
+
+    let notes: string | undefined;
+    if (typeof raw.notes === "string") {
+      notes = raw.notes;
+    } else {
+      notes = undefined;
+      if (raw.notes !== undefined) {
+        mutated = true;
+      }
+    }
 
     let id: string;
-    if (typeof raw.id === "string" && raw.id.trim() !== "") {
-      id = raw.id;
+    if (typeof raw.id === "string") {
+      const trimmedId = raw.id.trim();
+      if (trimmedId !== "") {
+        id = trimmedId;
+        if (trimmedId !== raw.id) {
+          mutated = true;
+        }
+      } else {
+        id = uid("jg");
+        assignedNewId = true;
+      }
     } else {
       id = uid("jg");
       assignedNewId = true;
     }
 
-    next.push({
-      id,
-      champ,
-      speed,
-      type,
-      notes,
-    });
+    const row: JunglerRow = { id, champ, speed, type };
+    if (notes !== undefined) {
+      row.notes = notes;
+    }
+
+    next.push(row);
   }
 
-  if (assignedNewId) {
-    Object.defineProperty(next, NEEDS_PERSIST, {
+  const normalized = next as NormalizedRows;
+
+  if (assignedNewId || mutated) {
+    Object.defineProperty(normalized, NEEDS_PERSIST, {
       value: true,
       enumerable: false,
     });
   }
 
-  return next;
+  return normalized;
 }
 
 function needsPersist(rows: JunglerRow[]): rows is NormalizedRows {
@@ -137,27 +214,6 @@ export default React.forwardRef<
   } | null>(null);
 
   useEffect(() => {
-    if (items.every((row) => typeof (row as unknown as { champ?: unknown }).champ === "string")) {
-      return;
-    }
-
-    setItems((prev) => {
-      let changed = false;
-      const next = prev.map((row) => {
-        const champValue = (row as unknown as { champ?: unknown }).champ;
-        if (typeof champValue === "string") {
-          return row;
-        }
-
-        changed = true;
-        return { ...row, champ: "" };
-      });
-
-      return changed ? next : prev;
-    });
-  }, [items, setItems]);
-
-  useEffect(() => {
     if (!needsPersist(items)) return;
     setItems((current) => current.map((row) => ({ ...row })));
   }, [items, setItems]);
@@ -166,7 +222,7 @@ export default React.forwardRef<
     const q = query.trim().toLowerCase();
     return items.filter((r) => {
       if (!q) return true;
-      const hay = [r.champ, ...(r.type ?? []), r.notes ?? ""]
+      const hay = [r.champ, ...r.type, r.notes ?? ""]
         .join(" ")
         .toLowerCase();
       return hay.includes(q);
@@ -181,7 +237,7 @@ export default React.forwardRef<
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
       const row = items.find((r) => {
-        const champ = (r.champ ?? "").trim();
+        const champ = r.champ.trim();
         return r.speed === b && champ !== "";
       });
       const champ = (row?.champ ?? "").trim();
@@ -195,8 +251,8 @@ export default React.forwardRef<
       onTargetBucketChange?.(r.speed);
       setEditingRow({
         id: r.id,
-        champ: r.champ ?? "",
-        type: (r.type ?? []).join(", "),
+        champ: r.champ,
+        type: r.type.join(", "),
         notes: r.notes ?? "",
       });
     },
@@ -216,9 +272,9 @@ export default React.forwardRef<
 
   const saveEdit = React.useCallback(() => {
     if (!editingRow) return;
-    const champInput = (editingRow.champ ?? "").trim();
-    const typeInput = editingRow.type ?? "";
-    const notesInput = (editingRow.notes ?? "").trim();
+    const champInput = editingRow.champ.trim();
+    const typeInput = editingRow.type;
+    const notesInput = editingRow.notes.trim();
 
     setItems((prev) =>
       prev.map((r) => {
@@ -230,7 +286,7 @@ export default React.forwardRef<
           .split(",")
           .map((t) => t.trim())
           .filter((t) => t.length > 0);
-        const nextChamp = champInput !== "" ? champInput : (r.champ ?? "");
+        const nextChamp = champInput !== "" ? champInput : r.champ;
         const nextNotes = notesInput === "" ? undefined : notesInput;
 
         return {
@@ -446,7 +502,7 @@ export default React.forwardRef<
                             <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">{r.champ}</td>
                             <td className="py-[var(--space-2)] pr-[var(--space-3)]">
                               <div className="flex flex-wrap gap-[var(--space-2)]">
-                                {(r.type ?? []).map((t) => (
+                                {r.type.map((t) => (
                                   <span
                                     key={t}
                                     className="pill pill-compact text-label"

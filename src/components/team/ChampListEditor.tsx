@@ -41,16 +41,24 @@ export default function ChampListEditor({
   editPillClassName,
   inputClassName,
 }: ChampListEditorProps) {
-  const sanitized = React.useMemo(() => sanitizeList(list ?? []), [list]);
-  const workingList = sanitized.length ? sanitized : [""];
+  const normalized = React.useMemo(
+    () => sanitizeList(list ?? []).map((item) => item.trim()),
+    [list],
+  );
+  const workingList = normalized.length ? normalized : [""];
+
+  function normalizeList(next: string[]) {
+    return sanitizeList(next).map((item) => item.trim());
+  }
 
   function commit(next: string[]) {
-    const sanitizedNext = sanitizeList(next);
-    onChange(sanitizedNext.length ? sanitizedNext : []);
+    const normalizedNext = normalizeList(next);
+    onChange(normalizedNext.length ? normalizedNext : []);
   }
 
   function commitWithoutBlanks(next: string[]) {
-    const cleaned = sanitizeList(next).filter((item) => item.trim().length);
+    const normalizedNext = normalizeList(next);
+    const cleaned = normalizedNext.filter((item) => item.length > 0);
     onChange(cleaned.length ? cleaned : []);
   }
 
@@ -63,18 +71,17 @@ export default function ChampListEditor({
   function insertAfter(index: number) {
     const next = [...workingList];
     next.splice(index + 1, 0, "");
-    const sanitizedNext = sanitizeList(next);
-    commit(sanitizedNext.length ? sanitizedNext : [""]);
+    commit(next);
   }
 
   function removeAt(index: number) {
     const next = [...workingList];
     next.splice(index, 1);
-    commit(sanitizeList(next));
+    commit(next);
   }
 
   if (!editing) {
-    if (sanitized.length === 0) {
+    if (normalized.length === 0) {
       if (emptyLabel === undefined) return null;
       return (
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
@@ -91,7 +98,7 @@ export default function ChampListEditor({
 
     return (
       <div className={cn(VIEW_CONTAINER, viewClassName)}>
-        {sanitized.map((champ, index) => (
+        {normalized.map((champ, index) => (
           <span key={index} className={cn(PILL_BASE, pillClassName)}>
             <i className="dot" />
             {champ}
