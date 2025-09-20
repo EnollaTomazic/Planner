@@ -435,8 +435,20 @@ function ReviewSurfaceDemo() {
   );
 }
 
-type BottomNavState = "default" | "active" | "disabled" | "syncing";
-type BottomNavDemoMode = "combined" | "active" | "disabled" | "syncing";
+type BottomNavState =
+  | "default"
+  | "active"
+  | "disabled"
+  | "syncing"
+  | "hover"
+  | "focus-visible";
+type BottomNavDemoMode =
+  | "combined"
+  | "active"
+  | "disabled"
+  | "syncing"
+  | "hover"
+  | "focus-visible";
 type BottomNavDemoItem = NavItem & { state: BottomNavState };
 
 const BOTTOM_NAV_STATE_DETAILS: Array<{
@@ -449,6 +461,18 @@ const BOTTOM_NAV_STATE_DETAILS: Array<{
     title: "Active tab",
     description:
       "Accent typography and the theme ring token pin the current Planner route.",
+  },
+  {
+    key: "hover",
+    title: "Hover tab",
+    description:
+      "Foreground copy brightens while motion-safe elevation nudges the button for pointer feedback.",
+  },
+  {
+    key: "focus-visible",
+    title: "Keyboard focus",
+    description:
+      "Press Tab to move focus; focus-visible:ring-[var(--theme-ring)] keeps keyboard users anchored with the theme ring.",
   },
   {
     key: "disabled",
@@ -473,6 +497,14 @@ function createBottomNavItems(mode: BottomNavDemoMode = "combined") {
 
   if (mode === "combined" || mode === "active") {
     states.set("/planner", "active");
+  }
+
+  if (mode === "combined" || mode === "hover") {
+    states.set("/goals", "hover");
+  }
+
+  if (mode === "combined" || mode === "focus-visible") {
+    states.set("/components", "focus-visible");
   }
 
   if (mode === "combined" || mode === "syncing") {
@@ -516,6 +548,10 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                     "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-[var(--disabled)] motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                     state === "active" &&
                       "text-accent-3 ring-2 ring-[var(--theme-ring)]",
+                    state === "hover" &&
+                      "text-foreground motion-safe:-translate-y-0.5 motion-reduce:transform-none",
+                    state === "focus-visible" &&
+                      "text-foreground ring-2 ring-[var(--theme-ring)] ring-offset-0",
                     state === "default" &&
                       "text-muted-foreground hover:text-foreground",
                     state === "disabled" && "text-muted-foreground/70",
@@ -998,7 +1034,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       id: "bottom-nav",
       name: "BottomNav",
       description:
-        "Mobile Planner nav demo showing active, disabled, and syncing tabs styled with tokens.",
+        "Mobile Planner nav demo showing active, hover, focus-visible, disabled, and syncing tabs styled with tokens.",
       element: <BottomNavStatesDemo />,
       tags: ["nav", "bottom"],
       code: `<BottomNavStatesDemo />`,
@@ -1010,6 +1046,22 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
             "Accent text plus the theme ring token anchor the current Planner route.",
           element: <BottomNavStatesDemo mode="active" />,
           code: `<BottomNavStatesDemo mode="active" />`,
+        },
+        {
+          id: "hover",
+          name: "Hover tab",
+          description:
+            "Cursor hover brightens the label and nudges the button using motion-safe elevation cues.",
+          element: <BottomNavStatesDemo mode="hover" />,
+          code: `<BottomNavStatesDemo mode="hover" />`,
+        },
+        {
+          id: "focus-visible",
+          name: "Keyboard focus",
+          description:
+            "Press Tab to cycle across tabs; focus-visible:ring-[var(--theme-ring)] draws the accessible theme ring for keyboard travelers.",
+          element: <BottomNavStatesDemo mode="focus-visible" />,
+          code: `<BottomNavStatesDemo mode="focus-visible" />`,
         },
         {
           id: "disabled",
