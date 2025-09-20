@@ -26,6 +26,7 @@ import {
   SearchBar,
   Snackbar,
   Card,
+  NeoCard,
   CheckCircle,
   NeonIcon,
   Toggle,
@@ -1201,9 +1202,9 @@ export default function ComponentGallery() {
       {
         label: "Card Neo",
         element: (
-          <div className="card-neo w-56 h-8 flex items-center justify-center">
+          <NeoCard className="w-56 flex items-center justify-center text-center">
             Card Neo
-          </div>
+          </NeoCard>
         ),
       },
       {
