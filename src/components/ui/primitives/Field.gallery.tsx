@@ -75,7 +75,7 @@ export default defineGallerySection({
       kind: "primitive",
       tags: ["field", "input"],
       props: [
-        { name: "height", type: '"sm" | "md" | "lg" | number', defaultValue: '"md"' },
+        { name: "height", type: '"sm" | "md" | "lg" | "xl" | number', defaultValue: '"md"' },
         { name: "disabled", type: "boolean", defaultValue: "false" },
         { name: "invalid", type: "boolean", defaultValue: "false" },
         { name: "loading", type: "boolean", defaultValue: "false" },
