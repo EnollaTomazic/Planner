@@ -63,9 +63,9 @@ export default function AnimationToggle({
         aria-busy={loading}
         disabled={loading}
         className={cn(
-          "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-card r-card-lg",
-          "border border-border bg-card",
-          "hover:shadow-glow-md",
+          "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-[var(--control-radius)]",
+          "border border-border bg-card shadow-[var(--shadow-control)]",
+          "hover:shadow-[var(--shadow-control-hover)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           "active:bg-surface",
           "disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
