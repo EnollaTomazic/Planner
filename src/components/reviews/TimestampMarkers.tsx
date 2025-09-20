@@ -141,7 +141,7 @@ function TimestampMarkers(
           }
           title="Timestamp mode"
         >
-          <NeonIcon kind="clock" on={useTimestamp} size={32} />
+          <NeonIcon kind="clock" on={useTimestamp} size="xl" />
         </button>
 
         <button
@@ -161,7 +161,7 @@ function TimestampMarkers(
           }
           title="Note-only mode"
         >
-          <NeonIcon kind="file" on={!useTimestamp} size={32} />
+          <NeonIcon kind="file" on={!useTimestamp} size="xl" />
         </button>
       </div>
 
@@ -195,7 +195,7 @@ function TimestampMarkers(
             />
           ) : (
             <span className="pill h-7 w-16 px-0 flex items-center justify-center">
-              <FileText size={14} className="opacity-80" />
+              <FileText aria-hidden className="icon-xs opacity-80" />
             </span>
           )}
 
@@ -245,7 +245,7 @@ function TimestampMarkers(
               >
                 {m.noteOnly ? (
                   <span className="pill h-7 w-16 px-0 flex items-center justify-center">
-                    <FileText size={14} className="opacity-80" />
+                    <FileText aria-hidden className="icon-xs opacity-80" />
                   </span>
                 ) : (
                   <span className="pill h-7 w-16 px-3 text-ui font-mono tabular-nums text-center">{m.time}</span>

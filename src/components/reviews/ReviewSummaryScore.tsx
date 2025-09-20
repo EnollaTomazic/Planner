@@ -41,7 +41,7 @@ export default function ReviewSummaryScore({
       {focusOn && typeof focus === "number" && focusMsg && (
         <div className="mt-[var(--space-4)] space-y-[var(--space-2)]">
           <div className="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]" aria-label="Focus">
-            <NeonIcon kind="brain" on={true} size={32} staticGlow />
+            <NeonIcon kind="brain" on={true} size="xl" staticGlow />
             <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
           </div>
           <ScoreMeter

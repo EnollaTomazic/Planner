@@ -256,7 +256,7 @@ export default function ReviewEditor({
                 })
               }
             >
-              <NeonIcon kind="brain" on={focusOn} size={32} />
+              <NeonIcon kind="brain" on={focusOn} size="xl" />
             </button>
           </div>
 

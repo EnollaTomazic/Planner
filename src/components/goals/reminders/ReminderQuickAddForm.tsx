@@ -43,7 +43,7 @@ export default function ReminderQuickAddForm() {
           size="md"
           variant="solid"
         >
-          <Plus size={16} aria-hidden />
+          <Plus aria-hidden />
         </IconButton>
         <div className={`${neonClass} hidden sm:block`}>
           <p className="neon-note neon-glow text-label font-medium tracking-[0.02em] italic">
