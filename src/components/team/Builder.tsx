@@ -118,7 +118,12 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
 
   const filledCount = React.useMemo(() => {
     const countTeam = (t: Team) =>
-      [t.top, t.jungle, t.mid, t.bot, t.support].filter(Boolean).length;
+      [t.top, t.jungle, t.mid, t.bot, t.support].filter((value) => {
+        if (typeof value !== "string") {
+          return false;
+        }
+        return value.trim().length > 0;
+      }).length;
     return {
       allies: countTeam(state.allies),
       enemies: countTeam(state.enemies),
@@ -126,9 +131,10 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
   }, [state]);
 
   function setLane(side: Side, lane: LaneKey, value: string) {
+    const trimmedValue = value.trim();
     setState((prev) => ({
       ...prev,
-      [side]: { ...prev[side], [lane]: value },
+      [side]: { ...prev[side], [lane]: trimmedValue },
     }));
   }
 
