@@ -65,6 +65,7 @@ describe("Button", () => {
     ["sm", "[&_svg]:size-[var(--space-4)]"],
     ["md", "[&_svg]:size-[var(--space-5)]"],
     ["lg", "[&_svg]:size-[var(--space-8)]"],
+    ["xl", "[&_svg]:size-[calc(var(--control-h-xl)*4/3)]"],
   ])("applies %s icon sizing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>
@@ -78,6 +79,7 @@ describe("Button", () => {
     ["sm", "[&_svg]:size-[var(--space-4)]"],
     ["md", "[&_svg]:size-[var(--space-5)]"],
     ["lg", "[&_svg]:size-[var(--space-8)]"],
+    ["xl", "[&_svg]:size-[calc(var(--control-h-xl)*4/3)]"],
   ])("applies %s icon sizing for wrapped icons", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>
@@ -93,6 +95,7 @@ describe("Button", () => {
     ["sm", "gap-[var(--space-1)]"],
     ["md", "gap-[var(--space-2)]"],
     ["lg", "gap-[var(--space-4)]"],
+    ["xl", "gap-[calc(var(--control-h-xl)/3)]"],
   ])("applies %s gap spacing", (size, cls) => {
     const { getByRole } = render(
       <Button size={size}>
