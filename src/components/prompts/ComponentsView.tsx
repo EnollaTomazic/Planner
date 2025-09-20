@@ -121,16 +121,16 @@ function PropsTable({
         <table className="w-full min-w-[28rem] border-separate border-spacing-0 text-left">
           <thead>
             <tr className="text-label text-muted-foreground">
-              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+              <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
                 Prop
               </th>
-              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+              <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
                 Type
               </th>
-              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+              <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
                 Default
               </th>
-              <th className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
+              <th scope="col" className="px-[var(--space-4)] py-[var(--space-3)] font-semibold">
                 Description
               </th>
             </tr>
