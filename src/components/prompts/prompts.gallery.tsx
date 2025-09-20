@@ -3565,13 +3565,33 @@ React.useEffect(() => {
       name: "CheckCircle",
       element: (
         <div className="flex gap-4">
-          <CheckCircle checked={false} onChange={() => {}} size="md" />
-          <CheckCircle checked onChange={() => {}} size="md" />
+          <CheckCircle
+            aria-label="Enable notifications"
+            checked={false}
+            onChange={() => {}}
+            size="md"
+          />
+          <CheckCircle
+            aria-label="Enable notifications"
+            checked
+            onChange={() => {}}
+            size="md"
+          />
         </div>
       ),
       tags: ["checkbox", "toggle"],
-      code: `<CheckCircle checked={false} onChange={() => {}} size="md" />
-<CheckCircle checked onChange={() => {}} size="md" />`,
+      code: `<CheckCircle
+  aria-label="Enable notifications"
+  checked={false}
+  onChange={() => {}}
+  size="md"
+/>
+<CheckCircle
+  aria-label="Enable notifications"
+  checked
+  onChange={() => {}}
+  size="md"
+/>`,
     },
   ],
   homepage: [
