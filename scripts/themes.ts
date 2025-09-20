@@ -272,7 +272,7 @@ export const themes: ThemeDefinition[] = [
       { name: "accent", value: "120 100% 60%" },
       { name: "accent-2", value: "120 100% 20%" },
       { name: "accent-foreground", value: "0 0% 0%" },
-      { name: "text-on-accent", value: "hsl(var(--background))" },
+      { name: "text-on-accent", value: "hsl(var(--hardstuck-foreground))" },
       { name: "accent-soft", value: "120 100% 12%" },
       { name: "glow", value: "120 100% 68%" },
       { name: "ring-muted", value: "120 30% 20%" },

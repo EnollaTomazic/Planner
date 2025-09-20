@@ -455,6 +455,31 @@ describe("usePersistentState", () => {
     expect(result.current[0]).toEqual(initialState);
   });
 
+  it("hydrates legacy unprefixed values and migrates them", async () => {
+    const { usePersistentState, createStorageKey, flushWriteLocal } = await import("@/lib/db");
+
+    const key = "animation-toggle";
+    const fullKey = createStorageKey(key);
+
+    window.localStorage.setItem(key, JSON.stringify(true));
+
+    const { result } = renderHook(() => usePersistentState<boolean>(key, false));
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe(true);
+    });
+
+    expect(storageMock.removeItem).toHaveBeenCalledWith(key);
+
+    await waitFor(() => {
+      expect(window.localStorage.getItem(key)).toBeNull();
+    });
+
+    flushWriteLocal();
+
+    expect(window.localStorage.getItem(fullKey)).toBe(JSON.stringify(true));
+  });
+
   it("applies decode and encode callbacks when provided", async () => {
     const {
       usePersistentState,

@@ -393,9 +393,22 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     if (!isBrowser) return;
     if (!loadedRef.current) {
-      let fromStorage = baseReadLocal<unknown>(fullKeyRef.current);
+      const fullKey = fullKeyRef.current;
+      let fallbackKey: string | null = null;
+      let fromStorage = baseReadLocal<unknown>(fullKey);
       if (fromStorage === null) {
-        fromStorage = baseReadLocal<unknown>(`${OLD_STORAGE_PREFIX}${key}`);
+        const legacyKey = `${OLD_STORAGE_PREFIX}${key}`;
+        const legacyValue = baseReadLocal<unknown>(legacyKey);
+        if (legacyValue !== null) {
+          fromStorage = legacyValue;
+          fallbackKey = legacyKey;
+        } else {
+          const rawValue = baseReadLocal<unknown>(key);
+          if (rawValue !== null) {
+            fromStorage = rawValue;
+            fallbackKey = key;
+          }
+        }
       }
       if (fromStorage !== null) {
         const decoded = decodeValue(fromStorage);
@@ -403,6 +416,13 @@ export function usePersistentState<T>(
           if (!Object.is(stateRef.current, decoded)) setState(decoded);
         } else if (!Object.is(stateRef.current, initialRef.current)) {
           setState(initialRef.current);
+        }
+        if (fallbackKey && fallbackKey !== fullKey) {
+          try {
+            window.localStorage.removeItem(fallbackKey);
+          } catch {
+            // ignore
+          }
         }
       } else {
         if (!Object.is(stateRef.current, initialRef.current))

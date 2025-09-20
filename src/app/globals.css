@@ -11,6 +11,14 @@
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
+    --select-glitch-caret-shift: calc(var(--spacing-0-25) * 3 / 5);
+    --select-glitch-text-shadow-offset: var(--select-glitch-caret-shift);
+    --select-glitch-caret-shadow-blur: var(--spacing-1);
+    --select-glitch-chroma-shift-strong: calc(var(--spacing-0-25) / 4);
+    --select-glitch-chroma-shift-medium: calc(var(--spacing-0-25) * 3 / 20);
+    --select-glitch-chroma-shift-light: calc(var(--spacing-0-25) / 10);
+    --select-glitch-flicker-blur-base: calc(var(--spacing-2) - var(--spacing-0-25));
+    --select-glitch-flicker-blur-peak: var(--spacing-2);
   }
 
   body {
