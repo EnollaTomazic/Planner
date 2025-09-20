@@ -15,7 +15,7 @@ interface SnackbarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const BASE_CLASSNAME =
-  "inline-flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-lg [--snackbar-border:hsl(var(--border))] [--snackbar-background:hsl(var(--surface-2))] [--snackbar-foreground:hsl(var(--foreground))] border border-[var(--snackbar-border)] bg-[var(--snackbar-background)] px-[var(--space-4)] py-[var(--space-2)] text-ui text-[var(--snackbar-foreground)] shadow-sm transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none";
+  "inline-flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-lg [--snackbar-border:hsl(var(--border))] [--snackbar-background:hsl(var(--surface-2))] [--snackbar-foreground:hsl(var(--foreground))] border border-[var(--snackbar-border)] bg-[var(--snackbar-background)] px-[var(--space-4)] py-[var(--space-2)] text-ui text-[var(--snackbar-foreground)] shadow-outline-subtle transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none";
 
 const widthClassNames: Record<NonNullable<SnackbarProps["width"]>, string> = {
   auto: "mx-auto w-fit",
@@ -25,7 +25,7 @@ const widthClassNames: Record<NonNullable<SnackbarProps["width"]>, string> = {
 const toneClassNames: Record<SnackbarTone, string> = {
   default: "",
   danger:
-    "[--snackbar-border:hsl(var(--danger)/0.45)] [--snackbar-background:theme('colors.interaction.danger.surfaceHover')] [--snackbar-foreground:hsl(var(--danger-foreground))] shadow-[var(--shadow-glow-sm)]",
+    "[--snackbar-border:hsl(var(--danger)/0.45)] [--snackbar-background:theme('colors.interaction.danger.surfaceHover')] [--snackbar-foreground:hsl(var(--danger-foreground))] shadow-outline-subtle",
 };
 
 export default function Snackbar({
@@ -54,7 +54,7 @@ export default function Snackbar({
           className={cn(
             "inline-flex items-center font-medium text-accent-3 underline underline-offset-4 transition-colors",
             "hover:text-[var(--text-on-accent)] focus-visible:rounded-[var(--radius-md)] focus-visible:outline-none",
-            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
+            "focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-ring)]",
             "active:text-accent-3 active:opacity-80 disabled:text-muted-foreground disabled:no-underline disabled:pointer-events-none",
             "flex-shrink-0",
           )}

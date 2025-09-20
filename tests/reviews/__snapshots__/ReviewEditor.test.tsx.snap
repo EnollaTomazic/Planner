@@ -421,26 +421,26 @@ exports[`ReviewEditor > renders default state 1`] = `
         <button
           aria-checked="true"
           aria-labelledby=":r6:"
-          class="relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          class="relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           role="switch"
           title="Toggle Win/Loss"
           type="button"
         >
           <span
             aria-hidden="true"
-            class="absolute top-1 bottom-1 left-1 rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[var(--control-radius)] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); --result-indicator-gradient: linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18));"
           />
           <div
             class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
           >
             <div
-              class="py-2 text-center text-foreground"
+              class="py-[var(--space-2)] text-center text-foreground"
             >
               Win
             </div>
             <div
-              class="py-2 text-center text-muted-foreground"
+              class="py-[var(--space-2)] text-center text-muted-foreground"
             >
               Loss
             </div>
