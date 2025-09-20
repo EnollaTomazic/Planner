@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
 import Field from "./Field";
 
-export type InputSize = "sm" | "md" | "lg";
+export type InputSize = "sm" | "md" | "lg" | "xl";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
