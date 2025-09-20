@@ -141,6 +141,14 @@ const demoTasksByProject = demoTasks.reduce<Record<string, string[]>>(
   {},
 );
 
+const galleryWidthVars = {
+  "--gallery-tile": "calc(var(--space-8) * 3.5)",
+  "--gallery-tile-md": "calc(var(--space-8) * 3.75)",
+  "--gallery-tile-lg": "calc(var(--space-8) * 4)",
+  "--gallery-tile-xl": "calc(var(--space-8) * 4.5)",
+  "--gallery-tile-xxl": "calc(var(--space-8) * 5)",
+} as React.CSSProperties;
+
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
@@ -166,7 +174,7 @@ export default function ComponentGallery() {
 
   const buttonItems = React.useMemo(
     () => [
-      { label: "Button", element: <Button className="w-56">Click me</Button> },
+      { label: "Button", element: <Button className="w-[var(--gallery-tile)]">Click me</Button> },
       {
         label: "IconButton",
         element: <IconButtonShowcase />,
@@ -174,7 +182,7 @@ export default function ComponentGallery() {
       {
         label: "Segmented",
         element: (
-          <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
+          <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-[var(--gallery-tile)]">
             <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
             <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
             <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
@@ -184,7 +192,7 @@ export default function ComponentGallery() {
       {
         label: "ThemeToggle",
         element: (
-          <div className="w-56 flex justify-center">
+          <div className="w-[var(--gallery-tile)] flex justify-center">
             <ThemeToggle />
           </div>
         ),
@@ -192,7 +200,7 @@ export default function ComponentGallery() {
       {
         label: "Button (tactile toggle)",
         element: (
-          <div className="w-56 flex flex-col gap-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] flex flex-col gap-[var(--space-2)]">
             <Button
               size="sm"
               variant="primary"
@@ -218,7 +226,7 @@ export default function ComponentGallery() {
       {
         label: "AnimationToggle",
         element: (
-          <div className="w-56 flex justify-center">
+          <div className="w-[var(--gallery-tile)] flex justify-center">
             <AnimationToggle />
           </div>
         ),
@@ -226,7 +234,7 @@ export default function ComponentGallery() {
       {
         label: "CheckCircle",
         element: (
-          <div className="w-56 flex justify-center gap-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] flex justify-center gap-[var(--space-2)]">
             <CheckCircle checked={checked} onChange={setChecked} size="sm" />
             <CheckCircle checked={checked} onChange={setChecked} size="md" />
             <CheckCircle checked={checked} onChange={setChecked} size="lg" />
@@ -239,7 +247,7 @@ export default function ComponentGallery() {
           <Toggle
             value={toggleSide}
             onChange={setToggleSide}
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
           />
         ),
       },
@@ -252,7 +260,7 @@ export default function ComponentGallery() {
               { key: "two", label: "Two" },
               { key: "three", label: "Three" },
             ]}
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
             ariaLabel="Sample tabs"
             linkPanels={false}
           />
@@ -301,7 +309,7 @@ export default function ComponentGallery() {
             value={appTab}
             onValueChange={setAppTab}
             ariaLabel="Component gallery sections"
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
             linkPanels={false}
           />
         ),
@@ -318,7 +326,7 @@ export default function ComponentGallery() {
             value={filterTab}
             onValueChange={setFilterTab}
             ariaLabel="Filter items"
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
             linkPanels={false}
           />
         ),
@@ -376,7 +384,7 @@ export default function ComponentGallery() {
       {
         label: "SideSelector",
         element: (
-          <SideSelector value={side} onChange={setSide} className="w-56" />
+          <SideSelector value={side} onChange={setSide} className="w-[var(--gallery-tile)]" />
         ),
       },
     ],
@@ -400,7 +408,7 @@ export default function ComponentGallery() {
           <Input
             aria-label="Demo input"
             placeholder="Type here"
-            className="w-56 rounded-full"
+            className="w-[var(--gallery-tile)] rounded-full"
           />
         ),
       },
@@ -410,14 +418,14 @@ export default function ComponentGallery() {
           <Textarea
             aria-label="Demo textarea"
             placeholder="Write here"
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
           />
         ),
       },
       {
         label: "Field",
         element: (
-          <div className="w-56 space-y-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-2)]">
             <Field.Root>
               <Field.Input
                 aria-label="Field input demo"
@@ -438,7 +446,7 @@ export default function ComponentGallery() {
       {
         label: "Label",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <Label htmlFor={labelDemoId}>Label</Label>
             <Input id={labelDemoId} placeholder="With spacing" />
           </div>
@@ -447,7 +455,7 @@ export default function ComponentGallery() {
       {
         label: "SearchBar",
         element: (
-          <SearchBar value={query} onValueChange={setQuery} className="w-56" />
+          <SearchBar value={query} onValueChange={setQuery} className="w-[var(--gallery-tile)]" />
         ),
       },
       {
@@ -456,7 +464,7 @@ export default function ComponentGallery() {
           <SearchBar
             value={query}
             onValueChange={setQuery}
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
             loading
           />
         ),
@@ -467,7 +475,7 @@ export default function ComponentGallery() {
           <Select
             variant="native"
             aria-label="Fruit"
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
             items={[
               { value: "", label: "Choose…" },
               { value: "apple", label: "Apple" },
@@ -488,14 +496,14 @@ export default function ComponentGallery() {
             items={selectItems}
             value={selectValue}
             onChange={setSelectValue}
-            className="w-56"
+            className="w-[var(--gallery-tile)]"
           />
         ),
       },
       {
         label: "Select Variants",
         element: (
-          <div className="w-56 space-y-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-2)]">
             <Select
               variant="native"
               items={[
@@ -525,7 +533,7 @@ export default function ComponentGallery() {
       {
         label: "Textarea Variants",
         element: (
-          <div className="w-56 space-y-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-2)]">
             <Textarea aria-label="Default textarea demo" placeholder="Default" />
           </div>
         ),
@@ -533,7 +541,7 @@ export default function ComponentGallery() {
       {
         label: "Input Variants",
         element: (
-          <div className="w-56 space-y-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-2)]">
             <Input aria-label="Small input demo" height="sm" placeholder="Small" />
             <Input aria-label="Medium input demo" placeholder="Medium" />
             <Input aria-label="Large input demo" height="lg" placeholder="Large" />
@@ -548,7 +556,7 @@ export default function ComponentGallery() {
       {
         label: "AnimatedSelect",
         element: (
-          <div className="w-56 space-y-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-2)]">
             <Select
               variant="animated"
               size="sm"
@@ -601,7 +609,7 @@ export default function ComponentGallery() {
       {
         label: "PillarSelector",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <PillarSelector value={pillars} onChange={setPillars} />
           </div>
         ),
@@ -681,7 +689,7 @@ export default function ComponentGallery() {
       {
         label: "Goals Tabs",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <GoalsTabs value={goalFilter} onChange={setGoalFilter} />
           </div>
         ),
@@ -701,7 +709,7 @@ export default function ComponentGallery() {
       {
         label: "TaskRow",
         element: (
-          <ul className="w-64">
+          <ul className="w-[var(--gallery-tile-lg)]">
             <TaskRow
               task={{
                 id: "t1",
@@ -814,7 +822,7 @@ export default function ComponentGallery() {
       {
         label: "Accent Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-overlay)] text-accent-foreground">
+          <div className="w-[var(--gallery-tile)] h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-overlay)] text-accent-foreground">
             Overlay
           </div>
         ),
@@ -822,7 +830,7 @@ export default function ComponentGallery() {
       {
         label: "Foreground Overlay Box",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] border border-border/10 bg-foreground/5 text-foreground/70">
+          <div className="w-[var(--gallery-tile)] h-6 flex items-center justify-center rounded-[var(--radius-md)] border border-border/10 bg-foreground/5 text-foreground/70">
             FG Overlay
           </div>
         ),
@@ -830,7 +838,7 @@ export default function ComponentGallery() {
       {
         label: "Surface",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface">
+          <div className="w-[var(--gallery-tile)] h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface">
             Surface
           </div>
         ),
@@ -838,7 +846,7 @@ export default function ComponentGallery() {
       {
         label: "Surface 2",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface-2">
+          <div className="w-[var(--gallery-tile)] h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface-2">
             Surface 2
           </div>
         ),
@@ -846,7 +854,7 @@ export default function ComponentGallery() {
       {
         label: "Ring Subtle",
         element: (
-          <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] ring-1 ring-ring/5">
+          <div className="w-[var(--gallery-tile)] h-6 flex items-center justify-center rounded-[var(--radius-md)] ring-1 ring-ring/5">
             Ring 5%
           </div>
         ),
@@ -854,7 +862,7 @@ export default function ComponentGallery() {
       {
         label: "Progress",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <Progress value={50} />
           </div>
         ),
@@ -866,16 +874,16 @@ export default function ComponentGallery() {
             current={3}
             total={5}
             showPercentage
-            className="w-56 flex items-center gap-[var(--space-3)]"
+            className="w-[var(--gallery-tile)] flex items-center gap-[var(--space-3)]"
             trackClassName="flex-1"
-            percentageClassName="w-12 text-right"
+            percentageClassName="w-[var(--space-7)] text-right"
           />
         ),
       },
       {
         label: "Spinner",
         element: (
-          <div className="w-56 flex justify-center">
+          <div className="w-[var(--gallery-tile)] flex justify-center">
             <Spinner />
           </div>
         ),
@@ -883,7 +891,7 @@ export default function ComponentGallery() {
       {
         label: "NeonIcon",
         element: (
-          <div className="w-56 flex justify-center">
+          <div className="w-[var(--gallery-tile)] flex justify-center">
             <NeonIcon icon={Star} on={true} />
           </div>
         ),
@@ -891,7 +899,7 @@ export default function ComponentGallery() {
       {
         label: "Card",
         element: (
-          <Card className="w-56 h-8 flex items-center justify-center">
+          <Card className="w-[var(--gallery-tile)] h-8 flex items-center justify-center">
             Card content
           </Card>
         ),
@@ -923,7 +931,7 @@ export default function ComponentGallery() {
       {
         label: "TitleBar",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <TitleBar label="Navigation" />
           </div>
         ),
@@ -931,7 +939,7 @@ export default function ComponentGallery() {
       {
         label: "Banner",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <Banner
               title="Banner"
               actions={<Button size="sm">Action</Button>}
@@ -943,7 +951,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewListItem",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <ReviewListItem review={demoReview} />
           </div>
         ),
@@ -951,7 +959,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewListItem Loading",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <ReviewListItem loading />
           </div>
         ),
@@ -959,7 +967,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewSurface",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <ReviewSurface padding="md" tone="muted">
               <div className="text-ui text-foreground/70">Surface content</div>
             </ReviewSurface>
@@ -969,7 +977,7 @@ export default function ComponentGallery() {
       {
         label: "ReviewSliderTrack",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <ReviewSurface padding="inline" className="relative h-12">
               <ReviewSliderTrack value={7} tone="score" variant="display" />
             </ReviewSurface>
@@ -979,7 +987,7 @@ export default function ComponentGallery() {
       {
         label: "ScoreMeter",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <ScoreMeter
               label="Score"
               value={8}
@@ -997,7 +1005,7 @@ export default function ComponentGallery() {
         label: "Review Layout",
         element: (
           <div className="grid w-full gap-[var(--space-4)] md:grid-cols-12">
-            <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-[var(--radius-md)]" />
+            <div className="md:col-span-4 md:w-[var(--gallery-tile-md)] bg-panel h-10 rounded-[var(--radius-md)]" />
             <div className="md:col-span-8 bg-muted h-10 rounded-[var(--radius-md)]" />
           </div>
         ),
@@ -1006,7 +1014,7 @@ export default function ComponentGallery() {
       {
         label: "Snackbar",
         element: (
-          <div className="w-56 flex justify-center">
+          <div className="w-[var(--gallery-tile)] flex justify-center">
             <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
           </div>
         ),
@@ -1030,7 +1038,7 @@ export default function ComponentGallery() {
       {
         label: "Aurora Background",
         element: (
-          <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center">
+          <div className="glitch-root bg-aurora-layers bg-noise w-[var(--gallery-tile)] h-24 rounded-[var(--radius-md)] flex items-center justify-center">
             Backdrop
           </div>
         ),
@@ -1039,7 +1047,7 @@ export default function ComponentGallery() {
         label: "Noir Background",
         element: (
           <div
-            className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
+            className="w-[var(--gallery-tile)] h-24 rounded-[var(--radius-md)] flex items-center justify-center"
             style={{
               backgroundColor: "hsl(var(--noir-background))",
               color: "hsl(var(--noir-foreground))",
@@ -1054,7 +1062,7 @@ export default function ComponentGallery() {
         label: "Hardstuck Background",
         element: (
           <div
-            className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
+            className="w-[var(--gallery-tile)] h-24 rounded-[var(--radius-md)] flex items-center justify-center"
             style={{
               backgroundColor: "hsl(var(--hardstuck-background))",
               color: "hsl(var(--hardstuck-foreground))",
@@ -1068,7 +1076,7 @@ export default function ComponentGallery() {
       {
         label: "Header",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <Header
               heading="Header"
               eyebrow="Eyebrow"
@@ -1091,7 +1099,7 @@ export default function ComponentGallery() {
       {
         label: "Hero",
         element: (
-          <div className="w-56 space-y-[var(--space-4)]">
+          <div className="w-[var(--gallery-tile)] space-y-[var(--space-4)]">
             <Hero
               heading="Hero"
               eyebrow="Eyebrow"
@@ -1180,7 +1188,7 @@ export default function ComponentGallery() {
       {
         label: "Header + Hero",
         element: (
-          <div className="w-56 h-56 overflow-auto space-y-[var(--space-6)]">
+          <div className="w-[var(--gallery-tile)] h-56 overflow-auto space-y-[var(--space-6)]">
             <Header heading="Stacked" icon={<Star className="opacity-80" />} />
             <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
             <div className="h-96" />
@@ -1190,7 +1198,7 @@ export default function ComponentGallery() {
       {
         label: "Card Neo",
         element: (
-          <div className="card-neo w-56 h-8 flex items-center justify-center">
+          <div className="card-neo w-[var(--gallery-tile)] h-8 flex items-center justify-center">
             Card Neo
           </div>
         ),
@@ -1198,7 +1206,7 @@ export default function ComponentGallery() {
       {
         label: "Save Status",
         element: (
-          <div className="w-56">
+          <div className="w-[var(--gallery-tile)]">
             <div
               className="text-label font-medium tracking-[0.02em] text-muted-foreground"
               aria-live="polite"
@@ -1211,7 +1219,7 @@ export default function ComponentGallery() {
       {
         label: "Muted Text",
         element: (
-          <p className="w-56 text-ui font-medium text-muted-foreground text-center">
+          <p className="w-[var(--gallery-tile)] text-ui font-medium text-muted-foreground text-center">
             Example of muted foreground text
           </p>
         ),
@@ -1219,7 +1227,7 @@ export default function ComponentGallery() {
       {
         label: "Badge Tones",
         element: (
-          <div className="w-56 flex justify-center gap-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] flex justify-center gap-[var(--space-2)]">
             <Badge tone="neutral">Neutral</Badge>
             <Badge tone="accent">Accent</Badge>
             <Badge tone="primary">Primary</Badge>
@@ -1229,7 +1237,7 @@ export default function ComponentGallery() {
       {
         label: "Badge Sizes",
         element: (
-          <div className="w-56 flex justify-center gap-[var(--space-2)]">
+          <div className="w-[var(--gallery-tile)] flex justify-center gap-[var(--space-2)]">
             <Badge size="xs">XS</Badge>
             <Badge size="sm">SM</Badge>
           </div>
@@ -1240,7 +1248,7 @@ export default function ComponentGallery() {
         element: (
           <div
             className={cn(
-              "w-56 h-8 flex items-center justify-center text-foreground bg-danger",
+              "w-[var(--gallery-tile)] h-8 flex items-center justify-center text-foreground bg-danger",
               "bg-accent-2",
             )}
           >
@@ -1251,7 +1259,7 @@ export default function ComponentGallery() {
       {
         label: "Grid Auto Rows",
         element: (
-          <div className="w-56 grid grid-cols-2 gap-[var(--space-2)] [grid-auto-rows:minmax(0,1fr)]">
+          <div className="w-[var(--gallery-tile)] grid grid-cols-2 gap-[var(--space-2)] [grid-auto-rows:minmax(0,1fr)]">
             <div className="card-neo p-[var(--space-2)]">A</div>
             <div className="card-neo p-[var(--space-4)]">B with more content</div>
             <div className="card-neo p-[var(--space-4)]">C</div>
@@ -1260,14 +1268,14 @@ export default function ComponentGallery() {
         ),
       },
       {
-        label: "Widths",
+        label: "Token widths",
         element: (
           <div className="flex gap-[var(--space-2)]">
-            <div className="h-10 w-72 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
-              w-72
+            <div className="h-10 w-[var(--gallery-tile-xl)] border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+              --gallery-tile-xl
             </div>
-            <div className="h-10 w-80 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
-              w-80
+            <div className="h-10 w-[var(--gallery-tile-xxl)] border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+              --gallery-tile-xxl
             </div>
           </div>
         ),
@@ -1289,7 +1297,7 @@ export default function ComponentGallery() {
   };
 
   return (
-    <div className="space-y-[var(--space-8)]">
+    <div className="space-y-[var(--space-8)]" style={galleryWidthVars}>
       <TabBar
         items={viewTabs}
         value={view}
