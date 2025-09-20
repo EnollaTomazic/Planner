@@ -290,8 +290,12 @@ function ReminderCard({
     setTitle(value.title); setBody(value.body ?? ""); setTagsText(value.tags.join(", ")); setEditing(false);
   }
 
-  const reminderName = value.title.trim() || "Untitled reminder";
-  const deleteLabel = `Delete ${reminderName}`;
+  const trimmedEditingTitle = title.trim();
+  const currentTitle = trimmedEditingTitle || value.title.trim() || "Untitled reminder";
+  const deleteLabel = `Delete ${currentTitle}`;
+  const duplicateLabel = `Duplicate ${currentTitle}`;
+  const saveLabel = `Save ${currentTitle}`;
+  const cancelLabel = `Cancel ${currentTitle}`;
 
   return (
     <article className="card-neo rounded-card p-4 sm:p-5 relative">
@@ -341,8 +345,8 @@ function ReminderCard({
             {value.pinned ? <PinOff /> : <Pin />}
           </IconButton>
           <IconButton
-            title="Duplicate"
-            aria-label="Duplicate"
+            title={duplicateLabel}
+            aria-label={duplicateLabel}
             onClick={onDuplicate}
             size="sm"
             iconSize="sm"
@@ -352,8 +356,8 @@ function ReminderCard({
           {editing ? (
             <>
               <IconButton
-                title="Save (Enter)"
-                aria-label="Save"
+                title={`${saveLabel} (Enter)`}
+                aria-label={saveLabel}
                 onClick={save}
                 size="sm"
                 iconSize="sm"
@@ -361,8 +365,8 @@ function ReminderCard({
                 <Check />
               </IconButton>
               <IconButton
-                title="Cancel (Esc)"
-                aria-label="Cancel"
+                title={`${cancelLabel} (Esc)`}
+                aria-label={cancelLabel}
                 onClick={cancel}
                 size="sm"
                 iconSize="sm"
