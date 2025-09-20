@@ -40,6 +40,8 @@ import {
   PillarBadge,
   PillarSelector,
   Hero,
+  SearchBar,
+  TabBar,
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
@@ -83,6 +85,7 @@ import {
 import type { PromptWithTitle } from "./types";
 import type { Review, Role } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
+import type { Background, Variant } from "@/lib/theme";
 import {
   GoalsProgress,
   RemindersTab,
@@ -437,6 +440,233 @@ function SettingsSelectDemo() {
         disabled
       />
     </div>
+  );
+}
+
+function useSelectOpen(
+  rootRef: React.RefObject<HTMLDivElement | null>,
+  open: boolean,
+) {
+  React.useEffect(() => {
+    if (!open) return;
+    if (typeof window === "undefined") return;
+    const root = rootRef.current;
+    if (!root) return;
+
+    const trigger = root.querySelector<HTMLButtonElement>(
+      "button[aria-haspopup=\"listbox\"]",
+    );
+    if (!trigger) return;
+    if (trigger.getAttribute("aria-expanded") === "true") return;
+
+    trigger.click();
+
+    return () => {
+      if (!trigger.isConnected) return;
+      if (trigger.getAttribute("aria-expanded") === "true") {
+        trigger.click();
+      }
+    };
+  }, [open, rootRef]);
+}
+
+const EDGE_IRIS_RING = "ring-2 ring-[var(--edge-iris)]";
+const EDGE_IRIS_RING_SURFACE = `${EDGE_IRIS_RING} bg-surface-2`;
+const EDGE_IRIS_FOCUS_RING = `${EDGE_IRIS_RING} ring-offset-2 ring-offset-[var(--background)]`;
+const THEME_ACTIVE_RING =
+  "ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]";
+
+type ThemePickerStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  openMenu?: boolean;
+};
+
+function ThemePickerStatePreview({
+  buttonClassName,
+  disabled = false,
+  loading = false,
+  openMenu = false,
+}: ThemePickerStatePreviewProps) {
+  const [variant, setVariant] = React.useState<Variant>(() => defaultTheme().variant);
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <ThemePicker
+        variant={variant}
+        onVariantChange={setVariant}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+        loadingVariant={loading ? variant : null}
+      />
+    </div>
+  );
+}
+
+function ThemePickerHoverState() {
+  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function ThemePickerFocusState() {
+  return <ThemePickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function ThemePickerActiveState() {
+  return (
+    <ThemePickerStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function ThemePickerDisabledState() {
+  return <ThemePickerStatePreview disabled />;
+}
+
+function ThemePickerLoadingState() {
+  return (
+    <ThemePickerStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loading
+      openMenu
+    />
+  );
+}
+
+type BackgroundPickerStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  openMenu?: boolean;
+};
+
+function BackgroundPickerStatePreview({
+  buttonClassName,
+  disabled = false,
+  loading = false,
+  openMenu = false,
+}: BackgroundPickerStatePreviewProps) {
+  const [bg, setBg] = React.useState<Background>(() => defaultTheme().bg);
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <BackgroundPicker
+        bg={bg}
+        onBgChange={setBg}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+        loadingBackground={loading ? bg : null}
+      />
+    </div>
+  );
+}
+
+function BackgroundPickerHoverState() {
+  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function BackgroundPickerFocusState() {
+  return <BackgroundPickerStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function BackgroundPickerActiveState() {
+  return (
+    <BackgroundPickerStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function BackgroundPickerDisabledState() {
+  return <BackgroundPickerStatePreview disabled />;
+}
+
+function BackgroundPickerLoadingState() {
+  return (
+    <BackgroundPickerStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loading
+      openMenu
+    />
+  );
+}
+
+type SettingsSelectStatePreviewProps = {
+  buttonClassName?: string;
+  disabled?: boolean;
+  loadingIndex?: number | null;
+  openMenu?: boolean;
+};
+
+function SettingsSelectStatePreview({
+  buttonClassName,
+  disabled = false,
+  loadingIndex = null,
+  openMenu = false,
+}: SettingsSelectStatePreviewProps) {
+  const [value, setValue] = React.useState<string>(VARIANTS[0]?.id ?? "");
+  const items = React.useMemo(
+    () =>
+      VARIANTS.map(({ id, label }, index) => ({
+        value: id,
+        label,
+        loading: loadingIndex === index,
+      })),
+    [loadingIndex],
+  );
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  useSelectOpen(rootRef, openMenu);
+
+  return (
+    <div ref={rootRef} className="inline-flex">
+      <SettingsSelect
+        ariaLabel="Theme"
+        prefixLabel="Theme"
+        items={items}
+        value={value}
+        onChange={setValue}
+        buttonClassName={buttonClassName}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
+function SettingsSelectHoverState() {
+  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_RING_SURFACE} />;
+}
+
+function SettingsSelectFocusState() {
+  return <SettingsSelectStatePreview buttonClassName={EDGE_IRIS_FOCUS_RING} />;
+}
+
+function SettingsSelectActiveState() {
+  return (
+    <SettingsSelectStatePreview
+      buttonClassName={THEME_ACTIVE_RING}
+      openMenu
+    />
+  );
+}
+
+function SettingsSelectDisabledState() {
+  return <SettingsSelectStatePreview disabled />;
+}
+
+function SettingsSelectLoadingState() {
+  return (
+    <SettingsSelectStatePreview
+      buttonClassName={EDGE_IRIS_RING_SURFACE}
+      loadingIndex={0}
+      openMenu
+    />
   );
 }
 
@@ -1885,6 +2115,138 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     </HeroCol>
   </HeroGrid>
 </NeomorphicHeroFrame>`,
+      states: [
+        {
+          id: "hero-tabs-hover",
+          name: "Tabs — Hover",
+          description:
+            "Simulated hover applies the shadow-neo-soft token to lift the inactive hero tab without changing selection.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs hover"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs hover"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-focus",
+          name: "Tabs — Focus-visible",
+          description:
+            "Focus preview layers the standard neon ring with shadow-neo-soft so the active hero tab reads clearly for keyboard users.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  {
+                    key: "missions",
+                    label: "Missions",
+                    className:
+                      "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+                  },
+                  { key: "briefings", label: "Briefings" },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs focus"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      {
+        key: "missions",
+        label: "Missions",
+        className:
+          "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+      },
+      { key: "briefings", label: "Briefings" },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs focus"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-loading",
+          name: "Tabs — Loading",
+          description:
+            "Loading state taps the built-in spinner and keeps the hovered glow via shadow-neo-soft while data syncs.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    loading: true,
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs loading"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        loading: true,
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs loading"
+    variant="neo"
+  />
+</div>`,
+        },
+      ],
     },
     {
       id: "page-header-demo",
@@ -1894,6 +2256,90 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <PageHeaderDemo />,
       tags: ["hero", "header"],
       code: `<PageHeaderDemo />`,
+      states: [
+        {
+          id: "page-header-search-focus",
+          name: "Search — Focus-visible",
+          description:
+            "Focus ring pairs with shadow-neo-soft on the search field so keyboard focus mirrors the hero shell.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value="mission intel"
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value="mission intel"
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+  />
+</div>`,
+        },
+        {
+          id: "page-header-search-loading",
+          name: "Search — Loading",
+          description:
+            "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value="briefings"
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                loading
+                fieldClassName="shadow-neo-soft"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value="briefings"
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    loading
+    fieldClassName="shadow-neo-soft"
+  />
+</div>`,
+        },
+        {
+          id: "page-header-search-disabled",
+          name: "Search — Disabled",
+          description:
+            "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value=""
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                disabled
+                fieldClassName="shadow-neo-soft"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value=""
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    disabled
+    fieldClassName="shadow-neo-soft"
+  />
+</div>`,
+        },
+      ],
     },
     {
       id: "demo-header",
@@ -1915,6 +2361,88 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     />
   );
 }`,
+      states: [
+        {
+          id: "demo-header-cta-hover",
+          name: "Primary CTA — Hover",
+          description:
+            "Primary action lifts with shadow-neo-soft to reflect the hover state used across hero quick actions.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="primary" className="shadow-neo-soft">
+                Launch event
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="primary" className="shadow-neo-soft">
+    Launch event
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-focus",
+          name: "Primary CTA — Focus-visible",
+          description:
+            "Focus-visible styling adds the shared neon ring on top of shadow-neo-soft so keyboard users get parity with hover.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button
+                size="sm"
+                variant="primary"
+                className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+              >
+                Focused deploy
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button
+    size="sm"
+    variant="primary"
+    className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+  >
+    Focused deploy
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-loading",
+          name: "Primary CTA — Loading",
+          description:
+            "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+                Saving
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+    Saving
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-disabled",
+          name: "Ghost CTA — Disabled",
+          description:
+            "Disabled secondary action leans on the built-in opacity tokens so the hero still communicates availability clearly.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+                Disabled action
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+    Disabled action
+  </Button>
+</div>`,
+        },
+      ],
     },
     {
       id: "hero",
@@ -1975,6 +2503,84 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     <div className="text-ui text-muted-foreground">Body content</div>
   </Hero>
 </NeomorphicHeroFrame>`,
+      states: [
+        {
+          id: "hero-tabs-selected",
+          name: "Sub tabs — Selected",
+          description:
+            "Active hero tab uses the accent gradient while shadow-neo-soft keeps the pill lifted inside the frame.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="briefings"
+                onValueChange={() => {}}
+                ariaLabel="Hero sub tab selected preview"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="briefings"
+    onValueChange={() => {}}
+    ariaLabel="Hero sub tab selected preview"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-disabled",
+          name: "Sub tabs — Disabled",
+          description:
+            "Disabled hero tab inherits the dimmed opacity tokens while the rest of the bar keeps the neo hover treatment.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  { key: "briefings", label: "Briefings" },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Hero sub tab disabled preview"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      { key: "briefings", label: "Briefings" },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Hero sub tab disabled preview"
+    variant="neo"
+  />
+</div>`,
+        },
+      ],
     },
   ],
   feedback: [
@@ -2429,14 +3035,132 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       name: "ThemePicker",
       element: <ThemePickerDemo />,
       tags: ["theme", "picker"],
-      code: `<ThemePicker variant="default" />`,
+      code: `<ThemePicker variant="lg" onVariantChange={() => {}} />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Edge iris ring tokens and a surface-2 wash preview the next theme when the control is hovered.",
+          element: <ThemePickerHoverState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus keeps the edge-iris ring while adding a background offset so the glow clears adjacent controls.",
+          element: <ThemePickerFocusState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the menu highlights the trigger with the theme-ring token and a surface fill while the chosen option glows in the list.",
+          element: <ThemePickerActiveState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "The disabled opacity token mutes the control and removes pointer events while preserving the theme label.",
+          element: <ThemePickerDisabledState />,
+          code: `<ThemePicker variant="lg" onVariantChange={() => {}} disabled />`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "List options can mark the active variant as loading to stream theme assets, showing the spinner token inside the dropdown.",
+          element: <ThemePickerLoadingState />,
+          code: `<ThemePicker
+  variant="lg"
+  onVariantChange={() => {}}
+  loadingVariant="lg"
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
     {
       id: "background-picker",
       name: "BackgroundPicker",
       element: <BackgroundPickerDemo />,
       tags: ["background", "picker"],
-      code: `<BackgroundPicker bg="aurora" />`,
+      code: `<BackgroundPicker bg={0} onBgChange={() => {}} />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Edge iris rings and the surface-2 overlay preview the selected background before committing the change.",
+          element: <BackgroundPickerHoverState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus adds a background ring offset so the glow stays legible over the wallpaper swatches.",
+          element: <BackgroundPickerFocusState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the palette locks the trigger with the theme-ring token so the current background remains anchored while browsing.",
+          element: <BackgroundPickerActiveState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disabled opacity tokens dim the control and swatch preview while removing pointer affordances.",
+          element: <BackgroundPickerDisabledState />,
+          code: `<BackgroundPicker bg={0} onBgChange={() => {}} disabled />`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "When wallpapers stream in, the loading flag shows the spinner token beside the active swatch inside the dropdown.",
+          element: <BackgroundPickerLoadingState />,
+          code: `<BackgroundPicker
+  bg={0}
+  onBgChange={() => {}}
+  loadingBackground={0}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
     {
       id: "settings-select",
@@ -2458,6 +3182,86 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     disabled
   />
 </div>`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "The edge-iris ring and surface-2 background appear on hover to preview the selection affordance.",
+          element: <SettingsSelectHoverState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Keyboard focus adds the edge-iris ring with a background offset so the glow clears the surrounding settings rail.",
+          element: <SettingsSelectFocusState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Opening the list locks the trigger with the theme-ring token and surface fill while the chosen option glows inside the dropdown.",
+          element: <SettingsSelectActiveState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--theme-ring)] bg-surface shadow-[0_0_0_1px_hsl(var(--theme-ring)/0.32)]"
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "The global disabled token desaturates the trigger and removes pointer events while keeping the label readable.",
+          element: <SettingsSelectDisabledState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[{ value: "lg", label: "Glitch" }]}
+  value="lg"
+  onChange={() => {}}
+  disabled
+/>`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Individual options can stream data; marking one as loading reveals the spinner token beside the label in the dropdown.",
+          element: <SettingsSelectLoadingState />,
+          code: `<SettingsSelect
+  ariaLabel="Theme"
+  prefixLabel="Theme"
+  items={[
+    { value: "lg", label: "Glitch", loading: true },
+    { value: "aurora", label: "Aurora" },
+  ]}
+  value="lg"
+  onChange={() => {}}
+  buttonClassName="ring-2 ring-[var(--edge-iris)] bg-surface-2"
+/>`,
+        },
+      ],
     },
   ],
   misc: [

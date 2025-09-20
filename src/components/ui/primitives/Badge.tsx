@@ -116,6 +116,7 @@ export default function Badge<T extends React.ElementType = "span">({
       data-selected={selected ? "true" : undefined}
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled ? "true" : undefined}
+      aria-pressed={interactive ? selected : undefined}
       className={cn(
         "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em]",
         "border bg-muted/18",
