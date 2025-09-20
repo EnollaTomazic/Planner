@@ -1,5 +1,6 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
 
 import CheatSheet, { Archetype, decodeCheatSheet } from "@/components/team/CheatSheet";
@@ -88,6 +89,43 @@ describe("CheatSheet persistence", () => {
       expect(raw).not.toBeNull();
       const parsed = JSON.parse(raw!);
       expect(Array.isArray(parsed)).toBe(true);
+    });
+  });
+
+  it("preserves apostrophes and ampersands while editing", async () => {
+    const user = userEvent.setup();
+
+    render(<CheatSheet editing query="" />);
+
+    const titleNode = await screen.findByText("Front to Back");
+    const card = titleNode.closest("article");
+    expect(card).not.toBeNull();
+
+    const utils = within(card!);
+
+    await user.click(utils.getByRole("button", { name: "Edit" }));
+
+    const titleInput = utils.getByLabelText("Archetype title");
+    await user.clear(titleInput);
+    await user.type(titleInput, "Kai's & Kindred");
+
+    const descriptionInput = utils.getByLabelText("Description");
+    await user.clear(descriptionInput);
+    await user.type(descriptionInput, "Don't ampersand & keep raw");
+
+    await user.click(utils.getByRole("button", { name: "Save" }));
+
+    expect(await utils.findByText("Kai's & Kindred")).toBeInTheDocument();
+    expect(
+      await utils.findByText("Don't ampersand & keep raw"),
+    ).toBeInTheDocument();
+
+    await waitFor(() => {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      expect(raw).not.toBeNull();
+      const parsed = JSON.parse(raw!);
+      expect(parsed[0]?.title).toBe("Kai's & Kindred");
+      expect(parsed[0]?.description).toBe("Don't ampersand & keep raw");
     });
   });
 });
