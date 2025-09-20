@@ -13,7 +13,8 @@
   --line: var(--border);
   --input: 250 22% 12%;
   --ring: 262 83% 65%;
-  --theme-ring: hsl(var(--ring));
+  --focus: hsl(var(--ring));
+  --theme-ring: var(--focus); /* @deprecated use --focus */
   --primary: 262 83% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 83% 18%;
@@ -67,7 +68,6 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
   --hover: hsl(var(--foreground) / 0.08);
-  --focus: hsl(var(--ring));
   --active: hsl(var(--foreground) / 0.12);
   --disabled: 0.5;
   --loading: 0.6;
@@ -194,10 +194,6 @@
     transparent var(--spacing-0-5),
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
-  --spacing-0-125: calc(var(--spacing-1) / 8);
-  --spacing-0-25: calc(var(--spacing-1) / 4);
-  --spacing-0-5: calc(var(--spacing-1) / 2);
-  --spacing-0-75: calc(var(--spacing-1) * 0.75);
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;

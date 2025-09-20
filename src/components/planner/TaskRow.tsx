@@ -162,8 +162,8 @@ export default function TaskRow({
           className={cn(
             "absolute inset-0 w-full cursor-pointer rounded-card r-card-lg border transition-colors",
             "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-            "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
+            "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-[var(--focus)]",
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
         >
@@ -195,7 +195,7 @@ export default function TaskRow({
             {!editing ? (
               <button
                 type="button"
-                className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
+                className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] rounded-card r-card-lg"
                 onClick={(e) => {
                   e.stopPropagation();
                   onToggle();

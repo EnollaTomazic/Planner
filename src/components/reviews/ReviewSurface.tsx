@@ -55,7 +55,7 @@ export default function ReviewSurface<
         "rounded-card r-card-lg",
         toneClassNames[tone],
         paddingClassNames[padding],
-        focusWithin && "focus-within:ring-2 focus-within:ring-ring",
+        focusWithin && "focus-within:ring-2 focus-within:ring-[var(--focus)]",
         className,
       )}
       {...rest}

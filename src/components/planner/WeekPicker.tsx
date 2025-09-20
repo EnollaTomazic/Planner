@@ -161,7 +161,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
         "active:border-primary/60 active:bg-card/85",
         today && "chip--today",
         selected

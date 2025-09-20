@@ -78,7 +78,7 @@ export default function PageHeaderDemo() {
                 onClick={() => setActivePrimaryNav(item.key)}
                 data-state={isActive ? "active" : "inactive"}
                 aria-current={isActive ? "page" : undefined}
-                className="inline-flex items-center rounded-full border border-transparent px-[var(--space-3)] py-[var(--spacing-0-75)] text-label font-semibold uppercase tracking-[0.02em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/0.35)]"
+                className="inline-flex items-center rounded-full border border-transparent px-[var(--space-3)] py-[var(--spacing-0-75)] text-label font-semibold uppercase tracking-[0.02em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] data-[state=inactive]:hover:bg-[--hover] data-[state=inactive]:hover:text-foreground data-[state=active]:bg-[hsl(var(--card)/0.85)] data-[state=active]:text-foreground data-[state=active]:shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/0.35)]"
               >
                 {item.label}
               </button>
@@ -113,7 +113,7 @@ export default function PageHeaderDemo() {
           }
         }}
         data-state={profileOpen ? "open" : "inactive"}
-        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
+        className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
         <CircleUser className="h-4 w-4" />
         <span className="hidden sm:inline">Profile</span>

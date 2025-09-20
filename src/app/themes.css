@@ -22,17 +22,6 @@
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
     hsl(var(--accent) / 0.6);
-  --card-overlay-scanlines: repeating-linear-gradient(
-    to bottom,
-    hsl(var(--foreground) / 0.035) 0,
-    hsl(var(--foreground) / 0.035) var(--spacing-0-25),
-    transparent var(--spacing-0-5),
-    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
-  );
-  --spacing-0-125: calc(var(--spacing-1) / 8);
-  --spacing-0-25: calc(var(--spacing-1) / 4);
-  --spacing-0-5: calc(var(--spacing-1) / 2);
-  --spacing-0-75: calc(var(--spacing-1) * 0.75);
   --pillar-wave-start: 257 90% 70%;
   --pillar-wave-end: 198 90% 62%;
   --pillar-wave-shadow: 258 90% 38% / 0.35;
@@ -100,7 +89,7 @@ html.theme-aurora {
   --line: var(--border);
   --input: 279 100% 15%;
   --ring: 150 100% 60%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 150 100% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 150 100% 20%;
@@ -148,7 +137,7 @@ html.theme-citrus {
   --line: var(--border);
   --input: 214 22% 16%;
   --ring: 24 95% 52%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 24 95% 52%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 24 95% 22%;
@@ -176,7 +165,7 @@ html.theme-noir {
   --line: var(--border);
   --input: 350 45% 12%;
   --ring: 0 90% 60%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 0 90% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 0 90% 24%;
@@ -207,7 +196,7 @@ html.theme-ocean {
   --line: var(--border);
   --input: 220 24% 14%;
   --ring: 195 85% 55%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 195 85% 55%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 195 85% 16%;
@@ -236,7 +225,7 @@ html.theme-kitten {
   --line: var(--border);
   --input: 330 100% 12%;
   --ring: 330 100% 52%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 330 100% 52%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 330 100% 24%;
@@ -266,14 +255,14 @@ html.theme-hardstuck {
   --line: var(--border);
   --input: 120 45% 8%;
   --ring: 120 100% 60%;
-  --theme-ring: hsl(var(--ring));
+  --theme-ring: var(--focus);
   --primary: 120 100% 60%;
   --primary-foreground: 0 0% 0%;
   --primary-soft: 120 100% 24%;
   --accent: 120 100% 60%;
   --accent-2: 120 100% 20%;
   --accent-foreground: 0 0% 0%;
-  --text-on-accent: hsl(var(--hardstuck-foreground));
+  --text-on-accent: hsl(var(--background));
   --accent-soft: 120 100% 12%;
   --glow: 120 100% 68%;
   --ring-muted: 120 30% 20%;
@@ -938,8 +927,8 @@ html.bg-intense body::after {
 .pretty-border::before {
   content: "";
   position: absolute;
-  inset: calc(var(--hairline-w) * -1);
-  padding: var(--hairline-w);
+  inset: -1px;
+  padding: 1px;
   border-radius: inherit;
   pointer-events: none;
   background: conic-gradient(

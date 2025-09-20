@@ -43,7 +43,7 @@ export default function DurationSelector({
               "border transition-colors",
               "border-border/10 bg-foreground/5 text-foreground/70",
               "hover:bg-foreground/10 hover:text-foreground/70",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
               active &&
                 "border-accent bg-accent/20 text-foreground/70 font-semibold"
             )}

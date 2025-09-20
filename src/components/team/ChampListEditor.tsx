@@ -27,7 +27,7 @@ const EDIT_CONTAINER = "champ-badges mt-1 flex flex-wrap gap-2";
 const PILL_BASE =
   "champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]";
 const INPUT_BASE =
-  "bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24";
+  "bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] w-24";
 
 export default function ChampListEditor({
   list,

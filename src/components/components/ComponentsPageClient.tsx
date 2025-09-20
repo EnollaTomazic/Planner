@@ -588,7 +588,7 @@ export default function ComponentsPageClient({
           ref={componentsPanelRef}
           hidden={view === "tokens"}
           aria-hidden={view === "tokens"}
-        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
           <div
             className="flex flex-col gap-[var(--space-6)]"
@@ -630,7 +630,7 @@ export default function ComponentsPageClient({
           ref={tokensPanelRef}
           hidden={view !== "tokens"}
           aria-hidden={view !== "tokens"}
-          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <ColorsView groups={tokenGroups} />
         </div>

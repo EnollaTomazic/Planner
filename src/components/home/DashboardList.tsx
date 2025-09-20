@@ -121,7 +121,7 @@ export default function DashboardList<T>({
               {cta ? (
                 <Link
                   href={cta.href}
-                  className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-[var(--text-on-accent)] active:text-[var(--text-on-accent)] active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-reduce:transition-none"
+                  className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-[var(--text-on-accent)] active:text-[var(--text-on-accent)] active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-reduce:transition-none"
                 >
                   {cta.label}
                 </Link>

@@ -6,7 +6,7 @@ export { colorTokens, spacingTokens, radiusTokens };
 
 export const glowTokens = ["--glow-strong", "--glow-soft"];
 
-export const focusRingToken = "--theme-ring";
+export const focusRingToken = "--focus";
 export const radiusClasses = [
   "rounded-[var(--radius-md)]",
   "rounded-[var(--radius-lg)]",

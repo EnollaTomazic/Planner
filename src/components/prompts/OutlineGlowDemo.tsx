@@ -7,7 +7,6 @@ export default function OutlineGlowDemo() {
       <button
         type="button"
         className="p-[var(--space-2)] border rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface"
-        style={{ "--focus": "var(--theme-ring)" } as React.CSSProperties}
       >
         Focus me to see the glow
       </button>
@@ -15,7 +14,6 @@ export default function OutlineGlowDemo() {
         type="button"
         disabled
         className="p-[var(--space-2)] border rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed"
-        style={{ "--focus": "var(--theme-ring)" } as React.CSSProperties}
       >
         Disabled example
       </button>

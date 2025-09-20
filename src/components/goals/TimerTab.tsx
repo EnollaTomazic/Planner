@@ -111,7 +111,7 @@ function isFiniteNumber(value: unknown): value is number {
 /* helpers */
 
 const ADJUST_BTN_CLASS =
-  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
+  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-glow transition-transform duration-[var(--dur-quick)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--focus)]";
 
 export default function TimerTab() {
   const [timer, setTimer] = usePersistentState<TimerState>(
@@ -358,7 +358,7 @@ export default function TimerTab() {
         onKeyDown={(e) => e.key === "Enter" && commitEdit()}
         placeholder="mm:ss"
         disabled={running}
-        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-ui font-medium backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="w-[5ch] rounded-full border border-border/20 bg-background/20 px-2 text-center text-ui font-medium backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         type="text"
       />
     </div>
@@ -484,7 +484,7 @@ export default function TimerTab() {
                     onChange={(e) => setTimeEdit(e.currentTarget.value)}
                     onBlur={commitEdit}
                     onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                    className="absolute w-full max-w-[7ch] rounded-full bg-transparent text-center text-title font-semibold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-title-lg"
+                    className="absolute w-full max-w-[7ch] rounded-full bg-transparent text-center text-title font-semibold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] sm:text-title-lg"
                   />
                 )}
               </div>

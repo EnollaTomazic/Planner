@@ -50,7 +50,7 @@ export default function PromptsDemos() {
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Input</h3>
         <p className="text-ui text-muted-foreground">
-          Customize focus rings with the <code>--theme-ring</code> variable.
+          Customize focus rings with the <code>--focus</code> token.
         </p>
         <div className="space-y-[var(--space-3)]">
           <Input height="sm" placeholder="Small" />
@@ -62,9 +62,7 @@ export default function PromptsDemos() {
           <Input placeholder="Error" aria-invalid="true" />
           <Input
             placeholder="Custom ring"
-            style={
-              { "--theme-ring": "hsl(var(--danger))" } as React.CSSProperties
-            }
+            style={{ "--focus": "hsl(var(--danger))" } as React.CSSProperties}
           />
           <Input placeholder="With action">
             <IconButton

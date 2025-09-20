@@ -111,6 +111,27 @@ async function buildTokens(): Promise<void> {
   sd.buildPlatform("docs");
   bar.update(3);
   stopBars();
+
+  const cssPath = path.resolve(__dirname, "../tokens/tokens.css");
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  const css = await fs.readFile(cssPath, "utf8");
+  const cssUpdated = css.replace(
+    /--theme-ring: var\(--focus\);[^\n]*/,
+    "--theme-ring: var(--focus); /* @deprecated use --focus */",
+  );
+  if (cssUpdated !== css) {
+    await fs.writeFile(cssPath, cssUpdated);
+  }
+
+  const docsPath = path.resolve(__dirname, "../docs/tokens.md");
+  const docs = await fs.readFile(docsPath, "utf8");
+  const docsUpdated = docs.replace(
+    /\| theme-ring \| var\(--focus\)(?: [^|]+)? \|/,
+    "| theme-ring | var(--focus) *(deprecated alias)* |",
+  );
+  if (docsUpdated !== docs) {
+    await fs.writeFile(docsPath, docsUpdated);
+  }
 }
 
 buildTokens();

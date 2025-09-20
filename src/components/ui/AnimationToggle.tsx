@@ -66,7 +66,7 @@ export default function AnimationToggle({
           "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-card r-card-lg",
           "border border-border bg-card",
           "hover:shadow-glow-md",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
           "active:bg-surface",
           "disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
         )}

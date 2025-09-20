@@ -74,7 +74,7 @@ export default function SideSelector({
         "relative inline-flex select-none items-center overflow-hidden rounded-full",
         "border border-border bg-card",
         "hover:bg-[--hover] active:bg-[--active]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
         "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
         "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
         "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",

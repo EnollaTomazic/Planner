@@ -195,7 +195,7 @@ export default function CheckCircle({
           onPointerDown={retriggerIgnite}
           className={cn(
             "relative inline-grid place-items-center rounded-full transition",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
             "disabled:opacity-50 disabled:pointer-events-none",
             "h-full w-full",
           )}

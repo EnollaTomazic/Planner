@@ -240,7 +240,7 @@ export default function ReviewEditor({
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);

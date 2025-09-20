@@ -1255,7 +1255,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   <button
     type="button"
     className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface"
-    style={{ "--focus": "var(--theme-ring)" }}
   >
     Focus me to see the glow
   </button>
@@ -1263,7 +1262,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     type="button"
     aria-disabled="true"
     className="p-2 border rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed"
-    style={{ "--focus": "var(--theme-ring)" }}
   >
     Disabled example
   </button>

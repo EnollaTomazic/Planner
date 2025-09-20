@@ -92,7 +92,7 @@ function ResultScoreSection(
           className={cn(
             "relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg",
             "border border-border bg-card",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
           )}
           title="Toggle Win/Loss"
         >

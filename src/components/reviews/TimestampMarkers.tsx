@@ -126,7 +126,7 @@ function TimestampMarkers(
           type="button"
           aria-label="Use timestamp"
           aria-pressed={useTimestamp}
-          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
           onClick={() => {
             setUseTimestamp(true);
             setLastMarkerMode(true);
@@ -148,7 +148,7 @@ function TimestampMarkers(
           type="button"
           aria-label="Use note only"
           aria-pressed={!useTimestamp}
-          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
           onClick={() => {
             setUseTimestamp(false);
             setLastMarkerMode(false);

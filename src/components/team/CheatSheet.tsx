@@ -238,7 +238,7 @@ function TitleEdit({
       dir="ltr"
       value={value}
       onChange={handleSanitizedChange(onChange)}
-      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
+      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
       aria-label="Archetype title"
       autoFocus
     />

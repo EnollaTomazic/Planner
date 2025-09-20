@@ -16,7 +16,7 @@
   @apply bg-[--hover] border-ring;
 }
 .champ-badge:focus-visible {
-  @apply outline-none ring-2 ring-[var(--theme-ring)] ring-offset-0;
+  @apply outline-none ring-2 ring-[var(--focus)] ring-offset-0;
 }
 .champ-badge:active {
   @apply bg-[--active];

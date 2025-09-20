@@ -420,7 +420,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         <button
           aria-checked="true"
           aria-labelledby=":r6:"
-          class="relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          class="relative inline-flex h-10 w-48 select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
           role="switch"
           title="Toggle Win/Loss"
           type="button"
@@ -461,7 +461,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-ring relative h-[var(--space-7)]"
+          class="rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-[var(--focus)] relative h-[var(--space-7)]"
         >
           <input
             aria-label="Score from 0 to 10"
@@ -547,7 +547,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             type="button"
           >
             <span
@@ -749,7 +749,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Wave"
             type="button"
           >
@@ -876,7 +876,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Trading"
             type="button"
           >
@@ -1013,7 +1013,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Vision"
             type="button"
           >
@@ -1139,7 +1139,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Tempo"
             type="button"
           >
@@ -1274,7 +1274,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Positioning"
             type="button"
           >
@@ -1421,7 +1421,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Select Comms"
             type="button"
           >
@@ -1564,7 +1564,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Timestamp mode"
             type="button"
           >
@@ -1702,7 +1702,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             title="Note-only mode"
             type="button"
           >
