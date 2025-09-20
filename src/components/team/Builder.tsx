@@ -173,10 +173,10 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
   }));
 
   return (
-    <div data-scope="team" className="w-full mt-6">
+    <div data-scope="team" className="w-full mt-[var(--space-6)]">
       <SectionCard className="card-neo-soft glitch-card">
         <SectionCard.Body>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
             {/* Allies */}
             <div className="md:col-span-5">
               <SideEditor
@@ -237,14 +237,14 @@ function SideEditor(props: {
   const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-4 glitch-card card-neo relative">
+    <div className="rounded-card p-[var(--space-4)] glitch-card card-neo relative">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
-      <header className="mb-3 flex items-center gap-2">
+      <header className="mb-3 flex items-center gap-[var(--space-2)]">
         {/* glitchy side title */}
         <span
-          className="glitch-title glitch-flicker title-glow inline-flex items-center gap-2"
+          className="glitch-title glitch-flicker title-glow inline-flex items-center gap-[var(--space-2)]"
           data-text={title}
         >
           {icon}
@@ -256,13 +256,13 @@ function SideEditor(props: {
         </span>
       </header>
 
-      <div className="grid gap-3">
+      <div className="grid gap-[var(--space-3)]">
         {LANES.map(({ key, label }) => {
           const inputId = `${side}-${key}`;
           return (
             <div
               key={key}
-              className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-3"
+              className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-[var(--space-3)]"
             >
               <label
                 className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
@@ -281,9 +281,9 @@ function SideEditor(props: {
           );
         })}
 
-        <div className="grid gap-3">
+        <div className="grid gap-[var(--space-3)]">
           <label
-            className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2"
+            className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-[var(--space-2)]"
             htmlFor={`${side}-notes`}
           >
             <NotebookPen className="opacity-80" /> Notes
@@ -300,7 +300,7 @@ function SideEditor(props: {
         </div>
 
         {/* side actions: icon-only, same behavior */}
-        <div className="mt-1 flex items-center gap-2 justify-end">
+        <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] justify-end">
           <IconButton
             title={`Clear ${title}`}
             aria-label={`Clear ${title}`}
