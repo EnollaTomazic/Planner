@@ -791,7 +791,11 @@ export default function ComponentGallery() {
             toggleTask={() => {}}
             deleteTask={() => {}}
             addTaskImage={() => {}}
-            removeTaskImage={() => {}}
+            removeTaskImage={(id, url, index) => {
+              void id;
+              void url;
+              void index;
+            }}
             setSelectedTaskId={() => {}}
           />
         ),
