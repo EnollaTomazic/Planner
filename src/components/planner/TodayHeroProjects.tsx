@@ -80,95 +80,107 @@ export default function TodayHeroProjects({
               const isEditing = editingProjectId === project.id;
               const isSelected = selectedProjectId === project.id;
               return (
-                <li
-                  key={project.id}
-                  className={cn(
-                    "group flex select-none items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition",
-                    "border-border bg-card/55 hover:bg-card/70",
-                    isSelected && "ring-1 ring-ring",
-                  )}
-                  onClick={() => {
-                    if (!isEditing) onProjectSelect(project.id);
-                  }}
-                  title={
-                    isEditing
-                      ? "Editing…"
-                      : isSelected
-                        ? "Selected"
-                        : "Click to select"
-                  }
-                  role="listitem"
-                >
-                  {isEditing ? (
-                    <Input
-                      name={`rename-project-${project.id}`}
-                      autoFocus
-                      value={editingProjectName}
-                      onChange={(event) => onProjectRenameChange(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter") {
+                <li key={project.id} role="presentation">
+                  <div
+                    className={cn(
+                      "group flex select-none items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition",
+                      "border-border bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                      isSelected && "ring-1 ring-ring",
+                    )}
+                    tabIndex={0}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={isEditing}
+                    onClick={() => {
+                      if (!isEditing) onProjectSelect(project.id);
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.target !== event.currentTarget) return;
+                      if (isEditing) return;
+                      if (["Enter", " ", "Space", "Spacebar"].includes(event.key)) {
+                        event.preventDefault();
+                        onProjectSelect(project.id);
+                      }
+                    }}
+                    title={
+                      isEditing
+                        ? "Editing…"
+                        : isSelected
+                          ? "Selected"
+                          : "Click to select"
+                    }
+                  >
+                    {isEditing ? (
+                      <Input
+                        name={`rename-project-${project.id}`}
+                        autoFocus
+                        value={editingProjectName}
+                        onChange={(event) => onProjectRenameChange(event.target.value)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
+                            onProjectRenameCommit(project.id, project.name);
+                          }
+                          if (event.key === "Escape") onProjectRenameCancel();
+                        }}
+                        onBlur={() => {
                           onProjectRenameCommit(project.id, project.name);
-                        }
-                        if (event.key === "Escape") onProjectRenameCancel();
-                      }}
-                      onBlur={() => {
-                        onProjectRenameCommit(project.id, project.name);
-                      }}
-                      aria-label={`Rename project ${project.name}`}
-                      onClick={(event) => event.stopPropagation()}
-                    />
-                  ) : (
-                    <div className="flex min-w-0 items-center gap-[var(--space-3)]">
-                      <span
-                        className="shrink-0"
-                        onMouseDown={(event) => event.stopPropagation()}
+                        }}
+                        aria-label={`Rename project ${project.name}`}
                         onClick={(event) => event.stopPropagation()}
-                      >
-                        <CheckCircle
-                          size="sm"
-                          checked={project.done}
-                          onChange={() => onProjectToggle(project.id)}
-                          aria-label={`Toggle completion for ${project.name}`}
-                        />
-                      </span>
-                      <span
-                        className={cn(
-                          "truncate",
-                          project.done && "line-through-soft text-muted-foreground",
-                        )}
-                      >
-                        {project.name}
-                      </span>
-                    </div>
-                  )}
+                      />
+                    ) : (
+                      <div className="flex min-w-0 items-center gap-[var(--space-3)]">
+                        <span
+                          className="shrink-0"
+                          onMouseDown={(event) => event.stopPropagation()}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <CheckCircle
+                            size="sm"
+                            checked={project.done}
+                            onChange={() => onProjectToggle(project.id)}
+                            aria-label={`Toggle completion for ${project.name}`}
+                          />
+                        </span>
+                        <span
+                          className={cn(
+                            "truncate",
+                            project.done && "line-through-soft text-muted-foreground",
+                          )}
+                        >
+                          {project.name}
+                        </span>
+                      </div>
+                    )}
 
-                  <div className="flex items-center gap-[var(--space-2)]">
-                    <IconButton
-                      aria-label={`Edit project ${project.name}`}
-                      title="Edit"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onProjectEditOpen(project.id, project.name);
-                      }}
-                      size="sm"
-                      variant="ring"
-                      iconSize="xs"
-                    >
-                      <Pencil />
-                    </IconButton>
-                    <IconButton
-                      aria-label={`Remove project ${project.name}`}
-                      title="Remove"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onProjectDelete(project.id);
-                      }}
-                      size="sm"
-                      variant="ring"
-                      iconSize="xs"
-                    >
-                      <Trash2 />
-                    </IconButton>
+                    <div className="flex items-center gap-[var(--space-2)]">
+                      <IconButton
+                        aria-label={`Edit project ${project.name}`}
+                        title="Edit"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onProjectEditOpen(project.id, project.name);
+                        }}
+                        size="sm"
+                        variant="ring"
+                        iconSize="xs"
+                      >
+                        <Pencil />
+                      </IconButton>
+                      <IconButton
+                        aria-label={`Remove project ${project.name}`}
+                        title="Remove"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onProjectDelete(project.id);
+                        }}
+                        size="sm"
+                        variant="ring"
+                        iconSize="xs"
+                      >
+                        <Trash2 />
+                      </IconButton>
+                    </div>
                   </div>
                 </li>
               );
