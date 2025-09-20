@@ -1,7 +1,7 @@
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
-import type { FormEvent } from "react";
+import type { FormEvent, KeyboardEvent, MouseEvent } from "react";
 
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/primitives/Button";
@@ -98,7 +98,33 @@ export default function TodayHeroTasks({
                     "border-border bg-card/55 hover:bg-card/70",
                   )}
                   role="listitem"
-                  onClick={() => onTaskSelect(task.id)}
+                  tabIndex={0}
+                  onClick={(event: MouseEvent<HTMLLIElement>) => {
+                    if (event.defaultPrevented) return;
+                    const target = event.target as Element | null;
+                    if (
+                      target?.closest(
+                        "button, a, input, textarea, select, [role='button'], [role='link'], [role='checkbox'], [role='menuitem'], [role='switch']",
+                      )
+                    ) {
+                      return;
+                    }
+                    onTaskSelect(task.id);
+                  }}
+                  onKeyDown={(event: KeyboardEvent<HTMLLIElement>) => {
+                    if (event.defaultPrevented) return;
+                    if (event.currentTarget !== event.target) {
+                      return;
+                    }
+                    if (
+                      event.key === "Enter" ||
+                      event.key === " " ||
+                      event.key === "Spacebar"
+                    ) {
+                      event.preventDefault();
+                      onTaskSelect(task.id);
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-[var(--space-3)]">
                     <CheckCircle
@@ -132,12 +158,14 @@ export default function TodayHeroTasks({
                           "task-tile__text",
                           task.done && "line-through-soft",
                         )}
-                        onClick={() => {
+                        onClick={(event) => {
+                          event.stopPropagation();
                           onTaskEditOpen(task.id, task.title);
                         }}
                         onKeyDown={(event) => {
                           if (event.key === "Enter" || event.key === " ") {
                             event.preventDefault();
+                            event.stopPropagation();
                             onTaskEditOpen(task.id, task.title);
                           }
                         }}
@@ -153,7 +181,8 @@ export default function TodayHeroTasks({
                     <IconButton
                       aria-label={`Edit task ${task.title}`}
                       title="Edit"
-                      onClick={() => {
+                      onClick={(event) => {
+                        event.stopPropagation();
                         onTaskEditOpen(task.id, task.title, { select: true });
                       }}
                       size="sm"
@@ -165,7 +194,8 @@ export default function TodayHeroTasks({
                     <IconButton
                       aria-label="Remove task"
                       title="Remove"
-                      onClick={() => {
+                      onClick={(event) => {
+                        event.stopPropagation();
                         onTaskDelete(task.id);
                       }}
                       size="sm"
