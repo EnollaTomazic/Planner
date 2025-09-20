@@ -8,6 +8,7 @@ import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
+import designTokens from "../../../../tokens/tokens.js";
 
 export const buttonSizes = {
   sm: {
@@ -37,10 +38,54 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = "primary" | "accent" | "info" | "danger";
 
-const spinnerSizes: Record<ButtonSize, number> = {
-  sm: 16,
-  md: 20,
-  lg: 24,
+type ControlHeightToken = "controlHSm" | "controlHMd" | "controlHLg";
+
+const FALLBACK_CONTROL_HEIGHTS: Record<ButtonSize, number> = {
+  sm: 32,
+  md: 40,
+  lg: 48,
+};
+
+const CONTROL_HEIGHT_TOKENS: Record<ButtonSize, ControlHeightToken> = {
+  sm: "controlHSm",
+  md: "controlHMd",
+  lg: "controlHLg",
+};
+
+const parsePxTokenValue = (value: unknown): number | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const numericValue = Number.parseFloat(value);
+
+  return Number.isNaN(numericValue) ? null : numericValue;
+};
+
+const halfControlHeight = (
+  tokenKey: ControlHeightToken,
+  fallback: number,
+): string => {
+  const rawValue = (designTokens as Record<string, unknown>)[tokenKey];
+  const parsedValue = parsePxTokenValue(rawValue);
+  const resolvedValue = (parsedValue ?? fallback) / 2;
+
+  return `${resolvedValue}px`;
+};
+
+const spinnerSizes: Record<ButtonSize, string> = {
+  sm: halfControlHeight(
+    CONTROL_HEIGHT_TOKENS.sm,
+    FALLBACK_CONTROL_HEIGHTS.sm,
+  ),
+  md: halfControlHeight(
+    CONTROL_HEIGHT_TOKENS.md,
+    FALLBACK_CONTROL_HEIGHTS.md,
+  ),
+  lg: halfControlHeight(
+    CONTROL_HEIGHT_TOKENS.lg,
+    FALLBACK_CONTROL_HEIGHTS.lg,
+  ),
 };
 
 const MotionSlot = motion.create(Slot);
