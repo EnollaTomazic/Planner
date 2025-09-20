@@ -12,6 +12,7 @@ vi.mock("@/lib/db", async () => {
 });
 
 import { PlannerProvider, useFocusDate, useWeek } from "@/components/planner";
+import { toISODate } from "@/lib/date";
 
 describe("useFocusDate", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -22,6 +23,50 @@ describe("useFocusDate", () => {
     const { result } = renderHook(() => useFocusDate(), { wrapper });
     act(() => result.current.setIso("2030-01-01"));
     expect(result.current.iso).toBe("2030-01-01");
+  });
+
+  it("updates focus when the local day rolls over", () => {
+    vi.useFakeTimers();
+    const initial = new Date(2024, 5, 1, 12, 0, 0);
+    vi.setSystemTime(initial);
+
+    const { result, unmount } = renderHook(() => useFocusDate(), { wrapper });
+    const next = new Date(initial);
+    next.setDate(initial.getDate() + 1);
+    next.setHours(0, 0, 0, 0);
+    const delay = next.getTime() - initial.getTime();
+    try {
+      act(() => {
+        vi.advanceTimersByTime(delay + 10);
+      });
+
+      const expected = toISODate(next);
+      expect(result.current.today).toBe(expected);
+      expect(result.current.iso).toBe(expected);
+    } finally {
+      unmount();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
+  });
+
+  it("clears the midnight timer on unmount", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2024, 5, 1, 12, 0, 0));
+
+    const before = vi.getTimerCount();
+    const { unmount } = renderHook(() => useFocusDate(), { wrapper });
+    let afterUnmount: number | null = null;
+    try {
+      expect(vi.getTimerCount()).toBeGreaterThan(before);
+    } finally {
+      unmount();
+      afterUnmount = vi.getTimerCount();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
+
+    expect(afterUnmount).toBe(before);
   });
 
   it("derives week information", () => {
