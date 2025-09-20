@@ -38,6 +38,7 @@ import {
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
+  Spinner,
 } from "@/components/ui";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
@@ -55,12 +56,12 @@ import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import {
   DashboardCard,
   DashboardList,
-  BottomNav,
   IsometricRoom,
   QuickActionGrid,
   HeroPortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
+import { NAV_ITEMS, type NavItem } from "@/components/chrome/nav-items";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
@@ -84,6 +85,7 @@ import {
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
+import { cn } from "@/lib/utils";
 
 type LegacySpec = {
   id: string;
@@ -196,6 +198,122 @@ function ReviewSurfaceDemo() {
     <ReviewSurface padding="md" tone="muted">
       <div className="text-ui text-foreground/70">Surface content</div>
     </ReviewSurface>
+  );
+}
+
+type BottomNavState = "default" | "active" | "disabled" | "syncing";
+type BottomNavDemoMode = "combined" | "active" | "disabled" | "syncing";
+type BottomNavDemoItem = NavItem & { state: BottomNavState };
+
+const BOTTOM_NAV_STATE_DETAILS: Array<{
+  key: Exclude<BottomNavDemoMode, "combined">;
+  title: string;
+  description: string;
+}> = [
+  {
+    key: "active",
+    title: "Active tab",
+    description:
+      "Accent typography and the theme ring token pin the current Planner route.",
+  },
+  {
+    key: "disabled",
+    title: "Disabled tab",
+    description:
+      "Muted foreground copy with the global disabled opacity token communicates unavailable sections.",
+  },
+  {
+    key: "syncing",
+    title: "Syncing tab",
+    description:
+      "A compact spinner uses accent border tokens to show background sync progress next to the label.",
+  },
+];
+
+function createBottomNavItems(mode: BottomNavDemoMode = "combined") {
+  const states = new Map<string, BottomNavState>();
+
+  NAV_ITEMS.forEach((item) => {
+    states.set(item.href, "default");
+  });
+
+  if (mode === "combined" || mode === "active") {
+    states.set("/planner", "active");
+  }
+
+  if (mode === "combined" || mode === "syncing") {
+    states.set("/reviews", "syncing");
+  }
+
+  if (mode === "combined" || mode === "disabled") {
+    states.set("/team", "disabled");
+  }
+
+  return NAV_ITEMS.map<BottomNavDemoItem>((item) => ({
+    ...item,
+    state: states.get(item.href) ?? "default",
+  }));
+}
+
+function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }) {
+  const items = React.useMemo(() => createBottomNavItems(mode), [mode]);
+
+  return (
+    <div className="space-y-[var(--space-4)]">
+      <nav
+        aria-label="Planner bottom navigation"
+        className="rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-3)] shadow-neoSoft"
+      >
+        <ul className="flex items-stretch justify-around gap-[var(--space-2)]">
+          {items.map(({ href, label, mobileIcon: Icon, state }) => {
+            if (!Icon) {
+              return null;
+            }
+
+            return (
+              <li key={`${mode}-${href}`}>
+                <button
+                  type="button"
+                  disabled={state === "disabled"}
+                  aria-pressed={state === "active" ? true : undefined}
+                  aria-busy={state === "syncing" ? true : undefined}
+                  data-state={state}
+                  className={cn(
+                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-[var(--disabled)] motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                    state === "active" &&
+                      "text-accent-3 ring-2 ring-[var(--theme-ring)]",
+                    state === "default" &&
+                      "text-muted-foreground hover:text-foreground",
+                    state === "disabled" && "text-muted-foreground/70",
+                    state === "syncing" && "text-foreground",
+                  )}
+                >
+                  <span className="[&_svg]:size-[var(--space-4)]">
+                    <Icon aria-hidden="true" />
+                  </span>
+                  <span className="flex items-center gap-[var(--space-1)]">
+                    {label}
+                    {state === "syncing" ? (
+                      <Spinner size="var(--space-3)" />
+                    ) : null}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+      {mode === "combined" ? (
+        <dl className="grid gap-[var(--space-3)] text-label text-muted-foreground">
+          {BOTTOM_NAV_STATE_DETAILS.map(({ key, title, description }) => (
+            <div key={key} className="space-y-[var(--space-1)]">
+              <dt className="text-ui font-semibold text-foreground">{title}</dt>
+              <dd>{description}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+    </div>
   );
 }
 
@@ -549,9 +667,37 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     {
       id: "bottom-nav",
       name: "BottomNav",
-      element: <BottomNav />,
+      description:
+        "Mobile Planner nav demo showing active, disabled, and syncing tabs styled with tokens.",
+      element: <BottomNavStatesDemo />,
       tags: ["nav", "bottom"],
-      code: `<BottomNav />`,
+      code: `<BottomNavStatesDemo />`,
+      states: [
+        {
+          id: "active",
+          name: "Active tab",
+          description:
+            "Accent text plus the theme ring token anchor the current Planner route.",
+          element: <BottomNavStatesDemo mode="active" />,
+          code: `<BottomNavStatesDemo mode="active" />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled tab",
+          description:
+            "Muted foreground copy and the global disabled opacity token signal unavailable sections.",
+          element: <BottomNavStatesDemo mode="disabled" />,
+          code: `<BottomNavStatesDemo mode="disabled" />`,
+        },
+        {
+          id: "syncing",
+          name: "Syncing tab",
+          description:
+            "A compact spinner with accent borders communicates background sync progress beside the label.",
+          element: <BottomNavStatesDemo mode="syncing" />,
+          code: `<BottomNavStatesDemo mode="syncing" />`,
+        },
+      ],
     },
     {
       id: "isometric-room",
