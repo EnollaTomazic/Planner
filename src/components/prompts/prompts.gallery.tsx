@@ -3535,7 +3535,7 @@ React.useEffect(() => {
       name: "Spinner",
       element: <SpinnerShowcase />,
       tags: ["spinner", "loading"],
-      code: `<Spinner size={24} />`,
+      code: `<Spinner size="var(--space-6)" />`,
     },
   ],
   toggles: [

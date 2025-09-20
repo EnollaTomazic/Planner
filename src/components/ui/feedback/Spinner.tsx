@@ -9,7 +9,10 @@ type SpinnerProps = {
   size?: CSSProperties["width"];
 };
 
-export default function Spinner({ className, size = 24 }: SpinnerProps) {
+export default function Spinner({
+  className,
+  size = "var(--space-6)",
+}: SpinnerProps) {
   return (
     <div
       role="status"
