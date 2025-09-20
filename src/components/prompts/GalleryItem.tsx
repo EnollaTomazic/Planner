@@ -17,7 +17,7 @@ export default function GalleryItem({
   return (
     <div
       className={cn(
-        "flex flex-col items-center space-y-2 px-2 sm:px-3 md:px-0",
+        "flex flex-col items-center space-y-[var(--space-2)] px-[var(--space-2)] sm:px-[var(--space-3)] md:px-0",
         className,
       )}
     >
