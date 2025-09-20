@@ -290,6 +290,9 @@ function ReminderCard({
     setTitle(value.title); setBody(value.body ?? ""); setTagsText(value.tags.join(", ")); setEditing(false);
   }
 
+  const reminderName = value.title.trim() || "Untitled reminder";
+  const deleteLabel = `Delete ${reminderName}`;
+
   return (
     <article className="card-neo rounded-card p-4 sm:p-5 relative">
       {value.pinned && (
@@ -370,8 +373,8 @@ function ReminderCard({
           ) : (
             <>
               <IconButton
-                title="Delete"
-                aria-label="Delete"
+                title={deleteLabel}
+                aria-label={deleteLabel}
                 onClick={onDelete}
                 size="sm"
                 iconSize="sm"
