@@ -30,6 +30,7 @@ import {
   ThemeToggle,
   CheckCircle,
   Snackbar,
+  Spinner,
   Skeleton,
   SideSelector,
   PillarBadge,
@@ -160,6 +161,36 @@ function BackgroundPickerDemo() {
       bg={t.bg}
       onBgChange={(b) => setT((prev) => ({ ...prev, bg: b }))}
     />
+  );
+}
+
+function BottomNavActiveState() {
+  return <BottomNav />;
+}
+
+function BottomNavDisabledState() {
+  return (
+    <div aria-disabled inert className="pointer-events-none">
+      <BottomNav className="opacity-60" />
+    </div>
+  );
+}
+
+function BottomNavSyncState() {
+  return (
+    <div aria-busy="true" className="stack-xs">
+      <div
+        aria-live="polite"
+        className="flex items-center justify-end gap-[var(--space-2)] px-[var(--space-5)] text-label text-muted-foreground"
+      >
+        <Spinner
+          size="var(--space-4)"
+          className="border-border border-t-transparent"
+        />
+        <span>Syncing planner</span>
+      </div>
+      <BottomNav />
+    </div>
   );
 }
 
@@ -549,9 +580,51 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     {
       id: "bottom-nav",
       name: "BottomNav",
-      element: <BottomNav />,
+      element: <BottomNavActiveState />,
       tags: ["nav", "bottom"],
       code: `<BottomNav />`,
+      states: [
+        {
+          id: "active",
+          name: "Active",
+          description:
+            "Active state follows the current pathname; use canonical hrefs so the accent stays synced with navigation animations.",
+          element: <BottomNavActiveState />,
+          code: `<BottomNav />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Gate multi-step flows by setting the wrapper to `aria-disabled` (and optionally `inert`) so focus and taps skip the nav until completion.",
+          element: <BottomNavDisabledState />,
+          code: `<div aria-disabled inert className="pointer-events-none">
+  <BottomNav className="opacity-60" />
+</div>`,
+        },
+        {
+          id: "sync",
+          name: "Loading / Sync",
+          description:
+            "Show background sync without blocking navigation by pairing the bar with a spinner status row. Keep links interactive so users can still pivot.",
+          element: <BottomNavSyncState />,
+          code: `<div className="stack-xs" aria-busy={syncing}>
+  {syncing ? (
+    <div
+      aria-live="polite"
+      className="flex items-center justify-end gap-[var(--space-2)] px-[var(--space-5)] text-label text-muted-foreground"
+    >
+      <Spinner
+        size="var(--space-4)"
+        className="border-border border-t-transparent"
+      />
+      <span>Syncing planner</span>
+    </div>
+  ) : null}
+  <BottomNav />
+</div>`,
+        },
+      ],
     },
     {
       id: "isometric-room",
