@@ -26,6 +26,18 @@ function SearchBarGalleryPreview() {
         right={<Button size="sm">Filters</Button>}
       />
       <SearchBar
+        value="Focus-visible"
+        onValueChange={handleNoop}
+        placeholder="Focus-visible"
+        fieldClassName="ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]"
+      />
+      <SearchBar
+        value="Active"
+        onValueChange={handleNoop}
+        placeholder="Active"
+        fieldClassName="bg-[--active]"
+      />
+      <SearchBar
         value="Disabled"
         onValueChange={handleNoop}
         placeholder="Disabled"
@@ -68,6 +80,8 @@ export default defineGallerySection({
           values: [
             { value: "Default" },
             { value: "With label" },
+            { value: "Focus-visible" },
+            { value: "Active" },
             { value: "Disabled" },
             { value: "Loading" },
           ],
@@ -91,6 +105,18 @@ const handleNoop = React.useCallback((_value: string) => {}, []);
   label="Search library"
   placeholder="With label"
   right={<Button size="sm">Filters</Button>}
+/>
+<SearchBar
+  value="Focus-visible"
+  onValueChange={handleNoop}
+  placeholder="Focus-visible"
+  fieldClassName="ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]"
+/>
+<SearchBar
+  value="Active"
+  onValueChange={handleNoop}
+  placeholder="Active"
+  fieldClassName="bg-[--active]"
 />
 <SearchBar
   value="Disabled"
