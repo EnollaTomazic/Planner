@@ -318,6 +318,27 @@ type PersistentStateOptions<T> = {
   encode?: PersistentStateEncode<T>;
 };
 
+type StoredSnapshot<T> =
+  | { kind: "missing" }
+  | { kind: "value"; value: T };
+
+function valuesEqual<Value>(a: Value, b: Value): boolean {
+  if (Object.is(a, b)) return true;
+  if (
+    typeof a === "object" &&
+    a !== null &&
+    typeof b === "object" &&
+    b !== null
+  ) {
+    try {
+      return JSON.stringify(a) === JSON.stringify(b);
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
 export function usePersistentState<T>(
   key: string,
   initial: T,
@@ -327,12 +348,32 @@ export function usePersistentState<T>(
 
   const initialRef = React.useRef(initial);
   const stateRef = React.useRef(state);
+  const storedSnapshotRef = React.useRef<StoredSnapshot<T>>({
+    kind: "missing",
+  });
   React.useEffect(() => {
     stateRef.current = state;
   }, [state]);
   React.useEffect(() => {
-    if (!Object.is(initialRef.current, initial)) {
+    if (valuesEqual(initialRef.current, initial)) {
       initialRef.current = initial;
+      return;
+    }
+    const previousInitial = initialRef.current;
+    initialRef.current = initial;
+
+    if (!loadedRef.current) return;
+
+    const snapshot = storedSnapshotRef.current;
+    const hasStoredDiff =
+      snapshot.kind === "value" &&
+      !valuesEqual(snapshot.value, previousInitial);
+
+    if (!hasStoredDiff) {
+      storedSnapshotRef.current = { kind: "missing" };
+      if (!valuesEqual(stateRef.current, initial)) {
+        setState(initial);
+      }
     }
   }, [initial]);
 
@@ -386,6 +427,7 @@ export function usePersistentState<T>(
     if (fullKeyRef.current !== nextFull) {
       fullKeyRef.current = nextFull;
       loadedRef.current = false;
+      storedSnapshotRef.current = { kind: "missing" };
     }
   }, [key]);
 
@@ -399,12 +441,16 @@ export function usePersistentState<T>(
       if (fromStorage !== null) {
         const decoded = decodeValue(fromStorage);
         if (decoded !== null) {
-          if (!Object.is(stateRef.current, decoded)) setState(decoded);
-        } else if (!Object.is(stateRef.current, initialRef.current)) {
-          setState(initialRef.current);
+          storedSnapshotRef.current = { kind: "value", value: decoded };
+          if (!valuesEqual(stateRef.current, decoded)) setState(decoded);
+        } else {
+          storedSnapshotRef.current = { kind: "missing" };
+          if (!valuesEqual(stateRef.current, initialRef.current))
+            setState(initialRef.current);
         }
       } else {
-        if (!Object.is(stateRef.current, initialRef.current))
+        storedSnapshotRef.current = { kind: "missing" };
+        if (!valuesEqual(stateRef.current, initialRef.current))
           setState(initialRef.current);
       }
       loadedRef.current = true;
@@ -413,7 +459,8 @@ export function usePersistentState<T>(
 
   const handleExternal = React.useCallback((raw: string | null) => {
     if (raw === null) {
-      if (!Object.is(stateRef.current, initialRef.current))
+      storedSnapshotRef.current = { kind: "missing" };
+      if (!valuesEqual(stateRef.current, initialRef.current))
         setState(initialRef.current);
       return;
     }
@@ -421,10 +468,12 @@ export function usePersistentState<T>(
     if (parsed === null) return;
     const decoded = decodeValue(parsed);
     if (decoded !== null) {
-      if (!Object.is(stateRef.current, decoded)) setState(decoded);
+      storedSnapshotRef.current = { kind: "value", value: decoded };
+      if (!valuesEqual(stateRef.current, decoded)) setState(decoded);
       return;
     }
-    if (!Object.is(stateRef.current, initialRef.current))
+    storedSnapshotRef.current = { kind: "missing" };
+    if (!valuesEqual(stateRef.current, initialRef.current))
       setState(initialRef.current);
   }, [decodeValue]);
 
@@ -434,8 +483,13 @@ export function usePersistentState<T>(
     if (!isBrowser) return;
     if (!loadedRef.current) return;
     try {
+      const snapshot = storedSnapshotRef.current;
+      if (snapshot.kind === "value" && valuesEqual(snapshot.value, state)) {
+        return;
+      }
       const encoded = encodeValue(state);
       scheduleWrite(fullKeyRef.current, encoded);
+      storedSnapshotRef.current = { kind: "value", value: state };
     } catch {
       // ignore
     }

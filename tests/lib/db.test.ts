@@ -420,6 +420,36 @@ describe("usePersistentState", () => {
     expect(result.current[0]).toEqual(initialState);
   });
 
+  it("updates state when the default changes without a stored override", async () => {
+    const { usePersistentState, createStorageKey, flushWriteLocal } = await import("@/lib/db");
+
+    const key = "default-updates";
+    const fullKey = createStorageKey(key);
+
+    const { result, rerender } = renderHook(
+      ({ initial }) => usePersistentState(key, initial),
+      {
+        initialProps: { initial: 1 },
+      },
+    );
+
+    expect(result.current[0]).toBe(1);
+
+    act(() => {
+      window.localStorage.clear();
+    });
+
+    rerender({ initial: 2 });
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe(2);
+    });
+
+    flushWriteLocal();
+
+    expect(window.localStorage.getItem(fullKey)).toBe("2");
+  });
+
   it("applies decode and encode callbacks when provided", async () => {
     const {
       usePersistentState,
