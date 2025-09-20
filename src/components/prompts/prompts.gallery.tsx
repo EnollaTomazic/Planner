@@ -83,7 +83,7 @@ import {
   ScoreMeter,
 } from "@/components/reviews";
 import type { PromptWithTitle } from "./types";
-import type { Review, Role } from "@/lib/types";
+import type { Review, Role, Pillar } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
 import type { Background, Variant } from "@/lib/theme";
 import {
@@ -668,6 +668,247 @@ function SettingsSelectLoadingState() {
       openMenu
     />
   );
+}
+
+type SideSelectorStatePreviewProps = {
+  initialSide?: "Blue" | "Red";
+  className?: string;
+  disabled?: boolean;
+  loading?: boolean;
+};
+
+function SideSelectorStatePreview({
+  initialSide = "Blue",
+  className,
+  disabled = false,
+  loading = false,
+}: SideSelectorStatePreviewProps) {
+  const [side, setSide] = React.useState<"Blue" | "Red">(initialSide);
+
+  return (
+    <SideSelector
+      value={side}
+      onChange={setSide}
+      className={cn(className)}
+      disabled={disabled}
+      loading={loading}
+    />
+  );
+}
+
+function SideSelectorHoverState() {
+  return <SideSelectorStatePreview className="bg-[--hover]" />;
+}
+
+function SideSelectorFocusState() {
+  return (
+    <SideSelectorStatePreview className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]" />
+  );
+}
+
+function SideSelectorActiveState() {
+  return <SideSelectorStatePreview initialSide="Red" />;
+}
+
+function SideSelectorDisabledState() {
+  return <SideSelectorStatePreview disabled />;
+}
+
+function SideSelectorLoadingState() {
+  return <SideSelectorStatePreview loading />;
+}
+
+type ChampListEditorStatePreviewProps = {
+  editing?: boolean;
+  pillClassName?: string;
+  inputClassName?: string;
+  disabled?: boolean;
+};
+
+function ChampListEditorStatePreview({
+  editing = true,
+  pillClassName,
+  inputClassName,
+  disabled = false,
+}: ChampListEditorStatePreviewProps) {
+  const [list, setList] = React.useState<string[]>(["Ashe", "Lulu"]);
+
+  return (
+    <div
+      className={cn(
+        "flex max-w-full flex-col gap-[var(--space-2)]",
+        disabled && "pointer-events-none opacity-[var(--disabled)]",
+      )}
+    >
+      <ChampListEditor
+        list={list}
+        onChange={setList}
+        editing={editing}
+        emptyLabel="-"
+        pillClassName={pillClassName}
+        editPillClassName={pillClassName}
+        inputClassName={inputClassName}
+      />
+    </div>
+  );
+}
+
+function ChampListEditorHoverState() {
+  return (
+    <ChampListEditorStatePreview
+      pillClassName="bg-[--hover] border-ring"
+    />
+  );
+}
+
+function ChampListEditorFocusState() {
+  return (
+    <ChampListEditorStatePreview
+      inputClassName="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]"
+    />
+  );
+}
+
+function ChampListEditorActiveState() {
+  return <ChampListEditorStatePreview />;
+}
+
+function ChampListEditorDisabledState() {
+  return <ChampListEditorStatePreview disabled />;
+}
+
+type PillarBadgeStatePreviewProps = {
+  active?: boolean;
+  className?: string;
+  disabled?: boolean;
+};
+
+function PillarBadgeStatePreview({
+  active = false,
+  className,
+  disabled = false,
+}: PillarBadgeStatePreviewProps) {
+  return (
+    <PillarBadge
+      pillar="Vision"
+      interactive
+      active={active}
+      disabled={disabled}
+      className={cn(
+        className,
+        "transition",
+        disabled && "pointer-events-none opacity-[var(--disabled)]",
+      )}
+    />
+  );
+}
+
+function PillarBadgeHoverState() {
+  return <PillarBadgeStatePreview className="shadow-neo-strong" />;
+}
+
+function PillarBadgeFocusState() {
+  return (
+    <PillarBadgeStatePreview className="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]" />
+  );
+}
+
+function PillarBadgeActiveState() {
+  return <PillarBadgeStatePreview active />;
+}
+
+function PillarBadgeDisabledState() {
+  return <PillarBadgeStatePreview disabled />;
+}
+
+type PillarSelectorStatePreviewProps = {
+  initialValue?: Pillar[];
+  className?: string;
+  disabled?: boolean;
+};
+
+function PillarSelectorStatePreview({
+  initialValue = ["Wave"],
+  className,
+  disabled = false,
+}: PillarSelectorStatePreviewProps) {
+  const [pillars, setPillars] = React.useState<Pillar[]>(initialValue);
+
+  return (
+    <PillarSelector
+      value={pillars}
+      onChange={setPillars}
+      className={cn(
+        "max-w-full",
+        className,
+        disabled && "pointer-events-none opacity-[var(--disabled)]",
+      )}
+    />
+  );
+}
+
+function PillarSelectorHoverState() {
+  return (
+    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]" />
+  );
+}
+
+function PillarSelectorFocusState() {
+  return (
+    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]" />
+  );
+}
+
+function PillarSelectorActiveState() {
+  return <PillarSelectorStatePreview initialValue={["Wave", "Trading"]} />;
+}
+
+function PillarSelectorDisabledState() {
+  return <PillarSelectorStatePreview disabled />;
+}
+
+type RoleSelectorStatePreviewProps = {
+  initialRole?: Role;
+  className?: string;
+  disabled?: boolean;
+};
+
+function RoleSelectorStatePreview({
+  initialRole = "MID",
+  className,
+  disabled = false,
+}: RoleSelectorStatePreviewProps) {
+  const [role, setRole] = React.useState<Role>(initialRole);
+
+  return (
+    <RoleSelector
+      value={role}
+      onChange={setRole}
+      className={cn(
+        "max-w-full",
+        className,
+        disabled && "pointer-events-none opacity-[var(--disabled)]",
+      )}
+    />
+  );
+}
+
+function RoleSelectorHoverState() {
+  return <RoleSelectorStatePreview className="shadow-[var(--shadow-neo-soft)]" />;
+}
+
+function RoleSelectorFocusState() {
+  return (
+    <RoleSelectorStatePreview className="ring-2 ring-[var(--focus)] ring-offset-2 ring-offset-[var(--btn-bg)]" />
+  );
+}
+
+function RoleSelectorActiveState() {
+  return <RoleSelectorStatePreview initialRole="BOT" />;
+}
+
+function RoleSelectorDisabledState() {
+  return <RoleSelectorStatePreview disabled />;
 }
 
 function ReviewSurfaceDemo() {
@@ -3534,6 +3775,56 @@ React.useEffect(() => {
       tags: ["side", "selector"],
       code: `<SideSelector />
 <SideSelector disabled />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "The accent hover wash previews the flicker animation for pointer users before they commit to a side.",
+          element: <SideSelectorHoverState />,
+          code: `<SideSelector
+  value="Blue"
+  onChange={() => {}}
+  className="bg-[--hover]"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Press Tab to land on the switch. The ring token outlines the control while Space/Enter flip teams and ← → choose Blue or Red directly.",
+          element: <SideSelectorFocusState />,
+          code: `<SideSelector
+  value="Blue"
+  onChange={() => {}}
+  className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Selecting Red slides the indicator and lights the right label. Space toggles sides, and the arrow keys jump the indicator without flicker.",
+          element: <SideSelectorActiveState />,
+          code: `<SideSelector value="Red" onChange={() => {}} />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "The disabled opacity token keeps the rail visible while blocking Space, Enter, and arrow key input during lockouts.",
+          element: <SideSelectorDisabledState />,
+          code: `<SideSelector value="Blue" onChange={() => {}} disabled />`,
+        },
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "While matchup data syncs, loading dims the selector and ignores toggles until the request resolves.",
+          element: <SideSelectorLoadingState />,
+          code: `<SideSelector value="Blue" onChange={() => {}} loading />`,
+        },
+      ],
     },
     {
       id: "champ-list-editor",
@@ -3548,6 +3839,60 @@ React.useEffect(() => {
   emptyLabel="-"
   viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
 />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Hovering a badge in edit mode lifts it with the hover token so you can see which champion tag you are about to change.",
+          element: <ChampListEditorHoverState />,
+          code: `<ChampListEditor
+  list={["Ashe", "Lulu"]}
+  onChange={() => {}}
+  editing
+  pillClassName="bg-[--hover] border-ring"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Press Tab into the inline input to reveal the theme-ring outline; Enter creates a new slot and Backspace clears empty fields.",
+          element: <ChampListEditorFocusState />,
+          code: `<ChampListEditor
+  list={["Ashe", "Lulu"]}
+  onChange={() => {}}
+  editing
+  inputClassName="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / editing",
+          description:
+            "Toggling editing exposes the glitch pill inputs so you can adjust the roster without leaving the review.",
+          element: <ChampListEditorActiveState />,
+          code: `<ChampListEditor
+  list={["Ashe", "Lulu"]}
+  onChange={() => {}}
+  editing
+/>`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "When a session locks, wrap the editor in the disabled opacity token to freeze both pointer and keyboard edits.",
+          element: <ChampListEditorDisabledState />,
+          code: `<div className="pointer-events-none opacity-[var(--disabled)]">
+  <ChampListEditor
+    list={["Ashe", "Lulu"]}
+    onChange={() => {}}
+    editing
+  />
+</div>`,
+        },
+      ],
     },
     {
       id: "pillar-badge",
@@ -3561,6 +3906,48 @@ React.useEffect(() => {
       tags: ["pillar", "badge"],
       code: `<PillarBadge pillar="Wave" />
 <PillarBadge pillar="Trading" active />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Interactive badges lift with the neo shadow token on hover so the chip reads as clickable before you tap.",
+          element: <PillarBadgeHoverState />,
+          code: `<PillarBadge
+  pillar="Vision"
+  interactive
+  className="shadow-neo-strong"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Press Tab to move onto a badge; the theme ring outline appears and Space or Enter toggles its active gradient.",
+          element: <PillarBadgeFocusState />,
+          code: `<PillarBadge
+  pillar="Vision"
+  interactive
+  className="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Active badges glow with the gradient overlay while `aria-pressed` stays in sync for assistive tech.",
+          element: <PillarBadgeActiveState />,
+          code: `<PillarBadge pillar="Vision" interactive active />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Disable the badge when the underlying pillar cannot change; opacity and pointer locks communicate the frozen state.",
+          element: <PillarBadgeDisabledState />,
+          code: `<PillarBadge pillar="Vision" interactive disabled />`,
+        },
+      ],
     },
     {
       id: "pillar-selector",
@@ -3568,6 +3955,44 @@ React.useEffect(() => {
       element: <PillarSelector />,
       tags: ["pillar", "selector"],
       code: `<PillarSelector />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "Hovering a chip raises the group with the soft neo shadow so the upcoming selection is obvious to pointer users.",
+          element: <PillarSelectorHoverState />,
+          code: `<PillarSelector
+  className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Press Tab to focus the selector; the ring token outlines the tray while Space toggles the focused badge and arrow keys move between pillars.",
+          element: <PillarSelectorFocusState />,
+          code: `<PillarSelector
+  className="rounded-card p-[var(--space-2)] ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Selected pillars glow with the gradient indicator; Space toggles the highlighted badge without collapsing the row.",
+          element: <PillarSelectorActiveState />,
+          code: `<PillarSelector value={["Wave", "Trading"]} />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Apply the disabled token when review notes are locked so neither pointer nor keyboard input can adjust pillars.",
+          element: <PillarSelectorDisabledState />,
+          code: `<PillarSelector className="pointer-events-none opacity-[var(--disabled)]" />`,
+        },
+      ],
     },
     {
       id: "role-selector",
@@ -3575,6 +4000,52 @@ React.useEffect(() => {
       element: <RoleSelectorDemo />,
       tags: ["role", "selector"],
       code: `<RoleSelector value={role} onChange={setRole} />`,
+      states: [
+        {
+          id: "hover",
+          name: "Hover",
+          description:
+            "The segmented tray floats with the soft neon shadow on hover so the active lane stays anchored while exploring other roles.",
+          element: <RoleSelectorHoverState />,
+          code: `<RoleSelector
+  value="MID"
+  onChange={() => {}}
+  className="shadow-[var(--shadow-neo-soft)]"
+/>`,
+        },
+        {
+          id: "focus",
+          name: "Focus-visible",
+          description:
+            "Press Tab to enter the segmented control; the focus token outlines the rail and arrow keys cycle lanes while Space or Enter confirms.",
+          element: <RoleSelectorFocusState />,
+          code: `<RoleSelector
+  value="MID"
+  onChange={() => {}}
+  className="ring-2 ring-[var(--focus)] ring-offset-2 ring-offset-[var(--btn-bg)]"
+/>`,
+        },
+        {
+          id: "active",
+          name: "Active / selected",
+          description:
+            "Choosing a lane slides the glitch indicator behind the tab and updates the polite live region for screen readers.",
+          element: <RoleSelectorActiveState />,
+          code: `<RoleSelector value="BOT" onChange={() => {}} />`,
+        },
+        {
+          id: "disabled",
+          name: "Disabled",
+          description:
+            "Dim the control with the disabled opacity token when the review locks so neither pointer nor keyboard events change the selection.",
+          element: <RoleSelectorDisabledState />,
+          code: `<RoleSelector
+  value="MID"
+  onChange={() => {}}
+  className="pointer-events-none opacity-[var(--disabled)]"
+/>`,
+        },
+      ],
     },
   ],
   components: [
