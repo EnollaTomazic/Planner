@@ -37,7 +37,7 @@ const NEO_TABLIST_SHARED_CLASSES = [
   "data-[variant=neo]:[&_[data-active=true]::after]:left-[var(--space-3)]",
   "data-[variant=neo]:[&_[data-active=true]::after]:right-[var(--space-3)]",
   "data-[variant=neo]:[&_[data-active=true]::after]:-bottom-[var(--space-2)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:h-px",
+  "data-[variant=neo]:[&_[data-active=true]::after]:h-[var(--hairline-w)]",
   "data-[variant=neo]:[&_[data-active=true]::after]:rounded-full",
   "data-[variant=neo]:[&_[data-active=true]::after]:underline-gradient",
 ].join(" ");
