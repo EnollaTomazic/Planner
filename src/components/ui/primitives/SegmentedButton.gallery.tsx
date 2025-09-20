@@ -4,15 +4,35 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import SegmentedButton from "./SegmentedButton";
 
-const SEGMENTED_BUTTON_STATES = [
-  { label: "Default", props: { children: "Default" } },
-  { label: "Active", props: { children: "Active", isActive: true } },
-  { label: "Disabled", props: { children: "Disabled", disabled: true } },
-  { label: "Loading", props: { children: "Loading", loading: true } },
-] satisfies ReadonlyArray<{
+const SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME =
+  "[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]";
+
+const SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME =
+  "ring-2 ring-[--theme-ring] ring-offset-0 outline-none";
+
+const SEGMENTED_BUTTON_STATES: ReadonlyArray<{
   label: string;
   props: React.ComponentProps<typeof SegmentedButton>;
-}>;
+}> = [
+  { label: "Default", props: { children: "Default" } },
+  {
+    label: "Hover",
+    props: {
+      children: "Hover",
+      className: SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME,
+    },
+  },
+  { label: "Active", props: { children: "Active", isActive: true } },
+  {
+    label: "Focus-visible",
+    props: {
+      children: "Focus-visible",
+      className: SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME,
+    },
+  },
+  { label: "Disabled", props: { children: "Disabled", disabled: true } },
+  { label: "Loading", props: { children: "Loading", loading: true } },
+];
 
 function SegmentedButtonGalleryPreview() {
   return (
@@ -54,7 +74,9 @@ export default defineGallerySection({
       }),
       code: `<div className="flex flex-wrap gap-[var(--space-2)]">
   <SegmentedButton>Default</SegmentedButton>
+  <SegmentedButton className="${SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME}">Hover</SegmentedButton>
   <SegmentedButton isActive>Active</SegmentedButton>
+  <SegmentedButton className="${SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME}">Focus-visible</SegmentedButton>
   <SegmentedButton disabled>Disabled</SegmentedButton>
   <SegmentedButton loading>Loading</SegmentedButton>
 </div>`,
