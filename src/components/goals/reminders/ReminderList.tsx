@@ -96,6 +96,10 @@ function RemTile({
     const baseLabel = pinned ? "Unpin reminder" : "Pin reminder";
     return value.title ? `${baseLabel} ${value.title}` : baseLabel;
   }, [pinned, value.title]);
+  const deleteLabel = React.useMemo(() => {
+    const name = value.title.trim() || "Untitled reminder";
+    return `Delete ${name}`;
+  }, [value.title]);
 
   return (
     <article className="card-neo rounded-card card-pad relative group">
@@ -142,8 +146,8 @@ function RemTile({
 
         <div className="flex items-center gap-[var(--space-1)]">
           <IconButton
-            title="Delete"
-            aria-label="Delete"
+            title={deleteLabel}
+            aria-label={deleteLabel}
             onClick={onDelete}
             size="sm"
             iconSize="sm"
