@@ -43,7 +43,7 @@ const NEO_TABLIST_SHARED_CLASSES = [
 ].join(" ");
 
 const HEADER_FRAME_CLASSNAME = [
-  "shadow-[var(--shadow-raised)]",
+  "shadow-neo",
   "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit]",
   "before:bg-[radial-gradient(120%_82%_at_12%_-20%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(110%_78%_at_88%_-12%,hsl(var(--ring)/0.28),transparent_70%)]",
   "before:opacity-80 before:mix-blend-screen",

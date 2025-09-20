@@ -7,6 +7,21 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import { Trash2 } from "lucide-react";
 import { shortDate } from "@/lib/date";
 
+const MAX_GOAL_LABEL_LENGTH = 48;
+const FALLBACK_GOAL_LABEL = "item";
+
+function formatGoalLabel(text: string) {
+  const normalized = text.trim().replace(/\s+/g, " ");
+  const cleaned = normalized.length > 0 ? normalized : FALLBACK_GOAL_LABEL;
+
+  if (cleaned.length <= MAX_GOAL_LABEL_LENGTH) {
+    return cleaned;
+  }
+
+  const truncated = cleaned.slice(0, MAX_GOAL_LABEL_LENGTH - 1).trimEnd();
+  return `${truncated}…`;
+}
+
 export type WaitItem = { id: string; text: string; createdAt: number };
 
 interface GoalQueueProps {
@@ -41,6 +56,9 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
               items.map((it) => {
                 const created = new Date(it.createdAt);
 
+                const goalLabel = formatGoalLabel(it.text);
+                const deleteLabel = `Delete queued goal ${goalLabel}`;
+
                 return (
                   <li key={it.id} className="group flex items-center gap-2 py-3">
                     <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
@@ -53,8 +71,8 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                     </time>
                     <div className="flex items-center gap-1 ml-2">
                       <IconButton
-                        title="Delete"
-                        aria-label="Delete"
+                        title={deleteLabel}
+                        aria-label={deleteLabel}
                         onClick={() => onRemove(it.id)}
                         size="sm"
                         iconSize="sm"

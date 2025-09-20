@@ -57,8 +57,8 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const addTaskImage = (id: string, url: string) =>
     upsertDay(iso, (d) => dayAddTaskImage(d, id, url));
 
-  const removeTaskImage = (id: string, url: string) =>
-    upsertDay(iso, (d) => dayRemoveTaskImage(d, id, url));
+  const removeTaskImage = (id: string, url: string, index?: number) =>
+    upsertDay(iso, (d) => dayRemoveTaskImage(d, id, url, index));
 
   const setNotesForDay = (notes: string) =>
     upsertDay(iso, (d) => setNotes(d, notes));

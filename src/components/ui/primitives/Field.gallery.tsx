@@ -18,6 +18,19 @@ function FieldGalleryPreview() {
         <Field.Input placeholder="Default field" />
       </Field.Root>
 
+      <Field.Root
+        className="ring-2 ring-[hsl(var(--ring))]"
+        helper="Helper text aligns with counter"
+        helperId="field-focus-helper"
+        counter="64 / 100"
+        counterId="field-focus-counter"
+      >
+        <Field.Input
+          aria-describedby="field-focus-helper field-focus-counter"
+          placeholder="Forced focus ring"
+        />
+      </Field.Root>
+
       <Field.Root invalid helper="Incorrect format" helperTone="danger">
         <Field.Input placeholder="Invalid field" aria-invalid />
       </Field.Root>
@@ -91,6 +104,7 @@ export default defineGallerySection({
           type: "state",
           values: [
             { value: "Default" },
+            { value: "Focus visible" },
             { value: "Invalid" },
             { value: "Loading" },
             { value: "Disabled" },
@@ -108,6 +122,18 @@ export default defineGallerySection({
 
 <Field.Root helper="Compose primitives">
   <Field.Input placeholder="Default field" />
+</Field.Root>
+<Field.Root
+  className="ring-2 ring-[hsl(var(--ring))]"
+  helper="Helper text aligns with counter"
+  helperId="field-focus-helper"
+  counter="64 / 100"
+  counterId="field-focus-counter"
+>
+  <Field.Input
+    aria-describedby="field-focus-helper field-focus-counter"
+    placeholder="Forced focus ring"
+  />
 </Field.Root>
 <Field.Root invalid helper="Incorrect format" helperTone="danger">
   <Field.Input placeholder="Invalid field" aria-invalid />
