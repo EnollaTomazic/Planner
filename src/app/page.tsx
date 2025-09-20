@@ -247,21 +247,22 @@ function HeroPlannerCards() {
                 const projectName = task.projectId
                   ? projectNames.get(task.projectId) ?? null
                   : null;
+                const toggleLabel = task.done
+                  ? `Mark ${task.title} as not done`
+                  : `Mark ${task.title} as done`;
                 return (
                   <li key={task.id} className="flex items-start gap-[var(--space-3)]">
                     <CheckCircle
                       checked={task.done}
                       onChange={() => handleToggleTask(task.id)}
-                      aria-label={
-                        task.done
-                          ? `Mark ${task.title} as not done`
-                          : `Mark ${task.title} as done`
-                      }
+                      aria-label={toggleLabel}
                       size="sm"
                     />
                     <button
                       type="button"
                       onClick={() => handleToggleTask(task.id)}
+                      aria-pressed={task.done}
+                      aria-label={toggleLabel}
                       className={cn(
                         "flex flex-col items-start gap-[var(--space-1)] rounded-card r-card-sm px-[var(--space-1)] py-[var(--space-1)] text-left transition",
                         "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",

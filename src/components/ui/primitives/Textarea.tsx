@@ -18,6 +18,8 @@ export type TextareaProps =
     textareaClassName?: string;
     /** Tailwind `resize-*` utility to control resizing behavior */
     resize?: string;
+    /** Optional loading state forwarded via `data-loading` */
+    "data-loading"?: string | boolean | number;
   };
 
 export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -42,12 +44,19 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         slugifyFallback: true,
       },
     );
+    const loadingAttr = props["data-loading"];
+    const loading =
+      loadingAttr === "" ||
+      loadingAttr === true ||
+      loadingAttr === "true" ||
+      loadingAttr === 1;
 
     return (
       <Field.Root
         invalid={isInvalid}
         disabled={props.disabled}
         readOnly={props.readOnly}
+        loading={loading}
         className={cn("items-start", className)}
       >
         <Field.Textarea
