@@ -49,6 +49,12 @@ const SIZE_STYLES: Record<
     caret: "size-[var(--space-6)]",
     prefix: "size-[var(--space-6)]",
   },
+  xl: {
+    height: "h-[var(--control-h-xl)]",
+    paddingX: "px-[var(--space-4)]",
+    caret: "size-[var(--space-6)]",
+    prefix: "size-[var(--space-6)]",
+  },
 };
 
 const AnimatedSelect = React.forwardRef<

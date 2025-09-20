@@ -29,7 +29,7 @@ type FieldPlaygroundProps = {
   defaultValue: string;
   clearable: boolean;
   options: readonly FieldOption[];
-  height: "sm" | "md" | "lg";
+  height: "sm" | "md" | "lg" | "xl";
 };
 
 function FieldPlayground({

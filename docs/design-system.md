@@ -62,7 +62,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - `Input` fields reuse their generated `id` as the default `name` to avoid
   collisions when several fields share the same label. Supply a custom `name`
   (or `id`) if you need specific form field identifiers.
-- Control height is set via a `height` prop that accepts `"sm" | "md" | "lg"`
+- Control height is set via a `height` prop that accepts `"sm" | "md" | "lg" | "xl"`
   or a numeric Tailwind token (e.g. `12` for `h-12`). The native `size`
   attribute remains available for setting character width.
 - `Button` automatically sizes any `svg` icons based on the `size` option
