@@ -22,7 +22,7 @@ type Story = StoryObj<typeof IconButton>;
 
 export const WithAriaLabel: Story = {
   args: {
-    variant: "ring",
+    variant: "ghost",
     tone: "primary",
     size: "md",
   },
@@ -43,7 +43,7 @@ export const WithAriaLabel: Story = {
 
 export const WithTitle: Story = {
   args: {
-    variant: "glow",
+    variant: "secondary",
     tone: "info",
     size: "sm",
   },
@@ -64,7 +64,7 @@ export const WithTitle: Story = {
 
 export const WithAriaLabelledby: Story = {
   args: {
-    variant: "solid",
+    variant: "primary",
     tone: "danger",
     size: "md",
   },

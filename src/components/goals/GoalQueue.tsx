@@ -76,7 +76,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                         onClick={() => onRemove(it.id)}
                         size="sm"
                         iconSize="sm"
-                        variant="ring"
+                        variant="ghost"
                         className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
                       >
                         <Trash2 />

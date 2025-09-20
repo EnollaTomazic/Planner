@@ -220,7 +220,7 @@ function TimestampMarkers(
             title={canAddMarker ? "Add timestamp" : "Enter details"}
             size="md"
             iconSize="sm"
-            variant="solid"
+            variant="primary"
             disabled={!canAddMarker}
             onClick={addMarker}
             onKeyDown={(e) => onIconKey(e, addMarker)}
@@ -257,7 +257,7 @@ function TimestampMarkers(
                   title="Delete timestamp"
                   size="sm"
                   iconSize="sm"
-                  variant="ring"
+                  variant="ghost"
                   onClick={() => removeMarker(m.id)}
                 >
                   <Trash2 />
