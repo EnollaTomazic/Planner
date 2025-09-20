@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
 import IconButton from "./IconButton";
 
-export type FieldHeight = "sm" | "md" | "lg";
+export type FieldHeight = "sm" | "md" | "lg" | "xl";
 
 const HEIGHT_MAP: Record<FieldHeight, string> = {
   sm: "var(--control-h-sm)",
   md: "var(--control-h-md)",
   lg: "var(--control-h-lg)",
+  xl: "var(--control-h-xl)",
 };
 
 const FIELD_ROOT_BASE = cn(

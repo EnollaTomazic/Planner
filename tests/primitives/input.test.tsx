@@ -17,6 +17,7 @@ describe("Input", () => {
     ["sm", "var(--control-h-sm)"],
     ["md", "var(--control-h-md)"],
     ["lg", "var(--control-h-lg)"],
+    ["xl", "var(--control-h-xl)"],
   ])("applies %s height", (size, value) => {
     const { getByRole } = render(
       <Input aria-label={size} height={size} />,
