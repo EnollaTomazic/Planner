@@ -402,15 +402,6 @@ export default function TimerTab() {
   }, [running, isCustom, pause, start, reset, setTimer]);
 
   const pct = Math.round(progress * 100);
-  const [ringSize, setRingSize] = React.useState(224);
-  React.useEffect(() => {
-    function update() {
-      setRingSize(Math.min(224, window.innerWidth - 64));
-    }
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   return (
     <>
@@ -466,10 +457,9 @@ export default function TimerTab() {
 
             {/* ring + digits */}
             <div
-              className="group relative mx-auto flex items-center justify-center"
-              style={{ width: ringSize, height: ringSize }}
+              className="group relative mx-auto flex aspect-square w-full max-w-[min(calc(var(--space-8)*3.5),calc(100vw-var(--space-8)))] items-center justify-center"
             >
-              <TimerRing pct={pct} size={ringSize} />
+              <TimerRing pct={pct} className="size-full" />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
                 <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-[var(--dur-quick)] group-hover:translate-y-0.5 sm:text-title-lg">
                   {formatMmSs(remaining, {

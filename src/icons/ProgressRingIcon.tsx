@@ -1,15 +1,20 @@
 import * as React from "react";
+import { spacingTokens } from "@/lib/tokens";
 
 interface ProgressRingIconProps {
   pct: number; // 0..100
   size?: number;
 }
 
+const PROGRESS_DIAMETER = spacingTokens[7];
+const TRACK_INSET = spacingTokens[2] / 2;
+const STROKE_WIDTH = spacingTokens[0];
+
 export default function ProgressRingIcon({
   pct,
-  size = 64,
+  size = PROGRESS_DIAMETER,
 }: ProgressRingIconProps) {
-  const radius = size / 2 - 6;
+  const radius = size / 2 - TRACK_INSET;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   return (
@@ -22,7 +27,7 @@ export default function ProgressRingIcon({
         cy={size / 2}
         r={radius}
         stroke="currentColor"
-        strokeWidth={4}
+        strokeWidth={STROKE_WIDTH}
         className="text-foreground/20"
         fill="none"
       />
@@ -31,7 +36,7 @@ export default function ProgressRingIcon({
         cy={size / 2}
         r={radius}
         stroke="currentColor"
-        strokeWidth={4}
+        strokeWidth={STROKE_WIDTH}
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
