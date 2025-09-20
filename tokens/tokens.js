@@ -78,6 +78,7 @@ export default {
   durQuick: "140ms",
   durChill: "220ms",
   durSlow: "420ms",
+  controlHXs: "24px",
   controlHSm: "32px",
   controlHMd: "40px",
   controlHLg: "48px",
