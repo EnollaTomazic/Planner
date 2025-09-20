@@ -171,7 +171,7 @@ exports[`ReviewsPage > renders default state 1`] = `
           </div>
         </div>
         <div
-          class="group/hero-slots relative z-[1] isolate w-full grid grid-cols-1 mt-[var(--space-6)] md:mt-[var(--space-7)] pt-[var(--space-5)] md:pt-[var(--space-6)] gap-[var(--space-3)] md:gap-[var(--space-4)] md:grid-cols-12 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:blur-sm after:content-['']"
+          class="group/hero-slots relative z-[1] isolate w-full grid grid-cols-1 mt-[var(--space-6)] md:mt-[var(--space-7)] pt-[var(--space-5)] md:pt-[var(--space-6)] gap-[var(--space-3)] md:gap-[var(--space-4)] md:grid-cols-12 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']"
           data-align="center"
           role="group"
         >
