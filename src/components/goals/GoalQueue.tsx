@@ -17,6 +17,7 @@ interface GoalQueueProps {
 
 export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   const [val, setVal] = React.useState("");
+  const inputId = React.useId();
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -71,7 +72,11 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
 
           <form onSubmit={submit} className="flex items-center gap-2 pt-3">
             <span className="h-2 w-2 rounded-full bg-foreground/40" aria-hidden />
+            <label className="sr-only" htmlFor={inputId}>
+              Add to queue and press Enter
+            </label>
             <Input
+              id={inputId}
               className="flex-1 text-ui font-medium"
               height="sm"
               value={val}
