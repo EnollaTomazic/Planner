@@ -7,9 +7,17 @@ import HeaderTabs, { type HeaderTabItem } from "./HeaderTabs";
 
 type ItemKey = "plan" | "review" | "archive";
 
+const HEADER_TAB_FOCUS_VISIBLE_CLASSNAME =
+  "data-[state=inactive]:shadow-[0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.55)] data-[state=inactive]:outline-none";
+
 const ITEMS: HeaderTabItem<ItemKey>[] = [
   { key: "plan", label: "Plan", icon: <Circle aria-hidden="true" /> },
-  { key: "review", label: "Review", icon: <CircleDot aria-hidden="true" /> },
+  {
+    key: "review",
+    label: "Review",
+    icon: <CircleDot aria-hidden="true" />,
+    className: HEADER_TAB_FOCUS_VISIBLE_CLASSNAME,
+  },
   {
     key: "archive",
     label: "Archive",
@@ -51,6 +59,7 @@ export default defineGallerySection({
           values: [
             { value: "Active" },
             { value: "Inactive" },
+            { value: "Focus-visible" },
             { value: "Disabled" },
           ],
         },
@@ -62,7 +71,12 @@ export default defineGallerySection({
       code: `<HeaderTabs
   items={[
     { key: "plan", label: "Plan", icon: <Circle aria-hidden="true" /> },
-    { key: "review", label: "Review", icon: <CircleDot aria-hidden="true" /> },
+    {
+      key: "review",
+      label: "Review",
+      icon: <CircleDot aria-hidden="true" />,
+      className: "${HEADER_TAB_FOCUS_VISIBLE_CLASSNAME}",
+    },
     {
       key: "archive",
       label: "Archive",
