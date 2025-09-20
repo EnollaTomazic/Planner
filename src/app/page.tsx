@@ -175,36 +175,38 @@ function HeroPlannerCards() {
   );
 
   const heroSummary = (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col gap-[var(--space-3)]">
-      <div className="space-y-[var(--space-1)]">
-        <p className="text-label text-muted-foreground">Highlights</p>
-        <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
-          Quick summary
-        </h3>
-      </div>
-      <ul className="grid gap-[var(--space-2)]" role="list">
-        {heroSummaryItems.map((item) => (
-          <li key={item.key}>
-            <Link
-              href={item.href}
-              className={cn(
-                "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
-                "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-              )}
-            >
-              <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
-                <span className="text-label text-muted-foreground">{item.label}</span>
-                <span className="text-ui font-semibold text-card-foreground text-balance">
-                  {item.value}
+    <div className="col-span-12 md:col-span-6 lg:col-span-4">
+      <NeoCard className="flex h-full flex-col gap-[var(--space-3)] md:p-[var(--space-5)]">
+        <div className="space-y-[var(--space-1)]">
+          <p className="text-label text-muted-foreground">Highlights</p>
+          <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
+            Quick summary
+          </h3>
+        </div>
+        <ul className="grid gap-[var(--space-2)]" role="list">
+          {heroSummaryItems.map((item) => (
+            <li key={item.key}>
+              <Link
+                href={item.href}
+                className={cn(
+                  "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
+                  "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                )}
+              >
+                <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
+                  <span className="text-label text-muted-foreground">{item.label}</span>
+                  <span className="text-ui font-semibold text-card-foreground text-balance">
+                    {item.value}
+                  </span>
+                </div>
+                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground">
+                  {item.cta}
                 </span>
-              </div>
-              <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground">
-                {item.cta}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </NeoCard>
     </div>
   );
 
@@ -223,7 +225,7 @@ function HeroPlannerCards() {
   );
 
   return (
-    <div className="grid grid-cols-12 gap-[var(--space-4)]">
+    <div className="grid grid-cols-12 gap-[var(--space-5)]">
       {heroSummary}
       <div className="col-span-12 md:col-span-6 lg:col-span-4">
         <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
@@ -443,21 +445,22 @@ function HomePageContent() {
             className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset"
           />
           <div className="relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]">
-            <section
-              id="landing-hero"
-              role="region"
-              aria-label="Intro"
-              className="grid grid-cols-12 gap-[var(--space-4)] pb-[var(--space-2)] md:pb-[var(--space-3)]"
-            >
-              <div className="col-span-12">
-                <PageHeader
-                  header={{
-                    id: "home-header",
-                    heading: "Welcome to Planner",
-                    subtitle: "Plan your day, track goals, and review games.",
-                    icon: <Home className="opacity-80" />,
-                    sticky: false,
-                  }}
+            <div className={cn(floatingSurfaceClass, floatingPaddingClass)}>
+              <section
+                id="landing-hero"
+                role="region"
+                aria-label="Intro"
+                className="grid grid-cols-12 gap-[var(--space-4)] pb-[var(--space-2)] md:pb-[var(--space-3)]"
+              >
+                <div className="col-span-12">
+                  <PageHeader
+                    header={{
+                      id: "home-header",
+                      heading: "Welcome to Planner",
+                      subtitle: "Plan your day, track goals, and review games.",
+                      icon: <Home className="opacity-80" />,
+                      sticky: false,
+                    }}
                     hero={{
                       heading: "Your day at a glance",
                       sticky: false,
@@ -484,14 +487,15 @@ function HomePageContent() {
                         <div className="pt-[var(--space-4)]">
                           <HeroPlannerCards />
                         </div>
-                    ),
-                  }}
-                />
-              </div>
-            </section>
+                      ),
+                    }}
+                  />
+                </div>
+              </section>
+            </div>
             <div
               className={cn(
-                "space-y-[var(--space-6)]",
+                "space-y-[var(--space-7)]",
                 floatingSurfaceClass,
                 floatingPaddingClass,
               )}
