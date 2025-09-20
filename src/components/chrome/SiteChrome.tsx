@@ -3,6 +3,7 @@
 import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
 import BottomNav from "@/components/chrome/BottomNav";
+import BrandWordmark from "@/components/chrome/BrandWordmark";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
@@ -33,9 +34,7 @@ export default function SiteChrome() {
             className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[var(--shadow-glow-sm)]"
             aria-hidden
           />
-          <span className="font-mono tracking-wide text-muted-foreground">
-            noxi
-          </span>
+          <BrandWordmark />
         </Link>
 
         <div className="col-span-full hidden min-w-0 items-center md:col-span-6 md:flex lg:col-span-7">

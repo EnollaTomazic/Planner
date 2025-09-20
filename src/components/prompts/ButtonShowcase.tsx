@@ -29,6 +29,10 @@ export default function ButtonShowcase() {
           <Plus />
           Large
         </Button>
+        <Button size="xl">
+          <Plus />
+          Extra large
+        </Button>
       </div>
     </div>
   );

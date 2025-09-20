@@ -54,6 +54,7 @@ import {
   ScoreMeter,
 } from "@/components/reviews";
 import Banner from "@/components/chrome/Banner";
+import BrandWordmark from "@/components/chrome/BrandWordmark";
 import NavBar from "@/components/chrome/NavBar";
 import {
   DayCardHeader,
@@ -955,6 +956,14 @@ export default function ComponentGallery() {
           </div>
         ),
       },
+      {
+        label: "BrandWordmark",
+        element: (
+          <div className="w-56 flex justify-center">
+            <BrandWordmark />
+          </div>
+        ),
+      },
       { label: "NavBar", element: <NavBar /> },
       {
         label: "ReviewListItem",
@@ -1108,29 +1117,67 @@ export default function ComponentGallery() {
         label: "Hero",
         element: (
           <div className="w-56 space-y-[var(--space-4)]">
-            <Hero
-              heading="Hero"
-              eyebrow="Eyebrow"
-              subtitle="Subtitle"
-              sticky={false}
-              topClassName="top-0"
-              subTabs={{
-                items: [
-                  { key: "one", label: "One" },
-                  { key: "two", label: "Two" },
-                ],
-                value: headerTab,
-                onChange: setHeaderTab,
-                ariaLabel: "Gallery hero tabs",
-                linkPanels: false,
-              }}
-              search={{ value: "", onValueChange: () => {}, round: true }}
-              actions={<Button size="sm">Action</Button>}
-            >
-              <div className="text-ui font-medium text-muted-foreground">
-                Body
-              </div>
-            </Hero>
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-label font-medium text-muted-foreground">
+                Glitch (default)
+              </p>
+              <Hero
+                heading="Hero"
+                eyebrow="Eyebrow"
+                subtitle="Subtitle"
+                sticky={false}
+                topClassName="top-0"
+                subTabs={{
+                  items: [
+                    { key: "one", label: "One" },
+                    { key: "two", label: "Two" },
+                  ],
+                  value: headerTab,
+                  onChange: setHeaderTab,
+                  ariaLabel: "Gallery hero tabs",
+                  linkPanels: false,
+                }}
+                search={{ value: "", onValueChange: () => {}, round: true }}
+                actions={<Button size="sm">Action</Button>}
+              >
+                <div className="text-ui font-medium text-muted-foreground">
+                  Body
+                </div>
+              </Hero>
+            </div>
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-label font-medium text-muted-foreground">
+                Glitch (subtle)
+              </p>
+              <Hero
+                heading="Hero"
+                eyebrow="Eyebrow"
+                subtitle="Subtitle"
+                sticky={false}
+                topClassName="top-0"
+                glitch="subtle"
+                subTabs={{
+                  items: [
+                    { key: "one", label: "One" },
+                    { key: "two", label: "Two" },
+                  ],
+                  value: headerTab,
+                  onChange: setHeaderTab,
+                  ariaLabel: "Gallery hero tabs (subtle)",
+                  linkPanels: false,
+                }}
+                search={{ value: "", onValueChange: () => {}, round: true }}
+                actions={
+                  <Button size="sm" variant="secondary">
+                    Calm action
+                  </Button>
+                }
+              >
+                <div className="text-ui font-medium text-muted-foreground">
+                  Body
+                </div>
+              </Hero>
+            </div>
             <NeomorphicHeroFrame
               variant="dense"
               align="end"
