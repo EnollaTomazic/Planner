@@ -65,7 +65,7 @@ export default function GoalSlot({
   }
 
   return (
-    <div className="group relative rounded-card r-card-lg border border-border bg-surface p-1 shadow-neoSoft">
+    <div className="group relative rounded-card r-card-lg border border-border bg-surface p-[var(--space-1)] shadow-neoSoft">
       <div
         className={cn(
           "relative flex aspect-[4/3] w-full items-center justify-center rounded-card r-card-lg bg-surface-2 font-mono text-center text-ui font-medium text-foreground",
@@ -74,7 +74,7 @@ export default function GoalSlot({
       >
         {goal ? (
           editing ? (
-            <div className="flex w-full flex-col items-center">
+            <div className="flex w-full flex-col items-center gap-[var(--space-1)]">
               <Input
                 ref={inputRef}
                 value={draft}
@@ -83,7 +83,7 @@ export default function GoalSlot({
                 aria-label="Goal title"
                 height="sm"
               />
-              <div className="mt-1 flex space-x-1">
+              <div className="flex items-center gap-[var(--space-1)]">
                 <IconButton
                   size="sm"
                   tone="accent"
@@ -104,7 +104,7 @@ export default function GoalSlot({
             </div>
           ) : (
             <>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center gap-[var(--space-1)]">
                 <span className={cn("block", goal?.done && "line-through")}>
                   {goal.title}
                 </span>
@@ -112,40 +112,48 @@ export default function GoalSlot({
                   <PillarBadge
                     pillar={goal.pillar}
                     size="sm"
-                    className="mt-1"
                     as="span"
                   />
                 )}
               </div>
-              <button
-                type="button"
-                className={cn(
-                  "absolute bottom-1 right-1 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground transition-colors hover:bg-surface-2 active:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none",
-                  goal?.done && "text-success",
-                )}
+              <IconButton
+                size="sm"
+                iconSize="xs"
+                tone={goal.done ? "accent" : "primary"}
+                variant="ring"
+                className="absolute bottom-[var(--space-1)] right-[var(--space-1)]"
                 aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
                 aria-pressed={goal.done}
                 onClick={() => onToggleDone?.(goal.id)}
               >
                 <Check className="h-4 w-4" />
-              </button>
-              <button
-                ref={editButtonRef}
-                type="button"
-                className="absolute bottom-1 left-1 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
-                aria-label="Edit goal"
-                onClick={startEdit}
+              </IconButton>
+              <div
+                className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] flex items-center gap-[var(--space-1)] opacity-0 transition-opacity duration-[var(--dur-quick)] ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
               >
-                <Pencil className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                className="absolute bottom-1 left-7 flex rounded-[var(--control-radius)] bg-surface p-1 text-foreground opacity-0 transition-opacity transition-colors group-hover:opacity-100 hover:bg-surface-2 active:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] disabled:opacity-50 disabled:pointer-events-none"
-                aria-label="Delete goal"
-                onClick={() => onDelete?.(goal.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+                <IconButton
+                  ref={editButtonRef}
+                  size="sm"
+                  iconSize="xs"
+                  variant="ring"
+                  aria-label="Edit goal"
+                  title="Edit goal"
+                  onClick={startEdit}
+                >
+                  <Pencil className="h-4 w-4" />
+                </IconButton>
+                <IconButton
+                  size="sm"
+                  iconSize="xs"
+                  tone="danger"
+                  variant="ring"
+                  aria-label="Delete goal"
+                  title="Delete goal"
+                  onClick={() => onDelete?.(goal.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </IconButton>
+              </div>
             </>
           )
         ) : (
