@@ -35,7 +35,7 @@ const containerClassName = cn(
   "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
   "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
   "after:pointer-events-none after:absolute after:-inset-px after:-z-10 after:rounded-[inherit]",
-  "after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.12)_0%,transparent_58%,hsl(var(--ring)/0.16)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0,hsl(var(--ring)/0.12)_1px,transparent_1px,transparent_calc(var(--space-3)))]",
+  "after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.12)_0%,transparent_58%,hsl(var(--ring)/0.16)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0,hsl(var(--ring)/0.12)_var(--hairline-w),transparent_var(--hairline-w),transparent_calc(var(--space-3)))]",
   "after:opacity-65 after:mix-blend-soft-light motion-reduce:after:opacity-45",
 );
 
