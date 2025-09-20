@@ -25,7 +25,7 @@ export default function DurationSelector({
     <div
       role="radiogroup"
       aria-disabled={disabled || undefined}
-      className={cn("flex flex-row gap-3", className)}
+      className={cn("flex flex-row gap-[var(--space-3)]", className)}
     >
       {options.map((m) => {
         const active = value === m;
@@ -39,7 +39,7 @@ export default function DurationSelector({
             aria-checked={active}
             aria-disabled={disabled || undefined}
             className={cn(
-              "inline-flex items-center justify-center h-9 px-3 rounded-full text-center text-ui font-medium",
+              "inline-flex items-center justify-center h-[var(--control-h-sm)] px-[var(--space-3)] rounded-full text-center text-ui font-medium",
               "border transition-colors",
               "border-border/10 bg-foreground/5 text-foreground/70",
               "hover:bg-foreground/10 hover:text-foreground/70",
