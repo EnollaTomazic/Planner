@@ -22,7 +22,7 @@ describe("TeamCompPage builder tab", () => {
     const heroHeading = screen.getByRole("heading", { name: "Builder" });
     expect(heroHeading).toBeInTheDocument();
     const cardParent = screen.getByText("Allies").closest("section")?.parentElement;
-    expect(cardParent).toHaveClass("mt-6");
+    expect(cardParent).toHaveClass("mt-[var(--space-6)]");
   });
 
   it("handles missing lane entries gracefully", () => {

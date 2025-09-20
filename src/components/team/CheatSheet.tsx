@@ -462,7 +462,7 @@ export default function CheatSheet({
     <section
       data-scope="team"
       className={[
-        "grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3",
+        "grid gap-[var(--space-4)] sm:gap-[var(--space-6)] md:grid-cols-2 xl:grid-cols-3",
         className,
       ].join(" ")}
     >
@@ -475,13 +475,13 @@ export default function CheatSheet({
             className={[
               "group glitch-card card-neo relative h-full",
               dense
-                ? "p-4"
-                : "p-5",
+                ? "p-[var(--space-4)]"
+                : "p-[var(--space-5)]",
             ].join(" ")}
           >
             {/* Top-right edit/save control */}
             {editing && (
-              <div className="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-100 pointer-events-auto">
+              <div className="absolute right-2 top-2 z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
                 {!isEditing ? (
                   <IconButton
                     title="Edit"
@@ -522,7 +522,7 @@ export default function CheatSheet({
             </header>
 
             {/* Body */}
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-[var(--space-4)]">
               <div>
                 <Label>Wins when</Label>
                 <BulletListEdit
@@ -560,7 +560,7 @@ export default function CheatSheet({
               {/* Examples with fixed role column */}
               <div>
                 <Label>Examples</Label>
-                <div className="mt-2 space-y-2">
+                <div className="mt-[var(--space-2)] space-y-[var(--space-2)]">
                   {ROLES.map(
                     (role) => {
                       const champs = a.examples?.[role] ?? [];
@@ -574,10 +574,10 @@ export default function CheatSheet({
                       return (
                         <div
                           key={role}
-                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-3"
+                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-[var(--space-3)]"
                         >
                           <div
-                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-1"
+                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-[var(--space-1)]"
                             data-text={role}
                           >
                             {role}

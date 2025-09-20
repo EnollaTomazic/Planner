@@ -250,7 +250,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
           {editing && (
             <form
               onSubmit={addNew}
-              className="rounded-card flex items-center gap-6 glitch"
+              className="rounded-card flex items-center gap-[var(--space-6)] glitch"
             >
               <Input
                 dir="ltr"
@@ -276,22 +276,22 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
           {/* Empty states */}
           {items.length === 0 ? (
-            <div className="rounded-card r-card-lg p-6 text-ui font-medium text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
               No comps yet. Type a title above and press Enter.
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-card r-card-lg p-6 text-ui font-medium text-muted-foreground border border-border">
+            <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
               Nothing matches your search.
             </div>
           ) : null}
 
           {/* Cards grid */}
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-[var(--space-4)]">
             {filtered.map((c) => {
               const editingCard = editingId === c.id;
               const showActions = isCoarsePointer || editing || editingCard;
               const actionClasses = [
-                "absolute right-2 top-2 z-10 flex items-center gap-1 transition-opacity",
+                "absolute right-2 top-2 z-10 flex items-center gap-[var(--space-1)] transition-opacity",
                 showActions
                   ? "opacity-100 pointer-events-auto"
                   : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto",
@@ -300,7 +300,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
               return (
                 <article
                   key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-7"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-[var(--space-7)]"
                 >
                   {/* Action controls: copy, edit, delete, save */}
                   <div className={actionClasses}>
@@ -378,7 +378,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   </header>
 
                   {/* roles */}
-                  <div className="grid gap-3">
+                  <div className="grid gap-[var(--space-3)]">
                     {ROLES.map((r) => {
                       const list = c.roles[r] ?? [];
                       const setList = (next: string[]) =>
@@ -387,10 +387,10 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                       return (
                         <div
                           key={r}
-                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-3"
+                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-[var(--space-3)]"
                         >
                           <div
-                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-1"
+                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-[var(--space-1)]"
                             data-text={r}
                           >
                             {r}
@@ -402,15 +402,15 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                             onChange={setList}
                             editing={editing && editingCard}
                             emptyLabel="-"
-                            viewClassName="champ-badges mt-1 flex flex-wrap gap-2"
+                            viewClassName="champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]"
                           />
                         </div>
                       );
                     })}
 
                     {/* notes */}
-                    <div className="grid gap-3">
-                      <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-2">
+                    <div className="grid gap-[var(--space-3)]">
+                      <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-[var(--space-2)]">
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
                       {!editingCard ? (
