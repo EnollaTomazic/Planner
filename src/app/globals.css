@@ -11,6 +11,8 @@
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
+    --asset-noise-url: url("/noise.svg");
+    --asset-glitch-gif-url: url("/glitch-gif.gif");
   }
 
   body {
@@ -84,7 +86,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 3;
-    background-image: var(--asset-glitch-gif-url, none);
+    background-image: var(--asset-glitch-gif-url, url("/glitch-gif.gif"));
     background-size: cover;
     background-position: center;
     mix-blend-mode: overlay;
@@ -238,7 +240,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
     2px 100%;
 }
 .bg-noise {
-  background-image: var(--asset-noise-url, none);
+  background-image: var(--asset-noise-url, url("/noise.svg"));
   opacity: 0.1;
 }
 
