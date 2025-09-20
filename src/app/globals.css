@@ -19,6 +19,12 @@
     --select-glitch-chroma-shift-light: calc(var(--spacing-0-25) / 10);
     --select-glitch-flicker-blur-base: calc(var(--spacing-2) - var(--spacing-0-25));
     --select-glitch-flicker-blur-peak: var(--spacing-2);
+    --team-glitch-ring-color: hsl(var(--ring) / 0.55);
+    --team-glitch-ring-blur: var(--space-2);
+    --team-glitch-ring-shadow: 0 0 var(--team-glitch-ring-blur) var(--team-glitch-ring-color);
+    --team-glitch-accent-color: hsl(var(--accent) / 0.35);
+    --team-glitch-accent-blur: var(--spacing-0-5);
+    --team-glitch-accent-shadow: 0 0 var(--team-glitch-accent-blur) var(--team-glitch-accent-color);
   }
 
   body {
