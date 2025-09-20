@@ -462,9 +462,10 @@ function HomePageContent() {
                       heading: "Your day at a glance",
                       sticky: false,
                       barVariant: "raised",
+                      glitch: "subtle",
                       topClassName: "top-0",
                       actions: (
-                        <div className="grid w-full grid-cols-12 gap-[var(--space-3)] sm:items-center">
+                        <div className="grid w-full grid-cols-12 gap-[var(--space-4)] sm:items-center">
                           <div className="col-span-12 flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:flex-nowrap md:col-span-8 lg:col-span-7">
                             <ThemeToggle className="shrink-0" />
                             <Button
