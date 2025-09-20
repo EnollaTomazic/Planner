@@ -29,8 +29,8 @@ export type BadgeProps<T extends React.ElementType = "span"> =
     Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
 const sizeMap: Record<Size, string> = {
-  xs: "px-[var(--space-2)] py-[var(--space-1)] text-label leading-none",
-  sm: "px-[var(--space-3)] py-[var(--space-2)] text-label leading-none",
+  xs: "px-[var(--space-2)] py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)]",
+  sm: "px-[var(--space-3)] py-[var(--space-2)] text-label leading-none [&_svg]:size-[var(--icon-size-sm)]",
 };
 
 const toneBorder: Record<Tone, string> = {

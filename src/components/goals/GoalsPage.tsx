@@ -348,7 +348,7 @@ function GoalsPageContent() {
           <span className="text-label font-medium tracking-[0.02em] opacity-75">
             {reminderCount}
           </span>
-          <Search className="opacity-80" size={16} />
+          <Search className="icon-sm opacity-80" />
         </div>
       ),
     };

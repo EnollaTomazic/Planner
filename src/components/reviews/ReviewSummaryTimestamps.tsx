@@ -18,8 +18,8 @@ export default function ReviewSummaryTimestamps({
   return (
     <div>
       <div className="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]" aria-label="Timestamps">
-        <NeonIcon kind="clock" on={!!hasTimed} size={32} staticGlow />
-        <NeonIcon kind="file" on={!!hasNoteOnly} size={32} staticGlow />
+        <NeonIcon kind="clock" on={!!hasTimed} size="xl" staticGlow />
+        <NeonIcon kind="file" on={!!hasNoteOnly} size="xl" staticGlow />
         <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
       </div>
       {!markers.length ? (
@@ -41,7 +41,7 @@ export default function ReviewSummaryTimestamps({
                     title="Note"
                     aria-label="Note"
                   >
-                    <FileText size={14} className="opacity-80" />
+                    <FileText aria-hidden className="icon-xs opacity-80" />
                   </span>
                 ) : (
                   <span className="pill h-7 px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
