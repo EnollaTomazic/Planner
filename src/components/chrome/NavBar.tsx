@@ -27,7 +27,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
       aria-label="Primary"
       className="max-w-full overflow-x-auto lg:overflow-x-visible"
     >
-      <ul className="flex flex-wrap items-center gap-x-[var(--space-2)] gap-y-[var(--space-2)]">
+      <ul className="flex flex-nowrap items-center gap-x-[var(--space-2)] gap-y-[var(--space-2)]">
         {items.map(({ href, label }) => {
           const active = isNavActive(path, href);
 
@@ -37,7 +37,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center rounded-[var(--radius-2xl)] border px-[var(--space-5)] py-[var(--space-3)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center rounded-[var(--radius-2xl)] border px-[var(--space-4)] py-[var(--space-3)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
