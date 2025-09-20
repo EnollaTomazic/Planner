@@ -121,6 +121,8 @@
   --shadow-ring: 0 0 var(--spacing-3) hsl(var(--ring));
   --shadow-neo-soft: 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
       hsl(var(--shadow-color));
+  --shadow-glow-small: 0 0 calc(var(--spacing-3) / 2) hsl(var(--glow) / 0.5);
+  --shadow-glow-strong: 0 0 var(--spacing-2) hsl(var(--glow));
   --shadow-glow-sm: 0 0 var(--spacing-2) var(--glow-active);
   --shadow-glow-md: 0 0 var(--spacing-4) var(--glow-active);
   --shadow-glow-lg: 0 0 var(--spacing-5) var(--glow-active);
