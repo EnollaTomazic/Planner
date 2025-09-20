@@ -2,15 +2,14 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { todayISO, useFocus, type ISODate } from "./plannerStore";
+import { useFocus, type ISODate } from "./plannerStore";
 
 /**
  * Exposes the currently focused ISO date and helper to update it.
  * @returns Current focus ISO date, setter, and today's ISO string.
  */
 export function useFocusDate() {
-  const { focus, setFocus } = useFocus();
-  const today = todayISO();
+  const { focus, setFocus, today } = useFocus();
   return { iso: focus, setIso: setFocus, today } as const;
 }
 
@@ -20,7 +19,7 @@ export function useFocusDate() {
  * @returns Week start/end dates, list of day ISO strings, and today checker.
  */
 export function useWeek(iso: ISODate) {
-  const today = todayISO();
+  const { today } = useFocus();
   return React.useMemo(() => {
     const { start, end } = weekRangeFromISO(iso);
     const days: ISODate[] = [];

@@ -475,6 +475,7 @@ type DaysState = {
 type FocusState = {
   focus: ISODate;
   setFocus: React.Dispatch<React.SetStateAction<ISODate>>;
+  today: ISODate;
 };
 
 type SelectionState = {
@@ -500,6 +501,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
+  const [today, setToday] = React.useState(() => todayISO());
 
   const days = rawDays;
 
@@ -508,6 +510,38 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       setFocus((prev) => (prev === FOCUS_PLACEHOLDER ? todayISO() : prev));
     }
   }, [focus, setFocus]);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let cancelled = false;
+
+    const updateForNewDay = () => {
+      if (cancelled) return;
+      const nextToday = todayISO();
+      setToday(nextToday);
+      setFocus(nextToday);
+    };
+
+    const scheduleNextTick = () => {
+      const now = new Date();
+      const next = new Date(now);
+      next.setDate(now.getDate() + 1);
+      next.setHours(0, 0, 0, 0);
+      const delay = Math.max(0, next.getTime() - now.getTime());
+      return setTimeout(() => {
+        updateForNewDay();
+        timeoutId = scheduleNextTick();
+      }, delay);
+    };
+
+    let timeoutId: ReturnType<typeof setTimeout> = scheduleNextTick();
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [setFocus, setToday]);
 
   const selected = React.useMemo(
     () => cleanupSelections(selectedState, days),
@@ -582,8 +616,8 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     [days, setDays, tasksById],
   );
   const focusValue = React.useMemo(
-    () => ({ focus, setFocus }),
-    [focus, setFocus],
+    () => ({ focus, setFocus, today }),
+    [focus, setFocus, today],
   );
   const setSelected = React.useCallback<
     React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>
