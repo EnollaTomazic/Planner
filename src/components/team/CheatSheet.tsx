@@ -34,6 +34,89 @@ export type Archetype = {
   examples: LaneExamples;
 };
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+export function decodeCheatSheet(value: unknown): Archetype[] | null {
+  if (!Array.isArray(value)) return null;
+
+  const safeList: Archetype[] = [];
+
+  for (const entry of value) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      return null;
+    }
+
+    const {
+      id,
+      title,
+      description,
+      wins,
+      struggles,
+      tips,
+      examples,
+    } = entry as Record<string, unknown>;
+
+    if (
+      typeof id !== "string" ||
+      typeof title !== "string" ||
+      typeof description !== "string" ||
+      !isStringArray(wins)
+    ) {
+      return null;
+    }
+
+    if (typeof struggles !== "undefined" && !isStringArray(struggles)) {
+      return null;
+    }
+
+    if (typeof tips !== "undefined" && !isStringArray(tips)) {
+      return null;
+    }
+
+    const laneExamples: LaneExamples = {};
+
+    if (typeof examples !== "undefined") {
+      if (
+        examples === null ||
+        typeof examples !== "object" ||
+        Array.isArray(examples)
+      ) {
+        return null;
+      }
+
+      for (const [role, champs] of Object.entries(
+        examples as Record<string, unknown>,
+      )) {
+        if (!ROLES.includes(role as Role)) continue;
+        if (!isStringArray(champs)) return null;
+        laneExamples[role as Role] = [...champs];
+      }
+    }
+
+    const archetype: Archetype = {
+      id,
+      title,
+      description,
+      wins: [...wins],
+      examples: laneExamples,
+    };
+
+    if (typeof struggles !== "undefined") {
+      archetype.struggles = [...struggles];
+    }
+
+    if (typeof tips !== "undefined") {
+      archetype.tips = [...tips];
+    }
+
+    safeList.push(archetype);
+  }
+
+  return safeList;
+}
+
 function ensureExamples(examples?: LaneExamples): [LaneExamples, boolean] {
   if (!examples) {
     const safe = ROLES.reduce<LaneExamples>((acc, role) => {
@@ -392,6 +475,9 @@ export default function CheatSheet({
   const [sheet, setSheet] = usePersistentState<Archetype[]>(
     "team:cheatsheet.v2",
     data,
+    {
+      decode: decodeCheatSheet,
+    },
   );
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
