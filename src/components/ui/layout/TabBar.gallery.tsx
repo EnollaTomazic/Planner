@@ -5,15 +5,24 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import TabBar, { type TabItem } from "./TabBar";
 
+const focusVisibleClassName = "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none";
+
 const filterItems: TabItem<string>[] = [
   { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
   { key: "active", label: "Active", icon: <CircleDot aria-hidden="true" /> },
   { key: "done", label: "Done", icon: <CircleCheck aria-hidden="true" /> },
+  {
+    key: "focus",
+    label: "Focus-visible",
+    icon: <Circle aria-hidden="true" />,
+    className: focusVisibleClassName,
+  },
 ];
 
 const defaultItems: TabItem<string>[] = [
   { key: "a", label: "A" },
   { key: "b", label: "B" },
+  { key: "focus", label: "Focus-visible", className: focusVisibleClassName },
   { key: "c", label: "Disabled", disabled: true },
   { key: "d", label: "Syncing", loading: true },
 ];
@@ -22,6 +31,7 @@ const navigationItems: TabItem<string>[] = [
   { key: "reviews", label: "Reviews" },
   { key: "planner", label: "Planner" },
   { key: "goals", label: "Goals" },
+  { key: "focus", label: "Focus-visible", className: focusVisibleClassName },
 ];
 
 function TabBarGalleryPreview() {
@@ -81,6 +91,7 @@ export default defineGallerySection({
           type: "state",
           values: [
             { value: "Active" },
+            { value: "Focus-visible" },
             { value: "Disabled" },
             { value: "Loading" },
           ],
@@ -95,6 +106,12 @@ export default defineGallerySection({
     { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
     { key: "active", label: "Active", icon: <CircleDot aria-hidden="true" /> },
     { key: "done", label: "Done", icon: <CircleCheck aria-hidden="true" /> },
+    {
+      key: "focus",
+      label: "Focus-visible",
+      icon: <Circle aria-hidden="true" />,
+      className: "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none",
+    },
   ]}
   value="active"
   onValueChange={() => {}}
@@ -105,6 +122,7 @@ export default defineGallerySection({
   items={[
     { key: "a", label: "A" },
     { key: "b", label: "B" },
+    { key: "focus", label: "Focus-visible", className: "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none" },
     { key: "c", label: "Disabled", disabled: true },
     { key: "d", label: "Syncing", loading: true },
   ]}
@@ -118,6 +136,7 @@ export default defineGallerySection({
     { key: "reviews", label: "Reviews" },
     { key: "planner", label: "Planner" },
     { key: "goals", label: "Goals" },
+    { key: "focus", label: "Focus-visible", className: "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none" },
   ]}
   value="reviews"
   onValueChange={() => {}}
