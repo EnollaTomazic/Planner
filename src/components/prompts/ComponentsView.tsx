@@ -383,7 +383,7 @@ function StatePreviewCard({
 
   return (
     <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
+      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >
