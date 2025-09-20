@@ -35,6 +35,8 @@ import {
   PillarBadge,
   PillarSelector,
   Hero,
+  SearchBar,
+  TabBar,
   NeomorphicHeroFrame,
   PageShell,
   SectionCard as UiSectionCard,
@@ -1412,6 +1414,138 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     </HeroCol>
   </HeroGrid>
 </NeomorphicHeroFrame>`,
+      states: [
+        {
+          id: "hero-tabs-hover",
+          name: "Tabs — Hover",
+          description:
+            "Simulated hover applies the shadow-neo-soft token to lift the inactive hero tab without changing selection.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs hover"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs hover"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-focus",
+          name: "Tabs — Focus-visible",
+          description:
+            "Focus preview layers the standard neon ring with shadow-neo-soft so the active hero tab reads clearly for keyboard users.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  {
+                    key: "missions",
+                    label: "Missions",
+                    className:
+                      "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+                  },
+                  { key: "briefings", label: "Briefings" },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs focus"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      {
+        key: "missions",
+        label: "Missions",
+        className:
+          "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+      },
+      { key: "briefings", label: "Briefings" },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs focus"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-loading",
+          name: "Tabs — Loading",
+          description:
+            "Loading state taps the built-in spinner and keeps the hovered glow via shadow-neo-soft while data syncs.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    loading: true,
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Preview hero tabs loading"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        loading: true,
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Preview hero tabs loading"
+    variant="neo"
+  />
+</div>`,
+        },
+      ],
     },
     {
       id: "page-header-demo",
@@ -1421,6 +1555,90 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <PageHeaderDemo />,
       tags: ["hero", "header"],
       code: `<PageHeaderDemo />`,
+      states: [
+        {
+          id: "page-header-search-focus",
+          name: "Search — Focus-visible",
+          description:
+            "Focus ring pairs with shadow-neo-soft on the search field so keyboard focus mirrors the hero shell.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value="mission intel"
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value="mission intel"
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+  />
+</div>`,
+        },
+        {
+          id: "page-header-search-loading",
+          name: "Search — Loading",
+          description:
+            "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value="briefings"
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                loading
+                fieldClassName="shadow-neo-soft"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value="briefings"
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    loading
+    fieldClassName="shadow-neo-soft"
+  />
+</div>`,
+        },
+        {
+          id: "page-header-search-disabled",
+          name: "Search — Disabled",
+          description:
+            "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <SearchBar
+                value=""
+                onValueChange={() => {}}
+                placeholder="Search mission intel…"
+                aria-label="Search mission intel"
+                disabled
+                fieldClassName="shadow-neo-soft"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <SearchBar
+    value=""
+    onValueChange={() => {}}
+    placeholder="Search mission intel…"
+    aria-label="Search mission intel"
+    disabled
+    fieldClassName="shadow-neo-soft"
+  />
+</div>`,
+        },
+      ],
     },
     {
       id: "demo-header",
@@ -1442,6 +1660,88 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     />
   );
 }`,
+      states: [
+        {
+          id: "demo-header-cta-hover",
+          name: "Primary CTA — Hover",
+          description:
+            "Primary action lifts with shadow-neo-soft to reflect the hover state used across hero quick actions.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="primary" className="shadow-neo-soft">
+                Launch event
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="primary" className="shadow-neo-soft">
+    Launch event
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-focus",
+          name: "Primary CTA — Focus-visible",
+          description:
+            "Focus-visible styling adds the shared neon ring on top of shadow-neo-soft so keyboard users get parity with hover.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button
+                size="sm"
+                variant="primary"
+                className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+              >
+                Focused deploy
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button
+    size="sm"
+    variant="primary"
+    className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+  >
+    Focused deploy
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-loading",
+          name: "Primary CTA — Loading",
+          description:
+            "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+                Saving
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+    Saving
+  </Button>
+</div>`,
+        },
+        {
+          id: "demo-header-cta-disabled",
+          name: "Ghost CTA — Disabled",
+          description:
+            "Disabled secondary action leans on the built-in opacity tokens so the hero still communicates availability clearly.",
+          element: (
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+                Disabled action
+              </Button>
+            </div>
+          ),
+          code: `<div className="flex items-center gap-[var(--space-2)]">
+  <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+    Disabled action
+  </Button>
+</div>`,
+        },
+      ],
     },
     {
       id: "hero",
@@ -1502,6 +1802,84 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     <div className="text-ui text-muted-foreground">Body content</div>
   </Hero>
 </NeomorphicHeroFrame>`,
+      states: [
+        {
+          id: "hero-tabs-selected",
+          name: "Sub tabs — Selected",
+          description:
+            "Active hero tab uses the accent gradient while shadow-neo-soft keeps the pill lifted inside the frame.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  {
+                    key: "briefings",
+                    label: "Briefings",
+                    className: "shadow-neo-soft",
+                  },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="briefings"
+                onValueChange={() => {}}
+                ariaLabel="Hero sub tab selected preview"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      {
+        key: "briefings",
+        label: "Briefings",
+        className: "shadow-neo-soft",
+      },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="briefings"
+    onValueChange={() => {}}
+    ariaLabel="Hero sub tab selected preview"
+    variant="neo"
+  />
+</div>`,
+        },
+        {
+          id: "hero-tabs-disabled",
+          name: "Sub tabs — Disabled",
+          description:
+            "Disabled hero tab inherits the dimmed opacity tokens while the rest of the bar keeps the neo hover treatment.",
+          element: (
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+              <TabBar
+                items={[
+                  { key: "missions", label: "Missions" },
+                  { key: "briefings", label: "Briefings" },
+                  { key: "archive", label: "Archive", disabled: true },
+                ]}
+                value="missions"
+                onValueChange={() => {}}
+                ariaLabel="Hero sub tab disabled preview"
+                variant="neo"
+              />
+            </div>
+          ),
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+  <TabBar
+    items={[
+      { key: "missions", label: "Missions" },
+      { key: "briefings", label: "Briefings" },
+      { key: "archive", label: "Archive", disabled: true },
+    ]}
+    value="missions"
+    onValueChange={() => {}}
+    ariaLabel="Hero sub tab disabled preview"
+    variant="neo"
+  />
+</div>`,
+        },
+      ],
     },
   ],
   feedback: [
