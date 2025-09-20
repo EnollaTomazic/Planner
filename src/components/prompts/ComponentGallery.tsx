@@ -9,6 +9,7 @@ import {
   SettingsSelect,
   GlitchSegmentedGroup,
   GlitchSegmentedButton,
+  SegmentedButton,
   TabBar,
   Progress,
   GlitchProgress,
@@ -144,7 +145,8 @@ const demoTasksByProject = demoTasks.reduce<Record<string, string[]>>(
 export default function ComponentGallery() {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
-  const [seg, setSeg] = React.useState("one");
+  const [segmentedValue, setSegmentedValue] = React.useState("one");
+  const [glitchSegmentedValue, setGlitchSegmentedValue] = React.useState("one");
   const [appTab, setAppTab] = React.useState("reviews");
   const [filterTab, setFilterTab] = React.useState("all");
   const [checked, setChecked] = React.useState(false);
@@ -172,9 +174,39 @@ export default function ComponentGallery() {
         element: <IconButtonShowcase />,
       },
       {
-        label: "Segmented",
+        label: "SegmentedButton",
         element: (
-          <GlitchSegmentedGroup value={seg} onChange={setSeg} className="w-56">
+          <div className="w-56 flex justify-center gap-[var(--space-2)]">
+            <SegmentedButton
+              isActive={segmentedValue === "one"}
+              onClick={() => setSegmentedValue("one")}
+            >
+              One
+            </SegmentedButton>
+            <SegmentedButton
+              isActive={segmentedValue === "two"}
+              onClick={() => setSegmentedValue("two")}
+            >
+              Two
+            </SegmentedButton>
+            <SegmentedButton
+              isActive={segmentedValue === "three"}
+              onClick={() => setSegmentedValue("three")}
+            >
+              Three
+            </SegmentedButton>
+          </div>
+        ),
+      },
+      {
+        label: "GlitchSegmentedGroup",
+        element: (
+          <GlitchSegmentedGroup
+            value={glitchSegmentedValue}
+            onChange={setGlitchSegmentedValue}
+            className="w-56"
+            ariaLabel="Glitch segmented control demo"
+          >
             <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
             <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
             <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
@@ -381,7 +413,8 @@ export default function ComponentGallery() {
       },
     ],
     [
-      seg,
+      segmentedValue,
+      glitchSegmentedValue,
       appTab,
       filterTab,
       checked,
