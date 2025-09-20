@@ -214,7 +214,7 @@ export default function ProjectList({
                       }}
                       size="sm"
                       iconSize="xs"
-                      variant="ring"
+                      variant="secondary"
                     >
                       <Pencil />
                     </IconButton>
@@ -230,7 +230,7 @@ export default function ProjectList({
                       }}
                       size="sm"
                       iconSize="xs"
-                      variant="ring"
+                      variant="secondary"
                     >
                       <Trash2 />
                     </IconButton>

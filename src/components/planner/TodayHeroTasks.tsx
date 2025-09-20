@@ -157,7 +157,7 @@ export default function TodayHeroTasks({
                         onTaskEditOpen(task.id, task.title, { select: true });
                       }}
                       size="sm"
-                      variant="ring"
+                      variant="secondary"
                       iconSize="xs"
                     >
                       <Pencil />
@@ -169,7 +169,7 @@ export default function TodayHeroTasks({
                         onTaskDelete(task.id);
                       }}
                       size="sm"
-                      variant="ring"
+                      variant="secondary"
                       iconSize="xs"
                     >
                       <Trash2 />

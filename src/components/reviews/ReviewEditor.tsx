@@ -196,7 +196,7 @@ export default function ReviewEditor({
                 title="Delete review"
                 size="lg"
                 iconSize="md"
-                variant="ring"
+                variant="secondary"
                 onClick={onDelete}
               >
                 <Trash2 />
@@ -209,7 +209,7 @@ export default function ReviewEditor({
                 title="Save and close"
                 size="lg"
                 iconSize="md"
-                variant="ring"
+                variant="secondary"
                 onClick={() => {
                   saveAll();
                   onDone?.();
@@ -336,7 +336,7 @@ export default function ReviewEditor({
               title="Add tag"
               size="md"
               iconSize="sm"
-              variant="solid"
+              variant="primary"
               onClick={() => {
                 addTag(draftTag);
                 setDraftTag("");

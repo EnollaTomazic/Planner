@@ -41,7 +41,7 @@ export default function ReminderQuickAddForm() {
           aria-label="Add quick"
           type="submit"
           size="md"
-          variant="solid"
+          variant="primary"
         >
           <Plus size={16} aria-hidden />
         </IconButton>

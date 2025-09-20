@@ -267,7 +267,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                 aria-label="Add comp"
                 size="md"
                 className="shrink-0"
-                variant="solid"
+                variant="primary"
               >
                 <Plus />
               </IconButton>
@@ -332,7 +332,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                               title="Delete"
                               aria-label="Delete"
                               size="sm"
-                              variant="ring"
+                              variant="secondary"
                               onClick={() => remove(c.id)}
                             >
                               <Trash2 />

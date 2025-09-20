@@ -146,7 +146,7 @@ function RemTile({
             onClick={onDelete}
             size="sm"
             iconSize="sm"
-            variant="ring"
+            variant="secondary"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
           >
             <Trash2 />

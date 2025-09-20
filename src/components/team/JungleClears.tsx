@@ -275,7 +275,7 @@ export default React.forwardRef<
                       iconSize="xs"
                       aria-label="Add row"
                       onClick={() => addRow(bucket)}
-                      variant="solid"
+                      variant="primary"
                     >
                       <Plus />
                     </IconButton>

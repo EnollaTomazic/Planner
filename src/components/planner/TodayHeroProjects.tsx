@@ -151,7 +151,7 @@ export default function TodayHeroProjects({
                         onProjectEditOpen(project.id, project.name);
                       }}
                       size="sm"
-                      variant="ring"
+                      variant="secondary"
                       iconSize="xs"
                     >
                       <Pencil />
@@ -164,7 +164,7 @@ export default function TodayHeroProjects({
                         onProjectDelete(project.id);
                       }}
                       size="sm"
-                      variant="ring"
+                      variant="secondary"
                       iconSize="xs"
                     >
                       <Trash2 />

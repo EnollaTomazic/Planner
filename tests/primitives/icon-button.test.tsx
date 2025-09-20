@@ -90,71 +90,62 @@ describe("IconButton", () => {
     });
   });
 
-  it("applies ring variant with primary tone", () => {
+  it("applies secondary variant with primary tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ring" tone="primary" aria-label="rp" />,
-    );
-    const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain(
-      "[--hover:theme('colors.interaction.foreground.tintHover')]",
-    );
-    expect(classes).toContain(
-      "[--active:theme('colors.interaction.foreground.tintActive')]",
-    );
-    expect(classes).toContain("border-line/35 text-foreground");
-  });
-
-  it("applies solid variant with accent tone", () => {
-    const { getByRole } = render(
-      <IconButton variant="solid" tone="accent" aria-label="sa" />,
+      <IconButton variant="secondary" tone="primary" aria-label="sp" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain(
-      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
-    );
-    expect(classes).toContain(
-      "[--hover:theme('colors.interaction.accent.surfaceHover')]",
-    );
-    expect(classes).toContain(
-      "[--active:theme('colors.interaction.accent.surfaceActive')]",
-    );
+    expect(classes).toContain("border-line/35");
+    expect(classes).toContain("bg-panel/60");
+    expect(classes).toContain("text-muted-foreground");
+    expect(classes).toContain("[--hover:hsl(var(--primary)/0.25)]");
+    expect(classes).toContain("[--active:hsl(var(--primary)/0.35)]");
   });
 
-  it("applies glow variant with info tone", () => {
+  it("applies primary variant with accent tone", () => {
     const { getByRole } = render(
-      <IconButton variant="glow" tone="info" aria-label="gi" />,
+      <IconButton variant="primary" tone="accent" aria-label="pa" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35");
-    expect(classes).toContain("hover:bg-[--hover]");
-    expect(classes).toContain("shadow-glow-current");
+    expect(classes).toContain("border");
+    expect(classes).toContain("bg-[hsl(var(--accent)/0.12)]");
+    expect(classes).toContain("text-[var(--text-on-accent)]");
+    expect(classes).toContain("border-[hsl(var(--accent)/0.35)]");
     expect(classes).toContain(
-      "[--hover:theme('colors.interaction.info.tintHover')]",
-    );
+      "[--hover:theme('colors.interaction.accent.hover')]");
     expect(classes).toContain(
-      "[--active:theme('colors.interaction.info.tintActive')]",
-    );
-    expect(classes).toContain(
-      "border-accent-2/35 text-[var(--text-on-accent)]",
-    );
+      "[--active:theme('colors.interaction.accent.active')]");
   });
 
-  it("applies ring variant with danger tone", () => {
+  it("applies ghost variant with info tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ring" tone="danger" aria-label="rd" />,
+      <IconButton variant="ghost" tone="info" aria-label="gi" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
+    expect(classes).toContain("border");
+    expect(classes).toContain("border-transparent");
+    expect(classes).toContain("bg-accent-2/20");
+    expect(classes).toContain("text-[var(--text-on-accent)]");
     expect(classes).toContain(
-      "[--hover:theme('colors.interaction.danger.tintHover')]",
-    );
+      "[--hover:theme('colors.interaction.info.surfaceHover')]");
     expect(classes).toContain(
-      "[--active:theme('colors.interaction.danger.tintActive')]",
+      "[--active:theme('colors.interaction.info.surfaceActive')]");
+  });
+
+  it("applies secondary variant with danger tone", () => {
+    const { getByRole } = render(
+      <IconButton variant="secondary" tone="danger" aria-label="sd" />,
     );
-    expect(classes).toContain("border-danger/35 text-danger");
-    expect(classes).not.toContain("shadow-glow-current");
+    const classes = getByRole("button").className;
+    expect(classes).toContain("border");
+    expect(classes).toContain("border-[hsl(var(--danger)/0.4)]");
+    expect(classes).toContain("bg-danger/25");
+    expect(classes).toContain("text-danger-foreground");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.danger.hover')]");
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.danger.active')]");
   });
 
   it("forwards the title attribute", () => {

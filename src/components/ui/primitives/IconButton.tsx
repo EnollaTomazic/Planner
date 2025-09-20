@@ -4,13 +4,14 @@ import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
+import { colorVar, toneClasses as buttonToneClasses } from "./Button";
 import type { ButtonSize } from "./Button";
 
 export type IconButtonSize = ButtonSize | "xl" | "xs";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
-type Variant = "ring" | "glow" | "solid";
+type Variant = "primary" | "secondary" | "ghost";
 
 type RequireAtLeastOne<T, Keys extends keyof T> = Pick<
   T,
@@ -72,67 +73,52 @@ const getSizeClass = (s: IconButtonSize) => {
   return sizeMap[s];
 };
 
-const toneTintTokens = {
-  primary:
-    "[--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
-  accent:
-    "[--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
-  info:
-    "[--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
-  danger:
-    "[--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
-} satisfies Record<Tone, string>;
+const toneTextColor: Record<Tone, string> = {
+  primary: "text-foreground",
+  accent: "text-[var(--text-on-accent)]",
+  info: "text-[var(--text-on-accent)]",
+  danger: "text-danger-foreground",
+};
 
-const surfaceInteractionTokens = {
-  accent:
-    "[--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
-  info:
-    "[--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
-  danger:
-    "[--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
-} satisfies Record<Exclude<Tone, "primary">, string>;
+const secondaryBorders: Record<Tone, string> = {
+  primary: "border-line/35",
+  accent: `border-[hsl(var(${colorVar.accent})/0.45)]`,
+  info: `border-[hsl(var(${colorVar.info})/0.45)]`,
+  danger: `border-[hsl(var(${colorVar.danger})/0.4)]`,
+};
 
 const variantBase: Record<Variant, (tone: Tone) => string> = {
-  ring: (tone) =>
-    cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
-  solid: () => "border",
-  glow: (tone) =>
+  primary: (tone) =>
     cn(
-      "border bg-card/35 hover:bg-[--hover] shadow-glow-current",
-      toneTintTokens[tone],
+      "border",
+      tone === "primary"
+        ? "bg-primary-soft"
+        : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
+      `border-[hsl(var(${colorVar[tone]})/0.35)]`,
+      toneTextColor[tone],
     ),
+  secondary: () => "border bg-panel/80",
+  ghost: () => "border border-transparent bg-transparent",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
-  ring: {
-    primary: "border-line/35 text-foreground",
-    accent: "border-accent/35 text-[var(--text-on-accent)]",
-    info: "border-accent-2/35 text-[var(--text-on-accent)]",
-    danger: "border-danger/35 text-danger",
+  primary: {
+    primary: buttonToneClasses.primary.primary,
+    accent: buttonToneClasses.primary.accent,
+    info: buttonToneClasses.primary.info,
+    danger: buttonToneClasses.primary.danger,
   },
-  solid: {
-    primary: cn(
-      "border-transparent bg-foreground/15 text-foreground",
-      toneTintTokens.primary,
-    ),
-    accent: cn(
-      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
-      surfaceInteractionTokens.accent,
-    ),
-    info: cn(
-      "border-transparent bg-accent-2/30 text-[var(--text-on-accent)]",
-      surfaceInteractionTokens.info,
-    ),
-    danger: cn(
-      "border-transparent bg-danger/20 text-danger-foreground",
-      surfaceInteractionTokens.danger,
-    ),
+  secondary: {
+    primary: cn(secondaryBorders.primary, buttonToneClasses.secondary.primary),
+    accent: cn(secondaryBorders.accent, buttonToneClasses.secondary.accent),
+    info: cn(secondaryBorders.info, buttonToneClasses.secondary.info),
+    danger: cn(secondaryBorders.danger, buttonToneClasses.secondary.danger),
   },
-  glow: {
-    primary: "border-foreground/35 text-foreground",
-    accent: "border-accent/35 text-[var(--text-on-accent)]",
-    info: "border-accent-2/35 text-[var(--text-on-accent)]",
-    danger: "border-danger/35 text-danger",
+  ghost: {
+    primary: buttonToneClasses.ghost.primary,
+    accent: buttonToneClasses.ghost.accent,
+    info: buttonToneClasses.ghost.info,
+    danger: buttonToneClasses.ghost.danger,
   },
 };
 
@@ -143,7 +129,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       iconSize,
       className,
       tone = "primary",
-      variant = "ring",
+      variant = "secondary",
       loading,
       disabled,
       children,

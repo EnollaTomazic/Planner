@@ -337,7 +337,7 @@ export const FieldSearch = React.forwardRef<HTMLInputElement, FieldSearchProps>(
           <IconButton
             type="button"
             size="sm"
-            variant="ring"
+            variant="secondary"
             tone="primary"
             aria-label={clearLabel}
             title={clearLabel}

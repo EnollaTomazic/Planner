@@ -127,7 +127,7 @@ export default function GoalList({
                           aria-label="Cancel"
                           onClick={cancelEdit}
                           size="sm"
-                          variant="ring"
+                          variant="secondary"
                           tone="accent"
                           className="transition-transform hover:-translate-y-0.5"
                         >
@@ -137,7 +137,7 @@ export default function GoalList({
                           aria-label="Save"
                           onClick={() => saveEdit(g.id)}
                           size="sm"
-                          variant="glow"
+                          variant="ghost"
                           tone="accent"
                           className="transition-transform hover:-translate-y-0.5"
                         >
@@ -158,7 +158,7 @@ export default function GoalList({
                           aria-label="Edit goal"
                           onClick={() => startEdit(g)}
                           size="sm"
-                          variant="ring"
+                          variant="secondary"
                           tone="accent"
                           className="transition-transform hover:-translate-y-0.5"
                         >
@@ -169,7 +169,7 @@ export default function GoalList({
                           aria-label="Delete goal"
                           onClick={() => onRemove(g.id)}
                           size="sm"
-                          variant="glow"
+                          variant="ghost"
                           tone="accent"
                           className="transition-transform hover:-translate-y-0.5"
                         >
