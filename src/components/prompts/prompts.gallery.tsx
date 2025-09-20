@@ -746,6 +746,127 @@ function SheetDemo() {
   );
 }
 
+function SheetClosedState() {
+  return (
+    <Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <CardHeader>
+        <CardTitle>Sheet closed</CardTitle>
+        <CardDescription>
+          Use the trigger to lift the overlay from the base elevation.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex items-center gap-[var(--space-2)]">
+        <Button
+          size="sm"
+          className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+        >
+          Open sheet
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SheetOpeningState() {
+  return (
+    <Sheet
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo-soft)]"
+    >
+      <CardHeader>
+        <CardTitle>Syncing tasks</CardTitle>
+        <CardDescription>
+          Keep content visible while the sheet animates into place.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+        <Spinner size={20} />
+        <span className="text-ui text-muted-foreground">Loading dashboard</span>
+      </CardContent>
+    </Sheet>
+  );
+}
+
+function SheetFocusTrapState() {
+  const primaryActionRef = React.useRef<HTMLButtonElement | null>(null);
+
+  React.useEffect(() => {
+    primaryActionRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  return (
+    <Sheet
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo-strong)]"
+    >
+      <CardHeader>
+        <CardTitle>Focus trapped</CardTitle>
+        <CardDescription>
+          Keyboard focus stays inside the sheet while it is open.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-[var(--space-2)]">
+        <p className="text-ui text-muted-foreground">
+          Tab navigation cycles through the available controls.
+        </p>
+      </CardContent>
+      <CardFooter className="flex justify-end gap-[var(--space-2)]">
+        <Button
+          ref={primaryActionRef}
+          size="sm"
+          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+        >
+          Save
+        </Button>
+        <Button variant="ghost" size="sm" className="order-first">
+          Cancel
+        </Button>
+      </CardFooter>
+    </Sheet>
+  );
+}
+
+function SheetConfirmState() {
+  return (
+    <Sheet
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo)]"
+    >
+      <CardHeader>
+        <CardTitle>Archive reminders</CardTitle>
+        <CardDescription>
+          Keep confirm disabled until all checklist items are reviewed.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-[var(--space-2)]">
+        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+          <p className="text-ui text-muted-foreground">
+            Archive includes 3 completed reminders.
+          </p>
+          <p className="text-ui text-muted-foreground">
+            Complete the checklist to enable confirmation.
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-end gap-[var(--space-2)]">
+        <Button
+          size="sm"
+          disabled
+          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+        >
+          Confirm
+        </Button>
+        <Button variant="ghost" size="sm" className="order-first">
+          Cancel
+        </Button>
+      </CardFooter>
+    </Sheet>
+  );
+}
+
 function ModalDemo() {
   const [open, setOpen] = React.useState(false);
   return (
@@ -769,6 +890,124 @@ function ModalDemo() {
         </Card>
       </Modal>
     </>
+  );
+}
+
+function ModalClosedState() {
+  return (
+    <Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <CardHeader>
+        <CardTitle>Modal closed</CardTitle>
+        <CardDescription>
+          Trigger sits idle at the base elevation until needed.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex items-center gap-[var(--space-2)]">
+        <Button
+          size="sm"
+          className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+        >
+          Open modal
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ModalOpeningState() {
+  return (
+    <Modal
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo-soft)]"
+    >
+      <CardHeader>
+        <CardTitle>Confirm selection</CardTitle>
+        <CardDescription>
+          Surface a loader while the dialog hydrates.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+        <Spinner size={20} />
+        <span className="text-ui text-muted-foreground">Syncing choices...</span>
+      </CardContent>
+    </Modal>
+  );
+}
+
+function ModalFocusTrapState() {
+  const confirmRef = React.useRef<HTMLButtonElement | null>(null);
+
+  React.useEffect(() => {
+    confirmRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  return (
+    <Modal
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo-strong)]"
+    >
+      <CardHeader>
+        <CardTitle>Keyboard locked in</CardTitle>
+        <CardDescription>
+          Focus moves to the primary action while the trap is active.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-[var(--space-2)]">
+        <p className="text-ui text-muted-foreground">
+          Tab keeps focus within the modal until it closes.
+        </p>
+      </CardContent>
+      <CardFooter className="flex justify-end gap-[var(--space-2)]">
+        <Button
+          ref={confirmRef}
+          size="sm"
+          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+        >
+          Confirm
+        </Button>
+        <Button variant="ghost" size="sm" className="order-first">
+          Back
+        </Button>
+      </CardFooter>
+    </Modal>
+  );
+}
+
+function ModalConfirmState() {
+  return (
+    <Modal
+      open
+      onClose={() => {}}
+      className="shadow-[var(--shadow-neo)]"
+    >
+      <CardHeader>
+        <CardTitle>Delete board</CardTitle>
+        <CardDescription>
+          Keep destructive confirmations disabled until acknowledged.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-[var(--space-2)]">
+        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+          <p className="text-ui text-muted-foreground">
+            Deleting removes all tasks and cannot be undone.
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-end gap-[var(--space-2)]">
+        <Button
+          size="sm"
+          disabled
+          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+        >
+          Delete
+        </Button>
+        <Button variant="ghost" size="sm" className="order-first">
+          Cancel
+        </Button>
+      </CardFooter>
+    </Modal>
   );
 }
 
@@ -1300,6 +1539,136 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     </CardContent>
   </Card>
 </Sheet>`,
+      states: [
+        {
+          id: "closed",
+          name: "Closed",
+          description:
+            "Trigger rests on the base layer with the outline elevation token before the sheet opens.",
+          element: <SheetClosedState />,
+          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+  <CardHeader>
+    <CardTitle>Sheet closed</CardTitle>
+    <CardDescription>
+      Use the trigger to lift the overlay from the base elevation.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="flex items-center gap-[var(--space-2)]">
+    <Button
+      size="sm"
+      className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+    >
+      Open sheet
+    </Button>
+  </CardContent>
+</Card>`,
+        },
+        {
+          id: "opening",
+          name: "Opening / loading",
+          description:
+            "Soft elevation token and spinner communicate progress while the sheet animates in.",
+          element: <SheetOpeningState />,
+          code: `<Sheet
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo-soft)]"
+>
+  <CardHeader>
+    <CardTitle>Syncing tasks</CardTitle>
+    <CardDescription>
+      Keep content visible while the sheet animates into place.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <Spinner size={20} />
+    <span className="text-ui text-muted-foreground">Loading dashboard</span>
+  </CardContent>
+</Sheet>`,
+        },
+        {
+          id: "focus-trap",
+          name: "Focus trapped",
+          description:
+            "Focus ring token highlights the primary action while the dialog trap holds keyboard focus.",
+          element: <SheetFocusTrapState />,
+          code: `const primaryActionRef = React.useRef<HTMLButtonElement | null>(null);
+React.useEffect(() => {
+  primaryActionRef.current?.focus({ preventScroll: true });
+}, []);
+
+<Sheet
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo-strong)]"
+>
+  <CardHeader>
+    <CardTitle>Focus trapped</CardTitle>
+    <CardDescription>
+      Keyboard focus stays inside the sheet while it is open.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-[var(--space-2)]">
+    <p className="text-ui text-muted-foreground">
+      Tab navigation cycles through the available controls.
+    </p>
+  </CardContent>
+  <CardFooter className="flex justify-end gap-[var(--space-2)]">
+    <Button
+      ref={primaryActionRef}
+      size="sm"
+      className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+    >
+      Save
+    </Button>
+    <Button variant="ghost" size="sm" className="order-first">
+      Cancel
+    </Button>
+  </CardFooter>
+</Sheet>`,
+        },
+        {
+          id: "confirm-disabled",
+          name: "Confirm disabled",
+          description:
+            "Primary confirmation remains disabled until supporting requirements are met.",
+          element: <SheetConfirmState />,
+          code: `<Sheet
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo)]"
+>
+  <CardHeader>
+    <CardTitle>Archive reminders</CardTitle>
+    <CardDescription>
+      Keep confirm disabled until all checklist items are reviewed.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-[var(--space-2)]">
+    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <p className="text-ui text-muted-foreground">
+        Archive includes 3 completed reminders.
+      </p>
+      <p className="text-ui text-muted-foreground">
+        Complete the checklist to enable confirmation.
+      </p>
+    </div>
+  </CardContent>
+  <CardFooter className="flex justify-end gap-[var(--space-2)]">
+    <Button
+      size="sm"
+      disabled
+      className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+    >
+      Confirm
+    </Button>
+    <Button variant="ghost" size="sm" className="order-first">
+      Cancel
+    </Button>
+  </CardFooter>
+</Sheet>`,
+        },
+      ],
     },
     {
       id: "modal-demo",
@@ -1320,6 +1689,133 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     </CardFooter>
   </Card>
 </Modal>`,
+      states: [
+        {
+          id: "closed",
+          name: "Closed",
+          description:
+            "Trigger sits on the outline elevation token until the modal is invoked.",
+          element: <ModalClosedState />,
+          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+  <CardHeader>
+    <CardTitle>Modal closed</CardTitle>
+    <CardDescription>
+      Trigger sits idle at the base elevation until needed.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="flex items-center gap-[var(--space-2)]">
+    <Button
+      size="sm"
+      className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+    >
+      Open modal
+    </Button>
+  </CardContent>
+</Card>`,
+        },
+        {
+          id: "loading",
+          name: "Opening / loading",
+          description:
+            "Soft elevation token pairs with a spinner while the dialog content hydrates.",
+          element: <ModalOpeningState />,
+          code: `<Modal
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo-soft)]"
+>
+  <CardHeader>
+    <CardTitle>Confirm selection</CardTitle>
+    <CardDescription>
+      Surface a loader while the dialog hydrates.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <Spinner size={20} />
+    <span className="text-ui text-muted-foreground">Syncing choices...</span>
+  </CardContent>
+</Modal>`,
+        },
+        {
+          id: "focus-trap",
+          name: "Focus trapped",
+          description:
+            "Primary action receives the focus ring token while the trap keeps keyboard users inside the modal.",
+          element: <ModalFocusTrapState />,
+          code: `const confirmRef = React.useRef<HTMLButtonElement | null>(null);
+React.useEffect(() => {
+  confirmRef.current?.focus({ preventScroll: true });
+}, []);
+
+<Modal
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo-strong)]"
+>
+  <CardHeader>
+    <CardTitle>Keyboard locked in</CardTitle>
+    <CardDescription>
+      Focus moves to the primary action while the trap is active.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-[var(--space-2)]">
+    <p className="text-ui text-muted-foreground">
+      Tab keeps focus within the modal until it closes.
+    </p>
+  </CardContent>
+  <CardFooter className="flex justify-end gap-[var(--space-2)]">
+    <Button
+      ref={confirmRef}
+      size="sm"
+      className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+    >
+      Confirm
+    </Button>
+    <Button variant="ghost" size="sm" className="order-first">
+      Back
+    </Button>
+  </CardFooter>
+</Modal>`,
+        },
+        {
+          id: "confirm-disabled",
+          name: "Confirm disabled",
+          description:
+            "Destructive confirmation stays disabled until the warning is acknowledged.",
+          element: <ModalConfirmState />,
+          code: `<Modal
+  open
+  onClose={() => {}}
+  className="shadow-[var(--shadow-neo)]"
+>
+  <CardHeader>
+    <CardTitle>Delete board</CardTitle>
+    <CardDescription>
+      Keep destructive confirmations disabled until acknowledged.
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-[var(--space-2)]">
+    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <p className="text-ui text-muted-foreground">
+        Deleting removes all tasks and cannot be undone.
+      </p>
+    </div>
+  </CardContent>
+  <CardFooter className="flex justify-end gap-[var(--space-2)]">
+    <Button
+      size="sm"
+      disabled
+      className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+    >
+      Delete
+    </Button>
+    <Button variant="ghost" size="sm" className="order-first">
+      Cancel
+    </Button>
+  </CardFooter>
+</Modal>`,
+        },
+      ],
     },
     {
       id: "split",
