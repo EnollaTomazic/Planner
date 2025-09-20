@@ -1476,17 +1476,17 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       id: "hero-portrait-frame",
       name: "HeroPortraitFrame",
       description:
-        "Circular neumorphic portrait frame with lavender glow and glitch accent rim built from semantic tokens.",
+        "Circular neumorphic portrait frame with lavender glow, glitch accent rim, and configurable `frame` toggle built from semantic tokens.",
       element: (
         <div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
           <HeroPortraitFrame
             imageSrc="/hero_image.png"
-            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+            imageAlt="Illustration of the Planner hero floating above a holographic dashboard with full frame treatment"
           />
           <HeroPortraitFrame
             frame={false}
             imageSrc="/hero_image.png"
-            imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+            imageAlt="Illustration of the Planner hero floating above a holographic dashboard without frame treatment"
           />
         </div>
       ),
@@ -1494,12 +1494,12 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       code: `<div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
   <HeroPortraitFrame
     imageSrc="/hero_image.png"
-    imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+    imageAlt="Illustration of the Planner hero floating above a holographic dashboard with full frame treatment"
   />
   <HeroPortraitFrame
     frame={false}
     imageSrc="/hero_image.png"
-    imageAlt="Illustration of the Planner hero floating above a holographic dashboard"
+    imageAlt="Illustration of the Planner hero floating above a holographic dashboard without frame treatment"
   />
 </div>`,
     },
