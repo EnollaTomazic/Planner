@@ -171,9 +171,10 @@ export default function ReviewsPage({
             hoverRing
           />
         </nav>
-        <div aria-live="polite" className="md:col-span-4 lg:col-span-8">
+        <div className="md:col-span-4 lg:col-span-8">
           {!active ? (
             <ReviewPanel
+              aria-live="polite"
               className={cn(
                 panelClass,
                 "flex flex-col items-center justify-center gap-[var(--space-2)] py-[var(--space-8)] text-ui text-muted-foreground",
