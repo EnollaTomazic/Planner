@@ -111,4 +111,26 @@ describe("NeomorphicHeroFrame", () => {
     expect(actionsSlot).toHaveAttribute("aria-labelledby", "actions-heading");
     expect(actionsSlot).not.toHaveAttribute("aria-label");
   });
+
+  it("uses the inset shadow token without stacking conflicting utilities", () => {
+    const { container } = render(
+      <NeomorphicHeroFrame
+        slots={{
+          tabs: <div>Tabs content</div>,
+          search: <div>Search content</div>,
+          actions: <button type="button">Action</button>,
+        }}
+      >
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const slotWells = container.querySelectorAll("[data-slot]");
+
+    expect(slotWells).not.toHaveLength(0);
+    slotWells.forEach((slot) => {
+      expect(slot).toHaveClass("neo-inset");
+      expect(slot).not.toHaveClass("shadow-neo-inset");
+    });
+  });
 });
