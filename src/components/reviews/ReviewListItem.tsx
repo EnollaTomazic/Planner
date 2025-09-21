@@ -1,17 +1,17 @@
 // src/components/reviews/ReviewListItem.tsx
 "use client";
 
-import React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
-  "hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)]",
-  "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)]",
-  "active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)]",
-  "data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent",
+  "hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)]",
+  "focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
+  "active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)]",
+  "data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]",
 );
 
 const statusDotBase =
@@ -30,10 +30,10 @@ const itemLoading = cn(
 const loadingLine = "h-[var(--space-3)] rounded-card bg-muted";
 const scoreBadge = cn(
   "px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium",
-  "text-accent-foreground ring-1 ring-accent bg-gradient-to-br from-accent to-accent-2",
-  "hover:from-accent hover:to-accent-2 hover:ring-accent",
-  "focus-visible:from-accent focus-visible:to-accent-2 focus-visible:ring-accent",
-  "active:from-accent active:to-accent-2 active:ring-accent",
+  "text-accent-foreground ring-1 ring-[theme('colors.interaction.accent.surfaceActive')] bg-gradient-to-br from-accent to-accent-2",
+  "hover:ring-[theme('colors.interaction.accent.surfaceHover')]",
+  "focus-visible:ring-[theme('colors.interaction.accent.surfaceHover')]",
+  "active:ring-[theme('colors.interaction.accent.surfaceActive')]",
 );
 
 export type ReviewListItemProps = {

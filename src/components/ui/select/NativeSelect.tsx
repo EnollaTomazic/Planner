@@ -54,7 +54,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
           className={cn(
             "group",
             success && !isInvalid &&
-              "border-[var(--theme-ring)] focus-within:ring-[var(--theme-ring)]",
+              "border-[var(--focus)] focus-within:ring-[var(--focus)]",
             className,
           )}
         >

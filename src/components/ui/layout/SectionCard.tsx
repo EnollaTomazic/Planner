@@ -2,7 +2,6 @@
 "use client";
 
 import * as React from "react";
-import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type RootProps = React.HTMLAttributes<HTMLElement> & {
@@ -119,7 +118,7 @@ function Header({
     <div
       className={cn(
         "section-h",
-        sticky && clsx("sticky", topClassName),
+        sticky ? cn("sticky", topClassName) : undefined,
         className,
       )}
       {...props}
@@ -143,7 +142,7 @@ function Body({ className, ...props }: BodyProps) {
   return (
     <div
       {...props}
-      className={cn("section-b", className)}
+      className={cn("section-b", "text-ui", className)}
       aria-labelledby={labelledBy}
     />
   );

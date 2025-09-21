@@ -1,7 +1,7 @@
 // src/components/reviews/ReviewList.tsx
 "use client";
 
-import React from "react";
+import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
@@ -33,7 +33,7 @@ export default function ReviewList({
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
     "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-200",
     hoverRing &&
-      "hover:ring-2 hover:ring-[var(--theme-ring)] focus-within:ring-2 focus-within:ring-[var(--theme-ring)]",
+      "hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)]",
     className,
   );
 

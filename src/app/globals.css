@@ -627,7 +627,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   }
 
   .btn-like-segmented {
-    @apply inline-flex items-center rounded-[var(--control-radius)] border px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium tracking-[0.02em] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--theme-ring] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
+    @apply inline-flex items-center rounded-[var(--control-radius)] border px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium tracking-[0.02em] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none;
     position: relative;
     overflow: hidden;
     border-color: hsl(var(--card-hairline));

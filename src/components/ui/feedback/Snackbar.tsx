@@ -54,7 +54,7 @@ export default function Snackbar({
           className={cn(
             "inline-flex items-center font-medium text-accent-3 underline underline-offset-4 transition-colors",
             "hover:text-[var(--text-on-accent)] focus-visible:rounded-[var(--radius-md)] focus-visible:outline-none",
-            "focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-ring)]",
+            "focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--snackbar-background)]",
             "active:text-accent-3 active:opacity-80 disabled:text-muted-foreground disabled:no-underline disabled:pointer-events-none",
             "flex-shrink-0",
           )}
