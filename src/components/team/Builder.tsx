@@ -311,7 +311,7 @@ function SideEditor(props: {
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
-      <header className="mb-3 flex items-center gap-[var(--space-2)]">
+      <header className="mb-[var(--space-3)] flex items-center gap-[var(--space-2)]">
         {/* glitchy side title */}
         <span
           className="glitch-title glitch-flicker title-glow inline-flex items-center gap-[var(--space-2)]"
