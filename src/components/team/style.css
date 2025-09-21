@@ -5,30 +5,6 @@
   @apply flex flex-wrap;
   gap: var(--space-2);
 }
-.champ-badge {
-  @apply inline-flex items-center h-6 px-2 rounded-full border text-label leading-none whitespace-nowrap;
-  transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    color 0.15s var(--ease-out),
-    box-shadow 0.15s var(--ease-out);
-}
-.champ-badge:hover {
-  @apply bg-[--hover] border-ring;
-}
-.champ-badge:focus-visible {
-  @apply outline-none ring-2 ring-[var(--theme-ring)] ring-offset-0;
-}
-.champ-badge:active {
-  @apply bg-[--active];
-}
-.champ-badge:disabled,
-.champ-badge[aria-disabled="true"] {
-  @apply pointer-events-none opacity-[var(--disabled)];
-}
-.champ-badge--dense {
-  @apply h-5 px-2;
-}
 
 /* Title flicker ONLY within the Team scope */
 [data-scope="team"] .glitch-title {
