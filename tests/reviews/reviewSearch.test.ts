@@ -4,6 +4,29 @@ import { getSearchBlob, primeReviewSearch } from "@/components/reviews/reviewSea
 
 const cacheKey = Symbol.for("planner.reviews.searchCache");
 
+type CachedSearch = {
+  raw: string;
+  blob: string;
+  meta: {
+    title: string;
+    tags: string[];
+    tagsLength: number;
+    opponent?: string;
+    lane?: string;
+    side?: string;
+    result?: string;
+    patch?: string;
+    duration?: string;
+    notes?: string;
+  };
+};
+
+function readCache(review: Review): CachedSearch | undefined {
+  return (review as Record<PropertyKey, unknown>)[cacheKey] as
+    | CachedSearch
+    | undefined;
+}
+
 describe("reviewSearch", () => {
   it("reuses cached blobs when the review content is unchanged", () => {
     const review: Review = {
@@ -22,13 +45,13 @@ describe("reviewSearch", () => {
     };
 
     const firstBlob = getSearchBlob(review);
-    const cached = (review as Record<PropertyKey, unknown>)[cacheKey] as
-      | { raw: string; blob: string }
-      | undefined;
+    const cached = readCache(review);
     expect(cached?.blob).toBe(firstBlob);
     expect(cached?.raw).toContain("Vision Drill");
     expect(cached?.raw).toContain("Macro Spacing");
     expect(cached?.raw).toContain("Ahri");
+    expect(cached?.meta.title).toBe("Vision Drill");
+    expect(cached?.meta.tagsLength).toBe(2);
 
     const secondBlob = getSearchBlob(review);
     expect(secondBlob).toBe(firstBlob);
@@ -49,9 +72,7 @@ describe("reviewSearch", () => {
     const primed = primeReviewSearch(review);
     expect(primed).toBe(review);
 
-    const cached = (review as Record<PropertyKey, unknown>)[cacheKey] as
-      | { raw: string; blob: string }
-      | undefined;
+    const cached = readCache(review);
     expect(cached).toBeDefined();
     expect(Object.getOwnPropertyDescriptor(review, cacheKey)?.enumerable).toBe(
       false,
@@ -60,5 +81,37 @@ describe("reviewSearch", () => {
     const blobAfterPrime = getSearchBlob(review);
     expect(blobAfterPrime).toBe(cached?.blob);
     expect((review as Record<PropertyKey, unknown>)[cacheKey]).toBe(cached);
+  });
+
+  it("refreshes cached metadata when search fields change", () => {
+    const review: Review = {
+      id: "r3",
+      title: "Spacing Review",
+      tags: ["Macro", "Spacing"],
+      pillars: ["Tempo"],
+      notes: "Track the jungler.",
+      createdAt: 300,
+    };
+
+    const initialBlob = getSearchBlob(review);
+    const initialCache = readCache(review);
+    expect(initialCache?.meta.notes).toBe("Track the jungler.");
+    expect(initialCache?.meta.tagsLength).toBe(2);
+
+    review.notes = "Control vision before objectives.";
+    const updatedBlob = getSearchBlob(review);
+    expect(updatedBlob).not.toBe(initialBlob);
+    expect(updatedBlob).toContain("control vision before objectives.");
+    const updatedCache = readCache(review);
+    expect(updatedCache).not.toBe(initialCache);
+    expect(updatedCache?.meta.notes).toBe("Control vision before objectives.");
+
+    review.tags.push("Tempo");
+    const expandedBlob = getSearchBlob(review);
+    expect(expandedBlob).toContain("tempo");
+    const expandedCache = readCache(review);
+    expect(expandedCache).not.toBe(updatedCache);
+    expect(expandedCache?.meta.tagsLength).toBe(3);
+    expect(expandedCache?.meta.tags).toBe(review.tags);
   });
 });
