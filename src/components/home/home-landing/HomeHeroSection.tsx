@@ -34,6 +34,16 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
             subtitle: "Plan your day, track goals, and review games.",
             icon: <Home className="text-muted-foreground" />,
             sticky: false,
+            barClassName: "flex-wrap gap-y-[var(--space-3)] md:flex-nowrap",
+            right: (
+              <div className="flex basis-full justify-center md:basis-auto md:justify-end">
+                <WelcomeHeroFigure
+                  className="w-full max-w-[calc(var(--space-7)*5)] md:w-[calc(var(--space-7)*5)] lg:w-[calc(var(--space-7)*6)]"
+                  haloTone={haloTone}
+                  showGlitchRail={showGlitchRail}
+                />
+              </div>
+            ),
           }}
           hero={{
             heading: "Your day at a glance",
@@ -42,15 +52,8 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
             glitch: "subtle",
             topClassName: "top-[var(--header-stack)]",
             actions: (
-              <div className="grid w-full grid-cols-12 gap-[var(--space-4)] sm:items-center">
-                <div className="col-span-12 flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:flex-nowrap md:col-span-8 lg:col-span-7">
-                  {actions}
-                </div>
-                <WelcomeHeroFigure
-                  className="col-span-12 md:col-span-4 lg:col-span-5"
-                  haloTone={haloTone}
-                  showGlitchRail={showGlitchRail}
-                />
+              <div className="flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:flex-nowrap">
+                {actions}
               </div>
             ),
           }}
