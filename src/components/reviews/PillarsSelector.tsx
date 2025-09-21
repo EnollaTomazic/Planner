@@ -4,6 +4,9 @@ import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import { ALL_PILLARS } from "@/components/reviews/reviewData";
 import type { Pillar, Review } from "@/lib/types";
 
+const auraBlurRadius = "calc(var(--space-3) - var(--spacing-0-5))";
+const neonBlurRadius = "var(--spacing-0-5)";
+
 export type PillarsSelectorHandle = {
   save: () => void;
 };
@@ -52,7 +55,7 @@ function NeonPillarChip({
           (lit ? " opacity-60" : " opacity-0")
         }
         style={{
-          filter: "blur(10px)",
+          filter: `blur(${auraBlurRadius})`,
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
           transition: "opacity 220ms var(--ease-out)",
@@ -69,7 +72,7 @@ function NeonPillarChip({
         style={{
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%)",
-          filter: "blur(2px)",
+          filter: `blur(${neonBlurRadius})`,
           transition: "opacity 220ms var(--ease-out)",
         }}
         aria-hidden
