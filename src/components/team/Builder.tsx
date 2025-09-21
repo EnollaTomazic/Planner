@@ -116,67 +116,131 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
     const state = providedState ?? internalState;
     const setState = onStateChange ?? setInternalState;
 
-  const filledCount = React.useMemo(() => {
-    const countTeam = (t: Team) =>
-      [t.top, t.jungle, t.mid, t.bot, t.support].filter((value) => {
-        if (typeof value !== "string") {
-          return false;
-        }
-        return value.trim().length > 0;
-      }).length;
-    return {
-      allies: countTeam(state.allies),
-      enemies: countTeam(state.enemies),
-    };
-  }, [state]);
+    const filledCount = React.useMemo(() => {
+      const countTeam = (t: Team) =>
+        [t.top, t.jungle, t.mid, t.bot, t.support].filter((value) => {
+          if (typeof value !== "string") {
+            return false;
+          }
+          return value.trim().length > 0;
+        }).length;
+      return {
+        allies: countTeam(state.allies),
+        enemies: countTeam(state.enemies),
+      };
+    }, [state]);
 
-  function setLane(side: Side, lane: LaneKey, value: string) {
-    const trimmedValue = value.trim();
-    setState((prev) => ({
-      ...prev,
-      [side]: { ...prev[side], [lane]: trimmedValue },
-    }));
-  }
+    const setLane = React.useCallback(
+      (side: Side, lane: LaneKey, value: string) => {
+        const trimmedValue = value.trim();
+        setState((prev) => ({
+          ...prev,
+          [side]: { ...prev[side], [lane]: trimmedValue },
+        }));
+      },
+      [setState],
+    );
 
-  function setNotes(side: Side, value: string) {
-    setState((prev) => ({
-      ...prev,
-      [side]: { ...prev[side], notes: value },
-    }));
-  }
+    const setNotes = React.useCallback(
+      (side: Side, value: string) => {
+        setState((prev) => ({
+          ...prev,
+          [side]: { ...prev[side], notes: value },
+        }));
+      },
+      [setState],
+    );
 
-  function clearSide(side: Side) {
-    setState((prev) => ({
-      ...prev,
-      [side]: { ...EMPTY_TEAM },
-    }));
-  }
+    const clearSide = React.useCallback(
+      (side: Side) => {
+        setState((prev) => ({
+          ...prev,
+          [side]: { ...EMPTY_TEAM },
+        }));
+      },
+      [setState],
+    );
 
-  function swapSides() {
-    setState((prev) => ({
-      allies: { ...prev.enemies },
-      enemies: { ...prev.allies },
-    }));
-  }
+    const swapSides = React.useCallback(() => {
+      setState((prev) => ({
+        allies: { ...prev.enemies },
+        enemies: { ...prev.allies },
+      }));
+    }, [setState]);
 
-  async function copy(selection: "all" | "allies" | "enemies") {
-    const text =
-      selection === "all"
-        ? stringify(state)
-        : stringify({
-            allies: selection === "allies" ? state.allies : EMPTY_TEAM,
-            enemies: selection === "enemies" ? state.enemies : EMPTY_TEAM,
-          });
+    const copy = React.useCallback(
+      async (selection: "all" | "allies" | "enemies") => {
+        const text =
+          selection === "all"
+            ? stringify(state)
+            : stringify({
+                allies: selection === "allies" ? state.allies : EMPTY_TEAM,
+                enemies: selection === "enemies" ? state.enemies : EMPTY_TEAM,
+              });
 
-    await copyText(text);
-  }
+        await copyText(text);
+      },
+      [state],
+    );
+
+    const handleCopyAll = React.useCallback(() => {
+      void copy("all");
+    }, [copy]);
+
+    const handleAlliesLane = React.useCallback(
+      (lane: LaneKey, value: string) => {
+        setLane("allies", lane, value);
+      },
+      [setLane],
+    );
+
+    const handleAlliesNotes = React.useCallback(
+      (value: string) => {
+        setNotes("allies", value);
+      },
+      [setNotes],
+    );
+
+    const handleAlliesClear = React.useCallback(() => {
+      clearSide("allies");
+    }, [clearSide]);
+
+    const handleAlliesCopy = React.useCallback(() => {
+      void copy("allies");
+    }, [copy]);
+
+    const handleEnemiesLane = React.useCallback(
+      (lane: LaneKey, value: string) => {
+        setLane("enemies", lane, value);
+      },
+      [setLane],
+    );
+
+    const handleEnemiesNotes = React.useCallback(
+      (value: string) => {
+        setNotes("enemies", value);
+      },
+      [setNotes],
+    );
+
+    const handleEnemiesClear = React.useCallback(() => {
+      clearSide("enemies");
+    }, [clearSide]);
+
+    const handleEnemiesCopy = React.useCallback(() => {
+      void copy("enemies");
+    }, [copy]);
 
   /* ─────────────── UI ─────────────── */
 
-  React.useImperativeHandle(ref, () => ({
-    swapSides,
-    copyAll: () => copy("all"),
-  }));
+    React.useImperativeHandle(
+      ref,
+      () => ({
+        swapSides,
+        copyAll: handleCopyAll,
+      }),
+      [handleCopyAll, swapSides],
+    );
 
   return (
     <div data-scope="team" className="w-full mt-[var(--space-6)]">
@@ -190,10 +254,10 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
                 title="Allies"
                 icon={<Shield />}
                 value={state.allies}
-                onLane={(lane, v) => setLane("allies", lane, v)}
-                onNotes={(v) => setNotes("allies", v)}
-                onClear={() => clearSide("allies")}
-                onCopy={() => copy("allies")}
+                onLane={handleAlliesLane}
+                onNotes={handleAlliesNotes}
+                onClear={handleAlliesClear}
+                onCopy={handleAlliesCopy}
                 count={filledCount.allies}
               />
             </div>
@@ -213,10 +277,10 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
                 title="Enemies"
                 icon={<Swords />}
                 value={state.enemies}
-                onLane={(lane, v) => setLane("enemies", lane, v)}
-                onNotes={(v) => setNotes("enemies", v)}
-                onClear={() => clearSide("enemies")}
-                onCopy={() => copy("enemies")}
+                onLane={handleEnemiesLane}
+                onNotes={handleEnemiesNotes}
+                onClear={handleEnemiesClear}
+                onCopy={handleEnemiesCopy}
                 count={filledCount.enemies}
               />
             </div>
