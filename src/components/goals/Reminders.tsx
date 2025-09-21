@@ -199,6 +199,7 @@ export default function Reminders() {
               onValueChange={(k) => setGroup((k === "all" ? "all" : k) as Group | "all")}
               size="md"
               ariaLabel="Group filter"
+              linkPanels={false}
             />
 
             {/* pinned */}
