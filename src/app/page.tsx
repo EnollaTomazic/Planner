@@ -477,7 +477,7 @@ function HomePageContent() {
                             <Button
                               asChild
                               variant="primary"
-                              size="sm"
+                              size="md"
                               tactile
                               className="whitespace-nowrap"
                             >
