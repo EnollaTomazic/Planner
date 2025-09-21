@@ -56,6 +56,23 @@ const DEFAULT_FALLBACK_COPY: GalleryHeroCopy = {
   subtitle: "Browse Planner UI building blocks by category.",
 };
 
+function isKeyboardFocusVisible(element: HTMLElement): boolean {
+  try {
+    if (element.matches(":focus-visible")) {
+      return true;
+    }
+  } catch {
+    // Ignore selector support errors and fall back to class/attribute detection.
+  }
+
+  return (
+    element.classList.contains("focus-visible") ||
+    element.classList.contains("is-focus-visible") ||
+    element.hasAttribute("data-focus-visible-added") ||
+    element.dataset.focusVisible === "true"
+  );
+}
+
 export function useComponentsGalleryState({
   navigation,
 }: UseComponentsGalleryStateParams): ComponentsGalleryState {
@@ -178,6 +195,28 @@ export function useComponentsGalleryState({
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
   const tokensPanelRef = React.useRef<HTMLDivElement>(null);
   const previousViewRef = React.useRef<ComponentsView | null>(null);
+  const shouldFocusPanel = React.useCallback((panel: HTMLElement | null) => {
+    if (typeof document === "undefined" || !panel) {
+      return false;
+    }
+    const activeElement = document.activeElement;
+    if (!activeElement || !(activeElement instanceof HTMLElement)) {
+      return false;
+    }
+    if (activeElement.getAttribute("role") !== "tab") {
+      return false;
+    }
+    if (panel.id) {
+      const controls = activeElement.getAttribute("aria-controls");
+      if (!controls || controls !== panel.id) {
+        return false;
+      }
+    }
+    if (!isKeyboardFocusVisible(activeElement)) {
+      return false;
+    }
+    return true;
+  }, []);
 
   const currentGroup = React.useMemo(
     () => groups.find((group) => group.id === view) ?? null,
@@ -425,16 +464,23 @@ export function useComponentsGalleryState({
   React.useEffect(() => {
     const previousView = previousViewRef.current;
     if (view !== "tokens" && previousView === "tokens") {
-      componentsPanelRef.current?.focus({ preventScroll: true });
+      const panel = componentsPanelRef.current;
+      if (panel && shouldFocusPanel(panel)) {
+        panel.focus({ preventScroll: true });
+      }
     }
     previousViewRef.current = view;
-  }, [view]);
+  }, [shouldFocusPanel, view]);
 
   React.useEffect(() => {
-    if (view === "tokens") {
-      tokensPanelRef.current?.focus({ preventScroll: true });
+    if (view !== "tokens") {
+      return;
     }
-  }, [view]);
+    const panel = tokensPanelRef.current;
+    if (panel && shouldFocusPanel(panel)) {
+      panel.focus({ preventScroll: true });
+    }
+  }, [shouldFocusPanel, view]);
 
   const showSectionTabs = heroTabs.length > 0 && view !== "tokens";
 
