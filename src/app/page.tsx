@@ -194,7 +194,7 @@ function HeroPlannerCards() {
               <Link
                 href={item.href}
                 className={cn(
-                  "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
+                  "group flex items-center justify-between gap-[var(--space-3)] rounded-[var(--control-radius)] border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
                   "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                   "active:border-primary/60 active:bg-card/80",
                 )}
@@ -272,7 +272,7 @@ function HeroPlannerCards() {
                       aria-pressed={task.done}
                       aria-label={toggleLabel}
                       className={cn(
-                        "flex flex-col items-start gap-[var(--space-1)] rounded-card r-card-sm px-[var(--space-1)] py-[var(--space-1)] text-left transition",
+                        "flex flex-col items-start gap-[var(--space-1)] rounded-[var(--control-radius)] px-[var(--space-1)] py-[var(--space-1)] text-left transition",
                         "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                         "active:text-foreground/80",
                         "disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:cursor-progress data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
@@ -407,7 +407,7 @@ function HeroPlannerCards() {
                         handleSelectDay(day.iso);
                       }}
                       className={cn(
-                        "flex w-full flex-col items-start gap-[var(--space-1)] rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
+                        "flex w-full flex-col items-start gap-[var(--space-1)] rounded-[var(--control-radius)] border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
                         "border-card-hairline bg-card/70 hover:border-primary/40 hover:bg-card/80",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                         "active:bg-card/90",
