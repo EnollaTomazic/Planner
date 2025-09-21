@@ -143,7 +143,7 @@ function Body({ className, ...props }: BodyProps) {
   return (
     <div
       {...props}
-      className={cn("section-b", className)}
+      className={cn("section-b", "text-ui", className)}
       aria-labelledby={labelledBy}
     />
   );
