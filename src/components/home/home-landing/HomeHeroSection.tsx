@@ -46,11 +46,14 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
                 <div className="col-span-12 flex w-full flex-wrap items-center justify-end gap-[var(--space-2)] sm:flex-nowrap md:col-span-8 lg:col-span-7">
                   {actions}
                 </div>
-                <WelcomeHeroFigure
-                  className="col-span-12 md:col-span-4 lg:col-span-5"
-                  haloTone={haloTone}
-                  showGlitchRail={showGlitchRail}
-                />
+                <div className="col-span-12 flex justify-center md:col-span-4 md:justify-end lg:col-span-5">
+                  <WelcomeHeroFigure
+                    className="w-full max-w-[calc(var(--space-8)*5)]"
+                    haloTone={haloTone}
+                    showGlitchRail={showGlitchRail}
+                    framed={false}
+                  />
+                </div>
               </div>
             ),
           }}
