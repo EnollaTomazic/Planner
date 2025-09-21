@@ -11,7 +11,6 @@ import "./style.css";
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -244,8 +243,8 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
 
   return (
     <div data-scope="team" className="w-full mt-[var(--space-6)]">
-      <SectionCard variant="glitch">
-        <SectionCard.Body>
+      <section className="rounded-card r-card-lg glitch-card text-card-foreground">
+        <div className="p-[var(--space-5)] text-ui">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
             {/* Allies */}
             <div className="md:col-span-5">
@@ -285,8 +284,8 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
               />
             </div>
           </div>
-        </SectionCard.Body>
-      </SectionCard>
+        </div>
+      </section>
     </div>
   );
 });
@@ -307,7 +306,7 @@ function SideEditor(props: {
   const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-[var(--space-4)] glitch-card relative">
+    <div className="rounded-card r-card-lg p-[var(--space-4)] glitch-card relative text-card-foreground text-ui">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
