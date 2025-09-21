@@ -12,6 +12,7 @@ import {
   readLocal as baseReadLocal,
   writeLocal as baseWriteLocal,
 } from "./local-bootstrap";
+import { persistenceLogger } from "./logging";
 import { createStorageKey, OLD_STORAGE_PREFIX } from "./storage-key";
 
 export { createStorageKey } from "./storage-key";
@@ -51,8 +52,11 @@ function flushWriteQueue() {
       } else {
         baseWriteLocal(k, entry.value);
       }
-    } catch {
-      // ignore
+    } catch (error) {
+      persistenceLogger.warn(
+        `Failed to flush write for "${k}"; dropping queued value.`,
+        error,
+      );
     }
   }
   writeQueue.clear();
@@ -173,12 +177,10 @@ export function scheduleWrite(key: string, value: unknown) {
     issue = describeNonSerializable(value);
   }
   if (issue) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        `Skipping persistence for "${key}" because ${issue}.`,
-        value,
-      );
-    }
+    persistenceLogger.warn(
+      `Skipping persistence for "${key}" because ${issue}.`,
+      value,
+    );
     return;
   }
   let entry: QueuedWrite;
@@ -207,12 +209,10 @@ export function scheduleWrite(key: string, value: unknown) {
             })()
           : undefined;
       if (typeof clonedValue === "undefined") {
-        if (process.env.NODE_ENV !== "production") {
-          console.warn(
-            `Skipping persistence for "${key}" because value could not be cloned.`,
-            value,
-          );
-        }
+        persistenceLogger.warn(
+          `Skipping persistence for "${key}" because value could not be cloned.`,
+          value,
+        );
         return;
       }
       entry = { type: "raw", value: clonedValue };
@@ -248,7 +248,11 @@ export function readLocal<T>(key: string): T | null {
       if (rawValue !== null) return rawValue;
     }
     return null;
-  } catch {
+  } catch (error) {
+    persistenceLogger.warn(
+      `readLocal("${key}") failed; returning null.`,
+      error,
+    );
     return null;
   }
 }
@@ -258,8 +262,11 @@ export function writeLocal(key: string, value: unknown) {
   if (!isBrowser) return;
   try {
     scheduleWrite(createStorageKey(key), value);
-  } catch {
-    // ignore quota/privacy errors
+  } catch (error) {
+    persistenceLogger.warn(
+      `writeLocal("${key}") failed; ignoring value due to storage restrictions.`,
+      error,
+    );
   }
 }
 
@@ -269,16 +276,22 @@ export function removeLocal(key: string) {
   const targets = new Set<string>();
   try {
     targets.add(createStorageKey(key));
-  } catch {
-    // ignore
+  } catch (error) {
+    persistenceLogger.warn(
+      `removeLocal("${key}") could not resolve namespaced key.`,
+      error,
+    );
   }
   targets.add(`${OLD_STORAGE_PREFIX}${key}`);
   targets.add(key);
   for (const target of targets) {
     try {
       window.localStorage.removeItem(target);
-    } catch {
-      // ignore
+    } catch (error) {
+      persistenceLogger.warn(
+        `removeLocal("${target}") failed; continuing cleanup.`,
+        error,
+      );
     }
   }
 }
@@ -420,8 +433,11 @@ export function usePersistentState<T>(
         if (fallbackKey && fallbackKey !== fullKey) {
           try {
             window.localStorage.removeItem(fallbackKey);
-          } catch {
-            // ignore
+          } catch (error) {
+            persistenceLogger.warn(
+              `Failed to remove legacy storage key "${fallbackKey}" during migration.`,
+              error,
+            );
           }
         }
       } else {
@@ -457,8 +473,11 @@ export function usePersistentState<T>(
     try {
       const encoded = encodeValue(state);
       scheduleWrite(fullKeyRef.current, encoded);
-    } catch {
-      // ignore
+    } catch (error) {
+      persistenceLogger.warn(
+        `Failed to persist key "${fullKeyRef.current}" after state update.`,
+        error,
+      );
     }
   }, [state, encodeValue]);
 
