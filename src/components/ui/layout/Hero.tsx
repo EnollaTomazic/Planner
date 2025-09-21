@@ -20,11 +20,8 @@ import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import SearchBar, {
   type SearchBarProps,
 } from "@/components/ui/primitives/SearchBar";
+import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
-
-function cx(...p: Array<string | false | null | undefined>) {
-  return p.filter(Boolean).join(" ");
-}
 
 type HeroElement = Extract<
   keyof React.JSX.IntrinsicElements,
@@ -136,10 +133,10 @@ function Hero<Key extends string = string>({
   const isRaisedBar = barVariant === "raised";
 
   const stickyClasses = sticky
-    ? cx("sticky sticky-blur", topClassName)
+    ? cn("sticky sticky-blur", topClassName)
     : "";
 
-  const shellClass = cx(
+  const shellClass = cn(
     stickyClasses,
     frame
       ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] hero2-frame hero2-neomorph"
@@ -161,19 +158,19 @@ function Hero<Key extends string = string>({
     ? "gap-[var(--space-4)] md:gap-[var(--space-5)]"
     : "gap-[var(--space-2)] md:gap-[var(--space-4)]";
 
-  const labelClusterClass = cx(
+  const labelClusterClass = cn(
     "relative col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap",
     isRaisedBar ? "md:items-stretch" : "md:items-center",
     clusterGapClass,
   );
 
-  const raisedLabelBarClass = cx(
+  const raisedLabelBarClass = cn(
     "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
     clusterGapClass,
     "overflow-hidden rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
   );
 
-  const utilitiesClass = cx(
+  const utilitiesClass = cn(
     "col-span-full flex w-full min-w-0 justify-start md:col-span-4 md:w-auto md:justify-end",
     "flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center",
   );
@@ -186,14 +183,14 @@ function Hero<Key extends string = string>({
     ? "flex flex-wrap items-start gap-[var(--space-4)] md:flex-nowrap md:items-center md:gap-[var(--space-5)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
     : "flex flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center md:gap-[var(--space-4)] lg:gap-[var(--space-5)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
-  const headingClassName = cx(
+  const headingClassName = cn(
     "font-semibold tracking-[-0.01em] text-balance break-words text-foreground",
     isSupportiveTone
       ? "text-title md:text-title"
       : "text-title-lg md:text-title-lg",
   );
 
-  const subtitleClassName = cx(
+  const subtitleClassName = cn(
     "text-ui md:text-body text-muted-foreground break-words",
     isSupportiveTone ? "font-normal" : "font-medium",
   );
@@ -257,7 +254,7 @@ function Hero<Key extends string = string>({
             right={subTabs.right}
             showBaseline={subTabs.showBaseline ?? true}
             variant={subTabs.variant ?? heroVariant}
-            className={cx("justify-end", subTabs.className)}
+            className={cn("justify-end", subTabs.className)}
             {...accessibilityProps}
             linkPanels={subTabs.linkPanels}
           />
@@ -272,7 +269,7 @@ function Hero<Key extends string = string>({
       align={tabs.align ?? "end"}
       showBaseline={tabs.showBaseline ?? true}
       variant={tabs.variant ?? heroVariant}
-      className={cx("justify-end", tabs.className)}
+      className={cn("justify-end", tabs.className)}
       ariaLabel="Hero tabs"
       linkPanels={tabs.linkPanels}
     />
@@ -294,12 +291,12 @@ function Hero<Key extends string = string>({
 
       <div className={shellClass}>
 
-        <div className={cx(barSpacingClass, barClassName)}>
+        <div className={cn(barSpacingClass, barClassName)}>
           <div className={labelClusterClass}>
             {rail && !isGlitchOff ? (
               <span
                 aria-hidden
-                className={cx(
+                className={cn(
                   "header-rail",
                   "pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
                   isGlitchSubtle && "header-rail--subtle",
@@ -325,13 +322,13 @@ function Hero<Key extends string = string>({
         {children || searchProps || actions ? (
           <div className={bodySpacingClass}>
             {children ? (
-              <div className={cx(bodyClassName)}>{children}</div>
+              <div className={cn(bodyClassName)}>{children}</div>
             ) : null}
             {searchProps || actions ? (
               <div className="relative" style={dividerStyle}>
                 <span
                   aria-hidden
-                  className={cx(
+                  className={cn(
                     "block h-px",
                     frame
                       ? isGlitchOff
@@ -345,7 +342,7 @@ function Hero<Key extends string = string>({
                 {frame && !isGlitchOff ? (
                   <span
                     aria-hidden
-                    className={cx(
+                    className={cn(
                       "hero2-divider-glow absolute inset-x-0 top-0 h-px bg-[hsl(var(--divider))]",
                       isGlitchSubtle ? "opacity-35" : "opacity-60",
                     )}
@@ -472,12 +469,12 @@ export function HeroSearchBar({
     <SearchBar
       {...props}
       variant={resolvedVariant}
-      className={cx(
+      className={cn(
         "w-full max-w-[calc(var(--space-8)*10)]",
         round && "rounded-full",
         className,
       )}
-      fieldClassName={cx(
+      fieldClassName={cn(
         round && "rounded-full [&>input]:rounded-full",
         isNeo && "overflow-hidden hero2-frame",
         fieldClassName,

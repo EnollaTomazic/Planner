@@ -11,7 +11,7 @@
  */
 import "./style.css";
 
-import React from "react";
+import * as React from "react";
 import {
   Users2,
   BookOpenText,

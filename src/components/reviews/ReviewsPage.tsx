@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import * as React from "react";
 import { ts } from "@/lib/date";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -39,16 +39,16 @@ export default function ReviewsPage({
   onChangeTags,
   onChangeMeta,
 }: ReviewsPageProps) {
-  const [q, setQ] = useState("");
-  const [sort, setSort] = useState<SortKey>("newest");
-  const [detailMode, setDetailMode] = useState<DetailMode>("summary");
+  const [q, setQ] = React.useState("");
+  const [sort, setSort] = React.useState<SortKey>("newest");
+  const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
 
-  const base = useMemo<Review[]>(
+  const base = React.useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),
     [reviews],
   );
 
-  const filtered = useMemo(() => {
+  const filtered = React.useMemo(() => {
     const needle = q.trim().toLowerCase();
     const list =
       needle.length === 0
@@ -69,7 +69,10 @@ export default function ReviewsPage({
     return list;
   }, [base, q, sort]);
 
-  const active = base.find((r) => r.id === selectedId) || null;
+  const active = React.useMemo(
+    () => base.find((r) => r.id === selectedId) || null,
+    [base, selectedId],
+  );
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
 

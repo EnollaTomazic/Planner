@@ -11,7 +11,7 @@ import "./style.css";
  * - Titles and timers now use glitch-title + glitch-flicker + title-glow.
  */
 
-import React, { useMemo, useState, useEffect } from "react";
+import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -206,19 +206,19 @@ export default React.forwardRef<
   const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS, {
     decode: decodeRows,
   });
-  const [editingRow, setEditingRow] = useState<{
+  const [editingRow, setEditingRow] = React.useState<{
     id: string;
     champ: string;
     type: string;
     notes: string;
   } | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!needsPersist(items)) return;
     setItems((current) => current.map((row) => ({ ...row })));
   }, [items, setItems]);
 
-  const filtered = useMemo(() => {
+  const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     return items.filter((r) => {
       if (!q) return true;
@@ -229,11 +229,11 @@ export default React.forwardRef<
     });
   }, [query, items]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     onCountChange?.(filtered.length);
   }, [filtered, onCountChange]);
 
-  const exampleByBucket = useMemo(() => {
+  const exampleByBucket = React.useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
       const row = items.find((r) => {
@@ -323,7 +323,7 @@ export default React.forwardRef<
     [setItems, setEditingRow, onTargetBucketChange],
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!editing) cancelEdit();
   }, [editing, cancelEdit]);
 

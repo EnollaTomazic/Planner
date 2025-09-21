@@ -1,7 +1,7 @@
 // src/components/reviews/ReviewListItem.tsx
 "use client";
 
-import React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import Badge from "@/components/ui/primitives/Badge";
