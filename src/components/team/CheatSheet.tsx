@@ -604,7 +604,7 @@ export default function CheatSheet({
           >
             {/* Top-right edit/save control */}
             {editing && (
-              <div className="absolute right-2 top-2 z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
+              <div className="absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
                 {!isEditing ? (
                   <IconButton
                     title="Edit"
@@ -631,7 +631,7 @@ export default function CheatSheet({
             <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
-            <header className="mb-3">
+            <header className="mb-[var(--space-3)]">
               <TitleEdit
                 value={a.title}
                 editing={isEditing}
