@@ -2,8 +2,16 @@
 
 import "./style.css";
 import * as React from "react";
-import { usePersistentState } from "@/lib/db";
 import {
+  createStorageKey,
+  readLocal,
+  removeLocal,
+  scheduleWrite,
+  usePersistentState,
+} from "@/lib/db";
+import { parseJSON } from "@/lib/local-bootstrap";
+import {
+  decodePlannerDay,
   decodePlannerDays,
   decodePlannerFocus,
   pruneOldDays,
@@ -38,6 +46,14 @@ type DaysSetStateAction =
   | ((current: Record<ISODate, DayRecord>) => DaysUpdateResult);
 
 type DaysDispatch = (action: DaysSetStateAction) => void;
+
+const DAYS_STORAGE_KEY = "planner:days";
+const DAY_STORAGE_PREFIX = `${DAYS_STORAGE_KEY}:`;
+
+type PendingPersistence = {
+  writes: Map<ISODate, DayRecord>;
+  removals: Set<ISODate>;
+};
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -153,11 +169,47 @@ const FocusContext = React.createContext<FocusState | null>(null);
 const SelectionContext = React.createContext<SelectionState | null>(null);
 
 export function PlannerProvider({ children }: { children: React.ReactNode }) {
-  const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
-    "planner:days",
-    {},
-    { decode: decodePlannerDays },
+  const [rawDays, setRawDays] = React.useState<Record<ISODate, DayRecord>>({});
+  const pendingPersistenceRef = React.useRef<PendingPersistence | null>(null);
+  const hydratedRef = React.useRef(false);
+
+  const queuePersistence = React.useCallback(
+    (writes: Map<ISODate, DayRecord> | null, removals: readonly ISODate[]) => {
+      if ((!writes || writes.size === 0) && removals.length === 0) return;
+      const existing = pendingPersistenceRef.current;
+      if (existing) {
+        if (writes) {
+          for (const [iso, day] of writes) {
+            existing.writes.set(iso, day);
+            existing.removals.delete(iso);
+          }
+        }
+        for (const iso of removals) {
+          existing.writes.delete(iso);
+          existing.removals.add(iso);
+        }
+        return;
+      }
+      pendingPersistenceRef.current = {
+        writes: writes ? new Map(writes) : new Map(),
+        removals: new Set(removals),
+      };
+    },
+    [],
   );
+
+  const flushPendingPersistence = React.useCallback(() => {
+    const pending = pendingPersistenceRef.current;
+    if (!pending) return;
+    pendingPersistenceRef.current = null;
+    for (const [iso, day] of pending.writes) {
+      scheduleWrite(createStorageKey(`${DAY_STORAGE_PREFIX}${iso}`), day);
+    }
+    for (const iso of pending.removals) {
+      removeLocal(`${DAY_STORAGE_PREFIX}${iso}`);
+    }
+  }, []);
+
   const [focus, setFocus] = usePersistentState<ISODate>(
     "planner:focus",
     FOCUS_PLACEHOLDER,
@@ -208,30 +260,111 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     };
   }, [setFocus, setToday]);
 
-  const selected = React.useMemo(
-    () => cleanupSelections(selectedState, days),
-    [selectedState, days],
-  );
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let cancelled = false;
+
+    const perDayPrefix = createStorageKey(DAY_STORAGE_PREFIX);
+    const prefixLength = perDayPrefix.length;
+    const storedIsos = new Set<ISODate>();
+    const validIsos = new Set<ISODate>();
+    const staleIsos = new Set<ISODate>();
+    const missingIsos = new Set<ISODate>();
+    const nextDays: Record<ISODate, DayRecord> = {};
+
+    for (let i = 0; i < window.localStorage.length; i += 1) {
+      const key = window.localStorage.key(i);
+      if (!key || !key.startsWith(perDayPrefix)) continue;
+      const iso = key.slice(prefixLength) as ISODate;
+      storedIsos.add(iso);
+      const raw = window.localStorage.getItem(key);
+      const parsed = parseJSON<unknown>(raw);
+      if (parsed === null) {
+        staleIsos.add(iso);
+        continue;
+      }
+      const decoded = decodePlannerDay(parsed);
+      if (!decoded) {
+        staleIsos.add(iso);
+        continue;
+      }
+      nextDays[iso] = decoded;
+      validIsos.add(iso);
+    }
+
+    const legacySnapshot = readLocal<Record<string, unknown>>(DAYS_STORAGE_KEY);
+    if (legacySnapshot) {
+      const decodedLegacy = decodePlannerDays(legacySnapshot);
+      for (const [iso, day] of Object.entries(decodedLegacy)) {
+        const typedIso = iso as ISODate;
+        if (validIsos.has(typedIso)) continue;
+        nextDays[typedIso] = day;
+        if (!storedIsos.has(typedIso) || staleIsos.has(typedIso)) {
+          missingIsos.add(typedIso);
+        }
+      }
+    }
+
+    const pruned = pruneOldDays(nextDays);
+    const prunedIsos = new Set(Object.keys(pruned) as ISODate[]);
+    for (const iso of storedIsos) {
+      if (!prunedIsos.has(iso)) {
+        staleIsos.add(iso);
+      }
+    }
+
+    if (cancelled) return;
+
+    setRawDays(pruned);
+    hydratedRef.current = true;
+
+    removeLocal(DAYS_STORAGE_KEY);
+    if (staleIsos.size > 0) {
+      for (const iso of staleIsos) {
+        removeLocal(`${DAY_STORAGE_PREFIX}${iso}`);
+      }
+    }
+
+    if (missingIsos.size > 0) {
+      const writes = new Map<ISODate, DayRecord>();
+      for (const iso of missingIsos) {
+        const day = pruned[iso];
+        if (day) {
+          writes.set(iso, day);
+        }
+      }
+      if (writes.size > 0) {
+        queuePersistence(writes, []);
+      }
+    }
+
+    flushPendingPersistence();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [flushPendingPersistence, queuePersistence]);
+
+  React.useEffect(() => {
+    if (!hydratedRef.current) return;
+    flushPendingPersistence();
+  }, [rawDays, flushPendingPersistence]);
+
+  const [selected, tasksById] = React.useMemo(() => {
+    const cleaned = cleanupSelections(selectedState, rawDays);
+    const map: TaskIdMap = {};
+    for (const [iso, record] of Object.entries(rawDays)) {
+      map[iso as ISODate] = record.tasksById ?? {};
+    }
+    return [cleaned, map] as const;
+  }, [selectedState, rawDays]);
 
   React.useEffect(() => {
     if (!Object.is(selected, selectedState)) {
       setSelectedState(selected);
     }
   }, [selected, selectedState, setSelectedState]);
-
-  const tasksById = React.useMemo<TaskIdMap>(() => {
-    const map: TaskIdMap = {};
-    for (const [iso, record] of Object.entries(days)) {
-      map[iso] = record.tasksById ?? {};
-    }
-    return map;
-  }, [days]);
-
-  React.useEffect(() => {
-    if (!Object.is(rawDays, days)) {
-      setRawDays(days);
-    }
-  }, [rawDays, days, setRawDays]);
 
   const setDays = React.useCallback<DaysDispatch>(
     (action) => {
@@ -243,37 +376,75 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
               ) => DaysUpdateResult)(prev)
             : action;
 
-        const { days: next, changed } = extractDaysUpdate(resolved);
+        const { days: candidate, changed } = extractDaysUpdate(resolved);
 
-        let result = pruneOldDays(next);
-        let mutated = !Object.is(result, next);
+        const next = pruneOldDays(candidate);
+        let mutated = !Object.is(next, candidate);
 
-        const targetIsos =
-          changed === undefined
-            ? (Object.keys(result) as ISODate[])
-            : changed.filter((iso) =>
-                Object.prototype.hasOwnProperty.call(result, iso),
-              );
+        const targetIsos = changed ?? (Object.keys(next) as ISODate[]);
 
-        for (const iso of targetIsos) {
-          if (prev[iso] === result[iso]) continue;
-          const ensured = sanitizeDayRecord(result, iso);
-          if (!ensured) continue;
-          if (!mutated) {
-            mutated = true;
-            result = { ...result };
+        let result = next;
+        if (targetIsos.length > 0) {
+          const sanitizedEntries: Array<[ISODate, DayRecord]> = [];
+          for (const iso of targetIsos) {
+            const sanitized = sanitizeDayRecord(result, iso);
+            if (sanitized) {
+              sanitizedEntries.push([iso, sanitized]);
+            }
           }
-          result[iso] = ensured;
+          if (sanitizedEntries.length > 0) {
+            if (!mutated) {
+              mutated = true;
+              result = { ...result };
+            } else if (Object.is(result, next)) {
+              result = { ...result };
+            }
+            for (const [iso, sanitized] of sanitizedEntries) {
+              result[iso] = sanitized;
+            }
+          }
         }
 
-        if (!mutated && Object.is(prev, result)) {
+        const writes: Array<[ISODate, DayRecord]> = [];
+        for (const iso of targetIsos) {
+          const nextDay = result[iso];
+          if (!nextDay) continue;
+          if (!Object.is(prev[iso], nextDay)) {
+            writes.push([iso, nextDay]);
+          }
+        }
+
+        const removals: ISODate[] = [];
+        for (const iso of Object.keys(prev) as ISODate[]) {
+          if (!Object.prototype.hasOwnProperty.call(result, iso)) {
+            removals.push(iso);
+          }
+        }
+
+        const changedMap =
+          mutated ||
+          writes.length > 0 ||
+          removals.length > 0 ||
+          !Object.is(prev, result);
+
+        if (!changedMap) {
           return prev;
+        }
+
+        if (writes.length > 0 || removals.length > 0) {
+          queuePersistence(
+            writes.length > 0 ? new Map(writes) : null,
+            removals,
+          );
+          if (hydratedRef.current) {
+            flushPendingPersistence();
+          }
         }
 
         return result;
       });
     },
-    [setRawDays],
+    [flushPendingPersistence, queuePersistence],
   );
 
   const daysValue = React.useMemo(

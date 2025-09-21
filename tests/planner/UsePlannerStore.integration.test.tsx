@@ -78,31 +78,36 @@ describe("UsePlannerStore", () => {
       expect(result.current.day.tasksById["t1"]?.title).toBe("Old Task");
     });
 
+    const focus = result.current.focus;
+
     flushWriteLocal();
 
     expect(window.localStorage.getItem("planner:projects")).toBeNull();
     expect(window.localStorage.getItem("planner:tasks")).toBeNull();
 
-    const storedDaysRaw = window.localStorage.getItem(
-      "noxis-planner:planner:days",
+    await waitFor(() => {
+      expect(
+        window.localStorage.getItem(`noxis-planner:planner:days:${focus}`),
+      ).not.toBeNull();
+    });
+
+    expect(window.localStorage.getItem("noxis-planner:planner:days")).toBeNull();
+
+    const storedDayRaw = window.localStorage.getItem(
+      `noxis-planner:planner:days:${focus}`,
     );
-    expect(storedDaysRaw).not.toBeNull();
 
-    const storedDays = JSON.parse(storedDaysRaw ?? "{}") as Record<
-      string,
-      {
-        projects?: { name?: string }[];
-        tasks?: { title?: string }[];
-        tasksByProject?: Record<string, string[]>;
-        tasksById?: Record<string, { title?: string }>;
-      }
-    >;
+    const storedDay = JSON.parse(storedDayRaw ?? "{}") as {
+      projects?: { name?: string }[];
+      tasks?: { title?: string }[];
+      tasksByProject?: Record<string, string[]>;
+      tasksById?: Record<string, { title?: string }>;
+    };
 
-    const focus = result.current.focus;
-    expect(storedDays[focus]?.projects?.[0]?.name).toBe("Legacy");
-    expect(storedDays[focus]?.tasks?.[0]?.title).toBe("Old Task");
-    expect(storedDays[focus]?.tasksByProject).toEqual({ p1: ["t1"] });
-    expect(storedDays[focus]?.tasksById?.["t1"]?.title).toBe("Old Task");
+    expect(storedDay.projects?.[0]?.name).toBe("Legacy");
+    expect(storedDay.tasks?.[0]?.title).toBe("Old Task");
+    expect(storedDay.tasksByProject).toEqual({ p1: ["t1"] });
+    expect(storedDay.tasksById?.["t1"]?.title).toBe("Old Task");
   });
 
   it("persists planner updates across provider instances", async () => {
@@ -122,17 +127,24 @@ describe("UsePlannerStore", () => {
 
     flushWriteLocal();
 
-    const storedDaysRaw = window.localStorage.getItem(
-      "noxis-planner:planner:days",
-    );
-    expect(storedDaysRaw).not.toBeNull();
-
-    const storedDays = JSON.parse(storedDaysRaw ?? "{}") as Record<
-      string,
-      { projects?: { name?: string }[] }
-    >;
     const focus = first.result.current.focus;
-    expect(storedDays[focus]?.projects?.[0]?.name).toBe("Persist me");
+
+    await waitFor(() => {
+      expect(
+        window.localStorage.getItem(`noxis-planner:planner:days:${focus}`),
+      ).not.toBeNull();
+    });
+
+    expect(window.localStorage.getItem("noxis-planner:planner:days")).toBeNull();
+
+    const storedDayRaw = window.localStorage.getItem(
+      `noxis-planner:planner:days:${focus}`,
+    );
+
+    const storedDay = JSON.parse(storedDayRaw ?? "{}") as {
+      projects?: { name?: string }[];
+    };
+    expect(storedDay.projects?.[0]?.name).toBe("Persist me");
 
     first.unmount();
 
@@ -174,24 +186,25 @@ describe("UsePlannerStore", () => {
 
     expect(result.current.focus).not.toBe(invalidFocus);
     expect(result.current.day.tasks).toHaveLength(0);
+
+    flushWriteLocal();
+    expect(window.localStorage.getItem("noxis-planner:planner:days")).toBeNull();
   });
 
   it("normalizes non-array task images when hydrating", async () => {
-    const iso = "2024-05-11";
+    const iso = todayISO();
     window.localStorage.setItem(
-      "noxis-planner:planner:days",
+      `noxis-planner:planner:days:${iso}`,
       JSON.stringify({
-        [iso]: {
-          tasks: [
-            {
-              id: "t1",
-              title: "Needs repair",
-              done: false,
-              createdAt: 1,
-              images: "oops",
-            },
-          ],
-        },
+        tasks: [
+          {
+            id: "t1",
+            title: "Needs repair",
+            done: false,
+            createdAt: 1,
+            images: "oops",
+          },
+        ],
       }),
     );
 
@@ -207,7 +220,7 @@ describe("UsePlannerStore", () => {
   });
 
   it("repairs corrupted planner storage blobs", async () => {
-    const iso = "2024-05-10";
+    const iso = todayISO();
     window.localStorage.setItem(
       "noxis-planner:planner:days",
       JSON.stringify({
@@ -276,5 +289,30 @@ describe("UsePlannerStore", () => {
     expect(day.notes).toBeUndefined();
 
     expect(result.current.days.invalid).toBeUndefined();
+
+    flushWriteLocal();
+    expect(window.localStorage.getItem("noxis-planner:planner:days")).toBeNull();
+    expect(
+      window.localStorage.getItem("noxis-planner:planner:days:invalid"),
+    ).toBeNull();
+
+    await waitFor(() => {
+      expect(
+        window.localStorage.getItem(`noxis-planner:planner:days:${iso}`),
+      ).not.toBeNull();
+    });
+
+    const storedDayRaw = window.localStorage.getItem(
+      `noxis-planner:planner:days:${iso}`,
+    );
+    const storedDay = JSON.parse(storedDayRaw ?? "{}") as {
+      projects?: { name?: string; done?: boolean }[];
+      tasks?: { id?: string; images?: string[] }[];
+      tasksByProject?: Record<string, string[]>;
+    };
+    expect(storedDay.projects).toHaveLength(1);
+    expect(storedDay.tasks?.[0]?.id).toBe("t1");
+    expect(storedDay.tasks?.[0]?.images).toEqual(["ok", "again"]);
+    expect(storedDay.tasksByProject).toEqual({ p1: ["t1"] });
   });
 });

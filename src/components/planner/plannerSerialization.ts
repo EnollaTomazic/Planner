@@ -90,6 +90,10 @@ function decodeDayRecord(value: unknown): DayRecord | null {
   return day;
 }
 
+export function decodePlannerDay(value: unknown): DayRecord | null {
+  return decodeDayRecord(value);
+}
+
 export function decodePlannerDays(value: unknown): Record<ISODate, DayRecord> {
   if (!isRecord(value)) return {};
   const result: Record<ISODate, DayRecord> = {};
