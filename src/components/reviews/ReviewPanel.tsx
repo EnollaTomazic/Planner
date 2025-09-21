@@ -8,7 +8,6 @@ export default function ReviewPanel({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <Card
-      aria-live="polite"
       className={cn("w-full container", className)}
       {...props}
     />
