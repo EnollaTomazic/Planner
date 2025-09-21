@@ -367,7 +367,7 @@ function HeroPlannerCards() {
             </p>
           </header>
           <div className="flex overflow-x-auto rounded-card r-card-lg border border-border/60 p-[var(--space-2)]">
-            <ul className="flex w-full min-w-0 gap-[var(--space-2)]" role="listbox" aria-label="Select focus day">
+            <ul className="flex w-full min-w-0 gap-[var(--space-2)]" aria-label="Select focus day">
               {per.map((day) => {
                 const dayDate = fromISODate(day.iso);
                 const weekday = dayDate
@@ -385,8 +385,7 @@ function HeroPlannerCards() {
                   >
                     <button
                       type="button"
-                      role="option"
-                      aria-selected={selected}
+                      aria-pressed={selected}
                       aria-current={todayMarker ? "date" : undefined}
                       onClick={() => handleSelectDay(day.iso)}
                       className={cn(
@@ -563,9 +562,11 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center p-[var(--space-6)]">
-          <Spinner />
-        </div>
+        <PageShell as="main" aria-busy="true">
+          <div className="flex justify-center p-[var(--space-6)]">
+            <Spinner />
+          </div>
+        </PageShell>
       }
     >
       <HomePageContent />
