@@ -23,11 +23,7 @@ export function HeroSearchBar({
     <SearchBar
       {...props}
       variant={resolvedVariant}
-      className={cn(
-        "w-full max-w-[calc(var(--space-8)*10)]",
-        round && "rounded-full",
-        className,
-      )}
+      className={cn("w-full flex-1 min-w-0", round && "rounded-full", className)}
       fieldClassName={cn(
         round && "rounded-full [&>input]:rounded-full",
         isNeo && "overflow-hidden hero2-frame",
