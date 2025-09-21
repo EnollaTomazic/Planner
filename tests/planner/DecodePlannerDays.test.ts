@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { decodePlannerDays } from "@/components/planner";
+import { decodePlannerDays } from "@/components/planner/plannerSerialization";
 
 describe("DecodePlannerDays", () => {
   it("returns an empty object for invalid input", () => {

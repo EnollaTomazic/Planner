@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Fuse from "fuse.js";
-import type { FuseResult } from "fuse.js";
+import type Fuse from "fuse.js";
 import { usePersistentState, uid } from "@/lib/db";
 import {
   derivePromptTitle,
@@ -51,20 +50,63 @@ export function usePromptLibrary(storageKey: string) {
     [prompts],
   );
 
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(withTitles, {
-        keys: ["title", "text"],
-        threshold: 0.3,
-      }),
-    [withTitles],
-  );
+  const fuseModulePromiseRef = React.useRef<Promise<typeof import("fuse.js")> | null>(null);
+  const fuseRef = React.useRef<Fuse<PromptWithTitle> | null>(null);
 
-  const filtered: PromptWithTitle[] = React.useMemo(() => {
-    const q = query.trim();
-    if (!q) return withTitles;
-    return fuse.search(q).map((res: FuseResult<PromptWithTitle>) => res.item);
-  }, [fuse, query, withTitles]);
+  const [filtered, setFiltered] = React.useState<PromptWithTitle[]>(withTitles);
+
+  const ensureFuse = React.useCallback(async () => {
+    if (!fuseModulePromiseRef.current) {
+      fuseModulePromiseRef.current = import("fuse.js");
+    }
+    const { default: FuseModule } = await fuseModulePromiseRef.current;
+    if (fuseRef.current) {
+      fuseRef.current.setCollection(withTitles);
+      return fuseRef.current;
+    }
+    const instance = new FuseModule<PromptWithTitle>(withTitles, {
+      keys: ["title", "text"],
+      threshold: 0.3,
+    });
+    fuseRef.current = instance;
+    return instance;
+  }, [withTitles]);
+
+  React.useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      setFiltered(withTitles);
+      return;
+    }
+
+    let cancelled = false;
+
+    if (!fuseRef.current) {
+      const lowered = trimmed.toLowerCase();
+      setFiltered(
+        withTitles.filter((prompt) => {
+          return (
+            prompt.title.toLowerCase().includes(lowered) ||
+            prompt.text.toLowerCase().includes(lowered)
+          );
+        }),
+      );
+    }
+
+    const runSearch = async () => {
+      const fuse = await ensureFuse();
+      if (cancelled) return;
+      const results = fuse.search(trimmed);
+      if (cancelled) return;
+      setFiltered(results.map((res) => res.item));
+    };
+
+    void runSearch();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [ensureFuse, query, withTitles]);
 
   const save = React.useCallback(
     (titleDraft: string, textDraft: string) => {
