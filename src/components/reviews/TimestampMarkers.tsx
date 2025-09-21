@@ -3,6 +3,7 @@ import SectionLabel from "@/components/reviews/SectionLabel";
 import NeonIcon from "@/components/reviews/NeonIcon";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Badge from "@/components/ui/primitives/Badge";
 import { Plus, FileText, Trash2 } from "lucide-react";
 import { uid, usePersistentState } from "@/lib/db";
 import { formatMmSs, parseMmSs } from "@/lib/date";
@@ -122,11 +123,12 @@ function TimestampMarkers(
     <div>
       <SectionLabel>Timestamps</SectionLabel>
       <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
-        <button
-          type="button"
+        <IconButton
           aria-label="Use timestamp"
+          title="Timestamp mode"
           aria-pressed={useTimestamp}
-          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          size="xl"
+          variant="ghost"
           onClick={() => {
             setUseTimestamp(true);
             setLastMarkerMode(true);
@@ -139,16 +141,16 @@ function TimestampMarkers(
               setTTime(lastMarkerTime);
             })
           }
-          title="Timestamp mode"
         >
           <NeonIcon kind="clock" on={useTimestamp} size="xl" />
-        </button>
+        </IconButton>
 
-        <button
-          type="button"
+        <IconButton
           aria-label="Use note only"
+          title="Note-only mode"
           aria-pressed={!useTimestamp}
-          className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          size="xl"
+          variant="ghost"
           onClick={() => {
             setUseTimestamp(false);
             setLastMarkerMode(false);
@@ -159,10 +161,9 @@ function TimestampMarkers(
               setLastMarkerMode(false);
             })
           }
-          title="Note-only mode"
         >
           <NeonIcon kind="file" on={!useTimestamp} size="xl" />
-        </button>
+        </IconButton>
       </div>
 
       <div className="mt-[var(--space-3)] grid gap-[var(--space-2)]">
@@ -194,9 +195,14 @@ function TimestampMarkers(
               }}
             />
           ) : (
-            <span className="pill flex h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] items-center justify-center px-0">
+            <Badge
+              size="sm"
+              className="flex items-center justify-center"
+              style={{ minWidth: "var(--space-8)" }}
+              aria-hidden
+            >
               <FileText aria-hidden className="icon-xs opacity-80" />
-            </span>
+            </Badge>
           )}
 
           <Input
@@ -244,11 +250,22 @@ function TimestampMarkers(
                 className="grid grid-cols-[auto_1fr_auto] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border bg-card px-[var(--space-3)] py-[var(--space-2)]"
               >
                 {m.noteOnly ? (
-                  <span className="pill flex h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] items-center justify-center px-0">
+                  <Badge
+                    size="sm"
+                    className="flex items-center justify-center"
+                    style={{ minWidth: "var(--space-8)" }}
+                    aria-hidden
+                  >
                     <FileText aria-hidden className="icon-xs opacity-80" />
-                  </span>
+                  </Badge>
                 ) : (
-                  <span className="pill h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] px-[var(--space-3)] text-ui font-mono tabular-nums text-center">{m.time}</span>
+                  <Badge
+                    size="sm"
+                    className="justify-center font-mono tabular-nums"
+                    style={{ minWidth: "var(--space-8)" }}
+                  >
+                    {m.time}
+                  </Badge>
                 )}
 
                 <span className="truncate text-ui">{m.note}</span>

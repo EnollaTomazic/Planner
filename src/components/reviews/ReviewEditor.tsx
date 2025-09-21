@@ -13,6 +13,7 @@ import type { Review, Role } from "@/lib/types";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
+import Badge from "@/components/ui/primitives/Badge";
 import { Tag, Trash2, Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
@@ -154,13 +155,6 @@ export default function ReviewEditor({
     commitMeta({ role: v });
   }
 
-  function onIconKey(e: React.KeyboardEvent, handler: () => void) {
-    if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
-      handler();
-    }
-  }
-
   return (
     <SectionCard
       ref={rootRef}
@@ -236,28 +230,21 @@ export default function ReviewEditor({
         {/* Focus */}
         <div>
           <div className="flex items-center gap-[var(--space-3)]">
-            <button
-              type="button"
+            <IconButton
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
+              title={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              size="xl"
+              variant="ghost"
               onClick={() => {
                 const v = !focusOn;
                 setFocusOn(v);
                 commitMeta({ focusOn: v });
                 if (v) focusRangeRef.current?.focus();
               }}
-              onKeyDown={(e) =>
-                onIconKey(e, () => {
-                  const v = !focusOn;
-                  setFocusOn(v);
-                  commitMeta({ focusOn: v });
-                  if (v) focusRangeRef.current?.focus();
-                })
-              }
             >
               <NeonIcon kind="brain" on={focusOn} size="xl" />
-            </button>
+            </IconButton>
           </div>
 
           {focusOn && (
@@ -289,7 +276,9 @@ export default function ReviewEditor({
                 />
               </ReviewSurface>
               <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground">
-                <span className="pill h-[var(--space-5)] px-[var(--space-2)] text-ui">{focus}/10</span>
+                <Badge size="xs" tone="accent" className="font-mono tabular-nums">
+                  {focus}/10
+                </Badge>
                 <span>{focusMsg}</span>
               </div>
             </>
@@ -313,7 +302,7 @@ export default function ReviewEditor({
           <SectionLabel id={tagsLabelId}>Tags</SectionLabel>
           <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground" />
+              <Tag className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
               <Input
                 name="tag-input"
                 value={draftTag}
@@ -353,18 +342,24 @@ export default function ReviewEditor({
           ) : (
             <div className="mt-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
               {tags.map((t) => (
-                <button
+                <Badge
                   key={t}
-                  type="button"
-                  className="chip h-[var(--control-h-lg)] px-[var(--space-4)] text-ui group inline-flex items-center gap-[var(--space-1)]"
+                  size="sm"
+                  tone="accent"
+                  interactive
+                  className="group"
+                  aria-label={`Remove tag ${t}`}
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >
                   <span>#{t}</span>
-                  <span className="opacity-0 transition-opacity group-hover:opacity-100">
+                  <span
+                    aria-hidden
+                    className="opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
                     ✕
                   </span>
-                </button>
+                </Badge>
               ))}
             </div>
           )}
