@@ -128,8 +128,8 @@ export default function PillarBadge({
           border: 1px solid hsl(var(--border));
           box-shadow: var(--shadow-neo);
           transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(calc(var(--space-3) / 2));
+          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
         }
 
         /* Hover = shadow only, no translate */
@@ -174,7 +174,7 @@ export default function PillarBadge({
           position: relative;
           z-index: 1;
           letter-spacing: 0.2px;
-          text-shadow: 0 1px 0 hsl(var(--shadow-color) / 0.05);
+          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
         }
 
         @media (prefers-reduced-motion: reduce) {
