@@ -77,10 +77,8 @@
 }
 .proj-card--active {
   border-color: hsl(var(--ring));
-  box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.3),
-    0 calc(var(--space-3) - var(--space-1) / 2) var(--space-5)
-      hsl(var(--shadow-color) / 0.26);
+  box-shadow: 0 calc(var(--space-3) - var(--space-1) / 2) var(--space-5)
+    hsl(var(--shadow-color) / 0.26);
   position: relative;
 }
 .proj-card--active::after {
