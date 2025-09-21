@@ -44,7 +44,11 @@ export async function copyText(text: string): Promise<void> {
 
   const ta = document.createElement("textarea");
   ta.value = text;
-  Object.assign(ta.style, { position: "fixed", top: "-9999px", opacity: "0" });
+  Object.assign(ta.style, {
+    position: "fixed",
+    top: "var(--visually-hidden-top)",
+    opacity: "0",
+  });
   document.body.appendChild(ta);
   ta.select();
 

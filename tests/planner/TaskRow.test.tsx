@@ -25,12 +25,12 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: [],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={noop}
-        onRemoveImage={noop}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={noop}
+        removeImage={noop}
       />,
     );
     const textButton = screen.getByRole("button", { name: "Test task" });
@@ -42,9 +42,9 @@ describe("TaskRow", () => {
   });
 
   it("does not propagate row selection from inner controls", () => {
-    const onSelect = vi.fn();
-    const onToggle = vi.fn();
-    const onDelete = vi.fn();
+    const selectTask = vi.fn();
+    const toggleTask = vi.fn();
+    const deleteTask = vi.fn();
     render(
       <TaskRow
         task={{
@@ -54,23 +54,23 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: [],
         }}
-        onToggle={onToggle}
-        onDelete={onDelete}
-        onEdit={noop}
-        onSelect={onSelect}
-        onAddImage={noop}
-        onRemoveImage={noop}
+        toggleTask={toggleTask}
+        deleteTask={deleteTask}
+        renameTask={noop}
+        selectTask={selectTask}
+        addImage={noop}
+        removeImage={noop}
       />,
     );
     fireEvent.click(screen.getAllByLabelText("Toggle Test task done")[0]);
     fireEvent.click(screen.getAllByLabelText("Edit task")[0]);
     fireEvent.click(screen.getAllByLabelText("Delete task")[0]);
-    expect(onSelect).not.toHaveBeenCalled();
+    expect(selectTask).not.toHaveBeenCalled();
   });
 
   it("renders images and supports add/remove", () => {
-    const onAddImage = vi.fn();
-    const onRemoveImage = vi.fn();
+    const addImage = vi.fn();
+    const removeImage = vi.fn();
     render(
       <TaskRow
         task={{
@@ -80,22 +80,22 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: ["https://example.com/a.jpg"],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={onAddImage}
-        onRemoveImage={onRemoveImage}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={addImage}
+        removeImage={removeImage}
       />,
     );
     const img = screen.getByRole("img", { name: /image for with image/i });
     expect(img).toBeInTheDocument();
     fireEvent.click(screen.getAllByLabelText("Remove image")[0]);
-    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg", 0);
+    expect(removeImage).toHaveBeenCalledWith("https://example.com/a.jpg", 0);
   });
 
   it("passes the correct index when removing duplicate images", () => {
-    const onRemoveImage = vi.fn();
+    const removeImage = vi.fn();
     render(
       <TaskRow
         task={{
@@ -108,19 +108,19 @@ describe("TaskRow", () => {
             "https://example.com/a.jpg",
           ],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={noop}
-        onRemoveImage={onRemoveImage}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={noop}
+        removeImage={removeImage}
       />,
     );
 
     const removeButtons = screen.getAllByLabelText("Remove image");
     fireEvent.click(removeButtons[1]);
-    expect(onRemoveImage).toHaveBeenCalledTimes(1);
-    expect(onRemoveImage).toHaveBeenCalledWith("https://example.com/a.jpg", 1);
+    expect(removeImage).toHaveBeenCalledTimes(1);
+    expect(removeImage).toHaveBeenCalledWith("https://example.com/a.jpg", 1);
   });
 
   it("allows adding an image via the attach button", () => {
@@ -137,12 +137,12 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: [],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={handleAddImage}
-        onRemoveImage={noop}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={handleAddImage}
+        removeImage={noop}
       />,
     );
     const input = screen.getByLabelText("Add image URL");
@@ -171,12 +171,12 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: [],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={handleAddImage}
-        onRemoveImage={noop}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={handleAddImage}
+        removeImage={noop}
       />,
     );
 
@@ -203,12 +203,12 @@ describe("TaskRow", () => {
           createdAt: Date.now(),
           images: [],
         }}
-        onToggle={noop}
-        onDelete={noop}
-        onEdit={noop}
-        onSelect={noop}
-        onAddImage={noop}
-        onRemoveImage={noop}
+        toggleTask={noop}
+        deleteTask={noop}
+        renameTask={noop}
+        selectTask={noop}
+        addImage={noop}
+        removeImage={noop}
       />,
     );
 
