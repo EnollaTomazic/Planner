@@ -49,6 +49,7 @@ export default function ScoreMeter({
   } = surfaceProps ?? {};
   const { className: trackClassName, ...trackRest } = trackProps ?? {};
   const formatValue = valueFormatter ?? formatDefaultValue;
+  const isInteractive = variant === "input";
 
   const labelId = React.useId();
   let labelledControl: React.ReactNode = control;
@@ -73,7 +74,11 @@ export default function ScoreMeter({
       <ReviewSurface
         padding={padding}
         {...surfaceRest}
-        className={cn("relative h-[var(--space-7)]", surfaceClassName)}
+        className={cn(
+          "relative h-[var(--space-7)]",
+          isInteractive && "group",
+          surfaceClassName,
+        )}
       >
         {labelledControl}
         <ReviewSliderTrack

@@ -25,6 +25,20 @@ const knobSizeByVariant: Record<ReviewSliderVariant, string> = {
   input: "h-5 w-5",
 };
 
+const fillInteractionClassNames: Record<ReviewSliderTone, string> = {
+  score:
+    "group-hover:ring-[theme('colors.interaction.accent.tintHover')] group-active:ring-[theme('colors.interaction.accent.tintActive')]",
+  focus:
+    "group-hover:ring-[theme('colors.interaction.focus.tintHover')] group-active:ring-[theme('colors.interaction.focus.tintActive')]",
+};
+
+const knobInteractionClassNames: Record<ReviewSliderTone, string> = {
+  score:
+    "group-hover:bg-[theme('colors.interaction.accent.surfaceHover')] group-active:bg-[theme('colors.interaction.accent.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control",
+  focus:
+    "group-hover:bg-[theme('colors.interaction.focus.surfaceHover')] group-active:bg-[theme('colors.interaction.focus.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control",
+};
+
 const ReviewSliderTrack = ({
   value,
   tone = "score",
@@ -36,6 +50,7 @@ const ReviewSliderTrack = ({
 }: ReviewSliderTrackProps) => {
   const clamped = Math.min(10, Math.max(0, value));
   const percent = (clamped / 10) * 100;
+  const isInteractive = variant === "input";
 
   const sliderStyle =
     variant === "display"
@@ -75,6 +90,11 @@ const ReviewSliderTrack = ({
             "absolute left-0 top-0 h-2 rounded-full shadow-ring",
             gradientClassNames[tone],
             variant === "display" ? "w-[var(--progress)]" : undefined,
+            isInteractive &&
+              cn(
+                "ring-1 ring-transparent transition-[box-shadow] duration-140 ease-out",
+                fillInteractionClassNames[tone],
+              ),
             fillClassName,
           )}
           style={fillStyle}
@@ -83,6 +103,11 @@ const ReviewSliderTrack = ({
           className={cn(
             "absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft",
             knobSizeByVariant[variant],
+            isInteractive &&
+              cn(
+                "transition-[background-color,border-color,box-shadow] duration-140 ease-out",
+                knobInteractionClassNames[tone],
+              ),
             knobClassName,
           )}
           style={knobStyle}
