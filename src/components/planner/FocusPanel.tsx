@@ -15,7 +15,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Button from "@/components/ui/primitives/Button";
 import { useDayFocus } from "./useDayFocus";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 
 type Props = { iso: ISODate };
 
