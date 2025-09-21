@@ -13,6 +13,14 @@ import { createProgressBar, stopBars } from "../src/utils/progress.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const DEPRECATED_TOKENS = new Set([
+  "shadow-glow-small",
+  "shadow-glow-strong",
+]);
+
+const isDeprecatedToken = (name: string): boolean =>
+  DEPRECATED_TOKENS.has(name);
+
 StyleDictionary.registerFormat({
   name: "tokens/markdown",
   format: ({ dictionary }: FormatFnArguments): string => {
@@ -31,7 +39,13 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(css))) {
     const name = match[1];
-    if (name.startsWith("spacing-") || name.startsWith("radius-")) continue;
+    if (
+      name.startsWith("spacing-") ||
+      name.startsWith("radius-") ||
+      isDeprecatedToken(name)
+    ) {
+      continue;
+    }
     colors[name] = { value: match[2].trim() };
   }
   return colors;
@@ -45,6 +59,12 @@ async function buildTokens(): Promise<void> {
     },
     {},
   );
+  const derivedSpacing: Record<string, { value: string }> = {
+    "spacing-0-125": { value: "calc(var(--spacing-1) / 8)" },
+    "spacing-0-25": { value: "calc(var(--spacing-1) / 4)" },
+    "spacing-0-5": { value: "calc(var(--spacing-1) / 2)" },
+    "spacing-0-75": { value: "calc(var(--spacing-1) * 0.75)" },
+  };
   const radius = Object.entries(radiusScale).reduce<
     Record<string, { value: string }>
   >((acc, [name, value]) => {
@@ -61,7 +81,7 @@ async function buildTokens(): Promise<void> {
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
-    if (name.startsWith("radius-")) continue;
+    if (name.startsWith("radius-") || isDeprecatedToken(name)) continue;
     colors[name] = { value: match[2].trim() };
   }
   const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
@@ -72,12 +92,19 @@ async function buildTokens(): Promise<void> {
     const m = globalsCss.match(regex);
     if (m) {
       const name = token.replace(/^--/, "");
+      if (isDeprecatedToken(name)) {
+        continue;
+      }
       colors[name] = { value: m[1].trim() };
     }
   }
 
+  for (const token of DEPRECATED_TOKENS) {
+    delete colors[token];
+  }
+
   const sd = new StyleDictionary({
-    tokens: { ...colors, spacing, radius },
+    tokens: { ...colors, ...derivedSpacing, spacing, radius },
     platforms: {
       css: {
         transforms: ["name/kebab"],
