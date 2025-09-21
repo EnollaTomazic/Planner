@@ -76,6 +76,16 @@ export default function ProjectList({
     [editingProjectName, renameProject, setEditingProjectId, setEditingProjectName],
   );
 
+  React.useEffect(() => {
+    if (!editingProjectId) return;
+    const editingProject = projects.find((p) => p.id === editingProjectId);
+    if (!editingProject) return;
+    if (editingProject.disabled || editingProject.loading) {
+      setEditingProjectId(null);
+      setEditingProjectName(editingProject.name);
+    }
+  }, [editingProjectId, projects, setEditingProjectId, setEditingProjectName]);
+
   const onRowKey = React.useCallback(
     (idx: number, p: Project) => (e: React.KeyboardEvent) => {
       if (e.key === " " || e.key === "Enter") {
@@ -139,19 +149,26 @@ export default function ProjectList({
           {projects.map((p, idx) => {
             const active = p.id === selectedProjectId;
             const isEditing = editingProjectId === p.id;
+            const isDisabled = Boolean(p.disabled);
+            const isLoading = Boolean(p.loading);
+            const isRowInactive = isDisabled || isLoading;
+            const blockInteraction = isRowInactive || isEditing;
             const handleRowKey = onRowKey(idx, p);
             const projectLabel = p.name.trim() || "Untitled project";
             return (
               <li key={p.id} className="w-full">
                 <div
                   role="radio"
-                  tabIndex={active ? 0 : -1}
+                  tabIndex={isRowInactive ? -1 : active ? 0 : -1}
                   aria-checked={active}
                   aria-label={projectLabel}
+                  aria-disabled={isRowInactive || undefined}
+                  data-disabled={isDisabled ? "true" : undefined}
+                  data-loading={isLoading ? "true" : undefined}
                   ref={(node) => registerProjectRef(p.id, node)}
-                  onKeyDown={isEditing ? undefined : handleRowKey}
+                  onKeyDown={blockInteraction ? undefined : handleRowKey}
                   onClick={() => {
-                    if (isEditing || active) return;
+                    if (blockInteraction || active) return;
                     setSelectedTaskId("");
                     setSelectedProjectId(p.id);
                   }}
@@ -171,6 +188,7 @@ export default function ProjectList({
                     <CheckCircle
                       checked={!!p.done}
                       onChange={() => toggleProject(p.id)}
+                      disabled={isRowInactive}
                       aria-label={`Toggle ${projectLabel} complete`}
                       size="sm"
                     />
@@ -184,6 +202,11 @@ export default function ProjectList({
                       onChange={(e) => setEditingProjectName(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
+                          if (isRowInactive) {
+                            setEditingProjectId(null);
+                            setEditingProjectName(p.name);
+                            return;
+                          }
                           commitRename(p.id, p.name);
                         }
                         if (e.key === "Escape") {
@@ -192,8 +215,14 @@ export default function ProjectList({
                         }
                       }}
                       onBlur={() => {
+                        if (isRowInactive) {
+                          setEditingProjectId(null);
+                          setEditingProjectName(p.name);
+                          return;
+                        }
                         commitRename(p.id, p.name);
                       }}
+                      disabled={isRowInactive}
                       aria-label={`Rename project ${p.name}`}
                     />
                   ) : (
@@ -215,6 +244,7 @@ export default function ProjectList({
                       size="sm"
                       iconSize="xs"
                       variant="ghost"
+                      disabled={isRowInactive}
                     >
                       <Pencil />
                     </IconButton>
@@ -231,6 +261,7 @@ export default function ProjectList({
                       size="sm"
                       iconSize="xs"
                       variant="ghost"
+                      disabled={isRowInactive}
                     >
                       <Trash2 />
                     </IconButton>

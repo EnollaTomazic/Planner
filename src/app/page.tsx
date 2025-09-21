@@ -191,6 +191,7 @@ function HeroPlannerCards() {
                 className={cn(
                   "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
                   "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "active:border-primary/60 active:bg-card/80",
                 )}
               >
                 <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
@@ -199,7 +200,7 @@ function HeroPlannerCards() {
                     {item.value}
                   </span>
                 </div>
-                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground">
+                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground group-active:text-primary-foreground">
                   {item.cta}
                 </span>
               </Link>
@@ -459,7 +460,7 @@ function HomePageContent() {
                       id: "home-header",
                       heading: "Welcome to Planner",
                       subtitle: "Plan your day, track goals, and review games.",
-                      icon: <Home className="opacity-80" />,
+                      icon: <Home className="text-muted-foreground" />,
                       sticky: false,
                     }}
                     hero={{
@@ -485,11 +486,6 @@ function HomePageContent() {
                           <WelcomeHeroFigure className="col-span-12 md:col-span-4 lg:col-span-5" />
                         </div>
                       ),
-                      children: (
-                        <div className="pt-[var(--space-4)]">
-                          <HeroPlannerCards />
-                        </div>
-                      ),
                     }}
                   />
                 </div>
@@ -509,6 +505,9 @@ function HomePageContent() {
                 <div className="md:col-span-6">
                   <IsometricRoom variant={theme.variant} />
                 </div>
+              </div>
+              <div className="pt-[var(--space-4)]">
+                <HeroPlannerCards />
               </div>
               <section className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
                 <div className="md:col-span-4">

@@ -12,6 +12,8 @@ export type Project = {
   name: string;
   done: boolean;
   createdAt: number;
+  disabled?: boolean;
+  loading?: boolean;
 };
 
 export type DayTask = {
@@ -74,7 +76,16 @@ function decodeProject(value: unknown): Project | null {
   if (typeof name !== "string") return null;
   if (typeof done !== "boolean") return null;
   if (typeof createdAt !== "number" || !Number.isFinite(createdAt)) return null;
-  return { id, name, done, createdAt };
+  const disabled = value["disabled"];
+  const loading = value["loading"];
+  return {
+    id,
+    name,
+    done,
+    createdAt,
+    ...(typeof disabled === "boolean" ? { disabled } : {}),
+    ...(typeof loading === "boolean" ? { loading } : {}),
+  };
 }
 
 function decodeImages(value: unknown): string[] {

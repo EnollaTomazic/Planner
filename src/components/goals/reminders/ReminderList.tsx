@@ -42,7 +42,7 @@ export default function ReminderList() {
 
 function EmptyState() {
   return (
-    <div className="goal-card rounded-card ds-card-pad text-ui font-medium text-muted-foreground grid place-items-center">
+    <div className="rounded-card ds-card-pad text-ui font-medium text-muted-foreground grid place-items-center">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );
