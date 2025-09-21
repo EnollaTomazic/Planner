@@ -242,7 +242,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   return (
     <div data-scope="team">
-      <SectionCard className="card-neo-soft">
+      <SectionCard variant="glitch">
         <SectionCard.Header
           title="My Comps"
           actions={
@@ -306,7 +306,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
               return (
                 <article
                   key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group glitch-card relative p-[var(--space-7)]"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group glitch-card rounded-card r-card-lg relative p-[var(--space-7)]"
                 >
                   {/* Action controls: copy, edit, delete, save */}
                   <div className={actionClasses}>
