@@ -225,7 +225,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         autocapitalize="none"
                         autocomplete="off"
                         autocorrect="off"
-                        class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] pl-[var(--space-7)]"
+                        class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none pl-[var(--space-7)]"
                         placeholder="Search title, tags, opponent, patch…"
                         spellcheck="false"
                         type="search"

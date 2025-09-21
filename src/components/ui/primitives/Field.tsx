@@ -322,7 +322,11 @@ export const FieldSearch = React.forwardRef<HTMLInputElement, FieldSearchProps>(
         <FieldInput
           ref={setRefs}
           type="search"
-          className={cn("pl-[var(--space-7)]", className)}
+          className={cn(
+            "appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none",
+            "pl-[var(--space-7)]",
+            className,
+          )}
           indent={indent ?? true}
           hasEndSlot={hasEndSlot ?? (showClear || showSpinner)}
           disabled={finalDisabled}
