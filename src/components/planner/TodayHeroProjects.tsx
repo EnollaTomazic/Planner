@@ -55,6 +55,12 @@ export default function TodayHeroProjects({
   onProjectRenameCancel,
   onToggleShowAllProjects,
 }: TodayHeroProjectsProps) {
+  const activeProjectOptionId = visibleProjects.some(
+    (project) => project.id === selectedProjectId,
+  )
+    ? `${projectsListId}-option-${selectedProjectId}`
+    : undefined;
+
   return (
     <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
       <form onSubmit={onProjectFormSubmit}>
@@ -73,12 +79,14 @@ export default function TodayHeroProjects({
           <ul
             id={projectsListId}
             className="space-y-[var(--space-2)]"
-            role="list"
+            role="listbox"
             aria-label="Projects"
+            aria-activedescendant={activeProjectOptionId}
           >
             {visibleProjects.map((project) => {
               const isEditing = editingProjectId === project.id;
               const isSelected = selectedProjectId === project.id;
+              const optionId = `${projectsListId}-option-${project.id}`;
               return (
                 <li key={project.id} role="presentation">
                   <div
@@ -89,6 +97,7 @@ export default function TodayHeroProjects({
                     )}
                     tabIndex={0}
                     role="option"
+                    id={optionId}
                     aria-selected={isSelected}
                     aria-disabled={isEditing}
                     onClick={() => {
