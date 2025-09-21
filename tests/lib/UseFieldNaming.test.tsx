@@ -6,7 +6,7 @@ import { slugify } from "../../src/lib/utils";
 
 afterEach(cleanup);
 
-describe("useFieldNaming", () => {
+describe("UseFieldNaming", () => {
   it("returns slugified aria-label by default", () => {
     const { result } = renderHook(() =>
       useFieldNaming({ ariaLabel: "Project Name" }),

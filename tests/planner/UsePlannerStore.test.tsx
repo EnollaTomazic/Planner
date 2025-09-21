@@ -18,7 +18,7 @@ import {
   type DayRecord,
 } from "@/components/planner";
 
-describe("usePlannerStore", () => {
+describe("UsePlannerStore", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <PlannerProvider>{children}</PlannerProvider>
   );

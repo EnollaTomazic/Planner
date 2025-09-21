@@ -28,7 +28,7 @@ const flattenColorTokens = (
   });
 };
 
-describe("demo tokens", () => {
+describe("DemoTokens", () => {
   const tw = config as Config;
 
   it("match tailwind spacing config", () => {

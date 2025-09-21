@@ -9,7 +9,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("AnimatedSelect accessibility", () => {
+describe("AnimatedSelect", () => {
   it("marks disabled and loading options with appropriate ARIA attributes", async () => {
     const originalRequestAnimationFrame = window.requestAnimationFrame;
     const originalCancelAnimationFrame = window.cancelAnimationFrame;

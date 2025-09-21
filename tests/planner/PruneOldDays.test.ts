@@ -34,7 +34,7 @@ function withTimezone(tz: string, run: () => void) {
   }
 }
 
-describe("pruneOldDays", () => {
+describe("PruneOldDays", () => {
   it("drops entries older than the default retention window", () => {
     const reference = new Date("2024-03-05T12:00:00Z");
     const withinIso = isoDaysAgo(reference, 200);
