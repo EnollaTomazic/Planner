@@ -85,7 +85,7 @@ export default function GoalList({
             <li key={g.id} className="flex">
               <article
                 className={[
-                  "relative flex min-h-8 w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-[var(--space-6)]",
+                  "relative flex min-h-[var(--space-6)] w-full flex-1 flex-col overflow-hidden rounded-card r-card-lg p-[var(--space-6)]",
                   "bg-card/30 backdrop-blur-md",
                   "shadow-ring [--ring:var(--accent)]",
                   "transition-all duration-[var(--dur-quick)] hover:-translate-y-1 hover:shadow-ring",

@@ -133,7 +133,7 @@ export default function Badge<T extends React.ElementType = "span">(
       className={cn(
         "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em]",
         "border bg-muted/18",
-        "shadow-badge",
+        "shadow-outline-subtle",
         "transition-[background,box-shadow,transform] duration-140 ease-out",
         sizeMap[size],
         toneBorder[tone],
@@ -143,7 +143,7 @@ export default function Badge<T extends React.ElementType = "span">(
             !isButtonElement && "data-[disabled=true]:pointer-events-none",
           ),
         isSelected &&
-          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-inset-contrast shadow-glow-xl text-[var(--text-on-accent)]",
+          "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
           "shadow-inset-hairline shadow-glow-md hover:shadow-inset-contrast hover:shadow-glow-lg",
         className,
