@@ -10,8 +10,8 @@
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    hsl(var(--accent) / 0.08) 0 1px,
-    transparent 1px 3px
+    hsl(var(--accent) / 0.08) 0 var(--spacing-0-25),
+    transparent var(--spacing-0-25) var(--spacing-0-75)
   );
   opacity: 0.12;
   mix-blend-mode: overlay;
@@ -113,7 +113,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(1px);
+    transform: translateY(var(--spacing-0-25));
   }
 }
 
