@@ -2,6 +2,10 @@
 
 Requires [Node.js](https://nodejs.org) 22 or newer.
 
+## Scripts
+
+Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered scripts. All npm tasks already invoke `tsx` (or `node --import tsx`) so aligning local commands with it keeps runtime behavior consistent with CI.
+
 ## UI components
 
 When adding a new UI component or style under `src/components/ui`, run:
