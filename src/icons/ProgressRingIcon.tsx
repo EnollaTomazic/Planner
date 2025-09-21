@@ -21,6 +21,8 @@ export default function ProgressRingIcon({
     <svg
       className="h-full w-full rotate-[-90deg]"
       viewBox={`0 0 ${size} ${size}`}
+      aria-hidden="true"
+      focusable="false"
     >
       <circle
         cx={size / 2}
