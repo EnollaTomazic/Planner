@@ -20,7 +20,7 @@ export default function PromptsComposePanel({
   const titleId = React.useId();
   const textId = React.useId();
   return (
-    <div className="space-y-3">
+    <div className="space-y-[var(--space-3)]">
       <div>
         <Label htmlFor={titleId}>Title</Label>
         <Input
@@ -32,12 +32,12 @@ export default function PromptsComposePanel({
         >
           <CheckIcon
             aria-hidden="true"
-            className="absolute right-2 top-1/2 -translate-y-1/2"
+            className="absolute right-[var(--space-2)] top-1/2 -translate-y-1/2"
           />
         </Input>
         <p
           id={`${titleId}-help`}
-          className="mt-1 text-label text-muted-foreground"
+          className="mt-[var(--space-1)] text-label text-muted-foreground"
         >
           Add a short title
         </p>

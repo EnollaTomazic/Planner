@@ -53,3 +53,32 @@ export type Goal = {
   done: boolean;
   createdAt: number;
 };
+
+const PILLAR_VALUES = [
+  "Wave",
+  "Trading",
+  "Vision",
+  "Tempo",
+  "Positioning",
+  "Comms",
+] as const;
+
+const SIDE_VALUES = ["Blue", "Red"] as const;
+
+const ROLE_VALUES = ["TOP", "JUNGLE", "MID", "BOT", "SUPPORT"] as const;
+
+const PILLAR_SET = new Set<string>(PILLAR_VALUES);
+const SIDE_SET = new Set<string>(SIDE_VALUES);
+const ROLE_SET = new Set<string>(ROLE_VALUES);
+
+export function isPillar(value: unknown): value is Pillar {
+  return typeof value === "string" && PILLAR_SET.has(value);
+}
+
+export function isSide(value: unknown): value is Side {
+  return typeof value === "string" && SIDE_SET.has(value);
+}
+
+export function isRole(value: unknown): value is Role {
+  return typeof value === "string" && ROLE_SET.has(value);
+}
