@@ -113,7 +113,7 @@ export default function ReviewListItem({
             />
             {role ? (
               <Badge
-                size="xs"
+                size="sm"
                 tone="neutral"
                 className="px-[var(--space-1)]"
               >

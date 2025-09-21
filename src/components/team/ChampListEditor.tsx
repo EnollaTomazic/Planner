@@ -88,7 +88,7 @@ export default function ChampListEditor({
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
           <Badge
             glitch
-            size="xs"
+            size="sm"
             disabled
             className={cn(PILL_CLASSNAME, pillClassName)}
           >
@@ -105,7 +105,7 @@ export default function ChampListEditor({
           <Badge
             key={index}
             glitch
-            size="xs"
+            size="sm"
             className={cn(PILL_CLASSNAME, pillClassName)}
           >
             <i className="dot" />
@@ -122,7 +122,7 @@ export default function ChampListEditor({
         <Badge
           key={index}
           glitch
-          size="xs"
+          size="sm"
           className={cn(PILL_CLASSNAME, editPillClassName ?? pillClassName)}
         >
           <i className="dot" />

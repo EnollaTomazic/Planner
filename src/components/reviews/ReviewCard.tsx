@@ -81,12 +81,12 @@ export default function ReviewCard({
           {Array.isArray(review.tags) && review.tags.length > 0 && (
             <div className="mt-[var(--space-2)] flex flex-wrap gap-[var(--space-2)]">
               {review.tags.slice(0, 6).map((t) => (
-                <Badge key={t} size="xs" tone="accent">
+                <Badge key={t} size="sm" tone="accent">
                   {t}
                 </Badge>
               ))}
               {review.tags.length > 6 && (
-                <Badge size="xs" tone="accent">
+                <Badge size="sm" tone="accent">
                   +{review.tags.length - 6}
                 </Badge>
               )}
