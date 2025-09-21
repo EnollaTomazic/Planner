@@ -210,10 +210,9 @@ export default function TabBar<
           "[--hover:hsl(var(--primary)/0.18)]",
           "[--active:hsl(var(--primary)/0.28)]",
           "[--focus:hsl(var(--ring))]",
-          "[--tab-stroke:hsl(var(--border)/0.55)]",
-          "[--tab-shadow:inset_0_0_0_1px_var(--tab-stroke),_inset_0_1px_0_hsl(var(--border)/0.18)]",
-          "[--tab-shadow-hover:inset_0_0_0_1px_hsl(var(--border)/0.62),_inset_0_1px_0_hsl(var(--border)/0.24)]",
-          "[--tab-shadow-active:inset_0_0_0_1px_hsl(var(--border)/0.68),_inset_0_1px_0_hsl(var(--border)/0.3)]",
+          "[--tab-shadow:inset_0_1px_0_hsl(var(--border)/0.18)]",
+          "[--tab-shadow-hover:inset_0_1px_0_hsl(var(--border)/0.24)]",
+          "[--tab-shadow-active:inset_0_1px_0_hsl(var(--border)/0.3)]",
         );
 
   const containerClasses = cn(

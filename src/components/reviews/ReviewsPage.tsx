@@ -153,23 +153,18 @@ export default function ReviewsPage({
           aria-label="Review list"
           className="md:col-span-2 lg:col-span-4"
         >
-          <div className="card-neo-soft rounded-card r-card-lg overflow-hidden bg-card/50 shadow-neo-strong">
-            <div className="section-b">
-              <div className="mb-[var(--space-2)] text-ui text-muted-foreground">
-                {filtered.length} shown
-              </div>
-              <ReviewList
-                reviews={filtered}
-                selectedId={selectedId}
-                onSelect={(id) => {
-                  setDetailMode("summary");
-                  onSelect(id);
-                }}
-                onCreate={onCreate}
-                className="h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
-              />
-            </div>
-          </div>
+          <ReviewList
+            reviews={filtered}
+            selectedId={selectedId}
+            onSelect={(id) => {
+              setDetailMode("summary");
+              onSelect(id);
+            }}
+            onCreate={onCreate}
+            className="h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+            header={`${filtered.length} shown`}
+            hoverRing
+          />
         </nav>
         <div aria-live="polite" className="md:col-span-4 lg:col-span-8">
           {!active ? (

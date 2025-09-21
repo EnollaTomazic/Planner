@@ -5,7 +5,7 @@ import React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
-import { Button, Card } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { Tv } from "lucide-react";
 
 export type ReviewListProps = {
@@ -14,6 +14,8 @@ export type ReviewListProps = {
   onSelect?: (id: string) => void;
   onCreate?: () => void;
   className?: string;
+  header?: React.ReactNode;
+  hoverRing?: boolean;
 };
 
 export default function ReviewList({
@@ -22,28 +24,43 @@ export default function ReviewList({
   onSelect,
   onCreate,
   className,
+  header,
+  hoverRing = false,
 }: ReviewListProps) {
   const count = reviews.length;
 
-  // Allow the list to grow with the sidebar instead of capping at 520px
-  const containerClass = cn("w-full mx-auto backdrop-blur-sm", className);
+  const containerClass = cn(
+    "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
+    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-200",
+    hoverRing &&
+      "hover:ring-2 hover:ring-[var(--theme-ring)] focus-within:ring-2 focus-within:ring-[var(--theme-ring)]",
+    className,
+  );
+
+  const headerNode = header ? (
+    <header className="mb-[var(--space-2)] text-ui text-muted-foreground">
+      {header}
+    </header>
+  ) : null;
 
   if (count === 0) {
     return (
-      <Card className={containerClass}>
-        <div className="ds-card-pad flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
+      <section data-scope="reviews" className={containerClass}>
+        {headerNode}
+        <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
           <Tv className="size-[var(--space-5)] opacity-60" />
           <p>No reviews yet</p>
           <Button variant="primary" onClick={onCreate}>
             New Review
           </Button>
         </div>
-      </Card>
+      </section>
     );
   }
 
   return (
-    <Card className={containerClass}>
+    <section data-scope="reviews" className={containerClass}>
+      {headerNode}
       <ul className="flex flex-col gap-[var(--space-3)]">
         {reviews.map((r) => (
           <li key={r.id}>
@@ -55,6 +72,6 @@ export default function ReviewList({
           </li>
         ))}
       </ul>
-    </Card>
+    </section>
   );
 }
