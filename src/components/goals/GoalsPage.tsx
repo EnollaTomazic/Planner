@@ -401,7 +401,7 @@ function GoalsPageContent() {
             heading: heroHeading,
             subtitle: heroSubtitle,
             sticky: false,
-            topClassName: "top-0",
+            topClassName: "top-[var(--header-stack)]",
             dividerTint: heroDividerTint,
             "aria-labelledby": heroHeadingId,
             "aria-describedby": heroAriaDescribedby,
@@ -426,7 +426,7 @@ function GoalsPageContent() {
                 <SectionCard className="card-neo-soft">
                   <SectionCard.Header
                     sticky
-                    topClassName="top-0"
+                    topClassName="top-[var(--header-stack)]"
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
