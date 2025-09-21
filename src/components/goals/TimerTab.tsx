@@ -434,7 +434,7 @@ export default function TimerTab() {
 
       <SectionCard className="goal-card no-hover">
         <SectionCard.Body>
-          <div className="relative mx-auto w-full max-w-sm rounded-[var(--radius-2xl)] border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-neoSoft">
+          <div className="relative mx-auto w-full max-w-[calc(var(--space-8)*6)] rounded-[var(--radius-2xl)] border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl shadow-neoSoft">
             {/* plus/minus */}
             <IconButton
               aria-label="Minus 1 minute"
@@ -474,7 +474,7 @@ export default function TimerTab() {
                     onChange={(e) => setTimeEdit(e.currentTarget.value)}
                     onBlur={commitEdit}
                     onKeyDown={(e) => e.key === "Enter" && commitEdit()}
-                    className="absolute w-full max-w-[7ch] rounded-full bg-transparent text-center text-title font-semibold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-title-lg"
+                    className="absolute w-full max-w-[calc(var(--space-7)*3.5)] rounded-full bg-transparent text-center text-title font-semibold tabular-nums opacity-0 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-title-lg"
                   />
                 )}
               </div>
