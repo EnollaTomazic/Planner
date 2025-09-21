@@ -17,6 +17,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - `--neon` and `--neon-soft` – default glow color for buttons and accents. `--neon-soft` blends the tone for subtle backgrounds and upgrades via `color-mix` when supported ([themes.css](../src/app/themes.css#L48-L49), [color-mix](../src/app/themes.css#L92)).
 - `--card-hairline` – low-contrast border used on cards; gains an accent tint when `color-mix` is available ([themes.css](../src/app/themes.css#L55), [color-mix](../src/app/themes.css#L93-L97)).
 - `--shadow` – drop shadow for elevated surfaces; Aurora supplies a lighter variant ([themes.css](../src/app/themes.css#L83), [Aurora override](../src/app/themes.css#L185)).
+- `--shadow-dropdown` – menu and popover elevation token shared by Tailwind's `shadow-dropdown` utility ([tokens.css](../tokens/tokens.css)).
 - `--shadow-neon` – layered neon text glow built from spacing tokens ([themes.css](../src/app/themes.css#L13-L16)).
 
 ## Layout and spacing
@@ -25,7 +26,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
 - Wrap page-level content with `.page-shell` or the `<PageShell />` component to get the shared container rhythm: `space-6` on
   small screens, `space-7` at `md`, and `space-8` at `lg`. Add vertical padding per view instead of redefining horizontal
-  gutters.
+  gutters. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides ([tokens.css](../tokens/tokens.css), [globals.css](../src/app/globals.css)).
 
 ## Typography
 
