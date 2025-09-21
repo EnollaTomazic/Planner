@@ -322,8 +322,10 @@ export const Button = React.forwardRef<
   if (variant === "primary") {
     const basePrimaryShadows = {
       "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
-      "--btn-primary-hover-shadow": `0 2px 6px -1px hsl(var(${toneColorVar}) / 0.25)`,
-      "--btn-primary-active-shadow": `inset 0 0 0 1px hsl(var(${toneColorVar}) / 0.6)`,
+      "--btn-primary-hover-shadow":
+        `0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(${toneColorVar}) / 0.25)`,
+      "--btn-primary-active-shadow":
+        `inset 0 0 0 var(--spacing-0-25) hsl(var(${toneColorVar}) / 0.6)`,
       "--btn-primary-shadow-rest": "0 0 calc(var(--space-4) / 2) var(--glow-active)",
       "--btn-primary-shadow-hover": "0 0 var(--space-4) var(--glow-active)",
       "--btn-primary-shadow-active": "var(--btn-primary-active-shadow)",
