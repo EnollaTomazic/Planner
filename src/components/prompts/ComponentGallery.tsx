@@ -180,7 +180,7 @@ export default function ComponentGallery() {
         element: (
           <div className="w-56 flex gap-[var(--space-2)]">
             <SegmentedButton>Default</SegmentedButton>
-            <SegmentedButton isActive>Active</SegmentedButton>
+            <SegmentedButton selected>Active</SegmentedButton>
             <SegmentedButton disabled>Disabled</SegmentedButton>
           </div>
         ),
