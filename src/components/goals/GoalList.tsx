@@ -57,7 +57,7 @@ export default function GoalList({
         <li className="flex">
           <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline/60 bg-surface">
             <Flag aria-hidden className="h-6 w-6 text-accent" />
-            <p className="max-w-[30ch]">
+            <p className="max-w-[calc(var(--space-7)*5)]">
               No goals here. Add one simple, finishable thing.
             </p>
           </div>
