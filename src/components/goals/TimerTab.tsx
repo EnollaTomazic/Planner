@@ -434,7 +434,7 @@ export default function TimerTab() {
 
       <SectionCard className="no-hover">
         <SectionCard.Body>
-          <div className="relative mx-auto w-full max-w-[calc(var(--space-8)*6)] rounded-[var(--radius-2xl)] border border-card-hairline/60 bg-background/30 p-[var(--space-8)] backdrop-blur-xl">
+          <div className="relative mx-auto flex w-full max-w-[calc(var(--space-8)*6)] flex-col items-center gap-[var(--space-6)] px-[var(--space-6)] pb-[var(--space-8)] pt-[var(--space-8)] sm:px-[var(--space-8)]">
             {/* plus/minus */}
             <IconButton
               aria-label="Minus 1 minute"
@@ -481,7 +481,7 @@ export default function TimerTab() {
             </div>
 
             {/* progress bar */}
-            <div className="mt-[var(--space-6)] w-full">
+            <div className="w-full space-y-[var(--space-1)]">
               <div className="relative h-[var(--space-2)] w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
@@ -489,13 +489,13 @@ export default function TimerTab() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
+              <div className="text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
                 {pct}%
               </div>
             </div>
 
             {/* controls */}
-            <div className="mt-[var(--space-6)] flex w-full flex-wrap justify-center gap-[var(--space-2)] overflow-x-auto">
+            <div className="flex w-full flex-wrap justify-center gap-[var(--space-2)] overflow-x-auto">
               {!running ? (
                 <SegmentedButton
                   className="gap-[var(--space-2)]"
@@ -528,11 +528,11 @@ export default function TimerTab() {
 
             {/* Complete state */}
             {finished && (
-              <div className="mt-[var(--space-6)] grid place-items-center">
+              <div className="grid place-items-center gap-[var(--space-2)]">
                 <div className="rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)/0.35),hsl(var(--accent-2)/0.35)))] px-[var(--space-3)] py-[var(--space-1)] text-ui font-medium text-foreground shadow-[var(--shadow-glow-md)] ring-1 ring-inset ring-border/50 motion-safe:animate-pulse motion-reduce:animate-none">
                   Complete
                 </div>
-                <div className="mt-[var(--space-2)] text-label font-medium tracking-[0.02em] text-muted-foreground">
+                <div className="text-label font-medium tracking-[0.02em] text-muted-foreground">
                   Good. Now do the review, not Twitter.
                 </div>
               </div>
