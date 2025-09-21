@@ -3151,7 +3151,7 @@ React.useEffect(() => {
                 onValueChange={() => {}}
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
-                fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
               />
             </div>
           ),
@@ -3161,7 +3161,7 @@ React.useEffect(() => {
     onValueChange={() => {}}
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
-    fieldClassName="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
   />
 </div>`,
         },
@@ -3178,7 +3178,7 @@ React.useEffect(() => {
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
                 loading
-                fieldClassName="shadow-neo-soft"
+                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
               />
             </div>
           ),
@@ -3189,7 +3189,7 @@ React.useEffect(() => {
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
     loading
-    fieldClassName="shadow-neo-soft"
+    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
   />
 </div>`,
         },
@@ -3206,7 +3206,7 @@ React.useEffect(() => {
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
                 disabled
-                fieldClassName="shadow-neo-soft"
+                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
               />
             </div>
           ),
@@ -3217,7 +3217,7 @@ React.useEffect(() => {
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
     disabled
-    fieldClassName="shadow-neo-soft"
+    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
   />
 </div>`,
         },

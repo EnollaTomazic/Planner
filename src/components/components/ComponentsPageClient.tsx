@@ -565,13 +565,13 @@ export default function ComponentsPageClient({
                   placeholder: searchPlaceholder,
                   fieldClassName: cn(
                     "bg-[linear-gradient(135deg,hsl(var(--card)/0.95),hsl(var(--panel)/0.82))]",
-                    "!shadow-neo-inset",
+                    "!shadow-neo-soft",
                     "hover:!shadow-neo-soft",
-                    "active:!shadow-neo-inset",
+                    "active:!shadow-neo-soft",
                     "focus-within:!shadow-neo-soft",
                     "focus-within:[--tw-ring-offset-width:var(--space-1)]",
                     "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
-                    "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-inset motion-reduce:active:!shadow-neo-inset motion-reduce:focus-within:!shadow-neo-soft",
+                    "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-soft motion-reduce:active:!shadow-neo-soft motion-reduce:focus-within:!shadow-neo-soft",
                   ),
                 }
               : undefined,
