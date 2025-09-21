@@ -794,12 +794,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -921,12 +921,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1058,12 +1058,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1184,12 +1184,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1319,12 +1319,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1466,12 +1466,12 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(10px); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(2px); transition: opacity 220ms var(--ease-out);"
+                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"

@@ -358,7 +358,7 @@ export default function TeamCompPage() {
                 {laneSummaries.map((lane) => (
                   <Badge
                     key={lane.key}
-                    size="xs"
+                    size="sm"
                     tone={lane.key as LaneTone}
                     className="min-w-[calc(var(--space-8)+var(--space-3))]"
                   >
@@ -368,14 +368,14 @@ export default function TeamCompPage() {
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-              <Badge size="xs" tone={gapTone}>
+              <Badge size="sm" tone={gapTone}>
                 {openLabel}
               </Badge>
-              <Badge size="xs" tone={clashTone}>
+              <Badge size="sm" tone={clashTone}>
                 {clashLabel}
               </Badge>
               {active?.hint ? (
-                <Badge size="xs" tone="accent">
+                <Badge size="sm" tone="accent">
                   {active.hint}
                 </Badge>
               ) : null}
@@ -448,7 +448,7 @@ export default function TeamCompPage() {
             </Button>
             <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
               <span>Sends to</span>
-              <Badge size="xs" tone="accent">
+              <Badge size="sm" tone="accent">
                 {targetBucket}
               </Badge>
             </div>

@@ -206,7 +206,7 @@ export default function Reminders() {
               onClick={() => setOnlyPinned(v => !v)}
               aria-pressed={onlyPinned}
               title="Pinned only"
-              isActive={onlyPinned}
+              selected={onlyPinned}
             >
               {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
               {onlyPinned ? "Pinned only" : "Any pin"}
@@ -440,9 +440,9 @@ function ReminderCard({
             )}
             <div className="flex flex-wrap items-center gap-[var(--space-2)] pt-[var(--space-1)]">
               {value.tags.map((t) => <span key={t} className="pill">{t}</span>)}
-              <Badge size="xs" tone="neutral" className="opacity-75">{value.group}</Badge>
+              <Badge size="sm" tone="neutral" className="opacity-75">{value.group}</Badge>
               <Badge
-                size="xs"
+                size="sm"
                 tone={
                   value.source === "MLA" ? "primary"
                   : value.source === "BLA" ? "accent"

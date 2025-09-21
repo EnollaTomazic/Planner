@@ -193,6 +193,7 @@
     transparent var(--spacing-0-5),
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   ) |
+| hero-divider-blur | calc(var(--spacing-1) * 1.5) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

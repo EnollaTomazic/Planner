@@ -105,9 +105,6 @@ export default {
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
   shadowNeoSoft:
     "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))",
-  shadowGlowSmall:
-    "0 0 calc(var(--spacing-3) / 2) hsl(var(--glow) / 0.5)",
-  shadowGlowStrong: "0 0 var(--spacing-2) hsl(var(--glow))",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
   shadowGlowLg: "0 0 var(--spacing-5) var(--glow-active)",
@@ -177,6 +174,7 @@ export default {
   pillarCommsShadow: "300 80% 36% / 0.35",
   cardOverlayScanlines:
     "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
+  heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
