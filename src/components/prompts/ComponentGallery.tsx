@@ -746,12 +746,12 @@ export default function ComponentGallery() {
                 createdAt: Date.now(),
                 images: ["https://placekitten.com/100/100"],
               }}
-              onToggle={() => {}}
-              onDelete={() => {}}
-              onEdit={() => {}}
-              onSelect={() => {}}
-              onAddImage={() => {}}
-              onRemoveImage={() => {}}
+              toggleTask={() => {}}
+              deleteTask={() => {}}
+              renameTask={() => {}}
+              selectTask={() => {}}
+              addImage={() => {}}
+              removeImage={() => {}}
             />
           </ul>
         ),
@@ -798,7 +798,7 @@ export default function ComponentGallery() {
             toggleProject={() => {}}
             renameProject={() => {}}
             deleteProject={() => {}}
-            onAdd={() => ""}
+            addProject={() => ""}
           />
         ),
         className: "sm:col-span-2 md:col-span-12",

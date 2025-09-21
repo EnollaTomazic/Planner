@@ -349,7 +349,7 @@ function HeroPlannerCards() {
           </div>
         </NeoCard>
       </div>
-      <div className="col-span-12 md:col-span-12 lg:col-span-4">
+      <div className="col-span-12 md:col-span-6 lg:col-span-4">
         <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
           <header className="space-y-[var(--space-1)]">
             <p className="text-label text-muted-foreground">Weekly calendar</p>

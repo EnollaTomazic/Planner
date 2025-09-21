@@ -18,7 +18,7 @@ type Props = {
   toggleProject: (id: string) => void;
   renameProject: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  onAdd: (name: string) => string | void;
+  addProject: (name: string) => string | void;
 };
 
 export default function ProjectList({
@@ -29,7 +29,7 @@ export default function ProjectList({
   toggleProject,
   renameProject,
   deleteProject,
-  onAdd,
+  addProject,
 }: Props) {
   const [editingProjectId, setEditingProjectId] = React.useState<string | null>(
     null,
@@ -60,7 +60,7 @@ export default function ProjectList({
   function addProjectCommit() {
     const v = draftProject.trim();
     if (!v) return;
-    const id = onAdd(v);
+    const id = addProject(v);
     setDraftProject("");
     if (id) setSelectedProjectId(id);
   }
