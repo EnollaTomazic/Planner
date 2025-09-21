@@ -108,6 +108,23 @@ describe("WeekPicker", () => {
     vi.clearAllMocks();
   });
 
+  it("renders totals without a duplicate week range chip", () => {
+    renderWeekPicker();
+
+    expect(document.querySelector('[data-lucide="calendar-days"]')).toBeNull();
+
+    const rangeAnnouncement = screen.getByText(/Week range/, { selector: "span" });
+    expect(rangeAnnouncement).toHaveClass("sr-only");
+    expect(rangeAnnouncement).toHaveAttribute("aria-live", "polite");
+
+    const totalsLabel = screen.getByText("Total tasks:");
+    const totalsBlock = totalsLabel.parentElement;
+    expect(totalsBlock).not.toBeNull();
+    expect(totalsBlock).toHaveClass("inline-flex");
+    expect(totalsBlock).toHaveClass("items-baseline");
+    expect(totalsBlock).toHaveTextContent(/Total tasks:\s*\d+\s*\/\s*\d+/);
+  });
+
   it("updates selected day on single click", () => {
     renderWeekPicker();
     const getOptions = () => screen.getAllByRole("option");

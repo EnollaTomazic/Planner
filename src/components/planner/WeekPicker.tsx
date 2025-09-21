@@ -16,7 +16,7 @@ import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
-import { CalendarDays, ArrowUpToLine } from "lucide-react";
+import { ArrowUpToLine } from "lucide-react";
 import { fromISODate, toISODate } from "@/lib/date";
 
 /* ───────── date helpers ───────── */
@@ -368,21 +368,13 @@ export default function WeekPicker() {
       dividerTint="primary"
     >
       <div className="grid gap-[var(--space-3)] flex-1">
-        {/* Range + totals */}
-        <div className="flex items-center justify-between gap-[var(--space-3)]">
-          <span
-            className={cn(
-              "inline-flex items-center gap-[var(--space-2)] rounded-card r-card-lg px-[var(--space-3)] py-[var(--space-2)] text-ui",
-              "bg-card/72 ring-1 ring-border/55 backdrop-blur",
-            )}
-            aria-label={`Week range ${rangeLabel}`}
-          >
-            <CalendarDays className="size-4 opacity-80" />
-            <span className="opacity-90">{rangeLabel}</span>
+        {/* Totals */}
+        <div className="flex items-center justify-end gap-[var(--space-3)]">
+          <span className="sr-only" aria-live="polite">
+            Week range {rangeLabel}
           </span>
-
-          <span className="text-ui text-muted-foreground">
-            Total tasks:{" "}
+          <span className="inline-flex items-baseline gap-[var(--space-1)] text-ui text-muted-foreground">
+            <span>Total tasks:</span>
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}
             </span>
