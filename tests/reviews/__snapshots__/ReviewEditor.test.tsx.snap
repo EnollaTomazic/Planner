@@ -53,7 +53,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="top-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
                   id="top-tab"
                   role="tab"
                   tabindex="-1"
@@ -90,7 +90,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="jungle-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
                   id="jungle-tab"
                   role="tab"
                   tabindex="-1"
@@ -132,7 +132,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="mid-panel"
                   aria-selected="true"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
                   data-selected="true"
                   id="mid-tab"
                   role="tab"
@@ -182,7 +182,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="bot-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
                   id="bot-tab"
                   role="tab"
                   tabindex="-1"
@@ -245,7 +245,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <button
                   aria-controls="support-panel"
                   aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
+                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none"
                   id="support-tab"
                   role="tab"
                   tabindex="-1"
@@ -548,7 +548,9 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            tabindex="0"
+            title="Brain light off"
             type="button"
           >
             <span
@@ -1597,7 +1599,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            tabindex="0"
             title="Timestamp mode"
             type="button"
           >
@@ -1767,7 +1770,8 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')] border-accent/35 text-[var(--text-on-accent)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            tabindex="0"
             title="Note-only mode"
             type="button"
           >
