@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { decodePlannerDays } from "@/components/planner";
 
-describe("decodePlannerDays", () => {
+describe("DecodePlannerDays", () => {
   it("returns an empty object for invalid input", () => {
     expect(decodePlannerDays(null)).toEqual({});
     expect(decodePlannerDays(undefined)).toEqual({});

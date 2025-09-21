@@ -35,7 +35,7 @@ import {
   type DayRecord,
 } from "@/components/planner";
 
-describe("useSelection hooks", () => {
+describe("UseSelection", () => {
   beforeEach(() => {
     selectionSetSpy.mockClear();
   });

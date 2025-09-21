@@ -13,7 +13,7 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 type PlannerModule = typeof import("@/components/planner");
 type DbModule = typeof import("@/lib/db");
 
-describe("usePlannerStore integration", () => {
+describe("UsePlannerStore", () => {
   let PlannerProvider: PlannerModule["PlannerProvider"];
   let usePlannerStore: PlannerModule["usePlannerStore"];
   let todayISO: PlannerModule["todayISO"];

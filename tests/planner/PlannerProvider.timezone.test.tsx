@@ -7,7 +7,7 @@ import { toISODate } from "@/lib/date";
 
 const RealDate = Date;
 
-describe("PlannerProvider focus timezone", () => {
+describe("PlannerProvider", () => {
   beforeEach(() => {
     window.localStorage.clear();
   });

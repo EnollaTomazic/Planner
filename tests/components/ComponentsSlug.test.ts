@@ -5,7 +5,7 @@ import {
   resolveComponentsSlug,
 } from "@/components/components/slug";
 
-describe("components slug resolution", () => {
+describe("ComponentsSlug", () => {
   it("resolves known section slugs", () => {
     const result = resolveComponentsSlug("buttons");
     expect(result).toMatchObject({ section: "buttons" });

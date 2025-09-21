@@ -5,7 +5,7 @@ import Select from '../../src/components/ui/Select';
 
 afterEach(cleanup);
 
-describe('Select animated variant', () => {
+describe('AnimatedSelect', () => {
   it('associates label and trigger via aria-labelledby', () => {
     const items = [
       { value: 'apple', label: 'Apple' },

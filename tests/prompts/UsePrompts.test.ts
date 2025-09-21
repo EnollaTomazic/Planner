@@ -16,7 +16,7 @@ vi.mock("@/lib/db", async () => {
 
 import { useChatPrompts } from "@/components/prompts";
 
-describe("deriveTitle", () => {
+describe("UsePrompts", () => {
   it("uses the first non-empty line", () => {
     mockInitialPrompts.length = 0;
     mockInitialPrompts.push({

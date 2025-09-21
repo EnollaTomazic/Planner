@@ -14,7 +14,7 @@ vi.mock("@/lib/db", async () => {
 import { PlannerProvider, useFocusDate, useWeek } from "@/components/planner";
 import { toISODate } from "@/lib/date";
 
-describe("useFocusDate", () => {
+describe("UseFocusDate", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <PlannerProvider>{children}</PlannerProvider>
   );

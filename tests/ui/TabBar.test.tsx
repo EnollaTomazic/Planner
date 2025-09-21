@@ -5,7 +5,7 @@ import { Header, Hero } from "@/components/ui";
 
 afterEach(cleanup);
 
-describe("navigation tabs", () => {
+describe("TabBar", () => {
   it("renders view tabs in header and handles arrow navigation", () => {
     function Wrapper() {
       const [view, setView] = React.useState("components");
