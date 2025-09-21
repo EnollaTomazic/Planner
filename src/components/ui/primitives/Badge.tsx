@@ -145,7 +145,7 @@ export default function Badge<T extends React.ElementType = "span">(
         isSelected &&
           "bg-primary-soft/36 border-[var(--ring-contrast)] shadow-glow-xl text-[var(--text-on-accent)]",
         glitch &&
-          "shadow-inset-hairline shadow-glow-md hover:shadow-inset-contrast hover:shadow-glow-lg",
+          "shadow-inset-hairline hover:shadow-inset-contrast hover:shadow-glow-lg focus-visible:shadow-inset-contrast focus-visible:shadow-glow-lg",
         className,
       )}
     >
