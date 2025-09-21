@@ -95,7 +95,7 @@ export default function SideSelector({
         )}
         style={{
           background:
-            "radial-gradient(120px 40px at 25% 50%, hsl(var(--accent-2)/0.08), transparent 60%), radial-gradient(120px 40px at 75% 50%, hsl(var(--lav-deep)/0.08), transparent 60%)",
+            "radial-gradient(calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 25% 50%, hsl(var(--accent-2)/0.08), transparent 60%), radial-gradient(calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 75% 50%, hsl(var(--lav-deep)/0.08), transparent 60%)",
         }}
       />
 
@@ -115,7 +115,7 @@ export default function SideSelector({
           )}
           style={{
             textShadow: !isRight
-              ? "0 0 10px hsl(var(--team-blue)/.35)"
+              ? "0 0 calc(var(--space-3) - var(--spacing-0-5)) hsl(var(--team-blue)/.35)"
               : undefined,
           }}
         >
@@ -128,7 +128,7 @@ export default function SideSelector({
           )}
           style={{
             textShadow: isRight
-              ? "0 0 10px hsl(var(--team-red)/.35)"
+              ? "0 0 calc(var(--space-3) - var(--spacing-0-5)) hsl(var(--team-red)/.35)"
               : undefined,
           }}
         >
