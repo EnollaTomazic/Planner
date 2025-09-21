@@ -238,6 +238,38 @@ describe("PageHeader", () => {
     expect(container.querySelector('[data-slot="actions"]')).toBeNull();
   });
 
+  it("synchronizes content spacing with the frame variant", () => {
+    const { container, rerender } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={baseHero}
+        frameProps={{ variant: "compact" }}
+      />,
+    );
+
+    const queryContentWrapper = () =>
+      container.querySelector("div[class*='z-[2]']") as HTMLElement | null;
+
+    const compactWrapper = queryContentWrapper();
+    expect(compactWrapper).not.toBeNull();
+    expect(compactWrapper).toHaveClass("space-y-[var(--space-4)]");
+    expect(compactWrapper).toHaveClass("md:space-y-[var(--space-5)]");
+
+    rerender(
+      <PageHeader
+        header={baseHeader}
+        hero={baseHero}
+        frameProps={{ variant: "dense" }}
+      />,
+    );
+
+    const denseWrapper = queryContentWrapper();
+    expect(denseWrapper).not.toBeNull();
+    expect(denseWrapper).toHaveClass("space-y-[var(--space-3)]");
+    expect(denseWrapper).toHaveClass("md:space-y-[var(--space-4)]");
+    expect(denseWrapper).not.toHaveClass("space-y-[var(--space-4)]");
+  });
+
   describe("frame alignment fallbacks", () => {
     const createSubTabs = () => ({
       items: [
