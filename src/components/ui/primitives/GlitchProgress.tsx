@@ -43,6 +43,13 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
     const formattedPercentage =
       formatPercentage?.(percent) ?? `${percent}%`;
 
+    const {
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledby,
+      "aria-describedby": ariaDescribedby,
+      ...nonLabelProps
+    } = rest;
+
     const { className: trackClassNameFromProps, ...restTrackProps } =
       trackProps ?? {};
     const {
@@ -54,7 +61,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
     const progressTrack = (
       <div
         {...restTrackProps}
-        {...(!showPercentage ? rest : {})}
+        {...(!showPercentage ? nonLabelProps : {})}
         className={cn(
           "glitch-track",
           trackClassNameFromProps,
@@ -66,7 +73,10 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        ref={showPercentage ? undefined : ref}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
+        aria-describedby={ariaDescribedby}
+        ref={ref}
       >
         <div
           className="glitch-fill transition-[width] duration-500 ease-out"
@@ -82,8 +92,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
 
     return (
       <div
-        {...rest}
-        ref={ref}
+        {...nonLabelProps}
         className={cn("flex items-center gap-[var(--space-3)]", className)}
       >
         {progressTrack}

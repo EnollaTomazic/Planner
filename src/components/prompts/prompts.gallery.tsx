@@ -64,6 +64,7 @@ import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import {
   DashboardCard,
   DashboardList,
+  HeroPlannerCards,
   IsometricRoom,
   QuickActionGrid,
   HeroPortraitFrame,
@@ -82,6 +83,7 @@ import {
   ReviewSliderTrack,
   ScoreMeter,
 } from "@/components/reviews";
+import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
 import type { PromptWithTitle } from "./types";
 import type { Review, Role, Pillar } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
@@ -135,6 +137,197 @@ const demoReview: Review = {
   score: 8,
   result: "Win",
 };
+
+const heroPlannerHighlightsDemo = [
+  {
+    id: "strategy-sync",
+    title: "Strategy sync",
+    schedule: "Today · 3:00 PM",
+    summary: "Align backlog for the Q2 milestone and confirm owners.",
+  },
+  {
+    id: "retro",
+    title: "Sprint retro",
+    schedule: "Wed · 11:00 AM",
+    summary: "Collect insights for the retro and lock the next sprint goals.",
+  },
+  {
+    id: "review-window",
+    title: "Review window",
+    schedule: "Fri · All day",
+    summary: "Encourage everyone to log highlights before the week wraps.",
+  },
+] as const satisfies readonly HeroPlannerHighlight[];
+
+const heroPlannerOverviewDemo = {
+  summary: {
+    label: "Planner overview",
+    title: "Week of April 22",
+    items: [
+      {
+        key: "focus",
+        label: "Next focus",
+        value: "Design review · 2:00 PM",
+        href: "/planner",
+        cta: "Open planner",
+      },
+      {
+        key: "reviews",
+        label: "Open reviews",
+        value: "2 flagged reviews",
+        href: "/reviews",
+        cta: "Review now",
+      },
+      {
+        key: "prompts",
+        label: "Team prompts",
+        value: "8 saved",
+        href: "/prompts",
+        cta: "Browse prompts",
+      },
+    ],
+  },
+  focus: {
+    label: "Focus day",
+    title: "Monday, April 22",
+    doneCount: 2,
+    totalCount: 5,
+    tasks: [
+      {
+        id: "focus-1",
+        title: "Prep launch checklist",
+        projectName: "Launchpad",
+        done: false,
+        toggleLabel: "Mark Prep launch checklist as done",
+      },
+      {
+        id: "focus-2",
+        title: "Team standup notes",
+        projectName: "Operations",
+        done: true,
+        toggleLabel: "Mark Team standup notes as not done",
+      },
+      {
+        id: "focus-3",
+        title: "Sync with research",
+        projectName: "Insights",
+        done: false,
+        toggleLabel: "Mark Sync with research as done",
+      },
+    ],
+    remainingTasks: 2,
+    onToggleTask: () => {},
+  },
+  goals: {
+    label: "Goals",
+    title: "Quarterly progress",
+    completed: 3,
+    total: 5,
+    percentage: 60,
+    active: [
+      {
+        id: "goal-1",
+        title: "Improve trial activation",
+        detail: "Target 45%",
+      },
+      {
+        id: "goal-2",
+        title: "Ship planner sharing",
+        detail: null,
+      },
+    ],
+    emptyMessage: "No goals yet",
+    allCompleteMessage: "All goals complete",
+  },
+  calendar: {
+    label: "Week progress",
+    title: "Schedule",
+    summary: "12/20 tasks complete",
+    doneCount: 12,
+    totalCount: 20,
+    hasPlannedTasks: true,
+    days: [
+      {
+        iso: "2024-04-22",
+        weekday: "Mon",
+        dayNumber: "22",
+        done: 2,
+        total: 4,
+        disabled: false,
+        loading: false,
+        selected: true,
+        today: false,
+      },
+      {
+        iso: "2024-04-23",
+        weekday: "Tue",
+        dayNumber: "23",
+        done: 1,
+        total: 3,
+        disabled: false,
+        loading: false,
+        selected: false,
+        today: false,
+      },
+      {
+        iso: "2024-04-24",
+        weekday: "Wed",
+        dayNumber: "24",
+        done: 3,
+        total: 3,
+        disabled: false,
+        loading: false,
+        selected: false,
+        today: false,
+      },
+      {
+        iso: "2024-04-25",
+        weekday: "Thu",
+        dayNumber: "25",
+        done: 2,
+        total: 4,
+        disabled: false,
+        loading: false,
+        selected: false,
+        today: false,
+      },
+      {
+        iso: "2024-04-26",
+        weekday: "Fri",
+        dayNumber: "26",
+        done: 1,
+        total: 3,
+        disabled: false,
+        loading: false,
+        selected: false,
+        today: true,
+      },
+      {
+        iso: "2024-04-27",
+        weekday: "Sat",
+        dayNumber: "27",
+        done: 2,
+        total: 3,
+        disabled: false,
+        loading: false,
+        selected: false,
+        today: false,
+      },
+      {
+        iso: "2024-04-28",
+        weekday: "Sun",
+        dayNumber: "28",
+        done: 1,
+        total: 2,
+        disabled: true,
+        loading: false,
+        selected: false,
+        today: false,
+      },
+    ],
+    onSelectDay: () => {},
+  },
+} satisfies PlannerOverviewProps;
 
 const FIELD_HOVER_SHADOW =
   "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]";
@@ -3672,6 +3865,25 @@ React.useEffect(() => {
   layout="inline"
   buttonSize="lg"
   hoverLift
+/>`,
+    },
+    {
+      id: "hero-planner-cards",
+      name: "HeroPlannerCards",
+      description:
+        "Composite hero surface combining quick actions, overview metrics, and planner highlights for the landing page.",
+      element: (
+        <HeroPlannerCards
+          variant="aurora"
+          plannerOverviewProps={heroPlannerOverviewDemo}
+          highlights={heroPlannerHighlightsDemo}
+        />
+      ),
+      tags: ["planner", "homepage", "hero"],
+      code: `<HeroPlannerCards
+  variant="aurora"
+  plannerOverviewProps={plannerOverviewProps}
+  highlights={weeklyHighlights}
 />`,
     },
     {

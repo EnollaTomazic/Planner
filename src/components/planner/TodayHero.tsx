@@ -76,6 +76,10 @@ export default function TodayHero({ iso }: Props) {
     [scopedTasks],
   );
 
+  const heroProgressLabel = selectedProjectName
+    ? `Tasks completed for ${selectedProjectName}`
+    : "Tasks completed";
+
   const projectState = useTodayHeroProjects({
     projects,
     selectedProjectId: selProjectId,
@@ -108,6 +112,7 @@ export default function TodayHero({ iso }: Props) {
         className="mb-[var(--space-4)] flex items-center gap-[var(--space-3)]"
         trackClassName="w-full"
         percentageClassName="glitch-percent w-[var(--space-7)] text-right text-ui font-medium"
+        aria-label={heroProgressLabel}
       />
 
       <TodayHeroProjects
