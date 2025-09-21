@@ -22,7 +22,7 @@ const SEGMENTED_BUTTON_STATES: ReadonlyArray<{
       className: SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME,
     },
   },
-  { label: "Active", props: { children: "Active", isActive: true } },
+  { label: "Active", props: { children: "Active", selected: true } },
   {
     label: "Focus-visible",
     props: {
@@ -56,7 +56,7 @@ export default defineGallerySection({
       props: [
         { name: "as", type: "React.ElementType" },
         { name: "href", type: "string" },
-        { name: "isActive", type: "boolean", defaultValue: "false" },
+        { name: "selected", type: "boolean", defaultValue: "false" },
         { name: "loading", type: "boolean", defaultValue: "false" },
         { name: "disabled", type: "boolean", defaultValue: "false" },
       ],
@@ -75,7 +75,7 @@ export default defineGallerySection({
       code: `<div className="flex flex-wrap gap-[var(--space-2)]">
   <SegmentedButton>Default</SegmentedButton>
   <SegmentedButton className="${SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME}">Hover</SegmentedButton>
-  <SegmentedButton isActive>Active</SegmentedButton>
+  <SegmentedButton selected>Active</SegmentedButton>
   <SegmentedButton className="${SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME}">Focus-visible</SegmentedButton>
   <SegmentedButton disabled>Disabled</SegmentedButton>
   <SegmentedButton loading>Loading</SegmentedButton>
