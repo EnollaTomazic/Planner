@@ -293,7 +293,7 @@ export default function TeamCompPage() {
         },
         actions: (
           <Button
-            size="sm"
+            size="md"
             variant="ghost"
             onClick={() => toggleEditing(editingKey)}
             aria-pressed={editing[editingKey]}
@@ -388,8 +388,7 @@ export default function TeamCompPage() {
               title="Swap Allies ↔ Enemies"
               aria-label="Swap Allies and Enemies"
               onClick={() => builderApi.current?.swapSides()}
-              size="sm"
-              iconSize="sm"
+              size="md"
             >
               <Shuffle />
             </IconButton>
@@ -397,13 +396,12 @@ export default function TeamCompPage() {
               title="Copy both sides"
               aria-label="Copy both sides"
               onClick={() => builderApi.current?.copyAll()}
-              size="sm"
-              iconSize="sm"
+              size="md"
             >
               <Clipboard />
             </IconButton>
             <Button
-              size="sm"
+              size="md"
               variant="ghost"
               onClick={() => toggleEditing("builder")}
               aria-pressed={editing.builder}
@@ -437,8 +435,8 @@ export default function TeamCompPage() {
           <div className="flex flex-col items-start gap-[var(--space-1)]">
             <Button
               variant="primary"
-              size="sm"
-              className="px-[var(--space-4)] whitespace-nowrap"
+              size="md"
+              className="whitespace-nowrap"
               title={`Add row to ${targetBucket} bucket`}
               aria-label={`Add row to ${targetBucket} bucket`}
               onClick={() => clearsApi.current?.addRow(targetBucket)}
@@ -454,7 +452,7 @@ export default function TeamCompPage() {
             </div>
           </div>
           <Button
-            size="sm"
+            size="md"
             variant="ghost"
             onClick={() => toggleEditing("clears")}
             aria-pressed={editing.clears}

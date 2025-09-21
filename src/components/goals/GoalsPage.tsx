@@ -360,7 +360,7 @@ function GoalsPageContent() {
       <Button
         variant="primary"
         size="md"
-        className="px-[var(--space-4)] whitespace-nowrap"
+        className="whitespace-nowrap"
         onClick={handleAddReminder}
       >
         <Plus />

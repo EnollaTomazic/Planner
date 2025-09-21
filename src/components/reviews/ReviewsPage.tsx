@@ -130,8 +130,8 @@ export default function ReviewsPage({
               <Button
                 type="button"
                 variant="primary"
-                size="lg"
-                className="w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto"
+                size="md"
+                className="w-full whitespace-nowrap sm:w-auto"
                 onClick={() => {
                   setQ("");
                   setSort("newest");
