@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 type RootProps = React.HTMLAttributes<HTMLElement> & {
-  variant?: "neo" | "plain";
+  variant?: "neo" | "plain" | "glitch";
 };
 export type SectionCardHeaderProps = Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -43,8 +43,13 @@ const Root = React.forwardRef<HTMLElement, RootProps>(
         <section
           ref={ref}
           className={cn(
-            "shadow-neo-strong rounded-card r-card-lg text-card-foreground",
-            variant === "neo" ? "card-neo-soft" : "card-soft",
+            variant === "glitch" ? undefined : "shadow-neo-strong",
+            "rounded-card r-card-lg text-card-foreground",
+            variant === "neo"
+              ? "card-neo-soft"
+              : variant === "plain"
+                ? "card-soft"
+                : "glitch-card",
             className,
           )}
           {...props}

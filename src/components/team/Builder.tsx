@@ -244,7 +244,7 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
 
   return (
     <div data-scope="team" className="w-full mt-[var(--space-6)]">
-      <SectionCard className="card-neo-soft glitch-card">
+      <SectionCard variant="glitch">
         <SectionCard.Body>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
             {/* Allies */}
@@ -307,7 +307,7 @@ function SideEditor(props: {
   const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-[var(--space-4)] glitch-card card-neo relative">
+    <div className="rounded-card p-[var(--space-4)] glitch-card relative">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 
