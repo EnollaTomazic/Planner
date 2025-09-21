@@ -11,18 +11,30 @@ export type PromptListProps = {
 
 export default function PromptList({ prompts, query }: PromptListProps) {
   const q = query.trim();
+  const formattedPrompts = React.useMemo(
+    () =>
+      prompts.map((p) => {
+        const createdAt = new Date(p.createdAt);
+        return {
+          ...p,
+          createdAtDateTime: createdAt.toISOString(),
+          createdAtLabel: createdAt.toLocaleString(LOCALE),
+        };
+      }),
+    [prompts],
+  );
   return (
     <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-      {prompts.map((p) => (
+      {formattedPrompts.map((p) => (
         <li key={p.id}>
           <Card className="p-[var(--space-3)]">
             <header className="flex items-center justify-between">
               <h3 className="font-semibold">{p.title}</h3>
               <time
-                dateTime={new Date(p.createdAt).toISOString()}
+                dateTime={p.createdAtDateTime}
                 className="text-label text-muted-foreground"
               >
-                {new Date(p.createdAt).toLocaleString(LOCALE)}
+                {p.createdAtLabel}
               </time>
             </header>
             {p.text ? (
