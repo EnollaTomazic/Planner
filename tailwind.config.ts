@@ -86,6 +86,14 @@ const config: Config = {
             hover: "hsl(var(--accent) / 0.14)",
             active: "hsl(var(--accent) / 0.2)",
           },
+          focus: {
+            hover: "hsl(var(--focus) / 0.14)",
+            active: "hsl(var(--focus) / 0.2)",
+            surfaceHover: "hsl(var(--focus) / 0.25)",
+            surfaceActive: "hsl(var(--focus) / 0.35)",
+            tintHover: "hsl(var(--focus) / 0.1)",
+            tintActive: "hsl(var(--focus) / 0.2)",
+          },
           accent: {
             hover: "hsl(var(--accent) / 0.14)",
             active: "hsl(var(--accent) / 0.2)",
