@@ -1,5 +1,6 @@
 // src/components/team/data.ts
 // Source: union of current jungle tier lists and role tags (see notes in file).
+import type { Archetype } from "./cheatSheet.model";
 export type ClearSpeed = "Very Fast" | "Fast" | "Medium" | "Slow";
 
 export const SPEED_HINT: Record<ClearSpeed, string> = {
@@ -94,3 +95,126 @@ export const JUNGLE_ROWS: JungleRow[] = [
  * - Some classic junglers (e.g., Sejuani, Maokai) are included via official role tags.
  * - If you want strictly “present-in-list only,” delete anything not on the two Mobalytics lists.
  */
+
+export const DEFAULT_SHEET: Archetype[] = [
+  {
+    id: "front-to-back",
+    title: "Front to Back",
+    description:
+      "Anchor team fights around tanks and carries. Peel, kite, and win extended fights.",
+    wins: [
+      "You frontload engage and kite back cleanly",
+      "Enemy blows cooldowns on tanks and loses threat",
+      "Your Bot hits free DPS windows",
+    ],
+    struggles: ["Flank TP and backline dive", "Hard poke before engage"],
+    tips: [
+      "Track enemy flash + engage timers.",
+      "Peel first, chase later. Don’t burn mobility spells early.",
+    ],
+    examples: {
+      Top: ["Ornn", "Sion", "Shen"],
+      Jungle: ["Sejuani", "Maokai"],
+      Mid: ["Orianna", "Azir"],
+      Bot: ["Jinx", "Zeri"],
+      Support: ["Braum", "Lulu"],
+    },
+  },
+  {
+    id: "dive",
+    title: "Dive",
+    description:
+      "Commit layered engage onto backline. Burst, then reset or exit.",
+    wins: [
+      "You stack CC on first target",
+      "Sidewaves force enemy to group awkwardly",
+      "Vision denial creates clean angles",
+    ],
+    struggles: ["Exhaust/peel supports", "Stopwatches and GA timings"],
+    tips: ["Ping dive target early. Commit ults together."],
+    examples: {
+      Top: ["Kennen", "Camille"],
+      Jungle: ["Jarvan IV", "Wukong"],
+      Mid: ["Sylas", "Akali"],
+      Bot: ["Kai’Sa", "Samira"],
+      Support: ["Rakan", "Nautilus"],
+    },
+  },
+  {
+    id: "pick",
+    title: "Pick",
+    description:
+      "Create numbers advantage through fog traps, hooks, and skirmish picks.",
+    wins: [
+      "You control river/entrances with wards and traps",
+      "Enemy face-checks first",
+      "You convert pick to objective fast",
+    ],
+    struggles: ["Stall comps with cleanse/QSS", "Stubborn 5-man mid ARAM"],
+    tips: ["Don’t overchase. Reset tempo after each pick."],
+    examples: {
+      Jungle: ["Elise", "Viego"],
+      Mid: ["Ahri", "Twisted Fate"],
+      Bot: ["Ashe", "Varus"],
+      Support: ["Thresh", "Blitzcrank", "Rell"],
+    },
+  },
+  {
+    id: "poke-siege",
+    title: "Poke & Siege",
+    description:
+      "Chip HP bars and take structures on timers. Disengage hard engages.",
+    wins: [
+      "You hit turret windows with waves synced",
+      "Enemy has limited engage or no flanks",
+      "HP diff forces objective flips",
+    ],
+    struggles: ["Hard flank TP", "Long-range engage"],
+    tips: ["Place wards deep on flanks. Don’t overstay post-poke."],
+    examples: {
+      Top: ["Jayce"],
+      Mid: ["Zoe", "Ziggs"],
+      Bot: ["Varus", "Ezreal"],
+      Support: ["Karma", "Janna"],
+    },
+  },
+  {
+    id: "splitpush-131",
+    title: "1-3-1 Split",
+    description:
+      "Pressure two sides, deny engage, and trade up on map with TP advantage.",
+    wins: [
+      "You maintain vision and mid prio for cross-map",
+      "Your sidelaner wins 1v1 or escapes cleanly",
+      "Enemy comp needs 5-man to engage",
+    ],
+    struggles: ["Hard engage with fast mid-to-side collapse"],
+    tips: ["Keep timers: waves, TP, objectives. Don’t group unless forced."],
+    examples: {
+      Top: ["Camille", "Jax", "Fiora"],
+      Mid: ["Ryze", "Azir"],
+      Bot: ["Xayah"],
+      Support: ["Tahm Kench", "Rakan"],
+    },
+  },
+  {
+    id: "wombo",
+    title: "Wombo Combo",
+    description:
+      "Stack AoE CC + AoE damage. Fight on chokes and objective pits.",
+    wins: [
+      "You force fights in tight spaces",
+      "Enemy lacks stopwatches/peel",
+      "You layer ults, not overlap them",
+    ],
+    struggles: ["Disengage and spacing comps"],
+    tips: ["Ping ult order. Hold last engage for cleanup."],
+    examples: {
+      Top: ["Malphite", "Kennen"],
+      Jungle: ["Sejuani", "Amumu"],
+      Mid: ["Orianna", "Yasuo"],
+      Bot: ["Miss Fortune"],
+      Support: ["Rell", "Alistar"],
+    },
+  },
+];

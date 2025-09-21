@@ -3,7 +3,7 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import DashboardList from "./DashboardList";
-import { todayISO } from "@/components/planner/plannerStore";
+import { todayISO } from "@/components/planner/plannerSerialization";
 import { useDay } from "@/components/planner";
 
 export default function TodayCard() {

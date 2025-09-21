@@ -10,7 +10,7 @@
 import "./style.css";
 import * as React from "react";
 import { useSelectedProject, useSelectedTask } from "./useSelection";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
 import DayCardHeader from "./DayCardHeader";

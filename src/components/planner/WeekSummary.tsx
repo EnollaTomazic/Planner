@@ -5,7 +5,7 @@ import "./style.css";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { useWeek } from "./useFocusDate";
 import { useWeekData } from "./useWeekData";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 import { cn } from "@/lib/utils";
 import { formatWeekDay } from "@/lib/date";
 
