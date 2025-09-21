@@ -277,7 +277,7 @@ export default function ReviewEditor({
                 />
               </ReviewSurface>
               <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground">
-                <Badge as="span" size="sm" className="font-mono tabular-nums text-ui">
+                <Badge as="span" size="md" className="font-mono tabular-nums text-ui">
                   {focus}/10
                 </Badge>
                 <span>{focusMsg}</span>

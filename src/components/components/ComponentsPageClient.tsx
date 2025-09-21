@@ -601,7 +601,7 @@ export default function ComponentsPageClient({
               <Badge
                 id={countDescriptionId}
                 tone="support"
-                size="sm"
+                size="md"
                 className="text-muted-foreground"
               >
                 {countLabel}
