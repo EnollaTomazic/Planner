@@ -16,7 +16,7 @@ import {
   HeaderTabs as HeaderTabsControl,
   type HeaderTabItem,
 } from "@/components/tabs/HeaderTabs";
-import type { TabBarProps } from "./TabBar";
+import TabBar, { type TabBarProps } from "./TabBar";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -98,25 +98,18 @@ export default function Header<Key extends string = string>({
       onChange: tabOnChange,
       ariaLabel: tabAriaLabel,
       ariaLabelledBy: tabAriaLabelledBy,
-      size: _tabSize,
-      align: _tabAlign,
       className: tabClassName,
-      variant: _tabVariant,
-      right: _tabRight,
-      showBaseline: _tabShowBaseline,
-      tablistClassName: _tablistClassName,
-      renderItem: _tabRenderItem,
+      size: tabSize,
+      align: tabAlign,
+      right: tabRight,
+      showBaseline: tabShowBaseline,
+      variant: tabVariant,
+      tablistClassName,
+      renderItem: tabRenderItem,
       idBase: tabIdBase,
       linkPanels: tabLinkPanels,
-      ...tabRest
+      ...tabDomProps
     } = tabs;
-    void _tabSize;
-    void _tabAlign;
-    void _tabVariant;
-    void _tabRight;
-    void _tabShowBaseline;
-    void _tablistClassName;
-    void _tabRenderItem;
     const sanitizedTabAriaLabel =
       typeof tabAriaLabel === "string" && tabAriaLabel.trim().length > 0
         ? tabAriaLabel.trim()
@@ -130,19 +123,47 @@ export default function Header<Key extends string = string>({
       return item;
     });
 
-    tabControl = (
-      <HeaderTabsControl
-        items={sanitizedItems}
-        value={tabValue}
-        onChange={tabOnChange}
-        ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
-        ariaLabelledBy={sanitizedTabAriaLabelledBy}
-        idBase={tabIdBase}
-        linkPanels={tabLinkPanels}
-        className={cx("w-auto max-w-full shrink-0", tabClassName)}
-        {...tabRest}
-      />
-    );
+    const mergedTabClassName = cx("w-auto max-w-full shrink-0", tabClassName);
+    const hasTabBarSpecificProps =
+      tabVariant != null ||
+      (typeof tablistClassName === "string" && tablistClassName.trim().length > 0) ||
+      typeof tabRenderItem === "function";
+
+    if (hasTabBarSpecificProps) {
+      tabControl = (
+        <TabBar
+          items={sanitizedItems}
+          value={tabValue}
+          onValueChange={tabOnChange}
+          ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
+          ariaLabelledBy={sanitizedTabAriaLabelledBy}
+          idBase={tabIdBase}
+          linkPanels={tabLinkPanels}
+          className={mergedTabClassName}
+          size={tabSize}
+          align={tabAlign}
+          right={tabRight}
+          showBaseline={tabShowBaseline}
+          variant={tabVariant}
+          tablistClassName={tablistClassName}
+          renderItem={tabRenderItem}
+        />
+      );
+    } else {
+      tabControl = (
+        <HeaderTabsControl
+          items={sanitizedItems}
+          value={tabValue}
+          onChange={tabOnChange}
+          ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
+          ariaLabelledBy={sanitizedTabAriaLabelledBy}
+          idBase={tabIdBase}
+          linkPanels={tabLinkPanels}
+          className={mergedTabClassName}
+          {...tabDomProps}
+        />
+      );
+    }
   }
 
   const hasTabs = Boolean(tabControl);
