@@ -140,7 +140,7 @@ export default function ColorsView({ groups }: ColorsViewProps) {
             <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
               Design token explorer
             </h2>
-            <p className="max-w-prose text-label text-muted-foreground">
+            <p className="max-w-[min(100%,calc(var(--space-8)*8))] text-label text-muted-foreground">
               Search Planner&apos;s color, spacing, radius, typography, shadow, motion,
               and z-index tokens. Copy any token for quick use in new surfaces.
             </p>
@@ -216,7 +216,7 @@ function TokenCard({ token, copied, onCopy }: TokenCardProps) {
   return (
     <li className={TOKEN_CARD_CLASSNAME}>
       <div className="flex items-start justify-between gap-[var(--space-2)]">
-        <div className="min-w-0">
+        <div className="min-w-[calc(var(--space-1)*0)]">
           <p className="break-words font-mono text-ui font-semibold text-foreground">
             {token.cssVar}
           </p>

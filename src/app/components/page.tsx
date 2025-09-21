@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ComponentsPage from "@/components/components/ComponentsPage";
-import { Spinner } from "@/components/ui";
+import { PageShell, Spinner } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Components",
@@ -12,9 +12,11 @@ export default function ComponentsRoute() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center p-[var(--space-5)]">
-          <Spinner />
-        </div>
+        <PageShell as="main" aria-busy="true">
+          <div className="flex justify-center p-[var(--space-5)]">
+            <Spinner />
+          </div>
+        </PageShell>
       }
     >
       <ComponentsPage />

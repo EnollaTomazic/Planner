@@ -562,9 +562,11 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center p-[var(--space-6)]">
-          <Spinner />
-        </div>
+        <PageShell as="main" aria-busy="true">
+          <div className="flex justify-center p-[var(--space-6)]">
+            <Spinner />
+          </div>
+        </PageShell>
       }
     >
       <HomePageContent />
