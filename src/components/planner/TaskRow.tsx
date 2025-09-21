@@ -10,7 +10,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import { spacingTokens } from "@/lib/tokens";
-import type { DayTask } from "./plannerStore";
+import type { DayTask } from "./plannerTypes";
 
 const taskImageSpacingToken = 7;
 const taskImageSize = spacingTokens[taskImageSpacingToken - 1];

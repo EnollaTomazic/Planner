@@ -3,7 +3,7 @@
 
 import * as React from "react";
 
-import type { DayRecord, ISODate } from "./plannerStore";
+import type { DayRecord, ISODate } from "./plannerTypes";
 import { scheduleSavingReset as defaultScheduleSavingReset } from "./scheduleSavingReset";
 import { usePlannerStore } from "./usePlannerStore";
 

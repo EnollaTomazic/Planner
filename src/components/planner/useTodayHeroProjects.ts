@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 
-import type { Project } from "./plannerStore";
+import type { Project } from "./plannerTypes";
 
 const PROJECT_PREVIEW_LIMIT = 12;
 
