@@ -117,6 +117,31 @@
   text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
     hsl(var(--accent) / 0.18);
 }
+.proj-card[aria-disabled="true"] {
+  background: hsl(var(--card) / 0.35);
+  border-color: hsl(var(--card-hairline) / 0.85);
+  color: hsl(var(--muted-foreground));
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+.proj-card[aria-disabled="true"] .proj-card__title {
+  color: hsl(var(--muted-foreground));
+  text-shadow: none;
+}
+.proj-card[data-loading="true"] {
+  background: hsl(var(--card) / 0.6);
+  border-color: hsl(var(--ring) / 0.45);
+  color: hsl(var(--muted-foreground));
+  cursor: progress;
+  pointer-events: none;
+  box-shadow: 0 0 calc(var(--space-4)) hsl(var(--accent) / 0.16);
+}
+.proj-card[data-loading="true"] .proj-card__title {
+  color: hsl(var(--muted-foreground));
+  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
+    hsl(var(--accent) / 0.18);
+}
 
 /* ============ Task rows (right column) ============ */
 .task-tile__text {
@@ -393,7 +418,8 @@
       hsl(var(--background) / 0.6),
     calc(var(--space-1) / 2) calc(var(--space-1) / 2) var(--space-1)
       hsl(var(--shadow-color) / 0.3);
-  box-shadow: var(--neo-shadow);
+  --chip-shadow: var(--neo-shadow);
+  box-shadow: var(--chip-shadow);
 }
 
 .chip:hover {
@@ -403,25 +429,26 @@
     hsl(var(--accent-3)) 12% / 0.08
   );
   border-color: hsl(var(--accent-3) / 0.55);
-  box-shadow:
+  --chip-shadow:
+    var(--shadow-outline-faint),
     var(--neo-shadow),
     0 calc(var(--space-2) - var(--space-1) / 2)
       calc(var(--space-4) + var(--space-1) / 2) hsl(var(--shadow-color) / 0.18);
 }
 
 .chip[data-active] {
-  box-shadow:
+  --chip-shadow:
+    var(--shadow-outline-subtle),
     var(--neo-shadow),
-    0 0 0 var(--hairline-w) hsl(var(--accent-3) / 0.45),
     0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
       hsl(var(--shadow-color) / 0.22);
 }
 
 /* “Today” hint — faint ring and glow rail inside */
 .chip--today {
-  box-shadow:
-    var(--neo-shadow),
-    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.15);
+  --chip-shadow:
+    var(--shadow-inset-hairline),
+    var(--shadow-inset-contrast);
 }
 .chip--today:not([data-active]) {
   border-color: hsl(var(--ring) / 0.55);
@@ -430,12 +457,20 @@
   text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
 }
 
+.chip--today[data-active] {
+  --chip-shadow:
+    var(--shadow-outline-subtle),
+    var(--neo-shadow),
+    0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
+      hsl(var(--shadow-color) / 0.22);
+}
+
 /* Active selection: holo border + RGB split title */
 .chip--active {
   border-color: hsl(var(--ring));
-  box-shadow:
+  --chip-shadow:
+    var(--shadow-outline-subtle),
     var(--neo-shadow),
-    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.35),
     0 var(--space-3) calc(var(--space-6) - var(--space-1))
       hsl(var(--shadow-color) / 0.3);
 }
@@ -559,9 +594,11 @@
     transition: none !important;
   }
   .chip:hover {
-    box-shadow:
+    --chip-shadow:
+      var(--shadow-outline-faint),
       var(--neo-shadow),
-      0 0 0 calc(var(--hairline-w) * 2) hsl(var(--primary) / 0.35);
+      0 calc(var(--space-2) - var(--space-1) / 2)
+        calc(var(--space-4) + var(--space-1) / 2) hsl(var(--shadow-color) / 0.18);
   }
   .chip--active .chip__date::before,
   .chip--active .chip__date::after {

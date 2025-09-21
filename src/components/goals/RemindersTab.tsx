@@ -9,7 +9,7 @@ import ReminderQuickAddForm from "./reminders/ReminderQuickAddForm";
 
 export default function RemindersTab() {
   return (
-    <SectionCard className="goal-card">
+    <SectionCard>
       <SectionCard.Body>
         <div className="grid gap-[var(--space-3)]">
           <ReminderQuickAddForm />
