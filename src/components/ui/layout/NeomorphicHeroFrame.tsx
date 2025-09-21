@@ -205,7 +205,7 @@ function normalizeSlot(value: HeroSlotInput | undefined): HeroSlot | null {
 }
 
 const slotWellBaseClass =
-  "group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md border border-border/45 bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus shadow-neo-inset transition-shadow focus-within:shadow-neoSoft focus-within:ring-1 focus-within:ring-ring/60";
+  "group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md border border-border/45 bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus shadow-neo-inset transition-shadow focus-within:shadow-neo-inset focus-within:ring-1 focus-within:ring-ring/60";
 
 const slotContentClass = "relative z-[1] flex w-full min-w-0 flex-col";
 
