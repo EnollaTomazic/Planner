@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import { useSelection as usePlannerSelection, useDays } from "./plannerContext";
-import type { ISODate, Selection } from "./plannerTypes";
+import type { DayTask, ISODate, Selection } from "./plannerTypes";
+
+const EMPTY_TASK_MAP: Record<string, DayTask> = {};
 
 type SelectionGetter = (selection: Selection | undefined) => string;
 type SelectionProducer = (
@@ -76,15 +78,21 @@ const getTaskId: SelectionGetter = (selection) => selection?.taskId ?? "";
  * @returns Tuple of current task ID and setter.
  */
 export function useSelectedTask(iso: ISODate) {
-  const { tasksById } = useDays();
+  const { days, tasksById } = useDays();
+  const isoTasksById = tasksById[iso] ?? EMPTY_TASK_MAP;
+  const isoDay = days[iso];
 
   const produceTaskSelection = React.useCallback<SelectionProducer>(
     (taskId) => {
       if (!taskId) return {};
-      const projectId = tasksById[iso]?.[taskId]?.projectId;
+      const task =
+        isoTasksById[taskId] ??
+        isoDay?.tasksById?.[taskId] ??
+        isoDay?.tasks.find((candidate) => candidate.id === taskId);
+      const projectId = task?.projectId;
       return { taskId, projectId };
     },
-    [iso, tasksById],
+    [isoTasksById, isoDay],
   );
 
   return useSelectionState(iso, {
