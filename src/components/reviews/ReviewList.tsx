@@ -31,8 +31,8 @@ export default function ReviewList({
   if (count === 0) {
     return (
       <Card className={containerClass}>
-        <div className="flex flex-col items-center justify-center gap-3 p-6 text-ui text-muted-foreground">
-          <Tv className="h-6 w-6 opacity-60" />
+        <div className="flex flex-col items-center justify-center gap-[var(--space-3)] p-[var(--space-6)] text-ui text-muted-foreground">
+          <Tv className="size-[var(--space-5)] opacity-60" />
           <p>No reviews yet</p>
           <Button variant="primary" onClick={onCreate}>
             New Review
@@ -44,7 +44,7 @@ export default function ReviewList({
 
   return (
     <Card className={containerClass}>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-[var(--space-3)]">
         {reviews.map((r) => (
           <li key={r.id}>
             <ReviewListItem
