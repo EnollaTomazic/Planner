@@ -42,7 +42,7 @@ export default function ReminderList() {
 
 function EmptyState() {
   return (
-    <div className="rounded-card ds-card-pad text-ui font-medium text-muted-foreground grid place-items-center">
+    <div className="grid place-items-center rounded-card border border-card-hairline/60 bg-surface card-pad text-ui font-medium text-muted-foreground">
       <p>Nothing here. Add one clear sentence you’ll read in champ select.</p>
     </div>
   );
@@ -102,7 +102,7 @@ function RemTile({
   }, [value.title]);
 
   return (
-    <article className="card-neo rounded-card card-pad relative group">
+    <article className="group relative rounded-card border border-card-hairline/60 bg-surface card-pad transition-colors hover:bg-surface-2 focus-within:bg-surface-2">
       <div className="flex items-center justify-between gap-[var(--space-2)]">
         <div className="flex-1 min-w-0">
           {editing ? (
