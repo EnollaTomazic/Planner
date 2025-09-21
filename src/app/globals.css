@@ -1300,18 +1300,16 @@ textarea:-webkit-autofill {
 .glitch-card {
   position: relative;
   border-radius: var(--radius-xl);
-  border: 1px solid hsl(var(--card-hairline));
+  border: var(--hairline-w) solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
-  box-shadow: 0 calc(var(--space-3) - var(--spacing-0-5)) var(--space-5)
-    hsl(var(--shadow-color) / 0.35);
+  box-shadow: var(--shadow);
   transition:
     transform 0.12s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
 .glitch-card:hover {
-  box-shadow: 0 calc(var(--space-3) + var(--spacing-0-5))
-    calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--shadow-color) / 0.42);
+  box-shadow: var(--shadow-dropdown);
 }
 .glitch-card::after {
   content: "";
