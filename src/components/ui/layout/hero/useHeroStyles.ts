@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/ui/layout/hero/useHeroStyles.ts
 
 import * as React from "react";
