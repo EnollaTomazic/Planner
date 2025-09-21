@@ -40,16 +40,22 @@ export interface NeomorphicHeroFrameProps
   children?: React.ReactNode;
 }
 
+type VariantSlotConfig = {
+  marginTop: string;
+  paddingTop: string;
+  gapY: string;
+  gapMd: string;
+  single: {
+    marginTop: string;
+    paddingTop: string;
+  };
+};
+
 type VariantConfig = {
   radius: string;
   padding: string;
   contentSpacing: string;
-  slot: {
-    marginTop: string;
-    paddingTop: string;
-    gapY: string;
-    gapMd: string;
-  };
+  slot: VariantSlotConfig;
 };
 
 const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
@@ -64,6 +70,10 @@ const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
       paddingTop: "pt-[var(--space-5)] md:pt-[var(--space-6)]",
       gapY: "gap-[var(--space-3)]",
       gapMd: "md:gap-[var(--space-4)]",
+      single: {
+        marginTop: "mt-[var(--space-4)] md:mt-[var(--space-5)]",
+        paddingTop: "pt-[var(--space-4)] md:pt-[var(--space-5)]",
+      },
     },
   },
   compact: {
@@ -77,6 +87,10 @@ const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
       paddingTop: "pt-[var(--space-4)] md:pt-[var(--space-5)]",
       gapY: "gap-[var(--space-3)]",
       gapMd: "md:gap-[var(--space-3)]",
+      single: {
+        marginTop: "mt-[var(--space-4)]",
+        paddingTop: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
+      },
     },
   },
   dense: {
@@ -90,6 +104,10 @@ const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
       paddingTop: "pt-[var(--space-3)] md:pt-[var(--space-4)]",
       gapY: "gap-[var(--space-2)]",
       gapMd: "md:gap-[var(--space-3)]",
+      single: {
+        marginTop: "mt-[var(--space-3)]",
+        paddingTop: "pt-[var(--space-2)] md:pt-[var(--space-3)]",
+      },
     },
   },
 };
@@ -334,6 +352,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     const hasTabs = Boolean(normalizedSlots?.tabs);
     const hasSearch = Boolean(normalizedSlots?.search);
     const hasActions = Boolean(normalizedSlots?.actions);
+    const slotCount = Number(hasTabs) + Number(hasSearch) + Number(hasActions);
 
     const layout = React.useMemo(
       () =>
@@ -390,13 +409,22 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       children
     );
 
+    const slotMarginTopClass =
+      slotCount === 1
+        ? variantStyles?.slot.single.marginTop ?? variantStyles?.slot.marginTop
+        : variantStyles?.slot.marginTop;
+    const slotPaddingTopClass =
+      slotCount === 1
+        ? variantStyles?.slot.single.paddingTop ?? variantStyles?.slot.paddingTop
+        : variantStyles?.slot.paddingTop;
+
     const slotArea = normalizedSlots ? (
       <div
         role="group"
         className={cn(
           "group/hero-slots relative z-[1] isolate w-full grid grid-cols-1",
-          variantStyles?.slot.marginTop,
-          variantStyles?.slot.paddingTop,
+          slotMarginTopClass,
+          slotPaddingTopClass,
           variantStyles?.slot.gapY,
           variantStyles?.slot.gapMd,
           "md:grid-cols-12",
