@@ -43,6 +43,11 @@ export default function ReviewsPage({
   const [sort, setSort] = React.useState<SortKey>("newest");
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
 
+  const handleCreateReview = React.useCallback(() => {
+    setDetailMode("edit");
+    onCreate();
+  }, [onCreate]);
+
   const base = React.useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),
     [reviews],
@@ -135,8 +140,7 @@ export default function ReviewsPage({
                 onClick={() => {
                   setQ("");
                   setSort("newest");
-                  setDetailMode("edit");
-                  onCreate();
+                  handleCreateReview();
                 }}
               >
                 <Plus />
@@ -163,7 +167,7 @@ export default function ReviewsPage({
               setDetailMode("summary");
               onSelect(id);
             }}
-            onCreate={onCreate}
+            onCreate={handleCreateReview}
             className="h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
             header={`${filtered.length} shown`}
             hoverRing
