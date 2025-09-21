@@ -30,6 +30,7 @@ import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
 import GoalList from "./GoalList";
+import { GOALS_STICKY_TOP_CLASS } from "./constants";
 
 import { usePersistentState } from "@/lib/db";
 import type { Pillar } from "@/lib/types";
@@ -401,7 +402,7 @@ function GoalsPageContent() {
             heading: heroHeading,
             subtitle: heroSubtitle,
             sticky: false,
-            topClassName: "top-[var(--header-stack)]",
+            topClassName: GOALS_STICKY_TOP_CLASS,
             dividerTint: heroDividerTint,
             "aria-labelledby": heroHeadingId,
             "aria-describedby": heroAriaDescribedby,
@@ -426,7 +427,7 @@ function GoalsPageContent() {
                 <SectionCard className="card-neo-soft">
                   <SectionCard.Header
                     sticky
-                    topClassName="top-[var(--header-stack)]"
+                    topClassName={GOALS_STICKY_TOP_CLASS}
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
