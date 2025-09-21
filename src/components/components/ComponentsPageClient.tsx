@@ -586,12 +586,12 @@ export default function ComponentsPageClient({
           id="components-components-panel"
           role="tabpanel"
           aria-labelledby={componentsPanelLabelledBy}
-          tabIndex={-1}
+          tabIndex={view === "tokens" ? -1 : 0}
           ref={componentsPanelRef}
           hidden={view === "tokens"}
           aria-hidden={view === "tokens"}
-        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      >
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
           <div
             className="flex flex-col gap-[var(--space-6)]"
             aria-describedby={countDescriptionId}
@@ -628,7 +628,7 @@ export default function ComponentsPageClient({
           id="components-tokens-panel"
           role="tabpanel"
           aria-labelledby={`components-${view}-tab`}
-          tabIndex={-1}
+          tabIndex={view === "tokens" ? 0 : -1}
           ref={tokensPanelRef}
           hidden={view !== "tokens"}
           aria-hidden={view !== "tokens"}
