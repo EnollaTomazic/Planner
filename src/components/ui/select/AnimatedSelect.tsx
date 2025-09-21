@@ -72,6 +72,7 @@ const AnimatedSelect = React.forwardRef<
       className = "",
       dropdownClassName = "",
       buttonClassName = "",
+      containerClassName,
       placeholder = "Select…",
       disabled = false,
       hideLabel = false,
@@ -427,6 +428,11 @@ const AnimatedSelect = React.forwardRef<
       buttonClassName,
     );
 
+    const containerCls = cn(
+      "group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0",
+      containerClassName,
+    );
+
     const caretCls = cn(
       styles.caret,
       "ml-auto shrink-0 opacity-75",
@@ -449,7 +455,7 @@ const AnimatedSelect = React.forwardRef<
           </div>
         ) : null}
 
-        <div className="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0">
+        <div className={containerCls}>
           <button
             ref={setTriggerRef}
             type="button"

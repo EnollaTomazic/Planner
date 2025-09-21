@@ -26,6 +26,7 @@ type CommonSelectProps = {
 export type AnimatedSelectProps = CommonSelectProps & {
   dropdownClassName?: string;
   buttonClassName?: string;
+  containerClassName?: string;
   placeholder?: string;
   disabled?: boolean;
   hideLabel?: boolean;

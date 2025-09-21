@@ -17,6 +17,7 @@ export type SettingsSelectProps = Omit<
 
 export default function SettingsSelect({
   buttonClassName,
+  containerClassName,
   ...props
 }: SettingsSelectProps) {
   return (
@@ -25,6 +26,7 @@ export default function SettingsSelect({
       size="sm"
       matchTriggerWidth={false}
       buttonClassName={cn(SETTINGS_SELECT_BUTTON_CLASS, buttonClassName)}
+      containerClassName={cn("rounded-full", containerClassName)}
       {...props}
     />
   );
