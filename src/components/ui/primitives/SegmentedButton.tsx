@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 
 export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: React.ElementType;
+  selected?: boolean;
+  /** @deprecated Use `selected` instead. */
   isActive?: boolean;
   href?: string;
   loading?: boolean;
@@ -13,8 +15,9 @@ export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 const SegmentedButton = React.forwardRef<
   HTMLElement,
   SegmentedButtonProps
->(({ as: Comp = "button", isActive, className, type, loading, disabled, href, ...props }, ref) => {
-  const cls = cn("btn-like-segmented", isActive && "is-active", className);
+>(({ as: Comp = "button", selected, isActive, className, type, loading, disabled, href, ...props }, ref) => {
+  const resolvedSelected = selected ?? isActive ?? false;
+  const cls = cn("btn-like-segmented", resolvedSelected && "is-active", className);
   const typeProp =
     Comp === "button" && (props as React.ButtonHTMLAttributes<HTMLButtonElement>).type === undefined
       ? { type: type ?? "button" }
@@ -28,8 +31,8 @@ const SegmentedButton = React.forwardRef<
       className={cls}
       data-loading={loading}
       disabled={isButton ? isDisabled : undefined}
-      aria-pressed={isButton ? isActive : undefined}
-      aria-current={isLink ? (isActive ? "page" : undefined) : undefined}
+      aria-pressed={isButton ? resolvedSelected : undefined}
+      aria-current={isLink ? (resolvedSelected ? "page" : undefined) : undefined}
       href={isLink ? href : undefined}
       {...typeProp}
       {...props}
