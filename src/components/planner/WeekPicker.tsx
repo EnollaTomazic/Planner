@@ -12,7 +12,7 @@ import * as React from "react";
 import Hero from "@/components/ui/layout/Hero";
 import Button from "@/components/ui/primitives/Button";
 import { useFocusDate, useWeek } from "./useFocusDate";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
