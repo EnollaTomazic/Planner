@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import type { FormEvent, KeyboardEvent, MouseEvent } from "react";
 
 import { cn } from "@/lib/utils";
+import Label from "@/components/ui/Label";
 import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -63,13 +64,18 @@ export default function TodayHeroTasks({
     );
   }
 
+  const newTaskInputId = `${tasksListId}-new-task`;
+
   return (
     <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
-      <form onSubmit={onTaskFormSubmit}>
+      <form onSubmit={onTaskFormSubmit} className="grid gap-[var(--space-2)]">
+        <Label htmlFor={newTaskInputId} className="mb-0">
+          New task
+        </Label>
         <Input
+          id={newTaskInputId}
           name={taskInputName}
           placeholder={`> task for "${projectName || "Project"}"`}
-          aria-label="New task"
           className="w-full"
         />
       </form>
