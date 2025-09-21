@@ -1,19 +1,14 @@
 {
   "bottom-nav": [],
-  "dashboard-card": [
-    "/"
-  ],
-  "dashboard-list": [
-    "/"
-  ],
-  "isometric-room": [
-    "/"
-  ],
+  "dashboard-card": [],
+  "dashboard-list": [],
+  "isometric-room": [],
   "quick-action-grid": [],
-  "hero-portrait-frame": [],
-  "welcome-hero-figure": [
+  "hero-planner-cards": [
     "/"
   ],
+  "hero-portrait-frame": [],
+  "welcome-hero-figure": [],
   "review-surface": [],
   "review-slider-track": [],
   "score-meter": [],
@@ -27,9 +22,7 @@
   "reminders-tab": [],
   "timer-ring": [],
   "timer-tab": [],
-  "progress-ring-icon": [
-    "/"
-  ],
+  "progress-ring-icon": [],
   "timer-ring-icon": [],
   "side-selector": [],
   "champ-list-editor": [],

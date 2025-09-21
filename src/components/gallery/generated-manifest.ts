@@ -689,7 +689,7 @@ export const galleryPayload = {
               "id": "page-header-search-focus",
               "name": "Search — Focus-visible",
               "description": "Focus ring pairs with shadow-neo-soft on the search field so keyboard focus mirrors the hero shell.",
-              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"mission intel\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    fieldClassName=\"shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]\"\n  />\n</div>",
+              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"mission intel\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]\"\n  />\n</div>",
               "preview": {
                 "id": "prompts:page-header:page-header-demo:state:page-header-search-focus"
               }
@@ -698,7 +698,7 @@ export const galleryPayload = {
               "id": "page-header-search-loading",
               "name": "Search — Loading",
               "description": "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
-              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"briefings\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    loading\n    fieldClassName=\"shadow-neo-soft\"\n  />\n</div>",
+              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"briefings\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    loading\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft\"\n  />\n</div>",
               "preview": {
                 "id": "prompts:page-header:page-header-demo:state:page-header-search-loading"
               }
@@ -707,7 +707,7 @@ export const galleryPayload = {
               "id": "page-header-search-disabled",
               "name": "Search — Disabled",
               "description": "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
-              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    disabled\n    fieldClassName=\"shadow-neo-soft\"\n  />\n</div>",
+              "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    disabled\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft\"\n  />\n</div>",
               "preview": {
                 "id": "prompts:page-header:page-header-demo:state:page-header-search-disabled"
               }
@@ -986,6 +986,21 @@ export const galleryPayload = {
           "code": "<QuickActionGrid\n  actions={[\n    { href: \"/planner\", label: \"Planner Today\" },\n    { href: \"/goals\", label: \"New Goal\", tone: \"accent\" },\n    { href: \"/reviews\", label: \"New Review\", tone: \"accent\" },\n  ]}\n  layout=\"inline\"\n  buttonSize=\"lg\"\n  hoverLift\n/>",
           "preview": {
             "id": "prompts:homepage:quick-action-grid"
+          }
+        },
+        {
+          "id": "hero-planner-cards",
+          "name": "HeroPlannerCards",
+          "description": "Composite hero surface combining quick actions, overview metrics, and planner highlights for the landing page.",
+          "tags": [
+            "planner",
+            "homepage",
+            "hero"
+          ],
+          "kind": "complex",
+          "code": "<HeroPlannerCards\n  variant=\"aurora\"\n  plannerOverviewProps={plannerOverviewProps}\n  highlights={weeklyHighlights}\n/>",
+          "preview": {
+            "id": "prompts:homepage:hero-planner-cards"
           }
         },
         {
@@ -2618,6 +2633,59 @@ export const galleryPayload = {
       ]
     },
     {
+      "id": "toggles",
+      "entries": [
+        {
+          "id": "tabs",
+          "name": "Tabs",
+          "description": "Context provider that links TabList controls with TabPanel content.",
+          "kind": "primitive",
+          "tags": [
+            "tabs",
+            "navigation"
+          ],
+          "axes": [
+            {
+              "id": "layout",
+              "label": "Layout",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Panels"
+                },
+                {
+                  "value": "Controlled list"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
+          "preview": {
+            "id": "ui:tabs:wiring"
+          }
+        }
+      ]
+    },
+    {
       "id": "inputs",
       "entries": [
         {
@@ -3552,6 +3620,54 @@ export const galleryPayload = {
         }
       },
       {
+        "id": "tabs",
+        "name": "Tabs",
+        "description": "Context provider that links TabList controls with TabPanel content.",
+        "kind": "primitive",
+        "tags": [
+          "tabs",
+          "navigation"
+        ],
+        "axes": [
+          {
+            "id": "layout",
+            "label": "Layout",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Panels"
+              },
+              {
+                "value": "Controlled list"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
+        ],
+        "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
+        "preview": {
+          "id": "ui:tabs:wiring"
+        }
+      },
+      {
         "id": "textarea",
         "name": "Textarea",
         "description": "Multi-line text input with Field styling",
@@ -4213,7 +4329,7 @@ export const galleryPayload = {
             "id": "page-header-search-focus",
             "name": "Search — Focus-visible",
             "description": "Focus ring pairs with shadow-neo-soft on the search field so keyboard focus mirrors the hero shell.",
-            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"mission intel\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    fieldClassName=\"shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]\"\n  />\n</div>",
+            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"mission intel\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]\"\n  />\n</div>",
             "preview": {
               "id": "prompts:page-header:page-header-demo:state:page-header-search-focus"
             }
@@ -4222,7 +4338,7 @@ export const galleryPayload = {
             "id": "page-header-search-loading",
             "name": "Search — Loading",
             "description": "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
-            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"briefings\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    loading\n    fieldClassName=\"shadow-neo-soft\"\n  />\n</div>",
+            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"briefings\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    loading\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft\"\n  />\n</div>",
             "preview": {
               "id": "prompts:page-header:page-header-demo:state:page-header-search-loading"
             }
@@ -4231,7 +4347,7 @@ export const galleryPayload = {
             "id": "page-header-search-disabled",
             "name": "Search — Disabled",
             "description": "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
-            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    disabled\n    fieldClassName=\"shadow-neo-soft\"\n  />\n</div>",
+            "code": "<div className=\"rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft\">\n  <SearchBar\n    value=\"\"\n    onValueChange={() => {}}\n    placeholder=\"Search mission intel…\"\n    aria-label=\"Search mission intel\"\n    disabled\n    fieldClassName=\"!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft\"\n  />\n</div>",
             "preview": {
               "id": "prompts:page-header:page-header-demo:state:page-header-search-disabled"
             }
@@ -4519,6 +4635,21 @@ export const galleryPayload = {
         "code": "<QuickActionGrid\n  actions={[\n    { href: \"/planner\", label: \"Planner Today\" },\n    { href: \"/goals\", label: \"New Goal\", tone: \"accent\" },\n    { href: \"/reviews\", label: \"New Review\", tone: \"accent\" },\n  ]}\n  layout=\"inline\"\n  buttonSize=\"lg\"\n  hoverLift\n/>",
         "preview": {
           "id": "prompts:homepage:quick-action-grid"
+        }
+      },
+      {
+        "id": "hero-planner-cards",
+        "name": "HeroPlannerCards",
+        "description": "Composite hero surface combining quick actions, overview metrics, and planner highlights for the landing page.",
+        "tags": [
+          "planner",
+          "homepage",
+          "hero"
+        ],
+        "kind": "complex",
+        "code": "<HeroPlannerCards\n  variant=\"aurora\"\n  plannerOverviewProps={plannerOverviewProps}\n  highlights={weeklyHighlights}\n/>",
+        "preview": {
+          "id": "prompts:homepage:hero-planner-cards"
         }
       },
       {
@@ -5341,6 +5472,7 @@ export const galleryPreviewModules = [
       "prompts:homepage:dashboard-list",
       "prompts:homepage:isometric-room",
       "prompts:homepage:quick-action-grid",
+      "prompts:homepage:hero-planner-cards",
       "prompts:homepage:hero-portrait-frame",
       "prompts:homepage:welcome-hero-figure",
       "prompts:reviews:review-surface",
@@ -5481,6 +5613,12 @@ export const galleryPreviewModules = [
     loader: () => import("../ui/primitives/SegmentedButton.gallery"),
     previewIds: [
       "ui:segmented-button:states",
+    ],
+  },
+  {
+    loader: () => import("../ui/primitives/Tabs.gallery"),
+    previewIds: [
+      "ui:tabs:wiring",
     ],
   },
   {
