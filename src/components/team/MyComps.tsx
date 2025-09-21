@@ -306,7 +306,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
               return (
                 <article
                   key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group card-neo glitch-card relative p-[var(--space-7)]"
+                  className="col-span-12 md:col-span-6 xl:col-span-4 group glitch-card relative p-[var(--space-7)]"
                 >
                   {/* Action controls: copy, edit, delete, save */}
                   <div className={actionClasses}>

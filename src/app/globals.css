@@ -1299,7 +1299,7 @@ textarea:-webkit-autofill {
 }
 .glitch-card {
   position: relative;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   border: var(--hairline-w) solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
   box-shadow: var(--shadow);
@@ -1310,6 +1310,12 @@ textarea:-webkit-autofill {
 }
 .glitch-card:hover {
   box-shadow: var(--shadow-dropdown);
+}
+.glitch-card:focus-within {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
+    var(--shadow-dropdown);
 }
 .glitch-card::after {
   content: "";
