@@ -6,12 +6,16 @@ import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import Badge from "@/components/ui/primitives/Badge";
 
+const accentInteractionTokens =
+  "[--hover:theme('colors.interaction.accent.hover')] [--active:theme('colors.interaction.accent.active')]";
+
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
-  "hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)]",
-  "focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)]",
-  "active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)]",
-  "data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent",
+  accentInteractionTokens,
+  "hover:bg-[--hover] hover:ring-2 hover:ring-[var(--focus)]",
+  "focus-visible:bg-[--hover] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
+  "active:bg-[--active] active:ring-2 active:ring-[var(--focus)]",
+  "data-[selected=true]:bg-interaction-accent-surfaceHover data-[selected=true]:border-[var(--ring-contrast)] data-[selected=true]:shadow-[var(--shadow-badge),_var(--shadow-glow-md)] data-[selected=true]:ring-2 data-[selected=true]:ring-[var(--focus)]",
 );
 
 const statusDotBase =
