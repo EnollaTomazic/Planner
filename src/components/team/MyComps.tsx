@@ -296,7 +296,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
               const editingCard = editingId === c.id;
               const showActions = isCoarsePointer || editing || editingCard;
               const actionClasses = [
-                "absolute right-2 top-2 z-10 flex items-center gap-[var(--space-1)] transition-opacity",
+                "absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] transition-opacity",
                 showActions
                   ? "opacity-100 pointer-events-auto"
                   : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto",
