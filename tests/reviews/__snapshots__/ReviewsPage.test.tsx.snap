@@ -187,7 +187,7 @@ exports[`ReviewsPage > renders default state 1`] = `
               class="relative z-[1] flex w-full min-w-0 flex-col"
             >
               <form
-                class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full max-w-[calc(var(--space-8)*10)] rounded-full flex-1"
+                class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full min-w-0 rounded-full flex-1"
                 role="search"
               >
                 <div
