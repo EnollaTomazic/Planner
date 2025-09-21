@@ -23,15 +23,12 @@ export default function PromptsHeader({
   onSave,
   disabled,
 }: PromptsHeaderProps) {
-  const normalizedQuery = React.useMemo(() => query.trim().toLowerCase(), [query]);
-
   const handleChip = React.useCallback(
     (chip: string) => {
-      const normalizedChip = chip.trim().toLowerCase();
-      const nextQuery = normalizedQuery === normalizedChip ? "" : chip;
+      const nextQuery = query === chip ? "" : chip;
       onQueryChange(nextQuery);
     },
-    [normalizedQuery, onQueryChange],
+    [onQueryChange, query],
   );
 
   const searchId = `${id}-search`;
@@ -62,13 +59,14 @@ export default function PromptsHeader({
         children: (
           <div className="hidden sm:flex flex-wrap items-center gap-[var(--space-2)]">
             {chips.map((chip) => {
-              const isSelected = normalizedQuery === chip.trim().toLowerCase();
+              const isSelected = query === chip;
 
               return (
                 <Badge
                   key={chip}
                   interactive
                   selected={isSelected}
+                  aria-pressed={isSelected}
                   onClick={() => handleChip(chip)}
                 >
                   {chip}
