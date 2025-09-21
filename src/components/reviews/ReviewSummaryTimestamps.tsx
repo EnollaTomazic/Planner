@@ -37,14 +37,14 @@ export default function ReviewSummaryTimestamps({
               >
                 {m.noteOnly ? (
                   <span
-                    className="pill flex h-7 w-14 items-center justify-center px-0"
+                    className="pill flex h-[var(--space-6)] w-[calc(var(--space-6)+var(--space-2))] items-center justify-center px-0"
                     title="Note"
                     aria-label="Note"
                   >
                     <FileText aria-hidden className="icon-xs opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
+                  <span className="pill h-[var(--space-6)] px-[var(--space-3)] text-ui font-mono tabular-nums leading-none">
                     {m.time ?? "00:00"}
                   </span>
                 )}
