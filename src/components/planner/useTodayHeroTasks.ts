@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 
-import type { DayTask } from "./plannerStore";
+import type { DayTask } from "./plannerTypes";
 
 type TodayHeroTaskAnnouncement = {
   text: string;

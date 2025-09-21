@@ -11,7 +11,7 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Textarea from "@/components/ui/primitives/Textarea";
 import { useDayNotes } from "./useDayNotes";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 
 type Props = { iso: ISODate };
 
