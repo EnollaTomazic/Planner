@@ -492,7 +492,7 @@ export default function TeamCompPage() {
       aria-labelledby="teamcomp-header"
     >
       <PageHeader
-        containerClassName="relative md:col-span-12"
+        containerClassName="md:col-span-12"
         className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         contentClassName="space-y-[var(--space-2)]"
         frameProps={{ variant: "unstyled" }}
