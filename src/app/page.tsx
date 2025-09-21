@@ -191,6 +191,7 @@ function HeroPlannerCards() {
                 className={cn(
                   "group flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-md border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
                   "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "active:border-primary/60 active:bg-card/80",
                 )}
               >
                 <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
@@ -199,7 +200,7 @@ function HeroPlannerCards() {
                     {item.value}
                   </span>
                 </div>
-                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground">
+                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground group-active:text-primary-foreground">
                   {item.cta}
                 </span>
               </Link>
