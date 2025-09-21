@@ -87,6 +87,8 @@ export default {
   controlRadius: "var(--radius-xl)",
   controlFs: "var(--font-ui)",
   controlPx: "var(--spacing-3)",
+  shellWidth: "1280px",
+  shellMax: "var(--shell-width)",
   headerStack: "calc(var(--spacing-8) + var(--spacing-4))",
   edgeIris:
     "conic-gradient(\n    from 180deg,\n    hsl(262 83% 58% / 0),\n    hsl(262 83% 58% / 0.7),\n    hsl(var(--accent-3) / 0.7),\n    hsl(320 85% 60% / 0.7),\n    hsl(262 83% 58% / 0)\n  )",
@@ -94,6 +96,7 @@ export default {
     "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )",
   segActiveBase: "hsl(var(--card))",
   shadow: "0 10px 30px hsl(250 30% 2% / 0.35)",
+  shadowDropdown: "0 12px 40px hsl(var(--shadow-color) / 0.55)",
   shadowNeoSm:
     "calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))\n      hsl(var(--foreground) / 0.06)",
   shadowNeo:
@@ -175,6 +178,7 @@ export default {
   cardOverlayScanlines:
     "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
+  visuallyHiddenTop: "-9999px",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
