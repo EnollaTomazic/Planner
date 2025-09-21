@@ -78,7 +78,7 @@ export default async function RootLayout({
           </div>
           <SiteChrome />
           <CatCompanion />
-          <div id="main-content" tabIndex={-1} className="relative z-10">
+          <div className="relative z-10">
             {children}
           </div>
         </ThemeProvider>
