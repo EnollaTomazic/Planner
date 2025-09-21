@@ -460,7 +460,7 @@ function HomePageContent() {
                       id: "home-header",
                       heading: "Welcome to Planner",
                       subtitle: "Plan your day, track goals, and review games.",
-                      icon: <Home className="opacity-80" />,
+                      icon: <Home className="text-muted-foreground" />,
                       sticky: false,
                     }}
                     hero={{
@@ -486,11 +486,6 @@ function HomePageContent() {
                           <WelcomeHeroFigure className="col-span-12 md:col-span-4 lg:col-span-5" />
                         </div>
                       ),
-                      children: (
-                        <div className="pt-[var(--space-4)]">
-                          <HeroPlannerCards />
-                        </div>
-                      ),
                     }}
                   />
                 </div>
@@ -510,6 +505,9 @@ function HomePageContent() {
                 <div className="md:col-span-6">
                   <IsometricRoom variant={theme.variant} />
                 </div>
+              </div>
+              <div className="pt-[var(--space-4)]">
+                <HeroPlannerCards />
               </div>
               <section className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
                 <div className="md:col-span-4">
