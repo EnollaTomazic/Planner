@@ -8,7 +8,7 @@ import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import type { Project } from "./plannerStore";
+import type { Project } from "./plannerTypes";
 
 export type TodayHeroProjectsProps = {
   projects: Project[];

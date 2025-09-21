@@ -1,6 +1,6 @@
 import * as React from "react";
 import DayCard from "./DayCard";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 
 type DayRowProps = { iso: ISODate; isToday: boolean };
 
