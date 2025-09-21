@@ -86,7 +86,7 @@ export default function PromptsPanel({ data }: PromptsPanelProps) {
           label: "WelcomeHeroFigure",
           element: (
             <div className="w-full space-y-[var(--space-3)]">
-              <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-3">
                 <div className="flex flex-col items-center gap-[var(--space-2)]">
                   <span className="text-label font-medium text-muted-foreground">Default halo</span>
                   <div className="w-full max-w-[calc(var(--space-8)*4)]">
@@ -97,6 +97,12 @@ export default function PromptsPanel({ data }: PromptsPanelProps) {
                   <span className="text-label font-medium text-muted-foreground">Toned-down halo</span>
                   <div className="w-full max-w-[calc(var(--space-8)*4)]">
                     <WelcomeHeroFigure haloTone="subtle" showGlitchRail={false} />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-[var(--space-2)]">
+                  <span className="text-label font-medium text-muted-foreground">Borderless mode</span>
+                  <div className="w-full max-w-[calc(var(--space-8)*4)]">
+                    <WelcomeHeroFigure framed={false} />
                   </div>
                 </div>
               </div>
