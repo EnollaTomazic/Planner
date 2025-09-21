@@ -132,6 +132,7 @@ export default function TodayHeroTasks({
                       onChange={() => {
                         onTaskToggle(task.id);
                       }}
+                      aria-label={`Toggle ${task.title} done`}
                       size="sm"
                     />
                     {isEditing ? (
