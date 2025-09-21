@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import Header, { type HeaderProps } from "./Header";
-import Hero, { type HeroProps, HeroSearchBar } from "./Hero";
+import Hero, { type HeroProps, HeroSearchBar } from "./hero";
 import NeomorphicHeroFrame, {
   type NeomorphicHeroFrameProps,
   type HeroSlot,
