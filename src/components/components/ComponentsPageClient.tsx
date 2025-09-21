@@ -498,7 +498,7 @@ export default function ComponentsPageClient({
                 variant: "default",
                 showBaseline: true,
                 tablistClassName: cn(
-                  "max-w-full shadow-neo-inset",
+                  "max-w-full shadow-neo-inset rounded-card r-card-lg",
                   "w-full md:w-auto",
                 ),
                 className: "max-w-full w-full md:w-auto",
