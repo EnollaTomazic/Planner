@@ -288,7 +288,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="glitch-wrap w-full sm:w-auto"
                   >
                     <div
-                      class="group inline-flex rounded-[var(--control-radius)] border border-[--theme-ring] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] focus-within:ring-offset-0"
+                      class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
                     >
                       <button
                         aria-controls=":r1:-listbox"
@@ -393,7 +393,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-2 lg:col-span-4"
       >
         <section
-          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--theme-ring)] focus-within:ring-2 focus-within:ring-[var(--theme-ring)] h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
           data-scope="reviews"
         >
           <header
@@ -407,7 +407,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Alpha"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -451,7 +451,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Gamma"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -495,7 +495,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Beta"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-accent/10 hover:ring-2 hover:ring-[var(--theme-ring)] focus-visible:bg-accent/15 focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] active:bg-accent/20 active:ring-2 active:ring-[var(--theme-ring)] data-[selected=true]:bg-accent/20 data-[selected=true]:ring-2 data-[selected=true]:ring-accent"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
