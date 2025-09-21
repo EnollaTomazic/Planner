@@ -34,7 +34,7 @@ export default function NeomorphicHeroFrameDemo() {
   const [compactQuery, setCompactQuery] = React.useState("");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-[var(--space-6)]">
       <NeomorphicHeroFrame
         as="header"
         label="Mission controls"
@@ -50,7 +50,7 @@ export default function NeomorphicHeroFrameDemo() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="px-2 text-label font-semibold uppercase tracking-[0.08em]"
+                    className="px-[var(--space-2)] text-label font-semibold uppercase tracking-[0.08em]"
                   >
                     View all
                   </Button>
@@ -75,7 +75,7 @@ export default function NeomorphicHeroFrameDemo() {
           },
           actions: {
             node: (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[var(--space-2)]">
                 <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
                 <Button size="sm" variant="secondary">
                   Draft
@@ -93,7 +93,7 @@ export default function NeomorphicHeroFrameDemo() {
         }}
       >
         <HeroGrid variant="default">
-          <HeroCol span={7} className="space-y-3">
+          <HeroCol span={7} className="space-y-[var(--space-3)]">
             <h3 className="text-title font-semibold tracking-[-0.01em] text-foreground">
               Default neomorphic frame
             </h3>
@@ -109,16 +109,16 @@ export default function NeomorphicHeroFrameDemo() {
               each control to preview the full range of feedback.
             </p>
           </HeroCol>
-          <HeroCol span={5} className="grid gap-2 text-label uppercase tracking-[0.08em] text-muted-foreground">
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+          <HeroCol span={5} className="grid gap-[var(--space-2)] text-label uppercase tracking-[0.08em] text-muted-foreground">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
               <dt className="font-semibold text-foreground">Layer tokens</dt>
               <dd className="text-label">bg-card/70 · ring-border/55</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
               <dt className="font-semibold text-foreground">Grid rhythm</dt>
               <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
               <dt className="font-semibold text-foreground">Slot spans</dt>
               <dd className="text-label">HeroCol 7 / 5 alignment</dd>
             </div>
@@ -159,7 +159,7 @@ export default function NeomorphicHeroFrameDemo() {
           },
           actions: {
             node: (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[var(--space-2)]">
                 <Button size="sm" variant="secondary">
                   Pin view
                 </Button>
@@ -173,7 +173,7 @@ export default function NeomorphicHeroFrameDemo() {
         }}
       >
         <HeroGrid variant="compact">
-          <HeroCol span={6} className="space-y-2">
+          <HeroCol span={6} className="space-y-[var(--space-2)]">
             <h3 className="text-ui font-semibold uppercase tracking-[0.08em] text-muted-foreground">
               Compact layout
             </h3>
@@ -186,19 +186,19 @@ export default function NeomorphicHeroFrameDemo() {
               and quick actions stay aligned with adjacent content.
             </p>
           </HeroCol>
-          <HeroCol span={6} className="space-y-2 text-label text-muted-foreground">
+          <HeroCol span={6} className="space-y-[var(--space-2)] text-label text-muted-foreground">
             <p className="font-semibold text-foreground">Interaction checklist</p>
-            <ul className="grid grid-cols-2 gap-2">
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+            <ul className="grid grid-cols-2 gap-[var(--space-2)]">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
                 Hover or focus the tabs to see accent glows.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
                 Toggle statuses—the queued tab marks the search as loading.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
                 Buttons surface pressed and disabled states from tokenized styles.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-3 py-2 shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
                 Keyboard focus rings respect the global focus token.
               </li>
             </ul>
