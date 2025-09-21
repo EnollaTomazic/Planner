@@ -23,6 +23,7 @@ import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import useAutoFocus from "@/lib/useAutoFocus";
+import { GOALS_STICKY_TOP_CLASS } from "./constants";
 import {
   Search,
   Plus,
@@ -167,7 +168,7 @@ export default function Reminders() {
   return (
     <div className="grid gap-[var(--space-3)]">
       <SectionCard className="card-neo-soft">
-        <SectionCard.Header sticky topClassName="top-[var(--header-stack)]">
+        <SectionCard.Header sticky topClassName={GOALS_STICKY_TOP_CLASS}>
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] w-full">
             {/* search */}
