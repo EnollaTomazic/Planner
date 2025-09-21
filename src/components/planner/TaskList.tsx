@@ -5,7 +5,7 @@ import Input from "@/components/ui/primitives/Input";
 import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
 import TaskRow from "./TaskRow";
-import type { DayTask } from "./plannerStore";
+import type { DayTask } from "./plannerTypes";
 
 type Props = {
   tasksById: Record<string, DayTask>;

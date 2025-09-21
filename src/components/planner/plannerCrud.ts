@@ -11,7 +11,7 @@ import {
   addTaskImage as dayAddTaskImage,
   removeTaskImage as dayRemoveTaskImage,
 } from "./dayCrud";
-import type { ISODate, DayRecord } from "./plannerStore";
+import type { DayRecord, ISODate } from "./plannerTypes";
 
 export type UpsertDay = (iso: ISODate, fn: (d: DayRecord) => DayRecord) => void;
 
