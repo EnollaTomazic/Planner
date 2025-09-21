@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Label from "@/components/ui/Label";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
@@ -31,6 +32,7 @@ export default function ProjectList({
   deleteProject,
   addProject,
 }: Props) {
+  const newProjectInputId = React.useId();
   const [editingProjectId, setEditingProjectId] = React.useState<string | null>(
     null,
   );
@@ -115,17 +117,21 @@ export default function ProjectList({
       className="gap-[var(--space-2)]"
       renderComposer={() => (
         <form
+          className="grid gap-[var(--space-2)]"
           onSubmit={(e) => {
             e.preventDefault();
             addProjectCommit();
           }}
         >
+          <Label htmlFor={newProjectInputId} className="mb-0">
+            New project
+          </Label>
           <Input
+            id={newProjectInputId}
             className="w-full"
             placeholder="> new project…"
             value={draftProject}
             onChange={(e) => setDraftProject(e.target.value)}
-            aria-label="Add project"
           />
         </form>
       )}

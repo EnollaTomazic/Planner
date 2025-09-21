@@ -184,8 +184,20 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
     const updateForNewDay = () => {
       if (cancelled) return;
       const nextToday = todayISO();
-      setToday(nextToday);
-      setFocus(nextToday);
+
+      setToday((prevToday) => {
+        setFocus((prevFocus) => {
+          if (
+            prevFocus === FOCUS_PLACEHOLDER ||
+            prevFocus === prevToday
+          ) {
+            return nextToday;
+          }
+          return prevFocus;
+        });
+
+        return nextToday;
+      });
     };
 
     const scheduleNextTick = () => {
