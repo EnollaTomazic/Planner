@@ -117,6 +117,31 @@
   text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
     hsl(var(--accent) / 0.18);
 }
+.proj-card[aria-disabled="true"] {
+  background: hsl(var(--card) / 0.35);
+  border-color: hsl(var(--card-hairline) / 0.85);
+  color: hsl(var(--muted-foreground));
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+.proj-card[aria-disabled="true"] .proj-card__title {
+  color: hsl(var(--muted-foreground));
+  text-shadow: none;
+}
+.proj-card[data-loading="true"] {
+  background: hsl(var(--card) / 0.6);
+  border-color: hsl(var(--ring) / 0.45);
+  color: hsl(var(--muted-foreground));
+  cursor: progress;
+  pointer-events: none;
+  box-shadow: 0 0 calc(var(--space-4)) hsl(var(--accent) / 0.16);
+}
+.proj-card[data-loading="true"] .proj-card__title {
+  color: hsl(var(--muted-foreground));
+  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
+    hsl(var(--accent) / 0.18);
+}
 
 /* ============ Task rows (right column) ============ */
 .task-tile__text {

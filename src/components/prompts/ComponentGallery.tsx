@@ -109,6 +109,20 @@ const demoReview: Review = {
 const demoProjects = [
   { id: "p1", name: "Alpha", done: false, createdAt: Date.now() },
   { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
+  {
+    id: "p3",
+    name: "Gamma (disabled)",
+    done: false,
+    createdAt: Date.now(),
+    disabled: true,
+  },
+  {
+    id: "p4",
+    name: "Delta (syncing)",
+    done: false,
+    createdAt: Date.now(),
+    loading: true,
+  },
 ];
 
 const demoTasks = [
