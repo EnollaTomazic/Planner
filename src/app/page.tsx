@@ -83,6 +83,11 @@ const calendarDayFormatter = new Intl.DateTimeFormat(LOCALE, {
   day: "2-digit",
 });
 
+type PlannerCalendarDay = ReturnType<typeof useWeekData>["per"][number] & {
+  disabled?: boolean;
+  loading?: boolean;
+};
+
 function HeroPlannerCards() {
   const { iso, setIso } = useFocusDate();
   const { projects, tasks, toggleTask, doneCount, totalCount } = useDay(iso);
@@ -370,6 +375,10 @@ function HeroPlannerCards() {
           <div className="flex overflow-x-auto rounded-card r-card-lg border border-border/60 p-[var(--space-2)]">
             <ul className="flex w-full min-w-0 gap-[var(--space-2)]" aria-label="Select focus day">
               {per.map((day) => {
+                const dayState = day as PlannerCalendarDay;
+                const dayDisabled = Boolean(dayState.disabled);
+                const dayLoading = Boolean(dayState.loading);
+                const blockInteraction = dayDisabled || dayLoading;
                 const dayDate = fromISODate(day.iso);
                 const weekday = dayDate
                   ? calendarWeekdayFormatter.format(dayDate)
@@ -388,12 +397,20 @@ function HeroPlannerCards() {
                       type="button"
                       aria-pressed={selected}
                       aria-current={todayMarker ? "date" : undefined}
-                      onClick={() => handleSelectDay(day.iso)}
+                      aria-disabled={blockInteraction || undefined}
+                      aria-busy={dayLoading || undefined}
+                      disabled={dayDisabled}
+                      data-loading={dayLoading ? "true" : undefined}
+                      onClick={() => {
+                        if (blockInteraction) return;
+                        handleSelectDay(day.iso);
+                      }}
                       className={cn(
                         "flex w-full flex-col items-start gap-[var(--space-1)] rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
                         "border-card-hairline bg-card/70 hover:border-primary/40 hover:bg-card/80",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                         "active:bg-card/90",
+                        "disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:cursor-progress data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
                         selected && "border-primary/70 bg-card",
                       )}
                     >
