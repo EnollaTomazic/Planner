@@ -2,9 +2,26 @@ import type { Review } from "@/lib/types";
 
 const SEARCH_CACHE_KEY = Symbol.for("planner.reviews.searchCache");
 
+type SearchCacheMetadata =
+  Pick<
+    Review,
+    | "title"
+    | "tags"
+    | "opponent"
+    | "lane"
+    | "side"
+    | "result"
+    | "patch"
+    | "duration"
+    | "notes"
+  > & {
+    tagsLength: number;
+  };
+
 type SearchCache = {
   raw: string;
   blob: string;
+  meta: SearchCacheMetadata;
 };
 
 type SearchableReview = Review & {
@@ -39,13 +56,46 @@ function setCache(review: SearchableReview, cache: SearchCache) {
   });
 }
 
+function captureMetadata(review: Review): SearchCacheMetadata {
+  return {
+    title: review.title,
+    tags: review.tags,
+    tagsLength: review.tags.length,
+    opponent: review.opponent,
+    lane: review.lane,
+    side: review.side,
+    result: review.result,
+    patch: review.patch,
+    duration: review.duration,
+    notes: review.notes,
+  };
+}
+
+function isCacheFresh(
+  review: Review,
+  metadata: SearchCacheMetadata,
+): boolean {
+  return (
+    metadata.title === review.title &&
+    metadata.tags === review.tags &&
+    metadata.tagsLength === review.tags.length &&
+    metadata.opponent === review.opponent &&
+    metadata.lane === review.lane &&
+    metadata.side === review.side &&
+    metadata.result === review.result &&
+    metadata.patch === review.patch &&
+    metadata.duration === review.duration &&
+    metadata.notes === review.notes
+  );
+}
+
 export function getSearchBlob(review: Review): string {
   const searchable = review as SearchableReview;
-  const raw = buildSearchSource(review);
   const cached = searchable[SEARCH_CACHE_KEY];
-  if (cached && cached.raw === raw) return cached.blob;
+  if (cached && isCacheFresh(review, cached.meta)) return cached.blob;
+  const raw = buildSearchSource(review);
   const blob = raw.toLowerCase();
-  setCache(searchable, { raw, blob });
+  setCache(searchable, { raw, blob, meta: captureMetadata(review) });
   return blob;
 }
 
