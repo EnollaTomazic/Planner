@@ -251,7 +251,7 @@ export default function ReviewEditor({
           {focusOn && (
             <>
               <ReviewSurface
-                className="mt-[var(--space-3)] relative h-[var(--space-7)]"
+                className="mt-[var(--space-3)] group relative h-[var(--space-7)]"
                 padding="inline"
                 focusWithin
               >
