@@ -1,14 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { ts } from "@/lib/date";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useReviewFilter } from "@/components/reviews";
 import ReviewList from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
-import { getSearchBlob } from "./reviewSearch";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import { Button, Select, PageHeader, PageShell, TabBar } from "@/components/ui";
@@ -55,26 +54,7 @@ export default function ReviewsPage({
     [reviews],
   );
 
-  const filtered = React.useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    const list =
-      needle.length === 0
-        ? [...base]
-        : base.filter((r) => getSearchBlob(r).includes(needle));
-
-    if (sort === "newest")
-      list.sort((a, b) => ts(b?.createdAt) - ts(a?.createdAt));
-    if (sort === "oldest")
-      list.sort((a, b) => ts(a?.createdAt) - ts(b?.createdAt));
-    if (sort === "title")
-      list.sort((a, b) =>
-        (a?.title || "").localeCompare(b?.title || "", undefined, {
-          sensitivity: "base",
-        }),
-      );
-
-    return list;
-  }, [base, q, sort]);
+  const filtered = useReviewFilter(base, q, sort);
 
   const active = React.useMemo(
     () => base.find((r) => r.id === selectedId) || null,
