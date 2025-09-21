@@ -423,35 +423,36 @@ function GoalsPageContent() {
           {tab === "goals" && (
             <div className="grid gap-[var(--space-4)]">
               <div className="space-y-[var(--space-2)]">
-                {totalCount === 0 ? (
-                  <GoalsProgress
-                    total={totalCount}
-                    pct={pctDone}
-                    onAddFirst={handleAddFirst}
-                  />
-                ) : (
-                  <SectionCard className="card-neo-soft">
-                    <SectionCard.Header
-                      sticky
-                      topClassName="top-0"
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
-                        <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
-                        <GoalsProgress total={totalCount} pct={pctDone} />
+                <SectionCard className="card-neo-soft">
+                  <SectionCard.Header
+                    sticky
+                    topClassName="top-0"
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
+                      <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
+                      <GoalsProgress total={totalCount} pct={pctDone} />
+                    </div>
+                    <GoalsTabs value={filter} onChange={setFilter} />
+                  </SectionCard.Header>
+                  <SectionCard.Body>
+                    {totalCount === 0 ? (
+                      <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
+                        <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
+                        <Button onClick={handleAddFirst} size="sm">
+                          Add a first goal
+                        </Button>
                       </div>
-                      <GoalsTabs value={filter} onChange={setFilter} />
-                    </SectionCard.Header>
-                    <SectionCard.Body>
+                    ) : (
                       <GoalList
                         goals={filtered}
                         onToggleDone={toggleDone}
                         onRemove={removeGoal}
                         onUpdate={updateGoal}
                       />
-                    </SectionCard.Body>
-                  </SectionCard>
-                )}
+                    )}
+                  </SectionCard.Body>
+                </SectionCard>
               </div>
 
               <div ref={formRef}>
