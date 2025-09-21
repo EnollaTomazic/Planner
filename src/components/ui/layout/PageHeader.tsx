@@ -34,6 +34,17 @@ type FrameSlotPresence = {
   actions: boolean;
 };
 
+type FrameVariantWithSpacing = Exclude<
+  NeomorphicHeroFrameProps["variant"],
+  "unstyled" | undefined
+>;
+
+const frameContentSpacingByVariant = {
+  default: "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
+  compact: "space-y-[var(--space-4)] md:space-y-[var(--space-5)]",
+  dense: "space-y-[var(--space-3)] md:space-y-[var(--space-4)]",
+} as const satisfies Record<FrameVariantWithSpacing, string>;
+
 const hasRenderableNode = (node: React.ReactNode): boolean => {
   if (node === null || node === undefined) {
     return false;
@@ -241,6 +252,17 @@ const PageHeaderInner = <
 
   const heroTabVariant: TabBarProps["variant"] | undefined =
     resolvedHeroFrame ? "neo" : undefined;
+
+  const computedContentSpacing = React.useMemo(() => {
+    const variant = frameVariant ?? "default";
+    if (variant === "unstyled") {
+      return undefined;
+    }
+    return (
+      frameContentSpacingByVariant[variant] ??
+      frameContentSpacingByVariant.default
+    );
+  }, [frameVariant]);
 
   const actionAreaTabsSlot = React.useMemo<HeroSlot | null | undefined>(() => {
     if (!resolvedSubTabs || heroShouldRenderTabs) return undefined;
@@ -552,8 +574,8 @@ const PageHeaderInner = <
         <div
           className={cn(
             "relative z-[2]",
-            contentClassName ??
-              "space-y-[var(--space-5)] md:space-y-[var(--space-6)]",
+            computedContentSpacing,
+            contentClassName,
           )}
         >
           <Header
