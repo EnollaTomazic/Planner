@@ -23,11 +23,15 @@ export default function PromptsHeader({
   onSave,
   disabled,
 }: PromptsHeaderProps) {
+  const normalizedQuery = React.useMemo(() => query.trim().toLowerCase(), [query]);
+
   const handleChip = React.useCallback(
     (chip: string) => {
-      onQueryChange(chip);
+      const normalizedChip = chip.trim().toLowerCase();
+      const nextQuery = normalizedQuery === normalizedChip ? "" : chip;
+      onQueryChange(nextQuery);
     },
-    [onQueryChange],
+    [normalizedQuery, onQueryChange],
   );
 
   const searchId = `${id}-search`;
@@ -57,11 +61,20 @@ export default function PromptsHeader({
         ),
         children: (
           <div className="hidden sm:flex flex-wrap items-center gap-[var(--space-2)]">
-            {chips.map((chip) => (
-              <Badge key={chip} interactive onClick={() => handleChip(chip)}>
-                {chip}
-              </Badge>
-            ))}
+            {chips.map((chip) => {
+              const isSelected = normalizedQuery === chip.trim().toLowerCase();
+
+              return (
+                <Badge
+                  key={chip}
+                  interactive
+                  selected={isSelected}
+                  onClick={() => handleChip(chip)}
+                >
+                  {chip}
+                </Badge>
+              );
+            })}
           </div>
         ),
         search: {
