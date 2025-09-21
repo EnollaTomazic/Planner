@@ -1,4 +1,7 @@
-import modules from "./generated-manifest";
+import {
+  galleryPreviewModules,
+  type GalleryPreviewModuleManifest,
+} from "./generated-manifest";
 import tokens from "../../../tokens/tokens.js";
 import {
   createGalleryRegistry,
@@ -95,19 +98,47 @@ const mergeSurfaces = (
   return next;
 };
 
-const loadGallerySections = (): GallerySection[] => {
-  const sections: GallerySection[] = [];
+type GalleryModuleExport = {
+  readonly default: GallerySection | readonly GallerySection[];
+};
 
-  for (const mod of modules) {
-    const moduleSections = Array.isArray(mod) ? mod : [mod];
-    sections.push(...moduleSections);
+const moduleSectionCache = new WeakMap<
+  GalleryPreviewModuleManifest,
+  Promise<readonly GallerySection[]>
+>();
+
+const normalizeSections = (
+  exported: GalleryModuleExport["default"],
+): readonly GallerySection[] =>
+  (Array.isArray(exported) ? exported : [exported]) as readonly GallerySection[];
+
+const loadModuleSections = (
+  manifest: GalleryPreviewModuleManifest,
+): Promise<readonly GallerySection[]> => {
+  const cached = moduleSectionCache.get(manifest);
+  if (cached) {
+    return cached;
   }
+  const promise = manifest
+    .loader()
+    .then((mod: GalleryModuleExport) => normalizeSections(mod.default))
+    .catch((error) => {
+      moduleSectionCache.delete(manifest);
+      throw error;
+    });
+  moduleSectionCache.set(manifest, promise);
+  return promise;
+};
 
-  return sections;
+const loadGallerySections = async (): Promise<GallerySection[]> => {
+  const modules = await Promise.all(
+    galleryPreviewModules.map((manifest) => loadModuleSections(manifest)),
+  );
+  return modules.flatMap((moduleSections) => moduleSections);
 };
 
 export const loadGalleryRegistry = async (): Promise<GalleryRegistry> => {
-  const sections = loadGallerySections();
+  const sections = await loadGallerySections();
 
   const enrichedSections = mergeUsageIntoSections(sections, usageMap);
 
