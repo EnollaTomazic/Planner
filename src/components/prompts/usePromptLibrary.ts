@@ -10,8 +10,40 @@ import {
   type PromptWithTitle,
 } from "./types";
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function decodePrompt(value: unknown): Prompt | null {
+  if (!isRecord(value)) return null;
+  const id = value["id"];
+  const text = value["text"];
+  const createdAt = value["createdAt"];
+  if (typeof id !== "string") return null;
+  if (typeof text !== "string") return null;
+  if (typeof createdAt !== "number" || !Number.isFinite(createdAt)) return null;
+  const prompt: Prompt = { id, text, createdAt };
+  const title = value["title"];
+  if (typeof title === "string") {
+    prompt.title = title;
+  }
+  return prompt;
+}
+
+export function decodePrompts(value: unknown): Prompt[] | null {
+  if (!Array.isArray(value)) return null;
+  const result: Prompt[] = [];
+  for (const entry of value) {
+    const prompt = decodePrompt(entry);
+    if (prompt) result.push(prompt);
+  }
+  return result;
+}
+
 export function usePromptLibrary(storageKey: string) {
-  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, []);
+  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, [], {
+    decode: decodePrompts,
+  });
   const [query, setQuery] = React.useState("");
 
   const withTitles = React.useMemo(
