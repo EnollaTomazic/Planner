@@ -23,6 +23,8 @@ import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
 
 const NEO_TABLIST_SHARED_CLASSES = [
+  "data-[variant=neo]:rounded-card",
+  "data-[variant=neo]:r-card-lg",
   "data-[variant=neo]:gap-[var(--space-2)]",
   "data-[variant=neo]:px-[var(--space-2)]",
   "data-[variant=neo]:py-[var(--space-2)]",
