@@ -65,7 +65,7 @@ export default function HeroPlannerCards({
         <div className="md:col-span-4">
           <ReviewsCard />
         </div>
-        <div className="md:col-span-4">
+        <div className="md:col-span-6 lg:col-span-4">
           <DashboardCard
             title="Weekly focus"
             cta={{ label: "Open planner", href: "/planner" }}
@@ -91,7 +91,7 @@ export default function HeroPlannerCards({
             />
           </DashboardCard>
         </div>
-        <div className="md:col-span-12">
+        <div className="md:col-span-6 lg:col-span-8">
           <TeamPromptsCard />
         </div>
       </section>
