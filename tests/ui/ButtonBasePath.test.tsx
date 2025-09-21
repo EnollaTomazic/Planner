@@ -40,6 +40,35 @@ describe("ButtonBasePath", () => {
   });
 });
 
+describe("Button anchor security defaults", () => {
+  it("applies noopener rel for blank targets without rel", async () => {
+    vi.resetModules();
+    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { getByRole } = render(
+      <Button href="https://example.com" target="_blank">
+        External
+      </Button>,
+    );
+
+    expect(getByRole("link")).toHaveAttribute(
+      "rel",
+      "noopener noreferrer",
+    );
+  });
+
+  it("preserves a provided rel for blank targets", async () => {
+    vi.resetModules();
+    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { getByRole } = render(
+      <Button href="https://example.com" rel="external" target="_blank">
+        External
+      </Button>,
+    );
+
+    expect(getByRole("link")).toHaveAttribute("rel", "external");
+  });
+});
+
 describe("QuickActions base path integration", () => {
   it("uses the base path for its internal shortcuts", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
