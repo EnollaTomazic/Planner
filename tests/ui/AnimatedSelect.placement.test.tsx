@@ -9,7 +9,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("AnimatedSelect placement", () => {
+describe("AnimatedSelect", () => {
   it("flips upward when there is limited space below the trigger", async () => {
     const originalRequestAnimationFrame = window.requestAnimationFrame;
     const originalCancelAnimationFrame = window.cancelAnimationFrame;

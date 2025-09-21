@@ -10,7 +10,7 @@ afterEach(() => {
   vi.resetModules();
 });
 
-describe("Button base path handling", () => {
+describe("ButtonBasePath", () => {
   it("prefixes the configured base path for root-relative href", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();

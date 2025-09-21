@@ -20,7 +20,7 @@ afterEach(() => {
   vi.resetModules();
 });
 
-describe("withBasePath", () => {
+describe("WithBasePath", () => {
 
   it("normalizes input when NEXT_PUBLIC_BASE_PATH is unset", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
@@ -92,7 +92,7 @@ describe("withBasePath", () => {
   });
 });
 
-describe("withoutBasePath", () => {
+describe("WithoutBasePath", () => {
   it("returns normalized paths when NEXT_PUBLIC_BASE_PATH is unset", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
     vi.resetModules();

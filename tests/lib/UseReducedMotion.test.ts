@@ -82,7 +82,7 @@ function setupMatchMedia(matches: boolean): MatchMediaController {
   };
 }
 
-describe("usePrefersReducedMotion", () => {
+describe("UseReducedMotion", () => {
   it("returns the current media query value on first render", () => {
     const controller = setupMatchMedia(true);
     const { result } = renderHook(() => usePrefersReducedMotion());

@@ -26,7 +26,7 @@ function TestDialog({ open, onClose }: TestDialogProps) {
   );
 }
 
-describe("useDialogTrap", () => {
+describe("UseDialogTrap", () => {
   it("traps focus inside the dialog and invokes onClose on Escape", async () => {
     const onClose = vi.fn();
 

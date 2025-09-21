@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { usePersistentState, createStorageKey } from "@/lib/db";
 
-describe("usePersistentState", () => {
+describe("UsePersistentState", () => {
   it("ignores unchanged storage values", () => {
     let renders = 0;
     const { result } = renderHook(() => {
