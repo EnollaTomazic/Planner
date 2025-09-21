@@ -168,9 +168,9 @@ export default function ReviewEditor({
       className={cn("transition-none shadow-none", className)}
     >
       <div className="section-h sticky">
-        <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
+        <div className="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]">
           <div className="min-w-0">
-            <div className="mb-2">
+            <div className="mb-[var(--space-2)]">
               <SectionLabel id={laneLabelId}>Lane</SectionLabel>
               <RoleSelector
                 value={role}
@@ -189,7 +189,7 @@ export default function ReviewEditor({
             />
           </div>
 
-          <div className="ml-2 flex shrink-0 items-center justify-end gap-2 self-start">
+          <div className="ml-[var(--space-2)] flex shrink-0 items-center justify-end gap-[var(--space-2)] self-start">
             {onDelete ? (
               <IconButton
                 aria-label="Delete review"
@@ -222,7 +222,7 @@ export default function ReviewEditor({
         </div>
       </div>
 
-      <div className="section-b ds-card-pad space-y-6">
+      <div className="section-b ds-card-pad space-y-[var(--space-6)]">
         <ResultScoreSection
           ref={resultScoreRef}
           result={review.result ?? "Win"}
@@ -235,7 +235,7 @@ export default function ReviewEditor({
 
         {/* Focus */}
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-[var(--space-3)]">
             <button
               type="button"
               aria-label={focusOn ? "Brain light on" : "Brain light off"}
@@ -263,7 +263,7 @@ export default function ReviewEditor({
           {focusOn && (
             <>
               <ReviewSurface
-                className="mt-3 relative h-12"
+                className="mt-[var(--space-3)] relative h-[var(--space-7)]"
                 padding="inline"
                 focusWithin
               >
@@ -288,8 +288,8 @@ export default function ReviewEditor({
                   variant="input"
                 />
               </ReviewSurface>
-              <div className="mt-1 flex items-center gap-2 text-ui text-muted-foreground">
-                <span className="pill h-6 px-2 text-ui">{focus}/10</span>
+              <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground">
+                <span className="pill h-[var(--space-5)] px-[var(--space-2)] text-ui">{focus}/10</span>
                 <span>{focusMsg}</span>
               </div>
             </>
@@ -311,15 +311,15 @@ export default function ReviewEditor({
         {/* Tags */}
         <div>
           <SectionLabel id={tagsLabelId}>Tags</SectionLabel>
-          <div className="mt-1 flex items-center gap-2">
+          <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
             <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Tag className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground" />
               <Input
                 name="tag-input"
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="pl-6"
+                className="pl-[var(--space-6)]"
                 aria-labelledby={tagsLabelId}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -347,16 +347,16 @@ export default function ReviewEditor({
           </div>
 
           {tags.length === 0 ? (
-            <div className="mt-2 text-ui text-muted-foreground/80">
+            <div className="mt-[var(--space-2)] text-ui text-muted-foreground/80">
               No tags yet.
             </div>
           ) : (
-            <div className="mt-2 flex flex-wrap items-center gap-2">
+            <div className="mt-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
               {tags.map((t) => (
                 <button
                   key={t}
                   type="button"
-                  className="chip h-[var(--control-h-lg)] px-4 text-ui group inline-flex items-center gap-1"
+                  className="chip h-[var(--control-h-lg)] px-[var(--space-4)] text-ui group inline-flex items-center gap-[var(--space-1)]"
                   title="Remove tag"
                   onClick={() => removeTag(t)}
                 >
