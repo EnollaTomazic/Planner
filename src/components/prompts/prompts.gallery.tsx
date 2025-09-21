@@ -408,7 +408,16 @@ function PromptsHeaderSearchStatePreview({ state }: { state: SearchState }) {
     }
 
     const frame = requestAnimationFrame(() => {
-      inputRef.current?.focus();
+      const input = inputRef.current;
+      if (!input) {
+        return;
+      }
+
+      try {
+        input.focus({ preventScroll: true });
+      } catch {
+        input.focus();
+      }
     });
 
     return () => cancelAnimationFrame(frame);
@@ -480,8 +489,15 @@ function PromptsComposePanelStatePreview({ state }: { state: ComposeState }) {
     }
 
     const frame = requestAnimationFrame(() => {
-      if (titleRef.current) {
-        titleRef.current.focus();
+      const titleInput = titleRef.current;
+      if (!titleInput) {
+        return;
+      }
+
+      try {
+        titleInput.focus({ preventScroll: true });
+      } catch {
+        titleInput.focus();
       }
     });
 
