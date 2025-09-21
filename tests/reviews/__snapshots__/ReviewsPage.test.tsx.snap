@@ -542,7 +542,6 @@ exports[`ReviewsPage > renders default state 1`] = `
         </section>
       </nav>
       <div
-        aria-live="polite"
         class="md:col-span-4 lg:col-span-8"
       >
         <div
