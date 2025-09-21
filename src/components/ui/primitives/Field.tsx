@@ -87,6 +87,12 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const showHelper = helper !== undefined && helper !== null && helper !== "";
     const showCounter = counter !== undefined && counter !== null && counter !== "";
 
+    const fieldStyles = {
+      "--field-h": resolvedHeight,
+      "--spinner-size": "calc(var(--field-h,var(--control-h-md)) * 0.5)",
+      ...style,
+    } as React.CSSProperties;
+
     return (
       <div
         className={cn(
@@ -97,7 +103,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
         <div
           ref={ref}
           className={cn(FIELD_ROOT_BASE, className)}
-          style={{ "--field-h": resolvedHeight, ...style } as React.CSSProperties}
+          style={fieldStyles}
           data-disabled={disabled ? "true" : undefined}
           data-invalid={invalid ? "true" : undefined}
           data-loading={loading ? "true" : undefined}
@@ -112,7 +118,9 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
               data-slot="spinner"
               className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground"
             >
-              {spinner ?? <Spinner size={16} />}
+              {spinner ?? (
+                <Spinner size="var(--spinner-size, calc(var(--field-h,var(--control-h-md)) * 0.5))" />
+              )}
             </span>
           ) : null}
         </div>

@@ -15,6 +15,8 @@ type ToggleIndicatorStyle = CSSProperties & {
   "--toggle-indicator-gradient"?: string;
 };
 
+const TOGGLE_SPINNER_SIZE = "calc(var(--control-h-md) * 0.5)";
+
 const createLabelGlow = (color: string): ToggleLabelStyle => ({
   "--glow-active": color,
   textShadow: "var(--shadow-glow-md)",
@@ -91,10 +93,14 @@ export default function Toggle({
         className,
       )}
       data-side={value}
+      style={{ "--spinner-size": TOGGLE_SPINNER_SIZE } as CSSProperties}
     >
       {loading ? (
         <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-          <Spinner size={16} className="border-border border-t-transparent opacity-80" />
+          <Spinner
+            size="var(--spinner-size, calc(var(--control-h-md) * 0.5))"
+            className="border-border border-t-transparent opacity-80"
+          />
         </span>
       ) : null}
       {/* Sliding indicator */}
