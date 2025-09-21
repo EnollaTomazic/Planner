@@ -441,7 +441,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         MID
                       </span>
@@ -485,7 +485,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         BOT
                       </span>
@@ -529,7 +529,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-badge transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         TOP
                       </span>
