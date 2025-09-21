@@ -11,7 +11,6 @@ import "./style.css";
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -244,49 +243,47 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
 
   return (
     <div data-scope="team" className="w-full mt-[var(--space-6)]">
-      <SectionCard variant="glitch">
-        <SectionCard.Body>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
-            {/* Allies */}
-            <div className="md:col-span-5">
-              <SideEditor
-                side="allies"
-                title="Allies"
-                icon={<Shield />}
-                value={state.allies}
-                onLane={handleAlliesLane}
-                onNotes={handleAlliesNotes}
-                onClear={handleAlliesClear}
-                onCopy={handleAlliesCopy}
-                count={filledCount.allies}
-              />
-            </div>
-
-              {/* Center spine (md+) */}
-            <div className="hidden md:block relative md:col-span-2">
-              <span
-                aria-hidden
-                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
-              />
-            </div>
-
-              {/* Enemies */}
-            <div className="md:col-span-5">
-              <SideEditor
-                side="enemies"
-                title="Enemies"
-                icon={<Swords />}
-                value={state.enemies}
-                onLane={handleEnemiesLane}
-                onNotes={handleEnemiesNotes}
-                onClear={handleEnemiesClear}
-                onCopy={handleEnemiesCopy}
-                count={filledCount.enemies}
-              />
-            </div>
+      <section className="rounded-card r-card-lg glitch-card relative p-[var(--space-5)] text-card-foreground">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
+          {/* Allies */}
+          <div className="md:col-span-5">
+            <SideEditor
+              side="allies"
+              title="Allies"
+              icon={<Shield />}
+              value={state.allies}
+              onLane={handleAlliesLane}
+              onNotes={handleAlliesNotes}
+              onClear={handleAlliesClear}
+              onCopy={handleAlliesCopy}
+              count={filledCount.allies}
+            />
           </div>
-        </SectionCard.Body>
-      </SectionCard>
+
+          {/* Center spine (md+) */}
+          <div className="hidden md:block relative md:col-span-2">
+            <span
+              aria-hidden
+              className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
+            />
+          </div>
+
+          {/* Enemies */}
+          <div className="md:col-span-5">
+            <SideEditor
+              side="enemies"
+              title="Enemies"
+              icon={<Swords />}
+              value={state.enemies}
+              onLane={handleEnemiesLane}
+              onNotes={handleEnemiesNotes}
+              onClear={handleEnemiesClear}
+              onCopy={handleEnemiesCopy}
+              count={filledCount.enemies}
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 });
@@ -307,7 +304,7 @@ function SideEditor(props: {
   const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
 
   return (
-    <div className="rounded-card p-[var(--space-4)] glitch-card relative">
+    <div className="rounded-card r-card-lg glitch-card relative p-[var(--space-4)] text-card-foreground">
       {/* neon rail */}
       <span aria-hidden className="glitch-rail" />
 

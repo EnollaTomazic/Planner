@@ -3,7 +3,7 @@
 
 /**
  * MyComps — CRUD for custom comps, single-panel version.
- * - One SectionCard: header + add bar + cards grid inside the same panel
+ * - Single glitch panel: header + add bar + cards grid inside the same surface
  * - Add comp (title), edit per-role champs (inline chips), notes
  * - Actions stay reachable on touch: Copy / Edit / Delete; Save when editing
  * - Local-first via usePersistentState("team:mycomps.v1")
@@ -17,7 +17,6 @@ import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
 import { useCoarsePointer } from "@/lib/useCoarsePointer";
-import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
 import Textarea from "@/components/ui/primitives/Textarea";
@@ -242,82 +241,86 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   return (
     <div data-scope="team">
-      <SectionCard className="card-neo-soft">
-        <SectionCard.Header
-          title="My Comps"
-          actions={
-            <span className="text-label font-medium text-muted-foreground tabular-nums">
+      <section className="rounded-card r-card-lg glitch-card relative text-card-foreground">
+        <div className="p-[var(--space-5)]">
+          <header className="flex flex-wrap items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] w-full">
+            <h2 className="text-title sm:text-title-lg font-semibold tracking-[-0.01em]">
+              My Comps
+            </h2>
+            <span className="ml-auto text-label font-medium text-muted-foreground tabular-nums">
               {compCountLabel}
             </span>
-          }
-        />
-        <SectionCard.Body className={PANEL_STACK_SPACE}>
-          {/* Add bar (inside the same panel) */}
-          {editing && (
-            <form
-              onSubmit={addNew}
-              className="rounded-card flex items-center gap-[var(--space-6)] glitch"
-            >
-              <Input
-                dir="ltr"
-                name="comp-title"
-                value={draft}
-                onChange={(e) => setDraft(e.currentTarget.value)}
-                placeholder="New comp title…"
-                aria-label="New comp title"
-                className="flex-1"
-              />
-              <IconButton
-                type="submit"
-                title="Add comp"
-                aria-label="Add comp"
-                size="md"
-                className="shrink-0"
-                variant="primary"
+          </header>
+
+          <div
+            className={["mt-[var(--space-5)] text-ui", PANEL_STACK_SPACE].join(" ")}
+          >
+            {/* Add bar (inside the same panel) */}
+            {editing && (
+              <form
+                onSubmit={addNew}
+                className="rounded-card flex items-center gap-[var(--space-6)] glitch"
               >
-                <Plus />
-              </IconButton>
-            </form>
-          )}
-
-          {/* Empty states */}
-          {items.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
-              No comps yet. Type a title above and press Enter.
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
-              Nothing matches your search.
-            </div>
-          ) : null}
-
-          {/* Cards grid */}
-          <div className="grid grid-cols-12 gap-[var(--space-4)]">
-            {filtered.map((c) => {
-              const editingCard = editingId === c.id;
-              const showActions = isCoarsePointer || editing || editingCard;
-              const actionClasses = [
-                "absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] transition-opacity",
-                showActions
-                  ? "opacity-100 pointer-events-auto"
-                  : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto",
-              ].join(" ");
-
-              return (
-                <article
-                  key={c.id}
-                  className="col-span-12 md:col-span-6 xl:col-span-4 group glitch-card relative p-[var(--space-7)]"
+                <Input
+                  dir="ltr"
+                  name="comp-title"
+                  value={draft}
+                  onChange={(e) => setDraft(e.currentTarget.value)}
+                  placeholder="New comp title…"
+                  aria-label="New comp title"
+                  className="flex-1"
+                />
+                <IconButton
+                  type="submit"
+                  title="Add comp"
+                  aria-label="Add comp"
+                  size="md"
+                  className="shrink-0"
+                  variant="primary"
                 >
-                  {/* Action controls: copy, edit, delete, save */}
-                  <div className={actionClasses}>
-                    {!editingCard ? (
-                      <>
-                        <IconButton
-                          title="Copy"
-                          aria-label="Copy"
-                          size="sm"
-                          onClick={() => copyOne(c)}
-                        >
+                  <Plus />
+                </IconButton>
+              </form>
+            )}
+
+            {/* Empty states */}
+            {items.length === 0 ? (
+              <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
+                No comps yet. Type a title above and press Enter.
+              </div>
+            ) : filtered.length === 0 ? (
+              <div className="rounded-card r-card-lg p-[var(--space-6)] text-ui font-medium text-muted-foreground border border-border">
+                Nothing matches your search.
+              </div>
+            ) : null}
+
+            {/* Cards grid */}
+            <div className="grid grid-cols-12 gap-[var(--space-4)]">
+              {filtered.map((c) => {
+                const editingCard = editingId === c.id;
+                const showActions = isCoarsePointer || editing || editingCard;
+                const actionClasses = [
+                  "absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] transition-opacity",
+                  showActions
+                    ? "opacity-100 pointer-events-auto"
+                    : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto",
+                ].join(" ");
+
+                return (
+                  <article
+                    key={c.id}
+                    className="col-span-12 md:col-span-6 xl:col-span-4 group rounded-card r-card-lg glitch-card relative p-[var(--space-7)]"
+                  >
+                    {/* Action controls: copy, edit, delete, save */}
+                    <div className={actionClasses}>
+                      {!editingCard ? (
+                        <>
+                          <IconButton
+                            title="Copy"
+                            aria-label="Copy"
+                            size="sm"
+                            onClick={() => copyOne(c)}
+                          >
                           {copiedId === c.id ? (
                             <ClipboardCheck />
                           ) : (
@@ -443,9 +446,10 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                 </article>
               );
             })}
+            </div>
           </div>
-        </SectionCard.Body>
-      </SectionCard>
+        </div>
+      </section>
     </div>
   );
 }
