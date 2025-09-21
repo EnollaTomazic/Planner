@@ -156,7 +156,7 @@ export default function ColorsView({ groups }: ColorsViewProps) {
             />
           </div>
         </div>
-        <Badge size="xs" tone="support">
+        <Badge size="sm" tone="support">
           {countLabel}
         </Badge>
       </header>
@@ -178,7 +178,7 @@ export default function ColorsView({ groups }: ColorsViewProps) {
               <UiSectionCard.Header
                 title={group.label}
                 actions={
-                  <Badge size="xs" tone="support">
+                  <Badge size="sm" tone="support">
                     {tokenCount} {tokenSuffix}
                   </Badge>
                 }

@@ -1315,9 +1315,11 @@ export default function ComponentGallery() {
       {
         label: "Badge Sizes",
         element: (
-          <div className="w-56 flex justify-center gap-[var(--space-2)]">
-            <Badge size="xs">XS</Badge>
+          <div className="w-56 flex flex-wrap justify-center gap-[var(--space-2)]">
             <Badge size="sm">SM</Badge>
+            <Badge size="md">MD</Badge>
+            <Badge size="lg">LG</Badge>
+            <Badge size="xl">XL</Badge>
           </div>
         ),
       },

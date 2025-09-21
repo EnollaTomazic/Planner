@@ -3,7 +3,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-type Size = "xs" | "sm";
+type BaseSize = "sm" | "md" | "lg" | "xl";
+type Size = "xs" | BaseSize;
 type Tone =
   | "neutral"
   | "primary"
@@ -28,9 +29,16 @@ export type BadgeProps<T extends React.ElementType = "span"> =
   BadgeOwnProps<T> &
     Omit<React.ComponentPropsWithoutRef<T>, keyof BadgeOwnProps<T>>;
 
+const baseSizeMap: Record<BaseSize, string> = {
+  sm: "px-[var(--space-2)] py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)]",
+  md: "px-[var(--space-3)] py-[var(--space-2)] text-label leading-none [&_svg]:size-[var(--icon-size-sm)]",
+  lg: "px-[var(--space-4)] py-[var(--space-2)] text-ui leading-none [&_svg]:size-[var(--icon-size-md)]",
+  xl: "px-[var(--space-5)] py-[var(--space-3)] text-title leading-none [&_svg]:size-[var(--icon-size-xl)]",
+};
+
 const sizeMap: Record<Size, string> = {
-  xs: "px-[var(--space-2)] py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)]",
-  sm: "px-[var(--space-3)] py-[var(--space-2)] text-label leading-none [&_svg]:size-[var(--icon-size-sm)]",
+  xs: baseSizeMap.sm,
+  ...baseSizeMap,
 };
 
 const toneBorder: Record<Tone, string> = {
@@ -48,7 +56,7 @@ export default function Badge<T extends React.ElementType = "span">(
   props: BadgeProps<T>,
 ) {
   const {
-    size = "sm",
+    size = "md",
     tone = "neutral",
     interactive = false,
     selected,

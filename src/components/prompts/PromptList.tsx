@@ -36,7 +36,7 @@ export default function PromptList({ prompts, query }: PromptListProps) {
           {q ? (
             <>
               No prompts match
-              <Badge size="xs" tone="neutral">{q}</Badge>
+              <Badge size="sm" tone="neutral">{q}</Badge>
             </>
           ) : (
             "No prompts saved yet"
