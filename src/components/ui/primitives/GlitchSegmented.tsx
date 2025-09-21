@@ -71,7 +71,7 @@ export const GlitchSegmentedGroup = ({
       aria-label={ariaLabelledby ? undefined : ariaLabel}
       aria-labelledby={ariaLabelledby}
       className={cn(
-        "inline-flex rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)] gap-[var(--space-1)]",
+        "inline-flex rounded-[var(--control-radius)] bg-[var(--btn-bg)] p-[var(--space-1)] gap-[var(--space-1)]",
         "[--hover:hsl(var(--foreground)/0.08)] [--focus:hsl(var(--ring))] [--active:hsl(var(--foreground)/0.12)] [--disabled:0.5]",
         className,
       )}
@@ -115,7 +115,7 @@ export const GlitchSegmentedButton = React.forwardRef<
       className={cn(
         styles.glitchScanlines,
         "flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none",
-        "rounded-[var(--radius-full)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
+        "rounded-[var(--control-radius)] transition focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
         "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active]",
         "motion-safe:hover:-translate-y-px motion-safe:hover:shadow-neon-soft",
         "motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none",
