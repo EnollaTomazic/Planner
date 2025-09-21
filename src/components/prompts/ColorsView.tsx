@@ -145,7 +145,7 @@ export default function ColorsView({ groups }: ColorsViewProps) {
               and z-index tokens. Copy any token for quick use in new surfaces.
             </p>
           </div>
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-[calc(var(--space-8)*7)]">
             <SearchBar
               value={query}
               onValueChange={setQuery}
