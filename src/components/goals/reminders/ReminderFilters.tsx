@@ -38,7 +38,7 @@ export default function ReminderFilters() {
               onClick={toggleFilters}
               aria-expanded={showFilters}
               title="Filters"
-              isActive={showFilters}
+              selected={showFilters}
             >
               <SlidersHorizontal className="icon-sm" aria-hidden />
               Filters
@@ -60,7 +60,7 @@ export default function ReminderFilters() {
             onClick={togglePinned}
             aria-pressed={onlyPinned}
             title="Pinned only"
-            isActive={onlyPinned}
+            selected={onlyPinned}
           >
             {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
             {onlyPinned ? "Pinned only" : "Any pin"}

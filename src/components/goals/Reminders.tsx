@@ -206,7 +206,7 @@ export default function Reminders() {
               onClick={() => setOnlyPinned(v => !v)}
               aria-pressed={onlyPinned}
               title="Pinned only"
-              isActive={onlyPinned}
+              selected={onlyPinned}
             >
               {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
               {onlyPinned ? "Pinned only" : "Any pin"}

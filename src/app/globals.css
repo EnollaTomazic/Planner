@@ -1180,7 +1180,7 @@ textarea:-webkit-autofill {
 
 /* Compact pill */
 .pill-compact {
-  @apply inline-flex items-center rounded-full border border-card-hairline px-2 py-1 text-label font-medium tracking-[0.02em] leading-tight;
+  @apply inline-flex items-center rounded-full border border-card-hairline px-[var(--space-2)] py-[var(--space-1)] text-label font-medium tracking-[0.02em] leading-tight;
   background-color: hsl(var(--muted) / 0.18);
 }
 .pill-compact:hover {
