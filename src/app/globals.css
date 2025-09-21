@@ -3,13 +3,11 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --shell-width: 1280px;
     --shell-max: var(--shell-width);
     --accent-2-foreground: var(--background);
     --danger-foreground: var(--primary-foreground);
     --asset-noise-url: url("/noise.svg");
     --asset-glitch-gif-url: url("/glitch-gif.gif");
-    --shadow-dropdown: 0 12px 40px hsl(var(--shadow-color) / 0.55);
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;

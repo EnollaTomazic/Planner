@@ -87,6 +87,8 @@
   --control-radius: var(--radius-xl);
   --control-fs: var(--font-ui);
   --control-px: var(--spacing-3);
+  --shell-width: 1280px;
+  --shell-max: var(--shell-width);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --edge-iris: conic-gradient(
     from 180deg,
@@ -104,6 +106,7 @@
   );
   --seg-active-base: hsl(var(--card));
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
+  --shadow-dropdown: 0 12px 40px hsl(var(--shadow-color) / 0.55);
   --shadow-neo-sm: calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))
       hsl(var(--panel) / 0.72),
     calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))
@@ -197,6 +200,7 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
+  --visually-hidden-top: -9999px;
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
