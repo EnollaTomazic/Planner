@@ -121,7 +121,7 @@ function TimestampMarkers(
   return (
     <div>
       <SectionLabel>Timestamps</SectionLabel>
-      <div className="mt-1 flex items-center gap-2">
+      <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
         <button
           type="button"
           aria-label="Use timestamp"
@@ -165,8 +165,8 @@ function TimestampMarkers(
         </button>
       </div>
 
-      <div className="mt-3 grid gap-2">
-        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2">
+      <div className="mt-[var(--space-3)] grid gap-[var(--space-2)]">
+        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-[var(--space-2)]">
           {useTimestamp ? (
             <Input
               ref={timeRef}
@@ -194,7 +194,7 @@ function TimestampMarkers(
               }}
             />
           ) : (
-            <span className="pill h-7 w-16 px-0 flex items-center justify-center">
+            <span className="pill flex h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] items-center justify-center px-0">
               <FileText aria-hidden className="icon-xs opacity-80" />
             </span>
           )}
@@ -229,26 +229,26 @@ function TimestampMarkers(
           </IconButton>
         </div>
         {timeError && (
-          <p id="tTime-error" className="mt-1 text-ui text-danger">
+          <p id="tTime-error" className="mt-[var(--space-1)] text-ui text-danger">
             Enter time as mm:ss
           </p>
         )}
 
         {sortedMarkers.length === 0 ? (
-          <div className="mt-2 text-ui text-muted-foreground">No timestamps yet.</div>
+          <div className="mt-[var(--space-2)] text-ui text-muted-foreground">No timestamps yet.</div>
         ) : (
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-[var(--space-3)] space-y-[var(--space-2)]">
             {sortedMarkers.map((m) => (
               <li
                 key={m.id}
-                className="grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-card r-card-lg border border-border bg-card px-3 py-2"
+                className="grid grid-cols-[auto_1fr_auto] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border bg-card px-[var(--space-3)] py-[var(--space-2)]"
               >
                 {m.noteOnly ? (
-                  <span className="pill h-7 w-16 px-0 flex items-center justify-center">
+                  <span className="pill flex h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] items-center justify-center px-0">
                     <FileText aria-hidden className="icon-xs opacity-80" />
                   </span>
                 ) : (
-                  <span className="pill h-7 w-16 px-3 text-ui font-mono tabular-nums text-center">{m.time}</span>
+                  <span className="pill h-[calc(var(--space-6) - var(--space-1))] w-[var(--space-8)] px-[var(--space-3)] text-ui font-mono tabular-nums text-center">{m.time}</span>
                 )}
 
                 <span className="truncate text-ui">{m.note}</span>

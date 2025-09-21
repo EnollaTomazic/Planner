@@ -9,13 +9,13 @@ exports[`ReviewEditor > renders default state 1`] = `
       class="section-h sticky"
     >
       <div
-        class="grid w-full grid-cols-[1fr_auto] items-center gap-4"
+        class="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]"
       >
         <div
           class="min-w-0"
         >
           <div
-            class="mb-2"
+            class="mb-[var(--space-2)]"
           >
             <div
               class="mb-2 flex items-center gap-2"
@@ -397,12 +397,12 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
         </div>
         <div
-          class="ml-2 flex shrink-0 items-center justify-end gap-2 self-start"
+          class="ml-[var(--space-2)] flex shrink-0 items-center justify-end gap-[var(--space-2)] self-start"
         />
       </div>
     </div>
     <div
-      class="section-b ds-card-pad space-y-6"
+      class="section-b ds-card-pad space-y-[var(--space-6)]"
     >
       <div>
         <div
@@ -543,7 +543,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="flex items-center gap-3"
+          class="flex items-center gap-[var(--space-3)]"
         >
           <button
             aria-label="Brain light off"
@@ -1592,7 +1592,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="mt-1 flex items-center gap-2"
+          class="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]"
         >
           <button
             aria-label="Use timestamp"
@@ -1957,10 +1957,10 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
         </div>
         <div
-          class="mt-3 grid gap-2"
+          class="mt-[var(--space-3)] grid gap-[var(--space-2)]"
         >
           <div
-            class="grid grid-cols-[auto_1fr_auto] items-center gap-2"
+            class="grid grid-cols-[auto_1fr_auto] items-center gap-[var(--space-2)]"
           >
             <div
               class="flex w-full flex-col gap-[var(--space-1)]"
@@ -2034,13 +2034,13 @@ exports[`ReviewEditor > renders default state 1`] = `
             </button>
           </div>
           <p
-            class="mt-1 text-ui text-danger"
+            class="mt-[var(--space-1)] text-ui text-danger"
             id="tTime-error"
           >
             Enter time as mm:ss
           </p>
           <div
-            class="mt-2 text-ui text-muted-foreground"
+            class="mt-[var(--space-2)] text-ui text-muted-foreground"
           >
             No timestamps yet.
           </div>
@@ -2061,14 +2061,14 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="mt-1 flex items-center gap-2"
+          class="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]"
         >
           <div
             class="relative flex-1"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-tag pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              class="lucide lucide-tag pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -2093,7 +2093,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
                 style="--field-h: var(--control-h-md);"
               >
                 <input
@@ -2138,7 +2138,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </button>
         </div>
         <div
-          class="mt-2 text-ui text-muted-foreground/80"
+          class="mt-[var(--space-2)] text-ui text-muted-foreground/80"
         >
           No tags yet.
         </div>

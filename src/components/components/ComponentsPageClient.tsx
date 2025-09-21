@@ -429,14 +429,14 @@ export default function ComponentsPageClient({
   React.useEffect(() => {
     const previousView = previousViewRef.current;
     if (view !== "tokens" && previousView === "tokens") {
-      componentsPanelRef.current?.focus();
+      componentsPanelRef.current?.focus({ preventScroll: true });
     }
     previousViewRef.current = view;
   }, [view]);
 
   React.useEffect(() => {
     if (view === "tokens") {
-      tokensPanelRef.current?.focus();
+      tokensPanelRef.current?.focus({ preventScroll: true });
     }
   }, [view]);
 

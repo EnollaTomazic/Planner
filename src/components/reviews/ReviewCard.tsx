@@ -33,7 +33,7 @@ export default function ReviewCard({
       aria-disabled={isDisabled ? true : undefined}
       aria-busy={isLoading ? true : undefined}
       className={cn(
-        "group rounded-card r-card-lg border border-border bg-card/85 p-3",
+        "group rounded-card r-card-lg border border-border bg-card/85 p-[var(--space-3)]",
         "transition-colors transition-shadow duration-200 focus-visible:outline-none",
         "shadow-neoSoft",
         "hover:border-ring/60 hover:bg-card hover:shadow-ring",
@@ -44,9 +44,9 @@ export default function ReviewCard({
         "data-[state=loading]:pointer-events-none data-[state=loading]:opacity-80 data-[state=loading]:shadow-outline-faint data-[state=loading]:cursor-progress",
       )}
     >
-      <div className="flex items-start gap-2">
+      <div className="flex items-start gap-[var(--space-2)]">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-[var(--space-2)]">
             <h3
               className={cn(
                 "truncate font-semibold transition-colors",
@@ -69,7 +69,7 @@ export default function ReviewCard({
             </IconButton>
           </div>
 
-          <div className="mt-1 text-ui text-muted-foreground grid grid-cols-2 gap-2">
+          <div className="mt-[var(--space-1)] text-ui text-muted-foreground grid grid-cols-2 gap-[var(--space-2)]">
             <span>Opponent: {review.opponent || "—"}</span>
             <span>Lane: {review.lane || "—"}</span>
             <span>Side: {review.side || "—"}</span>
@@ -79,7 +79,7 @@ export default function ReviewCard({
           </div>
 
           {Array.isArray(review.tags) && review.tags.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className="mt-[var(--space-2)] flex flex-wrap gap-[var(--space-2)]">
               {review.tags.slice(0, 6).map((t) => (
                 <Badge key={t} size="xs" tone="accent">
                   {t}
