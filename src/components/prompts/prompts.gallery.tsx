@@ -170,7 +170,7 @@ function PromptsHeaderChipStatePreview({ state }: { state: ChipState }) {
           state === "hover" && "bg-muted/28",
           state === "focus-visible" && CHIP_FOCUS_RING,
           state === "pressed" &&
-            "bg-muted/36 translate-y-[var(--space-1)] shadow-badge",
+            "bg-muted/36 translate-y-[var(--space-1)] shadow-outline-subtle",
           state === "loading" && "pointer-events-none",
         )}
         aria-pressed={state === "pressed" ? "true" : undefined}
@@ -1854,7 +1854,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   <Badge
     interactive
     aria-pressed="true"
-    className="bg-muted/36 translate-y-[var(--space-1)] shadow-badge"
+    className="bg-muted/36 translate-y-[var(--space-1)] shadow-outline-subtle"
   >
     Pressed
   </Badge>
