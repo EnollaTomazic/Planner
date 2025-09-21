@@ -47,6 +47,17 @@ const frameClassName = cn(
   "group-focus-within/component-view:before:opacity-55",
 );
 
+function GalleryPreviewFallback() {
+  return (
+    <div
+      aria-busy="true"
+      className="flex min-h-[var(--space-24)] items-center justify-center text-label text-muted-foreground"
+    >
+      Loading preview…
+    </div>
+  );
+}
+
 function ShowCodeButton({
   controls,
   expanded,
@@ -382,7 +393,11 @@ function StatePreviewCard({
         <div className="text-ui text-muted-foreground">Preview unavailable</div>
       );
     }
-    return <>{previewRenderer()}</>;
+    return (
+      <React.Suspense fallback={<GalleryPreviewFallback />}>
+        {previewRenderer()}
+      </React.Suspense>
+    );
   }, [previewRenderer]);
 
   return (
@@ -446,7 +461,11 @@ export default function ComponentsView({
         <div className="text-ui text-muted-foreground">Preview unavailable</div>
       );
     }
-    return <>{previewRenderer()}</>;
+    return (
+      <React.Suspense fallback={<GalleryPreviewFallback />}>
+        {previewRenderer()}
+      </React.Suspense>
+    );
   }, [previewRenderer]);
 
   const variantAxes = React.useMemo(

@@ -1,11 +1,29 @@
 {
   "bottom-nav": [],
+  "dashboard-card": [
+    "/"
+  ],
+  "dashboard-list": [
+    "/"
+  ],
   "isometric-room": [
     "/"
   ],
+  "quick-action-grid": [],
+  "hero-portrait-frame": [],
+  "welcome-hero-figure": [
+    "/"
+  ],
+  "review-surface": [],
+  "review-slider-track": [],
+  "score-meter": [],
+  "review-list-item": [],
+  "lane-opponent-form": [],
+  "result-score-section": [],
+  "pillars-selector": [],
+  "timestamp-markers": [],
   "goals-progress": [],
   "goal-list-demo": [],
-  "quick-action-grid": [],
   "reminders-tab": [],
   "timer-ring": [],
   "timer-tab": [],
@@ -17,8 +35,11 @@
   "champ-list-editor": [],
   "pillar-badge": [],
   "pillar-selector": [],
-  "lane-opponent-form": [],
-  "result-score-section": [],
-  "pillars-selector": [],
-  "timestamp-markers": []
+  "role-selector": [],
+  "theme-picker": [],
+  "background-picker": [],
+  "settings-select": [],
+  "theme-toggle": [
+    "/"
+  ]
 }
