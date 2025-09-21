@@ -91,119 +91,144 @@ export default function TodayHeroTasks({
             {visibleTasks.map((task) => {
               const isEditing = editingTaskId === task.id;
               return (
-                <li
-                  key={task.id}
-                  className={cn(
-                    "task-tile flex items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)]",
-                    "border-border bg-card/55 hover:bg-card/70",
-                  )}
-                  role="listitem"
-                  tabIndex={0}
-                  onClick={(event: MouseEvent<HTMLLIElement>) => {
-                    if (event.defaultPrevented) return;
-                    const target = event.target as Element | null;
-                    if (
-                      target?.closest(
-                        "button, a, input, textarea, select, [role='button'], [role='link'], [role='checkbox'], [role='menuitem'], [role='switch']",
-                      )
-                    ) {
-                      return;
-                    }
-                    onTaskSelect(task.id);
-                  }}
-                  onKeyDown={(event: KeyboardEvent<HTMLLIElement>) => {
-                    if (event.defaultPrevented) return;
-                    if (event.currentTarget !== event.target) {
-                      return;
-                    }
-                    if (
-                      event.key === "Enter" ||
-                      event.key === " " ||
-                      event.key === "Spacebar"
-                    ) {
-                      event.preventDefault();
+                <li key={task.id} className="group relative" role="listitem">
+                  <button
+                    type="button"
+                    aria-label={`Select task ${task.title}`}
+                    onClick={(event: MouseEvent<HTMLButtonElement>) => {
+                      if (event.defaultPrevented) return;
+                      if (event.target !== event.currentTarget) return;
                       onTaskSelect(task.id);
-                    }
-                  }}
-                >
-                  <div className="flex items-center gap-[var(--space-3)]">
-                    <CheckCircle
-                      checked={task.done}
-                      onChange={() => {
-                        onTaskToggle(task.id);
-                      }}
-                      size="sm"
-                    />
-                    {isEditing ? (
-                      <Input
-                        name={`rename-task-${task.id}`}
-                        autoFocus
-                        value={editingTaskText}
-                        onChange={(event) => onTaskRenameChange(event.target.value)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
+                    }}
+                    onKeyDown={(event: KeyboardEvent<HTMLButtonElement>) => {
+                      if (event.defaultPrevented) return;
+                      if (event.currentTarget !== event.target) {
+                        return;
+                      }
+                      if (
+                        event.key === "Enter" ||
+                        event.key === " " ||
+                        event.key === "Spacebar"
+                      ) {
+                        event.preventDefault();
+                        onTaskSelect(task.id);
+                      }
+                    }}
+                    className={cn(
+                      "task-tile absolute inset-0 w-full rounded-card r-card-lg border transition-colors",
+                      "border-border bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
+                      "group-hover:bg-card/70 group-active:bg-card/80 group-focus-within:bg-card/70",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                      "group-focus-within:ring-2 group-focus-within:ring-ring group-focus-within:ring-offset-0",
+                    )}
+                  >
+                    <span className="sr-only">{`Select task ${task.title}`}</span>
+                  </button>
+
+                  <div
+                    className={cn(
+                      "pointer-events-none relative z-[1] flex w-full items-center justify-between",
+                      "rounded-card r-card-lg px-[var(--space-3)] py-[var(--space-2)]",
+                    )}
+                  >
+                    <div className="pointer-events-none flex items-center gap-[var(--space-3)]">
+                      <div
+                        className="pointer-events-auto"
+                        onClick={(event) => event.stopPropagation()}
+                        onPointerDown={(event) => event.stopPropagation()}
+                      >
+                        <CheckCircle
+                          checked={task.done}
+                          onChange={() => {
+                            onTaskToggle(task.id);
+                          }}
+                          size="sm"
+                        />
+                      </div>
+                      {isEditing ? (
+                        <Input
+                          name={`rename-task-${task.id}`}
+                          autoFocus
+                          value={editingTaskText}
+                          onChange={(event) => onTaskRenameChange(event.target.value)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter") {
+                              onTaskRenameCommit(task.id, task.title);
+                            }
+                            if (event.key === "Escape") onTaskRenameCancel();
+                          }}
+                          onBlur={() => {
                             onTaskRenameCommit(task.id, task.title);
-                          }
-                          if (event.key === "Escape") onTaskRenameCancel();
-                        }}
-                        onBlur={() => {
-                          onTaskRenameCommit(task.id, task.title);
-                        }}
-                        aria-label={`Rename task ${task.title}`}
-                      />
-                    ) : (
-                      <button
-                        type="button"
-                        className={cn(
-                          "task-tile__text",
-                          task.done && "line-through-soft",
-                        )}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          onTaskEditOpen(task.id, task.title);
-                        }}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
+                          }}
+                          onClick={(event) => event.stopPropagation()}
+                          onPointerDown={(event) => event.stopPropagation()}
+                          className="pointer-events-auto"
+                          aria-label={`Rename task ${task.title}`}
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          className={cn(
+                            "task-tile__text pointer-events-auto",
+                            task.done && "line-through-soft",
+                          )}
+                          onClick={(event) => {
                             event.stopPropagation();
                             onTaskEditOpen(task.id, task.title);
-                          }
-                        }}
-                        aria-label={`Edit task ${task.title}`}
-                        title="Edit task"
-                      >
-                        {task.title}
-                      </button>
-                    )}
-                  </div>
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              onTaskEditOpen(task.id, task.title);
+                            }
+                          }}
+                          onPointerDown={(event) => event.stopPropagation()}
+                          aria-label={`Edit task ${task.title}`}
+                          title="Edit task"
+                        >
+                          {task.title}
+                        </button>
+                      )}
+                    </div>
 
-                  <div className="flex items-center gap-[var(--space-2)]">
-                    <IconButton
-                      aria-label={`Edit task ${task.title}`}
-                      title="Edit"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onTaskEditOpen(task.id, task.title, { select: true });
-                      }}
-                      size="sm"
-                      variant="ghost"
-                      iconSize="xs"
+                    <div
+                      className={cn(
+                        "flex items-center gap-[var(--space-2)]",
+                        isEditing
+                          ? "opacity-0 pointer-events-none"
+                          : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
+                      )}
                     >
-                      <Pencil />
-                    </IconButton>
-                    <IconButton
-                      aria-label="Remove task"
-                      title="Remove"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onTaskDelete(task.id);
-                      }}
-                      size="sm"
-                      variant="ghost"
-                      iconSize="xs"
-                    >
-                      <Trash2 />
-                    </IconButton>
+                      <IconButton
+                        aria-label={`Edit task ${task.title}`}
+                        title="Edit"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onTaskEditOpen(task.id, task.title, { select: true });
+                        }}
+                        onPointerDown={(event) => event.stopPropagation()}
+                        size="sm"
+                        variant="ghost"
+                        iconSize="xs"
+                      >
+                        <Pencil />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Remove task"
+                        title="Remove"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onTaskDelete(task.id);
+                        }}
+                        onPointerDown={(event) => event.stopPropagation()}
+                        size="sm"
+                        variant="ghost"
+                        iconSize="xs"
+                      >
+                        <Trash2 />
+                      </IconButton>
+                    </div>
                   </div>
                 </li>
               );

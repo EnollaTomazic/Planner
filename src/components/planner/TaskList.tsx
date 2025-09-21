@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Label from "@/components/ui/Label";
 import Input from "@/components/ui/primitives/Input";
 import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
@@ -33,6 +34,7 @@ export default function TaskList({
   setSelectedTaskId,
 }: Props) {
   const [draftTask, setDraftTask] = React.useState("");
+  const newTaskInputId = React.useId();
   const tasksForSelected = React.useMemo(
     () => {
       if (!selectedProjectId) return [] as DayTask[];
@@ -63,13 +65,16 @@ export default function TaskList({
       renderComposer={
         hasSelectedProject
           ? () => (
-              <form onSubmit={onSubmit}>
+              <form onSubmit={onSubmit} className="grid gap-[var(--space-2)]">
+                <Label htmlFor={newTaskInputId} className="mb-0">
+                  New task
+                </Label>
                 <Input
+                  id={newTaskInputId}
                   className="w-full"
                   placeholder="> add task…"
                   value={draftTask}
                   onChange={(e) => setDraftTask(e.target.value)}
-                  aria-label="Add task"
                 />
               </form>
             )
