@@ -476,7 +476,7 @@ function HomePageContent() {
                               variant="primary"
                               size="sm"
                               tactile
-                              className="whitespace-nowrap px-4"
+                              className="whitespace-nowrap"
                             >
                               <Link href="/planner">Plan Week</Link>
                             </Button>
@@ -561,7 +561,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center p-6">
+        <div className="flex justify-center p-[var(--space-6)]">
           <Spinner />
         </div>
       }
