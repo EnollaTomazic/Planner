@@ -3,6 +3,7 @@
 import "./style.css";
 
 import * as React from "react";
+import Badge from "@/components/ui/primitives/Badge";
 import { sanitizeList } from "@/lib/sanitizeList";
 import { cn } from "@/lib/utils";
 
@@ -25,8 +26,8 @@ export type ChampListEditorProps = {
 const VIEW_CONTAINER = "champ-badges mt-[var(--space-1)]";
 const EDIT_CONTAINER =
   "champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]";
-const PILL_BASE =
-  "champ-badge glitch-pill border-border bg-card text-foreground text-label font-medium tracking-[0.02em]";
+const PILL_CLASSNAME =
+  "bg-card text-foreground text-label tracking-[0.02em] border-border";
 const INPUT_BASE =
   "bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24";
 
@@ -85,13 +86,15 @@ export default function ChampListEditor({
       if (emptyLabel === undefined) return null;
       return (
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
-          <span
-            className={cn(PILL_BASE, pillClassName)}
-            aria-disabled="true"
+          <Badge
+            glitch
+            size="xs"
+            disabled
+            className={cn(PILL_CLASSNAME, pillClassName)}
           >
             <i className="dot" />
             {emptyLabel}
-          </span>
+          </Badge>
         </div>
       );
     }
@@ -99,10 +102,15 @@ export default function ChampListEditor({
     return (
       <div className={cn(VIEW_CONTAINER, viewClassName)}>
         {normalized.map((champ, index) => (
-          <span key={index} className={cn(PILL_BASE, pillClassName)}>
+          <Badge
+            key={index}
+            glitch
+            size="xs"
+            className={cn(PILL_CLASSNAME, pillClassName)}
+          >
             <i className="dot" />
             {champ}
-          </span>
+          </Badge>
         ))}
       </div>
     );
@@ -111,9 +119,11 @@ export default function ChampListEditor({
   return (
     <div className={cn(EDIT_CONTAINER, editClassName)}>
       {workingList.map((champ, index) => (
-        <span
+        <Badge
           key={index}
-          className={cn(PILL_BASE, editPillClassName ?? pillClassName)}
+          glitch
+          size="xs"
+          className={cn(PILL_CLASSNAME, editPillClassName ?? pillClassName)}
         >
           <i className="dot" />
           <input
@@ -135,7 +145,7 @@ export default function ChampListEditor({
             autoComplete="off"
             className={cn(INPUT_BASE, inputClassName)}
           />
-        </span>
+        </Badge>
       ))}
     </div>
   );

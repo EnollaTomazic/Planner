@@ -709,7 +709,6 @@ export default function CheatSheet({
                             list={champs}
                             onChange={setChamps}
                             editing={isEditing}
-                            editPillClassName="champ-badge border-border bg-card text-foreground text-label font-medium tracking-[0.02em]"
                           />
                         </div>
                       );

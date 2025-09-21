@@ -31,7 +31,7 @@ export default function ReviewList({
   if (count === 0) {
     return (
       <Card className={containerClass}>
-        <div className="flex flex-col items-center justify-center gap-[var(--space-3)] p-[var(--space-6)] text-ui text-muted-foreground">
+        <div className="ds-card-pad flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
           <Tv className="size-[var(--space-5)] opacity-60" />
           <p>No reviews yet</p>
           <Button variant="primary" onClick={onCreate}>

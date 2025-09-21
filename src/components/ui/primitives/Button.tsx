@@ -223,7 +223,9 @@ export const variants: Record<
   primary: ({ tone, tactile }) => ({
     className: cn(
       "shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
-      tactile ? "active:translate-y-0" : "active:translate-y-px",
+      tactile
+        ? "active:translate-y-0"
+        : "active:translate-y-[var(--spacing-0-25)]",
       tone === "primary"
         ? "bg-primary-soft"
         : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
