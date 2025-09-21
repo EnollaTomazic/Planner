@@ -2,7 +2,10 @@
 
 This directory splits the planner logic into focused modules:
 
-- `plannerStore.ts` – React contexts with persistent planner data (`days`, `focus`, and selection). Wrap planner pages with `PlannerProvider` and consume state via `useDays`, `useFocus`, and `useSelection`.
+- `plannerTypes.ts` – Shared planner type definitions (`ISODate`, `DayRecord`, `Project`, etc.).
+- `plannerSerialization.ts` – Pure helpers for decoding storage, computing aggregates, and pruning stale days.
+- `plannerContext.tsx` – React contexts with persistent planner data (`days`, `focus`, and selection). Wrap planner pages with `PlannerProvider` and consume state via `useDays`, `useFocus`, and `useSelection`.
+- `plannerStore.ts` – Re-exports the shared types, serialization helpers, and context entry points for backwards compatibility.
 - `plannerCrud.ts` – Factory for project and task CRUD helpers. Given a day ISO string and an `upsertDay` function, it returns operations like `addProject` and `toggleTask`.
 - `usePlannerStore.ts` – Hook exposing persistent planner state and CRUD helpers for the current focus day.
 - `useFocusDate.ts` – Hooks for managing the focused date and deriving week information.

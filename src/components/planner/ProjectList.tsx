@@ -8,7 +8,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
-import type { Project } from "./plannerStore";
+import type { Project } from "./plannerTypes";
 
 type Props = {
   projects: Project[];

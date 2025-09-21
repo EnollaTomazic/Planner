@@ -6,7 +6,7 @@ import { Calendar } from "lucide-react";
 
 import { toISODate } from "@/lib/date";
 import IconButton from "@/components/ui/primitives/IconButton";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 
 const HEADER_TITLE = "Today";
 

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { pruneOldDays, type DayRecord } from "@/components/planner";
+import { pruneOldDays } from "@/components/planner/plannerSerialization";
+import type { DayRecord } from "@/components/planner/plannerTypes";
 import { fromISODate, toISODate } from "@/lib/date";
 
 function createDay(): DayRecord {

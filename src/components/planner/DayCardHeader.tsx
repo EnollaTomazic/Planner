@@ -3,7 +3,7 @@
 import * as React from "react";
 import { formatIsoLabel } from "@/lib/date";
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 
 type Props = {
   iso: ISODate;

@@ -1,12 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  useSelection,
-  useDays,
-  type ISODate,
-  type Selection,
-} from "./plannerStore";
+import { useSelection as usePlannerSelection, useDays } from "./plannerContext";
+import type { ISODate, Selection } from "./plannerTypes";
 
 type SelectionGetter = (selection: Selection | undefined) => string;
 type SelectionProducer = (
@@ -23,7 +19,7 @@ export function useSelectionState(
   iso: ISODate,
   { getCurrentId, produceSelection }: SelectionStrategy,
 ): readonly [string, (id: string) => void] {
-  const { selected, setSelected } = useSelection();
+  const { selected, setSelected } = usePlannerSelection();
   const current = getCurrentId(selected[iso]);
 
   const setId = React.useCallback(
