@@ -77,6 +77,7 @@ export interface WelcomeHeroFigureProps {
   imageSizes?: string;
   haloTone?: WelcomeHeroFigureTone;
   showGlitchRail?: boolean;
+  framed?: boolean;
 }
 
 export default function WelcomeHeroFigure({
@@ -84,9 +85,26 @@ export default function WelcomeHeroFigure({
   imageSizes = defaultSizes,
   haloTone = "default",
   showGlitchRail,
+  framed = true,
 }: WelcomeHeroFigureProps) {
   const toneVariables = haloToneVariables[haloTone];
   const shouldShowGlitchRail = showGlitchRail ?? haloTone === "default";
+
+  const image = (
+    <Image
+      src="/BEST_ONE_EVAH.png"
+      alt="Planner assistant sharing a colorful dashboard scene"
+      fill
+      priority
+      loading="eager"
+      decoding="async"
+      sizes={imageSizes}
+      className={cn(
+        "relative z-[1] h-full w-full object-contain object-center",
+        framed && "rounded-full",
+      )}
+    />
+  );
 
   return (
     <figure
@@ -113,31 +131,26 @@ export default function WelcomeHeroFigure({
           className="glitch-rail pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*1.05)] rounded-full mix-blend-screen opacity-[var(--welcome-figure-glitch-opacity)]"
         />
       ) : null}
-      <div
-        className="relative flex h-full w-full items-center justify-center rounded-full shadow-neoSoft ring-1 ring-border/50"
-        style={rimStyle}
-      >
+      {framed ? (
         <div
-          className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-neo-inset"
-          style={innerStyle}
+          className="relative flex h-full w-full items-center justify-center rounded-full shadow-neoSoft ring-1 ring-border/50"
+          style={rimStyle}
         >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full"
-            style={overlayStyle}
-          />
-          <Image
-            src="/BEST_ONE_EVAH.png"
-            alt="Planner assistant sharing a colorful dashboard scene"
-            fill
-            priority
-            loading="eager"
-            decoding="async"
-            sizes={imageSizes}
-            className="relative z-[1] h-full w-full object-contain object-center"
-          />
+          <div
+            className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-neo-inset"
+            style={innerStyle}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-full"
+              style={overlayStyle}
+            />
+            {image}
+          </div>
         </div>
-      </div>
+      ) : (
+        image
+      )}
     </figure>
   );
 }

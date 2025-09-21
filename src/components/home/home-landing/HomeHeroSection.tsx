@@ -36,11 +36,12 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
             sticky: false,
             barClassName: "flex-wrap gap-y-[var(--space-3)] md:flex-nowrap",
             right: (
-              <div className="flex basis-full justify-center md:basis-auto md:justify-end">
+              <div className="flex basis-full items-center justify-center md:basis-auto md:justify-end md:pl-[var(--space-3)]">
                 <WelcomeHeroFigure
-                  className="w-full max-w-[calc(var(--space-7)*5)] md:w-[calc(var(--space-7)*5)] lg:w-[calc(var(--space-7)*6)]"
+                  className="w-full max-w-[calc(var(--space-8)*4)] md:max-w-[calc(var(--space-8)*4.5)] lg:max-w-[calc(var(--space-8)*5)]"
                   haloTone={haloTone}
                   showGlitchRail={showGlitchRail}
+                  framed={false}
                 />
               </div>
             ),
