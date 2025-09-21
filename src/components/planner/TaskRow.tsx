@@ -20,22 +20,22 @@ const layoutClasses =
 
 type Props = {
   task: DayTask;
-  onToggle: () => void;
-  onDelete: () => void;
-  onEdit: (title: string) => void;
-  onSelect: () => void;
-  onAddImage: (url: string) => void;
-  onRemoveImage: (url: string, index: number) => void;
+  toggleTask: () => void;
+  deleteTask: () => void;
+  renameTask: (title: string) => void;
+  selectTask: () => void;
+  addImage: (url: string) => void;
+  removeImage: (url: string, index: number) => void;
 };
 
 export default function TaskRow({
   task,
-  onToggle,
-  onDelete,
-  onEdit,
-  onSelect,
-  onAddImage,
-  onRemoveImage,
+  toggleTask,
+  deleteTask,
+  renameTask,
+  selectTask,
+  addImage,
+  removeImage,
 }: Props) {
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
@@ -90,8 +90,8 @@ export default function TaskRow({
   );
 
   const handleRowClick = React.useCallback(() => {
-    onSelect();
-  }, [onSelect]);
+    selectTask();
+  }, [selectTask]);
 
   const handleRowKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -99,14 +99,14 @@ export default function TaskRow({
 
       if (event.key === "Enter") {
         event.preventDefault();
-        onSelect();
+        selectTask();
       }
 
       if (event.key === " " || event.key === "Spacebar") {
         event.preventDefault();
       }
     },
-    [onSelect],
+    [selectTask],
   );
 
   const handleRowKeyUp = React.useCallback(
@@ -115,10 +115,10 @@ export default function TaskRow({
 
       if (event.key === " " || event.key === "Spacebar") {
         event.preventDefault();
-        onSelect();
+        selectTask();
       }
     },
-    [onSelect],
+    [selectTask],
   );
 
   function start() {
@@ -131,21 +131,21 @@ export default function TaskRow({
       setTitle(task.title);
       return;
     }
-    if (v !== task.title) onEdit(v);
+    if (v !== task.title) renameTask(v);
   }
   function cancel() {
     setEditing(false);
     setTitle(task.title);
   }
 
-  function addImage() {
+  function commitImage() {
     const error = validateImageUrl(trimmedImageUrl);
     if (error) {
       setImageError(error);
       return;
     }
 
-    onAddImage(trimmedImageUrl);
+    addImage(trimmedImageUrl);
     setImageUrl("");
     setImageError(null);
   }
@@ -188,7 +188,7 @@ export default function TaskRow({
             <CheckCircle
               checked={task.done}
               onChange={() => {
-                if (!editing) onToggle();
+                if (!editing) toggleTask();
               }}
               aria-label={`Toggle ${task.title} done`}
               size="sm"
@@ -202,7 +202,7 @@ export default function TaskRow({
                 className="task-tile__text block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-card r-card-lg"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onToggle();
+                  toggleTask();
                 }}
                 onDoubleClick={(e) => {
                   e.stopPropagation();
@@ -264,7 +264,7 @@ export default function TaskRow({
               title="Delete"
               onClick={(e) => {
                 e.stopPropagation();
-                onDelete();
+                deleteTask();
               }}
               onPointerDown={(e) => e.stopPropagation()}
               size="sm"
@@ -298,7 +298,7 @@ export default function TaskRow({
               <IconButton
                 aria-label="Remove image"
                 title="Remove image"
-                onClick={() => onRemoveImage(url, index)}
+                onClick={() => removeImage(url, index)}
                 size="sm"
                 iconSize="xs"
                 variant="ghost"
@@ -312,7 +312,7 @@ export default function TaskRow({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addImage();
+          commitImage();
         }}
         className="mt-[var(--space-2)] flex items-center gap-[var(--space-2)]"
       >

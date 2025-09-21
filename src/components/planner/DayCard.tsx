@@ -81,7 +81,7 @@ export default function DayCard({ iso, isToday }: Props) {
           toggleProject={toggleProject}
           renameProject={renameProject}
           deleteProject={deleteProject}
-          onAdd={addProject}
+          addProject={addProject}
         />
       </div>
       {selectedProjectId && (
