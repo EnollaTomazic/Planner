@@ -46,6 +46,7 @@ export type TeamComp = {
 };
 
 const DB_KEY = "team:mycomps.v1";
+const PANEL_STACK_SPACE = "space-y-[var(--space-6)]" as const;
 
 /* ───────────── Seeds ───────────── */
 
@@ -250,7 +251,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
             </span>
           }
         />
-        <SectionCard.Body className="space-y-[var(--space-6)]">
+        <SectionCard.Body className={PANEL_STACK_SPACE}>
           {/* Add bar (inside the same panel) */}
           {editing && (
             <form
