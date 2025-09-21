@@ -95,18 +95,20 @@ export default function ReviewsPage({
           sticky: false,
           topClassName: "top-[var(--header-stack)]",
           heading: "Browse Reviews",
-          subtitle: <span className="pill">Total {base.length}</span>,
+          subtitle: (
+            <p className="text-ui text-muted-foreground">Total {base.length}</p>
+          ),
           search: {
             round: true,
             value: q,
             onValueChange: setQ,
             placeholder: "Search title, tags, opponent, patch…",
             "aria-label": "Search reviews",
-            className: "flex-1",
+            className: "w-full md:w-7/12",
           },
           actions: (
-            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
-              <label className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+            <div className="grid w-full grid-cols-1 gap-[var(--space-2)] md:grid-cols-12 md:items-center md:gap-[var(--space-3)]">
+              <label className="flex w-full flex-col gap-[var(--space-1)] md:col-span-7 md:flex-row md:items-center md:gap-[var(--space-2)]">
                 <span className="text-ui font-medium text-muted-foreground">
                   Sort
                 </span>
@@ -120,7 +122,7 @@ export default function ReviewsPage({
                     { value: "oldest", label: "Oldest" },
                     { value: "title", label: "Title" },
                   ]}
-                  className="w-full sm:w-auto"
+                  className="w-full"
                   size="lg"
                 />
               </label>
@@ -128,7 +130,7 @@ export default function ReviewsPage({
                 type="button"
                 variant="primary"
                 size="lg"
-                className="w-full whitespace-nowrap px-[var(--space-4)] sm:w-auto"
+                className="w-full whitespace-nowrap px-[var(--space-4)] md:col-span-5 md:justify-self-end"
                 onClick={() => {
                   setQ("");
                   setSort("newest");
