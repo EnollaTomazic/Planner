@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import type { FormEvent } from "react";
 
 import { cn } from "@/lib/utils";
+import Label from "@/components/ui/Label";
 import Button from "@/components/ui/primitives/Button";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
@@ -55,6 +56,7 @@ export default function TodayHeroProjects({
   onProjectRenameCancel,
   onToggleShowAllProjects,
 }: TodayHeroProjectsProps) {
+  const newProjectInputId = `${projectsListId}-new-project`;
   const activeProjectOptionId = visibleProjects.some(
     (project) => project.id === selectedProjectId,
   )
@@ -63,13 +65,16 @@ export default function TodayHeroProjects({
 
   return (
     <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
-      <form onSubmit={onProjectFormSubmit}>
+      <form onSubmit={onProjectFormSubmit} className="grid gap-[var(--space-2)]">
+        <Label htmlFor={newProjectInputId} className="mb-0">
+          New project
+        </Label>
         <Input
+          id={newProjectInputId}
           name="new-project"
           placeholder="> new project…"
           value={projectName}
           onChange={(event) => onProjectNameChange(event.target.value)}
-          aria-label="New project"
           className="w-full"
         />
       </form>

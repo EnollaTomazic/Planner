@@ -524,6 +524,11 @@ export const Button = React.forwardRef<
     };
     let resolvedHref = href;
 
+    const resolvedRel =
+      target === "_blank" && typeof rel === "undefined"
+        ? "noopener noreferrer"
+        : rel;
+
     if (typeof href === "string") {
       const trimmedHref = href.trim();
       const hasScheme = /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(trimmedHref);
@@ -544,7 +549,7 @@ export const Button = React.forwardRef<
         ref={ref as React.ForwardedRef<HTMLAnchorElement>}
         href={resolvedHref}
         target={target}
-        rel={rel}
+        rel={resolvedRel}
         download={download}
         aria-disabled={isDisabled ? true : undefined}
       >
