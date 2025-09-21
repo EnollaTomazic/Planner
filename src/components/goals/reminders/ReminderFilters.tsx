@@ -32,6 +32,7 @@ export default function ReminderFilters() {
           size="md"
           align="between"
           className="overflow-x-auto"
+          linkPanels={false}
           right={
             <SegmentedButton
               className="inline-flex items-center gap-[var(--space-1)]"
@@ -55,6 +56,7 @@ export default function ReminderFilters() {
             onValueChange={(key) => setSource(key as SourceFilter)}
             ariaLabel="Reminder source filter"
             size="sm"
+            linkPanels={false}
           />
           <SegmentedButton
             onClick={togglePinned}
