@@ -250,7 +250,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
             </span>
           }
         />
-        <SectionCard.Body className="space-y-8">
+        <SectionCard.Body className="space-y-[var(--space-6)]">
           {/* Add bar (inside the same panel) */}
           {editing && (
             <form
@@ -361,7 +361,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                   <span aria-hidden className="glitch-rail" />
 
                   {/* header */}
-                  <header className="mb-3">
+                  <header className="mb-[var(--space-3)]">
                     {!editingCard ? (
                       <h3
                         className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg font-semibold tracking-[-0.01em]"

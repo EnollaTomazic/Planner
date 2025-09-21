@@ -482,7 +482,7 @@ export default function TimerTab() {
 
             {/* progress bar */}
             <div className="mt-[var(--space-6)] w-full">
-              <div className="relative h-2 w-full rounded-full bg-background/20 shadow-neo-inset">
+              <div className="relative h-[var(--space-2)] w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
                   className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-[width] duration-[var(--dur-quick)] ease-linear"
