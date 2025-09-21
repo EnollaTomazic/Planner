@@ -90,18 +90,18 @@ export default function TaskList({
             <TaskRow
               key={t.id}
               task={t}
-              onToggle={() => {
+              toggleTask={() => {
                 toggleTask(t.id);
                 setSelectedTaskId(t.id);
               }}
-              onDelete={() => {
+              deleteTask={() => {
                 deleteTask(t.id);
                 setSelectedTaskId("");
               }}
-              onEdit={(title) => renameTask(t.id, title)}
-              onSelect={() => setSelectedTaskId(t.id)}
-              onAddImage={(url) => addTaskImage(t.id, url)}
-              onRemoveImage={(url, index) => removeTaskImage(t.id, url, index)}
+              renameTask={(title) => renameTask(t.id, title)}
+              selectTask={() => setSelectedTaskId(t.id)}
+              addImage={(url) => addTaskImage(t.id, url)}
+              removeImage={(url, index) => removeTaskImage(t.id, url, index)}
             />
           ))}
         </ul>
