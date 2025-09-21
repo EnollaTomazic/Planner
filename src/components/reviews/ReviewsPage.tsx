@@ -44,6 +44,8 @@ export default function ReviewsPage({
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
 
   const handleCreateReview = React.useCallback(() => {
+    setQ("");
+    setSort("newest");
     setDetailMode("edit");
     onCreate();
   }, [onCreate]);
@@ -137,11 +139,7 @@ export default function ReviewsPage({
                 variant="primary"
                 size="md"
                 className="w-full whitespace-nowrap sm:w-auto"
-                onClick={() => {
-                  setQ("");
-                  setSort("newest");
-                  handleCreateReview();
-                }}
+                onClick={handleCreateReview}
               >
                 <Plus />
                 <span>New Review</span>
