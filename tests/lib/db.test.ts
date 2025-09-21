@@ -200,7 +200,7 @@ describe("scheduleWrite", () => {
     expect(stringifySpy).toHaveBeenCalledTimes(1);
     expect(structuredCloneSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(
-      `Skipping persistence for "${key}" because value could not be cloned.`,
+      `[planner:persistence] Skipping persistence for "${key}" because value could not be cloned.`,
       value,
     );
 
@@ -226,7 +226,7 @@ describe("scheduleWrite", () => {
       scheduleWrite(key, value);
 
       expect(warnSpy).toHaveBeenCalledWith(
-        `Skipping persistence for "${key}" because value.self contains a circular reference.`,
+        `[planner:persistence] Skipping persistence for "${key}" because value.self contains a circular reference.`,
         value,
       );
 

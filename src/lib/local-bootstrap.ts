@@ -1,3 +1,5 @@
+import { persistenceLogger } from "./logging";
+
 export function parseJSON<T>(raw: string | null): T | null {
   if (!raw) return null;
   try {
@@ -12,7 +14,11 @@ export function readLocal<T>(key: string): T | null {
     const raw =
       typeof window === "undefined" ? null : window.localStorage.getItem(key);
     return parseJSON<T>(raw);
-  } catch {
+  } catch (error) {
+    persistenceLogger.warn(
+      `local-bootstrap readLocal("${key}") failed; returning null.`,
+      error,
+    );
     return null;
   }
 }
@@ -25,8 +31,11 @@ export function writeLocal(key: string, value: unknown) {
     } else {
       window.localStorage.setItem(key, JSON.stringify(value));
     }
-  } catch {
-    // ignore
+  } catch (error) {
+    persistenceLogger.warn(
+      `local-bootstrap writeLocal("${key}") failed; ignoring value.`,
+      error,
+    );
   }
 }
 
