@@ -16,6 +16,8 @@ export default function NotFound() {
 
   return (
     <main
+      id="main-content"
+      tabIndex={-1}
       className="flex min-h-screen flex-col items-center justify-center gap-[var(--space-3)] px-[var(--space-4)] py-[var(--space-5)] text-center"
       aria-labelledby={headerId}
     >

@@ -372,7 +372,6 @@ function GoalsPageContent() {
   return (
     <PageShell
       as="main"
-      id="goals-main"
       aria-labelledby="goals-header"
       className="py-[var(--space-6)]"
     >
