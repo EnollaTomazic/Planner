@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { useFocus, type ISODate } from "./plannerStore";
+import { useFocus } from "./plannerContext";
+import type { ISODate } from "./plannerTypes";
 
 /**
  * Exposes the currently focused ISO date and helper to update it.

@@ -10,7 +10,7 @@ import { useEffect, useMemo } from "react";
 
 import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
 
-import type { ISODate } from "./plannerStore";
+import type { ISODate } from "./plannerTypes";
 import TodayHeroHeader from "./TodayHeroHeader";
 import TodayHeroProjects from "./TodayHeroProjects";
 import TodayHeroTasks from "./TodayHeroTasks";
