@@ -427,7 +427,9 @@ function HomePageContent() {
   const [theme] = useTheme();
   useThemeQuerySync();
 
-  const floatingSurfaceClass =
+  const heroSurfaceClass =
+    "relative z-10 isolate rounded-[var(--radius-2xl)] bg-card/30 shadow-neoSoft backdrop-blur-lg";
+  const contentSurfaceClass =
     "relative z-10 isolate rounded-[var(--radius-2xl)] border border-border/50 bg-card/30 shadow-neoSoft backdrop-blur-lg";
   const floatingPaddingClass =
     "p-[var(--space-4)] md:p-[var(--space-5)]";
@@ -445,7 +447,7 @@ function HomePageContent() {
             className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset"
           />
           <div className="relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]">
-            <div className={cn(floatingSurfaceClass, floatingPaddingClass)}>
+            <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
               <section
                 id="landing-hero"
                 role="region"
@@ -497,7 +499,7 @@ function HomePageContent() {
             <div
               className={cn(
                 "space-y-[var(--space-7)]",
-                floatingSurfaceClass,
+                contentSurfaceClass,
                 floatingPaddingClass,
               )}
             >
