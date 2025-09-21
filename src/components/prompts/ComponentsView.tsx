@@ -26,6 +26,7 @@ interface ShowCodeButtonProps {
 
 const containerClassName = cn(
   "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
+  "rounded-card r-card-lg",
   "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
   "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
   "px-[var(--space-6)] py-[var(--space-5)]",
