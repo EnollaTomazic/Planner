@@ -201,7 +201,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
             <ul className="mt-[var(--space-3)] flex flex-wrap gap-[var(--space-2)]">
               {axis.values.map((value) => (
                 <li key={value.value} className="flex flex-col gap-[var(--space-1)]">
-                  <Badge tone="support" size="sm" className="text-muted-foreground">
+                  <Badge tone="support" size="md" className="text-muted-foreground">
                     {value.value}
                   </Badge>
                   {value.description ? (
@@ -317,7 +317,7 @@ function StatesSection({
                 <ul className="flex flex-wrap gap-[var(--space-2)]">
                   {axis.values.map((value) => (
                     <li key={value.value}>
-                      <Badge tone="support" size="sm" className="text-muted-foreground">
+                      <Badge tone="support" size="md" className="text-muted-foreground">
                         {value.value}
                       </Badge>
                     </li>

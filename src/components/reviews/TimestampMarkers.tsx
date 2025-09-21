@@ -180,7 +180,7 @@ function TimestampMarkers(
           ) : (
             <Badge
               as="span"
-              size="sm"
+              size="md"
               className="min-w-[var(--space-8)] justify-center text-ui"
             >
               <FileText aria-hidden className="icon-xs opacity-80" />
@@ -235,7 +235,7 @@ function TimestampMarkers(
                 {m.noteOnly ? (
                   <Badge
                     as="span"
-                    size="sm"
+                    size="md"
                     className="min-w-[var(--space-8)] justify-center text-ui"
                   >
                     <FileText aria-hidden className="icon-xs opacity-80" />
@@ -243,7 +243,7 @@ function TimestampMarkers(
                 ) : (
                   <Badge
                     as="span"
-                    size="sm"
+                    size="md"
                     className="min-w-[var(--space-8)] justify-center font-mono tabular-nums text-ui"
                   >
                     {m.time}

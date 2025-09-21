@@ -288,7 +288,7 @@ function RemTile({
                 as="button"
                 interactive
                 tone="primary"
-                size="xs"
+                size="sm"
                 onClick={togglePinned}
                 title={togglePinnedLabel}
                 aria-label={togglePinnedLabel}
