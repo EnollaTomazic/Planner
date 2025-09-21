@@ -161,7 +161,7 @@ export default function ReviewEditor({
       variant="plain"
       className={cn("transition-none shadow-none", className)}
     >
-      <div className="section-h sticky">
+      <SectionCard.Header sticky topClassName="top-0">
         <div className="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]">
           <div className="min-w-0">
             <div className="mb-[var(--space-2)]">
@@ -214,9 +214,9 @@ export default function ReviewEditor({
             ) : null}
           </div>
         </div>
-      </div>
+      </SectionCard.Header>
 
-      <div className="section-b ds-card-pad space-y-[var(--space-6)]">
+      <SectionCard.Body className="space-y-[var(--space-6)]">
         <ResultScoreSection
           ref={resultScoreRef}
           result={review.result ?? "Win"}
@@ -374,7 +374,7 @@ export default function ReviewEditor({
             aria-labelledby={notesLabelId}
           />
         </div>
-      </div>
+      </SectionCard.Body>
     </SectionCard>
   );
 }

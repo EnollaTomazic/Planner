@@ -6,7 +6,7 @@ exports[`ReviewEditor > renders default state 1`] = `
     class="shadow-neo-strong rounded-card r-card-lg text-card-foreground card-soft transition-none shadow-none"
   >
     <div
-      class="section-h sticky"
+      class="section-h sticky top-0"
     >
       <div
         class="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]"
@@ -330,7 +330,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     <input
                       aria-label="Lane (used as Title)"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
-                      id=":r4:"
+                      id=":r5:"
                       name="lane"
                       placeholder="Ashe/Lulu"
                       type="text"
@@ -346,7 +346,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               >
                 <h3
                   class="text-ui tracking-wide text-muted-foreground"
-                  id=":r3:"
+                  id=":r4:"
                 >
                   Opponent
                 </h3>
@@ -382,9 +382,9 @@ exports[`ReviewEditor > renders default state 1`] = `
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
-                      aria-labelledby=":r3:"
+                      aria-labelledby=":r4:"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
-                      id=":r5:"
+                      id=":r6:"
                       name="opponent"
                       placeholder="Draven/Thresh"
                       type="text"
@@ -402,7 +402,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
     </div>
     <div
-      class="section-b ds-card-pad space-y-[var(--space-6)]"
+      class="section-b space-y-[var(--space-6)]"
     >
       <div>
         <div
@@ -410,7 +410,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r6:"
+            id=":r7:"
           >
             Result
           </h3>
@@ -420,7 +420,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         </div>
         <button
           aria-checked="true"
-          aria-labelledby=":r6:"
+          aria-labelledby=":r7:"
           class="relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           role="switch"
           title="Toggle Win/Loss"
@@ -453,7 +453,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r7:"
+            id=":r8:"
           >
             Score
           </h3>
@@ -466,7 +466,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <input
             aria-label="Score from 0 to 10"
-            aria-labelledby=":r7:"
+            aria-labelledby=":r8:"
             class="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
             max="10"
             min="0"
@@ -1979,7 +1979,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   aria-invalid="true"
                   aria-label="Timestamp time in mm:ss"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
-                  id=":r8:"
+                  id=":r9:"
                   inputmode="numeric"
                   name="timestamp-time"
                   pattern="^[0-9]?\\d:[0-5]\\d$"
@@ -1999,7 +1999,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <input
                   aria-label="Timestamp note"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
-                  id=":r9:"
+                  id=":ra:"
                   name="timestamp-note"
                   placeholder="Quick note"
                   type="text"
@@ -2103,7 +2103,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <input
                   aria-labelledby=":r1:"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)]"
-                  id=":ra:"
+                  id=":rb:"
                   name="tag-input"
                   placeholder="Add tag and press Enter"
                   type="text"
@@ -2171,8 +2171,8 @@ exports[`ReviewEditor > renders default state 1`] = `
             <textarea
               aria-labelledby=":r2:"
               class="block w-full max-w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
-              id=":rb:"
-              name="rb"
+              id=":rc:"
+              name="rc"
               placeholder="Key moments, mistakes to fix, drills to run…"
             />
           </div>
