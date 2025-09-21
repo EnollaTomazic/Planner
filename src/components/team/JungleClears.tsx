@@ -343,6 +343,7 @@ export default React.forwardRef<
             <SectionCard key={bucket} className="col-span-12 md:col-span-6">
               <SectionCard.Header
                 sticky
+                topClassName="top-[var(--header-stack)]"
                 title={
                   <div className="flex items-center gap-[var(--space-2)]">
                     <Timer className="opacity-80" />
