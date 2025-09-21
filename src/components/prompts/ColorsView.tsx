@@ -347,7 +347,7 @@ function RadiusPreview({ name }: { name: string }) {
       aria-hidden="true"
     >
       <div
-        className="aspect-square w-full max-w-[var(--space-8)] border border-[var(--card-hairline)] bg-panel/70"
+        className="aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70"
         style={{ borderRadius: `var(--${name})` }}
       />
     </div>
