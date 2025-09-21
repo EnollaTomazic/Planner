@@ -116,8 +116,8 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       : "relative z-[2] mt-[var(--space-4)] md:mt-[var(--space-5)] flex flex-col gap-[var(--space-4)] md:gap-[var(--space-5)]";
 
     const actionRow = frame
-      ? "flex flex-wrap items-start gap-[var(--space-4)] md:flex-nowrap md:items-center md:gap-[var(--space-5)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
-      : "flex flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center md:gap-[var(--space-4)] lg:gap-[var(--space-5)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
+      ? "flex w-full min-w-0 flex-wrap items-start gap-[var(--space-4)] md:flex-nowrap md:items-center md:justify-between md:gap-[var(--space-5)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
+      : "flex w-full min-w-0 flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center md:justify-between md:gap-[var(--space-4)] lg:gap-[var(--space-5)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
     const heading = cn(
       "font-semibold tracking-[-0.01em] text-balance break-words text-foreground",
