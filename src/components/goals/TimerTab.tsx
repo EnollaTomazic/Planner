@@ -510,7 +510,7 @@ export default function TimerTab() {
                   className="gap-[var(--space-2)]"
                   onClick={pause}
                   title="Pause"
-                  isActive
+                  selected
                 >
                   <Pause />
                   Pause

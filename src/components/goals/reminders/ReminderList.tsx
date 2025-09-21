@@ -210,7 +210,7 @@ function RemTile({
                 <SegmentedButton
                   key={groupKey}
                   onClick={() => onChange({ group: groupKey })}
-                  isActive={value.group === groupKey}
+                  selected={value.group === groupKey}
                   className="m-[var(--space-1)]"
                 >
                   {groupKey === "pregame" ? "Pre-Game" : capitalize(groupKey)}
@@ -224,7 +224,7 @@ function RemTile({
                   <SegmentedButton
                     key={sourceKey}
                     onClick={() => onChange({ source: sourceKey })}
-                    isActive={value.source === sourceKey}
+                    selected={value.source === sourceKey}
                     className="m-[var(--space-1)]"
                   >
                     {sourceKey}
@@ -238,7 +238,7 @@ function RemTile({
                 <SegmentedButton
                   key={domainKey}
                   onClick={() => onChange({ domain: domainKey })}
-                  isActive={(value.domain ?? "League") === domainKey}
+                  selected={(value.domain ?? "League") === domainKey}
                   className="m-[var(--space-1)]"
                 >
                   {domainKey}
