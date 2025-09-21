@@ -596,7 +596,7 @@ export default function CheatSheet({
           <article
             key={a.id}
             className={[
-              "group glitch-card relative h-full",
+              "group glitch-card rounded-card r-card-lg relative h-full",
               dense
                 ? "p-[var(--space-4)]"
                 : "p-[var(--space-5)]",
