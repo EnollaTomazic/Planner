@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Card,
-  IconButton,
-  Input,
-  Textarea,
-  CheckCircle,
-} from "@/components/ui";
+import { IconButton, Input, Textarea, CheckCircle } from "@/components/ui";
 import { Trash2, Flag, Pencil, X, Check } from "lucide-react";
 import { shortDate } from "@/lib/date";
 import type { Goal } from "@/lib/types";
@@ -61,12 +55,12 @@ export default function GoalList({
     <ul className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [grid-auto-rows:minmax(0,1fr)] list-none m-0 p-0">
       {goals.length === 0 ? (
         <li className="flex">
-          <Card className="card-neo-soft card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground">
+          <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline/60 bg-surface">
             <Flag aria-hidden className="h-6 w-6 text-accent" />
             <p className="max-w-[30ch]">
               No goals here. Add one simple, finishable thing.
             </p>
-          </Card>
+          </div>
         </li>
       ) : (
         goals.map((g) => {
@@ -74,11 +68,9 @@ export default function GoalList({
           const headingId = `goal-${g.id}-heading`;
           return (
             <li key={g.id} className="flex">
-              <Card
-                asChild
-                className="card-neo-soft card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col"
+              <article
+                className="card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col rounded-card border border-card-hairline/60 bg-surface text-card-foreground transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--surface))] hover:bg-surface-2 focus-within:bg-surface-2"
               >
-                <article>
                   <header className="flex items-start justify-between gap-[var(--space-2)]">
                     <div className="flex-1 pr-[var(--space-6)]">
                       <h3
@@ -227,7 +219,6 @@ export default function GoalList({
                     </span>
                   </footer>
                 </article>
-              </Card>
             </li>
           );
         })
