@@ -11,6 +11,7 @@ import {
 } from "@/components/ui";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
+import { useTheme } from "@/lib/theme-context";
 
 const CHECKERBOARD_STYLE: React.CSSProperties = {
   backgroundImage:
@@ -259,6 +260,8 @@ function TokenPreview({ token }: { token: TokenMeta }) {
 }
 
 function ColorPreview({ name }: { name: string }) {
+  const [theme] = useTheme();
+  const { variant, bg } = theme;
   const swatchRef = React.useRef<HTMLDivElement | null>(null);
   const [resolvedColor, setResolvedColor] = React.useState<string | null>(null);
   const [isTranslucent, setIsTranslucent] = React.useState(false);
@@ -305,7 +308,7 @@ function ColorPreview({ name }: { name: string }) {
 
     setResolvedColor(color);
     setIsTranslucent(translucent);
-  }, [name]);
+  }, [bg, name, variant]);
 
   return (
     <div

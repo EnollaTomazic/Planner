@@ -15,16 +15,43 @@ export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 const SegmentedButton = React.forwardRef<
   HTMLElement,
   SegmentedButtonProps
->(({ as: Comp = "button", selected, isActive, className, type, loading, disabled, href, ...props }, ref) => {
+>(
+  (
+    {
+      as: Comp = "button",
+      selected,
+      isActive,
+      className,
+      type,
+      loading,
+      disabled,
+      href,
+      onClick,
+      tabIndex,
+      ...restProps
+    },
+    ref,
+  ) => {
   const resolvedSelected = selected ?? isActive ?? false;
   const cls = cn("btn-like-segmented", resolvedSelected && "is-active", className);
-  const typeProp =
-    Comp === "button" && (props as React.ButtonHTMLAttributes<HTMLButtonElement>).type === undefined
-      ? { type: type ?? "button" }
-      : {};
+  const typeProp = Comp === "button" ? { type: type ?? "button" } : {};
   const isDisabled = disabled || loading;
   const isButton = Comp === "button";
   const isLink = !isButton && (Comp === "a" || href !== undefined);
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (isDisabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      if (onClick) {
+        (onClick as React.MouseEventHandler<HTMLElement>)(event);
+      }
+    },
+    [isDisabled, onClick],
+  );
+  const shouldHandleClick = isDisabled || Boolean(onClick);
   return (
     <Comp
       ref={ref as React.Ref<HTMLElement>}
@@ -33,12 +60,16 @@ const SegmentedButton = React.forwardRef<
       disabled={isButton ? isDisabled : undefined}
       aria-pressed={isButton ? resolvedSelected : undefined}
       aria-current={isLink ? (resolvedSelected ? "page" : undefined) : undefined}
-      href={isLink ? href : undefined}
       {...typeProp}
-      {...props}
+      {...restProps}
+      href={isLink && !isDisabled ? href : undefined}
+      aria-disabled={isLink && isDisabled ? true : undefined}
+      tabIndex={isLink && isDisabled ? -1 : tabIndex}
+      onClick={shouldHandleClick ? handleClick : undefined}
     />
   );
-});
+  },
+);
 
 SegmentedButton.displayName = "SegmentedButton";
 export default SegmentedButton;

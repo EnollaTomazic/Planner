@@ -1716,7 +1716,8 @@ export const galleryPayload = {
           "name": "Split",
           "tags": [
             "split",
-            "layout"
+            "layout",
+            "theme"
           ],
           "kind": "component",
           "code": "<Split left={<div>Left</div>} right={<div>Right</div>} />",
@@ -2010,7 +2011,7 @@ export const galleryPayload = {
             "demo"
           ],
           "kind": "primitive",
-          "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Disabled example\n  </button>\n</div>",
+          "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] [--focus:var(--focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] [--focus:var(--focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n  >\n    Disabled example\n  </button>\n</div>",
           "preview": {
             "id": "prompts:feedback:outline-glow"
           }
@@ -4380,7 +4381,7 @@ export const galleryPayload = {
           "demo"
         ],
         "kind": "primitive",
-        "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Disabled example\n  </button>\n</div>",
+        "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] [--focus:var(--focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] [--focus:var(--focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n  >\n    Disabled example\n  </button>\n</div>",
         "preview": {
           "id": "prompts:feedback:outline-glow"
         }
@@ -5293,7 +5294,8 @@ export const galleryPayload = {
         "name": "Split",
         "tags": [
           "split",
-          "layout"
+          "layout",
+          "theme"
         ],
         "kind": "component",
         "code": "<Split left={<div>Left</div>} right={<div>Right</div>} />",

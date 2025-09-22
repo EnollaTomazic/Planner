@@ -24,10 +24,33 @@ describe("ComponentsSlug", () => {
     expect(result?.query).toBe("Button");
   });
 
+  it("resolves legacy theme split alias", () => {
+    const result = resolveComponentsSlug("theme-splits");
+    expect(result).toMatchObject({
+      section: "layout",
+      view: "components",
+    });
+    expect(result?.query).toBe("Split");
+  });
+
   it("maps view aliases", () => {
     const result = resolveComponentsSlug("colors");
     expect(result).toMatchObject({ view: "tokens" });
     expect(result?.section).toBeUndefined();
+  });
+
+  it("maps prompts to the components view", () => {
+    const sectionResult = resolveComponentsSlug("prompts");
+    expect(sectionResult).toMatchObject({
+      section: "prompts",
+      view: "components",
+    });
+
+    const entryResult = resolveComponentsSlug("prompt-list");
+    expect(entryResult).toMatchObject({
+      section: "prompts",
+      view: "components",
+    });
   });
 
   it("returns null for unknown slugs", () => {

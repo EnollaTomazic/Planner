@@ -37,7 +37,7 @@ function resolveHeight(height?: FieldHeight | number) {
   }
 
   if (typeof height === "number") {
-    return `${height / 4}rem`;
+    return `${height}px`;
   }
 
   return HEIGHT_MAP.md;
