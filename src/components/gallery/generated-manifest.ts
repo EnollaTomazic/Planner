@@ -300,6 +300,33 @@ export const galleryPayload = {
       "id": "planner",
       "entries": [
         {
+          "id": "week-picker",
+          "name": "WeekPicker",
+          "description": "Sticky hero shell preview showing week totals, mock chips, and the jump-to-top action.",
+          "tags": [
+            "planner",
+            "navigation",
+            "week"
+          ],
+          "kind": "complex",
+          "code": "<WeekPickerDemo />",
+          "usage": [
+            {
+              "kind": "do",
+              "title": "Keep week totals visible",
+              "description": "Pair the hero subtitle with aggregated task counts so the picker summarizes week progress at a glance."
+            },
+            {
+              "kind": "do",
+              "title": "Highlight today's chip",
+              "description": "Use the accent token on the current day to anchor focus while other chips mock mixed completion states."
+            }
+          ],
+          "preview": {
+            "id": "prompts:planner:week-picker"
+          }
+        },
+        {
           "id": "bottom-nav",
           "name": "BottomNav",
           "description": "Mobile Planner nav demo showing active, hover, focus-visible, disabled, and syncing tabs styled with tokens.",
@@ -5478,6 +5505,33 @@ export const galleryPayload = {
     ],
     "complex": [
       {
+        "id": "week-picker",
+        "name": "WeekPicker",
+        "description": "Sticky hero shell preview showing week totals, mock chips, and the jump-to-top action.",
+        "tags": [
+          "planner",
+          "navigation",
+          "week"
+        ],
+        "kind": "complex",
+        "code": "<WeekPickerDemo />",
+        "usage": [
+          {
+            "kind": "do",
+            "title": "Keep week totals visible",
+            "description": "Pair the hero subtitle with aggregated task counts so the picker summarizes week progress at a glance."
+          },
+          {
+            "kind": "do",
+            "title": "Highlight today's chip",
+            "description": "Use the accent token on the current day to anchor focus while other chips mock mixed completion states."
+          }
+        ],
+        "preview": {
+          "id": "prompts:planner:week-picker"
+        }
+      },
+      {
         "id": "bottom-nav",
         "name": "BottomNav",
         "description": "Mobile Planner nav demo showing active, hover, focus-visible, disabled, and syncing tabs styled with tokens.",
@@ -6371,6 +6425,7 @@ export const galleryPreviewModules = [
       "prompts:prompts:prompts-compose-panel:state:compose-error",
       "prompts:prompts:prompts-compose-panel:state:compose-empty",
       "prompts:prompts:prompts-demos",
+      "prompts:planner:week-picker",
       "prompts:planner:bottom-nav",
       "prompts:planner:bottom-nav:state:active",
       "prompts:planner:bottom-nav:state:hover",
