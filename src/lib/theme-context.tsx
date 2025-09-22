@@ -15,14 +15,22 @@ const ThemeContext = React.createContext<
 >(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [hydrated, setHydrated] = React.useState(false);
   const [theme, setTheme] = usePersistentState<ThemeState>(
     THEME_STORAGE_KEY,
     defaultTheme(),
   );
 
   React.useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!hydrated) {
+      return;
+    }
     applyTheme(theme);
-  }, [theme]);
+  }, [theme, hydrated]);
 
   const value = React.useMemo(() => [theme, setTheme] as const, [theme, setTheme]);
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -46,7 +46,7 @@ export default function Modal({
         aria-modal="true"
         aria-labelledby={ariaLabelledby}
         aria-describedby={ariaDescribedby}
-        className={cn("relative w-full max-w-sm", className)}
+        className={cn("relative w-full max-w-[calc(var(--space-8)*6)]", className)}
         {...props}
       >
         <IconButton
