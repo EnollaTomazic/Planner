@@ -34,5 +34,8 @@
   "settings-select": [],
   "theme-toggle": [
     "/"
+  ],
+  "week-picker": [
+    "/prompts"
   ]
 }
