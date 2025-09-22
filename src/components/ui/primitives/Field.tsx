@@ -112,7 +112,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
               data-slot="spinner"
               className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground"
             >
-              {spinner ?? <Spinner size={16} />}
+              {spinner ?? <Spinner size="sm" />}
             </span>
           ) : null}
         </div>

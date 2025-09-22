@@ -131,7 +131,7 @@ export function AnimatedSelectList({
                         className="flex size-[var(--space-4)] shrink-0 items-center justify-center"
                       >
                         <Spinner
-                          size="var(--space-4)"
+                          size="sm"
                           className="border-border border-t-transparent opacity-80"
                         />
                       </span>

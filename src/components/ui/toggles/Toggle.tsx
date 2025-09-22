@@ -94,7 +94,7 @@ export default function Toggle({
     >
       {loading ? (
         <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-          <Spinner size={16} className="border-border border-t-transparent opacity-80" />
+          <Spinner size="sm" className="border-border border-t-transparent opacity-80" />
         </span>
       ) : null}
       {/* Sliding indicator */}

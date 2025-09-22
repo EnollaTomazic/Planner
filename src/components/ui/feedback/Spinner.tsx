@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
 const toneToBorderClass = {
@@ -13,15 +12,31 @@ const toneToBorderClass = {
 
 export type SpinnerTone = keyof typeof toneToBorderClass;
 
+const sizeToVariableClass = {
+  xs: "[--spinner-size:var(--space-3)]",
+  sm: "[--spinner-size:var(--space-4)]",
+  md: "[--spinner-size:calc(var(--space-5)-var(--space-1))]",
+  lg: "[--spinner-size:var(--space-5)]",
+  xl: "[--spinner-size:var(--space-6)]",
+  "2xl": "[--spinner-size:var(--space-7)]",
+  "control-xs": "[--spinner-size:calc(var(--control-h-xs)/2)]",
+  "control-sm": "[--spinner-size:calc(var(--control-h-sm)/2)]",
+  "control-md": "[--spinner-size:calc(var(--control-h-md)/2)]",
+  "control-lg": "[--spinner-size:calc(var(--control-h-lg)/2)]",
+  "control-xl": "[--spinner-size:calc(var(--control-h-xl)/2)]",
+} as const;
+
+export type SpinnerSize = keyof typeof sizeToVariableClass;
+
 type SpinnerProps = {
   className?: string;
-  size?: CSSProperties["width"];
+  size?: SpinnerSize;
   tone?: SpinnerTone;
 };
 
 export default function Spinner({
   className,
-  size = "var(--space-6)",
+  size = "xl",
   tone = "accent",
 }: SpinnerProps) {
   return (
@@ -30,11 +45,11 @@ export default function Spinner({
       aria-label="Loading"
       aria-live="polite"
       className={cn(
-        "inline-block animate-spin rounded-full border border-t-transparent",
+        "inline-block h-[var(--spinner-size)] w-[var(--spinner-size)] animate-spin rounded-full border border-t-transparent",
         toneToBorderClass[tone],
+        sizeToVariableClass[size],
         className,
       )}
-      style={{ width: size, height: size }}
     >
       <span className="sr-only">Loading...</span>
     </div>

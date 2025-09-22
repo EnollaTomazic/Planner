@@ -6,9 +6,8 @@ import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
-import Spinner, { type SpinnerTone } from "../feedback/Spinner";
+import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
-import designTokens from "../../../../tokens/tokens.js";
 
 export const buttonSizes = {
   sm: {
@@ -45,64 +44,11 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 type Tone = SpinnerTone;
 
-type ControlHeightToken =
-  | "controlHSm"
-  | "controlHMd"
-  | "controlHLg"
-  | "controlHXl";
-
-const FALLBACK_CONTROL_HEIGHTS: Record<ButtonSize, number> = {
-  sm: 32,
-  md: 40,
-  lg: 48,
-  xl: 56,
-};
-
-const CONTROL_HEIGHT_TOKENS: Record<ButtonSize, ControlHeightToken> = {
-  sm: "controlHSm",
-  md: "controlHMd",
-  lg: "controlHLg",
-  xl: "controlHXl",
-};
-
-const parsePxTokenValue = (value: unknown): number | null => {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const numericValue = Number.parseFloat(value);
-
-  return Number.isNaN(numericValue) ? null : numericValue;
-};
-
-const halfControlHeight = (
-  tokenKey: ControlHeightToken,
-  fallback: number,
-): string => {
-  const rawValue = (designTokens as Record<string, unknown>)[tokenKey];
-  const parsedValue = parsePxTokenValue(rawValue);
-  const resolvedValue = (parsedValue ?? fallback) / 2;
-
-  return `${resolvedValue}px`;
-};
-
-const spinnerSizes: Record<ButtonSize, string> = {
-  sm: halfControlHeight(
-    CONTROL_HEIGHT_TOKENS.sm,
-    FALLBACK_CONTROL_HEIGHTS.sm,
-  ),
-  md: halfControlHeight(
-    CONTROL_HEIGHT_TOKENS.md,
-    FALLBACK_CONTROL_HEIGHTS.md,
-  ),
-  lg: halfControlHeight(
-    CONTROL_HEIGHT_TOKENS.lg,
-    FALLBACK_CONTROL_HEIGHTS.lg,
-  ),
-  xl: halfControlHeight(
-    CONTROL_HEIGHT_TOKENS.xl,
-    FALLBACK_CONTROL_HEIGHTS.xl,
-  ),
+const buttonSpinnerSizes: Record<ButtonSize, SpinnerSize> = {
+  sm: "control-sm",
+  md: "control-md",
+  lg: "control-lg",
+  xl: "control-xl",
 };
 
 const MotionSlot = motion.create(Slot);
@@ -286,7 +232,7 @@ export const Button = React.forwardRef<
     !asChild && "href" in props && typeof props.href !== "undefined";
   const toneColorVar = colorVar[tone];
   const s = buttonSizes[size];
-  const spinnerSize = spinnerSizes[size];
+  const spinnerSize = buttonSpinnerSizes[size];
   const base = cn(
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
     "data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none",
