@@ -216,7 +216,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <span
                       aria-hidden="true"
-                      class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+                      class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl header-rail--subtle"
                     />
                     <div
                       class="min-w-0"
