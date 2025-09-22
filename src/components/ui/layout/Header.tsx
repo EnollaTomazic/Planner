@@ -57,8 +57,10 @@ export interface HeaderProps<Key extends string = string>
   bodyClassName?: string;
   rail?: boolean;
   /** Decorative rail emphasis; defaults to the subtler glow. */
+  railTone?: "subtle" | "loud";
+  /** @deprecated Use railTone instead. */
   railVariant?: "subtle" | "loud";
-  /** Custom rail classes to opt into alternate treatments (e.g., loud rail). */
+  /** Custom rail classes to opt into alternate treatments. */
   railClassName?: string;
   /** Reduce vertical padding and height, ideal for denser layouts. */
   compact?: boolean;
@@ -85,7 +87,8 @@ export default function Header<Key extends string = string>({
   barClassName,
   bodyClassName,
   rail = true,
-  railVariant = "subtle",
+  railTone,
+  railVariant,
   railClassName,
   compact = false,
   tabs,
@@ -210,6 +213,8 @@ export default function Header<Key extends string = string>({
       : "py-[var(--space-3)] sm:py-[var(--space-4)]",
   );
 
+  const resolvedRailTone = railTone ?? railVariant ?? "subtle";
+
   return (
     <>
       {shouldRenderNeomorphicFrameStyles ? <NeomorphicFrameStyles /> : null}
@@ -245,8 +250,7 @@ export default function Header<Key extends string = string>({
             <div
               className={cx(
                 "header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
-                railVariant !== "loud" && "header-rail--subtle",
-                railVariant === "loud" && "header-rail--loud",
+                resolvedRailTone !== "loud" && "header-rail--subtle",
                 railClassName,
               )}
               aria-hidden
