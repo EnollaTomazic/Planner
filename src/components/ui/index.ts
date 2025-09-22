@@ -96,5 +96,6 @@ export { default as IconButtonGallery } from "./primitives/IconButton.gallery";
 export { default as InputGallery } from "./primitives/Input.gallery";
 export { default as SearchBarGallery } from "./primitives/SearchBar.gallery";
 export { default as SegmentedButtonGallery } from "./primitives/SegmentedButton.gallery";
+export { default as TabsGallery } from "./primitives/Tabs.gallery";
 export { default as TextareaGallery } from "./primitives/Textarea.gallery";
 export { default as SelectGallery } from "./Select.gallery";

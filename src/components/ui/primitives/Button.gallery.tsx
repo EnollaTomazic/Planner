@@ -5,38 +5,60 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import Button from "./Button";
 
-const BUTTON_STATES = [
-  { label: "Default", className: undefined, props: { children: "Default" } },
-  {
-    label: "Hover",
-    className: "bg-[--hover]",
-    props: { children: "Hover" },
-  },
-  {
-    label: "Focus",
-    className: "ring-2 ring-[var(--focus)]",
-    props: { children: "Focus" },
-  },
-  {
-    label: "Active",
-    className: "bg-[--active]",
-    props: { children: "Active" },
-  },
-  {
-    label: "Disabled",
-    className: undefined,
-    props: { children: "Disabled", disabled: true },
-  },
-  {
-    label: "Loading",
-    className: undefined,
-    props: { children: "Loading", loading: true },
-  },
-] satisfies ReadonlyArray<{
-  label: string;
+type ButtonStateSpec = {
+  id: string;
+  name: string;
   className?: string;
   props: React.ComponentProps<typeof Button>;
-}>;
+  code?: string;
+};
+
+const BUTTON_STATES: readonly ButtonStateSpec[] = [
+  {
+    id: "default",
+    name: "Default",
+    props: { children: "Default" },
+    code: "<Button>Default</Button>",
+  },
+  {
+    id: "hover",
+    name: "Hover",
+    className: "bg-[--hover]",
+    props: { children: "Hover" },
+    code: "<Button className=\"bg-[--hover]\">Hover</Button>",
+  },
+  {
+    id: "focus",
+    name: "Focus",
+    className: "ring-2 ring-[var(--focus)]",
+    props: { children: "Focus" },
+    code: "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+  },
+  {
+    id: "active",
+    name: "Active",
+    className: "bg-[--active]",
+    props: { children: "Active" },
+    code: "<Button className=\"bg-[--active]\">Active</Button>",
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    props: { children: "Disabled", disabled: true },
+    code: "<Button disabled>Disabled</Button>",
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    props: { children: "Loading", loading: true },
+    code: "<Button loading>Loading</Button>",
+  },
+];
+
+function ButtonStatePreview({ state }: { state: ButtonStateSpec }) {
+  const { className, props } = state;
+  return <Button className={className} {...props} />;
+}
 
 function ButtonGalleryPreview() {
   return (
@@ -71,8 +93,8 @@ function ButtonGalleryPreview() {
         </Button>
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        {BUTTON_STATES.map(({ label, className, props }) => (
-          <Button key={label} className={className} {...props} />
+        {BUTTON_STATES.map((state) => (
+          <ButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
     </div>
@@ -123,13 +145,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: BUTTON_STATES.map(({ label }) => ({ value: label })),
+          values: BUTTON_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:button:matrix",
         render: () => <ButtonGalleryPreview />,
       }),
+      states: BUTTON_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:button:state:${state.id}`,
+          render: () => <ButtonStatePreview state={state} />,
+        }),
+      })),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
     <Button tone="primary">Primary tone</Button>

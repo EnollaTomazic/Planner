@@ -210,10 +210,10 @@ export const GALLERY_SECTION_GROUPS: readonly GallerySectionGroupMeta[] = [
     id: "tokens",
     label: "Tokens",
     copy: {
-      eyebrow: "Palette",
-      heading: "Planner color tokens",
+      eyebrow: "Foundations",
+      heading: "Planner design tokens",
       subtitle:
-        "Core palettes, gradients, and section cards for Planner surfaces.",
+        "Color, spacing, typography, motion, and effects that keep every surface aligned.",
     },
     sections: [],
   },

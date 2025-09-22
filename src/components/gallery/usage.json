@@ -1,5 +1,39 @@
 {
+  "prompt-list": [],
+  "prompts-header": [],
+  "prompts-compose-panel": [],
+  "prompts-demos": [],
+  "week-picker": [],
   "bottom-nav": [],
+  "card-demo": [],
+  "neo-card-demo": [],
+  "section-card-variants": [],
+  "page-shell": [
+    "/",
+    "/components"
+  ],
+  "sheet-demo": [],
+  "modal-demo": [],
+  "split": [],
+  "title-bar": [],
+  "neomorphic-hero-frame": [],
+  "page-header-demo": [
+    "/"
+  ],
+  "demo-header": [],
+  "hero": [],
+  "progress": [],
+  "outline-glow": [],
+  "snackbar": [],
+  "toast-demo": [],
+  "skeleton": [],
+  "spinner": [
+    "/",
+    "/components"
+  ],
+  "toggle": [],
+  "animation-toggle": [],
+  "check-circle": [],
   "dashboard-card": [],
   "dashboard-list": [],
   "isometric-room": [],
@@ -35,7 +69,23 @@
   "theme-toggle": [
     "/"
   ],
-  "week-picker": [
-    "/prompts"
-  ]
+  "cat-companion": [
+    "/"
+  ],
+  "header-tabs": [],
+  "label": [],
+  "select": [],
+  "header": [],
+  "tab-bar": [],
+  "badge": [],
+  "button": [
+    "/"
+  ],
+  "field": [],
+  "icon-button": [],
+  "input": [],
+  "search-bar": [],
+  "segmented-button": [],
+  "tabs": [],
+  "textarea": []
 }

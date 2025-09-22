@@ -192,24 +192,21 @@ type UsageMap = Record<string, readonly string[]>;
 type NameToIdsMap = Map<string, readonly string[]>;
 
 function buildNameLookup(sections: readonly GallerySerializableSection[]): {
-  readonly complexEntries: readonly GallerySerializableEntry[];
+  readonly entries: readonly GallerySerializableEntry[];
   readonly nameToIds: NameToIdsMap;
 } {
-  const complexEntries: GallerySerializableEntry[] = [];
+  const entries: GallerySerializableEntry[] = [];
   const nameToIds = new Map<string, string[]>();
   for (const section of sections) {
     for (const entry of section.entries) {
-      if (entry.kind !== "complex") {
-        continue;
-      }
-      complexEntries.push(entry);
+      entries.push(entry);
       const list = nameToIds.get(entry.name) ?? [];
       list.push(entry.id);
       nameToIds.set(entry.name, list);
     }
   }
   return {
-    complexEntries,
+    entries,
     nameToIds,
   };
 }
@@ -217,9 +214,9 @@ function buildNameLookup(sections: readonly GallerySerializableSection[]): {
 async function buildUsage(
   sections: readonly GallerySerializableSection[],
 ): Promise<UsageMap> {
-  const { complexEntries, nameToIds } = buildNameLookup(sections);
+  const { entries, nameToIds } = buildNameLookup(sections);
   const usage = new Map<string, Set<string>>();
-  for (const entry of complexEntries) {
+  for (const entry of entries) {
     usage.set(entry.id, new Set<string>());
   }
 
@@ -240,7 +237,7 @@ async function buildUsage(
   }
 
   const record: UsageMap = {};
-  for (const entry of complexEntries) {
+  for (const entry of entries) {
     const routes = Array.from(
       usage.get(entry.id) ?? new Set<string>(),
     ).sort((a, b) => a.localeCompare(b));
@@ -360,9 +357,7 @@ async function main(): Promise<void> {
   await fs.writeFile(usageFile, `${JSON.stringify(usage, null, 2)}\n`);
   await buildGalleryManifest(modules, registry.payload);
   await writeManifest([...new Set(trackedFiles)]);
-  console.log(
-    `Built gallery usage for ${Object.keys(usage).length} complex entries`,
-  );
+  console.log(`Built gallery usage for ${Object.keys(usage).length} entries`);
 }
 
 main().catch((error) => {
