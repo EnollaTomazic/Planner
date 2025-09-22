@@ -57,12 +57,12 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
   } = options;
 
   return React.useMemo(() => {
-    const glitchMode = glitch ?? "default";
+    const glitchMode = glitch ?? "subtle";
+    const isGlitchDefault = glitchMode === "default";
     const isGlitchSubtle = glitchMode === "subtle";
     const isGlitchOff = glitchMode === "off";
-    const isGlitchCalm = isGlitchSubtle || isGlitchOff;
     const heroVariant: HeroTabVariant | undefined = frame ? "neo" : undefined;
-    const shouldRenderGlitchStyles = frame && !isGlitchCalm;
+    const shouldRenderGlitchStyles = frame && isGlitchDefault;
     const isRaisedBar = barVariant === "raised";
     const showRail = rail && !isGlitchOff;
     const showDividerGlow = frame && !isGlitchOff;
