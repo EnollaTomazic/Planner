@@ -67,6 +67,43 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   },
 ];
 
+const PRIMARY_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
+  {
+    id: "primary",
+    name: "Primary",
+    props: {
+      "aria-label": "Primary",
+      variant: "primary",
+      children: <Plus aria-hidden />,
+    },
+    code: "<IconButton variant=\"primary\" aria-label=\"Primary\">\n  <Plus />\n</IconButton>",
+  },
+  {
+    id: "primary-hover",
+    name: "Primary Hover",
+    className: "bg-[--hover] shadow-[var(--shadow-neon-strong)]",
+    props: {
+      "aria-label": "Primary hover",
+      variant: "primary",
+      children: <Plus aria-hidden />,
+    },
+    code: "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
+  },
+  {
+    id: "primary-active",
+    name: "Primary Active",
+    className:
+      "bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]",
+    props: {
+      "aria-label": "Primary active",
+      "aria-pressed": true,
+      variant: "primary",
+      children: <Plus aria-hidden />,
+    },
+    code: "<IconButton\n  className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n  variant=\"primary\"\n  aria-label=\"Primary active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+  },
+];
+
 function IconButtonStatePreview({ state }: { state: IconButtonStateSpec }) {
   const { className, props } = state;
   return <IconButton className={className} {...props} />;
@@ -105,6 +142,11 @@ function IconButtonGalleryPreview() {
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {ICON_BUTTON_STATES.map((state) => (
+          <IconButtonStatePreview key={state.id} state={state} />
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-[var(--space-2)]">
+        {PRIMARY_ICON_BUTTON_STATES.map((state) => (
           <IconButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
@@ -153,22 +195,26 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: ICON_BUTTON_STATES.map(({ name }) => ({ value: name })),
+          values: [...ICON_BUTTON_STATES, ...PRIMARY_ICON_BUTTON_STATES].map(
+            ({ name }) => ({ value: name }),
+          ),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:icon-button:matrix",
         render: () => <IconButtonGalleryPreview />,
       }),
-      states: ICON_BUTTON_STATES.map((state) => ({
-        id: state.id,
-        name: state.name,
-        code: state.code,
-        preview: createGalleryPreview({
-          id: `ui:icon-button:state:${state.id}`,
-          render: () => <IconButtonStatePreview state={state} />,
+      states: [...ICON_BUTTON_STATES, ...PRIMARY_ICON_BUTTON_STATES].map(
+        (state) => ({
+          id: state.id,
+          name: state.name,
+          code: state.code,
+          preview: createGalleryPreview({
+            id: `ui:icon-button:state:${state.id}`,
+            render: () => <IconButtonStatePreview state={state} />,
+          }),
         }),
-      })),
+      ),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
     <IconButton size="sm" variant="ghost" aria-label="Add item sm">
@@ -211,6 +257,26 @@ export default defineGallerySection({
       <Plus />
     </IconButton>
     <IconButton loading aria-label="Loading">
+      <Plus />
+    </IconButton>
+  </div>
+  <div className="flex flex-wrap gap-[var(--space-2)]">
+    <IconButton variant="primary" aria-label="Primary">
+      <Plus />
+    </IconButton>
+    <IconButton
+      className="bg-[--hover] shadow-[var(--shadow-neon-strong)]"
+      variant="primary"
+      aria-label="Primary hover"
+    >
+      <Plus />
+    </IconButton>
+    <IconButton
+      className="bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]"
+      variant="primary"
+      aria-label="Primary active"
+      aria-pressed
+    >
       <Plus />
     </IconButton>
   </div>

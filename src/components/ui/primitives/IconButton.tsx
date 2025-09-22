@@ -89,10 +89,21 @@ const surfaceInteractionTokens = {
     "[--hover:theme('colors.interaction.danger.surfaceHover')] [--active:theme('colors.interaction.danger.surfaceActive')]",
 } satisfies Record<Exclude<Tone, "primary">, string>;
 
+const primaryToneInteractionTokens = {
+  primary: toneTintTokens.primary,
+  accent: surfaceInteractionTokens.accent,
+  info: surfaceInteractionTokens.info,
+  danger: surfaceInteractionTokens.danger,
+} satisfies Record<Tone, string>;
+
 const variantBase: Record<Variant, (tone: Tone) => string> = {
   ghost: (tone) =>
     cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
-  primary: () => "border",
+  primary: (tone) =>
+    cn(
+      "border transition-[box-shadow,background-color,color] shadow-[var(--shadow-neon-soft)] hover:shadow-[var(--shadow-neon-strong)] focus-visible:shadow-[var(--shadow-neon-strong)] active:shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]",
+      primaryToneInteractionTokens[tone],
+    ),
   secondary: (tone) =>
     cn(
       "border bg-card/35 hover:bg-[--hover] shadow-glow-current",
@@ -108,22 +119,10 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     danger: "border-danger/35 text-danger",
   },
   primary: {
-    primary: cn(
-      "border-transparent bg-foreground/15 text-foreground",
-      toneTintTokens.primary,
-    ),
-    accent: cn(
-      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
-      surfaceInteractionTokens.accent,
-    ),
-    info: cn(
-      "border-transparent bg-accent-2/30 text-[var(--text-on-accent)]",
-      surfaceInteractionTokens.info,
-    ),
-    danger: cn(
-      "border-transparent bg-danger/20 text-danger-foreground",
-      surfaceInteractionTokens.danger,
-    ),
+    primary: "border-transparent bg-foreground/15 text-foreground",
+    accent: "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
+    info: "border-transparent bg-accent-2/30 text-[var(--text-on-accent)]",
+    danger: "border-transparent bg-danger/20 text-danger-foreground",
   },
   secondary: {
     primary: "border-foreground/35 text-foreground",
