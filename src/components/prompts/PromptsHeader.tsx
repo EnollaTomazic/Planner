@@ -82,8 +82,8 @@ export default function PromptsHeader({
           debounceMs: 300,
           placeholder: "Search prompts…",
           "aria-label": "Search prompts",
-          variant: "default",
-          round: false,
+          variant: "neo",
+          round: true,
         },
         actions: (
           <Button type="button" variant="primary" onClick={onSave} disabled={disabled}>
