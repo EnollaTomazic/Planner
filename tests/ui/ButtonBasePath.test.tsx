@@ -29,6 +29,14 @@ describe("ButtonBasePath", () => {
     expect(getByRole("link")).toHaveAttribute("href", "/beta/planner");
   });
 
+  it("prefixes when the base path shares the planner segment", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    vi.resetModules();
+    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { getByRole } = render(<Button href="/planner">Planner</Button>);
+    expect(getByRole("link")).toHaveAttribute("href", "/planner/planner");
+  });
+
   it("keeps external href values unchanged", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
