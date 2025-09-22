@@ -270,10 +270,15 @@ export function useComponentsGalleryState({
     [currentGroup],
   );
 
-  const sectionMeta = React.useMemo(
-    () => sectionMap.get(section) ?? null,
-    [section, sectionMap],
-  );
+  const sectionMeta = React.useMemo(() => {
+    const groupSection = currentGroup?.sections.find(
+      (groupSectionEntry) => groupSectionEntry.id === section,
+    );
+    if (groupSection) {
+      return groupSection;
+    }
+    return sectionMap.get(section) ?? null;
+  }, [currentGroup, section, sectionMap]);
 
   const currentGroupLabel = currentGroup?.label ?? "";
   const activeSectionLabel = sectionMeta?.label ?? "";
