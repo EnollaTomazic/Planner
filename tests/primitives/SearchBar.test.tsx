@@ -67,6 +67,14 @@ describe('SearchBar', () => {
     expect(input).toBeDisabled();
   });
 
+  it("applies numeric height as pixels", () => {
+    const { getByRole } = render(
+      <SearchBar value="" onValueChange={() => {}} height={52} />,
+    );
+    const field = getByRole("searchbox").parentElement as HTMLElement;
+    expect(field).toHaveStyle("--field-h: 52px");
+  });
+
   it('renders an associated label when provided', () => {
     const { getByLabelText } = render(
       <SearchBar value="" onValueChange={() => {}} label="Search tasks" />
