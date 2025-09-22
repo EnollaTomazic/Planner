@@ -1716,7 +1716,8 @@ export const galleryPayload = {
           "name": "Split",
           "tags": [
             "split",
-            "layout"
+            "layout",
+            "theme"
           ],
           "kind": "component",
           "code": "<Split left={<div>Left</div>} right={<div>Right</div>} />",
@@ -5293,7 +5294,8 @@ export const galleryPayload = {
         "name": "Split",
         "tags": [
           "split",
-          "layout"
+          "layout",
+          "theme"
         ],
         "kind": "component",
         "code": "<Split left={<div>Left</div>} right={<div>Right</div>} />",
