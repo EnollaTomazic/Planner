@@ -58,7 +58,13 @@ export function NeomorphicFrameStyles() {
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
-      @supports (color: color-mix(in oklab, white, black)) {
+      @supports (
+        color: color-mix(
+          in oklab,
+          hsl(var(--highlight)),
+          hsl(var(--background))
+        )
+      ) {
         .hero2-neomorph {
           --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
             color-mix(
@@ -74,7 +80,7 @@ export function NeomorphicFrameStyles() {
           --hero2-glow-top-left-soft: color-mix(
             in oklab,
             hsl(var(--highlight)) 22%,
-            transparent
+            hsl(var(--background) / 0)
           );
           --hero2-glow-bottom-right-color: color-mix(
             in oklab,
@@ -84,7 +90,7 @@ export function NeomorphicFrameStyles() {
           --hero2-glow-bottom-right-soft: color-mix(
             in oklab,
             hsl(var(--shadow-color)) 28%,
-            transparent
+            hsl(var(--background) / 0)
           );
         }
       }
