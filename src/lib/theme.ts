@@ -115,11 +115,29 @@ export function applyTheme({ variant, bg }: ThemeState) {
   }
 
   const cl = documentElement.classList;
+  const dataset = documentElement.dataset;
+  const style = documentElement.style;
   resetThemeClasses(cl);
   cl.add(`theme-${variant}`);
   const isValidBgIndex =
     Number.isInteger(bg) && bg >= 0 && bg < BG_CLASSES.length;
   if (isValidBgIndex && bg > 0) cl.add(BG_CLASSES[bg]);
-  cl.add("dark");
+  const pref = dataset.themePref === "system" ? "system" : "persisted";
+
+  let prefersDark = true;
+  if (pref === "system") {
+    try {
+      if (typeof window !== "undefined" && window.matchMedia) {
+        prefersDark = window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .matches;
+      }
+    } catch {
+      prefersDark = true;
+    }
+  }
+
+  cl.toggle("dark", prefersDark);
+  style.setProperty("color-scheme", prefersDark ? "dark" : "light");
 }
 

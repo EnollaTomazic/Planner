@@ -55,12 +55,15 @@
     }
 
     let data = readLocal(THEME_STORAGE_KEY);
+    const hasStoredTheme = Boolean(data);
     if (!data) {
       data = { variant: "lg", bg: 0 };
       writeLocal(THEME_STORAGE_KEY, data);
     }
 
     const cl = document.documentElement.classList;
+    const dataset = document.documentElement.dataset;
+    const style = document.documentElement.style;
     resetThemeClasses(cl);
     cl.add("theme-" + data.variant);
 
@@ -73,7 +76,19 @@
       cl.add(BG_CLASSES[data.bg]);
     }
 
-    cl.add("dark");
+    dataset.themePref = hasStoredTheme ? "persisted" : "system";
+    let prefersDark = true;
+    if (!hasStoredTheme) {
+      try {
+        prefersDark = !!window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+      } catch {
+        prefersDark = true;
+      }
+    }
+
+    cl.toggle("dark", prefersDark);
+    style.setProperty("color-scheme", prefersDark ? "dark" : "light");
   } catch {
     // Ignore errors so we never block initial paint.
   }
