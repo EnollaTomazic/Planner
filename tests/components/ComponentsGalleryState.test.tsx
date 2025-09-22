@@ -63,6 +63,27 @@ const navigation: GalleryNavigationData = {
         },
       ],
     },
+    {
+      id: "complex",
+      label: "Complex",
+      copy: {
+        eyebrow: "Complex",
+        heading: "Complex",
+        subtitle: "Complex components",
+      },
+      sections: [
+        {
+          id: "homepage",
+          label: "Homepage",
+          copy: {
+            eyebrow: "Homepage",
+            heading: "Homepage",
+            subtitle: "Homepage components",
+          },
+          groupId: "complex",
+        },
+      ],
+    },
   ],
 };
 
@@ -91,5 +112,18 @@ describe("useComponentsGalleryState", () => {
         scroll: false,
       });
     });
+  });
+
+  it("defaults to the complex homepage section when section param is missing", () => {
+    searchParamsString = new URLSearchParams({ view: "complex" }).toString();
+
+    const { result } = renderHook(() =>
+      useComponentsGalleryState({
+        navigation,
+      }),
+    );
+
+    expect(result.current.view).toBe("complex");
+    expect(result.current.section).toBe("homepage");
   });
 });
