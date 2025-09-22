@@ -125,7 +125,7 @@ export default function PromptsDemos() {
           <code>Field.Select</code> to compose custom controls while staying on
           token.
         </p>
-        <Field.Root className="max-w-xs">
+        <Field.Root className="w-full max-w-[calc(var(--space-8)*5)]">
           <Field.Input placeholder="Compose primitives" />
         </Field.Root>
       </Card>
