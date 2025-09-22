@@ -67,7 +67,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const showRail = rail && !isGlitchOff;
     const showDividerGlow = frame && !isGlitchOff;
     const dividerStyle = {
-      "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
+      "--divider": dividerTint === "life" ? "var(--accent-3)" : "var(--ring)",
     } as React.CSSProperties;
 
     const stickyClasses = sticky ? cn("sticky sticky-blur", topClassName) : "";
