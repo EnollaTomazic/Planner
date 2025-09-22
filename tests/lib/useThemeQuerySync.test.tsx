@@ -35,6 +35,7 @@ describe("useThemeQuerySync", () => {
     pathname = "/planner";
     replaceSpy.mockClear();
     resetLocalStorage();
+    window.location.hash = "";
   });
 
   it("applies valid theme and background query params", async () => {
@@ -104,5 +105,29 @@ describe("useThemeQuerySync", () => {
     });
 
     expect(replaceSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("preserves the current hash fragment when toggling the theme", async () => {
+    searchParamsString = new URLSearchParams({ theme: "lg", bg: "0" }).toString();
+    window.location.hash = "#section-42";
+
+    const { result } = renderThemeSync();
+
+    await waitFor(() => {
+      const [theme] = result.current;
+      expect(theme.variant).toBe("lg");
+      expect(theme.bg).toBe(0);
+    });
+
+    act(() => {
+      const [, setTheme] = result.current;
+      setTheme((prev) => ({ ...prev, variant: "ocean", bg: 1 }));
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenCalledWith("/planner?theme=ocean&bg=1#section-42", {
+        scroll: false,
+      });
+    });
   });
 });
