@@ -35,7 +35,9 @@ for (const id of GALLERY_SECTION_IDS) {
 const SECTION_TO_GROUP = new Map<GallerySectionId, GallerySectionGroupKey>();
 for (const group of GALLERY_SECTION_GROUPS) {
   for (const section of group.sections) {
-    SECTION_TO_GROUP.set(section.id, group.id);
+    if (!SECTION_TO_GROUP.has(section.id)) {
+      SECTION_TO_GROUP.set(section.id, group.id);
+    }
     const normalized = normalizeSlug(section.id);
     if (normalized) {
       SECTION_SLUG_TO_ID.set(normalized, section.id);

@@ -30,6 +30,20 @@ describe("ComponentsSlug", () => {
     expect(result?.section).toBeUndefined();
   });
 
+  it("maps prompts to the components view", () => {
+    const sectionResult = resolveComponentsSlug("prompts");
+    expect(sectionResult).toMatchObject({
+      section: "prompts",
+      view: "components",
+    });
+
+    const entryResult = resolveComponentsSlug("prompt-list");
+    expect(entryResult).toMatchObject({
+      section: "prompts",
+      view: "components",
+    });
+  });
+
   it("returns null for unknown slugs", () => {
     expect(resolveComponentsSlug("unknown")).toBeNull();
   });
