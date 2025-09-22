@@ -3160,7 +3160,7 @@ React.useEffect(() => {
           right={<div className="p-[var(--space-4)]">Right</div>}
         />
       ),
-      tags: ["split", "layout"],
+      tags: ["split", "layout", "theme"],
       code: `<Split left={<div>Left</div>} right={<div>Right</div>} />`,
     },
     {
