@@ -17,7 +17,6 @@ export function NeomorphicFrameStyles() {
           hsl(var(--shadow-color) / 0.18);
         box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
         position: relative;
-        z-index: 0;
         --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
           0 0 0 0 hsl(var(--ring) / 0);
         --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)

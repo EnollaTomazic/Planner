@@ -476,7 +476,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           ref={ref}
           {...rest}
           className={cn(
-            "group/hero-frame relative isolate flex flex-col overflow-visible hero-focus",
+            "group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus",
             variantStyles
               ? cn(
                   "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
