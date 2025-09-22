@@ -134,12 +134,8 @@ export default function PromptsPage() {
   }, [activeTab, chatPrompts.length, codexPrompts.length, notes]);
 
   return (
-    <PageShell
-      as="main"
-      className="space-y-[var(--space-6)] py-[var(--space-6)]"
-      aria-labelledby="prompts-header"
-    >
-      <Tabs value={activeTab} onValueChange={setActiveTab} idBase="prompts-tabs">
+    <>
+      <PageShell as="header" className="py-[var(--space-6)]">
         <PromptsHeader
           id="prompts-header"
           count={activeCount}
@@ -148,42 +144,50 @@ export default function PromptsPage() {
           onSave={handleSave}
           disabled={saveDisabled}
         />
+      </PageShell>
 
-        <TabList
-          items={tabItems}
-          ariaLabel="Prompt workspaces"
-          variant="neo"
-          showBaseline
-        />
-
-        <TabPanel value="chat" className="pb-[var(--space-8)]">
-          <ChatPromptsTab
-            title={chatTitleDraft}
-            text={chatTextDraft}
-            onTitleChange={setChatTitleDraft}
-            onTextChange={setChatTextDraft}
-            prompts={chatFiltered}
-            query={chatQuery}
-            personas={personas}
+      <PageShell
+        as="main"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
+        aria-labelledby="prompts-header"
+      >
+        <Tabs value={activeTab} onValueChange={setActiveTab} idBase="prompts-tabs">
+          <TabList
+            items={tabItems}
+            ariaLabel="Prompt workspaces"
+            variant="neo"
+            showBaseline
           />
-        </TabPanel>
 
-        <TabPanel value="codex" className="pb-[var(--space-8)]">
-          <CodexPromptsTab
-            title={codexTitleDraft}
-            text={codexTextDraft}
-            onTitleChange={setCodexTitleDraft}
-            onTextChange={setCodexTextDraft}
-            prompts={codexFiltered}
-            query={codexQuery}
-          />
-        </TabPanel>
+          <TabPanel value="chat" className="pb-[var(--space-8)]">
+            <ChatPromptsTab
+              title={chatTitleDraft}
+              text={chatTextDraft}
+              onTitleChange={setChatTitleDraft}
+              onTextChange={setChatTextDraft}
+              prompts={chatFiltered}
+              query={chatQuery}
+              personas={personas}
+            />
+          </TabPanel>
 
-        <TabPanel value="notes" className="pb-[var(--space-8)]">
-          <NotesTab value={notes} onChange={setNotes} />
-        </TabPanel>
-      </Tabs>
-    </PageShell>
+          <TabPanel value="codex" className="pb-[var(--space-8)]">
+            <CodexPromptsTab
+              title={codexTitleDraft}
+              text={codexTextDraft}
+              onTitleChange={setCodexTitleDraft}
+              onTextChange={setCodexTextDraft}
+              prompts={codexFiltered}
+              query={codexQuery}
+            />
+          </TabPanel>
+
+          <TabPanel value="notes" className="pb-[var(--space-8)]">
+            <NotesTab value={notes} onChange={setNotes} />
+          </TabPanel>
+        </Tabs>
+      </PageShell>
+    </>
   );
 }
 
