@@ -1,4 +1,15 @@
 {
+  "button": [
+    "/"
+  ],
+  "icon-button": [],
+  "segmented-button": [],
+  "label": [],
+  "select": [],
+  "field": [],
+  "input": [],
+  "search-bar": [],
+  "textarea": [],
   "prompt-list": [],
   "prompts-header": [],
   "prompts-compose-panel": [],
@@ -16,6 +27,8 @@
   "modal-demo": [],
   "split": [],
   "title-bar": [],
+  "header-tabs": [],
+  "header": [],
   "neomorphic-hero-frame": [],
   "page-header-demo": [
     "/"
@@ -34,6 +47,8 @@
   "toggle": [],
   "animation-toggle": [],
   "check-circle": [],
+  "tab-bar": [],
+  "tabs": [],
   "dashboard-card": [],
   "dashboard-list": [],
   "isometric-room": [],
@@ -72,20 +87,5 @@
   "cat-companion": [
     "/"
   ],
-  "header-tabs": [],
-  "label": [],
-  "select": [],
-  "header": [],
-  "tab-bar": [],
-  "badge": [],
-  "button": [
-    "/"
-  ],
-  "field": [],
-  "icon-button": [],
-  "input": [],
-  "search-bar": [],
-  "segmented-button": [],
-  "tabs": [],
-  "textarea": []
+  "badge": []
 }

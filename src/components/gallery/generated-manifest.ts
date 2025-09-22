@@ -15,11 +15,1099 @@ export const galleryPayload = {
   "sections": [
     {
       "id": "buttons",
-      "entries": []
+      "entries": [
+        {
+          "id": "button",
+          "name": "Button",
+          "description": "Tone, size, and interaction states",
+          "kind": "primitive",
+          "tags": [
+            "button",
+            "action"
+          ],
+          "props": [
+            {
+              "name": "variant",
+              "type": "\"primary\" | \"secondary\" | \"ghost\""
+            },
+            {
+              "name": "tone",
+              "type": "\"primary\" | \"accent\" | \"info\" | \"danger\""
+            },
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "tone",
+              "label": "Tone",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Primary"
+                },
+                {
+                  "value": "Accent"
+                },
+                {
+                  "value": "Info"
+                },
+                {
+                  "value": "Danger"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:button:matrix"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Button>Default</Button>",
+              "preview": {
+                "id": "ui:button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
+              "preview": {
+                "id": "ui:button:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+              "preview": {
+                "id": "ui:button:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Button className=\"bg-[--active]\">Active</Button>",
+              "preview": {
+                "id": "ui:button:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Button disabled>Disabled</Button>",
+              "preview": {
+                "id": "ui:button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Button loading>Loading</Button>",
+              "preview": {
+                "id": "ui:button:state:loading"
+              }
+            }
+          ]
+        },
+        {
+          "id": "icon-button",
+          "name": "IconButton",
+          "description": "Size, variant, and state coverage",
+          "kind": "primitive",
+          "tags": [
+            "button",
+            "icon"
+          ],
+          "props": [
+            {
+              "name": "variant",
+              "type": "\"primary\" | \"secondary\" | \"ghost\"",
+              "description": "Visual treatment of the button. Choose \"ghost\", \"secondary\", or \"primary\"."
+            },
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "variant",
+              "label": "Variant",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Ghost"
+                },
+                {
+                  "value": "Secondary"
+                },
+                {
+                  "value": "Primary"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:icon-button:matrix"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:loading"
+              }
+            }
+          ]
+        },
+        {
+          "id": "segmented-button",
+          "name": "SegmentedButton",
+          "description": "Inline segmented action with pressed and loading states",
+          "kind": "primitive",
+          "tags": [
+            "button",
+            "segmented"
+          ],
+          "props": [
+            {
+              "name": "as",
+              "type": "React.ElementType"
+            },
+            {
+              "name": "href",
+              "type": "string"
+            },
+            {
+              "name": "selected",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
+          "preview": {
+            "id": "ui:segmented-button:states"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<SegmentedButton>Default</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:hover"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<SegmentedButton selected>Active</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:active"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<SegmentedButton loading>Loading</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:loading"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "inputs",
-      "entries": []
+      "entries": [
+        {
+          "id": "label",
+          "name": "Label",
+          "description": "Text label paired with inputs for accessible forms",
+          "kind": "primitive",
+          "tags": [
+            "label",
+            "input"
+          ],
+          "props": [
+            {
+              "name": "htmlFor",
+              "type": "string"
+            },
+            {
+              "name": "className",
+              "type": "string"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Disabled"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"w-[calc(var(--space-8)*4)] space-y-[var(--space-3)]\">\n  <div>\n    <Label htmlFor=\"label-default\">Email</Label>\n    <Input id=\"label-default\" placeholder=\"player@example.gg\" />\n  </div>\n  <div className=\"opacity-80\">\n    <Label htmlFor=\"label-disabled\">Disabled</Label>\n    <Input id=\"label-disabled\" placeholder=\"Disabled input\" disabled />\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:label:pairing"
+          }
+        },
+        {
+          "id": "select",
+          "name": "Select",
+          "description": "Animated trigger with native fallback",
+          "kind": "primitive",
+          "tags": [
+            "select",
+            "input"
+          ],
+          "props": [
+            {
+              "name": "items",
+              "type": "readonly { value: string; label: React.ReactNode }[]",
+              "required": true
+            },
+            {
+              "name": "value",
+              "type": "string | undefined"
+            },
+            {
+              "name": "onChange",
+              "type": "(value: string) => void"
+            },
+            {
+              "name": "placeholder",
+              "type": "string"
+            },
+            {
+              "name": "variant",
+              "type": "\"animated\" | \"native\"",
+              "defaultValue": "\"animated\""
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "variant",
+              "label": "Variant",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Animated"
+                },
+                {
+                  "value": "Native"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:select:variants"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Select placeholder=\"Animated select\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Select buttonClassName=\"bg-[--hover]\" placeholder=\"Hover\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Select buttonClassName=\"bg-[--active]\" placeholder=\"Active\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Select placeholder=\"Disabled\" disabled items={items} />",
+              "preview": {
+                "id": "ui:select:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:loading"
+              }
+            }
+          ]
+        },
+        {
+          "id": "field",
+          "name": "Field",
+          "description": "Composable shell for custom inputs, search, and selects",
+          "kind": "primitive",
+          "tags": [
+            "field",
+            "input"
+          ],
+          "props": [
+            {
+              "name": "height",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | number",
+              "defaultValue": "\"md\""
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "readOnly",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "helper",
+              "type": "React.ReactNode"
+            },
+            {
+              "name": "helperTone",
+              "type": "\"muted\" | \"danger\" | \"success\""
+            },
+            {
+              "name": "counter",
+              "type": "React.ReactNode"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Focus visible"
+                },
+                {
+                  "value": "Invalid"
+                },
+                {
+                  "value": "Loading"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "With counter"
+                },
+                {
+                  "value": "Select"
+                },
+                {
+                  "value": "Search"
+                }
+              ]
+            }
+          ],
+          "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>\n<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>\n<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>\n<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>\n<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>\n<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    <option value=\"one\">One</option>\n    <option value=\"two\">Two</option>\n  </Field.Select>\n</Field.Root>\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
+          "preview": {
+            "id": "ui:field:states"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:default"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus visible",
+              "code": "<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:focus-visible"
+              }
+            },
+            {
+              "id": "invalid",
+              "name": "Invalid",
+              "code": "<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:invalid"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:loading"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:disabled"
+              }
+            },
+            {
+              "id": "with-counter",
+              "name": "With counter",
+              "code": "<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:with-counter"
+              }
+            },
+            {
+              "id": "select",
+              "name": "Select",
+              "code": "const options = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n];\n\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    {options.map((option) => (\n      <option key={option.value} value={option.value}>\n        {option.label}\n      </option>\n    ))}\n  </Field.Select>\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:select"
+              }
+            },
+            {
+              "id": "search",
+              "name": "Search",
+              "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:search"
+              }
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "name": "Input",
+          "description": "Standard text input with semantic states",
+          "kind": "primitive",
+          "tags": [
+            "input",
+            "text"
+          ],
+          "props": [
+            {
+              "name": "placeholder",
+              "type": "string"
+            },
+            {
+              "name": "height",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+              "defaultValue": "\"md\""
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "data-loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
+          "preview": {
+            "id": "ui:input:states"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Input placeholder=\"Default\" />",
+              "preview": {
+                "id": "ui:input:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Input className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:input:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+              "preview": {
+                "id": "ui:input:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Input className=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:input:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Input placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:input:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Input placeholder=\"Loading\" data-loading />",
+              "preview": {
+                "id": "ui:input:state:loading"
+              }
+            }
+          ]
+        },
+        {
+          "id": "search-bar",
+          "name": "SearchBar",
+          "description": "Debounced search input with optional label and slots",
+          "kind": "primitive",
+          "tags": [
+            "search",
+            "input"
+          ],
+          "props": [
+            {
+              "name": "value",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "onValueChange",
+              "type": "(value: string) => void"
+            },
+            {
+              "name": "placeholder",
+              "type": "string"
+            },
+            {
+              "name": "label",
+              "type": "React.ReactNode"
+            },
+            {
+              "name": "right",
+              "type": "React.ReactNode"
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "variant",
+              "type": "\"default\" | \"neo\"",
+              "defaultValue": "\"default\""
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "With label"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Hover\"\n  onValueChange={handleNoop}\n  placeholder=\"Hover\"\n  fieldClassName=\"bg-[--hover]\"\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
+          "preview": {
+            "id": "ui:search-bar:states"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<SearchBar value={query} onValueChange={setQuery} placeholder=\"Search components\" />",
+              "preview": {
+                "id": "ui:search-bar:state:default"
+              }
+            },
+            {
+              "id": "with-label",
+              "name": "With label",
+              "code": "<SearchBar label=\"Search library\" right={<Button size=\"sm\">Filters</Button>} />",
+              "preview": {
+                "id": "ui:search-bar:state:with-label"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<SearchBar fieldClassName=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:search-bar:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<SearchBar fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\" placeholder=\"Focus-visible\" />",
+              "preview": {
+                "id": "ui:search-bar:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<SearchBar fieldClassName=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:search-bar:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<SearchBar placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:search-bar:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<SearchBar placeholder=\"Loading\" loading />",
+              "preview": {
+                "id": "ui:search-bar:state:loading"
+              }
+            }
+          ]
+        },
+        {
+          "id": "textarea",
+          "name": "Textarea",
+          "description": "Multi-line text input with Field styling",
+          "kind": "primitive",
+          "tags": [
+            "textarea",
+            "input"
+          ],
+          "props": [
+            {
+              "name": "placeholder",
+              "type": "string"
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "readOnly",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "aria-invalid",
+              "type": "boolean | \"grammar\" | \"spelling\" | undefined"
+            },
+            {
+              "name": "data-loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "resize",
+              "type": "string"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Invalid"
+                },
+                {
+                  "value": "Read-only"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<Textarea placeholder=\"Share your thoughts\" />\n<Textarea placeholder=\"Hover\" className=\"bg-[--hover]\" />\n<Textarea placeholder=\"Focus-visible\" className=\"ring-2 ring-[hsl(var(--ring))]\" />\n<Textarea placeholder=\"Active\" className=\"bg-[--active]\" />\n<Textarea\n  placeholder=\"Needs attention\"\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  aria-invalid\n/> \n<Textarea\n  placeholder=\"Read-only\"\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n/> \n<Textarea placeholder=\"Disabled\" disabled />\n<Textarea placeholder=\"Loading\" data-loading />\n<Textarea placeholder=\"Resizable textarea\" resize=\"resize-y\" aria-label=\"Resizable textarea\" />",
+          "preview": {
+            "id": "ui:textarea:states"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Textarea placeholder=\"Share your thoughts\" />",
+              "preview": {
+                "id": "ui:textarea:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Textarea className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:textarea:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
+              "preview": {
+                "id": "ui:textarea:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Textarea className=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:textarea:state:active"
+              }
+            },
+            {
+              "id": "invalid",
+              "name": "Invalid",
+              "code": "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
+              "preview": {
+                "id": "ui:textarea:state:invalid"
+              }
+            },
+            {
+              "id": "read-only",
+              "name": "Read-only",
+              "code": "<Textarea\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n  placeholder=\"Read-only\"\n/>",
+              "preview": {
+                "id": "ui:textarea:state:read-only"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Textarea placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:textarea:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Textarea placeholder=\"Loading\" data-loading />",
+              "preview": {
+                "id": "ui:textarea:state:loading"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "prompts",
@@ -648,6 +1736,73 @@ export const galleryPayload = {
           "preview": {
             "id": "prompts:layout:title-bar"
           }
+        },
+        {
+          "id": "header-tabs",
+          "name": "HeaderTabs",
+          "description": "Neomorphic segmented control used within headers",
+          "kind": "component",
+          "tags": [
+            "tabs",
+            "navigation"
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Inactive"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Disabled"
+                }
+              ]
+            }
+          ],
+          "code": "<HeaderTabs\n  items={[\n    { key: \"plan\", label: \"Plan\", icon: <Circle aria-hidden=\"true\" /> },\n    {\n      key: \"review\",\n      label: \"Review\",\n      icon: <CircleDot aria-hidden=\"true\" />,\n      className: \"data-[state=inactive]:shadow-[0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.55)] data-[state=inactive]:outline-none\",\n    },\n    {\n      key: \"archive\",\n      label: \"Archive\",\n      icon: <CircleCheck aria-hidden=\"true\" />,\n      disabled: true,\n    },\n  ]}\n  value=\"plan\"\n  onChange={() => {}}\n  ariaLabel=\"Header tab demo\"\n/>",
+          "preview": {
+            "id": "ui:header-tabs:control"
+          }
+        },
+        {
+          "id": "header",
+          "name": "Header",
+          "description": "Workspace header with sticky support and segmented tabs",
+          "kind": "component",
+          "tags": [
+            "header",
+            "navigation"
+          ],
+          "axes": [
+            {
+              "id": "tab-state",
+              "label": "Tab state",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Inactive"
+                },
+                {
+                  "value": "Disabled"
+                }
+              ]
+            }
+          ],
+          "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
+          "preview": {
+            "id": "ui:header:tabs"
+          }
         }
       ]
     },
@@ -956,6 +2111,139 @@ export const galleryPayload = {
           "preview": {
             "id": "prompts:toggles:check-circle"
           }
+        },
+        {
+          "id": "tab-bar",
+          "name": "TabBar",
+          "description": "Segmented tab navigation with preset variants",
+          "kind": "primitive",
+          "tags": [
+            "tabs",
+            "navigation"
+          ],
+          "axes": [
+            {
+              "id": "variant",
+              "label": "Variant",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Filters"
+                },
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Navigation"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
+          "preview": {
+            "id": "ui:tab-bar:variants"
+          }
+        },
+        {
+          "id": "tabs",
+          "name": "Tabs",
+          "description": "Context provider that links TabList controls with TabPanel content.",
+          "kind": "primitive",
+          "tags": [
+            "tabs",
+            "navigation"
+          ],
+          "axes": [
+            {
+              "id": "layout",
+              "label": "Layout",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Panels"
+                },
+                {
+                  "value": "Controlled list"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
+          "preview": {
+            "id": "ui:tabs:wiring"
+          },
+          "states": [
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:active"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -1798,327 +3086,7 @@ export const galleryPayload = {
           "preview": {
             "id": "prompts:misc:cat-companion"
           }
-        }
-      ]
-    },
-    {
-      "id": "layout",
-      "entries": [
-        {
-          "id": "header-tabs",
-          "name": "HeaderTabs",
-          "description": "Neomorphic segmented control used within headers",
-          "kind": "component",
-          "tags": [
-            "tabs",
-            "navigation"
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Inactive"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Disabled"
-                }
-              ]
-            }
-          ],
-          "code": "<HeaderTabs\n  items={[\n    { key: \"plan\", label: \"Plan\", icon: <Circle aria-hidden=\"true\" /> },\n    {\n      key: \"review\",\n      label: \"Review\",\n      icon: <CircleDot aria-hidden=\"true\" />,\n      className: \"data-[state=inactive]:shadow-[0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.55)] data-[state=inactive]:outline-none\",\n    },\n    {\n      key: \"archive\",\n      label: \"Archive\",\n      icon: <CircleCheck aria-hidden=\"true\" />,\n      disabled: true,\n    },\n  ]}\n  value=\"plan\"\n  onChange={() => {}}\n  ariaLabel=\"Header tab demo\"\n/>",
-          "preview": {
-            "id": "ui:header-tabs:control"
-          }
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "label",
-          "name": "Label",
-          "description": "Text label paired with inputs for accessible forms",
-          "kind": "primitive",
-          "tags": [
-            "label",
-            "input"
-          ],
-          "props": [
-            {
-              "name": "htmlFor",
-              "type": "string"
-            },
-            {
-              "name": "className",
-              "type": "string"
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Disabled"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"w-[calc(var(--space-8)*4)] space-y-[var(--space-3)]\">\n  <div>\n    <Label htmlFor=\"label-default\">Email</Label>\n    <Input id=\"label-default\" placeholder=\"player@example.gg\" />\n  </div>\n  <div className=\"opacity-80\">\n    <Label htmlFor=\"label-disabled\">Disabled</Label>\n    <Input id=\"label-disabled\" placeholder=\"Disabled input\" disabled />\n  </div>\n</div>",
-          "preview": {
-            "id": "ui:label:pairing"
-          }
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "select",
-          "name": "Select",
-          "description": "Animated trigger with native fallback",
-          "kind": "primitive",
-          "tags": [
-            "select",
-            "input"
-          ],
-          "props": [
-            {
-              "name": "items",
-              "type": "readonly { value: string; label: React.ReactNode }[]",
-              "required": true
-            },
-            {
-              "name": "value",
-              "type": "string | undefined"
-            },
-            {
-              "name": "onChange",
-              "type": "(value: string) => void"
-            },
-            {
-              "name": "placeholder",
-              "type": "string"
-            },
-            {
-              "name": "variant",
-              "type": "\"animated\" | \"native\"",
-              "defaultValue": "\"animated\""
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "variant",
-              "label": "Variant",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Animated"
-                },
-                {
-                  "value": "Native"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
-          "preview": {
-            "id": "ui:select:variants"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<Select placeholder=\"Animated select\" items={items} />",
-              "preview": {
-                "id": "ui:select:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<Select buttonClassName=\"bg-[--hover]\" placeholder=\"Hover\" items={items} />",
-              "preview": {
-                "id": "ui:select:state:hover"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus-visible",
-              "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
-              "preview": {
-                "id": "ui:select:state:focus-visible"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<Select buttonClassName=\"bg-[--active]\" placeholder=\"Active\" items={items} />",
-              "preview": {
-                "id": "ui:select:state:active"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Select placeholder=\"Disabled\" disabled items={items} />",
-              "preview": {
-                "id": "ui:select:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
-              "preview": {
-                "id": "ui:select:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "layout",
-      "entries": [
-        {
-          "id": "header",
-          "name": "Header",
-          "description": "Workspace header with sticky support and segmented tabs",
-          "kind": "component",
-          "tags": [
-            "header",
-            "navigation"
-          ],
-          "axes": [
-            {
-              "id": "tab-state",
-              "label": "Tab state",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Inactive"
-                },
-                {
-                  "value": "Disabled"
-                }
-              ]
-            }
-          ],
-          "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
-          "preview": {
-            "id": "ui:header:tabs"
-          }
-        }
-      ]
-    },
-    {
-      "id": "toggles",
-      "entries": [
-        {
-          "id": "tab-bar",
-          "name": "TabBar",
-          "description": "Segmented tab navigation with preset variants",
-          "kind": "primitive",
-          "tags": [
-            "tabs",
-            "navigation"
-          ],
-          "axes": [
-            {
-              "id": "variant",
-              "label": "Variant",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Filters"
-                },
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Navigation"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
-          "preview": {
-            "id": "ui:tab-bar:variants"
-          }
-        }
-      ]
-    },
-    {
-      "id": "misc",
-      "entries": [
+        },
         {
           "id": "badge",
           "name": "Badge",
@@ -2233,1164 +3201,377 @@ export const galleryPayload = {
           }
         }
       ]
-    },
-    {
-      "id": "buttons",
-      "entries": [
-        {
-          "id": "button",
-          "name": "Button",
-          "description": "Tone, size, and interaction states",
-          "kind": "primitive",
-          "tags": [
-            "button",
-            "action"
-          ],
-          "props": [
-            {
-              "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"ghost\""
-            },
-            {
-              "name": "tone",
-              "type": "\"primary\" | \"accent\" | \"info\" | \"danger\""
-            },
-            {
-              "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
-            },
-            {
-              "name": "loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "tone",
-              "label": "Tone",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Primary"
-                },
-                {
-                  "value": "Accent"
-                },
-                {
-                  "value": "Info"
-                },
-                {
-                  "value": "Danger"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
-          "preview": {
-            "id": "ui:button:matrix"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<Button>Default</Button>",
-              "preview": {
-                "id": "ui:button:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
-              "preview": {
-                "id": "ui:button:state:hover"
-              }
-            },
-            {
-              "id": "focus",
-              "name": "Focus",
-              "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
-              "preview": {
-                "id": "ui:button:state:focus"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<Button className=\"bg-[--active]\">Active</Button>",
-              "preview": {
-                "id": "ui:button:state:active"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Button disabled>Disabled</Button>",
-              "preview": {
-                "id": "ui:button:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Button loading>Loading</Button>",
-              "preview": {
-                "id": "ui:button:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "field",
-          "name": "Field",
-          "description": "Composable shell for custom inputs, search, and selects",
-          "kind": "primitive",
-          "tags": [
-            "field",
-            "input"
-          ],
-          "props": [
-            {
-              "name": "height",
-              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | number",
-              "defaultValue": "\"md\""
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "invalid",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "readOnly",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "helper",
-              "type": "React.ReactNode"
-            },
-            {
-              "name": "helperTone",
-              "type": "\"muted\" | \"danger\" | \"success\""
-            },
-            {
-              "name": "counter",
-              "type": "React.ReactNode"
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Focus visible"
-                },
-                {
-                  "value": "Invalid"
-                },
-                {
-                  "value": "Loading"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "With counter"
-                },
-                {
-                  "value": "Select"
-                },
-                {
-                  "value": "Search"
-                }
-              ]
-            }
-          ],
-          "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>\n<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>\n<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>\n<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>\n<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>\n<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    <option value=\"one\">One</option>\n    <option value=\"two\">Two</option>\n  </Field.Select>\n</Field.Root>\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
-          "preview": {
-            "id": "ui:field:states"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:default"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus visible",
-              "code": "<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:focus-visible"
-              }
-            },
-            {
-              "id": "invalid",
-              "name": "Invalid",
-              "code": "<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:invalid"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:loading"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:disabled"
-              }
-            },
-            {
-              "id": "with-counter",
-              "name": "With counter",
-              "code": "<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:with-counter"
-              }
-            },
-            {
-              "id": "select",
-              "name": "Select",
-              "code": "const options = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n];\n\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    {options.map((option) => (\n      <option key={option.value} value={option.value}>\n        {option.label}\n      </option>\n    ))}\n  </Field.Select>\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:select"
-              }
-            },
-            {
-              "id": "search",
-              "name": "Search",
-              "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
-              "preview": {
-                "id": "ui:field:state:search"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "buttons",
-      "entries": [
-        {
-          "id": "icon-button",
-          "name": "IconButton",
-          "description": "Size, variant, and state coverage",
-          "kind": "primitive",
-          "tags": [
-            "button",
-            "icon"
-          ],
-          "props": [
-            {
-              "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"ghost\"",
-              "description": "Visual treatment of the button. Choose \"ghost\", \"secondary\", or \"primary\"."
-            },
-            {
-              "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
-            },
-            {
-              "name": "loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "variant",
-              "label": "Variant",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Ghost"
-                },
-                {
-                  "value": "Secondary"
-                },
-                {
-                  "value": "Primary"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
-          "preview": {
-            "id": "ui:icon-button:matrix"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:hover"
-              }
-            },
-            {
-              "id": "focus",
-              "name": "Focus",
-              "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:focus"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:active"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
-              "preview": {
-                "id": "ui:icon-button:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "input",
-          "name": "Input",
-          "description": "Standard text input with semantic states",
-          "kind": "primitive",
-          "tags": [
-            "input",
-            "text"
-          ],
-          "props": [
-            {
-              "name": "placeholder",
-              "type": "string"
-            },
-            {
-              "name": "height",
-              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
-              "defaultValue": "\"md\""
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "data-loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
-          "preview": {
-            "id": "ui:input:states"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<Input placeholder=\"Default\" />",
-              "preview": {
-                "id": "ui:input:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<Input className=\"bg-[--hover]\" placeholder=\"Hover\" />",
-              "preview": {
-                "id": "ui:input:state:hover"
-              }
-            },
-            {
-              "id": "focus",
-              "name": "Focus",
-              "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
-              "preview": {
-                "id": "ui:input:state:focus"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<Input className=\"bg-[--active]\" placeholder=\"Active\" />",
-              "preview": {
-                "id": "ui:input:state:active"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Input placeholder=\"Disabled\" disabled />",
-              "preview": {
-                "id": "ui:input:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Input placeholder=\"Loading\" data-loading />",
-              "preview": {
-                "id": "ui:input:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "search-bar",
-          "name": "SearchBar",
-          "description": "Debounced search input with optional label and slots",
-          "kind": "primitive",
-          "tags": [
-            "search",
-            "input"
-          ],
-          "props": [
-            {
-              "name": "value",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "onValueChange",
-              "type": "(value: string) => void"
-            },
-            {
-              "name": "placeholder",
-              "type": "string"
-            },
-            {
-              "name": "label",
-              "type": "React.ReactNode"
-            },
-            {
-              "name": "right",
-              "type": "React.ReactNode"
-            },
-            {
-              "name": "loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "variant",
-              "type": "\"default\" | \"neo\"",
-              "defaultValue": "\"default\""
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "With label"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Hover\"\n  onValueChange={handleNoop}\n  placeholder=\"Hover\"\n  fieldClassName=\"bg-[--hover]\"\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
-          "preview": {
-            "id": "ui:search-bar:states"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<SearchBar value={query} onValueChange={setQuery} placeholder=\"Search components\" />",
-              "preview": {
-                "id": "ui:search-bar:state:default"
-              }
-            },
-            {
-              "id": "with-label",
-              "name": "With label",
-              "code": "<SearchBar label=\"Search library\" right={<Button size=\"sm\">Filters</Button>} />",
-              "preview": {
-                "id": "ui:search-bar:state:with-label"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<SearchBar fieldClassName=\"bg-[--hover]\" placeholder=\"Hover\" />",
-              "preview": {
-                "id": "ui:search-bar:state:hover"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus-visible",
-              "code": "<SearchBar fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\" placeholder=\"Focus-visible\" />",
-              "preview": {
-                "id": "ui:search-bar:state:focus-visible"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<SearchBar fieldClassName=\"bg-[--active]\" placeholder=\"Active\" />",
-              "preview": {
-                "id": "ui:search-bar:state:active"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<SearchBar placeholder=\"Disabled\" disabled />",
-              "preview": {
-                "id": "ui:search-bar:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<SearchBar placeholder=\"Loading\" loading />",
-              "preview": {
-                "id": "ui:search-bar:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "buttons",
-      "entries": [
-        {
-          "id": "segmented-button",
-          "name": "SegmentedButton",
-          "description": "Inline segmented action with pressed and loading states",
-          "kind": "primitive",
-          "tags": [
-            "button",
-            "segmented"
-          ],
-          "props": [
-            {
-              "name": "as",
-              "type": "React.ElementType"
-            },
-            {
-              "name": "href",
-              "type": "string"
-            },
-            {
-              "name": "selected",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
-          "preview": {
-            "id": "ui:segmented-button:states"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<SegmentedButton>Default</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:hover"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<SegmentedButton selected>Active</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:active"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus-visible",
-              "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:focus-visible"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<SegmentedButton loading>Loading</SegmentedButton>",
-              "preview": {
-                "id": "ui:segmented-button:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "toggles",
-      "entries": [
-        {
-          "id": "tabs",
-          "name": "Tabs",
-          "description": "Context provider that links TabList controls with TabPanel content.",
-          "kind": "primitive",
-          "tags": [
-            "tabs",
-            "navigation"
-          ],
-          "axes": [
-            {
-              "id": "layout",
-              "label": "Layout",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Panels"
-                },
-                {
-                  "value": "Controlled list"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
-          "preview": {
-            "id": "ui:tabs:wiring"
-          },
-          "states": [
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-              "preview": {
-                "id": "ui:tabs:state:active"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus-visible",
-              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-              "preview": {
-                "id": "ui:tabs:state:focus-visible"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-              "preview": {
-                "id": "ui:tabs:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-              "preview": {
-                "id": "ui:tabs:state:loading"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "inputs",
-      "entries": [
-        {
-          "id": "textarea",
-          "name": "Textarea",
-          "description": "Multi-line text input with Field styling",
-          "kind": "primitive",
-          "tags": [
-            "textarea",
-            "input"
-          ],
-          "props": [
-            {
-              "name": "placeholder",
-              "type": "string"
-            },
-            {
-              "name": "disabled",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "readOnly",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "aria-invalid",
-              "type": "boolean | \"grammar\" | \"spelling\" | undefined"
-            },
-            {
-              "name": "data-loading",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "resize",
-              "type": "string"
-            }
-          ],
-          "axes": [
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Hover"
-                },
-                {
-                  "value": "Focus-visible"
-                },
-                {
-                  "value": "Active"
-                },
-                {
-                  "value": "Invalid"
-                },
-                {
-                  "value": "Read-only"
-                },
-                {
-                  "value": "Disabled"
-                },
-                {
-                  "value": "Loading"
-                }
-              ]
-            }
-          ],
-          "code": "<Textarea placeholder=\"Share your thoughts\" />\n<Textarea placeholder=\"Hover\" className=\"bg-[--hover]\" />\n<Textarea placeholder=\"Focus-visible\" className=\"ring-2 ring-[hsl(var(--ring))]\" />\n<Textarea placeholder=\"Active\" className=\"bg-[--active]\" />\n<Textarea\n  placeholder=\"Needs attention\"\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  aria-invalid\n/> \n<Textarea\n  placeholder=\"Read-only\"\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n/> \n<Textarea placeholder=\"Disabled\" disabled />\n<Textarea placeholder=\"Loading\" data-loading />\n<Textarea placeholder=\"Resizable textarea\" resize=\"resize-y\" aria-label=\"Resizable textarea\" />",
-          "preview": {
-            "id": "ui:textarea:states"
-          },
-          "states": [
-            {
-              "id": "default",
-              "name": "Default",
-              "code": "<Textarea placeholder=\"Share your thoughts\" />",
-              "preview": {
-                "id": "ui:textarea:state:default"
-              }
-            },
-            {
-              "id": "hover",
-              "name": "Hover",
-              "code": "<Textarea className=\"bg-[--hover]\" placeholder=\"Hover\" />",
-              "preview": {
-                "id": "ui:textarea:state:hover"
-              }
-            },
-            {
-              "id": "focus-visible",
-              "name": "Focus-visible",
-              "code": "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
-              "preview": {
-                "id": "ui:textarea:state:focus-visible"
-              }
-            },
-            {
-              "id": "active",
-              "name": "Active",
-              "code": "<Textarea className=\"bg-[--active]\" placeholder=\"Active\" />",
-              "preview": {
-                "id": "ui:textarea:state:active"
-              }
-            },
-            {
-              "id": "invalid",
-              "name": "Invalid",
-              "code": "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
-              "preview": {
-                "id": "ui:textarea:state:invalid"
-              }
-            },
-            {
-              "id": "read-only",
-              "name": "Read-only",
-              "code": "<Textarea\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n  placeholder=\"Read-only\"\n/>",
-              "preview": {
-                "id": "ui:textarea:state:read-only"
-              }
-            },
-            {
-              "id": "disabled",
-              "name": "Disabled",
-              "code": "<Textarea placeholder=\"Disabled\" disabled />",
-              "preview": {
-                "id": "ui:textarea:state:disabled"
-              }
-            },
-            {
-              "id": "loading",
-              "name": "Loading",
-              "code": "<Textarea placeholder=\"Loading\" data-loading />",
-              "preview": {
-                "id": "ui:textarea:state:loading"
-              }
-            }
-          ]
-        }
-      ]
     }
   ],
   "byKind": {
     "primitive": [
       {
-        "id": "progress",
-        "name": "Progress",
-        "tags": [
-          "progress"
-        ],
+        "id": "button",
+        "name": "Button",
+        "description": "Tone, size, and interaction states",
         "kind": "primitive",
-        "code": "<Progress value={33} />",
+        "tags": [
+          "button",
+          "action"
+        ],
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"primary\" | \"secondary\" | \"ghost\""
+          },
+          {
+            "name": "tone",
+            "type": "\"primary\" | \"accent\" | \"info\" | \"danger\""
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "defaultValue": "false"
+          }
+        ],
+        "axes": [
+          {
+            "id": "tone",
+            "label": "Tone",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Primary"
+              },
+              {
+                "value": "Accent"
+              },
+              {
+                "value": "Info"
+              },
+              {
+                "value": "Danger"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Hover"
+              },
+              {
+                "value": "Focus"
+              },
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
+        ],
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
         "preview": {
-          "id": "prompts:feedback:progress"
-        }
+          "id": "ui:button:matrix"
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Button>Default</Button>",
+            "preview": {
+              "id": "ui:button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
+            "preview": {
+              "id": "ui:button:state:hover"
+            }
+          },
+          {
+            "id": "focus",
+            "name": "Focus",
+            "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+            "preview": {
+              "id": "ui:button:state:focus"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Button className=\"bg-[--active]\">Active</Button>",
+            "preview": {
+              "id": "ui:button:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Button disabled>Disabled</Button>",
+            "preview": {
+              "id": "ui:button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Button loading>Loading</Button>",
+            "preview": {
+              "id": "ui:button:state:loading"
+            }
+          }
+        ]
       },
       {
-        "id": "outline-glow",
-        "name": "OutlineGlowDemo",
-        "description": "Focus ring glow tokens and disabled outline states.",
-        "tags": [
-          "focus",
-          "state",
-          "demo"
-        ],
+        "id": "icon-button",
+        "name": "IconButton",
+        "description": "Size, variant, and state coverage",
         "kind": "primitive",
-        "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Disabled example\n  </button>\n</div>",
+        "tags": [
+          "button",
+          "icon"
+        ],
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"primary\" | \"secondary\" | \"ghost\"",
+            "description": "Visual treatment of the button. Choose \"ghost\", \"secondary\", or \"primary\"."
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "defaultValue": "false"
+          }
+        ],
+        "axes": [
+          {
+            "id": "variant",
+            "label": "Variant",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Ghost"
+              },
+              {
+                "value": "Secondary"
+              },
+              {
+                "value": "Primary"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Hover"
+              },
+              {
+                "value": "Focus"
+              },
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
+        ],
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
         "preview": {
-          "id": "prompts:feedback:outline-glow"
-        }
+          "id": "ui:icon-button:matrix"
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:hover"
+            }
+          },
+          {
+            "id": "focus",
+            "name": "Focus",
+            "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:focus"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:loading"
+            }
+          }
+        ]
       },
       {
-        "id": "snackbar",
-        "name": "Snackbar",
-        "tags": [
-          "snackbar",
-          "feedback"
-        ],
+        "id": "segmented-button",
+        "name": "SegmentedButton",
+        "description": "Inline segmented action with pressed and loading states",
         "kind": "primitive",
-        "code": "<Snackbar message=\"Saved\" actionLabel=\"Undo\" onAction={() => {}} />",
-        "preview": {
-          "id": "prompts:feedback:snackbar"
-        }
-      },
-      {
-        "id": "toast-demo",
-        "name": "Toast",
         "tags": [
-          "toast",
-          "feedback"
+          "button",
+          "segmented"
         ],
-        "kind": "primitive",
-        "code": "<Button size=\"sm\">Show</Button>\n<Toast open closable showProgress><p className=\"text-ui\">Toast message</p></Toast>",
-        "preview": {
-          "id": "prompts:feedback:toast-demo"
-        }
-      },
-      {
-        "id": "skeleton",
-        "name": "Skeleton",
-        "description": "Shimmer placeholder for loading layouts.",
-        "tags": [
-          "skeleton",
-          "loading",
-          "feedback"
+        "props": [
+          {
+            "name": "as",
+            "type": "React.ElementType"
+          },
+          {
+            "name": "href",
+            "type": "string"
+          },
+          {
+            "name": "selected",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "defaultValue": "false"
+          }
         ],
-        "kind": "primitive",
-        "code": "<div className=\"space-y-2\">\n  <Skeleton\n    ariaHidden={false}\n    role=\"status\"\n    aria-label=\"Loading primary title\"\n    className=\"h-6 w-2/5 sm:w-1/3\"\n    radius=\"card\"\n  />\n  <Skeleton className=\"w-3/4\" />\n  <Skeleton radius=\"full\" className=\"h-10 w-10\" />\n</div>",
-        "preview": {
-          "id": "prompts:feedback:skeleton"
-        }
-      },
-      {
-        "id": "spinner",
-        "name": "Spinner",
-        "tags": [
-          "spinner",
-          "loading"
+        "axes": [
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Hover"
+              },
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
         ],
-        "kind": "primitive",
-        "code": "<Spinner size=\"var(--space-6)\" />",
+        "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
         "preview": {
-          "id": "prompts:feedback:spinner"
-        }
-      },
-      {
-        "id": "toggle",
-        "name": "Toggle",
-        "tags": [
-          "toggle"
-        ],
-        "kind": "primitive",
-        "code": "const [value, setValue] = React.useState<\"Left\" | \"Right\">(\"Left\");\n<Toggle value={value} onChange={setValue} />",
-        "preview": {
-          "id": "prompts:toggles:toggle"
-        }
-      },
-      {
-        "id": "animation-toggle",
-        "name": "AnimationToggle",
-        "tags": [
-          "toggle",
-          "animation"
-        ],
-        "kind": "primitive",
-        "code": "<AnimationToggle />\n<AnimationToggle loading />",
-        "preview": {
-          "id": "prompts:toggles:animation-toggle"
-        }
-      },
-      {
-        "id": "check-circle",
-        "name": "CheckCircle",
-        "tags": [
-          "checkbox",
-          "toggle"
-        ],
-        "kind": "primitive",
-        "code": "<CheckCircle\n  aria-label=\"Enable notifications\"\n  checked={false}\n  onChange={() => {}}\n  size=\"md\"\n/>\n<CheckCircle\n  aria-label=\"Enable notifications\"\n  checked\n  onChange={() => {}}\n  size=\"md\"\n/>",
-        "preview": {
-          "id": "prompts:toggles:check-circle"
-        }
+          "id": "ui:segmented-button:states"
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<SegmentedButton>Default</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:hover"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<SegmentedButton selected>Active</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:active"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<SegmentedButton loading>Loading</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "label",
@@ -3565,299 +3746,6 @@ export const galleryPayload = {
         ]
       },
       {
-        "id": "tab-bar",
-        "name": "TabBar",
-        "description": "Segmented tab navigation with preset variants",
-        "kind": "primitive",
-        "tags": [
-          "tabs",
-          "navigation"
-        ],
-        "axes": [
-          {
-            "id": "variant",
-            "label": "Variant",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Filters"
-              },
-              {
-                "value": "Default"
-              },
-              {
-                "value": "Navigation"
-              }
-            ]
-          },
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Focus-visible"
-              },
-              {
-                "value": "Disabled"
-              },
-              {
-                "value": "Loading"
-              }
-            ]
-          }
-        ],
-        "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
-        "preview": {
-          "id": "ui:tab-bar:variants"
-        }
-      },
-      {
-        "id": "badge",
-        "name": "Badge",
-        "description": "Compact pill with tone-driven styles",
-        "kind": "primitive",
-        "tags": [
-          "badge",
-          "pill"
-        ],
-        "props": [
-          {
-            "name": "tone",
-            "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
-            "defaultValue": "\"neutral\""
-          },
-          {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
-            "defaultValue": "\"md\"",
-            "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
-          },
-          {
-            "name": "interactive",
-            "type": "boolean",
-            "defaultValue": "false"
-          },
-          {
-            "name": "selected",
-            "type": "boolean",
-            "defaultValue": "false"
-          },
-          {
-            "name": "glitch",
-            "type": "boolean",
-            "defaultValue": "false"
-          }
-        ],
-        "axes": [
-          {
-            "id": "tone",
-            "label": "Tone",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Neutral"
-              },
-              {
-                "value": "Accent"
-              },
-              {
-                "value": "Primary"
-              },
-              {
-                "value": "Top lane"
-              },
-              {
-                "value": "Jungle"
-              },
-              {
-                "value": "Mid lane"
-              },
-              {
-                "value": "Bot lane"
-              },
-              {
-                "value": "Support"
-              }
-            ]
-          },
-          {
-            "id": "size",
-            "label": "Size",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Small"
-              },
-              {
-                "value": "Medium"
-              },
-              {
-                "value": "Large"
-              },
-              {
-                "value": "Extra large"
-              }
-            ]
-          },
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Default"
-              },
-              {
-                "value": "Interactive"
-              },
-              {
-                "value": "Selected"
-              },
-              {
-                "value": "Disabled"
-              }
-            ]
-          }
-        ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
-        "preview": {
-          "id": "ui:badge:tones"
-        }
-      },
-      {
-        "id": "button",
-        "name": "Button",
-        "description": "Tone, size, and interaction states",
-        "kind": "primitive",
-        "tags": [
-          "button",
-          "action"
-        ],
-        "props": [
-          {
-            "name": "variant",
-            "type": "\"primary\" | \"secondary\" | \"ghost\""
-          },
-          {
-            "name": "tone",
-            "type": "\"primary\" | \"accent\" | \"info\" | \"danger\""
-          },
-          {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
-          },
-          {
-            "name": "loading",
-            "type": "boolean",
-            "defaultValue": "false"
-          }
-        ],
-        "axes": [
-          {
-            "id": "tone",
-            "label": "Tone",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Primary"
-              },
-              {
-                "value": "Accent"
-              },
-              {
-                "value": "Info"
-              },
-              {
-                "value": "Danger"
-              }
-            ]
-          },
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Default"
-              },
-              {
-                "value": "Hover"
-              },
-              {
-                "value": "Focus"
-              },
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Disabled"
-              },
-              {
-                "value": "Loading"
-              }
-            ]
-          }
-        ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
-        "preview": {
-          "id": "ui:button:matrix"
-        },
-        "states": [
-          {
-            "id": "default",
-            "name": "Default",
-            "code": "<Button>Default</Button>",
-            "preview": {
-              "id": "ui:button:state:default"
-            }
-          },
-          {
-            "id": "hover",
-            "name": "Hover",
-            "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
-            "preview": {
-              "id": "ui:button:state:hover"
-            }
-          },
-          {
-            "id": "focus",
-            "name": "Focus",
-            "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
-            "preview": {
-              "id": "ui:button:state:focus"
-            }
-          },
-          {
-            "id": "active",
-            "name": "Active",
-            "code": "<Button className=\"bg-[--active]\">Active</Button>",
-            "preview": {
-              "id": "ui:button:state:active"
-            }
-          },
-          {
-            "id": "disabled",
-            "name": "Disabled",
-            "code": "<Button disabled>Disabled</Button>",
-            "preview": {
-              "id": "ui:button:state:disabled"
-            }
-          },
-          {
-            "id": "loading",
-            "name": "Loading",
-            "code": "<Button loading>Loading</Button>",
-            "preview": {
-              "id": "ui:button:state:loading"
-            }
-          }
-        ]
-      },
-      {
         "id": "field",
         "name": "Field",
         "description": "Composable shell for custom inputs, search, and selects",
@@ -4005,129 +3893,6 @@ export const galleryPayload = {
             "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
             "preview": {
               "id": "ui:field:state:search"
-            }
-          }
-        ]
-      },
-      {
-        "id": "icon-button",
-        "name": "IconButton",
-        "description": "Size, variant, and state coverage",
-        "kind": "primitive",
-        "tags": [
-          "button",
-          "icon"
-        ],
-        "props": [
-          {
-            "name": "variant",
-            "type": "\"primary\" | \"secondary\" | \"ghost\"",
-            "description": "Visual treatment of the button. Choose \"ghost\", \"secondary\", or \"primary\"."
-          },
-          {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\""
-          },
-          {
-            "name": "loading",
-            "type": "boolean",
-            "defaultValue": "false"
-          }
-        ],
-        "axes": [
-          {
-            "id": "variant",
-            "label": "Variant",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Ghost"
-              },
-              {
-                "value": "Secondary"
-              },
-              {
-                "value": "Primary"
-              }
-            ]
-          },
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Default"
-              },
-              {
-                "value": "Hover"
-              },
-              {
-                "value": "Focus"
-              },
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Disabled"
-              },
-              {
-                "value": "Loading"
-              }
-            ]
-          }
-        ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
-        "preview": {
-          "id": "ui:icon-button:matrix"
-        },
-        "states": [
-          {
-            "id": "default",
-            "name": "Default",
-            "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:default"
-            }
-          },
-          {
-            "id": "hover",
-            "name": "Hover",
-            "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:hover"
-            }
-          },
-          {
-            "id": "focus",
-            "name": "Focus",
-            "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:focus"
-            }
-          },
-          {
-            "id": "active",
-            "name": "Active",
-            "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:active"
-            }
-          },
-          {
-            "id": "disabled",
-            "name": "Disabled",
-            "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:disabled"
-            }
-          },
-          {
-            "id": "loading",
-            "name": "Loading",
-            "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
-            "preview": {
-              "id": "ui:icon-button:state:loading"
             }
           }
         ]
@@ -4385,204 +4150,6 @@ export const galleryPayload = {
         ]
       },
       {
-        "id": "segmented-button",
-        "name": "SegmentedButton",
-        "description": "Inline segmented action with pressed and loading states",
-        "kind": "primitive",
-        "tags": [
-          "button",
-          "segmented"
-        ],
-        "props": [
-          {
-            "name": "as",
-            "type": "React.ElementType"
-          },
-          {
-            "name": "href",
-            "type": "string"
-          },
-          {
-            "name": "selected",
-            "type": "boolean",
-            "defaultValue": "false"
-          },
-          {
-            "name": "loading",
-            "type": "boolean",
-            "defaultValue": "false"
-          },
-          {
-            "name": "disabled",
-            "type": "boolean",
-            "defaultValue": "false"
-          }
-        ],
-        "axes": [
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Default"
-              },
-              {
-                "value": "Hover"
-              },
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Focus-visible"
-              },
-              {
-                "value": "Disabled"
-              },
-              {
-                "value": "Loading"
-              }
-            ]
-          }
-        ],
-        "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
-        "preview": {
-          "id": "ui:segmented-button:states"
-        },
-        "states": [
-          {
-            "id": "default",
-            "name": "Default",
-            "code": "<SegmentedButton>Default</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:default"
-            }
-          },
-          {
-            "id": "hover",
-            "name": "Hover",
-            "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:hover"
-            }
-          },
-          {
-            "id": "active",
-            "name": "Active",
-            "code": "<SegmentedButton selected>Active</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:active"
-            }
-          },
-          {
-            "id": "focus-visible",
-            "name": "Focus-visible",
-            "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:focus-visible"
-            }
-          },
-          {
-            "id": "disabled",
-            "name": "Disabled",
-            "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:disabled"
-            }
-          },
-          {
-            "id": "loading",
-            "name": "Loading",
-            "code": "<SegmentedButton loading>Loading</SegmentedButton>",
-            "preview": {
-              "id": "ui:segmented-button:state:loading"
-            }
-          }
-        ]
-      },
-      {
-        "id": "tabs",
-        "name": "Tabs",
-        "description": "Context provider that links TabList controls with TabPanel content.",
-        "kind": "primitive",
-        "tags": [
-          "tabs",
-          "navigation"
-        ],
-        "axes": [
-          {
-            "id": "layout",
-            "label": "Layout",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Panels"
-              },
-              {
-                "value": "Controlled list"
-              }
-            ]
-          },
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Focus-visible"
-              },
-              {
-                "value": "Disabled"
-              },
-              {
-                "value": "Loading"
-              }
-            ]
-          }
-        ],
-        "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
-        "preview": {
-          "id": "ui:tabs:wiring"
-        },
-        "states": [
-          {
-            "id": "active",
-            "name": "Active",
-            "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-            "preview": {
-              "id": "ui:tabs:state:active"
-            }
-          },
-          {
-            "id": "focus-visible",
-            "name": "Focus-visible",
-            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-            "preview": {
-              "id": "ui:tabs:state:focus-visible"
-            }
-          },
-          {
-            "id": "disabled",
-            "name": "Disabled",
-            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-            "preview": {
-              "id": "ui:tabs:state:disabled"
-            }
-          },
-          {
-            "id": "loading",
-            "name": "Loading",
-            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
-            "preview": {
-              "id": "ui:tabs:state:loading"
-            }
-          }
-        ]
-      },
-      {
         "id": "textarea",
         "name": "Textarea",
         "description": "Multi-line text input with Field styling",
@@ -4723,6 +4290,371 @@ export const galleryPayload = {
             }
           }
         ]
+      },
+      {
+        "id": "progress",
+        "name": "Progress",
+        "tags": [
+          "progress"
+        ],
+        "kind": "primitive",
+        "code": "<Progress value={33} />",
+        "preview": {
+          "id": "prompts:feedback:progress"
+        }
+      },
+      {
+        "id": "outline-glow",
+        "name": "OutlineGlowDemo",
+        "description": "Focus ring glow tokens and disabled outline states.",
+        "tags": [
+          "focus",
+          "state",
+          "demo"
+        ],
+        "kind": "primitive",
+        "code": "<div className=\"flex gap-[var(--space-2)]\">\n  <button\n    type=\"button\"\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Focus me to see the glow\n  </button>\n  <button\n    type=\"button\"\n    disabled\n    className=\"inline-flex items-center justify-center rounded-card r-card-md border px-[var(--space-3)] py-[var(--space-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:bg-surface-2 active:bg-surface disabled:cursor-not-allowed\"\n    style={{ \"--focus\": \"var(--focus)\" }}\n  >\n    Disabled example\n  </button>\n</div>",
+        "preview": {
+          "id": "prompts:feedback:outline-glow"
+        }
+      },
+      {
+        "id": "snackbar",
+        "name": "Snackbar",
+        "tags": [
+          "snackbar",
+          "feedback"
+        ],
+        "kind": "primitive",
+        "code": "<Snackbar message=\"Saved\" actionLabel=\"Undo\" onAction={() => {}} />",
+        "preview": {
+          "id": "prompts:feedback:snackbar"
+        }
+      },
+      {
+        "id": "toast-demo",
+        "name": "Toast",
+        "tags": [
+          "toast",
+          "feedback"
+        ],
+        "kind": "primitive",
+        "code": "<Button size=\"sm\">Show</Button>\n<Toast open closable showProgress><p className=\"text-ui\">Toast message</p></Toast>",
+        "preview": {
+          "id": "prompts:feedback:toast-demo"
+        }
+      },
+      {
+        "id": "skeleton",
+        "name": "Skeleton",
+        "description": "Shimmer placeholder for loading layouts.",
+        "tags": [
+          "skeleton",
+          "loading",
+          "feedback"
+        ],
+        "kind": "primitive",
+        "code": "<div className=\"space-y-2\">\n  <Skeleton\n    ariaHidden={false}\n    role=\"status\"\n    aria-label=\"Loading primary title\"\n    className=\"h-6 w-2/5 sm:w-1/3\"\n    radius=\"card\"\n  />\n  <Skeleton className=\"w-3/4\" />\n  <Skeleton radius=\"full\" className=\"h-10 w-10\" />\n</div>",
+        "preview": {
+          "id": "prompts:feedback:skeleton"
+        }
+      },
+      {
+        "id": "spinner",
+        "name": "Spinner",
+        "tags": [
+          "spinner",
+          "loading"
+        ],
+        "kind": "primitive",
+        "code": "<Spinner size=\"var(--space-6)\" />",
+        "preview": {
+          "id": "prompts:feedback:spinner"
+        }
+      },
+      {
+        "id": "toggle",
+        "name": "Toggle",
+        "tags": [
+          "toggle"
+        ],
+        "kind": "primitive",
+        "code": "const [value, setValue] = React.useState<\"Left\" | \"Right\">(\"Left\");\n<Toggle value={value} onChange={setValue} />",
+        "preview": {
+          "id": "prompts:toggles:toggle"
+        }
+      },
+      {
+        "id": "animation-toggle",
+        "name": "AnimationToggle",
+        "tags": [
+          "toggle",
+          "animation"
+        ],
+        "kind": "primitive",
+        "code": "<AnimationToggle />\n<AnimationToggle loading />",
+        "preview": {
+          "id": "prompts:toggles:animation-toggle"
+        }
+      },
+      {
+        "id": "check-circle",
+        "name": "CheckCircle",
+        "tags": [
+          "checkbox",
+          "toggle"
+        ],
+        "kind": "primitive",
+        "code": "<CheckCircle\n  aria-label=\"Enable notifications\"\n  checked={false}\n  onChange={() => {}}\n  size=\"md\"\n/>\n<CheckCircle\n  aria-label=\"Enable notifications\"\n  checked\n  onChange={() => {}}\n  size=\"md\"\n/>",
+        "preview": {
+          "id": "prompts:toggles:check-circle"
+        }
+      },
+      {
+        "id": "tab-bar",
+        "name": "TabBar",
+        "description": "Segmented tab navigation with preset variants",
+        "kind": "primitive",
+        "tags": [
+          "tabs",
+          "navigation"
+        ],
+        "axes": [
+          {
+            "id": "variant",
+            "label": "Variant",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Filters"
+              },
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Navigation"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
+        ],
+        "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
+        "preview": {
+          "id": "ui:tab-bar:variants"
+        }
+      },
+      {
+        "id": "tabs",
+        "name": "Tabs",
+        "description": "Context provider that links TabList controls with TabPanel content.",
+        "kind": "primitive",
+        "tags": [
+          "tabs",
+          "navigation"
+        ],
+        "axes": [
+          {
+            "id": "layout",
+            "label": "Layout",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Panels"
+              },
+              {
+                "value": "Controlled list"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Disabled"
+              },
+              {
+                "value": "Loading"
+              }
+            ]
+          }
+        ],
+        "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
+        "preview": {
+          "id": "ui:tabs:wiring"
+        },
+        "states": [
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:active"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:loading"
+            }
+          }
+        ]
+      },
+      {
+        "id": "badge",
+        "name": "Badge",
+        "description": "Compact pill with tone-driven styles",
+        "kind": "primitive",
+        "tags": [
+          "badge",
+          "pill"
+        ],
+        "props": [
+          {
+            "name": "tone",
+            "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
+            "defaultValue": "\"neutral\""
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+            "defaultValue": "\"md\"",
+            "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "selected",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "glitch",
+            "type": "boolean",
+            "defaultValue": "false"
+          }
+        ],
+        "axes": [
+          {
+            "id": "tone",
+            "label": "Tone",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Neutral"
+              },
+              {
+                "value": "Accent"
+              },
+              {
+                "value": "Primary"
+              },
+              {
+                "value": "Top lane"
+              },
+              {
+                "value": "Jungle"
+              },
+              {
+                "value": "Mid lane"
+              },
+              {
+                "value": "Bot lane"
+              },
+              {
+                "value": "Support"
+              }
+            ]
+          },
+          {
+            "id": "size",
+            "label": "Size",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Small"
+              },
+              {
+                "value": "Medium"
+              },
+              {
+                "value": "Large"
+              },
+              {
+                "value": "Extra large"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Interactive"
+              },
+              {
+                "value": "Selected"
+              },
+              {
+                "value": "Disabled"
+              }
+            ]
+          }
+        ],
+        "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
+        "preview": {
+          "id": "ui:badge:tones"
+        }
       }
     ],
     "component": [
@@ -5249,6 +5181,73 @@ export const galleryPayload = {
         }
       },
       {
+        "id": "header-tabs",
+        "name": "HeaderTabs",
+        "description": "Neomorphic segmented control used within headers",
+        "kind": "component",
+        "tags": [
+          "tabs",
+          "navigation"
+        ],
+        "axes": [
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Inactive"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Disabled"
+              }
+            ]
+          }
+        ],
+        "code": "<HeaderTabs\n  items={[\n    { key: \"plan\", label: \"Plan\", icon: <Circle aria-hidden=\"true\" /> },\n    {\n      key: \"review\",\n      label: \"Review\",\n      icon: <CircleDot aria-hidden=\"true\" />,\n      className: \"data-[state=inactive]:shadow-[0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.55)] data-[state=inactive]:outline-none\",\n    },\n    {\n      key: \"archive\",\n      label: \"Archive\",\n      icon: <CircleCheck aria-hidden=\"true\" />,\n      disabled: true,\n    },\n  ]}\n  value=\"plan\"\n  onChange={() => {}}\n  ariaLabel=\"Header tab demo\"\n/>",
+        "preview": {
+          "id": "ui:header-tabs:control"
+        }
+      },
+      {
+        "id": "header",
+        "name": "Header",
+        "description": "Workspace header with sticky support and segmented tabs",
+        "kind": "component",
+        "tags": [
+          "header",
+          "navigation"
+        ],
+        "axes": [
+          {
+            "id": "tab-state",
+            "label": "Tab state",
+            "type": "state",
+            "values": [
+              {
+                "value": "Active"
+              },
+              {
+                "value": "Inactive"
+              },
+              {
+                "value": "Disabled"
+              }
+            ]
+          }
+        ],
+        "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
+        "preview": {
+          "id": "ui:header:tabs"
+        }
+      },
+      {
         "id": "neomorphic-hero-frame",
         "name": "NeomorphicHeroFrame",
         "description": "Composable neomorphic frame with semantic wrappers, tokenized spacing, and an action row for tabs, search, and buttons.",
@@ -5433,73 +5432,6 @@ export const galleryPayload = {
         "code": "<CatCompanion />",
         "preview": {
           "id": "prompts:misc:cat-companion"
-        }
-      },
-      {
-        "id": "header-tabs",
-        "name": "HeaderTabs",
-        "description": "Neomorphic segmented control used within headers",
-        "kind": "component",
-        "tags": [
-          "tabs",
-          "navigation"
-        ],
-        "axes": [
-          {
-            "id": "state",
-            "label": "State",
-            "type": "state",
-            "values": [
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Inactive"
-              },
-              {
-                "value": "Focus-visible"
-              },
-              {
-                "value": "Disabled"
-              }
-            ]
-          }
-        ],
-        "code": "<HeaderTabs\n  items={[\n    { key: \"plan\", label: \"Plan\", icon: <Circle aria-hidden=\"true\" /> },\n    {\n      key: \"review\",\n      label: \"Review\",\n      icon: <CircleDot aria-hidden=\"true\" />,\n      className: \"data-[state=inactive]:shadow-[0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.55)] data-[state=inactive]:outline-none\",\n    },\n    {\n      key: \"archive\",\n      label: \"Archive\",\n      icon: <CircleCheck aria-hidden=\"true\" />,\n      disabled: true,\n    },\n  ]}\n  value=\"plan\"\n  onChange={() => {}}\n  ariaLabel=\"Header tab demo\"\n/>",
-        "preview": {
-          "id": "ui:header-tabs:control"
-        }
-      },
-      {
-        "id": "header",
-        "name": "Header",
-        "description": "Workspace header with sticky support and segmented tabs",
-        "kind": "component",
-        "tags": [
-          "header",
-          "navigation"
-        ],
-        "axes": [
-          {
-            "id": "tab-state",
-            "label": "Tab state",
-            "type": "state",
-            "values": [
-              {
-                "value": "Active"
-              },
-              {
-                "value": "Inactive"
-              },
-              {
-                "value": "Disabled"
-              }
-            ]
-          }
-        ],
-        "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
-        "preview": {
-          "id": "ui:header:tabs"
         }
       }
     ],
