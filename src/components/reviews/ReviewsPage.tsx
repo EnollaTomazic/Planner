@@ -146,7 +146,7 @@ export default function ReviewsPage({
               onSelect(id);
             }}
             onCreate={handleCreateReview}
-            className="h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+            className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
             header={`${filtered.length} shown`}
             hoverRing
           />

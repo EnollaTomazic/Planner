@@ -471,7 +471,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-2 lg:col-span-4"
       >
         <section
-          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
           data-scope="reviews"
         >
           <header

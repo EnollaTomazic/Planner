@@ -30,15 +30,25 @@
     --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
     --icon-size-lg: var(--space-5);
     --icon-size-xl: var(--space-6);
+    --viewport-width: 100vw;
+    --viewport-height: 100vh;
+    --viewport-height: 100dvh;
+    --select-menu-max-height: calc(var(--viewport-height) * 0.6);
   }
 
   body {
     --header-stack: calc(var(--space-8) + var(--space-7));
+    --content-viewport-height: calc(
+      var(--viewport-height) - var(--header-stack) - var(--space-6)
+    );
   }
 
   @media (min-width: 48rem) {
     body {
       --header-stack: calc(var(--space-8) + var(--space-4));
+      --content-viewport-height: calc(
+        var(--viewport-height) - var(--header-stack) - var(--space-6)
+      );
     }
   }
 
@@ -178,7 +188,7 @@ body {
   background: hsl(var(--background));
   font-size: var(--font-body);
   line-height: 1.6;
-  min-height: 100dvh;
+  min-height: var(--viewport-height);
   position: relative;
   overflow-x: hidden;
 }
