@@ -16,19 +16,18 @@ import { cn } from "@/lib/utils";
 import DayCardHeader from "./DayCardHeader";
 import ProjectList from "./ProjectList";
 import TaskList from "./TaskList";
+import { usePlannerActions } from "./usePlannerStore";
 
 type Props = { iso: ISODate; isToday?: boolean };
 
 export default function DayCard({ iso, isToday }: Props) {
   const {
     projects,
-    addProject,
     renameProject,
     deleteProject,
     toggleProject,
     tasksById,
     tasksByProject,
-    addTask,
     renameTask,
     toggleTask,
     deleteTask,
@@ -40,6 +39,24 @@ export default function DayCard({ iso, isToday }: Props) {
 
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
   const [, setSelectedTaskId] = useSelectedTask(iso);
+  const { createProject, createTask } = usePlannerActions();
+
+  const handleCreateProject = React.useCallback(
+    (name: string) =>
+      createProject({ iso, name, select: setSelectedProjectId }),
+    [createProject, iso, setSelectedProjectId],
+  );
+
+  const handleCreateTask = React.useCallback(
+    (title: string) =>
+      createTask({
+        iso,
+        projectId: selectedProjectId,
+        title,
+        select: setSelectedTaskId,
+      }),
+    [createTask, iso, selectedProjectId, setSelectedTaskId],
+  );
 
   React.useEffect(() => {
     if (
@@ -81,7 +98,7 @@ export default function DayCard({ iso, isToday }: Props) {
           toggleProject={toggleProject}
           renameProject={renameProject}
           deleteProject={deleteProject}
-          addProject={addProject}
+          createProject={handleCreateProject}
         />
       </div>
       {selectedProjectId && (
@@ -96,7 +113,7 @@ export default function DayCard({ iso, isToday }: Props) {
               tasksById={tasksById}
               tasksByProject={tasksByProject}
               selectedProjectId={selectedProjectId}
-              addTask={addTask}
+              createTask={handleCreateTask}
               renameTask={renameTask}
               toggleTask={toggleTask}
               deleteTask={deleteTask}

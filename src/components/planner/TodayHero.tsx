@@ -34,11 +34,9 @@ export default function TodayHero({ iso }: Props) {
   const {
     projects,
     tasks,
-    addTask,
     renameTask,
     toggleTask,
     deleteTask,
-    addProject,
     renameProject,
     deleteProject,
     toggleProject,
@@ -81,20 +79,20 @@ export default function TodayHero({ iso }: Props) {
     : "Tasks completed";
 
   const projectState = useTodayHeroProjects({
+    iso: viewIso,
     projects,
     selectedProjectId: selProjectId,
     setSelectedProjectId: setSelProjectId,
-    addProject,
     renameProject,
     deleteProject,
     toggleProject,
   });
 
   const taskState = useTodayHeroTasks({
+    iso: viewIso,
     scopedTasks,
     projectId: selProjectId,
     projectName: selectedProjectName,
-    addTask,
     renameTask,
     deleteTask,
     toggleTask,
