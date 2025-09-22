@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { ensureDay, computeDayCounts, buildTaskLookups } from "./plannerSerialization";
+import {
+  ensureDay,
+  computeDayCounts,
+  buildTaskLookups,
+  FOCUS_PLACEHOLDER,
+} from "./plannerSerialization";
 import { useDays, useFocus } from "./plannerContext";
 import type {
   DayRecord,
@@ -62,7 +67,8 @@ function migrateLegacy(
  */
 export function usePlannerStore() {
   const { days, setDays } = useDays();
-  const { focus, setFocus } = useFocus();
+  const { focus, setFocus, today } = useFocus();
+  const activeFocus = focus === FOCUS_PLACEHOLDER ? today : focus;
 
   const applyDaysUpdate = React.useCallback(
     (
@@ -89,7 +95,7 @@ export function usePlannerStore() {
 
   React.useEffect(() => {
     if (!legacyMigrated) {
-      if (!focus) return;
+      if (!activeFocus) return;
       const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
       const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
 
@@ -99,11 +105,11 @@ export function usePlannerStore() {
       }
 
       applyDaysUpdate(
-        (prev) => migrateLegacy(prev, focus, { projects, tasks }),
-        focus,
+        (prev) => migrateLegacy(prev, activeFocus, { projects, tasks }),
+        activeFocus,
       );
     }
-  }, [applyDaysUpdate, focus]);
+  }, [activeFocus, applyDaysUpdate]);
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
@@ -132,16 +138,16 @@ export function usePlannerStore() {
   );
 
   const crud = React.useMemo(
-    () => makeCrud(focus, upsertDay),
-    [focus, upsertDay],
+    () => makeCrud(activeFocus, upsertDay),
+    [activeFocus, upsertDay],
   );
   const { setFocus: setDayFocus, ...restCrud } = crud;
 
   return {
     days,
-    focus,
+    focus: activeFocus,
     setFocus,
-    day: getDay(focus),
+    day: getDay(activeFocus),
     getDay,
     setDay,
     upsertDay,

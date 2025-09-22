@@ -3,6 +3,7 @@
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
 import { useFocus } from "./plannerContext";
+import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import type { ISODate } from "./plannerTypes";
 
 /**
@@ -11,7 +12,8 @@ import type { ISODate } from "./plannerTypes";
  */
 export function useFocusDate() {
   const { focus, setFocus, today } = useFocus();
-  return { iso: focus, setIso: setFocus, today } as const;
+  const activeIso = focus === FOCUS_PLACEHOLDER ? today : focus;
+  return { iso: activeIso, setIso: setFocus, today } as const;
 }
 
 /**
