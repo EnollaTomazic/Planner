@@ -63,7 +63,7 @@ export default defineGallerySection({
       id: "badge",
       name: "Badge",
       description:
-        "Compact pill with tone-driven styles. Accent tones use a deeper gradient for accessible contrast",
+        "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
       kind: "primitive",
       tags: ["badge", "pill"],
       props: [
