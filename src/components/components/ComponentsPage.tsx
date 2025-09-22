@@ -2,6 +2,7 @@ import ComponentsPageClient from "./ComponentsPageClient";
 import tokens from "../../../tokens/tokens.js";
 import {
   GALLERY_SECTION_GROUPS,
+  type GallerySectionGroupMeta,
   type GallerySectionMeta,
 } from "@/components/gallery/metadata";
 import {
@@ -25,6 +26,28 @@ const formatSectionLabel = (section: GallerySectionMeta): string => {
   return formatGallerySectionLabel(section.id);
 };
 
+const buildGroupSections = (
+  group: GallerySectionGroupMeta,
+  knownSectionIds: ReadonlySet<GalleryNavigationSection["id"]>,
+): GalleryNavigationSection[] => {
+  const sections: GalleryNavigationSection[] = [];
+
+  for (const sectionMeta of group.sections) {
+    if (!knownSectionIds.has(sectionMeta.id)) {
+      continue;
+    }
+
+    sections.push({
+      id: sectionMeta.id,
+      label: formatSectionLabel(sectionMeta),
+      copy: sectionMeta.copy,
+      groupId: group.id,
+    });
+  }
+
+  return sections;
+};
+
 const buildGalleryNavigation = (): GalleryNavigationData => {
   const knownSectionIds = new Set<GalleryNavigationSection["id"]>(
     GALLERY_SECTION_IDS,
@@ -32,14 +55,7 @@ const buildGalleryNavigation = (): GalleryNavigationData => {
 
   const groups: GalleryNavigationGroup[] = GALLERY_SECTION_GROUPS.map(
     (group) => {
-      const sections: GalleryNavigationSection[] = group.sections
-        .filter((section) => knownSectionIds.has(section.id))
-        .map((section) => ({
-          id: section.id,
-          label: formatSectionLabel(section),
-          copy: section.copy,
-          groupId: group.id,
-        }));
+      const sections = buildGroupSections(group, knownSectionIds);
 
       return {
         id: group.id,

@@ -5,7 +5,7 @@
  * CheckCircle — Lavender-Glitch concentric checkbox
  * - Accessible (role="checkbox"), Space/Enter toggles
  * - Ignite / powerdown animation to match NeonIcon / Button
- * - --success / --success-glow tokens with fallbacks
+ * - --success / --success-glow tokens from theme variables
  * - Deselect experience:
  *    • Any uncheck triggers a brief "justCleared" window that suppresses hover/focus glow,
  *      ensuring a visible power-down to the neutral state.
@@ -100,8 +100,8 @@ export default function CheckCircle({
   }, [checked, markJustCleared, justCleared]);
 
   // Theme-driven tones
-  const pink = "hsl(var(--success,150 70% 45%))";
-  const glow = "hsl(var(--success-glow,150 70% 35% / 0.6))";
+  const pink = "hsl(var(--success))";
+  const glow = "hsl(var(--success-glow))";
 
   // Neon phase: ignite / steady-on / powerdown / off
   const effectiveHoverOrFocus = (hovered || focused) && !justCleared;
