@@ -174,16 +174,30 @@ export default function Header<Key extends string = string>({
 
   const stickyClasses = sticky ? cx("sticky", topClassName) : "";
 
-  const barPadding = compact
-    ? isMinimal
-      ? "px-[var(--space-4)] py-[var(--space-3)]"
-      : "px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)]"
-    : isMinimal
-      ? "px-[var(--space-4)] py-[var(--space-4)]"
-      : "px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)] sm:py-[var(--space-4)]";
+  const defaultBarPx = isMinimal ? "var(--space-4)" : "var(--space-3)";
+  const defaultBarSmPx = "var(--space-4)";
+  const barPadding = cx(
+    `px-[var(--header-bar-px,${defaultBarPx})]`,
+    `sm:px-[var(--header-bar-sm-px,${defaultBarSmPx})]`,
+    compact
+      ? "py-[var(--space-3)]"
+      : isMinimal
+        ? "py-[var(--space-4)]"
+        : "py-[var(--space-3)] sm:py-[var(--space-4)]",
+  );
   const minHeightClass = compact
     ? "min-h-[var(--control-h-sm)]"
     : "min-h-[var(--space-7)]";
+
+  const defaultBodyPx = isMinimal ? "var(--space-4)" : "var(--space-3)";
+  const defaultBodySmPx = "var(--space-4)";
+  const bodyPadding = cx(
+    `px-[var(--header-body-px,${defaultBodyPx})]`,
+    `sm:px-[var(--header-body-sm-px,${defaultBodySmPx})]`,
+    isMinimal
+      ? "py-[var(--space-4)]"
+      : "py-[var(--space-3)] sm:py-[var(--space-4)]",
+  );
 
   return (
     <>
@@ -295,9 +309,7 @@ export default function Header<Key extends string = string>({
             className={cx(
               "relative",
               isNeo && "z-[2]",
-              isMinimal
-                ? "px-[var(--space-4)] py-[var(--space-4)]"
-                : "px-[var(--space-3)] py-[var(--space-3)] sm:px-[var(--space-4)] sm:py-[var(--space-4)]",
+              bodyPadding,
               bodyClassName,
             )}
           >

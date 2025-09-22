@@ -19,7 +19,7 @@ type Props = {
   toggleProject: (id: string) => void;
   renameProject: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  addProject: (name: string) => string | void;
+  createProject: (name: string) => string | undefined;
 };
 
 export default function ProjectList({
@@ -30,7 +30,7 @@ export default function ProjectList({
   toggleProject,
   renameProject,
   deleteProject,
-  addProject,
+  createProject,
 }: Props) {
   const newProjectInputId = React.useId();
   const [editingProjectId, setEditingProjectId] = React.useState<string | null>(
@@ -59,13 +59,12 @@ export default function ProjectList({
     node?.focus();
   }, []);
 
-  function addProjectCommit() {
-    const v = draftProject.trim();
-    if (!v) return;
-    const id = addProject(v);
-    setDraftProject("");
-    if (id) setSelectedProjectId(id);
-  }
+  const addProjectCommit = React.useCallback(() => {
+    const id = createProject(draftProject);
+    if (id) {
+      setDraftProject("");
+    }
+  }, [createProject, draftProject]);
 
   const commitRename = React.useCallback(
     (projectId: string, fallbackName: string) => {

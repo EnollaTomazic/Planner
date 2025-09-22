@@ -1799,6 +1799,8 @@ function ModalFocusTrapState() {
 }
 
 function ModalConfirmState() {
+  const [acknowledged, setAcknowledged] = React.useState(false);
+
   return (
     <Modal
       open
@@ -1817,11 +1819,23 @@ function ModalConfirmState() {
             Deleting removes all tasks and cannot be undone.
           </p>
         </div>
+        <div className="flex items-center gap-[var(--space-2)]">
+          <CheckCircle
+            aria-label="Acknowledge delete warning"
+            checked={acknowledged}
+            onChange={setAcknowledged}
+            size="md"
+            className="shrink-0"
+          />
+          <p className="text-label text-foreground">
+            I understand this action cannot be undone.
+          </p>
+        </div>
       </CardContent>
       <CardFooter className="flex justify-end gap-[var(--space-2)]">
         <Button
           size="sm"
-          disabled
+          disabled={!acknowledged}
           className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
         >
           Delete

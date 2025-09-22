@@ -45,6 +45,12 @@ const frameContentSpacingByVariant = {
   dense: "space-y-[var(--space-3)] md:space-y-[var(--space-4)]",
 } as const satisfies Record<FrameVariantWithSpacing, string>;
 
+const flushHeaderBarPaddingClass =
+  "[--header-bar-px:var(--space-0)] sm:[--header-bar-sm-px:var(--space-0)]";
+
+const flushHeaderBodyPaddingClass =
+  "[--header-body-px:var(--space-0)] sm:[--header-body-sm-px:var(--space-0)]";
+
 const hasRenderableNode = (node: React.ReactNode): boolean => {
   if (node === null || node === undefined) {
     return false;
@@ -170,6 +176,8 @@ const PageHeaderInner = <
     sticky: headerSticky = false,
     tabs: headerTabs,
     underline: headerUnderline,
+    barClassName: headerBarClassName,
+    bodyClassName: headerBodyClassName,
     ...headerRest
   } = header;
 
@@ -263,6 +271,16 @@ const PageHeaderInner = <
       frameContentSpacingByVariant.default
     );
   }, [frameVariant]);
+
+  const normalizedHeaderBarClassName =
+    headerBarClassName === undefined
+      ? flushHeaderBarPaddingClass
+      : headerBarClassName;
+
+  const normalizedHeaderBodyClassName =
+    headerBodyClassName === undefined
+      ? flushHeaderBodyPaddingClass
+      : headerBodyClassName;
 
   const actionAreaTabsSlot = React.useMemo<HeroSlot | null | undefined>(() => {
     if (!resolvedSubTabs || heroShouldRenderTabs) return undefined;
@@ -580,6 +598,8 @@ const PageHeaderInner = <
         >
           <Header
             {...headerRest}
+            barClassName={normalizedHeaderBarClassName}
+            bodyClassName={normalizedHeaderBodyClassName}
             sticky={headerSticky}
             tabs={tabsInHero ? undefined : headerTabs}
             underline={headerUnderline ?? false}

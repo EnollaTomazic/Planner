@@ -2053,6 +2053,24 @@ a:active .lucide {
     outline: none;
   }
 
+  @media (prefers-contrast: more) {
+    .hero-slot-well::before,
+    .hero-slot-well::after {
+      content: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .hero-slot-well::before,
+    .hero-slot-well::after {
+      content: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+  }
+
   .hero-halo {
     box-shadow:
       0 0 0 2px hsl(var(--ring)),

@@ -149,3 +149,58 @@ export function usePlannerStore() {
     ...restCrud,
   } as const;
 }
+
+type ProjectSelector = (projectId: string) => void;
+type TaskSelector = (taskId: string) => void;
+
+type CreateProjectArgs = {
+  iso: ISODate;
+  name: string;
+  select?: ProjectSelector;
+};
+
+type CreateTaskArgs = {
+  iso: ISODate;
+  projectId?: string;
+  title: string;
+  select?: TaskSelector;
+};
+
+/**
+ * Shared helpers that wrap planner CRUD to standardise creation flows.
+ */
+export function usePlannerActions() {
+  const { upsertDay } = usePlannerStore();
+
+  const createProject = React.useCallback(
+    ({ iso, name, select }: CreateProjectArgs) => {
+      if (!iso) return;
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      const id = makeCrud(iso, upsertDay).addProject(trimmed);
+      select?.(id);
+      return id;
+    },
+    [upsertDay],
+  );
+
+  const createTask = React.useCallback(
+    ({ iso, projectId, title, select }: CreateTaskArgs) => {
+      if (!iso || !projectId) return;
+      const trimmed = title.trim();
+      if (!trimmed) return;
+      const id = makeCrud(iso, upsertDay).addTask(trimmed, projectId);
+      select?.(id);
+      return id;
+    },
+    [upsertDay],
+  );
+
+  return React.useMemo(
+    () => ({
+      createProject,
+      createTask,
+    }),
+    [createProject, createTask],
+  );
+}
