@@ -381,12 +381,16 @@ const PageHeaderInner = <
       ? sanitizedAriaLabel ?? sanitizedVisibleLabel
       : sanitizedAriaLabel ?? sanitizedVisibleLabel ?? "Hero search";
 
+    const usesNeoPill =
+      resolvedSearch.variant === "neo" || Boolean(resolvedSearch.round);
+
     return {
       node: <HeroSearchBar {...resolvedSearch} />,
       ...(slotLabel ? { label: slotLabel } : {}),
       ...(sanitizedAriaLabelledBy
         ? { labelledById: sanitizedAriaLabelledBy }
         : {}),
+      ...(usesNeoPill ? { unstyled: true } : {}),
     };
   }, [resolvedSearch]);
 
