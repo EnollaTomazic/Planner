@@ -38,12 +38,12 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center rounded-[var(--radius-2xl)] border px-[var(--space-4)] py-[var(--space-3)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center rounded-[var(--radius-2xl)] border px-[var(--space-4)] py-[var(--space-3)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-interaction-focus-surfaceActive active:text-foreground",
                   "bg-[hsl(var(--card)/0.85)]",
                   "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
                   active
                     ? "text-foreground border-ring shadow-nav-active"
-                    : "text-muted-foreground border-transparent hover:border-border",
+                    : "text-muted-foreground border-transparent hover:border-border hover:bg-interaction-focus-surfaceHover",
                 )}
               >
                 <span className="relative z-10">{label}</span>

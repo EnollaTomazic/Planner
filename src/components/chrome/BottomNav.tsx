@@ -41,7 +41,7 @@ export default function BottomNav({
                 aria-current={active ? "page" : undefined}
                 data-active={active}
                 className={cn(
-                  "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                  "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none hover:bg-interaction-accent-surfaceHover active:bg-interaction-accent-surfaceActive active:text-foreground",
                   active
                     ? "text-accent-3 ring-2 ring-[var(--focus)]"
                     : "text-muted-foreground hover:text-foreground"
