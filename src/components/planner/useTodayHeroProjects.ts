@@ -3,15 +3,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 
-import type { Project } from "./plannerTypes";
+import type { ISODate, Project } from "./plannerTypes";
+import { usePlannerActions } from "./usePlannerStore";
 
 const PROJECT_PREVIEW_LIMIT = 12;
 
 type UseTodayHeroProjectsParams = {
+  iso: ISODate;
   projects: Project[];
   selectedProjectId: string;
   setSelectedProjectId: (projectId: string) => void;
-  addProject: (name: string) => string | void;
   renameProject: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
   toggleProject: (id: string) => void;
@@ -39,10 +40,10 @@ type UseTodayHeroProjectsResult = {
 };
 
 export function useTodayHeroProjects({
+  iso,
   projects,
   selectedProjectId,
   setSelectedProjectId,
-  addProject,
   renameProject,
   deleteProject,
   toggleProject,
@@ -51,6 +52,8 @@ export function useTodayHeroProjects({
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [editingProjectName, setEditingProjectName] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(false);
+
+  const { createProject } = usePlannerActions();
 
   const projectsListId = "today-hero-project-list";
 
@@ -76,13 +79,16 @@ export function useTodayHeroProjects({
   const handleProjectFormSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const title = projectName.trim();
-      if (!title) return;
-      const id = addProject(title);
-      setProjectName("");
-      if (id) setSelectedProjectId(id);
+      const id = createProject({
+        iso,
+        name: projectName,
+        select: setSelectedProjectId,
+      });
+      if (id) {
+        setProjectName("");
+      }
     },
-    [addProject, projectName, setSelectedProjectId],
+    [createProject, iso, projectName, setSelectedProjectId],
   );
 
   const handleProjectSelect = useCallback(
