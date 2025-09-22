@@ -41,15 +41,6 @@ export default function DayCard({ iso, isToday }: Props) {
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
   const [, setSelectedTaskId] = useSelectedTask(iso);
 
-  React.useEffect(() => {
-    if (
-      selectedProjectId &&
-      !projects.some((p) => p.id === selectedProjectId)
-    ) {
-      setSelectedProjectId("");
-    }
-  }, [projects, selectedProjectId, setSelectedProjectId]);
-
   return (
     <section
       className={cn(
@@ -85,7 +76,7 @@ export default function DayCard({ iso, isToday }: Props) {
         />
       </div>
       {selectedProjectId && (
-        <>
+        <React.Fragment>
           <div
             className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline/90 rounded-full self-stretch"
             aria-hidden
@@ -107,7 +98,7 @@ export default function DayCard({ iso, isToday }: Props) {
               setSelectedTaskId={setSelectedTaskId}
             />
           </div>
-        </>
+        </React.Fragment>
       )}
     </section>
   );
