@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/globals.css";
 import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
 import BottomNav from "@/components/chrome/BottomNav";
@@ -8,7 +9,6 @@ import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
 import Link from "next/link";
-import "@/app/globals.css";
 
 /**
  * SiteChrome — sticky top bar with Lavender-Glitch hairline
