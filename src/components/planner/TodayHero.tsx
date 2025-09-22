@@ -50,12 +50,6 @@ export default function TodayHero({ iso }: Props) {
     return project?.name ?? "";
   }, [projects, selProjectId]);
 
-  useEffect(() => {
-    if (selProjectId && !projects.some((p) => p.id === selProjectId)) {
-      setSelProjectId("");
-    }
-  }, [projects, selProjectId, setSelProjectId]);
-
   const scopedTasks = useMemo(
     () => (selProjectId ? tasks.filter((t) => t.projectId === selProjectId) : []),
     [tasks, selProjectId],
