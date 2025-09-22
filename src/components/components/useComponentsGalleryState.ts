@@ -18,6 +18,10 @@ import { usePersistentState } from "@/lib/db";
 export type Section = GalleryNavigationSection["id"];
 export type ComponentsView = GallerySectionGroupKey;
 
+export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
+export const COMPONENTS_SECTION_TAB_ID_BASE = "components-section";
+export const COMPONENTS_PANEL_ID = "components-components-panel";
+
 interface TabItem {
   readonly key: string;
   readonly label: string;
@@ -360,11 +364,12 @@ export function useComponentsGalleryState({
   );
 
   const componentsPanelLabelledBy = React.useMemo(() => {
-    const base = `components-${view}-tab`;
+    const viewTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-${view}-tab`;
     if (heroTabs.length > 0) {
-      return `${base} components-${section}-tab`;
+      const sectionTabId = `${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`;
+      return `${viewTabId} ${sectionTabId}`;
     }
-    return base;
+    return viewTabId;
   }, [heroTabs.length, section, view]);
 
   const handleViewChange = React.useCallback(
