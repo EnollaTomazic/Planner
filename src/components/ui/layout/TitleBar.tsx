@@ -37,7 +37,10 @@ export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
           font-family:
             ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
             "Liberation Mono", "Courier New", monospace;
-          @apply text-ui font-medium tracking-[0.02em];
+          font-size: var(--font-ui);
+          line-height: 1.35;
+          font-weight: 500;
+          letter-spacing: 0.02em;
         }
       `}</style>
     </>

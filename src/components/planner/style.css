@@ -3,6 +3,7 @@
    Depends on tokens/utilities in src/app/globals.css.
    Avoids redefining global shells/rails/pills.
 */
+@reference "tailwindcss/utilities";
 
 /* ============ Page header tweaks ============ */
 .planner-header__hero {
@@ -110,7 +111,10 @@
 }
 
 .proj-card__title {
-  @apply text-ui font-medium tracking-[-0.01em];
+  font-size: var(--font-ui);
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: hsl(var(--foreground));
 }
 .proj-card:hover .proj-card__title {
@@ -323,7 +327,10 @@
 }
 
 .ws-tile__date {
-  @apply text-label font-medium tracking-[0.02em];
+  font-size: var(--font-label);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: hsl(var(--muted-foreground));
   text-transform: uppercase;
 }
@@ -333,7 +340,10 @@
   align-items: baseline;
   gap: var(--spacing-0-5);
   color: hsl(var(--foreground));
-  @apply text-title font-semibold tracking-[-0.01em];
+  font-size: var(--font-title);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .ws-bleed {
@@ -564,12 +574,18 @@
 
 /* compact internals */
 .chip__date {
-  @apply text-label font-medium tracking-[0.02em];
+  font-size: var(--font-label);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: inherit;
 }
 .chip__counts {
   margin-top: var(--space-1);
-  @apply text-ui font-semibold tracking-[-0.01em];
+  font-size: var(--font-ui);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
