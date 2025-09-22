@@ -135,14 +135,36 @@ export function useComponentsGalleryState({
     return map;
   }, [groups]);
 
-  const defaultSection = React.useMemo<Section>(() => {
-    for (const group of groups) {
-      if (group.sections.length > 0) {
-        return group.sections[0].id;
+  const getDefaultSectionForView = React.useCallback(
+    (viewValue: ComponentsView | null | undefined): Section => {
+      if (viewValue) {
+        const viewGroup = groups.find((group) => group.id === viewValue);
+        const firstSection = viewGroup?.sections[0];
+        if (firstSection) {
+          return firstSection.id;
+        }
       }
-    }
-    return (navSectionEntries[0]?.id ?? "buttons") as Section;
-  }, [groups, navSectionEntries]);
+      const fallbackSection = navSectionEntries[0]?.id;
+      if (fallbackSection) {
+        return fallbackSection;
+      }
+      return "buttons" as Section;
+    },
+    [groups, navSectionEntries],
+  );
+
+  const shouldAllowCrossView = React.useCallback(
+    (rawView: string | null) => {
+      if (rawView === null) {
+        return true;
+      }
+      if (rawView === "colors") {
+        return false;
+      }
+      return !(viewOrder as readonly string[]).includes(rawView);
+    },
+    [viewOrder],
+  );
 
   const fallbackCopy = React.useMemo<GalleryHeroCopy>(() => {
     const firstSection = navSectionEntries[0];
@@ -170,20 +192,30 @@ export function useComponentsGalleryState({
   );
 
   const normalizeSection = React.useCallback(
-    (value: string | null): Section => {
+    (
+      value: string | null,
+      viewValue: ComponentsView,
+      options: { allowCrossView?: boolean } = {},
+    ): Section => {
+      const allowCrossView = options.allowCrossView ?? false;
       if (value && sectionMap.has(value as Section)) {
-        return value as Section;
+        const owner = sectionGroupMap.get(value as Section);
+        if (!owner || owner === viewValue || allowCrossView) {
+          return value as Section;
+        }
       }
-      return defaultSection;
+      return getDefaultSectionForView(viewValue);
     },
-    [defaultSection, sectionMap],
+    [getDefaultSectionForView, sectionGroupMap, sectionMap],
   );
 
   const [view, setView] = React.useState<ComponentsView>(() =>
     normalizeView(viewParam),
   );
   const [section, setSection] = React.useState<Section>(() =>
-    normalizeSection(sectionParam),
+    normalizeSection(sectionParam, normalizeView(viewParam), {
+      allowCrossView: shouldAllowCrossView(viewParam),
+    }),
   );
 
   const previousSectionParamRef = React.useRef<string | null | undefined>(
@@ -399,22 +431,26 @@ export function useComponentsGalleryState({
       if (allowedSections?.has(section)) {
         return;
       }
-      const fallbackSection = groups
-        .find((group) => group.id === nextView)
-        ?.sections[0]?.id;
-      if (fallbackSection && fallbackSection !== section) {
+      const fallbackSection = getDefaultSectionForView(nextView);
+      if (fallbackSection !== section) {
         setSection(fallbackSection);
       }
     },
-    [groupSectionIds, groups, normalizeView, section, view],
+    [
+      getDefaultSectionForView,
+      groupSectionIds,
+      normalizeView,
+      section,
+      view,
+    ],
   );
 
   const handleSectionChange = React.useCallback(
     (key: string | number) => {
       const rawValue = typeof key === "string" ? key : String(key);
-      setSection(normalizeSection(rawValue));
+      setSection(normalizeSection(rawValue, view));
     },
-    [normalizeSection],
+    [normalizeSection, view],
   );
 
   React.useEffect(() => {
@@ -422,9 +458,18 @@ export function useComponentsGalleryState({
       return;
     }
     previousSectionParamRef.current = sectionParam;
-    const next = normalizeSection(sectionParam);
+    const normalizedViewFromParams = normalizeView(viewParam);
+    const next = normalizeSection(sectionParam, normalizedViewFromParams, {
+      allowCrossView: shouldAllowCrossView(viewParam),
+    });
     setSection((prev) => (prev === next ? prev : next));
-  }, [normalizeSection, sectionParam]);
+  }, [
+    normalizeSection,
+    normalizeView,
+    sectionParam,
+    shouldAllowCrossView,
+    viewParam,
+  ]);
 
   React.useEffect(() => {
     if (previousViewParamRef.current === viewParam) {
@@ -547,12 +592,12 @@ export function useComponentsGalleryState({
       return;
     }
     if (!allowed.has(section)) {
-      const fallback = groups.find((group) => group.id === view)?.sections[0]?.id;
-      if (fallback && fallback !== section) {
+      const fallback = getDefaultSectionForView(view);
+      if (fallback !== section) {
         setSection(fallback);
       }
     }
-  }, [groupSectionIds, groups, section, view]);
+  }, [getDefaultSectionForView, groupSectionIds, section, view]);
 
   React.useEffect(() => {
     if (view === "tokens") {
