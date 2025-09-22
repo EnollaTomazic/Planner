@@ -70,6 +70,8 @@ export interface HeaderProps<Key extends string = string>
   variant?: "plain" | "neo" | "minimal";
   /** Show neon underline */
   underline?: boolean;
+  /** Controls the underline gradient tone. Defaults to a neutral treatment. */
+  underlineTone?: "brand" | "neutral";
 }
 
 export default function Header<Key extends string = string>({
@@ -94,6 +96,7 @@ export default function Header<Key extends string = string>({
   tabs,
   variant = "plain",
   underline = true,
+  underlineTone = "neutral",
   ...rest
 }: HeaderProps<Key>) {
   const isNeo = variant === "neo";
@@ -226,9 +229,14 @@ export default function Header<Key extends string = string>({
           isNeo && "overflow-hidden",
           translucentSurfaceClasses,
 
-          // Neon underline
+          // Underline accent
           underline &&
-            "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent after:z-[2]",
+            cx(
+              "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:z-[2]",
+              underlineTone === "brand"
+                ? "after:from-primary after:via-accent after:to-transparent"
+                : "after:from-card-hairline after:via-card-hairline/70 after:to-transparent",
+            ),
 
           className,
         )}
