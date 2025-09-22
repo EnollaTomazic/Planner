@@ -24,6 +24,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
 
   return (
     <nav
+      role="navigation"
       aria-label="Primary"
       className="max-w-full overflow-x-auto lg:overflow-x-visible"
     >

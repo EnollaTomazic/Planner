@@ -20,6 +20,7 @@ export default function BottomNav({
 
   return (
     <nav
+      role="navigation"
       aria-label="Primary"
       className={cn(
         "border-t border-border pt-[var(--space-4)] md:hidden",
