@@ -6,6 +6,8 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 import TabBar, { type TabItem } from "./TabBar";
 
 const focusVisibleClassName = "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none";
+const hoverStateClassName =
+  "text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]";
 
 const filterItems: TabItem<string>[] = [
   { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },
@@ -33,6 +35,140 @@ const navigationItems: TabItem<string>[] = [
   { key: "goals", label: "Goals" },
   { key: "focus", label: "Focus-visible", className: focusVisibleClassName },
 ];
+
+type TabBarStateSpec = {
+  id: string;
+  name: string;
+  value: string;
+  items: TabItem<string>[];
+  code: string;
+};
+
+function createStateItems(stateItem: TabItem<string>): TabItem<string>[] {
+  return [
+    { key: "today", label: "Today" },
+    stateItem,
+    { key: "backlog", label: "Backlog" },
+  ];
+}
+
+const TAB_BAR_STATES: readonly TabBarStateSpec[] = [
+  {
+    id: "default",
+    name: "Default",
+    value: "today",
+    items: createStateItems({ key: "upcoming", label: "Upcoming" }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "upcoming", label: "Upcoming" },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="today"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+  {
+    id: "hover",
+    name: "Hover",
+    value: "today",
+    items: createStateItems({
+      key: "hover",
+      label: "Hover",
+      className: hoverStateClassName,
+    }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "hover", label: "Hover", className: "${hoverStateClassName}" },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="today"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+  {
+    id: "active",
+    name: "Active",
+    value: "active",
+    items: createStateItems({ key: "active", label: "Active" }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "active", label: "Active" },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="active"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+  {
+    id: "focus-visible",
+    name: "Focus-visible",
+    value: "today",
+    items: createStateItems({
+      key: "focus",
+      label: "Focus-visible",
+      className: focusVisibleClassName,
+    }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "focus", label: "Focus-visible", className: "${focusVisibleClassName}" },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="today"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    value: "today",
+    items: createStateItems({ key: "disabled", label: "Disabled", disabled: true }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "disabled", label: "Disabled", disabled: true },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="today"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    value: "today",
+    items: createStateItems({ key: "loading", label: "Loading", loading: true }),
+    code: `<TabBar
+  items={[
+    { key: "today", label: "Today" },
+    { key: "loading", label: "Loading", loading: true },
+    { key: "backlog", label: "Backlog" },
+  ]}
+  value="today"
+  onValueChange={() => {}}
+  ariaLabel="Tab state preview"
+/>`,
+  },
+];
+
+function TabBarStatePreview({ state }: { state: TabBarStateSpec }) {
+  return (
+    <TabBar
+      items={state.items}
+      value={state.value}
+      onValueChange={() => {}}
+      ariaLabel={`${state.name} tab state`}
+    />
+  );
+}
 
 function TabBarGalleryPreview() {
   const [filterTab, setFilterTab] = React.useState<string>(filterItems[1]?.key ?? "all");
@@ -89,18 +225,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: [
-            { value: "Active" },
-            { value: "Focus-visible" },
-            { value: "Disabled" },
-            { value: "Loading" },
-          ],
+          values: TAB_BAR_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:tab-bar:variants",
         render: () => <TabBarGalleryPreview />,
       }),
+      states: TAB_BAR_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:tab-bar:state:${state.id}`,
+          render: () => <TabBarStatePreview state={state} />,
+        }),
+      })),
       code: `<TabBar
   items={[
     { key: "all", label: "All", icon: <Circle aria-hidden="true" /> },

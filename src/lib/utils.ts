@@ -58,16 +58,16 @@ export function withBasePath(path: string): string {
   if (isAbsoluteUrl(path)) {
     return path;
   }
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const trimmedPath = path.trim();
+  const normalizedPath = trimmedPath.startsWith("/")
+    ? trimmedPath
+    : `/${trimmedPath}`;
 
   if (!NORMALIZED_BASE) {
     return normalizedPath;
   }
 
-  if (
-    normalizedPath === NORMALIZED_BASE ||
-    normalizedPath.startsWith(`${NORMALIZED_BASE}/`)
-  ) {
+  if (normalizedPath.startsWith(`${NORMALIZED_BASE}/`)) {
     return normalizedPath;
   }
 
