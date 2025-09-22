@@ -457,7 +457,7 @@ export default function TimerTab() {
 
             {/* ring + digits */}
             <div
-              className="group relative mx-auto flex aspect-square w-full max-w-[min(calc(var(--space-8)*3.5),calc(100vw-var(--space-8)))] items-center justify-center"
+              className="group relative mx-auto flex aspect-square w-full max-w-[min(calc(var(--space-8)*3.5),calc(var(--viewport-width)-var(--space-8)))] items-center justify-center"
             >
               <TimerRing pct={pct} className="size-full" />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">

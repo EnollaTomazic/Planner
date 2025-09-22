@@ -201,6 +201,7 @@ export function useComponentsGalleryState({
   const previousViewRef = React.useRef<ComponentsView | null>(null);
   const lastInteractionRef = React.useRef<"pointer" | "keyboard" | null>(null);
   const supportsPreventScrollRef = React.useRef<boolean | null>(null);
+  const lastSyncedSectionRef = React.useRef<Section | null>(null);
   const shouldFocusPanel = React.useCallback(
     (panel: HTMLElement | null) => {
       if (typeof document === "undefined" || !panel) {
@@ -274,23 +275,34 @@ export function useComponentsGalleryState({
     [currentGroup],
   );
 
+  const resolvedSection = React.useMemo<Section>(() => {
+    if (heroTabs.some((tab) => tab.key === section)) {
+      return section;
+    }
+    const fallbackSection = heroTabs[0]?.key;
+    if (fallbackSection) {
+      return fallbackSection as Section;
+    }
+    return section;
+  }, [heroTabs, section]);
+
   const sectionMeta = React.useMemo(() => {
     const groupSection = currentGroup?.sections.find(
-      (groupSectionEntry) => groupSectionEntry.id === section,
+      (groupSectionEntry) => groupSectionEntry.id === resolvedSection,
     );
     if (groupSection) {
       return groupSection;
     }
-    return sectionMap.get(section) ?? null;
-  }, [currentGroup, section, sectionMap]);
+    return sectionMap.get(resolvedSection) ?? null;
+  }, [currentGroup, resolvedSection, sectionMap]);
 
   const currentGroupLabel = currentGroup?.label ?? "";
   const activeSectionLabel = sectionMeta?.label ?? "";
   const sectionMetaLabel = sectionMeta?.label;
 
   const sectionSpecs = React.useMemo<readonly GallerySerializableEntry[]>(
-    () => getGallerySectionEntries(section),
-    [section],
+    () => getGallerySectionEntries(resolvedSection),
+    [resolvedSection],
   );
 
   const sectionFuse = React.useMemo(() => {
@@ -313,8 +325,8 @@ export function useComponentsGalleryState({
     if (sectionMetaLabel) {
       return sectionMetaLabel;
     }
-    return formatGallerySectionLabel(section);
-  }, [section, sectionMetaLabel]);
+    return formatGallerySectionLabel(resolvedSection);
+  }, [resolvedSection, sectionMetaLabel]);
 
   const countLabel = React.useMemo(() => {
     const suffix = filteredCount === 1 ? "spec" : "specs";
@@ -366,11 +378,11 @@ export function useComponentsGalleryState({
   const componentsPanelLabelledBy = React.useMemo(() => {
     const viewTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-${view}-tab`;
     if (heroTabs.length > 0) {
-      const sectionTabId = `${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`;
+      const sectionTabId = `${COMPONENTS_SECTION_TAB_ID_BASE}-${resolvedSection}-tab`;
       return `${viewTabId} ${sectionTabId}`;
     }
     return viewTabId;
-  }, [heroTabs.length, section, view]);
+  }, [heroTabs.length, resolvedSection, view]);
 
   const handleViewChange = React.useCallback(
     (key: string | number) => {
@@ -467,13 +479,27 @@ export function useComponentsGalleryState({
 
   React.useEffect(() => {
     const current = sectionParam ?? "";
-    if (current === section) return;
+    if (current === resolvedSection) {
+      lastSyncedSectionRef.current = resolvedSection;
+      return;
+    }
+    if (lastSyncedSectionRef.current === resolvedSection) {
+      return;
+    }
+    lastSyncedSectionRef.current = resolvedSection;
     const next = new URLSearchParams(paramsString);
-    next.set("section", section);
+    next.set("section", resolvedSection);
     startTransition(() => {
       router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [buildQueryWithHash, paramsString, router, section, sectionParam, startTransition]);
+  }, [
+    buildQueryWithHash,
+    paramsString,
+    resolvedSection,
+    router,
+    sectionParam,
+    startTransition,
+  ]);
 
   React.useEffect(() => {
     const current = normalizeView(viewParam);
@@ -565,7 +591,7 @@ export function useComponentsGalleryState({
 
   return {
     view,
-    section,
+    section: resolvedSection,
     query,
     setQuery,
     heroCopy,
