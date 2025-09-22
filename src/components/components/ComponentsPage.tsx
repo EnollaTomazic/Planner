@@ -4,8 +4,10 @@ import {
   GALLERY_SECTION_GROUPS,
   type GallerySectionMeta,
 } from "@/components/gallery/metadata";
-import { galleryPayload } from "@/components/gallery";
-import { formatGallerySectionLabel } from "@/components/gallery/registry";
+import {
+  GALLERY_SECTION_IDS,
+  formatGallerySectionLabel,
+} from "@/components/gallery/registry";
 import type {
   GalleryNavigationData,
   GalleryNavigationGroup,
@@ -24,14 +26,14 @@ const formatSectionLabel = (section: GallerySectionMeta): string => {
 };
 
 const buildGalleryNavigation = (): GalleryNavigationData => {
-  const availableSections = new Set(
-    galleryPayload.sections.map((section) => section.id),
+  const knownSectionIds = new Set<GalleryNavigationSection["id"]>(
+    GALLERY_SECTION_IDS,
   );
 
   const groups: GalleryNavigationGroup[] = GALLERY_SECTION_GROUPS.map(
     (group) => {
       const sections: GalleryNavigationSection[] = group.sections
-        .filter((section) => availableSections.has(section.id))
+        .filter((section) => knownSectionIds.has(section.id))
         .map((section) => ({
           id: section.id,
           label: formatSectionLabel(section),
