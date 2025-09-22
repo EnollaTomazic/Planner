@@ -13,7 +13,7 @@ export default function NotesTab({ value, onChange }: NotesTabProps) {
   const notesId = React.useId();
 
   return (
-    <div className="max-w-3xl space-y-[var(--space-3)]">
+    <div className="w-full max-w-[calc(var(--space-8)*12)] space-y-[var(--space-3)]">
       <div className="space-y-[var(--space-2)]">
         <Label htmlFor={notesId}>Scratchpad</Label>
         <Textarea

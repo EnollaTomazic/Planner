@@ -72,6 +72,12 @@ const haloSecondaryStyle: React.CSSProperties = {
 const defaultSizes =
   "(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw / 3), calc(100vw * 5 / 12)";
 
+const heroImageSrc = "/BEST_ONE_EVAH.png";
+const heroImageDimensions = {
+  width: 1024,
+  height: 1024,
+};
+
 export interface WelcomeHeroFigureProps {
   className?: string;
   imageSizes?: string;
@@ -88,68 +94,72 @@ export default function WelcomeHeroFigure({
   framed = true,
 }: WelcomeHeroFigureProps) {
   const toneVariables = haloToneVariables[haloTone];
-  const shouldShowGlitchRail = showGlitchRail ?? haloTone === "default";
-
-  const image = (
-    <Image
-      src="/BEST_ONE_EVAH.png"
-      alt="Planner assistant sharing a colorful dashboard scene"
-      fill
-      priority
-      loading="eager"
-      decoding="async"
-      sizes={imageSizes}
-      className={cn(
-        "relative z-[1] h-full w-full object-contain object-center",
-        framed && "rounded-full",
-      )}
-    />
+  const shouldShowGlitchRail = framed && (showGlitchRail ?? haloTone === "default");
+  const imageClassName = cn(
+    "relative z-[1] object-contain object-center",
+    framed ? "h-full w-full rounded-full" : "h-auto w-full",
   );
+  const imageAlt = "Planner assistant sharing a colorful dashboard scene";
+  const sharedImageProps = {
+    priority: true,
+    loading: "eager" as const,
+    decoding: "async" as const,
+    sizes: imageSizes,
+    className: imageClassName,
+  } satisfies Partial<React.ComponentProps<typeof Image>>;
 
   return (
     <figure
       className={cn(
-        "relative z-10 isolate flex aspect-square w-full items-center justify-center",
-        "rounded-full",
+        "relative z-10 flex w-full items-center justify-center",
+        framed && "isolate aspect-square rounded-full",
         className,
       )}
-      style={{ ...defaultFigureVariables, ...toneVariables }}
+      style={framed ? { ...defaultFigureVariables, ...toneVariables } : undefined}
     >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*2.3)] rounded-full opacity-[var(--welcome-figure-primary-opacity)] blur-[var(--welcome-figure-primary-blur)]"
-        style={haloPrimaryStyle}
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*1.6)] rounded-full opacity-[var(--welcome-figure-secondary-opacity)] blur-[var(--welcome-figure-secondary-blur)]"
-        style={haloSecondaryStyle}
-      />
-      {shouldShowGlitchRail ? (
-        <span
-          aria-hidden
-          className="glitch-rail pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*1.05)] rounded-full mix-blend-screen opacity-[var(--welcome-figure-glitch-opacity)]"
-        />
-      ) : null}
       {framed ? (
-        <div
-          className="relative flex h-full w-full items-center justify-center rounded-full shadow-neoSoft ring-1 ring-border/50"
-          style={rimStyle}
-        >
-          <div
-            className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-neo-inset"
-            style={innerStyle}
-          >
+        <>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*2.3)] rounded-full opacity-[var(--welcome-figure-primary-opacity)] blur-[var(--welcome-figure-primary-blur)]"
+            style={haloPrimaryStyle}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*1.6)] rounded-full opacity-[var(--welcome-figure-secondary-opacity)] blur-[var(--welcome-figure-secondary-blur)]"
+            style={haloSecondaryStyle}
+          />
+          {shouldShowGlitchRail ? (
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-full"
-              style={overlayStyle}
+              className="glitch-rail pointer-events-none absolute -inset-[calc(var(--welcome-figure-rim)*1.05)] rounded-full mix-blend-screen opacity-[var(--welcome-figure-glitch-opacity)]"
             />
-            {image}
+          ) : null}
+          <div
+            className="relative flex h-full w-full items-center justify-center rounded-full shadow-neoSoft ring-1 ring-border/50"
+            style={rimStyle}
+          >
+            <div
+              className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-neo-inset"
+              style={innerStyle}
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-full"
+                style={overlayStyle}
+              />
+              <Image {...sharedImageProps} alt={imageAlt} src={heroImageSrc} fill />
+            </div>
           </div>
-        </div>
+        </>
       ) : (
-        image
+        <Image
+          {...sharedImageProps}
+          alt={imageAlt}
+          src={heroImageSrc}
+          width={heroImageDimensions.width}
+          height={heroImageDimensions.height}
+        />
       )}
     </figure>
   );

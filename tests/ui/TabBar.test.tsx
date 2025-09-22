@@ -47,10 +47,17 @@ describe("TabBar", () => {
           ],
           value: "buttons",
           onChange: () => {},
+          idBase: "components",
         }}
       />,
     );
-    expect(screen.getByRole("tab", { name: "Buttons" })).toBeInTheDocument();
+    const firstTab = screen.getByRole("tab", { name: "Buttons" });
+    expect(firstTab).toBeInTheDocument();
+    expect(firstTab.id).toBe("components-buttons-tab");
+    expect(firstTab).toHaveAttribute(
+      "aria-controls",
+      "components-buttons-panel",
+    );
   });
 
   it("renders the animated header rail when enabled", () => {

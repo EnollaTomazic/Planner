@@ -59,6 +59,7 @@ export interface HeroProps<Key extends string = string>
     className?: string;
     showBaseline?: boolean;
     right?: React.ReactNode;
+    idBase?: string;
   };
 
   /** @deprecated Use `subTabs` instead. */
@@ -185,6 +186,7 @@ function Hero<Key extends string = string>({
             className={cn("justify-end", subTabs.className)}
             {...accessibilityProps}
             linkPanels={subTabs.linkPanels}
+            idBase={subTabs.idBase}
           />
         );
       })()
