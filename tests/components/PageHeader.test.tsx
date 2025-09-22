@@ -129,6 +129,42 @@ describe("PageHeader", () => {
     ).toBe("var(--accent-3)");
   });
 
+  it("applies the primary tint to the hero slot divider by default", () => {
+    const { container } = render(
+      <PageHeader header={baseHeader} hero={baseHero} />,
+    );
+
+    const frame = container.querySelector(
+      "[data-variant='default']",
+    ) as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    expect(
+      (frame as HTMLElement).style.getPropertyValue("--hero-slot-divider"),
+    ).toBe("var(--ring)");
+  });
+
+  it("switches the hero slot divider tint when the life palette is active", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          dividerTint: "life",
+        }}
+      />,
+    );
+
+    const frame = container.querySelector(
+      "[data-variant='default']",
+    ) as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    expect(
+      (frame as HTMLElement).style.getPropertyValue("--hero-slot-divider"),
+    ).toBe("var(--accent)");
+  });
+
   it("balances header text when titles span multiple lines", () => {
     const wrappingHeading =
       "Expanded overview with multi-line planning guidance";
