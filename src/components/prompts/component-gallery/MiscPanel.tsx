@@ -441,7 +441,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <div className="w-56 h-56 overflow-auto space-y-[var(--space-6)]">
               <Header heading="Stacked" icon={<Star className="opacity-80" />} />
-              <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
+              <Hero heading="Stacked" />
               <div className="h-96" />
             </div>
           ),

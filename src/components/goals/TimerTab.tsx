@@ -407,7 +407,6 @@ export default function TimerTab() {
     <>
       <Hero
         frame={false}
-        topClassName="top-[var(--header-stack)]"
         eyebrow="Focus"
         heading="Timer"
         subtitle="Pick a duration and focus."

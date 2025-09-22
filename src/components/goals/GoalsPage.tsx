@@ -446,7 +446,6 @@ function GoalsPageContent() {
             heading: heroHeading,
             subtitle: heroSubtitle,
             sticky: false,
-            topClassName: GOALS_STICKY_TOP_CLASS,
             dividerTint: heroDividerTint,
             "aria-labelledby": heroHeadingId,
             "aria-describedby": heroAriaDescribedby,

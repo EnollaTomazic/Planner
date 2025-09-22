@@ -76,14 +76,12 @@ export default function ReviewsPage({
           id: "reviews-header",
           heading: "Reviews",
           icon: <BookOpen className="opacity-80" />,
-          topClassName: "top-[var(--header-stack)]",
           underline: true,
           sticky: false,
         }}
         hero={{
           frame: false,
           sticky: false,
-          topClassName: "top-[var(--header-stack)]",
           heading: "Browse Reviews",
           subtitle: <span className="pill">Total {base.length}</span>,
           search: {

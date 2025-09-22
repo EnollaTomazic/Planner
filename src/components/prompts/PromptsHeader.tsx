@@ -50,7 +50,6 @@ export default function PromptsHeader({
         frame: false,
         sticky: false,
         tone: "supportive",
-        topClassName: "top-[var(--header-stack)]",
         heading: (
           <span className="sr-only" id={`${id}-hero`}>
             Prompt workspace controls

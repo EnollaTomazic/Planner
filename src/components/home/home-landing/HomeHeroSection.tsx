@@ -51,7 +51,6 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
             sticky: false,
             barVariant: "raised",
             glitch: "subtle",
-            topClassName: "top-[var(--header-stack)]",
             actions: (
               <div className="flex w-full flex-wrap items-center justify-center gap-[var(--space-2)] sm:flex-nowrap sm:justify-end">
                 {actions}

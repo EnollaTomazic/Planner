@@ -90,7 +90,7 @@ function Hero<Key extends string = string>({
   frame = true,
   glitch = "subtle",
   sticky = true,
-  topClassName = "top-[var(--space-8)]",
+  topClassName = "top-[var(--header-stack)]",
   barClassName,
   bodyClassName,
   barVariant = "flat",

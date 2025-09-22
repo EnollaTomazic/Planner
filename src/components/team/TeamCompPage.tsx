@@ -270,7 +270,6 @@ export default function TeamCompPage() {
         as: "section",
         frame: false,
         sticky: true,
-        topClassName: "top-[var(--header-stack)]",
         eyebrow: active?.label,
         heading: "Comps",
         subtitle:
@@ -348,7 +347,6 @@ export default function TeamCompPage() {
         as: "section",
         frame: true,
         sticky: true,
-        topClassName: "top-[var(--header-stack)]",
         eyebrow: active?.label ?? "Comps",
         heading: "Builder",
         subtitle,
@@ -420,7 +418,6 @@ export default function TeamCompPage() {
       as: "section",
       frame: false,
       sticky: false,
-      topClassName: "top-[var(--header-stack)]",
       rail: true,
       heading: "Clear Speed Buckets",
       dividerTint: "primary",
