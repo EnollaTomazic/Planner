@@ -63,10 +63,23 @@ const produceProjectSelection: SelectionProducer = (projectId) =>
  * @returns Tuple of current project ID and setter.
  */
 export function useSelectedProject(iso: ISODate) {
-  return useSelectionState(iso, {
+  const { days } = useDays();
+  const selection = useSelectionState(iso, {
     getCurrentId: getProjectId,
     produceSelection: produceProjectSelection,
   });
+
+  const [selectedProjectId, setSelectedProjectId] = selection;
+  const dayProjects = days[iso]?.projects;
+
+  React.useEffect(() => {
+    if (!selectedProjectId) return;
+    if (!dayProjects?.some((project) => project.id === selectedProjectId)) {
+      setSelectedProjectId("");
+    }
+  }, [dayProjects, selectedProjectId, setSelectedProjectId]);
+
+  return selection;
 }
 
 const getTaskId: SelectionGetter = (selection) => selection?.taskId ?? "";
