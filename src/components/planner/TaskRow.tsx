@@ -46,9 +46,8 @@ export default function TaskRow({
   const trimmedImageUrl = imageUrl.trim();
   const canAttachImage = trimmedImageUrl.length > 0;
   const trimmedTaskTitle = task.title.trim();
-  const renameTaskLabel = trimmedTaskTitle
-    ? `Rename task ${trimmedTaskTitle}`
-    : "Rename task";
+  const accessibleTaskTitle = trimmedTaskTitle || "Untitled task";
+  const renameTaskLabel = `Rename task ${accessibleTaskTitle}`;
 
   const validateImageUrl = React.useCallback((value: string) => {
     if (!value) {
@@ -159,7 +158,7 @@ export default function TaskRow({
       >
         <button
           type="button"
-          aria-label={`Select task ${task.title}`}
+          aria-label={`Select task ${accessibleTaskTitle}`}
           onClick={handleRowClick}
           onKeyDown={handleRowKeyDown}
           onKeyUp={handleRowKeyUp}
@@ -171,7 +170,7 @@ export default function TaskRow({
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
         >
-          <span className="sr-only">{`Select task ${task.title}`}</span>
+          <span className="sr-only">{`Select task ${accessibleTaskTitle}`}</span>
         </button>
 
         <div
@@ -190,7 +189,7 @@ export default function TaskRow({
               onChange={() => {
                 if (!editing) toggleTask();
               }}
-              aria-label={`Toggle ${task.title} done`}
+              aria-label={`Toggle ${accessibleTaskTitle} done`}
               size="sm"
             />
           </div>
@@ -285,7 +284,7 @@ export default function TaskRow({
             >
               <Image
                 src={url}
-                alt={`Task image for ${task.title}`}
+                alt={`Task image for ${accessibleTaskTitle}`}
                 width={taskImageSize}
                 height={taskImageSize}
                 className="rounded-card r-card-md object-cover"
