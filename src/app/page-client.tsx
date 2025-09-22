@@ -73,30 +73,46 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
   const floatingPaddingClass =
     "p-[var(--space-4)] md:p-[var(--space-5)]";
 
+  const frameClass = "relative isolate rounded-[var(--radius-2xl)]";
+  const frameBackdropClass =
+    "pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset";
+  const frameContentClass =
+    "relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]";
+
   return (
-    <PageShell
-      as="main"
-      aria-labelledby="home-header"
-      className="py-[var(--space-6)] md:pb-[var(--space-8)]"
-    >
-      <div className="relative isolate rounded-[var(--radius-2xl)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset"
-        />
-        <div className="relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]">
-          <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
-            <HomeHeroSection variant={themeVariant} actions={heroActions} />
+    <>
+      <PageShell
+        as="header"
+        aria-labelledby="home-header"
+        className="pt-[var(--space-6)]"
+      >
+        <div className={frameClass}>
+          <div aria-hidden className={frameBackdropClass} />
+          <div className={frameContentClass}>
+            <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
+              <HomeHeroSection variant={themeVariant} actions={heroActions} />
+            </div>
           </div>
-          <HeroPlannerCards
-            variant={themeVariant}
-            plannerOverviewProps={plannerOverviewProps}
-            highlights={weeklyHighlights}
-            className={floatingPaddingClass}
-          />
         </div>
-      </div>
-    </PageShell>
+      </PageShell>
+      <PageShell
+        as="main"
+        aria-labelledby="home-header"
+        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+      >
+        <div className={frameClass}>
+          <div aria-hidden className={frameBackdropClass} />
+          <div className={frameContentClass}>
+            <HeroPlannerCards
+              variant={themeVariant}
+              plannerOverviewProps={plannerOverviewProps}
+              highlights={weeklyHighlights}
+              className={floatingPaddingClass}
+            />
+          </div>
+        </div>
+      </PageShell>
+    </>
   );
 }
 
