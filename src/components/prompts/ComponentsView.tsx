@@ -5,6 +5,7 @@ import * as React from "react";
 import Badge from "@/components/ui/primitives/Badge";
 import {
   type GalleryAxis,
+  type GalleryRelatedSurface,
   type GallerySerializableEntry,
   type GallerySerializableStateDefinition,
 } from "@/components/gallery";
@@ -293,6 +294,127 @@ function UsageSection({ notes }: { notes: UsageNotes }) {
           </div>
         ) : null}
       </div>
+    </section>
+  );
+}
+
+function SurfaceGroup({
+  label,
+  surfaces,
+  badgeLabel,
+  badgeClassName,
+  descriptionForSurface,
+}: {
+  label: string;
+  surfaces: readonly GalleryRelatedSurface[];
+  badgeLabel: (surface: GalleryRelatedSurface) => React.ReactNode;
+  badgeClassName?: string;
+  descriptionForSurface?: (surface: GalleryRelatedSurface) =>
+    | string
+    | undefined;
+}) {
+  return (
+    <div className="space-y-[var(--space-2)]">
+      <p className="text-label font-medium text-muted-foreground">{label}</p>
+      <ul className="flex flex-wrap gap-[var(--space-2)]">
+        {surfaces.map((surface) => {
+          const description = descriptionForSurface?.(surface)
+            ?? surface.description;
+          return (
+            <li key={surface.id} className="flex flex-col gap-[var(--space-1)]">
+              <Badge
+                tone="support"
+                size="md"
+                className={cn("text-muted-foreground", badgeClassName)}
+              >
+                {badgeLabel(surface)}
+              </Badge>
+              {description ? (
+                <span className="text-caption text-muted-foreground">
+                  {description}
+                </span>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function UsedOnSection({
+  surfaces,
+}: {
+  surfaces: readonly GalleryRelatedSurface[] | undefined;
+}) {
+  const headingId = React.useId();
+
+  const relatedSurfaces = React.useMemo(
+    () => surfaces ?? [],
+    [surfaces],
+  );
+  const pageSurfaces = React.useMemo(
+    () =>
+      relatedSurfaces.filter((surface) => surface.id.startsWith("/")),
+    [relatedSurfaces],
+  );
+  const sharedSurfaces = React.useMemo(
+    () =>
+      relatedSurfaces.filter((surface) => !surface.id.startsWith("/")),
+    [relatedSurfaces],
+  );
+
+  const hasSpecificSurfaces =
+    pageSurfaces.length > 0 || sharedSurfaces.length > 0;
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>Used on</SectionHeading>
+      {hasSpecificSurfaces ? (
+        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+          <div
+            className={cn(
+              "space-y-[var(--space-4)]",
+              pageSurfaces.length > 0 &&
+                sharedSurfaces.length > 0 &&
+                "md:grid md:grid-cols-2 md:gap-[var(--space-4)] md:space-y-0",
+            )}
+          >
+            {pageSurfaces.length > 0 ? (
+              <SurfaceGroup
+                label="Pages"
+                surfaces={pageSurfaces}
+                badgeClassName="font-mono"
+                badgeLabel={(surface) => surface.id}
+              />
+            ) : null}
+            {sharedSurfaces.length > 0 ? (
+              <SurfaceGroup
+                label="Global"
+                surfaces={sharedSurfaces}
+                badgeLabel={(surface) => surface.description ?? surface.id}
+                descriptionForSurface={(surface) =>
+                  surface.description ? surface.id : undefined
+                }
+              />
+            ) : null}
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
+          <div className="flex flex-wrap gap-[var(--space-2)]">
+            <Badge tone="support" size="md" className="text-muted-foreground">
+              Global
+            </Badge>
+          </div>
+          <p>
+            No page placements yet. This component is available across Planner.
+          </p>
+        </div>
+      )}
     </section>
   );
 }
@@ -600,6 +722,7 @@ export default function ComponentsView({
         activeSnippet={openSnippet}
         onToggleState={handleToggleStateCode}
       />
+      <UsedOnSection surfaces={entry.related?.surfaces} />
       <UsageSection notes={usage} />
     </article>
   );
