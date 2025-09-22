@@ -14,9 +14,9 @@
 | primary | 262 83% 58% |
 | primary-foreground | 0 0% 100% |
 | primary-soft | 262 83% 18% |
-| accent | 292 90% 45% |
+| accent | 292 90% 43% |
 | accent-2 | 192 90% 30% |
-| accent-3 | 192 90% 50% |
+| accent-3 | 192 90% 32% |
 | accent-foreground | 0 0% 100% |
 | accent-soft | 292 90% 30% |
 | highlight | 0 0% 100% |
