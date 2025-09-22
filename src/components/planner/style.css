@@ -407,7 +407,19 @@
 }
 
 .chip {
-  --chip-width: min(calc(var(--space-4) * 10), 40%);
+  --chip-min: clamp(
+    10ch,
+    calc(12ch + var(--space-2)),
+    calc(14ch + var(--space-3))
+  );
+  --chip-max: clamp(
+    16ch,
+    calc(18ch + var(--space-3)),
+    calc(22ch + var(--space-4))
+  );
+  flex: 1 1 var(--chip-min);
+  min-inline-size: var(--chip-min);
+  max-inline-size: var(--chip-max);
   position: relative;
   background-clip: padding-box;
   isolation: isolate;
