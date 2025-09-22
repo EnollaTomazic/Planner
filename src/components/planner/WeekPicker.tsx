@@ -14,10 +14,11 @@ import Button from "@/components/ui/primitives/Button";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
-import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowUpToLine } from "lucide-react";
 import { fromISODate, toISODate } from "@/lib/date";
+import { cn } from "@/lib/utils";
+import WeekPickerShell from "./WeekPickerShell";
 
 /* ───────── date helpers ───────── */
 
@@ -173,7 +174,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           : "Click or press Enter to focus"
       }
       className={cn(
-        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
+        "chip relative rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
@@ -386,9 +387,8 @@ export default function WeekPicker() {
       sticky
       dividerTint="primary"
     >
-      <div className="grid gap-[var(--space-3)] flex-1">
-        {/* Totals */}
-        <div className="flex items-center justify-end gap-[var(--space-3)]">
+      <WeekPickerShell>
+        <WeekPickerShell.Totals>
           <span className="sr-only" aria-live="polite">
             Week range {rangeLabel}
           </span>
@@ -398,34 +398,34 @@ export default function WeekPicker() {
               {weekDone} / {weekTotal}
             </span>
           </span>
-        </div>
-
-        {/* Day chips */}
-        <div
-          role="listbox"
-          aria-label={`Select a focus day between ${rangeLabel}`}
-          className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible"
-        >
-          {days.map((d, i) => (
-            <DayChip
-              key={d}
-              iso={d}
-              selected={d === iso}
-              today={d === today}
-              done={per[i]?.done ?? 0}
-              total={per[i]?.total ?? 0}
-              onClick={selectOnly}
-              onDoubleClick={jumpToDay}
-              onNavigate={(direction) => handleNavigate(i, direction)}
-              onFocus={() => setFocusIndex(i)}
-              tabIndex={focusIndex === i ? 0 : -1}
-              ref={(el) => {
-                chipRefs.current[i] = el;
-              }}
-            />
-          ))}
-        </div>
-      </div>
+        </WeekPickerShell.Totals>
+        <WeekPickerShell.Chips>
+          <div
+            role="listbox"
+            aria-label={`Select a focus day between ${rangeLabel}`}
+            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+          >
+            {days.map((d, i) => (
+              <DayChip
+                key={d}
+                iso={d}
+                selected={d === iso}
+                today={d === today}
+                done={per[i]?.done ?? 0}
+                total={per[i]?.total ?? 0}
+                onClick={selectOnly}
+                onDoubleClick={jumpToDay}
+                onNavigate={(direction) => handleNavigate(i, direction)}
+                onFocus={() => setFocusIndex(i)}
+                tabIndex={focusIndex === i ? 0 : -1}
+                ref={(el) => {
+                  chipRefs.current[i] = el;
+                }}
+              />
+            ))}
+          </div>
+        </WeekPickerShell.Chips>
+      </WeekPickerShell>
     </Hero>
   );
 }
