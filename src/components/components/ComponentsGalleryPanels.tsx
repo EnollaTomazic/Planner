@@ -35,6 +35,7 @@ export default function ComponentsGalleryPanels({
   tokenGroups,
 }: ComponentsGalleryPanelsProps) {
   const isTokensView = view === "tokens";
+  const tokensTabId = "components-tokens-tab";
 
   return (
     <section className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]">
@@ -83,7 +84,7 @@ export default function ComponentsGalleryPanels({
       <div
         id="components-tokens-panel"
         role="tabpanel"
-        aria-labelledby={`components-${view}-tab`}
+        aria-labelledby={tokensTabId}
         tabIndex={isTokensView ? 0 : -1}
         ref={tokensPanelRef}
         hidden={!isTokensView}
