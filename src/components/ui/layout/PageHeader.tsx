@@ -261,7 +261,7 @@ const PageHeaderInner = <
 
   const frameStyleWithDivider = React.useMemo<React.CSSProperties>(() => {
     const heroSlotDividerColor =
-      heroDividerTint === "life" ? "var(--accent)" : "var(--ring)";
+      heroDividerTint === "life" ? "var(--accent-3)" : "var(--ring)";
     return {
       ...(frameStyle ?? {}),
       "--hero-slot-divider": heroSlotDividerColor,
