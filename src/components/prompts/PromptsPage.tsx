@@ -152,6 +152,7 @@ export default function PromptsPage() {
         <TabList
           items={tabItems}
           ariaLabel="Prompt workspaces"
+          variant="neo"
           showBaseline
         />
 
