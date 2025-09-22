@@ -26,16 +26,28 @@ const dmy = new Intl.DateTimeFormat(undefined, {
   month: "short",
 });
 
-const chipDateFormatter = new Intl.DateTimeFormat(undefined, {
+const chipDisplayFormatter = new Intl.DateTimeFormat(undefined, {
+  weekday: "short",
+  month: "short",
+  day: "2-digit",
+});
+
+const chipAccessibleFormatter = new Intl.DateTimeFormat(undefined, {
   weekday: "long",
   month: "long",
   day: "numeric",
 });
 
-const formatChipLabel = (value: ISODate): string => {
+const formatChipDisplayLabel = (value: ISODate): string => {
   const dt = fromISODate(value);
   if (!dt) return value;
-  return chipDateFormatter.format(dt);
+  return chipDisplayFormatter.format(dt);
+};
+
+const formatChipAccessibleLabel = (value: ISODate): string => {
+  const dt = fromISODate(value);
+  if (!dt) return value;
+  return chipAccessibleFormatter.format(dt);
 };
 
 /* ───────── presentational chip (no hooks) ───────── */
@@ -70,7 +82,11 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
   },
   ref,
 ) {
-  const localizedLabel = React.useMemo(() => formatChipLabel(iso), [iso]);
+  const displayLabel = React.useMemo(() => formatChipDisplayLabel(iso), [iso]);
+  const accessibleLabel = React.useMemo(
+    () => formatChipAccessibleLabel(iso),
+    [iso],
+  );
   const completionRatio = React.useMemo(() => {
     if (total <= 0) {
       return 0;
@@ -149,7 +165,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       onFocus={onFocus}
       tabIndex={tabIndex}
       aria-selected={selected}
-      aria-label={`Select ${localizedLabel}`}
+      aria-label={`Select ${accessibleLabel}`}
       aria-describedby={describedBy}
       title={
         selected
@@ -177,9 +193,12 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           completionTextClass,
           today && completionTint === "bg-card" ? "text-accent-3" : undefined,
         )}
-        data-text={localizedLabel}
+        data-text={displayLabel}
       >
-        {localizedLabel}
+        <span aria-hidden="true">{displayLabel}</span>
+        <span className="sr-only" data-chip-label="full">
+          {accessibleLabel}
+        </span>
       </div>
       <div id={countsId} className="chip__counts text-foreground">
         <span className="tabular-nums">{done}</span>
