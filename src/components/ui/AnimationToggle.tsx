@@ -15,7 +15,6 @@ export default function AnimationToggle({
   loading?: boolean;
 }) {
   const [enabled, setEnabled] = usePersistentState<boolean>(KEY, true);
-  const [showNotice, setShowNotice] = React.useState(false);
   const reduceMotion = usePrefersReducedMotion();
   const appliedByToggleRef = React.useRef(false);
   const latestEnabledRef = React.useRef(enabled);
@@ -25,7 +24,6 @@ export default function AnimationToggle({
     if (readLocal<boolean>(KEY) === null && reduceMotion) {
       setEnabled(false);
       writeLocal(KEY, false);
-      setShowNotice(true);
     }
   }, [reduceMotion, setEnabled]);
 
@@ -50,7 +48,6 @@ export default function AnimationToggle({
   function toggle() {
     const next = !enabled;
     setEnabled(next);
-    setShowNotice(false);
   }
 
   return (
@@ -79,11 +76,6 @@ export default function AnimationToggle({
           <ZapOff className="h-[var(--space-4)] w-[var(--space-4)]" />
         )}
       </button>
-      {showNotice && (
-        <span className="text-label text-muted-foreground">
-          Animations disabled per OS preference
-        </span>
-      )}
     </div>
   );
 }
