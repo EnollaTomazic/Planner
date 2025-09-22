@@ -95,10 +95,10 @@ export default function Header<Key extends string = string>({
 }: HeaderProps<Key>) {
   const isNeo = variant === "neo";
   const isMinimal = variant === "minimal";
-  const isPlain = variant === "plain";
-  const shouldRenderNeomorphicFrameStyles = isNeo || isPlain;
-  const plainNeomorphicClasses = isPlain
-    ? "rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph overflow-hidden"
+  const shouldRenderNeomorphicFrameStyles = isNeo;
+  const shouldUseTranslucentSurface = !isNeo && !isMinimal;
+  const translucentSurfaceClasses = shouldUseTranslucentSurface
+    ? "border-b border-card-hairline/60 bg-surface/80 backdrop-blur"
     : "";
 
   let tabControl: React.ReactNode = null;
@@ -219,7 +219,7 @@ export default function Header<Key extends string = string>({
           isNeo &&
             "rounded-card r-card-lg bg-card/70 backdrop-blur-md hero2-neomorph",
           isNeo && "overflow-hidden",
-          plainNeomorphicClasses,
+          translucentSurfaceClasses,
 
           // Neon underline
           underline &&

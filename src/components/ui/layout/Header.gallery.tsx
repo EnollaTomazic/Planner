@@ -49,26 +49,49 @@ function HeaderGalleryPreview() {
   );
 
   return (
-    <Header
-      heading="Header"
-      subtitle="Segmented navigation anchored to the header"
-      tabs={{
-        items: headerTabs,
-        value,
-        onChange: setValue,
-        ariaLabel: "Header demo tabs",
-        size: "md",
-      }}
-      sticky={false}
-      topClassName="top-0"
-    >
-      <p className="text-ui text-muted-foreground">
-        Viewing
-        <span className="ml-[var(--space-1)] font-medium text-foreground">
-          {activeLabel}
-        </span>
-      </p>
-    </Header>
+    <div className="rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
+      <Header
+        eyebrow="Workspace"
+        heading="Header"
+        subtitle="Segmented navigation anchored to the header"
+        icon={
+          <Circle
+            aria-hidden="true"
+            className="h-[var(--space-5)] w-[var(--space-5)] text-primary"
+          />
+        }
+        tabs={{
+          items: headerTabs,
+          value,
+          onChange: setValue,
+          ariaLabel: "Header demo tabs",
+          size: "md",
+        }}
+        sticky={false}
+        topClassName="top-0"
+      >
+        <p className="text-ui text-muted-foreground">
+          Viewing
+          <span className="ml-[var(--space-1)] font-medium text-foreground">
+            {activeLabel}
+          </span>
+        </p>
+      </Header>
+      <div className="mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2">
+        <div className="rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]">
+          <p className="text-label text-muted-foreground">Next milestone</p>
+          <p className="mt-[var(--space-1)] text-ui font-medium text-foreground">
+            Launch sprint
+          </p>
+        </div>
+        <div className="rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]">
+          <p className="text-label text-muted-foreground">Team focus</p>
+          <p className="mt-[var(--space-1)] text-ui font-medium text-foreground">
+            Deep work block
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -97,58 +120,81 @@ export default defineGallerySection({
         id: "ui:header:tabs",
         render: () => <HeaderGalleryPreview />,
       }),
-      code: `<Header
-  heading="Header"
-  subtitle="Segmented navigation anchored to the header"
-  tabs={{
-    items: [
-      {
-        key: "summary",
-        label: "Summary",
-        icon: (
-          <Circle
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-      },
-      {
-        key: "timeline",
-        label: "Timeline",
-        icon: (
-          <CircleDot
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-      },
-      {
-        key: "insights",
-        label: "Insights",
-        icon: (
-          <CircleCheck
-            aria-hidden="true"
-            className="h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        ),
-        disabled: true,
-      },
-    ],
-    value: "summary",
-    onChange: () => {},
-    ariaLabel: "Header demo tabs",
-    size: "md",
-  }}
-  sticky={false}
-  topClassName="top-0"
->
-  <p className="text-ui text-muted-foreground">
-    Viewing
-    <span className="ml-[var(--space-1)] font-medium text-foreground">
-      Summary
-    </span>
-  </p>
-</Header>`,
+      code: `<div className="rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
+  <Header
+    eyebrow="Workspace"
+    heading="Header"
+    subtitle="Segmented navigation anchored to the header"
+    icon={
+      <Circle
+        aria-hidden="true"
+        className="h-[var(--space-5)] w-[var(--space-5)] text-primary"
+      />
+    }
+    tabs={{
+      items: [
+        {
+          key: "summary",
+          label: "Summary",
+          icon: (
+            <Circle
+              aria-hidden="true"
+              className="h-[var(--space-4)] w-[var(--space-4)]"
+            />
+          ),
+        },
+        {
+          key: "timeline",
+          label: "Timeline",
+          icon: (
+            <CircleDot
+              aria-hidden="true"
+              className="h-[var(--space-4)] w-[var(--space-4)]"
+            />
+          ),
+        },
+        {
+          key: "insights",
+          label: "Insights",
+          icon: (
+            <CircleCheck
+              aria-hidden="true"
+              className="h-[var(--space-4)] w-[var(--space-4)]"
+            />
+          ),
+          disabled: true,
+        },
+      ],
+      value: "summary",
+      onChange: () => {},
+      ariaLabel: "Header demo tabs",
+      size: "md",
+    }}
+    sticky={false}
+    topClassName="top-0"
+  >
+    <p className="text-ui text-muted-foreground">
+      Viewing
+      <span className="ml-[var(--space-1)] font-medium text-foreground">
+        Summary
+      </span>
+    </p>
+  </Header>
+  <div className="mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2">
+    <div className="rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]">
+      <p className="text-label text-muted-foreground">Next milestone</p>
+      <p className="mt-[var(--space-1)] text-ui font-medium text-foreground">
+        Launch sprint
+      </p>
+    </div>
+    <div className="rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]">
+      <p className="text-label text-muted-foreground">Team focus</p>
+      <p className="mt-[var(--space-1)] text-ui font-medium text-foreground">
+        Deep work block
+      </p>
+    </div>
+  </div>
+</div>`,
     },
   ],
 });
