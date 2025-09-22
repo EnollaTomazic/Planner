@@ -55,6 +55,12 @@ const SEGMENTED_BUTTON_STATES: readonly SegmentedButtonStateSpec[] = [
     code: "<SegmentedButton disabled>Disabled</SegmentedButton>",
   },
   {
+    id: "disabled-link",
+    name: "Disabled link",
+    props: { as: "a", href: "#", children: "Disabled link", disabled: true },
+    code: "<SegmentedButton as=\"a\" href=\"#\" disabled>Disabled link</SegmentedButton>",
+  },
+  {
     id: "loading",
     name: "Loading",
     props: { children: "Loading", loading: true },
@@ -123,6 +129,7 @@ export default defineGallerySection({
   <SegmentedButton selected>Active</SegmentedButton>
   <SegmentedButton className="${SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME}">Focus-visible</SegmentedButton>
   <SegmentedButton disabled>Disabled</SegmentedButton>
+  <SegmentedButton as="a" href="#" disabled>Disabled link</SegmentedButton>
   <SegmentedButton loading>Loading</SegmentedButton>
 </div>`,
     },
