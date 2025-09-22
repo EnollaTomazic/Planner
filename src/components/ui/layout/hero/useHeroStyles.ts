@@ -35,6 +35,9 @@ export interface HeroStyleResult {
     utilities: string;
     body: string;
     actionRow: string;
+    searchWell: string;
+    actionsWell: string;
+    actionCluster: string;
     heading: string;
     subtitle: string;
     rail: string;
@@ -67,28 +70,63 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const showRail = rail && !isGlitchOff;
     const showDividerGlow = frame && !isGlitchOff;
     const dividerStyle = {
-      "--divider": dividerTint === "life" ? "var(--accent)" : "var(--ring)",
+      "--divider": dividerTint === "life" ? "var(--accent-3)" : "var(--ring)",
     } as React.CSSProperties;
 
     const stickyClasses = sticky ? cn("sticky sticky-blur", topClassName) : "";
 
+    const shellPadding =
+      padding === "default"
+        ? "px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
+        : undefined;
+
     const shell = cn(
       stickyClasses,
       frame
-        ? "relative z-0 overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] hero2-frame hero2-neomorph"
-        : undefined,
-      frame
-        ? padding === "default"
-          ? "px-[var(--space-6)]"
-          : undefined
+        ? cn(
+            "group/hero relative z-0 isolate overflow-hidden rounded-card r-card-lg border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
+            shellPadding,
+          )
         : padding === "default"
           ? "px-[var(--space-2)] sm:px-[var(--space-4)] lg:px-[var(--space-5)]"
           : undefined,
     );
 
     const bar = frame
-      ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-4)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)] py-[var(--space-4)] md:py-[var(--space-5)]"
+      ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-4)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)]"
       : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-5)] py-[var(--space-4)] md:py-[var(--space-5)]";
+
+    const slotWellSurface = cn(
+      "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
+      "[--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)]",
+      "motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60",
+      "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen",
+      "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65",
+      "hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)]",
+      "hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]",
+    );
+
+    const baseSearchWell = "w-full min-w-0 md:flex-1";
+
+    const searchWell = frame
+      ? cn(slotWellSurface, baseSearchWell)
+      : baseSearchWell;
+
+    const baseActionWell = "w-full md:w-auto";
+
+    const baseActionCluster =
+      "flex w-full flex-wrap items-center gap-[var(--space-2)] md:w-auto md:flex-nowrap";
+
+    const actionsWell = frame
+      ? cn(
+          slotWellSurface,
+          "flex-row flex-wrap gap-[var(--space-2)] md:flex-nowrap md:items-center md:justify-end md:gap-[var(--space-3)]",
+        )
+      : baseActionWell;
+
+    const actionCluster = frame
+      ? "flex w-full flex-wrap items-center gap-[var(--space-2)] md:flex-nowrap md:justify-end"
+      : baseActionCluster;
 
     const clusterGapClass = frame
       ? "gap-[var(--space-4)] md:gap-[var(--space-5)]"
@@ -103,7 +141,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const raisedLabelBar = cn(
       "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
       clusterGapClass,
-      "z-0 overflow-hidden rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
+      "z-0 overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
     );
 
     const utilities = cn(
@@ -124,6 +162,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       tone === "supportive"
         ? "text-title md:text-title"
         : "text-title-lg md:text-title-lg",
+      frame && !isGlitchOff && "hero2-title",
     );
 
     const subtitle = cn(
@@ -168,6 +207,9 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
         utilities,
         body,
         actionRow,
+        searchWell,
+        actionsWell,
+        actionCluster,
         heading,
         subtitle,
         rail: railClassName,

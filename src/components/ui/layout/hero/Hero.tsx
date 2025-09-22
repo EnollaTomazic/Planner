@@ -251,10 +251,14 @@ function Hero<Key extends string = string>({
                   <span aria-hidden className={classes.dividerGlow} />
                 ) : null}
                 <div className={classes.actionRow}>
-                  {searchProps ? <HeroSearchBar {...searchProps} /> : null}
+                  {searchProps ? (
+                    <div className={classes.searchWell}>
+                      <HeroSearchBar {...searchProps} />
+                    </div>
+                  ) : null}
                   {actions ? (
-                    <div className="flex w-full flex-wrap items-center gap-[var(--space-2)] md:w-auto md:flex-nowrap">
-                      {actions}
+                    <div className={classes.actionsWell}>
+                      <div className={classes.actionCluster}>{actions}</div>
                     </div>
                   ) : null}
                 </div>
@@ -266,7 +270,7 @@ function Hero<Key extends string = string>({
         {frame ? (
           <div
             aria-hidden
-            className="absolute inset-0 rounded-[var(--radius-2xl)] ring-1 ring-inset ring-border/55"
+            className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
           />
         ) : null}
       </div>
