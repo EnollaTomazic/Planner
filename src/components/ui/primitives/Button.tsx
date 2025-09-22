@@ -6,7 +6,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
-import Spinner from "../feedback/Spinner";
+import Spinner, { type SpinnerTone } from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
 import designTokens from "../../../../tokens/tokens.js";
 
@@ -43,7 +43,7 @@ export const buttonSizes = {
 
 export type ButtonSize = keyof typeof buttonSizes;
 
-type Tone = "primary" | "accent" | "info" | "danger";
+type Tone = SpinnerTone;
 
 type ControlHeightToken =
   | "controlHSm"
@@ -413,7 +413,7 @@ export const Button = React.forwardRef<
       )}
       {loading ? (
         <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-          <Spinner size={spinnerSize} />
+          <Spinner size={spinnerSize} tone={tone} />
         </span>
       ) : null}
       <span className={contentClasses}>{contentChildren}</span>
