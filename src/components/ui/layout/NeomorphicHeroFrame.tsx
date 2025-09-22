@@ -467,7 +467,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     ) : null;
 
     const haloClasses =
-      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_var(--hairline-w)_hsl(var(--ring)),var(--shadow-glow-lg)] motion-reduce:before:transition-none";
+      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none";
 
     return (
       <>
@@ -481,8 +481,8 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               ? cn(
                   "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
                   haloClasses,
-                  "has-[:focus-visible]:before:opacity-100",
-                  "data-[has-focus=true]:before:opacity-100",
+                  "has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
+                  "data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
                   variantStyles.radius,
                   variantStyles.padding,
                 )
