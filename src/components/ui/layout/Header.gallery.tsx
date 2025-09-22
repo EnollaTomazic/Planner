@@ -59,8 +59,6 @@ function HeaderGalleryPreview() {
         ariaLabel: "Header demo tabs",
         size: "md",
       }}
-      variant="plain"
-      railVariant="subtle"
       sticky={false}
       topClassName="top-0"
     >
@@ -141,8 +139,6 @@ export default defineGallerySection({
     ariaLabel: "Header demo tabs",
     size: "md",
   }}
-  variant="plain"
-  railVariant="subtle"
   sticky={false}
   topClassName="top-0"
 >

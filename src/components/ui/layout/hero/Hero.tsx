@@ -40,7 +40,7 @@ export interface HeroProps<Key extends string = string>
   /** Whether to include glitchy frame and background layers. */
   frame?: boolean;
 
-  /** Level of glitch treatment for frame overlays. */
+  /** Level of glitch treatment for frame overlays (defaults to subtle). */
   glitch?: "default" | "subtle" | "off";
 
   /** Divider tint for neon line. */
