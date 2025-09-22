@@ -34,11 +34,14 @@ export const GlitchSegmentedGroup = ({
     btnRefs.current[index] = el;
   };
 
-  const values = React.Children.toArray(children).map((child) =>
-    React.isValidElement(child)
-      ? (child.props as GlitchSegmentedButtonProps).value
-      : "",
+  const childArray = React.Children.toArray(children);
+  const buttonChildren = childArray.filter(
+    (child): child is React.ReactElement<GlitchSegmentedButtonProps> =>
+      React.isValidElement<GlitchSegmentedButtonProps>(child) &&
+      child.type === GlitchSegmentedButton,
   );
+  const values = buttonChildren.map((child) => child.props.value);
+  btnRefs.current.length = buttonChildren.length;
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     const idx = values.findIndex((v) => v === value);
@@ -65,6 +68,8 @@ export const GlitchSegmentedGroup = ({
     }
   };
 
+  let buttonIndex = 0;
+
   return (
     <div
       role="tablist"
@@ -77,16 +82,21 @@ export const GlitchSegmentedGroup = ({
       )}
       onKeyDown={onKeyDown}
     >
-      {React.Children.map(children, (child, i) => {
-        if (!React.isValidElement<GlitchSegmentedButtonProps>(child))
+      {React.Children.map(children, (child) => {
+        if (
+          !(
+            React.isValidElement<GlitchSegmentedButtonProps>(child) &&
+            child.type === GlitchSegmentedButton
+          )
+        ) {
           return child;
+        }
+        const currentIndex = buttonIndex++;
         const selected = child.props.value === value;
-        const buttonChild =
-          child as React.ReactElement<GlitchSegmentedButtonProps>;
         const normalizedValue = normalizeValueForId(child.props.value);
 
-        return React.cloneElement(buttonChild, {
-          ref: setBtnRef(i),
+        return React.cloneElement(child, {
+          ref: setBtnRef(currentIndex),
           tabIndex: selected ? 0 : -1,
           selected,
           onSelect: () => onChange(child.props.value),
