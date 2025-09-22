@@ -414,7 +414,7 @@ function SelectDropdownPreview({
   return (
     <div className="space-y-[var(--space-2)]">
       <div
-        className="max-h-[60vh] w-full overflow-y-auto rounded-[var(--radius-2xl)] bg-card/92 p-[var(--space-2)] shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] backdrop-blur-xl ring-1 ring-ring/18"
+        className="max-h-[var(--select-menu-max-height)] w-full overflow-y-auto rounded-[var(--radius-2xl)] bg-card/92 p-[var(--space-2)] shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] backdrop-blur-xl ring-1 ring-ring/18"
       >
         <ul className="space-y-[var(--space-1)]">
           {options.map((option) => {
