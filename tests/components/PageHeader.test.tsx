@@ -162,7 +162,7 @@ describe("PageHeader", () => {
     expect(frame).not.toBeNull();
     expect(
       (frame as HTMLElement).style.getPropertyValue("--hero-slot-divider"),
-    ).toBe("var(--accent)");
+    ).toBe("var(--accent-3)");
   });
 
   it("balances header text when titles span multiple lines", () => {
