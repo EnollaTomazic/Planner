@@ -22,6 +22,11 @@ export type HeroTabsProps<K extends string> = TabBarA11yProps & {
   showBaseline?: boolean;
   variant?: TabBarProps["variant"];
   linkPanels?: boolean;
+  /**
+   * Base string applied to tab and panel ids when linking panels.
+   * Mirrors the TabBar `idBase` prop for deterministic aria wiring.
+   */
+  idBase?: string;
 };
 
 export function HeroTabs<K extends string>(props: HeroTabsProps<K>) {
@@ -38,6 +43,7 @@ export function HeroTabs<K extends string>(props: HeroTabsProps<K>) {
     showBaseline = false,
     variant,
     linkPanels = false,
+    idBase,
   } = props;
 
   const sanitizedAriaLabel =
@@ -84,6 +90,7 @@ export function HeroTabs<K extends string>(props: HeroTabsProps<K>) {
       showBaseline={showBaseline}
       variant={variant}
       linkPanels={linkPanels}
+      idBase={idBase}
     />
   );
 }
