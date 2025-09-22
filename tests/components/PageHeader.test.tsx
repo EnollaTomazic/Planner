@@ -105,6 +105,30 @@ describe("PageHeader", () => {
     expect(subtitle).not.toHaveClass("font-normal");
   });
 
+  it("uses the life divider tint token when requested", () => {
+    render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          dividerTint: "life",
+          actions: <button type="button">Primary action</button>,
+        }}
+        frameProps={{ slots: null }}
+      />,
+    );
+
+    const actionButton = screen.getByRole("button", {
+      name: "Primary action",
+    });
+    const dividerContainer = actionButton.closest("div[style]");
+
+    expect(dividerContainer).not.toBeNull();
+    expect(
+      (dividerContainer as HTMLElement).style.getPropertyValue("--divider"),
+    ).toBe("var(--accent-3)");
+  });
+
   it("balances header text when titles span multiple lines", () => {
     const wrappingHeading =
       "Expanded overview with multi-line planning guidance";
