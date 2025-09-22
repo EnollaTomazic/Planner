@@ -12,6 +12,7 @@
 
 import * as React from "react";
 import {
+  Bomb,
   Flag,
   ListChecks,
   Timer as TimerIcon,
@@ -24,8 +25,15 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import SectionCard from "@/components/ui/layout/SectionCard";
-import { Snackbar, PageHeader, PageShell } from "@/components/ui";
+import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
 import Button from "@/components/ui/primitives/Button";
+import {
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/primitives/Card";
 import GoalsTabs, { FilterKey } from "./GoalsTabs";
 import GoalForm, { GoalFormHandle } from "./GoalForm";
 import GoalsProgress from "./GoalsProgress";
@@ -126,6 +134,7 @@ function GoalsPageContent() {
     removeGoal,
     updateGoal,
     undoRemove,
+    clearGoals,
   } = useGoals();
 
   const {
@@ -149,11 +158,37 @@ function GoalsPageContent() {
   const remindersRef = React.useRef<HTMLDivElement>(null);
   const timerRef = React.useRef<HTMLDivElement>(null);
 
+  const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
+  const [clearedCount, setClearedCount] = React.useState(0);
+  const nukeDialogId = React.useId();
+  const nukeHeadingId = React.useId();
+  const nukeDescriptionId = React.useId();
+  const confirmButtonRef = React.useRef<HTMLButtonElement | null>(null);
+
+  React.useEffect(() => {
+    if (!confirmClearOpen) return;
+    confirmButtonRef.current?.focus({ preventScroll: true });
+  }, [confirmClearOpen]);
+
+  React.useEffect(() => {
+    if (clearedCount === 0) return;
+    const timer = window.setTimeout(() => setClearedCount(0), 5000);
+    return () => window.clearTimeout(timer);
+  }, [clearedCount]);
+
   const resetForm = React.useCallback(() => {
     setTitle("");
     setMetric("");
     setNotes("");
     setPillar("");
+  }, []);
+
+  const handleOpenNuke = React.useCallback(() => {
+    setConfirmClearOpen(true);
+  }, []);
+
+  const handleCloseNuke = React.useCallback(() => {
+    setConfirmClearOpen(false);
   }, []);
 
   const handleAddGoal = React.useCallback(() => {
@@ -205,6 +240,14 @@ function GoalsPageContent() {
   const activeCount = totalCount - doneCount;
   const remaining = Math.max(0, ACTIVE_CAP - activeCount);
   const pctDone = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+
+  const handleConfirmNuke = React.useCallback(() => {
+    if (totalCount > 0) {
+      setClearedCount(totalCount);
+    }
+    clearGoals();
+    setConfirmClearOpen(false);
+  }, [clearGoals, totalCount]);
 
   // derive list
   const sorted = React.useMemo(() => {
@@ -429,13 +472,31 @@ function GoalsPageContent() {
                   <SectionCard.Header
                     sticky
                     topClassName={GOALS_STICKY_TOP_CLASS}
-                    className="flex items-center justify-between"
+                    className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
                       <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
                       <GoalsProgress total={totalCount} pct={pctDone} />
                     </div>
-                    <GoalsTabs value={filter} onChange={setFilter} />
+                    <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
+                      <GoalsTabs value={filter} onChange={setFilter} />
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="primary"
+                        tone="danger"
+                        tactile
+                        className="w-full shrink-0 sm:w-auto"
+                        onClick={handleOpenNuke}
+                        disabled={totalCount === 0}
+                        aria-haspopup="dialog"
+                        aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+                        title="Delete all goals"
+                      >
+                        <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+                        <span className="font-semibold tracking-[0.01em]">Nuke all</span>
+                      </Button>
+                    </div>
                   </SectionCard.Header>
                   <SectionCard.Body>
                     {totalCount === 0 ? (
@@ -483,6 +544,14 @@ function GoalsPageContent() {
                   onAction={handleUndo}
                 />
               )}
+              {clearedCount > 0 && (
+                <Snackbar
+                  tone="danger"
+                  message={
+                    <>Removed {clearedCount} {clearedCount === 1 ? "goal" : "goals"}.</>
+                  }
+                />
+              )}
             </div>
           )}
         </div>
@@ -511,6 +580,56 @@ function GoalsPageContent() {
           {tab === "timer" && <TimerTab />}
         </div>
       </div>
+
+      <Modal
+        id={nukeDialogId}
+        open={confirmClearOpen}
+        onClose={handleCloseNuke}
+        aria-labelledby={nukeHeadingId}
+        aria-describedby={nukeDescriptionId}
+        className="shadow-[var(--shadow-neo-soft)]"
+      >
+        <CardHeader className="space-y-[var(--space-2)]">
+          <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>
+          <CardDescription id={nukeDescriptionId}>
+            This action permanently removes every goal, including completed history.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-[var(--space-3)]">
+          <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)]">
+            <p className="text-ui font-medium text-danger">
+              You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
+            </p>
+            <p className="text-label text-muted-foreground">
+              There is no automatic undo. Export anything important before continuing.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-end gap-[var(--space-2)]">
+          <Button
+            ref={confirmButtonRef}
+            type="button"
+            size="sm"
+            variant="primary"
+            tone="danger"
+            tactile
+            onClick={handleConfirmNuke}
+            className="shrink-0"
+          >
+            <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={handleCloseNuke}
+            className="shrink-0"
+          >
+            Cancel
+          </Button>
+        </CardFooter>
+      </Modal>
 
       {/* Use boolean styled-jsx attribute to satisfy typings */}
       <style jsx>{`
