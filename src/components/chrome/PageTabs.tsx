@@ -4,7 +4,11 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 import TabBar, {
   type TabItem as TabBarItem,
@@ -48,6 +52,12 @@ export default function PageTabs({
 }: PageTabsProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const search = React.useMemo(() => {
+    const serialized = searchParams.toString();
+    return serialized ? `?${serialized}` : "";
+  }, [searchParams]);
 
   const hasRestoredFromHash = React.useRef(false);
 
@@ -79,9 +89,9 @@ export default function PageTabs({
   // Sync active tab to URL hash
   React.useEffect(() => {
     if (window.location.hash !== `#${value}`) {
-      router.replace(`${pathname}#${value}`, { scroll: false });
+      router.replace(`${pathname}${search}#${value}`, { scroll: false });
     }
-  }, [value, router, pathname]);
+  }, [value, router, pathname, search]);
 
   const renderTab = React.useCallback(
     ({

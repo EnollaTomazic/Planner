@@ -52,6 +52,10 @@ export function useThemeQuerySync() {
     const nextParams = new URLSearchParams(params);
     nextParams.set("theme", theme.variant);
     nextParams.set("bg", String(theme.bg));
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    const queryString = nextParams.toString();
+    const hashFragment =
+      typeof window !== "undefined" ? window.location.hash ?? "" : "";
+    const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
+    router.replace(`${nextUrl}${hashFragment}`, { scroll: false });
   }, [theme, router, pathname, params]);
 }
