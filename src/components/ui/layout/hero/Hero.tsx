@@ -88,7 +88,7 @@ function Hero<Key extends string = string>({
   actions,
   tone = "heroic",
   frame = true,
-  glitch = "default",
+  glitch = "subtle",
   sticky = true,
   topClassName = "top-[var(--space-8)]",
   barClassName,

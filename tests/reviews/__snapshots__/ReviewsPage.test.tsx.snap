@@ -25,7 +25,6 @@ exports[`ReviewsPage > renders default state 1`] = `
           hsl(var(--shadow-color) / 0.18);
         box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
         position: relative;
-        z-index: 0;
         --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
           0 0 0 0 hsl(var(--ring) / 0);
         --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
@@ -136,7 +135,7 @@ exports[`ReviewsPage > renders default state 1`] = `
     
       </style>
       <div
-        class="group/hero-frame relative isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         data-variant="default"
         tabindex="-1"
       >
@@ -146,16 +145,142 @@ exports[`ReviewsPage > renders default state 1`] = `
           <div
             class="relative z-[2] md:space-y-[var(--space-6)] space-y-[var(--space-2)]"
           >
+            <style
+              global="true"
+              jsx="true"
+            >
+              
+      .hero2-neomorph {
+        background: linear-gradient(
+          145deg,
+          hsl(var(--card)),
+          hsl(var(--panel))
+        );
+        --hero2-shadow-key: var(--shadow);
+        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
+          hsl(var(--shadow-color) / 0.18);
+        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
+        position: relative;
+        z-index: 0;
+        --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
+          0 0 0 0 hsl(var(--ring) / 0);
+        --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
+          hsl(var(--ring)),
+          var(--shadow-glow-lg);
+        --hero2-focus-ring: var(--hero2-focus-ring-rest);
+        --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
+        --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
+        --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
+        --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
+        --hero2-glow-top-left: radial-gradient(
+          140% 140% at 0% 0%,
+          var(--hero2-glow-top-left-color) 0%,
+          var(--hero2-glow-top-left-soft) 45%,
+          transparent 75%
+        );
+        --hero2-glow-bottom-right: radial-gradient(
+          160% 160% at 100% 100%,
+          var(--hero2-glow-bottom-right-color) 0%,
+          var(--hero2-glow-bottom-right-soft) 55%,
+          transparent 82%
+        );
+      }
+      .hero2-neomorph::before,
+      .hero2-neomorph::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 1;
+      }
+      .hero2-neomorph::before {
+        background: var(--hero2-glow-top-left);
+        box-shadow: var(--hero2-focus-ring);
+        transition: box-shadow var(--dur-quick, 160ms) ease-out;
+      }
+      .hero2-neomorph::after {
+        background: var(--hero2-glow-bottom-right);
+      }
+      @supports (color: color-mix(in oklab, white, black)) {
+        .hero2-neomorph {
+          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
+            color-mix(
+              in oklab,
+              hsl(var(--shadow-color)) 28%,
+              hsl(var(--highlight))
+            );
+          --hero2-glow-top-left-color: color-mix(
+            in oklab,
+            hsl(var(--highlight)) 72%,
+            hsl(var(--shadow-color))
+          );
+          --hero2-glow-top-left-soft: color-mix(
+            in oklab,
+            hsl(var(--highlight)) 22%,
+            transparent
+          );
+          --hero2-glow-bottom-right-color: color-mix(
+            in oklab,
+            hsl(var(--shadow-color)) 82%,
+            hsl(var(--highlight))
+          );
+          --hero2-glow-bottom-right-soft: color-mix(
+            in oklab,
+            hsl(var(--shadow-color)) 28%,
+            transparent
+          );
+        }
+      }
+      @media (prefers-contrast: more) {
+        .hero2-frame {
+          border-color: hsl(var(--foreground) / 0.7) !important;
+        }
+        .hero2-neomorph {
+          --hero2-shadow-key: 0 0 var(--space-4)
+            hsl(var(--foreground) / 0.75);
+          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
+            hsl(var(--foreground) / 0.7);
+          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
+          --hero2-glow-top-left: none;
+          --hero2-glow-bottom-right: none;
+          --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--foreground) / 0),
+            0 0 0 0 hsl(var(--foreground) / 0);
+          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
+            hsl(var(--foreground) / 0.9),
+            0 0 0 0 hsl(var(--foreground) / 0.6);
+        }
+      }
+      @media (forced-colors: active) {
+        .hero2-frame {
+          border-color: CanvasText !important;
+          background: Canvas !important;
+        }
+        .hero2-neomorph {
+          background: Canvas !important;
+          box-shadow: none !important;
+          --hero2-glow-top-left: none;
+          --hero2-glow-bottom-right: none;
+          --hero2-focus-ring-rest: 0 0 0 0 Canvas,
+            0 0 0 0 Canvas;
+          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
+            CanvasText,
+            0 0 0 0 CanvasText;
+        }
+      }
+    
+            </style>
             <header
-              class="z-[999] relative isolate after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent after:z-[2]"
+              class="z-[999] relative isolate rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph overflow-hidden after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:from-primary after:via-accent after:to-transparent after:z-[2]"
               id="reviews-header"
             >
               <div
-                class="relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--header-bar-px,var(--space-3))] sm:px-[var(--header-bar-sm-px,var(--space-4))] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)] [--header-bar-px:var(--space-0)] sm:[--header-bar-sm-px:var(--space-0)]"
+                class="relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--header-bar-px,var(--space-3))] sm:px-[var(--header-bar-sm-px,var(--space-4))] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)] z-[2] [--header-bar-px:var(--space-0)] sm:[--header-bar-sm-px:var(--space-0)]"
               >
                 <div
                   aria-hidden="true"
-                  class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+                  class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl header-rail--subtle"
                 />
                 <div
                   class="flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]"
@@ -216,7 +341,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                   >
                     <span
                       aria-hidden="true"
-                      class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl"
+                      class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl header-rail--subtle"
                     />
                     <div
                       class="min-w-0"
@@ -273,7 +398,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                     class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                   >
                     <div
-                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                       style="--field-h: var(--control-h-md);"
                     >
                       <svg
@@ -471,7 +596,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-2 lg:col-span-4"
       >
         <section
-          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[calc(100vh-var(--header-stack)-var(--space-6))]"
+          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-200 hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
           data-scope="reviews"
         >
           <header

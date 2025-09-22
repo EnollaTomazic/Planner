@@ -81,7 +81,7 @@ export function AnimatedSelectList({
             "bg-card/92 backdrop-blur-xl",
             "shadow-dropdown ring-1 ring-ring/18",
             "p-[var(--space-2)]",
-            "max-h-[60vh] min-w-[calc(var(--space-8)*3.5)] overflow-y-auto scrollbar-thin",
+            "max-h-[var(--select-menu-max-height)] min-w-[calc(var(--space-8)*3.5)] overflow-y-auto scrollbar-thin",
             "scrollbar-thumb-foreground/12 scrollbar-track-transparent",
             dropdownClassName,
           )}
