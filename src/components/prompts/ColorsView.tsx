@@ -268,46 +268,75 @@ function ColorPreview({ name }: { name: string }) {
 
   React.useEffect(() => {
     const node = swatchRef.current;
+
     if (!node) {
-      return;
-    }
-
-    const computed = window.getComputedStyle(node);
-    const rawValue = computed.getPropertyValue(`--${name}`).trim();
-
-    if (!rawValue) {
       setResolvedColor(null);
       setIsTranslucent(false);
       return;
     }
 
-    let color = rawValue;
-    const supportsColor = window.CSS?.supports;
-    let translucent = false;
+    let cancelled = false;
+    let frame: number | null = null;
+    let timeout: number | null = null;
 
-    const slashMatch = rawValue.match(/\/(\s*[0-9.]+)(%?)/);
-
-    if (slashMatch) {
-      const numeric = parseFloat(slashMatch[1]);
-      if (!Number.isNaN(numeric)) {
-        const alpha = slashMatch[2] === "%" ? numeric / 100 : numeric;
-        translucent = alpha < 1;
+    const measure = () => {
+      if (cancelled) {
+        return;
       }
-    } else if (rawValue.includes("transparent")) {
-      translucent = true;
+
+      const computed = window.getComputedStyle(node);
+      const rawValue = computed.getPropertyValue(`--${name}`).trim();
+
+      if (!rawValue) {
+        setResolvedColor(null);
+        setIsTranslucent(false);
+        return;
+      }
+
+      let color = rawValue;
+      const supportsColor = window.CSS?.supports;
+      let translucent = false;
+
+      const slashMatch = rawValue.match(/\/(\s*[0-9.]+)(%?)/);
+
+      if (slashMatch) {
+        const numeric = parseFloat(slashMatch[1]);
+        if (!Number.isNaN(numeric)) {
+          const alpha = slashMatch[2] === "%" ? numeric / 100 : numeric;
+          translucent = alpha < 1;
+        }
+      } else if (rawValue.includes("transparent")) {
+        translucent = true;
+      }
+
+      if (typeof supportsColor === "function") {
+        if (!supportsColor("color", rawValue)) {
+          const hslValue = `hsl(${rawValue})`;
+          color = supportsColor("color", hslValue) ? hslValue : rawValue;
+        }
+      } else if (!rawValue.includes("(") && !rawValue.startsWith("var(")) {
+        color = `hsl(${rawValue})`;
+      }
+
+      setResolvedColor(color);
+      setIsTranslucent(translucent);
+    };
+
+    if (typeof window.requestAnimationFrame === "function") {
+      frame = window.requestAnimationFrame(measure);
+    } else {
+      timeout = window.setTimeout(measure, 16);
     }
 
-    if (typeof supportsColor === "function") {
-      if (!supportsColor("color", rawValue)) {
-        const hslValue = `hsl(${rawValue})`;
-        color = supportsColor("color", hslValue) ? hslValue : rawValue;
+    return () => {
+      cancelled = true;
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
       }
-    } else if (!rawValue.includes("(") && !rawValue.startsWith("var(")) {
-      color = `hsl(${rawValue})`;
-    }
-
-    setResolvedColor(color);
-    setIsTranslucent(translucent);
+      if (timeout !== null) {
+        window.clearTimeout(timeout);
+      }
+    };
   }, [bg, name, variant]);
 
   return (
