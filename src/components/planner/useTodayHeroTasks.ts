@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 
-import type { DayTask } from "./plannerTypes";
+import type { DayTask, ISODate } from "./plannerTypes";
+import { usePlannerActions } from "./usePlannerStore";
 
 type TodayHeroTaskAnnouncement = {
   text: string;
@@ -11,10 +12,10 @@ type TodayHeroTaskAnnouncement = {
 };
 
 type UseTodayHeroTasksParams = {
+  iso: ISODate;
   scopedTasks: DayTask[];
   projectId: string;
   projectName: string;
-  addTask: (title: string, projectId?: string) => string | void;
   renameTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string) => void;
   toggleTask: (taskId: string) => void;
@@ -45,10 +46,10 @@ type UseTodayHeroTasksResult = {
 const TASK_PREVIEW_LIMIT = 12;
 
 export function useTodayHeroTasks({
+  iso,
   scopedTasks,
   projectId,
   projectName,
-  addTask,
   renameTask,
   deleteTask,
   toggleTask,
@@ -61,6 +62,7 @@ export function useTodayHeroTasks({
     text: "",
     toggleMarker: false,
   });
+  const { createTask } = usePlannerActions();
 
   const prevProjectIdRef = useRef<string | null>(null);
   const prevTasksRef = useRef<Map<string, { title: string; done: boolean }>>(
@@ -100,13 +102,15 @@ export function useTodayHeroTasks({
         taskInputName,
       ) as HTMLInputElement | null;
       const value = input?.value ?? "";
-      const title = value.trim();
-      if (!title) return;
-      const id = addTask(title, projectId);
-      if (input) input.value = "";
-      if (id) setSelectedTaskId(id);
+      const id = createTask({
+        iso,
+        projectId,
+        title: value,
+        select: setSelectedTaskId,
+      });
+      if (id && input) input.value = "";
     },
-    [addTask, projectId, setSelectedTaskId, taskInputName],
+    [createTask, iso, projectId, setSelectedTaskId, taskInputName],
   );
 
   const handleTaskSelect = useCallback(
@@ -276,3 +280,4 @@ export function useTodayHeroTasks({
     toggleShowAllTasks,
   };
 }
+

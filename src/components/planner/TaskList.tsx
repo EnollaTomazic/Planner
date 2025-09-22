@@ -12,7 +12,7 @@ type Props = {
   tasksById: Record<string, DayTask>;
   tasksByProject: Record<string, string[]>;
   selectedProjectId: string;
-  addTask: (title: string, projectId?: string) => string | undefined;
+  createTask: (title: string) => string | undefined;
   renameTask: (id: string, title: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
@@ -25,7 +25,7 @@ export default function TaskList({
   tasksById,
   tasksByProject,
   selectedProjectId,
-  addTask,
+  createTask,
   renameTask,
   toggleTask,
   deleteTask,
@@ -51,13 +51,12 @@ export default function TaskList({
   const onSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const v = draftTask.trim();
-      if (!v || !selectedProjectId) return;
-      const id = addTask(v, selectedProjectId);
-      setDraftTask("");
-      if (id) setSelectedTaskId(id);
+      const id = createTask(draftTask);
+      if (id) {
+        setDraftTask("");
+      }
     },
-    [draftTask, selectedProjectId, addTask, setSelectedTaskId],
+    [createTask, draftTask],
   );
 
   return (

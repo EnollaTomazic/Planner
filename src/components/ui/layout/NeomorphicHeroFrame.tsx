@@ -223,7 +223,7 @@ function normalizeSlot(value: HeroSlotInput | undefined): HeroSlot | null {
 }
 
 const slotWellBaseClass =
-  "group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] neo-inset hero-focus transition-shadow focus-within:ring-1 focus-within:ring-ring/60";
+  "hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)] motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65 hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]";
 
 const slotContentClass = "relative z-[1] flex w-full min-w-0 flex-col";
 
@@ -467,7 +467,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     ) : null;
 
     const haloClasses =
-      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition before:duration-300 before:ease-out before:content-[''] before:[box-shadow:0_0_0_var(--hairline-w)_hsl(var(--ring)),var(--shadow-glow-lg)] motion-reduce:before:transition-none";
+      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none";
 
     return (
       <>
@@ -481,8 +481,8 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               ? cn(
                   "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
                   haloClasses,
-                  "has-[:focus-visible]:before:opacity-100",
-                  "data-[has-focus=true]:before:opacity-100",
+                  "has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
+                  "data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
                   variantStyles.radius,
                   variantStyles.padding,
                 )

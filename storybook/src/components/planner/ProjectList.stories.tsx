@@ -43,7 +43,7 @@ const meta: Meta<typeof ProjectList> = {
     toggleProject: noop,
     renameProject: noop,
     deleteProject: noop,
-    addProject: () => undefined,
+    createProject: () => undefined,
   },
 };
 
