@@ -22,6 +22,7 @@ import {
   demoTasksById,
   demoTasksByProject,
 } from "./ComponentGallery.demoData";
+import WeekPickerDemo from "./WeekPickerDemo";
 import type { PlannerPanelData } from "./useComponentGalleryState";
 
 const GRID_CLASS =
@@ -202,6 +203,11 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
               <GoalsTabs value={data.goalFilter.value} onChange={data.goalFilter.onChange} />
             </div>
           ),
+        },
+        {
+          label: "WeekPicker",
+          element: <WeekPickerDemo />,
+          className: "sm:col-span-2 md:col-span-12",
         },
         {
           label: "DayCardHeader",

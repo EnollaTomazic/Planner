@@ -61,6 +61,7 @@ import SkeletonShowcase from "./SkeletonShowcase";
 import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
+import WeekPickerDemo from "./component-gallery/WeekPickerDemo";
 import {
   DashboardCard,
   DashboardList,
@@ -2513,6 +2514,29 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     },
   ],
   planner: [
+    {
+      id: "week-picker",
+      name: "WeekPicker",
+      description:
+        "Sticky hero shell preview showing week totals, mock chips, and the jump-to-top action.",
+      element: <WeekPickerDemo />,
+      tags: ["planner", "navigation", "week"],
+      code: `<WeekPickerDemo />`,
+      usage: [
+        {
+          kind: "do",
+          title: "Keep week totals visible",
+          description:
+            "Pair the hero subtitle with aggregated task counts so the picker summarizes week progress at a glance.",
+        },
+        {
+          kind: "do",
+          title: "Highlight today's chip",
+          description:
+            "Use the accent token on the current day to anchor focus while other chips mock mixed completion states.",
+        },
+      ],
+    },
     {
       id: "bottom-nav",
       name: "BottomNav",
