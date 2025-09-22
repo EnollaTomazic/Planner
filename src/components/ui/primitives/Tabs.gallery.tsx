@@ -9,6 +9,8 @@ type ProjectTabKey = "overview" | "activity" | "files";
 type StatusTabKey = "inbox" | "updates" | "archive" | "disabled" | "sync";
 
 const focusVisibleClassName = "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none";
+const hoverClassName =
+  "text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]";
 
 const projectTabs: TabListItem<ProjectTabKey>[] = [
   { key: "overview", label: "Overview" },
@@ -46,12 +48,16 @@ type TabsStateSpec = {
 };
 
 const TABS_STATE_ITEMS: Record<
-  "active" | "focus-visible" | "disabled" | "loading",
+  "active" | "hover" | "focus-visible" | "disabled" | "loading",
   readonly TabListItem<StatusTabKey>[]
 > = {
   active: [
     { key: "inbox", label: "Inbox" },
     { key: "updates", label: "Updates" },
+  ],
+  hover: [
+    { key: "inbox", label: "Inbox" },
+    { key: "updates", label: "Updates", className: hoverClassName },
   ],
   "focus-visible": [
     { key: "inbox", label: "Inbox" },
@@ -79,6 +85,27 @@ const TABS_STATES: readonly TabsStateSpec[] = [
     items={[
       { key: "inbox", label: "Inbox" },
       { key: "updates", label: "Updates" },
+    ]}
+    linkPanels={false}
+    showBaseline
+  />
+</Tabs>`,
+  },
+  {
+    id: "hover",
+    name: "Hover",
+    value: "inbox",
+    items: TABS_STATE_ITEMS.hover,
+    code: `<Tabs value="inbox" onValueChange={() => {}}>
+  <TabList
+    ariaLabel="Tab state preview"
+    items={[
+      { key: "inbox", label: "Inbox" },
+      {
+        key: "updates",
+        label: "Updates",
+        className: "${hoverClassName}",
+      },
     ]}
     linkPanels={false}
     showBaseline
