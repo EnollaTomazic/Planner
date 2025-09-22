@@ -125,6 +125,36 @@ describe("WeekPicker", () => {
     expect(totalsBlock).toHaveTextContent(/Total tasks:\s*\d+\s*\/\s*\d+/);
   });
 
+  it("renders compact chip labels with descriptive accessibility text", () => {
+    renderWeekPicker();
+
+    const options = screen.getAllByRole("option");
+    const firstOption = options[0];
+    const displayFormatter = new Intl.DateTimeFormat(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "2-digit",
+    });
+    const accessibleFormatter = new Intl.DateTimeFormat(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+    const targetDate = new Date(2024, 0, 1);
+
+    const displaySpan = firstOption.querySelector(
+      "[data-text] span[aria-hidden=\"true\"]",
+    );
+    expect(displaySpan?.textContent).toBe(displayFormatter.format(targetDate));
+
+    const accessibleText = accessibleFormatter.format(targetDate);
+    expect(firstOption).toHaveAttribute("aria-label", `Select ${accessibleText}`);
+    expect(firstOption).toHaveAccessibleName(`Select ${accessibleText}`);
+
+    const srOnlyLabel = firstOption.querySelector('[data-chip-label="full"]');
+    expect(srOnlyLabel?.textContent).toBe(accessibleText);
+  });
+
   it("updates selected day on single click", () => {
     renderWeekPicker();
     const getOptions = () => screen.getAllByRole("option");
