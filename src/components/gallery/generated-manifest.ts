@@ -209,11 +209,20 @@ export const galleryPayload = {
                 },
                 {
                   "value": "Loading"
+                },
+                {
+                  "value": "Primary"
+                },
+                {
+                  "value": "Primary Hover"
+                },
+                {
+                  "value": "Primary Active"
                 }
               ]
             }
           ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton variant=\"primary\" aria-label=\"Primary\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n      variant=\"primary\"\n      aria-label=\"Primary hover\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n      variant=\"primary\"\n      aria-label=\"Primary active\"\n      aria-pressed\n    >\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
           "preview": {
             "id": "ui:icon-button:matrix"
           },
@@ -264,6 +273,30 @@ export const galleryPayload = {
               "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
               "preview": {
                 "id": "ui:icon-button:state:loading"
+              }
+            },
+            {
+              "id": "primary",
+              "name": "Primary",
+              "code": "<IconButton variant=\"primary\" aria-label=\"Primary\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:primary"
+              }
+            },
+            {
+              "id": "primary-hover",
+              "name": "Primary Hover",
+              "code": "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:primary-hover"
+              }
+            },
+            {
+              "id": "primary-active",
+              "name": "Primary Active",
+              "code": "<IconButton\n  className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n  variant=\"primary\"\n  aria-label=\"Primary active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:primary-active"
               }
             }
           ]
@@ -324,12 +357,15 @@ export const galleryPayload = {
                   "value": "Disabled"
                 },
                 {
+                  "value": "Disabled link"
+                },
+                {
                   "value": "Loading"
                 }
               ]
             }
           ],
-          "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
+          "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton as=\"a\" href=\"#\" disabled>Disabled link</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
           "preview": {
             "id": "ui:segmented-button:states"
           },
@@ -372,6 +408,14 @@ export const galleryPayload = {
               "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
               "preview": {
                 "id": "ui:segmented-button:state:disabled"
+              }
+            },
+            {
+              "id": "disabled-link",
+              "name": "Disabled link",
+              "code": "<SegmentedButton as=\"a\" href=\"#\" disabled>Disabled link</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:disabled-link"
               }
             },
             {
@@ -1218,7 +1262,7 @@ export const galleryPayload = {
               "id": "chip-loading",
               "name": "Chip loading",
               "description": "While sync runs the badge disables interaction and shows an accent spinner anchored by the spacing scale.",
-              "code": "<div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n  <Badge interactive>Default</Badge>\n  <Badge\n    interactive\n    disabled\n    className=\"pointer-events-none\"\n  >\n    Loading\n    <Spinner\n      size={16}\n      className=\"ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent\"\n    />\n  </Badge>\n</div>",
+              "code": "<div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n  <Badge interactive>Default</Badge>\n  <Badge\n    interactive\n    disabled\n    className=\"pointer-events-none\"\n  >\n    Loading\n    <Spinner\n      size=\"sm\"\n      className=\"ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent\"\n    />\n  </Badge>\n</div>",
               "preview": {
                 "id": "prompts:prompts:prompts-header:state:chip-loading"
               }
@@ -1635,7 +1679,7 @@ export const galleryPayload = {
               "id": "opening",
               "name": "Opening / loading",
               "description": "Soft elevation token and spinner communicate progress while the sheet animates in.",
-              "code": "<Sheet\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Syncing tasks</CardTitle>\n    <CardDescription>\n      Keep content visible while the sheet animates into place.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size={20} />\n    <span className=\"text-ui text-muted-foreground\">Loading dashboard</span>\n  </CardContent>\n</Sheet>",
+              "code": "<Sheet\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Syncing tasks</CardTitle>\n    <CardDescription>\n      Keep content visible while the sheet animates into place.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size=\"md\" />\n    <span className=\"text-ui text-muted-foreground\">Loading dashboard</span>\n  </CardContent>\n</Sheet>",
               "preview": {
                 "id": "prompts:layout:sheet-demo:state:opening"
               }
@@ -1686,7 +1730,7 @@ export const galleryPayload = {
               "id": "loading",
               "name": "Opening / loading",
               "description": "Soft elevation token pairs with a spinner while the dialog content hydrates.",
-              "code": "<Modal\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Confirm selection</CardTitle>\n    <CardDescription>\n      Surface a loader while the dialog hydrates.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size={20} />\n    <span className=\"text-ui text-muted-foreground\">Syncing choices...</span>\n  </CardContent>\n</Modal>",
+              "code": "<Modal\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Confirm selection</CardTitle>\n    <CardDescription>\n      Surface a loader while the dialog hydrates.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size=\"md\" />\n    <span className=\"text-ui text-muted-foreground\">Syncing choices...</span>\n  </CardContent>\n</Modal>",
               "preview": {
                 "id": "prompts:layout:modal-demo:state:loading"
               }
@@ -1798,9 +1842,35 @@ export const galleryPayload = {
                   "value": "Disabled"
                 }
               ]
+            },
+            {
+              "id": "rail-tone",
+              "label": "Rail tone",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Subtle"
+                },
+                {
+                  "value": "Loud"
+                }
+              ]
+            },
+            {
+              "id": "underline-tone",
+              "label": "Underline tone",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Neutral"
+                },
+                {
+                  "value": "Brand"
+                }
+              ]
             }
           ],
-          "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
+          "code": "<div className=\"grid gap-[var(--space-4)] lg:grid-cols-2\">\n  <div className=\"rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]\">\n    <p className=\"mb-[var(--space-3)] text-label font-medium text-muted-foreground\">\n      Neutral underline (default)\n    </p>\n    <Header\n      eyebrow=\"Workspace\"\n      heading=\"Header\"\n      subtitle=\"Segmented navigation anchored to the header\"\n      railTone=\"subtle\"\n      underlineTone=\"neutral\"\n      icon={\n        <Circle\n          aria-hidden=\"true\"\n          className=\"h-[var(--space-5)] w-[var(--space-5)] text-primary\"\n        />\n      }\n      tabs={{\n        items: [\n          {\n            key: \"summary\",\n            label: \"Summary\",\n            icon: (\n              <Circle\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"timeline\",\n            label: \"Timeline\",\n            icon: (\n              <CircleDot\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"insights\",\n            label: \"Insights\",\n            icon: (\n              <CircleCheck\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n            disabled: true,\n          },\n        ],\n        value: \"summary\",\n        onChange: () => {},\n        ariaLabel: \"Header demo tabs (neutral underline)\",\n        size: \"md\",\n      }}\n      sticky={false}\n      topClassName=\"top-0\"\n    >\n      <p className=\"text-ui text-muted-foreground\">\n        Viewing\n        <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n          Summary\n        </span>\n      </p>\n    </Header>\n    <div className=\"mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2\">\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Next milestone</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Launch sprint\n        </p>\n      </div>\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Team focus</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Deep work block\n        </p>\n      </div>\n    </div>\n  </div>\n  <div className=\"rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]\">\n    <p className=\"mb-[var(--space-3)] text-label font-medium text-muted-foreground\">\n      Brand underline\n    </p>\n    <Header\n      eyebrow=\"Workspace\"\n      heading=\"Header\"\n      subtitle=\"Segmented navigation anchored to the header\"\n      railTone=\"loud\"\n      underlineTone=\"brand\"\n      icon={\n        <Circle\n          aria-hidden=\"true\"\n          className=\"h-[var(--space-5)] w-[var(--space-5)] text-primary\"\n        />\n      }\n      tabs={{\n        items: [\n          {\n            key: \"summary\",\n            label: \"Summary\",\n            icon: (\n              <Circle\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"timeline\",\n            label: \"Timeline\",\n            icon: (\n              <CircleDot\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"insights\",\n            label: \"Insights\",\n            icon: (\n              <CircleCheck\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n            disabled: true,\n          },\n        ],\n        value: \"summary\",\n        onChange: () => {},\n        ariaLabel: \"Header demo tabs (brand underline)\",\n        size: \"md\",\n      }}\n      sticky={false}\n      topClassName=\"top-0\"\n    >\n      <p className=\"text-ui text-muted-foreground\">\n        Viewing\n        <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n          Summary\n        </span>\n      </p>\n    </Header>\n    <div className=\"mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2\">\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Next milestone</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Launch sprint\n        </p>\n      </div>\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Team focus</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Deep work block\n        </p>\n      </div>\n    </div>\n  </div>\n</div>",
           "preview": {
             "id": "ui:header:tabs"
           }
@@ -2065,7 +2135,7 @@ export const galleryPayload = {
             "loading"
           ],
           "kind": "primitive",
-          "code": "<Spinner size=\"var(--space-6)\" />",
+          "code": "<Spinner size=\"xl\" />",
           "preview": {
             "id": "prompts:feedback:spinner"
           }
@@ -3158,7 +3228,7 @@ export const galleryPayload = {
         {
           "id": "badge",
           "name": "Badge",
-          "description": "Compact pill with tone-driven styles",
+          "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
           "kind": "primitive",
           "tags": [
             "badge",
@@ -3466,11 +3536,20 @@ export const galleryPayload = {
               },
               {
                 "value": "Loading"
+              },
+              {
+                "value": "Primary"
+              },
+              {
+                "value": "Primary Hover"
+              },
+              {
+                "value": "Primary Active"
               }
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton variant=\"primary\" aria-label=\"Primary\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n      variant=\"primary\"\n      aria-label=\"Primary hover\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n      variant=\"primary\"\n      aria-label=\"Primary active\"\n      aria-pressed\n    >\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
         "preview": {
           "id": "ui:icon-button:matrix"
         },
@@ -3521,6 +3600,30 @@ export const galleryPayload = {
             "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
             "preview": {
               "id": "ui:icon-button:state:loading"
+            }
+          },
+          {
+            "id": "primary",
+            "name": "Primary",
+            "code": "<IconButton variant=\"primary\" aria-label=\"Primary\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:primary"
+            }
+          },
+          {
+            "id": "primary-hover",
+            "name": "Primary Hover",
+            "code": "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:primary-hover"
+            }
+          },
+          {
+            "id": "primary-active",
+            "name": "Primary Active",
+            "code": "<IconButton\n  className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n  variant=\"primary\"\n  aria-label=\"Primary active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:primary-active"
             }
           }
         ]
@@ -3581,12 +3684,15 @@ export const galleryPayload = {
                 "value": "Disabled"
               },
               {
+                "value": "Disabled link"
+              },
+              {
                 "value": "Loading"
               }
             ]
           }
         ],
-        "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
+        "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton as=\"a\" href=\"#\" disabled>Disabled link</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
         "preview": {
           "id": "ui:segmented-button:states"
         },
@@ -3629,6 +3735,14 @@ export const galleryPayload = {
             "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
             "preview": {
               "id": "ui:segmented-button:state:disabled"
+            }
+          },
+          {
+            "id": "disabled-link",
+            "name": "Disabled link",
+            "code": "<SegmentedButton as=\"a\" href=\"#\" disabled>Disabled link</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:disabled-link"
             }
           },
           {
@@ -4435,7 +4549,7 @@ export const galleryPayload = {
           "loading"
         ],
         "kind": "primitive",
-        "code": "<Spinner size=\"var(--space-6)\" />",
+        "code": "<Spinner size=\"xl\" />",
         "preview": {
           "id": "prompts:feedback:spinner"
         }
@@ -4681,7 +4795,7 @@ export const galleryPayload = {
       {
         "id": "badge",
         "name": "Badge",
-        "description": "Compact pill with tone-driven styles",
+        "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
         "kind": "primitive",
         "tags": [
           "badge",
@@ -4899,7 +5013,7 @@ export const galleryPayload = {
             "id": "chip-loading",
             "name": "Chip loading",
             "description": "While sync runs the badge disables interaction and shows an accent spinner anchored by the spacing scale.",
-            "code": "<div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n  <Badge interactive>Default</Badge>\n  <Badge\n    interactive\n    disabled\n    className=\"pointer-events-none\"\n  >\n    Loading\n    <Spinner\n      size={16}\n      className=\"ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent\"\n    />\n  </Badge>\n</div>",
+            "code": "<div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n  <Badge interactive>Default</Badge>\n  <Badge\n    interactive\n    disabled\n    className=\"pointer-events-none\"\n  >\n    Loading\n    <Spinner\n      size=\"sm\"\n      className=\"ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent\"\n    />\n  </Badge>\n</div>",
             "preview": {
               "id": "prompts:prompts:prompts-header:state:chip-loading"
             }
@@ -5213,7 +5327,7 @@ export const galleryPayload = {
             "id": "opening",
             "name": "Opening / loading",
             "description": "Soft elevation token and spinner communicate progress while the sheet animates in.",
-            "code": "<Sheet\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Syncing tasks</CardTitle>\n    <CardDescription>\n      Keep content visible while the sheet animates into place.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size={20} />\n    <span className=\"text-ui text-muted-foreground\">Loading dashboard</span>\n  </CardContent>\n</Sheet>",
+            "code": "<Sheet\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Syncing tasks</CardTitle>\n    <CardDescription>\n      Keep content visible while the sheet animates into place.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size=\"md\" />\n    <span className=\"text-ui text-muted-foreground\">Loading dashboard</span>\n  </CardContent>\n</Sheet>",
             "preview": {
               "id": "prompts:layout:sheet-demo:state:opening"
             }
@@ -5264,7 +5378,7 @@ export const galleryPayload = {
             "id": "loading",
             "name": "Opening / loading",
             "description": "Soft elevation token pairs with a spinner while the dialog content hydrates.",
-            "code": "<Modal\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Confirm selection</CardTitle>\n    <CardDescription>\n      Surface a loader while the dialog hydrates.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size={20} />\n    <span className=\"text-ui text-muted-foreground\">Syncing choices...</span>\n  </CardContent>\n</Modal>",
+            "code": "<Modal\n  open\n  onClose={() => {}}\n  className=\"shadow-[var(--shadow-neo-soft)]\"\n>\n  <CardHeader>\n    <CardTitle>Confirm selection</CardTitle>\n    <CardDescription>\n      Surface a loader while the dialog hydrates.\n    </CardDescription>\n  </CardHeader>\n  <CardContent className=\"flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]\">\n    <Spinner size=\"md\" />\n    <span className=\"text-ui text-muted-foreground\">Syncing choices...</span>\n  </CardContent>\n</Modal>",
             "preview": {
               "id": "prompts:layout:modal-demo:state:loading"
             }
@@ -5376,9 +5490,35 @@ export const galleryPayload = {
                 "value": "Disabled"
               }
             ]
+          },
+          {
+            "id": "rail-tone",
+            "label": "Rail tone",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Subtle"
+              },
+              {
+                "value": "Loud"
+              }
+            ]
+          },
+          {
+            "id": "underline-tone",
+            "label": "Underline tone",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Neutral"
+              },
+              {
+                "value": "Brand"
+              }
+            ]
           }
         ],
-        "code": "<Header\n  heading=\"Header\"\n  subtitle=\"Segmented navigation anchored to the header\"\n  tabs={{\n    items: [\n      {\n        key: \"summary\",\n        label: \"Summary\",\n        icon: (\n          <Circle\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"timeline\",\n        label: \"Timeline\",\n        icon: (\n          <CircleDot\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n      },\n      {\n        key: \"insights\",\n        label: \"Insights\",\n        icon: (\n          <CircleCheck\n            aria-hidden=\"true\"\n            className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n          />\n        ),\n        disabled: true,\n      },\n    ],\n    value: \"summary\",\n    onChange: () => {},\n    ariaLabel: \"Header demo tabs\",\n    size: \"md\",\n  }}\n  sticky={false}\n  topClassName=\"top-0\"\n>\n  <p className=\"text-ui text-muted-foreground\">\n    Viewing\n    <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n      Summary\n    </span>\n  </p>\n</Header>",
+        "code": "<div className=\"grid gap-[var(--space-4)] lg:grid-cols-2\">\n  <div className=\"rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]\">\n    <p className=\"mb-[var(--space-3)] text-label font-medium text-muted-foreground\">\n      Neutral underline (default)\n    </p>\n    <Header\n      eyebrow=\"Workspace\"\n      heading=\"Header\"\n      subtitle=\"Segmented navigation anchored to the header\"\n      railTone=\"subtle\"\n      underlineTone=\"neutral\"\n      icon={\n        <Circle\n          aria-hidden=\"true\"\n          className=\"h-[var(--space-5)] w-[var(--space-5)] text-primary\"\n        />\n      }\n      tabs={{\n        items: [\n          {\n            key: \"summary\",\n            label: \"Summary\",\n            icon: (\n              <Circle\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"timeline\",\n            label: \"Timeline\",\n            icon: (\n              <CircleDot\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"insights\",\n            label: \"Insights\",\n            icon: (\n              <CircleCheck\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n            disabled: true,\n          },\n        ],\n        value: \"summary\",\n        onChange: () => {},\n        ariaLabel: \"Header demo tabs (neutral underline)\",\n        size: \"md\",\n      }}\n      sticky={false}\n      topClassName=\"top-0\"\n    >\n      <p className=\"text-ui text-muted-foreground\">\n        Viewing\n        <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n          Summary\n        </span>\n      </p>\n    </Header>\n    <div className=\"mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2\">\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Next milestone</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Launch sprint\n        </p>\n      </div>\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Team focus</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Deep work block\n        </p>\n      </div>\n    </div>\n  </div>\n  <div className=\"rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]\">\n    <p className=\"mb-[var(--space-3)] text-label font-medium text-muted-foreground\">\n      Brand underline\n    </p>\n    <Header\n      eyebrow=\"Workspace\"\n      heading=\"Header\"\n      subtitle=\"Segmented navigation anchored to the header\"\n      railTone=\"loud\"\n      underlineTone=\"brand\"\n      icon={\n        <Circle\n          aria-hidden=\"true\"\n          className=\"h-[var(--space-5)] w-[var(--space-5)] text-primary\"\n        />\n      }\n      tabs={{\n        items: [\n          {\n            key: \"summary\",\n            label: \"Summary\",\n            icon: (\n              <Circle\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"timeline\",\n            label: \"Timeline\",\n            icon: (\n              <CircleDot\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n          },\n          {\n            key: \"insights\",\n            label: \"Insights\",\n            icon: (\n              <CircleCheck\n                aria-hidden=\"true\"\n                className=\"h-[var(--space-4)] w-[var(--space-4)]\"\n              />\n            ),\n            disabled: true,\n          },\n        ],\n        value: \"summary\",\n        onChange: () => {},\n        ariaLabel: \"Header demo tabs (brand underline)\",\n        size: \"md\",\n      }}\n      sticky={false}\n      topClassName=\"top-0\"\n    >\n      <p className=\"text-ui text-muted-foreground\">\n        Viewing\n        <span className=\"ml-[var(--space-1)] font-medium text-foreground\">\n          Summary\n        </span>\n      </p>\n    </Header>\n    <div className=\"mt-[var(--space-4)] grid gap-[var(--space-3)] sm:grid-cols-2\">\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Next milestone</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Launch sprint\n        </p>\n      </div>\n      <div className=\"rounded-card border border-card-hairline/60 bg-surface px-[var(--space-4)] py-[var(--space-3)]\">\n        <p className=\"text-label text-muted-foreground\">Team focus</p>\n        <p className=\"mt-[var(--space-1)] text-ui font-medium text-foreground\">\n          Deep work block\n        </p>\n      </div>\n    </div>\n  </div>\n</div>",
         "preview": {
           "id": "ui:header:tabs"
         }
@@ -6704,6 +6844,9 @@ export const galleryPreviewModules = [
       "ui:icon-button:state:active",
       "ui:icon-button:state:disabled",
       "ui:icon-button:state:loading",
+      "ui:icon-button:state:primary",
+      "ui:icon-button:state:primary-hover",
+      "ui:icon-button:state:primary-active",
     ],
   },
   {
@@ -6740,6 +6883,7 @@ export const galleryPreviewModules = [
       "ui:segmented-button:state:active",
       "ui:segmented-button:state:focus-visible",
       "ui:segmented-button:state:disabled",
+      "ui:segmented-button:state:disabled-link",
       "ui:segmented-button:state:loading",
     ],
   },

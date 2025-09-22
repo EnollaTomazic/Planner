@@ -4,6 +4,8 @@
 import type { Config } from "tailwindcss";
 import { spacingTokens, radiusScale } from "./src/lib/tokens";
 
+const progressWidthSafelist = Array.from({ length: 101 }, (_, index) => `w-[${index}%]`);
+
 const borderRadiusTokens = Object.entries(radiusScale).reduce(
   (acc, [token, value]) => {
     acc[token] = `${value}px`;
@@ -15,6 +17,7 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
 const config: Config = {
   darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
+  safelist: progressWidthSafelist,
   theme: {
     extend: {
       colors: {

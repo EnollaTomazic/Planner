@@ -372,7 +372,7 @@ function PromptsHeaderChipStatePreview({ state }: { state: ChipState }) {
         <span>{labelMap[state]}</span>
         {state === "loading" ? (
           <Spinner
-            size={16}
+            size="sm"
             className="ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent"
           />
         ) : null}
@@ -1351,7 +1351,7 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                   <span className="flex items-center gap-[var(--space-1)]">
                     {label}
                     {state === "syncing" ? (
-                      <Spinner size="var(--space-3)" />
+                      <Spinner size="xs" />
                     ) : null}
                   </span>
                 </button>
@@ -1604,7 +1604,7 @@ function SheetOpeningState() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
-        <Spinner size={20} />
+        <Spinner size="md" />
         <span className="text-ui text-muted-foreground">Loading dashboard</span>
       </CardContent>
     </Sheet>
@@ -1751,7 +1751,7 @@ function ModalOpeningState() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
-        <Spinner size={20} />
+        <Spinner size="md" />
         <span className="text-ui text-muted-foreground">Syncing choices...</span>
       </CardContent>
     </Modal>
@@ -2112,7 +2112,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   >
     Loading
     <Spinner
-      size={16}
+      size="sm"
       className="ml-[var(--space-2)] border-[hsl(var(--ring))] border-t-transparent"
     />
   </Badge>
@@ -2915,7 +2915,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     </CardDescription>
   </CardHeader>
   <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
-    <Spinner size={20} />
+    <Spinner size="md" />
     <span className="text-ui text-muted-foreground">Loading dashboard</span>
   </CardContent>
 </Sheet>`,
@@ -3065,7 +3065,7 @@ React.useEffect(() => {
     </CardDescription>
   </CardHeader>
   <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
-    <Spinner size={20} />
+    <Spinner size="md" />
     <span className="text-ui text-muted-foreground">Syncing choices...</span>
   </CardContent>
 </Modal>`,
@@ -3780,7 +3780,7 @@ React.useEffect(() => {
       name: "Spinner",
       element: <SpinnerShowcase />,
       tags: ["spinner", "loading"],
-      code: `<Spinner size="var(--space-6)" />`,
+      code: `<Spinner size="xl" />`,
     },
   ],
   toggles: [
