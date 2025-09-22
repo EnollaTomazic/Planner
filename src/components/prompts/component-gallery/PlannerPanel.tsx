@@ -141,7 +141,7 @@ function WeekPickerShellPreview() {
                 aria-selected={day.selected ?? false}
                 aria-label={`Select ${day.accessible}`}
                 className={cn(
-                  "chip relative rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
+                  "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
                   "border-card-hairline",
                   tint,
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
