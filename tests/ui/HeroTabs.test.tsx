@@ -18,7 +18,7 @@ describe("HeroTabs", () => {
             key: "overview",
             label: "Overview",
             loading: true,
-            className: "custom-tab", 
+            className: "custom-tab",
             id: "custom-id",
             controls: "panel-id",
           },
@@ -37,6 +37,33 @@ describe("HeroTabs", () => {
     expect(activeTab).toHaveAttribute(
       "aria-controls",
       expect.stringMatching(/panel-id$/),
+    );
+  });
+
+  it("uses the provided idBase for deterministic tab ids", () => {
+    render(
+      <HeroTabs
+        activeKey="overview"
+        onChange={() => {}}
+        linkPanels
+        idBase="components"
+        ariaLabel="Hero tabs demo"
+        tabs={[
+          {
+            key: "overview",
+            label: "Overview",
+          },
+          { key: "timeline", label: "Timeline" },
+        ]}
+      />,
+    );
+
+    const overviewTab = screen.getByRole("tab", { name: "Overview" });
+
+    expect(overviewTab.id).toBe("components-overview-tab");
+    expect(overviewTab).toHaveAttribute(
+      "aria-controls",
+      "components-overview-panel",
     );
   });
 });
