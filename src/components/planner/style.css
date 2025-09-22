@@ -417,7 +417,7 @@
     calc(18ch + var(--space-3)),
     calc(22ch + var(--space-4))
   );
-  flex: 1 1 var(--chip-min);
+  flex: none;
   min-inline-size: var(--chip-min);
   max-inline-size: var(--chip-max);
   position: relative;

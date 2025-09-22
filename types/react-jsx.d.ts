@@ -2,7 +2,6 @@ import type * as ReactJSXRuntime from "react/jsx-runtime";
 
 declare global {
   namespace JSX {
-    type Element = ReactJSXRuntime.JSX.Element;
     interface ElementClass
       extends ReactJSXRuntime.JSX.ElementClass {}
     interface ElementAttributesProperty

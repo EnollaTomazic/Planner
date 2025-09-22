@@ -403,7 +403,7 @@ export default function WeekPicker() {
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}
-            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+            className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible"
           >
             {days.map((d, i) => (
               <DayChip
