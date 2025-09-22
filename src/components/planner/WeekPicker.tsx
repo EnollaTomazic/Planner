@@ -174,7 +174,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           : "Click or press Enter to focus"
       }
       className={cn(
-        "chip relative rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
+        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,

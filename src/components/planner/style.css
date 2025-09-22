@@ -417,6 +417,7 @@
     calc(18ch + var(--space-3)),
     calc(22ch + var(--space-4))
   );
+  --chip-width: var(--chip-min);
   flex: 1 1 var(--chip-min);
   min-inline-size: var(--chip-min);
   max-inline-size: var(--chip-max);
@@ -432,6 +433,10 @@
       hsl(var(--shadow-color) / 0.3);
   --chip-shadow: var(--neo-shadow);
   box-shadow: var(--chip-shadow);
+}
+
+.chip.flex-none {
+  flex: none;
 }
 
 .chip:hover {
