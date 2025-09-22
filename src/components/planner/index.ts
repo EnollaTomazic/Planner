@@ -34,6 +34,6 @@ export * from "./useTodayHeroProjects";
 export * from "./useTodayHeroTasks";
 export * from "./useWeekData";
 export { default as WeekNotes } from "./WeekNotes";
-export { default as WeekPickerShell } from "./WeekPickerShell";
 export { default as WeekPicker } from "./WeekPicker";
+export { default as WeekPickerShell } from "./WeekPickerShell";
 export { default as WeekSummary } from "./WeekSummary";
