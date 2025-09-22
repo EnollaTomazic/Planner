@@ -132,6 +132,7 @@ export default function PageTabs({
             {...restProps}
             ref={ref as React.Ref<HTMLAnchorElement>}
             href={item.href}
+            scroll={false}
             className={mergedClassName}
             onClick={(event) => {
               if (disabled) {
