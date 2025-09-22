@@ -7,7 +7,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import SiteChrome from "@/components/chrome/SiteChrome";
-import { CatCompanion } from "@/components/ui";
+import { CatCompanion, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
@@ -38,6 +38,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let nonce: string | undefined;
+  const year = new Date().getFullYear();
 
   if (process.env.GITHUB_PAGES === "true") {
     // Static exports (GitHub Pages) do not provide response headers,
@@ -80,6 +81,17 @@ export default async function RootLayout({
           <CatCompanion />
           <div className="relative z-10">
             {children}
+            <footer
+              role="contentinfo"
+              className="mt-[var(--space-8)] border-t border-border bg-surface"
+            >
+              <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                <p className="text-ui font-medium text-foreground">
+                  Planner keeps local-first goals organized so every ritual stays actionable.
+                </p>
+                <p>© {year} Planner Labs. All rights reserved.</p>
+              </PageShell>
+            </footer>
           </div>
         </ThemeProvider>
       </body>
