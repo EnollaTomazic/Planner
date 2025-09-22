@@ -26,6 +26,14 @@ describe("Input", () => {
     expect(field).toHaveStyle(`--field-h: ${value}`);
   });
 
+  it("applies numeric height as pixels", () => {
+    const { getByRole } = render(
+      <Input aria-label="numeric" height={48} />,
+    );
+    const field = getByRole("textbox").parentElement as HTMLElement;
+    expect(field).toHaveStyle("--field-h: 48px");
+  });
+
   it("applies indent padding", () => {
     const { getByRole } = render(
       <Input aria-label="indent" indent />,
