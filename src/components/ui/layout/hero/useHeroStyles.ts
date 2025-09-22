@@ -75,7 +75,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const shell = cn(
       stickyClasses,
       frame
-        ? "relative overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] hero2-frame hero2-neomorph"
+        ? "relative z-0 overflow-hidden rounded-[var(--radius-2xl)] border border-[hsl(var(--border))/0.4] hero2-frame hero2-neomorph"
         : undefined,
       frame
         ? padding === "default"
@@ -103,7 +103,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const raisedLabelBar = cn(
       "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
       clusterGapClass,
-      "overflow-hidden rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
+      "z-0 overflow-hidden rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
     );
 
     const utilities = cn(
