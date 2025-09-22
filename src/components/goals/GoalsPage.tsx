@@ -344,6 +344,7 @@ function GoalsPageContent() {
       onValueChange: handleReminderSearchChange,
       placeholder: "Search title, text, tags…",
       debounceMs: 80,
+      "aria-label": "Search reminders",
       right: (
         <div className="flex items-center gap-[var(--space-2)]">
           <span className="text-label font-medium tracking-[0.02em] opacity-75">

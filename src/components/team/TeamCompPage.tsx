@@ -290,6 +290,10 @@ export default function TeamCompPage() {
           onValueChange: setQuery,
           placeholder: "Search…",
           round: true,
+          "aria-label":
+            subTab === "sheet"
+              ? "Search cheat sheet entries"
+              : "Search saved comps",
         },
         actions: (
           <Button
@@ -426,6 +430,7 @@ export default function TeamCompPage() {
         placeholder: "Filter by champion, type, or note...",
         round: true,
         debounceMs: 80,
+        "aria-label": "Search jungle clear buckets",
         right: (
           <span className="text-label opacity-80">{clearsCount} shown</span>
         ),
