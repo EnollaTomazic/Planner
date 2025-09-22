@@ -42,6 +42,16 @@ describe("WithBasePath", () => {
     expect(withBasePath("assets/icon.svg")).toBe("/beta/assets/icon.svg");
   });
 
+  it("prefixes the base path when route and slug share the same segment", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/planner")).toBe("/planner/planner");
+    expect(withBasePath("planner")).toBe("/planner/planner");
+  });
+
   it("avoids double prefixing when path already includes the base path", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
     vi.resetModules();
