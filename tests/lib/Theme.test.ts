@@ -9,6 +9,8 @@ import { resetLocalStorage } from "../setup";
 
 beforeEach(() => {
   document.documentElement.className = "";
+  document.documentElement.removeAttribute("data-theme-pref");
+  document.documentElement.style.removeProperty("color-scheme");
   resetLocalStorage();
 });
 
@@ -45,11 +47,55 @@ describe("Theme", () => {
         expect(
           document.documentElement.classList.contains("undefined"),
         ).toBe(false);
+        expect(
+          document.documentElement.style.getPropertyValue("color-scheme"),
+        ).toBe("dark");
       },
     );
+
+    it("respects system preference when requested", () => {
+      document.documentElement.dataset.themePref = "system";
+      const mql = {
+        matches: false,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      } as const;
+      window.matchMedia = vi.fn().mockReturnValue(mql) as unknown as typeof window.matchMedia;
+
+      applyTheme({
+        variant: "lg",
+        bg: 0,
+      });
+
+      expect(document.documentElement.classList.contains("dark")).toBe(false);
+      expect(
+        document.documentElement.style.getPropertyValue("color-scheme"),
+      ).toBe("light");
+    });
   });
 
   describe("themeBootstrapScript", () => {
+    it("uses system preference when no stored theme exists", () => {
+      const scriptPath = path.join(
+        process.cwd(),
+        "public",
+        THEME_BOOTSTRAP_SCRIPT_PATH.replace(/^\//, ""),
+      );
+      const script = fs.readFileSync(scriptPath, "utf8");
+      expect(() => {
+        runInThisContext(script);
+      }).not.toThrow();
+
+      expect(document.documentElement.dataset.themePref).toBe("system");
+      expect(document.documentElement.classList.contains("dark")).toBe(false);
+      expect(
+        document.documentElement.style.getPropertyValue("color-scheme"),
+      ).toBe("light");
+    });
+
     it("ignores invalid background index from stored theme", () => {
       const key = createStorageKey(THEME_STORAGE_KEY);
       window.localStorage.setItem(
@@ -75,6 +121,10 @@ describe("Theme", () => {
         expect(classList.contains(bgClass)).toBe(false);
       }
       expect(classList.contains("undefined")).toBe(false);
+      expect(document.documentElement.dataset.themePref).toBe("persisted");
+      expect(
+        document.documentElement.style.getPropertyValue("color-scheme"),
+      ).toBe("dark");
     });
   });
 });

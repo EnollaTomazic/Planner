@@ -9,71 +9,203 @@ const options = [
   { value: "two", label: "Two" },
 ];
 
-function FieldGalleryPreview() {
+type FieldStateSpec = {
+  id: string;
+  name: string;
+  Component: React.ComponentType;
+  code?: string;
+};
+
+const DefaultFieldState: React.FC = () => (
+  <Field.Root helper="Compose primitives">
+    <Field.Input placeholder="Default field" />
+  </Field.Root>
+);
+
+const FocusVisibleFieldState: React.FC = () => (
+  <Field.Root
+    className="ring-2 ring-[hsl(var(--ring))]"
+    helper="Helper text aligns with counter"
+    helperId="field-focus-helper"
+    counter="64 / 100"
+    counterId="field-focus-counter"
+  >
+    <Field.Input
+      aria-describedby="field-focus-helper field-focus-counter"
+      placeholder="Forced focus ring"
+    />
+  </Field.Root>
+);
+
+const InvalidFieldState: React.FC = () => (
+  <Field.Root invalid helper="Incorrect format" helperTone="danger">
+    <Field.Input placeholder="Invalid field" aria-invalid />
+  </Field.Root>
+);
+
+const LoadingFieldState: React.FC = () => (
+  <Field.Root loading helper="Loading state">
+    <Field.Input placeholder="Loading field" />
+  </Field.Root>
+);
+
+const DisabledFieldState: React.FC = () => (
+  <Field.Root disabled helper="Disabled field">
+    <Field.Input placeholder="Disabled field" disabled />
+  </Field.Root>
+);
+
+const FieldWithCounterState: React.FC = () => (
+  <Field.Root
+    counter="120 / 200"
+    counterId="field-counter"
+    helper="Helper with counter"
+    helperId="field-helper"
+  >
+    <Field.Textarea
+      aria-describedby="field-helper field-counter"
+      placeholder="Textarea within a field"
+      rows={3}
+    />
+  </Field.Root>
+);
+
+const SelectFieldState: React.FC = () => (
+  <Field.Root>
+    <Field.Select defaultValue="one">
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </Field.Select>
+  </Field.Root>
+);
+
+const SearchFieldState: React.FC = () => {
   const [search, setSearch] = React.useState("Scouting");
 
   return (
+    <Field.Root>
+      <Field.Search
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+        placeholder="Search fields"
+        clearLabel="Clear search"
+      />
+    </Field.Root>
+  );
+};
+
+const FIELD_STATES: readonly FieldStateSpec[] = [
+  {
+    id: "default",
+    name: "Default",
+    Component: DefaultFieldState,
+    code: `<Field.Root helper="Compose primitives">
+  <Field.Input placeholder="Default field" />
+</Field.Root>`,
+  },
+  {
+    id: "focus-visible",
+    name: "Focus visible",
+    Component: FocusVisibleFieldState,
+    code: `<Field.Root
+  className="ring-2 ring-[hsl(var(--ring))]"
+  helper="Helper text aligns with counter"
+  helperId="field-focus-helper"
+  counter="64 / 100"
+  counterId="field-focus-counter"
+>
+  <Field.Input
+    aria-describedby="field-focus-helper field-focus-counter"
+    placeholder="Forced focus ring"
+  />
+</Field.Root>`,
+  },
+  {
+    id: "invalid",
+    name: "Invalid",
+    Component: InvalidFieldState,
+    code: `<Field.Root invalid helper="Incorrect format" helperTone="danger">
+  <Field.Input placeholder="Invalid field" aria-invalid />
+</Field.Root>`,
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    Component: LoadingFieldState,
+    code: `<Field.Root loading helper="Loading state">
+  <Field.Input placeholder="Loading field" />
+</Field.Root>`,
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    Component: DisabledFieldState,
+    code: `<Field.Root disabled helper="Disabled field">
+  <Field.Input placeholder="Disabled field" disabled />
+</Field.Root>`,
+  },
+  {
+    id: "with-counter",
+    name: "With counter",
+    Component: FieldWithCounterState,
+    code: `<Field.Root
+  counter="120 / 200"
+  counterId="field-counter"
+  helper="Helper with counter"
+  helperId="field-helper"
+>
+  <Field.Textarea
+    aria-describedby="field-helper field-counter"
+    placeholder="Textarea within a field"
+    rows={3}
+  />
+</Field.Root>`,
+  },
+  {
+    id: "select",
+    name: "Select",
+    Component: SelectFieldState,
+    code: `const options = [
+  { value: "one", label: "One" },
+  { value: "two", label: "Two" },
+];
+
+<Field.Root>
+  <Field.Select defaultValue="one">
+    {options.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    ))}
+  </Field.Select>
+</Field.Root>`,
+  },
+  {
+    id: "search",
+    name: "Search",
+    Component: SearchFieldState,
+    code: `const [search, setSearch] = React.useState("Scouting");
+
+<Field.Root>
+  <Field.Search
+    value={search}
+    onChange={(event) => setSearch(event.target.value)}
+    placeholder="Search fields"
+    clearLabel="Clear search"
+  />
+</Field.Root>`,
+  },
+];
+
+function FieldGalleryPreview() {
+  return (
     <div className="flex flex-col gap-[var(--space-3)]">
-      <Field.Root helper="Compose primitives">
-        <Field.Input placeholder="Default field" />
-      </Field.Root>
-
-      <Field.Root
-        className="ring-2 ring-[hsl(var(--ring))]"
-        helper="Helper text aligns with counter"
-        helperId="field-focus-helper"
-        counter="64 / 100"
-        counterId="field-focus-counter"
-      >
-        <Field.Input
-          aria-describedby="field-focus-helper field-focus-counter"
-          placeholder="Forced focus ring"
-        />
-      </Field.Root>
-
-      <Field.Root invalid helper="Incorrect format" helperTone="danger">
-        <Field.Input placeholder="Invalid field" aria-invalid />
-      </Field.Root>
-
-      <Field.Root loading helper="Loading state">
-        <Field.Input placeholder="Loading field" />
-      </Field.Root>
-
-      <Field.Root disabled helper="Disabled field">
-        <Field.Input placeholder="Disabled field" disabled />
-      </Field.Root>
-
-      <Field.Root
-        counter="120 / 200"
-        counterId="field-counter"
-        helper="Helper with counter"
-        helperId="field-helper"
-      >
-        <Field.Textarea
-          aria-describedby="field-helper field-counter"
-          placeholder="Textarea within a field"
-          rows={3}
-        />
-      </Field.Root>
-
-      <Field.Root>
-        <Field.Select defaultValue="one">
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Field.Select>
-      </Field.Root>
-
-      <Field.Root>
-        <Field.Search
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search fields"
-          clearLabel="Clear search"
-        />
-      </Field.Root>
+      {FIELD_STATES.map(({ id, Component }) => (
+        <Component key={id} />
+      ))}
     </div>
   );
 }
@@ -102,22 +234,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: [
-            { value: "Default" },
-            { value: "Focus visible" },
-            { value: "Invalid" },
-            { value: "Loading" },
-            { value: "Disabled" },
-            { value: "With counter" },
-            { value: "Search" },
-            { value: "Select" },
-          ],
+          values: FIELD_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:field:states",
         render: () => <FieldGalleryPreview />,
       }),
+      states: FIELD_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:field:state:${state.id}`,
+          render: () => <state.Component />,
+        }),
+      })),
       code: `const [search, setSearch] = React.useState("Scouting");
 
 <Field.Root helper="Compose primitives">

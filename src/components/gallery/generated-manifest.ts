@@ -1969,7 +1969,57 @@ export const galleryPayload = {
           "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
           "preview": {
             "id": "ui:select:variants"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Select placeholder=\"Animated select\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Select buttonClassName=\"bg-[--hover]\" placeholder=\"Hover\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Select buttonClassName=\"bg-[--active]\" placeholder=\"Active\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Select placeholder=\"Disabled\" disabled items={items} />",
+              "preview": {
+                "id": "ui:select:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+              "preview": {
+                "id": "ui:select:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2264,7 +2314,57 @@ export const galleryPayload = {
           "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
           "preview": {
             "id": "ui:button:matrix"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Button>Default</Button>",
+              "preview": {
+                "id": "ui:button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
+              "preview": {
+                "id": "ui:button:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+              "preview": {
+                "id": "ui:button:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Button className=\"bg-[--active]\">Active</Button>",
+              "preview": {
+                "id": "ui:button:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Button disabled>Disabled</Button>",
+              "preview": {
+                "id": "ui:button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Button loading>Loading</Button>",
+              "preview": {
+                "id": "ui:button:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2344,10 +2444,10 @@ export const galleryPayload = {
                   "value": "With counter"
                 },
                 {
-                  "value": "Search"
+                  "value": "Select"
                 },
                 {
-                  "value": "Select"
+                  "value": "Search"
                 }
               ]
             }
@@ -2355,7 +2455,73 @@ export const galleryPayload = {
           "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>\n<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>\n<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>\n<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>\n<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>\n<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    <option value=\"one\">One</option>\n    <option value=\"two\">Two</option>\n  </Field.Select>\n</Field.Root>\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
           "preview": {
             "id": "ui:field:states"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:default"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus visible",
+              "code": "<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:focus-visible"
+              }
+            },
+            {
+              "id": "invalid",
+              "name": "Invalid",
+              "code": "<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:invalid"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:loading"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:disabled"
+              }
+            },
+            {
+              "id": "with-counter",
+              "name": "With counter",
+              "code": "<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:with-counter"
+              }
+            },
+            {
+              "id": "select",
+              "name": "Select",
+              "code": "const options = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n];\n\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    {options.map((option) => (\n      <option key={option.value} value={option.value}>\n        {option.label}\n      </option>\n    ))}\n  </Field.Select>\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:select"
+              }
+            },
+            {
+              "id": "search",
+              "name": "Search",
+              "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
+              "preview": {
+                "id": "ui:field:state:search"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2433,7 +2599,57 @@ export const galleryPayload = {
           "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
           "preview": {
             "id": "ui:icon-button:matrix"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
+              "preview": {
+                "id": "ui:icon-button:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2500,7 +2716,57 @@ export const galleryPayload = {
           "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
           "preview": {
             "id": "ui:input:states"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Input placeholder=\"Default\" />",
+              "preview": {
+                "id": "ui:input:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Input className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:input:state:hover"
+              }
+            },
+            {
+              "id": "focus",
+              "name": "Focus",
+              "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+              "preview": {
+                "id": "ui:input:state:focus"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Input className=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:input:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Input placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:input:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Input placeholder=\"Loading\" data-loading />",
+              "preview": {
+                "id": "ui:input:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2567,6 +2833,9 @@ export const galleryPayload = {
                   "value": "With label"
                 },
                 {
+                  "value": "Hover"
+                },
+                {
                   "value": "Focus-visible"
                 },
                 {
@@ -2581,10 +2850,68 @@ export const galleryPayload = {
               ]
             }
           ],
-          "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
+          "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Hover\"\n  onValueChange={handleNoop}\n  placeholder=\"Hover\"\n  fieldClassName=\"bg-[--hover]\"\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
           "preview": {
             "id": "ui:search-bar:states"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<SearchBar value={query} onValueChange={setQuery} placeholder=\"Search components\" />",
+              "preview": {
+                "id": "ui:search-bar:state:default"
+              }
+            },
+            {
+              "id": "with-label",
+              "name": "With label",
+              "code": "<SearchBar label=\"Search library\" right={<Button size=\"sm\">Filters</Button>} />",
+              "preview": {
+                "id": "ui:search-bar:state:with-label"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<SearchBar fieldClassName=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:search-bar:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<SearchBar fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\" placeholder=\"Focus-visible\" />",
+              "preview": {
+                "id": "ui:search-bar:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<SearchBar fieldClassName=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:search-bar:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<SearchBar placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:search-bar:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<SearchBar placeholder=\"Loading\" loading />",
+              "preview": {
+                "id": "ui:search-bar:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2655,7 +2982,57 @@ export const galleryPayload = {
           "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
           "preview": {
             "id": "ui:segmented-button:states"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<SegmentedButton>Default</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:hover"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<SegmentedButton selected>Active</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:active"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<SegmentedButton loading>Loading</SegmentedButton>",
+              "preview": {
+                "id": "ui:segmented-button:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2708,7 +3085,41 @@ export const galleryPayload = {
           "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
           "preview": {
             "id": "ui:tabs:wiring"
-          }
+          },
+          "states": [
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:active"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2789,7 +3200,73 @@ export const galleryPayload = {
           "code": "<Textarea placeholder=\"Share your thoughts\" />\n<Textarea placeholder=\"Hover\" className=\"bg-[--hover]\" />\n<Textarea placeholder=\"Focus-visible\" className=\"ring-2 ring-[hsl(var(--ring))]\" />\n<Textarea placeholder=\"Active\" className=\"bg-[--active]\" />\n<Textarea\n  placeholder=\"Needs attention\"\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  aria-invalid\n/> \n<Textarea\n  placeholder=\"Read-only\"\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n/> \n<Textarea placeholder=\"Disabled\" disabled />\n<Textarea placeholder=\"Loading\" data-loading />\n<Textarea placeholder=\"Resizable textarea\" resize=\"resize-y\" aria-label=\"Resizable textarea\" />",
           "preview": {
             "id": "ui:textarea:states"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Textarea placeholder=\"Share your thoughts\" />",
+              "preview": {
+                "id": "ui:textarea:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Textarea className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+              "preview": {
+                "id": "ui:textarea:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
+              "preview": {
+                "id": "ui:textarea:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Textarea className=\"bg-[--active]\" placeholder=\"Active\" />",
+              "preview": {
+                "id": "ui:textarea:state:active"
+              }
+            },
+            {
+              "id": "invalid",
+              "name": "Invalid",
+              "code": "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
+              "preview": {
+                "id": "ui:textarea:state:invalid"
+              }
+            },
+            {
+              "id": "read-only",
+              "name": "Read-only",
+              "code": "<Textarea\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n  placeholder=\"Read-only\"\n/>",
+              "preview": {
+                "id": "ui:textarea:state:read-only"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Textarea placeholder=\"Disabled\" disabled />",
+              "preview": {
+                "id": "ui:textarea:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Textarea placeholder=\"Loading\" data-loading />",
+              "preview": {
+                "id": "ui:textarea:state:loading"
+              }
+            }
+          ]
         }
       ]
     }
@@ -3035,7 +3512,57 @@ export const galleryPayload = {
         "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
         "preview": {
           "id": "ui:select:variants"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Select placeholder=\"Animated select\" items={items} />",
+            "preview": {
+              "id": "ui:select:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Select buttonClassName=\"bg-[--hover]\" placeholder=\"Hover\" items={items} />",
+            "preview": {
+              "id": "ui:select:state:hover"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+            "preview": {
+              "id": "ui:select:state:focus-visible"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Select buttonClassName=\"bg-[--active]\" placeholder=\"Active\" items={items} />",
+            "preview": {
+              "id": "ui:select:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Select placeholder=\"Disabled\" disabled items={items} />",
+            "preview": {
+              "id": "ui:select:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+            "preview": {
+              "id": "ui:select:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "tab-bar",
@@ -3278,7 +3805,57 @@ export const galleryPayload = {
         "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
         "preview": {
           "id": "ui:button:matrix"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Button>Default</Button>",
+            "preview": {
+              "id": "ui:button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Button className=\"bg-[--hover]\">Hover</Button>",
+            "preview": {
+              "id": "ui:button:state:hover"
+            }
+          },
+          {
+            "id": "focus",
+            "name": "Focus",
+            "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+            "preview": {
+              "id": "ui:button:state:focus"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Button className=\"bg-[--active]\">Active</Button>",
+            "preview": {
+              "id": "ui:button:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Button disabled>Disabled</Button>",
+            "preview": {
+              "id": "ui:button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Button loading>Loading</Button>",
+            "preview": {
+              "id": "ui:button:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "field",
@@ -3353,10 +3930,10 @@ export const galleryPayload = {
                 "value": "With counter"
               },
               {
-                "value": "Search"
+                "value": "Select"
               },
               {
-                "value": "Select"
+                "value": "Search"
               }
             ]
           }
@@ -3364,7 +3941,73 @@ export const galleryPayload = {
         "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>\n<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>\n<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>\n<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>\n<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>\n<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    <option value=\"one\">One</option>\n    <option value=\"two\">Two</option>\n  </Field.Select>\n</Field.Root>\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
         "preview": {
           "id": "ui:field:states"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Field.Root helper=\"Compose primitives\">\n  <Field.Input placeholder=\"Default field\" />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:default"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus visible",
+            "code": "<Field.Root\n  className=\"ring-2 ring-[hsl(var(--ring))]\"\n  helper=\"Helper text aligns with counter\"\n  helperId=\"field-focus-helper\"\n  counter=\"64 / 100\"\n  counterId=\"field-focus-counter\"\n>\n  <Field.Input\n    aria-describedby=\"field-focus-helper field-focus-counter\"\n    placeholder=\"Forced focus ring\"\n  />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:focus-visible"
+            }
+          },
+          {
+            "id": "invalid",
+            "name": "Invalid",
+            "code": "<Field.Root invalid helper=\"Incorrect format\" helperTone=\"danger\">\n  <Field.Input placeholder=\"Invalid field\" aria-invalid />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:invalid"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Field.Root loading helper=\"Loading state\">\n  <Field.Input placeholder=\"Loading field\" />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:loading"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Field.Root disabled helper=\"Disabled field\">\n  <Field.Input placeholder=\"Disabled field\" disabled />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:disabled"
+            }
+          },
+          {
+            "id": "with-counter",
+            "name": "With counter",
+            "code": "<Field.Root\n  counter=\"120 / 200\"\n  counterId=\"field-counter\"\n  helper=\"Helper with counter\"\n  helperId=\"field-helper\"\n>\n  <Field.Textarea\n    aria-describedby=\"field-helper field-counter\"\n    placeholder=\"Textarea within a field\"\n    rows={3}\n  />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:with-counter"
+            }
+          },
+          {
+            "id": "select",
+            "name": "Select",
+            "code": "const options = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n];\n\n<Field.Root>\n  <Field.Select defaultValue=\"one\">\n    {options.map((option) => (\n      <option key={option.value} value={option.value}>\n        {option.label}\n      </option>\n    ))}\n  </Field.Select>\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:select"
+            }
+          },
+          {
+            "id": "search",
+            "name": "Search",
+            "code": "const [search, setSearch] = React.useState(\"Scouting\");\n\n<Field.Root>\n  <Field.Search\n    value={search}\n    onChange={(event) => setSearch(event.target.value)}\n    placeholder=\"Search fields\"\n    clearLabel=\"Clear search\"\n  />\n</Field.Root>",
+            "preview": {
+              "id": "ui:field:state:search"
+            }
+          }
+        ]
       },
       {
         "id": "icon-button",
@@ -3437,7 +4080,57 @@ export const galleryPayload = {
         "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton size=\"sm\" variant=\"ghost\" aria-label=\"Add item sm\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"ghost\" aria-label=\"Add item md\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"lg\" variant=\"ghost\" aria-label=\"Add item lg\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"xl\" variant=\"ghost\" aria-label=\"Add item xl\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"secondary\" aria-label=\"Add item secondary\">\n      <Plus />\n    </IconButton>\n    <IconButton size=\"md\" variant=\"primary\" aria-label=\"Add item primary\">\n      <Plus />\n    </IconButton>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <IconButton aria-label=\"Default\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n      <Plus />\n    </IconButton>\n    <IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n      <Plus />\n    </IconButton>\n    <IconButton\n      className=\"bg-[--active]\"\n      aria-pressed\n      aria-label=\"Active\"\n    >\n      <Plus />\n    </IconButton>\n    <IconButton disabled aria-label=\"Disabled\">\n      <Plus />\n    </IconButton>\n    <IconButton loading aria-label=\"Loading\">\n      <Plus />\n    </IconButton>\n  </div>\n</div>",
         "preview": {
           "id": "ui:icon-button:matrix"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:hover"
+            }
+          },
+          {
+            "id": "focus",
+            "name": "Focus",
+            "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:focus"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
+            "preview": {
+              "id": "ui:icon-button:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "input",
@@ -3499,7 +4192,57 @@ export const galleryPayload = {
         "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
         "preview": {
           "id": "ui:input:states"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Input placeholder=\"Default\" />",
+            "preview": {
+              "id": "ui:input:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Input className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+            "preview": {
+              "id": "ui:input:state:hover"
+            }
+          },
+          {
+            "id": "focus",
+            "name": "Focus",
+            "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+            "preview": {
+              "id": "ui:input:state:focus"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Input className=\"bg-[--active]\" placeholder=\"Active\" />",
+            "preview": {
+              "id": "ui:input:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Input placeholder=\"Disabled\" disabled />",
+            "preview": {
+              "id": "ui:input:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Input placeholder=\"Loading\" data-loading />",
+            "preview": {
+              "id": "ui:input:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "search-bar",
@@ -3561,6 +4304,9 @@ export const galleryPayload = {
                 "value": "With label"
               },
               {
+                "value": "Hover"
+              },
+              {
                 "value": "Focus-visible"
               },
               {
@@ -3575,10 +4321,68 @@ export const galleryPayload = {
             ]
           }
         ],
-        "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
+        "code": "const [query, setQuery] = React.useState(\"Champion counters\");\nconst handleNoop = React.useCallback((_value: string) => {}, []);\n\n<SearchBar\n  value={query}\n  onValueChange={setQuery}\n  placeholder=\"Search components\"\n/>\n<SearchBar\n  value=\"\"\n  onValueChange={handleNoop}\n  label=\"Search library\"\n  placeholder=\"With label\"\n  right={<Button size=\"sm\">Filters</Button>}\n/>\n<SearchBar\n  value=\"Hover\"\n  onValueChange={handleNoop}\n  placeholder=\"Hover\"\n  fieldClassName=\"bg-[--hover]\"\n/>\n<SearchBar\n  value=\"Focus-visible\"\n  onValueChange={handleNoop}\n  placeholder=\"Focus-visible\"\n  fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\"\n/>\n<SearchBar\n  value=\"Active\"\n  onValueChange={handleNoop}\n  placeholder=\"Active\"\n  fieldClassName=\"bg-[--active]\"\n/>\n<SearchBar\n  value=\"Disabled\"\n  onValueChange={handleNoop}\n  placeholder=\"Disabled\"\n  disabled\n/>\n<SearchBar\n  value=\"Loading\"\n  onValueChange={handleNoop}\n  placeholder=\"Loading\"\n  loading\n/>",
         "preview": {
           "id": "ui:search-bar:states"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<SearchBar value={query} onValueChange={setQuery} placeholder=\"Search components\" />",
+            "preview": {
+              "id": "ui:search-bar:state:default"
+            }
+          },
+          {
+            "id": "with-label",
+            "name": "With label",
+            "code": "<SearchBar label=\"Search library\" right={<Button size=\"sm\">Filters</Button>} />",
+            "preview": {
+              "id": "ui:search-bar:state:with-label"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<SearchBar fieldClassName=\"bg-[--hover]\" placeholder=\"Hover\" />",
+            "preview": {
+              "id": "ui:search-bar:state:hover"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<SearchBar fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\" placeholder=\"Focus-visible\" />",
+            "preview": {
+              "id": "ui:search-bar:state:focus-visible"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<SearchBar fieldClassName=\"bg-[--active]\" placeholder=\"Active\" />",
+            "preview": {
+              "id": "ui:search-bar:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<SearchBar placeholder=\"Disabled\" disabled />",
+            "preview": {
+              "id": "ui:search-bar:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<SearchBar placeholder=\"Loading\" loading />",
+            "preview": {
+              "id": "ui:search-bar:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "segmented-button",
@@ -3644,7 +4448,57 @@ export const galleryPayload = {
         "code": "<div className=\"flex flex-wrap gap-[var(--space-2)]\">\n  <SegmentedButton>Default</SegmentedButton>\n  <SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>\n  <SegmentedButton selected>Active</SegmentedButton>\n  <SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>\n  <SegmentedButton disabled>Disabled</SegmentedButton>\n  <SegmentedButton loading>Loading</SegmentedButton>\n</div>",
         "preview": {
           "id": "ui:segmented-button:states"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<SegmentedButton>Default</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<SegmentedButton className=\"[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]\">Hover</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:hover"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<SegmentedButton selected>Active</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:active"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<SegmentedButton className=\"ring-2 ring-[--theme-ring] ring-offset-0 outline-none\">Focus-visible</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<SegmentedButton disabled>Disabled</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<SegmentedButton loading>Loading</SegmentedButton>",
+            "preview": {
+              "id": "ui:segmented-button:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "tabs",
@@ -3692,7 +4546,41 @@ export const galleryPayload = {
         "code": "<Tabs defaultValue=\"overview\">\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      items={[\n        { key: \"overview\", label: \"Overview\" },\n        { key: \"activity\", label: \"Activity\" },\n        { key: \"files\", label: \"Files\" },\n      ]}\n      ariaLabel=\"Project sections\"\n    />\n    <TabPanel value=\"overview\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Overview</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Keep a high-level summary of the plan visible for the team.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"activity\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Activity</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Show chronological activity without leaving the workspace.\n        </p>\n      </Card>\n    </TabPanel>\n    <TabPanel value=\"files\">\n      <Card className=\"space-y-[var(--space-2)]\">\n        <p className=\"text-title font-semibold tracking-[-0.01em]\">Files</p>\n        <p className=\"text-ui text-muted-foreground\">\n          Store briefs, shared assets, and notes alongside the plan.\n        </p>\n      </Card>\n    </TabPanel>\n  </div>\n</Tabs>\n\n<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <div className=\"space-y-[var(--space-3)]\">\n    <TabList\n      ariaLabel=\"Notification filters\"\n      items={[\n        { key: \"inbox\", label: \"Inbox\" },\n        {\n          key: \"updates\",\n          label: \"Updates\",\n          className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n        },\n        { key: \"archive\", label: \"Archive\" },\n        { key: \"disabled\", label: \"Disabled\", disabled: true },\n        { key: \"sync\", label: \"Syncing\", loading: true },\n      ]}\n      linkPanels={false}\n      showBaseline\n    />\n    <Card className=\"text-ui text-muted-foreground\">\n      Active tab: <span className=\"font-medium text-foreground\">Inbox</span>\n    </Card>\n  </div>\n</Tabs>",
         "preview": {
           "id": "ui:tabs:wiring"
-        }
+        },
+        "states": [
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:active"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"disabled\", label: \"Disabled\", disabled: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"sync\", label: \"Syncing\", loading: true },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "textarea",
@@ -3768,7 +4656,73 @@ export const galleryPayload = {
         "code": "<Textarea placeholder=\"Share your thoughts\" />\n<Textarea placeholder=\"Hover\" className=\"bg-[--hover]\" />\n<Textarea placeholder=\"Focus-visible\" className=\"ring-2 ring-[hsl(var(--ring))]\" />\n<Textarea placeholder=\"Active\" className=\"bg-[--active]\" />\n<Textarea\n  placeholder=\"Needs attention\"\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  aria-invalid\n/> \n<Textarea\n  placeholder=\"Read-only\"\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n/> \n<Textarea placeholder=\"Disabled\" disabled />\n<Textarea placeholder=\"Loading\" data-loading />\n<Textarea placeholder=\"Resizable textarea\" resize=\"resize-y\" aria-label=\"Resizable textarea\" />",
         "preview": {
           "id": "ui:textarea:states"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Textarea placeholder=\"Share your thoughts\" />",
+            "preview": {
+              "id": "ui:textarea:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Textarea className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+            "preview": {
+              "id": "ui:textarea:state:hover"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
+            "preview": {
+              "id": "ui:textarea:state:focus-visible"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Textarea className=\"bg-[--active]\" placeholder=\"Active\" />",
+            "preview": {
+              "id": "ui:textarea:state:active"
+            }
+          },
+          {
+            "id": "invalid",
+            "name": "Invalid",
+            "code": "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
+            "preview": {
+              "id": "ui:textarea:state:invalid"
+            }
+          },
+          {
+            "id": "read-only",
+            "name": "Read-only",
+            "code": "<Textarea\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n  placeholder=\"Read-only\"\n/>",
+            "preview": {
+              "id": "ui:textarea:state:read-only"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Textarea placeholder=\"Disabled\" disabled />",
+            "preview": {
+              "id": "ui:textarea:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Textarea placeholder=\"Loading\" data-loading />",
+            "preview": {
+              "id": "ui:textarea:state:loading"
+            }
+          }
+        ]
       }
     ],
     "component": [
@@ -5614,6 +6568,12 @@ export const galleryPreviewModules = [
     loader: () => import("../ui/Select.gallery"),
     previewIds: [
       "ui:select:variants",
+      "ui:select:state:default",
+      "ui:select:state:hover",
+      "ui:select:state:focus-visible",
+      "ui:select:state:active",
+      "ui:select:state:disabled",
+      "ui:select:state:loading",
     ],
   },
   {
@@ -5638,48 +6598,99 @@ export const galleryPreviewModules = [
     loader: () => import("../ui/primitives/Button.gallery"),
     previewIds: [
       "ui:button:matrix",
+      "ui:button:state:default",
+      "ui:button:state:hover",
+      "ui:button:state:focus",
+      "ui:button:state:active",
+      "ui:button:state:disabled",
+      "ui:button:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/Field.gallery"),
     previewIds: [
       "ui:field:states",
+      "ui:field:state:default",
+      "ui:field:state:focus-visible",
+      "ui:field:state:invalid",
+      "ui:field:state:loading",
+      "ui:field:state:disabled",
+      "ui:field:state:with-counter",
+      "ui:field:state:select",
+      "ui:field:state:search",
     ],
   },
   {
     loader: () => import("../ui/primitives/IconButton.gallery"),
     previewIds: [
       "ui:icon-button:matrix",
+      "ui:icon-button:state:default",
+      "ui:icon-button:state:hover",
+      "ui:icon-button:state:focus",
+      "ui:icon-button:state:active",
+      "ui:icon-button:state:disabled",
+      "ui:icon-button:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/Input.gallery"),
     previewIds: [
       "ui:input:states",
+      "ui:input:state:default",
+      "ui:input:state:hover",
+      "ui:input:state:focus",
+      "ui:input:state:active",
+      "ui:input:state:disabled",
+      "ui:input:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/SearchBar.gallery"),
     previewIds: [
       "ui:search-bar:states",
+      "ui:search-bar:state:default",
+      "ui:search-bar:state:with-label",
+      "ui:search-bar:state:hover",
+      "ui:search-bar:state:focus-visible",
+      "ui:search-bar:state:active",
+      "ui:search-bar:state:disabled",
+      "ui:search-bar:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/SegmentedButton.gallery"),
     previewIds: [
       "ui:segmented-button:states",
+      "ui:segmented-button:state:default",
+      "ui:segmented-button:state:hover",
+      "ui:segmented-button:state:active",
+      "ui:segmented-button:state:focus-visible",
+      "ui:segmented-button:state:disabled",
+      "ui:segmented-button:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/Tabs.gallery"),
     previewIds: [
       "ui:tabs:wiring",
+      "ui:tabs:state:active",
+      "ui:tabs:state:focus-visible",
+      "ui:tabs:state:disabled",
+      "ui:tabs:state:loading",
     ],
   },
   {
     loader: () => import("../ui/primitives/Textarea.gallery"),
     previewIds: [
       "ui:textarea:states",
+      "ui:textarea:state:default",
+      "ui:textarea:state:hover",
+      "ui:textarea:state:focus-visible",
+      "ui:textarea:state:active",
+      "ui:textarea:state:invalid",
+      "ui:textarea:state:read-only",
+      "ui:textarea:state:disabled",
+      "ui:textarea:state:loading",
     ],
   },
 ] satisfies readonly GalleryPreviewModuleManifest[];

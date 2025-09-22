@@ -4,72 +4,88 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import Textarea from "./Textarea";
 
-const TEXTAREA_STATES = [
-  {
-    label: "Default",
-    className: undefined,
-    textareaClassName: undefined,
-    props: { placeholder: "Share your thoughts" },
-  },
-  {
-    label: "Hover",
-    className: "bg-[--hover]",
-    textareaClassName: undefined,
-    props: { placeholder: "Hover" },
-  },
-  {
-    label: "Focus-visible",
-    className: "ring-2 ring-[hsl(var(--ring))]",
-    textareaClassName: undefined,
-    props: { placeholder: "Focus-visible" },
-  },
-  {
-    label: "Active",
-    className: "bg-[--active]",
-    textareaClassName: undefined,
-    props: { placeholder: "Active" },
-  },
-  {
-    label: "Invalid",
-    className: "ring-2 ring-[hsl(var(--danger))]",
-    textareaClassName: undefined,
-    props: { placeholder: "Needs attention", "aria-invalid": true },
-  },
-  {
-    label: "Read-only",
-    className: "bg-[hsl(var(--card)/0.72)]",
-    textareaClassName: "text-muted-foreground",
-    props: { placeholder: "Read-only", readOnly: true },
-  },
-  {
-    label: "Disabled",
-    className: undefined,
-    textareaClassName: undefined,
-    props: { placeholder: "Disabled", disabled: true },
-  },
-  {
-    label: "Loading",
-    className: undefined,
-    textareaClassName: undefined,
-    props: { placeholder: "Loading", "data-loading": true },
-  },
-] satisfies ReadonlyArray<{
-  label: string;
+type TextareaStateSpec = {
+  id: string;
+  name: string;
   className?: string;
   textareaClassName?: string;
   props: React.ComponentProps<typeof Textarea>;
-}>;
+  code?: string;
+};
+
+const TEXTAREA_STATES: readonly TextareaStateSpec[] = [
+  {
+    id: "default",
+    name: "Default",
+    props: { placeholder: "Share your thoughts" },
+    code: "<Textarea placeholder=\"Share your thoughts\" />",
+  },
+  {
+    id: "hover",
+    name: "Hover",
+    className: "bg-[--hover]",
+    props: { placeholder: "Hover" },
+    code: "<Textarea className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+  },
+  {
+    id: "focus-visible",
+    name: "Focus-visible",
+    className: "ring-2 ring-[hsl(var(--ring))]",
+    props: { placeholder: "Focus-visible" },
+    code: "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
+  },
+  {
+    id: "active",
+    name: "Active",
+    className: "bg-[--active]",
+    props: { placeholder: "Active" },
+    code: "<Textarea className=\"bg-[--active]\" placeholder=\"Active\" />",
+  },
+  {
+    id: "invalid",
+    name: "Invalid",
+    className: "ring-2 ring-[hsl(var(--danger))]",
+    props: { placeholder: "Needs attention", "aria-invalid": true },
+    code: "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
+  },
+  {
+    id: "read-only",
+    name: "Read-only",
+    className: "bg-[hsl(var(--card)/0.72)]",
+    textareaClassName: "text-muted-foreground",
+    props: { placeholder: "Read-only", readOnly: true },
+    code: "<Textarea\n  className=\"bg-[hsl(var(--card)/0.72)]\"\n  textareaClassName=\"text-muted-foreground\"\n  readOnly\n  placeholder=\"Read-only\"\n/>",
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    props: { placeholder: "Disabled", disabled: true },
+    code: "<Textarea placeholder=\"Disabled\" disabled />",
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    props: { placeholder: "Loading", "data-loading": true },
+    code: "<Textarea placeholder=\"Loading\" data-loading />",
+  },
+];
+
+function TextareaStatePreview({ state }: { state: TextareaStateSpec }) {
+  const { className, textareaClassName, props } = state;
+  return (
+    <Textarea
+      className={className}
+      textareaClassName={textareaClassName}
+      {...props}
+    />
+  );
+}
 
 function TextareaGalleryPreview() {
   return (
     <div className="flex flex-col gap-[var(--space-2)]">
-      {TEXTAREA_STATES.map(({ label, className, textareaClassName, props }) => (
-        <Textarea
-          key={label}
-          className={className}
-          textareaClassName={textareaClassName}
-          {...props}
-        />
+      {TEXTAREA_STATES.map((state) => (
+        <TextareaStatePreview key={state.id} state={state} />
       ))}
       <Textarea
         placeholder="Resizable textarea"
@@ -105,13 +121,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: TEXTAREA_STATES.map(({ label }) => ({ value: label })),
+          values: TEXTAREA_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:textarea:states",
         render: () => <TextareaGalleryPreview />,
       }),
+      states: TEXTAREA_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:textarea:state:${state.id}`,
+          render: () => <TextareaStatePreview state={state} />,
+        }),
+      })),
       code: `<Textarea placeholder="Share your thoughts" />
 <Textarea placeholder="Hover" className="bg-[--hover]" />
 <Textarea placeholder="Focus-visible" className="ring-2 ring-[hsl(var(--ring))]" />

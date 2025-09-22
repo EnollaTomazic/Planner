@@ -10,35 +10,71 @@ const SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME =
 const SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME =
   "ring-2 ring-[--theme-ring] ring-offset-0 outline-none";
 
-const SEGMENTED_BUTTON_STATES: ReadonlyArray<{
-  label: string;
+type SegmentedButtonStateSpec = {
+  id: string;
+  name: string;
   props: React.ComponentProps<typeof SegmentedButton>;
-}> = [
-  { label: "Default", props: { children: "Default" } },
+  code?: string;
+};
+
+const SEGMENTED_BUTTON_STATES: readonly SegmentedButtonStateSpec[] = [
   {
-    label: "Hover",
+    id: "default",
+    name: "Default",
+    props: { children: "Default" },
+    code: "<SegmentedButton>Default</SegmentedButton>",
+  },
+  {
+    id: "hover",
+    name: "Hover",
     props: {
       children: "Hover",
       className: SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME,
     },
+    code: `<SegmentedButton className="${SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME}">Hover</SegmentedButton>`,
   },
-  { label: "Active", props: { children: "Active", selected: true } },
   {
-    label: "Focus-visible",
+    id: "active",
+    name: "Active",
+    props: { children: "Active", selected: true },
+    code: "<SegmentedButton selected>Active</SegmentedButton>",
+  },
+  {
+    id: "focus-visible",
+    name: "Focus-visible",
     props: {
       children: "Focus-visible",
       className: SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME,
     },
+    code: `<SegmentedButton className="${SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME}">Focus-visible</SegmentedButton>`,
   },
-  { label: "Disabled", props: { children: "Disabled", disabled: true } },
-  { label: "Loading", props: { children: "Loading", loading: true } },
+  {
+    id: "disabled",
+    name: "Disabled",
+    props: { children: "Disabled", disabled: true },
+    code: "<SegmentedButton disabled>Disabled</SegmentedButton>",
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    props: { children: "Loading", loading: true },
+    code: "<SegmentedButton loading>Loading</SegmentedButton>",
+  },
 ];
+
+function SegmentedButtonStatePreview({
+  state,
+}: {
+  state: SegmentedButtonStateSpec;
+}) {
+  return <SegmentedButton {...state.props} />;
+}
 
 function SegmentedButtonGalleryPreview() {
   return (
     <div className="flex flex-wrap gap-[var(--space-2)]">
-      {SEGMENTED_BUTTON_STATES.map(({ label, props }) => (
-        <SegmentedButton key={label} {...props} />
+      {SEGMENTED_BUTTON_STATES.map((state) => (
+        <SegmentedButtonStatePreview key={state.id} state={state} />
       ))}
     </div>
   );
@@ -65,13 +101,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: SEGMENTED_BUTTON_STATES.map(({ label }) => ({ value: label })),
+          values: SEGMENTED_BUTTON_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:segmented-button:states",
         render: () => <SegmentedButtonGalleryPreview />,
       }),
+      states: SEGMENTED_BUTTON_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:segmented-button:state:${state.id}`,
+          render: () => <SegmentedButtonStatePreview state={state} />,
+        }),
+      })),
       code: `<div className="flex flex-wrap gap-[var(--space-2)]">
   <SegmentedButton>Default</SegmentedButton>
   <SegmentedButton className="${SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME}">Hover</SegmentedButton>

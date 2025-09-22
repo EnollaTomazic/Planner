@@ -37,6 +37,111 @@ type PanelCardProps = {
   description: string;
 };
 
+type TabsStateSpec = {
+  id: string;
+  name: string;
+  value: StatusTabKey;
+  items: readonly TabListItem<StatusTabKey>[];
+  code?: string;
+};
+
+const TABS_STATE_ITEMS: Record<
+  "active" | "focus-visible" | "disabled" | "loading",
+  readonly TabListItem<StatusTabKey>[]
+> = {
+  active: [
+    { key: "inbox", label: "Inbox" },
+    { key: "updates", label: "Updates" },
+  ],
+  "focus-visible": [
+    { key: "inbox", label: "Inbox" },
+    { key: "updates", label: "Updates", className: focusVisibleClassName },
+  ],
+  disabled: [
+    { key: "inbox", label: "Inbox" },
+    { key: "disabled", label: "Disabled", disabled: true },
+  ],
+  loading: [
+    { key: "inbox", label: "Inbox" },
+    { key: "sync", label: "Syncing", loading: true },
+  ],
+};
+
+const TABS_STATES: readonly TabsStateSpec[] = [
+  {
+    id: "active",
+    name: "Active",
+    value: "updates",
+    items: TABS_STATE_ITEMS.active,
+    code: `<Tabs value="updates" onValueChange={() => {}}>
+  <TabList
+    ariaLabel="Tab state preview"
+    items={[
+      { key: "inbox", label: "Inbox" },
+      { key: "updates", label: "Updates" },
+    ]}
+    linkPanels={false}
+    showBaseline
+  />
+</Tabs>`,
+  },
+  {
+    id: "focus-visible",
+    name: "Focus-visible",
+    value: "inbox",
+    items: TABS_STATE_ITEMS["focus-visible"],
+    code: `<Tabs value="inbox" onValueChange={() => {}}>
+  <TabList
+    ariaLabel="Tab state preview"
+    items={[
+      { key: "inbox", label: "Inbox" },
+      {
+        key: "updates",
+        label: "Updates",
+        className: "${focusVisibleClassName}",
+      },
+    ]}
+    linkPanels={false}
+    showBaseline
+  />
+</Tabs>`,
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    value: "inbox",
+    items: TABS_STATE_ITEMS.disabled,
+    code: `<Tabs value="inbox" onValueChange={() => {}}>
+  <TabList
+    ariaLabel="Tab state preview"
+    items={[
+      { key: "inbox", label: "Inbox" },
+      { key: "disabled", label: "Disabled", disabled: true },
+    ]}
+    linkPanels={false}
+    showBaseline
+  />
+</Tabs>`,
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    value: "inbox",
+    items: TABS_STATE_ITEMS.loading,
+    code: `<Tabs value="inbox" onValueChange={() => {}}>
+  <TabList
+    ariaLabel="Tab state preview"
+    items={[
+      { key: "inbox", label: "Inbox" },
+      { key: "sync", label: "Syncing", loading: true },
+    ]}
+    linkPanels={false}
+    showBaseline
+  />
+</Tabs>`,
+  },
+];
+
 function PanelCard({ title, description }: PanelCardProps) {
   return (
     <Card className="space-y-[var(--space-2)]">
@@ -92,6 +197,21 @@ function TabsGalleryPreview() {
   );
 }
 
+function TabsStatePreview({ state }: { state: TabsStateSpec }) {
+  return (
+    <Tabs value={state.value} onValueChange={() => {}}>
+      <div className="space-y-[var(--space-3)]">
+        <TabList
+          ariaLabel="Tab state preview"
+          items={[...state.items]}
+          linkPanels={false}
+          showBaseline
+        />
+      </div>
+    </Tabs>
+  );
+}
+
 export default defineGallerySection({
   id: "toggles",
   entries: [
@@ -115,18 +235,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: [
-            { value: "Active" },
-            { value: "Focus-visible" },
-            { value: "Disabled" },
-            { value: "Loading" },
-          ],
+          values: TABS_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:tabs:wiring",
         render: () => <TabsGalleryPreview />,
       }),
+      states: TABS_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:tabs:state:${state.id}`,
+          render: () => <TabsStatePreview state={state} />,
+        }),
+      })),
       code: `<Tabs defaultValue="overview">
   <div className="space-y-[var(--space-3)]">
     <TabList
