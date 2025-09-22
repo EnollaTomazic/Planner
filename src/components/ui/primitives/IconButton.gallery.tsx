@@ -5,54 +5,72 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import IconButton from "./IconButton";
 
-const ICON_BUTTON_STATES = [
+type IconButtonStateSpec = {
+  id: string;
+  name: string;
+  className?: string;
+  props: React.ComponentProps<typeof IconButton>;
+  code?: string;
+};
+
+const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   {
-    label: "Default",
-    className: undefined,
+    id: "default",
+    name: "Default",
     props: { "aria-label": "Default", children: <Plus aria-hidden /> },
+    code: "<IconButton aria-label=\"Default\">\n  <Plus />\n</IconButton>",
   },
   {
-    label: "Hover",
+    id: "hover",
+    name: "Hover",
     className: "bg-[--hover]",
     props: { "aria-label": "Hover", children: <Plus aria-hidden /> },
+    code: "<IconButton className=\"bg-[--hover]\" aria-label=\"Hover\">\n  <Plus />\n</IconButton>",
   },
   {
-    label: "Focus",
+    id: "focus",
+    name: "Focus",
     className: "ring-2 ring-[var(--focus)]",
     props: { "aria-label": "Focus", children: <Plus aria-hidden /> },
+    code: "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
   },
   {
-    label: "Active",
+    id: "active",
+    name: "Active",
     className: "bg-[--active]",
     props: {
       "aria-label": "Active",
       "aria-pressed": true,
       children: <Plus aria-hidden />,
     },
+    code: "<IconButton\n  className=\"bg-[--active]\"\n  aria-label=\"Active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
   },
   {
-    label: "Disabled",
-    className: undefined,
+    id: "disabled",
+    name: "Disabled",
     props: {
       "aria-label": "Disabled",
       children: <Plus aria-hidden />,
       disabled: true,
     },
+    code: "<IconButton disabled aria-label=\"Disabled\">\n  <Plus />\n</IconButton>",
   },
   {
-    label: "Loading",
-    className: undefined,
+    id: "loading",
+    name: "Loading",
     props: {
       "aria-label": "Loading",
       children: <Plus aria-hidden />,
       loading: true,
     },
+    code: "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
   },
-] satisfies ReadonlyArray<{
-  label: string;
-  className?: string;
-  props: React.ComponentProps<typeof IconButton>;
-}>;
+];
+
+function IconButtonStatePreview({ state }: { state: IconButtonStateSpec }) {
+  const { className, props } = state;
+  return <IconButton className={className} {...props} />;
+}
 
 const ICON_BUTTON_SIZES = ["sm", "md", "lg", "xl"] as const;
 
@@ -86,8 +104,8 @@ function IconButtonGalleryPreview() {
         </IconButton>
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        {ICON_BUTTON_STATES.map(({ label, className, props }) => (
-          <IconButton key={label} className={className} {...props} />
+        {ICON_BUTTON_STATES.map((state) => (
+          <IconButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
     </div>
@@ -135,13 +153,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: ICON_BUTTON_STATES.map(({ label }) => ({ value: label })),
+          values: ICON_BUTTON_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:icon-button:matrix",
         render: () => <IconButtonGalleryPreview />,
       }),
+      states: ICON_BUTTON_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:icon-button:state:${state.id}`,
+          render: () => <IconButtonStatePreview state={state} />,
+        }),
+      })),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
     <IconButton size="sm" variant="ghost" aria-label="Add item sm">

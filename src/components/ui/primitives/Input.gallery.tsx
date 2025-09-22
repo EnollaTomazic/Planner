@@ -4,48 +4,66 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import Input from "./Input";
 
-const INPUT_STATES = [
-  {
-    label: "Default",
-    className: undefined,
-    props: { placeholder: "Default" },
-  },
-  {
-    label: "Hover",
-    className: "bg-[--hover]",
-    props: { placeholder: "Hover" },
-  },
-  {
-    label: "Focus",
-    className: "ring-2 ring-[var(--focus)]",
-    props: { placeholder: "Focus" },
-  },
-  {
-    label: "Active",
-    className: "bg-[--active]",
-    props: { placeholder: "Active" },
-  },
-  {
-    label: "Disabled",
-    className: undefined,
-    props: { placeholder: "Disabled", disabled: true },
-  },
-  {
-    label: "Loading",
-    className: undefined,
-    props: { placeholder: "Loading", "data-loading": true },
-  },
-] satisfies ReadonlyArray<{
-  label: string;
+type InputStateSpec = {
+  id: string;
+  name: string;
   className?: string;
   props: React.ComponentProps<typeof Input>;
-}>;
+  code?: string;
+};
+
+const INPUT_STATES: readonly InputStateSpec[] = [
+  {
+    id: "default",
+    name: "Default",
+    props: { placeholder: "Default" },
+    code: "<Input placeholder=\"Default\" />",
+  },
+  {
+    id: "hover",
+    name: "Hover",
+    className: "bg-[--hover]",
+    props: { placeholder: "Hover" },
+    code: "<Input className=\"bg-[--hover]\" placeholder=\"Hover\" />",
+  },
+  {
+    id: "focus",
+    name: "Focus",
+    className: "ring-2 ring-[var(--focus)]",
+    props: { placeholder: "Focus" },
+    code: "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+  },
+  {
+    id: "active",
+    name: "Active",
+    className: "bg-[--active]",
+    props: { placeholder: "Active" },
+    code: "<Input className=\"bg-[--active]\" placeholder=\"Active\" />",
+  },
+  {
+    id: "disabled",
+    name: "Disabled",
+    props: { placeholder: "Disabled", disabled: true },
+    code: "<Input placeholder=\"Disabled\" disabled />",
+  },
+  {
+    id: "loading",
+    name: "Loading",
+    props: { placeholder: "Loading", "data-loading": true },
+    code: "<Input placeholder=\"Loading\" data-loading />",
+  },
+];
+
+function InputStatePreview({ state }: { state: InputStateSpec }) {
+  const { className, props } = state;
+  return <Input className={className} {...props} />;
+}
 
 function InputGalleryPreview() {
   return (
     <div className="flex flex-col gap-[var(--space-2)]">
-      {INPUT_STATES.map(({ label, className, props }) => (
-        <Input key={label} className={className} {...props} />
+      {INPUT_STATES.map((state) => (
+        <InputStatePreview key={state.id} state={state} />
       ))}
     </div>
   );
@@ -71,13 +89,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: INPUT_STATES.map(({ label }) => ({ value: label })),
+          values: INPUT_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:input:states",
         render: () => <InputGalleryPreview />,
       }),
+      states: INPUT_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:input:state:${state.id}`,
+          render: () => <InputStatePreview state={state} />,
+        }),
+      })),
       code: `<div className="flex flex-col gap-[var(--space-2)]">
   <Input placeholder="Default" />
   <Input placeholder="Hover" className="bg-[--hover]" />

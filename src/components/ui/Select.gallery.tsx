@@ -5,8 +5,9 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 import Select from "./Select";
 import type { AnimatedSelectProps } from "./select/shared";
 
-type SelectStateConfig = {
-  label: string;
+type SelectStateSpec = {
+  id: string;
+  name: string;
   buttonClassName?: string;
   className?: string;
   props?:
@@ -14,32 +15,45 @@ type SelectStateConfig = {
         items?: AnimatedSelectProps["items"];
       })
     | undefined;
+  code?: string;
 };
 
-const SELECT_STATES: ReadonlyArray<SelectStateConfig> = [
+const SELECT_STATES: readonly SelectStateSpec[] = [
   {
-    label: "Default",
+    id: "default",
+    name: "Default",
+    code: "<Select placeholder=\"Animated select\" items={items} />",
   },
   {
-    label: "Hover",
+    id: "hover",
+    name: "Hover",
     buttonClassName: "bg-[--hover]",
+    code: "<Select buttonClassName=\"bg-[--hover]\" placeholder=\"Hover\" items={items} />",
   },
   {
-    label: "Focus-visible",
+    id: "focus-visible",
+    name: "Focus-visible",
     className:
       "rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0",
+    code: "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
   },
   {
-    label: "Active",
+    id: "active",
+    name: "Active",
     buttonClassName: "bg-[--active]",
+    code: "<Select buttonClassName=\"bg-[--active]\" placeholder=\"Active\" items={items} />",
   },
   {
-    label: "Disabled",
+    id: "disabled",
+    name: "Disabled",
     props: { disabled: true },
+    code: "<Select placeholder=\"Disabled\" disabled items={items} />",
   },
   {
-    label: "Loading",
+    id: "loading",
+    name: "Loading",
     buttonClassName: "pointer-events-none opacity-[var(--loading)]",
+    code: "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
   },
 ];
 
@@ -50,6 +64,25 @@ const ITEMS = [
 ] as const;
 
 type ItemValue = (typeof ITEMS)[number]["value"];
+
+function SelectStatePreview({ state }: { state: SelectStateSpec }) {
+  const { props, className, buttonClassName, name } = state;
+  const { items: stateItems, placeholder, ariaLabel, ...restProps } = props ?? {};
+  const sampleItems = stateItems ?? ITEMS;
+  const baseClassName = "w-full sm:w-auto";
+  const finalClassName = className ? `${baseClassName} ${className}` : baseClassName;
+
+  return (
+    <Select
+      items={[...sampleItems]}
+      placeholder={placeholder ?? name}
+      ariaLabel={ariaLabel ?? name}
+      buttonClassName={buttonClassName}
+      className={finalClassName}
+      {...restProps}
+    />
+  );
+}
 
 function SelectGalleryPreview() {
   const [value, setValue] = React.useState<ItemValue>(ITEMS[0]?.value ?? "one");
@@ -76,26 +109,9 @@ function SelectGalleryPreview() {
       <div className="flex flex-col gap-[var(--space-2)]">
         <p className="text-caption text-muted-foreground">States</p>
         <div className="flex flex-wrap gap-[var(--space-2)]">
-          {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {
-            const { items: stateItems, ...restProps } = props ?? {};
-            const sampleItems = stateItems ?? ITEMS;
-            const baseClassName = "w-full sm:w-auto";
-            const finalClassName = className
-              ? `${baseClassName} ${className}`
-              : baseClassName;
-
-            return (
-              <Select
-                key={label}
-                items={[...sampleItems]}
-                placeholder={label}
-                ariaLabel={label}
-                buttonClassName={buttonClassName}
-                className={finalClassName}
-                {...restProps}
-              />
-            );
-          })}
+          {SELECT_STATES.map((state) => (
+            <SelectStatePreview key={state.id} state={state} />
+          ))}
         </div>
       </div>
     </div>
@@ -137,13 +153,22 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: SELECT_STATES.map(({ label }) => ({ value: label })),
+          values: SELECT_STATES.map(({ name }) => ({ value: name })),
         },
       ],
       preview: createGalleryPreview({
         id: "ui:select:variants",
         render: () => <SelectGalleryPreview />,
       }),
+      states: SELECT_STATES.map((state) => ({
+        id: state.id,
+        name: state.name,
+        code: state.code,
+        preview: createGalleryPreview({
+          id: `ui:select:state:${state.id}`,
+          render: () => <SelectStatePreview state={state} />,
+        }),
+      })),
       code: `const items = [
   { value: "one", label: "One" },
   { value: "two", label: "Two" },
