@@ -377,6 +377,12 @@ const PageHeaderInner = <
         ? visibleLabel.trim()
         : undefined;
 
+    const searchVariant = resolvedSearch.variant;
+    const searchRound = resolvedSearch.round;
+    const usesNeoPill =
+      searchVariant === "neo" ||
+      (searchVariant === undefined && searchRound !== false);
+
     const slotLabel = sanitizedAriaLabelledBy
       ? sanitizedAriaLabel ?? sanitizedVisibleLabel
       : sanitizedAriaLabel ?? sanitizedVisibleLabel ?? "Hero search";
@@ -387,6 +393,7 @@ const PageHeaderInner = <
       ...(sanitizedAriaLabelledBy
         ? { labelledById: sanitizedAriaLabelledBy }
         : {}),
+      ...(usesNeoPill ? { unstyled: true } : {}),
     };
   }, [resolvedSearch]);
 
