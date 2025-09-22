@@ -25,6 +25,24 @@ describe("UseFocusDate", () => {
     expect(result.current.iso).toBe("2030-01-01");
   });
 
+  it("uses today's ISO while the persisted focus is unresolved", () => {
+    vi.useFakeTimers();
+    const now = new Date(2030, 0, 5, 9, 30, 0);
+    vi.setSystemTime(now);
+
+    const { result, unmount } = renderHook(() => useFocusDate(), { wrapper });
+
+    try {
+      const expected = toISODate(now);
+      expect(result.current.today).toBe(expected);
+      expect(result.current.iso).toBe(expected);
+    } finally {
+      unmount();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
+  });
+
   it("updates focus when the local day rolls over", () => {
     vi.useFakeTimers();
     const initial = new Date(2024, 5, 1, 12, 0, 0);

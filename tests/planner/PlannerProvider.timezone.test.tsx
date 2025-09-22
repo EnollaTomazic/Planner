@@ -84,6 +84,9 @@ describe("PlannerProvider", () => {
       wrapper,
     });
 
+    const immediate = toISODate(new Date());
+    expect(result.current.iso).toBe(immediate);
+
     const expected = toISODate(new ClientDate());
 
     await waitFor(() => {
