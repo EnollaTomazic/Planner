@@ -151,7 +151,7 @@ exports[`ReviewsPage > renders default state 1`] = `
               id="reviews-header"
             >
               <div
-                class="relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--space-3)] sm:px-[var(--space-4)] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)]"
+                class="relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--header-bar-px,var(--space-3))] sm:px-[var(--header-bar-sm-px,var(--space-4))] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)] [--header-bar-px:var(--space-0)] sm:[--header-bar-sm-px:var(--space-0)]"
               >
                 <div
                   aria-hidden="true"
