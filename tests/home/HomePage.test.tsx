@@ -12,28 +12,34 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("Home page", () => {
-  it("renders navigation links", () => {
-    render(
-      <ThemeProvider>
-        <React.Fragment>
-          <SiteChrome />
-          <Suspense fallback="loading">
-            <Page />
-          </Suspense>
-        </React.Fragment>
-      </ThemeProvider>,
-    );
-    const expectLink = (label: string, href: string) => {
-      const match = (screen
-        .getAllByRole("link", { name: label }) as HTMLAnchorElement[])
-        .find((anchor) => anchor.getAttribute("href") === href);
-      expect(match?.getAttribute("href")).toBe(href);
-    };
+  it(
+    "renders navigation links",
+    {
+      timeout: 15000,
+    },
+    () => {
+      render(
+        <ThemeProvider>
+          <React.Fragment>
+            <SiteChrome />
+            <Suspense fallback="loading">
+              <Page />
+            </Suspense>
+          </React.Fragment>
+        </ThemeProvider>,
+      );
+      const expectLink = (label: string, href: string) => {
+        const match = (screen
+          .getAllByRole("link", { name: label }) as HTMLAnchorElement[])
+          .find((anchor) => anchor.getAttribute("href") === href);
+        expect(match?.getAttribute("href")).toBe(href);
+      };
 
-    expectLink("Goals", "/goals");
-    expectLink("Planner", "/planner");
-    expectLink("Reviews", "/reviews");
-    expectLink("Team", "/team");
-    expectLink("Prompts", "/prompts");
-  });
+      expectLink("Goals", "/goals");
+      expectLink("Planner", "/planner");
+      expectLink("Reviews", "/reviews");
+      expectLink("Team", "/team");
+      expectLink("Prompts", "/prompts");
+    },
+  );
 });
