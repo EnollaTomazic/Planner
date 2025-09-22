@@ -2144,6 +2144,12 @@ export const galleryPayload = {
               "type": "state",
               "values": [
                 {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
                   "value": "Active"
                 },
                 {
@@ -2161,7 +2167,57 @@ export const galleryPayload = {
           "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
           "preview": {
             "id": "ui:tab-bar:variants"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"upcoming\", label: \"Upcoming\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"hover\", label: \"Hover\", className: \"text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:hover"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"active\", label: \"Active\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:active"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"disabled\", label: \"Disabled\", disabled: true },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"loading\", label: \"Loading\", loading: true },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "preview": {
+                "id": "ui:tab-bar:state:loading"
+              }
+            }
+          ]
         },
         {
           "id": "tabs",
@@ -4453,6 +4509,12 @@ export const galleryPayload = {
             "type": "state",
             "values": [
               {
+                "value": "Default"
+              },
+              {
+                "value": "Hover"
+              },
+              {
                 "value": "Active"
               },
               {
@@ -4470,7 +4532,57 @@ export const galleryPayload = {
         "code": "<TabBar\n  items={[\n    { key: \"all\", label: \"All\", icon: <Circle aria-hidden=\"true\" /> },\n    { key: \"active\", label: \"Active\", icon: <CircleDot aria-hidden=\"true\" /> },\n    { key: \"done\", label: \"Done\", icon: <CircleCheck aria-hidden=\"true\" /> },\n    {\n      key: \"focus\",\n      label: \"Focus-visible\",\n      icon: <Circle aria-hidden=\"true\" />,\n      className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\",\n    },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Filter goals\"\n/>\n\n<TabBar\n  items={[\n    { key: \"a\", label: \"A\" },\n    { key: \"b\", label: \"B\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"c\", label: \"Disabled\", disabled: true },\n    { key: \"d\", label: \"Syncing\", loading: true },\n  ]}\n  value=\"a\"\n  onValueChange={() => {}}\n  ariaLabel=\"Example tabs\"\n/>\n\n<TabBar\n  items={[\n    { key: \"reviews\", label: \"Reviews\" },\n    { key: \"planner\", label: \"Planner\" },\n    { key: \"goals\", label: \"Goals\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n  ]}\n  value=\"reviews\"\n  onValueChange={() => {}}\n  ariaLabel=\"Planner areas\"\n/>",
         "preview": {
           "id": "ui:tab-bar:variants"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"upcoming\", label: \"Upcoming\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"hover\", label: \"Hover\", className: \"text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:hover"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"active\", label: \"Active\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"active\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:active"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"disabled\", label: \"Disabled\", disabled: true },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"loading\", label: \"Loading\", loading: true },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "preview": {
+              "id": "ui:tab-bar:state:loading"
+            }
+          }
+        ]
       },
       {
         "id": "tabs",
@@ -6540,6 +6652,12 @@ export const galleryPreviewModules = [
     loader: () => import("../ui/layout/TabBar.gallery"),
     previewIds: [
       "ui:tab-bar:variants",
+      "ui:tab-bar:state:default",
+      "ui:tab-bar:state:hover",
+      "ui:tab-bar:state:active",
+      "ui:tab-bar:state:focus-visible",
+      "ui:tab-bar:state:disabled",
+      "ui:tab-bar:state:loading",
     ],
   },
   {
