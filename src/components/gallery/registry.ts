@@ -143,9 +143,21 @@ export const createGalleryRegistry = (
   sections: readonly GallerySection[],
 ): GalleryRegistry => {
   const previews = new Map<string, GalleryPreviewRenderer>();
-  const serializableSections: GallerySerializableSection[] = sections.map((section) => ({
-    id: section.id,
-    entries: section.entries.map((entry) => {
+  const sectionOrder: GallerySectionId[] = [];
+  const sectionsById = new Map<GallerySectionId, GalleryEntry[]>();
+
+  for (const section of sections) {
+    if (!sectionsById.has(section.id)) {
+      sectionOrder.push(section.id);
+      sectionsById.set(section.id, []);
+    }
+
+    sectionsById.get(section.id)!.push(...section.entries);
+  }
+
+  const serializableSections: GallerySerializableSection[] = sectionOrder.map((sectionId) => ({
+    id: sectionId,
+    entries: (sectionsById.get(sectionId) ?? []).map((entry) => {
       const { preview, states, ...rest } = entry;
       previews.set(preview.id, preview.render);
       const serializableStates = states?.map((state) => {
