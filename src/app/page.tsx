@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Suspense } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   HeroPlannerCards,
   HomeHeroSection,
@@ -15,6 +16,12 @@ import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import type { Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Planner · Your day at a glance",
+  description:
+    "Plan your day, track goals, and review games with weekly highlights that keep the team aligned.",
+};
 
 const weeklyHighlights = [
   {
