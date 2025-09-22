@@ -193,7 +193,7 @@ describe("TaskRow", () => {
     expect(input).toHaveAttribute("aria-invalid", "true");
   });
 
-  it("falls back to a generic rename label when the task title is empty", () => {
+  it("provides accessible fallbacks when the task title is empty", () => {
     render(
       <TaskRow
         task={{
@@ -212,9 +212,18 @@ describe("TaskRow", () => {
       />,
     );
 
+    expect(
+      screen.getByLabelText("Select task Untitled task"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByLabelText("Toggle Untitled task done")[0],
+    ).toBeInTheDocument();
+
     const editButton = screen.getAllByLabelText("Edit task")[0];
     fireEvent.click(editButton);
 
-    expect(screen.getByLabelText("Rename task")).toBeInTheDocument();
+    expect(
+      screen.getByLabelText("Rename task Untitled task"),
+    ).toBeInTheDocument();
   });
 });
