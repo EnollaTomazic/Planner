@@ -496,7 +496,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <div
               className={cn(
-                "w-56 h-8 flex items-center justify-center text-foreground bg-danger",
+                "w-56 h-8 flex items-center justify-center text-danger-foreground bg-danger",
                 "bg-accent-2",
               )}
             >
