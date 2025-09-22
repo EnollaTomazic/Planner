@@ -9,7 +9,11 @@ import type { DesignTokenGroup } from "@/components/gallery/types";
 import { Card, CardContent } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 
-import type { ComponentsView } from "./useComponentsGalleryState";
+import {
+  COMPONENTS_PANEL_ID,
+  COMPONENTS_VIEW_TAB_ID_BASE,
+  type ComponentsView,
+} from "./useComponentsGalleryState";
 
 interface ComponentsGalleryPanelsProps {
   readonly view: ComponentsView;
@@ -35,12 +39,12 @@ export default function ComponentsGalleryPanels({
   tokenGroups,
 }: ComponentsGalleryPanelsProps) {
   const isTokensView = view === "tokens";
-  const tokensTabId = "components-tokens-tab";
+  const tokensTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-tab`;
 
   return (
     <section className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]">
       <div
-        id="components-components-panel"
+        id={COMPONENTS_PANEL_ID}
         role="tabpanel"
         aria-labelledby={componentsPanelLabelledBy}
         tabIndex={isTokensView ? -1 : 0}
@@ -82,7 +86,7 @@ export default function ComponentsGalleryPanels({
         </div>
       </div>
       <div
-        id="components-tokens-panel"
+        id={`${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`}
         role="tabpanel"
         aria-labelledby={tokensTabId}
         tabIndex={isTokensView ? 0 : -1}
