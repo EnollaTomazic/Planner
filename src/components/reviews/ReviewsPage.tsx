@@ -64,76 +64,79 @@ export default function ReviewsPage({
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
 
   return (
-    <PageShell
-      as="main"
-      className="py-[var(--space-6)] space-y-[var(--space-6)]"
-      aria-labelledby="reviews-header"
-    >
-      <PageHeader
-        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
-        contentClassName="space-y-[var(--space-2)]"
-        header={{
-          id: "reviews-header",
-          heading: "Reviews",
-          icon: <BookOpen className="opacity-80" />,
-          topClassName: "top-[var(--header-stack)]",
-          underline: true,
-          sticky: false,
-        }}
-        hero={{
-          frame: false,
-          sticky: false,
-          topClassName: "top-[var(--header-stack)]",
-          heading: "Browse Reviews",
-          subtitle: <span className="pill">Total {base.length}</span>,
-          search: {
-            round: true,
-            value: q,
-            onValueChange: setQ,
-            placeholder: "Search title, tags, opponent, patch…",
-            "aria-label": "Search reviews",
-            className: "flex-1",
-          },
-          actions: (
-            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
-              <label className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
-                <span className="text-ui font-medium text-muted-foreground">
-                  Sort
-                </span>
-                <Select
-                  variant="animated"
-                  ariaLabel="Sort reviews"
-                  value={sort}
-                  onChange={(v) => setSort(v as SortKey)}
-                  items={[
-                    { value: "newest", label: "Newest" },
-                    { value: "oldest", label: "Oldest" },
-                    { value: "title", label: "Title" },
-                  ]}
-                  className="w-full sm:w-auto"
-                  size="lg"
-                />
-              </label>
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                className="w-full whitespace-nowrap sm:w-auto"
-                onClick={handleCreateReview}
-              >
-                <Plus />
-                <span>New Review</span>
-              </Button>
-            </div>
-          ),
-        }}
-      />
+    <>
+      <PageShell as="header" className="py-[var(--space-6)]">
+        <PageHeader
+          className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+          contentClassName="space-y-[var(--space-2)]"
+          header={{
+            id: "reviews-header",
+            heading: "Reviews",
+            icon: <BookOpen className="opacity-80" />,
+            topClassName: "top-[var(--header-stack)]",
+            underline: true,
+            sticky: false,
+          }}
+          hero={{
+            frame: false,
+            sticky: false,
+            topClassName: "top-[var(--header-stack)]",
+            heading: "Browse Reviews",
+            subtitle: <span className="pill">Total {base.length}</span>,
+            search: {
+              round: true,
+              value: q,
+              onValueChange: setQ,
+              placeholder: "Search title, tags, opponent, patch…",
+              "aria-label": "Search reviews",
+              className: "flex-1",
+            },
+            actions: (
+              <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
+                <label className="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+                  <span className="text-ui font-medium text-muted-foreground">
+                    Sort
+                  </span>
+                  <Select
+                    variant="animated"
+                    ariaLabel="Sort reviews"
+                    value={sort}
+                    onChange={(v) => setSort(v as SortKey)}
+                    items={[
+                      { value: "newest", label: "Newest" },
+                      { value: "oldest", label: "Oldest" },
+                      { value: "title", label: "Title" },
+                    ]}
+                    className="w-full sm:w-auto"
+                    size="lg"
+                  />
+                </label>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="md"
+                  className="w-full whitespace-nowrap sm:w-auto"
+                  onClick={handleCreateReview}
+                >
+                  <Plus />
+                  <span>New Review</span>
+                </Button>
+              </div>
+            ),
+          }}
+        />
+      </PageShell>
 
-      <div
-        className={cn(
-          "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",
-        )}
+      <PageShell
+        as="main"
+        className="py-[var(--space-6)] space-y-[var(--space-6)]"
+        aria-labelledby="reviews-header"
       >
+        <div
+          className={cn(
+            "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",
+          )}
+        >
         <nav
           aria-label="Review list"
           className="md:col-span-2 lg:col-span-4"
@@ -228,6 +231,7 @@ export default function ReviewsPage({
           )}
         </div>
       </div>
-    </PageShell>
+      </PageShell>
+    </>
   );
 }

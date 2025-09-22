@@ -415,13 +415,8 @@ function GoalsPageContent() {
   }, [tab, handleAddReminder]);
 
   return (
-    <PageShell
-      as="main"
-      aria-labelledby="goals-header"
-      className="py-[var(--space-6)]"
-    >
-      <div className="grid gap-[var(--space-6)]">
-        {/* ======= HEADER ======= */}
+    <>
+      <PageShell as="header" className="py-[var(--space-6)]">
         <PageHeader
           header={{
             id: "goals-header",
@@ -455,18 +450,25 @@ function GoalsPageContent() {
           search={reminderHeroSearch}
           actions={reminderHeroActions}
         />
+      </PageShell>
 
-        {/* ======= PANELS ======= */}
-        <div
-          role="region"
-          id="goals-panel"
-          aria-labelledby="goals-tab"
-          hidden={tab !== "goals"}
-          tabIndex={tab === "goals" ? 0 : -1}
-          ref={goalsRef}
-        >
-          {tab === "goals" && (
-            <div className="grid gap-[var(--space-4)]">
+      <PageShell
+        as="main"
+        aria-labelledby="goals-header"
+        className="py-[var(--space-6)]"
+      >
+        <div className="grid gap-[var(--space-6)]">
+          {/* ======= PANELS ======= */}
+          <div
+            role="region"
+            id="goals-panel"
+            aria-labelledby="goals-tab"
+            hidden={tab !== "goals"}
+            tabIndex={tab === "goals" ? 0 : -1}
+            ref={goalsRef}
+          >
+            {tab === "goals" && (
+              <div className="grid gap-[var(--space-4)]">
               <div className="space-y-[var(--space-2)]">
                 <SectionCard className="card-neo-soft">
                   <SectionCard.Header
@@ -554,89 +556,90 @@ function GoalsPageContent() {
               )}
             </div>
           )}
-        </div>
-
-        <div
-          role="region"
-          id="reminders-panel"
-          aria-labelledby="reminders-tab"
-          hidden={tab !== "reminders"}
-          tabIndex={tab === "reminders" ? 0 : -1}
-          ref={remindersRef}
-          className="grid gap-[var(--space-4)]"
-        >
-          {tab === "reminders" && <RemindersTab />}
-        </div>
-
-        <div
-          role="region"
-          id="timer-panel"
-          aria-labelledby="timer-tab"
-          hidden={tab !== "timer"}
-          tabIndex={tab === "timer" ? 0 : -1}
-          ref={timerRef}
-          className="grid gap-[var(--space-4)]"
-        >
-          {tab === "timer" && <TimerTab />}
-        </div>
-      </div>
-
-      <Modal
-        id={nukeDialogId}
-        open={confirmClearOpen}
-        onClose={handleCloseNuke}
-        aria-labelledby={nukeHeadingId}
-        aria-describedby={nukeDescriptionId}
-        className="shadow-[var(--shadow-neo-soft)]"
-      >
-        <CardHeader className="space-y-[var(--space-2)]">
-          <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>
-          <CardDescription id={nukeDescriptionId}>
-            This action permanently removes every goal, including completed history.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-[var(--space-3)]">
-          <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)]">
-            <p className="text-ui font-medium text-danger">
-              You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
-            </p>
-            <p className="text-label text-muted-foreground">
-              There is no automatic undo. Export anything important before continuing.
-            </p>
           </div>
-        </CardContent>
-        <CardFooter className="flex justify-end gap-[var(--space-2)]">
-          <Button
-            ref={confirmButtonRef}
-            type="button"
-            size="sm"
-            variant="primary"
-            tone="danger"
-            tactile
-            onClick={handleConfirmNuke}
-            className="shrink-0"
-          >
-            <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-            <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="ghost"
-            onClick={handleCloseNuke}
-            className="shrink-0"
-          >
-            Cancel
-          </Button>
-        </CardFooter>
-      </Modal>
 
-      {/* Use boolean styled-jsx attribute to satisfy typings */}
-      <style jsx>{`
-        .tabular-nums {
-          font-variant-numeric: tabular-nums;
-        }
-      `}</style>
-    </PageShell>
+          <div
+            role="region"
+            id="reminders-panel"
+            aria-labelledby="reminders-tab"
+            hidden={tab !== "reminders"}
+            tabIndex={tab === "reminders" ? 0 : -1}
+            ref={remindersRef}
+            className="grid gap-[var(--space-4)]"
+          >
+            {tab === "reminders" && <RemindersTab />}
+          </div>
+
+          <div
+            role="region"
+            id="timer-panel"
+            aria-labelledby="timer-tab"
+            hidden={tab !== "timer"}
+            tabIndex={tab === "timer" ? 0 : -1}
+            ref={timerRef}
+            className="grid gap-[var(--space-4)]"
+          >
+            {tab === "timer" && <TimerTab />}
+          </div>
+        </div>
+
+        <Modal
+          id={nukeDialogId}
+          open={confirmClearOpen}
+          onClose={handleCloseNuke}
+          aria-labelledby={nukeHeadingId}
+          aria-describedby={nukeDescriptionId}
+          className="shadow-[var(--shadow-neo-soft)]"
+        >
+          <CardHeader className="space-y-[var(--space-2)]">
+            <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>
+            <CardDescription id={nukeDescriptionId}>
+              This action permanently removes every goal, including completed history.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-[var(--space-3)]">
+            <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)]">
+              <p className="text-ui font-medium text-danger">
+                You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
+              </p>
+              <p className="text-label text-muted-foreground">
+                There is no automatic undo. Export anything important before continuing.
+              </p>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end gap-[var(--space-2)]">
+            <Button
+              ref={confirmButtonRef}
+              type="button"
+              size="sm"
+              variant="primary"
+              tone="danger"
+              tactile
+              onClick={handleConfirmNuke}
+              className="shrink-0"
+            >
+              <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+              <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={handleCloseNuke}
+              className="shrink-0"
+            >
+              Cancel
+            </Button>
+          </CardFooter>
+        </Modal>
+
+        {/* Use boolean styled-jsx attribute to satisfy typings */}
+        <style jsx>{`
+          .tabular-nums {
+            font-variant-numeric: tabular-nums;
+          }
+        `}</style>
+      </PageShell>
+    </>
   );
 }
