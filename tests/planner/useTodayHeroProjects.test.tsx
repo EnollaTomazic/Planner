@@ -1,9 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import type { FormEvent } from "react";
+import * as React from "react";
+import type { FormEvent, ReactNode } from "react";
 
-import { useTodayHeroProjects } from "@/components/planner/useTodayHeroProjects";
-import type { Project } from "@/components/planner";
+import {
+  PlannerProvider,
+  useTodayHeroProjects,
+  type Project,
+} from "@/components/planner";
 
 const PREVIEW_LIMIT = 12;
 
@@ -11,7 +15,6 @@ type HookProps = Parameters<typeof useTodayHeroProjects>[0];
 
 type Callbacks = {
   setSelectedProjectId: ReturnType<typeof vi.fn<(id: string) => void>>;
-  addProject: ReturnType<typeof vi.fn<(name: string) => string | void>>;
   renameProject: ReturnType<
     typeof vi.fn<(id: string, name: string) => void>
   >;
@@ -22,7 +25,6 @@ type Callbacks = {
 function createCallbacks(): Callbacks {
   return {
     setSelectedProjectId: vi.fn<(id: string) => void>(),
-    addProject: vi.fn<(name: string) => string | void>(),
     renameProject: vi.fn<(id: string, name: string) => void>(),
     deleteProject: vi.fn<(id: string) => void>(),
     toggleProject: vi.fn<(id: string) => void>(),
@@ -43,15 +45,21 @@ function createProjects(count: number): Project[] {
   return Array.from({ length: count }, (_, index) => createProject(index + 1));
 }
 
+const iso = "2024-05-01";
+
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <PlannerProvider>{children}</PlannerProvider>
+);
+
 describe("useTodayHeroProjects", () => {
   it("manages preview and expanded project lists", async () => {
     const projects = createProjects(15);
     const callbacks = createCallbacks();
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: "",
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
@@ -59,7 +67,7 @@ describe("useTodayHeroProjects", () => {
 
     const { result, rerender } = renderHook(
       (props: HookProps) => useTodayHeroProjects(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     expect(result.current.showAllProjects).toBe(false);
@@ -106,21 +114,21 @@ describe("useTodayHeroProjects", () => {
 
   it("selects new projects on create and resets local input", () => {
     const callbacks = createCallbacks();
-    callbacks.addProject.mockReturnValue("project-99");
 
     const initialProps: HookProps = {
+      iso,
       projects: [],
       selectedProjectId: "",
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
     };
 
-    const { result } = renderHook((props: HookProps) => useTodayHeroProjects(props), {
-      initialProps,
-    });
+    const { result } = renderHook(
+      (props: HookProps) => useTodayHeroProjects(props),
+      { initialProps, wrapper },
+    );
 
     act(() => {
       result.current.handleProjectNameChange("  Launch Plan  ");
@@ -136,15 +144,15 @@ describe("useTodayHeroProjects", () => {
     });
 
     expect(preventDefault).toHaveBeenCalledTimes(1);
-    expect(callbacks.addProject).toHaveBeenCalledWith("Launch Plan");
-    expect(callbacks.setSelectedProjectId).toHaveBeenCalledWith("project-99");
+    expect(callbacks.setSelectedProjectId).toHaveBeenCalledWith(
+      expect.stringMatching(/^proj/),
+    );
     expect(result.current.projectName).toBe("");
 
     act(() => {
       result.current.handleProjectFormSubmit(submitEvent);
     });
 
-    expect(callbacks.addProject).toHaveBeenCalledTimes(1);
     expect(callbacks.setSelectedProjectId).toHaveBeenCalledTimes(1);
   });
 
@@ -152,18 +160,19 @@ describe("useTodayHeroProjects", () => {
     const projects = createProjects(2);
     const callbacks = createCallbacks();
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: projects[0].id,
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
     };
 
-    const { result } = renderHook((props: HookProps) => useTodayHeroProjects(props), {
-      initialProps,
-    });
+    const { result } = renderHook(
+      (props: HookProps) => useTodayHeroProjects(props),
+      { initialProps, wrapper },
+    );
 
     act(() => {
       result.current.openProjectEditor(projects[0].id, projects[0].name);
@@ -186,10 +195,10 @@ describe("useTodayHeroProjects", () => {
     const projects = createProjects(3);
     const callbacks = createCallbacks();
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: "",
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
@@ -197,7 +206,7 @@ describe("useTodayHeroProjects", () => {
 
     const { result, rerender } = renderHook(
       (props: HookProps) => useTodayHeroProjects(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     act(() => {
@@ -225,18 +234,19 @@ describe("useTodayHeroProjects", () => {
     const projects = createProjects(4);
     const callbacks = createCallbacks();
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: "",
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
     };
 
-    const { result } = renderHook((props: HookProps) => useTodayHeroProjects(props), {
-      initialProps,
-    });
+    const { result } = renderHook(
+      (props: HookProps) => useTodayHeroProjects(props),
+      { initialProps, wrapper },
+    );
 
     act(() => {
       result.current.openProjectEditor(projects[1].id, projects[1].name);
@@ -278,18 +288,19 @@ describe("useTodayHeroProjects", () => {
     const projects = createProjects(2);
     const callbacks = createCallbacks();
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: "",
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
     };
 
-    const { result } = renderHook((props: HookProps) => useTodayHeroProjects(props), {
-      initialProps,
-    });
+    const { result } = renderHook(
+      (props: HookProps) => useTodayHeroProjects(props),
+      { initialProps, wrapper },
+    );
 
     act(() => {
       result.current.handleProjectSelect(projects[0].id);
@@ -309,18 +320,19 @@ describe("useTodayHeroProjects", () => {
     const callbacks = createCallbacks();
     const selected = projects[13].id;
     const initialProps: HookProps = {
+      iso,
       projects,
       selectedProjectId: selected,
       setSelectedProjectId: callbacks.setSelectedProjectId,
-      addProject: callbacks.addProject,
       renameProject: callbacks.renameProject,
       deleteProject: callbacks.deleteProject,
       toggleProject: callbacks.toggleProject,
     };
 
-    const { result } = renderHook((props: HookProps) => useTodayHeroProjects(props), {
-      initialProps,
-    });
+    const { result } = renderHook(
+      (props: HookProps) => useTodayHeroProjects(props),
+      { initialProps, wrapper },
+    );
 
     await waitFor(() => {
       expect(result.current.showAllProjects).toBe(true);
