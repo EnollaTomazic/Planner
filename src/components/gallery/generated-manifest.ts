@@ -2195,6 +2195,9 @@ export const galleryPayload = {
                   "value": "Active"
                 },
                 {
+                  "value": "Hover"
+                },
+                {
                   "value": "Focus-visible"
                 },
                 {
@@ -2217,6 +2220,14 @@ export const galleryPayload = {
               "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
               "preview": {
                 "id": "ui:tabs:state:active"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+              "preview": {
+                "id": "ui:tabs:state:hover"
               }
             },
             {
@@ -4493,6 +4504,9 @@ export const galleryPayload = {
                 "value": "Active"
               },
               {
+                "value": "Hover"
+              },
+              {
                 "value": "Focus-visible"
               },
               {
@@ -4515,6 +4529,14 @@ export const galleryPayload = {
             "code": "<Tabs value=\"updates\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      { key: \"updates\", label: \"Updates\" },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
             "preview": {
               "id": "ui:tabs:state:active"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Tabs value=\"inbox\" onValueChange={() => {}}>\n  <TabList\n    ariaLabel=\"Tab state preview\"\n    items={[\n      { key: \"inbox\", label: \"Inbox\" },\n      {\n        key: \"updates\",\n        label: \"Updates\",\n        className: \"text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]\",\n      },\n    ]}\n    linkPanels={false}\n    showBaseline\n  />\n</Tabs>",
+            "preview": {
+              "id": "ui:tabs:state:hover"
             }
           },
           {
@@ -6606,6 +6628,7 @@ export const galleryPreviewModules = [
     previewIds: [
       "ui:tabs:wiring",
       "ui:tabs:state:active",
+      "ui:tabs:state:hover",
       "ui:tabs:state:focus-visible",
       "ui:tabs:state:disabled",
       "ui:tabs:state:loading",
