@@ -39,20 +39,23 @@ const headerTabs: HeaderTabsProps<string>["items"] = [
   },
 ];
 
-const headerRailToneExamples: ReadonlyArray<{
-  tone: "subtle" | "loud";
+const headerUnderlineToneExamples: ReadonlyArray<{
+  railTone: "subtle" | "loud";
+  underlineTone: "brand" | "neutral";
   label: string;
   ariaLabel: string;
 }> = [
   {
-    tone: "subtle",
-    label: "Subtle rail tone (default)",
-    ariaLabel: "Header demo tabs (subtle tone)",
+    railTone: "subtle",
+    underlineTone: "neutral",
+    label: "Neutral underline (default)",
+    ariaLabel: "Header demo tabs (neutral underline)",
   },
   {
-    tone: "loud",
-    label: "Loud rail tone",
-    ariaLabel: "Header demo tabs (loud tone)",
+    railTone: "loud",
+    underlineTone: "brand",
+    label: "Brand underline",
+    ariaLabel: "Header demo tabs (brand underline)",
   },
 ];
 
@@ -67,9 +70,9 @@ function HeaderGalleryPreview() {
 
   return (
     <div className="grid gap-[var(--space-4)] lg:grid-cols-2">
-      {headerRailToneExamples.map((example) => (
+      {headerUnderlineToneExamples.map((example) => (
         <div
-          key={example.tone}
+          key={example.underlineTone}
           className="rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]"
         >
           <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
@@ -85,7 +88,8 @@ function HeaderGalleryPreview() {
                 className="h-[var(--space-5)] w-[var(--space-5)] text-primary"
               />
             }
-            railTone={example.tone}
+            railTone={example.railTone}
+            underlineTone={example.underlineTone}
             tabs={{
               items: headerTabs,
               value,
@@ -152,6 +156,15 @@ export default defineGallerySection({
             { value: "Loud" },
           ],
         },
+        {
+          id: "underline-tone",
+          label: "Underline tone",
+          type: "variant",
+          values: [
+            { value: "Neutral" },
+            { value: "Brand" },
+          ],
+        },
       ],
       preview: createGalleryPreview({
         id: "ui:header:tabs",
@@ -159,14 +172,15 @@ export default defineGallerySection({
       }),
       code: `<div className="grid gap-[var(--space-4)] lg:grid-cols-2">
   <div className="rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
-    <p className="mb-[var(--space-3)] text-label text-muted-foreground">
-      Subtle rail tone (default)
+    <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
+      Neutral underline (default)
     </p>
     <Header
       eyebrow="Workspace"
       heading="Header"
       subtitle="Segmented navigation anchored to the header"
       railTone="subtle"
+      underlineTone="neutral"
       icon={
         <Circle
           aria-hidden="true"
@@ -209,7 +223,7 @@ export default defineGallerySection({
         ],
         value: "summary",
         onChange: () => {},
-        ariaLabel: "Header demo tabs (subtle tone)",
+        ariaLabel: "Header demo tabs (neutral underline)",
         size: "md",
       }}
       sticky={false}
@@ -238,14 +252,15 @@ export default defineGallerySection({
     </div>
   </div>
   <div className="rounded-card border border-card-hairline/60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
-    <p className="mb-[var(--space-3)] text-label text-muted-foreground">
-      Loud rail tone
+    <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
+      Brand underline
     </p>
     <Header
       eyebrow="Workspace"
       heading="Header"
       subtitle="Segmented navigation anchored to the header"
       railTone="loud"
+      underlineTone="brand"
       icon={
         <Circle
           aria-hidden="true"
@@ -288,7 +303,7 @@ export default defineGallerySection({
         ],
         value: "summary",
         onChange: () => {},
-        ariaLabel: "Header demo tabs (loud tone)",
+        ariaLabel: "Header demo tabs (brand underline)",
         size: "md",
       }}
       sticky={false}
