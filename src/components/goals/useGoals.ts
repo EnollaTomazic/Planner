@@ -140,6 +140,16 @@ export function useGoals() {
     [goals, setGoals],
   );
 
+  const clearGoals = React.useCallback(() => {
+    setErr(null);
+    setGoals(() => []);
+    setLastDeleted(null);
+    if (undoTimer.current) {
+      clearTimeout(undoTimer.current);
+      undoTimer.current = null;
+    }
+  }, [setGoals]);
+
   const updateGoal = React.useCallback(
     (id: string, updates: Pick<Goal, "title" | "metric" | "notes">) => {
       setGoals((prev) =>
@@ -171,6 +181,7 @@ export function useGoals() {
     removeGoal,
     updateGoal,
     undoRemove,
+    clearGoals,
   } as const;
 }
 
