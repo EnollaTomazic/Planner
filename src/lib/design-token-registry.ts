@@ -1,5 +1,6 @@
 export type DesignTokenCategory =
   | "color"
+  | "state"
   | "spacing"
   | "radius"
   | "typography"
@@ -24,6 +25,7 @@ export interface DesignTokenGroup {
 
 export const DESIGN_TOKEN_CATEGORY_ORDER: readonly DesignTokenCategory[] = [
   "color",
+  "state",
   "spacing",
   "radius",
   "typography",
@@ -34,6 +36,7 @@ export const DESIGN_TOKEN_CATEGORY_ORDER: readonly DesignTokenCategory[] = [
 
 export const DESIGN_TOKEN_CATEGORY_LABELS: Record<DesignTokenCategory, string> = {
   color: "Color",
+  state: "State",
   spacing: "Spacing",
   radius: "Radius",
   typography: "Typography",
@@ -60,6 +63,22 @@ const TYPOGRAPHY_SUFFIXES = ["-fs"];
 
 const SHADOW_NAMES = new Set<string>(["shadow"]);
 
+const STATE_TOKEN_KEYWORDS = ["disabled", "loading", "visually-hidden"];
+
+const isStateUtilityValue = (value: string): boolean => {
+  const numericValue = Number(value);
+
+  if (Number.isNaN(numericValue)) {
+    return false;
+  }
+
+  if (!/^\d*(?:\.\d+)?$/.test(value)) {
+    return false;
+  }
+
+  return numericValue > 0 && numericValue < 1;
+};
+
 const toCssVarIdentifier = (original: string): string => {
   const hyphenated = original
     .replace(/([A-Z])/g, "-$1")
@@ -80,6 +99,15 @@ const categorizeDesignToken = (
   const exact = EXACT_CATEGORY_OVERRIDES.get(name);
   if (exact) {
     return exact;
+  }
+
+  const normalizedName = name.toLowerCase();
+
+  if (
+    STATE_TOKEN_KEYWORDS.some((keyword) => normalizedName.includes(keyword)) ||
+    isStateUtilityValue(value)
+  ) {
+    return "state";
   }
 
   if (MOTION_PREFIXES.some((prefix) => name.startsWith(prefix))) {

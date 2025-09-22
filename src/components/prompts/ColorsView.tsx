@@ -27,6 +27,7 @@ const TOKEN_CARD_CLASSNAME =
 
 const CATEGORY_DESCRIPTIONS: Partial<Record<DesignTokenGroup["id"], string>> = {
   color: "Swatches, overlays, gradients, and semantic colors shared across Planner.",
+  state: "State opacities and utility helpers for disabled, loading, and hidden surfaces.",
   spacing: "Spacing scale, gutters, and control dimensions for layout rhythm.",
   radius: "Corner radii applied to cards, surfaces, and interactive controls.",
   typography: "Font sizes and weight tokens that shape headings and UI text.",
@@ -141,8 +142,9 @@ export default function ColorsView({ groups }: ColorsViewProps) {
               Design token explorer
             </h2>
             <p className="max-w-[min(100%,calc(var(--space-8)*8))] text-label text-muted-foreground">
-              Search Planner&apos;s color, spacing, radius, typography, shadow, motion,
-              and z-index tokens. Copy any token for quick use in new surfaces.
+              Search Planner&apos;s color, state, spacing, radius, typography, shadow,
+              motion, and z-index tokens. Copy any token for quick use in new
+              surfaces.
             </p>
           </div>
           <div className="w-full max-w-[calc(var(--space-8)*7)]">
