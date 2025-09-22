@@ -191,6 +191,7 @@ const PageHeaderInner = <
     topClassName: heroTopClassName,
     as: heroAs,
     padding: heroPadding,
+    dividerTint: heroDividerTintProp,
     ...heroRest
   } = hero;
 
@@ -245,6 +246,8 @@ const PageHeaderInner = <
 
   const resolvedHeroFrame = heroFrame ?? false;
 
+  const heroDividerTint = heroDividerTintProp ?? "primary";
+
   const {
     className: frameClassName,
     variant: frameVariant,
@@ -252,8 +255,18 @@ const PageHeaderInner = <
     align: frameAlign,
     label: frameLabel,
     labelledById: frameLabelledById,
+    style: frameStyle,
     ...restFrameProps
   } = frameProps ?? {};
+
+  const frameStyleWithDivider = React.useMemo<React.CSSProperties>(() => {
+    const heroSlotDividerColor =
+      heroDividerTint === "life" ? "var(--accent)" : "var(--ring)";
+    return {
+      ...(frameStyle ?? {}),
+      "--hero-slot-divider": heroSlotDividerColor,
+    } as React.CSSProperties;
+  }, [frameStyle, heroDividerTint]);
 
   const heroShouldRenderActionArea = frameSlotsProp === null;
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
@@ -590,6 +603,7 @@ const PageHeaderInner = <
           : {})}
         label={frameLabel}
         labelledById={frameLabelledById}
+        style={frameStyleWithDivider}
         {...restFrameProps}
         className={cn(className, frameClassName)}
       >
@@ -615,6 +629,7 @@ const PageHeaderInner = <
             frame={resolvedHeroFrame}
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             tone={heroTone ?? "supportive"}
+            dividerTint={heroDividerTint}
             padding={heroPadding ?? "none"}
             {...(heroActionProps ?? {})}
           />

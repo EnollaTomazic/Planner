@@ -432,8 +432,8 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           variantStyles?.slot.gapY,
           variantStyles?.slot.gapMd,
           "md:grid-cols-12",
-          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-['']",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--hero-slot-divider,var(--ring)))] before:opacity-60 before:content-['']",
+          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--hero-slot-divider,var(--ring)))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']",
         )}
         data-align={align}
       >
