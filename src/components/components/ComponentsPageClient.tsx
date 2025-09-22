@@ -8,7 +8,12 @@ import { PageHeader, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import ComponentsGalleryPanels from "./ComponentsGalleryPanels";
-import { useComponentsGalleryState } from "./useComponentsGalleryState";
+import {
+  COMPONENTS_PANEL_ID,
+  COMPONENTS_SECTION_TAB_ID_BASE,
+  COMPONENTS_VIEW_TAB_ID_BASE,
+  useComponentsGalleryState,
+} from "./useComponentsGalleryState";
 
 const NEO_TABLIST_SHARED_CLASSES = [
   "data-[variant=neo]:rounded-card",
@@ -94,7 +99,7 @@ export default function ComponentsPageClient({
             value: view,
             onChange: handleViewChange,
             ariaLabel: "Component gallery view",
-            idBase: "components",
+            idBase: COMPONENTS_VIEW_TAB_ID_BASE,
             linkPanels: true,
             variant: "neo",
             tablistClassName: cn(NEO_TABLIST_SHARED_CLASSES, "w-full md:w-auto"),
@@ -122,7 +127,7 @@ export default function ComponentsPageClient({
                 items: heroTabs,
                 value: section,
                 onChange: handleSectionChange,
-                idBase: "components",
+                idBase: COMPONENTS_SECTION_TAB_ID_BASE,
                 linkPanels: true,
                 size: "sm",
                 variant: "default",
@@ -138,6 +143,7 @@ export default function ComponentsPageClient({
                     onClick,
                     "aria-label": ariaLabelProp,
                     "aria-labelledby": ariaLabelledByProp,
+                    "aria-controls": ariaControlsProp,
                     title: titleProp,
                     ...restProps
                   } = props;
@@ -153,6 +159,9 @@ export default function ComponentsPageClient({
                   const computedAriaLabel =
                     ariaLabelProp ??
                     (labelText && !ariaLabelledByProp ? labelText : undefined);
+                  const computedAriaControls =
+                    ariaControlsProp != null ? COMPONENTS_PANEL_ID : undefined;
+
                   return (
                     <button
                       type="button"
@@ -174,6 +183,7 @@ export default function ComponentsPageClient({
                       }}
                       disabled={disabled}
                       aria-labelledby={ariaLabelledByProp}
+                      aria-controls={computedAriaControls}
                       aria-label={computedAriaLabel}
                       title={computedTitle}
                     >

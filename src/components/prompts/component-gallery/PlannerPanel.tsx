@@ -288,7 +288,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
               toggleProject={() => {}}
               renameProject={() => {}}
               deleteProject={() => {}}
-              addProject={() => ""}
+              createProject={() => undefined}
             />
           ),
           className: "sm:col-span-2 md:col-span-12",
@@ -300,7 +300,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
               tasksById={demoTasksById}
               tasksByProject={demoTasksByProject}
               selectedProjectId="p1"
-              addTask={() => ""}
+              createTask={() => undefined}
               renameTask={() => {}}
               toggleTask={() => {}}
               deleteTask={() => {}}

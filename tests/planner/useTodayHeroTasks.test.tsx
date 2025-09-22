@@ -1,9 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import type { FormEvent } from "react";
+import * as React from "react";
+import type { FormEvent, ReactNode } from "react";
 
-import { useTodayHeroTasks } from "@/components/planner/useTodayHeroTasks";
-import type { DayTask } from "@/components/planner";
+import {
+  PlannerProvider,
+  useTodayHeroTasks,
+  type DayTask,
+} from "@/components/planner";
 
 const PREVIEW_LIMIT = 12;
 
@@ -11,7 +15,6 @@ type HookParams = Parameters<typeof useTodayHeroTasks>[0];
 
 type Callbacks = {
   setSelectedTaskId: ReturnType<typeof vi.fn<(id: string) => void>>;
-  addTask: ReturnType<typeof vi.fn<(title: string, projectId?: string) => string | void>>;
   renameTask: ReturnType<typeof vi.fn<(taskId: string, title: string) => void>>;
   deleteTask: ReturnType<typeof vi.fn<(taskId: string) => void>>;
   toggleTask: ReturnType<typeof vi.fn<(taskId: string) => void>>;
@@ -20,7 +23,6 @@ type Callbacks = {
 function createCallbacks(): Callbacks {
   return {
     setSelectedTaskId: vi.fn<(id: string) => void>(),
-    addTask: vi.fn<(title: string, projectId?: string) => string | void>(),
     renameTask: vi.fn<(taskId: string, title: string) => void>(),
     deleteTask: vi.fn<(taskId: string) => void>(),
     toggleTask: vi.fn<(taskId: string) => void>(),
@@ -59,14 +61,20 @@ function createFormEvent(fieldName: string, value: string) {
   return { event, preventDefault, input, namedItem };
 }
 
+const iso = "2024-05-02";
+
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <PlannerProvider>{children}</PlannerProvider>
+);
+
 describe("useTodayHeroTasks", () => {
   it("collapses previews and expands when toggled", async () => {
     const tasks = createTasks(15, { projectId: "project-alpha" });
     const callbacks = createCallbacks();
     const baseProps = {
+      iso,
       projectId: "project-alpha",
       projectName: "Alpha",
-      addTask: callbacks.addTask,
       renameTask: callbacks.renameTask,
       deleteTask: callbacks.deleteTask,
       toggleTask: callbacks.toggleTask,
@@ -79,7 +87,7 @@ describe("useTodayHeroTasks", () => {
 
     const { result, rerender } = renderHook(
       (props: HookParams) => useTodayHeroTasks(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     expect(result.current.showAllTasks).toBe(false);
@@ -125,12 +133,11 @@ describe("useTodayHeroTasks", () => {
 
   it("requires a project before submitting and selects new tasks", () => {
     const callbacks = createCallbacks();
-    callbacks.addTask.mockReturnValue("task-99");
     const initialProps: HookParams = {
+      iso,
       scopedTasks: [],
       projectId: "",
       projectName: "",
-      addTask: callbacks.addTask,
       renameTask: callbacks.renameTask,
       deleteTask: callbacks.deleteTask,
       toggleTask: callbacks.toggleTask,
@@ -139,7 +146,7 @@ describe("useTodayHeroTasks", () => {
 
     const { result, rerender } = renderHook(
       (props: HookParams) => useTodayHeroTasks(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     const initialEvent = createFormEvent(result.current.taskInputName, "  Backlog Task  ");
@@ -150,7 +157,6 @@ describe("useTodayHeroTasks", () => {
 
     expect(initialEvent.preventDefault).toHaveBeenCalledTimes(1);
     expect(initialEvent.namedItem).not.toHaveBeenCalled();
-    expect(callbacks.addTask).not.toHaveBeenCalled();
     expect(callbacks.setSelectedTaskId).not.toHaveBeenCalled();
 
     act(() => {
@@ -172,19 +178,26 @@ describe("useTodayHeroTasks", () => {
 
     expect(projectEvent.preventDefault).toHaveBeenCalledTimes(1);
     expect(projectEvent.namedItem).toHaveBeenCalledWith(result.current.taskInputName);
-    expect(callbacks.addTask).toHaveBeenCalledWith("Backlog Task", "project-alpha");
-    expect(callbacks.setSelectedTaskId).toHaveBeenCalledWith("task-99");
+    expect(callbacks.setSelectedTaskId).toHaveBeenCalledWith(
+      expect.stringMatching(/^task/),
+    );
     expect(projectEvent.input.value).toBe("");
+
+    act(() => {
+      result.current.handleTaskFormSubmit(projectEvent.event);
+    });
+
+    expect(callbacks.setSelectedTaskId).toHaveBeenCalledTimes(1);
   });
 
   it("hands off selection between toggles and editor interactions", () => {
     const tasks = createTasks(2, { projectId: "project-alpha" });
     const callbacks = createCallbacks();
     const props: HookParams = {
+      iso,
       scopedTasks: tasks,
       projectId: "project-alpha",
       projectName: "Alpha",
-      addTask: callbacks.addTask,
       renameTask: callbacks.renameTask,
       deleteTask: callbacks.deleteTask,
       toggleTask: callbacks.toggleTask,
@@ -193,6 +206,7 @@ describe("useTodayHeroTasks", () => {
 
     const { result } = renderHook((hookProps: HookParams) => useTodayHeroTasks(hookProps), {
       initialProps: props,
+      wrapper,
     });
 
     act(() => {
@@ -232,9 +246,9 @@ describe("useTodayHeroTasks", () => {
     const tasks = createTasks(3, { projectId: "project-alpha" });
     const callbacks = createCallbacks();
     const baseProps = {
+      iso,
       projectId: "project-alpha",
       projectName: "Alpha",
-      addTask: callbacks.addTask,
       renameTask: callbacks.renameTask,
       deleteTask: callbacks.deleteTask,
       toggleTask: callbacks.toggleTask,
@@ -247,7 +261,7 @@ describe("useTodayHeroTasks", () => {
 
     const { result, rerender } = renderHook(
       (props: HookParams) => useTodayHeroTasks(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     act(() => {
@@ -275,9 +289,9 @@ describe("useTodayHeroTasks", () => {
     const projectId = "project-alpha";
     const callbacks = createCallbacks();
     const baseProps = {
+      iso,
       projectId,
       projectName: "Alpha",
-      addTask: callbacks.addTask,
       renameTask: callbacks.renameTask,
       deleteTask: callbacks.deleteTask,
       toggleTask: callbacks.toggleTask,
@@ -291,7 +305,7 @@ describe("useTodayHeroTasks", () => {
 
     const { result, rerender } = renderHook(
       (props: HookParams) => useTodayHeroTasks(props),
-      { initialProps },
+      { initialProps, wrapper },
     );
 
     expect(result.current.taskAnnouncementText).toBe("");

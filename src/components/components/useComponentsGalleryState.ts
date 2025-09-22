@@ -18,6 +18,10 @@ import { usePersistentState } from "@/lib/db";
 export type Section = GalleryNavigationSection["id"];
 export type ComponentsView = GallerySectionGroupKey;
 
+export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
+export const COMPONENTS_SECTION_TAB_ID_BASE = "components-section";
+export const COMPONENTS_PANEL_ID = "components-components-panel";
+
 interface TabItem {
   readonly key: string;
   readonly label: string;
@@ -360,11 +364,12 @@ export function useComponentsGalleryState({
   );
 
   const componentsPanelLabelledBy = React.useMemo(() => {
-    const base = `components-${view}-tab`;
+    const viewTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-${view}-tab`;
     if (heroTabs.length > 0) {
-      return `${base} components-${section}-tab`;
+      const sectionTabId = `${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`;
+      return `${viewTabId} ${sectionTabId}`;
     }
-    return base;
+    return viewTabId;
   }, [heroTabs.length, section, view]);
 
   const handleViewChange = React.useCallback(
@@ -450,15 +455,25 @@ export function useComponentsGalleryState({
     };
   }, [lastInteractionRef]);
 
+  const buildQueryWithHash = React.useCallback((next: URLSearchParams) => {
+    const queryString = next.toString();
+    const queryPrefix = `?${queryString}`;
+    if (typeof window === "undefined") {
+      return queryPrefix;
+    }
+    const hash = window.location.hash;
+    return hash ? `${queryPrefix}${hash}` : queryPrefix;
+  }, []);
+
   React.useEffect(() => {
     const current = sectionParam ?? "";
     if (current === section) return;
     const next = new URLSearchParams(paramsString);
     next.set("section", section);
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [paramsString, router, section, sectionParam, startTransition]);
+  }, [buildQueryWithHash, paramsString, router, section, sectionParam, startTransition]);
 
   React.useEffect(() => {
     const current = normalizeView(viewParam);
@@ -470,9 +485,18 @@ export function useComponentsGalleryState({
       next.set("view", view);
     }
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [defaultView, normalizeView, paramsString, router, startTransition, view, viewParam]);
+  }, [
+    buildQueryWithHash,
+    defaultView,
+    normalizeView,
+    paramsString,
+    router,
+    startTransition,
+    view,
+    viewParam,
+  ]);
 
   React.useEffect(() => {
     const current = queryParam ?? "";
@@ -484,9 +508,9 @@ export function useComponentsGalleryState({
       next.delete("q");
     }
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [paramsString, query, queryParam, router, startTransition]);
+  }, [buildQueryWithHash, paramsString, query, queryParam, router, startTransition]);
 
   React.useEffect(() => {
     if (view === "tokens") {

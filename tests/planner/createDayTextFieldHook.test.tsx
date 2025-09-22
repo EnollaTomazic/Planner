@@ -35,9 +35,15 @@ const upsertDayMock = vi.fn(
 
 const store = { getDay: getDayMock, upsertDay: upsertDayMock } as const;
 
-vi.mock("@/components/planner/usePlannerStore", () => ({
-  usePlannerStore: () => store,
-}));
+vi.mock("@/components/planner/usePlannerStore", async () => {
+  const actual = await vi.importActual<
+    typeof import("@/components/planner/usePlannerStore")
+  >("@/components/planner/usePlannerStore");
+  return {
+    ...actual,
+    usePlannerStore: () => store,
+  };
+});
 
 import {
   createDayTextFieldHook,
