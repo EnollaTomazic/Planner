@@ -10,9 +10,11 @@ vi.mock("framer-motion", async () => {
 });
 
 let replace: ReturnType<typeof vi.fn>;
+let mockSearchParams: URLSearchParams;
 vi.mock("next/navigation", () => ({
   usePathname: () => "/path",
   useRouter: () => ({ replace }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 import PageTabs from "@/components/chrome/PageTabs";
@@ -26,6 +28,7 @@ describe("PageTabs", () => {
   beforeEach(() => {
     replace = vi.fn();
     window.location.hash = "";
+    mockSearchParams = new URLSearchParams();
   });
 
   it("updates hash only when value changes", () => {
@@ -45,5 +48,29 @@ describe("PageTabs", () => {
       <PageTabs tabs={tabs} value="two" ariaLabel="Planner sections" />,
     );
     expect(replace).toHaveBeenCalledWith("/path#two", { scroll: false });
+  });
+
+  it("preserves the query string when updating the hash", () => {
+    mockSearchParams = new URLSearchParams("foo=bar&baz=qux");
+    const { rerender } = render(
+      <PageTabs tabs={tabs} value="one" ariaLabel="Planner sections" />,
+    );
+    expect(replace).toHaveBeenCalledWith("/path?foo=bar&baz=qux#one", {
+      scroll: false,
+    });
+
+    replace.mockClear();
+    window.location.hash = "#one";
+    rerender(
+      <PageTabs tabs={tabs} value="one" ariaLabel="Planner sections" />,
+    );
+    expect(replace).not.toHaveBeenCalled();
+
+    rerender(
+      <PageTabs tabs={tabs} value="two" ariaLabel="Planner sections" />,
+    );
+    expect(replace).toHaveBeenCalledWith("/path?foo=bar&baz=qux#two", {
+      scroll: false,
+    });
   });
 });
