@@ -57,7 +57,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
   } = options;
 
   return React.useMemo(() => {
-    const glitchMode = glitch ?? "subtle";
+    const glitchMode: NonNullable<HeroStyleOptions["glitch"]> = glitch ?? "subtle";
     const isGlitchDefault = glitchMode === "default";
     const isGlitchSubtle = glitchMode === "subtle";
     const isGlitchOff = glitchMode === "off";
