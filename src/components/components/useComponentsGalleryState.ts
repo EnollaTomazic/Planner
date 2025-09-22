@@ -450,15 +450,25 @@ export function useComponentsGalleryState({
     };
   }, [lastInteractionRef]);
 
+  const buildQueryWithHash = React.useCallback((next: URLSearchParams) => {
+    const queryString = next.toString();
+    const queryPrefix = `?${queryString}`;
+    if (typeof window === "undefined") {
+      return queryPrefix;
+    }
+    const hash = window.location.hash;
+    return hash ? `${queryPrefix}${hash}` : queryPrefix;
+  }, []);
+
   React.useEffect(() => {
     const current = sectionParam ?? "";
     if (current === section) return;
     const next = new URLSearchParams(paramsString);
     next.set("section", section);
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [paramsString, router, section, sectionParam, startTransition]);
+  }, [buildQueryWithHash, paramsString, router, section, sectionParam, startTransition]);
 
   React.useEffect(() => {
     const current = normalizeView(viewParam);
@@ -470,9 +480,18 @@ export function useComponentsGalleryState({
       next.set("view", view);
     }
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [defaultView, normalizeView, paramsString, router, startTransition, view, viewParam]);
+  }, [
+    buildQueryWithHash,
+    defaultView,
+    normalizeView,
+    paramsString,
+    router,
+    startTransition,
+    view,
+    viewParam,
+  ]);
 
   React.useEffect(() => {
     const current = queryParam ?? "";
@@ -484,9 +503,9 @@ export function useComponentsGalleryState({
       next.delete("q");
     }
     startTransition(() => {
-      router.replace(`?${next.toString()}`, { scroll: false });
+      router.replace(buildQueryWithHash(next), { scroll: false });
     });
-  }, [paramsString, query, queryParam, router, startTransition]);
+  }, [buildQueryWithHash, paramsString, query, queryParam, router, startTransition]);
 
   React.useEffect(() => {
     if (view === "tokens") {
