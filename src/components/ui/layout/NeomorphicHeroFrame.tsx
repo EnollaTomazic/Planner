@@ -61,7 +61,7 @@ type VariantConfig = {
 
 const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
   default: {
-    radius: "rounded-card r-card-lg",
+    radius: "rounded-3xl",
     padding:
       "px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]",
     contentSpacing:
@@ -78,7 +78,7 @@ const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
     },
   },
   compact: {
-    radius: "rounded-card r-card-md",
+    radius: "rounded-3xl",
     padding:
       "px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-5)] md:py-[var(--space-5)] lg:px-[var(--space-6)] lg:py-[var(--space-6)]",
     contentSpacing:
@@ -95,7 +95,7 @@ const variantMap: Record<Exclude<HeroVariant, "unstyled">, VariantConfig> = {
     },
   },
   dense: {
-    radius: "rounded-card r-card-md",
+    radius: "rounded-3xl",
     padding:
       "px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)] lg:px-[var(--space-5)] lg:py-[var(--space-5)]",
     contentSpacing:
@@ -223,11 +223,14 @@ function normalizeSlot(value: HeroSlotInput | undefined): HeroSlot | null {
   return { node: value };
 }
 
-const slotWellBaseClass =
-  "hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)] motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65 hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]";
+const slotPlateBaseClass =
+  "group/hero-slot-plate relative isolate rounded-2xl border border-[hsl(var(--border)/0.18)] bg-[hsl(var(--control))] px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-12px_24px_hsl(var(--inset)/0.35)] transition-shadow duration-[var(--dur-chill)] ease-[var(--ease-out)] has-[:focus-visible]:shadow-[inset_0_0_0_1px_hsl(var(--ring)/0.55),inset_0_-12px_24px_hsl(var(--inset)/0.4)]";
+
+const slotItemBaseClass =
+  "group/hero-slot relative flex min-w-0 flex-col gap-[var(--space-2)]";
 
 const slotBareBaseClass =
-  "group/hero-slot relative isolate flex min-w-0 flex-col";
+  "group/hero-slot relative flex min-w-0 flex-col";
 
 const slotContentClass = "relative z-[1] flex w-full min-w-0 flex-col";
 
@@ -326,8 +329,6 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       className,
       role: roleProp,
       tabIndex,
-      onFocusCapture,
-      onBlurCapture,
       ...rest
     },
     ref,
@@ -336,8 +337,6 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     const Comp = Component as React.ElementType;
     const variantStyles =
       variant !== "unstyled" ? variantMap[variant] : undefined;
-    const [hasFocus, setHasFocus] = React.useState(false);
-
     const normalizedSlots = React.useMemo(() => {
       if (slots === null) return null;
       if (!slots) return undefined;
@@ -372,27 +371,6 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
 
     const aligns = alignClassMap[align];
 
-    const handleFocusCapture = React.useCallback(
-      (event: React.FocusEvent<HTMLElement>) => {
-        setHasFocus(true);
-        onFocusCapture?.(event);
-      },
-      [onFocusCapture],
-    );
-
-    const handleBlurCapture = React.useCallback(
-      (event: React.FocusEvent<HTMLElement>) => {
-        const nextTarget = event.relatedTarget as Node | null;
-        if (nextTarget && event.currentTarget.contains(nextTarget)) {
-          onBlurCapture?.(event);
-          return;
-        }
-        setHasFocus(false);
-        onBlurCapture?.(event);
-      },
-      [onBlurCapture],
-    );
-
     const roleFromElement =
       as === "header"
         ? "banner"
@@ -426,52 +404,55 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       <div
         role="group"
         className={cn(
-          "group/hero-slots relative z-[1] isolate w-full grid grid-cols-1",
+          "group/hero-slots relative z-[1] isolate w-full",
           slotMarginTopClass,
           slotPaddingTopClass,
-          variantStyles?.slot.gapY,
-          variantStyles?.slot.gapMd,
-          "md:grid-cols-12",
-          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-['']",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--border)/0.28)] before:content-['']",
         )}
         data-align={align}
       >
-        {heroSlotOrder.map((key) => {
-          const slot = normalizedSlots[key];
-          if (!slot) return null;
-          const slotLabel =
-            typeof slot.label === "string" && slot.label.trim().length > 0
-              ? slot.label.trim()
-              : undefined;
-          const slotLabelledById =
-            typeof slot.labelledById === "string" &&
-            slot.labelledById.trim().length > 0
-              ? slot.labelledById.trim()
-              : undefined;
-          return (
-            <div
-              key={key}
-              data-slot={key}
-              className={cn(
-                slot.unstyled ? slotBareBaseClass : slotWellBaseClass,
-                layout[key as keyof LayoutState],
-                aligns[key],
-                slot.className,
-              )}
-              role="group"
-              aria-label={slotLabel}
-              aria-labelledby={slotLabelledById}
-            >
-              <div className={slotContentClass}>{slot.node}</div>
-            </div>
-          );
-        })}
+        <div className={cn(variantStyles ? slotPlateBaseClass : undefined)}>
+          <div
+            className={cn(
+              "grid grid-cols-1 md:grid-cols-12",
+              variantStyles?.slot.gapY,
+              variantStyles?.slot.gapMd,
+            )}
+          >
+            {heroSlotOrder.map((key) => {
+              const slot = normalizedSlots[key];
+              if (!slot) return null;
+              const slotLabel =
+                typeof slot.label === "string" && slot.label.trim().length > 0
+                  ? slot.label.trim()
+                  : undefined;
+              const slotLabelledById =
+                typeof slot.labelledById === "string" &&
+                slot.labelledById.trim().length > 0
+                  ? slot.labelledById.trim()
+                  : undefined;
+              return (
+                <div
+                  key={key}
+                  data-slot={key}
+                  className={cn(
+                    slot.unstyled ? slotBareBaseClass : slotItemBaseClass,
+                    layout[key as keyof LayoutState],
+                    aligns[key],
+                    slot.className,
+                  )}
+                  role="group"
+                  aria-label={slotLabel}
+                  aria-labelledby={slotLabelledById}
+                >
+                  <div className={slotContentClass}>{slot.node}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     ) : null;
-
-    const haloClasses =
-      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none";
 
     return (
       <>
@@ -483,24 +464,18 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
             "group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus",
             variantStyles
               ? cn(
-                  "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
-                  haloClasses,
-                  "has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
-                  "data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
+                  "rounded-3xl border border-[hsl(var(--border)/0.18)] ring-1 ring-inset ring-white/5 text-foreground shadow-[0_12px_32px_hsl(var(--shadow))] focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-inset hero2-frame hero2-neomorph",
                   variantStyles.radius,
                   variantStyles.padding,
                 )
               : undefined,
             className,
           )}
-          data-has-focus={hasFocus ? "true" : undefined}
           data-variant={variant}
           role={roleProp ?? roleFromElement}
           aria-label={label}
           aria-labelledby={labelledById}
           tabIndex={tabIndex ?? -1}
-          onFocusCapture={handleFocusCapture}
-          onBlurCapture={handleBlurCapture}
         >
           {resolvedChildren}
           {slotArea}

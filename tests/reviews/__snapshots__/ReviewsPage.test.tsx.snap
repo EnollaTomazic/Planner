@@ -14,134 +14,77 @@ exports[`ReviewsPage > renders default state 1`] = `
         jsx="true"
       >
         
-      .hero2-neomorph {
-        background: linear-gradient(
-          145deg,
-          hsl(var(--card)),
-          hsl(var(--panel))
-        );
-        --hero2-shadow-key: var(--shadow);
-        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-          hsl(var(--shadow-color) / 0.18);
-        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-        position: relative;
-        --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
-          0 0 0 0 hsl(var(--ring) / 0);
-        --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
-          hsl(var(--ring)),
-          var(--shadow-glow-lg);
-        --hero2-focus-ring: var(--hero2-focus-ring-rest);
-        --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
-        --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
-        --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
-        --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
-        --hero2-glow-top-left: radial-gradient(
-          140% 140% at 0% 0%,
-          var(--hero2-glow-top-left-color) 0%,
-          var(--hero2-glow-top-left-soft) 45%,
-          transparent 75%
-        );
-        --hero2-glow-bottom-right: radial-gradient(
-          160% 160% at 100% 100%,
-          var(--hero2-glow-bottom-right-color) 0%,
-          var(--hero2-glow-bottom-right-soft) 55%,
-          transparent 82%
-        );
+      .hero2-frame {
+        --hero: var(--card);
+        --hero-2: var(--background);
+        --control: var(--card);
+        --inset: var(--shadow-color);
       }
-      .hero2-neomorph::before,
-      .hero2-neomorph::after {
+      @supports (color: color-mix(in oklab, white, black)) {
+        .hero2-frame {
+          --hero: color-mix(
+            in oklab,
+            hsl(var(--card)) 78%,
+            hsl(var(--background)) 22%
+          );
+          --hero-2: color-mix(
+            in oklab,
+            hsl(var(--card)) 54%,
+            hsl(var(--shadow-color)) 46%
+          );
+          --control: color-mix(
+            in oklab,
+            hsl(var(--card)) 68%,
+            hsl(var(--foreground)) 32%
+          );
+        }
+      }
+      .hero2-neomorph {
+        position: relative;
+        background-image: linear-gradient(
+          135deg,
+          hsl(var(--hero)),
+          hsl(var(--hero-2))
+        );
+        box-shadow: 0 12px 32px hsl(var(--shadow));
+      }
+      .hero2-neomorph::before {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
         pointer-events: none;
-        z-index: -1;
-        opacity: 1;
-      }
-      .hero2-neomorph::before {
-        background: var(--hero2-glow-top-left);
-        box-shadow: var(--hero2-focus-ring);
-        transition: box-shadow var(--dur-quick, 160ms) ease-out;
+        box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.05);
       }
       .hero2-neomorph::after {
-        background: var(--hero2-glow-bottom-right);
-      }
-      @supports (
-        color: color-mix(
-          in oklab,
-          hsl(var(--highlight)),
-          hsl(var(--background))
-        )
-      ) {
-        .hero2-neomorph {
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-            color-mix(
-              in oklab,
-              hsl(var(--shadow-color)) 28%,
-              hsl(var(--highlight))
-            );
-          --hero2-glow-top-left-color: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 72%,
-            hsl(var(--shadow-color))
-          );
-          --hero2-glow-top-left-soft: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 22%,
-            hsl(var(--background) / 0)
-          );
-          --hero2-glow-bottom-right-color: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 82%,
-            hsl(var(--highlight))
-          );
-          --hero2-glow-bottom-right-soft: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 28%,
-            hsl(var(--background) / 0)
-          );
-        }
+        content: none;
       }
       @media (prefers-contrast: more) {
-        .hero2-frame {
-          border-color: hsl(var(--foreground) / 0.7) !important;
-        }
         .hero2-neomorph {
-          --hero2-shadow-key: 0 0 var(--space-4)
-            hsl(var(--foreground) / 0.75);
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.7);
-          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--foreground) / 0),
-            0 0 0 0 hsl(var(--foreground) / 0);
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.9),
-            0 0 0 0 hsl(var(--foreground) / 0.6);
+          background-image: linear-gradient(
+            135deg,
+            hsl(var(--card)),
+            hsl(var(--background))
+          );
+          box-shadow: 0 0 0 1px hsl(var(--foreground) / 0.7);
+        }
+        .hero2-neomorph::before {
+          box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.7);
         }
       }
       @media (forced-colors: active) {
-        .hero2-frame {
-          border-color: CanvasText !important;
-          background: Canvas !important;
-        }
         .hero2-neomorph {
           background: Canvas !important;
           box-shadow: none !important;
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 Canvas,
-            0 0 0 0 Canvas;
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            CanvasText,
-            0 0 0 0 CanvasText;
+        }
+        .hero2-neomorph::before {
+          box-shadow: inset 0 0 0 1px CanvasText !important;
         }
       }
     
       </style>
       <div
-        class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
+        class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-[hsl(var(--border)/0.18)] ring-1 ring-inset ring-white/5 text-foreground shadow-[0_12px_32px_hsl(var(--shadow))] focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-inset hero2-frame hero2-neomorph rounded-3xl md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
         data-variant="default"
         tabindex="-1"
       >
@@ -254,143 +197,198 @@ exports[`ReviewsPage > renders default state 1`] = `
           </div>
         </div>
         <div
-          class="group/hero-slots relative z-[1] isolate w-full grid grid-cols-1 mt-[var(--space-6)] md:mt-[var(--space-7)] pt-[var(--space-5)] md:pt-[var(--space-6)] gap-[var(--space-3)] md:gap-[var(--space-4)] md:grid-cols-12 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--accent))] before:opacity-60 before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--accent))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']"
+          class="group/hero-slots relative z-[1] isolate w-full mt-[var(--space-6)] md:mt-[var(--space-7)] pt-[var(--space-5)] md:pt-[var(--space-6)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--border)/0.28)] before:content-['']"
           data-align="center"
           role="group"
         >
           <div
-            aria-label="Search reviews"
-            class="group/hero-slot relative isolate flex min-w-0 flex-col md:col-span-7 md:justify-self-center"
-            data-slot="search"
-            role="group"
+            class="group/hero-slot-plate relative isolate rounded-2xl border border-[hsl(var(--border)/0.18)] bg-[hsl(var(--control))] px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-12px_24px_hsl(var(--inset)/0.35)] transition-shadow duration-[var(--dur-chill)] ease-[var(--ease-out)] has-[:focus-visible]:shadow-[inset_0_0_0_1px_hsl(var(--ring)/0.55),inset_0_-12px_24px_hsl(var(--inset)/0.4)]"
           >
             <div
-              class="relative z-[1] flex w-full min-w-0 flex-col"
-            >
-              <form
-                class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full min-w-0 rounded-full flex-1"
-                role="search"
-              >
-                <div
-                  class="min-w-0"
-                >
-                  <div
-                    class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
-                  >
-                    <div
-                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
-                      style="--field-h: var(--control-h-md);"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m21 21-4.34-4.34"
-                        />
-                        <circle
-                          cx="11"
-                          cy="11"
-                          r="8"
-                        />
-                      </svg>
-                      <input
-                        aria-label="Search reviews"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none pl-[var(--space-7)]"
-                        placeholder="Search title, tags, opponent, patch…"
-                        spellcheck="false"
-                        type="search"
-                        value=""
-                      />
-                      <button
-                        aria-label="Clear"
-                        class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
-                        tabindex="0"
-                        title="Clear"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-x"
-                          fill="none"
-                          height="24"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18 6 6 18"
-                          />
-                          <path
-                            d="m6 6 12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div
-            class="hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)] motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65 hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)] md:col-span-5 md:justify-self-center"
-            data-slot="actions"
-            role="group"
-          >
-            <div
-              class="relative z-[1] flex w-full min-w-0 flex-col"
+              class="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-3)] md:gap-[var(--space-4)]"
             >
               <div
-                class="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]"
+                aria-label="Search reviews"
+                class="group/hero-slot relative flex min-w-0 flex-col md:col-span-7 md:justify-self-center"
+                data-slot="search"
+                role="group"
               >
-                <label
-                  class="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]"
+                <div
+                  class="relative z-[1] flex w-full min-w-0 flex-col"
                 >
-                  <span
-                    class="text-ui font-medium text-muted-foreground"
-                  >
-                    Sort
-                  </span>
-                  <div
-                    class="glitch-wrap w-full sm:w-auto"
+                  <form
+                    class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full min-w-0 rounded-full flex-1"
+                    role="search"
                   >
                     <div
-                      class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
+                      class="min-w-0"
                     >
-                      <button
-                        aria-controls=":r1:-listbox"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-label="Sort reviews"
-                        class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
-                        data-lit="true"
-                        data-open="false"
-                        type="button"
+                      <div
+                        class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                       >
-                        <span
-                          class="font-medium _glitchText_843152 text-foreground group-hover:text-foreground"
+                        <div
+                          class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                          style="--field-h: var(--control-h-md);"
                         >
-                          Newest
-                        </span>
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="m21 21-4.34-4.34"
+                            />
+                            <circle
+                              cx="11"
+                              cy="11"
+                              r="8"
+                            />
+                          </svg>
+                          <input
+                            aria-label="Search reviews"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none pl-[var(--space-7)]"
+                            placeholder="Search title, tags, opponent, patch…"
+                            spellcheck="false"
+                            type="search"
+                            value=""
+                          />
+                          <button
+                            aria-label="Clear"
+                            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                            tabindex="0"
+                            title="Clear"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="lucide lucide-x"
+                              fill="none"
+                              height="24"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18 6 6 18"
+                              />
+                              <path
+                                d="m6 6 12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div
+                class="group/hero-slot relative flex min-w-0 flex-col gap-[var(--space-2)] md:col-span-5 md:justify-self-center"
+                data-slot="actions"
+                role="group"
+              >
+                <div
+                  class="relative z-[1] flex w-full min-w-0 flex-col"
+                >
+                  <div
+                    class="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]"
+                  >
+                    <label
+                      class="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]"
+                    >
+                      <span
+                        class="text-ui font-medium text-muted-foreground"
+                      >
+                        Sort
+                      </span>
+                      <div
+                        class="glitch-wrap w-full sm:w-auto"
+                      >
+                        <div
+                          class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
+                        >
+                          <button
+                            aria-controls=":r1:-listbox"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Sort reviews"
+                            class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+                            data-lit="true"
+                            data-open="false"
+                            type="button"
+                          >
+                            <span
+                              class="font-medium _glitchText_843152 text-foreground group-hover:text-foreground"
+                            >
+                              Newest
+                            </span>
+                            <svg
+                              aria-hidden="true"
+                              class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-6)]"
+                              fill="none"
+                              height="24"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="m6 9 6 6 6-6"
+                              />
+                            </svg>
+                            <span
+                              aria-hidden="true"
+                              class="_gbIris_843152"
+                            />
+                            <span
+                              aria-hidden="true"
+                              class="_gbChroma_843152"
+                            />
+                            <span
+                              aria-hidden="true"
+                              class="_gbFlicker_843152"
+                            />
+                            <span
+                              aria-hidden="true"
+                              class="_gbScan_843152"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </label>
+                    <button
+                      class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap sm:w-auto shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                      style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
+                      />
+                      <span
+                        class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
+                      >
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-6)]"
+                          class="lucide lucide-plus"
                           fill="none"
                           height="24"
                           stroke="currentColor"
@@ -402,66 +400,19 @@ exports[`ReviewsPage > renders default state 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m6 9 6 6 6-6"
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="M12 5v14"
                           />
                         </svg>
-                        <span
-                          aria-hidden="true"
-                          class="_gbIris_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbChroma_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbFlicker_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbScan_843152"
-                        />
-                      </button>
-                    </div>
+                        <span>
+                          New Review
+                        </span>
+                      </span>
+                    </button>
                   </div>
-                </label>
-                <button
-                  class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap sm:w-auto shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
-                  style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
-                  />
-                  <span
-                    class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-plus"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 12h14"
-                      />
-                      <path
-                        d="M12 5v14"
-                      />
-                    </svg>
-                    <span>
-                      New Review
-                    </span>
-                  </span>
-                </button>
+                </div>
               </div>
             </div>
           </div>

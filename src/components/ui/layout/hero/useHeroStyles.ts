@@ -84,7 +84,8 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       stickyClasses,
       frame
         ? cn(
-            "group/hero relative z-0 isolate overflow-hidden rounded-card r-card-lg border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
+            "group/hero relative z-0 isolate overflow-hidden hero-focus",
+            "rounded-3xl border border-[hsl(var(--border)/0.18)] ring-1 ring-inset ring-white/5 text-foreground shadow-[0_12px_32px_hsl(var(--shadow))] focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-inset hero2-frame hero2-neomorph",
             shellPadding,
           )
         : padding === "default"
@@ -96,20 +97,10 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       ? "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-4)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-6)]"
       : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-5)] py-[var(--space-4)] md:py-[var(--space-5)]";
 
-    const slotWellSurface = cn(
-      "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
-      "[--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)]",
-      "motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60",
-      "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen",
-      "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65",
-      "hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)]",
-      "hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]",
-    );
-
     const baseSearchWell = "w-full min-w-0 md:flex-1";
 
     const searchWell = frame
-      ? cn(slotWellSurface, baseSearchWell)
+      ? cn(baseSearchWell, "flex flex-col gap-[var(--space-2)]")
       : baseSearchWell;
 
     const baseActionWell = "w-full md:w-auto";
@@ -119,8 +110,8 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
 
     const actionsWell = frame
       ? cn(
-          slotWellSurface,
-          "flex-row flex-wrap gap-[var(--space-2)] md:flex-nowrap md:items-center md:justify-end md:gap-[var(--space-3)]",
+          baseActionWell,
+          "flex flex-wrap items-center gap-[var(--space-2)] md:flex-nowrap md:justify-end",
         )
       : baseActionWell;
 
@@ -132,6 +123,9 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       ? "gap-[var(--space-4)] md:gap-[var(--space-5)]"
       : "gap-[var(--space-2)] md:gap-[var(--space-4)]";
 
+    const plateSurface =
+      "hero2-frame rounded-2xl border border-[hsl(var(--border)/0.18)] bg-[hsl(var(--control))] text-foreground shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-12px_24px_hsl(var(--inset)/0.35)] transition-shadow duration-[var(--dur-chill)] ease-[var(--ease-out)] has-[:focus-visible]:shadow-[inset_0_0_0_1px_hsl(var(--ring)/0.55),inset_0_-12px_24px_hsl(var(--inset)/0.4)]";
+
     const labelCluster = cn(
       "relative col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap",
       isRaisedBar ? "md:items-stretch" : "md:items-center",
@@ -141,7 +135,8 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const raisedLabelBar = cn(
       "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
       clusterGapClass,
-      "z-0 overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
+      plateSurface,
+      "px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)]",
     );
 
     const utilities = cn(
@@ -154,7 +149,11 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       : "relative z-[2] mt-[var(--space-4)] md:mt-[var(--space-5)] flex flex-col gap-[var(--space-4)] md:gap-[var(--space-5)]";
 
     const actionRow = frame
-      ? "flex w-full min-w-0 flex-wrap items-start gap-[var(--space-4)] md:flex-nowrap md:items-center md:justify-between md:gap-[var(--space-5)] lg:gap-[var(--space-6)] pt-[var(--space-5)] md:pt-[var(--space-6)]"
+      ? cn(
+          "flex w-full min-w-0 flex-wrap items-start gap-[var(--space-4)] md:flex-nowrap md:items-center md:justify-between md:gap-[var(--space-5)] lg:gap-[var(--space-6)]",
+          plateSurface,
+          "px-[var(--space-3)] py-[var(--space-3)] md:px-[var(--space-4)] md:py-[var(--space-4)]",
+        )
       : "flex w-full min-w-0 flex-wrap items-start gap-[var(--space-2)] md:flex-nowrap md:items-center md:justify-between md:gap-[var(--space-4)] lg:gap-[var(--space-5)] pt-[var(--space-4)] md:pt-[var(--space-5)]";
 
     const heading = cn(

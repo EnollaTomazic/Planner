@@ -267,12 +267,6 @@ function Hero<Key extends string = string>({
           </div>
         ) : null}
 
-        {frame ? (
-          <div
-            aria-hidden
-            className="absolute inset-0 rounded-card r-card-lg ring-1 ring-inset ring-border/55"
-          />
-        ) : null}
       </div>
     </Component>
   );

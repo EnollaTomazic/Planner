@@ -6,128 +6,71 @@ import * as React from "react";
 export function NeomorphicFrameStyles() {
   return (
     <style jsx global>{`
-      .hero2-neomorph {
-        background: linear-gradient(
-          145deg,
-          hsl(var(--card)),
-          hsl(var(--panel))
-        );
-        --hero2-shadow-key: var(--shadow);
-        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-          hsl(var(--shadow-color) / 0.18);
-        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-        position: relative;
-        --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
-          0 0 0 0 hsl(var(--ring) / 0);
-        --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
-          hsl(var(--ring)),
-          var(--shadow-glow-lg);
-        --hero2-focus-ring: var(--hero2-focus-ring-rest);
-        --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
-        --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
-        --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
-        --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
-        --hero2-glow-top-left: radial-gradient(
-          140% 140% at 0% 0%,
-          var(--hero2-glow-top-left-color) 0%,
-          var(--hero2-glow-top-left-soft) 45%,
-          transparent 75%
-        );
-        --hero2-glow-bottom-right: radial-gradient(
-          160% 160% at 100% 100%,
-          var(--hero2-glow-bottom-right-color) 0%,
-          var(--hero2-glow-bottom-right-soft) 55%,
-          transparent 82%
-        );
+      .hero2-frame {
+        --hero: var(--card);
+        --hero-2: var(--background);
+        --control: var(--card);
+        --inset: var(--shadow-color);
       }
-      .hero2-neomorph::before,
-      .hero2-neomorph::after {
+      @supports (color: color-mix(in oklab, white, black)) {
+        .hero2-frame {
+          --hero: color-mix(
+            in oklab,
+            hsl(var(--card)) 78%,
+            hsl(var(--background)) 22%
+          );
+          --hero-2: color-mix(
+            in oklab,
+            hsl(var(--card)) 54%,
+            hsl(var(--shadow-color)) 46%
+          );
+          --control: color-mix(
+            in oklab,
+            hsl(var(--card)) 68%,
+            hsl(var(--foreground)) 32%
+          );
+        }
+      }
+      .hero2-neomorph {
+        position: relative;
+        background-image: linear-gradient(
+          135deg,
+          hsl(var(--hero)),
+          hsl(var(--hero-2))
+        );
+        box-shadow: 0 12px 32px hsl(var(--shadow));
+      }
+      .hero2-neomorph::before {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
         pointer-events: none;
-        z-index: -1;
-        opacity: 1;
-      }
-      .hero2-neomorph::before {
-        background: var(--hero2-glow-top-left);
-        box-shadow: var(--hero2-focus-ring);
-        transition: box-shadow var(--dur-quick, 160ms) ease-out;
+        box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.05);
       }
       .hero2-neomorph::after {
-        background: var(--hero2-glow-bottom-right);
-      }
-      @supports (
-        color: color-mix(
-          in oklab,
-          hsl(var(--highlight)),
-          hsl(var(--background))
-        )
-      ) {
-        .hero2-neomorph {
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-            color-mix(
-              in oklab,
-              hsl(var(--shadow-color)) 28%,
-              hsl(var(--highlight))
-            );
-          --hero2-glow-top-left-color: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 72%,
-            hsl(var(--shadow-color))
-          );
-          --hero2-glow-top-left-soft: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 22%,
-            hsl(var(--background) / 0)
-          );
-          --hero2-glow-bottom-right-color: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 82%,
-            hsl(var(--highlight))
-          );
-          --hero2-glow-bottom-right-soft: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 28%,
-            hsl(var(--background) / 0)
-          );
-        }
+        content: none;
       }
       @media (prefers-contrast: more) {
-        .hero2-frame {
-          border-color: hsl(var(--foreground) / 0.7) !important;
-        }
         .hero2-neomorph {
-          --hero2-shadow-key: 0 0 var(--space-4)
-            hsl(var(--foreground) / 0.75);
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.7);
-          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--foreground) / 0),
-            0 0 0 0 hsl(var(--foreground) / 0);
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.9),
-            0 0 0 0 hsl(var(--foreground) / 0.6);
+          background-image: linear-gradient(
+            135deg,
+            hsl(var(--card)),
+            hsl(var(--background))
+          );
+          box-shadow: 0 0 0 1px hsl(var(--foreground) / 0.7);
+        }
+        .hero2-neomorph::before {
+          box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.7);
         }
       }
       @media (forced-colors: active) {
-        .hero2-frame {
-          border-color: CanvasText !important;
-          background: Canvas !important;
-        }
         .hero2-neomorph {
           background: Canvas !important;
           box-shadow: none !important;
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 Canvas,
-            0 0 0 0 Canvas;
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            CanvasText,
-            0 0 0 0 CanvasText;
+        }
+        .hero2-neomorph::before {
+          box-shadow: inset 0 0 0 1px CanvasText !important;
         }
       }
     `}</style>

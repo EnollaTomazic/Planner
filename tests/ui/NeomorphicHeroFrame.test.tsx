@@ -44,7 +44,7 @@ describe("NeomorphicHeroFrame", () => {
     expect(frame).toHaveAttribute("data-variant", variant);
   });
 
-  it("toggles focus halo data attribute when focus enters and leaves", async () => {
+  it("keeps focus styling consistent when child elements receive focus", async () => {
     const user = userEvent.setup();
     const { container } = render(
       <>
@@ -63,12 +63,14 @@ describe("NeomorphicHeroFrame", () => {
     if (!frame) {
       throw new Error("Hero frame not found");
     }
+    expect(frame).toHaveClass("ring-1", "ring-inset", "ring-white/5");
     expect(frame).not.toHaveAttribute("data-has-focus");
 
     await user.tab();
 
     expect(insideButton).toHaveFocus();
-    expect(frame).toHaveAttribute("data-has-focus", "true");
+    expect(frame).not.toHaveAttribute("data-has-focus");
+    expect(frame).toHaveClass("ring-1", "ring-inset", "ring-white/5");
 
     await user.tab();
 
@@ -112,7 +114,7 @@ describe("NeomorphicHeroFrame", () => {
     expect(actionsSlot).not.toHaveAttribute("aria-label");
   });
 
-  it("uses the inset shadow token without stacking conflicting utilities", () => {
+  it("wraps slot content in the shared control plate without conflicting shadows", () => {
     const { container } = render(
       <NeomorphicHeroFrame
         slots={{
@@ -125,11 +127,17 @@ describe("NeomorphicHeroFrame", () => {
       </NeomorphicHeroFrame>,
     );
 
+    const slotPlate = container.querySelector(
+      ".group\\/hero-slot-plate",
+    ) as HTMLElement | null;
     const slotWells = container.querySelectorAll("[data-slot]");
 
+    expect(slotPlate).not.toBeNull();
+    expect(slotPlate).toHaveClass("bg-[hsl(var(--control))]");
+    expect(slotPlate).toHaveClass("rounded-2xl");
     expect(slotWells).not.toHaveLength(0);
     slotWells.forEach((slot) => {
-      expect(slot).toHaveClass("neo-inset");
+      expect(slot).not.toHaveClass("neo-inset");
       expect(slot).not.toHaveClass("shadow-neo-inset");
     });
   });
