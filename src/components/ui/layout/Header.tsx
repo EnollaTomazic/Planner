@@ -58,6 +58,8 @@ export interface HeaderProps<Key extends string = string>
   rail?: boolean;
   /** Decorative rail emphasis; defaults to the subtler glow. */
   railVariant?: "subtle" | "loud";
+  /** Custom rail classes to opt into alternate treatments (e.g., loud rail). */
+  railClassName?: string;
   /** Reduce vertical padding and height, ideal for denser layouts. */
   compact?: boolean;
   /** Built-in top-right segmented tabs (preferred). */
@@ -84,6 +86,7 @@ export default function Header<Key extends string = string>({
   bodyClassName,
   rail = true,
   railVariant = "subtle",
+  railClassName,
   compact = false,
   tabs,
   variant = "plain",
@@ -93,7 +96,10 @@ export default function Header<Key extends string = string>({
   const isNeo = variant === "neo";
   const isMinimal = variant === "minimal";
   const isPlain = variant === "plain";
-  const hasNeomorphicFrame = isNeo || isPlain;
+  const shouldRenderNeomorphicFrameStyles = isNeo || isPlain;
+  const plainNeomorphicClasses = isPlain
+    ? "rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph overflow-hidden"
+    : "";
 
   let tabControl: React.ReactNode = null;
   if (tabs) {
@@ -206,16 +212,14 @@ export default function Header<Key extends string = string>({
 
   return (
     <>
-      {hasNeomorphicFrame ? <NeomorphicFrameStyles /> : null}
+      {shouldRenderNeomorphicFrameStyles ? <NeomorphicFrameStyles /> : null}
       <header
         className={cx(
           "z-[999] relative isolate",
           isNeo &&
             "rounded-card r-card-lg bg-card/70 backdrop-blur-md hero2-neomorph",
           isNeo && "overflow-hidden",
-          isPlain &&
-            "rounded-card r-card-lg border border-[hsl(var(--border))/0.45] bg-card/70 shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
-          isPlain && "overflow-hidden",
+          plainNeomorphicClasses,
 
           // Neon underline
           underline &&
@@ -232,7 +236,7 @@ export default function Header<Key extends string = string>({
             "relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]",
             barPadding,
             minHeightClass,
-            hasNeomorphicFrame && "z-[2]",
+            shouldRenderNeomorphicFrameStyles && "z-[2]",
             hasNav && "flex-wrap gap-y-[var(--space-2)] sm:flex-nowrap",
             barClassName,
           )}
@@ -241,7 +245,9 @@ export default function Header<Key extends string = string>({
             <div
               className={cx(
                 "header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
-                railVariant === "subtle" && "header-rail--subtle",
+                railVariant !== "loud" && "header-rail--subtle",
+                railVariant === "loud" && "header-rail--loud",
+                railClassName,
               )}
               aria-hidden
             />
@@ -319,7 +325,7 @@ export default function Header<Key extends string = string>({
           <div
             className={cx(
               "relative",
-              hasNeomorphicFrame && "z-[2]",
+              shouldRenderNeomorphicFrameStyles && "z-[2]",
               bodyPadding,
               bodyClassName,
             )}
