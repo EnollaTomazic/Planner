@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createContentSecurityPolicy, createSecurityHeaders } from "./security-headers.mjs";
+import {
+  createContentSecurityPolicy,
+  createSecurityHeaders,
+} from "./security-headers.mjs";
 
 const NONCE_BYTE_LENGTH = 16;
 const REQUEST_CSP_HEADER = "content-security-policy";
@@ -48,11 +51,21 @@ const createNonce = (): string => {
 
 export function middleware(request: NextRequest) {
   const nonce = createNonce();
-  const securityHeaders = createSecurityHeaders(nonce);
+  const host = request.headers.get("host");
+  const normalizedHost = host?.toLowerCase() ?? "";
+  const allowVercelFeedback =
+    normalizedHost.endsWith(".vercel.app") ||
+    normalizedHost.endsWith(".vercel.sh") ||
+    normalizedHost === "vercel.live" ||
+    normalizedHost.endsWith(".vercel.live");
+  const policyOptions = { allowVercelFeedback };
+
+  const securityHeaders = createSecurityHeaders(nonce, policyOptions);
   const cspHeader = securityHeaders.find(
     (header) => header.key === "Content-Security-Policy",
   );
-  const cspValue = cspHeader?.value ?? createContentSecurityPolicy(nonce);
+  const cspValue =
+    cspHeader?.value ?? createContentSecurityPolicy(nonce, policyOptions);
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set(NONCE_HEADER, nonce);
