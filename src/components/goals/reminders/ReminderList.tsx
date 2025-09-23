@@ -279,7 +279,7 @@ function RemTile({
               <div className="flex items-center gap-[var(--space-2)]">
                 <span
                   aria-hidden="true"
-                  className="inline-block size-[var(--space-2)] rounded-full bg-[hsl(var(--accent-overlay))]"
+                  className="inline-block size-[var(--space-2)] rounded-full bg-accent-overlay"
                 />
                 <span className="text-label font-medium tracking-[0.02em]">{fmtDate(value.createdAt)}</span>
               </div>

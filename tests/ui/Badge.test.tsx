@@ -21,7 +21,7 @@ describe('Badge', () => {
   it('applies accent tone styles', () => {
     const { getByText } = render(<Badge tone="accent">Accent</Badge>);
     const badge = getByText('Accent');
-    expect(badge).toHaveClass('border-[var(--accent-overlay)]');
+    expect(badge).toHaveClass('border-accent-overlay');
   });
 
   it('supports the size tokens', () => {

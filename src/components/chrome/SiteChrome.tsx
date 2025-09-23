@@ -36,7 +36,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
             className="col-span-full flex items-center gap-[var(--space-3)] md:col-span-3 lg:col-span-3"
           >
             <span
-              className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-[hsl(var(--accent-overlay))] shadow-[var(--shadow-glow-sm)]"
+              className="h-[var(--space-2)] w-[var(--space-2)] rounded-full animate-pulse bg-accent-overlay shadow-[var(--shadow-glow-sm)]"
               aria-hidden
             />
             <BrandWordmark />
