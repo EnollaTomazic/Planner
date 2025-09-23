@@ -31,7 +31,7 @@ export default function ReviewList({
 
   const containerClass = cn(
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
-    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-200",
+    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-[var(--dur-chill)]",
     hoverRing &&
       "hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)]",
     className,

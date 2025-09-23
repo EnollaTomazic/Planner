@@ -58,7 +58,7 @@ function NeonPillarChip({
           filter: `blur(${auraBlurRadius})`,
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--dur-chill) var(--ease-out)",
         }}
         aria-hidden
       />
@@ -73,7 +73,7 @@ function NeonPillarChip({
           background:
             "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%)",
           filter: `blur(${neonBlurRadius})`,
-          transition: "opacity 220ms var(--ease-out)",
+          transition: "opacity var(--dur-chill) var(--ease-out)",
         }}
         aria-hidden
       />

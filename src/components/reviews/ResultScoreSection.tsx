@@ -58,7 +58,7 @@ function ResultScoreSection(
   const resultIndicatorStyle: ResultIndicatorStyle = {
     width: "calc(50% - var(--space-1))",
     transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
-    transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
+    transitionTimingFunction: "var(--ease-out)",
     "--result-indicator-gradient":
       result === "Win"
         ? "linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18))"
@@ -98,7 +98,7 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-[var(--dur-chill)] [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style={resultIndicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">

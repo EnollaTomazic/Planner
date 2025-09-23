@@ -92,7 +92,7 @@ const ReviewSliderTrack = ({
             variant === "display" ? "w-[var(--progress)]" : undefined,
             isInteractive &&
               cn(
-                "ring-1 ring-transparent transition-[box-shadow] duration-140 ease-out",
+                "ring-1 ring-transparent transition-[box-shadow] duration-[var(--dur-quick)] ease-out",
                 fillInteractionClassNames[tone],
               ),
             fillClassName,
@@ -105,7 +105,7 @@ const ReviewSliderTrack = ({
             knobSizeByVariant[variant],
             isInteractive &&
               cn(
-                "transition-[background-color,border-color,box-shadow] duration-140 ease-out",
+                "transition-[background-color,border-color,box-shadow] duration-[var(--dur-quick)] ease-out",
                 knobInteractionClassNames[tone],
               ),
             knobClassName,
