@@ -11,7 +11,9 @@ describe("SiteChrome", () => {
   it("links to the home page via the noxi brand", () => {
     render(
       <ThemeProvider>
-        <SiteChrome />
+        <SiteChrome>
+          <div />
+        </SiteChrome>
       </ThemeProvider>,
     );
     const homeLink = screen.getByRole("link", { name: "Home" });

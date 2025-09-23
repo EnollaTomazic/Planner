@@ -19,14 +19,31 @@ import SiteChrome from "@/components/chrome/SiteChrome";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {
-    render(<SiteChrome />);
+    render(
+      <SiteChrome>
+        <div />
+      </SiteChrome>,
+    );
     const link = screen.getByRole("link", { name: "Home" });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/");
   });
 
   it("renders the mobile navigation", () => {
-    render(<SiteChrome />);
+    render(
+      <SiteChrome>
+        <div />
+      </SiteChrome>,
+    );
     expect(screen.getAllByTestId("mobile-nav")).not.toHaveLength(0);
+  });
+
+  it("renders provided children", () => {
+    render(
+      <SiteChrome>
+        <div data-testid="inner" />
+      </SiteChrome>,
+    );
+    expect(screen.getByTestId("inner")).toBeInTheDocument();
   });
 });

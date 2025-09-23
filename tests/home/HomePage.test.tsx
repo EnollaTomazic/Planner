@@ -20,12 +20,11 @@ describe("Home page", () => {
     () => {
       render(
         <ThemeProvider>
-          <React.Fragment>
-            <SiteChrome />
+          <SiteChrome>
             <Suspense fallback="loading">
               <Page />
             </Suspense>
-          </React.Fragment>
+          </SiteChrome>
         </ThemeProvider>,
       );
       const expectLink = (label: string, href: string) => {
