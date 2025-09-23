@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import { afterEach, vi } from "vitest";
 import { cleanup } from "@testing-library/react";
-import type { ElementType, ReactNode } from "react";
 
 type ReactModule = typeof import("react");
 
@@ -11,17 +10,27 @@ type StyleElementProps = {
   [key: string]: unknown;
 };
 
+type CreateElementParams = Parameters<ReactModule["createElement"]>;
+type CreateElementProps = CreateElementParams[1];
+
+const isStyleElementProps = (
+  value: CreateElementProps,
+): value is CreateElementProps & StyleElementProps =>
+  value !== null && typeof value === "object";
+
 vi.mock("react", async () => {
   const actual = (await vi.importActual<ReactModule>("react")) as ReactModule;
 
-  const createElement: ReactModule["createElement"] = ((
-    type: ElementType,
-    props: StyleElementProps | null,
-    ...children: ReactNode[]
-  ) => {
-    if (typeof type === "string" && type === "style" && props) {
+  const createElement = (
+    ...args: CreateElementParams
+  ): ReturnType<ReactModule["createElement"]> => {
+    const [type, props, ...children] = args;
+
+    if (type === "style" && isStyleElementProps(props)) {
       if (props.jsx === true || props.global === true) {
-        const coercedProps: StyleElementProps = { ...props };
+        const coercedProps: CreateElementProps & StyleElementProps = {
+          ...props,
+        };
 
         if (coercedProps.jsx === true) {
           coercedProps.jsx = "true";
@@ -35,8 +44,8 @@ vi.mock("react", async () => {
       }
     }
 
-    return actual.createElement(type as ElementType, props as any, ...children);
-  }) as ReactModule["createElement"];
+    return actual.createElement(type, props, ...children);
+  };
 
   const formatId = (value: string) =>
     value.replace(/\u00ab/g, ":").replace(/\u00bb/g, ":");
