@@ -8,7 +8,7 @@ export default function ReviewPanel({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <Card
-      className={cn("w-full container", className)}
+      className={cn("w-full max-w-full", className)}
       {...props}
     />
   );

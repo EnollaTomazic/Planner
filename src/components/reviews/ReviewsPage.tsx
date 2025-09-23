@@ -81,6 +81,7 @@ export default function ReviewsPage({
             frame: false,
             sticky: false,
             topClassName: "top-[var(--header-stack)]",
+            padding: "none",
             heading: "Browse Reviews",
             subtitle: <span className="pill">Total {base.length}</span>,
             search: {

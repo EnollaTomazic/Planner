@@ -31,6 +31,7 @@ export default function NotFound() {
         hero={{
           frame: false,
           heading: "This page does not exist",
+          padding: "none",
           actions: (
             <Link href="/">
               <Button>Go home</Button>

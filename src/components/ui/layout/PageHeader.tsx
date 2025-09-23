@@ -630,7 +630,7 @@ const PageHeaderInner = <
             topClassName={cn("top-[var(--header-stack)]", heroTopClassName)}
             tone={heroTone ?? "supportive"}
             dividerTint={heroDividerTint}
-            padding={heroPadding ?? "none"}
+            {...(heroPadding !== undefined ? { padding: heroPadding } : {})}
             {...(heroActionProps ?? {})}
           />
         </div>
