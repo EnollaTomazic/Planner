@@ -30,8 +30,8 @@
       "Segoe UI", sans-serif;
     --font-mono-fallback: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       "Liberation Mono", "Courier New", monospace;
-    --font-sans: var(--font-sans-fallback);
-    --font-mono: var(--font-mono-fallback);
+    --font-sans: var(--font-geist-sans, var(--font-sans-fallback));
+    --font-mono: var(--font-geist-mono, var(--font-mono-fallback));
     --icon-size-xs: calc(var(--space-4) - var(--spacing-0-5));
     --icon-size-sm: var(--space-4);
     --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
@@ -817,7 +817,9 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 
   /* Inputs */
   .input-base {
-    @apply rounded-[var(--control-radius)] border;
+    border-radius: var(--control-radius);
+    border-width: var(--hairline-w);
+    border-style: solid;
     font-size: var(--font-ui);
     line-height: 1.35;
     font-weight: 500;
@@ -951,7 +953,11 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   /* Base chip & variants */
   .pill {
     --pill-height: calc(var(--space-6) - var(--space-1));
-    @apply inline-flex items-center rounded-full border;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-full);
+    border-width: var(--hairline-w);
+    border-style: solid;
     font-size: var(--font-label);
     line-height: 1.2;
     font-weight: 500;
@@ -1144,9 +1150,10 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   line-height: 1.35;
   color: hsl(var(--muted-foreground));
 }
-.tile-row {
-  height: var(--control-h-lg);
-  @apply flex items-center;
+  .tile-row {
+    height: var(--control-h-lg);
+    display: flex;
+    align-items: center;
 }
 
 /* ---------- Animations ---------- */
@@ -1280,27 +1287,36 @@ textarea:-webkit-autofill {
 
 /* Hairline border that respects theme tokens */
 .card-hairline {
-  @apply border border-card-hairline;
+  border-width: var(--hairline-w);
+  border-style: solid;
+  border-color: hsl(var(--card-hairline));
 }
 
 /* Compact pill */
 .pill-compact {
-  @apply inline-flex items-center rounded-full border border-card-hairline px-[var(--space-2)] py-[var(--space-1)] leading-tight;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-full);
+  padding-inline: var(--space-2);
+  padding-block: var(--space-1);
   font-size: var(--font-label);
   line-height: 1.2;
   font-weight: 500;
   letter-spacing: 0.02em;
   background-color: hsl(var(--muted) / 0.18);
+  border-width: var(--hairline-w);
+  border-style: solid;
+  border-color: hsl(var(--card-hairline));
 }
 .pill-compact:hover {
   background-color: hsl(var(--muted) / 0.28);
 }
 .pill-compact--primary {
-  @apply border-ring;
+  border-color: hsl(var(--ring));
   background-color: hsl(var(--primary-soft) / 0.25);
 }
 .pill-compact--accent {
-  @apply border-ring;
+  border-color: hsl(var(--ring));
   background-color: hsl(var(--accent-soft) / 0.25);
 }
 
@@ -1614,19 +1630,19 @@ textarea:-webkit-autofill {
   }
 }
 .ds-grid-gap {
-  @apply gap-4;
+  gap: var(--space-4);
 }
 @media (min-width: 640px) {
   .ds-grid-gap {
-    @apply gap-6;
+    gap: var(--space-6);
   }
 }
-.ds-card-gap {
-  @apply space-y-4;
+.ds-card-gap > * + * {
+  margin-top: var(--space-4);
 }
 @media (min-width: 640px) {
-  .ds-card-gap {
-    @apply space-y-6;
+  .ds-card-gap > * + * {
+    margin-top: var(--space-6);
   }
 }
 
@@ -1634,52 +1650,64 @@ textarea:-webkit-autofill {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr;
-  @apply gap-3;
+  gap: var(--space-3);
 }
 @media (min-width: 1024px) {
   .ds-toolbar {
     grid-template-columns: 1fr auto;
-    @apply gap-4;
+    gap: var(--space-4);
   }
 }
 .ds-toolbar-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  @apply gap-2;
+  gap: var(--space-2);
 }
 @media (min-width: 640px) {
   .ds-toolbar-controls {
-    @apply gap-3;
+    gap: var(--space-3);
   }
 }
 .ds-card-pad {
-  @apply p-4;
+  padding: var(--space-4);
 }
 @media (min-width: 640px) {
   .ds-card-pad {
-    @apply p-5;
+    padding: var(--space-5);
   }
 }
 .ds-list {
-  @apply list-none pl-5 space-y-2;
+  list-style: none;
+  padding-left: var(--space-5);
   color: hsl(var(--foreground));
 }
 
+.ds-list > * + * {
+  margin-top: var(--space-2);
+}
+
 .ds-list li {
-  @apply relative pl-4;
+  position: relative;
+  padding-left: var(--space-4);
 }
 
 .ds-list li::before {
   content: "";
-  @apply absolute left-0 top-2 h-2 w-2 rounded-full bg-current;
+  position: absolute;
+  left: 0;
+  top: var(--space-2);
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: currentColor;
 }
 
 /* === Champ badges ===================================== */
 .champ-badges {
   display: flex;
   flex-wrap: wrap;
-  @apply gap-2;
+  gap: var(--space-2);
 }
 .champ-badge {
   display: inline-flex;
@@ -2299,11 +2327,13 @@ a:active .lucide {
 /* === Goals helpers === */
 @layer utilities {
   .scanlines {
-    @apply relative;
+    position: relative;
   }
   .scanlines::before {
     content: "";
-    @apply absolute inset-0 pointer-events-none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     border-radius: inherit;
     background: repeating-linear-gradient(
       to bottom,
@@ -2321,7 +2351,9 @@ a:active .lucide {
 
 @layer components {
   .goal-card {
-    @apply relative overflow-hidden rounded-[var(--radius-2xl)];
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-2xl);
     border-width: var(--hairline-w);
     border-style: solid;
     border-color: hsl(var(--border));
@@ -2336,7 +2368,9 @@ a:active .lucide {
   }
   .goal-card::before {
     content: "";
-    @apply absolute inset-0 pointer-events-none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     border-radius: inherit;
     background: repeating-linear-gradient(
       to bottom,

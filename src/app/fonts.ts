@@ -1,16 +1,7 @@
-import { Geist, Geist_Mono } from "geist/font";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
-
-export const geistSansClassName = geistSans.className;
-export const geistSansVariable = geistSans.variable;
-export const geistMonoClassName = geistMono.className;
-export const geistMonoVariable = geistMono.variable;
+export const geistSansClassName = GeistSans.className;
+export const geistSansVariable = GeistSans.variable;
+export const geistMonoClassName = GeistMono.className;
+export const geistMonoVariable = GeistMono.variable;
