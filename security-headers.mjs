@@ -28,7 +28,7 @@ export const createContentSecurityPolicy = (nonce) =>
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
     // 'unsafe-inline' is a temporary compatibility fallback until inline styles are refactored.
     `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
-    `style-src-elem 'self' 'nonce-${nonce}'`,
+    `style-src-elem 'self' 'nonce-${nonce}' 'unsafe-inline'`,
     "style-src-attr 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self' data:",
