@@ -22,3 +22,15 @@ declare module "geist/font" {
   export function Geist(options: GeistFontOptions): GeistFont;
   export function Geist_Mono(options: GeistFontOptions): GeistFont;
 }
+
+declare module "geist/font/mono" {
+  import type { GeistFont } from "geist/font";
+
+  export const GeistMono: GeistFont;
+}
+
+declare module "geist/font/sans" {
+  import type { GeistFont } from "geist/font";
+
+  export const GeistSans: GeistFont;
+}

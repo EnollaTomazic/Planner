@@ -45,7 +45,7 @@ export default function RoleSelector({
   return (
     <div
       className={cn(
-        "relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-1",
+        "relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)]",
         className,
       )}
       style={styleVars}
@@ -54,7 +54,7 @@ export default function RoleSelector({
 
       <span
         aria-hidden
-        className="pointer-events-none absolute top-1 bottom-1 left-1 rounded-[var(--radius-full)] bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none"
+        className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] top-[var(--space-1)] rounded-[var(--radius-full)] bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none"
         style={{
           width:
             "calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count))",
@@ -74,7 +74,7 @@ export default function RoleSelector({
           <GlitchSegmentedButton
             key={v}
             value={v}
-            icon={<Icon className="h-4 w-4" />}
+            icon={<Icon className="size-[var(--icon-size-sm)]" />}
           >
             {label}
           </GlitchSegmentedButton>

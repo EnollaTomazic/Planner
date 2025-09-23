@@ -164,7 +164,7 @@ export default function ReviewsPage({
                 "flex flex-col items-center justify-center gap-[var(--space-2)] py-[var(--space-8)] text-ui text-muted-foreground",
               )}
             >
-              <Ghost className="h-6 w-6 opacity-60" />
+              <Ghost className="size-[var(--icon-size-xl)] opacity-60" />
               <p>Select a review from the list or create a new one.</p>
             </ReviewPanel>
           ) : (
