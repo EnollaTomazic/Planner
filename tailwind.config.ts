@@ -127,6 +127,9 @@ const config: Config = {
           },
         },
       },
+      borderColor: {
+        "card-hairline": "hsl(var(--card-hairline))",
+      },
       borderRadius: borderRadiusTokens,
       boxShadow: {
         "neo-sm": "var(--shadow-neo-sm)",
