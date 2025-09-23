@@ -30,8 +30,8 @@
       "Segoe UI", sans-serif;
     --font-mono-fallback: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       "Liberation Mono", "Courier New", monospace;
-    --font-sans: var(--font-sans-fallback);
-    --font-mono: var(--font-mono-fallback);
+    --font-sans: var(--font-geist-sans, var(--font-sans-fallback));
+    --font-mono: var(--font-geist-mono, var(--font-mono-fallback));
     --icon-size-xs: calc(var(--space-4) - var(--spacing-0-5));
     --icon-size-sm: var(--space-4);
     --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
