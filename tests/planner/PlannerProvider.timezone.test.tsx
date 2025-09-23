@@ -20,43 +20,17 @@ describe("PlannerProvider", () => {
   it("initializes focus using the client local day", async () => {
     const offsetMs = 36 * 60 * 60 * 1000;
 
+    type DateConstructorArgs =
+      | []
+      | ConstructorParameters<typeof Date>;
+
     class ClientDate extends RealDate {
-      constructor(...args: any[]) {
+      constructor(...args: DateConstructorArgs) {
         if (args.length === 0) {
           super(RealDate.now() - offsetMs);
           return;
         }
-        switch (args.length) {
-          case 1:
-            super(args[0]);
-            break;
-          case 2:
-            super(args[0], args[1]);
-            break;
-          case 3:
-            super(args[0], args[1], args[2]);
-            break;
-          case 4:
-            super(args[0], args[1], args[2], args[3]);
-            break;
-          case 5:
-            super(args[0], args[1], args[2], args[3], args[4]);
-            break;
-          case 6:
-            super(args[0], args[1], args[2], args[3], args[4], args[5]);
-            break;
-          default:
-            super(
-              args[0],
-              args[1],
-              args[2],
-              args[3],
-              args[4],
-              args[5],
-              args[6],
-            );
-            break;
-        }
+        super(...args);
       }
 
       static override now() {
