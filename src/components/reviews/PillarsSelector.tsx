@@ -88,6 +88,10 @@ function PillarsSelector(
 ) {
   const [pillars, setPillars] = React.useState<Pillar[]>(pillars0);
 
+  React.useEffect(() => {
+    setPillars(pillars0);
+  }, [pillars0]);
+
   const togglePillar = React.useCallback(
     (p: Pillar) => {
       setPillars((prev) => {

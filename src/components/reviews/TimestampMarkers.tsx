@@ -60,6 +60,10 @@ function TimestampMarkers(
   const [tTime, setTTime] = React.useState(lastMarkerTime);
   const [tNote, setTNote] = React.useState("");
 
+  React.useEffect(() => {
+    setMarkers(Array.isArray(markers0) ? markers0.map(normalizeMarker) : []);
+  }, [markers0]);
+
   const timeRef = React.useRef<HTMLInputElement>(null);
   const noteRef = React.useRef<HTMLInputElement>(null);
 
