@@ -67,27 +67,28 @@ export default async function RootLayout({
         </a>
         <StyledJsxRegistry nonce={nonce}>
           <ThemeProvider>
-          <div aria-hidden className="page-backdrop">
-            <div className="page-shell">
-              <div className="page-backdrop__layer" />
+            <div aria-hidden className="page-backdrop">
+              <div className="page-shell">
+                <div className="page-backdrop__layer" />
+              </div>
             </div>
-          </div>
-          <SiteChrome />
-          <CatCompanion />
-          <div className="relative z-10">
-            {children}
-            <footer
-              role="contentinfo"
-              className="mt-[var(--space-8)] border-t border-border bg-surface"
-            >
-              <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                <p className="text-ui font-medium text-foreground">
-                  Planner keeps local-first goals organized so every ritual stays actionable.
-                </p>
-                <p>© {year} Planner Labs. All rights reserved.</p>
-              </PageShell>
-            </footer>
-          </div>
+            <SiteChrome>
+              <CatCompanion />
+              <div className="relative z-10">
+                {children}
+                <footer
+                  role="contentinfo"
+                  className="mt-[var(--space-8)] border-t border-border bg-surface"
+                >
+                  <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                    <p className="text-ui font-medium text-foreground">
+                      Planner keeps local-first goals organized so every ritual stays actionable.
+                    </p>
+                    <p>© {year} Planner Labs. All rights reserved.</p>
+                  </PageShell>
+                </footer>
+              </div>
+            </SiteChrome>
           </ThemeProvider>
         </StyledJsxRegistry>
       </body>
