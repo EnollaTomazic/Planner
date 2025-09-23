@@ -38,6 +38,14 @@ function ResultScoreSection(
   const scoreRangeRef = React.useRef<HTMLInputElement>(null);
   const resultLabelId = React.useId();
 
+  React.useEffect(() => {
+    setResult(result0);
+  }, [result0]);
+
+  React.useEffect(() => {
+    setScore(score0);
+  }, [score0]);
+
   const save = React.useCallback(() => {
     commitMeta({ result, score });
   }, [result, score, commitMeta]);
