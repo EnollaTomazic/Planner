@@ -296,7 +296,7 @@ export default function PageHeaderDemo() {
               alt="Planner logo"
               width={48}
               height={48}
-              className="h-12 w-auto object-contain"
+              className="h-[var(--control-h-lg)] w-auto object-contain"
             />
           ),
           sticky: false,
@@ -364,7 +364,7 @@ export default function PageHeaderDemo() {
               alt="Planner logo"
               width={48}
               height={48}
-              className="h-12 w-auto object-contain"
+              className="h-[var(--control-h-lg)] w-auto object-contain"
             />
           ),
           sticky: false,

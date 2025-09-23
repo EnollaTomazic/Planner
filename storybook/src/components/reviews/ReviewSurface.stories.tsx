@@ -43,7 +43,7 @@ export const SliderTrack: Story = {
   render: (args) => (
     <ReviewSurface
       {...args}
-      className={cn("relative h-12 w-64", args.className)}
+      className={cn("relative h-[var(--control-h-lg)] w-64", args.className)}
     >
       <ReviewSliderTrack value={7} tone="score" variant="display" />
     </ReviewSurface>

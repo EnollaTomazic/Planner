@@ -1145,7 +1145,8 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   color: hsl(var(--muted-foreground));
 }
 .tile-row {
-  @apply h-12 flex items-center;
+  height: var(--control-h-lg);
+  @apply flex items-center;
 }
 
 /* ---------- Animations ---------- */
