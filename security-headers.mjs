@@ -36,12 +36,15 @@ const VERCEL_FEEDBACK_WS_ORIGINS = Object.freeze(["wss://vercel.live"]);
 export const createContentSecurityPolicy = (nonce, options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
 
-  const styleSrc = [
-    "'self'",
-    `'nonce-${nonce}'`,
-    "'unsafe-inline'",
-  ];
-  const styleSrcElem = [...styleSrc];
+  const nonceSource = `'nonce-${nonce}'`;
+  const styleSrcBase = ["'self'", "'unsafe-inline'"];
+  const styleSrc = [...styleSrcBase];
+  const styleSrcElem = [...styleSrcBase];
+
+  if (!allowVercelFeedback) {
+    styleSrc.push(nonceSource);
+    styleSrcElem.push(nonceSource);
+  }
   const imgSrc = ["'self'", "data:"];
   const connectSrc = ["'self'"];
 
