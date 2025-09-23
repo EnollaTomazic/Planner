@@ -16,7 +16,7 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
 
 const config: Config = {
   darkMode: "class",
-  content: ["./src/**/*.{ts,tsx}"],
+  content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   safelist: progressWidthSafelist,
   theme: {
     extend: {
