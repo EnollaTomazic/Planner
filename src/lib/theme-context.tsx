@@ -5,6 +5,7 @@ import { usePersistentState } from "@/lib/db";
 import {
   applyTheme,
   defaultTheme,
+  BG_CLASSES,
   THEME_STORAGE_KEY,
   type ThemeState,
 } from "@/lib/theme";
@@ -20,6 +21,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     THEME_STORAGE_KEY,
     defaultTheme(),
   );
+  const defaultThemeRef = React.useRef(defaultTheme());
+  const pendingPersistedSyncRef = React.useRef(true);
 
   React.useEffect(() => {
     setHydrated(true);
@@ -29,6 +32,47 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) {
       return;
     }
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const { documentElement } = document;
+    const expectedThemeClass = `theme-${theme.variant}`;
+    const currentThemeClass = Array.from(documentElement.classList).find((className) =>
+      className.startsWith("theme-"),
+    );
+    const currentBackgroundClass = BG_CLASSES.find(
+      (className) => className && documentElement.classList.contains(className),
+    );
+    const expectedBackgroundClass =
+      theme.bg > 0 && theme.bg < BG_CLASSES.length ? BG_CLASSES[theme.bg] : "";
+    const themeClassMismatch =
+      typeof currentThemeClass === "string" && currentThemeClass !== expectedThemeClass;
+    const backgroundMismatch =
+      typeof currentBackgroundClass === "string"
+        ? currentBackgroundClass !== expectedBackgroundClass
+        : expectedBackgroundClass !== "";
+
+    if (
+      pendingPersistedSyncRef.current &&
+      documentElement.dataset.themePref === "persisted" &&
+      (themeClassMismatch || backgroundMismatch)
+    ) {
+      return;
+    }
+
+    pendingPersistedSyncRef.current = false;
+
+    const defaultState = defaultThemeRef.current;
+    const isDefaultSelection =
+      theme.variant === defaultState.variant && theme.bg === defaultState.bg;
+    const shouldPersistPreference =
+      documentElement.dataset.themePref === "persisted" || !isDefaultSelection;
+
+    if (shouldPersistPreference) {
+      documentElement.dataset.themePref = "persisted";
+    }
+
     applyTheme(theme);
   }, [theme, hydrated]);
 
