@@ -244,7 +244,7 @@ const PageHeaderInner = <
     [heroActions, actions],
   );
 
-  const resolvedHeroFrame = heroFrame ?? false;
+  const resolvedHeroFrame = heroFrame ?? true;
 
   const heroDividerTint = heroDividerTintProp ?? "primary";
 
