@@ -2,6 +2,7 @@ export const colorTokens = [
   "bg-border",
   "bg-input",
   "bg-ring",
+  "bg-ring-contrast",
   "bg-background",
   "bg-foreground",
   "bg-card",

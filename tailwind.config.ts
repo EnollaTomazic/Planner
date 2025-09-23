@@ -23,7 +23,10 @@ const config: Config = {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        ring: {
+          DEFAULT: "hsl(var(--ring))",
+          contrast: "hsl(var(--ring-contrast))",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
