@@ -636,7 +636,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-ghost h-6 w-6 opacity-60"
+            class="lucide lucide-ghost size-[var(--icon-size-xl)] opacity-60"
             fill="none"
             height="24"
             stroke="currentColor"

@@ -22,7 +22,8 @@ const gradientClassNames: Record<ReviewSliderTone, string> = {
 const knobSizeByVariant: Record<ReviewSliderVariant, string> = {
   display:
     "left-[var(--progress)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-x-1/2",
-  input: "h-5 w-5",
+  input:
+    "h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))]",
 };
 
 const fillInteractionClassNames: Record<ReviewSliderTone, string> = {
@@ -81,13 +82,13 @@ const ReviewSliderTrack = ({
     >
       <div
         className={cn(
-          "relative h-2 w-full rounded-full bg-muted shadow-neo-inset",
+          "relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset",
           trackClassName,
         )}
       >
         <div
           className={cn(
-            "absolute left-0 top-0 h-2 rounded-full shadow-ring",
+            "absolute left-0 top-0 h-[var(--space-2)] rounded-full shadow-ring",
             gradientClassNames[tone],
             variant === "display" ? "w-[var(--progress)]" : undefined,
             isInteractive &&

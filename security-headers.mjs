@@ -18,21 +18,54 @@ export const baseSecurityHeaders = Object.freeze(
   ),
 );
 
+const VERCEL_FEEDBACK_HTTP_ORIGINS = Object.freeze([
+  "https://vercel.live",
+  "https://*.vercel.live",
+]);
+
+const VERCEL_FEEDBACK_WS_ORIGINS = Object.freeze(["wss://vercel.live"]);
+
+/**
+ * @typedef {Readonly<{ allowVercelFeedback?: boolean }>} SecurityPolicyOptions
+ */
+
 /**
  * @param {string} nonce
  * @returns {string}
  */
-export const createContentSecurityPolicy = (nonce) =>
-  [
+export const createContentSecurityPolicy = (nonce, options) => {
+  const allowVercelFeedback = options?.allowVercelFeedback === true;
+
+  const styleSrc = [
+    "'self'",
+    `'nonce-${nonce}'`,
+    "'unsafe-inline'",
+  ];
+  const styleSrcElem = [...styleSrc];
+  const imgSrc = ["'self'", "data:"];
+  const connectSrc = ["'self'"];
+
+  if (allowVercelFeedback) {
+    styleSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
+    styleSrcElem.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
+    imgSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
+    connectSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS, ...VERCEL_FEEDBACK_WS_ORIGINS);
+  }
+
+  const frameSrc = allowVercelFeedback
+    ? [...VERCEL_FEEDBACK_HTTP_ORIGINS]
+    : ["'none'"];
+
+  return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
     // 'unsafe-inline' is a temporary compatibility fallback until inline styles are refactored.
-    `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
-    `style-src-elem 'self' 'nonce-${nonce}' 'unsafe-inline'`,
+    `style-src ${styleSrc.join(" ")}`,
+    `style-src-elem ${styleSrcElem.join(" ")}`,
     "style-src-attr 'unsafe-inline'",
-    "img-src 'self' data:",
+    `img-src ${imgSrc.join(" ")}`,
     "font-src 'self' data:",
-    "connect-src 'self'",
+    `connect-src ${connectSrc.join(" ")}`,
     "media-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
@@ -40,18 +73,19 @@ export const createContentSecurityPolicy = (nonce) =>
     "frame-ancestors 'none'",
     "manifest-src 'self'",
     "worker-src 'self' blob:",
-    "frame-src 'none'",
+    `frame-src ${frameSrc.join(" ")}`,
   ].join("; ");
+};
 
 /**
  * @param {string} nonce
  * @returns {ReadonlyArray<SecurityHeader>}
  */
-export const createSecurityHeaders = (nonce) =>
+export const createSecurityHeaders = (nonce, options) =>
   Object.freeze([
     Object.freeze({
       key: "Content-Security-Policy",
-      value: createContentSecurityPolicy(nonce),
+      value: createContentSecurityPolicy(nonce, options),
     }),
     ...baseSecurityHeaders,
   ]);
