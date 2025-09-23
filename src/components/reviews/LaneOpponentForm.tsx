@@ -66,10 +66,10 @@ function LaneOpponentForm(
   );
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="mb-2">
+    <div className="flex flex-col gap-[var(--space-2)]">
+      <div className="mb-[var(--space-2)]">
         <div className="relative">
-          <Target className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Target className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
           <Input
             ref={laneRef}
             name="lane"
@@ -83,7 +83,7 @@ function LaneOpponentForm(
                 go(opponentRef);
               }
             }}
-            className="pl-6"
+            className="pl-[var(--space-6)]"
             placeholder="Ashe/Lulu"
             aria-label="Lane (used as Title)"
           />
@@ -93,7 +93,7 @@ function LaneOpponentForm(
       <div>
         <SectionLabel id={opponentLabelId}>Opponent</SectionLabel>
         <div className="relative">
-          <Shield className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Shield className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
           <Input
             ref={opponentRef}
             name="opponent"
@@ -107,7 +107,7 @@ function LaneOpponentForm(
               }
             }}
             placeholder="Draven/Thresh"
-            className="pl-6"
+            className="pl-[var(--space-6)]"
             aria-labelledby={opponentLabelId}
           />
         </div>

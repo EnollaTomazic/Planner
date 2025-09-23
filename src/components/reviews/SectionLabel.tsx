@@ -16,14 +16,14 @@ export default function SectionLabel<T extends React.ElementType = "h3">({
   const Component = as ?? "h3";
 
   return (
-    <div className="mb-2 flex items-center gap-2">
+    <div className="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]">
       <Component
         className={cn("text-ui tracking-wide text-muted-foreground", className)}
         {...props}
       >
         {children}
       </Component>
-      <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
+      <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
     </div>
   );
 }

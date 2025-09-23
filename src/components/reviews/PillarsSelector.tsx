@@ -116,7 +116,7 @@ function PillarsSelector(
   return (
     <div>
       <SectionLabel>Pillars</SectionLabel>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-[var(--space-2)]">
         {ALL_PILLARS.map((p) => {
           const active = pillars.includes(p);
           return (
