@@ -61,8 +61,8 @@ function ResultScoreSection(
     transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
     "--result-indicator-gradient":
       result === "Win"
-        ? "linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18))"
-        : "linear-gradient(90deg, hsl(var(--danger)/0.24), hsl(var(--primary)/0.20))",
+        ? "var(--review-result-win-gradient)"
+        : "var(--review-result-loss-gradient)",
   };
 
   return (
@@ -98,7 +98,7 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style={resultIndicatorStyle}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">

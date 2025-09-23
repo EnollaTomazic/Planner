@@ -18,7 +18,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             class="mb-[var(--space-2)]"
           >
             <div
-              class="mb-2 flex items-center gap-2"
+              class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
             >
               <h3
                 class="text-ui tracking-wide text-muted-foreground"
@@ -27,7 +27,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 Lane
               </h3>
               <div
-                class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+                class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
               />
             </div>
             <div
@@ -283,17 +283,17 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
           </div>
           <div
-            class="flex flex-col gap-2"
+            class="flex flex-col gap-[var(--space-2)]"
           >
             <div
-              class="mb-2"
+              class="mb-[var(--space-2)]"
             >
               <div
                 class="relative"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-target pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  class="lucide lucide-target pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -324,7 +324,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
@@ -342,7 +342,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <div>
               <div
-                class="mb-2 flex items-center gap-2"
+                class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
               >
                 <h3
                   class="text-ui tracking-wide text-muted-foreground"
@@ -351,7 +351,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   Opponent
                 </h3>
                 <div
-                  class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+                  class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
                 />
               </div>
               <div
@@ -359,7 +359,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-shield pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  class="lucide lucide-shield pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -378,7 +378,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-6"
+                    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
                     style="--field-h: var(--control-h-md);"
                   >
                     <input
@@ -406,7 +406,7 @@ exports[`ReviewEditor > renders default state 1`] = `
     >
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -415,7 +415,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             Result
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <button
@@ -428,8 +428,8 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <span
             aria-hidden="true"
-            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
-            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); --result-indicator-gradient: linear-gradient(90deg, hsl(var(--success)/0.22), hsl(var(--accent)/0.18));"
+            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); --result-indicator-gradient: var(--review-result-win-gradient);"
           />
           <div
             class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
@@ -449,7 +449,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -458,7 +458,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             Score
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <div
@@ -768,7 +768,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -776,11 +776,11 @@ exports[`ReviewEditor > renders default state 1`] = `
             Pillars
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <div
-          class="flex flex-wrap gap-2"
+          class="flex flex-wrap gap-[var(--space-2)]"
         >
           <button
             aria-pressed="false"
@@ -1582,7 +1582,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -1590,7 +1590,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             Timestamps
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <div
@@ -2052,7 +2052,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -2061,7 +2061,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             Tags
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <div
@@ -2149,7 +2149,7 @@ exports[`ReviewEditor > renders default state 1`] = `
       </div>
       <div>
         <div
-          class="mb-2 flex items-center gap-2"
+          class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
@@ -2158,7 +2158,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             Notes
           </h3>
           <div
-            class="h-px flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+            class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
           />
         </div>
         <div

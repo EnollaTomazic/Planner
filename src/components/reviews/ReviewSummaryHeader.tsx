@@ -33,8 +33,8 @@ export default function ReviewSummaryHeader({
         "inline-flex h-[var(--control-h-md)] items-center rounded-card r-card-lg border px-[var(--space-3)] text-ui font-medium",
         "border-border bg-card",
         result === "Win"
-          ? "shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/.35)_inset] bg-gradient-to-r from-success/20 to-accent/16"
-          : "bg-gradient-to-r from-danger/18 to-primary/16",
+          ? "shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/.35)_inset] [background-image:var(--review-result-win-gradient)]"
+          : "[background-image:var(--review-result-loss-gradient)]",
       )}
       aria-label={`Result: ${result}`}
       title={`Result: ${result}`}
