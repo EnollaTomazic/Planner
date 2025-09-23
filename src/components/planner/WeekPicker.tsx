@@ -388,7 +388,7 @@ export default function WeekPicker() {
       dividerTint="primary"
     >
       <WeekPickerShell>
-        <WeekPickerShell.Totals>
+        <WeekPickerShell.Totals slotId="week-range">
           <span className="sr-only" aria-live="polite">
             Week range {rangeLabel}
           </span>
@@ -399,7 +399,7 @@ export default function WeekPicker() {
             </span>
           </span>
         </WeekPickerShell.Totals>
-        <WeekPickerShell.Chips>
+        <WeekPickerShell.Chips slotId="week-days">
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}

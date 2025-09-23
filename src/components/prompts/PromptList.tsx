@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Card } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";

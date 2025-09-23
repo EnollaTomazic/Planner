@@ -1,5 +1,6 @@
 // src/lib/clipboard.ts
 // Shared clipboard helper with textarea fallback.
+"use client";
 
 import { createLogger } from "./logging";
 

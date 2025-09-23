@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import Input from "@/components/ui/primitives/Input";

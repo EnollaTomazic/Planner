@@ -1,3 +1,5 @@
+"use client";
+
 import { persistenceLogger } from "./logging";
 
 export function parseJSON<T>(raw: string | null): T | null {
