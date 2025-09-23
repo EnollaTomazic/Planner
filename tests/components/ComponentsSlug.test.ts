@@ -34,9 +34,17 @@ describe("ComponentsSlug", () => {
   });
 
   it("maps view aliases", () => {
-    const result = resolveComponentsSlug("colors");
-    expect(result).toMatchObject({ view: "tokens" });
-    expect(result?.section).toBeUndefined();
+    const colorsResult = resolveComponentsSlug("colors");
+    expect(colorsResult).toMatchObject({ view: "tokens", viewExplicit: true });
+    expect(colorsResult?.section).toBeUndefined();
+
+    const stylesResult = resolveComponentsSlug("styles");
+    expect(stylesResult).toMatchObject({ view: "tokens", viewExplicit: true });
+    expect(stylesResult?.section).toBeUndefined();
+
+    const elementsResult = resolveComponentsSlug("elements");
+    expect(elementsResult).toMatchObject({ view: "primitives", viewExplicit: true });
+    expect(elementsResult?.section).toBeUndefined();
   });
 
   it("maps prompts to the components view", () => {
@@ -63,5 +71,7 @@ describe("ComponentsSlug", () => {
     expect(slugs).toContain("button");
     expect(slugs).toContain("action-buttons");
     expect(slugs).toContain("colors");
+    expect(slugs).toContain("styles");
+    expect(slugs).toContain("elements");
   });
 });

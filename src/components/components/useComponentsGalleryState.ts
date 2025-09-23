@@ -116,6 +116,29 @@ export function useComponentsGalleryState({
     [viewOrder],
   );
 
+  const mapView = React.useCallback(
+    (raw: string | null): ComponentsView | null => {
+      if (!raw) {
+        return null;
+      }
+      const normalized = raw.trim().toLowerCase();
+      if (!normalized) {
+        return null;
+      }
+      if (normalized === "elements") {
+        return "primitives";
+      }
+      if (normalized === "styles" || normalized === "colors") {
+        return "tokens";
+      }
+      if ((viewOrder as readonly string[]).includes(normalized as ComponentsView)) {
+        return normalized as ComponentsView;
+      }
+      return null;
+    },
+    [viewOrder],
+  );
+
   const navSectionEntries = React.useMemo(
     () => groups.flatMap((group) => group.sections),
     [groups],
@@ -173,12 +196,9 @@ export function useComponentsGalleryState({
       if (rawView === null) {
         return true;
       }
-      if (rawView === "colors") {
-        return false;
-      }
-      return !(viewOrder as readonly string[]).includes(rawView);
+      return mapView(rawView) === null;
     },
-    [viewOrder],
+    [mapView],
   );
 
   const fallbackCopy = React.useMemo<GalleryHeroCopy>(() => {
@@ -195,15 +215,13 @@ export function useComponentsGalleryState({
 
   const normalizeView = React.useCallback(
     (value: string | null): ComponentsView => {
-      if (value === "colors") {
-        return "tokens";
-      }
-      if (value && (viewOrder as readonly string[]).includes(value)) {
-        return value as ComponentsView;
+      const mapped = mapView(value);
+      if (mapped) {
+        return mapped;
       }
       return defaultView;
     },
-    [defaultView, viewOrder],
+    [defaultView, mapView],
   );
 
   const normalizeSection = React.useCallback(

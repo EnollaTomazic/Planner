@@ -118,6 +118,32 @@ describe("useComponentsGalleryState", () => {
     });
   });
 
+  it("normalizes elements and styles view aliases", () => {
+    searchParamsString = new URLSearchParams({
+      section: "buttons",
+      view: "elements",
+    }).toString();
+    const elementsHook = renderHook(() =>
+      useComponentsGalleryState({
+        navigation,
+      }),
+    );
+    expect(elementsHook.result.current.view).toBe("primitives");
+    elementsHook.unmount();
+
+    searchParamsString = new URLSearchParams({
+      section: "buttons",
+      view: "styles",
+    }).toString();
+    const stylesHook = renderHook(() =>
+      useComponentsGalleryState({
+        navigation,
+      }),
+    );
+    expect(stylesHook.result.current.view).toBe("tokens");
+    stylesHook.unmount();
+  });
+
   it("omits the question mark when all query params are cleared", () => {
     expect(formatQueryWithHash("", undefined)).toBe("");
     expect(formatQueryWithHash("", "")).toBe("");
