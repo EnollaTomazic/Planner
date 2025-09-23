@@ -29,7 +29,7 @@ export default function DemoHeader({
   onFruitChange: (f: string) => void;
 }) {
   return (
-    <div className="mb-8 space-y-4">
+    <div className="mb-[var(--space-6)] space-y-[var(--space-4)]">
       <Header
         heading="Header"
         sticky={false}
@@ -52,7 +52,7 @@ export default function DemoHeader({
           onChange={onFruitChange}
         />
       </div>
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-[var(--space-4)]">
         <ReviewSummaryHeader title="Demo Review" role={role} result="Win" />
         <ReviewSummaryScore
           score={DEMO_SCORE}
@@ -61,7 +61,7 @@ export default function DemoHeader({
           scoreIconCls={demoScoreCls}
         />
       </div>
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-[var(--space-4)]">
         {NEON_ICONS.map(({ kind, on }) => (
           <NeonIcon key={kind} kind={kind} on={on} />
         ))}
