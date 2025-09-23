@@ -26,6 +26,12 @@
     --team-glitch-accent-color: hsl(var(--accent) / 0.35);
     --team-glitch-accent-blur: var(--spacing-0-5);
     --team-glitch-accent-shadow: 0 0 var(--team-glitch-accent-blur) var(--team-glitch-accent-color);
+    --font-sans-fallback: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    --font-mono-fallback: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+    --font-sans: var(--font-sans-fallback);
+    --font-mono: var(--font-mono-fallback);
     --icon-size-xs: calc(var(--space-4) - var(--spacing-0-5));
     --icon-size-sm: var(--space-4);
     --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
@@ -42,6 +48,14 @@
     --content-viewport-height: calc(
       var(--viewport-height) - var(--header-stack) - var(--space-6)
     );
+    font-family: var(--font-sans), var(--font-sans-fallback);
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono), var(--font-mono-fallback);
   }
 
   @media (min-width: 48rem) {
