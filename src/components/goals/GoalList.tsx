@@ -197,7 +197,7 @@ export default function GoalList({
                       <span
                         aria-hidden
                         className={[
-                          "h-2 w-2 rounded-full transition-all",
+                          "h-[var(--space-2)] w-[var(--space-2)] rounded-full transition-all",
                           g.done
                             ? "bg-muted-foreground/40"
                             : "bg-accent shadow-ring motion-safe:animate-pulse",
