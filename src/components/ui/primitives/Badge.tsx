@@ -44,7 +44,7 @@ const sizeMap: Record<Size, string> = {
 const toneBorder: Record<Tone, string> = {
   neutral: "border-card-hairline",
   primary: "border-ring",
-  accent: "border-[var(--accent-overlay)]",
+  accent: "border-accent-overlay",
   top: "border-tone-top",
   jungle: "border-tone-jg",
   mid: "border-tone-mid",
