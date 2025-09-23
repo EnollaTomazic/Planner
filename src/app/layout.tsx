@@ -5,6 +5,11 @@ import "./themes.css";
 
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import {
+  geistMonoVariable,
+  geistSansClassName,
+  geistSansVariable,
+} from "./fonts";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -59,7 +64,9 @@ export default async function RootLayout({
           src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
         />
       </head>
-      <body className="min-h-screen bg-background text-foreground glitch-root">
+      <body
+        className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
+      >
         <a
           className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-[var(--dur-quick)] ease-[var(--ease-out)] opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
           href="#main-content"
