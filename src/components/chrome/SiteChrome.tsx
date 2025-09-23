@@ -10,13 +10,17 @@ import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
 import Link from "next/link";
 
+export type SiteChromeProps = {
+  children?: React.ReactNode;
+};
+
 /**
  * SiteChrome — sticky top bar with Lavender-Glitch hairline
  * - Uses .sticky-blur (backdrop + border) from globals.css
  * - Full-width container; content constrained by .page-shell
  * - Z-index > heroes, so it stays above scrolling headers
  */
-export default function SiteChrome({ children }: React.PropsWithChildren) {
+export default function SiteChrome({ children }: SiteChromeProps) {
   return (
     <React.Fragment>
       <header role="banner" className="sticky top-0 z-50 sticky-blur">
