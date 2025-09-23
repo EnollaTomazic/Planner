@@ -64,8 +64,12 @@ function ButtonGalleryPreview() {
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        <Button tone="primary">Primary tone</Button>
-        <Button tone="accent">Accent tone</Button>
+        <Button tone="primary" variant="primary">
+          Primary tone
+        </Button>
+        <Button tone="accent" variant="primary">
+          Accent tone
+        </Button>
         <Button tone="info" variant="ghost">
           Info ghost
         </Button>
@@ -163,8 +167,12 @@ export default defineGallerySection({
       })),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
-    <Button tone="primary">Primary tone</Button>
-    <Button tone="accent">Accent tone</Button>
+    <Button tone="primary" variant="primary">
+      Primary tone
+    </Button>
+    <Button tone="accent" variant="primary">
+      Accent tone
+    </Button>
     <Button tone="info" variant="ghost">
       Info ghost
     </Button>
