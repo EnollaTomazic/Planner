@@ -9,7 +9,7 @@ const spacingRe = /(p|gap)-\[[^\]]*px\]/;
 const stylePxRe = /style={{[^}]*\d+px/;
 const radiusRe = /rounded-(sm|md|lg|xl|2xl|\[[^\]]+\])/;
 const borderRe = /border-(\d+)/g;
-const outlineRe = /outline-[^\s'"`]+/;
+const outlineRe = /(?:outline-[^\s'"`]+|\[outline:[^\]]+\]|outline\s*:)/;
 const ringRe = /ring(?:-[^\s'"`]+)?/g;
 const rawElementRe = /<(button|input)(\s|>)/;
 
