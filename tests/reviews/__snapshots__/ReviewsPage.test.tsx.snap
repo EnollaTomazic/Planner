@@ -247,221 +247,202 @@ exports[`ReviewsPage > renders default state 1`] = `
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div
-          class="group/hero-slots relative z-[1] isolate w-full grid grid-cols-1 mt-[var(--space-6)] md:mt-[var(--space-7)] pt-[var(--space-5)] md:pt-[var(--space-6)] gap-[var(--space-3)] md:gap-[var(--space-4)] md:grid-cols-12 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--hero-slot-divider,var(--ring)))] before:opacity-60 before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--hero-slot-divider,var(--ring)))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']"
-          data-align="center"
-          role="group"
-        >
-          <div
-            aria-label="Search reviews"
-            class="group/hero-slot relative isolate flex min-w-0 flex-col md:col-span-7 md:justify-self-center"
-            data-slot="search"
-            role="group"
-          >
-            <div
-              class="relative z-[1] flex w-full min-w-0 flex-col"
-            >
-              <form
-                class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full min-w-0 rounded-full flex-1"
-                role="search"
-              >
                 <div
-                  class="min-w-0"
+                  class="relative z-[2] mt-[var(--space-4)] md:mt-[var(--space-5)] flex flex-col gap-[var(--space-4)] md:gap-[var(--space-5)]"
                 >
                   <div
-                    class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
+                    class=""
                   >
                     <div
-                      class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
-                      style="--field-h: var(--control-h-md);"
+                      class="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <form
+                        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none w-full flex-1 min-w-0 rounded-full md:col-span-8"
+                        role="search"
                       >
-                        <path
-                          d="m21 21-4.34-4.34"
-                        />
-                        <circle
-                          cx="11"
-                          cy="11"
-                          r="8"
-                        />
-                      </svg>
-                      <input
-                        aria-label="Search reviews"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none pl-[var(--space-7)]"
-                        placeholder="Search title, tags, opponent, patch…"
-                        spellcheck="false"
-                        type="search"
-                        value=""
-                      />
+                        <div
+                          class="min-w-0"
+                        >
+                          <div
+                            class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
+                          >
+                            <div
+                              class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                              style="--field-h: var(--control-h-md);"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-[var(--disabled)] group-data-[loading=true]/field:opacity-[var(--loading)] group-data-[invalid=true]/field:text-danger"
+                                fill="none"
+                                height="24"
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="m21 21-4.34-4.34"
+                                />
+                                <circle
+                                  cx="11"
+                                  cy="11"
+                                  r="8"
+                                />
+                              </svg>
+                              <input
+                                aria-label="Search reviews"
+                                autocapitalize="none"
+                                autocomplete="off"
+                                autocorrect="off"
+                                class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-[var(--loading)] appearance-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none pl-[var(--space-7)]"
+                                placeholder="Search title, tags, opponent, patch…"
+                                spellcheck="false"
+                                type="search"
+                                value=""
+                              />
+                              <button
+                                aria-label="Clear"
+                                class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                tabindex="0"
+                                title="Clear"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="lucide lucide-x"
+                                  fill="none"
+                                  height="24"
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M18 6 6 18"
+                                  />
+                                  <path
+                                    d="m6 6 12 12"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <label
+                        class="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
+                      >
+                        <span
+                          class="text-ui font-medium text-muted-foreground"
+                        >
+                          Sort
+                        </span>
+                        <div
+                          class="glitch-wrap w-full"
+                        >
+                          <div
+                            class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
+                          >
+                            <button
+                              aria-controls=":r1:-listbox"
+                              aria-expanded="false"
+                              aria-haspopup="listbox"
+                              aria-label="Sort reviews"
+                              class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
+                              data-lit="true"
+                              data-open="false"
+                              type="button"
+                            >
+                              <span
+                                class="font-medium _glitchText_843152 text-foreground group-hover:text-foreground"
+                              >
+                                Newest
+                              </span>
+                              <svg
+                                aria-hidden="true"
+                                class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-6)]"
+                                fill="none"
+                                height="24"
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="m6 9 6 6 6-6"
+                                />
+                              </svg>
+                              <span
+                                aria-hidden="true"
+                                class="_gbIris_843152"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="_gbChroma_843152"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="_gbFlicker_843152"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="_gbScan_843152"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </label>
                       <button
-                        aria-label="Clear"
-                        class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                        class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                        style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
                         tabindex="0"
-                        title="Clear"
                         type="button"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-x"
-                          fill="none"
-                          height="24"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <span
+                          class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
+                        />
+                        <span
+                          class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
                         >
-                          <path
-                            d="M18 6 6 18"
-                          />
-                          <path
-                            d="m6 6 12 12"
-                          />
-                        </svg>
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-plus"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5 12h14"
+                            />
+                            <path
+                              d="M12 5v14"
+                            />
+                          </svg>
+                          <span>
+                            New Review
+                          </span>
+                        </span>
                       </button>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div
-            class="hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-[var(--dur-chill)] ease-[var(--ease-out)] motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65 hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)] md:col-span-5 md:justify-self-center"
-            data-slot="actions"
-            role="group"
-          >
-            <div
-              class="relative z-[1] flex w-full min-w-0 flex-col"
-            >
-              <div
-                class="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]"
-              >
-                <label
-                  class="flex w-full flex-col gap-[var(--space-1)] sm:w-auto sm:flex-row sm:items-center sm:gap-[var(--space-2)]"
-                >
-                  <span
-                    class="text-ui font-medium text-muted-foreground"
-                  >
-                    Sort
-                  </span>
-                  <div
-                    class="glitch-wrap w-full sm:w-auto"
-                  >
-                    <div
-                      class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
-                    >
-                      <button
-                        aria-controls=":r1:-listbox"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-label="Sort reviews"
-                        class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
-                        data-lit="true"
-                        data-open="false"
-                        type="button"
-                      >
-                        <span
-                          class="font-medium _glitchText_843152 text-foreground group-hover:text-foreground"
-                        >
-                          Newest
-                        </span>
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-6)]"
-                          fill="none"
-                          height="24"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="m6 9 6 6 6-6"
-                          />
-                        </svg>
-                        <span
-                          aria-hidden="true"
-                          class="_gbIris_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbChroma_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbFlicker_843152"
-                        />
-                        <span
-                          aria-hidden="true"
-                          class="_gbScan_843152"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </label>
-                <button
-                  class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap sm:w-auto shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
-                  style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
-                  />
-                  <span
-                    class="relative z-10 inline-flex items-center gap-[var(--space-2)]"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-plus"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 12h14"
-                      />
-                      <path
-                        d="M12 5v14"
-                      />
-                    </svg>
-                    <span>
-                      New Review
-                    </span>
-                  </span>
-                </button>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </div>
