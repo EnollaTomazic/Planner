@@ -33,9 +33,9 @@ export default function NotFound() {
           heading: "This page does not exist",
           padding: "none",
           actions: (
-            <Link href="/">
-              <Button>Go home</Button>
-            </Link>
+            <Button asChild>
+              <Link href="/">Go home</Link>
+            </Button>
           ),
           children: (
             <p className="text-ui text-muted-foreground">
