@@ -56,6 +56,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
