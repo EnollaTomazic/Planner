@@ -45,10 +45,10 @@ export default function ReviewSummaryHeader({
 
   return (
     <div className="section-h sticky">
-      <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
+      <div className="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]">
         <div className="min-w-0">
-          <div className="mb-1 text-ui font-medium tracking-[0.02em] text-foreground/60">Title</div>
-          <div className="truncate text-title font-semibold tracking-[-0.01em] leading-7 text-foreground/70">
+          <div className="mb-[var(--space-1)] text-ui font-medium tracking-[0.02em] text-foreground/60">Title</div>
+          <div className="truncate text-title font-semibold tracking-[-0.01em] text-foreground/70">
             {title || "Untitled review"}
           </div>
         </div>
@@ -61,7 +61,9 @@ export default function ReviewSummaryHeader({
               )}
               title={roleLabel}
             >
-              {RoleIcon ? <RoleIcon className="h-5 w-5" /> : null}
+              {RoleIcon ? (
+                <RoleIcon className="h-[var(--icon-size-sm)] w-[var(--icon-size-sm)]" />
+              ) : null}
               {roleLabel}
             </span>
           ) : null}
@@ -74,7 +76,7 @@ export default function ReviewSummaryHeader({
               title="Edit review"
               onClick={onEdit}
             >
-              <Pencil className="h-5 w-5" />
+              <Pencil className="h-[var(--icon-size-sm)] w-[var(--icon-size-sm)]" />
             </IconButton>
           ) : null}
         </div>
