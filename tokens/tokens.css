@@ -104,6 +104,16 @@
     hsl(var(--accent-soft) / 0.85),
     hsl(var(--accent-2) / 0.8)
   );
+  --review-result-win-gradient: linear-gradient(
+    90deg,
+    hsl(var(--success) / 0.22),
+    hsl(var(--accent) / 0.18)
+  );
+  --review-result-loss-gradient: linear-gradient(
+    90deg,
+    hsl(var(--danger) / 0.24),
+    hsl(var(--primary) / 0.2)
+  );
   --seg-active-base: hsl(var(--card));
   --shadow: 0 10px 30px hsl(250 30% 2% / 0.35);
   --shadow-dropdown: 0 12px 40px hsl(var(--shadow-color) / 0.55);
