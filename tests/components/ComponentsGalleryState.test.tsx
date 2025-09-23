@@ -2,7 +2,10 @@ import * as React from "react";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { useComponentsGalleryState } from "@/components/components/useComponentsGalleryState";
+import {
+  formatQueryWithHash,
+  useComponentsGalleryState,
+} from "@/components/components/useComponentsGalleryState";
 import type { GalleryNavigationData } from "@/components/gallery/types";
 
 const replaceSpy = vi.fn<(url: string, options?: { scroll: boolean }) => void>();
@@ -91,6 +94,7 @@ describe("useComponentsGalleryState", () => {
   beforeEach(() => {
     searchParamsString = new URLSearchParams({ section: "buttons" }).toString();
     replaceSpy.mockClear();
+    replaceSpy.mockImplementation((_url, _options) => {});
     window.location.hash = "";
   });
 
@@ -112,6 +116,94 @@ describe("useComponentsGalleryState", () => {
         scroll: false,
       });
     });
+  });
+
+  it("omits the question mark when all query params are cleared", () => {
+    expect(formatQueryWithHash("", undefined)).toBe("");
+    expect(formatQueryWithHash("", "")).toBe("");
+    expect(formatQueryWithHash("", "#main")).toBe("#main");
+  });
+
+  it("clears the router URL when removing every query parameter", async () => {
+    const initialParams = new URLSearchParams({ q: "chips" }).toString();
+    searchParamsString = initialParams;
+
+    const updateRouterState = (url: string) => {
+      const [queryPart = "", hashPart] = url.split("#");
+      if (hashPart !== undefined) {
+        window.location.hash = hashPart ? `#${hashPart}` : "";
+      } else {
+        window.location.hash = "";
+      }
+      if (queryPart.startsWith("?")) {
+        searchParamsString = queryPart.slice(1);
+        return;
+      }
+      searchParamsString = queryPart;
+    };
+
+    const { result } = renderHook(() =>
+      useComponentsGalleryState({
+        navigation,
+      }),
+    );
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenCalled();
+    });
+
+    replaceSpy.mockClear();
+    searchParamsString = initialParams;
+    window.location.hash = "";
+
+    replaceSpy.mockImplementation((url, _options) => {
+      updateRouterState(url);
+    });
+
+    act(() => {
+      result.current.setQuery("modal");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("?q=modal", { scroll: false });
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.setQuery("");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("", { scroll: false });
+    });
+
+    expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
+
+    replaceSpy.mockClear();
+    window.location.hash = "#main";
+
+    act(() => {
+      result.current.setQuery("modal");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("?q=modal#main", {
+        scroll: false,
+      });
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.setQuery("");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("#main", { scroll: false });
+    });
+
+    expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
   });
 
   it("defaults to the complex homepage section when section param is missing", () => {
