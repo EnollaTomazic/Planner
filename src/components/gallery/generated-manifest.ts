@@ -2512,7 +2512,7 @@ export const galleryPayload = {
             "slider"
           ],
           "kind": "complex",
-          "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-12\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
+          "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
           "preview": {
             "id": "prompts:reviews:review-slider-track"
           }
@@ -5919,7 +5919,7 @@ export const galleryPayload = {
           "slider"
         ],
         "kind": "complex",
-        "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-12\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
+        "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
         "preview": {
           "id": "prompts:reviews:review-slider-track"
         }

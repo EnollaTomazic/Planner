@@ -212,7 +212,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           label: "ReviewSliderTrack",
           element: (
             <div className="w-56">
-              <ReviewSurface padding="inline" className="relative h-12">
+              <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
                 <ReviewSliderTrack value={7} tone="score" variant="display" />
               </ReviewSurface>
             </div>
