@@ -1376,7 +1376,7 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
 
 function ReviewSliderTrackDemo() {
   return (
-    <ReviewSurface padding="inline" className="relative h-12">
+    <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
       <ReviewSliderTrack value={7} tone="score" variant="input" />
     </ReviewSurface>
   );
@@ -4009,7 +4009,7 @@ React.useEffect(() => {
       ),
       tags: ["review", "slider"],
       code: `<div className="w-[calc(var(--space-8)*3.5)]">
-  <ReviewSurface padding="inline" className="relative h-12">
+  <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
     <ReviewSliderTrack value={7} tone="score" variant="input" />
   </ReviewSurface>
 </div>`,
