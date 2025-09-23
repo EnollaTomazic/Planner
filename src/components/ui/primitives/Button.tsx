@@ -130,18 +130,18 @@ export const toneClasses: Record<
     primary:
       "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)] hover:text-foreground active:text-foreground focus-visible:text-foreground",
     accent:
-      "text-[var(--text-on-accent)] bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
+      "text-on-accent bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
     info:
-      "text-[var(--text-on-accent)] bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
+      "text-on-accent bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
     danger: `${toneInteractionTokens.danger} text-danger-foreground bg-danger/25`,
   },
   ghost: {
     primary:
       "text-foreground bg-card/60 [--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
     accent:
-      "text-[var(--text-on-accent)] bg-accent/20 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
+      "text-on-accent bg-accent/20 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
     info:
-      "text-[var(--text-on-accent)] bg-accent-2/20 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
+      "text-on-accent bg-accent-2/20 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
     danger:
       "text-danger [--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
   },
@@ -177,7 +177,7 @@ export const variants: Record<
         : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
       `border-[hsl(var(${colorVar[tone]})/0.35)]`,
       tone === "accent" || tone === "info"
-        ? "text-[var(--text-on-accent)]"
+        ? "text-on-accent"
         : `text-[hsl(var(${toneForegroundVar[tone]}))]`,
     ),
     whileTap: {

@@ -1770,7 +1770,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')] border-accent/35 text-[var(--text-on-accent)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')] border-accent/35 text-on-accent h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             tabindex="0"
             title="Note-only mode"
             type="button"
