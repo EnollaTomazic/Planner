@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import type { Review } from "@/lib/types";
 import { ts } from "@/lib/date";
