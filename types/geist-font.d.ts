@@ -1,5 +1,5 @@
 declare module "geist/font" {
-  interface GeistFontOptions {
+  export interface GeistFontOptions {
     subsets: string[];
     weight?: string | string[];
     style?: string | string[];
@@ -11,7 +11,7 @@ declare module "geist/font" {
     axes?: string[];
   }
 
-  interface GeistFont {
+  export interface GeistFont {
     className: string;
     variable: string;
     style: {
@@ -21,4 +21,16 @@ declare module "geist/font" {
 
   export function Geist(options: GeistFontOptions): GeistFont;
   export function Geist_Mono(options: GeistFontOptions): GeistFont;
+}
+
+declare module "geist/font/mono" {
+  import type { GeistFont } from "geist/font";
+
+  export const GeistMono: GeistFont;
+}
+
+declare module "geist/font/sans" {
+  import type { GeistFont } from "geist/font";
+
+  export const GeistSans: GeistFont;
 }
