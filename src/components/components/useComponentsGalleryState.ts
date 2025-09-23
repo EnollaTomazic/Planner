@@ -77,6 +77,21 @@ function isKeyboardFocusVisible(element: HTMLElement): boolean {
   );
 }
 
+export function formatQueryWithHash(
+  queryString: string,
+  hash: string | undefined,
+): string {
+  const hasQuery = queryString.length > 0;
+  const queryPrefix = hasQuery ? `?${queryString}` : "";
+  if (!hash) {
+    return queryPrefix;
+  }
+  if (!hasQuery) {
+    return hash;
+  }
+  return `${queryPrefix}${hash}`;
+}
+
 export function useComponentsGalleryState({
   navigation,
 }: UseComponentsGalleryStateParams): ComponentsGalleryState {
@@ -514,12 +529,17 @@ export function useComponentsGalleryState({
 
   const buildQueryWithHash = React.useCallback((next: URLSearchParams) => {
     const queryString = next.toString();
-    const queryPrefix = `?${queryString}`;
+    if (queryString.length === 0) {
+      if (typeof window === "undefined") {
+        return "";
+      }
+      return formatQueryWithHash("", window.location.hash);
+    }
     if (typeof window === "undefined") {
-      return queryPrefix;
+      return formatQueryWithHash(queryString, undefined);
     }
     const hash = window.location.hash;
-    return hash ? `${queryPrefix}${hash}` : queryPrefix;
+    return formatQueryWithHash(queryString, hash);
   }, []);
 
   React.useEffect(() => {
