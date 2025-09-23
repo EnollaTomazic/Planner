@@ -18,6 +18,7 @@ export const colorTokens = [
   "bg-accent-foreground",
   "bg-accent-soft",
   "bg-accent-overlay",
+  "bg-on-accent",
   "bg-accent-3",
   "bg-accent-2",
   "bg-accent-2-foreground",

@@ -30,14 +30,14 @@ describe("Button", () => {
         "[--active:theme('colors.interaction.primary.active')]",
       ],
       accent: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-[hsl(var(--accent)/0.12)]",
         "border-[hsl(var(--accent)/0.35)]",
         "[--hover:theme('colors.interaction.accent.hover')]",
         "[--active:theme('colors.interaction.accent.active')]",
       ],
       info: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-[hsl(var(--accent-2)/0.12)]",
         "border-[hsl(var(--accent-2)/0.35)]",
         "[--hover:theme('colors.interaction.info.hover')]",
@@ -54,13 +54,13 @@ describe("Button", () => {
     secondary: {
       primary: ["text-muted-foreground", "bg-panel/60"],
       accent: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-accent/30",
         "[--hover:hsl(var(--accent)/0.25)]",
         "[--active:hsl(var(--accent)/0.2)]",
       ],
       info: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-accent-2/25",
         "[--hover:hsl(var(--accent-2)/0.2)]",
         "[--active:hsl(var(--accent-2)/0.15)]",
@@ -75,13 +75,13 @@ describe("Button", () => {
     ghost: {
       primary: ["text-foreground"],
       accent: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-accent/20",
         "[--hover:theme('colors.interaction.accent.surfaceHover')]",
         "[--active:theme('colors.interaction.accent.surfaceActive')]",
       ],
       info: [
-        "text-[var(--text-on-accent)]",
+        "text-on-accent",
         "bg-accent-2/20",
         "[--hover:theme('colors.interaction.info.surfaceHover')]",
         "[--active:theme('colors.interaction.info.surfaceActive')]",

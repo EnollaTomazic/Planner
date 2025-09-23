@@ -114,20 +114,20 @@ const variantBase: Record<Variant, (tone: Tone) => string> = {
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ghost: {
     primary: "border-line/35 text-foreground",
-    accent: "border-accent/35 text-[var(--text-on-accent)]",
-    info: "border-accent-2/35 text-[var(--text-on-accent)]",
+    accent: "border-accent/35 text-on-accent",
+    info: "border-accent-2/35 text-on-accent",
     danger: "border-danger/35 text-danger",
   },
   primary: {
     primary: "border-transparent bg-foreground/15 text-foreground",
-    accent: "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
-    info: "border-transparent bg-accent-2/30 text-[var(--text-on-accent)]",
+    accent: "border-transparent bg-accent/30 text-on-accent",
+    info: "border-transparent bg-accent-2/30 text-on-accent",
     danger: "border-transparent bg-danger/20 text-danger-foreground",
   },
   secondary: {
     primary: "border-foreground/35 text-foreground",
-    accent: "border-accent/35 text-[var(--text-on-accent)]",
-    info: "border-accent-2/35 text-[var(--text-on-accent)]",
+    accent: "border-accent/35 text-on-accent",
+    info: "border-accent-2/35 text-on-accent",
     danger: "border-danger/35 text-danger",
   },
 };

@@ -51,6 +51,9 @@ const config: Config = {
           soft: "hsl(var(--accent-soft))",
           overlay: "var(--accent-overlay)",
         },
+        on: {
+          accent: "hsl(var(--text-on-accent))",
+        },
         "accent-3": {
           DEFAULT: "hsl(var(--accent-3))",
         },

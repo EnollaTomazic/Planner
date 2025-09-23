@@ -110,7 +110,7 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain(
-      "border-transparent bg-accent/30 text-[var(--text-on-accent)]",
+      "border-transparent bg-accent/30 text-on-accent",
     );
     expect(classes).toContain(
       "[--hover:theme('colors.interaction.accent.surfaceHover')]",
@@ -135,7 +135,7 @@ describe("IconButton", () => {
       "[--active:theme('colors.interaction.info.tintActive')]",
     );
     expect(classes).toContain(
-      "border-accent-2/35 text-[var(--text-on-accent)]",
+      "border-accent-2/35 text-on-accent",
     );
   });
 
