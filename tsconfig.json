@@ -32,7 +32,6 @@
     },
     "types": [
       "vitest/globals",
-      "styled-jsx",
       "react",
       "node"
     ],

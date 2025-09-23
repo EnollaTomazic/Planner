@@ -3,7 +3,6 @@ import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
 
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import SiteChrome from "@/components/chrome/SiteChrome";
@@ -12,6 +11,7 @@ import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
+import StyledJsxRegistry from "@/lib/styled-jsx-registry";
 
 export const metadata: Metadata = {
   title: {
@@ -27,11 +27,6 @@ export const metadata: Metadata = {
  * - Falls back to system preference
  * - Applies appropriate theme classes
  */
-const htmlStyle = {
-  "--asset-noise-url": `url('${withBasePath("/noise.svg")}')`,
-  "--asset-glitch-gif-url": `url('${withBasePath("/glitch-gif.gif")}')`,
-} as CSSProperties;
-
 export default async function RootLayout({
   children,
 }: {
@@ -54,7 +49,6 @@ export default async function RootLayout({
       lang="en"
       className="theme-lg"
       suppressHydrationWarning
-      style={htmlStyle}
     >
       <head>
         <Script
@@ -71,7 +65,8 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider>
+        <StyledJsxRegistry nonce={nonce}>
+          <ThemeProvider>
           <div aria-hidden className="page-backdrop">
             <div className="page-shell">
               <div className="page-backdrop__layer" />
@@ -93,7 +88,8 @@ export default async function RootLayout({
               </PageShell>
             </footer>
           </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </StyledJsxRegistry>
       </body>
     </html>
   );

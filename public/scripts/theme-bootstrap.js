@@ -64,6 +64,33 @@
     const cl = document.documentElement.classList;
     const dataset = document.documentElement.dataset;
     const style = document.documentElement.style;
+
+    function resolveAssetPath(relativePath) {
+      try {
+        const current = document.currentScript;
+        if (current && current.src) {
+          return new URL(relativePath, current.src).pathname;
+        }
+      } catch {
+        // ignore and fall through
+      }
+      try {
+        return new URL(relativePath, window.location.href).pathname;
+      } catch {
+        return relativePath.startsWith("/")
+          ? relativePath
+          : "/" + relativePath.replace(/^\.\/+/u, "");
+      }
+    }
+
+    style.setProperty(
+      "--asset-noise-url",
+      "url('" + resolveAssetPath("../noise.svg") + "')",
+    );
+    style.setProperty(
+      "--asset-glitch-gif-url",
+      "url('" + resolveAssetPath("../glitch-gif.gif") + "')",
+    );
     resetThemeClasses(cl);
     cl.add("theme-" + data.variant);
 
