@@ -74,6 +74,13 @@ const config: Config = {
           glow: "hsl(var(--success-glow))",
           soft: "hsl(var(--success-soft))",
         },
+        tone: {
+          top: "hsl(var(--tone-top))",
+          jg: "hsl(var(--tone-jg))",
+          mid: "hsl(var(--tone-mid))",
+          bot: "hsl(var(--tone-bot))",
+          sup: "hsl(var(--tone-sup))",
+        },
         "aurora-g": "hsl(var(--aurora-g))",
         "aurora-g-light": "hsl(var(--aurora-g-light))",
         "aurora-p": "hsl(var(--aurora-p))",
