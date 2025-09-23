@@ -7,6 +7,7 @@ export { default as Skeleton } from "./feedback/Skeleton";
 export * from "./feedback/Skeleton";
 export { default as Snackbar } from "./feedback/Snackbar";
 export { default as Spinner } from "./feedback/Spinner";
+export * from "./feedback/Spinner";
 export * from "./hooks/useDialogTrap";
 export { default as Label } from "./Label";
 export * from "./Label";
