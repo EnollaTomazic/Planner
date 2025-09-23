@@ -50,6 +50,7 @@ export default function PromptsHeader({
         frame: false,
         sticky: false,
         tone: "supportive",
+        padding: "none",
         topClassName: "top-[var(--header-stack)]",
         heading: (
           <span className="sr-only" id={`${id}-hero`}>

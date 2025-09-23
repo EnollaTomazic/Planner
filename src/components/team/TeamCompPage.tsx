@@ -271,6 +271,7 @@ export default function TeamCompPage() {
         frame: false,
         sticky: true,
         topClassName: "top-[var(--header-stack)]",
+        padding: "none",
         eyebrow: active?.label,
         heading: "Comps",
         subtitle:
@@ -422,6 +423,7 @@ export default function TeamCompPage() {
       sticky: false,
       topClassName: "top-[var(--header-stack)]",
       rail: true,
+      padding: "none",
       heading: "Clear Speed Buckets",
       dividerTint: "primary",
       search: {
