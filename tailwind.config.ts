@@ -49,6 +49,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
           soft: "hsl(var(--accent-soft))",
+          overlay: "hsl(var(--accent-overlay))",
         },
         "accent-3": {
           DEFAULT: "hsl(var(--accent-3))",

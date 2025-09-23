@@ -53,7 +53,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Accent Overlay Box",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-overlay)] text-accent-foreground">
+            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-accent-overlay text-accent-foreground">
               Overlay
             </div>
           ),
