@@ -133,7 +133,7 @@ function PropsTable({
     >
       <SectionHeading id={headingId}>Props</SectionHeading>
       <div
-        className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] shadow-[var(--shadow-inset-hairline)]"
+        className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] shadow-[var(--shadow-inset-hairline)]"
       >
         <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
           <thead>
@@ -203,7 +203,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
         {axes.map((axis) => (
           <article
             key={axis.id}
-            className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+            className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
           >
             <div className="space-y-[var(--space-1)]">
               <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
@@ -374,7 +374,7 @@ function UsedOnSection({
     >
       <SectionHeading id={headingId}>Used on</SectionHeading>
       {hasSpecificSurfaces ? (
-        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div
             className={cn(
               "space-y-[var(--space-4)]",
@@ -404,7 +404,7 @@ function UsedOnSection({
           </div>
         </div>
       ) : (
-        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
+        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
           <div className="flex flex-wrap gap-[var(--space-2)]">
             <Badge tone="support" size="md" className="text-muted-foreground">
               Global
@@ -445,7 +445,7 @@ function StatesSection({
     >
       <SectionHeading id={headingId}>States</SectionHeading>
       {stateAxes.length > 0 ? (
-        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-1)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div className="grid gap-[var(--space-3)] md:grid-cols-2">
             {stateAxes.map((axis) => (
               <div key={axis.id} className="space-y-[var(--space-2)]">
