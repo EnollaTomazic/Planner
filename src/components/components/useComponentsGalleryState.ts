@@ -529,16 +529,10 @@ export function useComponentsGalleryState({
 
   const buildQueryWithHash = React.useCallback((next: URLSearchParams) => {
     const queryString = next.toString();
+    const hash = typeof window === "undefined" ? undefined : window.location.hash;
     if (queryString.length === 0) {
-      if (typeof window === "undefined") {
-        return "";
-      }
-      return formatQueryWithHash("", window.location.hash);
+      return hash ?? "";
     }
-    if (typeof window === "undefined") {
-      return formatQueryWithHash(queryString, undefined);
-    }
-    const hash = window.location.hash;
     return formatQueryWithHash(queryString, hash);
   }, []);
 

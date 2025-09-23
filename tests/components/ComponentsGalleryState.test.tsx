@@ -204,6 +204,74 @@ describe("useComponentsGalleryState", () => {
     });
 
     expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
+
+    replaceSpy.mockClear();
+    window.location.hash = "";
+
+    act(() => {
+      result.current.handleViewChange("complex");
+    });
+
+    await waitFor(() => {
+      expect(result.current.view).toBe("complex");
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.setQuery("chips");
+    });
+
+    await waitFor(() => {
+      expect(result.current.query).toBe("chips");
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.handleViewChange("primitives");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenCalled();
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.setQuery("");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("", { scroll: false });
+    });
+
+    expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
+
+    replaceSpy.mockClear();
+    window.location.hash = "#gallery";
+
+    act(() => {
+      result.current.setQuery("modal");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("?q=modal#gallery", {
+        scroll: false,
+      });
+    });
+
+    replaceSpy.mockClear();
+
+    act(() => {
+      result.current.setQuery("");
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenLastCalledWith("#gallery", { scroll: false });
+    });
+
+    expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
   });
 
   it("defaults to the complex homepage section when section param is missing", () => {
