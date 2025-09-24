@@ -65,11 +65,11 @@ describe("UseSelection", () => {
 
     let pid = "";
     act(() => {
-      pid = result.current.planner.addProject("Proj");
+      pid = result.current.planner.addProject("Proj")!;
     });
     let tid = "";
     act(() => {
-      tid = result.current.planner.addTask("Task", pid);
+      tid = result.current.planner.addTask("Task", pid)!;
     });
 
     expect(result.current.selectedProject).toBe("");
@@ -120,11 +120,11 @@ describe("UseSelection", () => {
 
     let projectId = "";
     act(() => {
-      projectId = result.current.planner.addProject("Project");
+      projectId = result.current.planner.addProject("Project")!;
     });
     let taskId = "";
     act(() => {
-      taskId = result.current.planner.addTask("Task", projectId);
+      taskId = result.current.planner.addTask("Task", projectId)!;
     });
 
     await waitFor(() => {
@@ -156,7 +156,7 @@ describe("UseSelection", () => {
     expect(selectionSetSpy.mock.calls.length).toBe(baseCalls + 1);
 
     act(() => {
-      projectId = result.current.planner.addProject("Next Project");
+      projectId = result.current.planner.addProject("Next Project")!;
     });
 
     act(() => result.current.setSelectedProject(projectId));
@@ -178,7 +178,7 @@ describe("UseSelection", () => {
     expect(selectionSetSpy.mock.calls.length).toBe(projectCleanupCalls + 1);
 
     act(() => {
-      projectId = result.current.planner.addProject("Final Project");
+      projectId = result.current.planner.addProject("Final Project")!;
     });
 
     act(() => result.current.setSelectedProject(projectId));

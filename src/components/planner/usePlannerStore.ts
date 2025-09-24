@@ -184,6 +184,7 @@ export function usePlannerActions() {
       const trimmed = name.trim();
       if (!trimmed) return;
       const id = makeCrud(iso, upsertDay).addProject(trimmed);
+      if (!id) return;
       select?.(id);
       return id;
     },
@@ -196,6 +197,7 @@ export function usePlannerActions() {
       const trimmed = title.trim();
       if (!trimmed) return;
       const id = makeCrud(iso, upsertDay).addTask(trimmed, projectId);
+      if (!id) return;
       select?.(id);
       return id;
     },

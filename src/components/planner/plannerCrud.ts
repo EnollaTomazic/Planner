@@ -25,8 +25,10 @@ export function setFocus(day: DayRecord, focus: string): DayRecord {
 
 export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const addProject = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return undefined;
     const id = uid("proj");
-    upsertDay(iso, (d) => dayAddProject(d, id, name));
+    upsertDay(iso, (d) => dayAddProject(d, id, trimmed));
     return id;
   };
 
@@ -40,8 +42,10 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     upsertDay(iso, (d) => dayRemoveProject(d, id));
 
   const addTask = (title: string, projectId?: string) => {
+    const trimmed = title.trim();
+    if (!trimmed) return undefined;
     const id = uid("task");
-    upsertDay(iso, (d) => dayAddTask(d, id, title, projectId));
+    upsertDay(iso, (d) => dayAddTask(d, id, trimmed, projectId));
     return id;
   };
 

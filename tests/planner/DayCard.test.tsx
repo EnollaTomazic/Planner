@@ -41,7 +41,7 @@ describe("DayCard", () => {
 
     let pid = "";
     act(() => {
-      pid = harnessRef.current!.day.addProject("Proj");
+      pid = harnessRef.current!.day.addProject("Proj")!;
     });
 
     await waitFor(() => {
