@@ -4,14 +4,30 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Button, PageShell } from "@/components/ui";
 
-type RouteError = Error & { digest?: string };
+export type RouteError = Error & { digest?: string };
 
-type ErrorBoundaryProps = {
+export type RouteErrorBoundaryProps = {
   error: RouteError;
   reset: () => void;
 };
 
-export default function RouteErrorBoundary({ error, reset }: ErrorBoundaryProps) {
+type RouteErrorContentProps = RouteErrorBoundaryProps & {
+  title: string;
+  description: string;
+  retryLabel?: string;
+  homeLabel?: string;
+  homeHref?: string;
+};
+
+export function RouteErrorContent({
+  error,
+  reset,
+  title,
+  description,
+  retryLabel = "Try again",
+  homeLabel = "Go to dashboard",
+  homeHref = "/",
+}: RouteErrorContentProps) {
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -26,21 +42,29 @@ export default function RouteErrorBoundary({ error, reset }: ErrorBoundaryProps)
       <div className="flex max-w-prose flex-col gap-[var(--space-4)]">
         <div className="space-y-[var(--space-2)]">
           <h1 className="text-display-sm font-semibold text-foreground">
-            Something went wrong
+            {title}
           </h1>
-          <p className="text-body text-muted-foreground">
-            This section hit an error, but the rest of Planner is still running. Try again or return home.
-          </p>
+          <p className="text-body text-muted-foreground">{description}</p>
         </div>
         <div className="flex flex-wrap gap-[var(--space-3)]">
           <Button variant="primary" onClick={reset}>
-            Try again
+            {retryLabel}
           </Button>
           <Button asChild variant="ghost">
-            <Link href="/">Go to dashboard</Link>
+            <Link href={homeHref}>{homeLabel}</Link>
           </Button>
         </div>
       </div>
     </PageShell>
+  );
+}
+
+export default function RouteErrorBoundary(props: RouteErrorBoundaryProps) {
+  return (
+    <RouteErrorContent
+      {...props}
+      title="Something went wrong"
+      description="This section hit an error, but the rest of Planner is still running. Try again or return home."
+    />
   );
 }
