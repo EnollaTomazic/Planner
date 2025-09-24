@@ -90,7 +90,7 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
       <PageShell
         as="header"
         aria-labelledby="home-header"
-        className="pt-[var(--space-6)]"
+        padding={{ top: 6, bottom: 0 }}
       >
         {renderFramedSection(
           <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
@@ -102,7 +102,9 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
         as="section"
         role="region"
         aria-labelledby="home-header"
-        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+        className="mt-[var(--space-6)] md:mt-[var(--space-8)]"
+        padding={{ top: 0, bottom: 6 }}
+        slots={{ root: "md:[--page-shell-block-end:var(--space-8)]" }}
       >
         {renderFramedSection(
           <HeroPlannerCards

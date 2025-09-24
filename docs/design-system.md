@@ -25,8 +25,10 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - Use a 12‑column grid with 24px gutters.
 - Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
 - Wrap page-level content with `.page-shell` or the `<PageShell />` component to get the shared container rhythm: `space-6` on
-  small screens, `space-7` at `md`, and `space-8` at `lg`. Add vertical padding per view instead of redefining horizontal
-  gutters. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides ([tokens.css](../tokens/tokens.css), [globals.css](../src/app/globals.css)).
+  small screens, `space-7` at `md`, and `space-8` at `lg`. Use the component's `padding` prop to pick spacing tokens and the
+  `stack` prop to manage vertical rhythm between sections. `safeArea="top" | "bottom" | "both"` adds viewport insets for
+  notched displays. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides
+  ([tokens.css](../tokens/tokens.css), [globals.css](../src/app/globals.css)).
 - When pairing a hero header with body content, place the hero inside a `<PageShell as="header">` before the `<PageShell as="main">`. The main shell automatically exposes `id="main-content"` so the "Skip to main content" link lands after the header frame.
 
 ## Typography

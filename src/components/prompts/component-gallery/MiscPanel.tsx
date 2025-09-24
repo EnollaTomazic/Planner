@@ -138,8 +138,9 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <PageShell
               grid
-              className="rounded-card border border-border/40 bg-surface/60 py-[var(--space-6)]"
-              contentClassName="items-start"
+              padding={6}
+              className="rounded-card border border-border/40 bg-surface/60"
+              slots={{ content: "items-start" }}
             >
               <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
                 PageShell

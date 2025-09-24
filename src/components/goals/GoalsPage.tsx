@@ -416,7 +416,7 @@ function GoalsPageContent() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header">
         <PageHeader
           header={{
             id: "goals-header",
@@ -452,11 +452,7 @@ function GoalsPageContent() {
         />
       </PageShell>
 
-      <PageShell
-        as="main"
-        aria-labelledby="goals-header"
-        className="py-[var(--space-6)]"
-      >
+      <PageShell as="main" aria-labelledby="goals-header">
         <div className="grid gap-[var(--space-6)]">
           {/* ======= PANELS ======= */}
           <div

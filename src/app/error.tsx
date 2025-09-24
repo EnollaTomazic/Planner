@@ -37,7 +37,7 @@ export function RouteErrorContent({
       as="section"
       role="alert"
       aria-live="assertive"
-      className="py-[var(--space-8)]"
+      padding={8}
     >
       <div className="flex max-w-prose flex-col gap-[var(--space-4)]">
         <div className="space-y-[var(--space-2)]">

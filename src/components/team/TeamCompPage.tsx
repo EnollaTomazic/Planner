@@ -495,8 +495,10 @@ export default function TeamCompPage() {
   return (
     <PageShell
       as="main"
-      className="py-[var(--space-6)] space-y-[var(--space-6)] md:space-y-0 md:grid md:grid-cols-12 md:gap-[var(--space-4)]"
+      stack={6}
       aria-labelledby="teamcomp-header"
+      className="md:grid md:grid-cols-12 md:gap-[var(--space-4)]"
+      slots={{ root: "md:[--page-shell-stack:0px]" }}
     >
       <PageHeader
         containerClassName="md:col-span-12"

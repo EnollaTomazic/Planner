@@ -111,7 +111,10 @@ export default async function RootLayout({
                   role="contentinfo"
                   className="mt-[var(--space-8)] border-t border-border bg-surface"
                 >
-                  <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                  <PageShell
+                    className="flex flex-col gap-[var(--space-1)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between"
+                    padding={5}
+                  >
                     <p className="text-ui font-medium text-foreground">
                       Planner keeps local-first goals organized so every ritual stays actionable.
                     </p>

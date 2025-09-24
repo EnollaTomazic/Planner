@@ -73,7 +73,7 @@ export default function ReviewsPage({
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header">
         <PageHeader
           className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
           contentClassName="space-y-[var(--space-2)]"
@@ -143,11 +143,7 @@ export default function ReviewsPage({
         />
       </PageShell>
 
-      <PageShell
-        as="main"
-        className="py-[var(--space-6)] space-y-[var(--space-6)]"
-        aria-labelledby="reviews-header"
-      >
+      <PageShell as="main" stack={6} aria-labelledby="reviews-header">
         <div
           className={cn(
             "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",

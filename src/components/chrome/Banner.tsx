@@ -34,8 +34,8 @@ export default function Banner({
     >
       <PageShell
         grid
-        className="py-[var(--space-3)]"
-        contentClassName="items-center"
+        padding={3}
+        slots={{ content: "items-center" }}
       >
         {title ? (
           <div className="col-span-full font-mono text-ui text-muted-foreground md:col-span-8 lg:col-span-9">

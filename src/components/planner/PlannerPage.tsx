@@ -81,7 +81,7 @@ function Inner() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header">
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           contentClassName="space-y-[var(--space-2)]"
@@ -117,7 +117,7 @@ function Inner() {
 
       <PageShell
         as="main"
-        className="py-[var(--space-6)] space-y-[var(--space-6)]"
+        stack={6}
         aria-labelledby="planner-header"
       >
         {/* Today + Side column */}

@@ -3,7 +3,10 @@
 exports[`ReviewsPage > renders default state 1`] = `
 <div>
   <header
-    class="page-shell py-[var(--space-6)]"
+    class="page-shell"
+    data-padding-bottom="6"
+    data-padding-top="6"
+    data-stack="0"
   >
     <section>
       <style
@@ -458,7 +461,10 @@ exports[`ReviewsPage > renders default state 1`] = `
   </header>
   <main
     aria-labelledby="reviews-header"
-    class="page-shell py-[var(--space-6)] space-y-[var(--space-6)]"
+    class="page-shell"
+    data-padding-bottom="6"
+    data-padding-top="6"
+    data-stack="6"
     id="main-content"
     tabindex="-1"
   >

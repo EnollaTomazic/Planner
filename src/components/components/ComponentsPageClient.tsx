@@ -83,7 +83,11 @@ export default function ComponentsPageClient({
     <>
       <PageShell
         as="header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+        padding={6}
+        slots={{
+          root:
+            "md:[--page-shell-block-start:var(--space-7)] md:[--page-shell-block-end:var(--space-7)] lg:[--page-shell-block-start:var(--space-8)] lg:[--page-shell-block-end:var(--space-8)]",
+        }}
       >
         <PageHeader
           containerClassName="relative isolate col-span-full"
@@ -222,8 +226,13 @@ export default function ComponentsPageClient({
         as="main"
         grid
         aria-labelledby="components-header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
-        contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]"
+        padding={6}
+        slots={{
+          root:
+            "md:[--page-shell-block-start:var(--space-7)] md:[--page-shell-block-end:var(--space-7)] lg:[--page-shell-block-start:var(--space-8)] lg:[--page-shell-block-end:var(--space-8)]",
+          content:
+            "gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]",
+        }}
       >
         <ComponentsGalleryPanels
           view={view}

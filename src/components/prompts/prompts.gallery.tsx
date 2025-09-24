@@ -2838,11 +2838,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       description:
         "Responsive page container. Enable the grid prop and wrap sections in col-span-* to align to the shell template.",
       element: (
-        <PageShell
-          grid
-          className="py-[var(--space-6)]"
-          contentClassName="items-start"
-        >
+        <PageShell grid padding={6} slots={{ content: "items-start" }}>
           <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
             Page shell content
           </div>
@@ -2857,8 +2853,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       tags: ["layout", "shell"],
       code: `<PageShell
   grid
-  className="py-[var(--space-6)]"
-  contentClassName="items-start"
+  padding={6}
+  slots={{ content: "items-start" }}
 >
   <div className="col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7">
     Page shell content

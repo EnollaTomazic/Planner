@@ -1648,7 +1648,7 @@ export const galleryPayload = {
             "shell"
           ],
           "kind": "component",
-          "code": "<PageShell\n  grid\n  className=\"py-[var(--space-6)]\"\n  contentClassName=\"items-start\"\n>\n  <div className=\"col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7\">\n    Page shell content\n  </div>\n  <div className=\"col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end\">\n    <Button size=\"sm\">Primary</Button>\n    <Button size=\"sm\" variant=\"ghost\">\n      Secondary\n    </Button>\n  </div>\n</PageShell>",
+          "code": "<PageShell\n  grid\n  padding={6}\n  slots={{ content: \"items-start\" }}\n>\n  <div className=\"col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7\">\n    Page shell content\n  </div>\n  <div className=\"col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end\">\n    <Button size=\"sm\">Primary</Button>\n    <Button size=\"sm\" variant=\"ghost\">\n      Secondary\n    </Button>\n  </div>\n</PageShell>",
           "preview": {
             "id": "prompts:layout:page-shell"
           }
@@ -5296,7 +5296,7 @@ export const galleryPayload = {
           "shell"
         ],
         "kind": "component",
-        "code": "<PageShell\n  grid\n  className=\"py-[var(--space-6)]\"\n  contentClassName=\"items-start\"\n>\n  <div className=\"col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7\">\n    Page shell content\n  </div>\n  <div className=\"col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end\">\n    <Button size=\"sm\">Primary</Button>\n    <Button size=\"sm\" variant=\"ghost\">\n      Secondary\n    </Button>\n  </div>\n</PageShell>",
+        "code": "<PageShell\n  grid\n  padding={6}\n  slots={{ content: \"items-start\" }}\n>\n  <div className=\"col-span-full text-label font-semibold tracking-[0.02em] text-muted-foreground md:col-span-7\">\n    Page shell content\n  </div>\n  <div className=\"col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end\">\n    <Button size=\"sm\">Primary</Button>\n    <Button size=\"sm\" variant=\"ghost\">\n      Secondary\n    </Button>\n  </div>\n</PageShell>",
         "preview": {
           "id": "prompts:layout:page-shell"
         }

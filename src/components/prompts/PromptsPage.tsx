@@ -135,7 +135,7 @@ export default function PromptsPage() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header">
         <PromptsHeader
           id="prompts-header"
           count={activeCount}
@@ -146,11 +146,7 @@ export default function PromptsPage() {
         />
       </PageShell>
 
-      <PageShell
-        as="main"
-        className="space-y-[var(--space-6)] py-[var(--space-6)]"
-        aria-labelledby="prompts-header"
-      >
+      <PageShell as="main" stack={6} aria-labelledby="prompts-header">
         <Tabs value={activeTab} onValueChange={setActiveTab} idBase="prompts-tabs">
           <TabList
             items={tabItems}
