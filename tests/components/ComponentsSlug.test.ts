@@ -61,6 +61,14 @@ describe("ComponentsSlug", () => {
     });
   });
 
+  it("resolves complex sections when the slug matches a group", () => {
+    const result = resolveComponentsSlug("components");
+    expect(result).toMatchObject({
+      section: "components",
+      view: "complex",
+    });
+  });
+
   it("returns null for unknown slugs", () => {
     expect(resolveComponentsSlug("unknown")).toBeNull();
   });
