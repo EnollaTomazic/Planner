@@ -84,5 +84,6 @@ export interface PlannerOverviewProps {
 
 export interface HomeHeroSectionProps {
   variant: Variant;
-  actions: ReactNode;
+  actions?: ReactNode;
+  headingId: string;
 }

@@ -9,12 +9,17 @@ import {
   useHomePlannerOverview,
 } from "@/components/home";
 import type { HeroPlannerHighlight } from "@/components/home";
-import { PageShell, Button, ThemeToggle, Spinner } from "@/components/ui";
+import {
+  PageShell,
+  Button,
+  ThemeToggle,
+  Spinner,
+  SectionCard,
+} from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import type { Variant } from "@/lib/theme";
-import { cn } from "@/lib/utils";
 
 const weeklyHighlights = [
   {
@@ -50,6 +55,8 @@ function HomePageContent() {
 
 function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
   const plannerOverviewProps = useHomePlannerOverview();
+  const heroHeadingId = "home-hero-heading";
+  const overviewHeadingId = "home-overview-heading";
   const heroActions = React.useMemo<React.ReactNode>(
     () => (
       <>
@@ -68,50 +75,45 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
     [],
   );
 
-  const heroSurfaceClass =
-    "relative z-10 isolate rounded-[var(--radius-2xl)] bg-card/30 shadow-neoSoft backdrop-blur-lg";
-  const floatingPaddingClass =
-    "p-[var(--space-4)] md:p-[var(--space-5)]";
-
-  const frameClass = "relative isolate rounded-[var(--radius-2xl)]";
-  const frameBackdropClass =
-    "pointer-events-none absolute inset-0 -z-10 rounded-[inherit] border border-border/40 bg-panel/70 shadow-neo-inset";
-  const frameContentClass =
-    "relative space-y-[var(--space-6)] p-[var(--space-4)] md:space-y-[var(--space-8)] md:p-[var(--space-5)]";
-  const renderFramedSection = (content: React.ReactNode) => (
-    <div className={frameClass}>
-      <div aria-hidden className={frameBackdropClass} />
-      <div className={frameContentClass}>{content}</div>
-    </div>
-  );
-
   return (
     <>
       <PageShell
         as="header"
-        aria-labelledby="home-header"
-        className="pt-[var(--space-6)]"
+        aria-labelledby={heroHeadingId}
+        className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        {renderFramedSection(
-          <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
-            <HomeHeroSection variant={themeVariant} actions={heroActions} />
-          </div>,
-        )}
+        <SectionCard aria-labelledby={heroHeadingId}>
+          <SectionCard.Body className="md:p-[var(--space-6)]">
+            <HomeHeroSection
+              variant={themeVariant}
+              actions={heroActions}
+              headingId={heroHeadingId}
+            />
+          </SectionCard.Body>
+        </SectionCard>
       </PageShell>
       <PageShell
         as="section"
         role="region"
-        aria-labelledby="home-header"
+        aria-labelledby={overviewHeadingId}
         className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
       >
-        {renderFramedSection(
-          <HeroPlannerCards
-            variant={themeVariant}
-            plannerOverviewProps={plannerOverviewProps}
-            highlights={weeklyHighlights}
-            className={floatingPaddingClass}
-          />,
-        )}
+        <SectionCard aria-labelledby={overviewHeadingId}>
+          <SectionCard.Header
+            id={overviewHeadingId}
+            sticky={false}
+            title="Planner overview"
+            titleAs="h2"
+            titleClassName="text-title font-semibold tracking-[-0.01em]"
+          />
+          <SectionCard.Body className="md:p-[var(--space-6)]">
+            <HeroPlannerCards
+              variant={themeVariant}
+              plannerOverviewProps={plannerOverviewProps}
+              highlights={weeklyHighlights}
+            />
+          </SectionCard.Body>
+        </SectionCard>
       </PageShell>
     </>
   );

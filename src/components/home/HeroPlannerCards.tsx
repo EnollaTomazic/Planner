@@ -38,9 +38,7 @@ export default function HeroPlannerCards({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 gap-y-[var(--space-7)] md:grid-cols-12",
-        "relative z-10 isolate rounded-[var(--radius-2xl)] border border-border/50 bg-card/30 shadow-neoSoft backdrop-blur-lg",
-        "p-[var(--space-4)] md:p-[var(--space-5)]",
+        "grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12",
         className,
       )}
     >
