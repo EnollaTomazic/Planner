@@ -90,7 +90,7 @@ export const galleryPayload = {
               ]
             }
           ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\" variant=\"primary\">\n      Primary tone\n    </Button>\n    <Button tone=\"accent\" variant=\"primary\">\n      Accent tone\n    </Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
           "preview": {
             "id": "ui:button:matrix"
           },
@@ -550,7 +550,7 @@ export const galleryPayload = {
               ]
             }
           ],
-          "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
+          "code": "import { cn } from \"@/lib/utils\";\n\nconst items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\n  const SELECT_STATES = [\n    { label: \"Default\" },\n    { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n    {\n      label: \"Focus-visible\",\n      className: \"rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0\",\n    },\n    { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n    { label: \"Disabled\", props: { disabled: true } },\n    {\n      label: \"Loading\",\n      buttonClassName: \"pointer-events-none opacity-loading\",\n    },\n  ];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n        {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n          const { items: stateItems, ...restProps } = props ?? {};\n          const sampleItems = stateItems ?? items;\n          const baseClassName = \"w-full sm:w-auto\";\n          const finalClassName = cn(baseClassName, className);\n\n          return (\n            <Select\n              key={label}\n              items={[...sampleItems]}\n              placeholder={label}\n              ariaLabel={label}\n              buttonClassName={buttonClassName}\n              className={finalClassName}\n              {...restProps}\n            />\n          );\n        })}\n    </div>\n  </div>\n</div>",
           "preview": {
             "id": "ui:select:variants"
           },
@@ -574,7 +574,7 @@ export const galleryPayload = {
             {
               "id": "focus-visible",
               "name": "Focus-visible",
-              "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+              "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
               "preview": {
                 "id": "ui:select:state:focus-visible"
               }
@@ -598,7 +598,7 @@ export const galleryPayload = {
             {
               "id": "loading",
               "name": "Loading",
-              "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+              "code": "<Select buttonClassName=\"pointer-events-none opacity-loading\" placeholder=\"Loading\" items={items} />",
               "preview": {
                 "id": "ui:select:state:loading"
               }
@@ -1191,7 +1191,7 @@ export const galleryPayload = {
               "id": "loading",
               "name": "Loading",
               "description": "Skeleton cards preserve the prompt layout while entries sync from storage.",
-              "code": "<ul className=\"mt-[var(--space-4)] space-y-[var(--space-3)]\">\n  {Array.from({ length: 3 }).map((_, index) => (\n    <li key={index}>\n      <Card className=\"space-y-[var(--space-3)] p-[var(--space-3)]\">\n        <div className=\"flex items-center justify-between\">\n          <Skeleton\n            ariaHidden={false}\n            role=\"status\"\n            aria-label=\"Loading prompt title\"\n            className=\"h-[var(--space-5)] w-[calc(100%-var(--space-6))]\"\n            radius=\"sm\"\n          />\n          <Skeleton\n            className=\"h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]\"\n            radius=\"sm\"\n          />\n        </div>\n        <div className=\"space-y-[var(--space-2)]\">\n          <Skeleton className=\"w-full\" />\n          <Skeleton className=\"w-[calc(100%-var(--space-6))]\" />\n        </div>\n      </Card>\n    </li>\n  ))}\n</ul>",
+              "code": "const PROMPT_LIST_LOADING_KEYS = [\n  \"prompt-loading-1\",\n  \"prompt-loading-2\",\n  \"prompt-loading-3\",\n];\n\n<ul className=\"mt-[var(--space-4)] space-y-[var(--space-3)]\">\n  {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (\n    <li key={itemKey}>\n      <Card className=\"space-y-[var(--space-3)] p-[var(--space-3)]\">\n        <div className=\"flex items-center justify-between\">\n          <Skeleton\n            ariaHidden={false}\n            role=\"status\"\n            aria-label=\"Loading prompt title\"\n            className=\"h-[var(--space-5)] w-[calc(100%-var(--space-6))]\"\n            radius=\"sm\"\n          />\n          <Skeleton\n            className=\"h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]\"\n            radius=\"sm\"\n          />\n        </div>\n        <div className=\"space-y-[var(--space-2)]\">\n          <Skeleton className=\"w-full\" />\n          <Skeleton className=\"w-[calc(100%-var(--space-6))]\" />\n        </div>\n      </Card>\n    </li>\n  ))}\n</ul>",
               "preview": {
                 "id": "prompts:prompts:prompt-list:state:loading"
               }
@@ -2802,7 +2802,7 @@ export const galleryPayload = {
               "id": "disabled",
               "name": "Disabled",
               "description": "When a session locks, wrap the editor in the disabled opacity token to freeze both pointer and keyboard edits.",
-              "code": "<div className=\"pointer-events-none opacity-[var(--disabled)]\">\n  <ChampListEditor\n    list={[\"Ashe\", \"Lulu\"]}\n    onChange={() => {}}\n    editing\n  />\n</div>",
+              "code": "<div className=\"pointer-events-none opacity-disabled\">\n  <ChampListEditor\n    list={[\"Ashe\", \"Lulu\"]}\n    onChange={() => {}}\n    editing\n  />\n</div>",
               "preview": {
                 "id": "prompts:team:champ-list-editor:state:disabled"
               }
@@ -2904,7 +2904,7 @@ export const galleryPayload = {
               "id": "disabled",
               "name": "Disabled",
               "description": "Apply the disabled token when review notes are locked so neither pointer nor keyboard input can adjust pillars.",
-              "code": "<PillarSelector className=\"pointer-events-none opacity-[var(--disabled)]\" />",
+              "code": "<PillarSelector className=\"pointer-events-none opacity-disabled\" />",
               "preview": {
                 "id": "prompts:team:pillar-selector:state:disabled"
               }
@@ -2955,7 +2955,7 @@ export const galleryPayload = {
               "id": "disabled",
               "name": "Disabled",
               "description": "Dim the control with the disabled opacity token when the review locks so neither pointer nor keyboard events change the selection.",
-              "code": "<RoleSelector\n  value=\"MID\"\n  onChange={() => {}}\n  className=\"pointer-events-none opacity-[var(--disabled)]\"\n/>",
+              "code": "<RoleSelector\n  value=\"MID\"\n  onChange={() => {}}\n  className=\"pointer-events-none opacity-disabled\"\n/>",
               "preview": {
                 "id": "prompts:team:role-selector:state:disabled"
               }
@@ -3191,7 +3191,7 @@ export const galleryPayload = {
               "id": "disabled",
               "name": "Disabled",
               "description": "Disabling the control mutes both the cycle button and dropdown using the global disabled token.",
-              "code": "<ThemeToggle\n  cycleDisabled\n  className=\"pointer-events-none opacity-[var(--disabled)]\"\n/>",
+              "code": "<ThemeToggle\n  cycleDisabled\n  className=\"pointer-events-none opacity-disabled\"\n/>",
               "preview": {
                 "id": "prompts:components:theme-toggle:state:disabled"
               }
@@ -3417,7 +3417,7 @@ export const galleryPayload = {
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\">Primary tone</Button>\n    <Button tone=\"accent\">Accent tone</Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button tone=\"primary\" variant=\"primary\">\n      Primary tone\n    </Button>\n    <Button tone=\"accent\" variant=\"primary\">\n      Accent tone\n    </Button>\n    <Button tone=\"info\" variant=\"ghost\">\n      Info ghost\n    </Button>\n    <Button tone=\"danger\" variant=\"primary\">\n      Danger primary\n    </Button>\n    <Button disabled>Disabled</Button>\n  </div>\n  <div className=\"flex flex-wrap items-center gap-[var(--space-2)]\">\n    <Button size=\"sm\">\n      <Plus />\n      Small\n    </Button>\n    <Button size=\"md\">\n      <Plus />\n      Medium\n    </Button>\n    <Button size=\"lg\">\n      <Plus />\n      Large\n    </Button>\n    <Button size=\"xl\">\n      <Plus />\n      Extra large\n    </Button>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Button>Default</Button>\n    <Button className=\"bg-[--hover]\">Hover</Button>\n    <Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>\n    <Button className=\"bg-[--active]\">Active</Button>\n    <Button disabled>Disabled</Button>\n    <Button loading>Loading</Button>\n  </div>\n</div>",
         "preview": {
           "id": "ui:button:matrix"
         },
@@ -3872,7 +3872,7 @@ export const galleryPayload = {
             ]
           }
         ],
-        "code": "const items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\nconst SELECT_STATES = [\n  { label: \"Default\" },\n  { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n  {\n    label: \"Focus-visible\",\n    className: \"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\",\n  },\n  { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n  { label: \"Disabled\", props: { disabled: true } },\n  {\n    label: \"Loading\",\n    buttonClassName: \"pointer-events-none opacity-[var(--loading)]\",\n  },\n];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n        const { items: stateItems, ...restProps } = props ?? {};\n        const sampleItems = stateItems ?? items;\n        const baseClassName = \"w-full sm:w-auto\";\n        const finalClassName = className\n          ? baseClassName + \" \" + className\n          : baseClassName;\n\n        return (\n          <Select\n            key={label}\n            items={[...sampleItems]}\n            placeholder={label}\n            ariaLabel={label}\n            buttonClassName={buttonClassName}\n            className={finalClassName}\n            {...restProps}\n          />\n        );\n      })}\n    </div>\n  </div>\n</div>",
+        "code": "import { cn } from \"@/lib/utils\";\n\nconst items = [\n  { value: \"one\", label: \"One\" },\n  { value: \"two\", label: \"Two\" },\n  { value: \"three\", label: \"Three\" },\n];\n\n  const SELECT_STATES = [\n    { label: \"Default\" },\n    { label: \"Hover\", buttonClassName: \"bg-[--hover]\" },\n    {\n      label: \"Focus-visible\",\n      className: \"rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0\",\n    },\n    { label: \"Active\", buttonClassName: \"bg-[--active]\" },\n    { label: \"Disabled\", props: { disabled: true } },\n    {\n      label: \"Loading\",\n      buttonClassName: \"pointer-events-none opacity-loading\",\n    },\n  ];\n\nconst [value, setValue] = React.useState(items[0]?.value ?? \"\");\n\n<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <div className=\"grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2\">\n    <Select\n      items={items}\n      value={value}\n      onChange={setValue}\n      placeholder=\"Animated select\"\n      className=\"w-full sm:w-auto\"\n    />\n    <Select\n      items={items}\n      variant=\"native\"\n      value={value}\n      onChange={setValue}\n      aria-label=\"Native select\"\n      className=\"w-full sm:w-auto\"\n    />\n  </div>\n  <div className=\"flex flex-col gap-[var(--space-2)]\">\n    <p className=\"text-caption text-muted-foreground\">States</p>\n    <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n        {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {\n          const { items: stateItems, ...restProps } = props ?? {};\n          const sampleItems = stateItems ?? items;\n          const baseClassName = \"w-full sm:w-auto\";\n          const finalClassName = cn(baseClassName, className);\n\n          return (\n            <Select\n              key={label}\n              items={[...sampleItems]}\n              placeholder={label}\n              ariaLabel={label}\n              buttonClassName={buttonClassName}\n              className={finalClassName}\n              {...restProps}\n            />\n          );\n        })}\n    </div>\n  </div>\n</div>",
         "preview": {
           "id": "ui:select:variants"
         },
@@ -3896,7 +3896,7 @@ export const galleryPayload = {
           {
             "id": "focus-visible",
             "name": "Focus-visible",
-            "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+            "code": "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
             "preview": {
               "id": "ui:select:state:focus-visible"
             }
@@ -3920,7 +3920,7 @@ export const galleryPayload = {
           {
             "id": "loading",
             "name": "Loading",
-            "code": "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+            "code": "<Select buttonClassName=\"pointer-events-none opacity-loading\" placeholder=\"Loading\" items={items} />",
             "preview": {
               "id": "ui:select:state:loading"
             }
@@ -4942,7 +4942,7 @@ export const galleryPayload = {
             "id": "loading",
             "name": "Loading",
             "description": "Skeleton cards preserve the prompt layout while entries sync from storage.",
-            "code": "<ul className=\"mt-[var(--space-4)] space-y-[var(--space-3)]\">\n  {Array.from({ length: 3 }).map((_, index) => (\n    <li key={index}>\n      <Card className=\"space-y-[var(--space-3)] p-[var(--space-3)]\">\n        <div className=\"flex items-center justify-between\">\n          <Skeleton\n            ariaHidden={false}\n            role=\"status\"\n            aria-label=\"Loading prompt title\"\n            className=\"h-[var(--space-5)] w-[calc(100%-var(--space-6))]\"\n            radius=\"sm\"\n          />\n          <Skeleton\n            className=\"h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]\"\n            radius=\"sm\"\n          />\n        </div>\n        <div className=\"space-y-[var(--space-2)]\">\n          <Skeleton className=\"w-full\" />\n          <Skeleton className=\"w-[calc(100%-var(--space-6))]\" />\n        </div>\n      </Card>\n    </li>\n  ))}\n</ul>",
+            "code": "const PROMPT_LIST_LOADING_KEYS = [\n  \"prompt-loading-1\",\n  \"prompt-loading-2\",\n  \"prompt-loading-3\",\n];\n\n<ul className=\"mt-[var(--space-4)] space-y-[var(--space-3)]\">\n  {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (\n    <li key={itemKey}>\n      <Card className=\"space-y-[var(--space-3)] p-[var(--space-3)]\">\n        <div className=\"flex items-center justify-between\">\n          <Skeleton\n            ariaHidden={false}\n            role=\"status\"\n            aria-label=\"Loading prompt title\"\n            className=\"h-[var(--space-5)] w-[calc(100%-var(--space-6))]\"\n            radius=\"sm\"\n          />\n          <Skeleton\n            className=\"h-[var(--space-4)] w-[calc(var(--space-8)*1.5)]\"\n            radius=\"sm\"\n          />\n        </div>\n        <div className=\"space-y-[var(--space-2)]\">\n          <Skeleton className=\"w-full\" />\n          <Skeleton className=\"w-[calc(100%-var(--space-6))]\" />\n        </div>\n      </Card>\n    </li>\n  ))}\n</ul>",
             "preview": {
               "id": "prompts:prompts:prompt-list:state:loading"
             }
@@ -6199,7 +6199,7 @@ export const galleryPayload = {
             "id": "disabled",
             "name": "Disabled",
             "description": "When a session locks, wrap the editor in the disabled opacity token to freeze both pointer and keyboard edits.",
-            "code": "<div className=\"pointer-events-none opacity-[var(--disabled)]\">\n  <ChampListEditor\n    list={[\"Ashe\", \"Lulu\"]}\n    onChange={() => {}}\n    editing\n  />\n</div>",
+            "code": "<div className=\"pointer-events-none opacity-disabled\">\n  <ChampListEditor\n    list={[\"Ashe\", \"Lulu\"]}\n    onChange={() => {}}\n    editing\n  />\n</div>",
             "preview": {
               "id": "prompts:team:champ-list-editor:state:disabled"
             }
@@ -6301,7 +6301,7 @@ export const galleryPayload = {
             "id": "disabled",
             "name": "Disabled",
             "description": "Apply the disabled token when review notes are locked so neither pointer nor keyboard input can adjust pillars.",
-            "code": "<PillarSelector className=\"pointer-events-none opacity-[var(--disabled)]\" />",
+            "code": "<PillarSelector className=\"pointer-events-none opacity-disabled\" />",
             "preview": {
               "id": "prompts:team:pillar-selector:state:disabled"
             }
@@ -6352,7 +6352,7 @@ export const galleryPayload = {
             "id": "disabled",
             "name": "Disabled",
             "description": "Dim the control with the disabled opacity token when the review locks so neither pointer nor keyboard events change the selection.",
-            "code": "<RoleSelector\n  value=\"MID\"\n  onChange={() => {}}\n  className=\"pointer-events-none opacity-[var(--disabled)]\"\n/>",
+            "code": "<RoleSelector\n  value=\"MID\"\n  onChange={() => {}}\n  className=\"pointer-events-none opacity-disabled\"\n/>",
             "preview": {
               "id": "prompts:team:role-selector:state:disabled"
             }
@@ -6583,7 +6583,7 @@ export const galleryPayload = {
             "id": "disabled",
             "name": "Disabled",
             "description": "Disabling the control mutes both the cycle button and dropdown using the global disabled token.",
-            "code": "<ThemeToggle\n  cycleDisabled\n  className=\"pointer-events-none opacity-[var(--disabled)]\"\n/>",
+            "code": "<ThemeToggle\n  cycleDisabled\n  className=\"pointer-events-none opacity-disabled\"\n/>",
             "preview": {
               "id": "prompts:components:theme-toggle:state:disabled"
             }

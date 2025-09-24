@@ -110,13 +110,13 @@ export function AnimatedSelectList({
                   onClick={() => selectByIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                   className={cn(
-                    "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                    "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
                     disabledItem ? "cursor-not-allowed" : "cursor-pointer",
-                    "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+                    "disabled:opacity-disabled disabled:pointer-events-none",
                     active
                       ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
                       : undefined,
-                    "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-0 data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                    "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-0 data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                     item.className,
                   )}
                   data-loading={item.loading}
@@ -138,7 +138,7 @@ export function AnimatedSelectList({
                     ) : (
                       <Check
                         className={cn(
-                          "size-[var(--space-4)] shrink-0 transition-opacity duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+                          "size-[var(--space-4)] shrink-0 transition-opacity duration-quick ease-out motion-reduce:transition-none",
                           active ? "opacity-90" : "opacity-0 group-hover:opacity-30",
                         )}
                         aria-hidden="true"

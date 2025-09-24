@@ -130,7 +130,7 @@ export const GlitchSegmentedButton = React.forwardRef<
         "motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft",
         "motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none",
         "data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)]",
-        "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
+        "disabled:opacity-disabled disabled:pointer-events-none",
         className,
       )}
       {...rest}

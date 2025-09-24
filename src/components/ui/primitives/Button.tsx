@@ -234,8 +234,8 @@ export const Button = React.forwardRef<
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
   const base = cn(
-    "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
-    "data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none",
+    "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+    "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     s.height,
     s.padding,
     s.text,

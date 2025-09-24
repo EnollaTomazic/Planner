@@ -76,7 +76,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
               </option>
             ))}
           </Field.Select>
-          <ChevronDown className="pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-3" />
+          <ChevronDown className="pointer-events-none absolute right-[var(--space-4)] size-[var(--space-4)] text-muted-foreground transition-colors duration-quick ease-out group-focus-within:text-accent-3" />
         </Field.Root>
         {success && (
           <p

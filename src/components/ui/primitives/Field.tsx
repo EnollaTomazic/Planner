@@ -21,12 +21,12 @@ const FIELD_ROOT_BASE = cn(
   "group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center",
   "rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground",
   "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)]",
-  "transition-[background,box-shadow,filter] duration-[var(--dur-quick)] ease-out",
+  "transition-[background,box-shadow,filter] duration-quick ease-out",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
   "hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96]",
   "data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)]",
   "data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)]",
-  "data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-[var(--loading)]",
+  "data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
   "data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))]",
   "overflow-hidden",
 );
@@ -171,7 +171,7 @@ export const FieldInput = React.forwardRef<HTMLInputElement, FieldInputProps>(
         "focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default",
         "transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70",
         "group-data-[disabled=true]/field:placeholder:text-muted-foreground/50",
-        "group-data-[loading=true]/field:opacity-[var(--loading)]",
+        "group-data-[loading=true]/field:opacity-loading",
         indent && "pl-[var(--space-7)]",
         (hasEndSlot ?? false) && "pr-[calc(var(--space-6)+var(--space-2))]",
         className,
@@ -197,7 +197,7 @@ export const FieldTextarea = React.forwardRef<
       "focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default",
       "transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70",
       "group-data-[disabled=true]/field:placeholder:text-muted-foreground/50",
-      "group-data-[loading=true]/field:opacity-[var(--loading)]",
+      "group-data-[loading=true]/field:opacity-loading",
       className,
     )}
     {...props}
@@ -220,7 +220,7 @@ export const FieldSelect = React.forwardRef<HTMLSelectElement, FieldSelectProps>
         "focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default",
         "transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70",
         "group-data-[disabled=true]/field:placeholder:text-muted-foreground/50",
-        "group-data-[loading=true]/field:opacity-[var(--loading)]",
+        "group-data-[loading=true]/field:opacity-loading",
         (hasEndSlot ?? false) && "pr-[calc(var(--space-6)+var(--space-2))]",
         className,
       )}
@@ -310,11 +310,11 @@ export const FieldSearch = React.forwardRef<HTMLInputElement, FieldSearchProps>(
           aria-hidden
           className={cn(
             "pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2",
-            "text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out",
+            "text-muted-foreground transition-colors duration-quick ease-out",
             "opacity-60 group-focus-within:opacity-100",
             "group-focus-within:text-accent-3",
-            "group-data-[disabled=true]/field:opacity-[var(--disabled)]",
-            "group-data-[loading=true]/field:opacity-[var(--loading)]",
+            "group-data-[disabled=true]/field:opacity-disabled",
+            "group-data-[loading=true]/field:opacity-loading",
             "group-data-[invalid=true]/field:text-danger",
           )}
         />
