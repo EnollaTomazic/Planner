@@ -12,6 +12,7 @@
 import "./style.css";
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Users2,
   BookOpenText,
@@ -64,6 +65,7 @@ const decodeSubTab = (value: unknown): SubTab | null => {
 };
 
 export default function TeamCompPage() {
+  const searchParams = useSearchParams();
   const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
     decode: decodeTab,
   });
@@ -71,6 +73,20 @@ export default function TeamCompPage() {
     decode: decodeSubTab,
   });
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
+  const tabParam = searchParams?.get("tab") ?? null;
+  const subParam = searchParams?.get("sub") ?? null;
+  React.useEffect(() => {
+    const next = decodeTab(tabParam);
+    if (next && next !== tab) {
+      setTab(next);
+    }
+  }, [tabParam, tab, setTab]);
+  React.useEffect(() => {
+    const next = decodeSubTab(subParam);
+    if (next && next !== subTab) {
+      setSubTab(next);
+    }
+  }, [subParam, subTab, setSubTab]);
   const tabBaseId = React.useId();
   const subTabBaseId = React.useId();
   const cheatRef = React.useRef<HTMLDivElement>(null);
