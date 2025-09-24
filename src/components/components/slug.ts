@@ -191,15 +191,15 @@ export function resolveComponentsSlug(
     return { view: aliasView, viewExplicit: true };
   }
 
-  const group = GROUP_SLUG_TO_ID.get(normalized);
-  if (group) {
-    return { view: group, viewExplicit: true };
-  }
-
   const section = SECTION_SLUG_TO_ID.get(normalized);
   if (section) {
     const view = SECTION_TO_GROUP.get(section);
     return { section, view, viewExplicit: false };
+  }
+
+  const group = GROUP_SLUG_TO_ID.get(normalized);
+  if (group) {
+    return { view: group, viewExplicit: true };
   }
 
   const directEntry = entrySlugMap.get(normalized);
