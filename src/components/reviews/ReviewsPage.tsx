@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
@@ -45,9 +46,11 @@ export default function ReviewsPage({
   onChangeTags,
   onChangeMeta,
 }: ReviewsPageProps) {
+  const searchParams = useSearchParams();
   const [q, setQ] = React.useState("");
   const [sort, setSort] = React.useState<SortKey>("newest");
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
+  const [intentApplied, setIntentApplied] = React.useState(false);
 
   const handleCreateReview = React.useCallback(() => {
     setQ("");
@@ -55,6 +58,20 @@ export default function ReviewsPage({
     setDetailMode("edit");
     onCreate();
   }, [onCreate]);
+
+  const intentParam = searchParams?.get("intent") ?? null;
+  React.useEffect(() => {
+    if (intentParam === "create-review") {
+      if (!intentApplied) {
+        handleCreateReview();
+        setIntentApplied(true);
+      }
+      return;
+    }
+    if (intentApplied) {
+      setIntentApplied(false);
+    }
+  }, [intentParam, intentApplied, handleCreateReview]);
 
   const base = React.useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),

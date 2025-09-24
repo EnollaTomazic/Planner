@@ -104,11 +104,11 @@ describe("QuickActions base path integration", () => {
     ).toHaveAttribute("href", "/beta/planner");
     expect(screen.getByRole("link", { name: "New Goal" })).toHaveAttribute(
       "href",
-      "/beta/goals",
+      "/beta/goals?tab=goals&intent=create-goal#goal-form",
     );
     expect(screen.getByRole("link", { name: "New Review" })).toHaveAttribute(
       "href",
-      "/beta/reviews",
+      "/beta/reviews?intent=create-review",
     );
   });
 });

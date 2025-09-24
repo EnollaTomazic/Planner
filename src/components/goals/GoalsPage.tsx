@@ -11,6 +11,7 @@
  */
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Bomb,
   Flag,
@@ -56,6 +57,9 @@ import {
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
+
+const isTabValue = (value: string | null): value is Tab =>
+  value === "goals" || value === "reminders" || value === "timer";
 
 const TABS: HeaderTab<Tab>[] = [
   {
@@ -119,12 +123,15 @@ export default function GoalsPage() {
 }
 
 function GoalsPageContent() {
+  const searchParams = useSearchParams();
   const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
 
   const [filter, setFilter] = usePersistentState<FilterKey>(
     "goals.filter.v1",
     "All",
   );
+  const [shouldFocusGoalForm, setShouldFocusGoalForm] = React.useState(false);
+  const [intentApplied, setIntentApplied] = React.useState(false);
   const {
     goals,
     err,
@@ -199,6 +206,21 @@ function GoalsPageContent() {
     }
   }, [addGoal, title, metric, notes, pillar, resetForm]);
 
+  const startGoalCreation = React.useCallback(() => {
+    setTab("goals");
+    setShouldFocusGoalForm(true);
+  }, [setTab]);
+
+  const tabParam = searchParams?.get("tab") ?? null;
+  React.useEffect(() => {
+    if (!isTabValue(tabParam)) {
+      return;
+    }
+    if (tabParam !== tab) {
+      setTab(tabParam);
+    }
+  }, [tabParam, tab, setTab]);
+
   const handleTabChange = React.useCallback(
     (v: string) => setTab(v as Tab),
     [setTab],
@@ -225,14 +247,38 @@ function GoalsPageContent() {
   }, [addReminder]);
 
   const reduceMotion = usePrefersReducedMotion();
-  const handleAddFirst = React.useCallback(() => {
+
+  React.useEffect(() => {
+    if (!shouldFocusGoalForm) {
+      return;
+    }
     const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
-    formRef.current?.scrollIntoView({ behavior });
-  }, [reduceMotion]);
+    formRef.current?.scrollIntoView({ behavior, block: "start" });
+    titleInputRef.current?.focus({ preventScroll: true });
+    setShouldFocusGoalForm(false);
+  }, [shouldFocusGoalForm, reduceMotion]);
+
+  const handleAddFirst = React.useCallback(() => {
+    startGoalCreation();
+  }, [startGoalCreation]);
 
   const handleUndo = React.useCallback(() => {
     undoRemove();
   }, [undoRemove]);
+
+  const intentParam = searchParams?.get("intent") ?? null;
+  React.useEffect(() => {
+    if (intentParam === "create-goal") {
+      if (!intentApplied) {
+        startGoalCreation();
+        setIntentApplied(true);
+      }
+      return;
+    }
+    if (intentApplied) {
+      setIntentApplied(false);
+    }
+  }, [intentParam, intentApplied, startGoalCreation]);
 
   // stats
   const totalCount = goals.length;
@@ -481,13 +527,22 @@ function GoalsPageContent() {
                       <GoalsProgress total={totalCount} pct={pctDone} />
                     </div>
                     <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
-                      <GoalsTabs value={filter} onChange={setFilter} />
                       <Button
                         type="button"
                         size="sm"
                         variant="primary"
+                        className="w-full shrink-0 sm:w-auto"
+                        onClick={startGoalCreation}
+                      >
+                        <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+                        <span className="font-semibold tracking-[0.01em]">New goal</span>
+                      </Button>
+                      <GoalsTabs value={filter} onChange={setFilter} />
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="secondary"
                         tone="danger"
-                        tactile
                         className="w-full shrink-0 sm:w-auto"
                         onClick={handleOpenNuke}
                         disabled={totalCount === 0}
@@ -504,7 +559,7 @@ function GoalsPageContent() {
                     {totalCount === 0 ? (
                       <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
                         <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
-                        <Button onClick={handleAddFirst} size="sm">
+                        <Button onClick={handleAddFirst} size="sm" variant="primary">
                           Add a first goal
                         </Button>
                       </div>
@@ -520,7 +575,7 @@ function GoalsPageContent() {
                 </SectionCard>
               </div>
 
-              <div ref={formRef}>
+              <div ref={formRef} id="goal-form">
                 <GoalForm
                   ref={titleInputRef}
                   title={title}
