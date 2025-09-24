@@ -196,7 +196,7 @@ export default function CheckCircle({
           className={cn(
             "relative inline-grid place-items-center rounded-full transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            "disabled:opacity-50 disabled:pointer-events-none",
+            "disabled:opacity-disabled disabled:pointer-events-none",
             "h-full w-full",
           )}
           data-checked={checked ? "true" : "false"}

@@ -325,7 +325,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 >
                   <div
                     class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
-                    style="--field-h: var(--control-h-md);"
+                    style="--bg: var(--surface); --field-h: var(--control-h-md);"
                   >
                     <input
                       aria-label="Lane (used as Title)"
@@ -379,7 +379,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 >
                   <div
                     class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
-                    style="--field-h: var(--control-h-md);"
+                    style="--bg: var(--surface); --field-h: var(--control-h-md);"
                   >
                     <input
                       aria-labelledby=":r3:"
@@ -548,7 +548,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             tabindex="0"
             title="Brain light off"
             type="button"
@@ -1599,7 +1599,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             tabindex="0"
             title="Timestamp mode"
             type="button"
@@ -1972,7 +1972,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <div
                 class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden text-center font-mono tabular-nums"
                 data-invalid="true"
-                style="--field-h: var(--control-h-md); width: calc(5ch + var(--space-5) + (var(--space-1) * 4 / 5));"
+                style="--bg: var(--surface); --field-h: var(--control-h-md); width: calc(5ch + var(--space-5) + (var(--space-1) * 4 / 5));"
               >
                 <input
                   aria-describedby="tTime-error"
@@ -1994,7 +1994,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <div
                 class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden flex-1"
-                style="--field-h: var(--control-h-md);"
+                style="--bg: var(--surface); --field-h: var(--control-h-md);"
               >
                 <input
                   aria-label="Timestamp note"
@@ -2098,7 +2098,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <div
                 class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden pl-[var(--space-6)]"
-                style="--field-h: var(--control-h-md);"
+                style="--bg: var(--surface); --field-h: var(--control-h-md);"
               >
                 <input
                   aria-labelledby=":r1:"
@@ -2166,7 +2166,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <div
             class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] overflow-hidden items-start rounded-[var(--control-radius)]"
-            style="--field-h: var(--control-h-md);"
+            style="--bg: var(--surface); --field-h: var(--control-h-md);"
           >
             <textarea
               aria-labelledby=":r2:"
