@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   createGalleryPreview,
@@ -1896,11 +1898,17 @@ function PromptsComposePanelDemo() {
   );
 }
 
+const PROMPT_LIST_LOADING_KEYS = [
+  "prompt-loading-1",
+  "prompt-loading-2",
+  "prompt-loading-3",
+];
+
 function PromptListLoadingState() {
   return (
     <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-      {Array.from({ length: 3 }).map((_, index) => (
-        <li key={index}>
+      {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
+        <li key={itemKey}>
           <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
             <div className="flex items-center justify-between">
               <Skeleton
@@ -1961,9 +1969,15 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           description:
             "Skeleton cards preserve the prompt layout while entries sync from storage.",
           element: <PromptListLoadingState />,
-          code: `<ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-  {Array.from({ length: 3 }).map((_, index) => (
-    <li key={index}>
+          code: `const PROMPT_LIST_LOADING_KEYS = [
+  "prompt-loading-1",
+  "prompt-loading-2",
+  "prompt-loading-3",
+];
+
+<ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
+  {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
+    <li key={itemKey}>
       <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
         <div className="flex items-center justify-between">
           <Skeleton

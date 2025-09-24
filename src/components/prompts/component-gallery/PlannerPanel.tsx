@@ -109,7 +109,7 @@ function getWeekPickerShellDemoAppearance(done: number, total: number) {
 function WeekPickerShellPreview() {
   return (
     <WeekPickerShell>
-      <WeekPickerShell.Totals>
+      <WeekPickerShell.Totals slotId="planner-demo-range">
         <span className="sr-only" aria-live="polite">
           Week range {weekPickerShellDemoTotals.range}
         </span>
@@ -120,7 +120,7 @@ function WeekPickerShellPreview() {
           </span>
         </span>
       </WeekPickerShell.Totals>
-      <WeekPickerShell.Chips>
+      <WeekPickerShell.Chips slotId="planner-demo-days">
         <div
           role="listbox"
           aria-label="Select a focus day for the shell preview"

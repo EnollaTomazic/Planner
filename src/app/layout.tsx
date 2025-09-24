@@ -83,7 +83,9 @@ export default async function RootLayout({
             <SiteChrome>
               <CatCompanion />
               <div className="relative z-10">
-                {children}
+                <main id="main-content" tabIndex={-1}>
+                  {children}
+                </main>
                 <footer
                   role="contentinfo"
                   className="mt-[var(--space-8)] border-t border-border bg-surface"

@@ -10,6 +10,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import { spacingTokens } from "@/lib/tokens";
+import { uid } from "@/lib/db";
 import type { DayTask } from "./plannerTypes";
 
 const taskImageSpacingToken = 7;
@@ -48,6 +49,34 @@ export default function TaskRow({
   const trimmedTaskTitle = task.title.trim();
   const accessibleTaskTitle = trimmedTaskTitle || "Untitled task";
   const renameTaskLabel = `Rename task ${accessibleTaskTitle}`;
+
+  const imageEntriesRef = React.useRef<Array<{ url: string; id: string }>>([]);
+  const imageEntries = React.useMemo(() => {
+    const previousEntries = imageEntriesRef.current;
+    const used = new Set<number>();
+    const nextEntries: Array<{ url: string; id: string }> = [];
+
+    for (const url of task.images) {
+      let matchIndex = -1;
+      for (let index = 0; index < previousEntries.length; index += 1) {
+        if (used.has(index)) continue;
+        if (previousEntries[index]?.url === url) {
+          matchIndex = index;
+          break;
+        }
+      }
+
+      if (matchIndex >= 0) {
+        used.add(matchIndex);
+        nextEntries.push(previousEntries[matchIndex]!);
+      } else {
+        nextEntries.push({ url, id: `${task.id}-image-${uid()}` });
+      }
+    }
+
+    imageEntriesRef.current = nextEntries;
+    return nextEntries;
+  }, [task.id, task.images]);
 
   const validateImageUrl = React.useCallback((value: string) => {
     if (!value) {
@@ -277,13 +306,13 @@ export default function TaskRow({
       </div>
       {task.images.length > 0 && (
         <ul className="mt-[var(--space-2)] space-y-[var(--space-2)]">
-          {task.images.map((url, index) => (
+          {imageEntries.map((entry, index) => (
             <li
-              key={`${url}-${index}`}
+              key={entry.id}
               className="flex items-center gap-[var(--space-2)]"
             >
               <Image
-                src={url}
+                src={entry.url}
                 alt={`Task image for ${accessibleTaskTitle}`}
                 width={taskImageSize}
                 height={taskImageSize}
@@ -297,7 +326,7 @@ export default function TaskRow({
               <IconButton
                 aria-label="Remove image"
                 title="Remove image"
-                onClick={() => removeImage(url, index)}
+                onClick={() => removeImage(entry.url, index)}
                 size="sm"
                 iconSize="xs"
                 variant="ghost"

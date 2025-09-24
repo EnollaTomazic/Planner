@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type WeekPickerShellProps = React.HTMLAttributes<HTMLDivElement>;
 
 interface WeekPickerShellSlotProps {
+  readonly slotId: string;
   readonly children: React.ReactNode;
 }
 
@@ -65,18 +66,18 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
       >
         {totals.length > 0 ? (
           <div className="week-picker-shell__totals flex flex-wrap items-center justify-end gap-[var(--space-3)]">
-            {totals.map((slot, index) => (
-              <React.Fragment key={slot.key ?? index}>
-                {slot.props.children}
-              </React.Fragment>
-            ))}
+            {totals.map((slot) => {
+              const key = slot.key ?? slot.props.slotId;
+              return (
+                <React.Fragment key={key}>{slot.props.children}</React.Fragment>
+              );
+            })}
           </div>
         ) : null}
-        {chips.map((slot, index) => (
-          <React.Fragment key={slot.key ?? index}>
-            {slot.props.children}
-          </React.Fragment>
-        ))}
+        {chips.map((slot) => {
+          const key = slot.key ?? slot.props.slotId;
+          return <React.Fragment key={key}>{slot.props.children}</React.Fragment>;
+        })}
         {remainder}
       </div>
     );

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 type FocusableElement = { focus: (options?: FocusOptions) => void };
