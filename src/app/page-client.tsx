@@ -89,8 +89,9 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
     <>
       <PageShell
         as="header"
+        slot="header"
         aria-labelledby="home-header"
-        className="pt-[var(--space-6)]"
+        padding={{ top: "xl", bottom: "none" }}
       >
         {renderFramedSection(
           <div className={cn(heroSurfaceClass, floatingPaddingClass)}>
@@ -100,8 +101,10 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
       </PageShell>
       <PageShell
         as="main"
+        slot="main"
         aria-labelledby="home-header"
-        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+        padding={{ base: { top: "none", bottom: "xl" }, md: { bottom: "3xl" } }}
+        gapBefore={{ base: "xl", md: "3xl" }}
       >
         {renderFramedSection(
           <HeroPlannerCards
@@ -120,7 +123,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <PageShell as="main" aria-busy="true">
+        <PageShell as="main" slot="main" aria-busy="true">
           <div className="flex justify-center p-[var(--space-6)]">
             <Spinner />
           </div>

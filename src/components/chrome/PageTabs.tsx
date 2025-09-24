@@ -14,6 +14,7 @@ import TabBar, {
   type TabItem as TabBarItem,
   type TabRenderContext,
 } from "@/components/ui/layout/TabBar";
+import { PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 type PageTabDefinition = {
@@ -180,7 +181,7 @@ export default function PageTabs({
       )}
       style={sticky ? { top: topOffset } : undefined}
     >
-      <div className="page-shell">
+      <PageShell slot="toolbar" padding="none">
         <TabBar<string, { href?: string }>
           items={tabItems}
           value={value}
@@ -190,7 +191,7 @@ export default function PageTabs({
           renderItem={renderTab}
           tablistClassName="data-[variant=glitch]:gap-[var(--space-2)] data-[variant=glitch]:py-[var(--space-3)]"
         />
-      </div>
+      </PageShell>
     </div>
   );
 }

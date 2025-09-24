@@ -73,7 +73,7 @@ export default function ReviewsPage({
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header" slot="header">
         <PageHeader
           className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
           contentClassName="space-y-[var(--space-2)]"
@@ -145,7 +145,8 @@ export default function ReviewsPage({
 
       <PageShell
         as="main"
-        className="py-[var(--space-6)] space-y-[var(--space-6)]"
+        slot="main"
+        className="space-y-[var(--space-6)]"
         aria-labelledby="reviews-header"
       >
         <div

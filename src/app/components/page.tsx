@@ -12,7 +12,7 @@ export default function ComponentsRoute() {
   return (
     <Suspense
       fallback={
-        <PageShell as="main" aria-busy="true">
+        <PageShell as="main" slot="main" aria-busy="true">
           <div className="flex justify-center p-[var(--space-5)]">
             <Spinner />
           </div>

@@ -25,11 +25,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
     <React.Fragment>
       <header role="banner" className="sticky top-0 z-50 sticky-blur">
         {/* Bar content */}
-        <PageShell
-          grid
-          className="pt-[var(--space-3)] pb-0 md:pb-[var(--space-3)]"
-          contentClassName="items-center"
-        >
+        <PageShell grid slot="toolbar" contentClassName="items-center">
           <Link
             href="/"
             aria-label="Home"

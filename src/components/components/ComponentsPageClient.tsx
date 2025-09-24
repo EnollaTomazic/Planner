@@ -83,7 +83,8 @@ export default function ComponentsPageClient({
     <>
       <PageShell
         as="header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+        slot="header"
+        padding={{ base: "xl", md: "2xl", lg: "3xl" }}
       >
         <PageHeader
           containerClassName="relative isolate col-span-full"
@@ -220,9 +221,10 @@ export default function ComponentsPageClient({
 
       <PageShell
         as="main"
+        slot="main"
         grid
         aria-labelledby="components-header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+        padding={{ base: "xl", md: "2xl", lg: "3xl" }}
         contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]"
       >
         <ComponentsGalleryPanels
