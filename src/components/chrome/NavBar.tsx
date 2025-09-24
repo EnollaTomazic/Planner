@@ -28,7 +28,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
       aria-label="Primary"
       className="max-w-full overflow-x-auto lg:overflow-x-visible"
     >
-      <ul className="flex flex-nowrap items-center gap-[var(--space-2)]">
+      <ul className="flex list-none flex-nowrap items-center gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
           const active = isNavActive(path, href);
 
