@@ -95,7 +95,7 @@ export default function DayCard({ iso, isToday }: Props) {
       {selectedProjectId && (
         <React.Fragment>
           <div
-            className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline/90 rounded-full self-stretch"
+            className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline-90 rounded-full self-stretch"
             aria-hidden
           />
 

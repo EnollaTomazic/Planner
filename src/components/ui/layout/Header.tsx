@@ -104,7 +104,7 @@ export default function Header<Key extends string = string>({
   const shouldRenderNeomorphicFrameStyles = isNeo;
   const shouldUseTranslucentSurface = !isNeo && !isMinimal;
   const translucentSurfaceClasses = shouldUseTranslucentSurface
-    ? "border-b border-card-hairline/60 bg-surface/80 backdrop-blur"
+    ? "border-b border-card-hairline-60 bg-surface/80 backdrop-blur"
     : "";
 
   let tabControl: React.ReactNode = null;
@@ -235,7 +235,7 @@ export default function Header<Key extends string = string>({
               "after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:z-[2]",
               underlineTone === "brand"
                 ? "after:from-primary after:via-accent after:to-transparent"
-                : "after:from-card-hairline after:via-card-hairline/70 after:to-transparent",
+                : "after:from-card-hairline after:via-card-hairline-70 after:to-transparent",
             ),
 
           className,
