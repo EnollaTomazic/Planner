@@ -1,6 +1,11 @@
-export {
+import ComponentsSectionPage, {
   metadata,
-  dynamicParams,
   generateStaticParams,
-  default,
+  dynamicParams as componentsDynamicParams,
 } from "../../../src/app/components/[section]/page";
+
+export { metadata, generateStaticParams };
+
+export const dynamicParams = componentsDynamicParams;
+
+export default ComponentsSectionPage;
