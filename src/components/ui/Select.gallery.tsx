@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
+import { cn } from "@/lib/utils";
 
 import Select from "./Select";
 import type { AnimatedSelectProps } from "./select/shared";
@@ -36,8 +37,8 @@ const SELECT_STATES: readonly SelectStateSpec[] = [
     id: "focus-visible",
     name: "Focus-visible",
     className:
-      "rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0",
-    code: "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
+      "rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0",
+    code: "<Select className=\"rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0\" placeholder=\"Focus-visible\" items={items} />",
   },
   {
     id: "active",
@@ -72,7 +73,7 @@ function SelectStatePreview({ state }: { state: SelectStateSpec }) {
   const { items: stateItems, placeholder, ariaLabel, ...restProps } = props ?? {};
   const sampleItems = stateItems ?? ITEMS;
   const baseClassName = "w-full sm:w-auto";
-  const finalClassName = className ? `${baseClassName} ${className}` : baseClassName;
+  const finalClassName = cn(baseClassName, className);
 
   return (
     <Select
@@ -171,26 +172,28 @@ export default defineGallerySection({
           render: () => <SelectStatePreview state={state} />,
         }),
       })),
-      code: `const items = [
+        code: `import { cn } from "@/lib/utils";
+
+const items = [
   { value: "one", label: "One" },
   { value: "two", label: "Two" },
   { value: "three", label: "Three" },
 ];
 
-const SELECT_STATES = [
-  { label: "Default" },
-  { label: "Hover", buttonClassName: "bg-[--hover]" },
-  {
-    label: "Focus-visible",
-    className: "rounded-[var(--control-radius)] ring-2 ring-[var(--theme-ring)] ring-offset-0",
-  },
-  { label: "Active", buttonClassName: "bg-[--active]" },
-  { label: "Disabled", props: { disabled: true } },
-  {
-    label: "Loading",
-    buttonClassName: "pointer-events-none opacity-[var(--loading)]",
-  },
-];
+  const SELECT_STATES = [
+    { label: "Default" },
+    { label: "Hover", buttonClassName: "bg-[--hover]" },
+    {
+      label: "Focus-visible",
+      className: "rounded-[var(--control-radius)] ring-2 ring-[hsl(var(--ring))] ring-offset-0",
+    },
+    { label: "Active", buttonClassName: "bg-[--active]" },
+    { label: "Disabled", props: { disabled: true } },
+    {
+      label: "Loading",
+      buttonClassName: "pointer-events-none opacity-[var(--loading)]",
+    },
+  ];
 
 const [value, setValue] = React.useState(items[0]?.value ?? "");
 
@@ -215,26 +218,24 @@ const [value, setValue] = React.useState(items[0]?.value ?? "");
   <div className="flex flex-col gap-[var(--space-2)]">
     <p className="text-caption text-muted-foreground">States</p>
     <div className="flex flex-wrap gap-[var(--space-2)]">
-      {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {
-        const { items: stateItems, ...restProps } = props ?? {};
-        const sampleItems = stateItems ?? items;
-        const baseClassName = "w-full sm:w-auto";
-        const finalClassName = className
-          ? baseClassName + " " + className
-          : baseClassName;
+        {SELECT_STATES.map(({ label, buttonClassName, className, props }) => {
+          const { items: stateItems, ...restProps } = props ?? {};
+          const sampleItems = stateItems ?? items;
+          const baseClassName = "w-full sm:w-auto";
+          const finalClassName = cn(baseClassName, className);
 
-        return (
-          <Select
-            key={label}
-            items={[...sampleItems]}
-            placeholder={label}
-            ariaLabel={label}
-            buttonClassName={buttonClassName}
-            className={finalClassName}
-            {...restProps}
-          />
-        );
-      })}
+          return (
+            <Select
+              key={label}
+              items={[...sampleItems]}
+              placeholder={label}
+              ariaLabel={label}
+              buttonClassName={buttonClassName}
+              className={finalClassName}
+              {...restProps}
+            />
+          );
+        })}
     </div>
   </div>
 </div>`,
