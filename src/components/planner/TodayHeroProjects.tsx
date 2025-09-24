@@ -109,7 +109,7 @@ export default function TodayHeroProjects({
                     aria-disabled={isEditing}
                     onClick={(event) => {
                       if (
-                        event.target instanceof HTMLElement &&
+                        event.target instanceof Element &&
                         event.target.closest(PROJECT_OPTION_GUARD_SELECTOR)
                       ) {
                         return;

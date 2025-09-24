@@ -100,7 +100,7 @@ export default function TodayHeroTasks({
                     onClick={(event: MouseEvent<HTMLButtonElement>) => {
                       if (event.defaultPrevented) return;
                       if (
-                        event.target instanceof HTMLElement &&
+                        event.target instanceof Element &&
                         event.target.closest(TASK_OPTION_GUARD_SELECTOR)
                       ) {
                         return;
