@@ -1,3 +1,5 @@
 "use client";
 
-export { default } from "../../src/app/reviews/error";
+import ReviewsErrorBoundary from "../../src/app/reviews/error";
+
+export default ReviewsErrorBoundary;
