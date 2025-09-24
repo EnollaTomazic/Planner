@@ -113,7 +113,7 @@ const variantBase: Record<Variant, (tone: Tone) => string> = {
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ghost: {
-    primary: "border-line/35 text-foreground",
+    primary: "border-[hsl(var(--line)/0.35)] text-foreground",
     accent: "border-accent/35 text-on-accent",
     info: "border-accent-2/35 text-on-accent",
     danger: "border-danger/35 text-danger",

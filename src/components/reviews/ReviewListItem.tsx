@@ -7,7 +7,7 @@ import type { Review } from "@/lib/types";
 import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
-  "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20",
+  "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20",
   "hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)]",
   "focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
   "active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)]",

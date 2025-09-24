@@ -260,7 +260,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                           >
                             <div
                               class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[hsl(var(--ring))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-[hsl(var(--danger)/0.6)] data-[invalid=true]:focus-within:ring-[hsl(var(--danger))] w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
-                              style="--field-h: var(--control-h-md);"
+                              style="--bg: var(--surface); --field-h: var(--control-h-md);"
                             >
                               <svg
                                 aria-hidden="true"
@@ -297,7 +297,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               />
                               <button
                                 aria-label="Clear"
-                                class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-line/35 text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
                                 tabindex="0"
                                 title="Clear"
                                 type="button"
@@ -476,7 +476,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Alpha"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -520,7 +520,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Gamma"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -564,7 +564,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Beta"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-60 disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-200 focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
