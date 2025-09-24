@@ -416,7 +416,10 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
 
                     {/* notes */}
                     <div className="grid gap-[var(--space-3)]">
-                      <label className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-[var(--space-2)]">
+                      <label
+                        className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-[var(--space-2)]"
+                        htmlFor={`${c.id}-notes`}
+                      >
                         <NotebookPen className="opacity-80" /> Notes
                       </label>
                       {!editingCard ? (
@@ -427,6 +430,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                         </p>
                       ) : (
                         <Textarea
+                          id={`${c.id}-notes`}
                           dir="ltr"
                           aria-label="Notes"
                           rows={4}

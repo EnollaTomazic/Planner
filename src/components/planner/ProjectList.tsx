@@ -11,6 +11,8 @@ import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
 import type { Project } from "./plannerTypes";
 
+const PROJECT_ROW_GUARD_SELECTOR = "[data-project-row-guard='true']";
+
 type Props = {
   projects: Project[];
   selectedProjectId: string;
@@ -172,7 +174,13 @@ export default function ProjectList({
                   data-loading={isLoading ? "true" : undefined}
                   ref={(node) => registerProjectRef(p.id, node)}
                   onKeyDown={blockInteraction ? undefined : handleRowKey}
-                  onClick={() => {
+                  onClick={(event) => {
+                    if (
+                      event.target instanceof HTMLElement &&
+                      event.target.closest(PROJECT_ROW_GUARD_SELECTOR)
+                    ) {
+                      return;
+                    }
                     if (blockInteraction || active) return;
                     setSelectedTaskId("");
                     setSelectedProjectId(p.id);
@@ -187,8 +195,7 @@ export default function ProjectList({
                 >
                   <span
                     className="shrink-0"
-                    onMouseDown={(e) => e.stopPropagation()}
-                    onClick={(e) => e.stopPropagation()}
+                    data-project-row-guard="true"
                   >
                     <CheckCircle
                       checked={!!p.done}
@@ -229,6 +236,7 @@ export default function ProjectList({
                       }}
                       disabled={isRowInactive}
                       aria-label={`Rename project ${p.name}`}
+                      data-project-row-guard="true"
                     />
                   ) : (
                     <span className="proj-card__title truncate font-medium">
