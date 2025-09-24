@@ -4,6 +4,7 @@ import "./style.css";
 
 import * as React from "react";
 import Badge from "@/components/ui/primitives/Badge";
+import { uid } from "@/lib/db";
 import { sanitizeList } from "@/lib/sanitizeList";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +43,26 @@ export default function ChampListEditor({
   editPillClassName,
   inputClassName,
 }: ChampListEditorProps) {
+  const editingKeysRef = React.useRef<string[]>([]);
   const normalized = React.useMemo(
     () => sanitizeList(list ?? []).map((item) => item.trim()),
     [list],
   );
   const workingList = normalized.length ? normalized : [""];
+
+  function ensureEditingKeys(nextLength: number) {
+    const current = editingKeysRef.current;
+    if (current.length < nextLength) {
+      for (let index = current.length; index < nextLength; index += 1) {
+        current.push(uid("champ-slot-"));
+      }
+    } else if (current.length > nextLength) {
+      current.splice(nextLength);
+    }
+    return current;
+  }
+
+  const editingKeys = ensureEditingKeys(workingList.length);
 
   function normalizeList(next: string[]) {
     return sanitizeList(next).map((item) => item.trim());
@@ -64,6 +80,11 @@ export default function ChampListEditor({
   }
 
   function setAt(index: number, value: string) {
+    if (value.trim().length === 0) {
+      removeAt(index);
+      return;
+    }
+
     const next = [...workingList];
     next[index] = value;
     commitWithoutBlanks(next);
@@ -72,12 +93,14 @@ export default function ChampListEditor({
   function insertAfter(index: number) {
     const next = [...workingList];
     next.splice(index + 1, 0, "");
+    editingKeysRef.current.splice(index + 1, 0, uid("champ-slot-"));
     commit(next);
   }
 
   function removeAt(index: number) {
     const next = [...workingList];
     next.splice(index, 1);
+    editingKeysRef.current.splice(index, 1);
     commit(next);
   }
 
@@ -103,7 +126,7 @@ export default function ChampListEditor({
       <div className={cn(VIEW_CONTAINER, viewClassName)}>
         {normalized.map((champ, index) => (
           <Badge
-            key={index}
+            key={editingKeys[index]}
             glitch
             size="sm"
             className={cn(PILL_CLASSNAME, pillClassName)}
@@ -120,7 +143,7 @@ export default function ChampListEditor({
     <div className={cn(EDIT_CONTAINER, editClassName)}>
       {workingList.map((champ, index) => (
         <Badge
-          key={index}
+          key={editingKeys[index]}
           glitch
           size="sm"
           className={cn(PILL_CLASSNAME, editPillClassName ?? pillClassName)}

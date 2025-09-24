@@ -1,4 +1,6 @@
 // src/components/team/CheatSheetEditors.tsx
+"use client";
+
 import * as React from "react";
 import Textarea from "@/components/ui/primitives/Textarea";
 

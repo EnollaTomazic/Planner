@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Circle, CircleCheck, CircleDot } from "lucide-react";
 
