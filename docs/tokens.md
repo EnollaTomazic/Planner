@@ -1,50 +1,50 @@
 | Token | Value |
 | --- | --- |
-| background | 246 35% 7% |
-| foreground | 260 20% 96% |
+| background | 247 34% 6% |
+| foreground | 258 26% 97% |
 | text | var(--foreground) |
-| card | 248 30% 10% |
+| card | 249 30% 9% |
 | card-foreground | var(--foreground) |
 | panel | var(--card) |
-| border | 252 20% 22% |
+| border | 253 28% 24% |
 | line | var(--border) |
-| input | 250 22% 12% |
-| ring | 262 83% 65% |
+| input | 249 28% 12% |
+| ring | 262 88% 66% |
 | theme-ring | hsl(var(--ring)) |
-| primary | 262 83% 58% |
+| primary | 262 88% 60% |
 | primary-foreground | 0 0% 100% |
-| primary-soft | 262 83% 18% |
-| accent | 292 90% 43% |
-| accent-2 | 192 90% 30% |
-| accent-3 | 192 90% 32% |
+| primary-soft | 262 88% 20% |
+| accent | 294 90% 42% |
+| accent-2 | 190 88% 32% |
+| accent-3 | 200 88% 34% |
 | accent-foreground | 0 0% 100% |
-| accent-soft | 292 90% 30% |
+| accent-soft | 294 90% 16% |
 | highlight | 0 0% 100% |
-| glow | 292 95% 52% |
-| ring-muted | 248 20% 22% |
+| glow | 296 96% 56% |
+| ring-muted | 248 22% 24% |
 | danger | 0 84% 60% |
 | warning | 43 96% 56% |
 | warning-soft | var(--warning) / 0.1 |
 | warning-soft-strong | var(--warning) / 0.2 |
-| muted | 248 26% 14% |
-| muted-foreground | 250 15% 70% |
-| surface | 248 24% 12% |
-| surface-2 | 248 24% 16% |
-| surface-vhs | 210 27% 6% |
-| surface-streak | 240 16% 12% |
-| shadow-color | 262 83% 58% |
-| lav-deep | 320 85% 60% |
+| muted | 248 24% 15% |
+| muted-foreground | 248 18% 74% |
+| surface | 248 26% 11% |
+| surface-2 | 248 26% 16% |
+| surface-vhs | 210 24% 7% |
+| surface-streak | 240 18% 13% |
+| shadow-color | 263 78% 56% |
+| lav-deep | 318 82% 60% |
 | team-blue | 200 100% 60% |
 | team-red | 0 85% 60% |
-| noir-background | 350 70% 4% |
-| noir-foreground | 0 0% 92% |
-| noir-border | 350 40% 22% |
-| hardstuck-background | 165 60% 3% |
-| hardstuck-foreground | 160 12% 95% |
-| hardstuck-border | 165 40% 22% |
-| success | 160 70% 45% |
+| noir-background | 352 68% 4% |
+| noir-foreground | 0 0% 94% |
+| noir-border | 352 44% 24% |
+| hardstuck-background | 120 58% 3% |
+| hardstuck-foreground | 120 60% 72% |
+| hardstuck-border | 120 42% 22% |
+| success | 160 72% 48% |
 | success-soft | var(--success) / 0.2 |
-| success-glow | 160 70% 35% / 0.6 |
+| success-glow | 160 72% 38% / 0.6 |
 | tone-top | 38 92% 60% |
 | tone-jg | 152 52% 44% |
 | tone-mid | 265 72% 62% |
@@ -54,7 +54,7 @@
 | aurora-g-light | color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white) |
 | aurora-p | var(--accent) |
 | aurora-p-light | color-mix(in oklab, hsl(var(--accent)) 37.5%, white) |
-| icon-fg | 247 100% 77% |
+| icon-fg | 250 96% 78% |
 | accent-overlay | hsl(var(--accent)) |
 | ring-contrast | hsl(var(--ring)) |
 | glow-active | hsl(var(--glow)) |
@@ -84,14 +84,16 @@
 | control-radius | var(--radius-xl) |
 | control-fs | var(--font-ui) |
 | control-px | var(--spacing-3) |
+| shell-width | 1280px |
+| shell-max | var(--shell-width) |
 | header-stack | calc(var(--spacing-8) + var(--spacing-4)) |
 | edge-iris | conic-gradient(
     from 180deg,
-    hsl(262 83% 58% / 0),
-    hsl(262 83% 58% / 0.7),
-    hsl(var(--accent-3) / 0.7),
-    hsl(320 85% 60% / 0.7),
-    hsl(262 83% 58% / 0)
+    hsl(262 88% 60% / 0),
+    hsl(262 88% 60% / 0.72),
+    hsl(var(--accent-3) / 0.72),
+    hsl(318 82% 60% / 0.7),
+    hsl(262 88% 60% / 0)
   ) |
 | seg-active-grad | linear-gradient(
     90deg,
@@ -99,8 +101,19 @@
     hsl(var(--accent-soft) / 0.85),
     hsl(var(--accent-2) / 0.8)
   ) |
+| review-result-win-gradient | linear-gradient(
+    90deg,
+    hsl(var(--success) / 0.22),
+    hsl(var(--accent) / 0.18)
+  ) |
+| review-result-loss-gradient | linear-gradient(
+    90deg,
+    hsl(var(--danger) / 0.24),
+    hsl(var(--primary) / 0.2)
+  ) |
 | seg-active-base | hsl(var(--card)) |
-| shadow | 0 10px 30px hsl(250 30% 2% / 0.35) |
+| shadow | 0 10px 30px hsl(250 38% 2% / 0.32) |
+| shadow-dropdown | 0 12px 40px hsl(var(--shadow-color) / 0.55) |
 | shadow-neo-sm | calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))
       hsl(var(--panel) / 0.72),
     calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))
@@ -194,6 +207,7 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   ) |
 | hero-divider-blur | calc(var(--spacing-1) * 1.5) |
+| visually-hidden-top | -9999px |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
