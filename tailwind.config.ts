@@ -52,7 +52,7 @@ const config: Config = {
           overlay: "var(--accent-overlay)",
         },
         on: {
-          accent: "hsl(var(--text-on-accent))",
+          accent: "var(--text-on-accent)",
         },
         "accent-3": {
           DEFAULT: "hsl(var(--accent-3))",
