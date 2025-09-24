@@ -1,11 +1,30 @@
 "use client";
 
 import * as React from "react";
-import { PanelsTopLeft } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowDownToLine,
+  Blocks,
+  Layers,
+  Palette,
+  PanelsTopLeft,
+  Workflow,
+} from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import { PageHeader, PageShell } from "@/components/ui";
+import {
+  Badge,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  PageHeader,
+  PageShell,
+} from "@/components/ui";
+import Button from "@/components/ui/primitives/Button";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 import ComponentsGalleryPanels from "./ComponentsGalleryPanels";
 import {
@@ -15,38 +34,12 @@ import {
   useComponentsGalleryState,
 } from "./useComponentsGalleryState";
 
-const NEO_TABLIST_SHARED_CLASSES = [
-  "data-[variant=neo]:rounded-card",
-  "data-[variant=neo]:r-card-lg",
-  "data-[variant=neo]:gap-[var(--space-2)]",
-  "data-[variant=neo]:px-[var(--space-2)]",
-  "data-[variant=neo]:py-[var(--space-2)]",
-  "data-[variant=neo]:[--neo-tablist-bg:linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.74))]",
-  "data-[variant=neo]:[--neo-tab-bg:linear-gradient(135deg,hsl(var(--card)/0.96),hsl(var(--panel)/0.82))]",
-  "data-[variant=neo]:shadow-neo",
-  "data-[variant=neo]:hover:shadow-neo-soft",
-  "data-[variant=neo]:[&_[data-active=true]]:relative",
-  "data-[variant=neo]:[&_[data-active=true]::after]:content-['']",
-  "data-[variant=neo]:[&_[data-active=true]::after]:pointer-events-none",
-  "data-[variant=neo]:[&_[data-active=true]::after]:absolute",
-  "data-[variant=neo]:[&_[data-active=true]::after]:left-[var(--space-3)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:right-[var(--space-3)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:-bottom-[var(--space-2)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:h-[var(--hairline-w)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:rounded-full",
-  "data-[variant=neo]:[&_[data-active=true]::after]:underline-gradient",
-].join(" ");
-
-const HEADER_FRAME_CLASSNAME = [
-  "shadow-neo",
-  "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit]",
-  "before:bg-[radial-gradient(120%_82%_at_12%_-20%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(110%_78%_at_88%_-12%,hsl(var(--ring)/0.28),transparent_70%)]",
-  "before:opacity-80 before:mix-blend-screen",
-  "after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:rounded-[inherit]",
-  "after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),radial-gradient(120%_140%_at_50%_120%,hsl(var(--accent-2)/0.2),transparent_75%)]",
-  "after:opacity-70 after:mix-blend-soft-light",
-  "motion-reduce:before:opacity-60 motion-reduce:after:opacity-50",
-].join(" ");
+const VIEW_TAB_ICON_MAP: Record<string, React.ReactNode> = {
+  primitives: <Blocks aria-hidden className="icon-sm" />,
+  components: <Layers aria-hidden className="icon-sm" />,
+  complex: <Workflow aria-hidden className="icon-sm" />,
+  tokens: <Palette aria-hidden className="icon-sm" />,
+};
 
 interface ComponentsPageClientProps {
   readonly navigation: GalleryNavigationData;
@@ -78,6 +71,132 @@ export default function ComponentsPageClient({
     componentsPanelRef,
     tokensPanelRef,
   } = useComponentsGalleryState({ navigation });
+  const reduceMotion = usePrefersReducedMotion();
+
+  const componentsPanelRefObject =
+    componentsPanelRef as React.MutableRefObject<HTMLDivElement | null>;
+
+  const decoratedViewTabs = React.useMemo(
+    () =>
+      viewTabs.map((item) => {
+        const key = item.key as string;
+        return {
+          ...item,
+          icon: VIEW_TAB_ICON_MAP[key],
+        };
+      }),
+    [viewTabs],
+  );
+
+  const activeViewLabel = React.useMemo(() => {
+    const current = decoratedViewTabs.find((tab) => tab.key === view);
+    return typeof current?.label === "string" ? current.label : "";
+  }, [decoratedViewTabs, view]);
+
+  const scrollToComponentsPanel = React.useCallback(() => {
+    const panel = componentsPanelRefObject.current;
+    if (!panel) {
+      return;
+    }
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+    panel.scrollIntoView({ behavior, block: "start" });
+    try {
+      panel.focus({ preventScroll: true });
+    } catch {
+      panel.focus();
+    }
+  }, [componentsPanelRefObject, reduceMotion]);
+
+  const handleJumpToGallery = React.useCallback(() => {
+    if (view === "tokens") {
+      const fallback =
+        decoratedViewTabs.find((tab) => tab.key !== "tokens")?.key ??
+        decoratedViewTabs[0]?.key;
+      if (fallback) {
+        handleViewChange(fallback);
+      }
+      if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+        window.requestAnimationFrame(() => {
+          scrollToComponentsPanel();
+        });
+      } else {
+        scrollToComponentsPanel();
+      }
+      return;
+    }
+    scrollToComponentsPanel();
+  }, [decoratedViewTabs, handleViewChange, scrollToComponentsPanel, view]);
+
+  const heroActions = React.useMemo(
+    () => (
+      <div className="flex w-full flex-wrap items-center gap-[var(--space-2)] md:w-auto md:justify-end md:gap-[var(--space-3)]">
+        <Button
+          type="button"
+          size="md"
+          variant="primary"
+          onClick={() => handleViewChange("tokens")}
+          disabled={view === "tokens"}
+        >
+          <Palette aria-hidden className="icon-sm" />
+          <span>View tokens</span>
+        </Button>
+        <Button
+          type="button"
+          size="md"
+          variant="secondary"
+          onClick={handleJumpToGallery}
+        >
+          <ArrowDownToLine aria-hidden className="icon-sm" />
+          <span>Jump to gallery</span>
+        </Button>
+        <Button asChild size="md" variant="ghost">
+          <Link href="/prompts">Browse prompts</Link>
+        </Button>
+      </div>
+    ),
+    [handleJumpToGallery, handleViewChange, view],
+  );
+
+  const heroSummary = React.useMemo(
+    () => (
+      <div className="grid gap-[var(--space-4)] md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] md:items-start">
+        <div className="space-y-[var(--space-3)]">
+          <p className="text-body text-muted-foreground">
+            Explore reusable patterns across Planner. Filter by category or search to
+            jump straight to matching specs.
+          </p>
+          <dl className="grid gap-[var(--space-3)] sm:grid-cols-2">
+            <div className="space-y-[var(--space-1)]">
+              <dt className="text-label text-muted-foreground">Active view</dt>
+              <dd className="text-ui font-semibold text-foreground">{activeViewLabel}</dd>
+            </div>
+            <div className="space-y-[var(--space-1)]">
+              <dt className="text-label text-muted-foreground">Section</dt>
+              <dd className="text-ui font-semibold text-foreground">{sectionLabel}</dd>
+            </div>
+          </dl>
+        </div>
+        <Card className="shadow-neo-soft">
+          <CardHeader className="space-y-[var(--space-2)]">
+            <CardTitle>Library snapshot</CardTitle>
+            <CardDescription>
+              Keep an eye on how many specs match the filters you have applied.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-[var(--space-3)]">
+            <Badge tone="accent" size="lg">
+              {countLabel}
+            </Badge>
+            <p className="text-ui text-muted-foreground">
+              Results refresh instantly when you change the view, switch sections, or
+              search by keyword.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    ),
+    [activeViewLabel, countLabel, sectionLabel],
+  );
 
   return (
     <>
@@ -93,21 +212,18 @@ export default function ComponentsPageClient({
             subtitle: "Browse Planner UI building blocks by category.",
             sticky: false,
             tabs: {
-              items: viewTabs,
+              items: decoratedViewTabs,
               value: view,
               onChange: handleViewChange,
               ariaLabel: "Component gallery view",
               idBase: COMPONENTS_VIEW_TAB_ID_BASE,
               linkPanels: true,
-              variant: "neo",
-              tablistClassName: cn(NEO_TABLIST_SHARED_CLASSES, "w-full md:w-auto"),
+              showBaseline: true,
             },
-          }}
-          frameProps={{
-            className: HEADER_FRAME_CLASSNAME,
           }}
           hero={{
             frame: true,
+            glitch: "off",
             sticky: false,
             eyebrow: heroCopy.eyebrow,
             heading: heroCopy.heading,
@@ -117,8 +233,7 @@ export default function ComponentsPageClient({
                 <PanelsTopLeft aria-hidden />
               </span>
             ),
-            barClassName:
-              "isolate overflow-hidden rounded-card r-card-lg before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(118%_82%_at_15%_-18%,hsl(var(--accent)/0.34),transparent_65%),radial-gradient(112%_78%_at_85%_-12%,hsl(var(--ring)/0.3),transparent_70%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0_hsl(var(--ring)/0.12)_var(--hairline-w),transparent_var(--hairline-w),transparent_var(--space-2))] after:opacity-70 after:mix-blend-soft-light motion-reduce:after:opacity-50",
+            children: heroSummary,
             subTabs: showSectionTabs
               ? {
                   ariaLabel: "Component section",
@@ -128,38 +243,14 @@ export default function ComponentsPageClient({
                   idBase: COMPONENTS_SECTION_TAB_ID_BASE,
                   linkPanels: true,
                   size: "sm",
-                  variant: "default",
                   showBaseline: true,
-                  tablistClassName: cn(
-                    "max-w-full shadow-neo-inset rounded-card r-card-lg",
-                    "w-full md:w-auto",
-                  ),
-                  className: "max-w-full w-full md:w-auto",
+                  tablistClassName: "w-full md:w-auto",
+                  className: "w-full md:w-auto",
                   renderItem: ({ item, props, ref, disabled }) => {
                     const {
                       className: baseClassName,
-                      onClick,
-                      "aria-label": ariaLabelProp,
-                      "aria-labelledby": ariaLabelledByProp,
-                      "aria-controls": ariaControlsProp,
-                      title: titleProp,
                       ...restProps
                     } = props;
-                    const handleClick: React.MouseEventHandler<HTMLElement> = (
-                      event,
-                    ) => {
-                      onClick?.(event);
-                      handleSectionChange(item.key);
-                    };
-                    const labelText =
-                      typeof item.label === "string" ? item.label : undefined;
-                    const computedTitle = titleProp ?? labelText;
-                    const computedAriaLabel =
-                      ariaLabelProp ??
-                      (labelText && !ariaLabelledByProp ? labelText : undefined);
-                    const computedAriaControls =
-                      ariaControlsProp != null ? COMPONENTS_PANEL_ID : undefined;
-
                     return (
                       <button
                         type="button"
@@ -167,23 +258,12 @@ export default function ComponentsPageClient({
                         ref={ref as React.Ref<HTMLButtonElement>}
                         className={cn(
                           baseClassName,
-                          "text-label font-normal text-muted-foreground transition-colors",
-                          "data-[active=true]:text-foreground data-[active=true]:font-medium",
+                          "inline-flex items-center gap-[var(--space-2)] text-label font-medium text-muted-foreground transition-colors",
+                          "data-[active=true]:text-foreground",
                           disabled && "pointer-events-none",
                         )}
-                        onClick={(event) => {
-                          if (disabled) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return;
-                          }
-                          handleClick(event);
-                        }}
+                        aria-controls={COMPONENTS_PANEL_ID}
                         disabled={disabled}
-                        aria-labelledby={ariaLabelledByProp}
-                        aria-controls={computedAriaControls}
-                        aria-label={computedAriaLabel}
-                        title={computedTitle}
                       >
                         <span className="truncate">{item.label}</span>
                       </button>
@@ -199,21 +279,11 @@ export default function ComponentsPageClient({
                     onValueChange: setQuery,
                     debounceMs: 250,
                     round: true,
-                    variant: "neo",
                     label: searchLabel,
                     placeholder: searchPlaceholder,
-                    fieldClassName: cn(
-                      "bg-[linear-gradient(135deg,hsl(var(--card)/0.95),hsl(var(--panel)/0.82))]",
-                      "!shadow-neo-soft",
-                      "hover:!shadow-neo-soft",
-                      "active:!shadow-neo-soft",
-                      "focus-within:!shadow-neo-soft",
-                      "focus-within:[--tw-ring-offset-width:var(--space-1)]",
-                      "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
-                      "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-soft motion-reduce:active:!shadow-neo-soft motion-reduce:focus-within:!shadow-neo-soft",
-                    ),
                   }
                 : undefined,
+            actions: heroActions,
           }}
         />
       </PageShell>
