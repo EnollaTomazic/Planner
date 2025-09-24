@@ -45,6 +45,8 @@ export default function ThemeToggle({
   const prevVariantRef = React.useRef<Variant>(variant);
   const prevBgRef = React.useRef<Background>(bg);
   const initializedRef = React.useRef(false);
+  const showFallback = !mounted;
+  const groupLabel = `${aria} controls`;
 
   const setVariantPersist = React.useCallback(
     (v: Variant) => setState((prev) => ({ variant: v, bg: prev.bg })),
@@ -111,17 +113,12 @@ export default function ThemeToggle({
     };
   }, [announcement]);
 
-  if (!mounted) {
-    return (
-      <span
-        aria-hidden
-        className={`inline-block h-[var(--control-h-sm)] w-[var(--control-h-sm)] rounded-full bg-input ${className}`}
-      />
-    );
-  }
-
   return (
-    <div className={`flex items-center gap-[var(--space-2)] whitespace-nowrap ${className}`}>
+    <div
+      className={`flex items-center gap-[var(--space-2)] whitespace-nowrap ${className}`}
+      role="group"
+      aria-label={groupLabel}
+    >
       {/* background cycle */}
       <Button
         id={id}
@@ -130,27 +127,40 @@ export default function ThemeToggle({
         tactile
         className="shrink-0 px-[var(--space-2)]"
         aria-label={`${aria}: cycle background`}
-        title="Change background"
+        title={showFallback ? "Theme controls loading" : "Change background"}
         onClick={cycleBg}
-        disabled={isCycleDisabled}
+        disabled={isCycleDisabled || showFallback}
         loading={isCycleLoading}
       >
-        <ImageIcon className="h-[var(--space-4)] w-[var(--space-4)]" />
+        <ImageIcon aria-hidden className="h-[var(--space-4)] w-[var(--space-4)]" />
+        <span className="sr-only">Cycle background</span>
       </Button>
 
       {/* dropdown — no visible title; uses aria label */}
-      <Select
-        variant="animated"
-        ariaLabel={aria}
-        items={items}
-        value={variant}
-        onChange={handleChange}
-        size="sm"
-        buttonClassName="!rounded-full !text-ui !w-auto"
-        matchTriggerWidth={false}
-        align="right"
-        className="shrink-0"
-      />
+      {showFallback ? (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="pointer-events-none !rounded-full !px-[var(--space-3)] !text-ui text-muted-foreground"
+          aria-label={`${aria}: waiting for theme controls`}
+          disabled
+        >
+          {aria}
+        </Button>
+      ) : (
+        <Select
+          variant="animated"
+          ariaLabel={aria}
+          items={items}
+          value={variant}
+          onChange={handleChange}
+          size="sm"
+          buttonClassName="!rounded-full !text-ui !w-auto"
+          matchTriggerWidth={false}
+          align="right"
+          className="shrink-0"
+        />
+      )}
       <div aria-live="polite" className="sr-only">
         {announcement}
       </div>
