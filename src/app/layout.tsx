@@ -19,6 +19,82 @@ import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 import StyledJsxRegistry from "@/lib/styled-jsx-registry";
 
+const createNonceInitializer = (nonce: string): string => {
+  const nonceValue = JSON.stringify(nonce);
+  return [
+    "(() => {",
+    `  var nonce = ${nonceValue};`,
+    "  if (!nonce) return;",
+    "  var globalObject = typeof globalThis !== \"undefined\" ? globalThis : window;",
+    "  if (globalObject.__plannerNoncePatched) return;",
+    "  globalObject.__plannerNoncePatched = true;",
+    "  globalObject.__webpack_nonce__ = nonce;",
+    "  if (typeof globalObject.__next_require__ === \"function\") {",
+    "    globalObject.__next_require__.nc = nonce;",
+    "  }",
+    "  if (typeof globalObject.__webpack_require__ === \"function\") {",
+    "    globalObject.__webpack_require__.nc = nonce;",
+    "  }",
+    "  var toLowerCase = function (value) {",
+    "    return typeof value === \"string\" ? value.toLowerCase() : \"\";",
+    "  };",
+    "  var isScriptTag = function (tagName) {",
+    "    return toLowerCase(tagName) === \"script\";",
+    "  };",
+    "  var applyNonce = function (node) {",
+    "    if (!node || typeof node !== \"object\") return;",
+    "    var element = node;",
+    "    if (!element.tagName || typeof element.tagName !== \"string\") return;",
+    "    if (!element.getAttribute || typeof element.getAttribute !== \"function\") return;",
+    "    if (!isScriptTag(element.tagName)) return;",
+    "    var existing = element.getAttribute(\"nonce\");",
+    "    if (existing === nonce) return;",
+    "    if (existing && existing !== nonce) return;",
+    "    element.setAttribute(\"nonce\", nonce);",
+    "  };",
+    "  var documentRef = globalObject.document;",
+    "  if (!documentRef) return;",
+    "  var originalCreateElement = documentRef.createElement;",
+    "  documentRef.createElement = function () {",
+    "    var element = originalCreateElement.apply(this, arguments);",
+    "    var name = arguments.length > 0 ? arguments[0] : undefined;",
+    "    if (typeof name === \"string\" && isScriptTag(name)) {",
+    "      applyNonce(element);",
+    "    }",
+    "    return element;",
+    "  };",
+    "  var originalCreateElementNS = documentRef.createElementNS;",
+    "  if (originalCreateElementNS) {",
+    "    documentRef.createElementNS = function () {",
+    "      var element = originalCreateElementNS.apply(this, arguments);",
+    "      var name = arguments.length > 1 ? arguments[1] : undefined;",
+    "      if (typeof name === \"string\" && isScriptTag(name)) {",
+    "        applyNonce(element);",
+    "      }",
+    "      return element;",
+    "    };",
+    "  }",
+    "  var originalSetAttribute = Element.prototype.setAttribute;",
+    "  Element.prototype.setAttribute = function (name, value) {",
+    "    originalSetAttribute.apply(this, arguments);",
+    "    if (typeof this.tagName === \"string\" && isScriptTag(this.tagName) && name === \"nonce\" && this.nonce !== value) {",
+    "      this.nonce = value;",
+    "    }",
+    "  };",
+    "  var observer = new MutationObserver(function (records) {",
+    "    for (var i = 0; i < records.length; i++) {",
+    "      var added = records[i].addedNodes;",
+    "      for (var j = 0; j < added.length; j++) {",
+    "        applyNonce(added[j]);",
+    "      }",
+    "    }",
+    "  });",
+    "  observer.observe(documentRef.documentElement, { childList: true, subtree: true });",
+    "  applyNonce(documentRef.currentScript);",
+    "})();",
+  ].join("\n");
+};
+
 export const metadata: Metadata = {
   title: {
     default: "Planner",
@@ -62,6 +138,7 @@ export default async function RootLayout({
     const nonceHeader = await headers();
     nonce = nonceHeader.get("x-nonce") ?? undefined;
   }
+  const nonceInitializer = nonce ? createNonceInitializer(nonce) : null;
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
     <html
@@ -73,6 +150,14 @@ export default async function RootLayout({
       <head>
         {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
         <meta name="color-scheme" content="dark light" />
+        {nonceInitializer ? (
+          <Script
+            id="csp-nonce-runtime"
+            strategy="beforeInteractive"
+            nonce={nonce}
+            dangerouslySetInnerHTML={{ __html: nonceInitializer }}
+          />
+        ) : null}
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
