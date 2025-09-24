@@ -99,7 +99,8 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
         )}
       </PageShell>
       <PageShell
-        as="main"
+        as="section"
+        role="region"
         aria-labelledby="home-header"
         className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
       >
@@ -120,7 +121,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <PageShell as="main" aria-busy="true">
+        <PageShell as="section" aria-busy="true" role="status">
           <div className="flex justify-center p-[var(--space-6)]">
             <Spinner />
           </div>
