@@ -33,10 +33,26 @@ describe("DemoTokens", () => {
 
   it("match tailwind spacing config", () => {
     const spacing = (tw.theme?.extend?.spacing as Record<string, string>) ?? {};
-    const spacingFromConfig = Object.values(spacing).map((v) =>
-      parseInt(String(v)),
-    );
-    expect(spacingTokens).toEqual(spacingFromConfig);
+    const spacingFromConfig = Object.entries(spacing)
+      .filter(([key]) => /^\d+$/.test(key))
+      .map(([, value]) => parseInt(String(value), 10));
+    expect(spacingFromConfig).toEqual(spacingTokens);
+
+    spacingTokens.forEach((_, index) => {
+      const step = index + 1;
+      expect(spacing[`space-${step}`]).toBe(`var(--space-${step})`);
+    });
+
+    const fractionalAliases: Record<string, string> = {
+      "spacing-0-125": "var(--spacing-0-125)",
+      "spacing-0-25": "var(--spacing-0-25)",
+      "spacing-0-5": "var(--spacing-0-5)",
+      "spacing-0-75": "var(--spacing-0-75)",
+    };
+
+    Object.entries(fractionalAliases).forEach(([token, variable]) => {
+      expect(spacing[token]).toBe(variable);
+    });
   });
 
   it("match tailwind radius config", () => {

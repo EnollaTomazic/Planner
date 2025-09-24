@@ -55,8 +55,8 @@ const SELECT_STATES: readonly SelectStateSpec[] = [
   {
     id: "loading",
     name: "Loading",
-    buttonClassName: "pointer-events-none opacity-[var(--loading)]",
-    code: "<Select buttonClassName=\"pointer-events-none opacity-[var(--loading)]\" placeholder=\"Loading\" items={items} />",
+    buttonClassName: "pointer-events-none opacity-loading",
+    code: "<Select buttonClassName=\"pointer-events-none opacity-loading\" placeholder=\"Loading\" items={items} />",
   },
 ];
 
@@ -191,7 +191,7 @@ const items = [
     { label: "Disabled", props: { disabled: true } },
     {
       label: "Loading",
-      buttonClassName: "pointer-events-none opacity-[var(--loading)]",
+      buttonClassName: "pointer-events-none opacity-loading",
     },
   ];
 

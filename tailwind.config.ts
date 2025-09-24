@@ -2,9 +2,8 @@
 // - TypeScript config; works with Tailwind 3.4+
 // - Dark mode by class; colors map to CSS variables in globals.css
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 import { spacingTokens, radiusScale } from "./src/lib/tokens";
-
-const progressWidthSafelist = Array.from({ length: 101 }, (_, index) => `w-[${index}%]`);
 
 const borderRadiusTokens = Object.entries(radiusScale).reduce(
   (acc, [token, value]) => {
@@ -17,10 +16,37 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
 const cardHairlineOpacity = (percent: number) =>
   `color-mix(in oklab, var(--card-hairline) ${percent}%, transparent)`;
 
+const progressWidthValues: Record<string, string> = Object.fromEntries(
+  Array.from({ length: 101 }, (_, index) => [`${index}`, `${index}%`]),
+);
+
+progressWidthValues.fill = "var(--progress)";
+
+const spacingScale = spacingTokens.reduce(
+  (acc, token, index) => {
+    const step = `${index + 1}`;
+    acc[step] = `${token}px`;
+    acc[`space-${step}`] = `var(--space-${step})`;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
+
+const fractionalSpacing: Record<string, string> = {
+  "spacing-0-125": "var(--spacing-0-125)",
+  "spacing-0-25": "var(--spacing-0-25)",
+  "spacing-0-5": "var(--spacing-0-5)",
+  "spacing-0-75": "var(--spacing-0-75)",
+};
+
+const spacingScaleWithAliases = {
+  ...spacingScale,
+  ...fractionalSpacing,
+};
+
 const config: Config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  safelist: progressWidthSafelist,
   theme: {
     extend: {
       colors: {
@@ -178,7 +204,7 @@ const config: Config = {
         "control-hover": "var(--shadow-control-hover)",
       },
       transitionTimingFunction: {
-        out: "cubic-bezier(0.16, 1, 0.3, 1)",
+        out: "var(--ease-out)",
         snap: "var(--ease-snap)",
       },
       transitionDuration: {
@@ -186,14 +212,15 @@ const config: Config = {
         200: "200ms",
         220: "220ms",
         420: "420ms",
+        quick: "var(--dur-quick)",
+        chill: "var(--dur-chill)",
+        slow: "var(--dur-slow)",
       },
-      spacing: spacingTokens.reduce(
-        (acc, token, idx) => {
-          acc[idx + 1] = `${token}px`;
-          return acc;
-        },
-        {} as Record<number, string>,
-      ),
+      spacing: spacingScaleWithAliases,
+      opacity: {
+        disabled: "var(--disabled)",
+        loading: "var(--loading)",
+      },
       keyframes: {
         shimmer: {
           "0%": { transform: "translateX(-100%)" },
@@ -212,7 +239,16 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ matchUtilities }) => {
+      matchUtilities(
+        {
+          progress: (value) => ({ width: value }),
+        },
+        { values: progressWidthValues },
+      );
+    }),
+  ],
 };
 
 export default config;

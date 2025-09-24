@@ -59,7 +59,7 @@ function PlannerOverviewCalendarCardComponent({
                       "border-card-hairline bg-card/70 hover:border-primary/40 hover:bg-card/80",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                       "active:bg-card/90",
-                      "disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:cursor-progress data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                      "disabled:pointer-events-none disabled:opacity-disabled data-[loading=true]:cursor-progress data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                       day.selected && "border-primary/70 bg-card",
                     )}
                   >

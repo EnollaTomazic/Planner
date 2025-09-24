@@ -15,7 +15,7 @@ interface SnackbarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const BASE_CLASSNAME =
-  "inline-flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-lg [--snackbar-border:hsl(var(--border))] [--snackbar-background:hsl(var(--surface-2))] [--snackbar-foreground:hsl(var(--foreground))] border border-[var(--snackbar-border)] bg-[var(--snackbar-background)] px-[var(--space-4)] py-[var(--space-2)] text-ui text-[var(--snackbar-foreground)] shadow-outline-subtle transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none";
+  "inline-flex items-center justify-between gap-[var(--space-3)] rounded-card r-card-lg [--snackbar-border:hsl(var(--border))] [--snackbar-background:hsl(var(--surface-2))] [--snackbar-foreground:hsl(var(--foreground))] border border-[var(--snackbar-border)] bg-[var(--snackbar-background)] px-[var(--space-4)] py-[var(--space-2)] text-ui text-[var(--snackbar-foreground)] shadow-outline-subtle transition-colors duration-quick ease-out motion-reduce:transition-none";
 
 const widthClassNames: Record<NonNullable<SnackbarProps["width"]>, string> = {
   auto: "mx-auto w-fit",
