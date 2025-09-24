@@ -37,7 +37,7 @@ export default function Modal({
         role="presentation"
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 bg-background/80 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)]"
+        className="absolute inset-0 bg-background/80 transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[hsl(var(--background)/0.86)] active:bg-[hsl(var(--background)/0.92)]"
         onClick={onClose}
       />
       <Card

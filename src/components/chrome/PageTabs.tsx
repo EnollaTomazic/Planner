@@ -106,7 +106,7 @@ export default function PageTabs({
         "btn-like-segmented min-h-[var(--control-h-lg)] font-mono text-ui px-[var(--space-4)] py-[var(--space-3)]",
         baseClassName,
         active && "btn-glitch is-active",
-        disabled && "pointer-events-none opacity-[var(--disabled)]",
+        disabled && "pointer-events-none opacity-disabled",
       );
 
       const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {

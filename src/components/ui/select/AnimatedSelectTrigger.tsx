@@ -60,7 +60,7 @@ export function AnimatedSelectTrigger({
     sizeStyles.paddingX,
     "bg-muted/12 hover:bg-muted/18",
     "focus:[outline:none] focus-visible:[outline:none]",
-    "transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+    "transition-colors duration-quick ease-out motion-reduce:transition-none",
     buttonClassName,
   );
 
@@ -97,7 +97,7 @@ export function AnimatedSelectTrigger({
           <ChevronRight
             aria-hidden="true"
             className={cn(
-              "shrink-0 opacity-70 transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none",
+              "shrink-0 opacity-70 transition-colors duration-quick ease-out motion-reduce:transition-none",
               sizeStyles.prefix,
             )}
           />

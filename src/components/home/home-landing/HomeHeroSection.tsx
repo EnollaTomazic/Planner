@@ -36,7 +36,7 @@ export default function HomeHeroSection({ variant, actions }: HomeHeroSectionPro
           </div>
         ),
         className:
-          "w-full rounded-card r-card-lg border border-border/50 bg-card/80 px-[var(--space-3)] py-[var(--space-2)] shadow-neoSoft transition-[box-shadow] duration-[var(--dur-chill)] ease-[var(--ease-out)] hover:shadow-neo focus-within:ring-1 focus-within:ring-ring/60",
+          "w-full rounded-card r-card-lg border border-border/50 bg-card/80 px-[var(--space-3)] py-[var(--space-2)] shadow-neoSoft transition-[box-shadow] duration-chill ease-out hover:shadow-neo focus-within:ring-1 focus-within:ring-ring/60",
         label: "Home hero quick actions",
         unstyled: true,
       },

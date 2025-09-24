@@ -90,7 +90,7 @@ const ReviewSliderTrack = ({
           className={cn(
             "absolute left-0 top-0 h-[var(--space-2)] rounded-full shadow-ring",
             gradientClassNames[tone],
-            variant === "display" ? "w-[var(--progress)]" : undefined,
+            variant === "display" ? "progress-fill" : undefined,
             isInteractive &&
               cn(
                 "ring-1 ring-transparent transition-[box-shadow] duration-140 ease-out",

@@ -965,7 +965,7 @@ function ThemeToggleActiveState() {
 function ThemeToggleDisabledState() {
   return (
     <ThemeToggleStatePreview
-      className="pointer-events-none opacity-[var(--disabled)]"
+      className="pointer-events-none opacity-disabled"
       cycleDisabled
     />
   );
@@ -1042,7 +1042,7 @@ function ChampListEditorStatePreview({
     <div
       className={cn(
         "flex max-w-full flex-col gap-[var(--space-2)]",
-        disabled && "pointer-events-none opacity-[var(--disabled)]",
+        disabled && "pointer-events-none opacity-disabled",
       )}
     >
       <ChampListEditor
@@ -1102,7 +1102,7 @@ function PillarBadgeStatePreview({
       className={cn(
         className,
         "transition",
-        disabled && "pointer-events-none opacity-[var(--disabled)]",
+        disabled && "pointer-events-none opacity-disabled",
       )}
     />
   );
@@ -1146,7 +1146,7 @@ function PillarSelectorStatePreview({
       className={cn(
         "max-w-full",
         className,
-        disabled && "pointer-events-none opacity-[var(--disabled)]",
+        disabled && "pointer-events-none opacity-disabled",
       )}
     />
   );
@@ -1192,7 +1192,7 @@ function RoleSelectorStatePreview({
       className={cn(
         "max-w-full",
         className,
-        disabled && "pointer-events-none opacity-[var(--disabled)]",
+        disabled && "pointer-events-none opacity-disabled",
       )}
     />
   );
@@ -1334,7 +1334,7 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                   aria-busy={state === "syncing" ? true : undefined}
                   data-state={state}
                   className={cn(
-                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-[var(--disabled)] motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-disabled motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                     state === "active" &&
                       "text-accent-3 ring-2 ring-[var(--theme-ring)]",
                     state === "hover" &&
@@ -4268,7 +4268,7 @@ React.useEffect(() => {
           description:
             "When a session locks, wrap the editor in the disabled opacity token to freeze both pointer and keyboard edits.",
           element: <ChampListEditorDisabledState />,
-          code: `<div className="pointer-events-none opacity-[var(--disabled)]">
+          code: `<div className="pointer-events-none opacity-disabled">
   <ChampListEditor
     list={["Ashe", "Lulu"]}
     onChange={() => {}}
@@ -4374,7 +4374,7 @@ React.useEffect(() => {
           description:
             "Apply the disabled token when review notes are locked so neither pointer nor keyboard input can adjust pillars.",
           element: <PillarSelectorDisabledState />,
-          code: `<PillarSelector className="pointer-events-none opacity-[var(--disabled)]" />`,
+          code: `<PillarSelector className="pointer-events-none opacity-disabled" />`,
         },
       ],
     },
@@ -4426,7 +4426,7 @@ React.useEffect(() => {
           code: `<RoleSelector
   value="MID"
   onChange={() => {}}
-  className="pointer-events-none opacity-[var(--disabled)]"
+  className="pointer-events-none opacity-disabled"
 />`,
         },
       ],
@@ -4714,7 +4714,7 @@ React.useEffect(() => {
           element: <ThemeToggleDisabledState />,
           code: `<ThemeToggle
   cycleDisabled
-  className="pointer-events-none opacity-[var(--disabled)]"
+  className="pointer-events-none opacity-disabled"
 />`,
         },
         {
