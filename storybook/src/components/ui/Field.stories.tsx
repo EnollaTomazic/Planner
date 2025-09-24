@@ -100,7 +100,7 @@ function FieldPlayground({
         </Field.Select>
         <ChevronDown
           aria-hidden
-          className="pointer-events-none absolute right-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+          className="pointer-events-none absolute right-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-quick ease-out group-focus-within:text-accent-foreground"
         />
       </>
     );
@@ -395,7 +395,7 @@ function SelectFieldPreview() {
         </Field.Select>
         <ChevronDown
           aria-hidden
-          className="pointer-events-none absolute right-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-[var(--dur-quick)] ease-out group-focus-within:text-accent-foreground"
+          className="pointer-events-none absolute right-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-quick ease-out group-focus-within:text-accent-foreground"
         />
       </Field.Root>
 
@@ -423,7 +423,7 @@ function SelectDropdownPreview({
               <li key={option.value}>
                 <div
                   className={cn(
-                    "flex items-center justify-between gap-[var(--space-3)] rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-ui transition-colors duration-[var(--dur-quick)] ease-out",
+                    "flex items-center justify-between gap-[var(--space-3)] rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-ui transition-colors duration-quick ease-out",
                     selected
                       ? "bg-[linear-gradient(90deg,hsl(var(--accent)/0.22),hsl(var(--accent)/0.05))] text-foreground shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.35)]"
                       : "text-muted-foreground hover:bg-[hsl(var(--foreground)/0.04)]",

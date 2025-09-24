@@ -27,7 +27,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
         {/* Bar content */}
         <PageShell
           grid
-          className="pt-[var(--space-3)] pb-0 md:pb-[var(--space-3)]"
+          className="pt-[calc(env(safe-area-inset-top)+var(--space-3))] pb-0 md:pt-[var(--space-3)] md:pb-[var(--space-3)]"
           contentClassName="items-center"
         >
           <Link

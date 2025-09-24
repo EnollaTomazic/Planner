@@ -50,7 +50,7 @@ function PlannerOverviewFocusCardComponent({
                     "flex flex-col items-start gap-[var(--space-1)] rounded-[var(--control-radius)] px-[var(--space-1)] py-[var(--space-1)] text-left transition",
                     "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                     "active:text-foreground/80",
-                    "disabled:pointer-events-none disabled:opacity-[var(--disabled)] data-[loading=true]:cursor-progress data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                    "disabled:pointer-events-none disabled:opacity-disabled data-[loading=true]:cursor-progress data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                   )}
                 >
                   <span

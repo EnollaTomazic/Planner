@@ -85,8 +85,8 @@ export default function Toggle({
         "border-border bg-card overflow-hidden",
         "hover:bg-[--hover] active:bg-[--active]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
-        "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+        "disabled:opacity-disabled disabled:pointer-events-none",
+        "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
         "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
         className,
       )}
@@ -100,7 +100,7 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-[var(--dur-quick)] ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-[var(--disabled)] group-data-[loading=true]:opacity-[var(--loading)] group-focus-visible:ring-2 group-focus-visible:ring-ring [background:var(--toggle-indicator-gradient,var(--seg-active-grad))] shadow-[var(--shadow-neo-soft)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-ring [background:var(--toggle-indicator-gradient,var(--seg-active-grad))] shadow-[var(--shadow-neo-soft)]"
         style={indicatorStyle}
       />
 

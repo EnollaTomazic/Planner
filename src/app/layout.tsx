@@ -10,6 +10,7 @@ import {
   geistSansClassName,
   geistSansVariable,
 } from "./fonts";
+import tokens from "../../tokens/tokens.js";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -24,6 +25,16 @@ export const metadata: Metadata = {
     template: "%s · Planner",
   },
   description: "Local-first planner for organizing tasks and goals",
+  themeColor: [
+    {
+      media: "(prefers-color-scheme: dark)",
+      color: `hsl(${tokens.background})`,
+    },
+    {
+      media: "(prefers-color-scheme: light)",
+      color: `hsl(${tokens.foreground})`,
+    },
+  ],
 };
 
 /**
@@ -54,9 +65,11 @@ export default async function RootLayout({
       lang="en"
       className="theme-lg"
       suppressHydrationWarning
+      style={{ colorScheme: "dark" }}
     >
       <head>
         {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
+        <meta name="color-scheme" content="dark light" />
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
@@ -68,7 +81,7 @@ export default async function RootLayout({
         className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
       >
         <a
-          className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-[var(--dur-quick)] ease-[var(--ease-out)] opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
+          className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
           href="#main-content"
         >
           Skip to main content

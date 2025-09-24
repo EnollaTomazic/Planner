@@ -134,7 +134,7 @@ export default function SearchBar({
         // Two-column grid: search input + optional right slot
         // Tailwind's arbitrary value syntax uses an underscore instead of a comma.
         // `minmax(0,1fr)` prevents input overflow when space is constrained.
-        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] w-full data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+        "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-[var(--space-2)] w-full data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
         className,
       )}
       onSubmit={(e) => {
