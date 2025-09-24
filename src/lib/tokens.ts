@@ -1,84 +1,30 @@
-export const colorTokens = [
-  "bg-border",
-  "bg-input",
-  "bg-ring",
-  "bg-background",
-  "bg-foreground",
-  "bg-card",
-  "bg-surface",
-  "bg-surface-foreground",
-  "bg-surface-2",
-  "bg-surface-2-foreground",
-  "bg-panel",
-  "bg-card-hairline",
-  "bg-card-hairline-60",
-  "bg-card-hairline-70",
-  "bg-card-hairline-90",
-  "bg-primary",
-  "bg-primary-foreground",
-  "bg-primary-soft",
-  "bg-accent",
-  "bg-accent-foreground",
-  "bg-accent-soft",
-  "bg-accent-overlay",
-  "bg-on-accent",
-  "bg-accent-3",
-  "bg-accent-2",
-  "bg-accent-2-foreground",
-  "bg-glow",
-  "bg-ring-muted",
-  "bg-danger",
-  "bg-danger-foreground",
-  "bg-warning",
-  "bg-warning-soft",
-  "bg-warning-soft-strong",
-  "bg-success",
-  "bg-success-soft",
-  "bg-success-glow",
-  "bg-tone-top",
-  "bg-tone-jg",
-  "bg-tone-mid",
-  "bg-tone-bot",
-  "bg-tone-sup",
-  "bg-aurora-g",
-  "bg-aurora-g-light",
-  "bg-aurora-p",
-  "bg-aurora-p-light",
-  "bg-muted",
-  "bg-muted-foreground",
-  "bg-lav-deep",
-  "bg-surface-vhs",
-  "bg-surface-streak",
-  "bg-card-foreground",
-  "bg-interaction-primary-hover",
-  "bg-interaction-primary-active",
-  "bg-interaction-focus-hover",
-  "bg-interaction-focus-active",
-  "bg-interaction-focus-surfaceHover",
-  "bg-interaction-focus-surfaceActive",
-  "bg-interaction-focus-tintHover",
-  "bg-interaction-focus-tintActive",
-  "bg-interaction-accent-hover",
-  "bg-interaction-accent-active",
-  "bg-interaction-accent-surfaceHover",
-  "bg-interaction-accent-surfaceActive",
-  "bg-interaction-accent-tintHover",
-  "bg-interaction-accent-tintActive",
-  "bg-interaction-info-hover",
-  "bg-interaction-info-active",
-  "bg-interaction-info-surfaceHover",
-  "bg-interaction-info-surfaceActive",
-  "bg-interaction-info-tintHover",
-  "bg-interaction-info-tintActive",
-  "bg-interaction-danger-hover",
-  "bg-interaction-danger-active",
-  "bg-interaction-danger-surfaceHover",
-  "bg-interaction-danger-surfaceActive",
-  "bg-interaction-danger-tintHover",
-  "bg-interaction-danger-tintActive",
-  "bg-interaction-foreground-tintHover",
-  "bg-interaction-foreground-tintActive",
-];
+import { tailwindColorPalette } from "./theme/colors";
+
+type ColorValue = string | { [key: string]: ColorValue };
+
+const flattenColorTokens = (
+  value: { [key: string]: ColorValue },
+  path: string[] = [],
+): string[] =>
+  Object.entries(value).flatMap(([key, entry]) => {
+    if (typeof entry === "string") {
+      const segments = [...path];
+      if (key !== "DEFAULT") {
+        segments.push(key);
+      }
+      const token = segments.join("-");
+      return token ? [`bg-${token}`] : [];
+    }
+
+    if (entry && typeof entry === "object") {
+      const nextPath = key === "DEFAULT" ? path : [...path, key];
+      return flattenColorTokens(entry as { [key: string]: ColorValue }, nextPath);
+    }
+
+    return [];
+  });
+
+export const colorTokens = flattenColorTokens(tailwindColorPalette);
 
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 
