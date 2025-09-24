@@ -55,12 +55,13 @@ export interface HeaderProps<Key extends string = string>
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
+  /** @deprecated Decorative rails were removed. */
   rail?: boolean;
-  /** Decorative rail emphasis; defaults to the subtler glow. */
+  /** @deprecated Decorative rails were removed. */
   railTone?: "subtle" | "loud";
-  /** @deprecated Use railTone instead. */
+  /** @deprecated Decorative rails were removed. */
   railVariant?: "subtle" | "loud";
-  /** Custom rail classes to opt into alternate treatments. */
+  /** @deprecated Decorative rails were removed. */
   railClassName?: string;
   /** Reduce vertical padding and height, ideal for denser layouts. */
   compact?: boolean;
@@ -88,10 +89,10 @@ export default function Header<Key extends string = string>({
   className,
   barClassName,
   bodyClassName,
-  rail = true,
-  railTone,
-  railVariant,
-  railClassName,
+  rail: _deprecatedRail = true,
+  railTone: _deprecatedRailTone,
+  railVariant: _deprecatedRailVariant,
+  railClassName: _deprecatedRailClassName,
   compact = false,
   tabs,
   variant = "plain",
@@ -99,6 +100,10 @@ export default function Header<Key extends string = string>({
   underlineTone = "neutral",
   ...rest
 }: HeaderProps<Key>) {
+  void _deprecatedRail;
+  void _deprecatedRailTone;
+  void _deprecatedRailVariant;
+  void _deprecatedRailClassName;
   const isNeo = variant === "neo";
   const isMinimal = variant === "minimal";
   const shouldRenderNeomorphicFrameStyles = isNeo;
@@ -216,8 +221,6 @@ export default function Header<Key extends string = string>({
       : "py-[var(--space-3)] sm:py-[var(--space-4)]",
   );
 
-  const resolvedRailTone = railTone ?? railVariant ?? "subtle";
-
   return (
     <>
       {shouldRenderNeomorphicFrameStyles ? <NeomorphicFrameStyles /> : null}
@@ -254,17 +257,6 @@ export default function Header<Key extends string = string>({
             barClassName,
           )}
         >
-          {rail ? (
-            <div
-              className={cx(
-                "header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
-                resolvedRailTone !== "loud" && "header-rail--subtle",
-                railClassName,
-              )}
-              aria-hidden
-            />
-          ) : null}
-
           {/* Left: icon + text */}
           <div
             className={cx(

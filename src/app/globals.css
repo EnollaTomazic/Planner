@@ -318,64 +318,6 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 /* ---------- Components ---------- */
 
 @layer components {
-  /* Hero rail (Lavender-Glitch edge with bloom) */
-  .header-rail {
-    position: absolute;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--ring) / 0.9),
-      hsl(var(--accent) / 0.9),
-      hsl(var(--primary) / 0.9)
-    );
-  }
-  .header-rail::before,
-  .header-rail::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
-  }
-  /* rotating chroma edge */
-  .header-rail::before {
-    background: conic-gradient(
-      from 180deg,
-      hsl(var(--primary) / 0),
-      hsl(var(--primary) / 0.8),
-      hsl(var(--accent-3) / 0.8),
-      hsl(var(--lav-deep) / 0.8),
-      hsl(var(--primary) / 0)
-    );
-    filter: saturate(1.1);
-    animation:
-      hero-hue-sweep 7s linear infinite,
-      hero-rail-jitter 2.2s steps(6, end) infinite;
-    opacity: 0.6;
-  }
-  /* soft flicker bloom */
-  .header-rail::after {
-    background: radial-gradient(
-      60% 100% at 50% 50%,
-      hsl(var(--ring) / 0.35),
-      transparent 70%
-    );
-    filter: blur(4px);
-    mix-blend-mode: screen;
-    animation: hero-rail-flicker 3.2s steps(24, end) infinite alternate;
-    opacity: 0.3;
-  }
-  .header-rail--subtle {
-    opacity: 0.65;
-  }
-  .header-rail--subtle::before {
-    opacity: 0.35;
-    filter: saturate(0.85);
-    animation: hero-hue-sweep 12s linear infinite;
-  }
-  .header-rail--subtle::after {
-    opacity: 0.16;
-    animation: hero-rail-flicker 6s steps(24, end) infinite alternate;
-  }
 }
 
 @layer components {
