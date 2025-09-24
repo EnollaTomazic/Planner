@@ -54,6 +54,8 @@ export function addProject(day: DayRecord, id: string, name: string) {
 export function renameProject(day: DayRecord, id: string, name: string) {
   const title = name.trim();
   if (!title) return day;
+  const project = day.projects.find((p) => p.id === id);
+  if (!project || project.name === title) return day;
   return finalizeDay(day, {
     projects: day.projects.map((p) =>
       p.id === id ? { ...p, name: title } : p,
@@ -98,6 +100,8 @@ export function addTask(
 export function renameTask(day: DayRecord, id: string, next: string) {
   const title = next.trim();
   if (!title) return day;
+  const task = day.tasks.find((t) => t.id === id);
+  if (!task || task.title === title) return day;
   return finalizeDay(day, {
     tasks: day.tasks.map((t) => (t.id === id ? { ...t, title } : t)),
   });

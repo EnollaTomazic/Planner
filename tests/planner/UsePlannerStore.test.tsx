@@ -35,7 +35,7 @@ describe("UsePlannerStore", () => {
 
     let projectId = "";
     act(() => {
-      projectId = result.current.planner.addProject("Proj A");
+      projectId = result.current.planner.addProject("Proj A")!;
     });
     expect(result.current.day.projects).toHaveLength(1);
     expect(result.current.day.projects[0].name).toBe("Proj A");
@@ -52,7 +52,7 @@ describe("UsePlannerStore", () => {
     let taskId = "";
     let secondTaskId = "";
     act(() => {
-      taskId = result.current.planner.addTask("Task 1", projectId);
+      taskId = result.current.planner.addTask("Task 1", projectId)!;
     });
     expect(result.current.day.tasks).toHaveLength(1);
     expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
@@ -60,7 +60,7 @@ describe("UsePlannerStore", () => {
     ]);
 
     act(() => {
-      secondTaskId = result.current.planner.addTask("Task 2", projectId);
+      secondTaskId = result.current.planner.addTask("Task 2", projectId)!;
     });
     expect(result.current.day.tasks).toHaveLength(2);
     expect(result.current.planner.day.tasksByProject[projectId]).toEqual([
@@ -140,7 +140,7 @@ describe("UsePlannerStore", () => {
 
     let projectId = "";
     act(() => {
-      projectId = result.current.addProject("Focus Project");
+      projectId = result.current.addProject("Focus Project")!;
     });
     expectUntouched();
 
@@ -156,7 +156,7 @@ describe("UsePlannerStore", () => {
 
     let taskId = "";
     act(() => {
-      taskId = result.current.addTask("Focus Task", projectId);
+      taskId = result.current.addTask("Focus Task", projectId)!;
     });
     expectUntouched();
 
@@ -207,7 +207,7 @@ describe("UsePlannerStore", () => {
 
     let t1 = "";
     act(() => {
-      t1 = result.current.addTask("First");
+      t1 = result.current.addTask("First")!;
       result.current.addTask("Second");
     });
     expect(result.current.totalCount).toBe(2);
