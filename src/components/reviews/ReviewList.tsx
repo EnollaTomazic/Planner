@@ -8,6 +8,8 @@ import ReviewListItem from "./ReviewListItem";
 import { Button } from "@/components/ui";
 import { Tv } from "lucide-react";
 
+const PAGE_SIZE = 40;
+
 export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
@@ -28,6 +30,31 @@ export default function ReviewList({
   hoverRing = false,
 }: ReviewListProps) {
   const count = reviews.length;
+  const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
+
+  React.useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [reviews]);
+
+  const visibleReviews = React.useMemo(
+    () => reviews.slice(0, visibleCount),
+    [reviews, visibleCount],
+  );
+
+  const hasMore = visibleReviews.length < count;
+  const shouldShowSummary = count > PAGE_SIZE;
+
+  const summaryLabel = React.useMemo(() => {
+    if (!shouldShowSummary) return "";
+    if (hasMore) {
+      return `Showing ${visibleReviews.length} of ${count}`;
+    }
+    return `Showing all ${count}`;
+  }, [count, hasMore, shouldShowSummary, visibleReviews.length]);
+
+  const handleLoadMore = React.useCallback(() => {
+    setVisibleCount((prev) => Math.min(count, prev + PAGE_SIZE));
+  }, [count]);
 
   const containerClass = cn(
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
@@ -62,7 +89,7 @@ export default function ReviewList({
     <section data-scope="reviews" className={containerClass}>
       {headerNode}
       <ul className="flex flex-col gap-[var(--space-3)]">
-        {reviews.map((r) => (
+        {visibleReviews.map((r) => (
           <li key={r.id}>
             <ReviewListItem
               review={r}
@@ -72,6 +99,22 @@ export default function ReviewList({
           </li>
         ))}
       </ul>
+      {shouldShowSummary ? (
+        <footer className="mt-[var(--space-3)] flex items-center justify-between gap-[var(--space-3)] text-ui text-muted-foreground">
+          <span aria-live="polite">{summaryLabel}</span>
+          {hasMore ? (
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              onClick={handleLoadMore}
+              className="shrink-0"
+            >
+              Load more
+            </Button>
+          ) : null}
+        </footer>
+      ) : null}
     </section>
   );
 }
