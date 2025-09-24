@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import PromptsPage from "@/components/prompts/PromptsPage";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Saved Prompts Library",
   description:

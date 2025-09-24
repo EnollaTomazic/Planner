@@ -73,6 +73,14 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
+        <noscript>
+          <div
+            role="status"
+            className="w-full border-b border-border bg-surface px-[var(--space-4)] py-[var(--space-2)] text-center text-ui font-medium text-foreground"
+          >
+            Animations stay optional—Planner works fully without JavaScript.
+          </div>
+        </noscript>
         <StyledJsxRegistry nonce={nonce}>
           <ThemeProvider>
             <div aria-hidden className="page-backdrop">
