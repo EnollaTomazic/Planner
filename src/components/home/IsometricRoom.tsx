@@ -38,7 +38,14 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
       <div className="absolute inset-0 [transform-style:preserve-3d]">
         <div className="absolute inset-x-0 bottom-0 h-[var(--room-depth)] bg-[hsl(var(--room-floor))] origin-bottom [transform:rotateX(90deg)]" />
         <div className="absolute inset-y-0 left-0 w-[var(--room-depth)] bg-[hsl(var(--room-wall))] origin-left [transform:rotateY(90deg)]" />
-        <div className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]" />
+        <div
+          className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]"
+          style={
+            variant === "aurora"
+              ? { backgroundColor: "var(--aurora-g-light)" }
+              : undefined
+          }
+        />
       </div>
       {variant === "lg" && (
         <div

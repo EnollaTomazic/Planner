@@ -91,9 +91,9 @@ const config: Config = {
           sup: "hsl(var(--tone-sup))",
         },
         "aurora-g": "hsl(var(--aurora-g))",
-        "aurora-g-light": "hsl(var(--aurora-g-light))",
+        "aurora-g-light": "var(--aurora-g-light)",
         "aurora-p": "hsl(var(--aurora-p))",
-        "aurora-p-light": "hsl(var(--aurora-p-light))",
+        "aurora-p-light": "var(--aurora-p-light)",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
