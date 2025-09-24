@@ -10,16 +10,22 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import useAutoFocus from "@/lib/useAutoFocus";
 import { capitalize } from "@/lib/utils";
 import { Pencil, Trash2, Pin, PinOff } from "lucide-react";
-import {
-  useReminders,
-  Reminder,
-  Group,
-  Source,
-  Domain,
-} from "./useReminders";
+import { useReminders, Reminder, Group, Source, Domain } from "./useReminders";
 
 export default function ReminderList() {
   const { filtered, updateReminder, removeReminder } = useReminders();
+  const handleChange = React.useCallback(
+    (id: string, partial: Partial<Reminder>) => {
+      updateReminder(id, partial);
+    },
+    [updateReminder],
+  );
+  const handleDelete = React.useCallback(
+    (id: string) => {
+      removeReminder(id);
+    },
+    [removeReminder],
+  );
 
   return (
     <>
@@ -27,9 +33,9 @@ export default function ReminderList() {
         {filtered.map((reminder) => (
           <div key={reminder.id} className="col-span-12 md:col-span-6 lg:col-span-4">
             <RemTile
-              value={reminder}
-              onChange={(partial) => updateReminder(reminder.id, partial)}
-              onDelete={() => removeReminder(reminder.id)}
+              reminder={reminder}
+              onChange={handleChange}
+              onDelete={handleDelete}
             />
           </div>
         ))}
@@ -48,22 +54,20 @@ function EmptyState() {
   );
 }
 
-function RemTile({
-  value,
-  onChange,
-  onDelete,
-}: {
-  value: Reminder;
-  onChange: (partial: Partial<Reminder>) => void;
-  onDelete: () => void;
-}) {
+type RemTileProps = {
+  reminder: Reminder;
+  onChange: (id: string, partial: Partial<Reminder>) => void;
+  onDelete: (id: string) => void;
+};
+
+function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
   const [editing, setEditing] = React.useState(false);
-  const [title, setTitle] = React.useState(value.title);
-  const [body, setBody] = React.useState(value.body ?? "");
-  const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
+  const [title, setTitle] = React.useState(reminder.title);
+  const [body, setBody] = React.useState(reminder.body ?? "");
+  const [tagsText, setTagsText] = React.useState(reminder.tags.join(", "));
   const titleRef = React.useRef<HTMLInputElement | null>(null);
-  const noteFieldId = `reminder-${value.id}-note`;
-  const tagsFieldId = `reminder-${value.id}-tags`;
+  const noteFieldId = `reminder-${reminder.id}-note`;
+  const tagsFieldId = `reminder-${reminder.id}-tags`;
 
   useAutoFocus({ ref: titleRef, when: editing });
 
@@ -72,36 +76,47 @@ function RemTile({
       return;
     }
 
-    setTitle(value.title);
-    setBody(value.body ?? "");
-    setTagsText(value.tags.join(", "));
-  }, [editing, value.body, value.tags, value.title]);
+    setTitle(reminder.title);
+    setBody(reminder.body ?? "");
+    setTagsText(reminder.tags.join(", "));
+  }, [editing, reminder.body, reminder.tags, reminder.title]);
+
+  const commitChange = React.useCallback(
+    (partial: Partial<Reminder>) => {
+      onChange(reminder.id, partial);
+    },
+    [onChange, reminder.id],
+  );
+
+  const handleDelete = React.useCallback(() => {
+    onDelete(reminder.id);
+  }, [onDelete, reminder.id]);
 
   const save = React.useCallback(() => {
     const cleanTags = tagsText
       .split(",")
       .map((tag) => tag.trim())
       .filter(Boolean);
-    onChange({
+    commitChange({
       title: title.trim() || "Untitled",
       body: body.trim(),
       tags: cleanTags,
     });
     setEditing(false);
-  }, [body, onChange, tagsText, title]);
+  }, [body, commitChange, tagsText, title]);
 
-  const pinned = !!value.pinned;
+  const pinned = !!reminder.pinned;
   const togglePinned = React.useCallback(() => {
-    onChange({ pinned: !pinned });
-  }, [onChange, pinned]);
+    commitChange({ pinned: !pinned });
+  }, [commitChange, pinned]);
   const togglePinnedLabel = React.useMemo(() => {
     const baseLabel = pinned ? "Unpin reminder" : "Pin reminder";
-    return value.title ? `${baseLabel} ${value.title}` : baseLabel;
-  }, [pinned, value.title]);
+    return reminder.title ? `${baseLabel} ${reminder.title}` : baseLabel;
+  }, [pinned, reminder.title]);
   const deleteLabel = React.useMemo(() => {
-    const name = value.title.trim() || "Untitled reminder";
+    const name = reminder.title.trim() || "Untitled reminder";
     return `Delete ${name}`;
-  }, [value.title]);
+  }, [reminder.title]);
 
   return (
     <article className="group relative rounded-card border border-card-hairline/60 bg-surface card-pad transition-colors hover:bg-surface-2 focus-within:bg-surface-2">
@@ -124,9 +139,9 @@ function RemTile({
             <div className="flex items-center gap-[var(--space-2)] min-w-0">
               <h4
                 className="font-semibold uppercase tracking-wide pr-[var(--space-2)] title-glow glitch leading-6 truncate"
-                title={value.title}
+                title={reminder.title}
               >
-                {value.title}
+                {reminder.title}
               </h4>
               <Button
                 size="sm"
@@ -135,7 +150,7 @@ function RemTile({
                   setEditing(true);
                 }}
                 aria-label={
-                  value.title ? `Edit reminder ${value.title}` : "Edit reminder"
+                  reminder.title ? `Edit reminder ${reminder.title}` : "Edit reminder"
                 }
                 className="shrink-0"
               >
@@ -150,7 +165,7 @@ function RemTile({
           <IconButton
             title={deleteLabel}
             aria-label={deleteLabel}
-            onClick={onDelete}
+            onClick={handleDelete}
             size="sm"
             iconSize="sm"
             variant="ghost"
@@ -222,8 +237,8 @@ function RemTile({
               ).map((groupKey) => (
                 <SegmentedButton
                   key={groupKey}
-                  onClick={() => onChange({ group: groupKey })}
-                  selected={value.group === groupKey}
+                  onClick={() => commitChange({ group: groupKey })}
+                  selected={reminder.group === groupKey}
                   className="m-[var(--space-1)]"
                 >
                   {groupKey === "pregame" ? "Pre-Game" : capitalize(groupKey)}
@@ -236,8 +251,8 @@ function RemTile({
                 (sourceKey) => (
                   <SegmentedButton
                     key={sourceKey}
-                    onClick={() => onChange({ source: sourceKey })}
-                    selected={value.source === sourceKey}
+                    onClick={() => commitChange({ source: sourceKey })}
+                    selected={reminder.source === sourceKey}
                     className="m-[var(--space-1)]"
                   >
                     {sourceKey}
@@ -250,8 +265,8 @@ function RemTile({
               {(["Life", "League", "Learn"] as Domain[]).map((domainKey) => (
                 <SegmentedButton
                   key={domainKey}
-                  onClick={() => onChange({ domain: domainKey })}
-                  selected={(value.domain ?? "League") === domainKey}
+                  onClick={() => commitChange({ domain: domainKey })}
+                  selected={(reminder.domain ?? "League") === domainKey}
                   className="m-[var(--space-1)]"
                 >
                   {domainKey}
@@ -268,9 +283,9 @@ function RemTile({
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);
-                  setTitle(value.title);
-                  setBody(value.body ?? "");
-                  setTagsText(value.tags.join(", "));
+                  setTitle(reminder.title);
+                  setBody(reminder.body ?? "");
+                  setTagsText(reminder.tags.join(", "));
                 }}
               >
                 Cancel
@@ -281,7 +296,7 @@ function RemTile({
           <>
             <p className="text-ui font-medium">
               <span className="opacity-70">Note:</span>{" "}
-              {value.body || (
+              {reminder.body || (
                 <span className="opacity-60">
                   No text. Click title to edit.
                 </span>
@@ -294,7 +309,7 @@ function RemTile({
                   aria-hidden="true"
                   className="inline-block size-[var(--space-2)] rounded-full bg-accent-overlay"
                 />
-                <span className="text-label font-medium tracking-[0.02em]">{fmtDate(value.createdAt)}</span>
+                <span className="text-label font-medium tracking-[0.02em]">{fmtDate(reminder.createdAt)}</span>
               </div>
 
               <Badge
@@ -317,6 +332,9 @@ function RemTile({
     </article>
   );
 }
+
+const RemTile = React.memo(RemTileBase);
+RemTile.displayName = "RemTile";
 
 function pad(value: number) {
   return value < 10 ? `0${value}` : `${value}`;
