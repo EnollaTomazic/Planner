@@ -58,10 +58,14 @@ function RemTile({
   onDelete: () => void;
 }) {
   const [editing, setEditing] = React.useState(false);
-  const [title, setTitle] = React.useState(value.title);
-  const [body, setBody] = React.useState(value.body ?? "");
-  const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
+  const [draft, setDraft] = React.useState(() => ({
+    title: value.title,
+    body: value.body ?? "",
+    tagsText: value.tags.join(", "),
+  }));
+  const { title, body, tagsText } = draft;
   const titleRef = React.useRef<HTMLInputElement | null>(null);
+  const joinedTags = React.useMemo(() => value.tags.join(", "), [value.tags]);
 
   useAutoFocus({ ref: titleRef, when: editing });
 
@@ -70,10 +74,12 @@ function RemTile({
       return;
     }
 
-    setTitle(value.title);
-    setBody(value.body ?? "");
-    setTagsText(value.tags.join(", "));
-  }, [editing, value.body, value.tags, value.title]);
+    setDraft({
+      title: value.title,
+      body: value.body ?? "",
+      tagsText: joinedTags,
+    });
+  }, [editing, joinedTags, value.body, value.title]);
 
   const save = React.useCallback(() => {
     const cleanTags = tagsText
@@ -110,7 +116,10 @@ function RemTile({
               ref={titleRef}
               value={title}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setTitle(event.currentTarget.value)
+                setDraft((prev) => ({
+                  ...prev,
+                  title: event.currentTarget.value,
+                }))
               }
               onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
                 event.key === "Enter" && save()
@@ -179,7 +188,10 @@ function RemTile({
               placeholder="Short, skimmable sentence."
               value={body}
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setBody(event.currentTarget.value)
+                setDraft((prev) => ({
+                  ...prev,
+                  body: event.currentTarget.value,
+                }))
               }
               className="rounded-[var(--radius-2xl)]"
               resize="resize-y"
@@ -192,7 +204,10 @@ function RemTile({
               placeholder="tags, comma, separated"
               value={tagsText}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setTagsText(event.currentTarget.value)
+                setDraft((prev) => ({
+                  ...prev,
+                  tagsText: event.currentTarget.value,
+                }))
               }
             />
 
@@ -255,9 +270,11 @@ function RemTile({
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);
-                  setTitle(value.title);
-                  setBody(value.body ?? "");
-                  setTagsText(value.tags.join(", "));
+                  setDraft({
+                    title: value.title,
+                    body: value.body ?? "",
+                    tagsText: joinedTags,
+                  });
                 }}
               >
                 Cancel

@@ -4,7 +4,7 @@ import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
-import ReviewList from "./ReviewList";
+import ReviewList, { MAX_VISIBLE_REVIEWS } from "./ReviewList";
 import ReviewEditor from "./ReviewEditor";
 import ReviewSummary from "./ReviewSummary";
 import ReviewPanel from "./ReviewPanel";
@@ -67,6 +67,11 @@ export default function ReviewsPage({
     () => base.find((r) => r.id === selectedId) || null,
     [base, selectedId],
   );
+  const visibleReviewCount = Math.min(filtered.length, MAX_VISIBLE_REVIEWS);
+  const listHeader =
+    filtered.length > MAX_VISIBLE_REVIEWS
+      ? `${visibleReviewCount} of ${filtered.length} shown`
+      : `${filtered.length} shown`;
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
 
@@ -158,7 +163,7 @@ export default function ReviewsPage({
               }}
               onCreate={handleCreateReview}
               className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
-              header={`${filtered.length} shown`}
+              header={listHeader}
               hoverRing
             />
           </nav>
