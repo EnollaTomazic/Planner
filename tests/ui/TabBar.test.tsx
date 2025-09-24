@@ -60,16 +60,11 @@ describe("TabBar", () => {
     );
   });
 
-  it("renders the animated header rail when enabled", () => {
-    const { container } = render(<Hero heading="Components" rail />);
-    const rail = container.querySelector(".header-rail");
-    expect(rail).not.toBeNull();
-    expect(rail).toHaveAttribute("aria-hidden", "true");
-    expect(rail?.className).toContain("pointer-events-none");
-  });
+  it("no longer renders the decorative header rail", () => {
+    const { container, rerender } = render(<Hero heading="Components" />);
+    expect(container.querySelector(".header-rail")).toBeNull();
 
-  it("omits the decorative rail when disabled", () => {
-    const { container } = render(<Hero heading="Components" rail={false} />);
+    rerender(<Hero heading="Components" rail />);
     expect(container.querySelector(".header-rail")).toBeNull();
   });
 });

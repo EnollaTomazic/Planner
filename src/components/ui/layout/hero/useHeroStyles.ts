@@ -17,7 +17,6 @@ export interface HeroStyleOptions {
   tone: "heroic" | "supportive";
   glitch: "default" | "subtle" | "off";
   dividerTint: "primary" | "life";
-  rail: boolean;
 }
 
 export interface HeroStyleResult {
@@ -56,7 +55,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     tone,
     glitch,
     dividerTint,
-    rail,
   } = options;
 
   return React.useMemo(() => {
@@ -67,7 +65,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const heroVariant: HeroTabVariant | undefined = frame ? "neo" : undefined;
     const shouldRenderGlitchStyles = frame && isGlitchDefault;
     const isRaisedBar = barVariant === "raised";
-    const showRail = rail && !isGlitchOff;
+    const showRail = false;
     const showDividerGlow = frame && !isGlitchOff;
     const dividerStyle = {
       "--divider": dividerTint === "life" ? "var(--accent-3)" : "var(--ring)",
@@ -170,11 +168,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       tone === "supportive" ? "font-normal" : "font-medium",
     );
 
-    const railClassName = cn(
-      "header-rail",
-      "pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl",
-      isGlitchSubtle && "header-rail--subtle",
-    );
+    const railClassName = "";
 
     const dividerLine = cn(
       "block h-px",
@@ -226,7 +220,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     tone,
     glitch,
     dividerTint,
-    rail,
   ]);
 }
 

@@ -33,6 +33,7 @@ export interface HeroProps<Key extends string = string>
   bodyClassName?: string;
   /** Visual treatment for the label cluster bar. */
   barVariant?: "flat" | "raised";
+  /** @deprecated Decorative rails were removed. */
   rail?: boolean;
   /** Typography profile for the heading/subtitle. */
   tone?: "heroic" | "supportive";
@@ -94,7 +95,7 @@ function Hero<Key extends string = string>({
   barClassName,
   bodyClassName,
   barVariant = "flat",
-  rail = true,
+  rail: _deprecatedRail = true,
   dividerTint = "primary",
   subTabs,
   tabs,
@@ -104,6 +105,7 @@ function Hero<Key extends string = string>({
   padding = "default",
   ...rest
 }: HeroProps<Key>) {
+  void _deprecatedRail;
   const headingStr = typeof heading === "string" ? heading : undefined;
   const Component: HeroElement = as ?? "section";
 
@@ -111,7 +113,6 @@ function Hero<Key extends string = string>({
     heroVariant,
     shouldRenderGlitchStyles,
     isRaisedBar,
-    showRail,
     showDividerGlow,
     dividerStyle,
     classes,
@@ -124,7 +125,6 @@ function Hero<Key extends string = string>({
     tone,
     glitch,
     dividerTint,
-    rail,
   });
 
   const iconNode = icon ? (
@@ -224,7 +224,6 @@ function Hero<Key extends string = string>({
       <div className={classes.shell}>
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
-            {showRail ? <span aria-hidden className={classes.rail} /> : null}
             {isRaisedBar ? (
               <div className={classes.raisedLabelBar}>
                 {iconNode}

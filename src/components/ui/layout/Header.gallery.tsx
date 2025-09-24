@@ -42,19 +42,16 @@ const headerTabs: HeaderTabsProps<string>["items"] = [
 ];
 
 const headerUnderlineToneExamples: ReadonlyArray<{
-  railTone: "subtle" | "loud";
   underlineTone: "brand" | "neutral";
   label: string;
   ariaLabel: string;
 }> = [
   {
-    railTone: "subtle",
     underlineTone: "neutral",
     label: "Neutral underline (default)",
     ariaLabel: "Header demo tabs (neutral underline)",
   },
   {
-    railTone: "loud",
     underlineTone: "brand",
     label: "Brand underline",
     ariaLabel: "Header demo tabs (brand underline)",
@@ -90,7 +87,6 @@ function HeaderGalleryPreview() {
                 className="h-[var(--space-5)] w-[var(--space-5)] text-primary"
               />
             }
-            railTone={example.railTone}
             underlineTone={example.underlineTone}
             tabs={{
               items: headerTabs,
@@ -150,15 +146,6 @@ export default defineGallerySection({
           ],
         },
         {
-          id: "rail-tone",
-          label: "Rail tone",
-          type: "variant",
-          values: [
-            { value: "Subtle" },
-            { value: "Loud" },
-          ],
-        },
-        {
           id: "underline-tone",
           label: "Underline tone",
           type: "variant",
@@ -181,7 +168,6 @@ export default defineGallerySection({
       eyebrow="Workspace"
       heading="Header"
       subtitle="Segmented navigation anchored to the header"
-      railTone="subtle"
       underlineTone="neutral"
       icon={
         <Circle
@@ -261,7 +247,6 @@ export default defineGallerySection({
       eyebrow="Workspace"
       heading="Header"
       subtitle="Segmented navigation anchored to the header"
-      railTone="loud"
       underlineTone="brand"
       icon={
         <Circle
