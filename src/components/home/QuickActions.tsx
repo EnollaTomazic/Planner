@@ -9,12 +9,12 @@ const actions = [
     label: "Planner Today",
   },
   {
-    href: "/goals",
+    href: "/goals?tab=goals&intent=create-goal#goal-form",
     label: "New Goal",
     tone: "accent" as const,
   },
   {
-    href: "/reviews",
+    href: "/reviews?intent=create-review",
     label: "New Review",
     tone: "accent" as const,
   },

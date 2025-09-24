@@ -13,9 +13,9 @@ describe("WeekNotes", () => {
       </PlannerProvider>,
     );
 
-    const textarea = screen.getByRole("textbox", { name: "Notes" });
+    const textarea = screen.getByRole("textbox", { name: "Day notes" });
 
     expect(textarea).toHaveAttribute("aria-labelledby", `notes-${ISO}-header`);
-    expect(textarea).toHaveAttribute("aria-label", "Notes");
+    expect(textarea).toHaveAttribute("aria-label", "Day notes");
   });
 });

@@ -3,8 +3,8 @@
 import "./style.css";
 
 /**
- * WeekNotes — uses the same day.notes as a longer textarea for the focused ISO date.
- * Yes, “WeekNotes” name is historical; this edits the current day to keep things simple.
+ * WeekNotes — day-scoped notes editor for the focused ISO date.
+ * Historical name kept for compatibility, but UI copy reflects daily scope.
  */
 
 import * as React from "react";
@@ -22,7 +22,7 @@ export default function WeekNotes({ iso }: Props) {
 
   return (
     <SectionCard className="card-neo-soft">
-      <SectionCard.Header id={headerId} title="Notes" />
+      <SectionCard.Header id={headerId} title="Day notes" />
       <SectionCard.Body>
         <Textarea
           placeholder="Jot down anything related to this day…"
@@ -30,7 +30,7 @@ export default function WeekNotes({ iso }: Props) {
           onChange={(e) => setValue(e.target.value)}
           name={`notes-${iso}`}
           aria-labelledby={headerId}
-          aria-label="Notes"
+          aria-label="Day notes"
           resize="resize-y"
           textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           onBlur={commit}

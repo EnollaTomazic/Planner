@@ -59,6 +59,7 @@ export default function TodayHeroProjects({
   onToggleShowAllProjects,
 }: TodayHeroProjectsProps) {
   const newProjectInputId = `${projectsListId}-new-project`;
+  const newProjectHelpId = `${projectsListId}-new-project-help`;
   const activeProjectOptionId = visibleProjects.some(
     (project) => project.id === selectedProjectId,
   )
@@ -71,14 +72,32 @@ export default function TodayHeroProjects({
         <Label htmlFor={newProjectInputId} className="mb-0">
           New project
         </Label>
-        <Input
-          id={newProjectInputId}
-          name="new-project"
-          placeholder="> new project…"
-          value={projectName}
-          onChange={(event) => onProjectNameChange(event.target.value)}
-          className="w-full"
-        />
+        <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
+          <Input
+            id={newProjectInputId}
+            name="new-project"
+            placeholder="> new project…"
+            value={projectName}
+            onChange={(event) => onProjectNameChange(event.target.value)}
+            className="w-full sm:flex-1"
+            aria-describedby={newProjectHelpId}
+          />
+          <Button
+            type="submit"
+            size="sm"
+            variant="primary"
+            className="w-full sm:w-auto sm:shrink-0"
+            disabled={projectName.trim().length === 0}
+          >
+            Add
+          </Button>
+        </div>
+        <div
+          id={newProjectHelpId}
+          className="text-label font-medium text-muted-foreground"
+        >
+          Press Enter or click Add to create a project, then pick it to plan today.
+        </div>
       </form>
 
       {projects.length > 0 && (

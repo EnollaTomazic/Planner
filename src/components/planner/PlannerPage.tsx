@@ -131,7 +131,7 @@ function Inner() {
 
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
           <aside
-            aria-label="Week notes"
+            aria-label="Day notes"
             className="lg:col-span-4 space-y-[var(--space-6)] lg:sticky lg:top-[var(--header-stack)]"
           >
             <WeekNotes iso={iso} />
