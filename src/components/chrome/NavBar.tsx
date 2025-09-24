@@ -28,8 +28,8 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
       aria-label="Primary"
       className="max-w-full overflow-x-auto lg:overflow-x-visible"
     >
-      <ul className="flex flex-nowrap items-center gap-x-[var(--space-2)] gap-y-[var(--space-2)]">
-        {items.map(({ href, label }) => {
+      <ul className="flex flex-nowrap items-center gap-[var(--space-2)]">
+        {items.map(({ href, label, mobileIcon: Icon }) => {
           const active = isNavActive(path, href);
 
           return (
@@ -37,28 +37,24 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
+                data-active={active ? "true" : undefined}
                 className={cn(
-                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center rounded-[var(--radius-2xl)] border px-[var(--space-4)] py-[var(--space-3)] font-mono text-ui transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-interaction-focus-surfaceActive active:text-foreground",
-                  "bg-[hsl(var(--card)/0.85)]",
-                  "supports-[background:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]:bg-[color:color-mix(in_oklab,hsl(var(--card))_85%,transparent)]",
+                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium font-mono transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "card-neo-soft",
                   active
-                    ? "text-foreground border-ring shadow-nav-active"
-                    : "text-muted-foreground border-transparent hover:border-border hover:bg-interaction-focus-surfaceHover",
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
+                {Icon ? (
+                  <span
+                    aria-hidden="true"
+                    className="flex size-[var(--icon-size-md)] items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground"
+                  >
+                    <Icon aria-hidden="true" className="size-full" />
+                  </span>
+                ) : null}
                 <span className="relative z-10">{label}</span>
-
-                {/* hover sheen */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)] opacity-0 transition group-hover:opacity-100 nav-hover-sheen"
-                />
-
-                {/* faint scanlines */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-[var(--radius-2xl)] opacity-20 nav-scanlines"
-                />
 
                 {/* animated underline shared across tabs */}
                 {active && (

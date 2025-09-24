@@ -3939,18 +3939,40 @@ React.useEffect(() => {
       description:
         "Composite hero surface combining quick actions, overview metrics, and planner highlights for the landing page.",
       element: (
-        <HeroPlannerCards
-          variant="aurora"
-          plannerOverviewProps={heroPlannerOverviewDemo}
-          highlights={heroPlannerHighlightsDemo}
-        />
+        <UiSectionCard aria-labelledby="hero-planner-cards-heading">
+          <UiSectionCard.Header
+            id="hero-planner-cards-heading"
+            sticky={false}
+            title="Planner overview"
+            titleAs="h2"
+            titleClassName="text-title font-semibold tracking-[-0.01em]"
+          />
+          <UiSectionCard.Body className="md:p-[var(--space-6)]">
+            <HeroPlannerCards
+              variant="aurora"
+              plannerOverviewProps={heroPlannerOverviewDemo}
+              highlights={heroPlannerHighlightsDemo}
+            />
+          </UiSectionCard.Body>
+        </UiSectionCard>
       ),
       tags: ["planner", "homepage", "hero"],
-      code: `<HeroPlannerCards
-  variant="aurora"
-  plannerOverviewProps={plannerOverviewProps}
-  highlights={weeklyHighlights}
-/>`,
+      code: `<SectionCard aria-labelledby="planner-overview-heading">
+  <SectionCard.Header
+    id="planner-overview-heading"
+    sticky={false}
+    title="Planner overview"
+    titleAs="h2"
+    titleClassName="text-title font-semibold tracking-[-0.01em]"
+  />
+  <SectionCard.Body>
+    <HeroPlannerCards
+      variant="aurora"
+      plannerOverviewProps={plannerOverviewProps}
+      highlights={weeklyHighlights}
+    />
+  </SectionCard.Body>
+</SectionCard>`,
     },
     {
       id: "hero-portrait-frame",
