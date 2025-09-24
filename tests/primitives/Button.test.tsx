@@ -54,7 +54,7 @@ describe("Button", () => {
     );
     const btn = getByRole("button");
     expect(btn).toHaveClass(
-      "disabled:opacity-[var(--disabled)]",
+      "disabled:opacity-disabled",
       "disabled:pointer-events-none",
     );
     fireEvent.click(btn);

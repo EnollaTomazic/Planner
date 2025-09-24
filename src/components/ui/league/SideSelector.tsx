@@ -75,8 +75,8 @@ export default function SideSelector({
         "border border-border bg-card",
         "hover:bg-[--hover] active:bg-[--active]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
-        "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+        "disabled:opacity-disabled disabled:pointer-events-none",
+        "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
         "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
         "min-w-[calc(var(--space-8)*3+var(--space-6))]",
         "sm:min-w-[calc(var(--space-8)*4)]",
@@ -102,7 +102,7 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-[var(--ease-out, cubic-bezier(.2,.8,.2,1))] [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-out [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
         style={indicatorStyle}
       />
 

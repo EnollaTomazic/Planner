@@ -6,7 +6,9 @@ import * as React from "react";
 /** Simple progress bar (0..100), with SR label */
 export default function Progress({ value, label }: { value: number; label?: string }) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
-  const widthClass = `w-[${v}%]`;
+  const progressStyle = {
+    "--progress": `${v}%`,
+  } as React.CSSProperties;
 
   return (
     <div
@@ -16,12 +18,13 @@ export default function Progress({ value, label }: { value: number; label?: stri
         className="h-full w-full overflow-hidden rounded-full bg-panel/90 shadow-neo-inset"
       >
         <span
-          className={`block h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] transition-[width] shadow-neo-sm ${widthClass}`}
+          className="progress-fill block h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] transition-[width] shadow-neo-sm"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={v}
           aria-label={label}
           role="progressbar"
+          style={progressStyle}
         >
           <span className="sr-only">{v}%</span>
         </span>

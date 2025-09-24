@@ -293,11 +293,11 @@ export default function TabBar<
                   "btn-like-segmented font-mono text-ui",
                   size === "lg" ? "text-body" : "text-ui",
                   active && "btn-glitch is-active",
-                  isDisabled && "pointer-events-none opacity-[var(--disabled)]",
+                  isDisabled && "pointer-events-none opacity-disabled",
                   item.className,
                 )
               : cn(
-                  "relative inline-flex items-center justify-center select-none rounded-[var(--control-radius)] transition-[background,box-shadow,color] duration-[var(--dur-quick)] ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-[var(--control-radius)] transition-[background,box-shadow,color] duration-quick ease-out",
                   s.h,
                   s.px,
                   s.text,
@@ -306,8 +306,8 @@ export default function TabBar<
                   tabVariant,
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
-                  "disabled:opacity-[var(--disabled)] disabled:pointer-events-none",
-                  "data-[loading=true]:opacity-[var(--loading)] data-[loading=true]:pointer-events-none",
+                  "disabled:opacity-disabled disabled:pointer-events-none",
+                  "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                   item.className,
                 );
 

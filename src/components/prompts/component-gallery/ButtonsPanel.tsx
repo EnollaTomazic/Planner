@@ -223,7 +223,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
                   "btn-like-segmented font-mono text-ui",
                   baseClassName,
                   active && "btn-glitch is-active",
-                  disabled && "pointer-events-none opacity-[var(--disabled)]",
+                  disabled && "pointer-events-none opacity-disabled",
                 );
                 const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
                   onClick?.(event);

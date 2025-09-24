@@ -88,7 +88,7 @@ describe("Input", () => {
     const input = getByRole("textbox");
     expect(input).toHaveAttribute("data-loading", "true");
     expect(input.className).toContain(
-      "group-data-[loading=true]/field:opacity-[var(--loading)]",
+      "group-data-[loading=true]/field:opacity-loading",
     );
     const field = input.parentElement as HTMLElement;
     expect(field.dataset.loading).toBe("true");
