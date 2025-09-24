@@ -55,7 +55,7 @@ export default function GoalList({
     <ul className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [grid-auto-rows:minmax(0,1fr)] list-none m-0 p-0">
       {goals.length === 0 ? (
         <li className="flex">
-          <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline/60 bg-surface">
+          <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline-60 bg-surface">
             <Flag aria-hidden className="h-6 w-6 text-accent" />
             <p className="max-w-[calc(var(--space-7)*5)]">
               No goals here. Add one simple, finishable thing.
@@ -69,7 +69,7 @@ export default function GoalList({
           return (
             <li key={g.id} className="flex">
               <article
-                className="card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col rounded-card border border-card-hairline/60 bg-surface text-card-foreground transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--surface))] hover:bg-surface-2 focus-within:bg-surface-2"
+                className="card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col rounded-card border border-card-hairline-60 bg-surface text-card-foreground transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--surface))] hover:bg-surface-2 focus-within:bg-surface-2"
               >
                   <header className="flex items-start justify-between gap-[var(--space-2)]">
                     <div className="flex-1 pr-[var(--space-6)]">
