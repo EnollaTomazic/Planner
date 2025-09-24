@@ -15,7 +15,7 @@ export type SiteChromeProps = {
 };
 
 /**
- * SiteChrome — sticky top bar with Lavender-Glitch hairline
+ * SiteChrome — sticky top bar for global navigation
  * - Uses .sticky-blur (backdrop + border) from globals.css
  * - Full-width container; content constrained by .page-shell
  * - Z-index > heroes, so it stays above scrolling headers
@@ -55,12 +55,6 @@ export default function SiteChrome({ children }: SiteChromeProps) {
             <BottomNav />
           </div>
         </PageShell>
-
-        {/* Hairline (neon-friendly, non-interactive) */}
-        <div
-          aria-hidden
-          className="pointer-events-none h-[var(--hairline-w)] w-full bg-[linear-gradient(90deg,transparent,hsl(var(--border)),transparent)]"
-        />
       </header>
       {children}
     </React.Fragment>

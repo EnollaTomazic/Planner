@@ -157,10 +157,6 @@ exports[`ReviewsPage > renders default state 1`] = `
                 class="relative flex items-center gap-[var(--space-3)] sm:gap-[var(--space-4)] px-[var(--header-bar-px,var(--space-3))] sm:px-[var(--header-bar-sm-px,var(--space-4))] py-[var(--space-3)] sm:py-[var(--space-4)] min-h-[var(--space-7)] [--header-bar-px:var(--space-0)] sm:[--header-bar-sm-px:var(--space-0)]"
               >
                 <div
-                  aria-hidden="true"
-                  class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl header-rail--subtle"
-                />
-                <div
                   class="flex min-w-0 flex-1 items-center gap-[var(--space-3)] sm:gap-[var(--space-4)]"
                 >
                   <div
@@ -217,10 +213,6 @@ exports[`ReviewsPage > renders default state 1`] = `
                   <div
                     class="relative col-span-full md:col-span-8 flex min-w-0 flex-wrap items-start md:flex-nowrap md:items-center gap-[var(--space-2)] md:gap-[var(--space-4)]"
                   >
-                    <span
-                      aria-hidden="true"
-                      class="header-rail pointer-events-none absolute left-0 top-[var(--space-1)] bottom-[var(--space-1)] w-[var(--space-2)] rounded-l-2xl header-rail--subtle"
-                    />
                     <div
                       class="min-w-0"
                     >
