@@ -191,7 +191,7 @@ html.no-animations *::after {
 
 /* Global focus & selection styling */
 *:focus-visible {
-  outline: var(--spacing-0-5) solid hsl(var(--ring-contrast));
+  outline: var(--spacing-0-5) solid var(--ring-contrast);
   outline-offset: var(--spacing-0-5);
   box-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--glow) / 0.6);
 }
