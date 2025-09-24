@@ -3,7 +3,7 @@ import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import {
   geistMonoVariable,
@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     template: "%s · Planner",
   },
   description: "Local-first planner for organizing tasks and goals",
+};
+
+export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: dark)",
