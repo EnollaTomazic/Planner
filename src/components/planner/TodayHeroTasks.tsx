@@ -10,6 +10,8 @@ import Input from "@/components/ui/primitives/Input";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import type { DayTask } from "./plannerTypes";
 
+const TASK_OPTION_GUARD_SELECTOR = "[data-task-option-guard='true']";
+
 export type TodayHeroTasksProps = {
   projectId: string;
   projectName: string;
@@ -97,6 +99,12 @@ export default function TodayHeroTasks({
                     aria-label={`Select task ${task.title}`}
                     onClick={(event: MouseEvent<HTMLButtonElement>) => {
                       if (event.defaultPrevented) return;
+                      if (
+                        event.target instanceof Element &&
+                        event.target.closest(TASK_OPTION_GUARD_SELECTOR)
+                      ) {
+                        return;
+                      }
                       if (event.target !== event.currentTarget) return;
                       onTaskSelect(task.id);
                     }}
@@ -134,7 +142,7 @@ export default function TodayHeroTasks({
                     <div className="pointer-events-none flex items-center gap-[var(--space-3)]">
                       <div
                         className="pointer-events-auto"
-                        onClick={(event) => event.stopPropagation()}
+                        data-task-option-guard="true"
                         onPointerDown={(event) => event.stopPropagation()}
                       >
                         <CheckCircle
@@ -160,10 +168,10 @@ export default function TodayHeroTasks({
                           onBlur={() => {
                             onTaskRenameCommit(task.id, task.title);
                           }}
-                          onClick={(event) => event.stopPropagation()}
                           onPointerDown={(event) => event.stopPropagation()}
                           className="pointer-events-auto"
                           aria-label={`Rename task ${task.title}`}
+                          data-task-option-guard="true"
                         />
                       ) : (
                         <button

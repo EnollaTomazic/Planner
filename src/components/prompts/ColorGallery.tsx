@@ -20,6 +20,11 @@ const paletteSwatchStyle: React.CSSProperties = {
   inlineSize: "calc(var(--space-8) + var(--space-6))",
 };
 
+const directColorTokens = new Set([
+  "aurora-g-light",
+  "aurora-p-light",
+]);
+
 export default function ColorGallery() {
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
@@ -81,20 +86,26 @@ export default function ColorGallery() {
               </p>
             </div>
           )}
-          {COLOR_PALETTES[p.key].map((c) => (
-            <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
-              <span className="text-label uppercase tracking-wide text-accent-3">
-                {c}
-              </span>
-              <div
-                className="rounded-[var(--radius-lg)] border"
-                style={{
-                  ...paletteSwatchStyle,
-                  backgroundColor: `hsl(var(--${c}))`,
-                }}
-              />
-            </div>
-          ))}
+          {COLOR_PALETTES[p.key].map((c) => {
+            const backgroundColor = directColorTokens.has(c)
+              ? `var(--${c})`
+              : `hsl(var(--${c}))`;
+
+            return (
+              <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
+                <span className="text-label uppercase tracking-wide text-accent-3">
+                  {c}
+                </span>
+                <div
+                  className="rounded-[var(--radius-lg)] border"
+                  style={{
+                    ...paletteSwatchStyle,
+                    backgroundColor,
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>

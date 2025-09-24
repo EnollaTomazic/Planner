@@ -1,7 +1,9 @@
 import React from "react";
 import { render, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import IconButton from "../../src/components/ui/primitives/IconButton";
+import IconButton, {
+  type IconButtonProps,
+} from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
 
@@ -202,8 +204,7 @@ describe("IconButton", () => {
     it("logs an error when icon-only content is missing a label", async () => {
       render(
         <IconButton
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          {...({} as any)}
+          {...({} as unknown as IconButtonProps)}
         >
           <svg />
         </IconButton>,

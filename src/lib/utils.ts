@@ -59,6 +59,13 @@ export function withBasePath(path: string): string {
     return path;
   }
   const trimmedPath = path.trim();
+  if (!trimmedPath) {
+    return NORMALIZED_BASE ? `${NORMALIZED_BASE}/` : "/";
+  }
+
+  if (trimmedPath.startsWith("#") || trimmedPath.startsWith("?")) {
+    return trimmedPath;
+  }
   const normalizedPath = trimmedPath.startsWith("/")
     ? trimmedPath
     : `/${trimmedPath}`;
@@ -67,7 +74,11 @@ export function withBasePath(path: string): string {
     return normalizedPath;
   }
 
-  if (normalizedPath.startsWith(`${NORMALIZED_BASE}/`)) {
+  if (
+    normalizedPath === NORMALIZED_BASE ||
+    normalizedPath === `${NORMALIZED_BASE}/` ||
+    normalizedPath.startsWith(`${NORMALIZED_BASE}/`)
+  ) {
     return normalizedPath;
   }
 

@@ -14,6 +14,9 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
   {} as Record<string, string>,
 );
 
+const cardHairlineOpacity = (percent: number) =>
+  `color-mix(in oklab, var(--card-hairline) ${percent}%, transparent)`;
+
 const config: Config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -42,7 +45,10 @@ const config: Config = {
           foreground: "hsl(var(--foreground))",
         },
         panel: { DEFAULT: "hsl(var(--panel))" },
-        "card-hairline": "hsl(var(--card-hairline))",
+        "card-hairline": "var(--card-hairline)",
+        "card-hairline-60": cardHairlineOpacity(60),
+        "card-hairline-70": cardHairlineOpacity(70),
+        "card-hairline-90": cardHairlineOpacity(90),
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -55,7 +61,7 @@ const config: Config = {
           overlay: "var(--accent-overlay)",
         },
         on: {
-          accent: "hsl(var(--text-on-accent))",
+          accent: "var(--text-on-accent)",
         },
         "accent-3": {
           DEFAULT: "hsl(var(--accent-3))",
@@ -88,9 +94,9 @@ const config: Config = {
           sup: "hsl(var(--tone-sup))",
         },
         "aurora-g": "hsl(var(--aurora-g))",
-        "aurora-g-light": "hsl(var(--aurora-g-light))",
+        "aurora-g-light": "var(--aurora-g-light)",
         "aurora-p": "hsl(var(--aurora-p))",
-        "aurora-p-light": "hsl(var(--aurora-p-light))",
+        "aurora-p-light": "var(--aurora-p-light)",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -142,7 +148,7 @@ const config: Config = {
         },
       },
       borderColor: {
-        "card-hairline": "hsl(var(--card-hairline))",
+        "card-hairline": "var(--card-hairline)",
       },
       borderRadius: borderRadiusTokens,
       boxShadow: {

@@ -69,6 +69,7 @@ export default function ReviewsPage({
   );
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
+  const sortLabelId = React.useId();
 
   return (
     <>
@@ -101,13 +102,20 @@ export default function ReviewsPage({
                   aria-label="Search reviews"
                   className="md:col-span-8"
                 />
-                <label className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2">
-                  <span className="text-ui font-medium text-muted-foreground">
+                <div
+                  className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
+                  aria-labelledby={sortLabelId}
+                >
+                  <span
+                    id={sortLabelId}
+                    className="text-ui font-medium text-muted-foreground"
+                  >
                     Sort
                   </span>
                   <Select
                     variant="animated"
-                    ariaLabel="Sort reviews"
+                    label="Sort reviews"
+                    hideLabel
                     value={sort}
                     onChange={(v) => setSort(v as SortKey)}
                     items={[
@@ -118,7 +126,7 @@ export default function ReviewsPage({
                     className="w-full"
                     size="lg"
                   />
-                </label>
+                </div>
                 <Button
                   type="button"
                   variant="primary"

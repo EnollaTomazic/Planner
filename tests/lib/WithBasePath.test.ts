@@ -48,8 +48,28 @@ describe("WithBasePath", () => {
 
     const { withBasePath } = await importBasePathUtils();
 
-    expect(withBasePath("/planner")).toBe("/planner/planner");
-    expect(withBasePath("planner")).toBe("/planner/planner");
+    expect(withBasePath("/planner")).toBe("/planner");
+    expect(withBasePath("planner")).toBe("/planner");
+  });
+
+  it("keeps hash anchors untouched regardless of base path", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    {
+      const { withBasePath } = await importBasePathUtils();
+      expect(withBasePath("#main")).toBe("#main");
+      expect(withBasePath("?modal=true")).toBe("?modal=true");
+    }
+
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+
+    {
+      const { withBasePath } = await importBasePathUtils();
+      expect(withBasePath("#main")).toBe("#main");
+      expect(withBasePath("?modal=true")).toBe("?modal=true");
+    }
   });
 
   it("avoids double prefixing when path already includes the base path", async () => {

@@ -10,6 +10,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import { spacingTokens } from "@/lib/tokens";
+import { uid } from "@/lib/db";
 import type { DayTask } from "./plannerTypes";
 
 const taskImageSpacingToken = 7;
@@ -17,6 +18,7 @@ const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
 const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
 const layoutClasses =
   "[overflow:visible] grid min-h-[var(--space-7)] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)] pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]";
+const TASK_ROW_GUARD_SELECTOR = "[data-task-row-guard='true']";
 
 type Props = {
   task: DayTask;
@@ -48,6 +50,34 @@ export default function TaskRow({
   const trimmedTaskTitle = task.title.trim();
   const accessibleTaskTitle = trimmedTaskTitle || "Untitled task";
   const renameTaskLabel = `Rename task ${accessibleTaskTitle}`;
+
+  const imageEntriesRef = React.useRef<Array<{ url: string; id: string }>>([]);
+  const imageEntries = React.useMemo(() => {
+    const previousEntries = imageEntriesRef.current;
+    const used = new Set<number>();
+    const nextEntries: Array<{ url: string; id: string }> = [];
+
+    for (const url of task.images) {
+      let matchIndex = -1;
+      for (let index = 0; index < previousEntries.length; index += 1) {
+        if (used.has(index)) continue;
+        if (previousEntries[index]?.url === url) {
+          matchIndex = index;
+          break;
+        }
+      }
+
+      if (matchIndex >= 0) {
+        used.add(matchIndex);
+        nextEntries.push(previousEntries[matchIndex]!);
+      } else {
+        nextEntries.push({ url, id: `${task.id}-image-${uid()}` });
+      }
+    }
+
+    imageEntriesRef.current = nextEntries;
+    return nextEntries;
+  }, [task.id, task.images]);
 
   const validateImageUrl = React.useCallback((value: string) => {
     if (!value) {
@@ -88,9 +118,18 @@ export default function TaskRow({
     [],
   );
 
-  const handleRowClick = React.useCallback(() => {
-    selectTask();
-  }, [selectTask]);
+  const handleRowClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (
+        event.target instanceof Element &&
+        event.target.closest(TASK_ROW_GUARD_SELECTOR)
+      ) {
+        return;
+      }
+      selectTask();
+    },
+    [selectTask],
+  );
 
   const handleRowKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -181,7 +220,7 @@ export default function TaskRow({
         >
           <div
             className="pointer-events-auto shrink-0 ml-[var(--space-1)]"
-            onClick={(e) => e.stopPropagation()}
+            data-task-row-guard="true"
             onPointerDown={(e) => e.stopPropagation()}
           >
             <CheckCircle
@@ -232,6 +271,7 @@ export default function TaskRow({
                   if (e.key === "Escape") cancel();
                 }}
                 aria-label={renameTaskLabel}
+                data-task-row-guard="true"
               />
             )}
           </div>
@@ -277,13 +317,13 @@ export default function TaskRow({
       </div>
       {task.images.length > 0 && (
         <ul className="mt-[var(--space-2)] space-y-[var(--space-2)]">
-          {task.images.map((url, index) => (
+          {imageEntries.map((entry, index) => (
             <li
-              key={`${url}-${index}`}
+              key={entry.id}
               className="flex items-center gap-[var(--space-2)]"
             >
               <Image
-                src={url}
+                src={entry.url}
                 alt={`Task image for ${accessibleTaskTitle}`}
                 width={taskImageSize}
                 height={taskImageSize}
@@ -297,7 +337,7 @@ export default function TaskRow({
               <IconButton
                 aria-label="Remove image"
                 title="Remove image"
-                onClick={() => removeImage(url, index)}
+                onClick={() => removeImage(entry.url, index)}
                 size="sm"
                 iconSize="xs"
                 variant="ghost"

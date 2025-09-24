@@ -150,7 +150,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             class="relative z-[2] md:space-y-[var(--space-6)] space-y-[var(--space-2)]"
           >
             <header
-              class="z-[999] relative isolate border-b border-card-hairline/60 bg-surface/80 backdrop-blur after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:z-[2] after:from-card-hairline after:via-card-hairline/70 after:to-transparent"
+              class="z-[999] relative isolate border-b border-card-hairline-60 bg-surface/80 backdrop-blur after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:bg-gradient-to-r after:z-[2] after:from-card-hairline after:via-card-hairline-70 after:to-transparent"
               id="reviews-header"
             >
               <div
@@ -335,11 +335,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                           </div>
                         </div>
                       </form>
-                      <label
+                      <div
+                        aria-labelledby=":r0:"
                         class="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
                       >
                         <span
                           class="text-ui font-medium text-muted-foreground"
+                          id=":r0:"
                         >
                           Sort
                         </span>
@@ -347,13 +349,19 @@ exports[`ReviewsPage > renders default state 1`] = `
                           class="glitch-wrap w-full"
                         >
                           <div
+                            class="sr-only"
+                            id=":r2:-label"
+                          >
+                            Sort reviews
+                          </div>
+                          <div
                             class="group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0"
                           >
                             <button
-                              aria-controls=":r1:-listbox"
+                              aria-controls=":r2:-listbox"
                               aria-expanded="false"
                               aria-haspopup="listbox"
-                              aria-label="Sort reviews"
+                              aria-labelledby=":r2:-label"
                               class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:[outline:none] focus-visible:[outline:none] transition-colors duration-[var(--dur-quick)] ease-out motion-reduce:transition-none"
                               data-lit="true"
                               data-open="false"
@@ -400,7 +408,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             </button>
                           </div>
                         </div>
-                      </label>
+                      </div>
                       <button
                         class="relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-[var(--dur-quick)] ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:[outline:none] focus-visible:ring-2 focus-visible:ring-[var(--focus)] disabled:opacity-[var(--disabled)] disabled:pointer-events-none data-[loading=true]:opacity-[var(--loading)] data-[disabled=true]:opacity-[var(--disabled)] data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
                         style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
