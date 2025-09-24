@@ -11,6 +11,8 @@ import Input from "@/components/ui/primitives/Input";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import type { Project } from "./plannerTypes";
 
+const PROJECT_OPTION_GUARD_SELECTOR = "[data-project-option-guard='true']";
+
 export type TodayHeroProjectsProps = {
   projects: Project[];
   selectedProjectId: string;
@@ -105,7 +107,13 @@ export default function TodayHeroProjects({
                     id={optionId}
                     aria-selected={isSelected}
                     aria-disabled={isEditing}
-                    onClick={() => {
+                    onClick={(event) => {
+                      if (
+                        event.target instanceof HTMLElement &&
+                        event.target.closest(PROJECT_OPTION_GUARD_SELECTOR)
+                      ) {
+                        return;
+                      }
                       if (!isEditing) onProjectSelect(project.id);
                     }}
                     onKeyDown={(event) => {
@@ -140,15 +148,14 @@ export default function TodayHeroProjects({
                           onProjectRenameCommit(project.id, project.name);
                         }}
                         aria-label={`Rename project ${project.name}`}
-                        onClick={(event) => event.stopPropagation()}
+                        data-project-option-guard="true"
                       />
                     ) : (
-                      <div className="flex min-w-0 items-center gap-[var(--space-3)]">
-                        <span
-                          className="shrink-0"
-                          onMouseDown={(event) => event.stopPropagation()}
-                          onClick={(event) => event.stopPropagation()}
-                        >
+                        <div className="flex min-w-0 items-center gap-[var(--space-3)]">
+                          <span
+                            className="shrink-0"
+                            data-project-option-guard="true"
+                          >
                           <CheckCircle
                             size="sm"
                             checked={project.done}

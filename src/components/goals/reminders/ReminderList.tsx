@@ -62,6 +62,8 @@ function RemTile({
   const [body, setBody] = React.useState(value.body ?? "");
   const [tagsText, setTagsText] = React.useState(value.tags.join(", "));
   const titleRef = React.useRef<HTMLInputElement | null>(null);
+  const noteFieldId = `reminder-${value.id}-note`;
+  const tagsFieldId = `reminder-${value.id}-tags`;
 
   useAutoFocus({ ref: titleRef, when: editing });
 
@@ -173,8 +175,14 @@ function RemTile({
       <div className="mt-[var(--space-2)] space-y-[var(--space-3)]">
         {editing ? (
           <>
-            <label className="text-label font-medium tracking-[0.02em] opacity-70">Note</label>
+            <label
+              className="text-label font-medium tracking-[0.02em] opacity-70"
+              htmlFor={noteFieldId}
+            >
+              Note
+            </label>
             <Textarea
+              id={noteFieldId}
               aria-label="Body"
               placeholder="Short, skimmable sentence."
               value={body}
@@ -185,9 +193,14 @@ function RemTile({
               resize="resize-y"
               textareaClassName="min-h-[calc(var(--space-8)*2_+_var(--space-3))] leading-relaxed"
             />
-
-            <label className="text-label font-medium tracking-[0.02em] opacity-70">Tags</label>
+            <label
+              className="text-label font-medium tracking-[0.02em] opacity-70"
+              htmlFor={tagsFieldId}
+            >
+              Tags
+            </label>
             <Input
+              id={tagsFieldId}
               aria-label="Tags (comma separated)"
               placeholder="tags, comma, separated"
               value={tagsText}
