@@ -14,6 +14,9 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
   {} as Record<string, string>,
 );
 
+const cardHairlineOpacity = (percent: number) =>
+  `color-mix(in oklab, var(--card-hairline) ${percent}%, transparent)`;
+
 const config: Config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -39,7 +42,10 @@ const config: Config = {
           foreground: "hsl(var(--foreground))",
         },
         panel: { DEFAULT: "hsl(var(--panel))" },
-        "card-hairline": "hsl(var(--card-hairline))",
+        "card-hairline": "var(--card-hairline)",
+        "card-hairline-60": cardHairlineOpacity(60),
+        "card-hairline-70": cardHairlineOpacity(70),
+        "card-hairline-90": cardHairlineOpacity(90),
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -139,7 +145,7 @@ const config: Config = {
         },
       },
       borderColor: {
-        "card-hairline": "hsl(var(--card-hairline))",
+        "card-hairline": "var(--card-hairline)",
       },
       borderRadius: borderRadiusTokens,
       boxShadow: {

@@ -25,7 +25,7 @@ export default function DashboardCard({
       </div>
       {children && (
         <div
-          className="border-t border-card-hairline/60 pt-[var(--space-4)] space-y-[var(--space-4)]"
+          className="border-t border-card-hairline-60 pt-[var(--space-4)] space-y-[var(--space-4)]"
         >
           {children}
         </div>
