@@ -34,7 +34,20 @@ describe("ButtonBasePath", () => {
     vi.resetModules();
     const { default: Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(<Button href="/planner">Planner</Button>);
-    expect(getByRole("link")).toHaveAttribute("href", "/planner/planner");
+    expect(getByRole("link")).toHaveAttribute("href", "/planner");
+  });
+
+  it("preserves hash and query-only href values", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    vi.resetModules();
+    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { rerender, getByRole } = render(
+      <Button href="#main">Skip</Button>,
+    );
+    expect(getByRole("link")).toHaveAttribute("href", "#main");
+
+    rerender(<Button href="?modal=true">Open modal</Button>);
+    expect(getByRole("link")).toHaveAttribute("href", "?modal=true");
   });
 
   it("keeps external href values unchanged", async () => {
