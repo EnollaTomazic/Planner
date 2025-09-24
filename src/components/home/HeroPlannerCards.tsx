@@ -38,13 +38,15 @@ export default function HeroPlannerCards({
   return (
     <div
       className={cn(
-        "space-y-[var(--space-7)]",
+        "grid grid-cols-1 gap-y-[var(--space-7)] md:grid-cols-12",
         "relative z-10 isolate rounded-[var(--radius-2xl)] border border-border/50 bg-card/30 shadow-neoSoft backdrop-blur-lg",
         "p-[var(--space-4)] md:p-[var(--space-5)]",
         className,
       )}
     >
-      <div className="grid items-start gap-[var(--space-4)] md:grid-cols-12">
+      <div
+        className="col-span-full grid items-start gap-[var(--space-4)] md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]"
+      >
         <div className="md:col-span-6">
           <QuickActions />
         </div>
@@ -52,10 +54,13 @@ export default function HeroPlannerCards({
           <IsometricRoom variant={variant} />
         </div>
       </div>
-      <div className="pt-[var(--space-4)]">
-        <PlannerOverview {...plannerOverviewProps} />
-      </div>
-      <section className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
+      <PlannerOverview
+        {...plannerOverviewProps}
+        className="pt-[var(--space-4)]"
+      />
+      <section
+        className="col-span-full grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]"
+      >
         <div className="md:col-span-4">
           <TodayCard />
         </div>
