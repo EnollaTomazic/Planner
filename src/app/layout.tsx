@@ -10,6 +10,7 @@ import {
   geistSansClassName,
   geistSansVariable,
 } from "./fonts";
+import tokens from "../../tokens/tokens.js";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -24,6 +25,16 @@ export const metadata: Metadata = {
     template: "%s · Planner",
   },
   description: "Local-first planner for organizing tasks and goals",
+  themeColor: [
+    {
+      media: "(prefers-color-scheme: dark)",
+      color: `hsl(${tokens.background})`,
+    },
+    {
+      media: "(prefers-color-scheme: light)",
+      color: `hsl(${tokens.foreground})`,
+    },
+  ],
 };
 
 /**
@@ -54,9 +65,11 @@ export default async function RootLayout({
       lang="en"
       className="theme-lg"
       suppressHydrationWarning
+      style={{ colorScheme: "dark" }}
     >
       <head>
         {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
+        <meta name="color-scheme" content="dark light" />
         <Script
           id="theme-bootstrap"
           strategy="beforeInteractive"
