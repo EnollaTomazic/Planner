@@ -26,6 +26,8 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        text: "hsl(var(--text))",
+        line: "hsl(var(--line))",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -39,6 +41,9 @@ const config: Config = {
           foreground: "hsl(var(--foreground))",
         },
         panel: { DEFAULT: "hsl(var(--panel))" },
+        icon: {
+          fg: "hsl(var(--icon-fg))",
+        },
         "card-hairline": "hsl(var(--card-hairline))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -61,7 +66,11 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent-2))",
           foreground: "hsl(var(--accent-2-foreground))",
         },
-        glow: "hsl(var(--glow))",
+        glow: {
+          DEFAULT: "hsl(var(--glow))",
+          strong: "hsl(var(--glow-strong))",
+          soft: "hsl(var(--glow-soft))",
+        },
         "ring-muted": "hsl(var(--ring-muted))",
         danger: {
           DEFAULT: "hsl(var(--danger))",
