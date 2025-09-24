@@ -176,7 +176,7 @@ export default function ProjectList({
                   onKeyDown={blockInteraction ? undefined : handleRowKey}
                   onClick={(event) => {
                     if (
-                      event.target instanceof HTMLElement &&
+                      event.target instanceof Element &&
                       event.target.closest(PROJECT_ROW_GUARD_SELECTOR)
                     ) {
                       return;

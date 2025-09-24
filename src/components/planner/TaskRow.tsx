@@ -121,7 +121,7 @@ export default function TaskRow({
   const handleRowClick = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (
-        event.target instanceof HTMLElement &&
+        event.target instanceof Element &&
         event.target.closest(TASK_ROW_GUARD_SELECTOR)
       ) {
         return;
