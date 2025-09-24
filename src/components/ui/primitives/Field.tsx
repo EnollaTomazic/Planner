@@ -45,6 +45,11 @@ function resolveHeight(height?: FieldHeight | number) {
 
 type HelperTone = "muted" | "danger" | "success";
 
+type FieldRootStyle = React.CSSProperties & {
+  "--bg"?: string;
+  "--field-h"?: string;
+};
+
 export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   height?: FieldHeight | number;
   disabled?: boolean;
@@ -87,6 +92,12 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const showHelper = helper !== undefined && helper !== null && helper !== "";
     const showCounter = counter !== undefined && counter !== null && counter !== "";
 
+    const rootStyle: FieldRootStyle = {
+      "--bg": "var(--surface)",
+      "--field-h": resolvedHeight,
+      ...(style as FieldRootStyle),
+    };
+
     return (
       <div
         className={cn(
@@ -97,7 +108,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
         <div
           ref={ref}
           className={cn(FIELD_ROOT_BASE, className)}
-          style={{ "--field-h": resolvedHeight, ...style } as React.CSSProperties}
+          style={rootStyle}
           data-disabled={disabled ? "true" : undefined}
           data-invalid={invalid ? "true" : undefined}
           data-loading={loading ? "true" : undefined}

@@ -65,7 +65,7 @@ export default function AnimationToggle({
           "hover:shadow-[var(--shadow-control-hover)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           "active:bg-surface",
-          "disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
+          "disabled:opacity-disabled disabled:pointer-events-none disabled:cursor-not-allowed",
         )}
       >
         {loading ? (

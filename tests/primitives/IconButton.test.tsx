@@ -102,7 +102,7 @@ describe("IconButton", () => {
     expect(classes).toContain(
       "[--active:theme('colors.interaction.foreground.tintActive')]",
     );
-    expect(classes).toContain("border-line/35 text-foreground");
+    expect(classes).toContain("border-[hsl(var(--line)/0.35)] text-foreground");
   });
 
   it("applies primary variant with accent tone", () => {

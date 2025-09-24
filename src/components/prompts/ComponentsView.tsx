@@ -93,7 +93,7 @@ function ShowCodeButton({
         "focus-visible:before:opacity-100",
         "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-quick after:ease-out",
         "hover:after:opacity-100 focus-visible:after:opacity-100",
-        "disabled:cursor-not-allowed disabled:opacity-60 disabled:translate-y-0",
+        "disabled:cursor-not-allowed disabled:opacity-disabled disabled:translate-y-0",
         "disabled:shadow-outline-subtle",
       )}
     >

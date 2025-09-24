@@ -42,7 +42,7 @@ describe('ReviewListItem', () => {
       <ReviewListItem disabled review={baseReview} />,
     );
     expect(container.firstChild).toHaveClass(
-      'disabled:opacity-60',
+      'disabled:opacity-disabled',
       'disabled:pointer-events-none',
     );
     expect(container).toMatchSnapshot();
