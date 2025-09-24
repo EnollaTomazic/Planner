@@ -16,7 +16,7 @@ import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowUpToLine } from "lucide-react";
-import { fromISODate, toISODate } from "@/lib/date";
+import { fromISODate } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import WeekPickerShell from "./WeekPickerShell";
 
@@ -227,11 +227,10 @@ export default function WeekPicker() {
   const { start, end, days } = useWeek(iso);
   const heading = `${dmy.format(start)} — ${dmy.format(end)}`;
   const rangeLabel = `${dmy.format(start)} → ${dmy.format(end)}`;
-  const isoStart = toISODate(start);
-  const isoEnd = toISODate(end);
 
   const { per, weekDone, weekTotal } = useWeekData(days);
   const reduceMotion = usePrefersReducedMotion();
+  const accessibleRange = `${chipAccessibleFormatter.format(start)} to ${chipAccessibleFormatter.format(end)}`;
 
   const chipRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const findSelectedIndex = React.useCallback(() => {
@@ -381,7 +380,7 @@ export default function WeekPicker() {
   return (
     <Hero
       heading={heading}
-      subtitle={`${isoStart} → ${isoEnd}`}
+      subtitle={accessibleRange}
       actions={topAction}
       rail
       sticky
@@ -390,7 +389,7 @@ export default function WeekPicker() {
       <WeekPickerShell>
         <WeekPickerShell.Totals slotId="week-range">
           <span className="sr-only" aria-live="polite">
-            Week range {rangeLabel}
+            Week range {accessibleRange}
           </span>
           <span className="inline-flex items-baseline gap-[var(--space-1)] text-ui text-muted-foreground">
             <span>Total tasks:</span>
