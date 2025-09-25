@@ -6,6 +6,8 @@ import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Trash2 } from "lucide-react";
 import { shortDate } from "@/lib/date";
+import { useCoarsePointer } from "@/lib/useCoarsePointer";
+import { cn } from "@/lib/utils";
 
 const MAX_GOAL_LABEL_LENGTH = 48;
 const FALLBACK_GOAL_LABEL = "item";
@@ -33,6 +35,10 @@ interface GoalQueueProps {
 export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   const [val, setVal] = React.useState("");
   const inputId = React.useId();
+  const isCoarsePointer = useCoarsePointer();
+  const revealOnInteractionClass = isCoarsePointer
+    ? "opacity-100"
+    : "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100";
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +73,10 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                     />
                     <p className="flex-1 truncate text-ui font-medium">{it.text}</p>
                     <time
-                      className="text-label font-medium tracking-[0.02em] text-muted-foreground opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                      className={cn(
+                        "text-label font-medium tracking-[0.02em] text-muted-foreground",
+                        revealOnInteractionClass,
+                      )}
                       dateTime={created.toISOString()}
                     >
                       {shortDate.format(created)}
@@ -80,7 +89,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                         size="sm"
                         iconSize="sm"
                         variant="ghost"
-                        className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                        className={revealOnInteractionClass}
                       >
                         <Trash2 />
                       </IconButton>
