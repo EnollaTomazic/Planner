@@ -47,7 +47,13 @@ export function useFieldIds(
 
   const { id, name } = useFieldNaming(namingOptions);
 
-  const isInvalid = ariaInvalid === true || ariaInvalid === "true";
+  const normalizedInvalid =
+    typeof ariaInvalid === "string" ? ariaInvalid.trim().toLowerCase() : null;
+  const isInvalid =
+    ariaInvalid === true ||
+    (normalizedInvalid !== null &&
+      normalizedInvalid.length > 0 &&
+      normalizedInvalid !== "false");
 
   return { id, name, isInvalid };
 }
