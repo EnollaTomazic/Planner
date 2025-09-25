@@ -54,7 +54,7 @@ function Inner() {
   const heroRef = React.useRef<HTMLDivElement>(null);
 
   const right = (
-    <div className="flex items-center gap-[var(--space-2)]">
+    <div className="flex items-center gap-2">
       <Button
         variant="ghost"
         size="sm"
@@ -81,10 +81,11 @@ function Inner() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
+      <PageShell as="header" grid className="py-6">
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
-          contentClassName="space-y-[var(--space-2)]"
+          containerClassName="col-span-full"
+          contentClassName="space-y-2"
           header={{
             id: "planner-header",
             tabIndex: -1,
@@ -117,22 +118,24 @@ function Inner() {
 
       <PageShell
         as="main"
-        className="py-[var(--space-6)] space-y-[var(--space-6)]"
+        grid
+        className="py-6"
+        contentClassName="gap-y-6"
         aria-labelledby="planner-header"
       >
         {/* Today + Side column */}
         <section
           aria-label="Today and weekly panels"
-          className="grid grid-cols-1 gap-[var(--space-6)] lg:grid-cols-12"
+          className="col-span-full grid grid-cols-1 gap-6 lg:grid-cols-12"
         >
-          <div className="lg:col-span-8" ref={heroRef}>
+          <div className="col-span-full lg:col-span-8" ref={heroRef}>
             <TodayHero iso={iso} />
           </div>
 
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
           <aside
             aria-label="Day notes"
-            className="lg:col-span-4 space-y-[var(--space-6)] lg:sticky lg:top-[var(--header-stack)]"
+            className="col-span-full space-y-6 lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
           >
             <WeekNotes iso={iso} />
           </aside>
@@ -141,7 +144,7 @@ function Inner() {
         {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
         <ul
           aria-label="Week days (Monday to Sunday)"
-          className="flex flex-col gap-[var(--space-4)]"
+          className="col-span-full flex flex-col gap-4"
         >
           {dayItems.map((item) => (
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />

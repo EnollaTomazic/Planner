@@ -370,12 +370,12 @@ export default function TeamCompPage() {
         heading: "Builder",
         subtitle,
         children: (
-          <div className="flex flex-col gap-[var(--space-4)]">
-            <div className="flex flex-col gap-[var(--space-2)]">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
                 Lane coverage
               </span>
-              <div className="flex flex-wrap gap-[var(--space-2)]">
+              <div className="flex flex-wrap gap-2">
                 {laneSummaries.map((lane) => (
                   <Badge
                     key={lane.key}
@@ -388,7 +388,7 @@ export default function TeamCompPage() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+            <div className="flex flex-wrap items-center gap-2">
               <Badge size="sm" tone={gapTone}>
                 {openLabel}
               </Badge>
@@ -404,7 +404,7 @@ export default function TeamCompPage() {
           </div>
         ),
         actions: (
-          <div className="flex flex-wrap items-center gap-[var(--space-3)] md:gap-[var(--space-4)]">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
             <IconButton
               title="Swap Allies ↔ Enemies"
               aria-label="Swap Allies and Enemies"
@@ -454,8 +454,8 @@ export default function TeamCompPage() {
         ),
       },
       actions: (
-        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-          <div className="flex flex-col items-start gap-[var(--space-1)]">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col items-start gap-1">
             <Button
               variant="primary"
               size="md"
@@ -467,7 +467,7 @@ export default function TeamCompPage() {
               <Plus />
               <span>New Row</span>
             </Button>
-            <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
+            <div className="flex items-center gap-1 text-label text-muted-foreground">
               <span>Sends to</span>
               <Badge size="sm" tone="accent">
                 {targetBucket}
@@ -511,13 +511,15 @@ export default function TeamCompPage() {
   return (
     <PageShell
       as="main"
-      className="py-[var(--space-6)] space-y-[var(--space-6)] md:space-y-0 md:grid md:grid-cols-12 md:gap-[var(--space-4)]"
+      grid
+      className="py-6"
+      contentClassName="gap-y-6"
       aria-labelledby="teamcomp-header"
     >
       <PageHeader
-        containerClassName="md:col-span-12"
-        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
-        contentClassName="space-y-[var(--space-2)]"
+        containerClassName="col-span-full"
+        className="rounded-card r-card-lg px-4 py-4"
+        contentClassName="space-y-2"
         frameProps={{ variant: "unstyled" }}
         header={{
           id: "teamcomp-header",
@@ -537,7 +539,7 @@ export default function TeamCompPage() {
         hero={hero}
       />
 
-      <section className="grid gap-[var(--space-4)] md:col-span-12 md:grid-cols-12">
+      <section className="col-span-full grid gap-4 md:grid-cols-12">
         {TABS.map((t) => {
           const ids = tabIds[t.key];
           return (
@@ -549,7 +551,7 @@ export default function TeamCompPage() {
               hidden={tab !== t.key}
               tabIndex={tab === t.key ? 0 : -1}
               ref={t.ref}
-              className="md:col-span-12"
+              className="col-span-full"
             >
               {tab === t.key && t.render()}
             </div>

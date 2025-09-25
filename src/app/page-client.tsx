@@ -79,11 +79,15 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
     <>
       <PageShell
         as="header"
+        grid
         aria-labelledby={heroHeadingId}
-        className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
+        className="pt-6 md:pt-8"
       >
-        <SectionCard aria-labelledby={heroHeadingId}>
-          <SectionCard.Body className="md:p-[var(--space-6)]">
+        <SectionCard
+          aria-labelledby={heroHeadingId}
+          className="col-span-full"
+        >
+          <SectionCard.Body className="md:p-6">
             <HomeHeroSection
               variant={themeVariant}
               actions={heroActions}
@@ -94,11 +98,15 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
       </PageShell>
       <PageShell
         as="section"
+        grid
         role="region"
         aria-labelledby={overviewHeadingId}
-        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+        className="mt-6 pb-6 md:mt-8 md:pb-8"
       >
-        <SectionCard aria-labelledby={overviewHeadingId}>
+        <SectionCard
+          aria-labelledby={overviewHeadingId}
+          className="col-span-full"
+        >
           <SectionCard.Header
             id={overviewHeadingId}
             sticky={false}
@@ -106,7 +114,7 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
             titleAs="h2"
             titleClassName="text-title font-semibold tracking-[-0.01em]"
           />
-          <SectionCard.Body className="md:p-[var(--space-6)]">
+          <SectionCard.Body className="md:p-6">
             <HeroPlannerCards
               variant={themeVariant}
               plannerOverviewProps={plannerOverviewProps}
@@ -124,7 +132,7 @@ export default function Page() {
     <Suspense
       fallback={
         <PageShell as="section" aria-busy="true" role="status">
-          <div className="flex justify-center p-[var(--space-6)]">
+          <div className="flex justify-center p-6">
             <Spinner />
           </div>
         </PageShell>
