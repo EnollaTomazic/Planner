@@ -1,6 +1,7 @@
 {
   "framework": "nextjs",
   "frameworkVersion": "15.5.3",
-  "buildCommand": "npm run build",
+  "installCommand": "npm ci --prefer-offline --no-audit --no-fund",
+  "buildCommand": "npm run check && npm run build",
   "devCommand": "npm run dev"
 }

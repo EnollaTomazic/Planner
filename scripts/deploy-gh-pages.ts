@@ -44,8 +44,16 @@ function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
   return normalized !== "false" && normalized !== "0";
 }
 
+function resolvePublishBranch(env: NodeJS.ProcessEnv): string {
+  const fromEnv =
+    sanitizeSlug(env.GH_PAGES_BRANCH) ?? sanitizeSlug(env.GITHUB_PAGES_BRANCH);
+
+  return fromEnv ?? "gh-pages";
+}
+
 function createGhPagesArgs(env: NodeJS.ProcessEnv): string[] {
-  const args = ["gh-pages", "-d", "out", "-b", "gh-pages", "--nojekyll"];
+  const branch = resolvePublishBranch(env);
+  const args = ["gh-pages", "-d", "out", "-b", branch, "--nojekyll"];
   const token = env.GITHUB_TOKEN?.trim();
   const repository = env.GITHUB_REPOSITORY?.trim();
 
