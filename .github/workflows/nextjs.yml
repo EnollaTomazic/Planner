@@ -1,69 +1,52 @@
-# Sample workflow for building and deploying a Next.js site to GitHub Pages
-#
-# To get started with Next.js see: https://nextjs.org/docs/getting-started
-#
-name: Deploy Next.js site to Pages
+name: Deploy static site to Pages
 
 on:
-  # Run after the CI workflow completes
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  push:
     branches:
       - main
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Allow the workflow to push the generated site to the gh-pages branch
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
-      - name: Setup Node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
+      - name: Setup Pages
+        uses: actions/configure-pages@07911456e0c2e0a378fb9b9f2d5110c7630c1616
 
-      - name: Restore cache
-        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
-        with:
-          path: |
-            .next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}-
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
-
-      - name: Configure git author
+      - name: Prepare Pages artifact
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p public
+          rsync -av --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.husky/' \
+            --exclude 'node_modules/' \
+            --exclude '.vscode/' \
+            --exclude '.nvmrc' \
+            --exclude '.prettierrc' \
+            --exclude '.gitignore' \
+            ./ ./public
 
-      - name: Build and publish static export
-        run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@3b1b2ac4d476f68665f5d7ac4a12fdeafc8d4d54
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@4ba4e9d6be17b6189b4e9a396f786d26509cf9f4
