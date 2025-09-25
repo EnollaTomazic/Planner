@@ -24,6 +24,7 @@ import {
   TitleBar,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
 import {
   ReviewListItem,
   ReviewPanel,
@@ -43,6 +44,44 @@ type PanelItem = { label: string; element: React.ReactNode; className?: string }
 interface MiscPanelProps {
   data: MiscPanelData;
 }
+
+const VirtualizedListDemo = React.memo(function VirtualizedListDemo() {
+  const scrollParentRef = React.useRef<HTMLDivElement>(null);
+  const rows = React.useMemo(() => {
+    return Array.from({ length: 120 }, (_, index) => `Item ${index + 1}`);
+  }, []);
+
+  return (
+    <div className="flex w-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-border/40 bg-card">
+      <div className="border-b border-border/40 px-[var(--space-2)] py-[var(--space-1)] text-label font-semibold">
+        Virtualized list
+      </div>
+      <div
+        ref={scrollParentRef}
+        className="max-h-[calc(var(--space-12)*3)] overflow-y-auto text-ui"
+      >
+        <table className="w-full text-left text-xs">
+          <tbody>
+            <VirtualizedList
+              items={rows}
+              rowHeight={32}
+              overscan={2}
+              scrollParentRef={scrollParentRef}
+              renderItem={(item, index) => (
+                <tr
+                  key={index}
+                  className="h-8 border-b border-border/30 last:border-b-0"
+                >
+                  <td className="px-[var(--space-2)] text-muted-foreground">{item}</td>
+                </tr>
+              )}
+            />
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+});
 
 export default function MiscPanel({ data }: MiscPanelProps) {
   const items = React.useMemo<PanelItem[]>(
@@ -197,6 +236,11 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               <ReviewListItem loading />
             </div>
           ),
+        },
+        {
+          label: "VirtualizedList",
+          element: <VirtualizedListDemo />,
+          className: "sm:col-span-2 md:col-span-6",
         },
         {
           label: "ReviewSurface",

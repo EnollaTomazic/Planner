@@ -15,6 +15,7 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
+import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
@@ -46,6 +47,12 @@ const BUCKETS: ClearSpeed[] = ["Very Fast", "Fast", "Medium", "Slow"];
 const SPEED_SET = new Set<ClearSpeed>(BUCKETS);
 const NEEDS_PERSIST = Symbol("team:jungle.clears.needsPersist");
 type NormalizedRows = JunglerRow[] & { [NEEDS_PERSIST]?: true };
+type EditingDraft = {
+  id: string;
+  champ: string;
+  type: string;
+  notes: string;
+};
 
 function normalizeType(
   value: unknown,
@@ -187,6 +194,343 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
   Slow: "≥3:45",
 };
 
+const TABLE_COLUMN_COUNT = 4;
+const DEFAULT_ROW_HEIGHT = 48;
+
+type BucketSectionProps = {
+  bucket: ClearSpeed;
+  allRows: readonly JunglerRow[];
+  visibleRows: readonly JunglerRow[];
+  editing: boolean;
+  editingRow: EditingDraft | null;
+  exampleChampion: string;
+  onAddRow: (bucket: ClearSpeed) => void;
+  onStartEdit: (row: JunglerRow) => void;
+  onDeleteRow: (id: string) => void;
+  onSaveEdit: () => void;
+  onCancelEdit: () => void;
+  setEditingRow: React.Dispatch<React.SetStateAction<EditingDraft | null>>;
+};
+
+type EditingRowProps = {
+  draft: EditingDraft;
+  setDraft: React.Dispatch<React.SetStateAction<EditingDraft | null>>;
+  onSave: () => void;
+  onCancel: () => void;
+};
+
+type ReadOnlyRowProps = {
+  row: JunglerRow;
+  editing: boolean;
+  onStartEdit: (row: JunglerRow) => void;
+  onDeleteRow: (id: string) => void;
+};
+
+const EditingRow = React.memo(function EditingRow({
+  draft,
+  setDraft,
+  onSave,
+  onCancel,
+}: EditingRowProps) {
+  const updateDraft = React.useCallback(
+    (field: "champ" | "type" | "notes") =>
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.currentTarget;
+        setDraft((prev) => {
+          if (!prev || prev.id !== draft.id) {
+            return prev;
+          }
+          return { ...prev, [field]: value };
+        });
+      },
+    [setDraft, draft.id],
+  );
+
+  return (
+    <tr
+      data-row-kind="jungle-row"
+      className="h-10 border-t border-border/40 hover:bg-card/45"
+    >
+      <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
+        <Input
+          aria-label="Champion"
+          name="champion"
+          value={draft.champ}
+          onChange={updateDraft("champ")}
+        />
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        <Input
+          aria-label="Type"
+          placeholder="AD, Assassin"
+          name="type"
+          value={draft.type}
+          onChange={updateDraft("type")}
+        />
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        <Input
+          aria-label="Notes"
+          name="notes"
+          value={draft.notes}
+          onChange={updateDraft("notes")}
+        />
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        <div className="flex gap-[var(--space-1)]">
+          <IconButton
+            size="sm"
+            iconSize="xs"
+            aria-label="Save"
+            onClick={onSave}
+          >
+            <Check />
+          </IconButton>
+          <IconButton
+            size="sm"
+            iconSize="xs"
+            tone="danger"
+            aria-label="Cancel"
+            onClick={onCancel}
+          >
+            <X />
+          </IconButton>
+        </div>
+      </td>
+    </tr>
+  );
+});
+
+const ReadOnlyRow = React.memo(function ReadOnlyRow({
+  row,
+  editing,
+  onStartEdit,
+  onDeleteRow,
+}: ReadOnlyRowProps) {
+  return (
+    <tr
+      data-row-kind="jungle-row"
+      className="h-10 border-t border-border/40 hover:bg-card/45"
+    >
+      <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
+        {row.champ}
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        <div className="flex flex-wrap gap-[var(--space-2)]">
+          {row.type.map((t, index) => (
+            <span key={`${row.id}-${index}`} className="pill pill-compact text-label">
+              {t}
+            </span>
+          ))}
+        </div>
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        {row.notes ?? "-"}
+      </td>
+      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+        {editing && (
+          <div className="flex gap-[var(--space-1)]">
+            <IconButton
+              size="sm"
+              iconSize="xs"
+              aria-label="Edit"
+              onClick={() => onStartEdit(row)}
+            >
+              <Pencil />
+            </IconButton>
+            <IconButton
+              size="sm"
+              iconSize="xs"
+              tone="danger"
+              aria-label="Delete"
+              onClick={() => onDeleteRow(row.id)}
+            >
+              <Trash2 />
+            </IconButton>
+          </div>
+        )}
+      </td>
+    </tr>
+  );
+});
+
+const BucketSection = React.memo(function BucketSection({
+  bucket,
+  allRows,
+  visibleRows,
+  editing,
+  editingRow,
+  exampleChampion,
+  onAddRow,
+  onStartEdit,
+  onDeleteRow,
+  onSaveEdit,
+  onCancelEdit,
+  setEditingRow,
+}: BucketSectionProps) {
+  const scrollParentRef = React.useRef<HTMLDivElement>(null);
+  const [rowHeight, setRowHeight] = React.useState(DEFAULT_ROW_HEIGHT);
+
+  React.useLayoutEffect(() => {
+    const container = scrollParentRef.current;
+    if (!container) return;
+    const firstRow = container.querySelector<HTMLTableRowElement>(
+      "tbody tr[data-row-kind=\"jungle-row\"]",
+    );
+    if (!firstRow) return;
+    const nextHeight = firstRow.getBoundingClientRect().height;
+    if (!Number.isFinite(nextHeight) || nextHeight <= 0) return;
+    if (Math.abs(nextHeight - rowHeight) > 0.5) {
+      setRowHeight(nextHeight);
+    }
+  }, [visibleRows.length, editingRow?.id, rowHeight]);
+
+  const handleAddRow = React.useCallback(() => {
+    onAddRow(bucket);
+  }, [onAddRow, bucket]);
+
+  const renderSpacer = React.useCallback(
+    (height: number, position: "start" | "end") => {
+      void position;
+      return (
+        <tr aria-hidden data-row-kind="jungle-spacer">
+          <td
+            colSpan={TABLE_COLUMN_COUNT}
+            style={{ padding: 0, border: "none", height }}
+          />
+        </tr>
+      );
+    },
+    [],
+  );
+
+  const renderRow = React.useCallback(
+    (row: JunglerRow, index: number) => {
+      void index;
+      return editingRow?.id === row.id ? (
+        <EditingRow
+          key={row.id}
+          draft={editingRow}
+          setDraft={setEditingRow}
+          onSave={onSaveEdit}
+          onCancel={onCancelEdit}
+        />
+      ) : (
+        <ReadOnlyRow
+          key={row.id}
+          row={row}
+          editing={editing}
+          onStartEdit={onStartEdit}
+          onDeleteRow={onDeleteRow}
+        />
+      );
+    },
+    [
+      editingRow,
+      setEditingRow,
+      onSaveEdit,
+      onCancelEdit,
+      editing,
+      onStartEdit,
+      onDeleteRow,
+    ],
+  );
+
+  return (
+    <SectionCard className="col-span-12 md:col-span-6">
+      <SectionCard.Header
+        sticky
+        topClassName="top-[var(--header-stack)]"
+        title={
+          <div className="flex items-center gap-[var(--space-2)]">
+            <Timer className="opacity-80" />
+            <span
+              className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg md:text-title-lg font-semibold"
+              data-text={bucket}
+            >
+              {bucket}
+            </span>
+          </div>
+        }
+        actions={
+          <span
+            className="glitch-title glitch-flicker title-glow font-mono leading-none text-title-lg sm:text-title-lg md:text-title-lg"
+            data-text={SPEED_TIME[bucket]}
+            aria-label="Expected first-clear timing"
+            title="Expected first-clear timing"
+          >
+            {SPEED_TIME[bucket]}
+          </span>
+        }
+      />
+      <SectionCard.Body>
+        <div className="mb-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
+          <span className="rounded-[var(--radius-full)] border border-border bg-card px-[var(--space-2)] py-[var(--space-1)] text-label tracking-wide uppercase">
+            {SPEED_PERSONA[bucket].tag}
+          </span>
+          <span className="text-ui text-muted-foreground">
+            {SPEED_HINT[bucket]}
+          </span>
+        </div>
+
+        <div className="mb-[var(--space-3)] flex flex-wrap items-center gap-[var(--space-2)]">
+          <span className="text-muted-foreground text-ui">Example:</span>
+          <span className="pill pill-compact text-label">{exampleChampion}</span>
+          <span className="text-label text-muted-foreground">({allRows.length} total)</span>
+        </div>
+
+        {editing && (
+          <div className="mb-[var(--space-2)] flex justify-end">
+            <IconButton
+              size="sm"
+              iconSize="xs"
+              aria-label="Add row"
+              onClick={handleAddRow}
+              variant="primary"
+            >
+              <Plus />
+            </IconButton>
+          </div>
+        )}
+
+        <div className="overflow-x-auto" ref={scrollParentRef}>
+          <table className="w-full text-ui">
+            <caption className="sr-only">
+              {bucket} junglers with types and notes
+            </caption>
+            <thead className="text-left text-muted-foreground">
+              <tr className="h-9">
+                <th scope="col" className="pr-[var(--space-3)]">
+                  Champion
+                </th>
+                <th scope="col" className="pr-[var(--space-3)]">
+                  Type
+                </th>
+                <th scope="col" className="pr-[var(--space-3)]">
+                  Notes
+                </th>
+                <th scope="col" className="w-12 pr-[var(--space-3)]">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <VirtualizedList
+                items={visibleRows}
+                rowHeight={rowHeight}
+                overscan={4}
+                scrollParentRef={scrollParentRef}
+                renderSpacer={renderSpacer}
+                renderItem={renderRow}
+              />
+            </tbody>
+          </table>
+        </div>
+      </SectionCard.Body>
+    </SectionCard>
+  );
+});
+
 export type JungleClearsHandle = {
   addRow: (bucket: ClearSpeed) => void;
 };
@@ -206,12 +550,7 @@ export default React.forwardRef<
   const [items, setItems] = usePersistentState<JunglerRow[]>(STORE_KEY, SEEDS, {
     decode: decodeRows,
   });
-  const [editingRow, setEditingRow] = React.useState<{
-    id: string;
-    champ: string;
-    type: string;
-    notes: string;
-  } | null>(null);
+  const [editingRow, setEditingRow] = React.useState<EditingDraft | null>(null);
 
   React.useEffect(() => {
     if (!needsPersist(items)) return;
@@ -229,6 +568,32 @@ export default React.forwardRef<
     });
   }, [query, items]);
 
+  const rowsByBucket = React.useMemo(() => {
+    const bucketMap: Record<ClearSpeed, JunglerRow[]> = {
+      "Very Fast": [],
+      Fast: [],
+      Medium: [],
+      Slow: [],
+    };
+    for (const row of items) {
+      bucketMap[row.speed].push(row);
+    }
+    return bucketMap;
+  }, [items]);
+
+  const filteredByBucket = React.useMemo(() => {
+    const bucketMap: Record<ClearSpeed, JunglerRow[]> = {
+      "Very Fast": [],
+      Fast: [],
+      Medium: [],
+      Slow: [],
+    };
+    for (const row of filtered) {
+      bucketMap[row.speed].push(row);
+    }
+    return bucketMap;
+  }, [filtered]);
+
   React.useEffect(() => {
     onCountChange?.(filtered.length);
   }, [filtered, onCountChange]);
@@ -236,15 +601,12 @@ export default React.forwardRef<
   const exampleByBucket = React.useMemo(() => {
     const map = {} as Record<ClearSpeed, string>;
     for (const b of BUCKETS) {
-      const row = items.find((r) => {
-        const champ = r.champ.trim();
-        return r.speed === b && champ !== "";
-      });
+      const row = rowsByBucket[b].find((r) => r.champ.trim() !== "");
       const champ = (row?.champ ?? "").trim();
       map[b] = champ === "" ? "-" : champ;
     }
     return map;
-  }, [items]);
+  }, [rowsByBucket]);
 
   const startEdit = React.useCallback(
     (r: JunglerRow) => {
@@ -335,218 +697,23 @@ export default React.forwardRef<
       className="grid gap-[var(--space-4)] sm:gap-[var(--space-6)]"
     >
       <div className="grid grid-cols-12 gap-[var(--space-6)]">
-        {BUCKETS.map((bucket) => {
-          const rowsAll = items.filter((r) => r.speed === bucket);
-          const rows = filtered.filter((r) => r.speed === bucket);
-
-          return (
-            <SectionCard key={bucket} className="col-span-12 md:col-span-6">
-              <SectionCard.Header
-                sticky
-                topClassName="top-[var(--header-stack)]"
-                title={
-                  <div className="flex items-center gap-[var(--space-2)]">
-                    <Timer className="opacity-80" />
-                    {/* Glitch title + glow */}
-                    <span
-                      className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg md:text-title-lg font-semibold"
-                      data-text={bucket}
-                    >
-                      {bucket}
-                    </span>
-                  </div>
-                }
-                actions={
-                  // Big timer: same glitch treatment + glow
-                  <span
-                    className="glitch-title glitch-flicker title-glow font-mono leading-none text-title-lg sm:text-title-lg md:text-title-lg"
-                    data-text={SPEED_TIME[bucket]}
-                    aria-label="Expected first-clear timing"
-                    title="Expected first-clear timing"
-                  >
-                    {SPEED_TIME[bucket]}
-                  </span>
-                }
-              />
-              <SectionCard.Body>
-                <div className="mb-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
-                  <span className="rounded-[var(--radius-full)] border border-border bg-card px-[var(--space-2)] py-[var(--space-1)] text-label tracking-wide uppercase">
-                    {SPEED_PERSONA[bucket].tag}
-                  </span>
-                  <span className="text-ui text-muted-foreground">
-                    {SPEED_HINT[bucket]}
-                  </span>
-                </div>
-
-                {/* Example row (canonical pills) */}
-                <div className="mb-[var(--space-3)] flex flex-wrap items-center gap-[var(--space-2)]">
-                  <span className="text-muted-foreground text-ui">
-                    Example:
-                  </span>
-                  <span className="pill pill-compact text-label">
-                    {exampleByBucket[bucket]}
-                  </span>
-                  <span className="text-label text-muted-foreground">
-                    ({rowsAll.length} total)
-                  </span>
-                </div>
-
-                {editing && (
-                  <div className="mb-[var(--space-2)] flex justify-end">
-                    <IconButton
-                      size="sm"
-                      iconSize="xs"
-                      aria-label="Add row"
-                      onClick={() => addRow(bucket)}
-                      variant="primary"
-                    >
-                      <Plus />
-                    </IconButton>
-                  </div>
-                )}
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-ui">
-                    <caption className="sr-only">
-                      {bucket} junglers with types and notes
-                    </caption>
-                    <thead className="text-left text-muted-foreground">
-                      <tr className="h-9">
-                        <th scope="col" className="pr-[var(--space-3)]">
-                          Champion
-                        </th>
-                        <th scope="col" className="pr-[var(--space-3)]">
-                          Type
-                        </th>
-                        <th scope="col" className="pr-[var(--space-3)]">
-                          Notes
-                        </th>
-                        <th scope="col" className="w-12 pr-[var(--space-3)]">
-                          <span className="sr-only">Actions</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.map((r: JunglerRow) =>
-                        editingRow?.id === r.id ? (
-                          <tr
-                            key={r.id}
-                            className="h-10 border-t border-border/40 hover:bg-card/45"
-                          >
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
-                              <Input
-                                aria-label="Champion"
-                                name="champion"
-                                value={editingRow.champ}
-                                onChange={(e) =>
-                                  setEditingRow({
-                                    ...editingRow,
-                                    champ: e.currentTarget.value,
-                                  })
-                                }
-                              />
-                            </td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
-                              <Input
-                                aria-label="Type"
-                                placeholder="AD, Assassin"
-                                name="type"
-                                value={editingRow.type}
-                                onChange={(e) =>
-                                  setEditingRow({
-                                    ...editingRow,
-                                    type: e.currentTarget.value,
-                                  })
-                                }
-                              />
-                            </td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
-                              <Input
-                                aria-label="Notes"
-                                name="notes"
-                                value={editingRow.notes}
-                                onChange={(e) =>
-                                  setEditingRow({
-                                    ...editingRow,
-                                    notes: e.currentTarget.value,
-                                  })
-                                }
-                              />
-                            </td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
-                              <div className="flex gap-[var(--space-1)]">
-                                <IconButton
-                                  size="sm"
-                                  iconSize="xs"
-                                  aria-label="Save"
-                                  onClick={saveEdit}
-                                >
-                                  <Check />
-                                </IconButton>
-                                <IconButton
-                                  size="sm"
-                                  iconSize="xs"
-                                  tone="danger"
-                                  aria-label="Cancel"
-                                  onClick={cancelEdit}
-                                >
-                                  <X />
-                                </IconButton>
-                              </div>
-                            </td>
-                          </tr>
-                        ) : (
-                          <tr
-                            key={r.id}
-                            className="h-10 border-t border-border/40 hover:bg-card/45"
-                          >
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">{r.champ}</td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
-                              <div className="flex flex-wrap gap-[var(--space-2)]">
-                                {r.type.map((t) => (
-                                  <span
-                                    key={t}
-                                    className="pill pill-compact text-label"
-                                  >
-                                    {t}
-                                  </span>
-                                ))}
-                              </div>
-                            </td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">{r.notes ?? "-"}</td>
-                            <td className="py-[var(--space-2)] pr-[var(--space-3)]">
-                              {editing && (
-                                <div className="flex gap-[var(--space-1)]">
-                                  <IconButton
-                                    size="sm"
-                                    iconSize="xs"
-                                    aria-label="Edit"
-                                    onClick={() => startEdit(r)}
-                                  >
-                                    <Pencil />
-                                  </IconButton>
-                                  <IconButton
-                                    size="sm"
-                                    iconSize="xs"
-                                    tone="danger"
-                                    aria-label="Delete"
-                                    onClick={() => deleteRow(r.id)}
-                                  >
-                                    <Trash2 />
-                                  </IconButton>
-                                </div>
-                              )}
-                            </td>
-                          </tr>
-                        ),
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </SectionCard.Body>
-            </SectionCard>
-          );
-        })}
+        {BUCKETS.map((bucket) => (
+          <BucketSection
+            key={bucket}
+            bucket={bucket}
+            allRows={rowsByBucket[bucket]}
+            visibleRows={filteredByBucket[bucket]}
+            editing={editing}
+            editingRow={editingRow}
+            exampleChampion={exampleByBucket[bucket]}
+            onAddRow={addRow}
+            onStartEdit={startEdit}
+            onDeleteRow={deleteRow}
+            onSaveEdit={saveEdit}
+            onCancelEdit={cancelEdit}
+            setEditingRow={setEditingRow}
+          />
+        ))}
       </div>
     </div>
   );
