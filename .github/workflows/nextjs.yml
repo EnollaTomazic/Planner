@@ -64,7 +64,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Setup Pages
-        uses: actions/configure-pages@5a4e5d06a81fbc806ec93c5e7c3a09d8c7b6bed5
+        uses: actions/configure-pages@v5
 
       - name: Build static export
         run: npm run deploy
