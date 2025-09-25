@@ -69,7 +69,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
       - name: Build static export
         run: npm run deploy
@@ -79,7 +79,7 @@ jobs:
           DEPLOY_ARTIFACT_ONLY: "true"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with:
           path: ./out
 
