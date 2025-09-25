@@ -1,6 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 export interface HeroPortraitFrameProps {
   imageSrc: string;
@@ -63,10 +63,11 @@ export default function HeroPortraitFrame({
   className,
   frame = true,
 }: HeroPortraitFrameProps) {
+  const resolvedImageSrc = withBasePath(imageSrc);
   const baseClassName = "relative isolate flex shrink-0 items-center justify-center";
   const portraitImage = (
     <Image
-      src={imageSrc}
+      src={resolvedImageSrc}
       alt={imageAlt}
       sizes={imageSizes}
       priority={priority}
