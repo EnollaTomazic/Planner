@@ -10,7 +10,7 @@ type VirtualizedListProps<Item> = {
   overscan?: number;
   renderItem: (item: Item, index: number) => React.ReactElement;
   getKey?: (item: Item, index: number) => React.Key;
-  scrollParentRef?: React.RefObject<HTMLElement | null>;
+  scrollParentRef: React.RefObject<HTMLElement | null>;
   renderSpacer?: RenderSpacer;
 };
 
