@@ -94,6 +94,9 @@ describe("accessibility helpers", () => {
     rerender(<FieldProbe ariaInvalid={true} />);
     expect(screen.getByTestId("invalid-flag")).toHaveTextContent("true");
 
+    rerender(<FieldProbe ariaInvalid="grammar" />);
+    expect(screen.getByTestId("invalid-flag")).toHaveTextContent("true");
+
     rerender(<FieldProbe ariaInvalid="false" />);
     expect(screen.getByTestId("invalid-flag")).toHaveTextContent("false");
 
