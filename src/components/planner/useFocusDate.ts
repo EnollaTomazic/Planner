@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { useFocus } from "./plannerContext";
-import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
+import { usePlanner } from "./plannerContext";
 import type { ISODate } from "./plannerTypes";
 
 /**
@@ -11,9 +10,8 @@ import type { ISODate } from "./plannerTypes";
  * @returns Current focus ISO date, setter, and today's ISO string.
  */
 export function useFocusDate() {
-  const { focus, setFocus, today } = useFocus();
-  const activeIso = focus === FOCUS_PLACEHOLDER ? today : focus;
-  return { iso: activeIso, setIso: setFocus, today } as const;
+  const { iso, setIso, today } = usePlanner();
+  return { iso, setIso, today } as const;
 }
 
 /**
@@ -21,13 +19,19 @@ export function useFocusDate() {
  * @param iso - ISO date to compute the week range for.
  * @returns Week start/end dates, list of day ISO strings, and today checker.
  */
-export function useWeek(iso: ISODate) {
-  const { today } = useFocus();
+export function useWeek(iso?: ISODate) {
+  const { week, iso: currentIso, today } = usePlanner();
   return React.useMemo(() => {
-    const { start, end } = weekRangeFromISO(iso);
+    const targetIso = iso ?? currentIso;
+    if (targetIso === currentIso) {
+      return week;
+    }
+    const { start, end } = weekRangeFromISO(targetIso);
     const days: ISODate[] = [];
-    for (let i = 0; i < 7; i++) days.push(toISODate(addDays(start, i)));
+    for (let i = 0; i < 7; i += 1) {
+      days.push(toISODate(addDays(start, i)));
+    }
     const isToday = (d: ISODate) => d === today;
     return { start, end, days, isToday } as const;
-  }, [iso, today]);
+  }, [iso, currentIso, today, week]);
 }

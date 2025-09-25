@@ -27,6 +27,7 @@ import {
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
+import { PlannerProvider } from "@/components/planner";
 import Button from "@/components/ui/primitives/Button";
 import {
   CardHeader,
@@ -116,9 +117,11 @@ const HERO_REGION_ID = "goals-hero-region";
 
 export default function GoalsPage() {
   return (
-    <RemindersProvider>
-      <GoalsPageContent />
-    </RemindersProvider>
+    <PlannerProvider>
+      <RemindersProvider>
+        <GoalsPageContent />
+      </RemindersProvider>
+    </PlannerProvider>
   );
 }
 
