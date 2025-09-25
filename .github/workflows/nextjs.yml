@@ -79,7 +79,7 @@ jobs:
           DEPLOY_ARTIFACT_ONLY: "true"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462e409cc
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
