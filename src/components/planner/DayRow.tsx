@@ -11,7 +11,7 @@ const DayRow = React.memo(
         id={`day-${iso}`}
         aria-label={`Day ${iso}${isToday ? " (Today)" : ""}`}
         className="w-full scroll-m-[calc(var(--space-8)+var(--space-6))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        tabIndex={-1}
+        tabIndex={0}
       >
         <DayCard iso={iso} isToday={isToday} />
       </li>
