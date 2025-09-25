@@ -48,6 +48,11 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
 
+      - name: Activate npm version from package.json
+        run: |
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+
       - name: Restore cache
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
