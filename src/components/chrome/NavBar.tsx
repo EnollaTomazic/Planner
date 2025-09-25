@@ -36,20 +36,23 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
             <li key={href} className="relative">
               <Link
                 href={href}
+                aria-label={Icon ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}
                 className={cn(
                   "group relative inline-flex min-h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium font-mono transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                   "card-neo-soft",
+                  "hover:bg-interaction-accent-surfaceHover active:bg-interaction-accent-surfaceActive",
+                  "disabled:pointer-events-none disabled:opacity-disabled data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-disabled data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
                   active
-                    ? "text-foreground"
+                    ? "text-foreground data-[active=true]:ring-1 data-[active=true]:ring-ring"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {Icon ? (
                   <span
                     aria-hidden="true"
-                    className="flex size-[var(--icon-size-md)] items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground"
+                    className="flex size-[var(--icon-size-md)] items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground group-active:text-foreground"
                   >
                     <Icon aria-hidden="true" className="size-full" />
                   </span>
