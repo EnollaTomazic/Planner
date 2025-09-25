@@ -6,7 +6,20 @@ import process from "node:process";
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
 
-function assertOriginRemote(env: NodeJS.ProcessEnv): void {
+function shouldPublishSite(env: NodeJS.ProcessEnv): boolean {
+  const mode = env.DEPLOY_ARTIFACT_ONLY?.trim().toLowerCase();
+  if (!mode) {
+    return true;
+  }
+
+  return mode !== "true" && mode !== "1";
+}
+
+function assertOriginRemote(env: NodeJS.ProcessEnv, publish: boolean): void {
+  if (!publish) {
+    return;
+  }
+
   const repository = env.GITHUB_REPOSITORY?.trim();
   const token = env.GITHUB_TOKEN?.trim();
 
@@ -114,7 +127,8 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
 }
 
 function main(): void {
-  assertOriginRemote(process.env);
+  const publish = shouldPublishSite(process.env);
+  assertOriginRemote(process.env, publish);
   const slug = detectRepositorySlug();
   const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
   const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
@@ -129,6 +143,11 @@ function main(): void {
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);
+  if (!publish) {
+    console.log("Skipping gh-pages publish step");
+    return;
+  }
+
   const ghPagesArgs = createGhPagesArgs(process.env);
   runCommand(npxCommand, ghPagesArgs, process.env);
 }
