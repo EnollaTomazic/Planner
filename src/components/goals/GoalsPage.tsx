@@ -435,7 +435,7 @@ function GoalsPageContent() {
       value: query,
       onValueChange: handleReminderSearchChange,
       placeholder: "Search title, text, tags…",
-      debounceMs: 80,
+      debounceMs: 300,
       "aria-label": "Search reminders",
       right: (
         <div className="flex items-center gap-[var(--space-2)]">

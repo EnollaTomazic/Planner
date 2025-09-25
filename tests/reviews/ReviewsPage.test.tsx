@@ -75,7 +75,7 @@ describe("ReviewsPage", () => {
     vi.useFakeTimers();
     fireEvent.change(search, { target: { value: "Gamma" } });
     act(() => {
-      vi.advanceTimersByTime(250);
+      vi.advanceTimersByTime(300);
     });
     expect(screen.getByText("Gamma")).toBeInTheDocument();
     expect(screen.queryByText("Alpha")).toBeNull();

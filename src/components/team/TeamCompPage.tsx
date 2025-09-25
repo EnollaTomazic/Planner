@@ -307,6 +307,7 @@ export default function TeamCompPage() {
           onValueChange: setQuery,
           placeholder: "Search…",
           round: true,
+          debounceMs: 300,
           "aria-label":
             subTab === "sheet"
               ? "Search cheat sheet entries"
@@ -447,7 +448,7 @@ export default function TeamCompPage() {
         onValueChange: setClearsQuery,
         placeholder: "Filter by champion, type, or note...",
         round: true,
-        debounceMs: 80,
+        debounceMs: 300,
         "aria-label": "Search jungle clear buckets",
         right: (
           <span className="text-label opacity-80">{clearsCount} shown</span>
