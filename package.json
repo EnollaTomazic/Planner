@@ -1,0 +1,10 @@
+{
+  "name": "planner",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "npm run lint",
+    "lint": "echo 'No lint configured'",
+    "verify-prompts": "echo 'No prompt verification configured'"
+  }
+}
