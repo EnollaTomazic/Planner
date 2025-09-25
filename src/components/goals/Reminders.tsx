@@ -23,6 +23,7 @@ import TabBar from "@/components/ui/layout/TabBar";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import useAutoFocus from "@/lib/useAutoFocus";
+import useDebouncedCallback from "@/lib/useDebouncedCallback";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
 import {
   Search,
@@ -101,10 +102,56 @@ const GROUP_TABS: Array<{ key: Group | "all"; label: string }> = [
 
 export default function Reminders() {
   const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
-  const [query, setQuery] = React.useState("");
+  const [searchState, setSearchState] = React.useState(() => ({
+    input: "",
+    committed: "",
+  }));
   const [onlyPinned, setOnlyPinned] = React.useState(false);
   const [group, setGroup] = React.useState<Group | "all">("all");
   const [quickAdd, setQuickAdd] = React.useState(""); // Quick Add text
+
+  const { input: searchInput, committed: query } = searchState;
+
+  const [commitQuery, cancelCommitQuery] = useDebouncedCallback(
+    (next: string) => {
+      setSearchState((prev) => {
+        if (prev.committed === next) {
+          return prev;
+        }
+        return { ...prev, committed: next };
+      });
+    },
+    300,
+  );
+
+  const handleSearchChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const next = event.currentTarget.value;
+
+      setSearchState((prev) => {
+        if (next === "") {
+          if (prev.input === "" && prev.committed === "") {
+            return prev;
+          }
+          return { input: "", committed: "" };
+        }
+
+        if (prev.input === next) {
+          return prev;
+        }
+
+        return { ...prev, input: next };
+      });
+
+      if (next === "") {
+        cancelCommitQuery();
+        return;
+      }
+
+      commitQuery(next);
+    },
+    [commitQuery, cancelCommitQuery],
+  );
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -183,8 +230,8 @@ export default function Reminders() {
                 name="search-reminders"
                 height="md"
                 indent
-                value={query}
-                onChange={(e) => setQuery(e.currentTarget.value)}
+                value={searchInput}
+                onChange={handleSearchChange}
               >
                 <span className="pointer-events-none absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 text-label font-medium tracking-[0.02em] text-muted-foreground">
                   {filtered.length}

@@ -118,6 +118,7 @@ export default function ReviewsPage({
                   placeholder="Search title, tags, opponent, patch…"
                   aria-label="Search reviews"
                   className="md:col-span-8"
+                  debounceMs={300}
                 />
                 <div
                   className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"

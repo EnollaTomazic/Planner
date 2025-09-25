@@ -197,7 +197,7 @@ export default function ComponentsPageClient({
                     id: "components-search",
                     value: query,
                     onValueChange: setQuery,
-                    debounceMs: 250,
+                    debounceMs: 300,
                     round: true,
                     variant: "neo",
                     label: searchLabel,
