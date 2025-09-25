@@ -4,6 +4,7 @@ import "./globals.css";
 import "./themes.css";
 
 import type { Metadata, Viewport } from "next";
+import type { CSSProperties } from "react";
 import { headers } from "next/headers";
 import {
   geistMonoVariable,
@@ -133,6 +134,11 @@ export default async function RootLayout({
 }) {
   let nonce: string | undefined;
   const year = new Date().getFullYear();
+  type AssetStyle = CSSProperties & Record<`--${string}`, string>;
+  const assetUrlStyles: AssetStyle = {
+    "--asset-noise-url": `url("${withBasePath("/noise.svg")}")`,
+    "--asset-glitch-gif-url": `url("${withBasePath("/glitch-gif.gif")}")`,
+  };
 
   if (process.env.GITHUB_PAGES === "true") {
     // Static exports (GitHub Pages) do not provide response headers,
@@ -171,6 +177,7 @@ export default async function RootLayout({
       </head>
       <body
         className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
+        style={assetUrlStyles}
       >
         <a
           className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"

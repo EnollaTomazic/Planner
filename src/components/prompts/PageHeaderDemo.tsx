@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import {
   PageHeader,
   Header,
@@ -13,6 +12,8 @@ import {
   SearchBar,
   type HeaderTab,
 } from "@/components/ui";
+import Image from "next/image";
+import { withBasePath } from "@/lib/utils";
 import { Bell, CircleUser } from "lucide-react";
 
 type CompactNav = "summary" | "timeline" | "reports";
@@ -44,6 +45,8 @@ const heroFilters: HeaderTab<HeroFilter>[] = [
   { key: "flagged", label: "Flagged" },
   { key: "reviewed", label: "Reviewed" },
 ];
+
+const plannerLogoSrc = withBasePath("/planner-logo.svg");
 
 const tabCopy: Record<MinimalTab, string> = {
   overview: "Track meetings, reviews, and highlights in one streamlined view.",
@@ -294,7 +297,7 @@ export default function PageHeaderDemo() {
             "Plan your day, track goals, and review games with a calm single-frame hero.",
           icon: (
             <Image
-              src="/planner-logo.svg"
+              src={plannerLogoSrc}
               alt="Planner logo"
               width={48}
               height={48}
@@ -362,7 +365,7 @@ export default function PageHeaderDemo() {
           subtitle: "Stage a high-energy announcement right in the app.",
           icon: (
             <Image
-              src="/planner-logo.svg"
+              src={plannerLogoSrc}
               alt="Planner logo"
               width={48}
               height={48}

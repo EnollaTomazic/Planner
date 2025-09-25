@@ -1,6 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 type CSSVarStyle = React.CSSProperties & Record<`--${string}`, string>;
 
@@ -100,6 +100,7 @@ export default function WelcomeHeroFigure({
     framed ? "h-full w-full rounded-full" : "h-auto w-full",
   );
   const imageAlt = "Planner assistant sharing a colorful dashboard scene";
+  const resolvedHeroImageSrc = withBasePath(heroImageSrc);
   const sharedImageProps = {
     priority: true,
     loading: "eager" as const,
@@ -148,7 +149,7 @@ export default function WelcomeHeroFigure({
                 className="pointer-events-none absolute inset-0 rounded-full"
                 style={overlayStyle}
               />
-              <Image {...sharedImageProps} alt={imageAlt} src={heroImageSrc} fill />
+              <Image {...sharedImageProps} alt={imageAlt} src={resolvedHeroImageSrc} fill />
             </div>
           </div>
         </>
@@ -156,7 +157,7 @@ export default function WelcomeHeroFigure({
         <Image
           {...sharedImageProps}
           alt={imageAlt}
-          src={heroImageSrc}
+          src={resolvedHeroImageSrc}
           width={heroImageDimensions.width}
           height={heroImageDimensions.height}
         />
