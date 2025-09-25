@@ -20,6 +20,8 @@ on:
 # Allow the workflow to push the generated site to the gh-pages branch
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -31,6 +33,9 @@ jobs:
   deploy:
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -58,13 +63,21 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
 
-      - name: Configure git author
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Setup Pages
+        uses: actions/configure-pages@5a4e5d06a81fbc806ec93c5e7c3a09d8c7b6bed5
 
-      - name: Build and publish static export
+      - name: Build static export
         run: npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOY_ARTIFACT_ONLY: "true"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462e409cc
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@de13fcec3a067df1c7717c7c9d62d97ad836d41b
