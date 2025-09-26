@@ -23,6 +23,9 @@ export type PageShellProps<T extends PageShellElement = "div"> =
   PageShellOwnProps<T> &
     Omit<React.ComponentPropsWithoutRef<T>, keyof PageShellOwnProps<T>>;
 
+export const layoutGridGutterClass =
+  "gap-[var(--space-4)] md:gap-[var(--space-5)]";
+
 /**
  * PageShell — width-constrained wrapper that applies the global `page-shell` class.
  * Use the `grid` prop to opt into the standard 12-column layout inside the shell.
@@ -50,7 +53,8 @@ export default function PageShell<T extends PageShellElement = "div">({
       {grid ? (
         <div
           className={cn(
-            "grid gap-[var(--space-4)] md:grid-cols-12 md:gap-[var(--space-5)]",
+            "grid md:grid-cols-12",
+            layoutGridGutterClass,
             contentClassName
           )}
         >

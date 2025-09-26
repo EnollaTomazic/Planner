@@ -118,7 +118,7 @@ export default function NeomorphicHeroFrameDemo() {
             </div>
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
               <dt className="font-semibold text-foreground">Grid rhythm</dt>
-              <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
+              <dd className="text-label">HeroGrid gap-4 · md:gap-5</dd>
             </div>
             <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
               <dt className="font-semibold text-foreground">Slot spans</dt>

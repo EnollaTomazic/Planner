@@ -12,6 +12,7 @@ import QuickActions from "./QuickActions";
 import ReviewsCard from "./ReviewsCard";
 import TeamPromptsCard from "./TeamPromptsCard";
 import TodayCard from "./TodayCard";
+import { layoutGridGutterClass } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +39,8 @@ export default function HeroPlannerCards({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12",
+        "grid grid-cols-1 md:grid-cols-12",
+        layoutGridGutterClass,
         className,
       )}
     >
@@ -57,7 +59,10 @@ export default function HeroPlannerCards({
         className="pt-[var(--space-4)]"
       />
       <section
-        className="col-span-full grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]"
+        className={cn(
+          "col-span-full grid grid-cols-1 md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]",
+          layoutGridGutterClass,
+        )}
       >
         <div className="md:col-span-4">
           <TodayCard />

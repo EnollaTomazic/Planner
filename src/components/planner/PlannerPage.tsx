@@ -20,7 +20,7 @@ import type { ISODate } from "./plannerTypes";
 import { PlannerProvider } from "./plannerContext";
 import WeekPicker from "./WeekPicker";
 import { PageHeader } from "@/components/ui";
-import PageShell from "@/components/ui/layout/PageShell";
+import PageShell, { layoutGridGutterClass } from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays, formatWeekRangeLabel, toISODate } from "@/lib/date";
@@ -114,13 +114,13 @@ function Inner() {
         as="main"
         grid
         className="py-6"
-        contentClassName="gap-y-6"
+        contentClassName="gap-y-[var(--space-5)]"
         aria-labelledby="planner-header"
       >
         {/* Today + Side column */}
         <section
           aria-label="Today and weekly panels"
-          className="col-span-full grid grid-cols-1 gap-6 lg:grid-cols-12"
+          className={`col-span-full grid grid-cols-1 lg:grid-cols-12 ${layoutGridGutterClass}`}
         >
           <div className="col-span-full lg:col-span-8" ref={heroRef}>
             <TodayHero iso={iso} />
@@ -129,7 +129,7 @@ function Inner() {
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
           <aside
             aria-label="Day notes"
-            className="col-span-full space-y-6 lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
+            className="col-span-full space-y-[var(--space-5)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
           >
             <WeekNotes iso={iso} />
           </aside>
