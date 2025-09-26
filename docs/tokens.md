@@ -58,7 +58,7 @@
 | accent-overlay | hsl(var(--accent)) |
 | ring-contrast | hsl(var(--ring)) |
 | glow-active | hsl(var(--glow)) |
-| text-on-accent | hsl(var(--foreground)) |
+| text-on-accent | hsl(var(--accent-foreground)) |
 | neon | var(--glow) |
 | neon-soft | hsl(var(--neon)) |
 | btn-bg | transparent |

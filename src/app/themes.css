@@ -13,6 +13,7 @@
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
+  --text-on-accent: hsl(var(--accent-foreground));
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --shadow-neon:
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
@@ -262,7 +263,7 @@ html.theme-hardstuck {
   --accent: 120 92% 58%;
   --accent-2: 120 76% 22%;
   --accent-foreground: 0 0% 8%;
-  --text-on-accent: hsl(var(--hardstuck-foreground));
+  --text-on-accent: hsl(var(--accent-foreground));
   --accent-soft: 120 90% 16%;
   --glow: 120 100% 70%;
   --ring-muted: 120 32% 22%;

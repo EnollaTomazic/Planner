@@ -340,6 +340,21 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           ),
         },
         {
+          label: "Hardstuck Accent",
+          element: (
+            <div
+              className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
+              style={{
+                backgroundColor: "hsl(var(--accent))",
+                color: "var(--text-on-accent)",
+                border: "1px solid hsl(var(--accent-2))",
+              }}
+            >
+              Accent
+            </div>
+          ),
+        },
+        {
           label: "Header",
           element: (
             <div className="w-56">
