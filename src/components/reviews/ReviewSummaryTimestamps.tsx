@@ -11,9 +11,41 @@ export type ReviewSummaryTimestampsProps = {
 export default function ReviewSummaryTimestamps({
   markers,
 }: ReviewSummaryTimestampsProps) {
-  const hasAny = markers.length > 0;
-  const hasTimed = hasAny && markers.some((m) => !m.noteOnly);
-  const hasNoteOnly = hasAny && markers.every((m) => m.noteOnly);
+  const { sortedMarkers, hasTimed, hasNoteOnly } = React.useMemo(
+    (): {
+      sortedMarkers: ReviewMarker[];
+      hasTimed: boolean;
+      hasNoteOnly: boolean;
+    } => {
+      if (markers.length === 0) {
+        return {
+          sortedMarkers: [],
+          hasTimed: false,
+          hasNoteOnly: false,
+        };
+      }
+
+      let hasTimedMarker = false;
+      for (const marker of markers) {
+        if (!marker.noteOnly) {
+          hasTimedMarker = true;
+          break;
+        }
+      }
+
+      const sorted =
+        markers.length > 1
+          ? [...markers].sort((a, b) => a.seconds - b.seconds)
+          : [...markers];
+
+      return {
+        sortedMarkers: sorted,
+        hasTimed: hasTimedMarker,
+        hasNoteOnly: !hasTimedMarker,
+      };
+    },
+    [markers],
+  );
 
   return (
     <div>
@@ -22,13 +54,11 @@ export default function ReviewSummaryTimestamps({
         <NeonIcon kind="file" on={!!hasNoteOnly} size="xl" staticGlow />
         <div className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent" />
       </div>
-      {!markers.length ? (
+      {!sortedMarkers.length ? (
         <div className="text-ui text-muted-foreground">No timestamps yet.</div>
       ) : (
         <ul className="space-y-[var(--space-2)]">
-          {[...markers]
-            .sort((a, b) => a.seconds - b.seconds)
-            .map((m) => (
+          {sortedMarkers.map((m) => (
               <ReviewSurface
                 as="li"
                 key={m.id}
