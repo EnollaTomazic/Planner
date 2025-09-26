@@ -9,9 +9,9 @@
 | `rgba(0, 0, 0, 0.05)` (text-shadow) | `hsl(var(--shadow-color) / 0.05)`  |
 | `rgb(0 0 0 / .18)`                  | `hsl(var(--shadow-color) / 0.18)`  |
 | `#33ff99`                           | `hsl(var(--accent-2))`             |
-| `#b3ffd9`                           | `hsl(var(--aurora-g-light))`       |
+| `#b3ffd9`                           | `var(--aurora-g-light-color, hsl(var(--aurora-g-light)))` |
 | `#9e47eb`                           | `hsl(var(--accent))`               |
-| `#dbbaf7`                           | `hsl(var(--aurora-p-light))`       |
+| `#dbbaf7`                           | `var(--aurora-p-light-color, hsl(var(--aurora-p-light)))` |
 | `#0b0b12`                           | `hsl(var(--background))`           |
 | `#9a8cff`                           | `hsl(var(--icon-fg))`              |
 | `#0b0f13`                           | `hsl(var(--surface-vhs))`          |

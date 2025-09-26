@@ -42,6 +42,16 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
     );
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-g-light-color: var(--aurora-g-light);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light-color: var(--aurora-p-light);
+  }
+  html.theme-aurora {
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-g-light-color: var(--aurora-g-light);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light-color: var(--aurora-p-light);
   }
 }
 
