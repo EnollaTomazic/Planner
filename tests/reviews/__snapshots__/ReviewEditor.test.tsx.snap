@@ -428,7 +428,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <span
             aria-hidden="true"
-            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-300 [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
             style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); --result-indicator-gradient: var(--review-result-win-gradient);"
           />
           <div
