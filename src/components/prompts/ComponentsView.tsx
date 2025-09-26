@@ -53,7 +53,7 @@ function GalleryPreviewFallback() {
   return (
     <div
       aria-busy="true"
-      className="flex min-h-[var(--space-24)] items-center justify-center text-label text-muted-foreground"
+      className="flex min-h-[var(--space-24)] items-center justify-center text-label text-muted-foreground [--space-24:calc(var(--space-8)*3)]"
     >
       Loading preview…
     </div>

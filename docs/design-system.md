@@ -2,6 +2,8 @@
 
 This project ships with a small design system based on Tailwind CSS and CSS variables. This guide summarizes how to use it when building new features.
 
+For governance and enforcement workflows, read [Design System Governance](./design-governance.md).
+
 ## Tokens
 
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.

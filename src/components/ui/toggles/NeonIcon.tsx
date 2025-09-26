@@ -141,7 +141,7 @@ export function NeonIcon({
           )}
           style={{
             background:
-              "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px)",
+              "repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 var(--hairline-w), transparent var(--hairline-w) calc(var(--hairline-w)*3))",
             transition: "opacity 220ms var(--ease-out)",
           }}
           aria-hidden

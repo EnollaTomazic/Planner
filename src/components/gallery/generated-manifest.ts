@@ -114,7 +114,7 @@ export const galleryPayload = {
             {
               "id": "focus",
               "name": "Focus",
-              "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+              "code": "<Button className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\">Focus</Button>",
               "preview": {
                 "id": "ui:button:state:focus"
               }
@@ -246,7 +246,7 @@ export const galleryPayload = {
             {
               "id": "focus",
               "name": "Focus",
-              "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+              "code": "<IconButton className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
               "preview": {
                 "id": "ui:icon-button:state:focus"
               }
@@ -462,6 +462,12 @@ export const galleryPayload = {
                   "value": "Default"
                 },
                 {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
                   "value": "Disabled"
                 }
               ]
@@ -470,7 +476,41 @@ export const galleryPayload = {
           "code": "<div className=\"w-[calc(var(--space-8)*4)] space-y-[var(--space-3)]\">\n  <div>\n    <Label htmlFor=\"label-default\">Email</Label>\n    <Input id=\"label-default\" placeholder=\"player@example.gg\" />\n  </div>\n  <div className=\"opacity-80\">\n    <Label htmlFor=\"label-disabled\">Disabled</Label>\n    <Input id=\"label-disabled\" placeholder=\"Disabled input\" disabled />\n  </div>\n</div>",
           "preview": {
             "id": "ui:label:pairing"
-          }
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-default\">Email</Label>\n  <Input id=\"label-state-default\" placeholder=\"player@example.gg\" />\n</div>",
+              "preview": {
+                "id": "ui:label:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-hover\" className=\"text-accent transition-colors\">Email</Label>\n  <Input\n    id=\"label-state-hover\"\n    placeholder=\"player@example.gg\"\n    className=\"border-primary/60\"\n  />\n</div>",
+              "preview": {
+                "id": "ui:label:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-focus\" className=\"text-ring transition-colors\">Email</Label>\n  <Input\n    id=\"label-state-focus\"\n    placeholder=\"player@example.gg\"\n    className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n  />\n</div>",
+              "preview": {
+                "id": "ui:label:state:focus-visible"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<div className=\"flex flex-col gap-[var(--space-1)] opacity-80\">\n  <Label htmlFor=\"label-state-disabled\">Email</Label>\n  <Input id=\"label-state-disabled\" placeholder=\"player@example.gg\" disabled />\n</div>",
+              "preview": {
+                "id": "ui:label:state:disabled"
+              }
+            }
+          ]
         },
         {
           "id": "select",
@@ -838,7 +878,7 @@ export const galleryPayload = {
             {
               "id": "focus",
               "name": "Focus",
-              "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+              "code": "<Input className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" placeholder=\"Focus\" />",
               "preview": {
                 "id": "ui:input:state:focus"
               }
@@ -2254,7 +2294,7 @@ export const galleryPayload = {
             {
               "id": "focus-visible",
               "name": "Focus-visible",
-              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+              "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"outline-[var(--spacing-0-5)_solid_var(--ring-contrast)] outline-offset-[var(--spacing-0-5)] ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)]\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
               "preview": {
                 "id": "ui:tab-bar:state:focus-visible"
               }
@@ -3428,7 +3468,7 @@ export const galleryPayload = {
           {
             "id": "focus",
             "name": "Focus",
-            "code": "<Button className=\"ring-2 ring-[var(--focus)]\">Focus</Button>",
+            "code": "<Button className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\">Focus</Button>",
             "preview": {
               "id": "ui:button:state:focus"
             }
@@ -3560,7 +3600,7 @@ export const galleryPayload = {
           {
             "id": "focus",
             "name": "Focus",
-            "code": "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+            "code": "<IconButton className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
             "preview": {
               "id": "ui:icon-button:state:focus"
             }
@@ -3771,6 +3811,12 @@ export const galleryPayload = {
                 "value": "Default"
               },
               {
+                "value": "Hover"
+              },
+              {
+                "value": "Focus-visible"
+              },
+              {
                 "value": "Disabled"
               }
             ]
@@ -3779,7 +3825,41 @@ export const galleryPayload = {
         "code": "<div className=\"w-[calc(var(--space-8)*4)] space-y-[var(--space-3)]\">\n  <div>\n    <Label htmlFor=\"label-default\">Email</Label>\n    <Input id=\"label-default\" placeholder=\"player@example.gg\" />\n  </div>\n  <div className=\"opacity-80\">\n    <Label htmlFor=\"label-disabled\">Disabled</Label>\n    <Input id=\"label-disabled\" placeholder=\"Disabled input\" disabled />\n  </div>\n</div>",
         "preview": {
           "id": "ui:label:pairing"
-        }
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-default\">Email</Label>\n  <Input id=\"label-state-default\" placeholder=\"player@example.gg\" />\n</div>",
+            "preview": {
+              "id": "ui:label:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-hover\" className=\"text-accent transition-colors\">Email</Label>\n  <Input\n    id=\"label-state-hover\"\n    placeholder=\"player@example.gg\"\n    className=\"border-primary/60\"\n  />\n</div>",
+            "preview": {
+              "id": "ui:label:state:hover"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<div className=\"flex flex-col gap-[var(--space-1)]\">\n  <Label htmlFor=\"label-state-focus\" className=\"text-ring transition-colors\">Email</Label>\n  <Input\n    id=\"label-state-focus\"\n    placeholder=\"player@example.gg\"\n    className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n  />\n</div>",
+            "preview": {
+              "id": "ui:label:state:focus-visible"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<div className=\"flex flex-col gap-[var(--space-1)] opacity-80\">\n  <Label htmlFor=\"label-state-disabled\">Email</Label>\n  <Input id=\"label-state-disabled\" placeholder=\"player@example.gg\" disabled />\n</div>",
+            "preview": {
+              "id": "ui:label:state:disabled"
+            }
+          }
+        ]
       },
       {
         "id": "select",
@@ -4147,7 +4227,7 @@ export const galleryPayload = {
           {
             "id": "focus",
             "name": "Focus",
-            "code": "<Input className=\"ring-2 ring-[var(--focus)]\" placeholder=\"Focus\" />",
+            "code": "<Input className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" placeholder=\"Focus\" />",
             "preview": {
               "id": "ui:input:state:focus"
             }
@@ -4663,7 +4743,7 @@ export const galleryPayload = {
           {
             "id": "focus-visible",
             "name": "Focus-visible",
-            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
+            "code": "<TabBar\n  items={[\n    { key: \"today\", label: \"Today\" },\n    { key: \"focus\", label: \"Focus-visible\", className: \"outline-[var(--spacing-0-5)_solid_var(--ring-contrast)] outline-offset-[var(--spacing-0-5)] ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)]\" },\n    { key: \"backlog\", label: \"Backlog\" },\n  ]}\n  value=\"today\"\n  onValueChange={() => {}}\n  ariaLabel=\"Tab state preview\"\n/>",
             "preview": {
               "id": "ui:tab-bar:state:focus-visible"
             }
@@ -6744,6 +6824,10 @@ export const galleryPreviewModules = [
     loader: () => import("../ui/Label.gallery"),
     previewIds: [
       "ui:label:pairing",
+      "ui:label:state:default",
+      "ui:label:state:hover",
+      "ui:label:state:focus-visible",
+      "ui:label:state:disabled",
     ],
   },
   {

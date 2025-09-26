@@ -443,7 +443,7 @@ function PromptsHeaderSearchStatePreview({ state }: { state: SearchState }) {
   return (
     <Field.Root
       className={cn(
-        "max-w-[min(100%,var(--space-72))]",
+        "max-w-[min(100%,var(--space-72))] [--space-72:calc(var(--space-8)*9)]",
         state === "hover" && FIELD_HOVER_SHADOW,
       )}
       disabled={isDisabled}
