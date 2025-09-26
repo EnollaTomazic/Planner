@@ -12,6 +12,7 @@ import {
   geistSansVariable,
 } from "./fonts";
 import tokens from "../../tokens/tokens.js";
+import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -112,11 +113,11 @@ export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: dark)",
-      color: `hsl(${tokens.background})`,
+      color: resolveTokenColor(tokens.background),
     },
     {
       media: "(prefers-color-scheme: light)",
-      color: `hsl(${tokens.foreground})`,
+      color: resolveTokenColor(tokens.foreground),
     },
   ],
 };
