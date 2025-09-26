@@ -133,7 +133,7 @@ export const toneClasses: Record<
       "text-on-accent bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
     info:
       "text-on-accent bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
-    danger: `${toneInteractionTokens.danger} text-danger-foreground bg-danger/25`,
+    danger: `${toneInteractionTokens.danger} text-[hsl(var(--danger-tint-foreground))] bg-danger/25`,
   },
   ghost: {
     primary:
