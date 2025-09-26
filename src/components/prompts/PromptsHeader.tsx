@@ -47,10 +47,8 @@ export default function PromptsHeader({
         ),
       }}
       hero={{
-        frame: false,
         sticky: false,
         tone: "supportive",
-        padding: "none",
         topClassName: "top-[var(--header-stack)]",
         heading: (
           <span className="sr-only" id={`${id}-hero`}>

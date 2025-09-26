@@ -92,8 +92,6 @@ export default function ReviewsPage({
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
         <PageHeader
-          className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-4)]"
-          contentClassName="space-y-[var(--space-2)]"
           header={{
             id: "reviews-header",
             heading: "Reviews",
@@ -103,10 +101,7 @@ export default function ReviewsPage({
             sticky: false,
           }}
           hero={{
-            frame: false,
             sticky: false,
-            topClassName: "top-[var(--header-stack)]",
-            padding: "none",
             heading: "Browse Reviews",
             subtitle: <span className="pill">Total {base.length}</span>,
             children: (
