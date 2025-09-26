@@ -583,11 +583,9 @@ exports[`ReviewsPage > renders default state 1`] = `
       </div>
     </section>
   </header>
-  <main
+  <section
     aria-labelledby="reviews-header"
     class="page-shell py-[var(--space-6)] space-y-[var(--space-6)]"
-    id="main-content"
-    tabindex="-1"
   >
     <div
       class="grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12"
@@ -779,6 +777,6 @@ exports[`ReviewsPage > renders default state 1`] = `
         </div>
       </div>
     </div>
-  </main>
+  </section>
 </div>
 `;
