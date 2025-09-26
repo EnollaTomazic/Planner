@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Suspense } from "react";
 import Link from "next/link";
 import {
   HeroPlannerCards,
@@ -9,13 +8,7 @@ import {
   useHomePlannerOverview,
 } from "@/components/home";
 import type { HeroPlannerHighlight } from "@/components/home";
-import {
-  PageShell,
-  Button,
-  ThemeToggle,
-  Spinner,
-  SectionCard,
-} from "@/components/ui";
+import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
@@ -128,17 +121,5 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
 }
 
 export default function Page() {
-  return (
-    <Suspense
-      fallback={
-        <PageShell as="section" aria-busy="true" role="status">
-          <div className="flex justify-center p-[var(--space-6)]">
-            <Spinner />
-          </div>
-        </PageShell>
-      }
-    >
-      <HomePageContent />
-    </Suspense>
-  );
+  return <HomePageContent />;
 }
