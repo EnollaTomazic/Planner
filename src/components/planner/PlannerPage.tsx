@@ -85,7 +85,6 @@ function Inner() {
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
-          contentClassName="space-y-2"
           header={{
             id: "planner-header",
             tabIndex: -1,
@@ -97,13 +96,8 @@ function Inner() {
             sticky: false,
           }}
           hero={{
-            frame: false,
             sticky: false,
-            rail: false,
-            padding: "none",
-            barClassName: "hidden",
-            className: "planner-header__hero",
-            heading: <span className="sr-only">Week picker</span>,
+            heading: "Week controls",
             children: (
               <>
                 <WeekPicker />

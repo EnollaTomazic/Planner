@@ -22,16 +22,13 @@ export default function NotFound() {
       aria-labelledby={headerId}
     >
       <PageHeader
-        className="rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-5)]"
         header={{
           id: headerId,
           heading: "Page not found",
           icon: <AlertCircle className="opacity-80" />,
         }}
         hero={{
-          frame: false,
           heading: "This page does not exist",
-          padding: "none",
           actions: (
             <Button asChild>
               <Link href="/">Go home</Link>

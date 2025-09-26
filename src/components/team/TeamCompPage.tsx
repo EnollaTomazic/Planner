@@ -284,10 +284,8 @@ export default function TeamCompPage() {
         subTab === "sheet" ? "cheatSheet" : "myComps";
       return {
         as: "section",
-        frame: false,
         sticky: true,
         topClassName: "top-[var(--header-stack)]",
-        padding: "none",
         eyebrow: active?.label,
         heading: "Comps",
         subtitle:
@@ -436,11 +434,9 @@ export default function TeamCompPage() {
     }
     return {
       as: "section",
-      frame: false,
       sticky: false,
       topClassName: "top-[var(--header-stack)]",
       rail: true,
-      padding: "none",
       heading: "Clear Speed Buckets",
       dividerTint: "primary",
       search: {
@@ -519,9 +515,6 @@ export default function TeamCompPage() {
     >
       <PageHeader
         containerClassName="col-span-full"
-        className="rounded-card r-card-lg px-4 py-4"
-        contentClassName="space-y-2"
-        frameProps={{ variant: "unstyled" }}
         header={{
           id: "teamcomp-header",
           eyebrow: "Comps",
