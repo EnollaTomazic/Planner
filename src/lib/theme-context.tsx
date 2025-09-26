@@ -3,12 +3,15 @@
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
 import {
+  BG_CLASSES,
+  THEME_STORAGE_KEY,
+  VARIANTS,
   applyTheme,
   defaultTheme,
   decodeThemeState,
-  BG_CLASSES,
-  THEME_STORAGE_KEY,
+  type Background,
   type ThemeState,
+  type Variant,
 } from "@/lib/theme";
 
 const ThemeContext = React.createContext<
@@ -18,12 +21,48 @@ const ThemeContext = React.createContext<
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = React.useState(false);
+  const defaultThemeValue = React.useMemo<ThemeState>(() => defaultTheme(), []);
+  const initialThemeState = React.useMemo<ThemeState>(() => {
+    if (typeof document === "undefined") {
+      return defaultThemeValue;
+    }
+
+    const { documentElement } = document;
+    if (!documentElement) {
+      return defaultThemeValue;
+    }
+
+    const classList = documentElement.classList;
+    const themeClass = Array.from(classList).find((className) =>
+      className.startsWith("theme-"),
+    );
+    const rawVariant =
+      typeof themeClass === "string"
+        ? themeClass.slice("theme-".length)
+        : null;
+    const variantEntry = VARIANTS.find(({ id }) => id === rawVariant);
+    const resolvedVariant: Variant = variantEntry
+      ? variantEntry.id
+      : defaultThemeValue.variant;
+
+    const backgroundIndex = BG_CLASSES.findIndex(
+      (className) =>
+        className.length > 0 && classList.contains(className),
+    );
+    const resolvedBackground =
+      backgroundIndex > 0
+        ? (backgroundIndex as Background)
+        : defaultThemeValue.bg;
+
+    return { variant: resolvedVariant, bg: resolvedBackground };
+  }, [defaultThemeValue]);
+
   const [theme, setTheme] = usePersistentState<ThemeState>(
     THEME_STORAGE_KEY,
-    defaultTheme(),
+    initialThemeState,
     { decode: decodeThemeState },
   );
-  const defaultThemeRef = React.useRef(defaultTheme());
+  const defaultThemeRef = React.useRef(defaultThemeValue);
   const pendingPersistedSyncRef = React.useRef(true);
 
   React.useEffect(() => {
