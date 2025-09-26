@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/components/ui";
 
 const CHIP_PLACEHOLDERS = [
   "hover",
@@ -15,7 +15,7 @@ const PROMPT_CARDS = ["prompt-1", "prompt-2", "prompt-3"] as const;
 export default function PromptsLoading() {
   return (
     <>
-      <header className="page-shell py-[var(--space-6)]">
+      <PageShell as="header" className="py-[var(--space-6)]">
         <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
             <div className="space-y-[var(--space-2)]">
@@ -41,9 +41,10 @@ export default function PromptsLoading() {
             <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
           </div>
         </div>
-      </header>
-      <main
-        className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]"
+      </PageShell>
+      <PageShell
+        as="section"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
         <nav className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)]">
@@ -73,7 +74,7 @@ export default function PromptsLoading() {
             </article>
           ))}
         </section>
-      </main>
+      </PageShell>
     </>
   );
 }

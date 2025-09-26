@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/components/ui";
 
 const ACTION_PLACEHOLDERS = ["prev", "today", "next"] as const;
 const WEEKDAY_PLACEHOLDERS = [
@@ -17,7 +17,7 @@ const PANEL_PLACEHOLDERS = ["notes", "summary", "metrics"] as const;
 export default function PlannerLoading() {
   return (
     <>
-      <header className="page-shell py-[var(--space-6)]">
+      <PageShell as="header" className="py-[var(--space-6)]">
         <div className="space-y-[var(--space-4)]">
           <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
             <div className="space-y-[var(--space-2)]">
@@ -48,9 +48,10 @@ export default function PlannerLoading() {
             </div>
           </div>
         </div>
-      </header>
-      <main
-        className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]"
+      </PageShell>
+      <PageShell
+        as="section"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
         <section className="grid gap-[var(--space-6)] lg:grid-cols-12">
@@ -97,7 +98,7 @@ export default function PlannerLoading() {
             ))}
           </ul>
         </section>
-      </main>
+      </PageShell>
     </>
   );
 }
