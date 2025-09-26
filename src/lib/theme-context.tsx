@@ -5,6 +5,7 @@ import { usePersistentState } from "@/lib/db";
 import {
   applyTheme,
   defaultTheme,
+  decodeThemeState,
   BG_CLASSES,
   THEME_STORAGE_KEY,
   type ThemeState,
@@ -20,6 +21,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = usePersistentState<ThemeState>(
     THEME_STORAGE_KEY,
     defaultTheme(),
+    { decode: decodeThemeState },
   );
   const defaultThemeRef = React.useRef(defaultTheme());
   const pendingPersistedSyncRef = React.useRef(true);
@@ -53,19 +55,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         ? currentBackgroundClass !== expectedBackgroundClass
         : expectedBackgroundClass !== "";
 
+    const defaultState = defaultThemeRef.current;
+    const isDefaultSelection =
+      theme.variant === defaultState.variant && theme.bg === defaultState.bg;
+
     if (
       pendingPersistedSyncRef.current &&
       documentElement.dataset.themePref === "persisted" &&
-      (themeClassMismatch || backgroundMismatch)
+      (themeClassMismatch || backgroundMismatch) &&
+      !isDefaultSelection
     ) {
       return;
     }
 
     pendingPersistedSyncRef.current = false;
 
-    const defaultState = defaultThemeRef.current;
-    const isDefaultSelection =
-      theme.variant === defaultState.variant && theme.bg === defaultState.bg;
     const shouldPersistPreference =
       documentElement.dataset.themePref === "persisted" || !isDefaultSelection;
 
