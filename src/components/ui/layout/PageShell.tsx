@@ -45,7 +45,7 @@ export default function PageShell<T extends PageShellElement = "div">({
       {grid ? (
         <div
           className={cn(
-            "grid gap-[var(--space-4)] md:grid-cols-12 md:gap-[var(--space-5)]",
+            "[--grid-gutter:var(--space-4)] grid gap-[var(--grid-gutter)] md:grid-cols-12 md:[--grid-gutter:var(--space-5)]",
             contentClassName
           )}
         >
