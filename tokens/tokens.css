@@ -54,9 +54,9 @@
   --tone-bot: 195 75% 56%;
   --tone-sup: 320 72% 60%;
   --aurora-g: var(--accent-2);
-  --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+  --aurora-g-light: var(--aurora-g);
   --aurora-p: var(--accent);
-  --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+  --aurora-p-light: var(--aurora-p);
   --icon-fg: 250 96% 78%;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
@@ -228,4 +228,11 @@
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
+}
+
+@supports (color: color-mix(in oklab, white, black)) {
+  :root {
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+  }
 }
