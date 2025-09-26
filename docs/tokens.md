@@ -51,9 +51,9 @@
 | tone-bot | 195 75% 56% |
 | tone-sup | 320 72% 60% |
 | aurora-g | var(--accent-2) |
-| aurora-g-light | color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white) |
+| aurora-g-light | 150 100% 85% |
 | aurora-p | var(--accent) |
-| aurora-p-light | color-mix(in oklab, hsl(var(--accent)) 37.5%, white) |
+| aurora-p-light | 272 80% 85% |
 | icon-fg | 250 96% 78% |
 | accent-overlay | hsl(var(--accent)) |
 | ring-contrast | hsl(var(--ring)) |
@@ -210,6 +210,8 @@
 | visually-hidden-top | -9999px |
 | warning-foreground | 0 0% 6% |
 | success-foreground | 0 0% 6% |
+| aurora-g-light-color | hsl(var(--aurora-g-light)) |
+| aurora-p-light-color | hsl(var(--aurora-p-light)) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
@@ -227,7 +229,3 @@
 | radius-xl | 16px |
 | radius-2xl | 24px |
 | radius-full | 9999px |
-
-## Notes
-
-- `warning-foreground` and `success-foreground` provide the default copy color for high-chroma warning and success fills. Pair them with the Tailwind utilities `text-warning-foreground` and `text-success-foreground` to preserve AA+ contrast across themes. Other accent rails continue to use `text-on-accent` or the accent foreground tokens.
