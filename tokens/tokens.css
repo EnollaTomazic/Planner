@@ -54,9 +54,9 @@
   --tone-bot: 195 75% 56%;
   --tone-sup: 320 72% 60%;
   --aurora-g: var(--accent-2);
-  --aurora-g-light: var(--aurora-g);
+  --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
   --aurora-p: var(--accent);
-  --aurora-p-light: var(--aurora-p);
+  --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
   --icon-fg: 250 96% 78%;
   --accent-overlay: hsl(var(--accent));
   --ring-contrast: hsl(var(--ring));
@@ -211,6 +211,8 @@
   );
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
   --visually-hidden-top: -9999px;
+  --warning-foreground: 0 0% 6%;
+  --success-foreground: 0 0% 6%;
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

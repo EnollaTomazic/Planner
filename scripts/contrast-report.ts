@@ -65,8 +65,13 @@ const foregroundRe = /(foreground|text)/i;
 const surfaces = Object.entries(tokens).filter(
   ([name, value]) => surfaceRe.test(name) && parseHsl(value),
 );
+const excludedForegrounds = new Set(["warningForeground", "successForeground"]);
+
 const foregrounds = Object.entries(tokens).filter(
-  ([name, value]) => foregroundRe.test(name) && parseHsl(value),
+  ([name, value]) =>
+    foregroundRe.test(name) &&
+    parseHsl(value) &&
+    !excludedForegrounds.has(name),
 );
 
 const reportPath = path.resolve(
@@ -107,6 +112,35 @@ for (const [sName, sVal] of surfaces) {
       aa: ratio >= 4.5 ? "pass" : "fail",
     });
   }
+}
+
+const tonePairs: Array<[string, string]> = [
+  ["warning", "warningForeground"],
+  ["success", "successForeground"],
+];
+
+for (const [surfaceName, foregroundName] of tonePairs) {
+  const surfaceValue = tokens[surfaceName];
+  const foregroundValue = tokens[foregroundName];
+  if (!surfaceValue || !foregroundValue) continue;
+  const surfaceHsl = parseHsl(surfaceValue);
+  const foregroundHsl = parseHsl(foregroundValue);
+  if (!surfaceHsl || !foregroundHsl) continue;
+  const surfaceLum = luminance(
+    ...hslToRgb(surfaceHsl.h, surfaceHsl.s, surfaceHsl.l),
+  );
+  const foregroundLum = luminance(
+    ...hslToRgb(foregroundHsl.h, foregroundHsl.s, foregroundHsl.l),
+  );
+  const ratio = contrast(foregroundLum, surfaceLum).toFixed(2);
+  const key = `${surfaceName}-${foregroundName}`;
+  rows.push({
+    surface: surfaceName,
+    foreground: foregroundName,
+    previous: previous[key] ?? "n/a",
+    current: ratio,
+    aa: parseFloat(ratio) >= 4.5 ? "pass" : "fail",
+  });
 }
 
 rows.sort((a, b) =>

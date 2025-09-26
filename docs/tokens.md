@@ -181,24 +181,24 @@
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25) |
 | btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
     hsl(var(--accent) / 0.6) |
-| pillar-wave-start | 257 90% 70% |
-| pillar-wave-end | 198 90% 62% |
-| pillar-wave-shadow | 258 90% 38% / 0.35 |
-| pillar-trading-start | 292 85% 72% |
-| pillar-trading-end | 318 85% 66% |
-| pillar-trading-shadow | 292 85% 38% / 0.35 |
-| pillar-vision-start | 157 70% 55% |
-| pillar-vision-end | 192 75% 60% |
-| pillar-vision-shadow | 170 70% 30% / 0.35 |
-| pillar-tempo-start | 260 85% 70% |
-| pillar-tempo-end | 284 85% 65% |
-| pillar-tempo-shadow | 270 80% 35% / 0.35 |
-| pillar-positioning-start | 190 90% 66% |
-| pillar-positioning-end | 220 90% 66% |
-| pillar-positioning-shadow | 205 85% 35% / 0.35 |
-| pillar-comms-start | 286 90% 68% |
-| pillar-comms-end | 312 88% 66% |
-| pillar-comms-shadow | 300 80% 36% / 0.35 |
+| pillar-wave-start | var(--accent) |
+| pillar-wave-end | var(--accent-2) |
+| pillar-wave-shadow | var(--accent) / 0.35 |
+| pillar-trading-start | var(--lav-deep) |
+| pillar-trading-end | var(--accent) |
+| pillar-trading-shadow | var(--lav-deep) / 0.35 |
+| pillar-vision-start | var(--success) |
+| pillar-vision-end | var(--accent-2) |
+| pillar-vision-shadow | var(--success) / 0.35 |
+| pillar-tempo-start | var(--ring) |
+| pillar-tempo-end | var(--accent) |
+| pillar-tempo-shadow | var(--ring) / 0.35 |
+| pillar-positioning-start | var(--accent-2) |
+| pillar-positioning-end | var(--primary) |
+| pillar-positioning-shadow | var(--accent-2) / 0.35 |
+| pillar-comms-start | var(--lav-deep) |
+| pillar-comms-end | var(--primary) |
+| pillar-comms-shadow | var(--primary) / 0.35 |
 | card-overlay-scanlines | repeating-linear-gradient(
     to bottom,
     hsl(var(--foreground) / 0.035) 0,
@@ -208,6 +208,8 @@
   ) |
 | hero-divider-blur | calc(var(--spacing-1) * 1.5) |
 | visually-hidden-top | -9999px |
+| warning-foreground | 0 0% 6% |
+| success-foreground | 0 0% 6% |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
@@ -228,12 +230,4 @@
 
 ## Notes
 
-### Semantic foregrounds
-
-- `accent-foreground` and `accent-2-foreground` keep accent families legible without hard-coding white. The second variant mirrors the first unless a theme overrides it, so controls that swap between purple and cyan accents retain an accessible text color automatically.
-- `danger-foreground` and `text-on-accent` provide the contrasting copy colors for destructive, success, and warning fills. Always use these tokens (or the derived utility classes such as `text-on-accent`) instead of setting raw hex values so the color-contrast fallbacks stay in sync across themes.
-
-### Aurora fallbacks
-
-- `aurora-g-light` and `aurora-p-light` expose the pre-blended stops used when `color-mix` support is unavailable. Pair them with the base `aurora-g` / `aurora-p` tones rather than mixing custom alphas—this keeps the gradient and particle effects readable for both CSS-capable and fallback browsers.
-
+- `warning-foreground` and `success-foreground` provide the default copy color for high-chroma warning and success fills. Pair them with the Tailwind utilities `text-warning-foreground` and `text-success-foreground` to preserve AA+ contrast across themes. Other accent rails continue to use `text-on-accent` or the accent foreground tokens.

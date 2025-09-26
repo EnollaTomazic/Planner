@@ -103,6 +103,47 @@ async function buildTokens(): Promise<void> {
     delete colors[token];
   }
 
+  const ensureToneForeground = (
+    tone: "warning" | "success",
+    fallback: string,
+  ) => {
+    const key = `${tone}-foreground`;
+    if (!colors[key]) {
+      colors[key] = { value: fallback };
+    }
+  };
+
+  const darkForeground = "0 0% 6%";
+  ensureToneForeground("warning", darkForeground);
+  ensureToneForeground("success", darkForeground);
+
+  const preservedVariables: Record<string, string> = {
+    "pillar-wave-start": "var(--accent)",
+    "pillar-wave-end": "var(--accent-2)",
+    "pillar-wave-shadow": "var(--accent) / 0.35",
+    "pillar-trading-start": "var(--lav-deep)",
+    "pillar-trading-end": "var(--accent)",
+    "pillar-trading-shadow": "var(--lav-deep) / 0.35",
+    "pillar-vision-start": "var(--success)",
+    "pillar-vision-end": "var(--accent-2)",
+    "pillar-vision-shadow": "var(--success) / 0.35",
+    "pillar-tempo-start": "var(--ring)",
+    "pillar-tempo-end": "var(--accent)",
+    "pillar-tempo-shadow": "var(--ring) / 0.35",
+    "pillar-positioning-start": "var(--accent-2)",
+    "pillar-positioning-end": "var(--primary)",
+    "pillar-positioning-shadow": "var(--accent-2) / 0.35",
+    "pillar-comms-start": "var(--lav-deep)",
+    "pillar-comms-end": "var(--primary)",
+    "pillar-comms-shadow": "var(--primary) / 0.35",
+  };
+
+  for (const [name, value] of Object.entries(preservedVariables)) {
+    if (colors[name]) {
+      colors[name] = { value };
+    }
+  }
+
   const sd = new StyleDictionary({
     tokens: { ...colors, ...derivedSpacing, spacing, radius },
     platforms: {
