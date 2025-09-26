@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Button, { type ButtonProps } from "@/components/ui/primitives/Button";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 type QuickActionLayout = "stacked" | "grid" | "twelveColumn" | "inline";
 
@@ -24,6 +24,12 @@ const buttonBaseClassName =
 
 const buttonHoverLiftClassName =
   "motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none";
+
+const isExternalHref = (href: string): boolean => {
+  if (href.startsWith("/")) return false;
+  if (href.startsWith("#")) return false;
+  return /^(?:[a-zA-Z][a-zA-Z\d+.-]*:|\/\/)/.test(href);
+};
 
 type QuickActionDefinition = {
   id?: string;
@@ -72,6 +78,7 @@ export default function QuickActionGrid({
           variant,
           linkProps,
         } = action;
+        void asChild;
         const key = id ?? href;
         const resolvedTone = tone ?? buttonTone;
         const resolvedSize = size ?? buttonSize;
@@ -82,39 +89,57 @@ export default function QuickActionGrid({
           buttonClassName,
           actionClassName,
         );
+        const trimmedHref = href.trim();
+        const isHash = trimmedHref.startsWith("#");
+        const isExternal = isExternalHref(trimmedHref);
+        const shouldPrefixBasePath = !isHash && !isExternal;
+        const resolvedHref = shouldPrefixBasePath
+          ? withBasePath(trimmedHref)
+          : trimmedHref;
+        const {
+          className: _omitClassName,
+          target,
+          rel,
+          ...restLinkProps
+        } = linkProps ?? {};
+        void _omitClassName;
+        const commonButtonProps = {
+          tone: resolvedTone,
+          size: resolvedSize,
+          variant: resolvedVariant,
+          className: mergedClassName,
+        } satisfies Pick<
+          ButtonProps,
+          "tone" | "size" | "variant" | "className"
+        >;
+        const resolvedRel =
+          target === "_blank" && typeof rel === "undefined"
+            ? "noopener noreferrer"
+            : rel;
 
-        if (asChild) {
-          return (
-            <Button
-              key={key}
-              asChild
-              tone={resolvedTone}
-              size={resolvedSize}
-              variant={resolvedVariant}
-              className={mergedClassName}
-            >
-              <Link href={href} {...linkProps}>
-                {label}
-              </Link>
-            </Button>
-          );
-        }
-
-        const target = linkProps?.target;
-        const rel = linkProps?.rel;
-
-        return (
-          <Button
-            key={key}
-            href={href}
-            tone={resolvedTone}
-            size={resolvedSize}
-            variant={resolvedVariant}
-            className={mergedClassName}
+        const childNode = isExternal ? (
+          <a
+            href={resolvedHref}
             target={target}
-            rel={rel}
+            rel={resolvedRel}
+            {...(restLinkProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           >
             {label}
+          </a>
+        ) : (
+          <Link
+            href={resolvedHref}
+            target={target}
+            rel={resolvedRel}
+            {...restLinkProps}
+          >
+            {label}
+          </Link>
+        );
+
+        return (
+          <Button key={key} {...commonButtonProps} asChild>
+            {childNode}
           </Button>
         );
       })}
