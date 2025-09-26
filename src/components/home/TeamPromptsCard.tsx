@@ -3,6 +3,7 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import QuickActionGrid from "./QuickActionGrid";
+import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 
 const teamQuickActions = [
   {
@@ -32,7 +33,7 @@ const promptsOverlayGradient = {
 
 export default function TeamPromptsCard() {
   return (
-    <div className="grid grid-cols-1 gap-[var(--space-6)] md:grid-cols-12">
+    <div className={`${layoutGridClassName} md:grid-cols-12`}>
       <div className="md:col-span-6">
         <DashboardCard title="Team quick actions">
           <QuickActionGrid

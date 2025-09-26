@@ -15,6 +15,7 @@ import {
   WeekPickerShell,
 } from "@/components/planner";
 import { Input } from "@/components/ui";
+import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import GalleryItem from "../GalleryItem";
 import {
@@ -25,8 +26,7 @@ import {
 import WeekPickerDemo from "./WeekPickerDemo";
 import type { PlannerPanelData } from "./useComponentGalleryState";
 
-const GRID_CLASS =
-  "grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2 md:grid-cols-12 md:gap-[var(--space-8)]";
+const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 
 type WeekPickerShellDemoDay = {
   readonly iso: string;

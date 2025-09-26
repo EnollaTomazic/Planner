@@ -20,7 +20,7 @@ import type { ISODate } from "./plannerTypes";
 import { PlannerProvider } from "./plannerContext";
 import WeekPicker from "./WeekPicker";
 import { PageHeader } from "@/components/ui";
-import PageShell from "@/components/ui/layout/PageShell";
+import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import Button from "@/components/ui/primitives/Button";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays, formatWeekRangeLabel, toISODate } from "@/lib/date";
@@ -120,7 +120,7 @@ function Inner() {
         {/* Today + Side column */}
         <section
           aria-label="Today and weekly panels"
-          className="col-span-full grid grid-cols-1 gap-6 lg:grid-cols-12"
+          className={`${layoutGridClassName} col-span-full lg:grid-cols-12`}
         >
           <div className="col-span-full lg:col-span-8" ref={heroRef}>
             <TodayHero iso={iso} />

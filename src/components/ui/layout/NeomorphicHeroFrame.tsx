@@ -233,8 +233,8 @@ const slotBareBaseClass =
 const slotContentClass = "relative z-[1] flex w-full min-w-0 flex-col";
 
 const heroGridGaps: Record<Exclude<HeroVariant, "unstyled">, string> = {
-  default: "gap-[var(--space-4)] md:gap-[var(--space-6)]",
-  compact: "gap-[var(--space-3)] md:gap-[var(--space-4)]",
+  default: "gap-[var(--space-4)] md:gap-[var(--space-5)]",
+  compact: "gap-[var(--space-3)] md:gap-[var(--space-5)]",
   dense: "gap-[var(--space-2)] md:gap-[var(--space-3)]",
 };
 
