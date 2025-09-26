@@ -6,7 +6,6 @@
   :root {
     --shell-max: var(--shell-width);
     --accent-2-foreground: var(--accent-foreground);
-    --danger-foreground: var(--highlight);
     --asset-noise-url: url("/noise.svg");
     --asset-glitch-gif-url: url("/glitch-gif.gif");
     --settings-column-width: calc(var(--space-4) * 14);

@@ -122,6 +122,23 @@ describe("IconButton", () => {
     );
   });
 
+  it("applies primary variant with danger tone", () => {
+    const { getByRole } = render(
+      <IconButton variant="primary" tone="danger" aria-label="pd" />,
+    );
+    const classes = getByRole("button").className;
+    expect(classes).toContain("border");
+    expect(classes).toContain(
+      "border-transparent bg-danger/20 text-on-accent",
+    );
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.danger.surfaceHover')]",
+    );
+    expect(classes).toContain(
+      "[--active:theme('colors.interaction.danger.surfaceActive')]",
+    );
+  });
+
   it("applies secondary variant with info tone", () => {
     const { getByRole } = render(
       <IconButton variant="secondary" tone="info" aria-label="si" />,

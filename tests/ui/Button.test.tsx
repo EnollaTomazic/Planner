@@ -44,7 +44,7 @@ describe("Button", () => {
         "[--active:theme('colors.interaction.info.active')]",
       ],
       danger: [
-        "text-[hsl(var(--danger-foreground))]",
+        "text-on-accent",
         "bg-[hsl(var(--danger)/0.12)]",
         "border-[hsl(var(--danger)/0.35)]",
         "[--hover:theme('colors.interaction.danger.hover')]",
@@ -66,7 +66,7 @@ describe("Button", () => {
         "[--active:hsl(var(--accent-2)/0.15)]",
       ],
       danger: [
-        "text-danger-foreground",
+        "text-on-accent",
         "bg-danger/25",
         "[--hover:theme('colors.interaction.danger.hover')]",
         "[--active:theme('colors.interaction.danger.active')]",

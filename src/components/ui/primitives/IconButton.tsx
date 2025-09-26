@@ -122,7 +122,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     primary: "border-transparent bg-foreground/15 text-foreground",
     accent: "border-transparent bg-accent/30 text-on-accent",
     info: "border-transparent bg-accent-2/30 text-on-accent",
-    danger: "border-transparent bg-danger/20 text-danger-foreground",
+    danger: "border-transparent bg-danger/20 text-on-accent",
   },
   secondary: {
     primary: "border-foreground/35 text-foreground",
