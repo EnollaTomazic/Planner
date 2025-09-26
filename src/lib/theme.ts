@@ -100,6 +100,41 @@ export const VARIANT_LABELS: Record<Variant, string> = VARIANTS.reduce(
   {} as Record<Variant, string>,
 );
 
+const VARIANT_ID_SET = new Set<Variant>(VARIANTS.map((variant) => variant.id));
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isVariant(value: unknown): value is Variant {
+  return typeof value === "string" && VARIANT_ID_SET.has(value as Variant);
+}
+
+function isBackground(value: unknown): value is Background {
+  return (
+    typeof value === "number" &&
+    Number.isInteger(value) &&
+    value >= 0 &&
+    value < BG_CLASSES.length
+  );
+}
+
+export function decodeThemeState(value: unknown): ThemeState | null {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  const rawVariant = value["variant"];
+  if (!isVariant(rawVariant)) {
+    return null;
+  }
+
+  const rawBackground = value["bg"];
+  const background = isBackground(rawBackground) ? rawBackground : 0;
+
+  return { variant: rawVariant, bg: background };
+}
+
 export function defaultTheme(): ThemeState {
   return { variant: "lg", bg: 0 };
 }

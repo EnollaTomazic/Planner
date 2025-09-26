@@ -93,5 +93,30 @@ describe("ThemeProvider", () => {
       }
     });
   });
+
+  it("falls back to the default theme when persisted data is invalid", async () => {
+    const key = createStorageKey(themeModule.THEME_STORAGE_KEY);
+    window.localStorage.setItem(key, JSON.stringify({ variant: "nope", bg: 42 }));
+    document.documentElement.className = "theme-nope";
+    document.documentElement.dataset.themePref = "persisted";
+
+    render(
+      <ThemeProvider>
+        <Consumer />
+      </ThemeProvider>,
+    );
+
+    const defaultState = themeModule.defaultTheme();
+
+    await waitFor(() => {
+      expect(Consumer.lastTheme?.variant).toBe(defaultState.variant);
+      expect(Consumer.lastTheme?.bg).toBe(defaultState.bg);
+    });
+
+    expect(
+      document.documentElement.classList.contains(`theme-${defaultState.variant}`),
+    ).toBe(true);
+    expect(document.documentElement.classList.contains("theme-nope")).toBe(false);
+  });
 });
 
