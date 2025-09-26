@@ -183,6 +183,8 @@ export default {
     "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
   visuallyHiddenTop: "-9999px",
+  warningForeground: "0 0% 6%",
+  successForeground: "0 0% 6%",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

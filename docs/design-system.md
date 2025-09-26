@@ -6,7 +6,7 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
-- Pair high-chroma fills with the semantic text tokens: `text-on-accent` for success and warning surfaces (including the success glow), `text-accent-foreground` / `text-accent-2-foreground` for accent rails, and `text-danger-foreground` for destructive actions. This ensures the `color-contrast()` fallbacks in `themes.css` stay effective.
+- Pair high-chroma fills with the semantic text tokens: `text-warning-foreground` for alert banners, `text-success-foreground` for celebratory fills (including the success glow), `text-on-accent` for accent gradients, `text-accent-foreground` / `text-accent-2-foreground` for accent rails, and `text-danger-foreground` for destructive actions. This ensures the `color-contrast()` fallbacks in `themes.css` stay effective.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.

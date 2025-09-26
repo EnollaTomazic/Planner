@@ -106,11 +106,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--warning))",
           soft: "hsl(var(--warning-soft))",
           "soft-strong": "hsl(var(--warning-soft-strong))",
+          foreground: "hsl(var(--warning-foreground))",
         },
         success: {
           DEFAULT: "hsl(var(--success))",
           glow: "hsl(var(--success-glow))",
           soft: "hsl(var(--success-soft))",
+          foreground: "hsl(var(--success-foreground))",
         },
         tone: {
           top: "hsl(var(--tone-top))",
