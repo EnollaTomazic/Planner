@@ -679,7 +679,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-0"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 var(--hairline-w), transparent var(--hairline-w) calc(var(--hairline-w)*3)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
@@ -1682,7 +1682,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-35 animate-[niScan_2.1s_linear_infinite]"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 var(--hairline-w), transparent var(--hairline-w) calc(var(--hairline-w)*3)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"
@@ -1874,7 +1874,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 rounded-full mix-blend-overlay opacity-0"
-                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 1px, transparent 1px 3px); transition: opacity 220ms var(--ease-out);"
+                style="background: repeating-linear-gradient(0deg, hsl(var(--foreground)/0.07) 0 var(--hairline-w), transparent var(--hairline-w) calc(var(--hairline-w)*3)); transition: opacity 220ms var(--ease-out);"
               />
               <span
                 aria-hidden="true"

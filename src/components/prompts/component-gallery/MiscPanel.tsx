@@ -317,7 +317,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               style={{
                 backgroundColor: "hsl(var(--noir-background))",
                 color: "hsl(var(--noir-foreground))",
-                border: "1px solid hsl(var(--noir-border))",
+                border: "var(--hairline-w) solid hsl(var(--noir-border))",
               }}
             >
               Noir
@@ -332,7 +332,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               style={{
                 backgroundColor: "hsl(var(--hardstuck-background))",
                 color: "hsl(var(--hardstuck-foreground))",
-                border: "1px solid hsl(var(--hardstuck-border))",
+                border: "var(--hairline-w) solid hsl(var(--hardstuck-border))",
               }}
             >
               Hardstuck
