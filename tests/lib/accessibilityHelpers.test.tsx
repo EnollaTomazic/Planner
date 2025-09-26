@@ -129,7 +129,7 @@ describe("utility coverage", () => {
 
   it("guards validators against edge case inputs", () => {
     expect(isRecord({ alpha: 1 })).toBe(true);
-    expect(isRecord([])).toBe(true);
+    expect(isRecord([])).toBe(false);
     expect(isRecord(null)).toBe(false);
     expect(isRecord(42)).toBe(false);
 
