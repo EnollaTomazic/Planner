@@ -184,24 +184,24 @@
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
     hsl(var(--accent) / 0.6);
-  --pillar-wave-start: 257 90% 70%;
-  --pillar-wave-end: 198 90% 62%;
-  --pillar-wave-shadow: 258 90% 38% / 0.35;
-  --pillar-trading-start: 292 85% 72%;
-  --pillar-trading-end: 318 85% 66%;
-  --pillar-trading-shadow: 292 85% 38% / 0.35;
-  --pillar-vision-start: 157 70% 55%;
-  --pillar-vision-end: 192 75% 60%;
-  --pillar-vision-shadow: 170 70% 30% / 0.35;
-  --pillar-tempo-start: 260 85% 70%;
-  --pillar-tempo-end: 284 85% 65%;
-  --pillar-tempo-shadow: 270 80% 35% / 0.35;
-  --pillar-positioning-start: 190 90% 66%;
-  --pillar-positioning-end: 220 90% 66%;
-  --pillar-positioning-shadow: 205 85% 35% / 0.35;
-  --pillar-comms-start: 286 90% 68%;
-  --pillar-comms-end: 312 88% 66%;
-  --pillar-comms-shadow: 300 80% 36% / 0.35;
+  --pillar-wave-start: var(--accent);
+  --pillar-wave-end: var(--accent-2);
+  --pillar-wave-shadow: var(--accent) / 0.35;
+  --pillar-trading-start: var(--lav-deep);
+  --pillar-trading-end: var(--accent);
+  --pillar-trading-shadow: var(--lav-deep) / 0.35;
+  --pillar-vision-start: var(--success);
+  --pillar-vision-end: var(--accent-2);
+  --pillar-vision-shadow: var(--success) / 0.35;
+  --pillar-tempo-start: var(--ring);
+  --pillar-tempo-end: var(--accent);
+  --pillar-tempo-shadow: var(--ring) / 0.35;
+  --pillar-positioning-start: var(--accent-2);
+  --pillar-positioning-end: var(--primary);
+  --pillar-positioning-shadow: var(--accent-2) / 0.35;
+  --pillar-comms-start: var(--lav-deep);
+  --pillar-comms-end: var(--primary);
+  --pillar-comms-shadow: var(--primary) / 0.35;
   --card-overlay-scanlines: repeating-linear-gradient(
     to bottom,
     hsl(var(--foreground) / 0.035) 0,
