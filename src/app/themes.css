@@ -59,12 +59,15 @@
       hsl(var(--accent)) 18%
     );
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-g-light-color: var(--aurora-g-light);
     --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light-color: var(--aurora-p-light);
   }
-
   html.theme-aurora {
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-g-light-color: var(--aurora-g-light);
     --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light-color: var(--aurora-p-light);
   }
 }
 
@@ -111,9 +114,9 @@ html.theme-aurora {
   --success: 148 72% 48%;
   --success-glow: 148 72% 38% / 0.6;
   --aurora-g: var(--accent-2);
-  --aurora-g-light: var(--aurora-g);
+  --aurora-g-light: 150 100% 85%;
   --aurora-p: var(--accent);
-  --aurora-p-light: var(--aurora-p);
+  --aurora-p-light: 272 80% 85%;
   --shadow-base: 280 32% 6%;
   --edge-iris: conic-gradient(
     from 180deg,

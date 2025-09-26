@@ -12,7 +12,7 @@ interface IsometricRoomProps {
 const VARIANT_STYLES: Record<Variant, string> = {
   lg: "[--room-floor:var(--lg-black)] [--room-wall:var(--lg-violet)] [--room-accent:var(--lg-cyan)]",
   aurora:
-    "[--room-floor:var(--aurora-g)] [--room-wall:var(--aurora-p)] [--room-accent:var(--aurora-g-light)]",
+    "[--room-floor:var(--aurora-g)] [--room-wall:var(--aurora-p)] [--room-accent:var(--aurora-g-light)] [--room-accent-color:var(--aurora-g-light-color, hsl(var(--aurora-g-light)))]",
   citrus:
     "[--room-floor:var(--citrus-teal)] [--room-wall:var(--citrus-teal)] [--room-accent:var(--ring)]",
   noir: "[--room-floor:var(--noir-ink)] [--room-wall:var(--noir-rose)] [--room-accent:var(--noir-red)]",
@@ -39,12 +39,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
         <div className="absolute inset-x-0 bottom-0 h-[var(--room-depth)] bg-[hsl(var(--room-floor))] origin-bottom [transform:rotateX(90deg)]" />
         <div className="absolute inset-y-0 left-0 w-[var(--room-depth)] bg-[hsl(var(--room-wall))] origin-left [transform:rotateY(90deg)]" />
         <div
-          className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]"
-          style={
-            variant === "aurora"
-              ? { backgroundColor: "var(--aurora-g-light)" }
-              : undefined
-          }
+          className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[var(--room-accent-color,_hsl(var(--room-accent)))] origin-right [transform:rotateY(-90deg)]"
         />
       </div>
       {variant === "lg" && (

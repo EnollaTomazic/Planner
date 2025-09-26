@@ -88,15 +88,9 @@ export const themes: ThemeDefinition[] = [
       { name: "success", value: "148 72% 48%" },
       { name: "success-glow", value: "148 72% 38% / 0.6" },
       { name: "aurora-g", value: "var(--accent-2)" },
-      {
-        name: "aurora-g-light",
-        value: "color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white)",
-      },
+      { name: "aurora-g-light", value: "150 100% 85%" },
       { name: "aurora-p", value: "var(--accent)" },
-      {
-        name: "aurora-p-light",
-        value: "color-mix(in oklab, hsl(var(--accent)) 37.5%, white)",
-      },
+      { name: "aurora-p-light", value: "272 80% 85%" },
       { name: "shadow-base", value: "280 32% 6%" },
       {
         name: "edge-iris",

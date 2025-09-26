@@ -99,6 +99,17 @@ async function buildTokens(): Promise<void> {
     }
   }
 
+  const auroraLightFallbacks: Record<string, string> = {
+    "aurora-g-light": "150 100% 85%",
+    "aurora-g-light-color": "hsl(var(--aurora-g-light))",
+    "aurora-p-light": "272 80% 85%",
+    "aurora-p-light-color": "hsl(var(--aurora-p-light))",
+  };
+
+  for (const [name, value] of Object.entries(auroraLightFallbacks)) {
+    colors[name] = { value };
+  }
+
   for (const token of DEPRECATED_TOKENS) {
     delete colors[token];
   }
@@ -179,6 +190,41 @@ async function buildTokens(): Promise<void> {
   sd.buildPlatform("docs");
   bar.update(3);
   stopBars();
+
+  const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
+  await applyAuroraColorMixOverrides(tokensPath);
 }
 
 buildTokens();
+
+const AURORA_SUPPORT_BLOCK = `@supports (color: color-mix(in oklab, white, black)) {
+  :root {
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-g-light-color: var(--aurora-g-light);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light-color: var(--aurora-p-light);
+  }
+}`;
+
+const AURORA_SUPPORT_REGEX =
+  /@supports \(color: color-mix\(in oklab, white, black\)\) {\s*:root {\s*[\s\S]*?}\s*}\s*/g;
+
+async function readCssWithRetry(filePath: string): Promise<string> {
+  const attempts = 5;
+  for (let index = 0; index < attempts; index += 1) {
+    const css = await fs.readFile(filePath, "utf8");
+    if (css.trim().length > 0) {
+      return css;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  return fs.readFile(filePath, "utf8");
+}
+
+async function applyAuroraColorMixOverrides(filePath: string): Promise<void> {
+  const css = await readCssWithRetry(filePath);
+  const stripped = css.replace(AURORA_SUPPORT_REGEX, "").trimEnd();
+  const baseCss = stripped.length > 0 ? stripped : css.trimEnd();
+  const content = `${baseCss}\n\n${AURORA_SUPPORT_BLOCK}\n`;
+  await fs.writeFile(filePath, content);
+}
