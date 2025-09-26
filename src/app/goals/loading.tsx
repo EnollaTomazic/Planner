@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/components/ui";
 
 const TAB_PLACEHOLDERS = ["goals", "reminders", "timer"] as const;
 const QUEUE_PLACEHOLDERS = ["queue-1", "queue-2", "queue-3"] as const;
@@ -9,7 +9,7 @@ const CARD_PLACEHOLDERS = ["reminders", "timer"] as const;
 export default function GoalsLoading() {
   return (
     <>
-      <header className="page-shell py-[var(--space-6)]">
+      <PageShell as="header" className="py-[var(--space-6)]">
         <div className="space-y-[var(--space-4)]">
           <div className="space-y-[var(--space-2)]">
             <Skeleton className="h-[var(--space-3)] w-1/5" radius="sm" />
@@ -28,9 +28,10 @@ export default function GoalsLoading() {
             </div>
           </div>
         </div>
-      </header>
-      <main
-        className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]"
+      </PageShell>
+      <PageShell
+        as="section"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
         <section className="grid gap-[var(--space-6)] lg:grid-cols-12">
@@ -74,7 +75,7 @@ export default function GoalsLoading() {
             ))}
           </aside>
         </section>
-      </main>
+      </PageShell>
     </>
   );
 }

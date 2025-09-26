@@ -178,7 +178,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
     ),
     danger: cn(
       "border-[hsl(var(--danger)/0.35)] bg-[hsl(var(--danger)/0.12)]",
-      `text-[hsl(var(${toneForegroundVar.danger}))]`,
+      "text-[hsl(var(--danger-surface-foreground))]",
     ),
   },
   secondary: {
@@ -190,7 +190,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
       "text-on-accent bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
     danger: cn(
       toneInteractionTokens.danger,
-      "text-danger-foreground bg-danger/25",
+      "text-[hsl(var(--danger-tint-foreground))] bg-danger/25",
     ),
   },
 };

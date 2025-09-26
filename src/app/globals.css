@@ -6,7 +6,9 @@
   :root {
     --shell-max: var(--shell-width);
     --accent-2-foreground: var(--accent-foreground);
-    --danger-foreground: 0 0% 6%;
+    --danger-foreground: var(--highlight);
+    --danger-surface-foreground: var(--danger-foreground);
+    --danger-tint-foreground: var(--danger-foreground);
     --asset-noise-url: url("/noise.svg");
     --asset-glitch-gif-url: url("/glitch-gif.gif");
     --settings-column-width: calc(var(--space-4) * 14);
@@ -155,6 +157,37 @@
   html.fx-overdrive .card-neo.glitchy:hover .card-title,
   html.fx-overdrive .card-neo-soft.glitchy:hover .card-title {
     animation: chromaJitter 0.8s steps(3, end) infinite;
+  }
+  @supports (color: color-contrast(white vs black)) {
+    :root {
+      --danger-foreground: color-contrast(
+        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--highlight))
+      );
+      --danger-surface-foreground: color-contrast(
+        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--highlight))
+      );
+      --danger-tint-foreground: color-contrast(
+        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--highlight))
+      );
+    }
+  }
+
+  @supports (color: color-contrast(white vs black)) and (color: color-mix(in oklab, white, black)) {
+    :root {
+      --danger-surface-foreground: color-contrast(
+        color-mix(in oklab, hsl(var(--danger)) 12%, hsl(var(--surface))) vs
+          hsl(var(--background)),
+        hsl(var(--highlight))
+      );
+      --danger-tint-foreground: color-contrast(
+        color-mix(in oklab, hsl(var(--danger)) 25%, hsl(var(--surface))) vs
+          hsl(var(--background)),
+        hsl(var(--highlight))
+      );
+    }
   }
 }
 
