@@ -56,7 +56,7 @@ describe("Input", () => {
     );
     const field = getByRole("textbox").parentElement as HTMLElement;
     expect(field.dataset.invalid).toBe("true");
-    expect(field.className).toContain("border-[hsl(var(--danger)/0.6)]");
+    expect(field.className).toContain("border-danger/60");
   });
 
   it("applies disabled state", () => {

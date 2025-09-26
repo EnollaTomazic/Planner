@@ -139,7 +139,7 @@ export function TabPanel<Key extends string = string>({
       tabIndex={isActive ? 0 : -1}
       data-state={isActive ? "active" : "inactive"}
       className={cn(
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
         className,
       )}
       {...rest}
