@@ -225,7 +225,7 @@ export default function TabBar<
   );
 
   const tabVariant = isNeo
-    ? "bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-[hsl(var(--ring)/0.6)]"
+    ? "bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60"
     : isGlitch
       ? ""
       : "shadow-[var(--tab-shadow)] hover:shadow-[var(--tab-shadow-hover,var(--tab-shadow))] active:shadow-[var(--tab-shadow-active,var(--tab-shadow-hover,var(--tab-shadow)))] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
