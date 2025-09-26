@@ -25,7 +25,7 @@ const widthClassNames: Record<NonNullable<SnackbarProps["width"]>, string> = {
 const toneClassNames: Record<SnackbarTone, string> = {
   default: "",
   danger:
-    "[--snackbar-border:hsl(var(--danger)/0.45)] [--snackbar-background:theme('colors.interaction.danger.surfaceHover')] [--snackbar-foreground:hsl(var(--danger-foreground))] shadow-outline-subtle",
+    "[--snackbar-border:hsl(var(--danger)/0.45)] [--snackbar-background:theme('colors.interaction.danger.surfaceHover')] [--snackbar-foreground:hsl(var(--danger-surface-foreground))] shadow-outline-subtle",
 };
 
 export default function Snackbar({
