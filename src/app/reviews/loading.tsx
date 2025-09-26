@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/components/ui";
 
 const FILTER_PLACEHOLDERS = ["filter-sort", "filter-tags"] as const;
 const LIST_PLACEHOLDERS = [
@@ -15,7 +15,7 @@ const DETAIL_SECTIONS = ["summary", "edit"] as const;
 export default function ReviewsLoading() {
   return (
     <>
-      <header className="page-shell py-[var(--space-6)]">
+      <PageShell as="header" className="py-[var(--space-6)]">
         <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="space-y-[var(--space-2)]">
             <Skeleton className="h-[var(--space-3)] w-1/4" radius="sm" />
@@ -30,9 +30,10 @@ export default function ReviewsLoading() {
             <Skeleton className="md:col-span-2 h-[var(--space-8)]" radius="card" />
           </div>
         </div>
-      </header>
-      <main
-        className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]"
+      </PageShell>
+      <PageShell
+        as="section"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
         <section className="grid gap-[var(--space-4)] md:grid-cols-6 lg:grid-cols-12">
@@ -82,7 +83,7 @@ export default function ReviewsLoading() {
             </article>
           </section>
         </section>
-      </main>
+      </PageShell>
     </>
   );
 }
