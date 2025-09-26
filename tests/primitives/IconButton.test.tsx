@@ -112,13 +112,17 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain(
-      "border-transparent bg-accent/30 text-on-accent",
+      "shadow-[var(--btn-primary-shadow-rest)]",
     );
     expect(classes).toContain(
-      "[--hover:theme('colors.interaction.accent.surfaceHover')]",
+      "border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent)/0.12)]",
+    );
+    expect(classes).toContain("text-on-accent");
+    expect(classes).toContain(
+      "[--hover:theme('colors.interaction.accent.hover')]",
     );
     expect(classes).toContain(
-      "[--active:theme('colors.interaction.accent.surfaceActive')]",
+      "[--active:theme('colors.interaction.accent.active')]",
     );
   });
 
@@ -127,17 +131,17 @@ describe("IconButton", () => {
       <IconButton variant="secondary" tone="info" aria-label="si" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35");
-    expect(classes).toContain("hover:bg-[--hover]");
-    expect(classes).toContain("shadow-glow-current");
+    expect(classes).toContain("border");
     expect(classes).toContain(
-      "[--hover:theme('colors.interaction.info.tintHover')]",
+      "shadow-[var(--btn-secondary-shadow-rest)]",
+    );
+    expect(classes).toContain("text-on-accent");
+    expect(classes).toContain("bg-accent-2/25");
+    expect(classes).toContain(
+      "[--hover:hsl(var(--accent-2)/0.2)]",
     );
     expect(classes).toContain(
-      "[--active:theme('colors.interaction.info.tintActive')]",
-    );
-    expect(classes).toContain(
-      "border-accent-2/35 text-on-accent",
+      "[--active:hsl(var(--accent-2)/0.15)]",
     );
   });
 
