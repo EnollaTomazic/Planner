@@ -17,6 +17,7 @@ export type Align = "start" | "center" | "end" | "between";
 
 const heroSlotOrder = ["tabs", "search", "actions"] as const;
 type HeroSlotKey = (typeof heroSlotOrder)[number];
+type NormalizedHeroSlots = Partial<Record<HeroSlotKey, HeroSlot>>;
 
 export interface HeroSlot {
   node: React.ReactNode;
@@ -338,19 +339,21 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
       variant !== "unstyled" ? variantMap[variant] : undefined;
     const [hasFocus, setHasFocus] = React.useState(false);
 
-    const normalizedSlots = React.useMemo(() => {
+    const normalizedSlots = React.useMemo<
+      NormalizedHeroSlots | null | undefined
+    >(() => {
       if (slots === null) return null;
       if (!slots) return undefined;
-      const entries: Partial<Record<HeroSlotKey, HeroSlot>> = {};
-      let any = false;
+      const entries: NormalizedHeroSlots = {};
+      let hasSlot = false;
       for (const key of heroSlotOrder) {
         const normalized = normalizeSlot(slots[key]);
         if (normalized) {
           entries[key] = normalized;
-          any = true;
+          hasSlot = true;
         }
       }
-      return any ? entries : undefined;
+      return hasSlot ? entries : undefined;
     }, [slots]);
 
     const hasTabs = Boolean(normalizedSlots?.tabs);
@@ -366,7 +369,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               search: hasSearch,
               actions: hasActions,
             })
-          : ({} as LayoutState),
+          : undefined,
       [normalizedSlots, hasTabs, hasSearch, hasActions],
     );
 
@@ -455,7 +458,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
               data-slot={key}
               className={cn(
                 slot.unstyled ? slotBareBaseClass : slotWellBaseClass,
-                layout[key as keyof LayoutState],
+                layout?.[key],
                 aligns[key],
                 slot.className,
               )}
