@@ -39,13 +39,11 @@ export default function DurationSelector({
             aria-checked={active}
             aria-disabled={disabled || undefined}
             className={cn(
-              "inline-flex items-center justify-center h-[var(--control-h-sm)] px-[var(--space-3)] rounded-full text-center text-ui font-medium",
-              "border transition-colors",
-              "border-border/10 bg-foreground/5 text-muted-foreground",
-              "hover:bg-foreground/10 hover:text-foreground",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              active &&
-                "border-accent bg-accent/20 text-on-accent font-semibold"
+              "inline-flex h-[var(--control-h-sm)] items-center justify-center rounded-full px-[var(--space-3)] text-center text-ui font-medium",
+              "border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              active
+                ? "border-accent bg-accent/20 font-semibold text-on-accent hover:bg-accent/20 hover:text-on-accent"
+                : "border-border/10 bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
             )}
           >
             {m}m
