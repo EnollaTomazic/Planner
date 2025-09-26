@@ -42,7 +42,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
           className="absolute inset-y-0 right-0 w-[var(--room-depth)] bg-[hsl(var(--room-accent))] origin-right [transform:rotateY(-90deg)]"
           style={
             variant === "aurora"
-              ? { backgroundColor: "var(--aurora-g-light)" }
+              ? { backgroundColor: "hsl(var(--aurora-g-light))" }
               : undefined
           }
         />

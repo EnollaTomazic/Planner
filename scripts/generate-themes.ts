@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rootVariables, themes } from "./themes.ts";
+import { mixHslWithWhiteInOklab } from "./utils/color.ts";
 import type {
   ThemeDefinition,
   TokenValue,
@@ -26,6 +27,8 @@ const HEADER = [
   '@import "../../tokens/tokens.css";',
 ].join("\n");
 
+const AURORA_LIGHT_RATIO = 0.375;
+
 const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
@@ -42,6 +45,13 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
     );
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+  }
+
+  html.theme-aurora {
+    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
   }
 }
 
@@ -64,6 +74,38 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
 
 function ensureSemicolon(value: string): string {
   return value.trimEnd().endsWith(";") ? value : `${value};`;
+}
+
+function applyAuroraFallbacks(
+  variables: VariableDefinition[],
+): VariableDefinition[] {
+  const accent = variables.find((variable) => variable.name === "accent");
+  const accent2 = variables.find((variable) => variable.name === "accent-2");
+
+  const accentValue =
+    typeof accent?.value === "string"
+      ? mixHslWithWhiteInOklab(accent.value, AURORA_LIGHT_RATIO)
+      : null;
+  const accent2Value =
+    typeof accent2?.value === "string"
+      ? mixHslWithWhiteInOklab(accent2.value, AURORA_LIGHT_RATIO)
+      : null;
+
+  if (!accentValue && !accent2Value) {
+    return variables;
+  }
+
+  return variables.map((variable) => {
+    if (variable.name === "aurora-g-light" && accent2Value) {
+      return { ...variable, value: accent2Value };
+    }
+
+    if (variable.name === "aurora-p-light" && accentValue) {
+      return { ...variable, value: accentValue };
+    }
+
+    return variable;
+  });
 }
 
 function renderVariableDefinition(
@@ -134,7 +176,8 @@ function renderTheme(theme: ThemeDefinition): string {
       lines.push(`  /* ${description} */`);
     }
   }
-  for (const variable of theme.variables) {
+  const variables = applyAuroraFallbacks(theme.variables);
+  for (const variable of variables) {
     lines.push(renderVariableDefinition(variable.name, variable.value));
   }
   lines.push("}");

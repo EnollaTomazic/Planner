@@ -20,11 +20,6 @@ const paletteSwatchStyle: React.CSSProperties = {
   inlineSize: "calc(var(--space-8) + var(--space-6))",
 };
 
-const directColorTokens = new Set([
-  "aurora-g-light",
-  "aurora-p-light",
-]);
-
 const statusSwatches: ReadonlyArray<{
   key: string;
   label: string;
@@ -113,9 +108,7 @@ export default function ColorGallery() {
             </div>
           )}
           {COLOR_PALETTES[p.key].map((c) => {
-            const backgroundColor = directColorTokens.has(c)
-              ? `var(--${c})`
-              : `hsl(var(--${c}))`;
+            const backgroundColor = `hsl(var(--${c}))`;
 
             return (
               <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">

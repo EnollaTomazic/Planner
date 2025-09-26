@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spacingTokens, radiusScale } from "../src/lib/tokens.ts";
 import { createProgressBar, stopBars } from "../src/utils/progress.ts";
+import { mixHslWithWhiteInOklab } from "./utils/color.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,6 +50,57 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
     colors[name] = { value: match[2].trim() };
   }
   return colors;
+}
+
+const AURORA_LIGHT_RATIO = 0.375;
+
+function applyAuroraFallbacks(
+  colors: Record<string, { value: string }>,
+): void {
+  const accentValue = colors["accent"]?.value ?? "";
+  const accent2Value = colors["accent-2"]?.value ?? "";
+
+  const gFallback = mixHslWithWhiteInOklab(accent2Value, AURORA_LIGHT_RATIO);
+  const pFallback = mixHslWithWhiteInOklab(accentValue, AURORA_LIGHT_RATIO);
+
+  if (gFallback) {
+    colors["aurora-g-light"] = { value: gFallback };
+  }
+
+  if (pFallback) {
+    colors["aurora-p-light"] = { value: pFallback };
+  }
+}
+
+async function appendAuroraSupportsBlock(): Promise<void> {
+  const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
+  let css = "";
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    css = await fs.readFile(tokensPath, "utf8");
+    if (css.length > 0) {
+      break;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20));
+  }
+
+  if (css.length === 0) {
+    throw new Error("tokens.css was empty after generation");
+  }
+  const marker = "@supports (color: color-mix(in oklab, white, black)) {";
+  const supportIndex = css.indexOf(marker);
+  const baseCss = supportIndex === -1 ? css : css.slice(0, supportIndex);
+  const trimmed = baseCss.trimEnd();
+  const supportsBlock = [
+    "@supports (color: color-mix(in oklab, white, black)) {",
+    "  :root {",
+    "    --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);",
+    "    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);",
+    "  }",
+    "}",
+    "",
+  ].join("\n");
+
+  await fs.writeFile(tokensPath, `${trimmed}\n\n${supportsBlock}`);
 }
 
 async function buildTokens(): Promise<void> {
@@ -103,6 +155,8 @@ async function buildTokens(): Promise<void> {
     delete colors[token];
   }
 
+  applyAuroraFallbacks(colors);
+
   const sd = new StyleDictionary({
     tokens: { ...colors, ...derivedSpacing, spacing, radius },
     platforms: {
@@ -138,6 +192,8 @@ async function buildTokens(): Promise<void> {
   sd.buildPlatform("docs");
   bar.update(3);
   stopBars();
+
+  await appendAuroraSupportsBlock();
 }
 
 buildTokens();

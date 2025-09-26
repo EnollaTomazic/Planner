@@ -111,9 +111,9 @@ html.theme-aurora {
   --success: 148 72% 48%;
   --success-glow: 148 72% 38% / 0.6;
   --aurora-g: var(--accent-2);
-  --aurora-g-light: var(--aurora-g);
+  --aurora-g-light: 139.9 100% 88.75%;
   --aurora-p: var(--accent);
-  --aurora-p-light: var(--aurora-p);
+  --aurora-p-light: 270.1 87.06% 87.71%;
   --shadow-base: 280 32% 6%;
   --edge-iris: conic-gradient(
     from 180deg,
