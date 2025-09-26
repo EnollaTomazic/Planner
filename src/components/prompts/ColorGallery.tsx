@@ -25,6 +25,32 @@ const directColorTokens = new Set([
   "aurora-p-light",
 ]);
 
+const statusSwatches: ReadonlyArray<{
+  key: string;
+  label: string;
+  description: string;
+  background: string;
+  textColor: string;
+  shadow?: string;
+}> = [
+  {
+    key: "warning",
+    label: "warning + text-on-accent",
+    description: "Use text-on-accent on caution banners and toasts so the copy stays readable against the saturated fill.",
+    background: "hsl(var(--warning))",
+    textColor: "var(--text-on-accent)",
+  },
+  {
+    key: "success",
+    label: "success + text-on-accent",
+    description:
+      "Pair the success fill with text-on-accent and layer success-soft or success-glow for celebratory emphasis without washing out the edges.",
+    background: "hsl(var(--success))",
+    textColor: "var(--text-on-accent)",
+    shadow: "0 0 var(--space-4) hsl(var(--success-glow))",
+  },
+];
+
 export default function ColorGallery() {
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
@@ -106,6 +132,31 @@ export default function ColorGallery() {
               </div>
             );
           })}
+          {p.key === "accents" && (
+            <div className="col-span-full flex flex-col gap-[var(--space-3)]">
+              <span className="text-ui font-medium text-muted-foreground">
+                Status fills rely on semantic foreground tokens:
+              </span>
+              <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
+                {statusSwatches.map((swatch) => (
+                  <div
+                    key={swatch.key}
+                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]"
+                    style={{
+                      background: swatch.background,
+                      color: swatch.textColor,
+                      boxShadow: swatch.shadow,
+                    }}
+                  >
+                    <span className="text-label uppercase tracking-wide opacity-80">
+                      {swatch.label}
+                    </span>
+                    <p className="text-ui leading-snug">{swatch.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ))}
     </div>

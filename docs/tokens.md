@@ -225,3 +225,15 @@
 | radius-xl | 16px |
 | radius-2xl | 24px |
 | radius-full | 9999px |
+
+## Notes
+
+### Semantic foregrounds
+
+- `accent-foreground` and `accent-2-foreground` keep accent families legible without hard-coding white. The second variant mirrors the first unless a theme overrides it, so controls that swap between purple and cyan accents retain an accessible text color automatically.
+- `danger-foreground` and `text-on-accent` provide the contrasting copy colors for destructive, success, and warning fills. Always use these tokens (or the derived utility classes such as `text-on-accent`) instead of setting raw hex values so the color-contrast fallbacks stay in sync across themes.
+
+### Aurora fallbacks
+
+- `aurora-g-light` and `aurora-p-light` expose the pre-blended stops used when `color-mix` support is unavailable. Pair them with the base `aurora-g` / `aurora-p` tones rather than mixing custom alphas—this keeps the gradient and particle effects readable for both CSS-capable and fallback browsers.
+

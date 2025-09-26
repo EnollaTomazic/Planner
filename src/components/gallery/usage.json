@@ -39,7 +39,14 @@
   "outline-glow": [],
   "snackbar": [],
   "toast-demo": [],
-  "skeleton": [],
+  "skeleton": [
+    "/",
+    "/goals",
+    "/planner",
+    "/prompts",
+    "/reviews",
+    "/team"
+  ],
   "spinner": [
     "/",
     "/components"

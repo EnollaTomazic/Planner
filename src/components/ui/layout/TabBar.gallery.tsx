@@ -7,7 +7,8 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import TabBar, { type TabItem } from "./TabBar";
 
-const focusVisibleClassName = "ring-2 ring-[var(--theme-ring)] ring-offset-0 outline-none";
+const focusVisibleClassName =
+  "outline-[var(--spacing-0-5)_solid_var(--ring-contrast)] outline-offset-[var(--spacing-0-5)] ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)]";
 const hoverStateClassName =
   "text-foreground bg-[--hover] shadow-[var(--tab-shadow-hover,var(--tab-shadow))]";
 
