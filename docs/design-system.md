@@ -72,6 +72,9 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 - `Button` and `IconButton` share the `variant` options
   `"primary" | "secondary" | "ghost"`. Update any IconButton usage from
   `solid` → `primary`, `glow` → `secondary`, and `ring` → `ghost`.
+- When you need the chromatic fill, pick the primary variant (or another
+  tone/variant pairing from the gallery) so the accent-tinted backgrounds
+  and focus shadows replace the neutral panel treatment.
 
 ```tsx
 import { Button } from "@/components/ui/primitives/Button";
