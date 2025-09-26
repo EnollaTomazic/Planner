@@ -59,13 +59,13 @@ export function AnimatedSelectTrigger({
     sizeStyles.height,
     sizeStyles.paddingX,
     "bg-muted/12 hover:bg-muted/18",
-    "focus:[outline:none] focus-visible:[outline:none]",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)]",
     "transition-colors duration-quick ease-out motion-reduce:transition-none",
     buttonClassName,
   );
 
   const containerCls = cn(
-    "group inline-flex rounded-[var(--control-radius)] border border-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0",
+    "group inline-flex rounded-[var(--control-radius)] border border-[var(--ring-contrast)] focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-0 focus-within:shadow-[var(--shadow-glow-md)]",
     containerClassName,
   );
 

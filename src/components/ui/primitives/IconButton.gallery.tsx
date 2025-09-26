@@ -30,9 +30,11 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   {
     id: "focus",
     name: "Focus",
-    className: "ring-2 ring-[var(--focus)]",
+    className:
+      "ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]",
     props: { "aria-label": "Focus", children: <Plus aria-hidden /> },
-    code: "<IconButton className=\"ring-2 ring-[var(--focus)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+    code:
+      "<IconButton className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
   },
   {
     id: "active",

@@ -12,6 +12,7 @@ import * as React from "react";
 import { useId } from "react";
 import { cn } from "@/lib/utils";
 import { useRovingTabState } from "@/components/tabs/useRovingTabState";
+import { neuInset, neuRaised } from "@/components/ui/primitives/Neu";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -185,6 +186,10 @@ export default function TabBar<
 
   const neoTokens = React.useMemo<React.CSSProperties | undefined>(() => {
     if (!isNeo) return undefined;
+    const raised = neuRaised();
+    const raisedHover = neuRaised(15);
+    const inset = neuInset();
+
     return {
       "--neo-tablist-bg":
         "linear-gradient(140deg, hsl(var(--card) / 0.88), hsl(var(--panel) / 0.72))",
@@ -192,12 +197,9 @@ export default function TabBar<
         "inset var(--space-1) var(--space-1) var(--space-3) hsl(var(--background) / 0.55), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3) hsl(var(--highlight) / 0.08), 0 0 var(--space-4) hsl(var(--ring) / 0.25)",
       "--neo-tab-bg":
         "linear-gradient(145deg, hsl(var(--card) / 0.92), hsl(var(--panel) / 0.78))",
-      "--shadow-raised":
-        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.5), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.05), 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)",
-      "--shadow-raised-hover":
-        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.46), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.08), 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)",
-      "--shadow-inset":
-        "inset var(--space-1) var(--space-1) var(--space-2) hsl(var(--background) / 0.58), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-2) hsl(var(--highlight) / 0.12), inset 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)",
+      "--shadow-raised": `${raised}, 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)`,
+      "--shadow-raised-hover": `${raisedHover}, 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)`,
+      "--shadow-inset": `${inset}, inset 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)`,
     } as React.CSSProperties;
   }, [isNeo]);
 
@@ -304,7 +306,7 @@ export default function TabBar<
                   size === "lg" ? "font-medium" : "font-normal",
                   "text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
                   tabVariant,
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
+                  "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)]",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
                   "disabled:opacity-disabled disabled:pointer-events-none",
                   "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",

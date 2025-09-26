@@ -116,7 +116,7 @@ export function AnimatedSelectList({
                     active
                       ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
                       : undefined,
-                    "focus:[outline:none] focus-visible:[outline:none] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-0 data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                     item.className,
                   )}
                   data-loading={item.loading}
