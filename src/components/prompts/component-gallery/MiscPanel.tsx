@@ -58,7 +58,7 @@ const VirtualizedListDemo = React.memo(function VirtualizedListDemo() {
       </div>
       <div
         ref={scrollParentRef}
-        className="max-h-[calc(var(--space-12)*3)] overflow-y-auto text-ui"
+        className="max-h-[calc(var(--space-8)*3)] overflow-y-auto text-ui"
       >
         <table className="w-full text-left text-xs">
           <tbody>
