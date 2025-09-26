@@ -4,6 +4,7 @@ import { AlertCircle } from "lucide-react";
 import {
   Button,
   PageHeader,
+  PageShell,
 } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -15,11 +16,11 @@ export default function NotFound() {
   const headerId = "not-found-header";
 
   return (
-    <main
-      id="main-content"
-      tabIndex={-1}
+    <PageShell
+      as="section"
       className="flex min-h-screen flex-col items-center justify-center gap-[var(--space-3)] px-[var(--space-4)] py-[var(--space-5)] text-center"
       aria-labelledby={headerId}
+      role="region"
     >
       <PageHeader
         header={{
@@ -41,6 +42,6 @@ export default function NotFound() {
           ),
         }}
       />
-    </main>
+    </PageShell>
   );
 }

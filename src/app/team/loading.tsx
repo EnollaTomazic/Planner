@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/components/ui";
 
 const MAIN_TABS = ["cheat", "builder", "clears"] as const;
 const SUB_TABS = ["sheet", "comps"] as const;
@@ -10,7 +10,7 @@ const PANEL_ROWS = ["lane-1", "lane-2", "lane-3"] as const;
 export default function TeamLoading() {
   return (
     <>
-      <header className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]">
+      <PageShell as="header" className="space-y-[var(--space-6)] py-[var(--space-6)]">
         <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
             <div className="space-y-[var(--space-2)]">
@@ -39,9 +39,10 @@ export default function TeamLoading() {
             ))}
           </div>
         </div>
-      </header>
-      <main
-        className="page-shell space-y-[var(--space-6)] py-[var(--space-6)]"
+      </PageShell>
+      <PageShell
+        as="section"
+        className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
         <section className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
@@ -83,7 +84,7 @@ export default function TeamLoading() {
             ))}
           </div>
         </section>
-      </main>
+      </PageShell>
     </>
   );
 }
