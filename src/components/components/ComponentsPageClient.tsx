@@ -219,7 +219,7 @@ export default function ComponentsPageClient({
       </PageShell>
 
       <PageShell
-        as="main"
+        as="section"
         grid
         aria-labelledby="components-header"
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"

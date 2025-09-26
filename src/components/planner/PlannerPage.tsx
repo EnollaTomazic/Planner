@@ -111,7 +111,7 @@ function Inner() {
       </PageShell>
 
       <PageShell
-        as="main"
+        as="section"
         grid
         className="py-6"
         contentClassName="gap-y-6"

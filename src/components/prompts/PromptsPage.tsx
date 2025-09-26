@@ -147,7 +147,7 @@ export default function PromptsPage() {
       </PageShell>
 
       <PageShell
-        as="main"
+        as="section"
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-labelledby="prompts-header"
       >

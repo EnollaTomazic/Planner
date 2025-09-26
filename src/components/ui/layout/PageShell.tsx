@@ -36,15 +36,10 @@ export default function PageShell<T extends PageShellElement = "div">({
   ...rest
 }: PageShellProps<T>) {
   const Component = (as ?? "div") as PageShellElement;
-  const mainAccessibilityProps: Partial<React.ComponentPropsWithoutRef<"main">> =
-    Component === "main"
-      ? { id: "main-content", tabIndex: -1 }
-      : {};
 
   return (
     <Component
       className={cn("page-shell", className)}
-      {...mainAccessibilityProps}
       {...rest}
     >
       {grid ? (

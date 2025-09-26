@@ -157,7 +157,7 @@ export default function ReviewsPage({
       </PageShell>
 
       <PageShell
-        as="main"
+        as="section"
         className="py-[var(--space-6)] space-y-[var(--space-6)]"
         aria-labelledby="reviews-header"
       >
