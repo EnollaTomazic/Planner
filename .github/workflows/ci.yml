@@ -118,7 +118,12 @@ jobs:
         fi
         node scripts/audit-ci-report.mjs audit-report.json
         npm run build
-      cache-path: .next/cache
+      cache-paths: |
+        .next/cache
+      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}
+      cache-restore-keys: |
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}-
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       artifact-name: next-build
       artifact-path: |
         .next
