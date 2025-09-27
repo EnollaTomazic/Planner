@@ -54,3 +54,42 @@ jobs:
       artifact-path: |
         .next
       summary-title: Build
+
+  e2e:
+    name: E2E (${{ matrix.project }})
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chromium
+          - firefox
+          - webkit
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        OUTPUT_DIR="playwright-results/${{ matrix.project }}"
+        LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.project }} --grep "@axe") || true
+        if echo "$LIST_OUTPUT" | grep -q "@axe"; then
+          npx playwright test \
+            --project=${{ matrix.project }} \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR" \
+            --grep "@axe"
+        else
+          echo "No @axe-tagged tests detected; running full suite." >&2
+          npx playwright test \
+            --project=${{ matrix.project }} \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR"
+        fi
+      summary-title: E2E ${{ matrix.project }}
+      install-playwright: true
+      artifact-name: playwright-${{ matrix.project }}-artifacts
+      artifact-path: |
+        playwright-results/${{ matrix.project }}
+      artifact-on-failure: true
