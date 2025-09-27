@@ -52,6 +52,16 @@ on:
         required: false
         default: false
         type: boolean
+      download-artifact-name:
+        description: Optional artifact name to download before running commands
+        required: false
+        default: ""
+        type: string
+      download-artifact-path:
+        description: Destination directory for the downloaded artifact contents
+        required: false
+        default: "."
+        type: string
       checkout-ref:
         description: Optional git ref to checkout instead of the default
         required: false
@@ -82,6 +92,13 @@ jobs:
         run: |
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+
+      - name: Download artifact
+        if: inputs.download-artifact-name != ''
+        uses: actions/download-artifact@89f3d9d3dc0f01c4eb82c0dec28181581b88a8d0
+        with:
+          name: ${{ inputs.download-artifact-name }}
+          path: ${{ inputs.download-artifact-path }}
 
       - name: Restore project cache
         if: inputs.cache-paths != ''
