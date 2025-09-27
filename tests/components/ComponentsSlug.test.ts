@@ -28,7 +28,7 @@ describe("ComponentsSlug", () => {
     const result = resolveComponentsSlug("theme-splits");
     expect(result).toMatchObject({
       section: "layout",
-      view: "components",
+      view: "layouts",
     });
     expect(result?.query).toBe("Split");
   });
@@ -47,17 +47,17 @@ describe("ComponentsSlug", () => {
     expect(elementsResult?.section).toBeUndefined();
   });
 
-  it("maps prompts to the components view", () => {
+  it("maps prompts to the patterns view", () => {
     const sectionResult = resolveComponentsSlug("prompts");
     expect(sectionResult).toMatchObject({
       section: "prompts",
-      view: "components",
+      view: "patterns",
     });
 
     const entryResult = resolveComponentsSlug("prompt-list");
     expect(entryResult).toMatchObject({
       section: "prompts",
-      view: "components",
+      view: "patterns",
     });
   });
 
@@ -65,7 +65,7 @@ describe("ComponentsSlug", () => {
     const result = resolveComponentsSlug("components");
     expect(result).toMatchObject({
       section: "components",
-      view: "complex",
+      view: "layouts",
     });
   });
 

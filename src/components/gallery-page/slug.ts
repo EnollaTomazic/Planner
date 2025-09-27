@@ -57,6 +57,7 @@ const VIEW_ALIAS = new Map<string, GallerySectionGroupKey>([
   ["colors", "tokens"],
   ["styles", "tokens"],
   ["elements", "primitives"],
+  ["complex", "layouts"],
 ]);
 
 interface EntryMetadata {
