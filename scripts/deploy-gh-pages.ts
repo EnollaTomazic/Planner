@@ -1,5 +1,6 @@
 import "./check-node-version.js";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
@@ -134,6 +135,39 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
   }
 }
 
+function flattenBasePathDirectory(outDir: string, slug: string): void {
+  if (!slug) {
+    return;
+  }
+
+  const nestedDir = path.join(outDir, slug);
+  if (!fs.existsSync(nestedDir) || !fs.statSync(nestedDir).isDirectory()) {
+    return;
+  }
+
+  for (const entry of fs.readdirSync(nestedDir)) {
+    const sourcePath = path.join(nestedDir, entry);
+    const targetPath = path.join(outDir, entry);
+    if (fs.existsSync(targetPath)) {
+      throw new Error(
+        `Cannot move \"${sourcePath}\" to \"${targetPath}\" because the destination already exists.`,
+      );
+    }
+    fs.renameSync(sourcePath, targetPath);
+  }
+
+  fs.rmSync(nestedDir, { recursive: true, force: true });
+}
+
+function ensureNoJekyll(outDir: string): void {
+  const markerPath = path.join(outDir, ".nojekyll");
+  if (fs.existsSync(markerPath)) {
+    return;
+  }
+
+  fs.writeFileSync(markerPath, "");
+}
+
 function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
@@ -151,6 +185,13 @@ function main(): void {
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);
+
+  const outDir = path.resolve("out");
+  if (shouldUseBasePath) {
+    flattenBasePathDirectory(outDir, slug);
+  }
+  ensureNoJekyll(outDir);
+
   if (!publish) {
     console.log("Skipping gh-pages publish step");
     return;
