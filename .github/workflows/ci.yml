@@ -12,59 +12,45 @@ on:
       - work
 
 jobs:
-  checks:
-    runs-on: ubuntu-latest
+  lint:
+    name: Lint
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run lint
+      summary-title: Lint
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+  typecheck:
+    name: Typecheck
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run typecheck
+      summary-title: Typecheck
 
-      - name: Setup Node.js
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+  unit:
+    name: Unit Tests
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm test -- --run
+      summary-title: Unit Tests
 
-      - name: Activate npm version from package.json
-        run: |
-          corepack enable
-          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
-
-      - name: Restore Next.js cache
-        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
-        with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            nextjs-${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
-
-      - name: Audit dependencies
-        run: |
-          set +e
-          npm audit --audit-level=moderate --json > audit-report.json
-          AUDIT_STATUS=$?
-          node scripts/audit-ci-report.mjs audit-report.json
-          REPORT_STATUS=$?
-
-          if [ "$REPORT_STATUS" -ne 0 ]; then
-            exit "$REPORT_STATUS"
-          fi
-
-          if [ "$AUDIT_STATUS" -ne 0 ]; then
-            echo "npm audit reported issues below the high severity threshold."
-          fi
-
-      - name: Run checks
-        run: npm run check
-
-      - name: Summarize results
-        if: always()
-        run: |
-          {
-            echo "## CI Results";
-            echo "- Checks: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
+  build:
+    name: Build
+    needs:
+      - lint
+      - typecheck
+      - unit
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
+        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
+          echo "npm audit reported issues below the high severity threshold."
+        fi
+        node scripts/audit-ci-report.mjs audit-report.json
+        npm run build
+      cache-path: .next/cache
+      artifact-name: next-build
+      artifact-path: |
+        .next
+      summary-title: Build
