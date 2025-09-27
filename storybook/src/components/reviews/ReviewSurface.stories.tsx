@@ -41,12 +41,20 @@ export const SliderTrack: Story = {
     children: undefined,
   },
   render: (args) => (
-    <ReviewSurface
-      {...args}
-      className={cn("relative h-[var(--control-h-lg)] w-64", args.className)}
-    >
-      <ReviewSliderTrack value={7} tone="score" variant="display" />
-    </ReviewSurface>
+    <div className="flex w-64 flex-col gap-[var(--space-3)]">
+      <ReviewSurface
+        {...args}
+        className={cn("relative h-[var(--control-h-lg)]", args.className)}
+      >
+        <ReviewSliderTrack value={7} tone="score" variant="display" />
+      </ReviewSurface>
+      <ReviewSurface
+        {...args}
+        className={cn("relative h-[var(--control-h-lg)]", args.className)}
+      >
+        <ReviewSliderTrack value={6} tone="focus" variant="display" />
+      </ReviewSurface>
+    </div>
   ),
   parameters: {
     docs: {
