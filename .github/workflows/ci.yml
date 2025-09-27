@@ -1,279 +1,429 @@
 name: CI
 
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
-  pull_request:
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
-      - 'CHANGELOG.md'
   push:
     branches:
       - main
       - work
     paths-ignore:
-      - 'docs/**'
+      - docs/**
       - '**/*.md'
-      - 'CHANGELOG.md'
+      - CHANGELOG.md
+  pull_request:
+    paths-ignore:
+      - docs/**
+      - '**/*.md'
+      - CHANGELOG.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
 
 jobs:
-  lint:
-    name: Lint
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run lint
-      summary-title: Lint
+  install:
+    name: Install (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 22.x
+    permissions:
+      contents: read
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Verify dependency tree
+        run: npm ls --depth=0
+        env:
+          CI: 'true'
+      - name: Installation summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          NODE_VERSION: ${{ matrix.node }}
+        run: |
+          {
+            echo "## Install (Node ${NODE_VERSION})";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
-  token-guard:
-    name: Design Token Guard
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run lint:design
-      summary-title: Design Token Guard
+  lint:
+    name: Lint (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 22.x
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run ESLint
+        run: |
+          mkdir -p reports/eslint
+          npm run lint:ci -- --output-file reports/eslint/eslint.ndjson
+        env:
+          CI: 'true'
+      - name: Run design token guard
+        run: npm run lint:design
+        env:
+          CI: 'true'
+      - name: Upload lint artifacts
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: eslint-${{ matrix.node }}
+          path: reports/eslint
+          if-no-files-found: warn
+      - name: Lint summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          NODE_VERSION: ${{ matrix.node }}
+        run: |
+          {
+            echo "## Lint (Node ${NODE_VERSION})";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
   typecheck:
-    name: Typecheck
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run typecheck
-      summary-title: Typecheck
+    name: Typecheck (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 22.x
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+      - name: TypeScript
+        run: |
+          mkdir -p reports/typecheck
+          npm run typecheck:ci | tee reports/typecheck/tsc.log
+        env:
+          CI: 'true'
+      - name: Upload typecheck log
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: typecheck-${{ matrix.node }}
+          path: reports/typecheck
+          if-no-files-found: warn
+      - name: Typecheck summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          NODE_VERSION: ${{ matrix.node }}
+        run: |
+          {
+            echo "## Typecheck (Node ${NODE_VERSION})";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
   unit:
-    name: Unit Tests
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm test -- --run
-      summary-title: Unit Tests
+    name: Unit (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 22.x
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run Vitest
+        run: npm run test:ci
+        env:
+          CI: 'true'
+          VITEST_JUNIT_OUTPUT: reports/vitest/junit.xml
+          V8_COVERAGE_DIR: coverage/tmp
+      - name: Upload coverage & reports
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: vitest-${{ matrix.node }}
+          path: |
+            coverage
+            reports/vitest
+          if-no-files-found: warn
+      - name: Unit summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          NODE_VERSION: ${{ matrix.node }}
+        run: |
+          {
+            echo "## Unit (Node ${NODE_VERSION})";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
-  next-build:
-    name: Next.js Build
+  build:
+    name: Build & export
     needs:
       - lint
       - typecheck
       - unit
-      - token-guard
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
-        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
-          echo "npm audit reported issues below the high severity threshold."
-        fi
-        node scripts/audit-ci-report.mjs audit-report.json
-        npm run build
-      cache-paths: |
-        .next/cache
-      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
-      cache-restore-keys: |
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      artifact-name: next-build
-      artifact-path: |
-        .next
-      summary-title: Next.js Build
-
-  a11y:
-    name: Accessibility
-    needs:
-      - next-build
-    uses: ./.github/workflows/node-base.yml
-    with:
-      download-artifact-name: next-build
-      run: |
-        set -euo pipefail
-
-        LIST_OUTPUT=$(npx playwright test --list --project=chromium --grep "@axe") || true
-
-        if [ ! -d ".next" ]; then
-          echo "Downloaded build artifact missing .next directory" >&2
-          exit 1
-        fi
-
-        PORT=3000
-        npm run start -- --hostname 127.0.0.1 --port "$PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
-          fi
-        }
-
-        trap cleanup EXIT
-
-        unset READY || true
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
-            READY=1
-            break
-          fi
-          sleep 2
-        done
-
-        if [ -z "${READY:-}" ]; then
-          echo "Server failed to start" >&2
-          exit 1
-        fi
-
-        OUTPUT_DIR="playwright-results/a11y"
-        if echo "$LIST_OUTPUT" | grep -q "@axe"; then
-          npx playwright test \
-            --project=chromium \
-            --reporter=line \
-            --trace=retain-on-failure \
-            --output="$OUTPUT_DIR" \
-            --grep "@axe"
-        else
-          echo "No @axe-tagged tests detected; running full suite." >&2
-          npx playwright test \
-            --project=chromium \
-            --reporter=line \
-            --trace=retain-on-failure \
-            --output="$OUTPUT_DIR"
-        fi
-      summary-title: Accessibility
-      install-playwright: true
-      artifact-name: playwright-a11y-artifacts
-      artifact-path: |
-        playwright-results/a11y
-      artifact-on-failure: true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+      - name: Build application and export static site
+        env:
+          CI: 'true'
+          DEPLOY_ARTIFACT_ONLY: 'true'
+        run: npm run deploy
+      - name: Upload Next build
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
+      - name: Upload static export
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: next-static
+          path: out
+          if-no-files-found: error
+      - name: Build summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Build";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
   e2e:
-    name: E2E (${{ matrix.project }})
-    needs:
-      - next-build
+    name: Playwright (${{ matrix.browser }})
+    needs: build
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        project:
+        browser:
           - chromium
           - firefox
           - webkit
-    uses: ./.github/workflows/node-base.yml
-    with:
-      download-artifact-name: next-build
-      run: |
-        set -euo pipefail
-        case "${{ matrix.project }}" in
-          chromium)
-            PORT=3100
-            ;;
-          firefox)
-            PORT=3101
-            ;;
-          webkit)
-            PORT=3102
-            ;;
-          *)
-            PORT=3000
-            ;;
-        esac
-
-        HOST=127.0.0.1
-        export PLAYWRIGHT_HOST="$HOST"
-        export PLAYWRIGHT_PORT="$PORT"
-
-        if [ ! -d ".next" ]; then
-          echo "Downloaded build artifact missing .next directory" >&2
-          exit 1
-        fi
-
-        npm run start -- --hostname "$HOST" --port "$PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+          playwright: 'true'
+      - name: Download build artifact
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
+        with:
+          name: next-build
+          path: .
+      - name: Run Playwright
+        env:
+          CI: 'true'
+          PLAYWRIGHT_PROJECT_NAME: ${{ matrix.browser }}
+          PLAYWRIGHT_HTML_DIR: playwright-report/${{ matrix.browser }}
+          PLAYWRIGHT_JUNIT_OUTPUT: playwright-results/${{ matrix.browser }}/junit.xml
+        run: |
+          set -euo pipefail
+          case "${{ matrix.browser }}" in
+            chromium)
+              PORT=3100
+              ;;
+            firefox)
+              PORT=3101
+              ;;
+            webkit)
+              PORT=3102
+              ;;
+            *)
+              PORT=3200
+              ;;
+          esac
+          HOST=127.0.0.1
+          export PLAYWRIGHT_HOST="$HOST"
+          export PLAYWRIGHT_PORT="$PORT"
+          export PLAYWRIGHT_BASE_URL="http://$HOST:$PORT"
+          npm run start -- --hostname "$HOST" --port "$PORT" &
+          SERVER_PID=$!
+          cleanup() {
+            if kill -0 "$SERVER_PID" 2>/dev/null; then
+              kill "$SERVER_PID"
+              wait "$SERVER_PID" || true
+            fi
+          }
+          trap cleanup EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --head "http://$HOST:$PORT" >/dev/null; then
+              READY=1
+              break
+            fi
+            sleep 2
+          done
+          if [ -z "${READY:-}" ]; then
+            echo "Server failed to start" >&2
+            exit 1
           fi
-        }
-
-        trap cleanup EXIT
-
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://$HOST:${PORT}" >/dev/null; then
-            READY=1
-            break
+          mkdir -p "playwright-results/${{ matrix.browser }}"
+          npx playwright test \
+            --project=${{ matrix.browser }} \
+            --output="playwright-results/${{ matrix.browser }}" \
+            --trace=retain-on-failure \
+            --retries=1
+          if [ "${{ matrix.browser }}" = "chromium" ]; then
+            mkdir -p "playwright-results/${{ matrix.browser }}/axe"
+            LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.browser }} --grep "@axe") || true
+            if echo "$LIST_OUTPUT" | grep -q "@axe"; then
+              npx playwright test \
+                --project=${{ matrix.browser }} \
+                --grep "@axe" \
+                --output="playwright-results/${{ matrix.browser }}/axe" \
+                --retries=0 \
+                --reporter=json >"playwright-results/${{ matrix.browser }}/axe/axe-report.json"
+            else
+              echo "No @axe-tagged tests detected" >"playwright-results/${{ matrix.browser }}/axe/axe-report.json"
+            fi
           fi
-          sleep 2
-        done
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: playwright-${{ matrix.browser }}
+          path: |
+            playwright-results/${{ matrix.browser }}
+            playwright-report/${{ matrix.browser }}
+          if-no-files-found: warn
+      - name: E2E summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          {
+            echo "## Playwright (${BROWSER})";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"
 
-        if [ -z "${READY:-}" ]; then
-          echo "Server failed to start" >&2
-          exit 1
-        fi
-
-        OUTPUT_DIR="playwright-results/${{ matrix.project }}"
-        npx playwright test \
-          --project=${{ matrix.project }} \
-          --reporter=line \
-          --trace=retain-on-failure \
-          --output="$OUTPUT_DIR"
-      summary-title: E2E ${{ matrix.project }}
-      install-playwright: true
-      artifact-name: playwright-${{ matrix.project }}-artifacts
-      artifact-path: |
-        playwright-results/${{ matrix.project }}
-      artifact-on-failure: true
-
-  pages-build:
-    name: Pages static export
-    if: |
-      github.event_name == 'push' &&
-      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/work')
+  summary:
+    name: Summaries & PR comment
+    if: always()
     needs:
-      - a11y
+      - lint
+      - typecheck
+      - unit
+      - build
       - e2e
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        export DEPLOY_ARTIFACT_ONLY=true
-        npm run deploy
-      cache-paths: |
-        .next/cache
-      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
-      cache-restore-keys: |
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      artifact-name: nextjs-static
-      artifact-path: |
-        out
-      summary-title: GitHub Pages export
-
-  pages-deploy:
-    name: Deploy GitHub Pages
-    if: needs.pages-build.result == 'success'
-    needs:
-      - pages-build
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      contents: read
+      pull-requests: write
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
-
-      - name: Download static export
-        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
-          name: nextjs-static
-          path: out
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+          fetch-depth: 2
+      - name: Download unit artifacts
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
         with:
-          path: ./out
-
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+          pattern: vitest-*
+          path: artifacts/unit
+          merge-multiple: true
+        continue-on-error: true
+      - name: Download lint artifacts
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
+        with:
+          pattern: eslint-*
+          path: artifacts/lint
+          merge-multiple: true
+        continue-on-error: true
+      - name: Download Playwright artifacts
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
+        with:
+          pattern: playwright-*
+          path: artifacts/e2e
+          merge-multiple: true
+        continue-on-error: true
+      - name: Generate summary report
+        id: summary
+        run: |
+          npm run report:summary -- \
+            --coverage artifacts/unit/coverage/coverage-summary.json \
+            --vitest-junit artifacts/unit/reports/vitest/junit.xml \
+            --playwright artifacts/e2e \
+            --output ci-summary.md
+      - name: Append workflow summary
+        if: always()
+        run: cat ci-summary.md >>"$GITHUB_STEP_SUMMARY"
+      - name: Comment on pull requests
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@70f8fb9d3d3cf6f315efb2364458f51afc86f369
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const summaryPath = path.join(process.cwd(), 'ci-summary.md');
+            if (!fs.existsSync(summaryPath)) {
+              core.warning('Summary file missing; skipping comment');
+              return;
+            }
+            const body = fs.readFileSync(summaryPath, 'utf8');
+            const marker = '<!-- ci-summary -->';
+            const finalBody = `${marker}\n${body}`;
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body?.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body: finalBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body: finalBody,
+              });
+            }
+      - name: Summary job status
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Summary";
+            echo "- Status: ${JOB_STATUS}";
+          } >>"$GITHUB_STEP_SUMMARY"

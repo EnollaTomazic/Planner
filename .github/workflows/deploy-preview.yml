@@ -1,0 +1,134 @@
+name: Deploy Preview
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to deploy manually
+        required: false
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{
+    github.event_name == 'workflow_run' && format('preview-{0}', github.event.workflow_run.head_branch)
+    || github.event_name == 'workflow_dispatch' && format('preview-{0}', github.event.inputs.ref)
+    || format('preview-{0}', github.ref)
+  }}
+  cancel-in-progress: true
+
+jobs:
+  deploy_from_ci:
+    if: |
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.pull_requests[0]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      pull-requests: write
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download static export
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
+        with:
+          name: next-static
+          path: out
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: out
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        with:
+          preview: true
+      - name: Comment with preview URL
+        uses: actions/github-script@70f8fb9d3d3cf6f315efb2364458f51afc86f369
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.page_url }}
+        with:
+          script: |
+            const pr = context.payload.workflow_run?.pull_requests?.[0];
+            if (!pr) {
+              core.info('No pull request context; skipping preview comment');
+              return;
+            }
+            const marker = '<!-- preview-link -->';
+            const previewUrl = process.env.PREVIEW_URL;
+            if (!previewUrl) {
+              core.warning('Preview URL missing; skipping comment');
+              return;
+            }
+            const body = `${marker}\nPreview environment deployed: ${previewUrl}`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body?.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body,
+              });
+            }
+
+  deploy_manual:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+          checkout-ref: ${{ inputs.ref != '' && inputs.ref || 'main' }}
+      - name: Build and export
+        env:
+          CI: 'true'
+          DEPLOY_ARTIFACT_ONLY: 'true'
+        run: npm run deploy
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: out
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        with:
+          preview: true

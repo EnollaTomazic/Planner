@@ -3,12 +3,27 @@ import type { PlaywrightTestConfig } from "playwright/test";
 const HOST = process.env.PLAYWRIGHT_HOST ?? "127.0.0.1";
 const PORT = process.env.PLAYWRIGHT_PORT ?? "3000";
 
+const projectName = process.env.PLAYWRIGHT_PROJECT_NAME;
+const junitOutput =
+  process.env.PLAYWRIGHT_JUNIT_OUTPUT ??
+  (projectName ? `playwright-results/${projectName}/junit.xml` : "playwright-results/junit.xml");
+const htmlDir =
+  process.env.PLAYWRIGHT_HTML_DIR ??
+  (projectName ? `playwright-report/${projectName}` : "playwright-report");
+const retries = Number(process.env.PLAYWRIGHT_RETRIES ?? (process.env.CI ? 1 : 0));
+
 const config: PlaywrightTestConfig = {
   testDir: "./tests/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
+  retries: Number.isFinite(retries) ? retries : process.env.CI ? 1 : 0,
+  reporter: process.env.CI
+    ? [
+        ["github"],
+        ["junit", { outputFile: junitOutput }],
+        ["html", { open: "never", outputFolder: htmlDir }],
+      ]
+    : "list",
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? `http://${HOST}:${PORT}`,
     browserName: "chromium",

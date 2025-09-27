@@ -13,24 +13,40 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-${{ github.ref || inputs.branch || 'manual' }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build application
-    uses: ./.github/workflows/node-base.yml
-    with:
-      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
-      install-playwright: true
-      summary-title: Visual Regression Build
-      run: |
-        set -euo pipefail
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+          checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+      - name: Build Next.js bundle
+        env:
+          CI: 'true'
+        run: npm run build
+      - name: Upload Next build
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
 
-        npm run build
-      artifact-name: next-build
-      artifact-path: .next
-  
   visual:
     name: Visual Regression (${{ matrix.project }})
     needs: build
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -38,67 +54,72 @@ jobs:
           - chromium
           - firefox
           - webkit
-    uses: ./.github/workflows/node-base.yml
-    with:
-      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
-      install-playwright: true
-      download-artifact-name: next-build
-      download-artifact-path: .
-      summary-title: Visual Regression ${{ matrix.project }}
-      run: |
-        set -euo pipefail
-
-        PLAYWRIGHT_PORT=3100
-        export PLAYWRIGHT_PORT
-
-        if [ -n "${WORKFLOW_ENVIRONMENT:-}" ]; then
-          echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
-        fi
-
-        npm run start -- --hostname 127.0.0.1 --port "$PLAYWRIGHT_PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+          checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+          playwright: 'true'
+      - name: Download Next build
+        uses: actions/download-artifact@b4ea8f09c3fe53a5b949651f5ebbe6cfa23917d3
+        with:
+          name: next-build
+          path: .
+      - name: Run visual regression tests
+        env:
+          CI: 'true'
+          PLAYWRIGHT_PROJECT_NAME: ${{ matrix.project }}
+          PLAYWRIGHT_HTML_DIR: playwright-report/${{ matrix.project }}
+          PLAYWRIGHT_JUNIT_OUTPUT: playwright-results/${{ matrix.project }}/junit.xml
+          WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          set -euo pipefail
+          HOST=127.0.0.1
+          PORT=3200
+          export PLAYWRIGHT_HOST="$HOST"
+          export PLAYWRIGHT_PORT="$PORT"
+          export PLAYWRIGHT_BASE_URL="http://$HOST:$PORT"
+          npm run start -- --hostname "$HOST" --port "$PORT" &
+          SERVER_PID=$!
+          cleanup() {
+            if kill -0 "$SERVER_PID" 2>/dev/null; then
+              kill "$SERVER_PID"
+              wait "$SERVER_PID" || true
+            fi
+          }
+          trap cleanup EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --head "http://$HOST:$PORT" >/dev/null; then
+              READY=1
+              break
+            fi
+            sleep 2
+          done
+          if [ -z "${READY:-}" ]; then
+            echo "Server failed to start" >&2
+            exit 1
           fi
-        }
-
-        trap cleanup EXIT
-
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://127.0.0.1:${PLAYWRIGHT_PORT}" >/dev/null; then
-            READY=1
-            break
+          mkdir -p "playwright-results/${{ matrix.project }}"
+          LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.project }} --grep "@visual") || true
+          if ! echo "$LIST_OUTPUT" | grep -q "@visual"; then
+            echo "No @visual-tagged tests detected; skipping Playwright execution." >&2
+            exit 0
           fi
-          sleep 2
-        done
-
-        if [ -z "${READY:-}" ]; then
-          echo "Server failed to start" >&2
-          exit 1
-        fi
-
-        OUTPUT_DIR="playwright-results/visual/${{ matrix.project }}"
-        mkdir -p "$OUTPUT_DIR"
-
-        LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.project }} --grep "@visual") || true
-
-        if ! echo "$LIST_OUTPUT" | grep -q "@visual"; then
-          echo "No @visual-tagged tests detected; skipping Playwright execution." >&2
-          exit 0
-        fi
-
-        npx playwright test \
-          --project=${{ matrix.project }} \
-          --reporter=line \
-          --trace=retain-on-failure \
-          --output="$OUTPUT_DIR" \
-          --grep "@visual"
-      artifact-name: visual-diff-${{ matrix.project }}
-      artifact-path: |
-        playwright-results/visual/${{ matrix.project }}
-      artifact-on-failure: true
-    env:
-      WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
+          npx playwright test \
+            --project=${{ matrix.project }} \
+            --grep "@visual" \
+            --output="playwright-results/${{ matrix.project }}" \
+            --retries=1
+      - name: Upload visual artifacts
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: visual-${{ matrix.project }}
+          path: |
+            playwright-results/${{ matrix.project }}
+            playwright-report/${{ matrix.project }}
+          if-no-files-found: warn

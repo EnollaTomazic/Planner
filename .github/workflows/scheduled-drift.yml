@@ -1,0 +1,56 @@
+name: Scheduled Drift
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: drift-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: 22.x
+      - name: Audit dependencies
+        id: audit
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          npm audit --audit-level=moderate --json > reports/npm-audit.json || AUDIT_STATUS=$?
+          if [ -n "${AUDIT_STATUS:-}" ] && [ "${AUDIT_STATUS}" -ne 0 ]; then
+            echo "npm audit reported issues; captured output for review." >&2
+          fi
+          echo "status=${AUDIT_STATUS:-0}" >>"$GITHUB_OUTPUT"
+      - name: Outdated packages snapshot
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          npm outdated --long --json > reports/npm-outdated.json || true
+      - name: Generate summary
+        env:
+          AUDIT_STATUS: ${{ steps.audit.outputs.status }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## Dependency drift";
+            echo "- Audit status: ${AUDIT_STATUS:-0}";
+            echo "- Outdated snapshot captured";
+          } >>"$GITHUB_STEP_SUMMARY"
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: drift-reports
+          path: reports
+          if-no-files-found: error

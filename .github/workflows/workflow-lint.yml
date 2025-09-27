@@ -1,0 +1,60 @@
+name: Workflow Lint
+
+on:
+  push:
+    branches:
+      - main
+      - work
+    paths:
+      - .github/workflows/**
+      - .github/actions/**
+  pull_request:
+    paths:
+      - .github/workflows/**
+      - .github/actions/**
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          fetch-depth: 2
+      - name: Install actionlint
+        env:
+          ACTIONLINT_VERSION: v1.7.3
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash \
+            | bash -s -- -b "$HOME/.local/bin" "$ACTIONLINT_VERSION"
+          echo "$HOME/.local/bin" >>"$GITHUB_PATH"
+      - name: Install yamllint
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user yamllint
+          echo "$HOME/.local/bin" >>"$GITHUB_PATH"
+      - name: Run actionlint
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          actionlint -color never | tee reports/actionlint.txt
+      - name: Run yamllint
+        run: |
+          set -euo pipefail
+          yamllint .github/workflows | tee reports/yamllint.txt
+      - name: Upload lint reports
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266b4b4f088e0e0b5c2bd8f5bca5a9a
+        with:
+          name: workflow-lint-reports
+          path: reports
+          if-no-files-found: error

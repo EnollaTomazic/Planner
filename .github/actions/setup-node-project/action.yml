@@ -1,0 +1,209 @@
+name: Setup Node.js project
+
+inputs:
+  node-version:
+    description: Node.js version to install
+    default: 22.x
+  working-directory:
+    description: Directory containing the project
+    default: .
+  install-command:
+    description: Override install command
+    default: ""
+  cache-dependency-path:
+    description: Path to lockfiles for cache keys
+    default: package-lock.json
+  playwright:
+    description: Whether to prepare Playwright cache
+    default: 'false'
+  checkout-ref:
+    description: Optional git ref to checkout
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      with:
+        fetch-depth: 2
+        ref: ${{ inputs.checkout-ref != '' && inputs.checkout-ref || github.ref }}
+
+    - name: Detect package manager
+      id: detect-pm
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        if [ -n "${{ inputs.install-command }}" ]; then
+          echo "manager=custom" >>"$GITHUB_OUTPUT"
+          echo "runner=custom" >>"$GITHUB_OUTPUT"
+          echo "install=${{ inputs.install-command }}" >>"$GITHUB_OUTPUT"
+          exit 0
+        fi
+        PACKAGE_MANAGER=$(node -p "require('./package.json').packageManager || ''")
+        if [ -z "$PACKAGE_MANAGER" ]; then
+          echo "Failed to detect package manager from package.json" >&2
+          exit 1
+        fi
+        MANAGER_NAME=${PACKAGE_MANAGER%%@*}
+        case "$MANAGER_NAME" in
+          npm)
+            INSTALL_CMD="npm ci --prefer-offline --no-audit --no-fund"
+            ;;
+          pnpm)
+            INSTALL_CMD="pnpm install --frozen-lockfile"
+            ;;
+          yarn)
+            INSTALL_CMD="yarn install --frozen-lockfile"
+            ;;
+          *)
+            echo "Unsupported package manager $MANAGER_NAME" >&2
+            exit 1
+            ;;
+        esac
+        echo "manager=$MANAGER_NAME" >>"$GITHUB_OUTPUT"
+        echo "install=$INSTALL_CMD" >>"$GITHUB_OUTPUT"
+        echo "pm_full=$PACKAGE_MANAGER" >>"$GITHUB_OUTPUT"
+        echo "runner=$MANAGER_NAME" >>"$GITHUB_OUTPUT"
+
+    - name: Activate package manager
+      if: steps.detect-pm.outputs.manager != 'custom'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        corepack enable
+        if [ -n "${{ steps.detect-pm.outputs.pm_full }}" ]; then
+          corepack prepare "${{ steps.detect-pm.outputs.pm_full }}" --activate
+        fi
+
+    - name: Setup Node.js
+      uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65
+      with:
+        node-version: ${{ inputs.node-version }}
+        check-latest: true
+        cache: ${{ steps.detect-pm.outputs.manager == 'pnpm' && 'pnpm' || 'npm' }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+    - name: Restore global package cache
+      if: steps.detect-pm.outputs.manager == 'npm'
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ~/.npm
+        key: npm-cache-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+        restore-keys: |
+          npm-cache-${{ runner.os }}-
+
+    - name: Restore node_modules cache
+      id: node-modules-cache
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ${{ inputs.working-directory }}/node_modules
+        key: node-modules-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+
+    - name: Install dependencies
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        CI: "true"
+        INSTALL_COMMAND: ${{ steps.detect-pm.outputs.install }}
+      run: |
+        set -euo pipefail
+        eval "$INSTALL_COMMAND"
+
+    - name: Run postinstall hook when cache restored
+      if: steps.node-modules-cache.outputs.cache-hit == 'true' && steps.detect-pm.outputs.runner != 'custom'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        CI: "true"
+        PACKAGE_RUNNER: ${{ steps.detect-pm.outputs.runner }}
+      run: |
+        set -euo pipefail
+        if node -e "process.exit(require('./package.json').scripts?.postinstall ? 0 : 1)"; then
+          LOG_FILE=/tmp/postinstall.log
+          run_hook() {
+            case "$PACKAGE_RUNNER" in
+              pnpm)
+                pnpm run postinstall --if-present >"$LOG_FILE" 2>&1
+                ;;
+              yarn)
+                yarn postinstall >"$LOG_FILE" 2>&1
+                ;;
+              *)
+                npm run postinstall --if-present >"$LOG_FILE" 2>&1
+                ;;
+            esac
+          }
+          if run_hook; then
+            cat "$LOG_FILE"
+          else
+            cat "$LOG_FILE" >&2
+            exit 1
+          fi
+        fi
+
+    - name: Save node_modules cache
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ${{ inputs.working-directory }}/node_modules
+        key: node-modules-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+
+    - name: Save global package cache
+      if: steps.detect-pm.outputs.manager == 'npm' && steps.node-modules-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ~/.npm
+        key: npm-cache-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+
+    - name: Determine Playwright version
+      if: inputs.playwright == 'true'
+      id: playwright-version
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        VERSION=$(node <<'NODE'
+        const lock = require('./package-lock.json');
+        const packages = lock.packages ?? {};
+        const ids = [
+          'node_modules/@playwright/test',
+          'node_modules/playwright',
+          'node_modules/playwright-core',
+        ];
+        for (const id of ids) {
+          const entry = packages[id];
+          if (entry && entry.version) {
+            console.log(entry.version);
+            process.exit(0);
+          }
+        }
+        throw new Error('Playwright dependency not found in package-lock.json');
+        NODE
+        )
+        echo "version=$VERSION" >>"$GITHUB_OUTPUT"
+
+    - name: Restore Playwright cache
+      if: inputs.playwright == 'true'
+      id: playwright-cache
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ steps.playwright-version.outputs.version }}-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+
+    - name: Install Playwright browsers
+      if: inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: npx playwright install --with-deps
+
+    - name: Save Playwright cache
+      if: inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ steps.playwright-version.outputs.version }}-${{ runner.os }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, inputs.cache-dependency-path)) }}
+
