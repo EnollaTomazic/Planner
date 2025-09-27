@@ -30,12 +30,12 @@ export default function SiteChrome({ children }: SiteChromeProps) {
         {/* Bar content */}
         <PageShell
           grid
-          className="relative pt-[calc(env(safe-area-inset-top)+var(--space-2))] pb-[var(--space-2)] md:py-[var(--space-2)]"
-          contentClassName="items-center gap-y-[var(--space-2)]"
+          className="relative pt-[calc(env(safe-area-inset-top)+var(--space-1))] pb-[var(--space-1)] md:pt-[calc(env(safe-area-inset-top)+var(--space-1))] md:pb-[var(--space-1)]"
+          contentClassName="items-center gap-y-[var(--space-1)]"
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)),hsl(var(--accent)))] opacity-70"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,hsl(var(--glow)/0.75),hsl(var(--accent-2)),hsl(var(--glow)/0.75))] opacity-80"
           />
 
           <Link
@@ -45,19 +45,20 @@ export default function SiteChrome({ children }: SiteChromeProps) {
           >
             <span
               aria-hidden="true"
-              className="relative flex h-[var(--space-5)] w-[var(--space-1)] items-center justify-center overflow-hidden rounded-full bg-accent/40 shadow-[var(--shadow-glow-sm)]"
+              className="relative flex size-[var(--space-4)] items-center justify-center"
             >
-              <span className="absolute inset-[calc(var(--space-1)/2)] rounded-full bg-[linear-gradient(180deg,hsl(var(--accent)),hsl(var(--accent-2)))] opacity-90" />
+              <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,hsl(var(--glow)/0.7),transparent_70%)] opacity-80" />
+              <span className="relative size-[calc(var(--space-2)+var(--spacing-0-5))] rounded-full bg-[linear-gradient(180deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-sm)]" />
             </span>
             <BrandWordmark />
           </Link>
 
-          <div className="col-span-full hidden min-w-0 justify-center md:col-span-6 md:flex lg:col-span-6">
+          <div className="col-span-full hidden min-w-0 justify-center md:col-span-6 md:col-start-4 md:flex lg:col-span-6">
             <NavBar />
           </div>
 
           <div className="col-span-full flex items-center justify-end md:col-span-3 md:justify-self-end">
-            <div className="inline-flex items-center gap-[var(--space-1)] rounded-full border border-border/60 bg-background/80 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur">
+            <div className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur">
               <ThemeToggle className="shrink-0" />
               <div className="shrink-0">
                 <AnimationToggle />
