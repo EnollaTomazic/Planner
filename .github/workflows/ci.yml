@@ -73,10 +73,10 @@ jobs:
         npm run build
       cache-paths: |
         .next/cache
-      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
+      cache-key: ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
       cache-restore-keys: |
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
+        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-
       artifact-name: next-build
       artifact-path: |
         .next
@@ -252,10 +252,10 @@ jobs:
         npm run deploy
       cache-paths: |
         .next/cache
-      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
+      cache-key: ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
       cache-restore-keys: |
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
+        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-
       artifact-name: nextjs-static
       artifact-path: |
         out
