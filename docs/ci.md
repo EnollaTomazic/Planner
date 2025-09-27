@@ -1,6 +1,6 @@
 # Continuous integration workflows
 
-This project standardises Node-based automation through the reusable workflow defined at `.github/workflows/node-base.yml`. Jobs in `ci.yml` and deployment flows call into that workflow so dependency management, caching, and Playwright bootstrapping stay consistent.
+This project standardises Node-based automation through the reusable workflow defined at `.github/workflows/node-base.yml`. Jobs in `ci.yml` call into that workflow so dependency management, caching, and Playwright bootstrapping stay consistent.
 
 ## `node-base` workflow inputs
 
@@ -26,4 +26,3 @@ This project standardises Node-based automation through the reusable workflow de
 ## Workflow usage
 
 - `ci.yml` runs linting, type-checking, unit tests, a build (with audit reporting and cached `.next/cache`), and E2E suites that opt into Playwright installation and per-browser artefacts.
-- `nextjs.yml` first calls the reusable workflow with the deployment ref to produce the static export and upload it as an artefact, then a follow-up job configures GitHub Pages and deploys the downloaded export.
