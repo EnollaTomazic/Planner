@@ -65,6 +65,7 @@ export { default as Tabs } from "./primitives/Tabs";
 export * from "./primitives/Tabs";
 export { default as Textarea } from "./primitives/Textarea";
 export * from "./primitives/Textarea";
+export { default as VirtualizedList } from "./primitives/VirtualizedList";
 export { default as Select } from "./Select";
 export * from "./Select";
 export { default as AnimatedSelect } from "./select/AnimatedSelect";
@@ -100,3 +101,4 @@ export { default as SegmentedButtonGallery } from "./primitives/SegmentedButton.
 export { default as TabsGallery } from "./primitives/Tabs.gallery";
 export { default as TextareaGallery } from "./primitives/Textarea.gallery";
 export { default as SelectGallery } from "./Select.gallery";
+export { default as ToggleGallery } from "./toggles/Toggle.gallery";

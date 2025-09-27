@@ -474,7 +474,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     ) : null;
 
     const haloClasses =
-      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-300 before:ease-out before:content-[''] motion-reduce:before:transition-none";
+      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none";
 
     return (
       <>

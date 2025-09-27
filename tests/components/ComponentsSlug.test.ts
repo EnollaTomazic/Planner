@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   getAllComponentSlugs,
   resolveComponentsSlug,
-} from "@/components/components/slug";
+} from "@/components/gallery-page/slug";
 
 describe("ComponentsSlug", () => {
   it("resolves known section slugs", () => {

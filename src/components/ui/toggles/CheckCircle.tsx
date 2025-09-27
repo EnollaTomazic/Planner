@@ -299,7 +299,7 @@ export default function CheckCircle({
           <Check
             aria-hidden
               className={cn(
-              "relative z-[1] transition-all duration-200",
+              "relative z-[1] transition-all duration-quick",
               lit
                 ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_var(--space-2)_var(--cc-glow))] opacity-100"
                 : "text-muted-foreground",
