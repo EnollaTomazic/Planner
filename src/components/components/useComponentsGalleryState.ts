@@ -21,6 +21,12 @@ export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
 export const COMPONENTS_SECTION_TAB_ID_BASE = "components-section";
 export const COMPONENTS_PANEL_ID = "components-components-panel";
 
+interface InPageNavItem {
+  readonly id: ComponentsView;
+  readonly label: string;
+  readonly href: string;
+}
+
 function matchesEntryQuery(
   entry: GallerySerializableEntry,
   normalizedQuery: string,
@@ -76,6 +82,7 @@ export interface ComponentsGalleryState {
   readonly heroCopy: GalleryHeroCopy;
   readonly heroTabs: TabItem[];
   readonly viewTabs: TabItem[];
+  readonly inPageNavItems: readonly InPageNavItem[];
   readonly showSectionTabs: boolean;
   readonly searchLabel: string;
   readonly searchPlaceholder: string;
@@ -86,8 +93,7 @@ export interface ComponentsGalleryState {
   readonly componentsPanelLabelledBy: string;
   readonly handleViewChange: (key: string | number) => void;
   readonly handleSectionChange: (key: string | number) => void;
-  readonly componentsPanelRef: React.Ref<HTMLDivElement>;
-  readonly tokensPanelRef: React.Ref<HTMLDivElement>;
+  readonly componentsPanelRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const DEFAULT_FALLBACK_COPY: GalleryHeroCopy = {
@@ -95,23 +101,6 @@ const DEFAULT_FALLBACK_COPY: GalleryHeroCopy = {
   heading: "Planner component gallery",
   subtitle: "Browse Planner UI building blocks by category.",
 };
-
-function isKeyboardFocusVisible(element: HTMLElement): boolean {
-  try {
-    if (element.matches(":focus-visible")) {
-      return true;
-    }
-  } catch {
-    // Ignore selector support errors and fall back to class/attribute detection.
-  }
-
-  return (
-    element.classList.contains("focus-visible") ||
-    element.classList.contains("is-focus-visible") ||
-    element.hasAttribute("data-focus-visible-added") ||
-    element.dataset.focusVisible === "true"
-  );
-}
 
 export function formatQueryWithHash(
   queryString: string,
@@ -164,8 +153,14 @@ export function useComponentsGalleryState({
       if (normalized === "elements") {
         return "primitives";
       }
-      if (normalized === "styles" || normalized === "colors") {
-        return "tokens";
+      if (normalized === "components") {
+        return "patterns";
+      }
+      if (normalized === "complex") {
+        return "layouts";
+      }
+      if (normalized === "tokens" || normalized === "styles" || normalized === "colors") {
+        return null;
       }
       if ((viewOrder as readonly string[]).includes(normalized as ComponentsView)) {
         return normalized as ComponentsView;
@@ -278,9 +273,16 @@ export function useComponentsGalleryState({
     [getDefaultSectionForView, sectionGroupMap, sectionMap],
   );
 
-  const [view, setView] = React.useState<ComponentsView>(() =>
-    normalizeView(viewParam),
-  );
+  const [view, setView] = React.useState<ComponentsView>(() => {
+    if (typeof window !== "undefined") {
+      const hashValue = window.location.hash.slice(1);
+      const mappedHash = mapView(hashValue);
+      if (mappedHash) {
+        return mappedHash;
+      }
+    }
+    return normalizeView(viewParam);
+  });
   const [section, setSection] = React.useState<Section>(() =>
     normalizeSection(sectionParam, normalizeView(viewParam), {
       allowCrossView: shouldAllowCrossView(viewParam),
@@ -298,66 +300,7 @@ export function useComponentsGalleryState({
   );
 
   const componentsPanelRef = React.useRef<HTMLDivElement>(null);
-  const tokensPanelRef = React.useRef<HTMLDivElement>(null);
-  const previousViewRef = React.useRef<ComponentsView | null>(null);
-  const lastInteractionRef = React.useRef<"pointer" | "keyboard" | null>(null);
-  const supportsPreventScrollRef = React.useRef<boolean | null>(null);
   const lastSyncedSectionRef = React.useRef<Section | null>(null);
-  const shouldFocusPanel = React.useCallback(
-    (panel: HTMLElement | null) => {
-      if (typeof document === "undefined" || !panel) {
-        return false;
-      }
-      if (lastInteractionRef.current === "pointer") {
-        return false;
-      }
-      const activeElement = document.activeElement;
-      if (!activeElement || !(activeElement instanceof HTMLElement)) {
-        return false;
-      }
-      if (activeElement.getAttribute("role") !== "tab") {
-        return false;
-      }
-      if (panel.id) {
-        const controls = activeElement.getAttribute("aria-controls");
-        if (!controls || controls !== panel.id) {
-          return false;
-        }
-      }
-      if (!isKeyboardFocusVisible(activeElement)) {
-        return false;
-      }
-      return true;
-    },
-    [lastInteractionRef],
-  );
-  const focusPanel = React.useCallback(
-    (panel: HTMLElement | null) => {
-      if (!panel || !shouldFocusPanel(panel)) {
-        return;
-      }
-      if (supportsPreventScrollRef.current === true) {
-        panel.focus({ preventScroll: true });
-        return;
-      }
-      if (supportsPreventScrollRef.current === false) {
-        panel.focus();
-        return;
-      }
-      try {
-        panel.focus({
-          get preventScroll() {
-            supportsPreventScrollRef.current = true;
-            return true;
-          },
-        } as FocusOptions);
-      } catch {
-        supportsPreventScrollRef.current = false;
-        panel.focus();
-      }
-    },
-    [shouldFocusPanel],
-  );
 
   const currentGroup = React.useMemo(
     () => groups.find((group) => group.id === view) ?? null,
@@ -431,24 +374,21 @@ export function useComponentsGalleryState({
   const countDescriptionId = React.useId();
 
   const heroCopy = React.useMemo(() => {
-    if (view === "tokens") {
-      return currentGroup?.copy ?? fallbackCopy;
-    }
     if (sectionMeta) {
       return sectionMeta.copy;
     }
     return currentGroup?.copy ?? fallbackCopy;
-  }, [currentGroup, fallbackCopy, sectionMeta, view]);
+  }, [currentGroup, fallbackCopy, sectionMeta]);
 
   const sectionCopy = React.useMemo(() => {
     if (sectionMeta) {
       return sectionMeta.copy;
     }
-    if (currentGroup && view !== "tokens") {
+    if (currentGroup) {
       return currentGroup.copy;
     }
     return heroCopy;
-  }, [currentGroup, heroCopy, sectionMeta, view]);
+  }, [currentGroup, heroCopy, sectionMeta]);
 
   const searchLabel = React.useMemo(
     () => `Search ${sectionCopy.heading}`,
@@ -465,7 +405,17 @@ export function useComponentsGalleryState({
       groups.map((group) => ({
         key: group.id,
         label: group.label,
-        controls: group.id === "tokens" ? "tokens-panel" : "components-panel",
+        controls: "components-panel",
+      })),
+    [groups],
+  );
+
+  const inPageNavItems = React.useMemo<readonly InPageNavItem[]>(
+    () =>
+      groups.map((group) => ({
+        id: group.id as ComponentsView,
+        label: group.label,
+        href: `#${group.id}`,
       })),
     [groups],
   );
@@ -487,9 +437,6 @@ export function useComponentsGalleryState({
         return;
       }
       setView(nextView);
-      if (nextView === "tokens") {
-        return;
-      }
       const allowedSections = groupSectionIds.get(nextView);
       if (allowedSections?.has(section)) {
         return;
@@ -499,13 +446,7 @@ export function useComponentsGalleryState({
         setSection(fallbackSection);
       }
     },
-    [
-      getDefaultSectionForView,
-      groupSectionIds,
-      normalizeView,
-      section,
-      view,
-    ],
+    [getDefaultSectionForView, groupSectionIds, normalizeView, section, view],
   );
 
   const handleSectionChange = React.useCallback(
@@ -553,27 +494,6 @@ export function useComponentsGalleryState({
       setQuery(next);
     }
   }, [queryParam, query, setQuery]);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    const handlePointerDown = () => {
-      lastInteractionRef.current = "pointer";
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.altKey || event.ctrlKey || event.metaKey) {
-        return;
-      }
-      lastInteractionRef.current = "keyboard";
-    };
-    window.addEventListener("pointerdown", handlePointerDown, true);
-    window.addEventListener("keydown", handleKeyDown, true);
-    return () => {
-      window.removeEventListener("pointerdown", handlePointerDown, true);
-      window.removeEventListener("keydown", handleKeyDown, true);
-    };
-  }, [lastInteractionRef]);
 
   const buildQueryWithHash = React.useCallback((next: URLSearchParams) => {
     const queryString = next.toString();
@@ -646,9 +566,6 @@ export function useComponentsGalleryState({
   }, [buildQueryWithHash, paramsString, query, queryParam, router, startTransition]);
 
   React.useEffect(() => {
-    if (view === "tokens") {
-      return;
-    }
     const allowed = groupSectionIds.get(view);
     if (!allowed || allowed.size === 0) {
       return;
@@ -662,9 +579,6 @@ export function useComponentsGalleryState({
   }, [getDefaultSectionForView, groupSectionIds, section, view]);
 
   React.useEffect(() => {
-    if (view === "tokens") {
-      return;
-    }
     const owner = sectionGroupMap.get(section);
     if (!owner) {
       return;
@@ -679,22 +593,25 @@ export function useComponentsGalleryState({
     setView(owner);
   }, [groupSectionIds, section, sectionGroupMap, view]);
 
-  React.useEffect(() => {
-    const previousView = previousViewRef.current;
-    if (view !== "tokens" && previousView === "tokens") {
-      focusPanel(componentsPanelRef.current);
-    }
-    previousViewRef.current = view;
-  }, [focusPanel, view]);
+  const showSectionTabs = heroTabs.length > 0;
 
   React.useEffect(() => {
-    if (view !== "tokens") {
+    if (typeof window === "undefined") {
       return;
     }
-    focusPanel(tokensPanelRef.current);
-  }, [focusPanel, view]);
-
-  const showSectionTabs = heroTabs.length > 0 && view !== "tokens";
+    const handleHashChange = () => {
+      const hashValue = window.location.hash.slice(1);
+      const mappedHash = mapView(hashValue);
+      if (!mappedHash) {
+        return;
+      }
+      setView((prev) => (prev === mappedHash ? prev : mappedHash));
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [mapView]);
 
   return {
     view,
@@ -704,6 +621,7 @@ export function useComponentsGalleryState({
     heroCopy,
     heroTabs,
     viewTabs,
+    inPageNavItems,
     showSectionTabs,
     searchLabel,
     searchPlaceholder,
@@ -715,6 +633,5 @@ export function useComponentsGalleryState({
     handleViewChange,
     handleSectionChange,
     componentsPanelRef,
-    tokensPanelRef,
   };
 }

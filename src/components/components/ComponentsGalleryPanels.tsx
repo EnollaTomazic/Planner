@@ -2,16 +2,13 @@
 
 import * as React from "react";
 
-import ColorsView from "@/components/prompts/ColorsView";
 import ComponentSpecView from "@/components/prompts/ComponentsView";
 import type { GallerySerializableEntry } from "@/components/gallery/registry";
-import type { DesignTokenGroup } from "@/components/gallery/types";
 import { Card, CardContent } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 
 import {
   COMPONENTS_PANEL_ID,
-  COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
 } from "./useComponentsGalleryState";
 
@@ -22,9 +19,7 @@ interface ComponentsGalleryPanelsProps {
   readonly countLabel: string;
   readonly countDescriptionId: string;
   readonly componentsPanelLabelledBy: string;
-  readonly componentsPanelRef: React.Ref<HTMLDivElement>;
-  readonly tokensPanelRef: React.Ref<HTMLDivElement>;
-  readonly tokenGroups: readonly DesignTokenGroup[];
+  readonly componentsPanelRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export default function ComponentsGalleryPanels({
@@ -35,22 +30,18 @@ export default function ComponentsGalleryPanels({
   countDescriptionId,
   componentsPanelLabelledBy,
   componentsPanelRef,
-  tokensPanelRef,
-  tokenGroups,
 }: ComponentsGalleryPanelsProps) {
-  const isTokensView = view === "tokens";
-  const tokensTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-tab`;
-
   return (
-    <section className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]">
+    <section
+      id={view}
+      className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]"
+    >
       <div
         id={COMPONENTS_PANEL_ID}
         role="tabpanel"
         aria-labelledby={componentsPanelLabelledBy}
-        tabIndex={isTokensView ? -1 : 0}
+        tabIndex={0}
         ref={componentsPanelRef}
-        hidden={isTokensView}
-        aria-hidden={isTokensView}
         className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         <div
@@ -84,18 +75,6 @@ export default function ComponentsGalleryPanels({
             )}
           </div>
         </div>
-      </div>
-      <div
-        id={`${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`}
-        role="tabpanel"
-        aria-labelledby={tokensTabId}
-        tabIndex={isTokensView ? 0 : -1}
-        ref={tokensPanelRef}
-        hidden={!isTokensView}
-        aria-hidden={!isTokensView}
-        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      >
-        <ColorsView groups={tokenGroups} />
       </div>
     </section>
   );

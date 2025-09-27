@@ -3,7 +3,7 @@
 import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 
-import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
+import type { GalleryNavigationData } from "@/components/gallery/types";
 import { PageHeader, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,7 @@ import {
   COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
   COMPONENTS_VIEW_TAB_ID_BASE,
+  formatQueryWithHash,
   useComponentsGalleryState,
 } from "./useComponentsGalleryState";
 
@@ -50,12 +51,10 @@ const HEADER_FRAME_CLASSNAME = [
 
 interface ComponentsPageClientProps {
   readonly navigation: GalleryNavigationData;
-  readonly tokenGroups: readonly DesignTokenGroup[];
 }
 
 export default function ComponentsPageClient({
   navigation,
-  tokenGroups,
 }: ComponentsPageClientProps) {
   const {
     view,
@@ -65,6 +64,7 @@ export default function ComponentsPageClient({
     heroCopy,
     heroTabs,
     viewTabs,
+    inPageNavItems,
     showSectionTabs,
     searchLabel,
     searchPlaceholder,
@@ -76,8 +76,30 @@ export default function ComponentsPageClient({
     handleViewChange,
     handleSectionChange,
     componentsPanelRef,
-    tokensPanelRef,
   } = useComponentsGalleryState({ navigation });
+
+  const handleAnchorClick = React.useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>, targetView: typeof view) => {
+      event.preventDefault();
+      if (typeof window !== "undefined") {
+        const search = window.location.search.slice(1);
+        const nextUrl = `${window.location.pathname}${formatQueryWithHash(
+          search,
+          `#${targetView}`,
+        )}`;
+        window.history.replaceState(null, "", nextUrl);
+      }
+      handleViewChange(targetView);
+      const panel = componentsPanelRef.current;
+      if (!panel) {
+        return;
+      }
+      window.requestAnimationFrame(() => {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    },
+    [componentsPanelRef, handleViewChange],
+  );
 
   return (
     <>
@@ -216,6 +238,34 @@ export default function ComponentsPageClient({
                 : undefined,
           }}
         />
+        <nav
+          aria-label="Component gallery sections"
+          className="mt-[var(--space-4)]"
+        >
+          <ol className="flex flex-wrap gap-[var(--space-2)]">
+            {inPageNavItems.map((item) => {
+              const isActive = item.id === view;
+              return (
+                <li key={item.id}>
+                  <a
+                    href={item.href}
+                    data-active={isActive ? "true" : undefined}
+                    aria-current={isActive ? "page" : undefined}
+                    className={cn(
+                      "inline-flex items-center rounded-full px-[var(--space-3)] py-[var(--space-1)] text-label font-medium transition-colors",
+                      "text-muted-foreground hover:text-foreground",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      "data-[active=true]:bg-muted data-[active=true]:text-foreground",
+                    )}
+                    onClick={(event) => handleAnchorClick(event, item.id)}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
       </PageShell>
 
       <PageShell
@@ -233,8 +283,6 @@ export default function ComponentsPageClient({
           countDescriptionId={countDescriptionId}
           componentsPanelLabelledBy={componentsPanelLabelledBy}
           componentsPanelRef={componentsPanelRef}
-          tokensPanelRef={tokensPanelRef}
-          tokenGroups={tokenGroups}
         />
       </PageShell>
     </>

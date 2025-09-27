@@ -1,5 +1,4 @@
 import ComponentsPageClient from "./ComponentsPageClient";
-import tokens from "../../../tokens/tokens.js";
 import {
   GALLERY_SECTION_GROUPS,
   type GallerySectionGroupMeta,
@@ -13,11 +12,7 @@ import type {
   GalleryNavigationData,
   GalleryNavigationGroup,
   GalleryNavigationSection,
-  DesignTokenGroup,
 } from "@/components/gallery/types";
-import { buildDesignTokenGroups } from "@/lib/design-token-registry";
-
-const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
 const formatSectionLabel = (section: GallerySectionMeta): string => {
   if (section.label) {
@@ -71,9 +66,6 @@ const buildGalleryNavigation = (): GalleryNavigationData => {
 
 export default function ComponentsPage() {
   const navigation = buildGalleryNavigation();
-  const tokenGroups: readonly DesignTokenGroup[] = DESIGN_TOKEN_GROUPS;
 
-  return (
-    <ComponentsPageClient navigation={navigation} tokenGroups={tokenGroups} />
-  );
+  return <ComponentsPageClient navigation={navigation} />;
 }

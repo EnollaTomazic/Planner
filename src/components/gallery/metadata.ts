@@ -1,10 +1,6 @@
 import type { GallerySectionId } from "./registry";
 
-export type GallerySectionGroupKey =
-  | "primitives"
-  | "components"
-  | "complex"
-  | "tokens";
+export type GallerySectionGroupKey = "primitives" | "patterns" | "layouts";
 
 export interface GalleryHeroCopy {
   eyebrow: string;
@@ -30,192 +26,187 @@ export const GALLERY_SECTION_GROUPS: readonly GallerySectionGroupMeta[] = [
     id: "primitives",
     label: "Primitives",
     copy: {
-      eyebrow: "Interaction basics",
+      eyebrow: "Foundational UI",
       heading: "Planner interface primitives",
       subtitle:
-        "Buttons, inputs, toggles, and feedback cues that keep everyday flows quick.",
+        "Buttons, inputs, toggles, and feedback cues that make everyday actions immediate.",
     },
     sections: [
       {
         id: "buttons",
+        label: "Buttons",
         copy: {
-          eyebrow: "Action triggers",
-          heading: "Action-ready button components",
+          eyebrow: "Actions",
+          heading: "Buttons and triggers",
           subtitle:
-            "Primary, segmented, and icon buttons that keep Planner workflows moving.",
+            "Primary, segmented, and icon buttons for decisive Planner interactions.",
         },
       },
       {
         id: "inputs",
+        label: "Inputs",
         copy: {
-          eyebrow: "Data entry",
-          heading: "Focused input components",
+          eyebrow: "Capture",
+          heading: "Inputs and fields",
           subtitle:
-            "Fields, textareas, and selectors tuned for confident capture and review.",
+            "Text, selection, and form fields tuned for confident capture and review.",
         },
       },
       {
         id: "toggles",
+        label: "Toggles",
         copy: {
           eyebrow: "Preferences",
-          heading: "Toggle and control components",
+          heading: "Toggles and selectors",
           subtitle:
-            "Switches and selectors that flip Planner settings instantly.",
+            "Switches, selectors, and filters that personalize Planner without friction.",
         },
       },
       {
         id: "feedback",
+        label: "Feedback",
         copy: {
-          eyebrow: "Status",
-          heading: "Feedback and state components",
+          eyebrow: "State",
+          heading: "Feedback and status",
           subtitle:
-            "Spinners, skeletons, and snackbars for communicating system status.",
+            "Spinners, skeletons, and inline alerts that keep status visible across flows.",
         },
       },
     ],
   },
   {
-    id: "components",
-    label: "Components",
+    id: "patterns",
+    label: "Patterns",
     copy: {
-      eyebrow: "Patterns",
-      heading: "Composable Planner components",
+      eyebrow: "Reusable flows",
+      heading: "Planner interaction patterns",
       subtitle:
-        "Prompts, layout shells, and card frameworks that shape expressive surfaces.",
+        "Prompts, cards, and utilities that package guidance and insight for any surface.",
     },
     sections: [
       {
         id: "prompts",
+        label: "Prompts",
         copy: {
           eyebrow: "Guidance",
-          heading: "Prompt and messaging components",
+          heading: "Prompts and messaging",
           subtitle:
-            "Dialogs, sheets, and toasts that deliver the right nudge at the right moment.",
+            "Dialogs, sheets, and toasts that deliver the right coaching moment.",
         },
       },
       {
         id: "cards",
+        label: "Cards",
         copy: {
           eyebrow: "Summaries",
-          heading: "Card and surface components",
+          heading: "Cards and overviews",
           subtitle:
-            "Progress cards and shells that package Planner insights cleanly.",
-        },
-      },
-      {
-        id: "layout",
-        copy: {
-          eyebrow: "Structure",
-          heading: "Layout and container components",
-          subtitle:
-            "Shells, overlays, and navigation scaffolding that organize Planner surfaces.",
-        },
-      },
-      {
-        id: "page-header",
-        copy: {
-          eyebrow: "First impression",
-          heading: "Hero and page header components",
-          subtitle:
-            "Framed intros, hero shells, and portrait accents for high-impact screens.",
+            "Progress and scouting cards that surface signal without noise.",
         },
       },
       {
         id: "misc",
+        label: "Utilities",
         copy: {
-          eyebrow: "Utilities",
-          heading: "Utility and experimental components",
+          eyebrow: "Support",
+          heading: "Utility patterns",
           subtitle:
-            "Supporting patterns and helpers that round out the system.",
+            "Supporting components and helpers that round out Planner experiences.",
         },
       },
     ],
   },
   {
-    id: "complex",
-    label: "Complex",
+    id: "layouts",
+    label: "Layouts",
     copy: {
-      eyebrow: "Workflows",
-      heading: "Planner experience frameworks",
+      eyebrow: "Workspace structure",
+      heading: "Planner layout systems",
       subtitle:
-        "Boards, dashboards, and companion surfaces that orchestrate end-to-end flows.",
+        "Shells, navigation, and dashboards that organize Planner's cross-squad work.",
     },
     sections: [
       {
+        id: "layout",
+        label: "Containers",
+        copy: {
+          eyebrow: "Structure",
+          heading: "Layout and container systems",
+          subtitle:
+            "Shells, overlays, and scaffolds that frame Planner content with rhythm.",
+        },
+      },
+      {
+        id: "page-header",
+        label: "Page headers",
+        copy: {
+          eyebrow: "Introductions",
+          heading: "Hero and header layouts",
+          subtitle:
+            "Framed intros, hero shells, and portrait slots for standout screens.",
+        },
+      },
+      {
         id: "homepage",
+        label: "Homepage",
         copy: {
           eyebrow: "Landing",
-          heading: "Homepage welcome surfaces",
+          heading: "Homepage surfaces",
           subtitle:
-            "Hero frames, portraits, and quick actions that open Planner with energy.",
+            "Hero frames, portraits, and quick actions that open Planner with momentum.",
         },
       },
       {
         id: "reviews",
+        label: "Reviews",
         copy: {
           eyebrow: "Insights",
-          heading: "Review analysis surfaces",
+          heading: "Review analysis layouts",
           subtitle:
             "Score panels, scouting forms, and pillar tools tuned for match retrospectives.",
         },
       },
       {
         id: "planner",
+        label: "Planner",
         copy: {
-          eyebrow: "Core surfaces",
-          heading: "Planner navigation systems",
+          eyebrow: "Daily ops",
+          heading: "Planner navigation surfaces",
           subtitle:
             "Boards, schedules, and route controls that anchor day-to-day focus.",
         },
       },
       {
         id: "goals",
+        label: "Goals",
         copy: {
           eyebrow: "Progress",
-          heading: "Goals tracking flows",
+          heading: "Goals tracking layouts",
           subtitle:
             "Lists, reminders, and focus timers that keep momentum visible.",
         },
       },
       {
         id: "team",
+        label: "Team",
         copy: {
           eyebrow: "Roster",
-          heading: "Team collaboration surfaces",
+          heading: "Team collaboration layouts",
           subtitle:
             "Champion lists, side selectors, and pillar badges for coordinating the squad.",
         },
       },
       {
         id: "components",
+        label: "Workspace",
         copy: {
           eyebrow: "Library",
-          heading: "Components workspace shells",
+          heading: "Components workspace layouts",
           subtitle:
             "Gallery scaffolding, theming controls, and reference frames for deep dives.",
         },
       },
-      {
-        id: "prompts",
-        copy: {
-          eyebrow: "Guidance",
-          heading: "Prompts workspace surfaces",
-          subtitle:
-            "Lists, editors, and demos shaping Planner's coaching moments.",
-        },
-      },
     ],
-  },
-  {
-    id: "tokens",
-    label: "Tokens",
-    copy: {
-      eyebrow: "Foundations",
-      heading: "Planner design tokens",
-      subtitle:
-        "Color, spacing, typography, motion, and effects that keep every surface aligned.",
-    },
-    sections: [],
   },
 ] as const;
 

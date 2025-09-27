@@ -54,8 +54,10 @@ for (const group of GALLERY_SECTION_GROUPS) {
 }
 
 const VIEW_ALIAS = new Map<string, GallerySectionGroupKey>([
-  ["colors", "tokens"],
-  ["styles", "tokens"],
+  ["colors", "primitives"],
+  ["styles", "primitives"],
+  ["tokens", "primitives"],
+  ["complex", "layouts"],
   ["elements", "primitives"],
 ]);
 

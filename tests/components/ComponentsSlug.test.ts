@@ -28,18 +28,18 @@ describe("ComponentsSlug", () => {
     const result = resolveComponentsSlug("theme-splits");
     expect(result).toMatchObject({
       section: "layout",
-      view: "components",
+      view: "layouts",
     });
     expect(result?.query).toBe("Split");
   });
 
   it("maps view aliases", () => {
     const colorsResult = resolveComponentsSlug("colors");
-    expect(colorsResult).toMatchObject({ view: "tokens", viewExplicit: true });
+    expect(colorsResult).toMatchObject({ view: "primitives", viewExplicit: true });
     expect(colorsResult?.section).toBeUndefined();
 
     const stylesResult = resolveComponentsSlug("styles");
-    expect(stylesResult).toMatchObject({ view: "tokens", viewExplicit: true });
+    expect(stylesResult).toMatchObject({ view: "primitives", viewExplicit: true });
     expect(stylesResult?.section).toBeUndefined();
 
     const elementsResult = resolveComponentsSlug("elements");
@@ -51,21 +51,21 @@ describe("ComponentsSlug", () => {
     const sectionResult = resolveComponentsSlug("prompts");
     expect(sectionResult).toMatchObject({
       section: "prompts",
-      view: "components",
+      view: "patterns",
     });
 
     const entryResult = resolveComponentsSlug("prompt-list");
     expect(entryResult).toMatchObject({
       section: "prompts",
-      view: "components",
+      view: "patterns",
     });
   });
 
-  it("resolves complex sections when the slug matches a group", () => {
+  it("resolves layout sections when the slug matches a group", () => {
     const result = resolveComponentsSlug("components");
     expect(result).toMatchObject({
       section: "components",
-      view: "complex",
+      view: "layouts",
     });
   });
 
