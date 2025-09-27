@@ -13,7 +13,6 @@ export { default as PlannerPanel } from "./component-gallery/PlannerPanel";
 export { default as PromptsPanel } from "./component-gallery/PromptsPanel";
 export * from "./component-gallery/useComponentGalleryState";
 export { default as WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
-export { default as ComponentGallery } from "./ComponentGallery";
 export { default as ComponentsView } from "./ComponentsView";
 export * from "./constants";
 export * from "./demoData";
