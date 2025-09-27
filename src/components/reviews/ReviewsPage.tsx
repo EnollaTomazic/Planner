@@ -79,6 +79,8 @@ export default function ReviewsPage({
   );
 
   const filtered = useReviewFilter(base, q, sort);
+  const totalCount = base.length;
+  const filteredCount = filtered.length;
 
   const active = React.useMemo(
     () => base.find((r) => r.id === selectedId) || null,
@@ -103,7 +105,10 @@ export default function ReviewsPage({
           hero={{
             sticky: false,
             heading: "Browse Reviews",
-            subtitle: <span className="pill">Total {base.length}</span>,
+            subtitle:
+              totalCount > 0 ? (
+                <span className="pill">Total {totalCount}</span>
+              ) : undefined,
             children: (
               <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
                 <HeroSearchBar
@@ -179,7 +184,9 @@ export default function ReviewsPage({
               }}
               onCreate={handleCreateReview}
               className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
-              header={`${filtered.length} shown`}
+              header={
+                filteredCount > 0 ? `${filteredCount} shown` : undefined
+              }
               hoverRing
             />
           </nav>

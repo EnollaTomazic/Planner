@@ -83,11 +83,13 @@ export default function TaskList({
       renderEmpty={() => (
         <EmptyRow
           text={hasSelectedProject ? "No tasks yet" : "Select a project to view tasks"}
+          tone={hasSelectedProject ? "default" : "muted"}
+          variant={hasSelectedProject ? "rotate" : "default"}
         />
       )}
       renderList={() => (
         <ul
-          className="space-y-[var(--space-2)] [&>li:first-child]:mt-[var(--space-2)] [&>li:last-child]:mb-[var(--space-2)]"
+          className="space-y-[var(--space-2)]"
           aria-label="Tasks"
         >
           {tasksForSelected.map((t) => (
@@ -110,7 +112,10 @@ export default function TaskList({
           ))}
         </ul>
       )}
-      viewportClassName="min-h-[calc(var(--space-8)*2)] max-h-[calc(var(--space-8)*5)]"
+      viewportStyle={{
+        minHeight: "calc(var(--space-8) * 2)",
+        maxHeight: "calc(var(--space-8) * 5)",
+      }}
     />
   );
 }
