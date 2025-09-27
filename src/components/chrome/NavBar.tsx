@@ -26,9 +26,9 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
     <nav
       role="navigation"
       aria-label="Primary"
-      className="max-w-full overflow-x-auto lg:overflow-x-visible"
+      className="max-w-full overflow-x-auto pb-[var(--space-1)] lg:overflow-x-visible"
     >
-      <ul className="flex list-none flex-nowrap items-center gap-[var(--space-2)]">
+      <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
           const active = isNavActive(path, href);
 
@@ -40,13 +40,16 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}
                 className={cn(
-                  "group relative inline-flex min-h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-card r-card-lg px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium font-mono transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-                  "card-neo-soft",
-                  "hover:bg-interaction-accent-surfaceHover active:bg-interaction-accent-surfaceActive",
+                  "group relative inline-flex h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-full px-[var(--space-4)] text-ui font-medium font-mono tracking-[0.04em] transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "before:absolute before:inset-y-[calc(var(--space-1)/2)] before:inset-x-[var(--space-2)] before:-z-10 before:rounded-full before:bg-background/60 before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
+                  "after:pointer-events-none after:absolute after:inset-x-[var(--space-2)] after:bottom-0 after:h-px after:rounded-full after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.5),hsl(var(--accent-2)),hsl(var(--accent)/0.5))] after:opacity-0 after:transition-opacity after:duration-quick",
+                  "hover:text-foreground",
+                  "hover:before:opacity-100 focus-visible:before:opacity-100",
+                  "hover:after:opacity-60 focus-visible:after:opacity-80",
                   "disabled:pointer-events-none disabled:opacity-disabled data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-disabled data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
                   active
-                    ? "text-foreground data-[active=true]:ring-1 data-[active=true]:ring-ring"
-                    : "text-muted-foreground hover:text-foreground",
+                    ? "text-foreground before:opacity-100 after:opacity-90"
+                    : "text-muted-foreground",
                 )}
               >
                 {Icon ? (
@@ -64,7 +67,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                   <motion.span
                     data-testid="nav-underline"
                     layoutId="nav-underline"
-                    className="absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px nav-underline"
+                    className="absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px rounded-full nav-underline shadow-[var(--shadow-glow-sm)]"
                     transition={{
                       type: "tween",
                       duration: reduceMotion ? 0 : 0.25,

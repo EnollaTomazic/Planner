@@ -20,7 +20,7 @@ export default function DashboardCard({
   return (
     <NeoCard className="p-[var(--space-4)] md:p-[var(--space-6)] space-y-[var(--space-4)]">
       <div className="flex items-center justify-between">
-        <h2 className="text-body font-semibold tracking-[-0.01em] text-card-foreground">{title}</h2>
+        <h2 className="text-title font-semibold tracking-[-0.01em] text-card-foreground">{title}</h2>
         {actions}
       </div>
       {children && (

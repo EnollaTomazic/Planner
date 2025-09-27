@@ -54,7 +54,7 @@ function Inner() {
   const heroRef = React.useRef<HTMLDivElement>(null);
 
   const right = (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-[var(--space-2)]">
       <Button
         variant="ghost"
         size="sm"
@@ -81,7 +81,7 @@ function Inner() {
 
   return (
     <>
-      <PageShell as="header" grid className="py-6">
+      <PageShell as="header" grid className="py-[var(--space-6)]">
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
@@ -113,8 +113,8 @@ function Inner() {
       <PageShell
         as="section"
         grid
-        className="py-6"
-        contentClassName="gap-y-6"
+        className="py-[var(--space-6)]"
+        contentClassName="gap-y-[var(--space-6)]"
         aria-labelledby="planner-header"
       >
         {/* Today + Side column */}
@@ -129,7 +129,7 @@ function Inner() {
           {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
           <aside
             aria-label="Day notes"
-            className="col-span-full space-y-6 lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
+            className="col-span-full space-y-[var(--space-6)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
           >
             <WeekNotes iso={iso} />
           </aside>
@@ -138,7 +138,7 @@ function Inner() {
         {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
         <ul
           aria-label="Week days (Monday to Sunday)"
-          className="col-span-full flex flex-col gap-4"
+          className="col-span-full flex flex-col gap-[var(--space-4)]"
         >
           {dayItems.map((item) => (
             <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
