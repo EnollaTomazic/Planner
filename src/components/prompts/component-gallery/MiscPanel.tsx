@@ -25,6 +25,7 @@ import {
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
+import { spacingTokens } from "@/lib/tokens";
 import {
   ReviewListItem,
   ReviewPanel,
@@ -39,6 +40,7 @@ import { demoReview } from "./ComponentGallery.demoData";
 import type { MiscPanelData } from "./useComponentGalleryState";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const ROW_HEIGHT: number = spacingTokens[5] ?? 32;
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 interface MiscPanelProps {
@@ -60,17 +62,17 @@ const VirtualizedListDemo = React.memo(function VirtualizedListDemo() {
         ref={scrollParentRef}
         className="max-h-[calc(var(--space-8)*3)] overflow-y-auto text-ui"
       >
-        <table className="w-full text-left text-xs">
+        <table className="w-full text-left text-label">
           <tbody>
             <VirtualizedList
               items={rows}
-              rowHeight={32}
+              rowHeight={ROW_HEIGHT}
               overscan={2}
               scrollParentRef={scrollParentRef}
               renderItem={(item, index) => (
                 <tr
                   key={index}
-                  className="h-8 border-b border-border/30 last:border-b-0"
+                  className="h-[var(--space-6)] border-b border-border/30 text-label last:border-b-0"
                 >
                   <td className="px-[var(--space-2)] text-muted-foreground">{item}</td>
                 </tr>
