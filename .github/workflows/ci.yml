@@ -48,16 +48,50 @@ jobs:
       run: npm test -- --run
       summary-title: Unit Tests
 
-  a11y:
-    name: Accessibility
+  next-build:
+    name: Next.js Build
+    needs:
+      - lint
+      - typecheck
+      - unit
+      - token-guard
     uses: ./.github/workflows/node-base.yml
     with:
+      run: |
+        set -euo pipefail
+        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
+        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
+          echo "npm audit reported issues below the high severity threshold."
+        fi
+        node scripts/audit-ci-report.mjs audit-report.json
+        npm run build
+      cache-paths: |
+        .next/cache
+      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
+      cache-restore-keys: |
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      artifact-name: next-build
+      artifact-path: |
+        .next
+      summary-title: Next.js Build
+
+  a11y:
+    name: Accessibility
+    needs:
+      - next-build
+    uses: ./.github/workflows/node-base.yml
+    with:
+      download-artifact-name: next-build
       run: |
         set -euo pipefail
 
         LIST_OUTPUT=$(npx playwright test --list --project=chromium --grep "@axe") || true
 
-        npm run build
+        if [ ! -d ".next" ]; then
+          echo "Downloaded build artifact missing .next directory" >&2
+          exit 1
+        fi
 
         PORT=3000
         npm run start -- --hostname 127.0.0.1 --port "$PORT" &
@@ -72,6 +106,7 @@ jobs:
 
         trap cleanup EXIT
 
+        unset READY || true
         for attempt in $(seq 1 30); do
           if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
             READY=1
@@ -108,39 +143,10 @@ jobs:
         playwright-results/a11y
       artifact-on-failure: true
 
-  build:
-    name: Build
-    needs:
-      - lint
-      - typecheck
-      - unit
-      - token-guard
-      - a11y
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
-        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
-          echo "npm audit reported issues below the high severity threshold."
-        fi
-        node scripts/audit-ci-report.mjs audit-report.json
-        npm run build
-      cache-paths: |
-        .next/cache
-      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
-      cache-restore-keys: |
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      artifact-name: next-build
-      artifact-path: |
-        .next
-      summary-title: Build
-
   e2e:
     name: E2E (${{ matrix.project }})
     needs:
-      - build
+      - next-build
     strategy:
       fail-fast: false
       matrix:
@@ -221,6 +227,7 @@ jobs:
       github.event_name == 'push' &&
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/work')
     needs:
+      - a11y
       - e2e
     uses: ./.github/workflows/node-base.yml
     with:
