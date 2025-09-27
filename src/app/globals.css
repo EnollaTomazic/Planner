@@ -1024,8 +1024,14 @@ html.bg-intense body::after {
   position: relative;
   height: 10px;
   border-radius: var(--radius-full);
-  background: hsl(var(--foreground) / 0.08);
+  background: hsl(var(--foreground) / 0.06);
   overflow: hidden;
+}
+.glitch-track[data-progress-state="zero"] {
+  background: hsl(var(--foreground) / 0.04);
+}
+.glitch-track[data-progress-state="active"] {
+  background: hsl(var(--foreground) / 0.08);
   box-shadow:
     inset 0 0 0 var(--spacing-0-25) hsl(var(--foreground) / 0.06),
     inset var(--spacing-0-5) var(--spacing-0-5) var(--space-1)
@@ -1040,8 +1046,13 @@ html.bg-intense body::after {
   background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)));
   background-size: 200% 100%;
   transition: width 0.35s cubic-bezier(0.22, 0.99, 0.28, 0.99);
+}
+.glitch-track[data-progress-state="active"] .glitch-fill {
   animation: glitchSheen 3s linear infinite;
   box-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.5);
+}
+.glitch-track[data-progress-state="zero"] .glitch-fill {
+  height: 0;
 }
 .glitch-scan {
   position: absolute;
@@ -1055,6 +1066,10 @@ html.bg-intense body::after {
   );
   mix-blend-mode: screen;
   pointer-events: none;
+  opacity: 0;
+}
+.glitch-track[data-progress-state="active"] .glitch-scan {
+  opacity: 1;
   animation:
     glitchScan 1.6s steps(8, end) infinite,
     glitchJitter 0.8s steps(3, end) infinite;
