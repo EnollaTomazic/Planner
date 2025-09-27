@@ -20,11 +20,11 @@ jobs:
       summary-title: Lint
 
   token-guard:
-    name: Token Guard
+    name: Design Token Guard
     uses: ./.github/workflows/node-base.yml
     with:
-      run: npm run token-guard
-      summary-title: Token Guard
+      run: npm run lint:design
+      summary-title: Design Token Guard
 
   typecheck:
     name: Typecheck
