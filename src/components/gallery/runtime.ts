@@ -5,6 +5,7 @@ import {
   galleryPreviewModules,
   type GalleryPreviewModuleManifest,
 } from "./generated-manifest";
+import { GalleryTokenOverrideBoundary } from "./token-selection-context";
 import type {
   GalleryEntryKind,
   GalleryPreviewRenderer,
@@ -108,7 +109,7 @@ const getLazyPreviewComponent = (
       throw new Error(`Gallery preview \"${id}\" not found in module`);
     }
     const PreviewComponent: React.FC = () =>
-      React.createElement(React.Fragment, undefined, render());
+      React.createElement(GalleryTokenOverrideBoundary, undefined, render());
     PreviewComponent.displayName = `GalleryPreview(${id})`;
     return { default: PreviewComponent };
   });

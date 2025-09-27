@@ -4,6 +4,7 @@ import * as React from "react";
 import { PanelsTopLeft } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
+import { TokenSelectionProvider } from "@/components/gallery/token-selection-context";
 import { PageHeader, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -80,7 +81,7 @@ export default function ComponentsPageClient({
   } = useComponentsGalleryState({ navigation });
 
   return (
-    <>
+    <TokenSelectionProvider>
       <PageShell
         as="header"
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
@@ -237,6 +238,6 @@ export default function ComponentsPageClient({
           tokenGroups={tokenGroups}
         />
       </PageShell>
-    </>
+    </TokenSelectionProvider>
   );
 }

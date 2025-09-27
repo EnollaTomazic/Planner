@@ -9,9 +9,14 @@ import {
   SectionCard as UiSectionCard,
   IconButton,
 } from "@/components/ui";
+import {
+  isTokenCategoryOverridable,
+  useTokenSelection,
+} from "@/components/gallery/token-selection-context";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
+import { cn } from "@/lib/utils";
 
 const CHECKERBOARD_STYLE: React.CSSProperties = {
   backgroundImage:
@@ -23,8 +28,13 @@ const CHECKERBOARD_STYLE: React.CSSProperties = {
 const TOKEN_GRID_CLASSNAME =
   "grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 sm:gap-[var(--space-4)] xl:grid-cols-3";
 
-const TOKEN_CARD_CLASSNAME =
+const TOKEN_CARD_BASE_CLASSNAME =
   "flex h-full flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60 p-[var(--space-3)] md:p-[var(--space-4)]";
+
+const TOKEN_CARD_INTERACTIVE_CLASSNAME =
+  "cursor-pointer transition-[border-color,background-color,box-shadow] duration-quick ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:border-[hsl(var(--accent)/0.35)] data-[selected=true]:border-[hsl(var(--accent)/0.5)] data-[selected=true]:bg-panel/80 data-[selected=true]:shadow-[var(--shadow-outline-subtle)]";
+
+const TOKEN_CARD_ACTIVATION_KEYS = new Set(["Enter", " ", "Space", "Spacebar"]);
 
 const CATEGORY_DESCRIPTIONS: Partial<Record<DesignTokenGroup["id"], string>> = {
   color: "Swatches, overlays, gradients, and semantic colors shared across Planner.",
@@ -46,13 +56,16 @@ type TokenMeta = DesignTokenGroup["tokens"][number];
 interface TokenCardProps {
   readonly token: TokenMeta;
   readonly copied: boolean;
+  readonly selected: boolean;
   readonly onCopy: (token: TokenMeta) => void;
+  readonly onToggleSelect: (token: TokenMeta) => void;
 }
 
 export default function ColorsView({ groups }: ColorsViewProps) {
   const [query, setQuery] = React.useState("");
   const [copiedToken, setCopiedToken] = React.useState<string | null>(null);
   const [announcement, setAnnouncement] = React.useState<string>("");
+  const { selections, toggleToken } = useTokenSelection();
   const copyTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyCountRef = React.useRef(0);
 
@@ -126,6 +139,39 @@ export default function ColorsView({ groups }: ColorsViewProps) {
     [],
   );
 
+  const handleToggleSelection = React.useCallback(
+    (token: TokenMeta) => {
+      const alreadySelected = selections[token.category]?.name === token.name;
+      toggleToken(token);
+
+      const { label, affectsPreview } = (() => {
+        if (!isTokenCategoryOverridable(token.category)) {
+          return { label: `${token.category} tokens`, affectsPreview: false };
+        }
+
+        switch (token.category) {
+          case "color":
+            return { label: "accent previews", affectsPreview: true } as const;
+          case "radius":
+            return { label: "card radius", affectsPreview: true } as const;
+          case "shadow":
+            return { label: "surface shadows", affectsPreview: true } as const;
+          default:
+            return { label: `${token.category} tokens`, affectsPreview: false };
+        }
+      })();
+
+      setAnnouncement(
+        alreadySelected
+          ? `${token.cssVar} deselected.`
+          : affectsPreview
+            ? `${token.cssVar} applied to ${label}.`
+            : `${token.cssVar} noted — previews unchanged for ${label}.`,
+      );
+    },
+    [selections, toggleToken],
+  );
+
   React.useEffect(() => {
     return () => {
       if (copyTimeoutRef.current) {
@@ -197,6 +243,10 @@ export default function ColorsView({ groups }: ColorsViewProps) {
                       token={token}
                       copied={copiedToken === token.name}
                       onCopy={handleCopy}
+                      selected={
+                        selections[token.category]?.name === token.name
+                      }
+                      onToggleSelect={handleToggleSelection}
                     />
                   ))}
                 </ul>
@@ -213,11 +263,53 @@ export default function ColorsView({ groups }: ColorsViewProps) {
   );
 }
 
-function TokenCard({ token, copied, onCopy }: TokenCardProps) {
+function TokenCard({
+  token,
+  copied,
+  selected,
+  onCopy,
+  onToggleSelect,
+}: TokenCardProps) {
   const preview = React.useMemo(() => <TokenPreview token={token} />, [token]);
 
+  const handleCopyClick = React.useCallback<
+    React.MouseEventHandler<HTMLButtonElement>
+  >(
+    (event) => {
+      event.stopPropagation();
+      onCopy(token);
+    },
+    [onCopy, token],
+  );
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLLIElement>) => {
+      if (event.currentTarget !== event.target) {
+        return;
+      }
+
+      if (TOKEN_CARD_ACTIVATION_KEYS.has(event.key)) {
+        event.preventDefault();
+        onToggleSelect(token);
+      }
+    },
+    [onToggleSelect, token],
+  );
+
+  const handleClick = React.useCallback(() => {
+    onToggleSelect(token);
+  }, [onToggleSelect, token]);
+
   return (
-    <li className={TOKEN_CARD_CLASSNAME}>
+    <li
+      className={cn(TOKEN_CARD_BASE_CLASSNAME, TOKEN_CARD_INTERACTIVE_CLASSNAME)}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      data-selected={selected ? "true" : undefined}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+    >
       <div className="flex items-start justify-between gap-[var(--space-2)]">
         <div className="min-w-[calc(var(--space-1)*0)]">
           <p className="break-words font-mono text-ui font-semibold text-foreground">
@@ -229,7 +321,7 @@ function TokenCard({ token, copied, onCopy }: TokenCardProps) {
           tone={copied ? "accent" : "primary"}
           aria-label={`Copy ${token.cssVar}`}
           title={`Copy ${token.cssVar}`}
-          onClick={() => onCopy(token)}
+          onClick={handleCopyClick}
         >
           {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
         </IconButton>
