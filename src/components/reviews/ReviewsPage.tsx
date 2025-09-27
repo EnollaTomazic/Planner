@@ -80,6 +80,7 @@ export default function ReviewsPage({
 
   const filtered = useReviewFilter(base, q, sort);
   const totalCount = base.length;
+  const hasReviews = totalCount > 0;
   const filteredCount = filtered.length;
 
   const active = React.useMemo(
@@ -89,6 +90,7 @@ export default function ReviewsPage({
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
   const sortLabelId = React.useId();
+  const emptySearchDescriptionId = "reviews-empty-search-description";
 
   return (
     <>
@@ -109,7 +111,7 @@ export default function ReviewsPage({
               totalCount > 0 ? (
                 <span className="pill">Total {totalCount}</span>
               ) : undefined,
-            children: (
+            children: hasReviews ? (
               <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
                 <HeroSearchBar
                   round
@@ -150,6 +152,36 @@ export default function ReviewsPage({
                   variant="primary"
                   size="md"
                   className="w-full whitespace-nowrap md:col-span-2 md:justify-self-end"
+                  onClick={handleCreateReview}
+                >
+                  <Plus />
+                  <span>New Review</span>
+                </Button>
+              </div>
+            ) : (
+              <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
+                <HeroSearchBar
+                  round
+                  value={q}
+                  onValueChange={undefined}
+                  placeholder="Add a review to unlock search by title, tags, opponent, or patch."
+                  aria-label="Search reviews (disabled until a review exists)"
+                  aria-describedby={emptySearchDescriptionId}
+                  className="md:col-span-8"
+                  debounceMs={300}
+                  disabled
+                />
+                <p
+                  id={emptySearchDescriptionId}
+                  className="text-sm text-muted-foreground md:col-span-8"
+                >
+                  Once you create your first review, you can filter by title, tag combinations, specific opponents, or patch history.
+                </p>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="md"
+                  className="w-full whitespace-nowrap md:col-span-4 md:justify-self-end"
                   onClick={handleCreateReview}
                 >
                   <Plus />

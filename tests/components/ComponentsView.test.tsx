@@ -7,6 +7,7 @@ import {
   within,
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { ThemeProvider } from "@/lib/theme-context";
 
 vi.mock("@/components/prompts/constants", () => ({
   getGalleryPreview: () => () => <div data-testid="preview" />,
@@ -54,6 +55,10 @@ function createEntry(
   } satisfies GallerySerializableEntry;
 }
 
+function renderWithTheme(node: React.ReactElement) {
+  return render(<ThemeProvider>{node}</ThemeProvider>);
+}
+
 describe("ComponentsView props disclosure", () => {
   it("collapses the props table by default when the prop count exceeds the threshold", () => {
     const propCount = PROPS_DISCLOSURE_COLLAPSE_THRESHOLD + 6;
@@ -61,7 +66,7 @@ describe("ComponentsView props disclosure", () => {
       props: Array.from({ length: propCount }, (_, index) => createProp(index + 1)),
     });
 
-    render(<ComponentsView entry={entry} />);
+    renderWithTheme(<ComponentsView entry={entry} />);
 
     const toggle = screen.getByRole("button", {
       name: `View ${propCount} props`,
@@ -86,7 +91,7 @@ describe("ComponentsView props disclosure", () => {
       props: Array.from({ length: propCount }, (_, index) => createProp(index + 1)),
     });
 
-    render(<ComponentsView entry={entry} />);
+    renderWithTheme(<ComponentsView entry={entry} />);
 
     const toggle = screen.getByRole("button", {
       name: `View ${propCount} props`,
@@ -112,7 +117,7 @@ describe("ComponentsView props disclosure", () => {
       props: Array.from({ length: propCount }, (_, index) => createProp(index + 1)),
     });
 
-    render(<ComponentsView entry={entry} />);
+    renderWithTheme(<ComponentsView entry={entry} />);
 
     const heading = screen.getByRole("heading", { level: 3, name: "Props" });
     const toggle = screen.getByRole("button", {
