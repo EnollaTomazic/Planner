@@ -286,7 +286,6 @@ export default function ProjectList({
         </ul>
       )}
       viewportClassName={cn(
-        "px-0 w-full",
         projectsScrollable ? undefined : "overflow-visible",
       )}
       viewportStyle={

@@ -10,6 +10,7 @@ type PlannerListPanelProps = {
   isEmpty: boolean;
   className?: string;
   viewportClassName?: string;
+  viewportInsetClassName?: string;
   viewportStyle?: React.CSSProperties;
   viewportProps?: React.HTMLAttributes<HTMLDivElement>;
 };
@@ -21,6 +22,7 @@ export default function PlannerListPanel({
   isEmpty,
   className,
   viewportClassName,
+  viewportInsetClassName = "card-pad",
   viewportStyle,
   viewportProps,
 }: PlannerListPanelProps) {
@@ -44,7 +46,8 @@ export default function PlannerListPanel({
       <div
         {...restViewportProps}
         className={cn(
-          "w-full overflow-y-auto px-[var(--space-2)] py-[var(--space-2)]",
+          "w-full overflow-y-auto",
+          viewportInsetClassName,
           viewportPropsClassName,
           viewportClassName,
         )}
