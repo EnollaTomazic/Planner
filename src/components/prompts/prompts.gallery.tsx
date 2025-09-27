@@ -1378,9 +1378,14 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
 
 function ReviewSliderTrackDemo() {
   return (
-    <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
-      <ReviewSliderTrack value={7} tone="score" variant="input" />
-    </ReviewSurface>
+    <div className="flex flex-col gap-[var(--space-3)]">
+      <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
+        <ReviewSliderTrack value={7} tone="score" variant="input" />
+      </ReviewSurface>
+      <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
+        <ReviewSliderTrack value={6} tone="focus" variant="input" />
+      </ReviewSurface>
+    </div>
   );
 }
 

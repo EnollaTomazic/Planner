@@ -14,9 +14,11 @@ type ReviewSliderTrackProps = {
   knobClassName?: string;
 };
 
-const gradientClassNames: Record<ReviewSliderTone, string> = {
-  score: "bg-gradient-to-r from-primary to-accent [--ring:var(--primary)]",
-  focus: "bg-gradient-to-r from-accent to-primary [--ring:var(--accent)]",
+const toneTokenClassNames: Record<ReviewSliderTone, string> = {
+  score:
+    "[--slider-fill-tint:hsl(var(--accent)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent)/0.45)] [--slider-fill-tint-active:hsl(var(--accent)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent)/0.28)] [--slider-knob-active-surface:hsl(var(--accent)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)]",
+  focus:
+    "[--slider-fill-tint:hsl(var(--focus)/0.35)] [--slider-fill-tint-hover:hsl(var(--focus)/0.45)] [--slider-fill-tint-active:hsl(var(--focus)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--focus)/0.3)] [--slider-knob-active-surface:hsl(var(--focus)/0.4)] [--slider-knob-focus-ring:var(--ring-contrast)]",
 };
 
 const knobSizeByVariant: Record<ReviewSliderVariant, string> = {
@@ -24,20 +26,6 @@ const knobSizeByVariant: Record<ReviewSliderVariant, string> = {
     "left-[var(--progress)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-x-1/2",
   input:
     "h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))]",
-};
-
-const fillInteractionClassNames: Record<ReviewSliderTone, string> = {
-  score:
-    "group-hover:ring-[theme('colors.interaction.accent.tintHover')] group-active:ring-[theme('colors.interaction.accent.tintActive')]",
-  focus:
-    "group-hover:ring-[theme('colors.interaction.focus.tintHover')] group-active:ring-[theme('colors.interaction.focus.tintActive')]",
-};
-
-const knobInteractionClassNames: Record<ReviewSliderTone, string> = {
-  score:
-    "group-hover:bg-[theme('colors.interaction.accent.surfaceHover')] group-active:bg-[theme('colors.interaction.accent.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control",
-  focus:
-    "group-hover:bg-[theme('colors.interaction.focus.surfaceHover')] group-active:bg-[theme('colors.interaction.focus.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control",
 };
 
 const ReviewSliderTrack = ({
@@ -75,26 +63,37 @@ const ReviewSliderTrack = ({
   return (
     <div
       className={cn(
-        "absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2",
+        "group/slider absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2",
+        "[--slider-fill-background:var(--edge-iris)] [--slider-fill-shadow:var(--shadow-glow-sm)] [--slider-fill-shadow-hover:var(--shadow-glow-md)] [--slider-fill-shadow-active:var(--shadow-glow-lg)]",
+        "[--slider-knob-shadow:var(--shadow-glow-sm)] [--slider-knob-shadow-hover:var(--shadow-glow-md)] [--slider-knob-shadow-active:var(--shadow-glow-lg)]",
+        toneTokenClassNames[tone],
         className,
       )}
       style={sliderStyle}
+      data-tone={tone}
+      data-variant={variant}
     >
       <div
         className={cn(
-          "relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset",
+          "relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--shadow-neo-inset)]",
+          "before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
+          isInteractive
+            ? "group-hover/slider:before:opacity-70 group-active/slider:before:opacity-90 group-focus-visible/slider:before:opacity-80"
+            : undefined,
           trackClassName,
         )}
       >
         <div
           className={cn(
-            "absolute left-0 top-0 h-[var(--space-2)] rounded-full shadow-ring",
-            gradientClassNames[tone],
+            "absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)]",
+            "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-quick after:ease-out",
             variant === "display" ? "progress-fill" : undefined,
             isInteractive &&
               cn(
-                "ring-1 ring-transparent transition-[box-shadow] duration-quick ease-out",
-                fillInteractionClassNames[tone],
+                "ring-1 ring-transparent transition-[box-shadow,opacity] duration-quick ease-out",
+                "group-hover/slider:[--slider-fill-shadow:var(--slider-fill-shadow-hover)] group-active/slider:[--slider-fill-shadow:var(--slider-fill-shadow-active)]",
+                "group-hover/slider:after:bg-[--slider-fill-tint-hover] group-active/slider:after:bg-[--slider-fill-tint-active]",
+                "group-focus-visible/slider:ring-[var(--slider-focus-ring)]",
               ),
             fillClassName,
           )}
@@ -102,12 +101,14 @@ const ReviewSliderTrack = ({
         />
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft",
+            "absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-[var(--slider-knob-shadow)]",
             knobSizeByVariant[variant],
             isInteractive &&
               cn(
                 "transition-[background-color,border-color,box-shadow] duration-quick ease-out",
-                knobInteractionClassNames[tone],
+                "group-hover/slider:bg-[--slider-knob-hover-surface] group-active/slider:bg-[--slider-knob-active-surface] group-hover/slider:border-transparent group-active/slider:border-transparent",
+                "group-hover/slider:[--slider-knob-shadow:var(--slider-knob-shadow-hover)] group-active/slider:[--slider-knob-shadow:var(--slider-knob-shadow-active)]",
+                "group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--slider-knob-focus-ring)] group-focus-visible/slider:shadow-[var(--slider-knob-shadow-active)]",
               ),
             knobClassName,
           )}

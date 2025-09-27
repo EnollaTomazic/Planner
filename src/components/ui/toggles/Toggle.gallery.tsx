@@ -24,25 +24,25 @@ const TOGGLE_STATES: readonly ToggleState[] = [
   {
     id: "hover",
     name: "Hover",
-    className: "bg-[--hover]",
-    code: `<Toggle leftLabel="Left" rightLabel="Right" className="bg-[--hover]" />`,
+    className: "bg-[--toggle-hover-surface]",
+    code: `<Toggle leftLabel="Left" rightLabel="Right" className="bg-[--toggle-hover-surface]" />`,
   },
   {
     id: "focus-visible",
     name: "Focus-visible",
     className:
-      "ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]",
+      "ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]",
     code: `<Toggle
   leftLabel="Left"
   rightLabel="Right"
-  className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]"
+  className="ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]"
 />`,
   },
   {
     id: "active",
     name: "Active",
-    className: "bg-[--active]",
-    code: `<Toggle leftLabel="Left" rightLabel="Right" className="bg-[--active]" />`,
+    className: "bg-[--toggle-active-surface]",
+    code: `<Toggle leftLabel="Left" rightLabel="Right" className="bg-[--toggle-active-surface]" />`,
   },
   {
     id: "disabled",
@@ -138,13 +138,13 @@ export default defineGallerySection({
   <Toggle leftLabel="Strategy" rightLabel="Execute" />
   <div className="flex flex-wrap gap-[var(--space-2)]">
     <Toggle leftLabel="Left" rightLabel="Right" />
-    <Toggle leftLabel="Left" rightLabel="Right" className="bg-[--hover]" />
+    <Toggle leftLabel="Left" rightLabel="Right" className="bg-[--toggle-hover-surface]" />
     <Toggle
       leftLabel="Left"
       rightLabel="Right"
-      className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]"
+      className="ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]"
     />
-    <Toggle leftLabel="Left" rightLabel="Right" className="bg-[--active]" />
+    <Toggle leftLabel="Left" rightLabel="Right" className="bg-[--toggle-active-surface]" />
     <Toggle leftLabel="Left" rightLabel="Right" disabled />
     <Toggle leftLabel="Left" rightLabel="Right" loading />
   </div>

@@ -2592,7 +2592,7 @@ export const galleryPayload = {
               ]
             }
           ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-hover-surface]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-active-surface]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
           "preview": {
             "id": "ui:toggle:interactive"
           },
@@ -2608,7 +2608,7 @@ export const galleryPayload = {
             {
               "id": "hover",
               "name": "Hover",
-              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-hover-surface]\" />",
               "preview": {
                 "id": "ui:toggle:state:hover"
               }
@@ -2616,7 +2616,7 @@ export const galleryPayload = {
             {
               "id": "focus-visible",
               "name": "Focus-visible",
-              "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
+              "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
               "preview": {
                 "id": "ui:toggle:state:focus-visible"
               }
@@ -2624,7 +2624,7 @@ export const galleryPayload = {
             {
               "id": "active",
               "name": "Active",
-              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-active-surface]\" />",
               "preview": {
                 "id": "ui:toggle:state:active"
               }
@@ -2776,7 +2776,7 @@ export const galleryPayload = {
             "slider"
           ],
           "kind": "complex",
-          "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
+          "code": "<div className=\"w-[calc(var(--space-8)*3.5)] space-y-[var(--space-3)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={6} tone=\"focus\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
           "preview": {
             "id": "prompts:reviews:review-slider-track"
           }
@@ -5165,7 +5165,7 @@ export const galleryPayload = {
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-hover-surface]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-active-surface]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
         "preview": {
           "id": "ui:toggle:interactive"
         },
@@ -5181,7 +5181,7 @@ export const galleryPayload = {
           {
             "id": "hover",
             "name": "Hover",
-            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-hover-surface]\" />",
             "preview": {
               "id": "ui:toggle:state:hover"
             }
@@ -5189,7 +5189,7 @@ export const galleryPayload = {
           {
             "id": "focus-visible",
             "name": "Focus-visible",
-            "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
+            "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--toggle-focus-ring)] ring-offset-2 ring-offset-[var(--surface-2)] shadow-[var(--toggle-focus-glow)] focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
             "preview": {
               "id": "ui:toggle:state:focus-visible"
             }
@@ -5197,7 +5197,7 @@ export const galleryPayload = {
           {
             "id": "active",
             "name": "Active",
-            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--toggle-active-surface]\" />",
             "preview": {
               "id": "ui:toggle:state:active"
             }
@@ -6221,7 +6221,7 @@ export const galleryPayload = {
           "slider"
         ],
         "kind": "complex",
-        "code": "<div className=\"w-[calc(var(--space-8)*3.5)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
+        "code": "<div className=\"w-[calc(var(--space-8)*3.5)] space-y-[var(--space-3)]\">\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={7} tone=\"score\" variant=\"input\" />\n  </ReviewSurface>\n  <ReviewSurface padding=\"inline\" className=\"relative h-[var(--control-h-lg)]\">\n    <ReviewSliderTrack value={6} tone=\"focus\" variant=\"input\" />\n  </ReviewSurface>\n</div>",
         "preview": {
           "id": "prompts:reviews:review-slider-track"
         }

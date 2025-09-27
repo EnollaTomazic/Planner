@@ -15,6 +15,9 @@ type ToggleIndicatorStyle = CSSProperties & {
   "--toggle-indicator-gradient"?: string;
 };
 
+const STATE_TOKEN_CLASSES =
+  "[--toggle-hover-surface:hsl(var(--accent)/0.16)] [--toggle-active-surface:hsl(var(--accent)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
+
 const createLabelGlow = (color: string): ToggleLabelStyle => ({
   "--glow-active": color,
   textShadow: "var(--shadow-glow-md)",
@@ -44,7 +47,7 @@ export default function Toggle({
   const indicatorStyle: ToggleIndicatorStyle = {
     width: "calc(50% - var(--space-1))",
     transform: `translateX(${isRight ? "100%" : "0"})`,
-    "--toggle-indicator-gradient": "var(--seg-active-grad)",
+    "--toggle-indicator-gradient": "var(--edge-iris)",
   };
   const leftLabelStyle = !isRight
     ? createLabelGlow("hsl(var(--team-blue) / 0.35)")
@@ -83,11 +86,13 @@ export default function Toggle({
         "group relative inline-flex h-[var(--control-h-md)] items-center rounded-full border",
         "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
-        "hover:bg-[--hover] active:bg-[--active]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "hover:bg-[--toggle-hover-surface] active:bg-[--toggle-active-surface]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:shadow-[var(--toggle-focus-glow)]",
         "disabled:opacity-disabled disabled:pointer-events-none",
         "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
-        "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
+        "before:pointer-events-none before:absolute before:inset-[calc(var(--space-1)/2)] before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
+        "hover:before:opacity-70 focus-visible:before:opacity-80 active:before:opacity-90",
+        STATE_TOKEN_CLASSES,
         className,
       )}
       data-side={value}
@@ -100,7 +105,7 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-ring [background:var(--toggle-indicator-gradient,var(--seg-active-grad))] shadow-[var(--shadow-neo-soft)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] [background:var(--toggle-indicator-gradient,var(--edge-iris))] shadow-[var(--toggle-indicator-shadow,var(--shadow-glow-sm))] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]"
         style={indicatorStyle}
       />
 
