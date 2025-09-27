@@ -24,6 +24,15 @@ const normalizedBasePath = slug ? `/${slug}` : undefined;
 const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
 const shouldApplyBasePath = Boolean(isGitHubPages && normalizedBasePath && !isUserOrOrgGitHubPage);
 
+const securityHeaders = async () => {
+  return [
+    {
+      source: "/:path*",
+      headers: baseSecurityHeaders.map((header) => ({ ...header })),
+    },
+  ];
+};
+
 const nextConfig = {
   reactStrictMode: true,
   output: isGitHubPages ? "export" : undefined,
@@ -45,18 +54,14 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: shouldApplyBasePath ? normalizedBasePath : "",
   },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: baseSecurityHeaders.map((header) => ({ ...header })),
-      },
-    ];
-  },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
   },
 };
+
+if (!isGitHubPages) {
+  nextConfig.headers = securityHeaders;
+}
 
 export default nextConfig;
