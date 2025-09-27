@@ -94,9 +94,9 @@ export default function TodayHeroProjects({
         </div>
         <div
           id={newProjectHelpId}
-          className="text-label font-medium text-muted-foreground"
+          className="text-label font-medium text-foreground"
         >
-          Press Enter or click Add to create a project, then pick it to plan today.
+          Press Enter or Add to glitch this project into today.
         </div>
       </form>
 
