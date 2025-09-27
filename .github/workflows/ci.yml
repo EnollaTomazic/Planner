@@ -58,6 +58,9 @@ jobs:
       - typecheck
       - unit
       - token-guard
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/node-base.yml
     with:
       run: |
@@ -83,6 +86,9 @@ jobs:
     name: Accessibility
     needs:
       - next-build
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/node-base.yml
     with:
       download-artifact-name: next-build
@@ -150,6 +156,9 @@ jobs:
     name: E2E (${{ matrix.project }})
     needs:
       - next-build
+    permissions:
+      contents: read
+      actions: write
     strategy:
       fail-fast: false
       matrix:
@@ -232,6 +241,9 @@ jobs:
     needs:
       - a11y
       - e2e
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/node-base.yml
     with:
       run: |
