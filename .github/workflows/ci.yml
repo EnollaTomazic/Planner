@@ -144,6 +144,52 @@ jobs:
     with:
       run: |
         set -euo pipefail
+        case "${{ matrix.project }}" in
+          chromium)
+            PORT=3100
+            ;;
+          firefox)
+            PORT=3101
+            ;;
+          webkit)
+            PORT=3102
+            ;;
+          *)
+            PORT=3000
+            ;;
+        esac
+
+        HOST=127.0.0.1
+        export PLAYWRIGHT_HOST="$HOST"
+        export PLAYWRIGHT_PORT="$PORT"
+
+        npm run build
+
+        npm run start -- --hostname "$HOST" --port "$PORT" &
+        SERVER_PID=$!
+
+        cleanup() {
+          if kill -0 "$SERVER_PID" 2>/dev/null; then
+            kill "$SERVER_PID"
+            wait "$SERVER_PID" || true
+          fi
+        }
+
+        trap cleanup EXIT
+
+        for attempt in $(seq 1 30); do
+          if curl --fail --silent --head "http://$HOST:${PORT}" >/dev/null; then
+            READY=1
+            break
+          fi
+          sleep 2
+        done
+
+        if [ -z "${READY:-}" ]; then
+          echo "Server failed to start" >&2
+          exit 1
+        fi
+
         OUTPUT_DIR="playwright-results/${{ matrix.project }}"
         npx playwright test \
           --project=${{ matrix.project }} \
