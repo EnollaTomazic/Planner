@@ -215,8 +215,12 @@ html.no-animations {
 html.no-animations *,
 html.no-animations *::before,
 html.no-animations *::after {
-  animation: none !important;
-  transition: none !important;
+  animation-delay: 0s;
+  animation-duration: 0.001ms;
+  animation-iteration-count: 1;
+  animation-play-state: paused;
+  transition-delay: 0s;
+  transition-duration: 0s;
 }
 * {
   box-sizing: border-box;
@@ -290,19 +294,21 @@ html.bg-intense body::after {
   position: relative;
 }
 
-.title-ghost {
-  animation: ghost 3.2s ease-in-out infinite;
-}
-
-html.fx-overdrive :where(h1, h2, h3, .card-title) {
-  animation: ghost 3.2s ease-in-out infinite;
-}
 .no-ghost {
-  text-shadow: none !important;
-  animation: none !important;
+  text-shadow: none;
+  animation: none;
 }
 .title-glow {
   position: relative;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .title-ghost {
+    animation: ghost 3.2s ease-in-out infinite;
+  }
+
+  html.fx-overdrive :where(h1, h2, h3, .card-title) {
+    animation: ghost 3.2s ease-in-out infinite;
+  }
 }
 
 /* Glitch utility (subtle RGB offset) */
@@ -1138,10 +1144,13 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+    animation-delay: 0s;
+    animation-duration: 0.001ms;
+    animation-iteration-count: 1;
+    animation-play-state: paused;
+    transition-delay: 0s;
+    transition-duration: 0.001ms;
+    scroll-behavior: auto;
   }
 }
 
@@ -1243,7 +1252,7 @@ html.fx-overdrive :where(h1, h2, h3, .card-title) {
 }
 
 .week-outline .section-header {
-  border-bottom: 0 !important;
+  border-bottom: 0;
   box-shadow: 0 var(--spacing-0-25) 0 hsl(var(--accent) / 0.14) inset;
   background: color-mix(in oklab, hsl(var(--background)) 72%, transparent);
   backdrop-filter: blur(8px);
@@ -1549,7 +1558,7 @@ textarea:-webkit-autofill {
   .glitch-rail,
   .glitch-card::after,
   .glitch-card::before {
-    animation: none !important;
+    animation: none;
   }
 }
 
@@ -1881,7 +1890,7 @@ textarea:-webkit-autofill {
   .glitch-anim,
   .glitch-anim::before,
   .glitch-anim::after {
-    animation: none !important;
+    animation: none;
   }
 }
 
@@ -1925,7 +1934,6 @@ textarea:-webkit-autofill {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.85;
-  animation: glitch-border 2.2s linear infinite;
   pointer-events: none;
 }
 .glitch-toggle::after {
@@ -1944,12 +1952,10 @@ textarea:-webkit-autofill {
   opacity: 0.35;
 }
 .glitch-toggle--flash::before {
-  animation:
-    glitch-border 2.2s linear infinite,
-    gtFlash 1.6s steps(8, end) infinite;
+  pointer-events: none;
 }
 .glitch-toggle--flash .glitch-toggle__indicator {
-  animation: gtPulse 2.4s ease-in-out infinite;
+  will-change: transform;
 }
 
 .glitch-toggle__seg {
@@ -2007,6 +2013,30 @@ textarea:-webkit-autofill {
 }
 .glitch-toggle.is-project .glitch-toggle__indicator {
   transform: translateX(100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glitch-toggle::before {
+    animation: glitch-border 2.2s linear infinite;
+  }
+
+  .glitch-toggle--flash::before {
+    animation:
+      glitch-border 2.2s linear infinite,
+      gtFlash 1.6s steps(8, end) infinite;
+  }
+
+  .glitch-toggle--flash .glitch-toggle__indicator {
+    animation: gtPulse 2.4s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-toggle::before,
+  .glitch-toggle--flash::before,
+  .glitch-toggle--flash .glitch-toggle__indicator {
+    animation: none;
+  }
 }
 
 @keyframes glitch-border {
@@ -2195,18 +2225,18 @@ a:active .lucide {
   @media (prefers-contrast: more) {
     .hero-slot-well::before,
     .hero-slot-well::after {
-      content: none !important;
-      background: none !important;
-      box-shadow: none !important;
+      content: none;
+      background: none;
+      box-shadow: none;
     }
   }
 
   @media (forced-colors: active) {
     .hero-slot-well::before,
     .hero-slot-well::after {
-      content: none !important;
-      background: none !important;
-      box-shadow: none !important;
+      content: none;
+      background: none;
+      box-shadow: none;
     }
   }
 
@@ -2235,7 +2265,7 @@ a:active .lucide {
     --radius-card: var(--radius-2xl);
   }
   .rounded-card {
-    border-radius: var(--radius-card) !important;
+    border-radius: var(--radius-card);
   }
 
   .anim-in {
