@@ -65,6 +65,7 @@ export { default as Tabs } from "./primitives/Tabs";
 export * from "./primitives/Tabs";
 export { default as Textarea } from "./primitives/Textarea";
 export * from "./primitives/Textarea";
+export { default as VirtualizedList } from "./primitives/VirtualizedList";
 export { default as Select } from "./Select";
 export * from "./Select";
 export { default as AnimatedSelect } from "./select/AnimatedSelect";
