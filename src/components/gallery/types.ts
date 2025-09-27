@@ -2,6 +2,9 @@ import type {
   GalleryRegistry,
   GallerySectionId,
   GallerySerializableEntry,
+  GalleryPreviewAxisOption,
+  GalleryPreviewAxisParam,
+  GalleryPreviewRoute,
 } from "./registry";
 import type {
   GalleryHeroCopy,
@@ -35,4 +38,11 @@ export interface GalleryNavigationData {
   groups: readonly GalleryNavigationGroup[];
 }
 
-export type { DesignTokenGroup, GalleryHeroCopy, GallerySectionGroupKey };
+export type {
+  DesignTokenGroup,
+  GalleryHeroCopy,
+  GallerySectionGroupKey,
+  GalleryPreviewAxisOption,
+  GalleryPreviewAxisParam,
+  GalleryPreviewRoute,
+};
