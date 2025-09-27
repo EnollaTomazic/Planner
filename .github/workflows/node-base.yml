@@ -27,6 +27,16 @@ on:
         required: false
         default: ""
         type: string
+      install-playwright:
+        description: Install Playwright browsers and seed a cache for them
+        required: false
+        default: false
+        type: boolean
+      artifact-on-failure:
+        description: Only upload the artifact when a previous step failed
+        required: false
+        default: false
+        type: boolean
     secrets: {}
 
 jobs:
@@ -60,14 +70,56 @@ jobs:
           restore-keys: |
             shared-${{ runner.os }}-
 
+      - name: Determine Playwright version
+        if: inputs.install-playwright
+        id: playwright
+        run: |
+          set -euo pipefail
+          VERSION=$(node <<'NODE'
+          const lock = require('./package-lock.json');
+          const packages = lock.packages ?? {};
+          const candidates = [
+            'node_modules/@playwright/test',
+            'node_modules/playwright',
+            'node_modules/playwright-core',
+          ];
+          for (const key of candidates) {
+            const entry = packages[key];
+            if (entry && entry.version) {
+              process.stdout.write(entry.version);
+              process.exit(0);
+            }
+          }
+          throw new Error('Playwright dependency not found in package-lock.json');
+          NODE
+          )
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Restore Playwright cache
+        if: inputs.install-playwright
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ steps.playwright.outputs.version }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Install Playwright browsers
+        if: inputs.install-playwright
+        run: npx playwright install --with-deps
 
       - name: Run command
         run: ${{ inputs.run }}
 
       - name: Upload artifact
-        if: inputs.artifact-name != '' && inputs.artifact-path != ''
+        if: |
+          inputs.artifact-name != '' &&
+          inputs.artifact-path != '' &&
+          (
+            !inputs.artifact-on-failure ||
+            failure()
+          )
         uses: actions/upload-artifact@b4b15b8c7f4b6d1b79c82b9e19016f539166271c
         with:
           name: ${{ inputs.artifact-name }}
