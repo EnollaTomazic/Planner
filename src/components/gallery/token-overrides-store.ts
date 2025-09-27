@@ -1,3 +1,5 @@
+"use client";
+
 import { useSyncExternalStore } from "react";
 
 import type { DesignTokenMeta } from "@/lib/design-token-registry";
