@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   galleryPayload,
   galleryPreviewModules,
+  galleryPreviewRoutes,
   type GalleryPreviewModuleManifest,
 } from "./generated-manifest";
 import TokenPreviewBoundary from "./TokenPreviewBoundary";
@@ -11,6 +12,7 @@ import type {
   GalleryPreviewRenderer,
   GallerySection,
   GallerySectionId,
+  GalleryPreviewRoute,
 } from "./registry";
 
 type GalleryModuleExport = {
@@ -41,6 +43,11 @@ const previewComponentCache = new Map<
 >();
 
 const previewRendererCache = new Map<string, GalleryPreviewRenderer>();
+const previewRouteIndex = new Map<string, GalleryPreviewRoute>();
+
+for (const route of galleryPreviewRoutes) {
+  previewRouteIndex.set(route.slug, route);
+}
 
 const normalizeSections = (
   exported: GalleryModuleExport["default"],
@@ -151,3 +158,8 @@ export const getGalleryEntriesByKind = (
 
 export const getGallerySection = (id: GallerySectionId) =>
   galleryPayload.sections.find((section) => section.id === id) ?? null;
+
+export const getGalleryPreviewRoute = (slug: string) =>
+  previewRouteIndex.get(slug) ?? null;
+
+export const getGalleryPreviewRoutes = () => galleryPreviewRoutes;

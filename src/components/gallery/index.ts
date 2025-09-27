@@ -8,4 +8,7 @@ export type {
   GalleryNavigationGroup,
   GalleryNavigationSection,
   GallerySectionGroupKey,
+  GalleryPreviewRoute,
+  GalleryPreviewAxisParam,
+  GalleryPreviewAxisOption,
 } from "./types";
