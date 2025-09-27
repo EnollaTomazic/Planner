@@ -12,6 +12,11 @@ import {
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
+import {
+  isTokenSelected,
+  toggleTokenOverride,
+  useTokenOverrides,
+} from "@/components/gallery/token-overrides-store";
 
 const CHECKERBOARD_STYLE: React.CSSProperties = {
   backgroundImage:
@@ -24,7 +29,7 @@ const TOKEN_GRID_CLASSNAME =
   "grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 sm:gap-[var(--space-4)] xl:grid-cols-3";
 
 const TOKEN_CARD_CLASSNAME =
-  "flex h-full flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60 p-[var(--space-3)] md:p-[var(--space-4)]";
+  "flex h-full cursor-pointer flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60 p-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[selected=true]:border-[hsl(var(--accent))] data-[selected=true]:shadow-[var(--shadow-outline-subtle)] md:p-[var(--space-4)]";
 
 const CATEGORY_DESCRIPTIONS: Partial<Record<DesignTokenGroup["id"], string>> = {
   color: "Swatches, overlays, gradients, and semantic colors shared across Planner.",
@@ -47,6 +52,8 @@ interface TokenCardProps {
   readonly token: TokenMeta;
   readonly copied: boolean;
   readonly onCopy: (token: TokenMeta) => void;
+  readonly onToggle: (token: TokenMeta) => void;
+  readonly selected: boolean;
 }
 
 export default function ColorsView({ groups }: ColorsViewProps) {
@@ -55,6 +62,7 @@ export default function ColorsView({ groups }: ColorsViewProps) {
   const [announcement, setAnnouncement] = React.useState<string>("");
   const copyTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyCountRef = React.useRef(0);
+  const overrides = useTokenOverrides();
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -125,6 +133,10 @@ export default function ColorsView({ groups }: ColorsViewProps) {
     },
     [],
   );
+
+  const handleToggle = React.useCallback((token: TokenMeta) => {
+    toggleTokenOverride(token);
+  }, []);
 
   React.useEffect(() => {
     return () => {
@@ -197,6 +209,8 @@ export default function ColorsView({ groups }: ColorsViewProps) {
                       token={token}
                       copied={copiedToken === token.name}
                       onCopy={handleCopy}
+                      onToggle={handleToggle}
+                      selected={isTokenSelected(token, overrides)}
                     />
                   ))}
                 </ul>
@@ -213,31 +227,77 @@ export default function ColorsView({ groups }: ColorsViewProps) {
   );
 }
 
-function TokenCard({ token, copied, onCopy }: TokenCardProps) {
+function TokenCard({ token, copied, onCopy, onToggle, selected }: TokenCardProps) {
   const preview = React.useMemo(() => <TokenPreview token={token} />, [token]);
 
+  const handleToggle = React.useCallback(() => {
+    onToggle(token);
+  }, [onToggle, token]);
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) {
+        return;
+      }
+
+      if (event.key === " " || event.key === "Enter") {
+        event.preventDefault();
+        handleToggle();
+      }
+    },
+    [handleToggle],
+  );
+
+  const handleCopyClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onCopy(token);
+    },
+    [onCopy, token],
+  );
+
+  const handleCopyKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === " " || event.key === "Enter") {
+        event.stopPropagation();
+      }
+    },
+    [],
+  );
+
   return (
-    <li className={TOKEN_CARD_CLASSNAME}>
-      <div className="flex items-start justify-between gap-[var(--space-2)]">
-        <div className="min-w-[calc(var(--space-1)*0)]">
-          <p className="break-words font-mono text-ui font-semibold text-foreground">
-            {token.cssVar}
-          </p>
+    <li>
+      <div
+        role="button"
+        tabIndex={0}
+        aria-pressed={selected}
+        data-selected={selected ? "true" : undefined}
+        className={TOKEN_CARD_CLASSNAME}
+        onClick={handleToggle}
+        onKeyDown={handleKeyDown}
+      >
+        <div className="flex items-start justify-between gap-[var(--space-2)]">
+          <div className="min-w-[calc(var(--space-1)*0)]">
+            <p className="break-words font-mono text-ui font-semibold text-foreground">
+              {token.cssVar}
+            </p>
+          </div>
+          <IconButton
+            size="sm"
+            tone={copied ? "accent" : "primary"}
+            aria-label={`Copy ${token.cssVar}`}
+            title={`Copy ${token.cssVar}`}
+            onClick={handleCopyClick}
+            onKeyDown={handleCopyKeyDown}
+          >
+            {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
+          </IconButton>
         </div>
-        <IconButton
-          size="sm"
-          tone={copied ? "accent" : "primary"}
-          aria-label={`Copy ${token.cssVar}`}
-          title={`Copy ${token.cssVar}`}
-          onClick={() => onCopy(token)}
-        >
-          {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
-        </IconButton>
+        {preview}
+        <code className="block break-words font-mono text-label text-muted-foreground">
+          {token.value}
+        </code>
       </div>
-      {preview}
-      <code className="block break-words font-mono text-label text-muted-foreground">
-        {token.value}
-      </code>
     </li>
   );
 }

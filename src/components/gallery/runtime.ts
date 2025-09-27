@@ -5,6 +5,7 @@ import {
   galleryPreviewModules,
   type GalleryPreviewModuleManifest,
 } from "./generated-manifest";
+import TokenPreviewBoundary from "./TokenPreviewBoundary";
 import type {
   GalleryEntryKind,
   GalleryPreviewRenderer,
@@ -134,7 +135,11 @@ export const getGalleryPreviewRenderer = (
 
   const LazyComponent = getLazyPreviewComponent(id, manifest);
   const renderer: GalleryPreviewRenderer = () =>
-    React.createElement(LazyComponent);
+    React.createElement(
+      TokenPreviewBoundary,
+      undefined,
+      React.createElement(LazyComponent),
+    );
 
   previewRendererCache.set(id, renderer);
   return renderer;
