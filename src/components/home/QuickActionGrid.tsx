@@ -23,7 +23,7 @@ const buttonBaseClassName =
   "rounded-[var(--control-radius)] focus-visible:ring-offset-0 transition-transform duration-quick ease-out motion-reduce:transition-none";
 
 const buttonHoverLiftClassName =
-  "motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none";
+  "motion-safe:hover:-translate-y-[var(--quick-actions-lift)] motion-safe:focus-visible:-translate-y-[var(--quick-actions-lift)] motion-reduce:transform-none";
 
 const isExternalHref = (href: string): boolean => {
   if (href.startsWith("/")) return false;

@@ -28,7 +28,7 @@ const teamQuickActions = [
 
 const promptsOverlayGradient = {
   "--seg-active-grad":
-    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.75), hsl(var(--accent-soft) / 0.75), hsl(var(--accent-2) / 0.7))",
+    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.45), hsl(var(--accent-soft) / 0.45), hsl(var(--accent-2) / 0.4))",
 } as React.CSSProperties;
 
 export default function TeamPromptsCard() {
