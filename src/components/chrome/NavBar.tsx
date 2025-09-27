@@ -41,9 +41,9 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 data-active={active ? "true" : undefined}
                 className={cn(
                   "group relative inline-flex h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-full px-[var(--space-4)] text-ui font-medium font-mono tracking-[0.04em] transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-                  "before:absolute before:inset-y-[calc(var(--space-1)/2)] before:inset-x-[var(--space-2)] before:-z-10 before:rounded-full before:bg-background/60 before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
-                  "after:pointer-events-none after:absolute after:inset-x-[var(--space-2)] after:bottom-0 after:h-px after:rounded-full after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.5),hsl(var(--accent-2)),hsl(var(--accent)/0.5))] after:opacity-0 after:transition-opacity after:duration-quick",
-                  "hover:text-foreground",
+                  "before:absolute before:inset-y-[calc(var(--space-1)/2)] before:inset-x-[var(--space-1)] before:-z-10 before:rounded-full before:bg-surface/70 before:opacity-0 before:shadow-[var(--shadow-glow-sm)] before:transition-opacity before:duration-quick before:ease-out",
+                  "after:pointer-events-none after:absolute after:inset-x-[var(--space-2)] after:bottom-0 after:h-px after:rounded-full after:bg-[linear-gradient(90deg,hsl(var(--glow)/0.6),hsl(var(--accent-2)),hsl(var(--glow)/0.6))] after:opacity-0 after:transition-opacity after:duration-quick after:ease-out",
+                  "hover:text-foreground focus-visible:text-foreground",
                   "hover:before:opacity-100 focus-visible:before:opacity-100",
                   "hover:after:opacity-60 focus-visible:after:opacity-80",
                   "disabled:pointer-events-none disabled:opacity-disabled data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-disabled data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
