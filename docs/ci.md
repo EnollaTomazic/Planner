@@ -25,5 +25,13 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Workflow usage
 
-- `ci.yml` runs linting, type-checking, unit tests, a build (with audit reporting and cached `.next/cache`), and E2E suites that opt into Playwright installation and per-browser artefacts.
+- `ci.yml` runs linting, the design token guard (`npm run lint:design`), type-checking, unit tests, a build (with audit reporting and cached `.next/cache`), and E2E suites that opt into Playwright installation and per-browser artefacts.
 - `nextjs.yml` first calls the reusable workflow with the deployment ref to produce the static export and upload it as an artefact, then a follow-up job configures GitHub Pages and deploys the downloaded export.
+
+## Manual visual regression workflow
+
+- Trigger the `Visual Regression` workflow from the GitHub Actions tab when you need an on-demand screenshot comparison. Provide the branch or commit you want to exercise (defaults to `main`) and, optionally, a short environment label to capture which backend or deployment you are validating.
+- The workflow reuses `node-base` with Playwright browsers installed, builds the app, launches the production server locally, then runs any Playwright tests tagged with `@visual` for each configured browser target. If no tests carry the tag the run exits early with a notice so routine checks stay fast.
+- Diff artefacts upload automatically when a comparison fails. Each browser matrix entry produces a zip named `visual-diff-<browser>` that contains the expected, actual, and diff images alongside the Playwright report output for that browser. Download the zip, extract it locally, and open the accompanying `index.html` to inspect failures interactively. Clean runs skip the upload so the manual workflow remains optional overhead rather than a required part of the release cadence.
+
+The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, and unit tests.

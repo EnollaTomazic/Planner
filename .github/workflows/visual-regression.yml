@@ -1,0 +1,89 @@
+name: Visual Regression
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Git ref to check out before running the suite
+        required: false
+        default: main
+        type: string
+      environment:
+        description: Optional environment name to annotate the run
+        required: false
+        type: string
+
+jobs:
+  visual:
+    name: Visual Regression (${{ matrix.project }})
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chromium
+          - firefox
+          - webkit
+    uses: ./.github/workflows/node-base.yml
+    with:
+      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+      install-playwright: true
+      summary-title: Visual Regression ${{ matrix.project }}
+      run: |
+        set -euo pipefail
+
+        PLAYWRIGHT_PORT=3100
+        export PLAYWRIGHT_PORT
+
+        if [ -n "${WORKFLOW_ENVIRONMENT:-}" ]; then
+          echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
+        fi
+
+        npm run build
+
+        npm run start -- --hostname 127.0.0.1 --port "$PLAYWRIGHT_PORT" &
+        SERVER_PID=$!
+
+        cleanup() {
+          if kill -0 "$SERVER_PID" 2>/dev/null; then
+            kill "$SERVER_PID"
+            wait "$SERVER_PID" || true
+          fi
+        }
+
+        trap cleanup EXIT
+
+        for attempt in $(seq 1 30); do
+          if curl --fail --silent --head "http://127.0.0.1:${PLAYWRIGHT_PORT}" >/dev/null; then
+            READY=1
+            break
+          fi
+          sleep 2
+        done
+
+        if [ -z "${READY:-}" ]; then
+          echo "Server failed to start" >&2
+          exit 1
+        fi
+
+        OUTPUT_DIR="playwright-results/visual/${{ matrix.project }}"
+        mkdir -p "$OUTPUT_DIR"
+
+        LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.project }} --grep "@visual") || true
+
+        if ! echo "$LIST_OUTPUT" | grep -q "@visual"; then
+          echo "No @visual-tagged tests detected; skipping Playwright execution." >&2
+          exit 0
+        fi
+
+        npx playwright test \
+          --project=${{ matrix.project }} \
+          --reporter=line \
+          --trace=retain-on-failure \
+          --output="$OUTPUT_DIR" \
+          --grep "@visual"
+      artifact-name: visual-diff-${{ matrix.project }}
+      artifact-path: |
+        playwright-results/visual/${{ matrix.project }}
+      artifact-on-failure: true
+    env:
+      WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
