@@ -1,4 +1,4 @@
-declare module "@playwright/test" {
+declare module "playwright/test" {
   type ViewportSize = { width: number; height: number };
 
   type Role =
@@ -85,6 +85,19 @@ declare module "@playwright/test" {
     toHaveAttribute(name: string, value: string): Promise<void>;
   }
 
+  interface ScreenshotOptions {
+    readonly fullPage?: boolean;
+  }
+
+  interface PageAssertions {
+    toHaveScreenshot(name: string, options?: ScreenshotOptions): Promise<void>;
+  }
+
+  interface ValueAssertions {
+    toEqual(value: unknown): void;
+    toBe(value: unknown): void;
+  }
+
   interface Locator {
     focus(): Promise<void>;
   }
@@ -96,6 +109,9 @@ declare module "@playwright/test" {
   interface Page {
     setViewportSize(size: ViewportSize): Promise<void>;
     goto(url: string): Promise<void>;
+    waitForLoadState(state?: string): Promise<void>;
+    waitForSelector(selector: string): Promise<Locator>;
+    waitForFunction<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
     keyboard: Keyboard;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
   }
@@ -105,7 +121,28 @@ declare module "@playwright/test" {
   }
 
   interface TestExpect {
-    (locator: Locator): LocatorAssertions;
+    (subject: Locator | Page): LocatorAssertions & PageAssertions;
+    <T>(value: T): ValueAssertions;
+  }
+
+  interface PlaywrightProjectConfig {
+    name?: string;
+    use?: Record<string, unknown>;
+  }
+
+  interface ReporterEntry {
+    0: string;
+    1?: Record<string, unknown>;
+  }
+
+  interface PlaywrightTestConfig {
+    testDir?: string;
+    fullyParallel?: boolean;
+    forbidOnly?: boolean;
+    retries?: number;
+    reporter?: string | ReporterEntry[];
+    projects?: PlaywrightProjectConfig[];
+    use?: Record<string, unknown>;
   }
 
   interface TestDescribe {
@@ -117,8 +154,14 @@ declare module "@playwright/test" {
     (name: string, fn: (fixtures: TestFixtures) => Promise<void>): void;
     describe: TestDescribe;
     skip(condition: boolean, description?: string): void;
+    only(name: string, fn: (fixtures: TestFixtures) => Promise<void>): void;
   }
 
   export const test: TestFunction;
   export const expect: TestExpect;
+  export type { PlaywrightTestConfig, Page };
+}
+
+declare module "@playwright/test" {
+  export * from "playwright/test";
 }

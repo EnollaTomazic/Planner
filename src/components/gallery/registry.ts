@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Background, Variant } from "@/lib/theme";
 
 export type GalleryEntryKind = "primitive" | "component" | "complex" | "token";
 export type GalleryAxisKind = "variant" | "state";
@@ -137,6 +138,31 @@ export interface GalleryRegistryPayload {
 export interface GalleryRegistry {
   payload: GalleryRegistryPayload;
   previews: Map<string, GalleryPreviewRenderer>;
+}
+
+export interface GalleryPreviewAxisOption {
+  readonly value: string;
+  readonly label: string;
+}
+
+export interface GalleryPreviewAxisParam {
+  readonly key: string;
+  readonly label: string;
+  readonly type: GalleryAxisKind;
+  readonly options: readonly GalleryPreviewAxisOption[];
+}
+
+export interface GalleryPreviewRoute {
+  readonly slug: string;
+  readonly previewId: string;
+  readonly entryId: string;
+  readonly entryName: string;
+  readonly sectionId: GallerySectionId;
+  readonly stateId: string | null;
+  readonly stateName: string | null;
+  readonly themeVariant: Variant;
+  readonly themeBackground: Background;
+  readonly axisParams: readonly GalleryPreviewAxisParam[];
 }
 
 export const createGalleryRegistry = (

@@ -33,8 +33,7 @@
     "types": [
       "vitest/globals",
       "react",
-      "node",
-      "@playwright/test"
+      "node"
     ],
     "plugins": [
       {
