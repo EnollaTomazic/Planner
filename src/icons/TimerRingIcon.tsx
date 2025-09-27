@@ -1,5 +1,5 @@
 import * as React from "react";
-import { spacingTokens } from "@/lib/tokens";
+import { spacingTokens, readNumberToken } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
 
 interface TimerRingIconProps {
@@ -7,17 +7,30 @@ interface TimerRingIconProps {
   size?: number;
 }
 
-const RING_DIAMETER = (spacingTokens[7] * 7) / 2;
-const TRACK_INSET = spacingTokens[2] / 2;
-const STROKE_WIDTH = spacingTokens[0];
+const RING_DIAMETER_FALLBACK = (spacingTokens[7] * 7) / 2;
+const TRACK_INSET_FALLBACK = spacingTokens[2] / 2;
+const STROKE_WIDTH_FALLBACK = spacingTokens[0];
 
 export default function TimerRingIcon({
   pct,
-  size = RING_DIAMETER,
+  size,
 }: TimerRingIconProps) {
   const uniqueId = React.useId();
   const gradientId = `timer-ring-grad-${uniqueId}`;
-  const radius = size / 2 - TRACK_INSET;
+  const defaultDiameter = React.useMemo(
+    () => readNumberToken("--timer-ring-diameter", RING_DIAMETER_FALLBACK),
+    [],
+  );
+  const strokeWidth = React.useMemo(
+    () => readNumberToken("--timer-ring-stroke", STROKE_WIDTH_FALLBACK),
+    [],
+  );
+  const trackInset = React.useMemo(
+    () => readNumberToken("--timer-ring-inset", TRACK_INSET_FALLBACK),
+    [],
+  );
+  const resolvedSize = size ?? defaultDiameter;
+  const radius = resolvedSize / 2 - trackInset;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   const pulse = pct >= 90;
@@ -25,7 +38,7 @@ export default function TimerRingIcon({
   return (
     <svg
       className="h-full w-full rotate-[-90deg]"
-      viewBox={`0 0 ${size} ${size}`}
+      viewBox={`0 0 ${resolvedSize} ${resolvedSize}`}
       role="img"
       aria-label={accessibleLabel}
     >
@@ -36,19 +49,19 @@ export default function TimerRingIcon({
         </linearGradient>
       </defs>
       <circle
-        cx={size / 2}
-        cy={size / 2}
+        cx={resolvedSize / 2}
+        cy={resolvedSize / 2}
         r={radius}
         stroke="hsl(var(--card-hairline))"
-        strokeWidth={STROKE_WIDTH}
+        strokeWidth={strokeWidth}
         fill="none"
       />
       <circle
-        cx={size / 2}
-        cy={size / 2}
+        cx={resolvedSize / 2}
+        cy={resolvedSize / 2}
         r={radius}
         stroke={`url(#${gradientId})`}
-        strokeWidth={STROKE_WIDTH}
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}

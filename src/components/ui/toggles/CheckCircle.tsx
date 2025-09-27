@@ -305,7 +305,7 @@ export default function CheckCircle({
                 : "text-muted-foreground",
             )}
             style={ccStyle}
-            strokeWidth={2.5}
+            strokeWidth="var(--icon-stroke-150, 2.5)"
           />
         </button>
       </span>

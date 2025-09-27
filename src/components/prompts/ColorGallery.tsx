@@ -142,7 +142,7 @@ export default function ColorGallery() {
                 {statusSwatches.map((swatch) => (
                   <div
                     key={swatch.key}
-                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]"
+                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)] shadow-elev-2"
                     style={{
                       background: swatch.background,
                       color: swatch.textColor,

@@ -133,6 +133,7 @@
     z-index: 4;
     background-image: var(--asset-noise-url, url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.06'/></svg>"));
     background-size: 140px 140px;
+    opacity: var(--gradient-noise-overlay-opacity, 0.06);
   }
 
   html.fx-gifbars::before,
@@ -351,7 +352,7 @@ html.bg-intense body::after {
 }
 .bg-noise {
   background-image: var(--asset-noise-url, url("/noise.svg"));
-  opacity: 0.1;
+  opacity: var(--gradient-noise-opacity, 0.1);
 }
 
 /* ---------- Components ---------- */
@@ -2303,7 +2304,7 @@ a:active .lucide {
   .skeleton {
     position: relative;
     overflow: hidden;
-    background: hsl(var(--muted) / 0.6);
+    background: var(--skeleton-bg, hsl(var(--muted) / 0.6));
   }
   .skeleton::after {
     content: "";
@@ -2312,7 +2313,7 @@ a:active .lucide {
     background: linear-gradient(
       90deg,
       transparent,
-      hsl(var(--foreground) / 0.08),
+      var(--skeleton-fill, hsl(var(--foreground) / 0.08)),
       transparent
     );
     animation: shimmer var(--dur-slow) linear infinite;

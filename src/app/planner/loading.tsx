@@ -29,7 +29,7 @@ export default function PlannerLoading() {
               {ACTION_PLACEHOLDERS.map((action) => (
                 <Skeleton
                   key={action}
-                  className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                  className="h-[var(--space-6)] w-[var(--space-16)]"
                   radius="full"
                 />
               ))}

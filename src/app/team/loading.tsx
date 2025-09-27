@@ -19,13 +19,13 @@ export default function TeamLoading() {
               <Skeleton className="w-2/3" />
             </div>
             <div className="flex flex-wrap gap-[var(--space-2)]">
-              <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
-              <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
+              <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
+              <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
             </div>
           </div>
           <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
-            <Skeleton className="h-[calc(var(--space-8)+var(--space-4))]" radius="card" />
-            <Skeleton className="h-[calc(var(--space-8)+var(--space-4))]" radius="card" />
+            <Skeleton className="h-[var(--space-12)]" radius="card" />
+            <Skeleton className="h-[var(--space-12)]" radius="card" />
           </div>
         </div>
         <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)]">
@@ -33,7 +33,7 @@ export default function TeamLoading() {
             {MAIN_TABS.map((tab) => (
               <Skeleton
                 key={tab}
-                className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                className="h-[var(--space-6)] w-[var(--space-16)]"
                 radius="full"
               />
             ))}
@@ -50,7 +50,7 @@ export default function TeamLoading() {
             {SUB_TABS.map((tab) => (
               <Skeleton
                 key={tab}
-                className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                className="h-[var(--space-6)] w-[var(--space-16)]"
                 radius="full"
               />
             ))}
@@ -65,8 +65,8 @@ export default function TeamLoading() {
                 <Skeleton className="w-full" />
                 <Skeleton className="w-5/6" />
                 <div className="flex flex-wrap gap-[var(--space-2)]">
-                  <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
-                  <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
+                  <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
+                  <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
                 </div>
               </article>
             ))}
@@ -78,7 +78,7 @@ export default function TeamLoading() {
             {PANEL_ROWS.map((lane) => (
               <Skeleton
                 key={lane}
-                className="h-[calc(var(--space-8)+var(--space-4))]"
+                className="h-[var(--space-12)]"
                 radius="card"
               />
             ))}

@@ -65,6 +65,48 @@ async function buildTokens(): Promise<void> {
     "spacing-0-5": { value: "calc(var(--spacing-1) / 2)" },
     "spacing-0-75": { value: "calc(var(--spacing-1) * 0.75)" },
   };
+  const spaceAliases = spacingTokens.reduce<Record<string, { value: string }>>(
+    (acc, _value, idx) => {
+      const step = idx + 1;
+      acc[`space-${step}`] = { value: `var(--spacing-${step})` };
+      return acc;
+    },
+    {},
+  );
+  const extendedSpace: Record<string, { value: string }> = {
+    "space-12": { value: "calc(var(--space-8) + var(--space-4))" },
+    "space-16": { value: "calc(var(--space-8) * 2)" },
+  };
+  const ringTokens: Record<string, { value: string }> = {
+    "ring-size-1": { value: "var(--spacing-0-5)" },
+    "ring-size-2": { value: "var(--spacing-1)" },
+  };
+  const iconStrokeTokens: Record<string, { value: string }> = {
+    "icon-stroke-100": { value: "var(--spacing-0-5)" },
+    "icon-stroke-150": { value: "calc(var(--spacing-0-5) * 1.25)" },
+  };
+  const elevationTokens: Record<string, { value: string }> = {
+    "elevation-0": { value: "none" },
+    "elevation-1": { value: "var(--shadow-outline-faint)" },
+    "elevation-2": { value: "var(--shadow-outline-subtle)" },
+    "elevation-3": { value: "var(--shadow-control)" },
+  };
+  const progressRingTokens: Record<string, { value: string }> = {
+    "progress-ring-diameter": { value: "var(--space-8)" },
+    "progress-ring-stroke": { value: "var(--ring-size-2)" },
+    "progress-ring-inset": { value: "calc(var(--space-3) / 2)" },
+    "timer-ring-diameter": { value: "calc(var(--space-8) * 3.5)" },
+    "timer-ring-stroke": { value: "var(--ring-size-2)" },
+    "timer-ring-inset": { value: "calc(var(--space-3) / 2)" },
+  };
+  const skeletonTokens: Record<string, { value: string }> = {
+    "skeleton-bg": { value: "hsl(var(--muted) / 0.6)" },
+    "skeleton-fill": { value: "hsl(var(--foreground) / 0.08)" },
+  };
+  const noiseTokens: Record<string, { value: string }> = {
+    "gradient-noise-opacity": { value: "0.1" },
+    "gradient-noise-overlay-opacity": { value: "0.06" },
+  };
   const radius = Object.entries(radiusScale).reduce<
     Record<string, { value: string }>
   >((acc, [name, value]) => {
@@ -156,15 +198,28 @@ async function buildTokens(): Promise<void> {
   }
 
   const sd = new StyleDictionary({
-    tokens: { ...colors, ...derivedSpacing, spacing, radius },
+    tokens: {
+      ...colors,
+      ...derivedSpacing,
+      ...spaceAliases,
+      ...extendedSpace,
+      ...ringTokens,
+      ...iconStrokeTokens,
+      ...elevationTokens,
+      ...progressRingTokens,
+      ...skeletonTokens,
+      ...noiseTokens,
+      spacing,
+      radius,
+    },
     platforms: {
       css: {
-        transforms: ["name/kebab"],
+        transforms: ["attribute/cti", "name/kebab"],
         buildPath: "tokens/",
         files: [{ destination: "tokens.css", format: "css/variables" }],
       },
       js: {
-        transforms: ["name/camel"],
+        transforms: ["attribute/cti", "name/camel"],
         buildPath: "tokens/",
         files: [
           {
@@ -175,7 +230,7 @@ async function buildTokens(): Promise<void> {
         ],
       },
       docs: {
-        transforms: ["name/kebab"],
+        transforms: ["attribute/cti", "name/kebab"],
         buildPath: "docs/",
         files: [{ destination: "tokens.md", format: "tokens/markdown" }],
       },

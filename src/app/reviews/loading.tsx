@@ -67,7 +67,7 @@ export default function ReviewsLoading() {
               {DETAIL_SECTIONS.map((section) => (
                 <Skeleton
                   key={section}
-                  className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                  className="h-[var(--space-6)] w-[var(--space-16)]"
                   radius="full"
                 />
               ))}
@@ -77,8 +77,8 @@ export default function ReviewsLoading() {
               <Skeleton className="w-full" />
               <Skeleton className="w-5/6" />
               <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
-                <Skeleton className="h-[calc(var(--space-8)+var(--space-4))]" radius="card" />
-                <Skeleton className="h-[calc(var(--space-8)+var(--space-4))]" radius="card" />
+                <Skeleton className="h-[var(--space-12)]" radius="card" />
+                <Skeleton className="h-[var(--space-12)]" radius="card" />
               </div>
             </article>
           </section>

@@ -39,9 +39,15 @@ const fractionalSpacing: Record<string, string> = {
   "spacing-0-75": "var(--spacing-0-75)",
 };
 
+const extendedSpaceAliases: Record<string, string> = {
+  "space-12": "var(--space-12)",
+  "space-16": "var(--space-16)",
+};
+
 const spacingScaleWithAliases = {
   ...spacingScale,
   ...fractionalSpacing,
+  ...extendedSpaceAliases,
 };
 
 const config: Config = {
@@ -206,6 +212,10 @@ const config: Config = {
         "neon-strong": "var(--shadow-neon-strong)",
         control: "var(--shadow-control)",
         "control-hover": "var(--shadow-control-hover)",
+        "elev-0": "var(--elevation-0)",
+        "elev-1": "var(--elevation-1)",
+        "elev-2": "var(--elevation-2)",
+        "elev-3": "var(--elevation-3)",
       },
       transitionTimingFunction: {
         out: "var(--ease-out)",

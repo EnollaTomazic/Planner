@@ -88,6 +88,7 @@ export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 export const shellWidthToken = "--shell-width";
 
 const radiusEntries = [
+  ["sm", 6],
   ["md", 8],
   ["lg", 12],
   ["xl", 16],
@@ -118,3 +119,27 @@ export const radiusValues: Record<RadiusVar, string> = radiusEntries.reduce(
   },
   {} as Record<RadiusVar, string>,
 );
+
+const parseCssNumber = (value: string): number | null => {
+  if (!value) {
+    return null;
+  }
+  const numeric = Number.parseFloat(value);
+  return Number.isFinite(numeric) ? numeric : null;
+};
+
+export const readNumberToken = (token: string, fallback: number): number => {
+  if (typeof document === "undefined") {
+    return fallback;
+  }
+
+  const root = document.documentElement;
+  const computed = getComputedStyle(root).getPropertyValue(token).trim();
+  const resolved = parseCssNumber(computed);
+
+  if (resolved !== null) {
+    return resolved;
+  }
+
+  return fallback;
+};

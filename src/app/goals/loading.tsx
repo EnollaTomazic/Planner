@@ -21,7 +21,7 @@ export default function GoalsLoading() {
             {TAB_PLACEHOLDERS.map((key) => (
               <Skeleton
                 key={key}
-                className="h-[var(--space-6)] w-[calc(var(--space-8)*2)] flex-none"
+                className="h-[var(--space-6)] w-[var(--space-16)] flex-none"
                 radius="full"
               />
             ))}

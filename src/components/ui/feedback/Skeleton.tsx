@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const radiusClasses = {
-  sm: "rounded-[var(--radius-md)]",
+  sm: "rounded-[var(--radius-sm,var(--radius-md))]",
   md: "rounded-[var(--radius-lg)]",
   lg: "rounded-[var(--radius-xl)]",
   card: "rounded-[var(--radius-card,var(--radius-xl))]",

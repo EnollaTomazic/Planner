@@ -656,7 +656,7 @@ function GoalsPageContent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-[var(--space-3)]">
-            <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)]">
+            <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-elev-2">
               <p className="text-ui font-medium text-danger">
                 You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
               </p>
