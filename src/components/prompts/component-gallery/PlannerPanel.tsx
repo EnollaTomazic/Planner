@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { GoalsProgress, GoalsTabs } from "@/components/goals";
+import { Sparkles } from "lucide-react";
 import {
   DayRow,
   DayCardHeader,
@@ -215,7 +216,16 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
             <DayCardHeader iso="2024-01-01" projectCount={2} doneCount={1} totalCount={3} />
           ),
         },
-        { label: "EmptyRow", element: <EmptyRow text="Nothing here" /> },
+        {
+          label: "EmptyRow",
+          element: (
+            <EmptyRow
+              icon={<Sparkles />}
+              heading="All caught up"
+              helperText="You're on top of your plan. Enjoy the breather."
+            />
+          ),
+        },
         {
           label: "TaskRow",
           element: (
@@ -261,7 +271,13 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
                 </form>
               )}
               isEmpty={false}
-              renderEmpty={() => <EmptyRow text="All caught up" />}
+              renderEmpty={() => (
+                <EmptyRow
+                  icon={<Sparkles />}
+                  heading="All caught up"
+                  helperText="You're on top of your plan. Enjoy the breather."
+                />
+              )}
               renderList={() => (
                 <ul className="space-y-[var(--space-2)]" aria-label="Demo items">
                   {demoProjects.map((project) => (

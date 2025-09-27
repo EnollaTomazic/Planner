@@ -5,7 +5,7 @@ import Label from "@/components/ui/Label";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
-import { Pencil, Trash2 } from "lucide-react";
+import { FolderPlus, Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
@@ -40,6 +40,7 @@ export default function ProjectList({
   );
   const [editingProjectName, setEditingProjectName] = React.useState("");
   const [draftProject, setDraftProject] = React.useState("");
+  const newProjectInputRef = React.useRef<HTMLInputElement | null>(null);
   const projectRefs = React.useRef<Map<string, HTMLDivElement | null>>(new Map());
   const projectsScrollable = projects.length > 3;
   const multiple = projects.length > 1;
@@ -133,6 +134,7 @@ export default function ProjectList({
             placeholder="> new project…"
             value={draftProject}
             onChange={(e) => setDraftProject(e.target.value)}
+            ref={newProjectInputRef}
           />
         </form>
       )}
@@ -143,7 +145,18 @@ export default function ProjectList({
           aria-label="Projects"
         >
           <li className="w-full">
-            <EmptyRow text="No projects yet." />
+            <EmptyRow
+              icon={<FolderPlus />}
+              heading="No projects yet"
+              helperText="Create a project to start grouping your work."
+              action={{
+                label: "Create your first project",
+                onClick: () => {
+                  newProjectInputRef.current?.focus();
+                  newProjectInputRef.current?.select();
+                },
+              }}
+            />
           </li>
         </ul>
       )}

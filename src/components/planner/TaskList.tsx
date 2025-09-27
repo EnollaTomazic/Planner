@@ -3,6 +3,7 @@
 import * as React from "react";
 import Label from "@/components/ui/Label";
 import Input from "@/components/ui/primitives/Input";
+import { Inbox, ListPlus } from "lucide-react";
 import EmptyRow from "./EmptyRow";
 import PlannerListPanel from "./PlannerListPanel";
 import TaskRow from "./TaskRow";
@@ -34,6 +35,7 @@ export default function TaskList({
   setSelectedTaskId,
 }: Props) {
   const [draftTask, setDraftTask] = React.useState("");
+  const newTaskInputRef = React.useRef<HTMLInputElement | null>(null);
   const newTaskInputId = React.useId();
   const tasksForSelected = React.useMemo(
     () => {
@@ -74,6 +76,7 @@ export default function TaskList({
                   placeholder="> add task…"
                   value={draftTask}
                   onChange={(e) => setDraftTask(e.target.value)}
+                  ref={newTaskInputRef}
                 />
               </form>
             )
@@ -82,7 +85,26 @@ export default function TaskList({
       isEmpty={isEmpty}
       renderEmpty={() => (
         <EmptyRow
-          text={hasSelectedProject ? "No tasks yet" : "Select a project to view tasks"}
+          icon={hasSelectedProject ? <ListPlus /> : <Inbox />}
+          heading={
+            hasSelectedProject ? "No tasks yet" : "Choose a project to view tasks"
+          }
+          helperText={
+            hasSelectedProject
+              ? "Add tasks to break work into focused steps."
+              : "Select a project from the list to see its tasks."
+          }
+          action={
+            hasSelectedProject
+              ? {
+                  label: "Add a task",
+                  onClick: () => {
+                    newTaskInputRef.current?.focus();
+                    newTaskInputRef.current?.select();
+                  },
+                }
+              : undefined
+          }
         />
       )}
       renderList={() => (
