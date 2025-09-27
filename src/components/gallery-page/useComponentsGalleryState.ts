@@ -79,6 +79,7 @@ export interface ComponentsGalleryState {
   readonly section: Section;
   readonly query: string;
   readonly setQuery: React.Dispatch<React.SetStateAction<string>>;
+  readonly handleSearchSubmit: () => void;
   readonly heroCopy: GalleryHeroCopy;
   readonly heroTabs: TabItem[];
   readonly viewTabs: TabItem[];
@@ -87,6 +88,9 @@ export interface ComponentsGalleryState {
   readonly searchLabel: string;
   readonly searchPlaceholder: string;
   readonly filteredSpecs: readonly GallerySerializableEntry[];
+  readonly firstMatchId: string | null;
+  readonly firstMatchAnchor: string | null;
+  readonly searchSubmitCount: number;
   readonly sectionLabel: string;
   readonly countLabel: string;
   readonly countDescriptionId: string;
@@ -146,6 +150,11 @@ export function useComponentsGalleryState({
   const viewParam = searchParams.get("view");
   const [, startTransition] = React.useTransition();
   const [query, setQuery] = usePersistentState("components-query", "");
+  const [searchSubmitCount, setSearchSubmitCount] = React.useState(0);
+
+  const handleSearchSubmit = React.useCallback(() => {
+    setSearchSubmitCount((count) => count + 1);
+  }, []);
 
   const groups = navigation.groups;
 
@@ -426,6 +435,22 @@ export function useComponentsGalleryState({
     }
     return sectionSpecs.filter((spec) => matchesEntryQuery(spec, normalizedQuery));
   }, [query, sectionSpecs]);
+
+  const firstMatch = filteredSpecs[0] ?? null;
+
+  const firstMatchId = React.useMemo(() => {
+    if (!firstMatch) {
+      return null;
+    }
+    return `components-${resolvedSection}-${firstMatch.id}`;
+  }, [firstMatch, resolvedSection]);
+
+  const firstMatchAnchor = React.useMemo(() => {
+    if (!firstMatchId) {
+      return null;
+    }
+    return `#${firstMatchId}`;
+  }, [firstMatchId]);
 
   const filteredCount = filteredSpecs.length;
 
@@ -730,6 +755,7 @@ export function useComponentsGalleryState({
     section: resolvedSection,
     query,
     setQuery,
+    handleSearchSubmit,
     heroCopy,
     heroTabs,
     viewTabs,
@@ -738,6 +764,9 @@ export function useComponentsGalleryState({
     searchLabel,
     searchPlaceholder,
     filteredSpecs,
+    firstMatchId,
+    firstMatchAnchor,
+    searchSubmitCount,
     sectionLabel,
     countLabel,
     countDescriptionId,

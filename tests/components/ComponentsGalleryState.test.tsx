@@ -6,7 +6,9 @@ import {
   formatQueryWithHash,
   useComponentsGalleryState,
 } from "@/components/gallery-page/useComponentsGalleryState";
+import { getGallerySectionEntries } from "@/components/prompts/constants";
 import type { GalleryNavigationData } from "@/components/gallery/types";
+import type { GallerySerializableEntry } from "@/components/gallery/registry";
 
 const replaceSpy = vi.fn<(url: string, options?: { scroll: boolean }) => void>();
 let searchParamsString = "";
@@ -117,6 +119,25 @@ describe("useComponentsGalleryState", () => {
     replaceSpy.mockClear();
     replaceSpy.mockImplementation((_url, _options) => {});
     window.location.hash = "";
+  });
+
+  it("provides the first match anchor for the active section", () => {
+    const entry = {
+      id: "badge",
+      name: "Badge",
+      kind: "primitive",
+      preview: { id: "badge-preview" },
+    } satisfies GallerySerializableEntry;
+    vi.mocked(getGallerySectionEntries).mockReturnValueOnce([entry]);
+
+    const { result } = renderHook(() =>
+      useComponentsGalleryState({
+        navigation,
+      }),
+    );
+
+    expect(result.current.firstMatchId).toBe("components-buttons-badge");
+    expect(result.current.firstMatchAnchor).toBe("#components-buttons-badge");
   });
 
   it("preserves the hash fragment when updating the section", async () => {

@@ -62,6 +62,7 @@ export default function ComponentsPageClient({
     section,
     query,
     setQuery,
+    handleSearchSubmit,
     heroCopy,
     heroTabs,
     viewTabs,
@@ -70,6 +71,9 @@ export default function ComponentsPageClient({
     searchLabel,
     searchPlaceholder,
     filteredSpecs,
+    firstMatchId,
+    firstMatchAnchor,
+    searchSubmitCount,
     sectionLabel,
     countLabel,
     countDescriptionId,
@@ -237,6 +241,7 @@ export default function ComponentsPageClient({
                     id: "components-search",
                     value: query,
                     onValueChange: setQuery,
+                    onSubmit: handleSearchSubmit,
                     debounceMs: 300,
                     round: true,
                     variant: "neo",
@@ -268,6 +273,7 @@ export default function ComponentsPageClient({
       >
         <ComponentsGalleryPanels
           view={view}
+          section={section}
           filteredSpecs={filteredSpecs}
           sectionLabel={sectionLabel}
           countLabel={countLabel}
@@ -276,6 +282,9 @@ export default function ComponentsPageClient({
           componentsPanelRef={componentsPanelRef}
           tokensPanelRef={tokensPanelRef}
           tokenGroups={tokenGroups}
+          firstMatchId={firstMatchId}
+          firstMatchAnchor={firstMatchAnchor}
+          searchSubmitCount={searchSubmitCount}
         />
       </PageShell>
     </>

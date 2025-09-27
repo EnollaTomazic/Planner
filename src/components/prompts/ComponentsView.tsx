@@ -13,7 +13,8 @@ import { cn } from "@/lib/utils";
 
 import { getGalleryPreview } from "./constants";
 
-interface ComponentsViewProps {
+interface ComponentsViewProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "children"> {
   entry: GallerySerializableEntry;
   onCurrentCodeChange?: (code: string | null) => void;
 }
@@ -33,6 +34,7 @@ const containerClassName = cn(
   "px-[var(--space-6)] py-[var(--space-5)]",
   "shadow-neo",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-card",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
   "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
   "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
   "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
@@ -572,6 +574,8 @@ function StatePreviewCard({
 export default function ComponentsView({
   entry,
   onCurrentCodeChange,
+  className,
+  ...articleProps
 }: ComponentsViewProps) {
   const previewRenderer = React.useMemo(
     () => getGalleryPreview(entry.preview.id),
@@ -666,7 +670,10 @@ export default function ComponentsView({
   );
 
   return (
-    <article className={containerClassName}>
+    <article
+      {...articleProps}
+      className={cn(containerClassName, className)}
+    >
       <header className="flex flex-wrap items-start justify-between gap-[var(--space-4)]">
         <div className="flex-1 space-y-[var(--space-2)]">
           <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
