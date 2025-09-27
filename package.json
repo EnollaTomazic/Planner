@@ -26,6 +26,7 @@
     "format": "prettier --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts",
     "check-prompts": "tsx scripts/check-prompts-updated.ts",
+    "token-guard": "tsx scripts/token-guard.ts",
     "contrast-report": "tsx scripts/contrast-report.ts",
     "postinstall": "tsx scripts/regen-if-needed.ts",
     "prepare": "husky",

@@ -212,10 +212,6 @@
 | success-foreground | 0 0% 6% |
 | aurora-g-light-color | hsl(var(--aurora-g-light)) |
 | aurora-p-light-color | hsl(var(--aurora-p-light)) |
-| spacing-0-125 | calc(var(--spacing-1) / 8) |
-| spacing-0-25 | calc(var(--spacing-1) / 4) |
-| spacing-0-5 | calc(var(--spacing-1) / 2) |
-| spacing-0-75 | calc(var(--spacing-1) * 0.75) |
 | space-12 | calc(var(--space-8) + var(--space-4)) |
 | space-16 | calc(var(--space-8) * 2) |
 | ring-size-1 | var(--spacing-0-5) |
@@ -236,6 +232,10 @@
 | skeleton-fill | hsl(var(--foreground) / 0.08) |
 | gradient-noise-opacity | 0.1 |
 | gradient-noise-overlay-opacity | 0.06 |
+| spacing-0-125 | calc(var(--spacing-1) / 8) |
+| spacing-0-25 | calc(var(--spacing-1) / 4) |
+| spacing-0-5 | calc(var(--spacing-1) / 2) |
+| spacing-0-75 | calc(var(--spacing-1) * 0.75) |
 | spacing-1 | 4px |
 | spacing-2 | 8px |
 | spacing-3 | 12px |
