@@ -28,8 +28,8 @@ export default function Banner({
   return (
     <header
       className={cn(
-        "relative overflow-hidden",
-        sticky ? "sticky top-0 z-30 sticky-blur" : "",
+        "relative",
+        sticky && "overflow-hidden sticky top-0 z-30 sticky-blur",
         className
       )}
     >
