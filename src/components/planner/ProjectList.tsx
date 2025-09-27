@@ -139,7 +139,7 @@ export default function ProjectList({
       isEmpty={projectListEmpty}
       renderEmpty={() => (
         <ul
-          className="w-full space-y-[var(--space-2)] py-[var(--space-2)]"
+          className="w-full space-y-[var(--space-2)]"
           aria-label="Projects"
         >
           <li className="w-full">
@@ -149,7 +149,7 @@ export default function ProjectList({
       )}
       renderList={() => (
         <ul
-          className="w-full space-y-[var(--space-2)] py-[var(--space-2)]"
+          className="w-full space-y-[var(--space-2)]"
           role="radiogroup"
           aria-label="Projects"
         >
@@ -286,7 +286,7 @@ export default function ProjectList({
         </ul>
       )}
       viewportClassName={cn(
-        "px-0 w-full py-0",
+        "px-0 w-full",
         projectsScrollable ? undefined : "overflow-visible",
       )}
       viewportStyle={
