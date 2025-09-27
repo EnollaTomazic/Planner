@@ -58,8 +58,8 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
       <div
         ref={ref}
         className={cn(
-          "week-picker-shell grid flex-1 min-w-0 w-full gap-[var(--space-3)] rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft",
-          "md:gap-[var(--space-4)] md:p-[var(--space-4)]",
+          "week-picker-shell grid flex-1 min-w-0 w-full gap-[var(--space-4)] rounded-card r-card-lg border border-border/45 bg-card/70 card-pad shadow-neo-soft",
+          "lg:gap-[var(--space-6)]",
           className,
         )}
         {...props}
