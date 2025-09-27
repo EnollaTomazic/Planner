@@ -10,8 +10,14 @@ import {
   type GallerySerializableStateDefinition,
 } from "@/components/gallery";
 import { cn } from "@/lib/utils";
-import { applyTheme, VARIANTS, type ThemeState, type Variant } from "@/lib/theme";
-import { useTheme } from "@/lib/theme-context";
+import {
+  applyTheme,
+  VARIANTS,
+  defaultTheme,
+  type ThemeState,
+  type Variant,
+} from "@/lib/theme";
+import { useOptionalTheme } from "@/lib/theme-context";
 
 import { getGalleryPreview } from "./constants";
 
@@ -102,7 +108,9 @@ function ThemeMatrix({
   entryId: string;
   previewRenderer: ReturnType<typeof getGalleryPreview>;
 }) {
-  const [baseTheme] = useTheme();
+  const themeContext = useOptionalTheme();
+  const fallbackTheme = React.useMemo(() => defaultTheme(), []);
+  const baseTheme = themeContext?.[0] ?? fallbackTheme;
   const [activeVariant, setActiveVariant] = React.useState<Variant>(
     baseTheme.variant,
   );
