@@ -102,7 +102,7 @@ export default function SideSelector({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-200 ease-out [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
+        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-out [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
         style={indicatorStyle}
       />
 
