@@ -10,6 +10,8 @@ import {
   type GallerySerializableStateDefinition,
 } from "@/components/gallery";
 import { cn } from "@/lib/utils";
+import { applyTheme, VARIANTS, type ThemeState, type Variant } from "@/lib/theme";
+import { useTheme } from "@/lib/theme-context";
 
 import { getGalleryPreview } from "./constants";
 
@@ -48,6 +50,190 @@ const frameClassName = cn(
   "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
   "group-focus-within/component-view:before:opacity-55",
 );
+
+function ThemePreviewSurface({
+  variant,
+  baseTheme,
+  children,
+}: {
+  variant: Variant;
+  baseTheme: ThemeState;
+  children: React.ReactNode;
+}) {
+  const baseThemeRef = React.useRef(baseTheme);
+
+  React.useEffect(() => {
+    baseThemeRef.current = baseTheme;
+  }, [baseTheme]);
+
+  React.useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const currentBase = baseThemeRef.current;
+    if (variant === currentBase.variant) {
+      applyTheme(currentBase);
+      return;
+    }
+
+    applyTheme({ variant, bg: currentBase.bg });
+  }, [variant, baseTheme.bg]);
+
+  React.useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    return () => {
+      applyTheme(baseThemeRef.current);
+    };
+  }, []);
+
+  return <div className={frameClassName}>{children}</div>;
+}
+
+function ThemeMatrix({
+  entryId,
+  previewRenderer,
+}: {
+  entryId: string;
+  previewRenderer: ReturnType<typeof getGalleryPreview>;
+}) {
+  const [baseTheme] = useTheme();
+  const [activeVariant, setActiveVariant] = React.useState<Variant>(
+    baseTheme.variant,
+  );
+  const headingId = React.useId();
+  const controlLabelId = React.useId();
+  const buttonRefs = React.useRef(new Map<Variant, HTMLButtonElement>());
+
+  const registerButton = React.useCallback(
+    (variantId: Variant, node: HTMLButtonElement | null) => {
+      const refs = buttonRefs.current;
+      if (!node) {
+        refs.delete(variantId);
+        return;
+      }
+      refs.set(variantId, node);
+    },
+    [],
+  );
+
+  React.useEffect(() => {
+    setActiveVariant(baseTheme.variant);
+  }, [baseTheme.variant, entryId]);
+
+  const handleControlKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const key = event.key;
+      if (!VARIANTS.length) {
+        return;
+      }
+      if (key !== "ArrowRight" && key !== "ArrowLeft" && key !== "ArrowUp" && key !== "ArrowDown") {
+        return;
+      }
+      event.preventDefault();
+      const currentIndex = VARIANTS.findIndex(
+        ({ id }) => id === activeVariant,
+      );
+      if (currentIndex === -1) {
+        const nextVariant = VARIANTS[0];
+        if (nextVariant) {
+          setActiveVariant(nextVariant.id);
+          buttonRefs.current.get(nextVariant.id)?.focus();
+        }
+        return;
+      }
+      const delta = key === "ArrowRight" || key === "ArrowDown" ? 1 : -1;
+      const nextIndex =
+        (currentIndex + delta + VARIANTS.length) % VARIANTS.length;
+      const nextVariant = VARIANTS[nextIndex];
+      if (nextVariant) {
+        setActiveVariant(nextVariant.id);
+        buttonRefs.current.get(nextVariant.id)?.focus();
+      }
+    },
+    [activeVariant],
+  );
+
+  const previewNode = React.useMemo(() => {
+    if (!previewRenderer) {
+      return (
+        <div className="text-ui text-muted-foreground">Preview unavailable</div>
+      );
+    }
+    return (
+      <React.Suspense fallback={<GalleryPreviewFallback />}>
+        {previewRenderer()}
+      </React.Suspense>
+    );
+  }, [previewRenderer]);
+
+  const activeVariantLabel = React.useMemo(() => {
+    const match = VARIANTS.find(({ id }) => id === activeVariant);
+    return match?.label ?? activeVariant;
+  }, [activeVariant]);
+
+  if (VARIANTS.length === 0) {
+    return <div className={frameClassName}>{previewNode}</div>;
+  }
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="space-y-[var(--space-3)]"
+    >
+      <SectionHeading id={headingId}>Themes</SectionHeading>
+      <div className="space-y-[var(--space-2)]">
+        <p
+          id={controlLabelId}
+          className="text-label text-muted-foreground"
+        >
+          Preview this component across Planner themes.
+        </p>
+        <div
+          role="radiogroup"
+          aria-labelledby={controlLabelId}
+          className="flex flex-wrap gap-[var(--space-2)]"
+          onKeyDown={handleControlKeyDown}
+        >
+          {VARIANTS.map((variant) => {
+            const selected = variant.id === activeVariant;
+            return (
+              <button
+                key={variant.id}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                className={cn(
+                  "btn-like-segmented min-h-[var(--control-h-md)] px-[var(--space-4)] py-[var(--space-2)] text-ui",
+                  "text-muted-foreground",
+                  selected && "is-active text-foreground",
+                )}
+                tabIndex={selected ? 0 : -1}
+                onClick={() => setActiveVariant(variant.id)}
+                ref={(node) => registerButton(variant.id, node)}
+              >
+                {variant.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <ThemePreviewSurface variant={activeVariant} baseTheme={baseTheme}>
+        {previewNode}
+      </ThemePreviewSurface>
+      <p className="text-caption text-muted-foreground">
+        Showing the {" "}
+        <span className="font-medium text-foreground">
+          {activeVariantLabel}
+        </span>{" "}
+        theme.
+      </p>
+    </section>
+  );
+}
 
 function GalleryPreviewFallback() {
   return (
@@ -578,19 +764,6 @@ export default function ComponentsView({
     [entry.preview.id],
   );
 
-  const previewNode = React.useMemo(() => {
-    if (!previewRenderer) {
-      return (
-        <div className="text-ui text-muted-foreground">Preview unavailable</div>
-      );
-    }
-    return (
-      <React.Suspense fallback={<GalleryPreviewFallback />}>
-        {previewRenderer()}
-      </React.Suspense>
-    );
-  }, [previewRenderer]);
-
   const variantAxes = React.useMemo(
     () => entry.axes?.filter((axis) => axis.type === "variant") ?? [],
     [entry.axes],
@@ -701,7 +874,7 @@ export default function ComponentsView({
           />
         ) : null}
       </header>
-      <div className={frameClassName}>{previewNode}</div>
+      <ThemeMatrix entryId={entry.id} previewRenderer={previewRenderer} />
       {entry.code ? (
         <pre
           id={componentCodeId}
