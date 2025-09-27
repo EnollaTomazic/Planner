@@ -64,6 +64,12 @@ interface TabItem {
   readonly controls: string;
 }
 
+interface InPageNavigationItem {
+  readonly id: ComponentsView;
+  readonly label: string;
+  readonly href: string;
+}
+
 interface UseComponentsGalleryStateParams {
   readonly navigation: GalleryNavigationData;
 }
@@ -76,6 +82,7 @@ export interface ComponentsGalleryState {
   readonly heroCopy: GalleryHeroCopy;
   readonly heroTabs: TabItem[];
   readonly viewTabs: TabItem[];
+  readonly inPageNavigation: readonly InPageNavigationItem[];
   readonly showSectionTabs: boolean;
   readonly searchLabel: string;
   readonly searchPlaceholder: string;
@@ -166,6 +173,12 @@ export function useComponentsGalleryState({
       }
       if (normalized === "styles" || normalized === "colors") {
         return "tokens";
+      }
+      if (normalized === "components") {
+        return "patterns";
+      }
+      if (normalized === "complex") {
+        return "layouts";
       }
       if ((viewOrder as readonly string[]).includes(normalized as ComponentsView)) {
         return normalized as ComponentsView;
@@ -460,12 +473,28 @@ export function useComponentsGalleryState({
     return `Search ${baseLabel.toLowerCase()} specs…`;
   }, [activeSectionLabel, currentGroupLabel]);
 
-  const viewTabs = React.useMemo<TabItem[]>(
+  const viewTabs = React.useMemo<TabItem[]>(() => {
+    const groupTabs = groups.map((group) => ({
+      key: group.id,
+      label: group.label,
+      controls: "components-panel",
+    }));
+    return [
+      ...groupTabs,
+      {
+        key: "tokens",
+        label: "Tokens",
+        controls: "tokens-panel",
+      },
+    ];
+  }, [groups]);
+
+  const inPageNavigation = React.useMemo<readonly InPageNavigationItem[]>(
     () =>
       groups.map((group) => ({
-        key: group.id,
+        id: group.id as ComponentsView,
         label: group.label,
-        controls: group.id === "tokens" ? "tokens-panel" : "components-panel",
+        href: `#components-${group.id}`,
       })),
     [groups],
   );
@@ -704,6 +733,7 @@ export function useComponentsGalleryState({
     heroCopy,
     heroTabs,
     viewTabs,
+    inPageNavigation,
     showSectionTabs,
     searchLabel,
     searchPlaceholder,

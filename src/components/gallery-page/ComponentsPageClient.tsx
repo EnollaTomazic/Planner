@@ -65,6 +65,7 @@ export default function ComponentsPageClient({
     heroCopy,
     heroTabs,
     viewTabs,
+    inPageNavigation,
     showSectionTabs,
     searchLabel,
     searchPlaceholder,
@@ -92,6 +93,45 @@ export default function ComponentsPageClient({
             heading: "Component Gallery",
             subtitle: "Browse Planner UI building blocks by category.",
             sticky: false,
+            nav:
+              inPageNavigation.length > 0
+                ? (
+                    <nav aria-label="Component categories">
+                      <ul className="flex flex-wrap items-center gap-[var(--space-2)]">
+                        {inPageNavigation.map((item) => {
+                          const isActive = view === item.id;
+                          return (
+                            <li key={item.id}>
+                              <a
+                                href={item.href}
+                                className={cn(
+                                  "text-label font-medium transition-colors",
+                                  "text-muted-foreground hover:text-foreground focus-visible:text-foreground",
+                                  isActive && "text-foreground",
+                                )}
+                                aria-current={isActive ? "page" : undefined}
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  if (view !== item.id) {
+                                    handleViewChange(item.id);
+                                  }
+                                  const targetHash = item.href.startsWith("#")
+                                    ? item.href.slice(1)
+                                    : item.href;
+                                  if (targetHash && typeof window !== "undefined") {
+                                    window.location.hash = targetHash;
+                                  }
+                                }}
+                              >
+                                {item.label}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </nav>
+                  )
+                : undefined,
             tabs: {
               items: viewTabs,
               value: view,
@@ -220,6 +260,7 @@ export default function ComponentsPageClient({
 
       <PageShell
         as="section"
+        id={`components-${view}`}
         grid
         aria-labelledby="components-header"
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"

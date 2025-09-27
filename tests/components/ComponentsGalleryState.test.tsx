@@ -67,12 +67,33 @@ const navigation: GalleryNavigationData = {
       ],
     },
     {
-      id: "complex",
-      label: "Complex",
+      id: "patterns",
+      label: "Patterns",
       copy: {
-        eyebrow: "Complex",
-        heading: "Complex",
-        subtitle: "Complex components",
+        eyebrow: "Patterns",
+        heading: "Patterns",
+        subtitle: "Pattern components",
+      },
+      sections: [
+        {
+          id: "prompts",
+          label: "Prompts",
+          copy: {
+            eyebrow: "Prompts",
+            heading: "Prompts",
+            subtitle: "Prompt components",
+          },
+          groupId: "patterns",
+        },
+      ],
+    },
+    {
+      id: "layouts",
+      label: "Layouts",
+      copy: {
+        eyebrow: "Layouts",
+        heading: "Layouts",
+        subtitle: "Layout components",
       },
       sections: [
         {
@@ -83,7 +104,7 @@ const navigation: GalleryNavigationData = {
             heading: "Homepage",
             subtitle: "Homepage components",
           },
-          groupId: "complex",
+          groupId: "layouts",
         },
       ],
     },
@@ -235,11 +256,11 @@ describe("useComponentsGalleryState", () => {
     window.location.hash = "";
 
     act(() => {
-      result.current.handleViewChange("complex");
+      result.current.handleViewChange("layouts");
     });
 
     await waitFor(() => {
-      expect(result.current.view).toBe("complex");
+      expect(result.current.view).toBe("layouts");
     });
 
     replaceSpy.mockClear();
@@ -300,8 +321,8 @@ describe("useComponentsGalleryState", () => {
     expect(replaceSpy.mock.calls.some(([url]) => url === "?")).toBe(false);
   });
 
-  it("defaults to the complex homepage section when section param is missing", () => {
-    searchParamsString = new URLSearchParams({ view: "complex" }).toString();
+  it("defaults to the layouts homepage section when section param is missing", () => {
+    searchParamsString = new URLSearchParams({ view: "layouts" }).toString();
 
     const { result } = renderHook(() =>
       useComponentsGalleryState({
@@ -309,7 +330,7 @@ describe("useComponentsGalleryState", () => {
       }),
     );
 
-    expect(result.current.view).toBe("complex");
+    expect(result.current.view).toBe("layouts");
     expect(result.current.section).toBe("homepage");
   });
 });
