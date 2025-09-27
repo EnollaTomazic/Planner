@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { NAV_ITEMS } from "@/components/chrome/nav-items";
 
-test.describe.skip("SiteChrome tab order", () => {
+test.describe("SiteChrome tab order", () => {
   test("focus follows the primary navigation order", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
 
@@ -23,5 +23,22 @@ test.describe.skip("SiteChrome tab order", () => {
       await page.keyboard.press("Tab");
       await expect(target).toBeFocused();
     }
+  });
+
+  test("mobile bottom nav supports keyboard activation", async ({ page }) => {
+    await page.setViewportSize({ width: 480, height: 720 });
+
+    await page.goto("/planner");
+    await expect(
+      page.getByRole("navigation", { name: "Primary mobile navigation" }),
+    ).toBeVisible();
+
+    const promptsItem = page.getByRole("button", { name: /Prompts/ });
+    await promptsItem.focus();
+    await expect(promptsItem).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(promptsItem).toHaveAttribute("aria-pressed", "true");
+    await expect(promptsItem).toHaveAttribute("aria-current", "page");
   });
 });

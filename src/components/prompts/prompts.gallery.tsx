@@ -1334,26 +1334,29 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                   aria-busy={state === "syncing" ? true : undefined}
                   data-state={state}
                   className={cn(
-                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-disabled motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-disabled motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                     state === "active" &&
-                      "text-accent-3 ring-2 ring-[var(--theme-ring)]",
+                      "text-accent-3 ring-[var(--ring-size-2)] ring-[var(--theme-ring)]",
                     state === "hover" &&
                       "text-foreground motion-safe:-translate-y-0.5 motion-reduce:transform-none",
                     state === "focus-visible" &&
-                      "text-foreground ring-2 ring-[var(--theme-ring)] ring-offset-0",
+                      "text-foreground ring-[var(--ring-size-2)] ring-[var(--theme-ring)] ring-offset-0",
                     state === "default" &&
                       "text-muted-foreground hover:text-foreground",
                     state === "disabled" && "text-muted-foreground/70",
                     state === "syncing" && "text-foreground",
                   )}
                 >
-                  <span className="[&_svg]:size-[var(--space-4)]">
+                  <span className="[&_svg]:size-[var(--space-4)] [&_svg]:stroke-[var(--icon-stroke-150)]">
                     <Icon aria-hidden="true" />
                   </span>
                   <span className="flex items-center gap-[var(--space-1)]">
                     {label}
                     {state === "syncing" ? (
-                      <Spinner size="xs" />
+                      <Spinner
+                        size="xs"
+                        className="border-[var(--progress-ring-stroke)] border-t-transparent [--spinner-size:calc(var(--progress-ring-diameter)/4)]"
+                      />
                     ) : null}
                   </span>
                 </button>
