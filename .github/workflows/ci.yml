@@ -19,6 +19,13 @@ jobs:
       run: npm run lint
       summary-title: Lint
 
+  token-guard:
+    name: Token Guard
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run token-guard
+      summary-title: Token Guard
+
   typecheck:
     name: Typecheck
     uses: ./.github/workflows/node-base.yml
@@ -33,12 +40,74 @@ jobs:
       run: npm test -- --run
       summary-title: Unit Tests
 
+  a11y:
+    name: Accessibility
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+
+        LIST_OUTPUT=$(npx playwright test --list --project=chromium --grep "@axe") || true
+
+        npm run build
+
+        PORT=3000
+        npm run start -- --hostname 127.0.0.1 --port "$PORT" &
+        SERVER_PID=$!
+
+        cleanup() {
+          if kill -0 "$SERVER_PID" 2>/dev/null; then
+            kill "$SERVER_PID"
+            wait "$SERVER_PID" || true
+          fi
+        }
+
+        trap cleanup EXIT
+
+        for attempt in $(seq 1 30); do
+          if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
+            READY=1
+            break
+          fi
+          sleep 2
+        done
+
+        if [ -z "${READY:-}" ]; then
+          echo "Server failed to start" >&2
+          exit 1
+        fi
+
+        OUTPUT_DIR="playwright-results/a11y"
+        if echo "$LIST_OUTPUT" | grep -q "@axe"; then
+          npx playwright test \
+            --project=chromium \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR" \
+            --grep "@axe"
+        else
+          echo "No @axe-tagged tests detected; running full suite." >&2
+          npx playwright test \
+            --project=chromium \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR"
+        fi
+      summary-title: Accessibility
+      install-playwright: true
+      artifact-name: playwright-a11y-artifacts
+      artifact-path: |
+        playwright-results/a11y
+      artifact-on-failure: true
+
   build:
     name: Build
     needs:
       - lint
       - typecheck
       - unit
+      - token-guard
+      - a11y
     uses: ./.github/workflows/node-base.yml
     with:
       run: |
