@@ -143,7 +143,7 @@ export default function ProjectList({
           aria-label="Projects"
         >
           <li className="w-full">
-            <EmptyRow text="No projects yet." />
+            <EmptyRow text="No projects yet." tone="muted" variant="rotate" />
           </li>
         </ul>
       )}

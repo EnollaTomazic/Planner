@@ -83,6 +83,8 @@ export default function TaskList({
       renderEmpty={() => (
         <EmptyRow
           text={hasSelectedProject ? "No tasks yet" : "Select a project to view tasks"}
+          tone={hasSelectedProject ? "default" : "muted"}
+          variant={hasSelectedProject ? "rotate" : "default"}
         />
       )}
       renderList={() => (
