@@ -69,7 +69,7 @@ export default function ComponentsPageClient({
     showSectionTabs,
     searchLabel,
     searchPlaceholder,
-    filteredSpecs,
+    categoryGroups,
     sectionLabel,
     countLabel,
     countDescriptionId,
@@ -268,7 +268,7 @@ export default function ComponentsPageClient({
       >
         <ComponentsGalleryPanels
           view={view}
-          filteredSpecs={filteredSpecs}
+          categoryGroups={categoryGroups}
           sectionLabel={sectionLabel}
           countLabel={countLabel}
           countDescriptionId={countDescriptionId}

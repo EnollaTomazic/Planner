@@ -58,6 +58,56 @@ function matchesEntryQuery(
   return false;
 }
 
+function extractSpecCategory(
+  spec: GallerySerializableEntry,
+  section: Section,
+  fallbackLabel: string,
+): {
+  readonly key: string;
+  readonly label: string;
+  readonly emptyCopy?: string;
+} {
+  const rawCategory = (spec as { category?: unknown }).category;
+  const fallbackKey = `section:${section}`;
+
+  if (!rawCategory) {
+    return { key: fallbackKey, label: fallbackLabel };
+  }
+
+  if (typeof rawCategory === "string") {
+    const trimmed = rawCategory.trim();
+    if (!trimmed) {
+      return { key: fallbackKey, label: fallbackLabel };
+    }
+    return { key: trimmed, label: trimmed };
+  }
+
+  if (typeof rawCategory === "object") {
+    const { key, label, emptyCopy } = rawCategory as RawSpecCategory;
+    const trimmedKey =
+      typeof key === "string" && key.trim().length > 0 ? key.trim() : "";
+    const trimmedLabel =
+      typeof label === "string" && label.trim().length > 0
+        ? label.trim()
+        : "";
+    const trimmedEmptyCopy =
+      typeof emptyCopy === "string" && emptyCopy.trim().length > 0
+        ? emptyCopy.trim()
+        : undefined;
+
+    const resolvedKey = trimmedKey || trimmedLabel || fallbackKey;
+    const resolvedLabel = trimmedLabel || trimmedKey || fallbackLabel;
+
+    return {
+      key: resolvedKey,
+      label: resolvedLabel,
+      emptyCopy: trimmedEmptyCopy,
+    };
+  }
+
+  return { key: fallbackKey, label: fallbackLabel };
+}
+
 interface TabItem {
   readonly key: string;
   readonly label: string;
@@ -68,6 +118,21 @@ interface InPageNavigationItem {
   readonly id: ComponentsView;
   readonly label: string;
   readonly href: string;
+}
+
+interface RawSpecCategory {
+  readonly key?: unknown;
+  readonly label?: unknown;
+  readonly emptyCopy?: unknown;
+}
+
+export interface ComponentsGalleryCategoryGroup {
+  readonly key: string;
+  readonly label: string;
+  readonly filteredSpecs: readonly GallerySerializableEntry[];
+  readonly filteredCount: number;
+  readonly totalCount: number;
+  readonly emptyCopy?: string;
 }
 
 interface UseComponentsGalleryStateParams {
@@ -87,6 +152,7 @@ export interface ComponentsGalleryState {
   readonly searchLabel: string;
   readonly searchPlaceholder: string;
   readonly filteredSpecs: readonly GallerySerializableEntry[];
+  readonly categoryGroups: readonly ComponentsGalleryCategoryGroup[];
   readonly sectionLabel: string;
   readonly countLabel: string;
   readonly countDescriptionId: string;
@@ -414,27 +480,82 @@ export function useComponentsGalleryState({
   const activeSectionLabel = sectionMeta?.label ?? "";
   const sectionMetaLabel = sectionMeta?.label;
 
-  const sectionSpecs = React.useMemo<readonly GallerySerializableEntry[]>(
-    () => getGallerySectionEntries(resolvedSection),
-    [resolvedSection],
-  );
-
-  const filteredSpecs = React.useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    if (normalizedQuery.length === 0) {
-      return sectionSpecs;
-    }
-    return sectionSpecs.filter((spec) => matchesEntryQuery(spec, normalizedQuery));
-  }, [query, sectionSpecs]);
-
-  const filteredCount = filteredSpecs.length;
-
   const sectionLabel = React.useMemo(() => {
     if (sectionMetaLabel) {
       return sectionMetaLabel;
     }
     return formatGallerySectionLabel(resolvedSection);
   }, [resolvedSection, sectionMetaLabel]);
+
+  const sectionSpecs = React.useMemo<readonly GallerySerializableEntry[]>(
+    () => getGallerySectionEntries(resolvedSection),
+    [resolvedSection],
+  );
+
+  const categoryGroups = React.useMemo<ComponentsGalleryCategoryGroup[]>(() => {
+    const fallbackLabel = sectionLabel;
+    const categories = new Map<
+      string,
+      { label: string; emptyCopy?: string; specs: GallerySerializableEntry[] }
+    >();
+
+    for (const spec of sectionSpecs) {
+      const category = extractSpecCategory(spec, resolvedSection, fallbackLabel);
+      const existing = categories.get(category.key);
+      if (existing) {
+        existing.specs.push(spec);
+        if (!existing.emptyCopy && category.emptyCopy) {
+          existing.emptyCopy = category.emptyCopy;
+        }
+        if (category.label && existing.label !== category.label) {
+          existing.label = category.label;
+        }
+      } else {
+        categories.set(category.key, {
+          label: category.label,
+          emptyCopy: category.emptyCopy,
+          specs: [spec],
+        });
+      }
+    }
+
+    if (categories.size === 0) {
+      return [
+        {
+          key: `section:${resolvedSection}`,
+          label: fallbackLabel,
+          filteredSpecs: [],
+          filteredCount: 0,
+          totalCount: 0,
+        },
+      ];
+    }
+
+    const normalizedQuery = query.trim().toLowerCase();
+    const hasQuery = normalizedQuery.length > 0;
+    const matches = hasQuery
+      ? (spec: GallerySerializableEntry) => matchesEntryQuery(spec, normalizedQuery)
+      : () => true;
+
+    return Array.from(categories.entries(), ([key, value]) => {
+      const filtered = value.specs.filter(matches);
+      return {
+        key,
+        label: value.label,
+        emptyCopy: value.emptyCopy,
+        filteredSpecs: filtered,
+        filteredCount: filtered.length,
+        totalCount: value.specs.length,
+      } satisfies ComponentsGalleryCategoryGroup;
+    });
+  }, [query, resolvedSection, sectionLabel, sectionSpecs]);
+
+  const filteredSpecs = React.useMemo(
+    () => categoryGroups.flatMap((group) => group.filteredSpecs),
+    [categoryGroups],
+  );
+
+  const filteredCount = filteredSpecs.length;
 
   const countLabel = React.useMemo(() => {
     const suffix = filteredCount === 1 ? "spec" : "specs";
@@ -738,6 +859,7 @@ export function useComponentsGalleryState({
     searchLabel,
     searchPlaceholder,
     filteredSpecs,
+    categoryGroups,
     sectionLabel,
     countLabel,
     countDescriptionId,
