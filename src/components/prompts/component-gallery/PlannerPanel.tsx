@@ -215,7 +215,15 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
             <DayCardHeader iso="2024-01-01" projectCount={2} doneCount={1} totalCount={3} />
           ),
         },
-        { label: "EmptyRow", element: <EmptyRow text="Nothing here" /> },
+        {
+          label: "EmptyRow",
+          element: (
+            <div className="space-y-[var(--space-2)]">
+              <EmptyRow text="Nothing here" tone="muted" />
+              <EmptyRow text="No backlog items" variant="rotate" />
+            </div>
+          ),
+        },
         {
           label: "TaskRow",
           element: (
@@ -261,7 +269,9 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
                 </form>
               )}
               isEmpty={false}
-              renderEmpty={() => <EmptyRow text="All caught up" />}
+              renderEmpty={() => (
+                <EmptyRow text="All caught up" tone="muted" variant="rotate" />
+              )}
               renderList={() => (
                 <ul className="space-y-[var(--space-2)]" aria-label="Demo items">
                   {demoProjects.map((project) => (

@@ -198,8 +198,10 @@
 /* Empty states */
 .tasks-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-1);
   min-height: calc(var(--space-8) + var(--space-5));
   padding: var(--space-3);
   border: var(--hairline-w) dashed hsl(var(--card-hairline) / 0.7);
@@ -210,6 +212,13 @@
     hsl(var(--card) / 0.65),
     hsl(var(--card) / 0.45)
   );
+  text-align: center;
+}
+
+.tasks-placeholder[data-placeholder-size="compact"] {
+  min-height: calc(var(--space-7));
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
 }
 
 /* ============ Week summary tiles ============ */
