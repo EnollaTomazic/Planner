@@ -59,4 +59,27 @@ describe("QuickActionGrid", () => {
     fireEvent.click(externalLink);
     expect(handleExternal).toHaveBeenCalledTimes(1);
   });
+
+  it("renders hash actions with native anchors without crashing", () => {
+    let renderResult: ReturnType<typeof render> | undefined;
+
+    expect(() => {
+      renderResult = render(
+        <QuickActionGrid
+          actions={[
+            {
+              href: "#hash-action",
+              label: "Hash action",
+            },
+          ]}
+        />,
+      );
+    }).not.toThrow();
+
+    expect(renderResult).toBeDefined();
+    const hashLink = renderResult!.getByRole("link", { name: "Hash action" });
+
+    expect(hashLink).toBeInstanceOf(HTMLAnchorElement);
+    expect(hashLink).toHaveAttribute("href", "#hash-action");
+  });
 });
