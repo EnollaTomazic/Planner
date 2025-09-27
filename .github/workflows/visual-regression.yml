@@ -13,9 +13,15 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build application
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/node-base.yml
     with:
       checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
@@ -31,6 +37,9 @@ jobs:
   visual:
     name: Visual Regression (${{ matrix.project }})
     needs: build
+    permissions:
+      contents: read
+      actions: write
     strategy:
       fail-fast: false
       matrix:
