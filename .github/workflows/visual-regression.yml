@@ -55,6 +55,12 @@ jobs:
           echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
         fi
 
+        if [ -d "next-build/.next" ]; then
+          rm -rf .next
+          mv next-build/.next .next
+          rm -rf next-build
+        fi
+
         npm run start -- --hostname 127.0.0.1 --port "$PLAYWRIGHT_PORT" &
         SERVER_PID=$!
 
