@@ -131,7 +131,7 @@ export default function Badge<T extends React.ElementType = "span">(
       aria-disabled={disabled ? "true" : undefined}
       aria-pressed={interactive && isToggleBadge ? isSelected : undefined}
       className={cn(
-        "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[-0.01em]",
+        "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em]",
         "border bg-muted/18",
         "shadow-outline-subtle",
         "transition-[background,box-shadow,transform] duration-140 ease-out",
