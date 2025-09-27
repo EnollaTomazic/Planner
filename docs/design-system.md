@@ -4,6 +4,31 @@ This project ships with a small design system based on Tailwind CSS and CSS vari
 
 For governance and enforcement workflows, read [Design System Governance](./design-governance.md).
 
+## Onboarding quickstart
+
+### Core tools
+
+- React with Next.js powers the application shell.
+- Tailwind CSS and CSS variables expose the design tokens documented below.
+- Storybook and the `/components` gallery surface canonical component states for review.
+- TypeScript keeps usage typed and encourages explicit props.
+
+### Directory map
+
+- `tokens/` – source of truth for tokens; `tokens.css` is generated from these definitions.
+- `docs/` – system documentation (start with this file, governance, and the tokens reference).
+- `src/components/` – feature components and shared primitives under `ui/`.
+- `src/icons/` – curated icon set.
+- `src/stories/` – Storybook stories that mirror gallery usage.
+
+### Working agreements
+
+- Compose new UI from tokens and primitives; avoid bespoke utility stacks.
+- Honour the shared component gallery by updating examples alongside implementation work.
+- Respect theme helpers, persistence, and reduced-motion preferences when adding interactions.
+- Preserve keyboard and screen reader affordances: semantic landmarks, labelled controls, and visible focus remain non-negotiable.
+- Keep contributions scoped and typed, running `npm run check` (tests, lint, design lint, typecheck) before requesting review.
+
 ## Tokens
 
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
