@@ -25,7 +25,8 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Workflow usage
 
-- `ci.yml` runs linting, the design token guard (`npm run lint:design`), type-checking, unit tests, a build (with audit reporting and cached `.next/cache`), and E2E suites that opt into Playwright installation and per-browser artefacts.
+- `ci.yml` runs linting, the design token guard (`npm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
+- The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - The `pages-build` job inside `ci.yml` reuses `node-base` to create the static export for GitHub Pages, while `pages-deploy` consumes that artefact and executes the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
 
 ## Manual visual regression workflow
@@ -34,4 +35,4 @@ This project standardises Node-based automation through the reusable workflow de
 - The workflow reuses `node-base` with Playwright browsers installed, builds the app, launches the production server locally, then runs any Playwright tests tagged with `@visual` for each configured browser target. If no tests carry the tag the run exits early with a notice so routine checks stay fast.
 - Diff artefacts upload automatically when a comparison fails. Each browser matrix entry produces a zip named `visual-diff-<browser>` that contains the expected, actual, and diff images alongside the Playwright report output for that browser. Download the zip, extract it locally, and open the accompanying `index.html` to inspect failures interactively. Clean runs skip the upload so the manual workflow remains optional overhead rather than a required part of the release cadence.
 
-The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, and unit tests.
+The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, unit tests, accessibility, and the browser E2E checks that execute against the shared build.
