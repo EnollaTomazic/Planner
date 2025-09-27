@@ -263,7 +263,7 @@ export default function ComponentsPageClient({
         id={`components-${view}`}
         grid
         aria-labelledby="components-header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+        className="scroll-mt-[calc(env(safe-area-inset-top)+var(--header-stack)+var(--space-2))] py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
         contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]"
       >
         <ComponentsGalleryPanels
