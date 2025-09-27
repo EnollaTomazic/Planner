@@ -4,20 +4,21 @@ import * as React from "react";
 
 import ColorsView from "@/components/prompts/ColorsView";
 import ComponentSpecView from "@/components/prompts/ComponentsView";
-import type { GallerySerializableEntry } from "@/components/gallery/registry";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { Card, CardContent } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import { cn } from "@/lib/utils";
 
 import {
   COMPONENTS_PANEL_ID,
   COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
+  type ComponentsGalleryCategoryGroup,
 } from "./useComponentsGalleryState";
 
 interface ComponentsGalleryPanelsProps {
   readonly view: ComponentsView;
-  readonly filteredSpecs: readonly GallerySerializableEntry[];
+  readonly categoryGroups: readonly ComponentsGalleryCategoryGroup[];
   readonly sectionLabel: string;
   readonly countLabel: string;
   readonly countDescriptionId: string;
@@ -27,9 +28,22 @@ interface ComponentsGalleryPanelsProps {
   readonly tokenGroups: readonly DesignTokenGroup[];
 }
 
+function formatCategoryHeadingId(key: string, index: number): string {
+  const normalized = key
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (normalized) {
+    return `components-category-${normalized}`;
+  }
+
+  return `components-category-${index}`;
+}
+
 export default function ComponentsGalleryPanels({
   view,
-  filteredSpecs,
+  categoryGroups,
   sectionLabel,
   countLabel,
   countDescriptionId,
@@ -40,6 +54,9 @@ export default function ComponentsGalleryPanels({
 }: ComponentsGalleryPanelsProps) {
   const isTokensView = view === "tokens";
   const tokensTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-tab`;
+
+  const hasCategoryGroups = categoryGroups.length > 0;
+  const fallbackSectionLabel = sectionLabel || "gallery";
 
   return (
     <section className="col-span-full grid gap-[var(--space-6)] md:gap-[var(--space-7)] lg:gap-[var(--space-8)]">
@@ -71,16 +88,62 @@ export default function ComponentsGalleryPanels({
             </Badge>
           </header>
           <div className="grid gap-[var(--space-6)]">
-            {filteredSpecs.length === 0 ? (
+            {hasCategoryGroups ? (
+              categoryGroups.map((group, index) => {
+                const headingId = formatCategoryHeadingId(group.key, index);
+                const badgeLabel = `${group.filteredCount} ${
+                  group.filteredCount === 1 ? "spec" : "specs"
+                }`;
+                const showEmpty = group.filteredCount === 0;
+                const labelForEmptyState =
+                  group.label || sectionLabel || "gallery";
+                const emptyCopy =
+                  group.emptyCopy ??
+                  `No ${labelForEmptyState.toLowerCase()} specs match this search.`;
+
+                return (
+                  <section
+                    key={group.key}
+                    aria-labelledby={headingId}
+                    className={cn(
+                      "space-y-[var(--space-4)]",
+                      index > 0 &&
+                        "border-t border-[hsl(var(--card-hairline)/0.6)] pt-[var(--space-5)]",
+                    )}
+                  >
+                    <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+                      <h3
+                        id={headingId}
+                        className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground"
+                      >
+                        {group.label}
+                      </h3>
+                      <Badge tone="support" size="sm" className="text-muted-foreground">
+                        {badgeLabel}
+                      </Badge>
+                    </header>
+                    {showEmpty ? (
+                      <Card>
+                        <CardContent className="text-ui text-muted-foreground">
+                          {emptyCopy}
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <div className="grid gap-[var(--space-6)]">
+                        {group.filteredSpecs.map((spec) => (
+                          <ComponentSpecView key={spec.id} entry={spec} />
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                );
+              })
+            ) : (
               <Card>
                 <CardContent className="text-ui text-muted-foreground">
-                  No results found
+                  No {fallbackSectionLabel.toLowerCase()} specs available.
                 </CardContent>
               </Card>
-            ) : (
-              filteredSpecs.map((spec) => (
-                <ComponentSpecView key={spec.id} entry={spec} />
-              ))
             )}
           </div>
         </div>
