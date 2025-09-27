@@ -87,7 +87,7 @@ export function NeonIcon({
         style={{
           width: "var(--ni-k)",
           height: "var(--ni-k)",
-          strokeWidth: 2,
+          strokeWidth: "var(--icon-stroke-100, 2)",
           color: "var(--ni-color)",
           opacity: lit ? 1 : 0.38,
           transition: "opacity 220ms var(--ease-out), transform 220ms var(--ease-out)",

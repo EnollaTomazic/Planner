@@ -22,13 +22,13 @@ export default function PromptsLoading() {
               <Skeleton className="h-[var(--space-3)] w-1/4" radius="sm" />
               <Skeleton className="h-[var(--space-5)] w-1/2" radius="sm" />
             </div>
-            <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
+            <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
           </div>
           <div className="flex flex-wrap gap-[var(--space-2)]">
             {CHIP_PLACEHOLDERS.map((chip) => (
               <Skeleton
                 key={chip}
-                className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                className="h-[var(--space-6)] w-[var(--space-16)]"
                 radius="full"
               />
             ))}
@@ -38,7 +38,7 @@ export default function PromptsLoading() {
               className="h-[calc(var(--space-8)+var(--space-2))] flex-1 min-w-[calc(var(--space-8)*4)]"
               radius="card"
             />
-            <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
+            <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
           </div>
         </div>
       </PageShell>
@@ -52,7 +52,7 @@ export default function PromptsLoading() {
             {TAB_PLACEHOLDERS.map((label) => (
               <Skeleton
                 key={label}
-                className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]"
+                className="h-[var(--space-6)] w-[var(--space-16)]"
                 radius="full"
               />
             ))}
@@ -68,8 +68,8 @@ export default function PromptsLoading() {
               <Skeleton className="w-full" />
               <Skeleton className="w-5/6" />
               <div className="flex flex-wrap gap-[var(--space-2)]">
-                <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
-                <Skeleton className="h-[var(--space-6)] w-[calc(var(--space-8)*2)]" radius="full" />
+                <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
+                <Skeleton className="h-[var(--space-6)] w-[var(--space-16)]" radius="full" />
               </div>
             </article>
           ))}
