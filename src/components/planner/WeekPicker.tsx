@@ -15,8 +15,8 @@ import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
-import { ArrowUpToLine } from "lucide-react";
-import { fromISODate } from "@/lib/date";
+import { ArrowUpToLine, ChevronLeft, ChevronRight } from "lucide-react";
+import { addDays, fromISODate, toISODate } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import WeekPickerShell from "./WeekPickerShell";
 
@@ -362,6 +362,20 @@ export default function WeekPicker() {
     }
   };
 
+  const prevWeek = React.useCallback(() => {
+    setIso(toISODate(addDays(start, -7)));
+  }, [setIso, start]);
+
+  const nextWeek = React.useCallback(() => {
+    setIso(toISODate(addDays(start, 7)));
+  }, [setIso, start]);
+
+  const jumpToday = React.useCallback(() => {
+    setIso(today);
+  }, [setIso, today]);
+
+  const isTodayFocused = iso === today;
+
   /* Top button goes in Hero actions when applicable */
   const topAction = showTop ? (
     <Button
@@ -387,6 +401,40 @@ export default function WeekPicker() {
       dividerTint="primary"
     >
       <WeekPickerShell>
+        <WeekPickerShell.Controls slotId="week-controls">
+          <div
+            role="group"
+            aria-label="Week navigation"
+            className="flex flex-wrap items-center gap-[var(--space-2)]"
+          >
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Go to previous week"
+              onClick={prevWeek}
+            >
+              <ChevronLeft />
+              <span>Prev</span>
+            </Button>
+            <Button
+              size="sm"
+              aria-label="Jump to today"
+              onClick={jumpToday}
+              disabled={isTodayFocused}
+            >
+              Today
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Go to next week"
+              onClick={nextWeek}
+            >
+              <span>Next</span>
+              <ChevronRight />
+            </Button>
+          </div>
+        </WeekPickerShell.Controls>
         <WeekPickerShell.Totals slotId="week-range">
           <span className="sr-only" aria-live="polite">
             Week range {accessibleRange}
