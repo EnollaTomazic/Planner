@@ -10,7 +10,11 @@ import {
   type GallerySection,
   type GallerySerializableEntry,
   type GallerySerializableSection,
+  type GalleryPreviewRoute,
+  type GalleryPreviewAxisParam,
 } from "../src/components/gallery/registry";
+import { VARIANTS } from "../src/lib/theme";
+import type { Background, Variant } from "../src/lib/theme";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +35,23 @@ const TRACKED_PATTERNS = [
 const PAGE_GLOB = "**/page.{ts,tsx}";
 const ROUTE_FILE_GLOB = "**/*.{ts,tsx}";
 const GALLERY_GLOB = "src/components/**/**/*.gallery.{ts,tsx}";
+
+const PREVIEW_VARIANTS = ["lg", "aurora"] as const satisfies readonly Variant[];
+const PREVIEW_BACKGROUNDS = [0] as const satisfies readonly Background[];
+
+const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
+
+for (const variant of PREVIEW_VARIANTS) {
+  if (!REGISTERED_VARIANTS.has(variant)) {
+    throw new Error(`Preview variant \"${variant}\" is not registered`);
+  }
+}
+
+const PREVIEW_THEME_COMBOS = PREVIEW_VARIANTS.flatMap((variant) =>
+  PREVIEW_BACKGROUNDS.map(
+    (bg) => ({ variant, bg }) satisfies { variant: Variant; bg: Background },
+  ),
+);
 
 type GalleryModuleExport = {
   readonly default: GallerySection | readonly GallerySection[];
@@ -191,6 +212,177 @@ type UsageMap = Record<string, readonly string[]>;
 
 type NameToIdsMap = Map<string, readonly string[]>;
 
+function normalizeSlug(value: string | null | undefined): string {
+  if (!value) {
+    return "";
+  }
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s_-]/gu, "-")
+    .replace(/[\s_]+/gu, "-")
+    .replace(/-+/gu, "-")
+    .replace(/^-+|-+$/gu, "");
+}
+
+function buildAxisParams(
+  entry: GallerySerializableEntry,
+): readonly GalleryPreviewAxisParam[] {
+  const axes = entry.axes ?? [];
+  const params: GalleryPreviewAxisParam[] = [];
+  const keySet = new Set<string>();
+
+  for (const axis of axes) {
+    if (axis.type !== "variant" && axis.type !== "state") {
+      continue;
+    }
+    const baseKey =
+      normalizeSlug(axis.id) || normalizeSlug(axis.label) || axis.type;
+    if (!baseKey) {
+      continue;
+    }
+    const key = `axis-${baseKey}`;
+    if (keySet.has(key)) {
+      continue;
+    }
+    keySet.add(key);
+    const seenValues = new Set<string>();
+    const options = axis.values.map((option, index) => {
+      const normalized = normalizeSlug(option.value);
+      let value = normalized || `value-${index + 1}`;
+      while (seenValues.has(value)) {
+        value = `${value}-${index + 1}`;
+      }
+      seenValues.add(value);
+      return {
+        value,
+        label: option.value,
+      } satisfies GalleryPreviewAxisParam["options"][number];
+    });
+    if (options.length === 0) {
+      continue;
+    }
+    params.push({
+      key,
+      label: axis.label,
+      type: axis.type,
+      options,
+    });
+  }
+
+  return params;
+}
+
+function formatPreviewSlug(
+  sectionSlug: string,
+  entrySlug: string,
+  previewSlug: string,
+  stateSlug: string | null,
+  theme: { variant: Variant; bg: Background },
+): string {
+  const parts = [`section-${sectionSlug}`, `entry-${entrySlug}`, `preview-${previewSlug}`];
+  if (stateSlug) {
+    parts.push(`state-${stateSlug}`);
+  }
+  parts.push(`theme-${theme.variant}`);
+  if (theme.bg > 0) {
+    parts.push(`bg-${theme.bg}`);
+  }
+  return parts.join("--");
+}
+
+function buildPreviewRoutes(
+  sections: readonly GallerySerializableSection[],
+): readonly GalleryPreviewRoute[] {
+  const routes: GalleryPreviewRoute[] = [];
+  const slugSet = new Set<string>();
+
+  const register = (route: GalleryPreviewRoute) => {
+    if (slugSet.has(route.slug)) {
+      throw new Error(`Duplicate gallery preview slug generated: ${route.slug}`);
+    }
+    slugSet.add(route.slug);
+    routes.push(route);
+  };
+
+  for (const section of sections) {
+    section.entries.forEach((entry, entryIndex) => {
+      const axisParams = buildAxisParams(entry);
+      const entrySlugBase =
+        normalizeSlug(entry.id) || normalizeSlug(entry.name) || null;
+      const fallbackEntrySlug =
+        normalizeSlug(`${section.id}-${entryIndex + 1}`) ||
+        `component-${entryIndex + 1}`;
+      const entrySlug = entrySlugBase ?? fallbackEntrySlug;
+      const sectionSlug =
+        normalizeSlug(section.id) || `section-${routes.length + 1}`;
+      const previewSlug =
+        normalizeSlug(entry.preview.id) ||
+        normalizeSlug(`${entrySlug}-preview`) ||
+        `preview-${routes.length + 1}`;
+
+      for (const theme of PREVIEW_THEME_COMBOS) {
+        const slug = formatPreviewSlug(
+          sectionSlug,
+          entrySlug,
+          previewSlug,
+          null,
+          theme,
+        );
+        register({
+          slug,
+          previewId: entry.preview.id,
+          entryId: entry.id,
+          entryName: entry.name,
+          sectionId: section.id,
+          stateId: null,
+          stateName: null,
+          themeVariant: theme.variant,
+          themeBackground: theme.bg,
+          axisParams,
+        });
+      }
+
+      entry.states?.forEach((state, stateIndex) => {
+        const stateSlugBase =
+          normalizeSlug(state.id) ||
+          normalizeSlug(state.name) ||
+          normalizeSlug(`${entrySlug}-state-${stateIndex + 1}`) ||
+          `state-${stateIndex + 1}`;
+        const statePreviewSlug =
+          normalizeSlug(state.preview.id) ||
+          normalizeSlug(`${entrySlug}-${stateSlugBase}-preview`) ||
+          `preview-${routes.length + 1}`;
+
+        for (const theme of PREVIEW_THEME_COMBOS) {
+          const slug = formatPreviewSlug(
+            sectionSlug,
+            entrySlug,
+            statePreviewSlug,
+            stateSlugBase,
+            theme,
+          );
+          register({
+            slug,
+            previewId: state.preview.id,
+            entryId: entry.id,
+            entryName: entry.name,
+            sectionId: section.id,
+            stateId: state.id,
+            stateName: state.name ?? null,
+            themeVariant: theme.variant,
+            themeBackground: theme.bg,
+            axisParams,
+          });
+        }
+      });
+    });
+  }
+
+  routes.sort((a, b) => a.slug.localeCompare(b.slug));
+  return routes;
+}
+
 function buildNameLookup(sections: readonly GallerySerializableSection[]): {
   readonly entries: readonly GallerySerializableEntry[];
   readonly nameToIds: NameToIdsMap;
@@ -301,11 +493,12 @@ async function collectGalleryModules(): Promise<readonly GalleryModuleMeta[]> {
 async function buildGalleryManifest(
   modules: readonly GalleryModuleMeta[],
   payload: GalleryRegistryPayload,
+  previewRoutes: readonly GalleryPreviewRoute[],
 ): Promise<void> {
   const lines = [
     "// Auto-generated by scripts/build-gallery-usage.ts",
     "// Do not edit directly.",
-    'import type { GalleryRegistryPayload, GallerySection } from "./registry";',
+    'import type { GalleryRegistryPayload, GallerySection, GalleryPreviewRoute } from "./registry";',
     "",
     "interface GalleryModuleExport {",
     "  readonly default: GallerySection | readonly GallerySection[];",
@@ -317,6 +510,8 @@ async function buildGalleryManifest(
     "}",
     "",
     `export const galleryPayload = ${JSON.stringify(payload, null, 2)} satisfies GalleryRegistryPayload;`,
+    "",
+    `export const galleryPreviewRoutes = ${JSON.stringify(previewRoutes, null, 2)} satisfies readonly GalleryPreviewRoute[];`,
     "",
     "export const galleryPreviewModules = [",
   ];
@@ -353,9 +548,10 @@ async function main(): Promise<void> {
   const allSections = modules.flatMap((module) => module.sections);
   const registry = createGalleryRegistry(allSections);
   const usage = await buildUsage(registry.payload.sections);
+  const previewRoutes = buildPreviewRoutes(registry.payload.sections);
   await fs.mkdir(path.dirname(usageFile), { recursive: true });
   await fs.writeFile(usageFile, `${JSON.stringify(usage, null, 2)}\n`);
-  await buildGalleryManifest(modules, registry.payload);
+  await buildGalleryManifest(modules, registry.payload, previewRoutes);
   await writeManifest([...new Set(trackedFiles)]);
   console.log(`Built gallery usage for ${Object.keys(usage).length} entries`);
 }

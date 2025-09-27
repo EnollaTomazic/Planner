@@ -55,7 +55,8 @@
   ],
   "spinner": [
     "/",
-    "/components"
+    "/components",
+    "/preview/[slug]"
   ],
   "toggle": [],
   "animation-toggle": [],
