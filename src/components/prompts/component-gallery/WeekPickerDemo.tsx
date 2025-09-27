@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { ArrowUpToLine } from "lucide-react";
+import { ArrowUpToLine, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Hero, Button } from "@/components/ui";
+import { WeekPickerShell } from "@/components/planner";
 import { fromISODate } from "@/lib/date";
 import { cn } from "@/lib/utils";
 
@@ -199,8 +200,27 @@ export default function WeekPickerDemo() {
       sticky
       dividerTint="primary"
     >
-      <div className="grid flex-1 gap-[var(--space-3)]">
-        <div className="flex items-center justify-end gap-[var(--space-3)]">
+      <WeekPickerShell>
+        <WeekPickerShell.Controls slotId="planner-demo-controls">
+          <div
+            role="group"
+            aria-label="Week navigation"
+            className="flex flex-wrap items-center gap-[var(--space-2)]"
+          >
+            <Button variant="ghost" size="sm" aria-label="Go to previous week">
+              <ChevronLeft />
+              <span>Prev</span>
+            </Button>
+            <Button size="sm" aria-label="Jump to today" disabled>
+              Today
+            </Button>
+            <Button variant="ghost" size="sm" aria-label="Go to next week">
+              <span>Next</span>
+              <ChevronRight />
+            </Button>
+          </div>
+        </WeekPickerShell.Controls>
+        <WeekPickerShell.Totals slotId="planner-demo-range">
           <span className="sr-only" aria-live="polite">
             Week range {rangeLabel}
           </span>
@@ -210,25 +230,27 @@ export default function WeekPickerDemo() {
               {weekDone} / {weekTotal}
             </span>
           </span>
-        </div>
-        <div
-          role="listbox"
-          aria-label={`Select a focus day between ${rangeLabel}`}
-          className="flex gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:overflow-visible"
-        >
-          {DEMO_DAYS.map((day, index) => (
-            <DayChipMock
-              key={day.iso}
-              iso={day.iso}
-              done={day.done}
-              total={day.total}
-              today={day.iso === TODAY_ISO}
-              selected={day.iso === SELECTED_ISO}
-              tabIndex={day.iso === SELECTED_ISO ? 0 : index === 0 ? 0 : -1}
-            />
-          ))}
-        </div>
-      </div>
+        </WeekPickerShell.Totals>
+        <WeekPickerShell.Chips slotId="planner-demo-days">
+          <div
+            role="listbox"
+            aria-label={`Select a focus day between ${rangeLabel}`}
+            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+          >
+            {DEMO_DAYS.map((day, index) => (
+              <DayChipMock
+                key={day.iso}
+                iso={day.iso}
+                done={day.done}
+                total={day.total}
+                today={day.iso === TODAY_ISO}
+                selected={day.iso === SELECTED_ISO}
+                tabIndex={day.iso === SELECTED_ISO ? 0 : index === 0 ? 0 : -1}
+              />
+            ))}
+          </div>
+        </WeekPickerShell.Chips>
+      </WeekPickerShell>
     </Hero>
   );
 }

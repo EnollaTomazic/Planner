@@ -8,14 +8,25 @@ import {
 } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
+const INITIAL_FOCUS = "2024-01-01";
+
+vi.mock("@/components/planner/plannerSerialization", async () => {
+  const actual = await vi.importActual<
+    typeof import("@/components/planner/plannerSerialization")
+  >("@/components/planner/plannerSerialization");
+  return {
+    ...actual,
+    todayISO: () => INITIAL_FOCUS,
+  };
+});
+
 vi.mock("@/lib/db", async () => {
   const actual = await vi.importActual<typeof import("@/lib/db")>("@/lib/db");
-  const initialFocus = "2024-01-01";
   return {
     ...actual,
     usePersistentState: <T,>(key: string, initial: T, _options?: unknown) => {
       if (key === "planner:focus") {
-        return React.useState(initialFocus) as unknown as [
+        return React.useState(INITIAL_FOCUS) as unknown as [
           T,
           React.Dispatch<React.SetStateAction<T>>,
         ];
@@ -258,5 +269,42 @@ describe("WeekPicker", () => {
         screen.queryByRole("button", { name: "Jump to top" }),
       ).not.toBeInTheDocument(),
     );
+  });
+
+  it("navigates between weeks using the header controls", async () => {
+    renderWeekPicker();
+
+    const prevButton = screen.getByRole("button", {
+      name: "Go to previous week",
+    });
+    const todayButton = screen.getByRole("button", { name: "Jump to today" });
+    const nextButton = screen.getByRole("button", { name: "Go to next week" });
+
+    expect(todayButton).toBeDisabled();
+
+    const getFirstLabel = () =>
+      screen.getAllByRole("option")[0]?.getAttribute("aria-label") ?? "";
+
+    const initialLabel = getFirstLabel();
+
+    fireEvent.click(nextButton);
+
+    await waitFor(() => expect(getFirstLabel()).not.toBe(initialLabel));
+    await waitFor(() => expect(todayButton).not.toBeDisabled());
+
+    fireEvent.click(prevButton);
+
+    await waitFor(() => expect(getFirstLabel()).toBe(initialLabel));
+    await waitFor(() => expect(todayButton).toBeDisabled());
+
+    fireEvent.click(prevButton);
+
+    await waitFor(() => expect(getFirstLabel()).not.toBe(initialLabel));
+    await waitFor(() => expect(todayButton).not.toBeDisabled());
+
+    fireEvent.click(todayButton);
+
+    await waitFor(() => expect(getFirstLabel()).toBe(initialLabel));
+    await waitFor(() => expect(todayButton).toBeDisabled());
   });
 });

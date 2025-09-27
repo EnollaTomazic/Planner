@@ -14,9 +14,10 @@ import {
   TaskRow,
   WeekPickerShell,
 } from "@/components/planner";
-import { Input } from "@/components/ui";
+import { Button, Input } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import GalleryItem from "../GalleryItem";
 import {
   demoProjects,
@@ -109,6 +110,25 @@ function getWeekPickerShellDemoAppearance(done: number, total: number) {
 function WeekPickerShellPreview() {
   return (
     <WeekPickerShell>
+      <WeekPickerShell.Controls slotId="planner-demo-controls">
+        <div
+          role="group"
+          aria-label="Week navigation"
+          className="flex flex-wrap items-center gap-[var(--space-2)]"
+        >
+          <Button variant="ghost" size="sm" aria-label="Go to previous week">
+            <ChevronLeft />
+            <span>Prev</span>
+          </Button>
+          <Button size="sm" aria-label="Jump to today" disabled>
+            Today
+          </Button>
+          <Button variant="ghost" size="sm" aria-label="Go to next week">
+            <span>Next</span>
+            <ChevronRight />
+          </Button>
+        </div>
+      </WeekPickerShell.Controls>
       <WeekPickerShell.Totals slotId="planner-demo-range">
         <span className="sr-only" aria-live="polite">
           Week range {weekPickerShellDemoTotals.range}
