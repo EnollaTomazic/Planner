@@ -117,7 +117,7 @@ export default function QuickActionGrid({
             ? "noopener noreferrer"
             : rel;
 
-        const childNode = isExternal ? (
+        const childNode = isExternal || isHash ? (
           <a
             href={resolvedHref}
             target={target}
