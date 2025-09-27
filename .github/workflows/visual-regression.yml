@@ -14,8 +14,23 @@ on:
         type: string
 
 jobs:
+  build:
+    name: Build application
+    uses: ./.github/workflows/node-base.yml
+    with:
+      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+      install-playwright: true
+      summary-title: Visual Regression Build
+      run: |
+        set -euo pipefail
+
+        npm run build
+      artifact-name: next-build
+      artifact-path: .next
+  
   visual:
     name: Visual Regression (${{ matrix.project }})
+    needs: build
     strategy:
       fail-fast: false
       matrix:
@@ -27,6 +42,8 @@ jobs:
     with:
       checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
       install-playwright: true
+      download-artifact-name: next-build
+      download-artifact-path: .
       summary-title: Visual Regression ${{ matrix.project }}
       run: |
         set -euo pipefail
@@ -37,8 +54,6 @@ jobs:
         if [ -n "${WORKFLOW_ENVIRONMENT:-}" ]; then
           echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
         fi
-
-        npm run build
 
         npm run start -- --hostname 127.0.0.1 --port "$PLAYWRIGHT_PORT" &
         SERVER_PID=$!
