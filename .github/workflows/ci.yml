@@ -167,3 +167,59 @@ jobs:
       artifact-path: |
         playwright-results/${{ matrix.project }}
       artifact-on-failure: true
+
+  pages-build:
+    name: Pages static export
+    if: |
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/work')
+    needs:
+      - e2e
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        export DEPLOY_ARTIFACT_ONLY=true
+        npm run deploy
+      cache-paths: |
+        .next/cache
+      cache-key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}
+      cache-restore-keys: |
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}') }}-
+        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      artifact-name: nextjs-static
+      artifact-path: |
+        out
+      summary-title: GitHub Pages export
+
+  pages-deploy:
+    name: Deploy GitHub Pages
+    if: needs.pages-build.result == 'success'
+    needs:
+      - pages-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Download static export
+        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+        with:
+          name: nextjs-static
+          path: out
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
