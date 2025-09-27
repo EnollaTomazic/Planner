@@ -40,6 +40,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
         : Math.min(Math.max(parsedCurrent, 0), parsedTotal);
     const ratio = parsedTotal === 0 ? 0 : normalizedCurrent / parsedTotal;
     const percent = Math.round(ratio * 100);
+    const hasProgress = percent > 0;
     const formattedPercentage =
       formatPercentage?.(percent) ?? `${percent}%`;
 
@@ -69,6 +70,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
           !showPercentage && className,
           percent >= 100 && "is-complete",
         )}
+        data-progress-state={hasProgress ? "active" : "zero"}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
