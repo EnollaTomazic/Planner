@@ -93,20 +93,13 @@ declare module "@playwright/test" {
     press(key: string): Promise<void>;
   }
 
-  interface Page {
-    setViewportSize(size: ViewportSize): Promise<void>;
-    goto(url: string): Promise<void>;
-    keyboard: Keyboard;
-    getByRole(role: Role, options?: GetByRoleOptions): Locator;
-  }
+  type Page = any;
 
   interface TestFixtures {
     page: Page;
   }
 
-  interface TestExpect {
-    (locator: Locator): LocatorAssertions;
-  }
+  type TestExpect = (value: unknown) => any;
 
   interface TestDescribe {
     (name: string, fn: () => void): void;
@@ -121,4 +114,33 @@ declare module "@playwright/test" {
 
   export const test: TestFunction;
   export const expect: TestExpect;
+
+  export interface PlaywrightTestProject {
+    name: string;
+    use?: {
+      browserName?: string;
+    };
+  }
+
+  export interface PlaywrightTestConfig {
+    testDir?: string;
+    fullyParallel?: boolean;
+    forbidOnly?: boolean;
+    retries?: number;
+    reporter?: unknown;
+    use?: {
+      baseURL?: string;
+      browserName?: string;
+      screenshot?: string;
+      trace?: string;
+      video?: string;
+      viewport?: ViewportSize;
+    };
+    projects?: PlaywrightTestProject[];
+  }
+}
+
+declare module "playwright/test" {
+  export type { PlaywrightTestConfig } from "@playwright/test";
+  export { test, expect } from "@playwright/test";
 }
