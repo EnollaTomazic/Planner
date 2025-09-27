@@ -21,7 +21,12 @@
   "section-card-variants": [],
   "page-shell": [
     "/",
-    "/components"
+    "/components",
+    "/goals",
+    "/planner",
+    "/prompts",
+    "/reviews",
+    "/team"
   ],
   "sheet-demo": [],
   "modal-demo": [],

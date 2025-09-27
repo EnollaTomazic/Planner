@@ -4,7 +4,7 @@ import {
   DEFAULT_COMPONENTS_VIEW,
   getAllComponentSlugs,
   resolveComponentsSlug,
-} from "@/components/components/slug";
+} from "@/components/gallery-page/slug";
 
 export { metadata } from "../page";
 

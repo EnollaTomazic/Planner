@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   formatQueryWithHash,
   useComponentsGalleryState,
-} from "@/components/components/useComponentsGalleryState";
+} from "@/components/gallery-page/useComponentsGalleryState";
 import type { GalleryNavigationData } from "@/components/gallery/types";
 
 const replaceSpy = vi.fn<(url: string, options?: { scroll: boolean }) => void>();
