@@ -5,10 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
 import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
+import Spinner from "@/components/ui/feedback/Spinner";
+
+type BottomNavState =
+  | "default"
+  | "active"
+  | "disabled"
+  | "syncing"
+  | "hover"
+  | "focus-visible";
+
+type BottomNavItem = NavItem & {
+  state?: BottomNavState;
+  disabled?: boolean;
+  busy?: boolean;
+};
 
 type BottomNavProps = {
   className?: string;
-  items?: readonly NavItem[];
+  items?: readonly BottomNavItem[];
 };
 
 export default function BottomNav({
@@ -21,36 +36,80 @@ export default function BottomNav({
   return (
     <nav
       role="navigation"
-      aria-label="Primary"
+      aria-label="Primary mobile navigation"
       className={cn(
         "border-t border-border pt-[var(--space-4)] md:hidden",
         className,
       )}
     >
       <ul className="flex justify-around">
-        {items.map(({ href, label, mobileIcon: Icon }) => {
+        {items.map((item) => {
+          const { href, label, mobileIcon: Icon } = item;
           if (!Icon) {
             return null;
           }
 
           const active = isNavActive(pathname, href);
+          const disabled = Boolean(item.disabled);
+          const busy = Boolean(item.busy);
+          const providedState = item.state;
+          const derivedState: BottomNavState = providedState
+            ? providedState
+            : disabled
+            ? "disabled"
+            : busy
+            ? "syncing"
+            : active
+            ? "active"
+            : "default";
+          const pressed = derivedState === "active";
+          const isDisabledState = derivedState === "disabled";
+          const isBusyState = derivedState === "syncing";
+          const ariaDisabled = isDisabledState || disabled;
+          const ariaBusy = isBusyState || busy;
+
           return (
             <li key={href}>
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                data-active={active}
+                role="button"
+                aria-pressed={pressed || undefined}
+                aria-disabled={ariaDisabled || undefined}
+                aria-busy={ariaBusy || undefined}
+                tabIndex={ariaDisabled ? -1 : undefined}
+                onClick={
+                  ariaDisabled
+                    ? (event) => {
+                        event.preventDefault();
+                      }
+                    : undefined
+                }
+                data-state={derivedState}
+                data-busy={ariaBusy || undefined}
                 className={cn(
-                  "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none hover:bg-interaction-accent-surfaceHover active:bg-interaction-accent-surfaceActive active:text-foreground",
-                  active
-                    ? "text-accent-3 ring-2 ring-[var(--focus)]"
-                    : "text-muted-foreground hover:text-foreground"
+                  "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                  "data-[state=default]:text-muted-foreground data-[state=default]:hover:text-foreground",
+                  "data-[state=active]:text-accent-3 data-[state=active]:ring-[var(--ring-size-2)] data-[state=active]:ring-[var(--theme-ring)]",
+                  "data-[state=hover]:text-foreground motion-safe:data-[state=hover]:-translate-y-0.5 motion-reduce:data-[state=hover]:transform-none",
+                  "data-[state=focus-visible]:text-foreground data-[state=focus-visible]:ring-[var(--ring-size-2)] data-[state=focus-visible]:ring-[var(--theme-ring)]",
+                  "data-[state=disabled]:text-muted-foreground/70 data-[state=disabled]:pointer-events-none data-[state=disabled]:opacity-disabled",
+                  "data-[state=syncing]:text-foreground",
+                  ariaDisabled && "pointer-events-none"
                 )}
               >
-                <span className="[&_svg]:size-[var(--space-4)]">
+                <span className="[&_svg]:size-[var(--space-4)] [&_svg]:stroke-[var(--icon-stroke-150)]">
                   <Icon aria-hidden="true" />
                 </span>
-                <span>{label}</span>
+                <span className="flex items-center gap-[var(--space-1)]">
+                  {label}
+                  {ariaBusy ? (
+                    <Spinner
+                      size="xs"
+                      className="border-[var(--progress-ring-stroke)] border-t-transparent [--spinner-size:calc(var(--progress-ring-diameter)/4)]"
+                    />
+                  ) : null}
+                </span>
               </Link>
             </li>
           );

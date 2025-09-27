@@ -82,11 +82,11 @@ declare module "@playwright/test" {
   interface LocatorAssertions {
     toBeVisible(): Promise<void>;
     toBeFocused(): Promise<void>;
+    toHaveAttribute(name: string, value: string): Promise<void>;
   }
 
   interface Locator {
-    toBeVisible(): Promise<void>;
-    toBeFocused(): Promise<void>;
+    focus(): Promise<void>;
   }
 
   interface Keyboard {
