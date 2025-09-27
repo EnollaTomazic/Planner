@@ -1,0 +1,102 @@
+name: Visual Regression
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-ref:
+        description: Optional branch, tag, or commit to checkout before running the suite
+        required: false
+        default: ""
+      environment:
+        description: Optional environment label to record in the run summary
+        required: false
+        default: ""
+
+jobs:
+  visual-diff:
+    name: Visual diff (${{ matrix.title }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: chromium-desktop
+            project: chromium
+            title: Chromium · Desktop
+            device: Desktop viewport
+          - id: firefox-desktop
+            project: firefox
+            title: Firefox · Desktop
+            device: Desktop viewport
+          - id: webkit-desktop
+            project: webkit
+            title: WebKit · Desktop
+            device: Desktop viewport
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+
+        if [ -n "${{ inputs.target-ref }}" ]; then
+          git fetch --no-tags --prune --depth=1 origin "${{ inputs.target-ref }}"
+          git checkout --progress --force FETCH_HEAD
+        fi
+
+        export VISUAL_ENVIRONMENT="${{ inputs.environment }}"
+        export VISUAL_DEVICE="${{ matrix.device }}"
+
+        OUTPUT_DIR="playwright-visual/${{ matrix.id }}"
+        mkdir -p "$OUTPUT_DIR"
+
+        npx playwright test \
+          --config=playwright.visual.config.ts \
+          --project="${{ matrix.project }}" \
+          --reporter=line \
+          --grep "@visual" \
+          --output="$OUTPUT_DIR"
+
+        if [ ! -e "$OUTPUT_DIR/summary.md" ]; then
+          {
+            echo "# Visual diff run";
+            echo "- Surface: ${{ matrix.title }}";
+            if [ -n "${{ inputs.environment }}" ]; then
+              echo "- Environment: ${{ inputs.environment }}";
+            fi
+          } >> "$OUTPUT_DIR/summary.md"
+        fi
+      summary-title: Visual diff ${{ matrix.title }}
+      install-playwright: true
+      artifact-name: visual-diff-${{ matrix.id }}
+      artifact-path: |
+        playwright-visual/${{ matrix.id }}
+
+  summary:
+    name: Summary
+    needs: visual-diff
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post run summary
+        run: |
+          REF_INPUT="${{ github.event.inputs.target-ref }}"
+          if [ -z "$REF_INPUT" ]; then
+            REF_INPUT="${{ github.ref }}"
+          fi
+
+          ENV_INPUT="${{ github.event.inputs.environment }}"
+          if [ -z "$ENV_INPUT" ]; then
+            ENV_INPUT="(not specified)"
+          fi
+
+          {
+            echo "## Visual regression run";
+            echo "- Overall status: ${{ needs.visual-diff.result }}";
+            echo "- Ref: $REF_INPUT";
+            echo "- Environment tag: $ENV_INPUT";
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${{ needs.visual-diff.result }}" != "success" ]; then
+            echo "At least one browser/device target reported differences." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "No diffs detected across the configured targets." >> "$GITHUB_STEP_SUMMARY"
