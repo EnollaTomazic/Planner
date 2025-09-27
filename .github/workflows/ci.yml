@@ -142,6 +142,7 @@ jobs:
           - webkit
     uses: ./.github/workflows/node-base.yml
     with:
+      download-artifact-name: next-build
       run: |
         set -euo pipefail
         case "${{ matrix.project }}" in
@@ -163,7 +164,10 @@ jobs:
         export PLAYWRIGHT_HOST="$HOST"
         export PLAYWRIGHT_PORT="$PORT"
 
-        npm run build
+        if [ ! -d ".next" ]; then
+          echo "Downloaded build artifact missing .next directory" >&2
+          exit 1
+        fi
 
         npm run start -- --hostname "$HOST" --port "$PORT" &
         SERVER_PID=$!
