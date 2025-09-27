@@ -57,7 +57,7 @@ function BadgeGalleryPreview() {
 }
 
 export default defineGallerySection({
-  id: "misc",
+  id: "buttons",
   entries: [
     {
       id: "badge",

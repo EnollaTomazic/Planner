@@ -481,11 +481,11 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="relative h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
             >
               <div
-                class="absolute left-0 top-0 h-[var(--space-2)] rounded-full shadow-ring bg-gradient-to-r from-primary to-accent [--ring:var(--primary)] ring-1 ring-transparent transition-[box-shadow] duration-140 ease-out group-hover:ring-[theme('colors.interaction.accent.tintHover')] group-active:ring-[theme('colors.interaction.accent.tintActive')]"
+                class="absolute left-0 top-0 h-[var(--space-2)] rounded-full shadow-ring bg-gradient-to-r from-primary to-accent [--ring:var(--primary)] ring-1 ring-transparent transition-[box-shadow] duration-quick ease-out group-hover:ring-[theme('colors.interaction.accent.tintHover')] group-active:ring-[theme('colors.interaction.accent.tintActive')]"
                 style="width: calc(50% + var(--space-2) + var(--space-1) / 2);"
               />
               <div
-                class="absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] transition-[background-color,border-color,box-shadow] duration-140 ease-out group-hover:bg-[theme('colors.interaction.accent.surfaceHover')] group-active:bg-[theme('colors.interaction.accent.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control"
+                class="absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-neoSoft h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] transition-[background-color,border-color,box-shadow] duration-quick ease-out group-hover:bg-[theme('colors.interaction.accent.surfaceHover')] group-active:bg-[theme('colors.interaction.accent.surfaceActive')] group-hover:border-transparent group-active:border-transparent group-hover:shadow-control-hover group-active:shadow-control"
                 style="left: calc(50% - (var(--space-2) + var(--space-1) / 2));"
               />
             </div>

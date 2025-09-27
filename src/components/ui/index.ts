@@ -101,3 +101,4 @@ export { default as SegmentedButtonGallery } from "./primitives/SegmentedButton.
 export { default as TabsGallery } from "./primitives/Tabs.gallery";
 export { default as TextareaGallery } from "./primitives/Textarea.gallery";
 export { default as SelectGallery } from "./Select.gallery";
+export { default as ToggleGallery } from "./toggles/Toggle.gallery";

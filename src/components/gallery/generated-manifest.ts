@@ -17,6 +17,119 @@ export const galleryPayload = {
       "id": "buttons",
       "entries": [
         {
+          "id": "badge",
+          "name": "Badge",
+          "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
+          "kind": "primitive",
+          "tags": [
+            "badge",
+            "pill"
+          ],
+          "props": [
+            {
+              "name": "tone",
+              "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
+              "defaultValue": "\"neutral\""
+            },
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+              "defaultValue": "\"md\"",
+              "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
+            },
+            {
+              "name": "interactive",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "selected",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "glitch",
+              "type": "boolean",
+              "defaultValue": "false"
+            }
+          ],
+          "axes": [
+            {
+              "id": "tone",
+              "label": "Tone",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Neutral"
+                },
+                {
+                  "value": "Accent"
+                },
+                {
+                  "value": "Primary"
+                },
+                {
+                  "value": "Top lane"
+                },
+                {
+                  "value": "Jungle"
+                },
+                {
+                  "value": "Mid lane"
+                },
+                {
+                  "value": "Bot lane"
+                },
+                {
+                  "value": "Support"
+                }
+              ]
+            },
+            {
+              "id": "size",
+              "label": "Size",
+              "type": "variant",
+              "values": [
+                {
+                  "value": "Small"
+                },
+                {
+                  "value": "Medium"
+                },
+                {
+                  "value": "Large"
+                },
+                {
+                  "value": "Extra large"
+                }
+              ]
+            },
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Interactive"
+                },
+                {
+                  "value": "Selected"
+                },
+                {
+                  "value": "Disabled"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:badge:tones"
+          }
+        },
+        {
           "id": "button",
           "name": "Button",
           "description": "Tone, size, and interaction states",
@@ -2409,6 +2522,130 @@ export const galleryPayload = {
               }
             }
           ]
+        },
+        {
+          "id": "toggle",
+          "name": "Toggle",
+          "description": "Binary switch with hover, focus, active, disabled, and loading states",
+          "kind": "primitive",
+          "tags": [
+            "toggle",
+            "switch"
+          ],
+          "props": [
+            {
+              "name": "leftLabel",
+              "type": "string"
+            },
+            {
+              "name": "rightLabel",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "\"Left\" | \"Right\"",
+              "defaultValue": "\"Left\""
+            },
+            {
+              "name": "onChange",
+              "type": "(value: \"Left\" | \"Right\") => void"
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            {
+              "name": "className",
+              "type": "string"
+            }
+          ],
+          "axes": [
+            {
+              "id": "state",
+              "label": "State",
+              "type": "state",
+              "values": [
+                {
+                  "value": "Default"
+                },
+                {
+                  "value": "Hover"
+                },
+                {
+                  "value": "Focus-visible"
+                },
+                {
+                  "value": "Active"
+                },
+                {
+                  "value": "Disabled"
+                },
+                {
+                  "value": "Loading"
+                }
+              ]
+            }
+          ],
+          "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
+          "preview": {
+            "id": "ui:toggle:interactive"
+          },
+          "states": [
+            {
+              "id": "default",
+              "name": "Default",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" />",
+              "preview": {
+                "id": "ui:toggle:state:default"
+              }
+            },
+            {
+              "id": "hover",
+              "name": "Hover",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />",
+              "preview": {
+                "id": "ui:toggle:state:hover"
+              }
+            },
+            {
+              "id": "focus-visible",
+              "name": "Focus-visible",
+              "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
+              "preview": {
+                "id": "ui:toggle:state:focus-visible"
+              }
+            },
+            {
+              "id": "active",
+              "name": "Active",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />",
+              "preview": {
+                "id": "ui:toggle:state:active"
+              }
+            },
+            {
+              "id": "disabled",
+              "name": "Disabled",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />",
+              "preview": {
+                "id": "ui:toggle:state:disabled"
+              }
+            },
+            {
+              "id": "loading",
+              "name": "Loading",
+              "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />",
+              "preview": {
+                "id": "ui:toggle:state:loading"
+              }
+            }
+          ]
         }
       ]
     },
@@ -3251,125 +3488,125 @@ export const galleryPayload = {
           "preview": {
             "id": "prompts:misc:cat-companion"
           }
-        },
-        {
-          "id": "badge",
-          "name": "Badge",
-          "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
-          "kind": "primitive",
-          "tags": [
-            "badge",
-            "pill"
-          ],
-          "props": [
-            {
-              "name": "tone",
-              "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
-              "defaultValue": "\"neutral\""
-            },
-            {
-              "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
-              "defaultValue": "\"md\"",
-              "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
-            },
-            {
-              "name": "interactive",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "selected",
-              "type": "boolean",
-              "defaultValue": "false"
-            },
-            {
-              "name": "glitch",
-              "type": "boolean",
-              "defaultValue": "false"
-            }
-          ],
-          "axes": [
-            {
-              "id": "tone",
-              "label": "Tone",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Neutral"
-                },
-                {
-                  "value": "Accent"
-                },
-                {
-                  "value": "Primary"
-                },
-                {
-                  "value": "Top lane"
-                },
-                {
-                  "value": "Jungle"
-                },
-                {
-                  "value": "Mid lane"
-                },
-                {
-                  "value": "Bot lane"
-                },
-                {
-                  "value": "Support"
-                }
-              ]
-            },
-            {
-              "id": "size",
-              "label": "Size",
-              "type": "variant",
-              "values": [
-                {
-                  "value": "Small"
-                },
-                {
-                  "value": "Medium"
-                },
-                {
-                  "value": "Large"
-                },
-                {
-                  "value": "Extra large"
-                }
-              ]
-            },
-            {
-              "id": "state",
-              "label": "State",
-              "type": "state",
-              "values": [
-                {
-                  "value": "Default"
-                },
-                {
-                  "value": "Interactive"
-                },
-                {
-                  "value": "Selected"
-                },
-                {
-                  "value": "Disabled"
-                }
-              ]
-            }
-          ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
-          "preview": {
-            "id": "ui:badge:tones"
-          }
         }
       ]
     }
   ],
   "byKind": {
     "primitive": [
+      {
+        "id": "badge",
+        "name": "Badge",
+        "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
+        "kind": "primitive",
+        "tags": [
+          "badge",
+          "pill"
+        ],
+        "props": [
+          {
+            "name": "tone",
+            "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
+            "defaultValue": "\"neutral\""
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+            "defaultValue": "\"md\"",
+            "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "selected",
+            "type": "boolean",
+            "defaultValue": "false"
+          },
+          {
+            "name": "glitch",
+            "type": "boolean",
+            "defaultValue": "false"
+          }
+        ],
+        "axes": [
+          {
+            "id": "tone",
+            "label": "Tone",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Neutral"
+              },
+              {
+                "value": "Accent"
+              },
+              {
+                "value": "Primary"
+              },
+              {
+                "value": "Top lane"
+              },
+              {
+                "value": "Jungle"
+              },
+              {
+                "value": "Mid lane"
+              },
+              {
+                "value": "Bot lane"
+              },
+              {
+                "value": "Support"
+              }
+            ]
+          },
+          {
+            "id": "size",
+            "label": "Size",
+            "type": "variant",
+            "values": [
+              {
+                "value": "Small"
+              },
+              {
+                "value": "Medium"
+              },
+              {
+                "value": "Large"
+              },
+              {
+                "value": "Extra large"
+              }
+            ]
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "state",
+            "values": [
+              {
+                "value": "Default"
+              },
+              {
+                "value": "Interactive"
+              },
+              {
+                "value": "Selected"
+              },
+              {
+                "value": "Disabled"
+              }
+            ]
+          }
+        ],
+        "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
+        "preview": {
+          "id": "ui:badge:tones"
+        }
+      },
       {
         "id": "button",
         "name": "Button",
@@ -4860,93 +5097,48 @@ export const galleryPayload = {
         ]
       },
       {
-        "id": "badge",
-        "name": "Badge",
-        "description": "Compact pill with tone-driven styles. Accent tones now meet ≥4.5:1 contrast for white content",
+        "id": "toggle",
+        "name": "Toggle",
+        "description": "Binary switch with hover, focus, active, disabled, and loading states",
         "kind": "primitive",
         "tags": [
-          "badge",
-          "pill"
+          "toggle",
+          "switch"
         ],
         "props": [
           {
-            "name": "tone",
-            "type": "\"neutral\" | \"primary\" | \"accent\" | \"top\" | \"jungle\" | \"mid\" | \"bot\" | \"support\"",
-            "defaultValue": "\"neutral\""
+            "name": "leftLabel",
+            "type": "string"
           },
           {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
-            "defaultValue": "\"md\"",
-            "description": "Use \"xs\" as an alias for \"sm\" when migrating legacy code."
+            "name": "rightLabel",
+            "type": "string"
           },
           {
-            "name": "interactive",
+            "name": "value",
+            "type": "\"Left\" | \"Right\"",
+            "defaultValue": "\"Left\""
+          },
+          {
+            "name": "onChange",
+            "type": "(value: \"Left\" | \"Right\") => void"
+          },
+          {
+            "name": "disabled",
             "type": "boolean",
             "defaultValue": "false"
           },
           {
-            "name": "selected",
+            "name": "loading",
             "type": "boolean",
             "defaultValue": "false"
           },
           {
-            "name": "glitch",
-            "type": "boolean",
-            "defaultValue": "false"
+            "name": "className",
+            "type": "string"
           }
         ],
         "axes": [
-          {
-            "id": "tone",
-            "label": "Tone",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Neutral"
-              },
-              {
-                "value": "Accent"
-              },
-              {
-                "value": "Primary"
-              },
-              {
-                "value": "Top lane"
-              },
-              {
-                "value": "Jungle"
-              },
-              {
-                "value": "Mid lane"
-              },
-              {
-                "value": "Bot lane"
-              },
-              {
-                "value": "Support"
-              }
-            ]
-          },
-          {
-            "id": "size",
-            "label": "Size",
-            "type": "variant",
-            "values": [
-              {
-                "value": "Small"
-              },
-              {
-                "value": "Medium"
-              },
-              {
-                "value": "Large"
-              },
-              {
-                "value": "Extra large"
-              }
-            ]
-          },
           {
             "id": "state",
             "label": "State",
@@ -4956,21 +5148,77 @@ export const galleryPayload = {
                 "value": "Default"
               },
               {
-                "value": "Interactive"
+                "value": "Hover"
               },
               {
-                "value": "Selected"
+                "value": "Focus-visible"
+              },
+              {
+                "value": "Active"
               },
               {
                 "value": "Disabled"
+              },
+              {
+                "value": "Loading"
               }
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-3)]\">\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge size=\"sm\">Small</Badge>\n    <Badge size=\"md\">Medium</Badge>\n    <Badge size=\"lg\">Large</Badge>\n    <Badge size=\"xl\">Extra large</Badge>\n  </div>\n  <p className=\"text-caption text-muted-foreground\">\n    <code>xs</code> is available as an alias of <code>sm</code> for legacy badges.\n  </p>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"neutral\">Neutral</Badge>\n    <Badge tone=\"accent\">Accent</Badge>\n    <Badge tone=\"primary\">Primary</Badge>\n    <Badge tone=\"primary\" interactive selected>\n      Selected\n    </Badge>\n    <Badge tone=\"accent\" interactive disabled>\n      Disabled\n    </Badge>\n  </div>\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Badge tone=\"top\" glitch>\n      Top lane\n    </Badge>\n    <Badge tone=\"jungle\" glitch>\n      Jungle\n    </Badge>\n    <Badge tone=\"mid\" glitch>\n      Mid lane\n    </Badge>\n    <Badge tone=\"bot\" glitch>\n      Bot lane\n    </Badge>\n    <Badge tone=\"support\" glitch>\n      Support\n    </Badge>\n  </div>\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-4)]\">\n  <Toggle leftLabel=\"Strategy\" rightLabel=\"Execute\" />\n  <div className=\"flex flex-wrap gap-[var(--space-2)]\">\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />\n    <Toggle\n      leftLabel=\"Left\"\n      rightLabel=\"Right\"\n      className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n    />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />\n    <Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />\n  </div>\n</div>",
         "preview": {
-          "id": "ui:badge:tones"
-        }
+          "id": "ui:toggle:interactive"
+        },
+        "states": [
+          {
+            "id": "default",
+            "name": "Default",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" />",
+            "preview": {
+              "id": "ui:toggle:state:default"
+            }
+          },
+          {
+            "id": "hover",
+            "name": "Hover",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--hover]\" />",
+            "preview": {
+              "id": "ui:toggle:state:hover"
+            }
+          },
+          {
+            "id": "focus-visible",
+            "name": "Focus-visible",
+            "code": "<Toggle\n  leftLabel=\"Left\"\n  rightLabel=\"Right\"\n  className=\"ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-2)]\"\n/>",
+            "preview": {
+              "id": "ui:toggle:state:focus-visible"
+            }
+          },
+          {
+            "id": "active",
+            "name": "Active",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" className=\"bg-[--active]\" />",
+            "preview": {
+              "id": "ui:toggle:state:active"
+            }
+          },
+          {
+            "id": "disabled",
+            "name": "Disabled",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" disabled />",
+            "preview": {
+              "id": "ui:toggle:state:disabled"
+            }
+          },
+          {
+            "id": "loading",
+            "name": "Loading",
+            "code": "<Toggle leftLabel=\"Left\" rightLabel=\"Right\" loading />",
+            "preview": {
+              "id": "ui:toggle:state:loading"
+            }
+          }
+        ]
       }
     ],
     "component": [
@@ -6968,6 +7216,18 @@ export const galleryPreviewModules = [
       "ui:textarea:state:read-only",
       "ui:textarea:state:disabled",
       "ui:textarea:state:loading",
+    ],
+  },
+  {
+    loader: () => import("../ui/toggles/Toggle.gallery"),
+    previewIds: [
+      "ui:toggle:interactive",
+      "ui:toggle:state:default",
+      "ui:toggle:state:hover",
+      "ui:toggle:state:focus-visible",
+      "ui:toggle:state:active",
+      "ui:toggle:state:disabled",
+      "ui:toggle:state:loading",
     ],
   },
 ] satisfies readonly GalleryPreviewModuleManifest[];
