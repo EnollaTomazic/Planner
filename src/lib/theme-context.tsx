@@ -134,4 +134,10 @@ export function useTheme(): readonly [
   return ctx;
 }
 
+export function useOptionalTheme():
+  | readonly [ThemeState, React.Dispatch<React.SetStateAction<ThemeState>>]
+  | undefined {
+  return React.useContext(ThemeContext);
+}
+
 export default ThemeProvider;
