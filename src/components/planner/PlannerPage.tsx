@@ -21,14 +21,13 @@ import { PlannerProvider } from "./plannerContext";
 import WeekPicker from "./WeekPicker";
 import { PageHeader } from "@/components/ui";
 import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
-import Button from "@/components/ui/primitives/Button";
-import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
-import { addDays, formatWeekRangeLabel, toISODate } from "@/lib/date";
+import { CalendarDays } from "lucide-react";
+import { formatWeekRangeLabel } from "@/lib/date";
 
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
-  const { iso, today, setIso } = useFocusDate();
+  const { iso, today } = useFocusDate();
   const { start, end, days } = useWeek(iso);
   const weekAnnouncement = React.useMemo(
     () => formatWeekRangeLabel(start, end),
@@ -41,43 +40,7 @@ function Inner() {
     [days, today],
   );
 
-  const prevWeek = React.useCallback(() => {
-    setIso(toISODate(addDays(start, -7)));
-  }, [setIso, start]);
-  const nextWeek = React.useCallback(() => {
-    setIso(toISODate(addDays(start, 7)));
-  }, [setIso, start]);
-  const jumpToday = React.useCallback(() => {
-    setIso(today);
-  }, [setIso, today]);
-
   const heroRef = React.useRef<HTMLDivElement>(null);
-
-  const right = (
-    <div className="flex items-center gap-[var(--space-2)]">
-      <Button
-        variant="ghost"
-        size="sm"
-        aria-label="Previous week"
-        onClick={prevWeek}
-      >
-        <ChevronLeft />
-        <span>Prev</span>
-      </Button>
-      <Button size="sm" aria-label="Jump to today" onClick={jumpToday}>
-        Today
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        aria-label="Next week"
-        onClick={nextWeek}
-      >
-        <span>Next</span>
-        <ChevronRight />
-      </Button>
-    </div>
-  );
 
   return (
     <>
@@ -92,7 +55,6 @@ function Inner() {
             heading: "Planner for Today",
             subtitle: "Plan your week",
             icon: <CalendarDays className="opacity-80" />,
-            right,
             sticky: false,
           }}
           hero={{

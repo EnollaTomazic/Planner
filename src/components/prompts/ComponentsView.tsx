@@ -15,6 +15,8 @@ import { useTheme } from "@/lib/theme-context";
 
 import { getGalleryPreview } from "./constants";
 
+export const PROPS_DISCLOSURE_COLLAPSE_THRESHOLD = 6;
+
 interface ComponentsViewProps {
   entry: GallerySerializableEntry;
   onCurrentCodeChange?: (code: string | null) => void;
@@ -311,14 +313,55 @@ function PropsTable({
   props: NonNullable<GallerySerializableEntry["props"]>;
 }) {
   const headingId = React.useId();
+  const panelId = React.useId();
+  const firstCellRef = React.useRef<HTMLTableCellElement>(null);
+  const shouldCollapseByDefault =
+    props.length > PROPS_DISCLOSURE_COLLAPSE_THRESHOLD;
+  const [expanded, setExpanded] = React.useState(!shouldCollapseByDefault);
+  const previousExpanded = React.useRef(expanded);
+
+  React.useEffect(() => {
+    if (expanded && !previousExpanded.current) {
+      firstCellRef.current?.focus();
+    }
+    previousExpanded.current = expanded;
+  }, [expanded]);
+
+  const toggleLabel = expanded
+    ? "Hide props"
+    : `View ${props.length} props`;
+
+  const handleToggle = () => {
+    setExpanded((current) => !current);
+  };
 
   return (
     <section
       aria-labelledby={headingId}
       className="space-y-[var(--space-3)]"
     >
-      <SectionHeading id={headingId}>Props</SectionHeading>
+      <div className="flex items-center justify-between gap-[var(--space-3)]">
+        <SectionHeading id={headingId}>Props</SectionHeading>
+        <button
+          type="button"
+          onClick={handleToggle}
+          aria-expanded={expanded}
+          aria-controls={panelId}
+          className={cn(
+            "text-label font-medium text-foreground",
+            "underline-offset-4 transition hover:underline",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+          )}
+        >
+          {toggleLabel}
+        </button>
+      </div>
       <div
+        id={panelId}
+        role="region"
+        aria-labelledby={headingId}
+        hidden={!expanded}
+        aria-hidden={expanded ? undefined : true}
         className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] shadow-[var(--shadow-inset-hairline)]"
       >
         <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
@@ -339,12 +382,16 @@ function PropsTable({
             </tr>
           </thead>
           <tbody>
-            {props.map((prop) => (
+            {props.map((prop, index) => (
               <tr
                 key={prop.name}
                 className="border-t border-[hsl(var(--card-hairline)/0.4)] text-label"
               >
-                <td className="px-[var(--space-4)] py-[var(--space-3)] font-medium text-foreground">
+                <td
+                  ref={index === 0 ? firstCellRef : undefined}
+                  tabIndex={index === 0 ? -1 : undefined}
+                  className="px-[var(--space-4)] py-[var(--space-3)] font-medium text-foreground"
+                >
                   {prop.name}
                   {prop.required ? (
                     <span className="ml-[var(--space-2)] text-caption text-danger">
