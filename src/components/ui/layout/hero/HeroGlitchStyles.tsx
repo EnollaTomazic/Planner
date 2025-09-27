@@ -27,7 +27,6 @@ export function HeroGlitchStyles() {
         );
         color: hsl(var(--accent-2) / 0.85);
         mix-blend-mode: screen;
-        animation: hero2-glitch-a 2.4s infinite steps(8, end);
       }
       .hero2-title::after {
         transform: translate(
@@ -36,7 +35,21 @@ export function HeroGlitchStyles() {
         );
         color: hsl(var(--lav-deep) / 0.85);
         mix-blend-mode: screen;
-        animation: hero2-glitch-b 2.4s infinite steps(9, end);
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .hero2-title::before {
+          animation: hero2-glitch-a 2.4s infinite steps(8, end);
+        }
+        .hero2-title::after {
+          animation: hero2-glitch-b 2.4s infinite steps(9, end);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero2-title::before,
+        .hero2-title::after {
+          animation: none;
+          transition-duration: 0s;
+        }
       }
       @keyframes hero2-glitch-a {
         0% {
@@ -94,29 +107,22 @@ export function HeroGlitchStyles() {
       }
       @media (prefers-contrast: more) {
         .hero2-divider-line {
-          background-color: hsl(var(--foreground)) !important;
-          opacity: 0.85 !important;
+          background-color: hsl(var(--foreground));
+          opacity: 0.85;
         }
         .hero2-divider-glow {
-          background-color: hsl(var(--foreground)) !important;
-          opacity: 0.9 !important;
-          filter: none !important;
+          background-color: hsl(var(--foreground));
+          opacity: 0.9;
+          filter: none;
         }
       }
       @media (forced-colors: active) {
         .hero2-divider-line {
-          background-color: CanvasText !important;
-          opacity: 1 !important;
+          background-color: CanvasText;
+          opacity: 1;
         }
         .hero2-divider-glow {
-          display: none !important;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .hero2-title::before,
-        .hero2-title::after {
-          animation: none !important;
-          transition: none !important;
+          display: none;
         }
       }
     `}</style>
