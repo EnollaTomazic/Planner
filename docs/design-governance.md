@@ -13,13 +13,13 @@ This guide codifies how we keep the Planner design system consistent across impl
 
 - **Cause**: Our current ESLint preset focuses on React correctness but does not guard design decisions. **Impact**: Subtle violations (e.g., manual spacing, inline colors) pass code review undetected.
 - Layer style-specific rules into `eslint.config.mjs` by composing `no-restricted-syntax` blocks that disallow literal color strings, pixel-based spacing, or importing CSS files outside the themes/tokens pipeline. Mirror the allowed vocabulary by loading the token names from `tokens/tokens.js` so the rule set evolves with the design system.
-- Add a dedicated `npm run lint:design` command that reuses these rules and plug it into `npm run check`. Failing the design lint should block merges, keeping the governance signal in the same report developers already monitor.
+- Keep the existing `npm run lint:design` command wired into `npm run check` (see `.github/workflows/ci.yml`). CI must continue running this task so the design lint gate always reports alongside the broader checks and blocks merges when it fails.
 - Surface actionable messages (e.g., "Use `space-5` instead of `20px`") to teach newcomers the preferred token. Pair the rule with a fixer where possible so migrations stay lightweight.
 
 ## Component gallery accountability
 
 - **Cause**: Without canonical examples, teams implement components from memory, diverging from the approved patterns. **Impact**: Accessibility affordances (roles, focus management) and token usage degrade across surfaces.
-- Treat `src/components/gallery` as the authoritative showcase. Every component or primitive change must ship with a corresponding gallery entry, variant metadata, and usage guidance. Because `src/components/prompts/PromptsPage` renders the gallery, additions become instantly visible in the prompts demo route.
+- Treat `src/components/gallery` as the authoritative showcase. Every component or primitive change must ship with a corresponding gallery entry, variant metadata, and usage guidance. The `/components` route renders this gallery (`src/app/components/page.tsx`), so additions surface immediately in the public catalog.
 - Document required states (default, hover, focus-visible, disabled) and content density for each gallery example. Use the gallery metadata to prove that tokens like `text-accent-foreground` and `shadow-dropdown` render correctly across themes.
 - Back the gallery with snapshot tests (via Storybook stories or the existing runtime manifest) so CI fails if a refactor strips required landmarks, aria labels, or token hooks. When regressions arise, the gallery doubles as the reproduction harness for debugging.
 
