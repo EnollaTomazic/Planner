@@ -6,7 +6,7 @@ import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
 import { Button } from "@/components/ui";
-import { Tv } from "lucide-react";
+import { Ghost } from "lucide-react";
 
 const PAGE_SIZE = 40;
 
@@ -56,11 +56,22 @@ export default function ReviewList({
     setVisibleCount((prev) => Math.min(count, prev + PAGE_SIZE));
   }, [count]);
 
+  const interactiveRingClass =
+    hoverRing &&
+    "hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)]";
+
   const containerClass = cn(
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
     "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-chill",
-    hoverRing &&
-      "hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)]",
+    interactiveRingClass,
+    className,
+  );
+
+  const emptyContainerClass = cn(
+    "w-full mx-auto rounded-card r-card-lg text-card-foreground shadow-outline-subtle",
+    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-chill",
+    "relative isolate overflow-hidden glitch-card",
+    interactiveRingClass,
     className,
   );
 
@@ -72,13 +83,31 @@ export default function ReviewList({
 
   if (count === 0) {
     return (
-      <section data-scope="reviews" className={containerClass}>
+      <section data-scope="reviews" className={emptyContainerClass}>
         {headerNode}
         <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
-          <Tv className="size-[var(--space-5)] opacity-60" />
-          <p>No reviews yet</p>
-          <Button variant="primary" onClick={onCreate}>
-            New Review
+          <span
+            aria-hidden
+            data-text=""
+            className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+          >
+            <Ghost
+              aria-hidden
+              focusable="false"
+              className="size-[var(--space-6)]"
+            />
+          </span>
+          <div className="space-y-[var(--space-1)]">
+            <p className="text-card-foreground">It&rsquo;s a friendly ghost town in here.</p>
+            <p>Spin up the first review and give this space a pulse.</p>
+          </div>
+          <Button
+            type="button"
+            variant="primary"
+            onClick={onCreate}
+            className="btn-glitch"
+          >
+            Create review
           </Button>
         </div>
       </section>
