@@ -6,10 +6,18 @@ concurrency:
 
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
   push:
     branches:
       - main
       - work
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
 
 jobs:
   lint:
