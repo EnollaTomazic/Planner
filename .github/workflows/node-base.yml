@@ -7,8 +7,23 @@ on:
         description: Command to execute after dependencies install
         required: true
         type: string
-      cache-path:
-        description: Optional path to cache between runs (newline-delimited for multiple entries)
+      install-command:
+        description: Command used to install project dependencies
+        required: false
+        default: npm ci --prefer-offline --no-audit --no-fund
+        type: string
+      cache-paths:
+        description: Optional newline-delimited cache paths
+        required: false
+        default: ""
+        type: string
+      cache-key:
+        description: Optional cache key override
+        required: false
+        default: ""
+        type: string
+      cache-restore-keys:
+        description: Optional newline-delimited cache restore keys
         required: false
         default: ""
         type: string
@@ -37,6 +52,11 @@ on:
         required: false
         default: false
         type: boolean
+      checkout-ref:
+        description: Optional git ref to checkout instead of the default
+        required: false
+        default: ""
+        type: string
     secrets: {}
 
 jobs:
@@ -48,6 +68,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          ref: ${{ inputs.checkout-ref != '' && inputs.checkout-ref || github.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
@@ -62,13 +84,12 @@ jobs:
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
 
       - name: Restore project cache
-        if: inputs.cache-path != ''
+        if: inputs.cache-paths != ''
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
-          path: ${{ inputs.cache-path }}
-          key: shared-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            shared-${{ runner.os }}-
+          path: ${{ inputs.cache-paths }}
+          key: ${{ inputs.cache-key != '' && inputs.cache-key || format('node-{0}-{1}', runner.os, hashFiles('package-lock.json')) }}
+          restore-keys: ${{ inputs.cache-restore-keys }}
 
       - name: Determine Playwright version
         if: inputs.install-playwright
@@ -103,7 +124,7 @@ jobs:
           key: playwright-${{ steps.playwright.outputs.version }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
+        run: ${{ inputs.install-command }}
 
       - name: Install Playwright browsers
         if: inputs.install-playwright
