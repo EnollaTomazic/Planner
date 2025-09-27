@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Fuse from "fuse.js";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { getGallerySectionEntries } from "@/components/prompts/constants";
@@ -21,6 +20,43 @@ export type ComponentsView = GallerySectionGroupKey;
 export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
 export const COMPONENTS_SECTION_TAB_ID_BASE = "components-section";
 export const COMPONENTS_PANEL_ID = "components-components-panel";
+
+function matchesEntryQuery(
+  entry: GallerySerializableEntry,
+  normalizedQuery: string,
+): boolean {
+  if (entry.name.toLowerCase().includes(normalizedQuery)) {
+    return true;
+  }
+
+  if (
+    typeof entry.description === "string" &&
+    entry.description.toLowerCase().includes(normalizedQuery)
+  ) {
+    return true;
+  }
+
+  if (
+    Array.isArray(entry.tags) &&
+    entry.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery))
+  ) {
+    return true;
+  }
+
+  if (
+    Array.isArray(entry.props) &&
+    entry.props.some((prop) => {
+      return (
+        prop.name.toLowerCase().includes(normalizedQuery) ||
+        prop.type.toLowerCase().includes(normalizedQuery)
+      );
+    })
+  ) {
+    return true;
+  }
+
+  return false;
+}
 
 interface TabItem {
   readonly key: string;
@@ -370,19 +406,13 @@ export function useComponentsGalleryState({
     [resolvedSection],
   );
 
-  const sectionFuse = React.useMemo(() => {
-    return new Fuse<GallerySerializableEntry>(sectionSpecs, {
-      keys: ["name", "tags", "description", "props.name", "props.type"],
-      threshold: 0.3,
-    });
-  }, [sectionSpecs]);
-
   const filteredSpecs = React.useMemo(() => {
-    if (!query) {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (normalizedQuery.length === 0) {
       return sectionSpecs;
     }
-    return sectionFuse.search(query).map((result) => result.item);
-  }, [query, sectionFuse, sectionSpecs]);
+    return sectionSpecs.filter((spec) => matchesEntryQuery(spec, normalizedQuery));
+  }, [query, sectionSpecs]);
 
   const filteredCount = filteredSpecs.length;
 

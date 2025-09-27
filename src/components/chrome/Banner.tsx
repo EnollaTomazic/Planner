@@ -28,21 +28,21 @@ export default function Banner({
   return (
     <header
       className={cn(
-        "relative overflow-hidden",
-        sticky ? "sticky top-0 z-30 sticky-blur" : "",
+        "relative",
+        sticky && "overflow-hidden sticky top-0 z-30 sticky-blur",
         className
       )}
     >
       {sticky ? (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)),hsl(var(--accent)))] opacity-70"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,hsl(var(--glow)/0.75),hsl(var(--accent-2)),hsl(var(--glow)/0.75))] opacity-80"
         />
       ) : null}
       <PageShell
         grid
-        className="py-[var(--space-2)]"
-        contentClassName="items-center gap-y-[var(--space-2)]"
+        className="py-[var(--space-1)]"
+        contentClassName="items-center gap-y-[var(--space-1)]"
       >
         {title ? (
           <div className="col-span-full font-mono text-ui text-muted-foreground md:col-span-8 lg:col-span-9">
@@ -50,7 +50,7 @@ export default function Banner({
           </div>
         ) : null}
         {actions ? (
-          <div className="col-span-full flex items-center justify-end gap-[var(--space-2)] md:col-span-4 md:justify-self-end lg:col-span-3">
+          <div className="col-span-full flex items-center justify-end gap-[var(--space-1)] md:col-span-4 md:justify-self-end lg:col-span-3">
             {actions}
           </div>
         ) : null}
