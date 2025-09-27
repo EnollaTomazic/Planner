@@ -19,7 +19,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Cache guidance
 
-- Next.js builds cache `.next/cache`. Use the key pattern from `ci.yml` so changes to dependencies or source invalidate the cache while retaining fallbacks for dependency-only changes.
+- Next.js builds cache `.next/cache`. Use the key pattern from `ci.yml`—`hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}')`—so changes to dependencies or source invalidate the cache while retaining fallbacks for dependency-only changes.
 - Playwright installs cache to `~/.cache/ms-playwright` automatically when `install-playwright` is enabled. The workflow derives the key from the detected Playwright version and lockfile hash.
 - Additional cache directories can be layered by listing each path within `cache-paths`.
 
