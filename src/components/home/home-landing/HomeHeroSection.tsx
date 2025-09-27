@@ -34,7 +34,7 @@ export default function HomeHeroSection({
       <div className="flex flex-col gap-[var(--space-4)] md:col-span-6">
         <div className="flex items-center gap-[var(--space-2)] text-muted-foreground">
           <Home aria-hidden="true" className="size-[var(--icon-size-lg)]" />
-          <span className="text-label font-semibold uppercase">
+          <span className="text-label font-semibold uppercase tracking-[0.02em]">
             Planner
           </span>
         </div>
