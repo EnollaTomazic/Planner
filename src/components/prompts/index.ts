@@ -14,6 +14,7 @@ export { default as PromptsPanel } from "./component-gallery/PromptsPanel";
 export * from "./component-gallery/useComponentGalleryState";
 export { default as WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
 export { default as ComponentsView } from "./ComponentsView";
+export * from "./ComponentsView";
 export * from "./constants";
 export * from "./demoData";
 export { default as DemoHeader } from "./DemoHeader";
