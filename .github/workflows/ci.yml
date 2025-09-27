@@ -249,6 +249,7 @@ jobs:
       run: |
         set -euo pipefail
         export DEPLOY_ARTIFACT_ONLY=true
+        export SKIP_PREVIEW_STATIC=true
         npm run deploy
       cache-paths: |
         .next/cache
