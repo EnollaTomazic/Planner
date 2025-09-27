@@ -12,3 +12,7 @@ For each page verify:
 
 - Pointer activation: Open the components gallery, select the "Tokens" view with the mouse, and confirm the tab content does not scroll and the active tab keeps focus.
 - Keyboard activation: Use the keyboard to move between the gallery view tabs, activate the "Tokens" view with Enter/Space and confirm focus moves into the tokens panel. Move back to the components view with the keyboard and ensure focus shifts into the component panel instead of staying on the tab.
+
+## Accessibility checklist
+
+- Token overrides: In the Tokens view, toggle a color, radius, and shadow token with both pointer and keyboard input. Confirm the cards expose `aria-pressed`, previews update while a token is active, and deselecting restores the baseline presentation.
