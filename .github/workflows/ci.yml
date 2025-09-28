@@ -64,6 +64,10 @@ jobs:
           fi
       - name: Verify prompts registry
         run: npm run verify-prompts
+      - name: Lint
+        run: |
+          echo "::add-matcher::.github/matchers/eslint-stylish.json"
+          npm run lint:ci
       - name: Type check
         run: |
           echo "::add-matcher::.github/matchers/typescript.json"
