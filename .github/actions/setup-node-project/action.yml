@@ -33,10 +33,10 @@ outputs:
     value: ${{ steps.detect.outputs.lockfile }}
   node-version:
     description: "Resolved Node.js version"
-    value: ${{ steps.node-version.outputs.value }}
+    value: ${{ steps['node-version'].outputs.value }}
   node-modules-cache-hit:
     description: "Whether the node_modules cache was restored"
-    value: ${{ steps.restore-node-modules.outputs.cache-hit }}
+    value: ${{ steps['restore-node-modules'].outputs['cache-hit'] }}
 
 runs:
   using: "composite"
@@ -45,7 +45,7 @@ runs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
       with:
         fetch-depth: 2
-        ref: ${{ inputs.checkout-ref != '' && inputs.checkout-ref || github.ref }}
+        ref: ${{ inputs['checkout-ref'] != '' && inputs['checkout-ref'] || github.ref }}
 
     - name: Detect package manager
       id: detect
@@ -53,8 +53,8 @@ runs:
       run: |
         set -euo pipefail
 
-        if [ -n "${{ inputs.package-manager }}" ]; then
-          RAW_PM="${{ inputs.package-manager }}"
+        if [ -n "${{ inputs['package-manager'] }}" ]; then
+          RAW_PM="${{ inputs['package-manager'] }}"
         else
           RAW_PM="$(node -p "(() => { try { return require('./package.json').packageManager || ''; } catch { return ''; } })()")"
         fi
@@ -88,8 +88,8 @@ runs:
             ;;
         esac
 
-        if [ -n "${{ inputs.install-command }}" ]; then
-          INSTALL_COMMAND="${{ inputs.install-command }}"
+        if [ -n "${{ inputs['install-command'] }}" ]; then
+          INSTALL_COMMAND="${{ inputs['install-command'] }}"
         else
           INSTALL_COMMAND="$DEFAULT_INSTALL"
         fi
@@ -109,7 +109,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@1fa90b90e98cfc9330a84c957cd88bd2d4093b6d # v4.0.3
       with:
-        node-version-file: ${{ inputs.node-version-file }}
+        node-version-file: ${{ inputs['node-version-file'] }}
         cache: ${{ steps.detect.outputs.manager }}
         cache-dependency-path: ${{ steps.detect.outputs.lockfile }}
 
@@ -142,12 +142,12 @@ runs:
 
     - name: Derive node_modules cache key
       id: cache-key
-      if: ${{ inputs.cache-node-modules == 'true' }}
+      if: ${{ inputs['cache-node-modules'] == 'true' }}
       shell: bash
       env:
-        PREFIX: ${{ inputs.cache-prefix }}
+        PREFIX: ${{ inputs['cache-prefix'] }}
         MANAGER: ${{ steps.detect.outputs.manager }}
-        NODE_VERSION: ${{ steps.node-version.outputs.value }}
+        NODE_VERSION: ${{ steps['node-version'].outputs.value }}
         LOCK_HASH: ${{ steps.lockfile.outputs.value }}
       run: |
         set -euo pipefail
@@ -159,25 +159,25 @@ runs:
 
     - name: Restore node_modules cache
       id: restore-node-modules
-      if: ${{ inputs.cache-node-modules == 'true' }}
+      if: ${{ inputs['cache-node-modules'] == 'true' }}
       uses: actions/cache/restore@v4
       with:
         path: node_modules
-        key: ${{ steps.cache-key.outputs.primary }}
+        key: ${{ steps['cache-key'].outputs.primary }}
         restore-keys: |
-          ${{ steps.cache-key.outputs.restore }}
+          ${{ steps['cache-key'].outputs.restore }}
 
     - name: Install dependencies
-      if: ${{ inputs.cache-node-modules != 'true' || steps.restore-node-modules.outputs.cache-hit != 'true' }}
+      if: ${{ inputs['cache-node-modules'] != 'true' || steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       shell: bash
       run: ${{ steps.detect.outputs.install }}
 
     - name: Save node_modules cache
-      if: ${{ inputs.cache-node-modules == 'true' && steps.restore-node-modules.outputs.cache-hit != 'true' }}
+      if: ${{ inputs['cache-node-modules'] == 'true' && steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       uses: actions/cache/save@v4
       with:
         path: node_modules
-        key: ${{ steps.cache-key.outputs.primary }}
+        key: ${{ steps['cache-key'].outputs.primary }}
 
     - name: Verify dependencies restored
       shell: bash
