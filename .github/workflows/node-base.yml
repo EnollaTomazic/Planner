@@ -130,7 +130,7 @@ jobs:
 
       - name: Download artifact
         if: inputs.download-artifact-name != ''
-        uses: actions/download-artifact@89f3d9d3dc0f01c4eb82c0dec28181581b88a8d0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: ${{ inputs.download-artifact-name }}
           path: ${{ inputs.download-artifact-path }}
