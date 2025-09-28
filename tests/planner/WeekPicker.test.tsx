@@ -75,8 +75,10 @@ const attachDayElement = (iso: string): AttachedDay => {
   }).scrollIntoView = scrollIntoViewMock as unknown as (
     arg?: boolean | ScrollIntoViewOptions,
   ) => void;
-  (element as HTMLElement & { focus: (options?: FocusOptions) => void }).focus =
-    focusMock as unknown as (options?: FocusOptions) => void;
+  Object.defineProperty(element, "focus", {
+    value: focusMock,
+    configurable: true,
+  });
   document.body.appendChild(element);
   attached.push(element);
   return { element, scrollIntoViewMock, focusMock };
@@ -87,8 +89,10 @@ const attachHeader = () => {
   header.id = "planner-header";
   header.tabIndex = -1;
   const focusMock = vi.fn();
-  (header as HTMLElement & { focus: (options?: FocusOptions) => void }).focus =
-    focusMock as unknown as (options?: FocusOptions) => void;
+  Object.defineProperty(header, "focus", {
+    value: focusMock,
+    configurable: true,
+  });
   document.body.appendChild(header);
   attached.push(header);
   return { header, focusMock };
@@ -232,6 +236,84 @@ describe("WeekPicker", () => {
     options = getOptions();
     await waitFor(() => expect(options[0]).toHaveFocus());
     expect(options[0]).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("keeps roving tabindex synced with the focused day", async () => {
+    renderWeekPicker();
+    const getOptions = () => screen.getAllByRole("option");
+
+    let options = getOptions();
+    const readTabStops = () => getOptions().map((option) => option.getAttribute("tabindex"));
+
+    expect(readTabStops()).toEqual(["0", "-1", "-1", "-1", "-1", "-1", "-1"]);
+
+    options[0].focus();
+    await waitFor(() => expect(options[0]).toHaveFocus());
+
+    fireEvent.keyDown(options[0], { key: "ArrowRight" });
+    options = getOptions();
+    await waitFor(() => expect(options[1]).toHaveFocus());
+    expect(readTabStops()).toEqual(["-1", "0", "-1", "-1", "-1", "-1", "-1"]);
+
+    fireEvent.keyDown(options[1], { key: "ArrowRight" });
+    options = getOptions();
+    await waitFor(() => expect(options[2]).toHaveFocus());
+    expect(readTabStops()).toEqual(["-1", "-1", "0", "-1", "-1", "-1", "-1"]);
+  });
+
+  it("activates the focused day with Enter and Space", async () => {
+    const { scrollIntoViewMock, focusMock } = attachDayElement(isoWeek[1]);
+    renderWeekPicker();
+    const getOptions = () => screen.getAllByRole("option");
+
+    let options = getOptions();
+    options[0].focus();
+    await waitFor(() => expect(options[0]).toHaveFocus());
+
+    fireEvent.keyDown(options[0], { key: "ArrowRight" });
+    options = getOptions();
+    await waitFor(() => expect(options[1]).toHaveFocus());
+
+    const enterHandled = fireEvent.keyDown(options[1], { key: "Enter" });
+    expect(enterHandled).toBe(false);
+
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledWith({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+      expect(focusMock).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    await act(async () => {
+      getOptions()[2].focus();
+    });
+
+    await waitFor(() => {
+      const refreshed = getOptions();
+      expect(refreshed[2]).toHaveFocus();
+      expect(refreshed[2]).toHaveAttribute("aria-selected", "false");
+    });
+
+    const third = getOptions()[2];
+    const spaceHandled = fireEvent.keyDown(third, {
+      key: " ",
+      code: "Space",
+      keyCode: 32,
+      charCode: 32,
+    });
+    expect(spaceHandled).toBe(true);
+    fireEvent.keyUp(third, { key: " ", code: "Space", keyCode: 32, charCode: 32 });
+    fireEvent.click(getOptions()[2]);
+
+    await waitFor(() => {
+      const refreshed = getOptions();
+      expect(refreshed[2]).toHaveAttribute("aria-selected", "true");
+    });
+
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+    expect(focusMock).toHaveBeenCalledTimes(1);
   });
 
   it("scrolls to top and hides the button when the top control is used", async () => {

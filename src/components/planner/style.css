@@ -454,6 +454,12 @@
   box-shadow: var(--chip-shadow);
 }
 
+.chip-token {
+  min-block-size: var(--control-h-md);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+}
+
 .chip.flex-none {
   flex: none;
 }
@@ -482,7 +488,9 @@
 
 /* “Today” hint — faint ring and glow rail inside */
 .chip--today {
+  --chip-today-ring: 0 0 0 var(--ring-size-2) var(--theme-ring);
   --chip-shadow:
+    var(--chip-today-ring),
     var(--shadow-inset-hairline),
     var(--shadow-inset-contrast);
 }
@@ -495,6 +503,7 @@
 
 .chip--today[data-active] {
   --chip-shadow:
+    var(--chip-today-ring),
     var(--shadow-outline-subtle),
     var(--neo-shadow),
     0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
