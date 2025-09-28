@@ -1,0 +1,117 @@
+.root {
+  --segment-gap: var(--space-1);
+  --segment-inset: var(--space-1);
+  --segment-count: 1;
+  --indicator-translate: 0;
+}
+
+.indicator {
+  pointer-events: none;
+  position: absolute;
+  top: var(--segment-inset);
+  bottom: var(--segment-inset);
+  left: var(--segment-inset);
+  width: calc(
+    (100% - (var(--segment-count) - 1) * var(--segment-gap) - 2 * var(--segment-inset)) /
+      var(--segment-count)
+  );
+  border-radius: var(--radius-full);
+  background: var(--seg-active-grad);
+  box-shadow: var(--shadow-neon-strong);
+  transform: translateX(var(--indicator-translate));
+  transition: transform var(--duration-quick, 220ms) var(--ease-snap, ease-out);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+}
+
+.root[data-count="1"] {
+  --segment-count: 1;
+}
+.root[data-count="1"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+
+.root[data-count="2"] {
+  --segment-count: 2;
+}
+.root[data-count="2"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+.root[data-count="2"] .indicator[data-active-index="1"] {
+  --indicator-translate: calc(100% + var(--segment-gap));
+}
+
+.root[data-count="3"] {
+  --segment-count: 3;
+}
+.root[data-count="3"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+.root[data-count="3"] .indicator[data-active-index="1"] {
+  --indicator-translate: calc(100% + var(--segment-gap));
+}
+.root[data-count="3"] .indicator[data-active-index="2"] {
+  --indicator-translate: calc(2 * (100% + var(--segment-gap)));
+}
+
+.root[data-count="4"] {
+  --segment-count: 4;
+}
+.root[data-count="4"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+.root[data-count="4"] .indicator[data-active-index="1"] {
+  --indicator-translate: calc(100% + var(--segment-gap));
+}
+.root[data-count="4"] .indicator[data-active-index="2"] {
+  --indicator-translate: calc(2 * (100% + var(--segment-gap)));
+}
+.root[data-count="4"] .indicator[data-active-index="3"] {
+  --indicator-translate: calc(3 * (100% + var(--segment-gap)));
+}
+
+.root[data-count="5"] {
+  --segment-count: 5;
+}
+.root[data-count="5"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+.root[data-count="5"] .indicator[data-active-index="1"] {
+  --indicator-translate: calc(100% + var(--segment-gap));
+}
+.root[data-count="5"] .indicator[data-active-index="2"] {
+  --indicator-translate: calc(2 * (100% + var(--segment-gap)));
+}
+.root[data-count="5"] .indicator[data-active-index="3"] {
+  --indicator-translate: calc(3 * (100% + var(--segment-gap)));
+}
+.root[data-count="5"] .indicator[data-active-index="4"] {
+  --indicator-translate: calc(4 * (100% + var(--segment-gap)));
+}
+
+.root[data-count="6"] {
+  --segment-count: 6;
+}
+.root[data-count="6"] .indicator[data-active-index="0"] {
+  --indicator-translate: 0;
+}
+.root[data-count="6"] .indicator[data-active-index="1"] {
+  --indicator-translate: calc(100% + var(--segment-gap));
+}
+.root[data-count="6"] .indicator[data-active-index="2"] {
+  --indicator-translate: calc(2 * (100% + var(--segment-gap)));
+}
+.root[data-count="6"] .indicator[data-active-index="3"] {
+  --indicator-translate: calc(3 * (100% + var(--segment-gap)));
+}
+.root[data-count="6"] .indicator[data-active-index="4"] {
+  --indicator-translate: calc(4 * (100% + var(--segment-gap)));
+}
+.root[data-count="6"] .indicator[data-active-index="5"] {
+  --indicator-translate: calc(5 * (100% + var(--segment-gap)));
+}

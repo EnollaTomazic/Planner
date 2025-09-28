@@ -31,8 +31,8 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
             </div>
             <div
-              class="relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)]"
-              style="--count: 5; --idx: 2;"
+              class="relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)] _root_fcdb58"
+              data-count="5"
             >
               <span
                 aria-live="polite"
@@ -42,8 +42,8 @@ exports[`ReviewEditor > renders default state 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] top-[var(--space-1)] rounded-[var(--radius-full)] bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-quick ease-snap motion-reduce:transition-none"
-                style="width: calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count)); transform: translateX(calc(var(--idx) * (100% + var(--space-1))));"
+                class="_indicator_fcdb58"
+                data-active-index="2"
               />
               <div
                 aria-labelledby=":r0:"
