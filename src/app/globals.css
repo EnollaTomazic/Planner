@@ -363,7 +363,8 @@ html.bg-intense body::after {
 @layer components {
   /* Cards: glossy neon with crisp hairlines */
   .card-neo,
-  .card-neo-soft {
+  .card-neo-soft,
+  .card-soft {
     --_r: var(--radius-card);
     border-radius: var(--_r);
     border: 0;
@@ -395,6 +396,15 @@ html.bg-intense body::after {
     backdrop-filter: blur(6px);
     border: var(--hairline-w) solid hsl(var(--card-hairline));
     box-shadow: var(--shadow-neo-soft);
+  }
+  .card-soft {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--card)),
+      hsl(var(--background))
+    );
+    border: var(--hairline-w) solid hsl(var(--card-hairline));
+    box-shadow: var(--shadow-outline-subtle);
   }
   .card-neo::before,
   .card-neo-soft::before {
