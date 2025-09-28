@@ -1,27 +1,14 @@
 "use client";
 
 import * as React from "react";
-import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
+import styles from "./Toggle.module.css";
 
 type Side = "Left" | "Right";
 
-type ToggleLabelStyle = CSSProperties & {
-  "--glow-active"?: string;
-};
-
-type ToggleIndicatorStyle = CSSProperties & {
-  "--toggle-indicator-gradient"?: string;
-};
-
 const STATE_TOKEN_CLASSES =
   "[--toggle-hover-surface:hsl(var(--accent)/0.16)] [--toggle-active-surface:hsl(var(--accent)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
-
-const createLabelGlow = (color: string): ToggleLabelStyle => ({
-  "--glow-active": color,
-  textShadow: "var(--shadow-glow-md)",
-});
 
 export default function Toggle({
   leftLabel = "Left",
@@ -44,17 +31,6 @@ export default function Toggle({
   const id = React.useId();
   const leftId = `${id}-left`;
   const rightId = `${id}-right`;
-  const indicatorStyle: ToggleIndicatorStyle = {
-    width: "calc(50% - var(--space-1))",
-    transform: `translateX(${isRight ? "100%" : "0"})`,
-    "--toggle-indicator-gradient": "var(--edge-iris)",
-  };
-  const leftLabelStyle = !isRight
-    ? createLabelGlow("hsl(var(--team-blue) / 0.35)")
-    : undefined;
-  const rightLabelStyle = isRight
-    ? createLabelGlow("hsl(var(--team-red) / 0.35)")
-    : undefined;
 
   function toggle() {
     if (disabled || loading) return;
@@ -83,6 +59,7 @@ export default function Toggle({
       onClick={toggle}
       onKeyDown={onKeyDown}
       className={cn(
+        styles.root,
         "group relative inline-flex h-[var(--control-h-md)] items-center rounded-full border",
         "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
@@ -105,28 +82,32 @@ export default function Toggle({
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] [background:var(--toggle-indicator-gradient,var(--edge-iris))] shadow-[var(--toggle-indicator-shadow,var(--shadow-glow-sm))] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]"
-        style={indicatorStyle}
+        className={cn(
+          styles.indicator,
+          "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]",
+        )}
       />
 
       {/* Labels */}
       <span
         id={leftId}
         className={cn(
+          styles.leftLabel,
           "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           !isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
-        style={leftLabelStyle}
+        data-active={!isRight}
       >
         {leftLabel}
       </span>
       <span
         id={rightId}
         className={cn(
+          styles.rightLabel,
           "relative z-10 flex-1 text-center font-mono text-ui transition-colors",
           isRight ? "text-foreground/70" : "text-muted-foreground",
         )}
-        style={rightLabelStyle}
+        data-active={isRight}
       >
         {rightLabel}
       </span>
