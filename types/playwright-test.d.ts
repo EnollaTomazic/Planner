@@ -83,23 +83,35 @@ declare module "playwright/test" {
     toBeVisible(): Promise<void>;
     toBeFocused(): Promise<void>;
     toHaveAttribute(name: string, value: string): Promise<void>;
+    toHaveScreenshot(name: string, options?: ScreenshotOptions): Promise<void>;
   }
 
   interface ScreenshotOptions {
     readonly fullPage?: boolean;
+    readonly animations?: "disabled" | "allow";
+    readonly caret?: "hide" | "initial";
+    readonly scale?: "css" | "device";
   }
 
   interface PageAssertions {
     toHaveScreenshot(name: string, options?: ScreenshotOptions): Promise<void>;
   }
 
-  interface ValueAssertions {
-    toEqual(value: unknown): void;
-    toBe(value: unknown): void;
+  interface ValueAssertions<T = unknown> {
+    toEqual(value: T): void;
+    toBe(value: T): void;
+    toBeGreaterThan(value: number): void;
   }
 
   interface Locator {
     focus(): Promise<void>;
+    first(): Locator;
+    locator(selector: string): Locator;
+    waitFor(options?: { state?: string; timeout?: number }): Promise<void>;
+    evaluate<TReturn, TArg = void>(
+      fn: (element: Element, arg: TArg) => TReturn | Promise<TReturn>,
+      arg?: TArg,
+    ): Promise<TReturn>;
   }
 
   interface Keyboard {
@@ -112,17 +124,25 @@ declare module "playwright/test" {
     waitForLoadState(state?: string): Promise<void>;
     waitForSelector(selector: string): Promise<Locator>;
     waitForFunction<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
+    emulateMedia(options: { reducedMotion?: "reduce" | "no-preference" }): Promise<void>;
     keyboard: Keyboard;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
+    locator(selector: string): Locator;
   }
 
   interface TestFixtures {
     page: Page;
   }
 
+  interface TestInfo {
+    project: { name: string };
+  }
+
   interface TestExpect {
-    (subject: Locator | Page): LocatorAssertions & PageAssertions;
-    <T>(value: T): ValueAssertions;
+    (subject: Locator): LocatorAssertions & PageAssertions;
+    (subject: Page): LocatorAssertions & PageAssertions;
+    <T>(value: T): ValueAssertions<T>;
+    soft: TestExpect;
   }
 
   interface PlaywrightProjectConfig {
@@ -155,6 +175,7 @@ declare module "playwright/test" {
     describe: TestDescribe;
     skip(condition: boolean, description?: string): void;
     only(name: string, fn: (fixtures: TestFixtures) => Promise<void>): void;
+    info(): TestInfo;
   }
 
   export const test: TestFunction;

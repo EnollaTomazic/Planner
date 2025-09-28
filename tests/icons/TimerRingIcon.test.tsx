@@ -45,5 +45,26 @@ describe("TimerRingIcon", () => {
 
       expect(matchedStrokes).toHaveLength(1);
     });
+
+    const filters = Array.from(
+      container.querySelectorAll("filter[id^='ring-noise-filter-']"),
+    );
+
+    expect(filters).toHaveLength(3);
+
+    const filterIds = filters
+      .map((filter) => filter.getAttribute("id"))
+      .filter((id): id is string => Boolean(id));
+
+    expect(filterIds).toHaveLength(3);
+    expect(new Set(filterIds).size).toBe(filterIds.length);
+
+    filterIds.forEach((id) => {
+      const filteredStrokes = container.querySelectorAll(
+        `circle[filter="url(#${id})"]`,
+      );
+
+      expect(filteredStrokes).toHaveLength(1);
+    });
   });
 });

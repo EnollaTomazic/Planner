@@ -85,8 +85,14 @@
   "reminders-tab": [],
   "timer-ring": [],
   "timer-tab": [],
-  "progress-ring-icon": [],
-  "timer-ring-icon": [],
+  "progress-ring-icon": [
+    "/",
+    "/tests/ring-noise"
+  ],
+  "timer-ring-icon": [
+    "/",
+    "/tests/ring-noise"
+  ],
   "side-selector": [],
   "champ-list-editor": [],
   "pillar-badge": [],

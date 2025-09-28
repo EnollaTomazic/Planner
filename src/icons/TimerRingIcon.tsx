@@ -1,6 +1,7 @@
 import * as React from "react";
 import { spacingTokens, readNumberToken } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
+import { renderRingNoiseFilter } from "./ringNoiseFilter";
 
 interface TimerRingIconProps {
   pct: number; // 0..100
@@ -17,6 +18,10 @@ export default function TimerRingIcon({
 }: TimerRingIconProps) {
   const uniqueId = React.useId();
   const gradientId = `timer-ring-grad-${uniqueId}`;
+  const noiseFilter = React.useMemo(
+    () => renderRingNoiseFilter(uniqueId),
+    [uniqueId],
+  );
   const defaultDiameter = React.useMemo(
     () => readNumberToken("--timer-ring-diameter", RING_DIAMETER_FALLBACK),
     [],
@@ -47,6 +52,7 @@ export default function TimerRingIcon({
           <stop offset="0%" stopColor="hsl(var(--accent))" />
           <stop offset="100%" stopColor="hsl(var(--accent-2))" />
         </linearGradient>
+        {noiseFilter.element}
       </defs>
       <circle
         cx={resolvedSize / 2}
@@ -61,6 +67,7 @@ export default function TimerRingIcon({
         cy={resolvedSize / 2}
         r={radius}
         stroke={`url(#${gradientId})`}
+        filter={`url(#${noiseFilter.filterId})`}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}

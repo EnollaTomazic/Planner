@@ -1,5 +1,6 @@
 import * as React from "react";
 import { spacingTokens, readNumberToken } from "@/lib/tokens";
+import { renderRingNoiseFilter } from "./ringNoiseFilter";
 
 interface ProgressRingIconProps {
   pct: number; // 0..100
@@ -14,6 +15,12 @@ export default function ProgressRingIcon({
   pct,
   size,
 }: ProgressRingIconProps) {
+  const uniqueId = React.useId();
+  const gradientId = `progress-ring-grad-${uniqueId}`;
+  const noiseFilter = React.useMemo(
+    () => renderRingNoiseFilter(uniqueId),
+    [uniqueId],
+  );
   const defaultDiameter = React.useMemo(
     () => readNumberToken("--progress-ring-diameter", PROGRESS_DIAMETER_FALLBACK),
     [],
@@ -37,6 +44,13 @@ export default function ProgressRingIcon({
       aria-hidden="true"
       focusable="false"
     >
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="hsl(var(--accent))" />
+          <stop offset="100%" stopColor="hsl(var(--accent-2))" />
+        </linearGradient>
+        {noiseFilter.element}
+      </defs>
       <circle
         cx={resolvedSize / 2}
         cy={resolvedSize / 2}
@@ -50,7 +64,8 @@ export default function ProgressRingIcon({
         cx={resolvedSize / 2}
         cy={resolvedSize / 2}
         r={radius}
-        stroke="currentColor"
+        stroke={`url(#${gradientId})`}
+        filter={`url(#${noiseFilter.filterId})`}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}
