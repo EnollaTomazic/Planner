@@ -42,7 +42,7 @@ jobs:
           npm run deploy
 
       - name: Upload static artifact
-        uses: actions/upload-pages-artifact@6b4985b4d81eed21dc8e42f6e28eaf41b0c9fb3d # v3.0.1
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
         with:
           path: ./out
           if-no-files-found: error
