@@ -11,15 +11,6 @@ const __dirname = path.dirname(__filename);
 const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
 const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
-const promptsPageFile = path.resolve(
-  __dirname,
-  "../src/app/prompts/page.tsx",
-);
-const promptsDemosFile = path.resolve(
-  __dirname,
-  "../src/components/prompts/PromptsDemos.tsx",
-);
-
 const ignoredComponents = new Set(["Split"]);
 
 function toComponentName(file: string): string {
@@ -40,31 +31,60 @@ function shouldSkipFile(file: string): boolean {
   );
 }
 
-async function collectComponentFiles(): Promise<string[]> {
+type ComponentSource = "ui" | "prompts";
+
+interface ComponentInfo {
+  name: string;
+  source: ComponentSource;
+}
+
+async function collectComponentInfos(): Promise<ComponentInfo[]> {
   const [uiFiles, promptFiles] = await Promise.all([
     fg("**/*.tsx", { cwd: uiDir, absolute: true }),
     fg("**/*.tsx", { cwd: promptsDir, absolute: true }),
   ]);
-  return [...uiFiles, ...promptFiles].filter((file) => !shouldSkipFile(file));
-}
 
-async function collectComponentNames(): Promise<string[]> {
-  const files = await collectComponentFiles();
-  const names = new Set<string>();
+  async function readName(file: string): Promise<string | null> {
+    const content = await fs.readFile(file, "utf8");
+    const defMatch = content.match(
+      /export\s+default\s+function\s+([A-Z][A-Za-z0-9_]*)/,
+    );
+    if (defMatch) {
+      return defMatch[1];
+    }
+    if (/export\s+default/.test(content)) {
+      return toComponentName(file);
+    }
+    return null;
+  }
+
+  const entries = new Map<string, ComponentInfo>();
+
   await Promise.all(
-    files.map(async (file) => {
-      const content = await fs.readFile(file, "utf8");
-      const defMatch = content.match(
-        /export\s+default\s+function\s+([A-Z][A-Za-z0-9_]*)/,
-      );
-      if (defMatch) {
-        names.add(defMatch[1]);
-      } else if (/export\s+default/.test(content)) {
-        names.add(toComponentName(file));
-      }
-    }),
+    uiFiles
+      .filter((file) => !shouldSkipFile(file))
+      .map(async (file) => {
+        const name = await readName(file);
+        if (!name || ignoredComponents.has(name)) {
+          return;
+        }
+        entries.set(name, { name, source: "ui" });
+      }),
   );
-  return [...names].filter((name) => !ignoredComponents.has(name));
+
+  await Promise.all(
+    promptFiles
+      .filter((file) => !shouldSkipFile(file))
+      .map(async (file) => {
+        const name = await readName(file);
+        if (!name || ignoredComponents.has(name) || entries.has(name)) {
+          return;
+        }
+        entries.set(name, { name, source: "prompts" });
+      }),
+  );
+
+  return [...entries.values()];
 }
 
 async function loadPromptContents(): Promise<string[]> {
@@ -76,21 +96,24 @@ async function loadPromptContents(): Promise<string[]> {
   return Promise.all(targets.map((file) => fs.readFile(file, "utf8")));
 }
 
-async function verifyDemos(components: string[]): Promise<void> {
-  const [pageContent, demosContent] = await Promise.all([
-    fs.readFile(promptsPageFile, "utf8"),
-    fs.readFile(promptsDemosFile, "utf8"),
-  ]);
-
+async function verifyDemos(components: ComponentInfo[]): Promise<void> {
+  const referenceContents = await loadPromptContents();
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
     Presets.shades_grey,
   );
-  const bar = bars.create(components.length, 0);
+  const uiComponents = components.filter(
+    (component) => component.source === "ui",
+  );
+  const bar = bars.create(uiComponents.length, 0);
   const missing: string[] = [];
 
-  components.forEach((name, index) => {
-    if (!pageContent.includes(name) && !demosContent.includes(name)) {
+  uiComponents.forEach(({ name }, index) => {
+    const isReferenced = referenceContents.some((content) =>
+      content.includes(name),
+    );
+
+    if (!isReferenced) {
       missing.push(name);
     }
     bar.update(index + 1);
@@ -108,17 +131,22 @@ async function verifyDemos(components: string[]): Promise<void> {
   console.log("All components have prompt demos.");
 }
 
-async function listUnreferencedComponents(components: string[]): Promise<void> {
+async function listUnreferencedComponents(
+  components: ComponentInfo[],
+): Promise<void> {
   const contents = await loadPromptContents();
 
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
     Presets.shades_grey,
   );
-  const bar = bars.create(components.length, 0);
+  const uiComponents = components.filter(
+    (component) => component.source === "ui",
+  );
+  const bar = bars.create(uiComponents.length, 0);
   const missing: string[] = [];
 
-  components.forEach((name, index) => {
+  uiComponents.forEach(({ name }, index) => {
     if (!contents.some((content) => content.includes(name))) {
       missing.push(name);
     }
@@ -138,7 +166,7 @@ async function listUnreferencedComponents(components: string[]): Promise<void> {
 async function main(): Promise<void> {
   const args = new Set(process.argv.slice(2));
   const shouldVerify = args.has("--verify");
-  const components = await collectComponentNames();
+  const components = await collectComponentInfos();
 
   if (components.length === 0) {
     console.log("No UI components found to verify.");
