@@ -1,0 +1,89 @@
+.root {
+  --progress: 0%;
+  --slider-fill-width: calc(0% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(0% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.fill {
+}
+
+.knob {
+}
+
+.root[data-variant="input"] .fill {
+  width: var(--slider-fill-width);
+}
+
+.root[data-variant="input"] .knob {
+  left: var(--slider-knob-left);
+}
+
+.root[data-variant="display"] .knob {
+  left: var(--progress);
+}
+
+.root[data-value="0"] {
+  --progress: 0%;
+  --slider-fill-width: calc(0% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(0% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="1"] {
+  --progress: 10%;
+  --slider-fill-width: calc(10% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(10% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="2"] {
+  --progress: 20%;
+  --slider-fill-width: calc(20% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(20% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="3"] {
+  --progress: 30%;
+  --slider-fill-width: calc(30% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(30% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="4"] {
+  --progress: 40%;
+  --slider-fill-width: calc(40% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(40% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="5"] {
+  --progress: 50%;
+  --slider-fill-width: calc(50% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(50% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="6"] {
+  --progress: 60%;
+  --slider-fill-width: calc(60% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(60% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="7"] {
+  --progress: 70%;
+  --slider-fill-width: calc(70% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(70% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="8"] {
+  --progress: 80%;
+  --slider-fill-width: calc(80% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(80% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="9"] {
+  --progress: 90%;
+  --slider-fill-width: calc(90% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(90% - (var(--space-2) + var(--space-1) / 2));
+}
+
+.root[data-value="10"] {
+  --progress: 100%;
+  --slider-fill-width: calc(100% + var(--space-2) + var(--space-1) / 2);
+  --slider-knob-left: calc(100% - (var(--space-2) + var(--space-1) / 2));
+}

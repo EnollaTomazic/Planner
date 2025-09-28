@@ -4,6 +4,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import Card from "./primitives/Card";
 import IconButton from "./primitives/IconButton";
+import styles from "./Toast.module.css";
 import { X } from "lucide-react";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
@@ -189,13 +190,14 @@ export default function Toast({
           {showProgress && (
             <div
               aria-hidden="true"
-              className="h-[var(--space-1)] overflow-hidden rounded-full bg-border/40"
+              data-progress={progress}
+              className={cn(
+                "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
+                styles.progressTrack,
+              )}
             >
               <div
-                className="h-full rounded-full bg-primary"
-                style={{
-                  width: `${progress * 100}%`,
-                }}
+                className={cn("h-full rounded-full bg-primary", styles.progressFill)}
               />
             </div>
           )}

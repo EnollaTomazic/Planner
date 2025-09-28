@@ -31,8 +31,8 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
             </div>
             <div
-              class="relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)]"
-              style="--count: 5; --idx: 2;"
+              class="relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)] _root_fcdb58"
+              data-count="5"
             >
               <span
                 aria-live="polite"
@@ -42,8 +42,8 @@ exports[`ReviewEditor > renders default state 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] top-[var(--space-1)] rounded-[var(--radius-full)] bg-[var(--seg-active-grad)] shadow-neon-strong transition-transform duration-quick ease-snap motion-reduce:transition-none"
-                style="width: calc((100% - (var(--count) - 1) * var(--space-1) - 2 * var(--space-1)) / var(--count)); transform: translateX(calc(var(--idx) * (100% + var(--space-1))));"
+                class="_indicator_fcdb58"
+                data-active-index="2"
               />
               <div
                 aria-labelledby=":r0:"
@@ -477,20 +477,19 @@ exports[`ReviewEditor > renders default state 1`] = `
             value="5"
           />
           <div
-            class="group/slider absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 [--slider-fill-background:var(--edge-iris)] [--slider-fill-shadow:var(--shadow-glow-sm)] [--slider-fill-shadow-hover:var(--shadow-glow-md)] [--slider-fill-shadow-active:var(--shadow-glow-lg)] [--slider-knob-shadow:var(--shadow-glow-sm)] [--slider-knob-shadow-hover:var(--shadow-glow-md)] [--slider-knob-shadow-active:var(--shadow-glow-lg)] [--slider-fill-tint:hsl(var(--accent)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent)/0.45)] [--slider-fill-tint-active:hsl(var(--accent)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent)/0.28)] [--slider-knob-active-surface:hsl(var(--accent)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)]"
+            class="group/slider absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 [--slider-fill-background:var(--edge-iris)] [--slider-fill-shadow:var(--shadow-glow-sm)] [--slider-fill-shadow-hover:var(--shadow-glow-md)] [--slider-fill-shadow-active:var(--shadow-glow-lg)] [--slider-knob-shadow:var(--shadow-glow-sm)] [--slider-knob-shadow-hover:var(--shadow-glow-md)] [--slider-knob-shadow-active:var(--shadow-glow-lg)] [--slider-fill-tint:hsl(var(--accent)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent)/0.45)] [--slider-fill-tint-active:hsl(var(--accent)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent)/0.28)] [--slider-knob-active-surface:hsl(var(--accent)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)] _root_0f1b22"
             data-tone="score"
+            data-value="5"
             data-variant="input"
           >
             <div
               class="relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--shadow-neo-inset)] before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out group-hover/slider:before:opacity-70 group-active/slider:before:opacity-90 group-focus-visible/slider:before:opacity-80"
             >
               <div
-                class="absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)] after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-quick after:ease-out ring-1 ring-transparent transition-[box-shadow,opacity] duration-quick ease-out group-hover/slider:[--slider-fill-shadow:var(--slider-fill-shadow-hover)] group-active/slider:[--slider-fill-shadow:var(--slider-fill-shadow-active)] group-hover/slider:after:bg-[--slider-fill-tint-hover] group-active/slider:after:bg-[--slider-fill-tint-active] group-focus-visible/slider:ring-[var(--slider-focus-ring)]"
-                style="width: calc(50% + var(--space-2) + var(--space-1) / 2);"
+                class="absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)] after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-quick after:ease-out _fill_0f1b22 ring-1 ring-transparent transition-[box-shadow,opacity] duration-quick ease-out group-hover/slider:[--slider-fill-shadow:var(--slider-fill-shadow-hover)] group-active/slider:[--slider-fill-shadow:var(--slider-fill-shadow-active)] group-hover/slider:after:bg-[--slider-fill-tint-hover] group-active/slider:after:bg-[--slider-fill-tint-active] group-focus-visible/slider:ring-[var(--slider-focus-ring)]"
               />
               <div
-                class="absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-[var(--slider-knob-shadow)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] transition-[background-color,border-color,box-shadow] duration-quick ease-out group-hover/slider:bg-[--slider-knob-hover-surface] group-active/slider:bg-[--slider-knob-active-surface] group-hover/slider:border-transparent group-active/slider:border-transparent group-hover/slider:[--slider-knob-shadow:var(--slider-knob-shadow-hover)] group-active/slider:[--slider-knob-shadow:var(--slider-knob-shadow-active)] group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--slider-knob-focus-ring)] group-focus-visible/slider:shadow-[var(--slider-knob-shadow-active)]"
-                style="left: calc(50% - (var(--space-2) + var(--space-1) / 2));"
+                class="absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-[var(--slider-knob-shadow)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] _knob_0f1b22 transition-[background-color,border-color,box-shadow] duration-quick ease-out group-hover/slider:bg-[--slider-knob-hover-surface] group-active/slider:bg-[--slider-knob-active-surface] group-hover/slider:border-transparent group-active/slider:border-transparent group-hover/slider:[--slider-knob-shadow:var(--slider-knob-shadow-hover)] group-active/slider:[--slider-knob-shadow:var(--slider-knob-shadow-active)] group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--slider-knob-focus-ring)] group-focus-visible/slider:shadow-[var(--slider-knob-shadow-active)]"
               />
             </div>
           </div>
@@ -552,7 +551,9 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-tone="primary"
+            data-variant="ghost"
             tabindex="0"
             title="Brain light off"
             type="button"
@@ -717,17 +718,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -772,17 +772,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -837,17 +836,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -891,17 +889,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -954,17 +951,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1029,17 +1025,16 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              class="relative inline-flex"
+              class="relative inline-flex _root_3098a7"
+              data-phase="off"
             >
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="filter: blur(calc(var(--space-3) - var(--spacing-0-5))); background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
               />
               <span
                 aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg opacity-0"
-                style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
+                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
               />
               <span
                 class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
@@ -1095,7 +1090,9 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-tone="primary"
+            data-variant="ghost"
             tabindex="0"
             title="Timestamp mode"
             type="button"
@@ -1190,7 +1187,9 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')] border-accent/35 text-on-accent h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')] border-accent/35 text-on-accent h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-tone="accent"
+            data-variant="ghost"
             tabindex="0"
             title="Note-only mode"
             type="button"
@@ -1356,9 +1355,10 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')] border-[hsl(var(--primary)/0.35)] bg-primary-soft text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+              class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')] border-[hsl(var(--primary)/0.35)] bg-primary-soft text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+              data-tone="primary"
+              data-variant="primary"
               disabled=""
-              style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
               tabindex="0"
               title="Enter details"
               type="button"
@@ -1463,8 +1463,9 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
           <button
             aria-label="Add tag"
-            class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')] border-[hsl(var(--primary)/0.35)] bg-primary-soft text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
-            style="--glow-active: hsl(var(--primary) / 0.35); --btn-primary-hover-shadow: 0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(--primary) / 0.25); --btn-primary-active-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--primary) / 0.6); --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active); --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active); --btn-primary-shadow-active: var(--btn-primary-active-shadow);"
+            class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')] border-[hsl(var(--primary)/0.35)] bg-primary-soft text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+            data-tone="primary"
+            data-variant="primary"
             tabindex="0"
             title="Add tag"
             type="button"
