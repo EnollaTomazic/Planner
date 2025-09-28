@@ -5,6 +5,7 @@ import {
   getAllComponentSlugs,
   resolveComponentsSlug,
 } from "@/components/gallery-page/slug";
+import { withBasePath } from "@/lib/utils";
 
 import { ComponentsSectionRedirect } from "./redirect-client";
 
@@ -47,7 +48,7 @@ export default async function ComponentsSectionPage({
   }
 
   const query = searchParams.toString();
-  const target = query ? `/components?${query}` : "/components";
+  const target = withBasePath(query ? `/components?${query}` : "/components");
 
   return <ComponentsSectionRedirect target={target} />;
 }
