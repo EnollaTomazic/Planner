@@ -63,6 +63,16 @@ exports[`ReviewsPage > renders default state 1`] = `
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame[data-hero-divider-tint="primary"] {
+        --hero-slot-divider: var(--ring);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--ring) / 0.45);
+      }
+      .hero2-frame[data-hero-divider-tint="life"] {
+        --hero-slot-divider: var(--accent-3);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--accent-3) / 0.42);
+      }
       @supports (
         color: color-mix(
           in oklab,
@@ -97,6 +107,22 @@ exports[`ReviewsPage > renders default state 1`] = `
             hsl(var(--shadow-color)) 28%,
             hsl(var(--background) / 0)
           );
+        }
+        .hero2-frame[data-hero-divider-tint="primary"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--ring)) 68%,
+              hsl(var(--background))
+            );
+        }
+        .hero2-frame[data-hero-divider-tint="life"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--accent-3)) 78%,
+              hsl(var(--background))
+            );
         }
       }
       @media (prefers-contrast: more) {
@@ -134,13 +160,17 @@ exports[`ReviewsPage > renders default state 1`] = `
             CanvasText,
             0 0 0 0 CanvasText;
         }
+        .hero2-frame[data-hero-divider-tint] {
+          --hero-slot-divider: CanvasText !important;
+          --hero-slot-divider-shadow: none !important;
+        }
       }
     
       </style>
       <div
         class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
+        data-hero-divider-tint="primary"
         data-variant="default"
-        style="--hero-slot-divider: var(--ring);"
         tabindex="-1"
       >
         <div
@@ -261,6 +291,16 @@ exports[`ReviewsPage > renders default state 1`] = `
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame[data-hero-divider-tint="primary"] {
+        --hero-slot-divider: var(--ring);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--ring) / 0.45);
+      }
+      .hero2-frame[data-hero-divider-tint="life"] {
+        --hero-slot-divider: var(--accent-3);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--accent-3) / 0.42);
+      }
       @supports (
         color: color-mix(
           in oklab,
@@ -295,6 +335,22 @@ exports[`ReviewsPage > renders default state 1`] = `
             hsl(var(--shadow-color)) 28%,
             hsl(var(--background) / 0)
           );
+        }
+        .hero2-frame[data-hero-divider-tint="primary"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--ring)) 68%,
+              hsl(var(--background))
+            );
+        }
+        .hero2-frame[data-hero-divider-tint="life"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--accent-3)) 78%,
+              hsl(var(--background))
+            );
         }
       }
       @media (prefers-contrast: more) {
@@ -331,6 +387,10 @@ exports[`ReviewsPage > renders default state 1`] = `
           --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
             CanvasText,
             0 0 0 0 CanvasText;
+        }
+        .hero2-frame[data-hero-divider-tint] {
+          --hero-slot-divider: CanvasText !important;
+          --hero-slot-divider-shadow: none !important;
         }
       }
     

@@ -10,7 +10,6 @@ import { resetLocalStorage } from "../setup";
 beforeEach(() => {
   document.documentElement.className = "";
   document.documentElement.removeAttribute("data-theme-pref");
-  document.documentElement.style.removeProperty("color-scheme");
   resetLocalStorage();
 });
 
@@ -40,16 +39,14 @@ describe("Theme", () => {
           bg: invalidIndex as unknown as Background,
         });
 
-        expect(Array.from(document.documentElement.classList)).toEqual([
-          "theme-lg",
-          "dark",
-        ]);
+        const { classList } = document.documentElement;
+        expect(classList.contains("theme-lg")).toBe(true);
+        expect(classList.contains("dark")).toBe(true);
+        expect(classList.contains("color-scheme-dark")).toBe(true);
         expect(
           document.documentElement.classList.contains("undefined"),
         ).toBe(false);
-        expect(
-          document.documentElement.style.getPropertyValue("color-scheme"),
-        ).toBe("dark");
+        expect(classList.contains("color-scheme-light")).toBe(false);
       },
     );
 
@@ -70,10 +67,10 @@ describe("Theme", () => {
         bg: 0,
       });
 
-      expect(document.documentElement.classList.contains("dark")).toBe(false);
-      expect(
-        document.documentElement.style.getPropertyValue("color-scheme"),
-      ).toBe("light");
+      const { classList } = document.documentElement;
+      expect(classList.contains("dark")).toBe(false);
+      expect(classList.contains("color-scheme-light")).toBe(true);
+      expect(classList.contains("color-scheme-dark")).toBe(false);
     });
   });
 
@@ -89,11 +86,11 @@ describe("Theme", () => {
         runInThisContext(script);
       }).not.toThrow();
 
+      const { classList } = document.documentElement;
       expect(document.documentElement.dataset.themePref).toBe("system");
-      expect(document.documentElement.classList.contains("dark")).toBe(false);
-      expect(
-        document.documentElement.style.getPropertyValue("color-scheme"),
-      ).toBe("light");
+      expect(classList.contains("dark")).toBe(false);
+      expect(classList.contains("color-scheme-light")).toBe(true);
+      expect(classList.contains("color-scheme-dark")).toBe(false);
     });
 
     it("ignores invalid background index from stored theme", () => {
@@ -122,9 +119,8 @@ describe("Theme", () => {
       }
       expect(classList.contains("undefined")).toBe(false);
       expect(document.documentElement.dataset.themePref).toBe("persisted");
-      expect(
-        document.documentElement.style.getPropertyValue("color-scheme"),
-      ).toBe("dark");
+      expect(classList.contains("color-scheme-dark")).toBe(true);
+      expect(classList.contains("color-scheme-light")).toBe(false);
     });
   });
 });

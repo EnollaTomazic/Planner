@@ -1,0 +1,11 @@
+.divider {
+  --divider: var(--ring);
+}
+
+.divider[data-divider-tint="life"] {
+  --divider: var(--accent-3);
+}
+
+.divider[data-divider-tint="primary"] {
+  --divider: var(--ring);
+}
