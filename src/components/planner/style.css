@@ -451,7 +451,16 @@
     calc(var(--space-1) / 2) calc(var(--space-1) / 2) var(--space-1)
       hsl(var(--shadow-color) / 0.3);
   --chip-shadow: var(--neo-shadow);
-  box-shadow: var(--chip-shadow);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-color: transparent;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: var(--chip-shadow);
+  --tw-shadow-colored: var(--chip-shadow);
+  box-shadow:
+    var(--tw-ring-offset-shadow),
+    var(--tw-ring-shadow),
+    var(--tw-shadow);
 }
 
 .chip-token {
