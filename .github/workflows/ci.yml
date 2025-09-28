@@ -54,6 +54,8 @@ jobs:
           if [ "$AUDIT_STATUS" -ne 0 ]; then
             echo "npm audit reported issues below the high severity threshold."
           fi
+      - name: Verify prompts registry
+        run: npm run verify-prompts
       - name: Run checks
         run: npm run check
 

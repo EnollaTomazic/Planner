@@ -27,7 +27,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - Honour the shared component gallery by updating examples alongside implementation work.
 - Respect theme helpers, persistence, and reduced-motion preferences when adding interactions.
 - Preserve keyboard and screen reader affordances: semantic landmarks, labelled controls, and visible focus remain non-negotiable.
-- Keep contributions scoped and typed, running `npm run check` (tests, lint, design lint, typecheck) before requesting review.
+- Keep contributions scoped and typed, running `npm run verify-prompts` to ensure gallery entries are registered and `npm run check` (tests, lint, design lint, typecheck) before requesting review.
 
 ## Gallery previews
 
