@@ -1,407 +1,64 @@
 name: CI
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
-    paths-ignore:
-      - "docs/**"
-      - "**/*.md"
-      - "CHANGELOG.md"
   push:
     branches:
       - main
       - work
-    paths-ignore:
-      - "docs/**"
-      - "**/*.md"
-      - "CHANGELOG.md"
-  workflow_dispatch:
-  workflow_call:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
 
 jobs:
-  install:
-    name: Install dependencies
+  checks:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - id: setup
-        uses: ./.github/actions/setup-node-project
 
-  lint:
-    name: Lint
-    needs: install
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
-      - uses: ./.github/actions/setup-node-project
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - name: Run ESLint
-        shell: bash
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Activate npm version from package.json
         run: |
-          set -euo pipefail
-          mkdir -p artifacts/eslint
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+      - name: Restore Next.js cache
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Audit dependencies
+        run: |
           set +e
-          npm run lint:ci
-          STATUS=$?
-          set -e
-          npm run lint -- --format junit --output-file artifacts/eslint/junit.xml || true
-          exit $STATUS
-
-      - name: Upload ESLint results
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
-        with:
-          name: eslint-report
-          path: artifacts/eslint
-          if-no-files-found: error
-
-  token-guard:
-    name: Design token guard
-    needs: install
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: ./.github/actions/setup-node-project
-
-      - name: Verify tokens
-        run: npm run lint:design
-
-  typecheck:
-    name: Typecheck
-    needs: install
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: ./.github/actions/setup-node-project
-
-      - name: Run TypeScript compiler
-        run: npm run typecheck:ci
-
-  unit:
-    name: Unit tests
-    needs: install
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: ./.github/actions/setup-node-project
-
-      - name: Run Vitest suite
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p artifacts/unit
-          npm run test:ci
-
-      - name: Upload unit test results
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
-        with:
-          name: unit-tests
-          path: |
-            artifacts/unit
-            coverage/lcov.info
-            coverage/coverage-summary.json
-          if-no-files-found: error
-
-  build:
-    name: Build
-    needs:
-      - lint
-      - token-guard
-      - typecheck
-      - unit
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    env:
-      NEXT_TELEMETRY_DISABLED: "1"
-    steps:
-      - uses: ./.github/actions/setup-node-project
-
-      - name: Build Next.js application
-        run: npm run build
-
-      - name: Upload Next.js build artifact
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
-        with:
-          name: next-build
-          path: .next
-          if-no-files-found: error
-
-  e2e:
-    name: Playwright (${{ matrix.browser }})
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium, firefox, webkit]
-    env:
-      NEXT_TELEMETRY_DISABLED: "1"
-    steps:
-      - uses: ./.github/actions/setup-node-project
-
-      - name: Download Next.js build artifact
-        uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
-        with:
-          name: next-build
-          path: next-build
-
-      - name: Activate build artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -d "next-build/.next" ]; then
-            rm -rf .next
-            mv next-build/.next .next
+          npm audit --audit-level=moderate --json > audit-report.json
+          AUDIT_STATUS=$?
+          node scripts/audit-ci-report.mjs audit-report.json
+          REPORT_STATUS=$?
+          if [ "$REPORT_STATUS" -ne 0 ]; then
+            exit "$REPORT_STATUS"
           fi
-
-      - name: Determine Playwright version
-        id: playwright-version
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION=$(node -p "require('@playwright/test/package.json').version")
-          echo "value=$VERSION" >>"$GITHUB_OUTPUT"
-
-      - name: Restore Playwright cache
-        id: playwright-cache
-        uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
-        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        shell: bash
-        env:
-          BROWSER: ${{ matrix.browser }}
-          PLAYWRIGHT_HTML_REPORT: artifacts/e2e/html/${{ matrix.browser }}
-          PLAYWRIGHT_JUNIT_OUTPUT_NAME: artifacts/e2e/junit/${{ matrix.browser }}.xml
-          AXE_RESULTS_PATH: artifacts/e2e/axe/${{ matrix.browser }}.json
-        run: |
-          set -euo pipefail
-          case "$BROWSER" in
-            chromium)
-              PORT=3100
-              ;;
-            firefox)
-              PORT=3101
-              ;;
-            webkit)
-              PORT=3102
-              ;;
-            *)
-              PORT=3200
-              ;;
-          esac
-
-          export PLAYWRIGHT_HOST=127.0.0.1
-          export PLAYWRIGHT_PORT=$PORT
-          export PLAYWRIGHT_BASE_URL="http://127.0.0.1:$PORT"
-
-          npm run start -- --hostname 127.0.0.1 --port "$PORT" &
-          SERVER_PID=$!
-
-          cleanup() {
-            if kill -0 "$SERVER_PID" 2>/dev/null; then
-              kill "$SERVER_PID"
-              wait "$SERVER_PID" || true
-            fi
-          }
-
-          trap cleanup EXIT
-
-          for attempt in $(seq 1 30); do
-            if curl --fail --silent --head "http://127.0.0.1:$PORT" >/dev/null; then
-              READY=1
-              break
-            fi
-            sleep 2
-          done
-
-          if [ -z "${READY:-}" ]; then
-            echo "Server failed to start" >&2
-            exit 1
+          if [ "$AUDIT_STATUS" -ne 0 ]; then
+            echo "npm audit reported issues below the high severity threshold."
           fi
+      - name: Run checks
+        run: npm run check
 
-          mkdir -p artifacts/e2e/axe artifacts/e2e/html artifacts/e2e/junit
-
-          npx playwright test \
-            --project="$BROWSER" \
-            --reporter=github \
-            --reporter=junit \
-            --reporter=html \
-            --output="playwright-results/$BROWSER"
-
-      - name: Save Playwright cache
-        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Upload Playwright artifacts
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
-        with:
-          name: playwright-${{ matrix.browser }}
-          path: |
-            playwright-results/${{ matrix.browser }}
-            artifacts/e2e/junit/${{ matrix.browser }}.xml
-            artifacts/e2e/axe/${{ matrix.browser }}.json
-            artifacts/e2e/html/${{ matrix.browser }}
-          if-no-files-found: error
-
-  report:
-    name: PR summary
-    needs:
-      - lint
-      - token-guard
-      - typecheck
-      - unit
-      - e2e
-      - build
-    if: ${{ always() && github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Download unit artifacts
-        uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
-        with:
-          name: unit-tests
-          path: report/unit
-          if-no-files-found: error
-
-      - name: Download Playwright artifacts
-        uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
-        with:
-          path: report/e2e
-          if-no-files-found: warn
-
-      - name: Generate summary payload
-        shell: bash
+      - name: Summarize results
+        if: always()
         run: |
-          set -euo pipefail
-          node scripts/report-summary.mjs \
-            --coverage=report/unit/coverage/coverage-summary.json \
-            --junit=report/unit,report/e2e \
-            --out=report/summary.json
-
-      - name: Fetch job timings
-        id: timings
-        uses: actions/github-script@d59a4d062958ca40b034b6f04da4898e95a1c18f # v7.0.1
-        with:
-          script: |
-            const runId = context.runId;
-            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: runId,
-              per_page: 100,
-            });
-            const tracked = ['install', 'lint', 'token-guard', 'typecheck', 'unit', 'build'];
-            const durations = jobs
-              .filter((job) => {
-                const firstWord = job.name.split(' ')[0].toLowerCase();
-                return tracked.includes(firstWord) || job.name.startsWith('Playwright');
-              })
-              .map((job) => ({
-                name: job.name,
-                status: job.conclusion,
-                durationSeconds: job.completed_at && job.started_at
-                  ? (new Date(job.completed_at) - new Date(job.started_at)) / 1000
-                  : null,
-              }));
-            core.setOutput('durations', JSON.stringify(durations));
-
-      - name: Post summary comment
-        uses: actions/github-script@d59a4d062958ca40b034b6f04da4898e95a1c18f # v7.0.1
-        with:
-          script: |
-            const marker = '<!-- ci-summary -->';
-            const summary = JSON.parse(await require('node:fs/promises').readFile('report/summary.json', 'utf-8'));
-            const durations = JSON.parse(process.env.DURATIONS ?? '[]');
-            const lines = [];
-            lines.push(marker);
-            lines.push('### CI summary');
-            if (summary.coverage) {
-              if (summary.coverage.error) {
-                lines.push(`- Coverage: ${summary.coverage.error}`);
-              } else {
-                const cov = summary.coverage;
-                lines.push(`- Coverage: statements ${cov.statements ?? 'n/a'}%, lines ${cov.lines ?? 'n/a'}%, branches ${cov.branches ?? 'n/a'}%, functions ${cov.functions ?? 'n/a'}%`);
-              }
-            }
-            if (durations.length) {
-              const timingList = durations
-                .map((entry) => {
-                  const time = entry.durationSeconds != null ? `${Math.round(entry.durationSeconds)}s` : 'n/a';
-                  return `  - ${entry.name}: ${time} (${entry.status ?? 'unknown'})`;
-                })
-                .join('\n');
-              lines.push('- Timings:\n' + timingList);
-            }
-            const failingUnit = summary.unitFailures ?? [];
-            const failingE2E = summary.e2eFailures ?? [];
-            if (failingUnit.length || failingE2E.length) {
-              if (failingUnit.length) {
-                lines.push('- Unit test failures:');
-                for (const failure of failingUnit) {
-                  lines.push(`  - ${failure.scope ? failure.scope + ' › ' : ''}${failure.name}`);
-                }
-              }
-              if (failingE2E.length) {
-                lines.push('- E2E failures:');
-                for (const failure of failingE2E) {
-                  lines.push(`  - ${failure.scope ? failure.scope + ' › ' : ''}${failure.name}`);
-                }
-              }
-            } else {
-              lines.push('- All reported tests passed ✅');
-            }
-            const body = lines.join('\n');
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              per_page: 100,
-            });
-            const existing = comments.find((comment) => comment.user?.type === 'Bot' && comment.body.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
-        env:
-          DURATIONS: ${{ steps.timings.outputs.durations }}
+          {
+            echo "## CI Results";
+            echo "- Checks: ${{ job.status }}";
+          } >> "$GITHUB_STEP_SUMMARY"
