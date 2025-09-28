@@ -28,17 +28,23 @@ jobs:
     steps:
       - uses: ./.github/actions/setup-node-project
 
-      - name: Export static site
+      - name: Derive static base path
         shell: bash
         run: |
           set -euo pipefail
-          export DEPLOY_ARTIFACT_ONLY=true
           REPO_NAME="${GITHUB_REPOSITORY##*/}"
           if [[ "${REPO_NAME}" == *.github.io ]]; then
-            export NEXT_PUBLIC_BASE_PATH=""
+            echo "NEXT_PUBLIC_BASE_PATH=" >>"$GITHUB_ENV"
           else
-            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
+            echo "NEXT_PUBLIC_BASE_PATH=/${REPO_NAME}" >>"$GITHUB_ENV"
           fi
+
+      - name: Export static site
+        shell: bash
+        env:
+          DEPLOY_ARTIFACT_ONLY: "true"
+        run: |
+          set -euo pipefail
           npm run deploy
 
       - name: Upload static artifact
