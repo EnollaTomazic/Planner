@@ -1,5 +1,9 @@
 name: Workflow Lint
 
+concurrency:
+  group: workflow-lint-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     branches:
