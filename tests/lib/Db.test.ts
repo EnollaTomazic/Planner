@@ -558,5 +558,37 @@ describe("Db", () => {
 
       expect(result.current[0]).toBe(0);
     });
+
+    it("persists prompts saved before hydration completes", async () => {
+      const { usePromptLibrary } = await import(
+        "@/components/prompts/usePromptLibrary"
+      );
+      const { flushWriteLocal, createStorageKey } = await import("@/lib/db");
+
+      const storageKey = "prompts.hydration-regression";
+
+      const { result } = renderHook(() => usePromptLibrary(storageKey));
+
+      act(() => {
+        expect(result.current.save("", "Hydration safe prompt")).toBe(true);
+      });
+
+      await waitFor(() => {
+        expect(result.current.prompts).toHaveLength(1);
+      });
+
+      const [entry] = result.current.prompts;
+      expect(entry.text).toBe("Hydration safe prompt");
+
+      act(() => {
+        flushWriteLocal();
+      });
+
+      const stored = window.localStorage.getItem(createStorageKey(storageKey));
+      expect(stored).not.toBeNull();
+      const parsed = stored ? JSON.parse(stored) : null;
+      expect(Array.isArray(parsed)).toBe(true);
+      expect(parsed?.[0]?.text).toBe("Hydration safe prompt");
+    });
   });
 });
