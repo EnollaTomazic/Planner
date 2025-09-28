@@ -1,7 +1,8 @@
 {
   "badge": [],
   "button": [
-    "/"
+    "/",
+    "/preview/pages-check"
   ],
   "icon-button": [],
   "segmented-button": [],
@@ -25,6 +26,7 @@
     "/components",
     "/goals",
     "/planner",
+    "/preview/pages-check",
     "/prompts",
     "/reviews",
     "/team"
@@ -70,7 +72,10 @@
   "hero-planner-cards": [
     "/"
   ],
-  "hero-portrait-frame": [],
+  "hero-portrait-frame": [
+    "/",
+    "/preview/pages-check"
+  ],
   "welcome-hero-figure": [],
   "review-surface": [],
   "review-slider-track": [],
