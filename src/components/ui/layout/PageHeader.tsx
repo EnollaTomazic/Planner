@@ -121,7 +121,12 @@ export interface PageHeaderBaseProps<
   className?: string;
   /** Optional className for the semantic wrapper */
   containerClassName?: string;
-  /** Additional props for the outer frame */
+  /**
+   * Additional props for the outer frame.
+   *
+   * To override the hero divider tint without relying on inline styles,
+   * supply a `data-hero-divider-tint` attribute.
+   */
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
   contentClassName?: string;
@@ -256,17 +261,18 @@ const PageHeaderInner = <
     label: frameLabel,
     labelledById: frameLabelledById,
     style: frameStyle,
+    ["data-hero-divider-tint"]: frameDividerTintAttr,
     ...restFrameProps
   } = frameProps ?? {};
 
-  const frameStyleWithDivider = React.useMemo<React.CSSProperties>(() => {
-    const heroSlotDividerColor =
-      heroDividerTint === "life" ? "var(--accent-3)" : "var(--ring)";
-    return {
-      ...(frameStyle ?? {}),
-      "--hero-slot-divider": heroSlotDividerColor,
-    } as React.CSSProperties;
-  }, [frameStyle, heroDividerTint]);
+  const normalizedFrameDividerTint =
+    frameDividerTintAttr === "life"
+      ? "life"
+      : frameDividerTintAttr === "primary"
+      ? "primary"
+      : undefined;
+
+  const resolvedFrameDividerTint = normalizedFrameDividerTint ?? heroDividerTint;
 
   const heroShouldRenderActionArea = frameSlotsProp === null;
   const heroShouldRenderTabs = heroShouldRenderActionArea || tabsInHero;
@@ -603,8 +609,9 @@ const PageHeaderInner = <
           : {})}
         label={frameLabel}
         labelledById={frameLabelledById}
-        style={frameStyleWithDivider}
+        data-hero-divider-tint={resolvedFrameDividerTint}
         {...restFrameProps}
+        style={frameStyle}
         className={cn(className, frameClassName)}
       >
         <div
