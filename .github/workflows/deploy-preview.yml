@@ -1,0 +1,78 @@
+name: Deploy Preview
+
+concurrency:
+  group: deploy-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build static preview
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      actions: write
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        export DEPLOY_ARTIFACT_ONLY=true
+        npm run deploy
+      cache-paths: |
+        .next/cache
+      cache-key-prefix: ubuntu-latest-nextjs
+      cache-key-globs: |
+        **/package-lock.json
+
+        next.config.*
+        src/**/*.{js,jsx,ts,tsx,mdx}
+        app/**/*.{js,jsx,ts,tsx,mdx}
+      artifact-name: preview-static
+      artifact-path: |
+        out
+      summary-title: Preview static export
+
+  deploy:
+    name: Deploy preview
+    needs:
+      - build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: Deploy Preview
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Download static export
+        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+        with:
+          name: preview-static
+          path: out
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        with:
+          preview: true
