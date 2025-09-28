@@ -38,7 +38,7 @@ export default function AnimationToggle({
     }
 
     return () => {
-      if (latestEnabledRef.current && appliedByToggleRef.current) {
+      if (appliedByToggleRef.current) {
         root.classList.remove("no-animations");
         appliedByToggleRef.current = false;
       }
