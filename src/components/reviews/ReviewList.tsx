@@ -104,8 +104,9 @@ export default function ReviewList({
           <Button
             type="button"
             variant="primary"
+            size="md"
             onClick={onCreate}
-            className="btn-glitch"
+            className={cn("btn-glitch")}
           >
             Create review
           </Button>

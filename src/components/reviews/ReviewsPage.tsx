@@ -151,7 +151,10 @@ export default function ReviewsPage({
                   type="button"
                   variant="primary"
                   size="md"
-                  className="w-full whitespace-nowrap md:col-span-2 md:justify-self-end"
+                  className={cn(
+                    "btn-glitch",
+                    "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
+                  )}
                   onClick={handleCreateReview}
                 >
                   <Plus />
@@ -181,7 +184,10 @@ export default function ReviewsPage({
                   type="button"
                   variant="primary"
                   size="md"
-                  className="w-full whitespace-nowrap md:col-span-4 md:justify-self-end"
+                  className={cn(
+                    "btn-glitch",
+                    "w-full whitespace-nowrap md:col-span-4 md:justify-self-end",
+                  )}
                   onClick={handleCreateReview}
                 >
                   <Plus />
