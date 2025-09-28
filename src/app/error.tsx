@@ -41,7 +41,7 @@ export function RouteErrorContent({
     >
       <div className="flex max-w-prose flex-col gap-[var(--space-4)]">
         <div className="space-y-[var(--space-2)]">
-          <h1 className="text-display-sm font-semibold text-foreground">
+          <h1 className="text-title-lg font-semibold text-foreground">
             {title}
           </h1>
           <p className="text-body text-muted-foreground">{description}</p>
