@@ -135,7 +135,19 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
   }
 }
 
-function flattenBasePathDirectory(outDir: string, slug: string): void {
+function createTemporarySlugDirectoryPath(outDir: string, slug: string): string {
+  let attempt = 0;
+  while (true) {
+    const suffix = attempt === 0 ? "" : `-${attempt}`;
+    const candidate = path.join(outDir, `${slug}.tmp${suffix}`);
+    if (!fs.existsSync(candidate)) {
+      return candidate;
+    }
+    attempt += 1;
+  }
+}
+
+export function flattenBasePathDirectory(outDir: string, slug: string): void {
   if (!slug) {
     return;
   }
@@ -145,18 +157,22 @@ function flattenBasePathDirectory(outDir: string, slug: string): void {
     return;
   }
 
-  for (const entry of fs.readdirSync(nestedDir)) {
-    const sourcePath = path.join(nestedDir, entry);
+  const temporaryDir = createTemporarySlugDirectoryPath(outDir, slug);
+  fs.renameSync(nestedDir, temporaryDir);
+
+  for (const entry of fs.readdirSync(temporaryDir)) {
+    const temporarySourcePath = path.join(temporaryDir, entry);
+    const originalSourcePath = path.join(nestedDir, entry);
     const targetPath = path.join(outDir, entry);
     if (fs.existsSync(targetPath)) {
       throw new Error(
-        `Cannot move \"${sourcePath}\" to \"${targetPath}\" because the destination already exists.`,
+        `Cannot move \"${originalSourcePath}\" to \"${targetPath}\" because the destination already exists.`,
       );
     }
-    fs.renameSync(sourcePath, targetPath);
+    fs.renameSync(temporarySourcePath, targetPath);
   }
 
-  fs.rmSync(nestedDir, { recursive: true, force: true });
+  fs.rmSync(temporaryDir, { recursive: true, force: true });
 }
 
 function ensureNoJekyll(outDir: string): void {
@@ -201,13 +217,15 @@ function main(): void {
   runCommand(npxCommand, ghPagesArgs, process.env);
 }
 
-try {
-  main();
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(error.message);
-  } else {
-    console.error(error);
+if (process.env.VITEST !== "true") {
+  try {
+    main();
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
+    process.exit(1);
   }
-  process.exit(1);
 }
