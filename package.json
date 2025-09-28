@@ -36,6 +36,7 @@
     "prepare": "husky",
     "launch": "tsx scripts/launcher.ts",
     "deploy": "tsx scripts/deploy-gh-pages.ts",
+    "ensure:nojekyll": "tsx scripts/create-nojekyll.ts",
     "report:summary": "node scripts/report-summary.mjs"
   },
   "dependencies": {

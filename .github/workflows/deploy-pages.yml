@@ -35,6 +35,7 @@ jobs:
           export DEPLOY_ARTIFACT_ONLY=true
           export NEXT_PUBLIC_BASE_PATH="/Planner"
           npm run deploy
+          npm run ensure:nojekyll -- out
 
       - name: Upload static artifact
         uses: actions/upload-pages-artifact@6b4985b4d81eed21dc8e42f6e28eaf41b0c9fb3d # v3.0.1

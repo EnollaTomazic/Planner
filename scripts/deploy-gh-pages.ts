@@ -175,15 +175,6 @@ export function flattenBasePathDirectory(outDir: string, slug: string): void {
   fs.rmSync(temporaryDir, { recursive: true, force: true });
 }
 
-function ensureNoJekyll(outDir: string): void {
-  const markerPath = path.join(outDir, ".nojekyll");
-  if (fs.existsSync(markerPath)) {
-    return;
-  }
-
-  fs.writeFileSync(markerPath, "");
-}
-
 function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
@@ -206,8 +197,6 @@ function main(): void {
   if (shouldUseBasePath) {
     flattenBasePathDirectory(outDir, slug);
   }
-  ensureNoJekyll(outDir);
-
   if (!publish) {
     console.log("Skipping gh-pages publish step");
     return;
