@@ -31,6 +31,7 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v4
       - id: setup
         uses: ./.github/actions/setup-node-project
 
@@ -42,6 +43,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Run ESLint
@@ -71,6 +73,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Verify tokens
@@ -84,6 +87,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Run TypeScript compiler
@@ -97,6 +101,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Run Vitest suite
@@ -129,6 +134,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Build Next.js application
@@ -155,6 +161,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Download Next.js build artifact

@@ -29,6 +29,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-project
 
       - name: Export static preview
