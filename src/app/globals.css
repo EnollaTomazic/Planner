@@ -198,6 +198,14 @@ body,
 #__next {
   height: 100%;
 }
+
+html.color-scheme-dark {
+  color-scheme: dark;
+}
+
+html.color-scheme-light {
+  color-scheme: light;
+}
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

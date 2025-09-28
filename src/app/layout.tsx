@@ -4,7 +4,6 @@ import "./globals.css";
 import "./themes.css";
 
 import type { Metadata, Viewport } from "next";
-import type { CSSProperties } from "react";
 import {
   geistMonoVariable,
   geistSansClassName,
@@ -133,24 +132,29 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const year = new Date().getFullYear();
-  type AssetStyle = CSSProperties & Record<`--${string}`, string>;
-  const assetUrlStyles: AssetStyle = {
-    "--asset-noise-url": `url("${withBasePath("/noise.svg")}")`,
-    "--asset-glitch-gif-url": `url("${withBasePath("/glitch-gif.gif")}")`,
-  };
+  const assetUrlCss = [
+    ":root {",
+    `  --asset-noise-url: url(\"${withBasePath("/noise.svg")}\");`,
+    `  --asset-glitch-gif-url: url(\"${withBasePath("/glitch-gif.gif")}\");`,
+    "}",
+  ].join("\n");
   const renderLayout = (nonce?: string) => {
     const nonceInitializer = nonce ? createNonceInitializer(nonce) : null;
     return (
       // Default SSR state: LG (dark). The no-flash script will tweak immediately.
       <html
         lang="en"
-        className="theme-lg"
+        className="theme-lg color-scheme-dark"
         suppressHydrationWarning
-        style={{ colorScheme: "dark" }}
       >
         <head>
           {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
           <meta name="color-scheme" content="dark light" />
+          <style
+            id="asset-url-overrides"
+            nonce={nonce}
+            dangerouslySetInnerHTML={{ __html: assetUrlCss }}
+          />
           {nonceInitializer ? (
             <Script
               id="csp-nonce-runtime"
@@ -168,7 +172,6 @@ export default async function RootLayout({
         </head>
         <body
           className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
-          style={assetUrlStyles}
         >
           <a
             className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"

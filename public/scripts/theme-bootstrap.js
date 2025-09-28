@@ -166,9 +166,32 @@
       writeLocal(THEME_STORAGE_KEY, data);
     }
 
-    const cl = document.documentElement.classList;
-    const dataset = document.documentElement.dataset;
-    const style = document.documentElement.style;
+    const { classList: cl, dataset } = document.documentElement;
+
+    function escapeCssUrl(url) {
+      return String(url).replace(/['"\\]/gu, (match) => `\\${match}`);
+    }
+
+    function ensureAssetStyle(noiseUrl, glitchUrl) {
+      const styleId = "asset-url-overrides";
+      let styleElement = document.getElementById(styleId);
+      if (!(styleElement instanceof HTMLStyleElement)) {
+        styleElement = document.createElement("style");
+        styleElement.id = styleId;
+        const current = document.currentScript;
+        if (current && typeof current.nonce === "string" && current.nonce) {
+          styleElement.setAttribute("nonce", current.nonce);
+        }
+        document.head.appendChild(styleElement);
+      }
+
+      styleElement.textContent = [
+        ":root {",
+        `  --asset-noise-url: url('${escapeCssUrl(noiseUrl)}');`,
+        `  --asset-glitch-gif-url: url('${escapeCssUrl(glitchUrl)}');`,
+        "}",
+      ].join("\n");
+    }
 
     function resolveAssetPath(relativePath) {
       try {
@@ -188,13 +211,9 @@
       }
     }
 
-    style.setProperty(
-      "--asset-noise-url",
-      "url('" + resolveAssetPath("../noise.svg") + "')",
-    );
-    style.setProperty(
-      "--asset-glitch-gif-url",
-      "url('" + resolveAssetPath("../glitch-gif.gif") + "')",
+    ensureAssetStyle(
+      resolveAssetPath("../noise.svg"),
+      resolveAssetPath("../glitch-gif.gif"),
     );
     resetThemeClasses(cl);
     cl.add("theme-" + data.variant);
@@ -220,7 +239,8 @@
     }
 
     cl.toggle("dark", prefersDark);
-    style.setProperty("color-scheme", prefersDark ? "dark" : "light");
+    cl.remove("color-scheme-dark", "color-scheme-light");
+    cl.add(prefersDark ? "color-scheme-dark" : "color-scheme-light");
   } catch {
     // Ignore errors so we never block initial paint.
   }
