@@ -4,6 +4,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 > **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
 
+Copy `.env.example` to `.env.local` before you start the dev server. The sample file documents every supported variable and provides sensible defaults for local work. Update the values to match your repository name, deployment branch, and any API endpoints you integrate.
+
 This project automatically regenerates its UI component export index. The `npm run dev` and `npm run build` commands run `npm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `npm run regen-ui` manually whenever components are added or removed.
 
 First, run the development server:
@@ -58,6 +60,23 @@ GITHUB_PAGES=true BASE_PATH=<repo> npm run dev
 ```
 
 Then open `http://localhost:3000/<repo>/` to load the home page under the same base path.
+
+## Configuration Reference
+
+The app reads configuration from your shell environment at build time. Use `.env.local` for local development and your CI provider's secret manager for deployments. The table below lists the available keys, their defaults in `.env.example`, and how they influence the app:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `BASE_PATH` | `""` | Repository slug added to exported asset URLs. Required for GitHub Pages deployments so the static site serves from `/<repo>/`. |
+| `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
+| `GITHUB_PAGES` | `false` | Enables GitHub Pages specific behavior in Next.js builds (base path awareness and export tweaks). Set to `true` for GitHub Pages previews or exports. |
+| `GITHUB_TOKEN` | `""` | Personal access token used by the deploy script to push from CI. Needs `public_repo` scope for public repositories. Leave empty locally when an `origin` remote is configured. |
+| `GITHUB_REPOSITORY` | `""` | `owner/repo` slug resolved by the deploy script when no git remote is available (common in CI). |
+| `GH_PAGES_BRANCH` | `gh-pages` | Target branch for the GitHub Pages deploy script. Override if your site publishes from a different branch. |
+| `GITHUB_PAGES_BRANCH` | `""` | Optional alias the deploy script reads when `GH_PAGES_BRANCH` is unset. Useful when reusing existing CI variables. |
+| `NEXT_PUBLIC_API_*` | _unset_ | Placeholder namespace for future API endpoints (for example, `NEXT_PUBLIC_API_BASE_URL`). Prefix additional public URLs with `NEXT_PUBLIC_` so Next.js exposes them to the client. |
+
+> **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
 
 ## Animations
 
