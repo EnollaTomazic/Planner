@@ -15,7 +15,10 @@ const normalizeBasePath = (value) => {
   return cleaned ? `/${cleaned}` : "";
 };
 
-const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+// Allow deploy scripts to provide BASE_PATH while still letting explicit
+// NEXT_PUBLIC_BASE_PATH override it for local overrides or previews.
+const rawBasePath =
+  process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "";
 const normalizedBasePathValue = normalizeBasePath(rawBasePath);
 const isExportStatic = process.env.EXPORT_STATIC === "true";
 const isProduction = process.env.NODE_ENV === "production";
