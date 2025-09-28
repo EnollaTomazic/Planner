@@ -87,6 +87,77 @@ export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 
 export const shellWidthToken = "--shell-width";
 
+const ringEntries = [
+  ["xs", { diameter: spacingTokens[4], stroke: spacingTokens[0] }],
+  ["s", { diameter: spacingTokens[5], stroke: spacingTokens[0] }],
+  ["m", { diameter: spacingTokens[7], stroke: spacingTokens[0] }],
+  ["l", { diameter: spacingTokens[7] * 3.5, stroke: spacingTokens[0] }],
+] as const;
+
+type RingEntry = (typeof ringEntries)[number];
+export type RingSize = RingEntry[0];
+
+const ringTokenMap: Record<
+  RingSize,
+  { diameter: `--ring-diameter-${RingSize}`; stroke: `--ring-stroke-${RingSize}` }
+> = ringEntries.reduce(
+  (acc, [token]) => {
+    acc[token] = {
+      diameter: `--ring-diameter-${token}` as const,
+      stroke: `--ring-stroke-${token}` as const,
+    };
+    return acc;
+  },
+  {} as Record<
+    RingSize,
+    { diameter: `--ring-diameter-${RingSize}`; stroke: `--ring-stroke-${RingSize}` }
+  >,
+);
+
+const ringFallbacks: Record<
+  RingSize,
+  { diameter: number; stroke: number; inset: number }
+> = ringEntries.reduce(
+  (acc, [token, { diameter, stroke }]) => {
+    acc[token] = {
+      diameter,
+      stroke,
+      inset: spacingTokens[2] / 2,
+    };
+    return acc;
+  },
+  {} as Record<RingSize, { diameter: number; stroke: number; inset: number }>,
+);
+
+export interface RingMetrics {
+  diameter: number;
+  stroke: number;
+  inset: number;
+}
+
+export const getRingMetrics = (
+  size: RingSize,
+  overrides?: Partial<RingMetrics>,
+): RingMetrics => {
+  const tokens = ringTokenMap[size];
+  const fallback = ringFallbacks[size];
+  const diameterFallback = overrides?.diameter ?? fallback.diameter;
+  const strokeFallback = overrides?.stroke ?? fallback.stroke;
+  const insetFallback = overrides?.inset ?? fallback.inset;
+  const diameter = readNumberToken(tokens.diameter, diameterFallback);
+  const stroke = readNumberToken(tokens.stroke, strokeFallback);
+  const inset = readNumberToken(
+    `--ring-inset-${size}`,
+    readNumberToken("--ring-inset", insetFallback),
+  );
+
+  return {
+    diameter,
+    stroke,
+    inset,
+  };
+};
+
 const radiusEntries = [
   ["sm", 6],
   ["md", 8],

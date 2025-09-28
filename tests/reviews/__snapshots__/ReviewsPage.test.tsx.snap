@@ -746,34 +746,54 @@ exports[`ReviewsPage > renders default state 1`] = `
       >
         <div
           aria-live="polite"
-          class="rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 shadow-outline-subtle w-full max-w-full mx-auto flex flex-col items-center justify-center gap-[var(--space-2)] py-[var(--space-8)] text-ui text-muted-foreground"
+          class="rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 shadow-outline-subtle w-full max-w-full mx-auto relative isolate flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground"
         >
-          <svg
+          <span
             aria-hidden="true"
-            class="lucide lucide-ghost size-[var(--icon-size-xl)] opacity-60"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
+            class="glitch-rail pointer-events-none absolute inset-y-[var(--space-2)] left-1/2 hidden w-[var(--spacing-1)] -translate-x-1/2 rounded-full opacity-80 mix-blend-screen sm:block"
+          />
+          <span
+            aria-hidden="true"
+            class="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+            data-text=""
           >
-            <path
-              d="M9 10h.01"
-            />
-            <path
-              d="M15 10h.01"
-            />
-            <path
-              d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"
-            />
-          </svg>
-          <p>
-            Select a review from the list or create a new one.
-          </p>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-ghost size-[var(--space-6)]"
+              fill="none"
+              focusable="false"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 10h.01"
+              />
+              <path
+                d="M15 10h.01"
+              />
+              <path
+                d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"
+              />
+            </svg>
+          </span>
+          <div
+            class="space-y-[var(--space-1)]"
+          >
+            <p
+              class="text-card-foreground"
+            >
+              Select a review from the list or create a new one.
+            </p>
+            <p>
+              Once you do, summaries and edit tools will appear here.
+            </p>
+          </div>
         </div>
       </div>
     </div>

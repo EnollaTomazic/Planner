@@ -16,6 +16,12 @@ const __dirname = path.dirname(__filename);
 const DEPRECATED_TOKENS = new Set([
   "shadow-glow-small",
   "shadow-glow-strong",
+  "progress-ring-diameter",
+  "progress-ring-stroke",
+  "progress-ring-inset",
+  "timer-ring-diameter",
+  "timer-ring-stroke",
+  "timer-ring-inset",
 ]);
 
 const isDeprecatedToken = (name: string): boolean =>
@@ -91,13 +97,16 @@ async function buildTokens(): Promise<void> {
     "elevation-2": { value: "var(--shadow-outline-subtle)" },
     "elevation-3": { value: "var(--shadow-control)" },
   };
-  const progressRingTokens: Record<string, { value: string }> = {
-    "progress-ring-diameter": { value: "var(--space-8)" },
-    "progress-ring-stroke": { value: "var(--ring-size-2)" },
-    "progress-ring-inset": { value: "calc(var(--space-3) / 2)" },
-    "timer-ring-diameter": { value: "calc(var(--space-8) * 3.5)" },
-    "timer-ring-stroke": { value: "var(--ring-size-2)" },
-    "timer-ring-inset": { value: "calc(var(--space-3) / 2)" },
+  const ringMetricTokens: Record<string, { value: string }> = {
+    "ring-diameter-xs": { value: "var(--space-5)" },
+    "ring-diameter-s": { value: "var(--space-6)" },
+    "ring-diameter-m": { value: "var(--space-8)" },
+    "ring-diameter-l": { value: "calc(var(--space-8) * 3.5)" },
+    "ring-stroke-xs": { value: "var(--ring-size-1)" },
+    "ring-stroke-s": { value: "var(--ring-size-1)" },
+    "ring-stroke-m": { value: "var(--ring-size-2)" },
+    "ring-stroke-l": { value: "var(--ring-size-2)" },
+    "ring-inset": { value: "calc(var(--space-3) / 2)" },
   };
   const skeletonTokens: Record<string, { value: string }> = {
     "skeleton-bg": { value: "hsl(var(--muted) / 0.6)" },
@@ -206,7 +215,7 @@ async function buildTokens(): Promise<void> {
       ...ringTokens,
       ...iconStrokeTokens,
       ...elevationTokens,
-      ...progressRingTokens,
+      ...ringMetricTokens,
       ...skeletonTokens,
       ...noiseTokens,
       spacing,
