@@ -64,8 +64,10 @@ jobs:
           fi
       - name: Verify prompts registry
         run: npm run verify-prompts
-      - name: Run checks
-        run: npm run check
+      - name: Type check
+        run: |
+          echo "::add-matcher::.github/matchers/typescript.json"
+          npm run typecheck:ci
 
       - name: Summarize results
         if: always()

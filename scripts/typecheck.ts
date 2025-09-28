@@ -9,6 +9,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function main(): Promise<void> {
+  const args = process.argv.slice(2);
+  const prettyArg = args.find((arg) => arg === "--pretty" || arg.startsWith("--pretty="));
+  const pretty = (() => {
+    if (prettyArg === "--pretty") {
+      return true;
+    }
+    if (prettyArg?.startsWith("--pretty=")) {
+      const [, value] = prettyArg.split("=", 2);
+      return value !== "false" && value !== "0";
+    }
+    if (args.includes("--no-pretty")) {
+      return false;
+    }
+    return !process.env.CI;
+  })();
   const projectDir = path.resolve(__dirname, "..");
   const configPath = path.resolve(projectDir, "tsconfig.json");
   const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
@@ -72,9 +87,10 @@ async function main(): Promise<void> {
       getCurrentDirectory: () => projectDir,
       getNewLine: () => ts.sys.newLine,
     };
-    console.error(
-      ts.formatDiagnosticsWithColorAndContext(diagnostics, formatHost),
-    );
+    const formatter = pretty
+      ? ts.formatDiagnosticsWithColorAndContext
+      : ts.formatDiagnostics;
+    console.error(formatter(diagnostics, formatHost));
     process.exit(1);
   }
   console.log("Type check passed.");
