@@ -1,0 +1,91 @@
+.root {
+  --side-indicator-width: calc(50% - var(--space-1));
+  --side-indicator-translate: 0%;
+  --side-indicator-gradient: var(--seg-active-grad);
+  --side-indicator-shadow: var(--shadow-neo-soft);
+  --side-label-glow-blue: hsl(var(--team-blue) / 0.35);
+  --side-label-glow-red: hsl(var(--team-red) / 0.35);
+  --side-flicker-overlay: radial-gradient(
+      calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 25% 50%,
+      hsl(var(--accent-2) / 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 75% 50%,
+      hsl(var(--lav-deep) / 0.08),
+      transparent 60%
+    );
+}
+
+.root[data-side="Red"] {
+  --side-indicator-translate: 100%;
+}
+
+.root[data-side="Blue"] {
+  --side-indicator-translate: 0%;
+}
+
+.indicator {
+  width: var(--side-indicator-width);
+  transform: translateX(var(--side-indicator-translate));
+  background: var(--side-indicator-gradient);
+  box-shadow: var(--side-indicator-shadow);
+  transition: transform var(--duration-quick, 220ms) var(--ease-out, ease-out);
+}
+
+.label {
+  text-shadow: none;
+  transition:
+    color var(--duration-quick, 220ms) var(--ease-out, ease-out),
+    text-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out);
+}
+
+.leftLabel[data-active="true"] {
+  --glow-active: var(--side-label-glow-blue);
+  text-shadow: var(--shadow-glow-md);
+}
+
+.rightLabel[data-active="true"] {
+  --glow-active: var(--side-label-glow-red);
+  text-shadow: var(--shadow-glow-md);
+}
+
+.flicker {
+  opacity: 0;
+  background: var(--side-flicker-overlay);
+}
+
+.flicker[data-flick="true"] {
+  animation: side-selector-flicker var(--duration-quick, 220ms) var(--ease-out, ease-out);
+}
+
+@keyframes side-selector-flicker {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.6;
+  }
+  36% {
+    opacity: 0.18;
+  }
+  60% {
+    opacity: 0.52;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+
+  .label {
+    transition: none;
+  }
+
+  .flicker[data-flick="true"] {
+    animation: none;
+    opacity: 0;
+  }
+}

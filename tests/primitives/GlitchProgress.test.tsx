@@ -18,7 +18,7 @@ describe("GlitchProgress", () => {
 
     const fill = track.querySelector<HTMLDivElement>(".glitch-fill");
     expect(fill).not.toBeNull();
-    expect(fill).toHaveStyle({ width: "0%" });
+    expect(fill).toHaveClass("progress-0");
 
     expect(getByText("0%")).toBeInTheDocument();
   });
@@ -34,7 +34,7 @@ describe("GlitchProgress", () => {
 
     const fill = track.querySelector<HTMLDivElement>(".glitch-fill");
     expect(fill).not.toBeNull();
-    expect(fill).toHaveStyle({ width: "75%" });
+    expect(fill).toHaveClass("progress-75");
 
     expect(getByText("75%")).toBeInTheDocument();
   });
