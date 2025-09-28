@@ -730,13 +730,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-wave-start)); --g2: hsl(var(--pillar-wave-end)); --shadow: hsl(var(--pillar-wave-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Wave"
                 title="Wave"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-waves icon"
+                  class="lucide lucide-waves _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -758,82 +758,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Wave
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
@@ -857,13 +785,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-trading-start)); --g2: hsl(var(--pillar-trading-end)); --shadow: hsl(var(--pillar-trading-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Trading"
                 title="Trading"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-hand-coins icon"
+                  class="lucide lucide-hand-coins _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -895,82 +823,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Trading
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
@@ -994,13 +850,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-vision-start)); --g2: hsl(var(--pillar-vision-end)); --shadow: hsl(var(--pillar-vision-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Vision"
                 title="Vision"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-eye icon"
+                  class="lucide lucide-eye _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -1021,82 +877,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Vision
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
@@ -1120,13 +904,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-tempo-start)); --g2: hsl(var(--pillar-tempo-end)); --shadow: hsl(var(--pillar-tempo-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Tempo"
                 title="Tempo"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-timer icon"
+                  class="lucide lucide-timer _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -1156,82 +940,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Tempo
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
@@ -1255,13 +967,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-positioning-start)); --g2: hsl(var(--pillar-positioning-end)); --shadow: hsl(var(--pillar-positioning-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Positioning"
                 title="Positioning"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-crosshair icon"
+                  class="lucide lucide-crosshair _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -1303,82 +1015,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Positioning
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
@@ -1402,13 +1042,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%); filter: blur(var(--spacing-0-5)); transition: opacity 220ms var(--ease-out);"
               />
               <span
-                class="lg-pillar-badge rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                style="--g1: hsl(var(--pillar-comms-start)); --g2: hsl(var(--pillar-comms-end)); --shadow: hsl(var(--pillar-comms-shadow));"
+                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
+                data-pillar="Comms"
                 title="Comms"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-messages-square icon"
+                  class="lucide lucide-messages-square _icon_e12d15"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -1427,82 +1067,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   />
                 </svg>
                 <span
-                  class="label"
+                  class="_label_e12d15"
                 >
                   Comms
                 </span>
-                <style
-                  jsx="true"
-                >
-                  
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      
-                </style>
               </span>
             </span>
           </button>
