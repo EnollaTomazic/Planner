@@ -168,6 +168,27 @@ describe("WeekPicker", () => {
 
     const srOnlyLabel = firstOption.querySelector('[data-chip-label="full"]');
     expect(srOnlyLabel?.textContent).toBe(accessibleText);
+
+    expect(firstOption).toHaveClass("focus-visible:outline-none");
+    expect(firstOption).toHaveClass("focus-visible:ring");
+    expect(firstOption).toHaveClass("focus-visible:ring-offset-0");
+    expect(firstOption.className).toContain(
+      "focus-visible:[--tw-ring-width:var(--ring-size-2)]",
+    );
+    expect(firstOption.className).toContain(
+      "focus-visible:[--tw-ring-color:var(--theme-ring)]",
+    );
+    expect(firstOption.className).toContain("data-[focus-visible]:outline-none");
+    expect(firstOption.className).toContain("data-[focus-visible]:ring");
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:ring-offset-0",
+    );
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)]",
+    );
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:[--tw-ring-color:var(--theme-ring)]",
+    );
   });
 
   it("updates selected day on single click", () => {

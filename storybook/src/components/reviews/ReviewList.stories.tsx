@@ -55,7 +55,7 @@ const meta: Meta<typeof ReviewList> = {
     docs: {
       description: {
         component:
-          "`ReviewList` renders a vertical stack of `ReviewListItem` shells. Provide the current review collection, the selected id, and callbacks for row selection and creation so QA can confirm sidebar flows.",
+          "`ReviewList` renders a vertical stack of `ReviewListItem` shells. Provide the current review collection, the selected id, and callbacks for row selection and creation so QA can confirm sidebar flows. When the collection is empty, the component swaps to the glitch ghost call to action while the hero search and sort controls remain disabled until data exists.",
       },
     },
     chromatic: { pauseAnimationAtEnd: true },
@@ -109,6 +109,26 @@ export const Default: Story = {
           "Default list with the most recent review selected. The status pulse uses semantic motion tokens while spacing respects the review rail grid.",
       },
     },
+  },
+  render: (args) => (
+    <StorySurface>
+      <ReviewList {...args} className={cn("w-full", args.className)} />
+    </StorySurface>
+  ),
+};
+
+export const Empty: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Empty state showcasing the glitch ghost treatment. The create action remains primary and the page-level search controls stay disabled until at least one review lands.",
+      },
+    },
+  },
+  args: {
+    reviews: [],
+    selectedId: null,
   },
   render: (args) => (
     <StorySurface>
@@ -215,14 +235,18 @@ export const ReducedMotion: Story = {
     docs: {
       description: {
         story:
-          "Reduced-motion mode removes the status dot blink while keeping spacing, shadows, and selection rings intact for accessibility sign-off.",
+          "Reduced-motion mode removes the glitch shimmer, falling back to the static ghost avatar while keeping spacing, shadows, and focus treatment intact for accessibility sign-off.",
       },
     },
+  },
+  args: {
+    reviews: [],
+    selectedId: null,
   },
   render: (args) => (
     <ReducedMotionPreview>
       <StorySurface>
-        <ReviewList {...args} />
+        <ReviewList {...args} className={cn("w-full", args.className)} />
       </StorySurface>
     </ReducedMotionPreview>
   ),

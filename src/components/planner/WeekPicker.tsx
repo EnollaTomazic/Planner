@@ -175,6 +175,8 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       }
       className={cn(
         "chip chip-token relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left transition snap-start",
+        "focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-0 focus-visible:[--tw-ring-width:var(--ring-size-2)] focus-visible:[--tw-ring-color:var(--theme-ring)]",
+        "data-[focus-visible]:outline-none data-[focus-visible]:ring data-[focus-visible]:ring-offset-0 data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)] data-[focus-visible]:[--tw-ring-color:var(--theme-ring)]",
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
@@ -449,7 +451,7 @@ export default function WeekPicker() {
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}
-            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none] [&_button:focus-visible]:outline-none [&_button:focus-visible]:ring-[var(--ring-size-2)] [&_button:focus-visible]:ring-[var(--theme-ring)] [&_button:focus-visible]:ring-offset-0"
+            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
           >
             {days.map((d, i) => (
               <DayChip
