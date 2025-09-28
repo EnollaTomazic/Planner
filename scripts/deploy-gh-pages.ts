@@ -45,11 +45,50 @@ function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
   return normalized !== "false" && normalized !== "0";
 }
 
+function detectDefaultBranch(): string | undefined {
+  const commands: Array<readonly [string, readonly string[]]> = [
+    ["git", ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"]],
+    ["git", ["rev-parse", "--abbrev-ref", "origin/HEAD"]],
+  ];
+
+  for (const [command, args] of commands) {
+    const result = spawnSync(command, args, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+
+    if (result.status === 0 && typeof result.stdout === "string") {
+      const candidate = result.stdout.trim().replace(/^origin\//u, "");
+      const slug = sanitizeSlug(candidate);
+      if (slug) {
+        return slug;
+      }
+    }
+  }
+
+  const remoteShow = spawnSync("git", ["remote", "show", "origin"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "ignore"],
+  });
+
+  if (remoteShow.status === 0 && typeof remoteShow.stdout === "string") {
+    const match = remoteShow.stdout.match(/HEAD branch:\s*(?<branch>[^\s]+)/u);
+    const branch = match?.groups?.branch;
+    const slug = sanitizeSlug(branch);
+    if (slug) {
+      return slug;
+    }
+  }
+
+  return undefined;
+}
+
 function resolvePublishBranch(env: NodeJS.ProcessEnv): string {
   const fromEnv =
     sanitizeSlug(env.GH_PAGES_BRANCH) ?? sanitizeSlug(env.GITHUB_PAGES_BRANCH);
+  const fromGit = detectDefaultBranch();
 
-  return fromEnv ?? "gh-pages";
+  return fromEnv ?? fromGit ?? "gh-pages";
 }
 
 function createGhPagesArgs(env: NodeJS.ProcessEnv): string[] {
