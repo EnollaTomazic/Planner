@@ -2,7 +2,24 @@
 
 import * as React from "react";
 
-type RenderSpacer = (height: number, position: "start" | "end") => React.ReactNode;
+export type VirtualizedSpacerRenderProps = {
+  position: "start" | "end";
+  spacerId: string;
+  ariaHiddenProps: {
+    "aria-hidden": true;
+  };
+};
+
+type VirtualizedSpacerProps = {
+  height: number;
+  position: "start" | "end";
+  render?: (props: VirtualizedSpacerRenderProps) => React.ReactNode;
+};
+
+export type RenderSpacer = (
+  height: number,
+  position: "start" | "end",
+) => React.ReactNode;
 
 type VirtualizedListProps<Item> = {
   items: readonly Item[];
@@ -14,8 +31,55 @@ type VirtualizedListProps<Item> = {
   renderSpacer?: RenderSpacer;
 };
 
-const defaultRenderSpacer: RenderSpacer = (height) => (
-  <div aria-hidden style={{ height }} />
+function useSpacerId(position: "start" | "end") {
+  const reactId = React.useId();
+  return React.useMemo(
+    () =>
+      `virtualized-spacer-${reactId
+        .replace(/[^a-zA-Z0-9_-]/g, "")
+        .concat("-", position)}`,
+    [reactId, position],
+  );
+}
+
+export function VirtualizedSpacer({
+  height,
+  position,
+  render,
+}: VirtualizedSpacerProps) {
+  const spacerId = useSpacerId(position);
+  const ariaHiddenProps = React.useMemo(
+    () => ({ "aria-hidden": true as const }),
+    [],
+  );
+  const selector = React.useMemo(
+    () => `[data-spacer-id="${spacerId}"]`,
+    [spacerId],
+  );
+  const blockSize = React.useMemo(
+    () => `${Math.max(0, height)}px`,
+    [height],
+  );
+
+  return (
+    <>
+      {render ? (
+        render({ position, spacerId, ariaHiddenProps })
+      ) : (
+        <div {...ariaHiddenProps} data-spacer-id={spacerId} />
+      )}
+      <style jsx>{`
+        ${selector} {
+          block-size: ${blockSize};
+          height: ${blockSize};
+        }
+      `}</style>
+    </>
+  );
+}
+
+const defaultRenderSpacer: RenderSpacer = (height, position) => (
+  <VirtualizedSpacer height={height} position={position} />
 );
 
 function useViewportMeasurements(
