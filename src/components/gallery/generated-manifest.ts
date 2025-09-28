@@ -2935,7 +2935,7 @@ export const galleryPayload = {
             "ring"
           ],
           "kind": "complex",
-          "code": "<TimerRing pct={42} />",
+          "code": "<TimerRing pct={42} size=\"l\" />",
           "preview": {
             "id": "prompts:goals:timer-ring"
           }
@@ -2961,7 +2961,7 @@ export const galleryPayload = {
             "progress"
           ],
           "kind": "complex",
-          "code": "<ProgressRingIcon pct={50} />",
+          "code": "<ProgressRingIcon pct={50} size=\"m\" />",
           "preview": {
             "id": "prompts:goals:progress-ring-icon"
           }
@@ -2974,7 +2974,7 @@ export const galleryPayload = {
             "timer"
           ],
           "kind": "complex",
-          "code": "<TimerRingIcon pct={75} />",
+          "code": "<TimerRingIcon pct={75} size=\"l\" />",
           "preview": {
             "id": "prompts:goals:timer-ring-icon"
           }
@@ -6398,7 +6398,7 @@ export const galleryPayload = {
           "ring"
         ],
         "kind": "complex",
-        "code": "<TimerRing pct={42} />",
+        "code": "<TimerRing pct={42} size=\"l\" />",
         "preview": {
           "id": "prompts:goals:timer-ring"
         }
@@ -6424,7 +6424,7 @@ export const galleryPayload = {
           "progress"
         ],
         "kind": "complex",
-        "code": "<ProgressRingIcon pct={50} />",
+        "code": "<ProgressRingIcon pct={50} size=\"m\" />",
         "preview": {
           "id": "prompts:goals:progress-ring-icon"
         }
@@ -6437,7 +6437,7 @@ export const galleryPayload = {
           "timer"
         ],
         "kind": "complex",
-        "code": "<TimerRingIcon pct={75} />",
+        "code": "<TimerRingIcon pct={75} size=\"l\" />",
         "preview": {
           "id": "prompts:goals:timer-ring-icon"
         }
