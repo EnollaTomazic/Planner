@@ -7,7 +7,16 @@ import PreviewPage, {
 
 export default PreviewPage;
 
-export const dynamic = previewDynamic;
-export const dynamicParams = previewDynamicParams;
+export const dynamic = "force-static";
+export const dynamicParams = false;
 export const generateStaticParams = previewGenerateStaticParams;
 export const generateMetadata = previewGenerateMetadata;
+
+if (process.env.NODE_ENV !== "production") {
+  if (previewDynamic !== dynamic) {
+    throw new Error("Preview page dynamic config mismatch");
+  }
+  if (previewDynamicParams !== dynamicParams) {
+    throw new Error("Preview page dynamicParams config mismatch");
+  }
+}
