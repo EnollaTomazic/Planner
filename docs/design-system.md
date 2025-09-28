@@ -165,6 +165,12 @@ Following these guidelines keeps the interface consistent and lets theme updates
 - `subTabs` adds a secondary segmented tab row; legacy `tabs` prop remains.
 - A neon divider forms a neon search row that can host a pill `SearchBar` and optional actions.
 
+## Reviews module
+
+- `ReviewList` swaps to the glitch ghost empty state when no reviews exist. Pair the create action with that prompt instead of leaving an inert list.
+- Keep the hero search, sort, and filter controls disabled until a review exists so the locked state communicates that nothing is available yet.
+- Respect reduced-motion preferences: the ghost avatar holds still while the button and copy remain available, matching the Storybook coverage for accessibility sign-off.
+
 ## SearchBar
 
 - Wraps its input in a `<form role="search">` for accessibility.

@@ -285,7 +285,7 @@ describe("useHomePlannerOverview", () => {
       expect(result.current.overview.calendar.hasPlannedTasks).toBe(false);
 
       const summaryItems = result.current.overview.summary.items;
-      expect(getSummaryValue(summaryItems, "reviews")).toBe("No reviews yet");
+      expect(getSummaryValue(summaryItems, "reviews")).toBe("Start a review");
       expect(getSummaryValue(summaryItems, "prompts")).toBe("Start a prompt");
     } finally {
       unmount();

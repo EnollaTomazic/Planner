@@ -151,7 +151,10 @@ export default function ReviewsPage({
                   type="button"
                   variant="primary"
                   size="md"
-                  className="w-full whitespace-nowrap md:col-span-2 md:justify-self-end"
+                  className={cn(
+                    "btn-glitch",
+                    "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
+                  )}
                   onClick={handleCreateReview}
                 >
                   <Plus />
@@ -181,7 +184,10 @@ export default function ReviewsPage({
                   type="button"
                   variant="primary"
                   size="md"
-                  className="w-full whitespace-nowrap md:col-span-4 md:justify-self-end"
+                  className={cn(
+                    "btn-glitch",
+                    "w-full whitespace-nowrap md:col-span-4 md:justify-self-end",
+                  )}
                   onClick={handleCreateReview}
                 >
                   <Plus />
@@ -228,11 +234,29 @@ export default function ReviewsPage({
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "flex flex-col items-center justify-center gap-[var(--space-2)] py-[var(--space-8)] text-ui text-muted-foreground",
+                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
+                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
                 )}
               >
-                <Ghost className="size-[var(--icon-size-xl)] opacity-60" />
-                <p>Select a review from the list or create a new one.</p>
+                <span
+                  aria-hidden
+                  className="glitch-rail pointer-events-none absolute inset-y-[var(--space-2)] left-1/2 hidden w-[var(--spacing-1)] -translate-x-1/2 rounded-full opacity-80 mix-blend-screen sm:block"
+                />
+                <span
+                  aria-hidden
+                  data-text=""
+                  className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+                >
+                  <Ghost
+                    aria-hidden
+                    focusable="false"
+                    className="size-[var(--space-6)]"
+                  />
+                </span>
+                <div className="space-y-[var(--space-1)]">
+                  <p className="text-card-foreground">Select a review from the list or create a new one.</p>
+                  <p>Once you do, summaries and edit tools will appear here.</p>
+                </div>
               </ReviewPanel>
             ) : (
               <div className="space-y-[var(--space-4)]">
