@@ -11,15 +11,6 @@ const __dirname = path.dirname(__filename);
 const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
 const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
-const promptsPageFile = path.resolve(
-  __dirname,
-  "../src/app/prompts/page.tsx",
-);
-const promptsDemosFile = path.resolve(
-  __dirname,
-  "../src/components/prompts/PromptsDemos.tsx",
-);
-
 const ignoredComponents = new Set(["Split"]);
 
 type ProgressHandle = {
@@ -110,16 +101,14 @@ async function loadPromptContents(): Promise<string[]> {
 }
 
 async function verifyDemos(components: string[]): Promise<void> {
-  const [pageContent, demosContent] = await Promise.all([
-    fs.readFile(promptsPageFile, "utf8"),
-    fs.readFile(promptsDemosFile, "utf8"),
-  ]);
+  const contents = await loadPromptContents();
 
   const progress = createProgress(components.length);
   const missing: string[] = [];
 
   components.forEach((name, index) => {
-    if (!pageContent.includes(name) && !demosContent.includes(name)) {
+    const isReferenced = contents.some((content) => content.includes(name));
+    if (!isReferenced) {
       missing.push(name);
     }
     progress.update(index + 1);
