@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 2
 
       - name: actionlint
-        uses: reviewdog/action-actionlint@6b010412dd19bd4a70f7ee4b8df3966d08512a87 # v1.47.0
+        uses: reviewdog/action-actionlint@93dc1f9bc10856298b6cc1a3b3239cfbbb87fe4b # v1.67.0
         with:
           github_token: ${{ github.token }}
           fail_on_error: true
