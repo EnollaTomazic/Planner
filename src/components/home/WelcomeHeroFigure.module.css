@@ -1,0 +1,74 @@
+.framed,
+.frameless {
+  --welcome-figure-rim: calc(var(--space-2) / 1.4);
+  --welcome-figure-rim-gradient: conic-gradient(
+    from 125deg at 50% 50%,
+    hsl(var(--accent) / 0.92),
+    hsl(var(--accent-2) / 0.88),
+    hsl(var(--ring) / 0.85),
+    hsl(var(--accent) / 0.92)
+  );
+  --welcome-figure-surface: hsl(var(--card) / 0.95);
+  --welcome-figure-inner: hsl(var(--surface) / 0.88);
+  --welcome-figure-outline: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.65);
+}
+
+.toneDefault {
+  --welcome-figure-glow: calc(var(--space-4) + var(--space-1));
+  --welcome-figure-primary-halo: radial-gradient(
+    circle at 52% 36%,
+    hsl(var(--accent-2) / 0.34),
+    transparent 68%
+  );
+  --welcome-figure-secondary-halo: radial-gradient(
+    circle at 34% 70%,
+    hsl(var(--accent) / 0.28),
+    transparent 74%
+  );
+  --welcome-figure-primary-opacity: 0.35;
+  --welcome-figure-secondary-opacity: 0.3;
+  --welcome-figure-primary-blur: calc(var(--welcome-figure-glow) * 0.85);
+  --welcome-figure-secondary-blur: calc(var(--welcome-figure-glow) * 0.6);
+  --welcome-figure-glitch-opacity: 0.36;
+}
+
+.toneSubtle {
+  --welcome-figure-glow: calc(var(--space-3) + var(--space-1));
+  --welcome-figure-primary-halo: radial-gradient(
+    circle at 52% 36%,
+    hsl(var(--accent-2) / 0.28),
+    transparent 64%
+  );
+  --welcome-figure-secondary-halo: radial-gradient(
+    circle at 34% 70%,
+    hsl(var(--accent) / 0.22),
+    transparent 70%
+  );
+  --welcome-figure-primary-opacity: 0.3;
+  --welcome-figure-secondary-opacity: 0.26;
+  --welcome-figure-primary-blur: calc(var(--welcome-figure-glow) * 0.7);
+  --welcome-figure-secondary-blur: calc(var(--welcome-figure-glow) * 0.5);
+  --welcome-figure-glitch-opacity: 0.18;
+}
+
+.rim {
+  padding: var(--welcome-figure-rim);
+  background: var(--welcome-figure-rim-gradient);
+}
+
+.inner {
+  background: var(--welcome-figure-surface);
+  box-shadow: var(--welcome-figure-outline);
+}
+
+.overlay {
+  background: var(--welcome-figure-inner);
+}
+
+.haloPrimary {
+  background: var(--welcome-figure-primary-halo);
+}
+
+.haloSecondary {
+  background: var(--welcome-figure-secondary-halo);
+}
