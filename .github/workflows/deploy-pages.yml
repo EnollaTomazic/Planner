@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 jobs:
   build:
@@ -23,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: write
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
