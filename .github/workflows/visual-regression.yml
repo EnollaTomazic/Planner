@@ -97,10 +97,10 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ~/.cache/ms-playwright
-          key: visual-playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
+          key: visual-playwright-${{ steps['playwright-version'].outputs.value }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps['playwright-cache'].outputs['cache-hit'] != 'true' }}
         run: npx playwright install --with-deps
 
       - name: Run visual regression tests
@@ -159,11 +159,11 @@ jobs:
             --grep "@visual"
 
       - name: Save Playwright cache
-        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps['playwright-cache'].outputs['cache-hit'] != 'true' }}
         uses: actions/cache/save@v4
         with:
           path: ~/.cache/ms-playwright
-          key: visual-playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
+          key: visual-playwright-${{ steps['playwright-version'].outputs.value }}-${{ hashFiles('package-lock.json') }}
 
       - name: Upload visual artifacts
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
