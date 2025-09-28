@@ -29,12 +29,24 @@ const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
 
 const resolveGitHubPagesSlug = () => {
-  const explicitSlug =
-    sanitizeSlug(process.env.NEXT_PUBLIC_BASE_PATH) ??
-    sanitizeSlug(process.env.BASE_PATH);
+  const explicitSlugSources = [process.env.NEXT_PUBLIC_BASE_PATH, process.env.BASE_PATH];
 
-  if (explicitSlug) {
-    return explicitSlug;
+  for (const candidate of explicitSlugSources) {
+    if (candidate !== undefined) {
+      const trimmed = candidate.trim();
+
+      if (trimmed.length === 0) {
+        return "";
+      }
+
+      const sanitized = sanitizeSlug(candidate);
+
+      if (sanitized !== undefined) {
+        return sanitized;
+      }
+
+      return "";
+    }
   }
 
   if (repositorySlug) {
