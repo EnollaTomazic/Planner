@@ -36,6 +36,10 @@ function normalizeBasePath(raw: string | undefined): string {
 
 const NORMALIZED_BASE = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
 
+export function getBasePath(): string {
+  return NORMALIZED_BASE;
+}
+
 const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
 
 function isAbsoluteUrl(path: string): boolean {
