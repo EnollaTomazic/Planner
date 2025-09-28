@@ -160,7 +160,7 @@ runs:
     - name: Restore node_modules cache
       id: restore-node-modules
       if: ${{ inputs.cache-node-modules == 'true' }}
-      uses: actions/cache/restore@v4.1.2
+      uses: actions/cache/restore@v4
       with:
         path: node_modules
         key: ${{ steps.cache-key.outputs.primary }}
@@ -174,7 +174,7 @@ runs:
 
     - name: Save node_modules cache
       if: ${{ inputs.cache-node-modules == 'true' && steps.restore-node-modules.outputs.cache-hit != 'true' }}
-      uses: actions/cache/save@v4.1.2
+      uses: actions/cache/save@v4
       with:
         path: node_modules
         key: ${{ steps.cache-key.outputs.primary }}
