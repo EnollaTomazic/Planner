@@ -28,6 +28,9 @@
       ],
       "ast-types/*": [
         "types/ast-types/*"
+      ],
+      "postcss-import": [
+        "types/postcss-import"
       ]
     },
     "types": [
