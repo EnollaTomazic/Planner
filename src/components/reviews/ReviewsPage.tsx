@@ -176,7 +176,7 @@ export default function ReviewsPage({
                 />
                 <p
                   id={emptySearchDescriptionId}
-                  className="text-sm text-muted-foreground md:col-span-8"
+                  className="text-ui text-muted-foreground md:col-span-8"
                 >
                   Once you create your first review, you can filter by title, tag combinations, specific opponents, or patch history.
                 </p>
