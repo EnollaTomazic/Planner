@@ -20,6 +20,24 @@ const featureDirs = [
 const uiManifestFile = path.join(cacheDir, "generate-ui-index.json");
 const featureManifestFile = path.join(cacheDir, "generate-feature-index.json");
 const usageManifestFile = path.join(cacheDir, "build-gallery-usage.json");
+const themesManifestFile = path.join(cacheDir, "generate-themes.json");
+const tokensManifestFile = path.join(cacheDir, "generate-tokens.json");
+
+const themeInputFiles = [
+  path.join(__dirname, "generate-themes.ts"),
+  path.join(__dirname, "themes.ts"),
+  path.join(__dirname, "themes-static.css"),
+  path.join(rootDir, "src/app/themes.css"),
+];
+
+const tokenInputFiles = Array.from(
+  new Set([
+    ...themeInputFiles,
+    path.join(__dirname, "generate-tokens.ts"),
+    path.join(rootDir, "src/lib/tokens.ts"),
+    path.join(rootDir, "src/app/globals.css"),
+  ]),
+);
 
 type ManifestEntry = { mtimeMs: number };
 type Manifest = Record<string, ManifestEntry>;
@@ -42,13 +60,34 @@ async function hasChanges(
   for (const file of files) {
     const rel = relFn(file);
     remaining.delete(rel);
-    const stat = await fs.stat(file);
+    const stat = await fs.stat(file).catch(() => null);
+    if (!stat) {
+      return true;
+    }
     const entry = manifest[rel];
     if (!entry || entry.mtimeMs !== stat.mtimeMs) {
       return true;
     }
   }
   return remaining.size > 0;
+}
+
+async function updateManifest(
+  manifestFile: string,
+  files: string[],
+  relFn: (file: string) => string,
+): Promise<void> {
+  const manifest: Manifest = {};
+  for (const file of files) {
+    const stat = await fs.stat(file).catch(() => null);
+    if (!stat) {
+      // Skip files that are missing; they will trigger regeneration next run.
+      continue;
+    }
+    manifest[relFn(file)] = { mtimeMs: stat.mtimeMs };
+  }
+  await fs.mkdir(cacheDir, { recursive: true });
+  await fs.writeFile(manifestFile, JSON.stringify(manifest, null, 2));
 }
 
 async function uiChanged(): Promise<boolean> {
@@ -89,6 +128,24 @@ async function usageChanged(): Promise<boolean> {
   );
 }
 
+async function themesChanged(): Promise<boolean> {
+  const manifest = await loadManifest(themesManifestFile);
+  return hasChanges(
+    manifest,
+    themeInputFiles,
+    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  );
+}
+
+async function tokensChanged(): Promise<boolean> {
+  const manifest = await loadManifest(tokensManifestFile);
+  return hasChanges(
+    manifest,
+    tokenInputFiles,
+    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  );
+}
+
 function run(cmd: string): void {
   execSync(cmd, { stdio: "inherit" });
 }
@@ -107,19 +164,26 @@ async function main() {
     return;
   }
 
-  const [needsUi, needsFeature, needsUsage] = await Promise.all([
-    uiChanged(),
-    featureChanged(),
-    usageChanged(),
-  ]);
+  const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
+    await Promise.all([
+      uiChanged(),
+      featureChanged(),
+      usageChanged(),
+      themesChanged(),
+      tokensChanged(),
+    ]);
 
-  if (!needsUi && !needsFeature && !needsUsage) {
+  if (!needsUi && !needsFeature && !needsUsage && !needsThemes && !needsTokens) {
     console.log("Skipping regeneration tasks");
     return;
   }
 
   const total =
-    (needsUi ? 1 : 0) + (needsFeature ? 1 : 0) + (needsUsage ? 1 : 0);
+    (needsUi ? 1 : 0) +
+    (needsFeature ? 1 : 0) +
+    (needsUsage ? 1 : 0) +
+    (needsThemes ? 1 : 0) +
+    (needsTokens ? 1 : 0);
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
     Presets.shades_grey,
@@ -136,6 +200,24 @@ async function main() {
   }
   if (needsUsage) {
     run("npm run build-gallery-usage");
+    taskBar.increment();
+  }
+  if (needsThemes) {
+    run("npm run generate-themes");
+    await updateManifest(
+      themesManifestFile,
+      themeInputFiles,
+      (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+    );
+    taskBar.increment();
+  }
+  if (needsTokens) {
+    run("npm run generate-tokens");
+    await updateManifest(
+      tokensManifestFile,
+      tokenInputFiles,
+      (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+    );
     taskBar.increment();
   }
 
