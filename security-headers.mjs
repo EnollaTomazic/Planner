@@ -40,12 +40,13 @@ export const createContentSecurityPolicy = (nonce, options) => {
   const styleSrcBase = ["'self'", "'unsafe-inline'"];
   const styleSrc = [...styleSrcBase];
   const styleSrcElem = [...styleSrcBase];
+  const imgSrcBase = ["'self'", "data:", "https:"];
 
   if (!allowVercelFeedback) {
     styleSrc.push(nonceSource);
     styleSrcElem.push(nonceSource);
   }
-  const imgSrc = ["'self'", "data:", "https:"];
+  const imgSrc = [...imgSrcBase];
   const connectSrc = ["'self'"];
 
   if (allowVercelFeedback) {
