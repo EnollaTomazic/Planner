@@ -25,9 +25,13 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
-      - uses: ./.github/actions/setup-node-project
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
-          checkout-ref: ${{ inputs.branch != '' && inputs.branch || '' }}
+          fetch-depth: 2
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+
+      - uses: ./.github/actions/setup-node-project
 
       - name: Build Next.js application
         shell: bash
@@ -56,9 +60,13 @@ jobs:
           - webkit
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-node-project
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
-          checkout-ref: ${{ inputs.branch != '' && inputs.branch || '' }}
+          fetch-depth: 2
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
+
+      - uses: ./.github/actions/setup-node-project
 
       - name: Download build artifact
         uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
