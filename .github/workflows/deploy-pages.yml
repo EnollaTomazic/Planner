@@ -33,6 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           export DEPLOY_ARTIFACT_ONLY=true
+          export NEXT_PUBLIC_BASE_PATH="/Planner"
           npm run deploy
 
       - name: Upload static artifact
