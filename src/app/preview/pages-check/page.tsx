@@ -23,14 +23,10 @@ export default function PagesCheckPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
     >
       <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
-        <SectionCard.Header
-          id="pages-check-heading"
-          title="GitHub Pages routing check"
-          titleAs="h1"
-          sticky={false}
-          titleClassName="text-title font-semibold tracking-[-0.01em]"
-        />
-        <SectionCard.Body className="flex flex-col items-center gap-[var(--space-4)] text-center">
+        <div className="section-h" id="pages-check-heading">
+          <h1 className="text-title font-semibold tracking-[-0.01em]">GitHub Pages routing check</h1>
+        </div>
+        <div className="section-b flex flex-col items-center gap-[var(--space-4)] text-center text-ui">
           <p className="text-ui text-muted-foreground" data-testid="base-path-value">
             Base path resolved to <span className="font-mono text-foreground">{basePathLabel}</span>
           </p>
@@ -43,7 +39,7 @@ export default function PagesCheckPage() {
           <Button asChild variant="secondary">
             <Link href="/">Return home</Link>
           </Button>
-        </SectionCard.Body>
+        </div>
       </SectionCard>
     </PageShell>
   );
