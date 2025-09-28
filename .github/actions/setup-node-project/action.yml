@@ -107,7 +107,7 @@ runs:
         } >>"$GITHUB_OUTPUT"
 
     - name: Setup Node.js
-      uses: actions/setup-node@1fa90b90e98cfc9330a84c957cd88bd2d4093b6d # v4.0.3
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v4.1.0
       with:
         node-version-file: ${{ inputs['node-version-file'] }}
         cache: ${{ steps.detect.outputs.manager }}
