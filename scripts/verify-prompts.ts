@@ -22,6 +22,39 @@ const promptsDemosFile = path.resolve(
 
 const ignoredComponents = new Set(["Split"]);
 
+type ProgressHandle = {
+  readonly update: (value: number) => void;
+  readonly stop: () => void;
+};
+
+function createProgress(total: number): ProgressHandle {
+  const canRender = process.stdout.isTTY && process.stderr.isTTY;
+  if (!canRender || total === 0) {
+    return {
+      update() {
+        // no-op when TTY updates are not available
+      },
+      stop() {
+        // no-op when no progress bar was created
+      },
+    } satisfies ProgressHandle;
+  }
+
+  const bars = new MultiBar(
+    { clearOnComplete: false, hideCursor: true },
+    Presets.shades_grey,
+  );
+  const bar = bars.create(total, 0);
+  return {
+    update(value: number) {
+      bar.update(value);
+    },
+    stop() {
+      bars.stop();
+    },
+  } satisfies ProgressHandle;
+}
+
 function toComponentName(file: string): string {
   const base = path.basename(file).replace(/\.(tsx|ts)$/, "");
   return base
@@ -82,25 +115,29 @@ async function verifyDemos(components: string[]): Promise<void> {
     fs.readFile(promptsDemosFile, "utf8"),
   ]);
 
-  const bars = new MultiBar(
-    { clearOnComplete: false, hideCursor: true },
-    Presets.shades_grey,
-  );
-  const bar = bars.create(components.length, 0);
+  const progress = createProgress(components.length);
   const missing: string[] = [];
 
   components.forEach((name, index) => {
     if (!pageContent.includes(name) && !demosContent.includes(name)) {
       missing.push(name);
     }
-    bar.update(index + 1);
+    progress.update(index + 1);
   });
 
-  bars.stop();
+  progress.stop();
 
   if (missing.length > 0) {
     console.error(
-      "Missing prompt demos for components:\n" + missing.join("\n"),
+      [
+        "Missing prompt demos for components:",
+        ...missing,
+        "",
+        "Add demos in src/components/prompts/PromptsDemos.tsx or reference",
+        "them from src/app/prompts to satisfy verification.",
+        "Run `npm run check-prompts` to preview missing references without",
+        "failing CI.",
+      ].join("\n"),
     );
     process.exit(1);
   }
@@ -111,21 +148,17 @@ async function verifyDemos(components: string[]): Promise<void> {
 async function listUnreferencedComponents(components: string[]): Promise<void> {
   const contents = await loadPromptContents();
 
-  const bars = new MultiBar(
-    { clearOnComplete: false, hideCursor: true },
-    Presets.shades_grey,
-  );
-  const bar = bars.create(components.length, 0);
+  const progress = createProgress(components.length);
   const missing: string[] = [];
 
   components.forEach((name, index) => {
     if (!contents.some((content) => content.includes(name))) {
       missing.push(name);
     }
-    bar.update(index + 1);
+    progress.update(index + 1);
   });
 
-  bars.stop();
+  progress.stop();
 
   if (missing.length > 0) {
     console.log("Unreferenced UI components:\n" + missing.join("\n"));
