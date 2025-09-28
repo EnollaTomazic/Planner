@@ -339,8 +339,10 @@ export function usePersistentState<T>(
 
   const initialRef = React.useRef(initial);
   const stateRef = React.useRef(state);
+  const stateRevisionRef = React.useRef(0);
   React.useEffect(() => {
     stateRef.current = state;
+    stateRevisionRef.current += 1;
   }, [state]);
   React.useEffect(() => {
     if (!Object.is(initialRef.current, initial)) {
@@ -392,6 +394,7 @@ export function usePersistentState<T>(
 
   const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
+  const renderRevision = stateRevisionRef.current;
 
   React.useEffect(() => {
     const nextFull = createStorageKey(key);
@@ -421,30 +424,53 @@ export function usePersistentState<T>(
           }
         }
       }
+      const queuedRevision = renderRevision;
+      const stateChangedSinceQueue = () =>
+        stateRevisionRef.current !== queuedRevision;
+
+      let shouldUpdateState = false;
+      let nextState: T = stateRef.current;
+
       if (fromStorage !== null) {
         const decoded = decodeValue(fromStorage);
         if (decoded !== null) {
-          if (!Object.is(stateRef.current, decoded)) setState(decoded);
-        } else if (!Object.is(stateRef.current, initialRef.current)) {
-          setState(initialRef.current);
-        }
-        if (fallbackKey && fallbackKey !== fullKey) {
-          try {
-            window.localStorage.removeItem(fallbackKey);
-          } catch (error) {
-            persistenceLogger.warn(
-              `Failed to remove legacy storage key "${fallbackKey}" during migration.`,
-              error,
-            );
+          if (!Object.is(stateRef.current, decoded)) {
+            shouldUpdateState = true;
+            nextState = decoded;
           }
+        } else if (
+          !stateChangedSinceQueue() &&
+          !Object.is(stateRef.current, initialRef.current)
+        ) {
+          shouldUpdateState = true;
+          nextState = initialRef.current;
         }
-      } else {
-        if (!Object.is(stateRef.current, initialRef.current))
-          setState(initialRef.current);
+      } else if (
+        !stateChangedSinceQueue() &&
+        !Object.is(stateRef.current, initialRef.current)
+      ) {
+        shouldUpdateState = true;
+        nextState = initialRef.current;
       }
+
       loadedRef.current = true;
+
+      if (fallbackKey && fallbackKey !== fullKey) {
+        try {
+          window.localStorage.removeItem(fallbackKey);
+        } catch (error) {
+          persistenceLogger.warn(
+            `Failed to remove legacy storage key "${fallbackKey}" during migration.`,
+            error,
+          );
+        }
+      }
+
+      if (shouldUpdateState) {
+        setState(nextState);
+      }
     }
-  }, [key, decodeValue]);
+  }, [key, decodeValue, renderRevision]);
 
   const handleExternal = React.useCallback((raw: string | null) => {
     if (raw === null) {
