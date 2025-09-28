@@ -29,6 +29,12 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 2
+          ref: ${{ github.ref }}
+
       - uses: ./.github/actions/setup-node-project
 
       - name: Export static preview
@@ -36,6 +42,12 @@ jobs:
         run: |
           set -euo pipefail
           export DEPLOY_ARTIFACT_ONLY=true
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          if [[ "${REPO_NAME}" == *.github.io ]]; then
+            export NEXT_PUBLIC_BASE_PATH=""
+          else
+            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
+          fi
           npm run deploy
 
       - name: Upload static artifact
