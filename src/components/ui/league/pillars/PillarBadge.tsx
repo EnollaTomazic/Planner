@@ -2,8 +2,10 @@
 "use client";
 
 import * as React from "react";
+import clsx from "clsx";
 import type { Pillar } from "@/lib/types";
 import { Waves, HandCoins, Eye, Timer, Crosshair, MessagesSquare } from "lucide-react";
+import styles from "./PillarBadge.module.css";
 
 type Size = "sm" | "md" | "lg";
 type AsTag = "button" | "span" | "div";
@@ -59,22 +61,7 @@ export default function PillarBadge({
   const Tag: AsTag = as ?? (interactive ? "button" : "span");
 
   // Common class list
-  const cls = [
-    "lg-pillar-badge rounded-full",
-    sizeCls,
-    interactive ? "cursor-pointer select-none" : "",
-    active ? "active" : "",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  // Shared inline CSS variables for gradient + shadow per pillar
-  const style = {
-    "--g1": `hsl(var(--${theme.start}))`,
-    "--g2": `hsl(var(--${theme.end}))`,
-    "--shadow": `hsl(var(--${theme.shadow}))`,
-  } as React.CSSProperties;
+  const cls = clsx(styles.root, "rounded-full", sizeCls, className);
 
   // If not a real button but still clickable, apply minimal semantics
   const nonButtonInteractiveProps =
@@ -107,82 +94,13 @@ export default function PillarBadge({
       onKeyDown={Tag === "button" ? undefined : onKeyDown}
       // Shared props
       className={cls}
-      style={style}
       data-interactive={interactive ? "true" : undefined}
       data-selected={active ? "true" : undefined}
+      data-pillar={pillar}
       title={title ?? pillar}
     >
-      {withIcon && <Icon className="icon" aria-hidden="true" />}
-      <span className="label">{pillar}</span>
-
-      <style jsx>{`
-        .lg-pillar-badge {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          line-height: 1;
-          font-weight: 600;
-
-          background: hsl(var(--card) / 0.75);
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          box-shadow: var(--shadow-neo);
-          transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
-          backdrop-filter: blur(calc(var(--space-3) / 2));
-          -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
-        }
-
-        /* Hover = shadow only, no translate */
-        .lg-pillar-badge:hover,
-        .lg-pillar-badge:focus-visible {
-          box-shadow: var(--shadow-neo-strong);
-          outline: none;
-        }
-
-        /* Active: gradient fill + border */
-        .lg-pillar-badge.active {
-          color: hsl(var(--primary-foreground));
-          background: linear-gradient(
-            90deg,
-            color-mix(in oklab, var(--g1), transparent 82%),
-            color-mix(in oklab, var(--g2), transparent 82%)
-          );
-          border-color: transparent;
-          box-shadow: var(--shadow-nav-active);
-        }
-        .lg-pillar-badge.active::before {
-          content: "";
-          position: absolute;
-          inset: calc(var(--hairline-w) * -1);
-          padding: var(--hairline-w);
-          border-radius: inherit;
-          background: linear-gradient(90deg, var(--g1), var(--g2));
-          -webkit-mask:
-            linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-            linear-gradient(hsl(var(--foreground)) 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-
-        .lg-pillar-badge .icon {
-          width: 1rem;
-          height: 1rem;
-          opacity: 0.95;
-        }
-        .lg-pillar-badge .label {
-          position: relative;
-          z-index: 1;
-          letter-spacing: 0.2px;
-          text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lg-pillar-badge {
-            transition: none;
-          }
-        }
-      `}</style>
+      {withIcon && <Icon className={styles.icon} aria-hidden="true" />}
+      <span className={styles.label}>{pillar}</span>
     </Tag>
   );
 }
