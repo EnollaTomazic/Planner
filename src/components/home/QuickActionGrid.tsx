@@ -92,10 +92,11 @@ export default function QuickActionGrid({
         const trimmedHref = href.trim();
         const isHash = trimmedHref.startsWith("#");
         const isExternal = isExternalHref(trimmedHref);
-        const shouldPrefixBasePath = !isHash && !isExternal;
-        const resolvedHref = shouldPrefixBasePath
+        const shouldPrefixBasePathForAnchor = !isHash && !isExternal;
+        const anchorHref = shouldPrefixBasePathForAnchor
           ? withBasePath(trimmedHref)
           : trimmedHref;
+        const linkHref = trimmedHref;
         const {
           className: _omitClassName,
           target,
@@ -119,7 +120,7 @@ export default function QuickActionGrid({
 
         const childNode = isExternal || isHash ? (
           <a
-            href={resolvedHref}
+            href={anchorHref}
             target={target}
             rel={resolvedRel}
             {...(restLinkProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -128,7 +129,7 @@ export default function QuickActionGrid({
           </a>
         ) : (
           <Link
-            href={resolvedHref}
+            href={linkHref}
             target={target}
             rel={resolvedRel}
             {...restLinkProps}

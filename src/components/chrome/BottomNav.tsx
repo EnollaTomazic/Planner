@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
-import useBasePath from "@/lib/useBasePath";
 import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
 import Spinner from "@/components/ui/feedback/Spinner";
 
@@ -33,8 +32,6 @@ export default function BottomNav({
 }: BottomNavProps = {}) {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
-  const { withBasePath } = useBasePath();
-
   return (
     <nav
       role="navigation"
@@ -73,7 +70,7 @@ export default function BottomNav({
           return (
             <li key={href}>
               <Link
-                href={withBasePath(href)}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 role="button"
                 aria-pressed={pressed || undefined}
