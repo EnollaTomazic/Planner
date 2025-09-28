@@ -101,7 +101,7 @@ export default function DashboardList<T>({
             return (
               <li
                 key={key}
-                className={cn("py-[var(--space-2)]", itemCls)}
+                className={cn("py-[var(--space-3)]", itemCls)}
               >
                 {renderItem(item, index)}
               </li>
@@ -110,7 +110,7 @@ export default function DashboardList<T>({
         : (
             <li
               className={cn(
-                "py-[var(--space-2)] text-ui text-muted-foreground",
+                "py-[var(--space-3)] text-ui text-muted-foreground",
                 cta ? "flex items-center justify-between" : "flex items-center",
               )}
             >
@@ -121,7 +121,7 @@ export default function DashboardList<T>({
               {cta ? (
                 <Link
                   href={cta.href}
-                  className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-on-accent active:text-on-accent active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-reduce:transition-none"
+                  className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-on-accent active:text-on-accent active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-[var(--ring-size-1)] focus-visible:ring-offset-0 ring-[var(--theme-ring)] motion-reduce:transition-none"
                 >
                   {cta.label}
                 </Link>

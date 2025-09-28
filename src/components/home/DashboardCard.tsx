@@ -4,11 +4,17 @@ import * as React from "react";
 import Link from "next/link";
 import { Button, NeoCard } from "@/components/ui";
 
+import DashboardSectionHeader, {
+  type DashboardSectionHeaderShowCodeProps,
+} from "./DashboardSectionHeader";
+
 interface DashboardCardProps {
   title: string;
   children?: React.ReactNode;
   cta?: { label: string; href: string };
   actions?: React.ReactNode;
+  headerLoading?: boolean;
+  showCode?: DashboardSectionHeaderShowCodeProps;
 }
 
 export default function DashboardCard({
@@ -16,13 +22,17 @@ export default function DashboardCard({
   children,
   cta,
   actions,
+  headerLoading,
+  showCode,
 }: DashboardCardProps) {
   return (
-    <NeoCard className="p-[var(--space-4)] md:p-[var(--space-6)] space-y-[var(--space-4)]">
-      <div className="flex items-center justify-between">
-        <h2 className="text-title font-semibold tracking-[-0.01em] text-card-foreground">{title}</h2>
-        {actions}
-      </div>
+    <NeoCard className="space-y-[var(--space-4)] p-[var(--space-4)] sm:p-[var(--space-5)] lg:p-[var(--space-6)]">
+      <DashboardSectionHeader
+        title={title}
+        actions={actions}
+        loading={headerLoading}
+        showCode={showCode}
+      />
       {children && (
         <div
           className="border-t border-card-hairline-60 pt-[var(--space-4)] space-y-[var(--space-4)]"
