@@ -3,12 +3,9 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import styles from "./SideSelector.module.css";
 
 export type GameSide = "Blue" | "Red";
-
-type SideIndicatorStyle = React.CSSProperties & {
-  "--side-indicator-gradient"?: string;
-};
 
 type Props = {
   value?: GameSide;
@@ -36,18 +33,28 @@ export default function SideSelector({
 }: Props) {
   const isRight = value === "Red";
   const [flick, setFlick] = React.useState(false);
-  const indicatorStyle: SideIndicatorStyle = {
-    width: "calc(50% - var(--space-1))",
-    transform: `translateX(${isRight ? "100%" : "0"})`,
-    "--side-indicator-gradient":
-      "linear-gradient(90deg, hsl(var(--primary)/0.35), hsl(var(--accent)/0.35))",
-  };
+  const flickTimeoutRef = React.useRef<number | null>(null);
+
+  function triggerFlick() {
+    if (flickTimeoutRef.current) {
+      window.clearTimeout(flickTimeoutRef.current);
+    }
+    setFlick(true);
+    flickTimeoutRef.current = window.setTimeout(() => setFlick(false), 220);
+  }
+
+  React.useEffect(() => {
+    return () => {
+      if (flickTimeoutRef.current) {
+        window.clearTimeout(flickTimeoutRef.current);
+      }
+    };
+  }, []);
 
   function toggle() {
     if (disabled || loading) return;
     onChange?.(isRight ? "Blue" : "Red");
-    setFlick(true);
-    window.setTimeout(() => setFlick(false), 220);
+    triggerFlick();
   }
 
   function onKey(e: React.KeyboardEvent<HTMLButtonElement>) {
@@ -81,6 +88,7 @@ export default function SideSelector({
         "min-w-[calc(var(--space-8)*3+var(--space-6))]",
         "sm:min-w-[calc(var(--space-8)*4)]",
         "w-full max-w-[calc(var(--space-8)*5)] h-[var(--control-h)]", // responsive default aligned to tokens
+        styles.root,
         className,
       )}
       data-side={value}
@@ -89,21 +97,19 @@ export default function SideSelector({
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-0 opacity-0",
-          "mix-blend-screen",
-          flick && "opacity-100 animate-pulse",
+          "pointer-events-none absolute inset-0 mix-blend-screen",
+          styles.flicker,
         )}
-        style={{
-          background:
-            "radial-gradient(calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 25% 50%, hsl(var(--accent-2)/0.08), transparent 60%), radial-gradient(calc(var(--space-8) * 2 - var(--space-2)) calc(var(--space-6) + var(--space-2)) at 75% 50%, hsl(var(--lav-deep)/0.08), transparent 60%)",
-        }}
+        data-flick={flick || undefined}
       />
 
       {/* Sliding indicator */}
       <span
         aria-hidden
-        className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-out [background:var(--side-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
-        style={indicatorStyle}
+        className={cn(
+          "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full",
+          styles.indicator,
+        )}
       />
 
       {/* Labels */}
@@ -111,26 +117,22 @@ export default function SideSelector({
         <div
           className={cn(
             "py-[var(--space-2)] text-center transition-colors",
+            styles.label,
+            styles.leftLabel,
             !isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
-          style={{
-            textShadow: !isRight
-              ? "0 0 calc(var(--space-3) - var(--spacing-0-5)) hsl(var(--team-blue)/.35)"
-              : undefined,
-          }}
+          data-active={!isRight ? "true" : undefined}
         >
           {leftLabel}
         </div>
         <div
           className={cn(
             "py-[var(--space-2)] text-center transition-colors",
+            styles.label,
+            styles.rightLabel,
             isRight ? "text-foreground/70" : "text-muted-foreground",
           )}
-          style={{
-            textShadow: isRight
-              ? "0 0 calc(var(--space-3) - var(--spacing-0-5)) hsl(var(--team-red)/.35)"
-              : undefined,
-          }}
+          data-active={isRight ? "true" : undefined}
         >
           {rightLabel}
         </div>

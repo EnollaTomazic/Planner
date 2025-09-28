@@ -72,7 +72,19 @@ describe('SearchBar', () => {
       <SearchBar value="" onValueChange={() => {}} height={52} />,
     );
     const field = getByRole("searchbox").parentElement as HTMLElement;
-    expect(field).toHaveStyle("--field-h: 52px");
+    expect(field.dataset.customHeight).toBe("true");
+    const instanceId = field.getAttribute("data-field-instance");
+    expect(instanceId).toBeTruthy();
+    if (!instanceId) {
+      throw new Error("Expected data-field-instance to be set");
+    }
+    const hasStyle = Array.from(
+      document.querySelectorAll("style"),
+    ).some((node) =>
+      node.textContent?.includes(`[data-field-instance="${instanceId}"]`) &&
+      node.textContent?.includes("--field-h: 52px"),
+    );
+    expect(hasStyle).toBe(true);
   });
 
   it('renders an associated label when provided', () => {
