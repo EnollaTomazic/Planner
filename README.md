@@ -98,6 +98,6 @@ The script shows a progress bar and runs automatically before `npm run build`.
 
 ## Contributing
 
-- Before committing, run `npm run check` to execute tests, lint, and type checks.
+- Before committing, run `npm run verify-prompts` to confirm gallery coverage and `npm run check` to execute tests, lint, and type checks.
 - Run `npm run format` before committing to ensure code style consistency.
 - When introducing new styles or components, add them to the prompts page (`src/app/prompts/page.tsx`) so they can be previewed.

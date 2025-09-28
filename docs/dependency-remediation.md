@@ -20,7 +20,7 @@ When the CI audit step flags vulnerable packages, follow this playbook to resolv
 
 ## 4. Verify locally
 - Run `npm audit --json` locally to ensure the vulnerability count drops to zero for high and critical severities.
-- Execute `npm run check` to confirm linting, tests, and type-checking still pass with the updated dependencies.
+- Execute `npm run verify-prompts` followed by `npm run check` to confirm gallery integrity, linting, tests, and type-checking still pass with the updated dependencies.
 
 ## 5. Document and ship
 - Capture the remediation notes (version bumps, mitigation steps, or acceptance of risk) in the pull request description.

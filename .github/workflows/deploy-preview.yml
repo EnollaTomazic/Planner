@@ -39,6 +39,9 @@ jobs:
 
       - uses: ./.github/actions/setup-node-project
 
+      - name: Verify prompts registry
+        run: npm run verify-prompts
+
       - name: Export static preview
         shell: bash
         run: |
