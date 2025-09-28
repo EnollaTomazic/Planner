@@ -31,6 +31,13 @@ export default function PillarSelector({
     onChange?.(Array.from(next));
   }
 
+  function handleKeyDown(p: Pillar, event: React.KeyboardEvent<HTMLButtonElement>) {
+    if (event.key === " " || event.key === "Space" || event.key === "Spacebar" || event.key === "Enter") {
+      event.preventDefault();
+      toggle(p);
+    }
+  }
+
   return (
     <div className={cn("w-full", className)}>
       <div className="overline mb-[var(--space-2)]">{label}</div>
@@ -49,6 +56,7 @@ export default function PillarSelector({
               type="button"
               aria-pressed={active}
               onClick={() => toggle(p)}
+              onKeyDown={(event) => handleKeyDown(p, event)}
               className={cn(
                 "pill transition",
                 active &&

@@ -174,11 +174,10 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           : "Click or press Enter to focus"
       }
       className={cn(
-        "chip relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left px-[var(--space-3)] py-[var(--space-2)] transition snap-start",
+        "chip chip-token relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left transition snap-start",
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "active:border-primary/60 active:bg-card/85",
         today && "chip--today",
         selected
@@ -450,7 +449,7 @@ export default function WeekPicker() {
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}
-            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none] [&_button:focus-visible]:outline-none [&_button:focus-visible]:ring-[var(--ring-size-2)] [&_button:focus-visible]:ring-[var(--theme-ring)] [&_button:focus-visible]:ring-offset-0"
           >
             {days.map((d, i) => (
               <DayChip

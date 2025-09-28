@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DashboardSectionHeader > renders skeleton placeholders while loading 1`] = `
+<div
+  class="flex flex-wrap items-center justify-between gap-y-[var(--space-2)] gap-x-[var(--space-3)]"
+>
+  <div
+    aria-hidden="false"
+    aria-label="Loading section title"
+    class="skeleton h-[var(--space-4)] w-full rounded-[var(--radius-sm,var(--radius-md))] !h-[var(--space-5)] !w-[min(60%,var(--space-16))]"
+    role="status"
+  />
+  <div
+    class="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] sm:justify-end w-full sm:w-auto"
+  >
+    <div
+      aria-hidden="false"
+      aria-label="Loading Show code action"
+      class="skeleton h-[var(--space-4)] w-full rounded-[var(--radius-full)] !h-[var(--control-h-sm)] !w-[calc(var(--space-8)*2)]"
+      role="status"
+    />
+  </div>
+</div>
+`;
+
+exports[`DashboardSectionHeader > renders the title layout with actions and show code button 1`] = `
+<div
+  class="flex flex-wrap items-center justify-between gap-y-[var(--space-2)] gap-x-[var(--space-3)]"
+>
+  <h2
+    class="text-title font-semibold tracking-[-0.01em] text-card-foreground"
+  >
+    Planner
+  </h2>
+  <div
+    class="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] sm:justify-end"
+  >
+    <button
+      type="button"
+    >
+      Refresh
+    </button>
+    <button
+      aria-controls="planner-code"
+      aria-expanded="false"
+      class="inline-flex items-center gap-[var(--space-1)] rounded-[var(--radius-sm)] px-[var(--space-2)] py-[var(--space-1)] text-label font-medium text-accent-3 underline underline-offset-[var(--space-1)] transition-colors focus-visible:outline-none focus-visible:ring-[var(--ring-size-1)] focus-visible:ring-offset-0 ring-[var(--theme-ring)] disabled:cursor-not-allowed disabled:opacity-disabled"
+      type="button"
+    >
+      Show code
+    </button>
+  </div>
+</div>
+`;
