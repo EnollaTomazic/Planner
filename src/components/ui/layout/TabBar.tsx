@@ -12,7 +12,7 @@ import * as React from "react";
 import { useId } from "react";
 import { cn } from "@/lib/utils";
 import { useRovingTabState } from "@/components/tabs/useRovingTabState";
-import { neuInset, neuRaised } from "@/components/ui/primitives/Neu";
+import styles from "./TabBar.module.css";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -184,24 +184,7 @@ export default function TabBar<
   const isNeo = variant === "neo";
   const isGlitch = variant === "glitch";
 
-  const neoTokens = React.useMemo<React.CSSProperties | undefined>(() => {
-    if (!isNeo) return undefined;
-    const raised = neuRaised();
-    const raisedHover = neuRaised(15);
-    const inset = neuInset();
-
-    return {
-      "--neo-tablist-bg":
-        "linear-gradient(140deg, hsl(var(--card) / 0.88), hsl(var(--panel) / 0.72))",
-      "--neo-tablist-shadow":
-        "inset var(--space-1) var(--space-1) var(--space-3) hsl(var(--background) / 0.55), inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3) hsl(var(--highlight) / 0.08), 0 0 var(--space-4) hsl(var(--ring) / 0.25)",
-      "--neo-tab-bg":
-        "linear-gradient(145deg, hsl(var(--card) / 0.92), hsl(var(--panel) / 0.78))",
-      "--shadow-raised": `${raised}, 0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28)`,
-      "--shadow-raised-hover": `${raisedHover}, 0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32)`,
-      "--shadow-inset": `${inset}, inset 0 0 0 1px hsl(var(--ring) / 0.35), 0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35)`,
-    } as React.CSSProperties;
-  }, [isNeo]);
+  const neoVariantClassName = isNeo ? styles.neoTablist : undefined;
 
   const containerVariant = isNeo
     ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
@@ -249,8 +232,7 @@ export default function TabBar<
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
           data-variant={variant}
-          style={neoTokens}
-          className={containerClasses}
+          className={cn(containerClasses, neoVariantClassName)}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
