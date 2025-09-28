@@ -1,0 +1,68 @@
+name: Next.js
+
+concurrency:
+  group: nextjs-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: ./.github/actions/setup-node-project
+
+      - name: Export static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          export DEPLOY_ARTIFACT_ONLY=true
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          if [[ "${REPO_NAME}" == *.github.io ]]; then
+            export NEXT_PUBLIC_BASE_PATH=""
+          else
+            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
+          fi
+          npm run deploy
+
+      - name: Upload static artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: ./out
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: Production
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@f65c7f0a20510b02fd348436de4b0bd711c4d7f9 # v5.0.1
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@af48c8d784fbb3eccd0f19f41da3b3c25c2ba234 # v4.0.7
