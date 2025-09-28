@@ -1,5 +1,13 @@
 import * as React from "react";
 
+import tokens from "../../tokens/tokens.js";
+
+const gradientNoiseOpacityToken = tokens.gradientNoiseOpacity;
+const parsedGradientNoiseOpacity = Number.parseFloat(gradientNoiseOpacityToken);
+const gradientNoiseOpacity = Number.isFinite(parsedGradientNoiseOpacity)
+  ? parsedGradientNoiseOpacity
+  : 0.1;
+
 interface RingNoiseDefsProps {
   id: string;
 }
@@ -24,7 +32,7 @@ export default function RingNoiseDefs({ id }: RingNoiseDefsProps) {
       />
       <feColorMatrix in="noise" type="saturate" values="0" result="monoNoise" />
       <feComponentTransfer in="monoNoise" result="noiseAlpha">
-        <feFuncA type="linear" slope="var(--gradient-noise-opacity, 0.1)" />
+        <feFuncA type="linear" slope={gradientNoiseOpacity} />
       </feComponentTransfer>
       <feBlend in="SourceGraphic" in2="noiseAlpha" mode="soft-light" />
     </filter>
