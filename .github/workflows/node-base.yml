@@ -27,6 +27,19 @@ on:
         required: false
         default: ""
         type: string
+      cache-key-prefix:
+        description: Optional prefix used when generating cache keys
+        required: false
+        default: ""
+        type: string
+      cache-key-globs:
+        description: |-
+          Optional newline-delimited glob patterns that should be hashed when generating cache keys.
+          Leave blank to hash only package-lock.json. Separate glob groups with blank lines to
+          generate layered restore keys.
+        required: false
+        default: ""
+        type: string
       artifact-name:
         description: Optional artifact name to upload after the run
         required: false
@@ -93,6 +106,28 @@ jobs:
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
 
+      - name: Compute package-lock digest
+        id: lockfile
+        run: |
+          python - <<'PY'
+import hashlib
+import os
+
+path = "package-lock.json"
+if not os.path.isfile(path):
+    raise SystemExit(f"{path} not found")
+
+digest = hashlib.sha256()
+with open(path, "rb") as handle:
+    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+        if not chunk:
+            break
+        digest.update(chunk)
+
+with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+    fh.write(f"digest={digest.hexdigest()}\n")
+PY
+
       - name: Download artifact
         if: inputs.download-artifact-name != ''
         uses: actions/download-artifact@89f3d9d3dc0f01c4eb82c0dec28181581b88a8d0
@@ -100,13 +135,103 @@ jobs:
           name: ${{ inputs.download-artifact-name }}
           path: ${{ inputs.download-artifact-path }}
 
+      - name: Compute cache metadata
+        if: inputs.cache-paths != ''
+        id: cache-metadata
+        env:
+          CACHE_KEY_INPUT: ${{ inputs.cache-key }}
+          CACHE_RESTORE_KEYS_INPUT: ${{ inputs.cache-restore-keys }}
+          CACHE_KEY_PREFIX: ${{ inputs.cache-key-prefix }}
+          CACHE_KEY_GLOBS: ${{ inputs.cache-key-globs }}
+          RUNNER_OS: ${{ runner.os }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$CACHE_KEY_INPUT" ]; then
+            {
+              echo "key=$CACHE_KEY_INPUT"
+              if [ -n "$CACHE_RESTORE_KEYS_INPUT" ]; then
+                echo "restore-keys<<'EOF'"
+                echo "$CACHE_RESTORE_KEYS_INPUT"
+                echo "EOF"
+              fi
+            } >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          python - <<'PY'
+import hashlib
+import os
+from pathlib import Path
+
+workspace = Path(os.environ["GITHUB_WORKSPACE"])
+prefix = os.environ.get("CACHE_KEY_PREFIX", "").strip()
+if not prefix:
+    prefix = f"node-{os.environ.get('RUNNER_OS', 'linux')}"
+
+raw_globs = os.environ.get("CACHE_KEY_GLOBS", "")
+groups = []
+current = []
+for line in raw_globs.splitlines():
+    stripped = line.strip()
+    if not stripped:
+        if current:
+            groups.append(current)
+            current = []
+        continue
+    current.append(stripped)
+if current:
+    groups.append(current)
+
+if not groups:
+    groups = [["package-lock.json"]]
+
+def digest_for(patterns) -> str:
+    has_match = False
+    digest = hashlib.sha256()
+    for pattern in patterns:
+        for path in sorted(workspace.glob(pattern)):
+            if path.is_dir():
+                continue
+            has_match = True
+            digest.update(str(path.relative_to(workspace)).encode())
+            with path.open("rb") as handle:
+                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                    if not chunk:
+                        break
+                    digest.update(chunk)
+    if not has_match:
+        return "0" * 64
+    return digest.hexdigest()
+
+hashes = [digest_for(patterns) for patterns in groups]
+
+restore_override = os.environ.get("CACHE_RESTORE_KEYS_INPUT", "").strip()
+if restore_override:
+    restore_keys = [line.rstrip() for line in restore_override.splitlines() if line.rstrip()]
+else:
+    restore_keys = []
+    for index in range(len(hashes), 0, -1):
+        restore_keys.append("-".join([prefix, *hashes[:index]]) + "-")
+    restore_keys.append(prefix + "-")
+
+key = "-".join([prefix, *hashes])
+
+with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+    handle.write(f"key={key}\n")
+    if restore_keys:
+        handle.write("restore-keys<<EOF\n")
+        handle.write("\n".join(restore_keys))
+        handle.write("\nEOF\n")
+PY
+
       - name: Restore project cache
         if: inputs.cache-paths != ''
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: ${{ inputs.cache-paths }}
-          key: ${{ inputs.cache-key != '' && inputs.cache-key || format('node-{0}-{1}', runner.os, hashFiles('package-lock.json')) }}
-          restore-keys: ${{ inputs.cache-restore-keys }}
+          key: ${{ steps.cache-metadata.outputs.key }}
+          restore-keys: ${{ steps.cache-metadata.outputs.restore-keys }}
 
       - name: Determine Playwright version
         if: inputs.install-playwright
@@ -138,7 +263,7 @@ jobs:
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ steps.playwright.outputs.version }}-${{ hashFiles('package-lock.json') }}
+          key: playwright-${{ steps.playwright.outputs.version }}-${{ steps.lockfile.outputs.digest }}
 
       - name: Install dependencies
         run: ${{ inputs.install-command }}

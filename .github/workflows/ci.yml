@@ -73,10 +73,13 @@ jobs:
         npm run build
       cache-paths: |
         .next/cache
-      cache-key: ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
-      cache-restore-keys: |
-        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      cache-key-prefix: ubuntu-latest-nextjs
+      cache-key-globs: |
+        **/package-lock.json
+
+        next.config.*
+        src/**/*.{js,jsx,ts,tsx,mdx}
+        app/**/*.{js,jsx,ts,tsx,mdx}
       artifact-name: next-build
       artifact-path: |
         .next
@@ -253,10 +256,13 @@ jobs:
         npm run deploy
       cache-paths: |
         .next/cache
-      cache-key: ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}
-      cache-restore-keys: |
-        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}') }}-
-        ubuntu-latest-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      cache-key-prefix: ubuntu-latest-nextjs
+      cache-key-globs: |
+        **/package-lock.json
+
+        next.config.*
+        src/**/*.{js,jsx,ts,tsx,mdx}
+        app/**/*.{js,jsx,ts,tsx,mdx}
       artifact-name: nextjs-static
       artifact-path: |
         out
