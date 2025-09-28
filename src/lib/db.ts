@@ -339,6 +339,7 @@ export function usePersistentState<T>(
 
   const initialRef = React.useRef(initial);
   const stateRef = React.useRef(state);
+  const hasHydratedRef = React.useRef(false);
   React.useEffect(() => {
     stateRef.current = state;
   }, [state]);
@@ -393,11 +394,23 @@ export function usePersistentState<T>(
   const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
 
+  const maybeResetToInitial = React.useCallback(() => {
+    if (
+      Object.is(stateRef.current, initialRef.current) ||
+      hasHydratedRef.current
+    ) {
+      if (!Object.is(stateRef.current, initialRef.current)) {
+        setState(initialRef.current);
+      }
+    }
+  }, [setState]);
+
   React.useEffect(() => {
     const nextFull = createStorageKey(key);
     if (fullKeyRef.current !== nextFull) {
       fullKeyRef.current = nextFull;
       loadedRef.current = false;
+      hasHydratedRef.current = false;
     }
   }, [key]);
 
@@ -425,8 +438,8 @@ export function usePersistentState<T>(
         const decoded = decodeValue(fromStorage);
         if (decoded !== null) {
           if (!Object.is(stateRef.current, decoded)) setState(decoded);
-        } else if (!Object.is(stateRef.current, initialRef.current)) {
-          setState(initialRef.current);
+        } else {
+          maybeResetToInitial();
         }
         if (fallbackKey && fallbackKey !== fullKey) {
           try {
@@ -439,17 +452,16 @@ export function usePersistentState<T>(
           }
         }
       } else {
-        if (!Object.is(stateRef.current, initialRef.current))
-          setState(initialRef.current);
+        maybeResetToInitial();
       }
       loadedRef.current = true;
+      hasHydratedRef.current = true;
     }
-  }, [key, decodeValue]);
+  }, [key, decodeValue, maybeResetToInitial]);
 
   const handleExternal = React.useCallback((raw: string | null) => {
     if (raw === null) {
-      if (!Object.is(stateRef.current, initialRef.current))
-        setState(initialRef.current);
+      maybeResetToInitial();
       return;
     }
     const parsed = parseJSON<unknown>(raw);
@@ -459,9 +471,8 @@ export function usePersistentState<T>(
       if (!Object.is(stateRef.current, decoded)) setState(decoded);
       return;
     }
-    if (!Object.is(stateRef.current, initialRef.current))
-      setState(initialRef.current);
-  }, [decodeValue]);
+    maybeResetToInitial();
+  }, [decodeValue, maybeResetToInitial]);
 
   useStorageSync(key, handleExternal);
 

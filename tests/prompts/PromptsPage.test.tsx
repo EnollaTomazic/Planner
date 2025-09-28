@@ -10,6 +10,7 @@ import {
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
 import { ThemeProvider } from "@/lib/theme-context";
+import { createStorageKey, flushWriteLocal } from "@/lib/db";
 import { resetLocalStorage } from "../setup";
 
 afterEach(() => {
@@ -76,5 +77,73 @@ describe("PromptsPage", () => {
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
     );
     expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
+  });
+
+  it("persists prompts saved before hydration completes", async () => {
+    const useEffectCleanupMap = new Map<
+      ReturnType<typeof setTimeout>,
+      (() => void) | void
+    >();
+    const originalUseEffect = React.useEffect;
+    const useEffectSpy = vi
+      .spyOn(React, "useEffect")
+      .mockImplementation((effect, deps) => {
+        originalUseEffect(() => {
+          const timer = setTimeout(() => {
+            const cleanup = effect();
+            if (typeof cleanup === "function") {
+              useEffectCleanupMap.set(timer, cleanup);
+            }
+          }, 0);
+          return () => {
+            clearTimeout(timer);
+            const cleanup = useEffectCleanupMap.get(timer);
+            if (typeof cleanup === "function") {
+              cleanup();
+            }
+            useEffectCleanupMap.delete(timer);
+          };
+        }, deps);
+      });
+
+    vi.useFakeTimers();
+
+    const storageKey = createStorageKey("prompts.chat.v1");
+
+    try {
+      render(
+        <ThemeProvider>
+          <PromptsPage />
+        </ThemeProvider>,
+      );
+
+      const titleInput = screen.getByLabelText("Title");
+      const textArea = screen.getByLabelText("Prompt");
+      const saveButton = screen.getByRole("button", { name: "Save" });
+
+      fireEvent.change(titleInput, { target: { value: "Hydration guard" } });
+      fireEvent.change(textArea, { target: { value: "Saved early" } });
+      fireEvent.click(saveButton);
+
+      await act(async () => {
+        vi.runAllTimers();
+      });
+
+      expect(screen.getByText("Hydration guard")).toBeInTheDocument();
+      expect(screen.getByText("1 saved")).toBeInTheDocument();
+
+      act(() => {
+        flushWriteLocal();
+      });
+
+      const storedRaw = window.localStorage.getItem(storageKey);
+      expect(storedRaw).not.toBeNull();
+      const stored = storedRaw ? JSON.parse(storedRaw) : [];
+      expect(Array.isArray(stored)).toBe(true);
+      expect(stored[0]?.title).toBe("Hydration guard");
+    } finally {
+      useEffectSpy.mockRestore();
+      vi.useRealTimers();
+    }
   });
 });
