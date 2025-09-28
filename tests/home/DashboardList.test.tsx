@@ -116,5 +116,9 @@ describe("DashboardList", () => {
     const link = screen.getByRole("link", { name: cta.label });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", cta.href);
+    expect(link).toHaveClass(
+      "focus-visible:ring-[var(--ring-size-1)]",
+    );
+    expect(link).toHaveClass("ring-[var(--theme-ring)]");
   });
 });
