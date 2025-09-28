@@ -9,10 +9,112 @@
  */
 (() => {
   try {
+    const BINARY_MARKER = "__planner_binary__";
+
+    function getBuffer() {
+      return typeof Buffer === "function" ? Buffer : undefined;
+    }
+
+    function bytesToBase64(bytes) {
+      if (typeof btoa === "function") {
+        let binary = "";
+        const chunkSize = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+          const chunk = bytes.subarray(i, i + chunkSize);
+          binary += String.fromCharCode(...chunk);
+        }
+        return btoa(binary);
+      }
+      const BufferCtor = getBuffer();
+      if (BufferCtor) {
+        return BufferCtor.from(
+          bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
+        ).toString("base64");
+      }
+      return "";
+    }
+
+    function base64ToBytes(encoded) {
+      if (typeof atob === "function") {
+        const binary = atob(encoded);
+        const length = binary.length;
+        const bytes = new Uint8Array(length);
+        for (let i = 0; i < length; i += 1) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+      }
+      const BufferCtor = getBuffer();
+      if (BufferCtor) {
+        const buffer = BufferCtor.from(encoded, "base64");
+        return new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+      }
+      return new Uint8Array();
+    }
+
+    function encodeBinary(value) {
+      const view =
+        value instanceof ArrayBuffer
+          ? new Uint8Array(value)
+          : new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+      const payload = {
+        __planner_binary__: true,
+        t: value instanceof ArrayBuffer ? "ArrayBuffer" : value.constructor.name,
+        d: bytesToBase64(view),
+      };
+      if (!(value instanceof ArrayBuffer)) {
+        payload.o = value.byteOffset;
+        const bytesPerElement = value.BYTES_PER_ELEMENT;
+        payload.l =
+          typeof bytesPerElement === "number" && bytesPerElement > 0
+            ? value.byteLength / bytesPerElement
+            : value.byteLength;
+      }
+      return payload;
+    }
+
+    function decodeBinary(payload) {
+      const bytes = base64ToBytes(payload.d);
+      if (payload.t === "ArrayBuffer") {
+        const buffer = new ArrayBuffer(bytes.byteLength);
+        new Uint8Array(buffer).set(bytes);
+        return buffer;
+      }
+      const ctor = globalThis[payload.t];
+      if (typeof ctor !== "function") {
+        return bytes.slice();
+      }
+      const byteOffset = payload.o ?? 0;
+      const totalLength = byteOffset + bytes.byteLength;
+      const buffer = new ArrayBuffer(totalLength);
+      new Uint8Array(buffer).set(bytes, byteOffset);
+      if (payload.t === "DataView") {
+        return new DataView(buffer, byteOffset, payload.l);
+      }
+      if (payload.l !== undefined) {
+        return new ctor(buffer, byteOffset, payload.l);
+      }
+      return new ctor(buffer, byteOffset);
+    }
+
+    function binaryReviver(_key, value) {
+      if (value && typeof value === "object" && value[BINARY_MARKER]) {
+        return decodeBinary(value);
+      }
+      return value;
+    }
+
+    function binaryReplacer(_key, value) {
+      if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) {
+        return encodeBinary(value);
+      }
+      return value;
+    }
+
     function parseJSON(raw) {
       if (!raw) return null;
       try {
-        return JSON.parse(raw);
+        return JSON.parse(raw, binaryReviver);
       } catch {
         return null;
       }
@@ -31,7 +133,10 @@
         if (value === undefined || value === null) {
           window.localStorage.removeItem(key);
         } else {
-          window.localStorage.setItem(key, JSON.stringify(value));
+          window.localStorage.setItem(
+            key,
+            JSON.stringify(value, binaryReplacer),
+          );
         }
       } catch {
         // ignore
