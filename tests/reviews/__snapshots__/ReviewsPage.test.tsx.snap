@@ -63,6 +63,16 @@ exports[`ReviewsPage > renders default state 1`] = `
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame[data-hero-divider-tint="primary"] {
+        --hero-slot-divider: var(--ring);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--ring) / 0.45);
+      }
+      .hero2-frame[data-hero-divider-tint="life"] {
+        --hero-slot-divider: var(--accent-3);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--accent-3) / 0.42);
+      }
       @supports (
         color: color-mix(
           in oklab,
@@ -97,6 +107,22 @@ exports[`ReviewsPage > renders default state 1`] = `
             hsl(var(--shadow-color)) 28%,
             hsl(var(--background) / 0)
           );
+        }
+        .hero2-frame[data-hero-divider-tint="primary"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--ring)) 68%,
+              hsl(var(--background))
+            );
+        }
+        .hero2-frame[data-hero-divider-tint="life"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--accent-3)) 78%,
+              hsl(var(--background))
+            );
         }
       }
       @media (prefers-contrast: more) {
@@ -134,13 +160,17 @@ exports[`ReviewsPage > renders default state 1`] = `
             CanvasText,
             0 0 0 0 CanvasText;
         }
+        .hero2-frame[data-hero-divider-tint] {
+          --hero-slot-divider: CanvasText !important;
+          --hero-slot-divider-shadow: none !important;
+        }
       }
     
       </style>
       <div
         class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
+        data-hero-divider-tint="primary"
         data-variant="default"
-        style="--hero-slot-divider: var(--ring);"
         tabindex="-1"
       >
         <div
@@ -261,6 +291,16 @@ exports[`ReviewsPage > renders default state 1`] = `
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame[data-hero-divider-tint="primary"] {
+        --hero-slot-divider: var(--ring);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--ring) / 0.45);
+      }
+      .hero2-frame[data-hero-divider-tint="life"] {
+        --hero-slot-divider: var(--accent-3);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--accent-3) / 0.42);
+      }
       @supports (
         color: color-mix(
           in oklab,
@@ -295,6 +335,22 @@ exports[`ReviewsPage > renders default state 1`] = `
             hsl(var(--shadow-color)) 28%,
             hsl(var(--background) / 0)
           );
+        }
+        .hero2-frame[data-hero-divider-tint="primary"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--ring)) 68%,
+              hsl(var(--background))
+            );
+        }
+        .hero2-frame[data-hero-divider-tint="life"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--accent-3)) 78%,
+              hsl(var(--background))
+            );
         }
       }
       @media (prefers-contrast: more) {
@@ -331,6 +387,10 @@ exports[`ReviewsPage > renders default state 1`] = `
           --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
             CanvasText,
             0 0 0 0 CanvasText;
+        }
+        .hero2-frame[data-hero-divider-tint] {
+          --hero-slot-divider: CanvasText !important;
+          --hero-slot-divider-shadow: none !important;
         }
       }
     
@@ -390,8 +450,9 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                           >
                             <div
-                              class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
-                              style="--bg: var(--surface); --field-h: var(--control-h-md);"
+                              class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                              data-field-height="md"
+                              data-field-state="default"
                             >
                               <svg
                                 aria-hidden="true"
@@ -428,7 +489,9 @@ exports[`ReviewsPage > renders default state 1`] = `
                               />
                               <button
                                 aria-label="Clear"
-                                class="inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                data-tone="primary"
+                                data-variant="ghost"
                                 tabindex="0"
                                 title="Clear"
                                 type="button"
@@ -473,7 +536,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <div
                             class="sr-only"
-                            id=":r2:-label"
+                            id=":r3:-label"
                           >
                             Sort reviews
                           </div>
@@ -481,10 +544,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="group inline-flex rounded-[var(--control-radius)] border border-[var(--ring-contrast)] focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-0 focus-within:shadow-[var(--shadow-glow-md)]"
                           >
                             <button
-                              aria-controls=":r2:-listbox"
+                              aria-controls=":r3:-listbox"
                               aria-expanded="false"
                               aria-haspopup="listbox"
-                              aria-labelledby=":r2:-label"
+                              aria-labelledby=":r3:-label"
                               class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] transition-colors duration-quick ease-out motion-reduce:transition-none"
                               data-lit="true"
                               data-open="false"

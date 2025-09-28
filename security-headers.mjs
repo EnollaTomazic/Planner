@@ -38,14 +38,10 @@ export const createContentSecurityPolicy = (nonce, options) => {
 
   const nonceSource = `'nonce-${nonce}'`;
   const styleSrcBase = ["'self'"];
-  const styleSrc = [...styleSrcBase];
-  const styleSrcElem = [...styleSrcBase];
+  const styleSrc = [...styleSrcBase, nonceSource];
+  const styleSrcElem = [...styleSrcBase, nonceSource];
   const imgSrcBase = ["'self'", "data:", "https:"];
 
-  if (!allowVercelFeedback) {
-    styleSrc.push(nonceSource);
-    styleSrcElem.push(nonceSource);
-  }
   const imgSrc = [...imgSrcBase];
   const connectSrc = ["'self'"];
 

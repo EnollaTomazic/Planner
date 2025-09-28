@@ -44,6 +44,38 @@ describe("NeomorphicHeroFrame", () => {
     expect(frame).toHaveAttribute("data-variant", variant);
   });
 
+  it("defaults the divider tint attribute to the primary palette", () => {
+    const { container } = render(
+      <NeomorphicHeroFrame>
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const frame = container.querySelector("[data-variant]") as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    if (!frame) {
+      throw new Error("Hero frame not found");
+    }
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "primary");
+  });
+
+  it("respects an explicit divider tint attribute", () => {
+    const { container } = render(
+      <NeomorphicHeroFrame data-hero-divider-tint="life">
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const frame = container.querySelector("[data-variant]") as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    if (!frame) {
+      throw new Error("Hero frame not found");
+    }
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "life");
+  });
+
   it("toggles focus halo data attribute when focus enters and leaves", async () => {
     const user = userEvent.setup();
     const { container } = render(
