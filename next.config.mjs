@@ -6,46 +6,47 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const normalizeBasePath = (value) => {
-  const trimmed = value?.trim();
-  if (!trimmed) {
+  if (!value) {
     return "";
   }
 
-  const cleaned = trimmed.replace(/^\/+|\/+$/gu, "");
-  return cleaned ? `/${cleaned}` : "";
-};
-
-const sanitizeSlug = (value) => {
-  const trimmed = value?.trim();
-  if (!trimmed) {
-    return undefined;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === "/") {
+    return "";
   }
 
-  const cleaned = trimmed.replace(/^\/+|\/+$/gu, "");
-  return cleaned.length > 0 ? cleaned : undefined;
+  const segments = trimmed
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length > 0);
+
+  if (segments.length === 0) {
+    return "";
+  }
+
+  return `/${segments.join("/")}`;
+};
+
+const normalizeSlug = (value) => {
+  const normalized = normalizeBasePath(value);
+  return normalized ? normalized.slice(1) : undefined;
 };
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
+const repositorySlug = normalizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
 
 const resolveGitHubPagesSlug = () => {
   const explicitSlugSources = [process.env.NEXT_PUBLIC_BASE_PATH, process.env.BASE_PATH];
 
   for (const candidate of explicitSlugSources) {
     if (candidate !== undefined) {
-      const trimmed = candidate.trim();
+      const normalized = normalizeBasePath(candidate);
 
-      if (trimmed.length === 0) {
+      if (!normalized) {
         return "";
       }
 
-      const sanitized = sanitizeSlug(candidate);
-
-      if (sanitized !== undefined) {
-        return sanitized;
-      }
-
-      return "";
+      return normalized.slice(1);
     }
   }
 
