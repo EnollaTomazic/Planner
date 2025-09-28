@@ -184,6 +184,17 @@ function ensureNoJekyll(outDir: string): void {
   fs.writeFileSync(markerPath, "");
 }
 
+function injectBasePathIntoSpaFallback(outDir: string, basePath: string): void {
+  const fallbackPath = path.join(outDir, "404.html");
+  if (!fs.existsSync(fallbackPath)) {
+    return;
+  }
+
+  const html = fs.readFileSync(fallbackPath, "utf8");
+  const updated = html.replace(/__BASE_PATH__/gu, basePath);
+  fs.writeFileSync(fallbackPath, updated);
+}
+
 function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
@@ -206,6 +217,7 @@ function main(): void {
   if (shouldUseBasePath) {
     flattenBasePathDirectory(outDir, slug);
   }
+  injectBasePathIntoSpaFallback(outDir, basePath);
   ensureNoJekyll(outDir);
 
   if (!publish) {

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <main>
+      <h1>Redirecting…</h1>
+      <p>This route falls back to the Planner single-page app.</p>
+      <p>
+        If the redirect does not start automatically,
+        <a id="pages-redirect-link" href="__BASE_PATH__/index.html">return to Planner</a>.
+      </p>
+    </main>
+    <script>
+      (function () {
+        var placeholder = "__BASE_PATH__";
+        var basePath = placeholder === "__BASE_PATH__" ? "" : placeholder;
+        if (basePath && basePath !== "/") {
+          basePath = "/" + basePath.replace(/^\/+|\/+$/g, "");
+        }
+        if (basePath === "/") {
+          basePath = "";
+        }
+        var target = (basePath || "") + "/index.html";
+        var search = window.location.search || "";
+        var hash = window.location.hash || "";
+        var fallbackLink = document.getElementById("pages-redirect-link");
+        if (fallbackLink) {
+          fallbackLink.setAttribute("href", target + search + hash);
+        }
+        window.location.replace(target + search + hash);
+      })();
+    </script>
+  </body>
+</html>

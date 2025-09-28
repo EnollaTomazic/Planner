@@ -9,6 +9,7 @@ import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
 import Link from "next/link";
+import useBasePath from "@/lib/useBasePath";
 
 export type SiteChromeProps = {
   children?: React.ReactNode;
@@ -21,6 +22,8 @@ export type SiteChromeProps = {
  * - Z-index > heroes, so it stays above scrolling headers
  */
 export default function SiteChrome({ children }: SiteChromeProps) {
+  const { withBasePath } = useBasePath();
+
   return (
     <React.Fragment>
       <header
@@ -39,7 +42,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
           />
 
           <Link
-            href="/"
+            href={withBasePath("/")}
             aria-label="Home"
             className="col-span-full flex items-center gap-[var(--space-2)] md:col-span-3"
           >
