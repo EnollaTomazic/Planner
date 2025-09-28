@@ -110,23 +110,23 @@ jobs:
         id: lockfile
         run: |
           python - <<'PY'
-import hashlib
-import os
+          import hashlib
+          import os
 
-path = "package-lock.json"
-if not os.path.isfile(path):
-    raise SystemExit(f"{path} not found")
+          path = "package-lock.json"
+          if not os.path.isfile(path):
+              raise SystemExit(f"{path} not found")
 
-digest = hashlib.sha256()
-with open(path, "rb") as handle:
-    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-        if not chunk:
-            break
-        digest.update(chunk)
+          digest = hashlib.sha256()
+          with open(path, "rb") as handle:
+              for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                  if not chunk:
+                      break
+                  digest.update(chunk)
 
-with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
-    fh.write(f"digest={digest.hexdigest()}\n")
-PY
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"digest={digest.hexdigest()}\n")
+          PY
 
       - name: Download artifact
         if: inputs.download-artifact-name != ''
@@ -160,70 +160,70 @@ PY
           fi
 
           python - <<'PY'
-import hashlib
-import os
-from pathlib import Path
+          import hashlib
+          import os
+          from pathlib import Path
 
-workspace = Path(os.environ["GITHUB_WORKSPACE"])
-prefix = os.environ.get("CACHE_KEY_PREFIX", "").strip()
-if not prefix:
-    prefix = f"node-{os.environ.get('RUNNER_OS', 'linux')}"
+          workspace = Path(os.environ["GITHUB_WORKSPACE"])
+          prefix = os.environ.get("CACHE_KEY_PREFIX", "").strip()
+          if not prefix:
+              prefix = f"node-{os.environ.get('RUNNER_OS', 'linux')}"
 
-raw_globs = os.environ.get("CACHE_KEY_GLOBS", "")
-groups = []
-current = []
-for line in raw_globs.splitlines():
-    stripped = line.strip()
-    if not stripped:
-        if current:
-            groups.append(current)
-            current = []
-        continue
-    current.append(stripped)
-if current:
-    groups.append(current)
+          raw_globs = os.environ.get("CACHE_KEY_GLOBS", "")
+          groups = []
+          current = []
+          for line in raw_globs.splitlines():
+              stripped = line.strip()
+              if not stripped:
+                  if current:
+                      groups.append(current)
+                      current = []
+                  continue
+              current.append(stripped)
+          if current:
+              groups.append(current)
 
-if not groups:
-    groups = [["package-lock.json"]]
+          if not groups:
+              groups = [["package-lock.json"]]
 
-def digest_for(patterns) -> str:
-    has_match = False
-    digest = hashlib.sha256()
-    for pattern in patterns:
-        for path in sorted(workspace.glob(pattern)):
-            if path.is_dir():
-                continue
-            has_match = True
-            digest.update(str(path.relative_to(workspace)).encode())
-            with path.open("rb") as handle:
-                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                    if not chunk:
-                        break
-                    digest.update(chunk)
-    if not has_match:
-        return "0" * 64
-    return digest.hexdigest()
+          def digest_for(patterns) -> str:
+              has_match = False
+              digest = hashlib.sha256()
+              for pattern in patterns:
+                  for path in sorted(workspace.glob(pattern)):
+                      if path.is_dir():
+                          continue
+                      has_match = True
+                      digest.update(str(path.relative_to(workspace)).encode())
+                      with path.open("rb") as handle:
+                          for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                              if not chunk:
+                                  break
+                              digest.update(chunk)
+              if not has_match:
+                  return "0" * 64
+              return digest.hexdigest()
 
-hashes = [digest_for(patterns) for patterns in groups]
+          hashes = [digest_for(patterns) for patterns in groups]
 
-restore_override = os.environ.get("CACHE_RESTORE_KEYS_INPUT", "").strip()
-if restore_override:
-    restore_keys = [line.rstrip() for line in restore_override.splitlines() if line.rstrip()]
-else:
-    restore_keys = []
-    for index in range(len(hashes), 0, -1):
-        restore_keys.append("-".join([prefix, *hashes[:index]]) + "-")
-    restore_keys.append(prefix + "-")
+          restore_override = os.environ.get("CACHE_RESTORE_KEYS_INPUT", "").strip()
+          if restore_override:
+              restore_keys = [line.rstrip() for line in restore_override.splitlines() if line.rstrip()]
+          else:
+              restore_keys = []
+              for index in range(len(hashes), 0, -1):
+                  restore_keys.append("-".join([prefix, *hashes[:index]]) + "-")
+              restore_keys.append(prefix + "-")
 
-key = "-".join([prefix, *hashes])
+          key = "-".join([prefix, *hashes])
 
-with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
-    handle.write(f"key={key}\n")
-    if restore_keys:
-        handle.write("restore-keys<<EOF\n")
-        handle.write("\n".join(restore_keys))
-        handle.write("\nEOF\n")
-PY
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              handle.write(f"key={key}\n")
+              if restore_keys:
+                  handle.write("restore-keys<<EOF\n")
+                  handle.write("\n".join(restore_keys))
+                  handle.write("\nEOF\n")
+          PY
 
       - name: Restore project cache
         if: inputs.cache-paths != ''
