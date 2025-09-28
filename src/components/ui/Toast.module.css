@@ -1,0 +1,17 @@
+.progressTrack {
+  --toast-progress: attr(data-progress number, 0);
+}
+
+.progressFill {
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--toast-progress, 0));
+  will-change: transform;
+  transition: transform 160ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressFill {
+    transition: none;
+  }
+}
