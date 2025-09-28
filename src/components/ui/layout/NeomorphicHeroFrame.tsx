@@ -40,6 +40,7 @@ export interface NeomorphicHeroFrameProps
   labelledById?: string;
   slots?: HeroSlots | null;
   children?: React.ReactNode;
+  "data-hero-divider-tint"?: "primary" | "life";
 }
 
 type VariantSlotConfig = {
@@ -335,6 +336,17 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
   ) => {
     const Component = (as ?? "div") as FrameElement;
     const Comp = Component as React.ElementType;
+    const {
+      ["data-hero-divider-tint"]: heroDividerTintAttr,
+      ...restWithoutDividerTint
+    } = rest;
+    const sanitizedFrameDividerTint =
+      heroDividerTintAttr === "life"
+        ? "life"
+        : heroDividerTintAttr === "primary"
+        ? "primary"
+        : undefined;
+    const frameDividerTint = sanitizedFrameDividerTint ?? "primary";
     const variantStyles =
       variant !== "unstyled" ? variantMap[variant] : undefined;
     const [hasFocus, setHasFocus] = React.useState(false);
@@ -436,7 +448,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           variantStyles?.slot.gapMd,
           "md:grid-cols-12",
           "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-[hsl(var(--hero-slot-divider,var(--ring)))] before:opacity-60 before:content-['']",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--hero-slot-divider,var(--ring)))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:content-['']",
+          "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-px after:bg-[hsl(var(--hero-slot-divider,var(--ring)))] after:opacity-40 after:[filter:blur(var(--hero-divider-blur,calc(var(--spacing-1)*1.5)))] after:shadow-[var(--hero-slot-divider-shadow,0_0_0_calc(var(--hairline-w)*3)_hsl(var(--ring)/0.45))] after:content-['']",
         )}
         data-align={align}
       >
@@ -481,7 +493,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
         {variant !== "unstyled" ? <NeomorphicFrameStyles /> : null}
         <Comp
           ref={ref}
-          {...rest}
+          {...restWithoutDividerTint}
           className={cn(
             "group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus",
             variantStyles
@@ -504,6 +516,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
           tabIndex={tabIndex ?? -1}
           onFocusCapture={handleFocusCapture}
           onBlurCapture={handleBlurCapture}
+          data-hero-divider-tint={frameDividerTint}
         >
           {resolvedChildren}
           {slotArea}

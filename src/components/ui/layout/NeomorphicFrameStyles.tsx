@@ -58,6 +58,16 @@ export function NeomorphicFrameStyles() {
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame[data-hero-divider-tint="primary"] {
+        --hero-slot-divider: var(--ring);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--ring) / 0.45);
+      }
+      .hero2-frame[data-hero-divider-tint="life"] {
+        --hero-slot-divider: var(--accent-3);
+        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+          hsl(var(--accent-3) / 0.42);
+      }
       @supports (
         color: color-mix(
           in oklab,
@@ -92,6 +102,22 @@ export function NeomorphicFrameStyles() {
             hsl(var(--shadow-color)) 28%,
             hsl(var(--background) / 0)
           );
+        }
+        .hero2-frame[data-hero-divider-tint="primary"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--ring)) 68%,
+              hsl(var(--background))
+            );
+        }
+        .hero2-frame[data-hero-divider-tint="life"] {
+          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
+            color-mix(
+              in oklab,
+              hsl(var(--accent-3)) 78%,
+              hsl(var(--background))
+            );
         }
       }
       @media (prefers-contrast: more) {
@@ -128,6 +154,10 @@ export function NeomorphicFrameStyles() {
           --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
             CanvasText,
             0 0 0 0 CanvasText;
+        }
+        .hero2-frame[data-hero-divider-tint] {
+          --hero-slot-divider: CanvasText !important;
+          --hero-slot-divider-shadow: none !important;
         }
       }
     `}</style>
