@@ -5,7 +5,6 @@ import "./themes.css";
 
 import type { Metadata, Viewport } from "next";
 import type { CSSProperties } from "react";
-import { headers } from "next/headers";
 import {
   geistMonoVariable,
   geistSansClassName,
@@ -133,96 +132,99 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let nonce: string | undefined;
   const year = new Date().getFullYear();
   type AssetStyle = CSSProperties & Record<`--${string}`, string>;
   const assetUrlStyles: AssetStyle = {
     "--asset-noise-url": `url("${withBasePath("/noise.svg")}")`,
     "--asset-glitch-gif-url": `url("${withBasePath("/glitch-gif.gif")}")`,
   };
+  const renderLayout = (nonce?: string) => {
+    const nonceInitializer = nonce ? createNonceInitializer(nonce) : null;
+    return (
+      // Default SSR state: LG (dark). The no-flash script will tweak immediately.
+      <html
+        lang="en"
+        className="theme-lg"
+        suppressHydrationWarning
+        style={{ colorScheme: "dark" }}
+      >
+        <head>
+          {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
+          <meta name="color-scheme" content="dark light" />
+          {nonceInitializer ? (
+            <Script
+              id="csp-nonce-runtime"
+              strategy="beforeInteractive"
+              nonce={nonce}
+              dangerouslySetInnerHTML={{ __html: nonceInitializer }}
+            />
+          ) : null}
+          <Script
+            id="theme-bootstrap"
+            strategy="beforeInteractive"
+            nonce={nonce}
+            src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
+          />
+        </head>
+        <body
+          className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
+          style={assetUrlStyles}
+        >
+          <a
+            className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
+            href="#main-content"
+          >
+            Skip to main content
+          </a>
+          <noscript>
+            <div
+              role="status"
+              className="w-full border-b border-border bg-surface px-[var(--space-4)] py-[var(--space-2)] text-center text-ui font-medium text-foreground"
+            >
+              Animations stay optional—Planner works fully without JavaScript.
+            </div>
+          </noscript>
+          <StyledJsxRegistry nonce={nonce}>
+            <ThemeProvider>
+              <div aria-hidden className="page-backdrop">
+                <div className="page-shell">
+                  <div className="page-backdrop__layer" />
+                </div>
+              </div>
+              <SiteChrome>
+                <CatCompanion />
+                <div className="relative z-10">
+                  <main id="main-content" tabIndex={-1}>
+                    {children}
+                  </main>
+                  <footer
+                    role="contentinfo"
+                    className="mt-[var(--space-8)] border-t border-border bg-surface"
+                  >
+                    <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                      <p className="text-ui font-medium text-foreground">
+                        Planner keeps local-first goals organized so every ritual stays actionable.
+                      </p>
+                      <p>© {year} Planner Labs. All rights reserved.</p>
+                    </PageShell>
+                  </footer>
+                </div>
+              </SiteChrome>
+            </ThemeProvider>
+          </StyledJsxRegistry>
+        </body>
+      </html>
+    );
+  };
 
   if (process.env.GITHUB_PAGES === "true") {
     // Static exports (GitHub Pages) do not provide response headers,
     // so skip reading the nonce in that environment.
-    nonce = undefined;
-  } else {
-    const nonceHeader = await headers();
-    nonce = nonceHeader.get("x-nonce") ?? undefined;
+    return renderLayout();
   }
-  const nonceInitializer = nonce ? createNonceInitializer(nonce) : null;
-  return (
-    // Default SSR state: LG (dark). The no-flash script will tweak immediately.
-    <html
-      lang="en"
-      className="theme-lg"
-      suppressHydrationWarning
-      style={{ colorScheme: "dark" }}
-    >
-      <head>
-        {nonce ? <meta property="csp-nonce" content={nonce} /> : null}
-        <meta name="color-scheme" content="dark light" />
-        {nonceInitializer ? (
-          <Script
-            id="csp-nonce-runtime"
-            strategy="beforeInteractive"
-            nonce={nonce}
-            dangerouslySetInnerHTML={{ __html: nonceInitializer }}
-          />
-        ) : null}
-        <Script
-          id="theme-bootstrap"
-          strategy="beforeInteractive"
-          nonce={nonce}
-          src={withBasePath(THEME_BOOTSTRAP_SCRIPT_PATH)}
-        />
-      </head>
-      <body
-        className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
-        style={assetUrlStyles}
-      >
-        <a
-          className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
-          href="#main-content"
-        >
-          Skip to main content
-        </a>
-        <noscript>
-          <div
-            role="status"
-            className="w-full border-b border-border bg-surface px-[var(--space-4)] py-[var(--space-2)] text-center text-ui font-medium text-foreground"
-          >
-            Animations stay optional—Planner works fully without JavaScript.
-          </div>
-        </noscript>
-        <StyledJsxRegistry nonce={nonce}>
-          <ThemeProvider>
-            <div aria-hidden className="page-backdrop">
-              <div className="page-shell">
-                <div className="page-backdrop__layer" />
-              </div>
-            </div>
-            <SiteChrome>
-              <CatCompanion />
-              <div className="relative z-10">
-                <main id="main-content" tabIndex={-1}>
-                  {children}
-                </main>
-                <footer
-                  role="contentinfo"
-                  className="mt-[var(--space-8)] border-t border-border bg-surface"
-                >
-                  <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                    <p className="text-ui font-medium text-foreground">
-                      Planner keeps local-first goals organized so every ritual stays actionable.
-                    </p>
-                    <p>© {year} Planner Labs. All rights reserved.</p>
-                  </PageShell>
-                </footer>
-              </div>
-            </SiteChrome>
-          </ThemeProvider>
-        </StyledJsxRegistry>
-      </body>
-    </html>
-  );
+
+  const { headers } = await import("next/headers");
+  const nonceHeader = await headers();
+  const nonce = nonceHeader.get("x-nonce") ?? undefined;
+  return renderLayout(nonce);
 }
