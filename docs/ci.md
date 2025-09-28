@@ -1,6 +1,6 @@
 # Continuous integration workflows
 
-This project standardises Node-based automation through the reusable workflow defined at `.github/workflows/node-base.yml`. Jobs in `ci.yml`—including the build, test, and GitHub Pages publishing steps—call into that workflow so dependency management, caching, and Playwright bootstrapping stay consistent across CI and deployment runs.
+This project standardises Node-based automation through the reusable workflow defined at `.github/workflows/node-base.yml`. Jobs in `ci.yml`—covering the build and test matrix—call into that workflow so dependency management, caching, and Playwright bootstrapping stay consistent across CI runs. GitHub Pages publishing executes through the dedicated `Deploy Pages` workflow, which mirrors the same caching and export conventions while keeping production deployments isolated from PR validation noise.
 
 ## `node-base` workflow inputs
 
@@ -29,7 +29,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 - `ci.yml` runs linting, the design token guard (`npm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
 - The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
-- The `pages-build` job inside `ci.yml` reuses `node-base` to create the static export for GitHub Pages, while `pages-deploy` consumes that artefact and executes the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
+- The `Deploy Pages` workflow builds the static export on pushes to `main`, uploads the artefact for traceability, and executes the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
 
 ## Manual visual regression workflow
 
@@ -37,4 +37,4 @@ This project standardises Node-based automation through the reusable workflow de
 - The workflow builds once via a dedicated job that installs dependencies, seeds the Playwright browser cache, and uploads the `.next` directory as an artefact. Each browser matrix job depends on that build, downloads the artefact to serve the prebuilt app, then launches the production server and runs any Playwright tests tagged with `@visual`. If no tests carry the tag the run exits early with a notice so routine checks stay fast.
 - Diff artefacts upload automatically when a comparison fails. Each browser matrix entry produces a zip named `visual-diff-<browser>` that contains the expected, actual, and diff images alongside the Playwright report output for that browser. Download the zip, extract it locally, and open the accompanying `index.html` to inspect failures interactively. Clean runs skip the upload so the manual workflow remains optional overhead rather than a required part of the release cadence.
 
-The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, unit tests, accessibility, and the browser E2E checks that execute against the shared build.
+The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, unit tests, accessibility, and the browser E2E checks that execute against the shared build. The `Deploy Pages` workflow is also required so merges confirm that the production Pages deployment pipeline remains healthy after each change.
