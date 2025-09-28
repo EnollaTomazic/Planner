@@ -57,6 +57,9 @@ jobs:
       run: |
         set -euo pipefail
 
+        WORKFLOW_ENVIRONMENT="${{ inputs.environment }}"
+        export WORKFLOW_ENVIRONMENT
+
         PLAYWRIGHT_PORT=3100
         export PLAYWRIGHT_PORT
 
@@ -115,5 +118,3 @@ jobs:
       artifact-path: |
         playwright-results/visual/${{ matrix.project }}
       artifact-on-failure: true
-    env:
-      WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
