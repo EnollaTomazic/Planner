@@ -45,7 +45,7 @@ export const createContentSecurityPolicy = (nonce, options) => {
     styleSrc.push(nonceSource);
     styleSrcElem.push(nonceSource);
   }
-  const imgSrc = ["'self'", "data:"];
+  const imgSrc = ["'self'", "data:", "https:"];
   const connectSrc = ["'self'"];
 
   if (allowVercelFeedback) {
