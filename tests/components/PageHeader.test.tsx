@@ -137,9 +137,7 @@ describe("PageHeader", () => {
     ) as HTMLElement | null;
 
     expect(frame).not.toBeNull();
-    expect(
-      (frame as HTMLElement).style.getPropertyValue("--hero-slot-divider"),
-    ).toBe("var(--ring)");
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "primary");
   });
 
   it("switches the hero slot divider tint when the life palette is active", () => {
@@ -158,10 +156,94 @@ describe("PageHeader", () => {
     ) as HTMLElement | null;
 
     expect(frame).not.toBeNull();
-    expect(
-      (frame as HTMLElement).style.getPropertyValue("--hero-slot-divider"),
-    ).toBe("var(--accent-3)");
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "life");
   });
+
+  it("preserves caller-provided frameProps.style overrides", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={baseHero}
+        frameProps={{ style: { outline: "1px solid rgb(255, 0, 0)" } }}
+      />,
+    );
+
+    const frame = container.querySelector(
+      "[data-variant='default']",
+    ) as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    expect(frame?.style.outline).toBe("1px solid rgb(255, 0, 0)");
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "primary");
+  });
+
+  it("allows frameProps to override the hero divider tint attribute", () => {
+    const { container } = render(
+      <PageHeader
+        header={baseHeader}
+        hero={{
+          ...baseHero,
+          dividerTint: "life",
+        }}
+        frameProps={{ "data-hero-divider-tint": "primary" }}
+      />,
+    );
+
+    const frame = container.querySelector(
+      "[data-variant='default']",
+    ) as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    expect(frame).toHaveAttribute("data-hero-divider-tint", "primary");
+  });
+
+  it.each([
+    ["default"],
+    ["compact"],
+    ["dense"],
+  ] as const)(
+    "keeps divider tint attributes when hero slots render for %s variant",
+    (variant) => {
+      const { container } = render(
+        <PageHeader
+          header={baseHeader}
+          hero={{
+            ...baseHero,
+            dividerTint: "life",
+            subTabs: {
+              items: [
+                { key: "roadmap", label: "Roadmap" },
+                { key: "updates", label: "Updates" },
+              ],
+              value: "roadmap",
+              onChange: vi.fn(),
+              ariaLabel: "Hero filters",
+            },
+            search: {
+              value: "",
+              onValueChange: () => {},
+              "aria-label": "Search hero content",
+            },
+            actions: <button type="button">Primary action</button>,
+          }}
+          frameProps={{ variant }}
+        />,
+      );
+
+      const frame = container.querySelector(
+        `[data-variant='${variant}']`,
+      ) as HTMLElement | null;
+      const slotGroup = container.querySelector(
+        "div[data-align]",
+      ) as HTMLElement | null;
+
+      expect(frame).not.toBeNull();
+      expect(frame).toHaveAttribute("data-hero-divider-tint", "life");
+      expect(slotGroup).not.toBeNull();
+      const slots = (slotGroup as HTMLElement).querySelectorAll("[data-slot]");
+      expect(slots).toHaveLength(3);
+    },
+  );
 
   it("balances header text when titles span multiple lines", () => {
     const wrappingHeading =
