@@ -16,32 +16,34 @@ on:
       - 'CHANGELOG.md'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build static preview
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: read
-      actions: write
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        export DEPLOY_ARTIFACT_ONLY=true
-        npm run deploy
-      cache-paths: |
-        .next/cache
-      cache-key-prefix: ubuntu-latest-nextjs
-      cache-key-globs: |
-        **/package-lock.json
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: ./.github/actions/setup-node-project
 
-        next.config.*
-        src/**/*.{js,jsx,ts,tsx,mdx}
-        app/**/*.{js,jsx,ts,tsx,mdx}
-      artifact-name: preview-static
-      artifact-path: |
-        out
-      summary-title: Preview static export
+      - name: Export static preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          export DEPLOY_ARTIFACT_ONLY=true
+          npm run deploy
+
+      - name: Upload static output
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
+        with:
+          name: preview-static
+          path: out
+          if-no-files-found: error
 
   deploy:
     name: Deploy preview
@@ -53,26 +55,64 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      pull-requests: write
     environment:
       name: Deploy Preview
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+        uses: actions/configure-pages@f65c7f0a20510b02fd348436de4b0bd711c4d7f9 # v5.0.1
 
       - name: Download static export
-        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+        uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
         with:
           name: preview-static
           path: out
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        uses: actions/upload-pages-artifact@6b4985b4d81eed21dc8e42f6e28eaf41b0c9fb3d # v3.0.1
         with:
           path: ./out
 
       - name: Deploy to GitHub Pages
         id: deploy
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        uses: actions/deploy-pages@af48c8d784fbb3eccd0f19f41da3b3c25c2ba234 # v4.0.7
         with:
           preview: true
+
+      - name: Share preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@d59a4d062958ca40b034b6f04da4898e95a1c18f # v7.0.1
+        with:
+          script: |
+            const marker = '<!-- preview-link -->';
+            const url = process.env.PREVIEW_URL || '';
+            if (!url) {
+              core.warning('Preview URL missing; skipping comment update.');
+              return;
+            }
+            const body = `${marker}\nPreview ready: ${url}`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.user?.type === 'Bot' && comment.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.page_url }}

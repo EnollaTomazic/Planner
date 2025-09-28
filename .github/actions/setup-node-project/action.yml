@@ -1,0 +1,189 @@
+name: "Setup Node project"
+description: "Checkout, configure Node.js, restore caches, and ensure dependencies are installed."
+
+inputs:
+  node-version-file:
+    description: "Path to the Node version file"
+    default: ".nvmrc"
+  package-manager:
+    description: "Explicit package manager (npm, pnpm, yarn)"
+    required: false
+  install-command:
+    description: "Override install command"
+    required: false
+  cache-node-modules:
+    description: "Whether to cache node_modules"
+    default: "true"
+  cache-prefix:
+    description: "Prefix used when generating cache keys"
+    default: "node"
+  checkout-ref:
+    description: "Optional git ref to checkout"
+    required: false
+
+outputs:
+  package-manager:
+    description: "Detected package manager"
+    value: ${{ steps.detect.outputs.manager }}
+  install-command:
+    description: "Command used to install dependencies"
+    value: ${{ steps.detect.outputs.install }}
+  lockfile:
+    description: "Detected lockfile"
+    value: ${{ steps.detect.outputs.lockfile }}
+  node-version:
+    description: "Resolved Node.js version"
+    value: ${{ steps.node-version.outputs.value }}
+  node-modules-cache-hit:
+    description: "Whether the node_modules cache was restored"
+    value: ${{ steps.restore-node-modules.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+      with:
+        fetch-depth: 2
+        ref: ${{ inputs.checkout-ref != '' && inputs.checkout-ref || github.ref }}
+
+    - name: Detect package manager
+      id: detect
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        if [ -n "${{ inputs.package-manager }}" ]; then
+          RAW_PM="${{ inputs.package-manager }}"
+        else
+          RAW_PM="$(node -p "(() => { try { return require('./package.json').packageManager || ''; } catch { return ''; } })()")"
+        fi
+
+        if [ -z "$RAW_PM" ]; then
+          RAW_PM="npm"
+        fi
+
+        MANAGER_NAME="${RAW_PM%%@*}"
+        MANAGER_VERSION="${RAW_PM#*@}"
+        if [ "$MANAGER_NAME" = "$MANAGER_VERSION" ]; then
+          MANAGER_VERSION=""
+        fi
+
+        case "$MANAGER_NAME" in
+          npm)
+            LOCKFILE="package-lock.json"
+            DEFAULT_INSTALL="npm ci --no-audit --no-fund"
+            ;;
+          pnpm)
+            LOCKFILE="pnpm-lock.yaml"
+            DEFAULT_INSTALL="pnpm install --frozen-lockfile"
+            ;;
+          yarn)
+            LOCKFILE="yarn.lock"
+            DEFAULT_INSTALL="yarn install --frozen-lockfile"
+            ;;
+          *)
+            echo "Unsupported package manager: $MANAGER_NAME" >&2
+            exit 1
+            ;;
+        esac
+
+        if [ -n "${{ inputs.install-command }}" ]; then
+          INSTALL_COMMAND="${{ inputs.install-command }}"
+        else
+          INSTALL_COMMAND="$DEFAULT_INSTALL"
+        fi
+
+        if [ ! -f "$LOCKFILE" ]; then
+          echo "Required lockfile '$LOCKFILE' was not found" >&2
+          exit 1
+        fi
+
+        {
+          echo "manager=$MANAGER_NAME"
+          echo "manager-version=$MANAGER_VERSION"
+          echo "install=$INSTALL_COMMAND"
+          echo "lockfile=$LOCKFILE"
+        } >>"$GITHUB_OUTPUT"
+
+    - name: Setup Node.js
+      uses: actions/setup-node@1fa90b90e98cfc9330a84c957cd88bd2d4093b6d # v4.0.3
+      with:
+        node-version-file: ${{ inputs.node-version-file }}
+        cache: ${{ steps.detect.outputs.manager }}
+        cache-dependency-path: ${{ steps.detect.outputs.lockfile }}
+
+    - name: Enable Corepack for alternative package managers
+      if: ${{ steps.detect.outputs.manager != 'npm' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        corepack enable
+        if [ -n "${{ steps.detect.outputs['manager-version'] }}" ]; then
+          corepack prepare "${{ steps.detect.outputs.manager }}@${{ steps.detect.outputs['manager-version'] }}" --activate
+        fi
+
+    - name: Export CI environment
+      shell: bash
+      run: echo "CI=1" >>"$GITHUB_ENV"
+
+    - name: Resolve Node.js version
+      id: node-version
+      shell: bash
+      run: echo "value=$(node -p "process.versions.node")" >>"$GITHUB_OUTPUT"
+
+    - name: Compute lockfile hash
+      id: lockfile
+      shell: bash
+      run: |
+        set -euo pipefail
+        HASH=$(sha256sum "${{ steps.detect.outputs.lockfile }}" | cut -d' ' -f1)
+        echo "value=$HASH" >>"$GITHUB_OUTPUT"
+
+    - name: Derive node_modules cache key
+      id: cache-key
+      if: ${{ inputs.cache-node-modules == 'true' }}
+      shell: bash
+      env:
+        PREFIX: ${{ inputs.cache-prefix }}
+        MANAGER: ${{ steps.detect.outputs.manager }}
+        NODE_VERSION: ${{ steps.node-version.outputs.value }}
+        LOCK_HASH: ${{ steps.lockfile.outputs.value }}
+      run: |
+        set -euo pipefail
+        LOWER_OS="$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')"
+        PREFIX="${PREFIX:-node}"
+        KEY="${PREFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-${LOCK_HASH}"
+        echo "primary=$KEY" >>"$GITHUB_OUTPUT"
+        echo "restore=${PREFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-" >>"$GITHUB_OUTPUT"
+
+    - name: Restore node_modules cache
+      id: restore-node-modules
+      if: ${{ inputs.cache-node-modules == 'true' }}
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
+      with:
+        path: node_modules
+        key: ${{ steps.cache-key.outputs.primary }}
+        restore-keys: |
+          ${{ steps.cache-key.outputs.restore }}
+
+    - name: Install dependencies
+      if: ${{ inputs.cache-node-modules != 'true' || steps.restore-node-modules.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: ${{ steps.detect.outputs.install }}
+
+    - name: Save node_modules cache
+      if: ${{ inputs.cache-node-modules == 'true' && steps.restore-node-modules.outputs.cache-hit != 'true' }}
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
+      with:
+        path: node_modules
+        key: ${{ steps.cache-key.outputs.primary }}
+
+    - name: Verify dependencies restored
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ ! -d node_modules ]; then
+          echo "node_modules was not restored or installed" >&2
+          exit 1
+        fi
