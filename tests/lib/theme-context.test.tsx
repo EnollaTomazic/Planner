@@ -28,7 +28,6 @@ describe("ThemeProvider", () => {
     resetLocalStorage();
     document.documentElement.className = "";
     document.documentElement.removeAttribute("data-theme-pref");
-    document.documentElement.style.removeProperty("color-scheme");
     Consumer.lastTheme = undefined;
     Consumer.setTheme = undefined;
   });

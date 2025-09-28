@@ -5,6 +5,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { TabBarProps } from "../TabBar";
+import styles from "./Hero.module.css";
 
 type HeroTabVariant = Extract<TabBarProps["variant"], "neo">;
 
@@ -16,7 +17,6 @@ export interface HeroStyleOptions {
   barVariant: "flat" | "raised";
   tone: "heroic" | "supportive";
   glitch: "default" | "subtle" | "off";
-  dividerTint: "primary" | "life";
 }
 
 export interface HeroStyleResult {
@@ -25,7 +25,6 @@ export interface HeroStyleResult {
   isRaisedBar: boolean;
   showRail: boolean;
   showDividerGlow: boolean;
-  dividerStyle: React.CSSProperties;
   classes: {
     shell: string;
     bar: string;
@@ -42,6 +41,7 @@ export interface HeroStyleResult {
     rail: string;
     dividerLine: string;
     dividerGlow: string;
+    divider: string;
   };
 }
 
@@ -54,7 +54,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     barVariant,
     tone,
     glitch,
-    dividerTint,
   } = options;
 
   return React.useMemo(() => {
@@ -67,10 +66,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const isRaisedBar = barVariant === "raised";
     const showRail = false;
     const showDividerGlow = frame && !isGlitchOff;
-    const dividerStyle = {
-      "--divider": dividerTint === "life" ? "var(--accent-3)" : "var(--ring)",
-    } as React.CSSProperties;
-
     const stickyClasses = sticky ? cn("sticky sticky-blur", topClassName) : "";
 
     const shellPadding =
@@ -192,7 +187,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       isRaisedBar,
       showRail,
       showDividerGlow,
-      dividerStyle,
       classes: {
         shell,
         bar,
@@ -209,6 +203,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
         rail: railClassName,
         dividerLine,
         dividerGlow,
+        divider: styles.divider,
       },
     } satisfies HeroStyleResult;
   }, [
@@ -219,7 +214,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     barVariant,
     tone,
     glitch,
-    dividerTint,
   ]);
 }
 
