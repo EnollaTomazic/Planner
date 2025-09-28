@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
-import { neuInset, neuRaised } from "./Neu";
+import styles from "./IconButton.module.css";
 
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
@@ -93,13 +92,6 @@ const toneInteractionTokens = {
     "[--hover:theme('colors.interaction.danger.hover')] [--active:theme('colors.interaction.danger.active')]",
 } satisfies Record<Tone, string>;
 
-const colorVar: Record<Tone, string> = {
-  primary: "--primary",
-  accent: "--accent",
-  info: "--accent-2",
-  danger: "--danger",
-};
-
 const toneForegroundVar: Record<Tone, string> = {
   primary: "--primary-foreground",
   accent: "--accent-foreground",
@@ -107,53 +99,17 @@ const toneForegroundVar: Record<Tone, string> = {
   danger: "--danger-foreground",
 };
 
-type VariantConfig = {
-  className: string;
-  style?: CSSProperties;
-};
-
-const getPrimaryShadows = (tone: Tone): CSSProperties => {
-  const toneVar = colorVar[tone];
-
-  return {
-    "--glow-active": `hsl(var(${toneVar}) / 0.35)`,
-    "--btn-primary-hover-shadow":
-      `0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(${toneVar}) / 0.25)`,
-    "--btn-primary-active-shadow":
-      `inset 0 0 0 var(--spacing-0-25) hsl(var(${toneVar}) / 0.6)`,
-    "--btn-primary-shadow-rest": "0 0 calc(var(--space-4) / 2) var(--glow-active)",
-    "--btn-primary-shadow-hover": "0 0 var(--space-4) var(--glow-active)",
-    "--btn-primary-shadow-active": "var(--btn-primary-active-shadow)",
-  } as CSSProperties;
-};
-
-const primaryVariantBase = (tone: Tone): VariantConfig => ({
-  className: cn(
+const primaryVariantBase = (tone: Tone): string =>
+  cn(
     "border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
     toneInteractionTokens[tone],
-  ),
-  style: getPrimaryShadows(tone),
-});
+  );
 
-const getSecondaryShadows = (): CSSProperties =>
-  ({
-    "--btn-secondary-shadow-rest": neuRaised(),
-    "--btn-secondary-shadow-hover": neuRaised(15),
-    "--btn-secondary-shadow-active": neuInset(9),
-  }) as CSSProperties;
-
-const secondaryVariantBase: VariantConfig = {
-  className:
-    "border transition-[box-shadow,background-color,color] shadow-[var(--btn-secondary-shadow-rest)] hover:shadow-[var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
-  style: getSecondaryShadows(),
-};
-
-const variantBase: Record<Variant, (tone: Tone) => VariantConfig> = {
-  ghost: (tone) => ({
-    className: cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
-  }),
+const variantBase: Record<Variant, (tone: Tone) => string> = {
+  ghost: (tone) => cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
   primary: primaryVariantBase,
-  secondary: () => secondaryVariantBase,
+  secondary: () =>
+    "border transition-[box-shadow,background-color,color] shadow-[var(--btn-secondary-shadow-rest)] hover:shadow-[var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
@@ -251,16 +207,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       );
     }, [shouldWarn]);
 
-    const { className: variantClass, style: variantStyle } = variantBase[variant](tone);
-    const mergedStyle = variantStyle
-      ? { ...variantStyle, ...(styleProp ?? {}) }
-      : styleProp;
+    const variantClass = variantBase[variant](tone);
 
     return (
       <motion.button
         ref={ref}
         type="button"
         className={cn(
+          styles.root,
           "inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
           variantClass,
           toneClasses[variant][tone],
@@ -268,8 +222,10 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           iconMap[appliedIconSize],
           className,
         )}
-        style={mergedStyle}
+        style={styleProp}
         data-loading={loading}
+        data-variant={variant}
+        data-tone={tone}
         disabled={disabled || loading}
         whileHover={reduceMotion ? undefined : { scale: 1.05 }}
         whileTap={reduceMotion ? undefined : { scale: 0.95 }}
