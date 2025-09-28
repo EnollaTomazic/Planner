@@ -17,7 +17,13 @@
     <script>
       (function () {
         var placeholder = "__BASE_PATH__";
-        var basePath = placeholder === "__BASE_PATH__" ? "" : placeholder;
+        var basePath = placeholder;
+        if (basePath === "__BASE_PATH__") {
+          basePath = "";
+        } else {
+          var trimmedBasePath = basePath.trim();
+          basePath = trimmedBasePath === "" ? "" : trimmedBasePath;
+        }
         if (basePath && basePath !== "/") {
           basePath = "/" + basePath.replace(/^\/+|\/+$/g, "");
         }
