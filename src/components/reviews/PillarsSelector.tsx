@@ -4,10 +4,9 @@ import * as React from "react";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
 import { ALL_PILLARS } from "@/components/reviews/reviewData";
+import { cn } from "@/lib/utils";
 import type { Pillar, Review } from "@/lib/types";
-
-const auraBlurRadius = "calc(var(--space-3) - var(--spacing-0-5))";
-const neonBlurRadius = "var(--spacing-0-5)";
+import styles from "./NeonPillarChip.module.css";
 
 export type PillarsSelectorHandle = {
   save: () => void;
@@ -50,33 +49,25 @@ function NeonPillarChip({
   const lit = phase === "ignite" || phase === "steady-on";
 
   return (
-    <span className="relative inline-flex">
+    <span
+      className={cn("relative inline-flex", styles.root)}
+      data-lit={lit ? "true" : undefined}
+      data-phase={phase}
+    >
       <span
-        className={
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg" +
-          (lit ? " opacity-60" : " opacity-0")
-        }
-        style={{
-          filter: `blur(${auraBlurRadius})`,
-          background:
-            "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)/.45), transparent 70%)",
-          transition: "opacity 220ms var(--ease-out)",
-        }}
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
+          styles.layer,
+          styles.aura,
+        )}
         aria-hidden
       />
       <span
-        className={
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg" +
-          (lit
-            ? " opacity-40 motion-safe:animate-[neonAura_3.6s_ease-in-out_infinite] motion-reduce:animate-none"
-            : " opacity-0")
-        }
-        style={{
-          background:
-            "radial-gradient(60% 60% at 50% 50%, hsl(var(--accent)), transparent 70%)",
-          filter: `blur(${neonBlurRadius})`,
-          transition: "opacity 220ms var(--ease-out)",
-        }}
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
+          styles.layer,
+          styles.neon,
+        )}
         aria-hidden
       />
       {children}
