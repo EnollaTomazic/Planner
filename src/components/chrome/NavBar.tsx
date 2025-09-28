@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn, withoutBasePath } from "@/lib/utils";
+import useBasePath from "@/lib/useBasePath";
 import { NAV_ITEMS, NavItem, isNavActive } from "./nav-items";
 
 type NavBarProps = {
@@ -21,6 +22,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const rawPath = usePathname() ?? "/";
   const path = withoutBasePath(rawPath);
   const reduceMotion = useReducedMotion();
+  const { withBasePath } = useBasePath();
 
   return (
     <nav
@@ -35,7 +37,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
           return (
             <li key={href} className="relative">
               <Link
-                href={href}
+                href={withBasePath(href)}
                 aria-label={Icon ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}

@@ -33,7 +33,12 @@ jobs:
         run: |
           set -euo pipefail
           export DEPLOY_ARTIFACT_ONLY=true
-          export NEXT_PUBLIC_BASE_PATH="/Planner"
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          if [[ "${REPO_NAME}" == *.github.io ]]; then
+            export NEXT_PUBLIC_BASE_PATH=""
+          else
+            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
+          fi
           npm run deploy
 
       - name: Upload static artifact
