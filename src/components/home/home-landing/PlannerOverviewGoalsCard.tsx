@@ -34,8 +34,8 @@ function PlannerOverviewGoalsCardComponent({
         </header>
         <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:gap-[var(--space-5)]">
           <div className="flex items-center justify-center">
-            <div className="relative flex h-[var(--space-8)] w-[var(--space-8)] items-center justify-center">
-              <ProgressRingIcon pct={percentage} size={64} />
+            <div className="relative flex size-[var(--ring-diameter-m)] items-center justify-center">
+              <ProgressRingIcon pct={percentage} size="m" />
               <span className="absolute text-ui font-semibold tabular-nums text-card-foreground">
                 {total === 0 ? "0%" : `${percentage}%`}
               </span>

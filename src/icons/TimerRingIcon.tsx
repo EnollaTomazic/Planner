@@ -1,36 +1,28 @@
 import * as React from "react";
-import { spacingTokens, readNumberToken } from "@/lib/tokens";
+import { getRingMetrics, type RingSize } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
+import RingNoiseDefs from "./RingNoiseDefs";
 
 interface TimerRingIconProps {
   pct: number; // 0..100
-  size?: number;
+  size?: number | RingSize;
 }
 
-const RING_DIAMETER_FALLBACK = (spacingTokens[7] * 7) / 2;
-const TRACK_INSET_FALLBACK = spacingTokens[2] / 2;
-const STROKE_WIDTH_FALLBACK = spacingTokens[0];
+const DEFAULT_RING_SIZE: RingSize = "l";
 
 export default function TimerRingIcon({
   pct,
   size,
 }: TimerRingIconProps) {
   const uniqueId = React.useId();
-  const gradientId = `timer-ring-grad-${uniqueId}`;
-  const defaultDiameter = React.useMemo(
-    () => readNumberToken("--timer-ring-diameter", RING_DIAMETER_FALLBACK),
-    [],
-  );
-  const strokeWidth = React.useMemo(
-    () => readNumberToken("--timer-ring-stroke", STROKE_WIDTH_FALLBACK),
-    [],
-  );
-  const trackInset = React.useMemo(
-    () => readNumberToken("--timer-ring-inset", TRACK_INSET_FALLBACK),
-    [],
-  );
-  const resolvedSize = size ?? defaultDiameter;
-  const radius = resolvedSize / 2 - trackInset;
+  const gradientId = `ring-gradient-${uniqueId}`;
+  const noiseFilterId = `ring-noise-${uniqueId}`;
+  const ringSize = typeof size === "string" ? size : DEFAULT_RING_SIZE;
+  const metrics = React.useMemo(() => getRingMetrics(ringSize), [ringSize]);
+  const resolvedSize = typeof size === "number" ? size : metrics.diameter;
+  const strokeWidth = metrics.stroke;
+  const trackInset = metrics.inset;
+  const radius = Math.max(resolvedSize / 2 - trackInset, 0);
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   const pulse = pct >= 90;
@@ -43,6 +35,7 @@ export default function TimerRingIcon({
       aria-label={accessibleLabel}
     >
       <defs>
+        <RingNoiseDefs id={noiseFilterId} />
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="hsl(var(--accent))" />
           <stop offset="100%" stopColor="hsl(var(--accent-2))" />
@@ -69,6 +62,7 @@ export default function TimerRingIcon({
           "drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none",
           pulse && "motion-safe:animate-pulse motion-reduce:animate-none",
         )}
+        filter={`url(#${noiseFilterId})`}
         fill="none"
       />
     </svg>

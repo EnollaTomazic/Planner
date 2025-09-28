@@ -1,33 +1,29 @@
 import * as React from "react";
-import { spacingTokens, readNumberToken } from "@/lib/tokens";
+import { getRingMetrics, type RingSize } from "@/lib/tokens";
+import RingNoiseDefs from "./RingNoiseDefs";
 
 interface ProgressRingIconProps {
   pct: number; // 0..100
-  size?: number;
+  size?: number | RingSize;
 }
 
-const PROGRESS_DIAMETER_FALLBACK = spacingTokens[7];
-const TRACK_INSET_FALLBACK = spacingTokens[2] / 2;
-const STROKE_WIDTH_FALLBACK = spacingTokens[0];
+const DEFAULT_RING_SIZE: RingSize = "m";
 
 export default function ProgressRingIcon({
   pct,
   size,
 }: ProgressRingIconProps) {
-  const defaultDiameter = React.useMemo(
-    () => readNumberToken("--progress-ring-diameter", PROGRESS_DIAMETER_FALLBACK),
-    [],
+  const uniqueId = React.useId();
+  const noiseFilterId = React.useMemo(
+    () => `ring-noise-${uniqueId}`,
+    [uniqueId],
   );
-  const strokeWidth = React.useMemo(
-    () => readNumberToken("--progress-ring-stroke", STROKE_WIDTH_FALLBACK),
-    [],
-  );
-  const trackInset = React.useMemo(
-    () => readNumberToken("--progress-ring-inset", TRACK_INSET_FALLBACK),
-    [],
-  );
-  const resolvedSize = size ?? defaultDiameter;
-  const radius = resolvedSize / 2 - trackInset;
+  const ringSize = typeof size === "string" ? size : DEFAULT_RING_SIZE;
+  const metrics = React.useMemo(() => getRingMetrics(ringSize), [ringSize]);
+  const resolvedSize = typeof size === "number" ? size : metrics.diameter;
+  const strokeWidth = metrics.stroke;
+  const trackInset = metrics.inset;
+  const radius = Math.max(resolvedSize / 2 - trackInset, 0);
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
   return (
@@ -37,6 +33,9 @@ export default function ProgressRingIcon({
       aria-hidden="true"
       focusable="false"
     >
+      <defs>
+        <RingNoiseDefs id={noiseFilterId} />
+      </defs>
       <circle
         cx={resolvedSize / 2}
         cy={resolvedSize / 2}
@@ -56,6 +55,7 @@ export default function ProgressRingIcon({
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+        filter={`url(#${noiseFilterId})`}
         fill="none"
       />
     </svg>
