@@ -11,6 +11,7 @@ import {
   parseJSON,
   readLocal as baseReadLocal,
   writeLocal as baseWriteLocal,
+  stringifyWithBinary,
 } from "./local-bootstrap";
 import { persistenceLogger } from "./logging";
 import { createStorageKey, OLD_STORAGE_PREFIX } from "./storage-key";
@@ -187,10 +188,7 @@ export function scheduleWrite(key: string, value: unknown) {
   if (value !== null && typeof value === "object") {
     let serialized: string | null = null;
     try {
-      const maybeSerialized = JSON.stringify(value);
-      if (typeof maybeSerialized === "string") {
-        serialized = maybeSerialized;
-      }
+      serialized = stringifyWithBinary(value);
     } catch {
       serialized = null;
     }

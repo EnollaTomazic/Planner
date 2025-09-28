@@ -239,6 +239,18 @@ describe("Db", () => {
         warnSpy.mockRestore();
       }
     });
+
+    it("encodes typed arrays using binary payloads", async () => {
+      const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
+
+      const key = "noxis-planner:binary";
+      const payload = { bytes: new Uint8Array([5, 10, 15]) };
+
+      scheduleWrite(key, payload);
+      flushWriteLocal();
+
+      expect(storageMock.store.get(key)).toMatch(/__planner_binary__/);
+    });
   });
 
   describe("readLocal", () => {
