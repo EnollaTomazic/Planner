@@ -21,14 +21,16 @@ export default function ScrollTopFloatingButton({
     () => watchRef.current,
   );
 
+  const watchedElement = watchRef.current;
+
   const supportsIntersectionObserver =
     typeof window !== "undefined" && "IntersectionObserver" in window;
 
   React.useEffect(() => {
-    if (watchRef.current !== target) {
-      setTarget(watchRef.current ?? null);
+    if (watchedElement !== target) {
+      setTarget(watchedElement ?? null);
     }
-  }, [watchRef, target]);
+  }, [watchedElement, target]);
 
   React.useEffect(() => {
     if (!supportsIntersectionObserver) {
