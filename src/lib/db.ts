@@ -394,6 +394,7 @@ export function usePersistentState<T>(
 
   const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
+  const hasHydratedRef = React.useRef(false);
   const renderRevision = stateRevisionRef.current;
 
   React.useEffect(() => {
@@ -401,6 +402,7 @@ export function usePersistentState<T>(
     if (fullKeyRef.current !== nextFull) {
       fullKeyRef.current = nextFull;
       loadedRef.current = false;
+      hasHydratedRef.current = false;
     }
   }, [key]);
 
@@ -438,21 +440,24 @@ export function usePersistentState<T>(
             shouldUpdateState = true;
             nextState = decoded;
           }
-        } else if (
-          !stateChangedSinceQueue() &&
-          !Object.is(stateRef.current, initialRef.current)
-        ) {
-          shouldUpdateState = true;
-          nextState = initialRef.current;
+        } else if (!stateChangedSinceQueue()) {
+          if (hasHydratedRef.current) {
+            if (!Object.is(stateRef.current, initialRef.current)) {
+              shouldUpdateState = true;
+              nextState = initialRef.current;
+            }
+          }
         }
-      } else if (
-        !stateChangedSinceQueue() &&
-        !Object.is(stateRef.current, initialRef.current)
-      ) {
-        shouldUpdateState = true;
-        nextState = initialRef.current;
+      } else if (!stateChangedSinceQueue()) {
+        if (hasHydratedRef.current) {
+          if (!Object.is(stateRef.current, initialRef.current)) {
+            shouldUpdateState = true;
+            nextState = initialRef.current;
+          }
+        }
       }
 
+      hasHydratedRef.current = true;
       loadedRef.current = true;
 
       if (fallbackKey && fallbackKey !== fullKey) {
@@ -473,6 +478,7 @@ export function usePersistentState<T>(
   }, [key, decodeValue, renderRevision]);
 
   const handleExternal = React.useCallback((raw: string | null) => {
+    if (!hasHydratedRef.current) return;
     if (raw === null) {
       if (!Object.is(stateRef.current, initialRef.current))
         setState(initialRef.current);
