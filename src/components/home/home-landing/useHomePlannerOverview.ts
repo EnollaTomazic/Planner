@@ -121,7 +121,7 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
         ? `${flaggedReviewCount} review${flaggedReviewCount === 1 ? "" : "s"}`
         : reviewCount > 0
           ? "All caught up"
-          : "No reviews yet";
+          : "Start a review";
     const promptValue = promptCount > 0 ? `${promptCount} saved` : "Start a prompt";
     return [
       {

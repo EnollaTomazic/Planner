@@ -1355,7 +1355,7 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
                     {state === "syncing" ? (
                       <Spinner
                         size="xs"
-                        className="border-[var(--progress-ring-stroke)] border-t-transparent [--spinner-size:calc(var(--progress-ring-diameter)/4)]"
+                        className="border-[var(--ring-stroke-m)] border-t-transparent [--spinner-size:calc(var(--ring-diameter-m)/4)]"
                       />
                     ) : null}
                   </span>
@@ -4150,9 +4150,9 @@ React.useEffect(() => {
     {
       id: "timer-ring",
       name: "TimerRing",
-      element: <TimerRing pct={42} />,
+      element: <TimerRing pct={42} size="l" />,
       tags: ["timer", "ring"],
-      code: `<TimerRing pct={42} />`,
+      code: `<TimerRing pct={42} size="l" />`,
     },
     {
       id: "timer-tab",
@@ -4164,16 +4164,16 @@ React.useEffect(() => {
     {
       id: "progress-ring-icon",
       name: "ProgressRingIcon",
-      element: <ProgressRingIcon pct={50} />,
+      element: <ProgressRingIcon pct={50} size="m" />,
       tags: ["icon", "progress"],
-      code: `<ProgressRingIcon pct={50} />`,
+      code: `<ProgressRingIcon pct={50} size="m" />`,
     },
     {
       id: "timer-ring-icon",
       name: "TimerRingIcon",
-      element: <TimerRingIcon pct={75} />,
+      element: <TimerRingIcon pct={75} size="l" />,
       tags: ["icon", "timer"],
-      code: `<TimerRingIcon pct={75} />`,
+      code: `<TimerRingIcon pct={75} size="l" />`,
     },
   ],
   team: [

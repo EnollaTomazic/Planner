@@ -106,7 +106,7 @@ export default function BottomNav({
                   {ariaBusy ? (
                     <Spinner
                       size="xs"
-                      className="border-[var(--progress-ring-stroke)] border-t-transparent [--spinner-size:calc(var(--progress-ring-diameter)/4)]"
+                      className="border-[var(--ring-stroke-m)] border-t-transparent [--spinner-size:calc(var(--ring-diameter-m)/4)]"
                     />
                   ) : null}
                 </span>
