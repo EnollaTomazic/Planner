@@ -209,6 +209,7 @@ function main(): void {
     ...process.env,
     GITHUB_PAGES: "true",
     BASE_PATH: shouldUseBasePath ? slug : "",
+    NEXT_PUBLIC_BASE_PATH: basePath,
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);

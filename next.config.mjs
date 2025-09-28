@@ -15,8 +15,26 @@ const normalizeBasePath = (value) => {
   return cleaned ? `/${cleaned}` : "";
 };
 
-const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const normalizedBasePathValue = normalizeBasePath(rawBasePath);
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+
+const deriveGitHubPagesBasePath = () => {
+  const fromNextPublic = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+  if (fromNextPublic) {
+    return fromNextPublic;
+  }
+
+  const fromBasePath = normalizeBasePath(process.env.BASE_PATH);
+  if (fromBasePath) {
+    return fromBasePath;
+  }
+
+  const repositorySlug = process.env.GITHUB_REPOSITORY?.split("/").pop();
+  return normalizeBasePath(repositorySlug);
+};
+
+const normalizedBasePathValue = isGitHubPages
+  ? deriveGitHubPagesBasePath()
+  : normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
 const isExportStatic = process.env.EXPORT_STATIC === "true";
 const isProduction = process.env.NODE_ENV === "production";
 const shouldApplyBasePath = normalizedBasePathValue.length > 0;

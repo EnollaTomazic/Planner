@@ -183,6 +183,9 @@ const config: Config = {
           },
         },
       },
+      ringOffsetColor: {
+        card: "hsl(var(--card))",
+      },
       borderColor: {
         "card-hairline": "var(--card-hairline)",
       },
