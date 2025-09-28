@@ -1,0 +1,194 @@
+.button {
+  --cc-color: hsl(var(--success));
+  --cc-glow: hsl(var(--success-glow));
+}
+
+.rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: var(--space-1);
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--success)),
+    hsl(var(--accent)),
+    hsl(var(--success))
+  );
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 220ms var(--ease-out);
+}
+
+[data-lit="true"] .rim {
+  opacity: 1;
+}
+
+.rimAnimated {
+  animation: ccShift 3s linear infinite;
+}
+
+.scanlines {
+  position: absolute;
+  inset: calc(var(--space-1) / 2);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    hsl(var(--foreground) / 0.06) 0 var(--hairline-w),
+    transparent var(--hairline-w) calc(var(--space-1) - var(--hairline-w))
+  );
+  mix-blend-mode: overlay;
+  transition: opacity 220ms var(--ease-out);
+}
+
+[data-lit="true"] .scanlines {
+  opacity: 1;
+}
+
+.scanlinesAnimated {
+  animation: ccScan 2.1s linear infinite;
+}
+
+.bloom {
+  position: absolute;
+  inset: calc(var(--space-2) * -1);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(calc(var(--space-3) - var(--hairline-w) * 2));
+  background: radial-gradient(60% 60% at 50% 50%, hsl(var(--success-glow)), transparent 60%);
+  mix-blend-mode: screen;
+  transition: opacity 220ms var(--ease-out);
+}
+
+[data-lit="true"] .bloom {
+  opacity: 0.8;
+}
+
+.ignite,
+.powerdown {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.ignite {
+  background: radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground) / 0.22), transparent 60%);
+}
+
+.powerdown {
+  background: radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground) / 0.14), transparent 60%);
+}
+
+.igniteAnimated {
+  animation: igniteFlicker 0.62s steps(18, end) 1;
+}
+
+.powerdownAnimated {
+  animation: powerDown 0.36s linear 1;
+}
+
+.check {
+  position: relative;
+  z-index: 1;
+  transition: color var(--duration-quick, 220ms) var(--ease-out),
+    filter var(--duration-quick, 220ms) var(--ease-out),
+    opacity var(--duration-quick, 220ms) var(--ease-out);
+}
+
+[data-lit="true"] .check {
+  color: var(--cc-color);
+  filter: drop-shadow(0 0 var(--space-2) var(--cc-glow));
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rim,
+  .scanlines,
+  .bloom,
+  .ignite,
+  .powerdown,
+  .check {
+    transition-duration: 0ms;
+    animation: none !important;
+  }
+}
+
+@keyframes ccShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes ccScan {
+  0% {
+    transform: translateY(-28%);
+  }
+  100% {
+    transform: translateY(28%);
+  }
+}
+
+@keyframes igniteFlicker {
+  0% {
+    opacity: 0.1;
+    filter: blur(calc(var(--hairline-w) * 0.6));
+  }
+  8% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.25;
+  }
+  20% {
+    opacity: 1;
+  }
+  28% {
+    opacity: 0.35;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.45;
+    filter: blur(calc(var(--hairline-w) * 0.2));
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes powerDown {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.35;
+    transform: scale(0.992) translateY(calc(var(--hairline-w) * 0.2));
+  }
+  60% {
+    opacity: 0.12;
+    transform: scale(0.985) translateY(calc(var(--hairline-w) * -0.2));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}

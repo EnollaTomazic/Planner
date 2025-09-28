@@ -2,6 +2,8 @@ import "./check-node-version.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import postcss from "postcss";
+import postcssImport from "postcss-import";
 import { rootVariables, themes } from "./themes.ts";
 import type {
   ThemeDefinition,
@@ -162,7 +164,12 @@ async function main(): Promise<void> {
     staticCss.trimEnd(),
   ];
   const content = `${sections.join("\n\n")}\n`;
-  await fs.writeFile(outputPath, content);
+  const processed = await postcss([postcssImport()]).process(content, {
+    from: outputPath,
+    to: outputPath,
+  });
+  const finalCss = `${processed.css.trimEnd()}\n`;
+  await fs.writeFile(outputPath, finalCss);
   console.log(`Generated ${path.relative(projectRoot, outputPath)}`);
 }
 
