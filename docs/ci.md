@@ -9,8 +9,10 @@ This project standardises Node-based automation through the reusable workflow de
 | `run` | Command executed after the environment is prepared. |
 | `install-command` | Overrides the dependency installation command (defaults to `npm ci --prefer-offline --no-audit --no-fund`). |
 | `cache-paths` | Newline-delimited list of cache directories. Leave empty to skip caching. |
-| `cache-key` | Optional override for the cache key. When omitted the workflow hashes `package-lock.json`. |
+| `cache-key` | Optional override for the cache key. When omitted the workflow derives one automatically. |
 | `cache-restore-keys` | Optional newline-delimited restore prefixes used by the cache action. |
+| `cache-key-prefix` | Prefix applied when the workflow generates cache keys automatically. |
+| `cache-key-globs` | Newline-delimited globs that feed the automatic cache key generator. Blank lines group globs for layered fallbacks. |
 | `install-playwright` | Installs Playwright browsers and primes the cache when `true`. |
 | `checkout-ref` | Optional ref or commit SHA passed directly to the checkout action. |
 | `artifact-name` / `artifact-path` | Upload artefacts after the run. Paths can be multi-line. |
@@ -19,7 +21,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Cache guidance
 
-- Next.js builds cache `.next/cache`. Use the key pattern from `ci.yml`—`hashFiles('next.config.*', 'src/**/*.{js,jsx,ts,tsx,mdx}', 'app/**/*.{js,jsx,ts,tsx,mdx}')`—so changes to dependencies or source invalidate the cache while retaining fallbacks for dependency-only changes.
+- Next.js builds cache `.next/cache`. Reuse the glob groups from `ci.yml` so changes to dependencies or source invalidate the cache while retaining fallbacks for dependency-only changes.
 - Playwright installs cache to `~/.cache/ms-playwright` automatically when `install-playwright` is enabled. The workflow derives the key from the detected Playwright version and lockfile hash.
 - Additional cache directories can be layered by listing each path within `cache-paths`.
 
