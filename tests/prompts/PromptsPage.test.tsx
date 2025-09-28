@@ -10,6 +10,8 @@ import {
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
 import { ThemeProvider } from "@/lib/theme-context";
+import { flushWriteLocal, createStorageKey } from "@/lib/db";
+import { CHAT_PROMPTS_STORAGE_KEY } from "@/components/prompts/useChatPrompts";
 import { resetLocalStorage } from "../setup";
 
 afterEach(() => {
@@ -76,5 +78,74 @@ describe("PromptsPage", () => {
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
     );
     expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
+  });
+
+  it("keeps prompts saved before hydration completes", async () => {
+    const storageKey = createStorageKey(CHAT_PROMPTS_STORAGE_KEY);
+    const title = "Hydration survivor";
+    const prompt = "Persist me even before storage loads.";
+
+    const hydrationEffects: Array<() => void> = [];
+    const originalUseEffect = React.useEffect;
+    const effectSpy = vi
+      .spyOn(React, "useEffect")
+      .mockImplementation((effect, deps) => {
+        if (deps?.length === 3) {
+          return originalUseEffect(() => {
+            hydrationEffects.push(effect);
+          }, deps);
+        }
+        return originalUseEffect(effect, deps);
+      });
+
+    try {
+      render(
+        <ThemeProvider>
+          <PromptsPage />
+        </ThemeProvider>,
+      );
+
+      const titleInput = screen.getByLabelText("Title");
+      const promptInput = screen.getByLabelText("Prompt");
+      const saveButton = screen.getByRole("button", { name: "Save" });
+
+      fireEvent.change(titleInput, {
+        target: { value: title },
+      });
+      fireEvent.change(promptInput, {
+        target: { value: prompt },
+      });
+      fireEvent.click(saveButton);
+
+      await act(async () => {
+        for (const run of hydrationEffects.splice(0)) {
+          run();
+        }
+      });
+    } finally {
+      effectSpy.mockRestore();
+    }
+
+    flushWriteLocal();
+
+    await screen.findByText(title);
+    expect(screen.getByText("1 saved")).toBeInTheDocument();
+
+    const stored = window.localStorage.getItem(storageKey);
+    expect(stored).toBeTruthy();
+    const decoded = JSON.parse(stored as string);
+    expect(Array.isArray(decoded)).toBe(true);
+    expect(decoded[0]?.text).toBe(prompt);
+
+    cleanup();
+
+    render(
+      <ThemeProvider>
+        <PromptsPage />
+      </ThemeProvider>,
+    );
+
+    await screen.findByText(title);
+    expect(screen.getByText("1 saved")).toBeInTheDocument();
   });
 });
