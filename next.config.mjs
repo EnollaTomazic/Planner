@@ -15,11 +15,43 @@ const normalizeBasePath = (value) => {
   return cleaned ? `/${cleaned}` : "";
 };
 
-// Allow deploy scripts to provide BASE_PATH while still letting explicit
-// NEXT_PUBLIC_BASE_PATH override it for local overrides or previews.
-const rawBasePath =
-  process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "";
-const normalizedBasePathValue = normalizeBasePath(rawBasePath);
+const sanitizeSlug = (value) => {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  const cleaned = trimmed.replace(/^\/+|\/+$/gu, "");
+  return cleaned.length > 0 ? cleaned : undefined;
+};
+
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
+
+const resolveGitHubPagesSlug = () => {
+  const explicitSlug =
+    sanitizeSlug(process.env.NEXT_PUBLIC_BASE_PATH) ??
+    sanitizeSlug(process.env.BASE_PATH);
+
+  if (explicitSlug) {
+    return explicitSlug;
+  }
+
+  if (repositorySlug) {
+    return repositorySlug;
+  }
+
+  return "";
+};
+
+const githubPagesSlug = isGitHubPages ? resolveGitHubPagesSlug() : "";
+const isUserOrOrgGitHubPage = (repositorySlug ?? githubPagesSlug)?.endsWith(".github.io") ?? false;
+
+const normalizedBasePathValue = isGitHubPages
+  ? githubPagesSlug && !isUserOrOrgGitHubPage
+    ? `/${githubPagesSlug}`
+    : ""
+  : normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "");
 const isExportStatic = process.env.EXPORT_STATIC === "true";
 const isProduction = process.env.NODE_ENV === "production";
 const shouldApplyBasePath = normalizedBasePathValue.length > 0;

@@ -202,13 +202,14 @@ function main(): void {
   const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
   const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
   const shouldUseBasePath = slug.length > 0 && !isUserOrOrgGitHubPage;
-  const basePath = shouldUseBasePath ? `/${slug}` : "";
-  console.log(`Deploying with base path ${basePath || "/"}`);
+  const normalizedBasePath = shouldUseBasePath ? `/${slug}` : "";
+  console.log(`Deploying with base path ${normalizedBasePath || "/"}`);
 
   const buildEnv: NodeJS.ProcessEnv = {
     ...process.env,
     GITHUB_PAGES: "true",
     BASE_PATH: shouldUseBasePath ? slug : "",
+    NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);
@@ -217,7 +218,7 @@ function main(): void {
   if (shouldUseBasePath) {
     flattenBasePathDirectory(outDir, slug);
   }
-  injectBasePathIntoSpaFallback(outDir, basePath);
+  injectBasePathIntoSpaFallback(outDir, normalizedBasePath);
   ensureNoJekyll(outDir);
 
   if (!publish) {
