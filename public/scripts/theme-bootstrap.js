@@ -171,6 +171,15 @@
     const style = document.documentElement.style;
 
     function resolveAssetPath(relativePath) {
+      const assetPrefixRaw =
+        (window.__NEXT_DATA__ && window.__NEXT_DATA__.assetPrefix) || "";
+      let assetPrefix = assetPrefixRaw
+        ? assetPrefixRaw.replace(/\/+$/u, "")
+        : "";
+      const isAbsolutePrefix = /^(?:[a-z]+:)?\/\//iu.test(assetPrefix);
+      if (assetPrefix && !isAbsolutePrefix && !assetPrefix.startsWith("/")) {
+        assetPrefix = "/" + assetPrefix;
+      }
       try {
         const current = document.currentScript;
         if (current && current.src) {
@@ -180,11 +189,19 @@
         // ignore and fall through
       }
       try {
-        return new URL(relativePath, window.location.href).pathname;
+        const base = isAbsolutePrefix
+          ? assetPrefix + "/"
+          : window.location.origin + assetPrefix + "/";
+        const resolved = new URL(relativePath, base);
+        return isAbsolutePrefix ? resolved.href : resolved.pathname;
       } catch {
-        return relativePath.startsWith("/")
+        const sanitizedPath = relativePath.startsWith("/")
           ? relativePath
           : "/" + relativePath.replace(/^\.\/+/u, "");
+        if (!assetPrefix) {
+          return sanitizedPath;
+        }
+        return assetPrefix + sanitizedPath;
       }
     }
 
