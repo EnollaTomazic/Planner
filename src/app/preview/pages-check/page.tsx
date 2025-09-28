@@ -41,7 +41,7 @@ export default function PagesCheckPage() {
             className="shadow-outline-subtle"
           />
           <Button asChild variant="secondary">
-            <Link href={withBasePath("/")}>Return home</Link>
+            <Link href="/">Return home</Link>
           </Button>
         </SectionCard.Body>
       </SectionCard>

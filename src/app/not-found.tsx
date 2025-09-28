@@ -6,7 +6,6 @@ import {
   PageHeader,
   PageShell,
 } from "@/components/ui";
-import { withBasePath } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
@@ -33,7 +32,7 @@ export default function NotFound() {
           heading: "This page does not exist",
           actions: (
             <Button asChild>
-              <Link href={withBasePath("/")}>Go home</Link>
+              <Link href="/">Go home</Link>
             </Button>
           ),
           children: (

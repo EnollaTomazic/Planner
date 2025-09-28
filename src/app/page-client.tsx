@@ -13,7 +13,6 @@ import { PlannerProvider } from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import type { Variant } from "@/lib/theme";
-import useBasePath from "@/lib/useBasePath";
 
 const weeklyHighlights = [
   {
@@ -51,7 +50,6 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
   const plannerOverviewProps = useHomePlannerOverview();
   const heroHeadingId = "home-hero-heading";
   const overviewHeadingId = "home-overview-heading";
-  const { withBasePath } = useBasePath();
   const heroActions = React.useMemo<React.ReactNode>(
     () => (
       <>
@@ -63,11 +61,11 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
           tactile
           className="whitespace-nowrap"
         >
-          <Link href={withBasePath("/planner")}>Plan Week</Link>
+          <Link href="/planner">Plan Week</Link>
         </Button>
       </>
     ),
-    [withBasePath],
+    [],
   );
 
   return (
