@@ -149,9 +149,7 @@ export function applyTheme({ variant, bg }: ThemeState) {
     return;
   }
 
-  const cl = documentElement.classList;
-  const dataset = documentElement.dataset;
-  const style = documentElement.style;
+  const { classList: cl, dataset } = documentElement;
   resetThemeClasses(cl);
   cl.add(`theme-${variant}`);
   const isValidBgIndex =
@@ -173,6 +171,7 @@ export function applyTheme({ variant, bg }: ThemeState) {
   }
 
   cl.toggle("dark", prefersDark);
-  style.setProperty("color-scheme", prefersDark ? "dark" : "light");
+  cl.remove("color-scheme-dark", "color-scheme-light");
+  cl.add(prefersDark ? "color-scheme-dark" : "color-scheme-light");
 }
 

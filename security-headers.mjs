@@ -37,7 +37,7 @@ export const createContentSecurityPolicy = (nonce, options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
 
   const nonceSource = `'nonce-${nonce}'`;
-  const styleSrcBase = ["'self'", "'unsafe-inline'"];
+  const styleSrcBase = ["'self'"];
   const styleSrc = [...styleSrcBase];
   const styleSrcElem = [...styleSrcBase];
   const imgSrcBase = ["'self'", "data:", "https:"];
@@ -63,9 +63,9 @@ export const createContentSecurityPolicy = (nonce, options) => {
   return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-    // 'unsafe-inline' is a temporary compatibility fallback until inline styles are refactored.
     `style-src ${styleSrc.join(" ")}`,
     `style-src-elem ${styleSrcElem.join(" ")}`,
+    // Inline style attributes remain opt-in until all components use scoped styles.
     "style-src-attr 'unsafe-inline'",
     `img-src ${imgSrc.join(" ")}`,
     "font-src 'self' data:",

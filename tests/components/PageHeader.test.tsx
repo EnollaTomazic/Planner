@@ -121,12 +121,10 @@ describe("PageHeader", () => {
     const actionButton = screen.getByRole("button", {
       name: "Primary action",
     });
-    const dividerContainer = actionButton.closest("div[style]");
+    const dividerContainer = actionButton.closest("div[data-divider-tint]");
 
     expect(dividerContainer).not.toBeNull();
-    expect(
-      (dividerContainer as HTMLElement).style.getPropertyValue("--divider"),
-    ).toBe("var(--accent-3)");
+    expect((dividerContainer as HTMLElement).dataset.dividerTint).toBe("life");
   });
 
   it("applies the primary tint to the hero slot divider by default", () => {

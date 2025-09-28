@@ -114,7 +114,6 @@ function Hero<Key extends string = string>({
     shouldRenderGlitchStyles,
     isRaisedBar,
     showDividerGlow,
-    dividerStyle,
     classes,
   } = useHeroStyles({
     frame,
@@ -124,7 +123,6 @@ function Hero<Key extends string = string>({
     barVariant,
     tone,
     glitch,
-    dividerTint,
   });
 
   const iconNode = icon ? (
@@ -244,7 +242,10 @@ function Hero<Key extends string = string>({
           <div className={classes.body}>
             {children ? <div className={cn(bodyClassName)}>{children}</div> : null}
             {searchProps || actions ? (
-              <div className="relative" style={dividerStyle}>
+              <div
+                className={cn("relative", classes.divider)}
+                data-divider-tint={dividerTint}
+              >
                 <span aria-hidden className={classes.dividerLine} />
                 {showDividerGlow ? (
                   <span aria-hidden className={classes.dividerGlow} />
