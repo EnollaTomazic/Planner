@@ -73,6 +73,16 @@ jobs:
           echo "::add-matcher::.github/matchers/typescript.json"
           npm run typecheck:ci
 
+      - name: Test
+        run: |
+          mkdir -p artifacts/unit
+          npm run test:ci
+
+      - name: Report test summary
+        if: always()
+        run: |
+          node scripts/report-summary.mjs --junit=artifacts/unit --coverage=coverage/coverage-summary.json >> "$GITHUB_STEP_SUMMARY"
+
       - name: Summarize results
         if: always()
         run: |
