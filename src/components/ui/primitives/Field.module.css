@@ -1,0 +1,45 @@
+.root {
+  --field-h: var(--control-h-md);
+  --bg: var(--surface);
+}
+
+.root[data-field-height="sm"] {
+  --field-h: var(--control-h-sm);
+}
+
+.root[data-field-height="md"] {
+  --field-h: var(--control-h-md);
+}
+
+.root[data-field-height="lg"] {
+  --field-h: var(--control-h-lg);
+}
+
+.root[data-field-height="xl"] {
+  --field-h: var(--control-h-xl);
+}
+
+.root[data-custom-height] {
+  --field-h: var(--field-custom-height, var(--control-h-md));
+}
+
+.root[data-field-state="default"],
+.root:not([data-field-state]) {
+  --bg: var(--surface);
+}
+
+.root[data-field-state="readonly"] {
+  --bg: var(--surface);
+}
+
+.root[data-field-state="invalid"] {
+  --bg: var(--surface);
+}
+
+.root[data-field-state="loading"] {
+  --bg: var(--surface);
+}
+
+.root[data-field-state="disabled"] {
+  --bg: var(--card);
+}

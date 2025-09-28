@@ -13,17 +13,13 @@ describe("Input", () => {
     expect(getByRole("textbox")).toHaveAttribute("placeholder", "Name");
   });
 
-  it.each<[InputSize, string]>([
-    ["sm", "var(--control-h-sm)"],
-    ["md", "var(--control-h-md)"],
-    ["lg", "var(--control-h-lg)"],
-    ["xl", "var(--control-h-xl)"],
-  ])("applies %s height", (size, value) => {
+  it.each<InputSize>(["sm", "md", "lg", "xl"])("applies %s height", (size) => {
     const { getByRole } = render(
       <Input aria-label={size} height={size} />,
     );
     const field = getByRole("textbox").parentElement as HTMLElement;
-    expect(field).toHaveStyle(`--field-h: ${value}`);
+    expect(field.dataset.fieldHeight).toBe(size);
+    expect(field.dataset.fieldState).toBe("default");
   });
 
   it("applies numeric height as pixels", () => {
@@ -31,7 +27,19 @@ describe("Input", () => {
       <Input aria-label="numeric" height={48} />,
     );
     const field = getByRole("textbox").parentElement as HTMLElement;
-    expect(field).toHaveStyle("--field-h: 48px");
+    expect(field.dataset.customHeight).toBe("true");
+    const instanceId = field.getAttribute("data-field-instance");
+    expect(instanceId).toBeTruthy();
+    if (!instanceId) {
+      throw new Error("Expected data-field-instance to be set");
+    }
+    const hasStyle = Array.from(
+      document.querySelectorAll("style"),
+    ).some((node) =>
+      node.textContent?.includes(`[data-field-instance="${instanceId}"]`) &&
+      node.textContent?.includes("--field-h: 48px"),
+    );
+    expect(hasStyle).toBe(true);
   });
 
   it("applies indent padding", () => {
