@@ -1,5 +1,7 @@
-import * as React from "react";
 import { cn } from "@/lib/utils";
+import * as React from "react";
+
+import styles from "./ReviewSliderTrack.module.css";
 
 export type ReviewSliderTone = "score" | "focus";
 export type ReviewSliderVariant = "input" | "display";
@@ -22,8 +24,7 @@ const toneTokenClassNames: Record<ReviewSliderTone, string> = {
 };
 
 const knobSizeByVariant: Record<ReviewSliderVariant, string> = {
-  display:
-    "left-[var(--progress)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-x-1/2",
+  display: "h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] -translate-x-1/2",
   input:
     "h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))]",
 };
@@ -37,28 +38,8 @@ const ReviewSliderTrack = ({
   fillClassName,
   knobClassName,
 }: ReviewSliderTrackProps) => {
-  const clamped = Math.min(10, Math.max(0, value));
-  const percent = (clamped / 10) * 100;
+  const clamped = Math.round(Math.min(10, Math.max(0, value)));
   const isInteractive = variant === "input";
-
-  const sliderStyle =
-    variant === "display"
-      ? ({ "--progress": `${percent}%` } as React.CSSProperties)
-      : undefined;
-
-  const fillStyle =
-    variant === "input"
-      ? ({
-          width: `calc(${percent}% + var(--space-2) + var(--space-1) / 2)`,
-        } as React.CSSProperties)
-      : undefined;
-
-  const knobStyle =
-    variant === "input"
-      ? ({
-          left: `calc(${percent}% - (var(--space-2) + var(--space-1) / 2))`,
-        } as React.CSSProperties)
-      : undefined;
 
   return (
     <div
@@ -67,11 +48,12 @@ const ReviewSliderTrack = ({
         "[--slider-fill-background:var(--edge-iris)] [--slider-fill-shadow:var(--shadow-glow-sm)] [--slider-fill-shadow-hover:var(--shadow-glow-md)] [--slider-fill-shadow-active:var(--shadow-glow-lg)]",
         "[--slider-knob-shadow:var(--shadow-glow-sm)] [--slider-knob-shadow-hover:var(--shadow-glow-md)] [--slider-knob-shadow-active:var(--shadow-glow-lg)]",
         toneTokenClassNames[tone],
+        styles.root,
         className,
       )}
-      style={sliderStyle}
       data-tone={tone}
       data-variant={variant}
+      data-value={clamped}
     >
       <div
         className={cn(
@@ -88,6 +70,7 @@ const ReviewSliderTrack = ({
             "absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)]",
             "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-quick after:ease-out",
             variant === "display" ? "progress-fill" : undefined,
+            styles.fill,
             isInteractive &&
               cn(
                 "ring-1 ring-transparent transition-[box-shadow,opacity] duration-quick ease-out",
@@ -97,12 +80,12 @@ const ReviewSliderTrack = ({
               ),
             fillClassName,
           )}
-          style={fillStyle}
         />
         <div
           className={cn(
             "absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-[var(--slider-knob-shadow)]",
             knobSizeByVariant[variant],
+            styles.knob,
             isInteractive &&
               cn(
                 "transition-[background-color,border-color,box-shadow] duration-quick ease-out",
@@ -112,7 +95,6 @@ const ReviewSliderTrack = ({
               ),
             knobClassName,
           )}
-          style={knobStyle}
         />
       </div>
     </div>
