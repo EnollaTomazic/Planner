@@ -4,14 +4,32 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
+import { runLegacyPromptVerification } from "./verify-prompts-legacy.js";
 
-const __filename = fileURLToPath(import.meta.url);
+const toFilePath =
+  typeof fileURLToPath === "function"
+    ? fileURLToPath
+    : (value: string | URL): string => {
+        const url = value instanceof URL ? value : new URL(value);
+        return decodeURIComponent(url.pathname);
+      };
+
+const __filename = toFilePath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
 const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
 const ignoredComponents = new Set(["Split"]);
+
+type PromptCheckMode = "modern" | "legacy";
+
+function resolvePromptCheckMode(value: string | undefined): PromptCheckMode {
+  if (typeof value === "string" && value.toLowerCase() === "legacy") {
+    return "legacy";
+  }
+  return "modern";
+}
 
 type ProgressHandle = {
   readonly update: (value: number) => void;
@@ -157,13 +175,25 @@ async function listUnreferencedComponents(components: string[]): Promise<void> {
   console.log("All UI components are referenced in prompts.");
 }
 
-async function main(): Promise<void> {
-  const args = new Set(process.argv.slice(2));
+export async function runPromptVerification(
+  options: {
+    readonly mode?: PromptCheckMode;
+    readonly argv?: string[];
+  } = {},
+): Promise<void> {
+  const mode = options.mode ?? resolvePromptCheckMode(process.env.PROMPT_CHECK_MODE);
+  const argv = options.argv ?? process.argv.slice(2);
+  const args = new Set(argv);
   const shouldVerify = args.has("--verify");
   const components = await collectComponentNames();
 
   if (components.length === 0) {
     console.log("No UI components found to verify.");
+    return;
+  }
+
+  if (mode === "legacy") {
+    await runLegacyPromptVerification({ components, shouldVerify });
     return;
   }
 
@@ -173,6 +203,10 @@ async function main(): Promise<void> {
   }
 
   await listUnreferencedComponents(components);
+}
+
+async function main(): Promise<void> {
+  await runPromptVerification();
 }
 
 main().catch((error) => {

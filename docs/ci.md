@@ -31,6 +31,21 @@ This project standardises Node-based automation through the reusable workflow de
 - The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
 
+## Prompt verification modes
+
+Prompt checks default to the consolidated matcher that scans every prompt file for references, but some teams still rely on the legacy behaviour that only inspects `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx`. Opt in to the legacy pass by setting `PROMPT_CHECK_MODE=legacy` for any invocation (for example, `PROMPT_CHECK_MODE=legacy npm run verify-prompts`). When the variable is unset or holds another value the modern path runs.
+
+In GitHub Actions jobs, add the flag within the step that runs the verifier:
+
+```yaml
+- name: Verify prompt coverage (legacy)
+  run: npm run verify-prompts
+  env:
+    PROMPT_CHECK_MODE: legacy
+```
+
+The same environment variable applies to `npm run check-prompts` and downstream deployments, so Pages or custom CD pipelines can toggle modes without modifying the script itself.
+
 ## Manual visual regression workflow
 
 - Trigger the `Visual Regression` workflow from the GitHub Actions tab when you need an on-demand screenshot comparison. Provide the branch or commit you want to exercise (defaults to `main`) and, optionally, a short environment label to capture which backend or deployment you are validating.
