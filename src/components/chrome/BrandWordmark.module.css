@@ -1,0 +1,33 @@
+.root {
+  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
+}
+
+.root::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: calc(-1 * var(--space-1));
+  z-index: -1;
+  border-radius: var(--radius-full);
+  background: radial-gradient(
+    120% 120% at 50% 50%,
+    hsl(var(--accent) / 0.22),
+    transparent 70%
+  );
+  opacity: 0.75;
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .root {
+    background-image: linear-gradient(120deg, hsl(var(--accent)), hsl(var(--accent-2)));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root::after {
+    display: none;
+  }
+}
