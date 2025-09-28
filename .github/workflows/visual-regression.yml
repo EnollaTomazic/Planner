@@ -21,25 +21,32 @@ jobs:
     name: Build application
     permissions:
       contents: read
-      actions: write
-    uses: ./.github/workflows/node-base.yml
-    with:
-      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
-      install-playwright: true
-      summary-title: Visual Regression Build
-      run: |
-        set -euo pipefail
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ inputs.branch != '' && inputs.branch || '' }}
 
-        npm run build
-      artifact-name: next-build
-      artifact-path: .next
-  
+      - name: Build Next.js application
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
+
   visual:
     name: Visual Regression (${{ matrix.project }})
     needs: build
     permissions:
       contents: read
-      actions: write
     strategy:
       fail-fast: false
       matrix:
@@ -47,74 +54,108 @@ jobs:
           - chromium
           - firefox
           - webkit
-    uses: ./.github/workflows/node-base.yml
-    with:
-      checkout-ref: ${{ inputs.branch != '' && inputs.branch || github.ref }}
-      install-playwright: true
-      download-artifact-name: next-build
-      download-artifact-path: .
-      summary-title: Visual Regression ${{ matrix.project }}
-      run: |
-        set -euo pipefail
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ inputs.branch != '' && inputs.branch || '' }}
 
-        WORKFLOW_ENVIRONMENT="${{ inputs.environment }}"
-        export WORKFLOW_ENVIRONMENT
+      - name: Download build artifact
+        uses: actions/download-artifact@f0444e9ed1bc69c8f27d0fc1b60d26e867f49fc1 # v4.1.7
+        with:
+          name: next-build
+          path: next-build
 
-        PLAYWRIGHT_PORT=3100
-        export PLAYWRIGHT_PORT
-
-        if [ -n "${WORKFLOW_ENVIRONMENT:-}" ]; then
-          echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
-        fi
-
-        if [ -d "next-build/.next" ]; then
-          rm -rf .next
-          mv next-build/.next .next
-          rm -rf next-build
-        fi
-
-        npm run start -- --hostname 127.0.0.1 --port "$PLAYWRIGHT_PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
+      - name: Activate build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -d "next-build/.next" ]; then
+            rm -rf .next
+            mv next-build/.next .next
+            rm -rf next-build
           fi
-        }
 
-        trap cleanup EXIT
+      - name: Determine Playwright version
+        id: playwright-version
+        run: echo "value=$(node -p \"require('@playwright/test/package.json').version\")" >>"$GITHUB_OUTPUT"
 
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://127.0.0.1:${PLAYWRIGHT_PORT}" >/dev/null; then
-            READY=1
-            break
+      - name: Restore Playwright cache
+        id: playwright-cache
+        uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: visual-playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
+        run: npx playwright install --with-deps
+
+      - name: Run visual regression tests
+        shell: bash
+        env:
+          PROJECT: ${{ matrix.project }}
+          WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          set -euo pipefail
+
+          PORT=3200
+          npm run start -- --hostname 127.0.0.1 --port "$PORT" &
+          SERVER_PID=$!
+
+          cleanup() {
+            if kill -0 "$SERVER_PID" 2>/dev/null; then
+              kill "$SERVER_PID"
+              wait "$SERVER_PID" || true
+            fi
+          }
+
+          trap cleanup EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
+              READY=1
+              break
+            fi
+            sleep 2
+          done
+
+          if [ -z "${READY:-}" ]; then
+            echo "Server failed to start" >&2
+            exit 1
           fi
-          sleep 2
-        done
 
-        if [ -z "${READY:-}" ]; then
-          echo "Server failed to start" >&2
-          exit 1
-        fi
+          if [ -n "${WORKFLOW_ENVIRONMENT:-}" ]; then
+            echo "Environment label: ${WORKFLOW_ENVIRONMENT}"
+          fi
 
-        OUTPUT_DIR="playwright-results/visual/${{ matrix.project }}"
-        mkdir -p "$OUTPUT_DIR"
+          OUTPUT_DIR="playwright-results/visual/${PROJECT}"
+          mkdir -p "$OUTPUT_DIR"
 
-        LIST_OUTPUT=$(npx playwright test --list --project=${{ matrix.project }} --grep "@visual") || true
+          LIST_OUTPUT=$(npx playwright test --list --project="$PROJECT" --grep "@visual") || true
 
-        if ! echo "$LIST_OUTPUT" | grep -q "@visual"; then
-          echo "No @visual-tagged tests detected; skipping Playwright execution." >&2
-          exit 0
-        fi
+          if ! echo "$LIST_OUTPUT" | grep -q "@visual"; then
+            echo "No @visual-tagged tests detected; skipping Playwright execution." >&2
+            exit 0
+          fi
 
-        npx playwright test \
-          --project=${{ matrix.project }} \
-          --reporter=line \
-          --trace=retain-on-failure \
-          --output="$OUTPUT_DIR" \
-          --grep "@visual"
-      artifact-name: visual-diff-${{ matrix.project }}
-      artifact-path: |
-        playwright-results/visual/${{ matrix.project }}
-      artifact-on-failure: true
+          npx playwright test \
+            --project="$PROJECT" \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR" \
+            --grep "@visual"
+
+      - name: Save Playwright cache
+        if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: visual-playwright-${{ steps.playwright-version.outputs.value }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Upload visual artifacts
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v4.4.3
+        with:
+          name: visual-diff-${{ matrix.project }}
+          path: playwright-results/visual/${{ matrix.project }}
+          if-no-files-found: warn
