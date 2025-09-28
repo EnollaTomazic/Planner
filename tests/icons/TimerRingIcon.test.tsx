@@ -26,7 +26,7 @@ describe("TimerRingIcon", () => {
     );
 
     const gradients = Array.from(
-      container.querySelectorAll("linearGradient[id^='timer-ring-grad-']"),
+      container.querySelectorAll("linearGradient[id^='ring-gradient-']"),
     );
 
     expect(gradients).toHaveLength(3);
@@ -44,6 +44,21 @@ describe("TimerRingIcon", () => {
       );
 
       expect(matchedStrokes).toHaveLength(1);
+    });
+
+    const filters = Array.from(
+      container.querySelectorAll("filter[id^='ring-noise-']"),
+    );
+
+    expect(filters).toHaveLength(3);
+
+    filters.forEach((filter) => {
+      const filterId = filter.getAttribute("id");
+      expect(filterId).toBeTruthy();
+      const filteredStrokes = container.querySelectorAll(
+        `circle[filter="url(#${filterId})"]`,
+      );
+      expect(filteredStrokes).toHaveLength(1);
     });
   });
 });

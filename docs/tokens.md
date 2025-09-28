@@ -222,16 +222,19 @@
 | elevation-1 | var(--shadow-outline-faint) |
 | elevation-2 | var(--shadow-outline-subtle) |
 | elevation-3 | var(--shadow-control) |
-| progress-ring-diameter | var(--space-8) |
-| progress-ring-stroke | var(--ring-size-2) |
-| progress-ring-inset | calc(var(--space-3) / 2) |
-| timer-ring-diameter | calc(var(--space-8) * 3.5) |
-| timer-ring-stroke | var(--ring-size-2) |
-| timer-ring-inset | calc(var(--space-3) / 2) |
 | skeleton-bg | hsl(var(--muted) / 0.6) |
 | skeleton-fill | hsl(var(--foreground) / 0.08) |
 | gradient-noise-opacity | 0.1 |
 | gradient-noise-overlay-opacity | 0.06 |
+| ring-diameter-xs | var(--space-5) |
+| ring-diameter-s | var(--space-6) |
+| ring-diameter-m | var(--space-8) |
+| ring-diameter-l | calc(var(--space-8) * 3.5) |
+| ring-stroke-xs | var(--ring-size-1) |
+| ring-stroke-s | var(--ring-size-1) |
+| ring-stroke-m | var(--ring-size-2) |
+| ring-stroke-l | var(--ring-size-2) |
+| ring-inset | calc(var(--space-3) / 2) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

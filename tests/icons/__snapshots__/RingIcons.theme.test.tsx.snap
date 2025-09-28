@@ -1,0 +1,1107 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Ring icons across themes > renders ring icons for the aurora theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r2:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:r2:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r3:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:r3:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:r3:)"
+      r="106"
+      stroke="url(#ring-gradient-:r3:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the citrus theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r8:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:r8:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r9:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:r9:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:r9:)"
+      r="106"
+      stroke="url(#ring-gradient-:r9:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the hardstuck theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:rc:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:rc:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:rd:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:rd:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:rd:)"
+      r="106"
+      stroke="url(#ring-gradient-:rd:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the kitten theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r4:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:r4:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r5:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:r5:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:r5:)"
+      r="106"
+      stroke="url(#ring-gradient-:r5:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the lg theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r0:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:r0:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r1:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:r1:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:r1:)"
+      r="106"
+      stroke="url(#ring-gradient-:r1:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the noir theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:ra:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:ra:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:rb:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:rb:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:rb:)"
+      r="106"
+      stroke="url(#ring-gradient-:rb:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Ring icons across themes > renders ring icons for the ocean theme 1`] = `
+<div
+  class="flex gap-4"
+>
+  <svg
+    aria-hidden="true"
+    class="h-full w-full rotate-[-90deg]"
+    focusable="false"
+    viewBox="0 0 64 64"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r6:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+    </defs>
+    <circle
+      class="text-foreground/20"
+      cx="32"
+      cy="32"
+      fill="none"
+      r="26"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <circle
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      cx="32"
+      cy="32"
+      fill="none"
+      filter="url(#ring-noise-:r6:)"
+      r="26"
+      stroke="currentColor"
+      stroke-dasharray="163.36281798666926"
+      stroke-dashoffset="65.34512719466771"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+  <svg
+    aria-label="Timer 80% complete"
+    class="h-full w-full rotate-[-90deg]"
+    role="img"
+    viewBox="0 0 224 224"
+  >
+    <defs>
+      <filter
+        color-interpolation-filters="sRGB"
+        filterUnits="objectBoundingBox"
+        height="130%"
+        id="ring-noise-:r7:"
+        width="130%"
+        x="-15%"
+        y="-15%"
+      >
+        <feturbulence
+          baseFrequency="1.1"
+          numOctaves="3"
+          result="noise"
+          seed="4"
+          type="fractalNoise"
+        />
+        <fecolormatrix
+          in="noise"
+          result="monoNoise"
+          type="saturate"
+          values="0"
+        />
+        <fecomponenttransfer
+          in="monoNoise"
+          result="noiseAlpha"
+        >
+          <fefunca
+            slope="var(--gradient-noise-opacity, 0.1)"
+            type="linear"
+          />
+        </fecomponenttransfer>
+        <feblend
+          in="SourceGraphic"
+          in2="noiseAlpha"
+          mode="soft-light"
+        />
+      </filter>
+      <lineargradient
+        id="ring-gradient-:r7:"
+        x1="0%"
+        x2="100%"
+        y1="0%"
+        y2="0%"
+      >
+        <stop
+          offset="0%"
+          stop-color="hsl(var(--accent))"
+        />
+        <stop
+          offset="100%"
+          stop-color="hsl(var(--accent-2))"
+        />
+      </lineargradient>
+    </defs>
+    <circle
+      cx="112"
+      cy="112"
+      fill="none"
+      r="106"
+      stroke="hsl(var(--card-hairline))"
+      stroke-width="4"
+    />
+    <circle
+      class="drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none"
+      cx="112"
+      cy="112"
+      fill="none"
+      filter="url(#ring-noise-:r7:)"
+      r="106"
+      stroke="url(#ring-gradient-:r7:)"
+      stroke-dasharray="666.0176425610362"
+      stroke-dashoffset="133.20352851220719"
+      stroke-linecap="round"
+      stroke-width="4"
+    />
+  </svg>
+</div>
+`;

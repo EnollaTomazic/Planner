@@ -28,7 +28,7 @@ export default function GoalsProgress({
       : `Goals progress: ${v}% complete`;
   return (
     <div
-      className="relative inline-flex size-[var(--goals-progress-size,var(--space-8))] items-center justify-center"
+      className="relative inline-flex size-[var(--goals-progress-size,var(--ring-diameter-m))] items-center justify-center"
       style={
         customSize
           ? ({
