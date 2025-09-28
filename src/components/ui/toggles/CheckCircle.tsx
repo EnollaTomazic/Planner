@@ -17,10 +17,7 @@ import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { Check } from "lucide-react";
 import * as React from "react";
 
-type CCVars = React.CSSProperties & {
-  "--cc-color"?: string;
-  "--cc-glow"?: string;
-};
+import styles from "./CheckCircle.module.css";
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
@@ -99,18 +96,14 @@ export default function CheckCircle({
     return cleanup;
   }, [checked, markJustCleared, justCleared]);
 
-  // Theme-driven tones
-  const pink = "hsl(var(--success))";
-  const glow = "hsl(var(--success-glow))";
-
   // Neon phase: ignite / steady-on / powerdown / off
   const effectiveHoverOrFocus = (hovered || focused) && !justCleared;
   const wantsOn = checked || effectiveHoverOrFocus;
 
   const prev = React.useRef(wantsOn);
-  const [phase, setPhase] = React.useState<
-    "off" | "ignite" | "steady-on" | "powerdown"
-  >(wantsOn ? "steady-on" : "off");
+  const [phase, setPhase] = React.useState<"off" | "ignite" | "steady-on" | "powerdown">(
+    wantsOn ? "steady-on" : "off",
+  );
 
   React.useEffect(() => {
     if (wantsOn !== prev.current) {
@@ -162,9 +155,6 @@ export default function CheckCircle({
   }
 
   const lit = phase === "ignite" || phase === "steady-on";
-  const ccStyle: CCVars | undefined = lit
-    ? { "--cc-color": pink, "--cc-glow": glow }
-    : undefined;
 
   return (
     <>
@@ -194,12 +184,15 @@ export default function CheckCircle({
           onBlur={() => setFocused(false)}
           onPointerDown={retriggerIgnite}
           className={cn(
+            styles.button,
             "relative inline-grid place-items-center rounded-full transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "disabled:opacity-disabled disabled:pointer-events-none",
             "h-full w-full",
           )}
           data-checked={checked ? "true" : "false"}
+          data-phase={phase}
+          data-lit={lit}
         >
           {/* Base */}
           <span
@@ -211,172 +204,47 @@ export default function CheckCircle({
           <span
             aria-hidden
             className={cn(
-              "absolute inset-0 rounded-full p-[var(--space-1)] pointer-events-none transition-opacity",
-              lit ? "opacity-100" : "opacity-0",
+              styles.rim,
+              !reduceMotion && lit && styles.rimAnimated,
             )}
-            style={
-              {
-                background: `linear-gradient(90deg, ${pink}, hsl(var(--accent)), ${pink})`,
-                backgroundSize: "200% 100%",
-                WebkitMask:
-                  "linear-gradient(hsl(var(--foreground)) 0 0) content-box, linear-gradient(hsl(var(--foreground)) 0 0)",
-                WebkitMaskComposite: "xor",
-                maskComposite: "exclude",
-                animation:
-                  !reduceMotion && lit
-                    ? "ccShift 3s linear infinite, ccFlicker 1.4s steps(1,end) infinite"
-                    : undefined,
-              } as React.CSSProperties
-            }
           />
 
           {/* Scanlines */}
           <span
             aria-hidden
             className={cn(
-              "absolute inset-[calc(var(--space-1)/2)] rounded-full pointer-events-none transition-opacity",
-              lit ? "opacity-100" : "opacity-0",
+              styles.scanlines,
+              !reduceMotion && lit && styles.scanlinesAnimated,
             )}
-            style={{
-              background:
-                "repeating-linear-gradient(0deg,hsl(var(--foreground)/0.06)_0_var(--hairline-w),transparent_var(--hairline-w)_calc(var(--space-1)-var(--hairline-w)))",
-              mixBlendMode: "overlay",
-              animation:
-                !reduceMotion && lit
-                  ? "ccScan 2.1s linear infinite"
-                  : undefined,
-            }}
           />
 
           {/* Bloom */}
-          <span
-            aria-hidden
-            className={cn(
-              "absolute -inset-[var(--space-2)] rounded-full pointer-events-none blur-md transition-opacity",
-              lit ? "opacity-80" : "opacity-0",
-            )}
-            style={{
-              background: `radial-gradient(60% 60% at 50% 50%, ${glow}, transparent 60%)`,
-              mixBlendMode: "screen",
-            }}
-          />
+          <span aria-hidden className={styles.bloom} />
 
           {/* Ignite / powerdown flashes */}
           <span
             aria-hidden
             className={cn(
-              "pointer-events-none absolute inset-0 rounded-full",
-              phase === "ignite" ? "opacity-90" : "opacity-0",
+              styles.ignite,
+              !reduceMotion && phase === "ignite" && styles.igniteAnimated,
             )}
-            style={{
-              background:
-                "radial-gradient(80% 80% at 50% 50%, hsl(var(--foreground)/0.22), transparent 60%)",
-              mixBlendMode: "screen",
-              animation:
-                !reduceMotion && phase === "ignite"
-                  ? "igniteFlicker .62s steps(18,end) 1"
-                  : undefined,
-            }}
           />
           <span
             aria-hidden
             className={cn(
-              "pointer-events-none absolute inset-0 rounded-full",
-              phase === "powerdown" ? "opacity-60" : "opacity-0",
+              styles.powerdown,
+              !reduceMotion && phase === "powerdown" && styles.powerdownAnimated,
             )}
-            style={{
-              background:
-                "radial-gradient(120% 120% at 50% 50%, hsl(var(--foreground)/0.14), transparent 60%)",
-              mixBlendMode: "screen",
-              animation:
-                !reduceMotion && phase === "powerdown"
-                  ? "powerDown .36s linear 1"
-                  : undefined,
-            }}
           />
 
           {/* Tick glyph */}
           <Check
             aria-hidden
-              className={cn(
-              "relative z-[1] transition-all duration-quick",
-              lit
-                ? "[color:var(--cc-color)] [filter:drop-shadow(0_0_var(--space-2)_var(--cc-glow))] opacity-100"
-                : "text-muted-foreground",
-            )}
-            style={ccStyle}
+            className={cn(styles.check, "text-muted-foreground")}
             strokeWidth="var(--icon-stroke-150, 2.5)"
           />
         </button>
       </span>
-
-      <style jsx>{`
-        @keyframes ccShift {
-          0% {
-            background-position: 0% 50%;
-          }
-          100% {
-            background-position: 200% 50%;
-          }
-        }
-        @keyframes ccScan {
-          0% {
-            transform: translateY(-28%);
-          }
-          100% {
-            transform: translateY(28%);
-          }
-        }
-        @keyframes igniteFlicker {
-          0% {
-            opacity: 0.1;
-            filter: blur(calc(var(--hairline-w) * 0.6));
-          }
-          8% {
-            opacity: 1;
-          }
-          12% {
-            opacity: 0.25;
-          }
-          20% {
-            opacity: 1;
-          }
-          28% {
-            opacity: 0.35;
-          }
-          40% {
-            opacity: 1;
-          }
-          55% {
-            opacity: 0.45;
-            filter: blur(calc(var(--hairline-w) * 0.2));
-          }
-          70% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-        @keyframes powerDown {
-          0% {
-            opacity: 0.8;
-            transform: scale(1);
-          }
-          30% {
-            opacity: 0.35;
-            transform: scale(0.992) translateY(calc(var(--hairline-w) * 0.2));
-          }
-          60% {
-            opacity: 0.12;
-            transform: scale(0.985) translateY(calc(var(--hairline-w) * -0.2));
-          }
-          100% {
-            opacity: 0;
-            transform: scale(0.985);
-          }
-        }
-      `}</style>
     </>
   );
 }

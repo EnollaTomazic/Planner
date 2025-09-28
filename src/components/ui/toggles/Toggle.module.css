@@ -1,0 +1,44 @@
+.root {
+  --toggle-indicator-translate: 0%;
+  --toggle-indicator-gradient: var(--edge-iris);
+  --toggle-label-glow-left: hsl(var(--team-blue) / 0.35);
+  --toggle-label-glow-right: hsl(var(--team-red) / 0.35);
+}
+
+.root[data-side="Right"] {
+  --toggle-indicator-translate: 100%;
+}
+
+.indicator {
+  width: calc(50% - var(--space-1));
+  transform: translateX(var(--toggle-indicator-translate));
+  background: var(--toggle-indicator-gradient);
+  box-shadow: var(--toggle-indicator-shadow, var(--shadow-glow-sm));
+  transition: transform var(--duration-quick, 220ms) var(--ease-snap, ease-out);
+}
+
+.leftLabel,
+.rightLabel {
+  text-shadow: none;
+  transition: text-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out);
+}
+
+.leftLabel[data-active="true"] {
+  text-shadow: var(--shadow-glow-md);
+  --glow-active: var(--toggle-label-glow-left);
+}
+
+.rightLabel[data-active="true"] {
+  text-shadow: var(--shadow-glow-md);
+  --glow-active: var(--toggle-label-glow-right);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+  .leftLabel,
+  .rightLabel {
+    transition: none;
+  }
+}
