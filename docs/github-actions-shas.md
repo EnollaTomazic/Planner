@@ -5,7 +5,8 @@ The workflows in this repository pin third-party GitHub Actions to exact commit 
 | Action | Upstream tag | Commit SHA | Referenced in workflows |
 | --- | --- | --- | --- |
 | `actions/checkout` | `v5` | `08c6903cd8c0fde910a37f88322edcfb5dd907a8` | `ci.yml`, `deploy-pages.yml`, `visual-regression.yml` |
-| `actions/setup-node` | `v5` | `a0853c24544627f65ddf259abe73b1d18a591444` | `ci.yml`, `visual-regression.yml` |
+| `actions/setup-node` | `v5` | `a0853c24544627f65ddf259abe73b1d18a591444` | `ci.yml`, `.github/actions/setup-node-project/action.yml` |
+| `.github/actions/setup-node-project` (composite) | `actions/setup-node@v5` | `a0853c24544627f65ddf259abe73b1d18a591444` | `ci.yml`, `deploy-pages.yml`, `deploy-preview.yml`, `visual-regression.yml` |
 | `actions/configure-pages` | `v5` | `f65c7f0a20510b02fd348436de4b0bd711c4d7f9` | `deploy-pages.yml`, `deploy-preview.yml` |
 | `actions/cache` | `v4` | `0400d5f644dc74513175e3cd8d07132dd4860809` | `ci.yml`, `visual-regression.yml` |
 | `actions/upload-pages-artifact` | `v4` | `7b1f4a764d45c48632c6b24a0339c27f5614fb0b` | `deploy-pages.yml`, `deploy-preview.yml` |
