@@ -1,0 +1,108 @@
+name: Deploy Preview
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to deploy
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-preview-${{ (github.event.workflow_run && github.event.workflow_run.head_branch) || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  CI: 'true'
+
+jobs:
+  build:
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.event == 'pull_request' &&
+       github.event.workflow_run.conclusion == 'success') ||
+      github.event_name == 'workflow_dispatch'
+    name: Build preview artifact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      artifact-ready: ${{ steps.prepare.outputs.ready }}
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ (github.event.workflow_run && github.event.workflow_run.head_sha) || github.event.inputs.ref || github.ref }}
+          cache-node-modules: 'true'
+          extra-cache-paths: .next/cache
+      - name: Build static export
+        env:
+          DEPLOY_ARTIFACT_ONLY: 'true'
+        run: npm run deploy
+      - name: Prepare artifact marker
+        id: prepare
+        run: echo "ready=true" >>"$GITHUB_OUTPUT"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./out
+
+  deploy:
+    name: Publish preview
+    needs: build
+    if: needs.build.outputs.artifact-ready == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      pull-requests: write
+    environment:
+      name: preview
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          preview: true
+      - name: Comment with preview URL
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.pull_requests[0]
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = github.event.workflow_run.pull_requests[0];
+            const body = `Preview ready: ${process.env.PAGE_URL}`;
+            const marker = '<!-- preview-url -->';
+            const fullBody = `${marker}\n${body}`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: pr.base.repo.owner.login,
+              repo: pr.base.repo.name,
+              issue_number: pr.number,
+            });
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: pr.base.repo.owner.login,
+                repo: pr.base.repo.name,
+                comment_id: existing.id,
+                body: fullBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: pr.base.repo.owner.login,
+                repo: pr.base.repo.name,
+                issue_number: pr.number,
+                body: fullBody,
+              });
+            }
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}

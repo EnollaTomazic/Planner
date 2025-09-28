@@ -1,0 +1,192 @@
+name: Setup Node project
+
+inputs:
+  node-version:
+    description: Node.js version to use (falls back to .nvmrc when empty)
+    required: false
+    default: ''
+  checkout-ref:
+    description: Optional ref to checkout
+    required: false
+    default: ''
+  package-manager:
+    description: Override detected package manager (npm|pnpm|yarn)
+    required: false
+    default: ''
+  cache-node-modules:
+    description: Restore and save node_modules cache
+    required: false
+    default: 'true'
+  cache-playwright:
+    description: Restore and save cached Playwright browsers
+    required: false
+    default: 'false'
+  install-playwright:
+    description: Install Playwright browsers when true
+    required: false
+    default: 'false'
+  extra-cache-paths:
+    description: Additional cache paths (newline separated)
+    required: false
+    default: ''
+  enable-remote-cache:
+    description: Enable Turbo/Nx remote cache bootstrap when requested via repository variables
+    required: false
+    default: 'false'
+
+outputs:
+  package-manager:
+    description: Detected package manager
+    value: ${{ steps.detect-manager.outputs.manager }}
+  node-modules-cache-hit:
+    description: Whether node_modules cache was hit
+    value: ${{ steps.cache-node-modules.outputs.cache-hit }}
+  playwright-cache-hit:
+    description: Whether the Playwright cache was hit
+    value: ${{ steps.cache-playwright.outputs.cache-hit }}
+  node-modules-cache-key:
+    description: Cache key used for node_modules
+    value: ${{ runner.os }}-${{ steps.node-version.outputs.version }}-${{ steps.detect-manager.outputs.manager }}-${{ hashFiles('package-lock.json', 'pnpm-lock.yaml', 'yarn.lock') }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+        ref: ${{ inputs.checkout-ref != '' && inputs.checkout-ref || '' }}
+
+    - name: Determine Node.js version
+      id: node-version
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ -n "${{ inputs.node-version }}" ]; then
+          echo "version=${{ inputs.node-version }}" >>"$GITHUB_OUTPUT"
+        elif [ -f .nvmrc ]; then
+          echo "version=$(cat .nvmrc)" >>"$GITHUB_OUTPUT"
+        else
+          echo "version=22.x" >>"$GITHUB_OUTPUT"
+        fi
+
+    - name: Detect package manager
+      id: detect-manager
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ -n "${{ inputs.package-manager }}" ]; then
+          manager="${{ inputs.package-manager }}"
+        else
+          manager=$(node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const pkgPath = path.join(process.cwd(), 'package.json');
+          if (!fs.existsSync(pkgPath)) {
+            throw new Error('package.json missing');
+          }
+          const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+          if (pkg.packageManager) {
+            process.stdout.write(pkg.packageManager.split('@')[0]);
+            process.exit(0);
+          }
+          if (fs.existsSync(path.join(process.cwd(), 'pnpm-lock.yaml'))) {
+            process.stdout.write('pnpm');
+            process.exit(0);
+          }
+          if (fs.existsSync(path.join(process.cwd(), 'yarn.lock'))) {
+            process.stdout.write('yarn');
+            process.exit(0);
+          }
+          process.stdout.write('npm');
+          NODE
+          )
+        fi
+        echo "manager=$manager" >>"$GITHUB_OUTPUT"
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.node-version.outputs.version }}
+        cache: ${{ steps.detect-manager.outputs.manager }}
+        cache-dependency-path: |
+          package-lock.json
+          pnpm-lock.yaml
+          yarn.lock
+
+    - name: Enable Corepack when available
+      if: steps.detect-manager.outputs.manager != 'npm'
+      shell: bash
+      run: |
+        set -euo pipefail
+        corepack enable
+
+    - name: Prime remote cache
+      if: inputs.enable-remote-cache == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ -f turbo.json ] && [ -n "${{ vars.TURBO_REMOTE_CACHE_URL || '' }}" ]; then
+          echo "Turborepo remote cache URL detected." >>"$GITHUB_STEP_SUMMARY"
+        elif [ -f nx.json ] && [ -n "${{ vars.NX_CLOUD_ACCESS_TOKEN || '' }}" ]; then
+          echo "Nx Cloud token available." >>"$GITHUB_STEP_SUMMARY"
+        else
+          echo "Remote cache requested but configuration missing." >&2
+        fi
+
+    - name: Restore node_modules cache
+      id: cache-node-modules
+      if: inputs.cache-node-modules == 'true'
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ steps.node-version.outputs.version }}-${{ steps.detect-manager.outputs.manager }}-${{ hashFiles('package-lock.json', 'pnpm-lock.yaml', 'yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ steps.node-version.outputs.version }}-${{ steps.detect-manager.outputs.manager }}-
+
+    - name: Restore extra cache paths
+      if: inputs.extra-cache-paths != ''
+      uses: actions/cache@v4
+      with:
+        path: ${{ inputs.extra-cache-paths }}
+        key: extra-${{ runner.os }}-${{ steps.node-version.outputs.version }}-${{ hashFiles('package-lock.json', 'pnpm-lock.yaml', 'yarn.lock') }}
+
+    - name: Restore Playwright cache
+      id: cache-playwright
+      if: inputs.cache-playwright == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.node-version.outputs.version }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Install dependencies
+      shell: bash
+      env:
+        CI: 'true'
+      run: |
+        set -euo pipefail
+        manager="${{ steps.detect-manager.outputs.manager }}"
+        case "$manager" in
+          npm)
+            npm ci --no-audit --no-fund --prefer-offline
+            ;;
+          pnpm)
+            pnpm install --frozen-lockfile --prefer-offline
+            ;;
+          yarn)
+            yarn install --immutable
+            ;;
+          *)
+            echo "Unsupported package manager: $manager" >&2
+            exit 1
+            ;;
+        esac
+
+    - name: Install Playwright browsers
+      if: inputs.install-playwright == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        npx playwright install --with-deps
+

@@ -1,0 +1,301 @@
+name: CI
+
+permissions: read-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - work
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'CHANGELOG.md'
+
+jobs:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run lint
+      summary-title: Lint
+
+  token-guard:
+    name: Design Token Guard
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run lint:design
+      summary-title: Design Token Guard
+
+  typecheck:
+    name: Typecheck
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm run typecheck
+      summary-title: Typecheck
+
+  unit:
+    name: Unit Tests
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: npm test -- --run
+      summary-title: Unit Tests
+
+  next-build:
+    name: Next.js Build
+    needs:
+      - lint
+      - typecheck
+      - unit
+      - token-guard
+    permissions:
+      contents: read
+      actions: write
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
+        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
+          echo "npm audit reported issues below the high severity threshold."
+        fi
+        node scripts/audit-ci-report.mjs audit-report.json
+        npm run build
+      cache-paths: |
+        .next/cache
+      cache-key-prefix: ubuntu-latest-nextjs
+      cache-key-globs: |
+        **/package-lock.json
+
+        next.config.*
+        src/**/*.{js,jsx,ts,tsx,mdx}
+        app/**/*.{js,jsx,ts,tsx,mdx}
+      artifact-name: next-build
+      artifact-path: |
+        .next
+      summary-title: Next.js Build
+
+  a11y:
+    name: Accessibility
+    needs:
+      - next-build
+    permissions:
+      contents: read
+      actions: write
+    uses: ./.github/workflows/node-base.yml
+    with:
+      download-artifact-name: next-build
+      run: |
+        set -euo pipefail
+
+        LIST_OUTPUT=$(npx playwright test --list --project=chromium --grep "@axe") || true
+
+        if [ ! -d ".next" ]; then
+          echo "Downloaded build artifact missing .next directory" >&2
+          exit 1
+        fi
+
+        PORT=3000
+        npm run start -- --hostname 127.0.0.1 --port "$PORT" &
+        SERVER_PID=$!
+
+        cleanup() {
+          if kill -0 "$SERVER_PID" 2>/dev/null; then
+            kill "$SERVER_PID"
+            wait "$SERVER_PID" || true
+          fi
+        }
+
+        trap cleanup EXIT
+
+        unset READY || true
+        for attempt in $(seq 1 30); do
+          if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
+            READY=1
+            break
+          fi
+          sleep 2
+        done
+
+        if [ -z "${READY:-}" ]; then
+          echo "Server failed to start" >&2
+          exit 1
+        fi
+
+        OUTPUT_DIR="playwright-results/a11y"
+        if echo "$LIST_OUTPUT" | grep -q "@axe"; then
+          npx playwright test \
+            --project=chromium \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR" \
+            --grep "@axe"
+        else
+          echo "No @axe-tagged tests detected; running full suite." >&2
+          npx playwright test \
+            --project=chromium \
+            --reporter=line \
+            --trace=retain-on-failure \
+            --output="$OUTPUT_DIR"
+        fi
+      summary-title: Accessibility
+      install-playwright: true
+      artifact-name: playwright-a11y-artifacts
+      artifact-path: |
+        playwright-results/a11y
+      artifact-on-failure: true
+
+  e2e:
+    name: E2E (${{ matrix.project }})
+    needs:
+      - next-build
+    permissions:
+      contents: read
+      actions: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chromium
+          - firefox
+          - webkit
+    uses: ./.github/workflows/node-base.yml
+    with:
+      download-artifact-name: next-build
+      run: |
+        set -euo pipefail
+        case "${{ matrix.project }}" in
+          chromium)
+            PORT=3100
+            ;;
+          firefox)
+            PORT=3101
+            ;;
+          webkit)
+            PORT=3102
+            ;;
+          *)
+            PORT=3000
+            ;;
+        esac
+
+        HOST=127.0.0.1
+        export PLAYWRIGHT_HOST="$HOST"
+        export PLAYWRIGHT_PORT="$PORT"
+
+        if [ ! -d ".next" ]; then
+          echo "Downloaded build artifact missing .next directory" >&2
+          exit 1
+        fi
+
+        npm run start -- --hostname "$HOST" --port "$PORT" &
+        SERVER_PID=$!
+
+        cleanup() {
+          if kill -0 "$SERVER_PID" 2>/dev/null; then
+            kill "$SERVER_PID"
+            wait "$SERVER_PID" || true
+          fi
+        }
+
+        trap cleanup EXIT
+
+        for attempt in $(seq 1 30); do
+          if curl --fail --silent --head "http://$HOST:${PORT}" >/dev/null; then
+            READY=1
+            break
+          fi
+          sleep 2
+        done
+
+        if [ -z "${READY:-}" ]; then
+          echo "Server failed to start" >&2
+          exit 1
+        fi
+
+        OUTPUT_DIR="playwright-results/${{ matrix.project }}"
+        npx playwright test \
+          --project=${{ matrix.project }} \
+          --reporter=line \
+          --trace=retain-on-failure \
+          --output="$OUTPUT_DIR"
+      summary-title: E2E ${{ matrix.project }}
+      install-playwright: true
+      artifact-name: playwright-${{ matrix.project }}-artifacts
+      artifact-path: |
+        playwright-results/${{ matrix.project }}
+      artifact-on-failure: true
+
+  pages-build:
+    name: Pages static export
+    if: |
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/work')
+    needs:
+      - a11y
+      - e2e
+    permissions:
+      contents: read
+      actions: write
+    uses: ./.github/workflows/node-base.yml
+    with:
+      run: |
+        set -euo pipefail
+        export DEPLOY_ARTIFACT_ONLY=true
+        export SKIP_PREVIEW_STATIC=true
+        npm run deploy
+      cache-paths: |
+        .next/cache
+      cache-key-prefix: ubuntu-latest-nextjs
+      cache-key-globs: |
+        **/package-lock.json
+
+        next.config.*
+        src/**/*.{js,jsx,ts,tsx,mdx}
+        app/**/*.{js,jsx,ts,tsx,mdx}
+      artifact-name: nextjs-static
+      artifact-path: |
+        out
+      summary-title: GitHub Pages export
+
+  pages-deploy:
+    name: Deploy GitHub Pages
+    if: needs.pages-build.result == 'success'
+    needs:
+      - pages-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Download static export
+        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+        with:
+          name: nextjs-static
+          path: out
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

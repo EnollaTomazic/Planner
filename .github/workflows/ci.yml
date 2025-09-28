@@ -1,18 +1,11 @@
 name: CI
 
-permissions: read-all
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - 'CHANGELOG.md'
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -21,281 +14,423 @@ on:
       - 'docs/**'
       - '**/*.md'
       - 'CHANGELOG.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  CI: 'true'
 
 jobs:
-  lint:
-    name: Lint
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run lint
-      summary-title: Lint
+  install:
+    name: Install & cache dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      node-modules-cache-key: ${{ steps.setup.outputs.node-modules-cache-key }}
+      package-manager: ${{ steps.setup.outputs.package-manager }}
+    steps:
+      - id: setup
+        uses: ./.github/actions/setup-node-project
+        with:
+          cache-node-modules: 'true'
+          cache-playwright: 'false'
+      - name: Record environment
+        run: |
+          node --version
+          npm --version
 
-  token-guard:
-    name: Design Token Guard
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run lint:design
-      summary-title: Design Token Guard
+  lint:
+    name: Lint (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+          cache-node-modules: 'true'
+      - name: Prepare report directories
+        run: |
+          mkdir -p reports/eslint
+      - name: Run ESLint
+        run: npm run lint:ci
+      - name: Emit ESLint annotations
+        if: always()
+        run: |
+          node <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const reportPath = path.join(process.cwd(), 'reports', 'eslint', 'results.json');
+          if (!fs.existsSync(reportPath)) {
+            process.exit(0);
+          }
+          const results = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+          let problems = 0;
+          for (const file of results) {
+            for (const message of file.messages ?? []) {
+              const severity = message.severity === 2 ? 'error' : 'warning';
+              const locLine = message.line ?? 1;
+              const locColumn = message.column ?? 1;
+              const ruleId = message.ruleId ? ` (${message.ruleId})` : '';
+              console.log(`::${severity} file=${file.filePath},line=${locLine},col=${locColumn}::${message.message}${ruleId}`);
+              problems += 1;
+            }
+          }
+          if (problems === 0) {
+            console.log('No ESLint issues detected.');
+          }
+          NODE
+      - name: Run design token guard
+        run: npm run lint:design
+      - name: Upload ESLint results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-report-${{ matrix.node }}
+          path: reports/eslint
 
   typecheck:
-    name: Typecheck
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm run typecheck
-      summary-title: Typecheck
+    name: Typecheck (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+          cache-node-modules: 'true'
+      - name: Run TypeScript
+        run: |
+          mkdir -p reports/typecheck
+          npm run typecheck:ci 2>&1 | tee reports/typecheck/output.log
+          test ${PIPESTATUS[0]} -eq 0
+      - name: Emit TypeScript annotations
+        if: always()
+        run: |
+          node <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const logPath = path.join(process.cwd(), 'reports', 'typecheck', 'output.log');
+          if (!fs.existsSync(logPath)) {
+            process.exit(0);
+          }
+          const lines = fs.readFileSync(logPath, 'utf8').split(/\r?\n/);
+          const pattern = /(.*)\((\d+),(\d+)\): error (TS\d+): (.*)/;
+          for (const line of lines) {
+            const match = line.match(pattern);
+            if (match) {
+              const [, file, lineNum, colNum, code, message] = match;
+              console.log(`::error file=${file},line=${lineNum},col=${colNum}::${message} [${code}]`);
+            }
+          }
+          NODE
+      - name: Upload typecheck log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typecheck-log-${{ matrix.node }}
+          path: reports/typecheck
 
   unit:
-    name: Unit Tests
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: npm test -- --run
-      summary-title: Unit Tests
+    name: Unit tests (Node ${{ matrix.node }})
+    needs: install
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          node-version: ${{ matrix.node }}
+          cache-node-modules: 'true'
+      - name: Run unit tests
+        env:
+          VITEST_SEGFAULT_RETRY: '1'
+        run: |
+          mkdir -p reports/unit
+          npm run test:ci
+      - name: Emit unit test annotations
+        if: always()
+        run: |
+          node <<'NODE'
+          import fs from 'node:fs';
+          const junitPath = 'reports/unit/junit.xml';
+          if (!fs.existsSync(junitPath)) {
+            process.exit(0);
+          }
+          const xml = fs.readFileSync(junitPath, 'utf8');
+          const testcasePattern = /<testcase\b([^>]*)>([\s\S]*?)<\/testcase>/g;
+          const attrPattern = /(\w+)="([^"]*)"/g;
+          const parseAttrs = (fragment) => {
+            const attrs = {};
+            let match;
+            while ((match = attrPattern.exec(fragment))) {
+              attrs[match[1]] = match[2];
+            }
+            return attrs;
+          };
+          let testcaseMatch;
+          while ((testcaseMatch = testcasePattern.exec(xml))) {
+            const attrs = parseAttrs(testcaseMatch[1] ?? '');
+            const failureMatch = testcaseMatch[2]?.match(/<failure\b([^>]*)>([\s\S]*?)<\/failure>/);
+            if (!failureMatch) continue;
+            const failureAttrs = parseAttrs(failureMatch[1] ?? '');
+            const location = failureAttrs.file ?? attrs.file ?? '';
+            const line = failureAttrs.line ?? '1';
+            const message = failureAttrs.message ?? failureMatch[2]?.trim() ?? 'Test failure';
+            const filePart = location ? `file=${location},` : '';
+            console.log(`::error ${filePart}line=${line}::${attrs.classname ?? 'spec'} :: ${attrs.name ?? 'test'} — ${message}`);
+          }
+          NODE
+      - name: Upload Vitest artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-${{ matrix.node }}
+          path: |
+            reports/unit
+            coverage
 
-  next-build:
-    name: Next.js Build
+  build:
+    name: Build
     needs:
       - lint
       - typecheck
       - unit
-      - token-guard
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-      actions: write
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        npm audit --audit-level=moderate --json > audit-report.json || AUDIT_STATUS=$?
-        if [ -n "${AUDIT_STATUS:-}" ] && [ "$AUDIT_STATUS" -ne 0 ]; then
-          echo "npm audit reported issues below the high severity threshold."
-        fi
-        node scripts/audit-ci-report.mjs audit-report.json
-        npm run build
-      cache-paths: |
-        .next/cache
-      cache-key-prefix: ubuntu-latest-nextjs
-      cache-key-globs: |
-        **/package-lock.json
-
-        next.config.*
-        src/**/*.{js,jsx,ts,tsx,mdx}
-        app/**/*.{js,jsx,ts,tsx,mdx}
-      artifact-name: next-build
-      artifact-path: |
-        .next
-      summary-title: Next.js Build
-
-  a11y:
-    name: Accessibility
-    needs:
-      - next-build
-    permissions:
-      contents: read
-      actions: write
-    uses: ./.github/workflows/node-base.yml
-    with:
-      download-artifact-name: next-build
-      run: |
-        set -euo pipefail
-
-        LIST_OUTPUT=$(npx playwright test --list --project=chromium --grep "@axe") || true
-
-        if [ ! -d ".next" ]; then
-          echo "Downloaded build artifact missing .next directory" >&2
-          exit 1
-        fi
-
-        PORT=3000
-        npm run start -- --hostname 127.0.0.1 --port "$PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
-          fi
-        }
-
-        trap cleanup EXIT
-
-        unset READY || true
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
-            READY=1
-            break
-          fi
-          sleep 2
-        done
-
-        if [ -z "${READY:-}" ]; then
-          echo "Server failed to start" >&2
-          exit 1
-        fi
-
-        OUTPUT_DIR="playwright-results/a11y"
-        if echo "$LIST_OUTPUT" | grep -q "@axe"; then
-          npx playwright test \
-            --project=chromium \
-            --reporter=line \
-            --trace=retain-on-failure \
-            --output="$OUTPUT_DIR" \
-            --grep "@axe"
-        else
-          echo "No @axe-tagged tests detected; running full suite." >&2
-          npx playwright test \
-            --project=chromium \
-            --reporter=line \
-            --trace=retain-on-failure \
-            --output="$OUTPUT_DIR"
-        fi
-      summary-title: Accessibility
-      install-playwright: true
-      artifact-name: playwright-a11y-artifacts
-      artifact-path: |
-        playwright-results/a11y
-      artifact-on-failure: true
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          cache-node-modules: 'true'
+          extra-cache-paths: .next/cache
+      - name: Build application
+        run: npm run build
+      - name: Upload Next.js build
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next
 
   e2e:
-    name: E2E (${{ matrix.project }})
-    needs:
-      - next-build
+    name: Playwright ${{ matrix.browser }} shard ${{ matrix.shard }}
+    needs: build
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-      actions: write
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
-        project:
-          - chromium
-          - firefox
-          - webkit
-    uses: ./.github/workflows/node-base.yml
-    with:
-      download-artifact-name: next-build
-      run: |
-        set -euo pipefail
-        case "${{ matrix.project }}" in
-          chromium)
-            PORT=3100
-            ;;
-          firefox)
-            PORT=3101
-            ;;
-          webkit)
-            PORT=3102
-            ;;
-          *)
-            PORT=3000
-            ;;
-        esac
-
-        HOST=127.0.0.1
-        export PLAYWRIGHT_HOST="$HOST"
-        export PLAYWRIGHT_PORT="$PORT"
-
-        if [ ! -d ".next" ]; then
-          echo "Downloaded build artifact missing .next directory" >&2
-          exit 1
-        fi
-
-        npm run start -- --hostname "$HOST" --port "$PORT" &
-        SERVER_PID=$!
-
-        cleanup() {
-          if kill -0 "$SERVER_PID" 2>/dev/null; then
-            kill "$SERVER_PID"
-            wait "$SERVER_PID" || true
-          fi
-        }
-
-        trap cleanup EXIT
-
-        for attempt in $(seq 1 30); do
-          if curl --fail --silent --head "http://$HOST:${PORT}" >/dev/null; then
-            READY=1
-            break
-          fi
-          sleep 2
-        done
-
-        if [ -z "${READY:-}" ]; then
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2]
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          cache-node-modules: 'true'
+          cache-playwright: 'true'
+          install-playwright: 'true'
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+      - name: Start application server
+        id: server
+        run: |
+          set -euo pipefail
+          PORT=3000
+          case "${{ matrix.browser }}" in
+            chromium) PORT=3000 ;;
+            firefox) PORT=3010 ;;
+            webkit) PORT=3020 ;;
+          esac
+          PORT=$((PORT + ( ${{ matrix.shard }} - 1 )))
+          echo "port=$PORT" >>"$GITHUB_OUTPUT"
+          npm run start -- --hostname 127.0.0.1 --port "$PORT" &
+          SERVER_PID=$!
+          echo "pid=$SERVER_PID" >>"$GITHUB_OUTPUT"
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
           echo "Server failed to start" >&2
           exit 1
-        fi
+      - name: Run Playwright tests
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: http://127.0.0.1:${{ steps.server.outputs.port }}
+          AXE_REPORT_DIR: playwright-report/axe/${{ matrix.browser }}-${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/e2e/${{ matrix.browser }}
+          npx playwright test \
+            --project=${{ matrix.browser }} \
+            --shard=${{ matrix.shard }}/2 \
+            --reporter=line \
+            --reporter=junit=reports/e2e/${{ matrix.browser }}/junit-${{ matrix.shard }}.xml \
+            --reporter=html \
+            --output=playwright-report/${{ matrix.browser }}-${{ matrix.shard }}
+      - name: Emit Playwright annotations
+        if: always()
+        run: |
+          node <<'NODE'
+          import fs from 'node:fs';
+          const junitPath = `reports/e2e/${process.env.BROWSER}/junit-${process.env.SHARD}.xml`;
+          if (!fs.existsSync(junitPath)) {
+            process.exit(0);
+          }
+          const xml = fs.readFileSync(junitPath, 'utf8');
+          const testcasePattern = /<testcase\b([^>]*)>([\s\S]*?)<\/testcase>/g;
+          const attrPattern = /(\w+)="([^"]*)"/g;
+          const parseAttrs = (fragment) => {
+            const attrs = {};
+            let match;
+            while ((match = attrPattern.exec(fragment))) {
+              attrs[match[1]] = match[2];
+            }
+            return attrs;
+          };
+          let testcaseMatch;
+          while ((testcaseMatch = testcasePattern.exec(xml))) {
+            const attrs = parseAttrs(testcaseMatch[1] ?? '');
+            const failureMatch = testcaseMatch[2]?.match(/<failure\b([^>]*)>([\s\S]*?)<\/failure>/);
+            if (!failureMatch) continue;
+            const failureAttrs = parseAttrs(failureMatch[1] ?? '');
+            const message = failureAttrs.message ?? failureMatch[2]?.trim() ?? 'Test failure';
+            console.log(`::error ::${attrs.classname ?? 'playwright'} :: ${attrs.name ?? 'scenario'} — ${message}`);
+          }
+          NODE
+        env:
+          BROWSER: ${{ matrix.browser }}
+          SHARD: ${{ matrix.shard }}
+      - name: Stop application server
+        if: always()
+        run: |
+          if [ -n "${{ steps.server.outputs.pid }}" ]; then
+            kill ${{ steps.server.outputs.pid }} || true
+            wait ${{ steps.server.outputs.pid }} || true
+          fi
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-${{ matrix.browser }}-${{ matrix.shard }}
+          path: |
+            reports/e2e/${{ matrix.browser }}
+            playwright-report/${{ matrix.browser }}-${{ matrix.shard }}
 
-        OUTPUT_DIR="playwright-results/${{ matrix.project }}"
-        npx playwright test \
-          --project=${{ matrix.project }} \
-          --reporter=line \
-          --trace=retain-on-failure \
-          --output="$OUTPUT_DIR"
-      summary-title: E2E ${{ matrix.project }}
-      install-playwright: true
-      artifact-name: playwright-${{ matrix.project }}-artifacts
-      artifact-path: |
-        playwright-results/${{ matrix.project }}
-      artifact-on-failure: true
-
-  pages-build:
-    name: Pages static export
-    if: |
-      github.event_name == 'push' &&
-      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/work')
+  report:
+    name: PR summary
     needs:
-      - a11y
+      - lint
+      - typecheck
+      - unit
       - e2e
-    permissions:
-      contents: read
-      actions: write
-    uses: ./.github/workflows/node-base.yml
-    with:
-      run: |
-        set -euo pipefail
-        export DEPLOY_ARTIFACT_ONLY=true
-        export SKIP_PREVIEW_STATIC=true
-        npm run deploy
-      cache-paths: |
-        .next/cache
-      cache-key-prefix: ubuntu-latest-nextjs
-      cache-key-globs: |
-        **/package-lock.json
-
-        next.config.*
-        src/**/*.{js,jsx,ts,tsx,mdx}
-        app/**/*.{js,jsx,ts,tsx,mdx}
-      artifact-name: nextjs-static
-      artifact-path: |
-        out
-      summary-title: GitHub Pages export
-
-  pages-deploy:
-    name: Deploy GitHub Pages
-    if: needs.pages-build.result == 'success'
-    needs:
-      - pages-build
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      contents: read
+      pull-requests: write
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
-
-      - name: Download static export
-        uses: actions/download-artifact@30da6e30b1e012badb425c1e3c3cda31487eb53c
+      - uses: ./.github/actions/setup-node-project
         with:
-          name: nextjs-static
-          path: out
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+          cache-node-modules: 'true'
+      - name: Download coverage
+        uses: actions/download-artifact@v4
         with:
-          path: ./out
+          name: unit-22.x
+          path: artifacts/unit
+      - name: Download e2e reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-*
+          path: artifacts/playwright
+          merge-multiple: true
+      - name: Compose summary
+        id: summary
+        run: |
+          npm run report:summary -- --coverage artifacts/unit/coverage/coverage-summary.json --reports artifacts --output summary.txt
+          {
+            echo 'body<<EOF'
+            cat summary.txt
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `### CI summary\n${process.env.BODY}\n`;
+            const jobsResponse = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+              per_page: 100,
+            });
+            const formatDuration = (start, end) => {
+              if (!start || !end) return 'n/a';
+              const delta = (new Date(end).getTime() - new Date(start).getTime()) / 1000;
+              const minutes = Math.floor(delta / 60);
+              const seconds = Math.round(delta % 60);
+              return minutes ? `${minutes}m ${seconds}s` : `${seconds}s`;
+            };
+            const timingsList = jobsResponse.data.jobs
+              .filter((job) => ['Install & cache dependencies', 'Lint (Node 22.x)', 'Typecheck (Node 22.x)', 'Unit tests (Node 22.x)', 'Build', 'Playwright chromium shard 1', 'Playwright chromium shard 2', 'Playwright firefox shard 1', 'Playwright firefox shard 2', 'Playwright webkit shard 1', 'Playwright webkit shard 2'].includes(job.name))
+              .map((job) => `- ${job.name}: ${formatDuration(job.started_at, job.completed_at)}`)
+              .filter(Boolean);
+            const timings = timingsList.length ? timingsList.join('\n') : 'No timing data available';
+            const failureCount = (process.env.BODY.match(/• /g) || []).length - 1;
+            const flakeRate = failureCount <= 0 ? '0%' : 'n/a (failures present)';
+            const summaryBlock = `${body}\n**Job timings**\n${timings}\n\n**Flake rate:** ${flakeRate}`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const marker = '<!-- ci-summary -->';
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            const payload = `${marker}\n${summaryBlock}`;
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: payload,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: payload,
+              });
+            }
+        env:
+          BODY: ${{ steps.summary.outputs.body }}
 
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

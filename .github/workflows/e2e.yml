@@ -1,0 +1,94 @@
+name: End-to-end
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Optional git ref to test
+        required: false
+        default: ''
+      shard-count:
+        description: Number of shards to split across
+        required: false
+        default: '2'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.event.inputs.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  CI: 'true'
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2]
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ github.event.inputs.ref || github.ref }}
+          cache-node-modules: 'true'
+          cache-playwright: 'true'
+          install-playwright: 'true'
+      - name: Build application
+        run: npm run build
+      - name: Start server
+        id: server
+        run: |
+          set -euo pipefail
+          PORT=4000
+          case "${{ matrix.browser }}" in
+            chromium) PORT=4000 ;;
+            firefox) PORT=4010 ;;
+            webkit) PORT=4020 ;;
+          esac
+          PORT=$((PORT + ( ${{ matrix.shard }} - 1 )))
+          echo "port=$PORT" >>"$GITHUB_OUTPUT"
+          npm run start -- --hostname 127.0.0.1 --port "$PORT" &
+          SERVER_PID=$!
+          echo "pid=$SERVER_PID" >>"$GITHUB_OUTPUT"
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --head "http://127.0.0.1:${PORT}" >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Server failed to start" >&2
+          exit 1
+      - name: Run Playwright suite
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: http://127.0.0.1:${{ steps.server.outputs.port }}
+          AXE_REPORT_DIR: playwright-report/axe/${{ matrix.browser }}-${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/e2e/${{ matrix.browser }}
+          npx playwright test \
+            --project=${{ matrix.browser }} \
+            --shard=${{ matrix.shard }}/${{ github.event.inputs.shard-count || 2 }} \
+            --reporter=line \
+            --reporter=junit=reports/e2e/${{ matrix.browser }}/junit-${{ matrix.shard }}.xml \
+            --reporter=html \
+            --output=playwright-report/${{ matrix.browser }}-${{ matrix.shard }}
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -n "${{ steps.server.outputs.pid }}" ]; then
+            kill ${{ steps.server.outputs.pid }} || true
+            wait ${{ steps.server.outputs.pid }} || true
+          fi
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-${{ matrix.browser }}-${{ matrix.shard }}
+          path: |
+            reports/e2e/${{ matrix.browser }}
+            playwright-report/${{ matrix.browser }}-${{ matrix.shard }}

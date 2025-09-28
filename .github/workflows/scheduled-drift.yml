@@ -1,0 +1,24 @@
+name: Scheduled Drift Detection
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-drift-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  drift:
+    name: Weekly drift detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node-project
+        with:
+          cache-node-modules: 'true'
+      - name: Run check suite
+        run: npm run check
