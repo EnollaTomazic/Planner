@@ -10,6 +10,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
+import { useBasePath } from "@/lib/base-path";
 import { cn, withoutBasePath } from "@/lib/utils";
 import { NAV_ITEMS, NavItem, isNavActive } from "./nav-items";
 
@@ -21,6 +22,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const rawPath = usePathname() ?? "/";
   const path = withoutBasePath(rawPath);
   const reduceMotion = useReducedMotion();
+  const { resolveHref } = useBasePath();
 
   return (
     <nav
@@ -31,11 +33,12 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
           const active = isNavActive(path, href);
+          const resolvedHref = resolveHref(href);
 
           return (
             <li key={href} className="relative">
               <Link
-                href={href}
+                href={resolvedHref}
                 aria-label={Icon ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}

@@ -41,7 +41,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## GitHub Pages Deployment
 
-Run `npm run deploy` from the project root whenever you're ready to publish. The script rebuilds the site with the correct GitHub Pages base path (`GITHUB_PAGES=true` and `BASE_PATH=<repo>`), then calls the [`gh-pages`](https://github.com/tschaub/gh-pages) CLI with `--nojekyll` so the `.nojekyll` marker is always published. Set `GH_PAGES_BRANCH` (or `GITHUB_PAGES_BRANCH`) if your site publishes from a branch other than `gh-pages` so the deploy script targets the same branch you serve from.
+Run `npm run deploy` from the project root whenever you're ready to publish. The script rebuilds the site with the correct GitHub Pages base path (`GITHUB_PAGES=true` and `NEXT_PUBLIC_BASE_PATH=/&lt;repo&gt;`), then calls the [`gh-pages`](https://github.com/tschaub/gh-pages) CLI with `--nojekyll` so the `.nojekyll` marker is always published. Set `GH_PAGES_BRANCH` (or `GITHUB_PAGES_BRANCH`) if your site publishes from a branch other than `gh-pages` so the deploy script targets the same branch you serve from.
 
 Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `npm run deploy`.
 
@@ -49,12 +49,12 @@ When the static files are published to `https://<username>.github.io/<repo>/`, t
 
 For CI (or any environment that should push automatically), export `GITHUB_TOKEN`, `GITHUB_REPOSITORY`, and (optionally) `CI=true` before running the deploy script. When those values are present, the script adds an authenticated remote URL so the push succeeds without additional setup.
 
-Running locally is zero-config in most cases as long as an `origin` remote exists—the script can infer the repository slug from `BASE_PATH`, `GITHUB_REPOSITORY`, your Git remote, or even the folder name if needed. You only need to set `BASE_PATH` manually if none of those sources are available.
+Running locally is zero-config in most cases as long as an `origin` remote exists—the script can infer the repository slug from `NEXT_PUBLIC_BASE_PATH`, `GITHUB_REPOSITORY`, your Git remote, or even the folder name if needed. You only need to set `NEXT_PUBLIC_BASE_PATH` manually if none of those sources are available.
 
-To mirror the GitHub Pages behavior in development, provide the repository slug with `BASE_PATH` while enabling the GitHub Pages flag. For example:
+To mirror the GitHub Pages behavior in development, provide the repository slug with `NEXT_PUBLIC_BASE_PATH` while enabling the GitHub Pages flag. For example:
 
 ```bash
-GITHUB_PAGES=true BASE_PATH=<repo> npm run dev
+GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/<repo> npm run dev
 ```
 
 Then open `http://localhost:3000/<repo>/` to load the home page under the same base path.

@@ -87,7 +87,7 @@ function parseRemoteSlug(remoteUrl: string): string | undefined {
 }
 
 function detectRepositorySlug(): string {
-  const basePathEnv = process.env.BASE_PATH;
+  const basePathEnv = process.env.NEXT_PUBLIC_BASE_PATH;
   if (basePathEnv !== undefined) {
     const fromEnv = sanitizeSlug(basePathEnv);
     return fromEnv ?? "";
@@ -117,7 +117,7 @@ function detectRepositorySlug(): string {
   }
 
   throw new Error(
-    "Unable to determine repository slug. Set BASE_PATH to your repository name before running this script.",
+    "Unable to determine repository slug. Set NEXT_PUBLIC_BASE_PATH to your repository name before running this script.",
   );
 }
 
@@ -197,7 +197,7 @@ function main(): void {
   const buildEnv: NodeJS.ProcessEnv = {
     ...process.env,
     GITHUB_PAGES: "true",
-    BASE_PATH: shouldUseBasePath ? slug : "",
+    NEXT_PUBLIC_BASE_PATH: basePath,
   };
 
   runCommand(npmCommand, ["run", "build"], buildEnv);

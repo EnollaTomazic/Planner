@@ -32,6 +32,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          if [[ "${repo_name}" == *.github.io ]]; then
+            export NEXT_PUBLIC_BASE_PATH=""
+          else
+            export NEXT_PUBLIC_BASE_PATH="/${repo_name}"
+          fi
           export DEPLOY_ARTIFACT_ONLY=true
           npm run deploy
 

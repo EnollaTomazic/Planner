@@ -6,6 +6,7 @@ import {
   PageHeader,
   PageShell,
 } from "@/components/ui";
+import { withBasePath } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   const headerId = "not-found-header";
+  const homeHref = withBasePath("/");
 
   return (
     <PageShell
@@ -28,13 +30,13 @@ export default function NotFound() {
           heading: "Page not found",
           icon: <AlertCircle className="opacity-80" />,
         }}
-        hero={{
-          heading: "This page does not exist",
-          actions: (
-            <Button asChild>
-              <Link href="/">Go home</Link>
-            </Button>
-          ),
+          hero={{
+            heading: "This page does not exist",
+            actions: (
+              <Button asChild>
+                <Link href={homeHref}>Go home</Link>
+              </Button>
+            ),
           children: (
             <p className="text-ui text-muted-foreground">
               The page you are looking for does not exist.

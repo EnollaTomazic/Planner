@@ -5,7 +5,8 @@ import type { CSSProperties } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
-import { cn, withBasePath } from "@/lib/utils";
+import { useBasePath } from "@/lib/base-path";
+import { cn } from "@/lib/utils";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
 
@@ -223,6 +224,7 @@ export const Button = React.forwardRef<
   } = props;
   const asChild = props.asChild ?? false;
   const reduceMotion = useReducedMotion();
+  const { resolveHref } = useBasePath();
   const disabledProp =
     "disabled" in props && typeof props.disabled !== "undefined"
       ? props.disabled
@@ -485,7 +487,7 @@ export const Button = React.forwardRef<
         (trimmedHref.startsWith("/") || (!hasScheme && !isProtocolRelative));
 
       resolvedHref = shouldPrefixBasePath
-        ? withBasePath(trimmedHref)
+        ? resolveHref(trimmedHref)
         : trimmedHref;
     }
 

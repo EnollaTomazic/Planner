@@ -3,7 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import Button, { type ButtonProps } from "@/components/ui/primitives/Button";
-import { cn, withBasePath } from "@/lib/utils";
+import { useBasePath } from "@/lib/base-path";
+import { cn } from "@/lib/utils";
 
 type QuickActionLayout = "stacked" | "grid" | "twelveColumn" | "inline";
 
@@ -64,6 +65,8 @@ export default function QuickActionGrid({
   buttonVariant = "secondary",
   hoverLift = false,
 }: QuickActionGridProps) {
+  const { resolveHref } = useBasePath();
+
   return (
     <div className={cn(ROOT_CLASSNAME, layoutClassNames[layout], className)}>
       {actions.map((action) => {
@@ -94,7 +97,7 @@ export default function QuickActionGrid({
         const isExternal = isExternalHref(trimmedHref);
         const shouldPrefixBasePath = !isHash && !isExternal;
         const resolvedHref = shouldPrefixBasePath
-          ? withBasePath(trimmedHref)
+          ? resolveHref(trimmedHref)
           : trimmedHref;
         const {
           className: _omitClassName,
