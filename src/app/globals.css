@@ -952,6 +952,10 @@ html.bg-intense body::after {
     border-color: hsl(var(--border) / 0.35);
     --pill-icon-size: var(--icon-size-xs);
   }
+  .pill:focus-visible {
+    @apply outline-none ring-[var(--ring-size-1)] ring-[var(--theme-ring)]
+      ring-offset-[var(--ring-size-1)] ring-offset-card;
+  }
   .pill > svg,
   .pill svg {
     width: var(--pill-icon-size);
