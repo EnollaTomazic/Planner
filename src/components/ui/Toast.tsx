@@ -8,6 +8,7 @@ import styles from "./Toast.module.css";
 import { X } from "lucide-react";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
+import { useScopedCssVars } from "./hooks/useScopedCssVars";
 
 export interface ToastProps extends React.ComponentProps<typeof Card> {
   open: boolean;
@@ -140,13 +141,13 @@ export default function Toast({
   }, [showProgress, open, tick]);
 
   const progress = duration > 0 ? Math.max(0, Math.min(1, timeLeft / duration)) : 0;
-  const progressVars = React.useMemo(
-    () =>
-      ({
-        "--toast-progress": progress.toString(),
-      }) as React.CSSProperties,
-    [progress],
-  );
+  const { scopeProps: progressScopeProps, Style: ProgressStyle } = useScopedCssVars({
+    attribute: "data-toast-progress-id",
+    vars: {
+      "--toast-progress": progress.toString(),
+    },
+    enabled: showProgress,
+  });
 
   if (!open || !mounted) return null;
   return createPortal(
@@ -195,19 +196,22 @@ export default function Toast({
             )}
           </div>
           {showProgress && (
-            <div
-              aria-hidden="true"
-              data-progress={progress}
-              className={cn(
-                "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
-                styles.progressTrack,
-              )}
-              style={progressVars}
-            >
+            <>
               <div
-                className={cn("h-full rounded-full bg-primary", styles.progressFill)}
-              />
-            </div>
+                aria-hidden="true"
+                data-progress={progress}
+                className={cn(
+                  "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
+                  styles.progressTrack,
+                )}
+                {...(progressScopeProps ?? {})}
+              >
+                <div
+                  className={cn("h-full rounded-full bg-primary", styles.progressFill)}
+                />
+              </div>
+              {ProgressStyle}
+            </>
           )}
         </div>
       </Card>
