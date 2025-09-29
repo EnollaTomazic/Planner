@@ -6,6 +6,8 @@ export { default as CodexPromptsTab } from "./CodexPromptsTab";
 export { default as ColorGallery } from "./ColorGallery";
 export { default as ColorsView } from "./ColorsView";
 export { default as ButtonsPanel } from "./component-gallery/ButtonsPanel";
+export { default as CalendarLayoutPreview } from "./component-gallery/CalendarLayoutPreview";
+export * from "./component-gallery/CalendarLayoutPreview";
 export * from "./component-gallery/ComponentGallery.demoData";
 export { default as InputsPanel } from "./component-gallery/InputsPanel";
 export { default as MiscPanel } from "./component-gallery/MiscPanel";
