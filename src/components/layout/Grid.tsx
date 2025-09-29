@@ -109,6 +109,20 @@ export default function Grid<
     [template],
   );
 
+  const orderedAreaKeys = React.useMemo(() => {
+    const keys = [...templateAreas];
+    Object.entries(areas).forEach(([key, content]) => {
+      if (content == null) {
+        return;
+      }
+      const typedKey = key as TAreas;
+      if (!keys.includes(typedKey)) {
+        keys.push(typedKey);
+      }
+    });
+    return keys;
+  }, [areas, templateAreas]);
+
   const gapValue = getSpacingValue(gap);
   const rowGapValue = getSpacingValue(rowGap);
   const columnGapValue = getSpacingValue(columnGap);
@@ -145,6 +159,13 @@ export default function Grid<
     [template],
   );
 
+  const collapsedTemplateString = React.useMemo(() => {
+    if (collapse !== "stack" || orderedAreaKeys.length === 0) {
+      return undefined;
+    }
+    return orderedAreaKeys.map((area) => `"${area}"`).join(" ");
+  }, [collapse, orderedAreaKeys]);
+
   const areaNodes: React.ReactElement[] = [];
 
   templateAreas.forEach((key) => {
@@ -172,10 +193,13 @@ export default function Grid<
     );
   });
 
-  const finalStyle: React.CSSProperties = {
-    gridTemplateAreas: templateString,
+  const finalStyle = {
     ...(mergedStyle ?? {}),
-  };
+    "--grid-template-areas": templateString,
+    ...(collapsedTemplateString
+      ? { "--grid-template-areas-collapsed": collapsedTemplateString }
+      : undefined),
+  } as React.CSSProperties;
 
   return (
     <Component
