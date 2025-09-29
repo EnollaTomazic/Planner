@@ -18,6 +18,7 @@ export * from "./scheduleSavingReset";
 export { default as ScrollTopFloatingButton } from "./ScrollTopFloatingButton";
 export { default as TaskList } from "./TaskList";
 export { default as TaskRow } from "./TaskRow";
+export { default as TaskReminderSettings } from "./TaskReminderSettings";
 export { default as TodayHero } from "./TodayHero";
 export { default as TodayHeroHeader } from "./TodayHeroHeader";
 export { default as TodayHeroProjects } from "./TodayHeroProjects";
