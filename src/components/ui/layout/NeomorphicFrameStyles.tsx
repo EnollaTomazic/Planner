@@ -58,6 +58,18 @@ export function NeomorphicFrameStyles() {
       .hero2-neomorph::after {
         background: var(--hero2-glow-bottom-right);
       }
+      .hero2-frame {
+        --hero-slot-shadow: var(--shadow-neo-soft);
+      }
+      .hero2-frame[data-hero-slot-shadow="soft"] {
+        --hero-slot-shadow: var(--shadow-neo-soft);
+      }
+      .hero2-frame[data-hero-slot-shadow="strong"] {
+        --hero-slot-shadow: var(--shadow-neo-strong);
+      }
+      .hero2-frame[data-hero-slot-shadow="none"] {
+        --hero-slot-shadow: none;
+      }
       .hero2-frame[data-hero-divider-tint="primary"] {
         --hero-slot-divider: var(--ring);
         --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
@@ -158,6 +170,7 @@ export function NeomorphicFrameStyles() {
         .hero2-frame[data-hero-divider-tint] {
           --hero-slot-divider: CanvasText !important;
           --hero-slot-divider-shadow: none !important;
+          --hero-slot-shadow: none !important;
         }
       }
     `}</style>
