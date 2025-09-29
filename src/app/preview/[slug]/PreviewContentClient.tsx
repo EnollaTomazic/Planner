@@ -234,7 +234,7 @@ export default function PreviewContentClient({
           >
             Preview controls
           </h2>
-          <Card className="bg-[hsl(var(--surface)/0.75)] border border-[hsl(var(--card-hairline)/0.55)] shadow-outline-subtle backdrop-blur-sm">
+          <Card className="bg-surface/75 border border-card-hairline-55 shadow-outline-subtle backdrop-blur-sm">
             <div className="flex flex-col gap-[var(--space-4)]">
               <div className="grid gap-[var(--space-3)] md:grid-cols-2">
                 <ThemePicker
@@ -259,16 +259,16 @@ export default function PreviewContentClient({
                 </p>
                 <div className="group/slider relative mt-[var(--space-1)] h-[var(--space-6)]">
                   <div
-                    className="pointer-events-none absolute left-0 right-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-[hsl(var(--card-hairline)/0.45)] shadow-[var(--shadow-inset-hairline)]"
+                    className="pointer-events-none absolute left-0 right-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-card-hairline-45 shadow-[var(--shadow-inset-hairline)]"
                     aria-hidden
                   />
                   <div
-                    className="pointer-events-none absolute left-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-[hsl(var(--accent)/0.6)] shadow-[var(--shadow-glow-sm)] transition-[width] duration-quick ease-out motion-reduce:transition-none"
+                    className="pointer-events-none absolute left-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-accent/60 shadow-[var(--shadow-glow-sm)] transition-[width] duration-quick ease-out motion-reduce:transition-none"
                     style={{ width: `${containerProgress}%` }}
                     aria-hidden
                   />
                   <div
-                    className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--card)/0.9)] shadow-[var(--shadow-control)] transition-[left] duration-quick ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--ring-contrast)] group-focus-visible/slider:shadow-[var(--shadow-glow-md)]"
+                    className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-card-hairline-60 bg-card/90 shadow-[var(--shadow-control)] transition-[left] duration-quick ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--ring-contrast)] group-focus-visible/slider:shadow-[var(--shadow-glow-md)]"
                     style={{ left: `${containerProgress}%` }}
                     aria-hidden
                   />

@@ -38,7 +38,7 @@ interface ShowCodeButtonProps {
 const containerClassName = cn(
   "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
   "rounded-card r-card-lg",
-  "rounded-[var(--radius-card)] border border-[hsl(var(--card-hairline)/0.75)]",
+  "rounded-[var(--radius-card)] border border-card-hairline-75",
   "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
   "px-[var(--space-6)] py-[var(--space-5)]",
   "shadow-neo",
@@ -385,7 +385,7 @@ function PropsTable({
         aria-labelledby={headingId}
         hidden={!expanded}
         aria-hidden={expanded ? undefined : true}
-        className="overflow-x-auto rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] shadow-[var(--shadow-inset-hairline)]"
+        className="overflow-x-auto rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 shadow-[var(--shadow-inset-hairline)]"
       >
         <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
           <thead>
@@ -408,7 +408,7 @@ function PropsTable({
             {props.map((prop, index) => (
               <tr
                 key={prop.name}
-                className="border-t border-[hsl(var(--card-hairline)/0.4)] text-label"
+                className="border-t border-card-hairline-40 text-label"
               >
                 <td
                   ref={index === 0 ? firstCellRef : undefined}
@@ -459,7 +459,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
         {axes.map((axis) => (
           <article
             key={axis.id}
-            className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+            className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
           >
             <div className="space-y-[var(--space-1)]">
               <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
@@ -630,7 +630,7 @@ function UsedOnSection({
     >
       <SectionHeading id={headingId}>Used on</SectionHeading>
       {hasSpecificSurfaces ? (
-        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div
             className={cn(
               "space-y-[var(--space-4)]",
@@ -660,7 +660,7 @@ function UsedOnSection({
           </div>
         </div>
       ) : (
-        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
+        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
           <div className="flex flex-wrap gap-[var(--space-2)]">
             <Badge tone="support" size="md" className="text-muted-foreground">
               Global
@@ -701,7 +701,7 @@ function StatesSection({
     >
       <SectionHeading id={headingId}>States</SectionHeading>
       {stateAxes.length > 0 ? (
-        <div className="rounded-card r-card-md border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.6)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div className="grid gap-[var(--space-3)] md:grid-cols-2">
             {stateAxes.map((axis) => (
               <div key={axis.id} className="space-y-[var(--space-2)]">
@@ -781,7 +781,7 @@ function StatePreviewCard({
 
   return (
     <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-[hsl(var(--card-hairline)/0.6)] bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
+      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >

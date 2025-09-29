@@ -187,7 +187,7 @@ export default function TabBar<
   const neoVariantClassName = isNeo ? styles.neoTablist : undefined;
 
   const containerVariant = isNeo
-    ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:var(--theme-ring)]"
+    ? "hero2-frame border-border/45 bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:var(--theme-ring)]"
     : isGlitch
       ? "[--focus:var(--theme-ring)]"
       : cn(
