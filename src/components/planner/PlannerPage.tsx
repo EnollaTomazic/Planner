@@ -11,36 +11,45 @@ import "./style.css";
  */
 
 import * as React from "react";
-import TodayHero from "./TodayHero";
-import WeekNotes from "./WeekNotes";
-import DayRow from "./DayRow";
-import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
+import { GlitchSegmentedButton, GlitchSegmentedGroup } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
-import type { ISODate } from "./plannerTypes";
-import { PlannerProvider } from "./plannerContext";
+import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import WeekPicker from "./WeekPicker";
 import { PageHeader } from "@/components/ui";
-import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
+import PageShell from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
+import { RemindersProvider } from "@/components/goals/reminders/useReminders";
+import DayView from "./views/DayView";
+import WeekView from "./views/WeekView";
+import MonthView from "./views/MonthView";
+import AgendaView from "./views/AgendaView";
+
+const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
+  { value: "day", label: "Day" },
+  { value: "week", label: "Week" },
+  { value: "month", label: "Month" },
+  { value: "agenda", label: "Agenda" },
+];
 
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
-  const { iso, today } = useFocusDate();
-  const { start, end, days } = useWeek(iso);
+  const { iso } = useFocusDate();
+  const { viewMode, setViewMode } = usePlanner();
+  const { start, end } = useWeek(iso);
   const weekAnnouncement = React.useMemo(
     () => formatWeekRangeLabel(start, end),
     [start, end],
   );
-
-  // Derive once per week change; keeps list stable during edits elsewhere
-  const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
-    () => days.map((d) => ({ iso: d, isToday: d === today })),
-    [days, today],
+  const labelId = React.useId();
+  const handleViewModeChange = React.useCallback(
+    (value: string) => {
+      if (value === viewMode) return;
+      setViewMode(value as PlannerViewMode);
+    },
+    [setViewMode, viewMode],
   );
-
-  const heroRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -70,44 +79,31 @@ function Inner() {
             ),
           }}
         />
-      </PageShell>
-
-      <PageShell
-        as="section"
-        grid
-        className="py-[var(--space-6)]"
-        contentClassName="gap-y-[var(--space-6)]"
-        aria-labelledby="planner-header"
-      >
-        {/* Today + Side column */}
-        <section
-          aria-label="Today and weekly panels"
-          className={`${layoutGridClassName} col-span-full lg:grid-cols-12`}
-        >
-          <div className="col-span-full lg:col-span-8" ref={heroRef}>
-            <TodayHero iso={iso} />
-          </div>
-
-          {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
-          <aside
-            aria-label="Day notes"
-            className="col-span-full space-y-[var(--space-6)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
+        <div className="col-span-full mt-[var(--space-4)] flex flex-wrap items-center justify-between gap-[var(--space-2)]">
+          <span
+            id={labelId}
+            className="text-label font-medium text-muted-foreground"
           >
-            <WeekNotes iso={iso} />
-          </aside>
-        </section>
-
-        {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
-        <ul
-          aria-label="Week days (Monday to Sunday)"
-          className="col-span-full flex flex-col gap-[var(--space-4)]"
-        >
-          {dayItems.map((item) => (
-            <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
-          ))}
-        </ul>
+            View
+          </span>
+          <GlitchSegmentedGroup
+            value={viewMode}
+            onChange={handleViewModeChange}
+            ariaLabelledby={labelId}
+          >
+            {VIEW_MODE_OPTIONS.map((option) => (
+              <GlitchSegmentedButton key={option.value} value={option.value}>
+                {option.label}
+              </GlitchSegmentedButton>
+            ))}
+          </GlitchSegmentedGroup>
+        </div>
       </PageShell>
-      <ScrollTopFloatingButton watchRef={heroRef} />
+
+      {viewMode === "day" && <DayView />}
+      {viewMode === "week" && <WeekView />}
+      {viewMode === "month" && <MonthView />}
+      {viewMode === "agenda" && <AgendaView />}
     </>
   );
 }
@@ -116,8 +112,10 @@ function Inner() {
 
 export default function PlannerPage() {
   return (
-    <PlannerProvider>
-      <Inner />
-    </PlannerProvider>
+    <RemindersProvider>
+      <PlannerProvider>
+        <Inner />
+      </PlannerProvider>
+    </RemindersProvider>
   );
 }

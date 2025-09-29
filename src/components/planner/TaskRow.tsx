@@ -7,9 +7,11 @@ import IconButton from "@/components/ui/primitives/IconButton";
 import Button from "@/components/ui/primitives/Button";
 import CheckCircle from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
+import { motion, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
-import { spacingTokens } from "@/lib/tokens";
+import { spacingTokens, readNumberToken } from "@/lib/tokens";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { uid } from "@/lib/db";
 import type { DayTask } from "./plannerTypes";
 import styles from "./TaskRow.module.css";
@@ -19,6 +21,56 @@ const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
 const layoutClasses =
   "[overflow:visible] grid min-h-[var(--space-7)] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)] pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]";
 const TASK_ROW_GUARD_SELECTOR = "[data-task-row-guard='true']";
+const entryOffset = spacingTokens[2];
+const bounceDistance = spacingTokens[0];
+const DEFAULT_EASE_OUT = "cubic-bezier(0.16, 1, 0.3, 1)";
+const DEFAULT_EASE_SNAP = "cubic-bezier(0.2, 0.8, 0.2, 1)";
+type CubicBezierTuple = [number, number, number, number];
+const DEFAULT_EASE_OUT_CURVE: CubicBezierTuple = [0.16, 1, 0.3, 1];
+const DEFAULT_EASE_SNAP_CURVE: CubicBezierTuple = [0.2, 0.8, 0.2, 1];
+const DEFAULT_DUR_CHILL = 0.22;
+const DEFAULT_DUR_SLOW = 0.42;
+
+type MotionTokens = {
+  easeOut: string;
+  easeSnap: string;
+  easeOutCurve: CubicBezierTuple;
+  easeSnapCurve: CubicBezierTuple;
+  durChill: number;
+  durSlow: number;
+};
+
+const readStringToken = (token: string, fallback: string): string => {
+  if (typeof document === "undefined") {
+    return fallback;
+  }
+
+  const value = getComputedStyle(document.documentElement)
+    .getPropertyValue(token)
+    .trim();
+
+  return value.length > 0 ? value : fallback;
+};
+
+const parseCubicBezier = (
+  value: string,
+  fallback: CubicBezierTuple,
+): CubicBezierTuple => {
+  const trimmed = value.trim();
+  const match = trimmed.match(/^cubic-bezier\(([^)]+)\)$/i);
+  if (!match) {
+    return fallback;
+  }
+
+  const parts = match[1]
+    .split(",")
+    .map((segment) => Number.parseFloat(segment.trim()))
+    .filter((segment) => Number.isFinite(segment)) as number[];
+
+  return parts.length === 4
+    ? (parts as CubicBezierTuple)
+    : fallback;
+};
 
 type Props = {
   task: DayTask;
@@ -39,6 +91,25 @@ export default function TaskRow({
   addImage,
   removeImage,
 }: Props) {
+  const reduceMotionPreference = usePrefersReducedMotion();
+  const [forcedReduceMotion, setForcedReduceMotion] = React.useState(() => {
+    if (typeof document === "undefined") {
+      return false;
+    }
+
+    return document.documentElement.classList.contains("no-animations");
+  });
+  const [motionTokens, setMotionTokens] = React.useState<MotionTokens>(() => ({
+    easeOut: DEFAULT_EASE_OUT,
+    easeSnap: DEFAULT_EASE_SNAP,
+    easeOutCurve: DEFAULT_EASE_OUT_CURVE,
+    easeSnapCurve: DEFAULT_EASE_SNAP_CURVE,
+    durChill: DEFAULT_DUR_CHILL,
+    durSlow: DEFAULT_DUR_SLOW,
+  }));
+  const bounceControls = useAnimation();
+  const reduceMotion = reduceMotionPreference || forcedReduceMotion;
+
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
   const [imageUrl, setImageUrl] = React.useState("");
@@ -50,6 +121,84 @@ export default function TaskRow({
   const trimmedTaskTitle = task.title.trim();
   const accessibleTaskTitle = trimmedTaskTitle || "Untitled task";
   const renameTaskLabel = `Rename task ${accessibleTaskTitle}`;
+
+  React.useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const root = document.documentElement;
+
+    const syncForcedReduceMotion = () => {
+      setForcedReduceMotion(root.classList.contains("no-animations"));
+    };
+
+    syncForcedReduceMotion();
+
+    if (typeof MutationObserver === "undefined") {
+      return;
+    }
+
+    const observer = new MutationObserver(syncForcedReduceMotion);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const easeOut = readStringToken("--ease-out", DEFAULT_EASE_OUT);
+    const easeSnap = readStringToken("--ease-snap", DEFAULT_EASE_SNAP);
+
+    setMotionTokens({
+      easeOut,
+      easeSnap,
+      easeOutCurve: parseCubicBezier(easeOut, DEFAULT_EASE_OUT_CURVE),
+      easeSnapCurve: parseCubicBezier(easeSnap, DEFAULT_EASE_SNAP_CURVE),
+      durChill:
+        readNumberToken("--dur-chill", DEFAULT_DUR_CHILL * 1000) / 1000,
+      durSlow: readNumberToken("--dur-slow", DEFAULT_DUR_SLOW * 1000) / 1000,
+    });
+  }, []);
+
+  React.useEffect(() => {
+    bounceControls.set({ y: 0, scale: 1 });
+  }, [bounceControls]);
+
+  const previousDoneRef = React.useRef(task.done);
+
+  React.useEffect(() => {
+    if (reduceMotion) {
+      bounceControls.set({ y: 0, scale: 1 });
+      previousDoneRef.current = task.done;
+      return;
+    }
+
+    if (previousDoneRef.current === task.done) {
+      previousDoneRef.current = task.done;
+      return;
+    }
+
+    const offset = task.done ? bounceDistance : -bounceDistance;
+
+    void bounceControls.start({
+      y: [0, offset, 0],
+      scale: task.done ? [1, 0.98, 1] : [1, 1.02, 1],
+      transition: {
+        duration: motionTokens.durChill,
+        ease: motionTokens.easeSnapCurve,
+      },
+    });
+
+    previousDoneRef.current = task.done;
+  }, [
+    task.done,
+    reduceMotion,
+    bounceControls,
+    motionTokens.durChill,
+    motionTokens.easeSnapCurve,
+  ]);
 
   const imageEntriesRef = React.useRef<Array<{ url: string; id: string }>>([]);
   const imageEntries = React.useMemo(() => {
@@ -189,11 +338,23 @@ export default function TaskRow({
   }
 
   return (
-    <li className="group">
-      <div
+    <motion.li
+      className="group"
+      initial={
+        reduceMotion ? undefined : { opacity: 0, y: entryOffset, scale: 0.98 }
+      }
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: reduceMotion ? 0 : motionTokens.durSlow,
+        ease: motionTokens.easeOutCurve,
+      }}
+    >
+      <motion.div
         className="relative"
         onFocusCapture={handleFocusWithin}
         onBlurCapture={handleBlurWithin}
+        animate={bounceControls}
+        initial={false}
       >
         <button
           type="button"
@@ -314,7 +475,7 @@ export default function TaskRow({
             </IconButton>
           </div>
         </div>
-      </div>
+      </motion.div>
       {task.images.length > 0 && (
         <ul className="mt-[var(--space-2)] space-y-[var(--space-2)]">
           {imageEntries.map((entry, index) => (
@@ -397,6 +558,6 @@ export default function TaskRow({
           {imageError}
         </p>
       )}
-    </li>
+    </motion.li>
   );
 }

@@ -108,7 +108,7 @@ export default function ComponentsGalleryPanels({
                     className={cn(
                       "space-y-[var(--space-4)]",
                       index > 0 &&
-                        "border-t border-[hsl(var(--card-hairline)/0.6)] pt-[var(--space-5)]",
+                        "border-t border-card-hairline-60 pt-[var(--space-5)]",
                     )}
                   >
                     <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">

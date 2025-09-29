@@ -76,6 +76,18 @@ export function AnimatedSelectTrigger({
     open && styles.caretOpen,
   );
 
+  const textCls = cn(
+    "font-medium",
+    styles.glitchText,
+    current
+      ? [lit ? "text-foreground" : "text-muted-foreground", "group-hover:text-foreground"]
+      : [
+          "text-muted-foreground/70",
+          "group-hover:text-muted-foreground",
+          "transition-colors duration-quick ease-out motion-reduce:transition-none",
+        ],
+  );
+
   return (
     <div className={containerCls}>
       <button
@@ -97,22 +109,13 @@ export function AnimatedSelectTrigger({
           <ChevronRight
             aria-hidden="true"
             className={cn(
-              "shrink-0 opacity-70 transition-colors duration-quick ease-out motion-reduce:transition-none",
+              "shrink-0 text-muted-foreground/80 transition-colors duration-quick ease-out motion-reduce:transition-none",
               sizeStyles.prefix,
             )}
           />
         ) : null}
 
-        <span
-          className={cn(
-            "font-medium",
-            styles.glitchText,
-            lit ? "text-foreground" : "text-muted-foreground",
-            "group-hover:text-foreground",
-          )}
-        >
-          {current ? current.label : <span className="opacity-70">{placeholder}</span>}
-        </span>
+        <span className={textCls}>{current ? current.label : placeholder}</span>
 
         <ChevronDown className={caretCls} aria-hidden="true" />
 
