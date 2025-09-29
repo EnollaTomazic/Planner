@@ -430,8 +430,8 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <span
             aria-hidden="true"
-            class="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
-            style="width: calc(50% - var(--space-1)); transform: translate3d(0,0,0); transition-timing-function: cubic-bezier(.22,1,.36,1); --result-indicator-gradient: var(--review-result-win-gradient);"
+            class="_indicator_1d5032 absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-[var(--shadow-neo-soft)]"
+            data-result="Win"
           />
           <div
             class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"

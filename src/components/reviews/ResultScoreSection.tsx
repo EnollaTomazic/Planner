@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
 import ScoreMeter from "./ScoreMeter";
+import styles from "./ResultScoreSection.module.css";
 
 export type ResultScoreSectionHandle = {
   save: () => void;
@@ -19,10 +20,6 @@ type ResultScoreSectionProps = {
   score?: number;
   commitMeta: (patch: Partial<Review>) => void;
   onScoreEnter?: () => void;
-};
-
-type ResultIndicatorStyle = React.CSSProperties & {
-  "--result-indicator-gradient"?: string;
 };
 
 function ResultScoreSection(
@@ -65,16 +62,6 @@ function ResultScoreSection(
   const pool = SCORE_POOLS[score] ?? SCORE_POOLS[5];
   const msg = pool[msgIndex];
   const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
-  const resultIndicatorStyle: ResultIndicatorStyle = {
-    width: "calc(50% - var(--space-1))",
-    transform: `translate3d(${result === "Win" ? "0" : "100%"},0,0)`,
-    transitionTimingFunction: "cubic-bezier(.22,1,.36,1)",
-    "--result-indicator-gradient":
-      result === "Win"
-        ? "var(--review-result-win-gradient)"
-        : "var(--review-result-loss-gradient)",
-  };
-
   return (
     <>
       <div>
@@ -108,8 +95,11 @@ function ResultScoreSection(
         >
           <span
             aria-hidden
-            className="absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none [background-image:var(--result-indicator-gradient)] shadow-[var(--shadow-neo-soft)]"
-            style={resultIndicatorStyle}
+            data-result={result}
+            className={cn(
+              styles.indicator,
+              "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-[var(--shadow-neo-soft)]",
+            )}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
             <div
