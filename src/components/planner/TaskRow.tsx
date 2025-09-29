@@ -12,10 +12,10 @@ import useAutoFocus from "@/lib/useAutoFocus";
 import { spacingTokens } from "@/lib/tokens";
 import { uid } from "@/lib/db";
 import type { DayTask } from "./plannerTypes";
+import styles from "./TaskRow.module.css";
 
 const taskImageSpacingToken = 7;
 const taskImageSize = spacingTokens[taskImageSpacingToken - 1];
-const taskImageCssValue = `var(--space-${taskImageSpacingToken})` as const;
 const layoutClasses =
   "[overflow:visible] grid min-h-[var(--space-7)] min-w-0 grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)] pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]";
 const TASK_ROW_GUARD_SELECTOR = "[data-task-row-guard='true']";
@@ -327,12 +327,10 @@ export default function TaskRow({
                 alt={`Task image for ${accessibleTaskTitle}`}
                 width={taskImageSize}
                 height={taskImageSize}
-                className="rounded-card r-card-md object-cover"
-                style={{
-                  maxHeight: taskImageCssValue,
-                  height: taskImageCssValue,
-                  width: taskImageCssValue,
-                }}
+                className={cn(
+                  styles.thumbnail,
+                  "rounded-card r-card-md object-cover",
+                )}
               />
               <IconButton
                 aria-label="Remove image"
