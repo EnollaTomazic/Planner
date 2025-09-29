@@ -3,6 +3,10 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+import "./PlannerListPanel.css";
+
+type PlannerViewportSizeToken = "minHTasks" | "maxHTasks" | "maxHProjects";
+
 type PlannerListPanelProps = {
   renderComposer?: () => React.ReactNode;
   renderEmpty: () => React.ReactNode;
@@ -11,7 +15,15 @@ type PlannerListPanelProps = {
   className?: string;
   viewportClassName?: string;
   viewportInsetClassName?: string;
-  viewportStyle?: React.CSSProperties;
+  /**
+   * Applies predefined viewport sizing tokens. Tokens map to utilities defined
+   * in PlannerListPanel.css: `minHTasks` enforces the task list minimum height,
+   * `maxHTasks` caps the task viewport, and `maxHProjects` aligns the project
+   * list with its design-system max height.
+   */
+  viewportSize?:
+    | PlannerViewportSizeToken
+    | PlannerViewportSizeToken[];
   viewportProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
@@ -23,7 +35,7 @@ export default function PlannerListPanel({
   className,
   viewportClassName,
   viewportInsetClassName = "card-pad",
-  viewportStyle,
+  viewportSize,
   viewportProps,
 }: PlannerListPanelProps) {
   const {
@@ -31,6 +43,10 @@ export default function PlannerListPanel({
     style: viewportPropsStyle,
     ...restViewportProps
   } = viewportProps ?? {};
+
+  const viewportSizeValue = Array.isArray(viewportSize)
+    ? viewportSize.join(" ")
+    : viewportSize;
 
   const composer = renderComposer?.();
   const content = isEmpty ? renderEmpty() : renderList();
@@ -45,13 +61,14 @@ export default function PlannerListPanel({
       {composer}
       <div
         {...restViewportProps}
+        data-viewport-size={viewportSizeValue}
         className={cn(
-          "w-full overflow-y-auto",
+          "planner-viewport w-full overflow-y-auto",
           viewportInsetClassName,
           viewportPropsClassName,
           viewportClassName,
         )}
-        style={{ ...viewportPropsStyle, ...viewportStyle }}
+        style={viewportPropsStyle}
       >
         {content}
       </div>
