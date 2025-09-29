@@ -76,35 +76,53 @@
 .root[data-pillar="Wave"] {
   --g1: hsl(var(--pillar-wave-start));
   --g2: hsl(var(--pillar-wave-end));
-  --shadow: hsl(var(--pillar-wave-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-wave-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
 
 .root[data-pillar="Trading"] {
   --g1: hsl(var(--pillar-trading-start));
   --g2: hsl(var(--pillar-trading-end));
-  --shadow: hsl(var(--pillar-trading-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-trading-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
 
 .root[data-pillar="Vision"] {
   --g1: hsl(var(--pillar-vision-start));
   --g2: hsl(var(--pillar-vision-end));
-  --shadow: hsl(var(--pillar-vision-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-vision-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
 
 .root[data-pillar="Tempo"] {
   --g1: hsl(var(--pillar-tempo-start));
   --g2: hsl(var(--pillar-tempo-end));
-  --shadow: hsl(var(--pillar-tempo-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-tempo-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
 
 .root[data-pillar="Positioning"] {
   --g1: hsl(var(--pillar-positioning-start));
   --g2: hsl(var(--pillar-positioning-end));
-  --shadow: hsl(var(--pillar-positioning-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-positioning-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
 
 .root[data-pillar="Comms"] {
   --g1: hsl(var(--pillar-comms-start));
   --g2: hsl(var(--pillar-comms-end));
-  --shadow: hsl(var(--pillar-comms-shadow));
+  --shadow: calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+      hsl(var(--pillar-comms-shadow)),
+    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
+      hsl(var(--foreground) / 0.06);
 }
