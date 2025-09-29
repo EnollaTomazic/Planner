@@ -3,6 +3,12 @@
 import "./style.css";
 import * as React from "react";
 import { uid, usePersistentState } from "@/lib/db";
+import {
+  RemindersProvider,
+  RemindersContext,
+  useReminders,
+  type RemindersContextValue,
+} from "../goals/reminders/useReminders";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
 import type { Goal } from "@/lib/types";
 import { ACTIVE_CAP, decodeGoals, type AddGoalInput } from "../goals/goalsPersistence";
@@ -183,20 +189,32 @@ type PlannerState = {
   iso: ISODate;
   today: ISODate;
   setIso: React.Dispatch<React.SetStateAction<ISODate>>;
+  viewMode: PlannerViewMode;
+  setViewMode: React.Dispatch<React.SetStateAction<PlannerViewMode>>;
   week: PlannerWeek;
   goals: PlannerGoalsState;
+  reminders: RemindersContextValue;
   getFocus: (iso: ISODate) => string;
   updateFocus: (iso: ISODate, value: string) => void;
   getNote: (iso: ISODate) => string;
   updateNote: (iso: ISODate, value: string) => void;
 };
 
+export type PlannerViewMode = "day" | "week" | "month" | "agenda";
+
 const DaysContext = React.createContext<DaysState | null>(null);
 const FocusContext = React.createContext<FocusState | null>(null);
 const SelectionContext = React.createContext<SelectionState | null>(null);
 const PlannerStateContext = React.createContext<PlannerState | null>(null);
+const PlannerRemindersContext = React.createContext<
+  RemindersContextValue | null
+>(null);
 
-export function PlannerProvider({ children }: { children: React.ReactNode }) {
+function PlannerProviderInner({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
     "planner:days",
     {},
@@ -210,6 +228,10 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
+  const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
+    "planner:view-mode",
+    "day",
+  );
   const [today, setToday] = React.useState(() => todayISO());
   const [goalList, setGoalList] = usePersistentState<Goal[]>("goals.v2", [], {
     decode: decodeGoals,
@@ -221,6 +243,7 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const goalUndoTimer = React.useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
+  const reminders = useReminders();
 
   const days = rawDays;
   const [tasksById, setTasksById] = React.useState<TaskIdMap>(() => {
@@ -682,8 +705,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       iso,
       today,
       setIso: setFocus,
+      viewMode,
+      setViewMode,
       week,
       goals: goalsValue,
+      reminders,
       getFocus: getDayFocus,
       updateFocus: updateDayFocus,
       getNote,
@@ -693,8 +719,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       iso,
       today,
       setFocus,
+      viewMode,
+      setViewMode,
       week,
       goalsValue,
+      reminders,
       getDayFocus,
       updateDayFocus,
       getNote,
@@ -712,12 +741,32 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
         SelectionContext.Provider,
         { value: selectionValue },
         React.createElement(
-          PlannerStateContext.Provider,
-          { value: plannerValue },
-          children as React.ReactNode,
+          PlannerRemindersContext.Provider,
+          { value: reminders },
+          React.createElement(
+            PlannerStateContext.Provider,
+            { value: plannerValue },
+            children as React.ReactNode,
+          ),
         ),
       ),
     ),
+  );
+}
+
+export function PlannerProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const reminders = React.useContext(RemindersContext);
+  if (reminders) {
+    return <PlannerProviderInner>{children}</PlannerProviderInner>;
+  }
+  return (
+    <RemindersProvider>
+      <PlannerProviderInner>{children}</PlannerProviderInner>
+    </RemindersProvider>
   );
 }
 
@@ -750,6 +799,15 @@ export function useSelection(): SelectionState {
 
 export function usePlanner(): PlannerState {
   const ctx = React.useContext(PlannerStateContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function usePlannerReminders(): RemindersContextValue {
+  const ctx = React.useContext(PlannerRemindersContext);
   if (!ctx)
     throw new Error(
       "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",

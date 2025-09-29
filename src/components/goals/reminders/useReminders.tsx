@@ -145,9 +145,7 @@ const SOURCE_TABS = SOURCE_FILTERS.map((s) => ({
   label: s === "all" ? "All" : s,
 }));
 
-const RemindersContext = React.createContext<RemindersContextValue | null>(null);
-
-type RemindersContextValue = {
+export type RemindersContextValue = {
   items: Reminder[];
   filtered: Reminder[];
   counts: Record<Group, number>;
@@ -176,6 +174,10 @@ type RemindersContextValue = {
   sourceTabs: typeof SOURCE_TABS;
   groups: typeof GROUPS;
 };
+
+export const RemindersContext = React.createContext<RemindersContextValue | null>(
+  null,
+);
 
 function inferDomain(reminder: Reminder): Domain {
   if (reminder.domain) return reminder.domain;
