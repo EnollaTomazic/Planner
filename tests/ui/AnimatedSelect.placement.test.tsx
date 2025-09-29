@@ -67,9 +67,17 @@ describe("AnimatedSelect", () => {
       const menu = document.querySelector<HTMLUListElement>('ul[role="listbox"]');
       expect(menu).not.toBeNull();
       expect(menu?.getAttribute("data-side")).toBe("top");
-      expect(menu?.style.bottom).toBe("68px");
-      expect(menu?.style.transformOrigin).toBe("bottom");
-      expect(menu?.style.maxHeight).toBe("360px");
+      expect(menu?.getAttribute("data-floating-id")).toBeTruthy();
+
+      const computed = menu ? window.getComputedStyle(menu) : null;
+      expect(computed).not.toBeNull();
+      expect(computed?.position).toBe("fixed");
+      expect(computed?.bottom).toBe("68px");
+      expect(computed?.maxHeight).toBe("360px");
+      const transformOrigin = computed?.transformOrigin ?? "";
+      expect(
+        transformOrigin.endsWith("100%") || transformOrigin.includes("bottom"),
+      ).toBe(true);
     } finally {
       window.requestAnimationFrame = originalRequestAnimationFrame;
       window.cancelAnimationFrame = originalCancelAnimationFrame;

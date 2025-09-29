@@ -1,0 +1,7 @@
+.progressFill {
+  --timer-progress: calc(attr(data-progress number, 0) / 100);
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--timer-progress));
+  will-change: transform;
+}
