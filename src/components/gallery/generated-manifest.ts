@@ -961,6 +961,11 @@ export const galleryPayload = {
               "name": "data-loading",
               "type": "boolean",
               "defaultValue": "false"
+            },
+            {
+              "name": "ringTone",
+              "type": "\"accent\" | \"danger\" | \"primary\" | \"success\" | \"warning\"",
+              "defaultValue": "undefined"
             }
           ],
           "axes": [
@@ -986,11 +991,14 @@ export const galleryPayload = {
                 },
                 {
                   "value": "Loading"
+                },
+                {
+                  "value": "Custom ring"
                 }
               ]
             }
           ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
+          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n  <Input placeholder=\"Custom ring\" ringTone=\"danger\" />\n</div>",
           "preview": {
             "id": "ui:input:states"
           },
@@ -1041,6 +1049,14 @@ export const galleryPayload = {
               "code": "<Input placeholder=\"Loading\" data-loading />",
               "preview": {
                 "id": "ui:input:state:loading"
+              }
+            },
+            {
+              "id": "custom-ring",
+              "name": "Custom ring",
+              "code": "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
+              "preview": {
+                "id": "ui:input:state:custom-ring"
               }
             }
           ]
@@ -4457,6 +4473,11 @@ export const galleryPayload = {
             "name": "data-loading",
             "type": "boolean",
             "defaultValue": "false"
+          },
+          {
+            "name": "ringTone",
+            "type": "\"accent\" | \"danger\" | \"primary\" | \"success\" | \"warning\"",
+            "defaultValue": "undefined"
           }
         ],
         "axes": [
@@ -4482,11 +4503,14 @@ export const galleryPayload = {
               },
               {
                 "value": "Loading"
+              },
+              {
+                "value": "Custom ring"
               }
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n  <Input placeholder=\"Custom ring\" ringTone=\"danger\" />\n</div>",
         "preview": {
           "id": "ui:input:states"
         },
@@ -4537,6 +4561,14 @@ export const galleryPayload = {
             "code": "<Input placeholder=\"Loading\" data-loading />",
             "preview": {
               "id": "ui:input:state:loading"
+            }
+          },
+          {
+            "id": "custom-ring",
+            "name": "Custom ring",
+            "code": "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
+            "preview": {
+              "id": "ui:input:state:custom-ring"
             }
           }
         ]
@@ -12876,6 +12908,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -12920,6 +12956,106 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "section-inputs--entry-input--preview-ui-input-state-custom-ring--state-custom-ring--theme-aurora",
+    "previewId": "ui:input:state:custom-ring",
+    "entryId": "input",
+    "entryName": "Input",
+    "sectionId": "inputs",
+    "stateId": "custom-ring",
+    "stateName": "Custom ring",
+    "themeVariant": "aurora",
+    "themeBackground": 0,
+    "axisParams": [
+      {
+        "key": "axis-state",
+        "label": "State",
+        "type": "state",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "hover",
+            "label": "Hover"
+          },
+          {
+            "value": "focus",
+            "label": "Focus"
+          },
+          {
+            "value": "active",
+            "label": "Active"
+          },
+          {
+            "value": "disabled",
+            "label": "Disabled"
+          },
+          {
+            "value": "loading",
+            "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "section-inputs--entry-input--preview-ui-input-state-custom-ring--state-custom-ring--theme-lg",
+    "previewId": "ui:input:state:custom-ring",
+    "entryId": "input",
+    "entryName": "Input",
+    "sectionId": "inputs",
+    "stateId": "custom-ring",
+    "stateName": "Custom ring",
+    "themeVariant": "lg",
+    "themeBackground": 0,
+    "axisParams": [
+      {
+        "key": "axis-state",
+        "label": "State",
+        "type": "state",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "hover",
+            "label": "Hover"
+          },
+          {
+            "value": "focus",
+            "label": "Focus"
+          },
+          {
+            "value": "active",
+            "label": "Active"
+          },
+          {
+            "value": "disabled",
+            "label": "Disabled"
+          },
+          {
+            "value": "loading",
+            "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -12964,6 +13100,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13008,6 +13148,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13052,6 +13196,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13096,6 +13244,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13140,6 +13292,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13184,6 +13340,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13228,6 +13388,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13272,6 +13436,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13316,6 +13484,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13360,6 +13532,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13404,6 +13580,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13448,6 +13628,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -21304,6 +21488,7 @@ export const galleryPreviewModules = [
       "ui:input:state:active",
       "ui:input:state:disabled",
       "ui:input:state:loading",
+      "ui:input:state:custom-ring",
     ],
   },
   {

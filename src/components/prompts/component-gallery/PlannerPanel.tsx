@@ -9,7 +9,7 @@ import {
   PlannerListPanel,
   PlannerProvider,
   ProjectList,
-  ScrollTopFloatingButton,
+  PlannerCreateFab,
   TaskList,
   TaskRow,
   WeekPickerShell,
@@ -359,12 +359,14 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
           className: "sm:col-span-2 md:col-span-12 w-full",
         },
         {
-          label: "ScrollTopFloatingButton",
+          label: "PlannerCreateFab",
           element: (
-            <ScrollTopFloatingButton
-              watchRef={React.createRef<HTMLElement>()}
-              forceVisible
-            />
+            <PlannerProvider>
+              <PlannerCreateFab
+                watchRef={React.createRef<HTMLElement>()}
+                forceVisible
+              />
+            </PlannerProvider>
           ),
         },
       ],

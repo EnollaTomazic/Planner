@@ -14,7 +14,7 @@ import * as React from "react";
 import TodayHero from "./TodayHero";
 import WeekNotes from "./WeekNotes";
 import DayRow from "./DayRow";
-import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
+import PlannerCreateFab from "./PlannerCreateFab";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerTypes";
 import { PlannerProvider } from "./plannerContext";
@@ -156,7 +156,7 @@ function Inner() {
           ))}
         </ul>
       </PageShell>
-      <ScrollTopFloatingButton watchRef={heroRef} />
+      <PlannerCreateFab watchRef={heroRef} />
     </>
   );
 }

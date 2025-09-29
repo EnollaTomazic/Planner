@@ -15,7 +15,7 @@ export * from "./plannerSerialization";
 export * from "./plannerTypes";
 export { default as ProjectList } from "./ProjectList";
 export * from "./scheduleSavingReset";
-export { default as ScrollTopFloatingButton } from "./ScrollTopFloatingButton";
+export { default as PlannerCreateFab } from "./PlannerCreateFab";
 export { default as TaskList } from "./TaskList";
 export { default as TaskRow } from "./TaskRow";
 export { default as TaskReminderSettings } from "./TaskReminderSettings";
