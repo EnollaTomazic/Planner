@@ -5,7 +5,7 @@ exports[`Input > renders default state 1`] = `
   class="flex w-full flex-col gap-[var(--space-1)]"
 >
   <div
-    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
+    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
     data-field-height="md"
     data-field-state="default"
   >
@@ -26,7 +26,7 @@ exports[`Input > renders disabled state 1`] = `
 >
   <div
     aria-disabled="true"
-    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
+    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
     data-disabled="true"
     data-field-height="md"
     data-field-state="disabled"
@@ -35,8 +35,8 @@ exports[`Input > renders disabled state 1`] = `
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
       disabled=""
-      id=":r8:"
-      name=":r8:"
+      id=":r4:"
+      name=":r4:"
       type="text"
     />
   </div>
@@ -48,7 +48,7 @@ exports[`Input > renders error state 1`] = `
   class="flex w-full flex-col gap-[var(--space-1)]"
 >
   <div
-    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
+    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
     data-field-height="md"
     data-field-state="invalid"
     data-invalid="true"
@@ -57,8 +57,8 @@ exports[`Input > renders error state 1`] = `
       aria-invalid="true"
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r4:"
-      name=":r4:"
+      id=":r2:"
+      name=":r2:"
       type="text"
     />
   </div>
@@ -70,15 +70,15 @@ exports[`Input > renders focus state 1`] = `
   class="flex w-full flex-col gap-[var(--space-1)]"
 >
   <div
-    class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
+    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156"
     data-field-height="md"
     data-field-state="default"
   >
     <input
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r2:"
-      name=":r2:"
+      id=":r1:"
+      name=":r1:"
       type="text"
     />
   </div>

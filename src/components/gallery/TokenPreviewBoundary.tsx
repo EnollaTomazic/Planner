@@ -10,8 +10,12 @@ const TOKEN_TO_CSS_VARIABLE: Record<string, readonly string[]> = {
   shadow: ["--shadow-neo", "--shadow-neo-soft"],
 };
 
-function buildCssDeclarations(overrides: ReturnType<typeof useTokenOverrides>) {
-  const declarations: string[] = ["display: contents;"];
+type PreviewStyle = React.CSSProperties & Record<string, string>;
+
+function buildCssDeclarations(
+  overrides: ReturnType<typeof useTokenOverrides>,
+): PreviewStyle {
+  const declarations: PreviewStyle = { display: "contents" };
 
   for (const [category, token] of Object.entries(overrides)) {
     const variables = TOKEN_TO_CSS_VARIABLE[category as keyof typeof TOKEN_TO_CSS_VARIABLE];
@@ -20,11 +24,11 @@ function buildCssDeclarations(overrides: ReturnType<typeof useTokenOverrides>) {
     }
 
     for (const variable of variables) {
-      declarations.push(`${variable}: var(${token.cssVar});`);
+      declarations[variable] = `var(${token.cssVar})`;
     }
   }
 
-  return declarations.join(" ");
+  return declarations;
 }
 
 export default function TokenPreviewBoundary({
@@ -33,22 +37,14 @@ export default function TokenPreviewBoundary({
   readonly children: React.ReactNode;
 }) {
   const overrides = useTokenOverrides();
-  const instanceId = React.useId();
   const cssDeclarations = React.useMemo(
     () => buildCssDeclarations(overrides),
     [overrides],
   );
 
   return (
-    <>
-      <style jsx global>{`
-        [data-token-preview-id="${instanceId}"] {
-          ${cssDeclarations}
-        }
-      `}</style>
-      <div data-token-preview-overrides="" data-token-preview-id={instanceId}>
-        {children}
-      </div>
-    </>
+    <div data-token-preview-overrides="" style={cssDeclarations}>
+      {children}
+    </div>
   );
 }

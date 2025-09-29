@@ -14,6 +14,9 @@ export default function SpinnerShowcase() {
         <Spinner tone="info" />
         <Spinner tone="danger" />
       </div>
+      <p className="text-ui text-muted-foreground">
+        Spinners respect reduced motion preferences, halting animation while preserving tone tokens when motion is disabled.
+      </p>
     </div>
   );
 }

@@ -14,10 +14,10 @@ export function ComponentsSectionRedirect({
   }, [target]);
 
   return (
-    <main aria-busy="true">
-      <p aria-live="polite" role="status">
+    <div aria-busy="true" role="status">
+      <p aria-live="polite">
         Redirecting to the selected components section…
       </p>
-    </main>
+    </div>
   );
 }

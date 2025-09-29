@@ -29,12 +29,12 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.2.1
         with:
           fetch-depth: 2
 
       - name: actionlint
-        uses: reviewdog/action-actionlint@93dc1f9bc10856298b6cc1a3b3239cfbbb87fe4b # v1.67.0
+        uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
         with:
           github_token: ${{ github.token }}
           fail_on_error: true

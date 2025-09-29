@@ -41,4 +41,19 @@ describe("Home page", () => {
       expectLink("Prompts", "/prompts");
     },
   );
+
+  it("renders a single main landmark", () => {
+    const { container } = render(
+      <ThemeProvider>
+        <main id="main-content">
+          <Suspense fallback="loading">
+            <Page />
+          </Suspense>
+        </main>
+      </ThemeProvider>,
+    );
+
+    const landmarks = container.querySelectorAll("main, [role=\"main\"]");
+    expect(landmarks).toHaveLength(1);
+  });
 });

@@ -54,7 +54,7 @@ export function AnimatedSelectList({
   durQuick,
   yOffset,
 }: AnimatedSelectListProps) {
-  const { floatingId, floatingStyles } = useFloatingStyleClass(fixedStyles);
+  const { floatingStyle } = useFloatingStyleClass(fixedStyles);
 
   return (
     <>
@@ -78,7 +78,7 @@ export function AnimatedSelectList({
             transition={
               reduceMotion ? { duration: 0 } : { duration: durQuick, ease: "easeOut" }
             }
-            data-floating-id={floatingId}
+            style={floatingStyle}
             onKeyDown={onKeyDown}
             className={cn(
               "relative pointer-events-auto rounded-[var(--radius-2xl)] overflow-hidden",
@@ -164,8 +164,6 @@ export function AnimatedSelectList({
           </motion.ul>
         )}
       </AnimatePresence>
-
-      {floatingStyles}
     </>
   );
 }

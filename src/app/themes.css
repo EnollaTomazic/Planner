@@ -71,7 +71,7 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
   --hover: hsl(var(--foreground) / 0.08);
-  --focus: hsl(var(--ring));
+  --focus: var(--theme-ring);
   --active: hsl(var(--foreground) / 0.12);
   --disabled: 0.5;
   --loading: 0.6;
@@ -157,8 +157,8 @@
     0 0 var(--spacing-4) var(--neon-soft);
   --shadow-neon-strong: 0 0 var(--spacing-3) var(--neon),
     0 0 var(--spacing-5) var(--neon-soft);
-  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),
-    0 0 0 var(--hairline-w) hsl(var(--border) / 0.12);
+  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),
+    var(--shadow-outline-subtle);
   --shadow-control-hover: 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
   --lg-violet: var(--ring);
   --lg-cyan: var(--accent-2);
@@ -276,6 +276,38 @@
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
+  --layout-gutter-sm: var(--spacing-4);
+  --layout-gutter-md: var(--spacing-5);
+  --layout-gutter-lg: var(--spacing-6);
+  --card-radius: var(--radius-xl);
+  --elevation-card: var(--shadow-outline-subtle);
+  --elevation-card-pressed: var(--shadow-control);
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  /* neo-glow-strength multiplies --shadow-neon */
+  --neo-glow-strength: 0.45;
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  /* 0–1 scaling for transforms/opacity */
+  --glitch-intensity: 1.0;
+  /* base animation length */
+  --glitch-duration: 450ms;
+  /* hue-rotate magnitude */
+  --glitch-fringe: 12deg;
+  /* overlay alpha */
+  --glitch-static-opacity: 0.18;
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  /* used in tests; not CSS-enforced */
+  --aa-min-contrast: 4.5;
   --shadow-neon:
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
@@ -524,6 +556,7 @@ html.theme-hardstuck {
   --primary-soft: 120 100% 26%;
   --accent: 120 92% 58%;
   --accent-2: 120 76% 22%;
+  --accent-2-foreground: 120 32% 94%;
   --accent-foreground: 0 0% 8%;
   --text-on-accent: hsl(var(--hardstuck-foreground));
   --accent-soft: 120 90% 16%;
@@ -544,6 +577,65 @@ html.theme-hardstuck {
   --success-glow: 120 90% 42% / 0.6;
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
+}
+/* ---------- Retro ---------- */
+html.theme-retro {
+  /* Neon grid inspired by retro-futurist arcades */
+  --background: 258 78% 4%;
+  --foreground: 196 28% 96%;
+  --text: var(--foreground);
+  --card: 260 68% 8%;
+  --panel: var(--card);
+  --border: 260 56% 22%;
+  --line: var(--border);
+  --input: 260 58% 12%;
+  --ring: 304 100% 68%;
+  --theme-ring: hsl(var(--ring));
+  --primary: 304 100% 68%;
+  --primary-foreground: 0 0% 8%;
+  --primary-soft: 304 100% 24%;
+  --accent: 304 100% 68%;
+  --accent-2: 188.7 89.6% 69.8%;
+  --accent-3: 257.5 85.7% 72.5%;
+  --accent-foreground: 0 0% 6%;
+  --accent-soft: 304 100% 20%;
+  --muted: 260 48% 18%;
+  --muted-foreground: 260 22% 78%;
+  --shadow-color: 304 92% 56%;
+  --lav-deep: 257.5 85.7% 72.5%;
+  --success: 158 72% 48%;
+  --success-glow: 158 72% 38% / 0.6;
+  --glow: 304 100% 68%;
+  --glow-active: hsl(var(--accent-2));
+  --shadow-glow-sm:
+    0 0 var(--spacing-2) hsl(var(--glow) / 0.7),
+    0 0 var(--spacing-4) hsl(var(--accent-2) / 0.45);
+  --shadow-glow-md:
+    0 0 var(--spacing-3) hsl(var(--glow) / 0.55),
+    0 0 var(--spacing-5) hsl(var(--accent-2) / 0.4),
+    0 0 var(--spacing-6) hsl(var(--accent-3) / 0.3);
+  --shadow-glow-lg:
+    0 0 var(--spacing-4) hsl(var(--glow) / 0.5),
+    0 0 var(--spacing-6) hsl(var(--accent-2) / 0.38),
+    0 0 var(--spacing-7) hsl(var(--accent-3) / 0.28);
+  --shadow-glow-xl:
+    0 var(--spacing-1) var(--spacing-5) hsl(var(--glow) / 0.45),
+    0 var(--spacing-2) var(--spacing-7) hsl(var(--accent-2) / 0.32),
+    0 var(--spacing-3) var(--spacing-8) hsl(var(--accent-3) / 0.24);
+  --grid-lines:
+    repeating-linear-gradient(
+      90deg,
+      hsl(var(--accent) / 0.18) 0 1px,
+      hsl(var(--accent-3) / 0.08) 1px 28px
+  );
+  --scan-lines:
+    repeating-linear-gradient(
+      0deg,
+      hsl(var(--accent-2) / 0.16) 0 1px,
+      transparent 1px 14px,
+      hsl(var(--accent-3) / 0.12) 14px 15px,
+      transparent 15px 28px
+  );
 }
 /* =========================================================
    Per-theme glitch backdrops
@@ -1021,6 +1113,72 @@ html.theme-hardstuck body::after {
   opacity: 0.9;
   animation: hardstuck-drift 26s ease-in-out infinite alternate;
 }
+/* Retro backdrop */
+html.theme-retro body {
+  background-image:
+    radial-gradient(
+      1100px 640px at 18% -12%,
+      hsl(var(--accent-3) / 0.22),
+      transparent 62%
+    ),
+    radial-gradient(
+      1000px 560px at 108% 10%,
+      hsl(var(--accent-2) / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      1200px 760px at 50% 120%,
+      hsl(var(--accent) / 0.14),
+      transparent 70%
+    ),
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+html.theme-retro body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--grid-lines);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+}
+html.theme-retro body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    var(--scan-lines),
+    radial-gradient(
+      65% 45% at 12% 0%,
+      hsl(var(--accent-3) / 0.28),
+      transparent 62%
+    ),
+    radial-gradient(
+      55% 38% at 88% 8%,
+      hsl(var(--accent-2) / 0.24),
+      transparent 60%
+    ),
+    radial-gradient(
+      70% 48% at 50% 115%,
+      hsl(var(--accent) / 0.2),
+      transparent 72%
+    );
+  filter: blur(1.5px) saturate(115%);
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-retro body::before {
+    animation: retro-pan 26s linear infinite;
+  }
+
+  html.theme-retro body::after {
+    animation: retro-pan 38s linear infinite reverse;
+  }
+}
 @keyframes hardstuck-scan {
   0% {
     background-position-y: 0;
@@ -1035,6 +1193,14 @@ html.theme-hardstuck body::after {
   }
   100% {
     transform: translate3d(1%, 0, 0);
+  }
+}
+@keyframes retro-pan {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(28px, 18px, 0);
   }
 }
 /* Additional background options */

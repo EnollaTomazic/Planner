@@ -1,0 +1,413 @@
+.layout {
+  --dashboard-grid:
+    "summary"
+    "switcher"
+    "tasks"
+    "calendar"
+    "cta";
+  --dashboard-columns: minmax(0, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
+  container-type: inline-size;
+}
+
+.summaryCard {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  color: hsl(var(--card-foreground));
+  container-type: inline-size;
+}
+
+.summaryPrimary {
+  display: grid;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.avatarGroup {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.avatarHalo {
+  --avatar-size: calc(var(--space-7) + var(--space-2));
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--radius-full);
+  background: hsl(var(--accent) / 0.16);
+  border: 1px solid hsl(var(--accent) / 0.32);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--card-hairline)),
+    0 0 0 8px hsl(var(--accent) / 0.08);
+}
+
+.avatarInitials {
+  display: grid;
+  place-items: center;
+  width: calc(var(--avatar-size) - var(--space-3));
+  height: calc(var(--avatar-size) - var(--space-3));
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent) / 0.42),
+    hsl(var(--accent-2) / 0.38)
+  );
+  color: hsl(var(--on-accent));
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--card-hairline)),
+    0 12px 24px -12px hsl(var(--accent) / 0.48);
+}
+
+.summaryText {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.summaryProgress {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+}
+
+.progressRing {
+  width: clamp(var(--space-7), 14vw, var(--space-8));
+  aspect-ratio: 1 / 1;
+}
+
+.summaryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.summaryStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.summaryStat {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: hsl(var(--surface-2) / 0.64);
+  box-shadow: inset 0 1px 0 hsl(var(--card-hairline));
+}
+
+.switcherSection {
+  container-type: inline-size;
+}
+
+.switcher {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.switcherCard {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  color: hsl(var(--card-foreground));
+  min-height: calc(var(--space-8) + var(--space-4));
+}
+
+.tasksCard {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  color: hsl(var(--card-foreground));
+  container-type: inline-size;
+}
+
+.taskList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.taskItem {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: hsl(var(--surface-2) / 0.56);
+  box-shadow: inset 0 1px 0 hsl(var(--card-hairline));
+}
+
+.taskMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.taskMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.skeletonList {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.calendarCard {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  color: hsl(var(--card-foreground));
+  container-type: inline-size;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.calendarDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-card);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--surface-2) / 0.32);
+  box-shadow: inset 0 1px 0 hsl(var(--card-hairline));
+}
+
+.calendarDay[data-role="header"] {
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  background: transparent;
+  box-shadow: none;
+}
+
+.calendarDay[data-role="day"][data-tone="focus"] {
+  color: hsl(var(--accent-foreground));
+  background: hsl(var(--accent) / 0.28);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--accent) / 0.45),
+    0 6px 12px -10px hsl(var(--accent) / 0.4);
+}
+
+.calendarDay[data-role="day"][data-tone="review"] {
+  color: hsl(var(--accent-2-foreground));
+  background: hsl(var(--accent-2) / 0.24);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--accent-2) / 0.45),
+    0 6px 12px -10px hsl(var(--accent-2) / 0.35);
+}
+
+.calendarDay[data-role="day"][data-tone="break"] {
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--muted) / 0.2);
+  box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
+}
+
+.calendarDay[data-current="true"] {
+  color: hsl(var(--on-accent));
+  background: linear-gradient(
+    140deg,
+    hsl(var(--accent) / 0.86),
+    hsl(var(--accent-2) / 0.8)
+  );
+  box-shadow:
+    0 0 0 1px hsl(var(--accent) / 0.6),
+    0 10px 18px -12px hsl(var(--accent) / 0.6);
+}
+
+.calendarLegend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+}
+
+.legendSwatch {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
+}
+
+.legendSwatch[data-tone="focus"] {
+  background: hsl(var(--accent));
+}
+
+.legendSwatch[data-tone="review"] {
+  background: hsl(var(--accent-2));
+}
+
+.legendSwatch[data-tone="break"] {
+  background: hsl(var(--muted));
+}
+
+.calendarSkeleton {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ctaCard {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  color: hsl(var(--card-foreground));
+  align-content: start;
+  position: relative;
+  container-type: inline-size;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.modeChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-3);
+  padding-block: var(--space-1);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  color: hsl(var(--on-accent));
+  background: linear-gradient(
+    120deg,
+    hsl(var(--accent) / 0.75),
+    hsl(var(--accent-2) / 0.68)
+  );
+  box-shadow: inset 0 0 0 1px hsl(var(--card-hairline));
+}
+
+@container (min-width: 30rem) {
+  .modeChip {
+    margin-left: auto;
+  }
+}
+
+@container (min-width: 30rem) {
+  .summaryCard {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .summaryPrimary {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .summaryMeta {
+    justify-content: space-between;
+  }
+}
+
+@container (min-width: 52.5rem) {
+  .layout {
+    --dashboard-grid:
+      "summary summary summary summary summary summary summary summary cta cta cta cta"
+      "switcher switcher switcher switcher switcher switcher calendar calendar calendar calendar calendar calendar"
+      "tasks tasks tasks tasks tasks tasks tasks tasks calendar calendar calendar calendar";
+    --dashboard-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .summaryCard {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+
+  .ctaCard {
+    position: sticky;
+    top: calc(var(--space-8) + var(--space-2));
+  }
+}
+
+@container (min-width: 64rem) {
+  .layout {
+    --dashboard-grid:
+      "summary summary summary summary summary summary summary summary cta cta cta cta"
+      "switcher switcher switcher switcher tasks tasks tasks tasks calendar calendar calendar calendar"
+      "switcher switcher switcher switcher tasks tasks tasks tasks calendar calendar calendar calendar";
+  }
+
+  .summaryCard {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+@container (min-width: 75rem) {
+  .summaryPrimary {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .summaryProgress {
+    justify-content: flex-end;
+  }
+
+  .progressRing {
+    width: var(--space-8);
+  }
+}
+
+@container (min-width: 30rem) {
+  .switcher {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 52.5rem) {
+  .switcher {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 37.5rem) {
+  .calendarGrid {
+    gap: var(--space-3);
+  }
+}
+
+@container (min-width: 45rem) {
+  .tasksCard {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+  }
+
+  .taskList {
+    grid-column: 1 / span 1;
+  }
+
+  .skeletonList {
+    grid-column: 2 / span 1;
+  }
+}

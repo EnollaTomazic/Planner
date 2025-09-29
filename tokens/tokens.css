@@ -67,7 +67,7 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
   --hover: hsl(var(--foreground) / 0.08);
-  --focus: hsl(var(--ring));
+  --focus: var(--theme-ring);
   --active: hsl(var(--foreground) / 0.12);
   --disabled: 0.5;
   --loading: 0.6;
@@ -153,8 +153,8 @@
     0 0 var(--spacing-4) var(--neon-soft);
   --shadow-neon-strong: 0 0 var(--spacing-3) var(--neon),
     0 0 var(--spacing-5) var(--neon-soft);
-  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),
-    0 0 0 var(--hairline-w) hsl(var(--border) / 0.12);
+  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),
+    var(--shadow-outline-subtle);
   --shadow-control-hover: 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
   --lg-violet: var(--ring);
   --lg-cyan: var(--accent-2);
