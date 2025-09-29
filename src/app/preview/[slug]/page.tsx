@@ -59,7 +59,7 @@ function PreviewSurfaceContainer({
     <section
       aria-busy={status === "loading"}
       aria-live={status === "loading" ? "polite" : undefined}
-      className="relative flex w-full items-center justify-center rounded-card r-card-lg border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.7)] p-[var(--space-5)] shadow-[var(--shadow-inset-hairline)]"
+      className="relative flex w-full items-center justify-center rounded-card r-card-lg border border-card-hairline-60 bg-surface-2/70 p-[var(--space-5)] shadow-[var(--shadow-inset-hairline)]"
       data-preview-ready={status}
     >
       {children}

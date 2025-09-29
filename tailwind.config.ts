@@ -30,6 +30,12 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
 const cardHairlineOpacity = (percent: number) =>
   `color-mix(in oklab, var(--card-hairline) ${percent}%, transparent)`;
 
+const cardHairlineScale = [40, 60, 65, 70, 75, 90] as const;
+
+const cardHairlinePalette = Object.fromEntries(
+  cardHairlineScale.map((value) => [value, cardHairlineOpacity(value)]),
+) as Record<(typeof cardHairlineScale)[number], string>;
+
 const progressWidthValues: Record<string, string> = Object.fromEntries(
   Array.from({ length: 101 }, (_, index) => [`${index}`, `${index}%`]),
 );
@@ -96,10 +102,10 @@ const config: Config = {
           foreground: "hsl(var(--foreground))",
         },
         panel: { DEFAULT: "hsl(var(--panel))" },
-        "card-hairline": "var(--card-hairline)",
-        "card-hairline-60": cardHairlineOpacity(60),
-        "card-hairline-70": cardHairlineOpacity(70),
-        "card-hairline-90": cardHairlineOpacity(90),
+        "card-hairline": {
+          DEFAULT: "var(--card-hairline)",
+          ...cardHairlinePalette,
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
