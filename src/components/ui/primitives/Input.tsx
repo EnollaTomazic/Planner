@@ -10,7 +10,7 @@ export type InputSize = "sm" | "md" | "lg" | "xl";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "height"
+  "height" | "style"
 > & {
   /** Visual height of the control (defaults to medium) */
   height?: InputSize | number;
@@ -35,7 +35,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,
     inputClassName,
-    style,
     id,
     name,
     "aria-label": ariaLabel,
@@ -75,7 +74,6 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       readOnly={readOnly}
       loading={loading}
       className={className}
-      style={style as React.CSSProperties}
     >
       <Field.Input
         ref={ref}

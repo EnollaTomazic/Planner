@@ -62,9 +62,7 @@ export default function PromptsDemos() {
           <Input placeholder="Error" aria-invalid="true" />
           <Input
             placeholder="Custom ring"
-            style={
-              { "--theme-ring": "hsl(var(--danger))" } as React.CSSProperties
-            }
+            className="[--theme-ring:hsl(var(--danger))]"
           />
           <Input placeholder="With action">
             <IconButton
