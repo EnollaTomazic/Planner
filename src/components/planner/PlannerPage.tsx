@@ -23,6 +23,7 @@ import { PageHeader } from "@/components/ui";
 import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
+import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 
 const PLANNER_SCROLL_STORAGE_KEY = "planner:scroll-position";
 
@@ -164,8 +165,10 @@ function Inner() {
 
 export default function PlannerPage() {
   return (
-    <PlannerProvider>
-      <Inner />
-    </PlannerProvider>
+    <RemindersProvider>
+      <PlannerProvider>
+        <Inner />
+      </PlannerProvider>
+    </RemindersProvider>
   );
 }

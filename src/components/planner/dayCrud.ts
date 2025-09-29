@@ -1,5 +1,10 @@
-import type { DayRecord } from "./plannerTypes";
-import { buildTaskLookups, computeDayCounts } from "./plannerSerialization";
+import type { DayRecord, TaskReminder } from "./plannerTypes";
+import {
+  buildTaskLookups,
+  computeDayCounts,
+  sanitizeTaskReminder,
+  taskRemindersEqual,
+} from "./plannerSerialization";
 
 type DayUpdates = Partial<
   Pick<
@@ -117,6 +122,47 @@ export function removeTask(day: DayRecord, id: string) {
   return finalizeDay(day, {
     tasks: day.tasks.filter((t) => t.id !== id),
   });
+}
+
+export function updateTaskReminder(
+  day: DayRecord,
+  id: string,
+  partial: Partial<TaskReminder> | null,
+) {
+  let changed = false;
+
+  const tasks = day.tasks.map((t) => {
+    if (t.id !== id) return t;
+
+    if (partial === null) {
+      if (!t.reminder) return t;
+      changed = true;
+      const rest = { ...t };
+      delete rest.reminder;
+      return rest;
+    }
+
+    const base = t.reminder ?? {};
+    const nextReminder = sanitizeTaskReminder({ ...base, ...partial });
+
+    if (taskRemindersEqual(t.reminder, nextReminder)) {
+      return t;
+    }
+
+    changed = true;
+
+    if (!nextReminder) {
+      const rest = { ...t };
+      delete rest.reminder;
+      return rest;
+    }
+
+    return { ...t, reminder: nextReminder };
+  });
+
+  if (!changed) return day;
+
+  return finalizeDay(day, { tasks });
 }
 
 export function addTaskImage(day: DayRecord, id: string, url: string) {
