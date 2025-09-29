@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
+import neumorphicStyles from "../neumorphic.module.css";
 import styles from "./IconButton.module.css";
 
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
@@ -71,25 +72,17 @@ const getSizeClass = (s: IconButtonSize) => {
 };
 
 const toneTintTokens = {
-  primary:
-    "[--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')]",
-  accent:
-    "[--hover:theme('colors.interaction.accent.tintHover')] [--active:theme('colors.interaction.accent.tintActive')]",
-  info:
-    "[--hover:theme('colors.interaction.info.tintHover')] [--active:theme('colors.interaction.info.tintActive')]",
-  danger:
-    "[--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
+  primary: "[--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)]",
+  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
+  info: "[--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+  danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
 } satisfies Record<Tone, string>;
 
 const toneInteractionTokens = {
-  primary:
-    "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]",
-  accent:
-    "[--hover:theme('colors.interaction.accent.hover')] [--active:theme('colors.interaction.accent.active')]",
-  info:
-    "[--hover:theme('colors.interaction.info.hover')] [--active:theme('colors.interaction.info.active')]",
-  danger:
-    "[--hover:theme('colors.interaction.danger.hover')] [--active:theme('colors.interaction.danger.active')]",
+  primary: "[--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)]",
+  accent: "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]",
+  info: "[--hover:hsl(var(--accent-2)/0.14)] [--active:hsl(var(--accent-2)/0.2)]",
+  danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
 } satisfies Record<Tone, string>;
 
 const toneForegroundVar: Record<Tone, string> = {
@@ -99,54 +92,87 @@ const toneForegroundVar: Record<Tone, string> = {
   danger: "--danger-foreground",
 };
 
+const secondarySurfaceTokens: Record<Tone, string> = {
+  primary: "[--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]",
+  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
+  info: "[--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
+  danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
+};
+
 const primaryVariantBase = (tone: Tone): string =>
   cn(
-    "border transition-[box-shadow,background-color,color] shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
+    "border transition-[box-shadow,background-color,color] [--neo-shadow:var(--btn-primary-shadow-rest)] [--neo-shadow-hover:var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
     toneInteractionTokens[tone],
   );
 
 const variantBase: Record<Variant, (tone: Tone) => string> = {
-  ghost: (tone) => cn("border bg-card/35 hover:bg-[--hover]", toneTintTokens[tone]),
+  ghost: (tone) =>
+    cn(
+      "border transition-[box-shadow,background-color,color]",
+      toneTintTokens[tone],
+    ),
   primary: primaryVariantBase,
   secondary: () =>
-    "border transition-[box-shadow,background-color,color] shadow-[var(--btn-secondary-shadow-rest)] hover:shadow-[var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
+    "border transition-[box-shadow,background-color,color] [--neo-shadow:var(--btn-secondary-shadow-rest)] [--neo-shadow-hover:var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
 };
 
 const toneClasses: Record<Variant, Record<Tone, string>> = {
   ghost: {
-    primary: "border-[hsl(var(--line)/0.35)] text-foreground",
-    accent: "border-accent/35 text-on-accent",
-    info: "border-accent-2/35 text-on-accent",
-    danger: "border-danger/35 text-danger",
+    primary: cn(
+      "border-[hsl(var(--line)/0.35)] text-foreground",
+      "[--neu-surface:hsl(var(--card)/0.35)]",
+    ),
+    accent: cn(
+      "border-accent/35 text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.2)]",
+    ),
+    info: cn(
+      "border-accent-2/35 text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.2)]",
+    ),
+    danger: cn(
+      "border-danger/35 text-danger",
+      "[--neu-surface:hsl(var(--danger)/0.12)]",
+    ),
   },
   primary: {
     primary: cn(
-      "border-[hsl(var(--primary)/0.35)] bg-primary-soft",
+      "border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))]",
       `text-[hsl(var(${toneForegroundVar.primary}))]`,
     ),
     accent: cn(
-      "border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent)/0.12)]",
+      "border-[hsl(var(--accent)/0.35)] [--neu-surface:hsl(var(--accent)/0.12)]",
       "text-on-accent",
     ),
     info: cn(
-      "border-[hsl(var(--accent-2)/0.35)] bg-[hsl(var(--accent-2)/0.12)]",
+      "border-[hsl(var(--accent-2)/0.35)] [--neu-surface:hsl(var(--accent-2)/0.12)]",
       "text-on-accent",
     ),
     danger: cn(
-      "border-[hsl(var(--danger)/0.35)] bg-[hsl(var(--danger)/0.12)]",
+      "border-[hsl(var(--danger)/0.35)] [--neu-surface:hsl(var(--danger)/0.12)]",
       "text-[hsl(var(--danger-surface-foreground))]",
     ),
   },
   secondary: {
-    primary:
-      "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)] hover:text-foreground active:text-foreground focus-visible:text-foreground",
-    accent:
-      "text-on-accent bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
-    info:
-      "text-on-accent bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
+    primary: cn(
+      secondarySurfaceTokens.primary,
+      "text-muted-foreground hover:text-foreground active:text-foreground focus-visible:text-foreground",
+      "[--neu-surface:hsl(var(--panel)/0.6)]",
+    ),
+    accent: cn(
+      secondarySurfaceTokens.accent,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.3)]",
+    ),
+    info: cn(
+      secondarySurfaceTokens.info,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.25)]",
+    ),
     danger: cn(
-      toneInteractionTokens.danger,
-      "text-[hsl(var(--danger-tint-foreground))] bg-danger/25",
+      secondarySurfaceTokens.danger,
+      "text-[hsl(var(--danger-tint-foreground))]",
+      "[--neu-surface:hsl(var(--danger)/0.25)]",
     ),
   },
 };
@@ -213,8 +239,11 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type="button"
         className={cn(
+          neumorphicStyles.neu,
+          neumorphicStyles["neu-hover"],
           styles.root,
           "inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+          "[--neu-radius:var(--radius-full)]",
           variantClass,
           toneClasses[variant][tone],
           sizeClass,
