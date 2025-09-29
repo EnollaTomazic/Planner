@@ -71,7 +71,7 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
   --hover: hsl(var(--foreground) / 0.08);
-  --focus: hsl(var(--ring));
+  --focus: var(--theme-ring);
   --active: hsl(var(--foreground) / 0.12);
   --disabled: 0.5;
   --loading: 0.6;
@@ -254,20 +254,32 @@
   --spacing-6: 32px;
   --spacing-7: 48px;
   --spacing-8: 64px;
-  --spacing-1: 4px;
-  --spacing-2: 8px;
-  --spacing-3: 12px;
-  --spacing-4: 16px;
-  --spacing-5: 24px;
-  --spacing-6: 32px;
-  --spacing-7: 48px;
-  --spacing-8: 64px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
@@ -399,6 +411,26 @@ html.theme-aurora {
     hsl(var(--accent-2) / 0.3)
   );
   --shadow: 0 10px 30px hsl(var(--shadow-base) / 0.28);
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Citrus ---------- */
 html.theme-citrus {
@@ -427,6 +459,26 @@ html.theme-citrus {
   --success: 150 68% 46%;
   --success-glow: 150 68% 36% / 0.6;
   --citrus-teal: 168 72% 42%;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Noir ---------- */
 html.theme-noir {
@@ -457,6 +509,26 @@ html.theme-noir {
   --noir-rose: 352 68% 54%;
   --noir-ink: 352 80% 6%;
   --noir-ruby: 12 76% 46%;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Oceanic ---------- */
 html.theme-ocean {
@@ -485,6 +557,26 @@ html.theme-ocean {
   --success-glow: 158 72% 38% / 0.6;
   --ocean-cyan: 194 88% 52%;
   --ocean-indigo: 230 72% 62%;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Kitten ---------- */
 html.theme-kitten {
@@ -514,6 +606,26 @@ html.theme-kitten {
   --kitten-rose: 346 94% 42%;
   --kitten-pink: 342 96% 48%;
   --kitten-blush: 348 88% 88%;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Hardstuck ---------- */
 html.theme-hardstuck {
@@ -552,6 +664,26 @@ html.theme-hardstuck {
   --success-glow: 120 90% 42% / 0.6;
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* ---------- Retro ---------- */
 html.theme-retro {
@@ -611,6 +743,26 @@ html.theme-retro {
       hsl(var(--accent-3) / 0.12) 14px 15px,
       transparent 15px 28px
   );
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  --neo-glow-strength: 0.45; /* used as multiplier on --shadow-neon */
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  --glitch-intensity: 1.0;        /* 0–1 scaling for transforms/opacity */
+  --glitch-duration: 450ms;       /* base animation length */
+  --glitch-fringe: 12deg;         /* hue-rotate magnitude */
+  --glitch-static-opacity: 0.18;  /* overlay alpha */
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  --aa-min-contrast: 4.5; /* used in tests; not CSS-enforced */
 }
 /* =========================================================
    Per-theme glitch backdrops

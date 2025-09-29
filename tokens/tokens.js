@@ -67,7 +67,7 @@ export default {
   btnBg: "transparent",
   btnFg: "hsl(var(--foreground))",
   hover: "hsl(var(--foreground) / 0.08)",
-  focus: "hsl(var(--ring))",
+  focus: "var(--theme-ring)",
   active: "hsl(var(--foreground) / 0.12)",
   disabled: "0.5",
   loading: "0.6",
