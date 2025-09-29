@@ -5,6 +5,22 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
 import Field from "./Field";
+import styles from "./Input.module.css";
+
+export type InputRingTone =
+  | "accent"
+  | "danger"
+  | "primary"
+  | "success"
+  | "warning";
+
+const RING_TONE_CLASS_MAP: Record<InputRingTone, string> = {
+  accent: styles.ringToneAccent,
+  danger: styles.ringToneDanger,
+  primary: styles.ringTonePrimary,
+  success: styles.ringToneSuccess,
+  warning: styles.ringToneWarning,
+};
 
 export type InputSize = "sm" | "md" | "lg" | "xl";
 
@@ -22,6 +38,8 @@ export type InputProps = Omit<
   hasEndSlot?: boolean;
   /** Optional loading state forwarded via `data-loading` */
   "data-loading"?: string | boolean | number;
+  /** Overrides the focus ring tone by mapping to semantic tokens */
+  ringTone?: InputRingTone;
 };
 
 /**
@@ -42,6 +60,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     indent = false,
     children,
     hasEndSlot = false,
+    ringTone,
     ...props
   },
   ref,
@@ -73,7 +92,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       disabled={disabled}
       readOnly={readOnly}
       loading={loading}
-      className={className}
+      className={cn(ringTone ? RING_TONE_CLASS_MAP[ringTone] : undefined, className)}
     >
       <Field.Input
         ref={ref}

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import clsx from "clsx";
 import { Check, Copy } from "lucide-react";
 
 import {
@@ -12,18 +13,12 @@ import {
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
+import styles from "./ColorsView.module.css";
 import {
   isTokenSelected,
   toggleTokenOverride,
   useTokenOverrides,
 } from "@/components/gallery/token-overrides-store";
-
-const CHECKERBOARD_STYLE: React.CSSProperties = {
-  backgroundImage:
-    "linear-gradient(45deg, hsl(var(--surface)) 25%, hsl(var(--surface-2)) 25%, hsl(var(--surface-2)) 50%, hsl(var(--surface)) 50%, hsl(var(--surface)) 75%, hsl(var(--surface-2)) 75%, hsl(var(--surface-2)) 100%), linear-gradient(45deg, hsl(var(--surface-2)) 25%, hsl(var(--surface)) 25%, hsl(var(--surface)) 50%, hsl(var(--surface-2)) 50%, hsl(var(--surface-2)) 75%, hsl(var(--surface)) 75%, hsl(var(--surface)) 100%)",
-  backgroundPosition: "0 0, var(--space-2) var(--space-2)",
-  backgroundSize: "calc(var(--space-2) * 2) calc(var(--space-2) * 2)",
-};
 
 const TOKEN_GRID_CLASSNAME =
   "grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 sm:gap-[var(--space-4)] xl:grid-cols-3";
@@ -323,14 +318,12 @@ function ColorPreview({ name }: { name: string }) {
   const [theme] = useTheme();
   const { variant, bg } = theme;
   const swatchRef = React.useRef<HTMLDivElement | null>(null);
-  const [resolvedColor, setResolvedColor] = React.useState<string | null>(null);
   const [isTranslucent, setIsTranslucent] = React.useState(false);
 
   React.useEffect(() => {
     const node = swatchRef.current;
 
     if (!node) {
-      setResolvedColor(null);
       setIsTranslucent(false);
       return;
     }
@@ -348,13 +341,10 @@ function ColorPreview({ name }: { name: string }) {
       const rawValue = computed.getPropertyValue(`--${name}`).trim();
 
       if (!rawValue) {
-        setResolvedColor(null);
         setIsTranslucent(false);
         return;
       }
 
-      let color = rawValue;
-      const supportsColor = window.CSS?.supports;
       let translucent = false;
 
       const slashMatch = rawValue.match(/\/(\s*[0-9.]+)(%?)/);
@@ -369,16 +359,6 @@ function ColorPreview({ name }: { name: string }) {
         translucent = true;
       }
 
-      if (typeof supportsColor === "function") {
-        if (!supportsColor("color", rawValue)) {
-          const hslValue = `hsl(${rawValue})`;
-          color = supportsColor("color", hslValue) ? hslValue : rawValue;
-        }
-      } else if (!rawValue.includes("(") && !rawValue.startsWith("var(")) {
-        color = `hsl(${rawValue})`;
-      }
-
-      setResolvedColor(color);
       setIsTranslucent(translucent);
     };
 
@@ -405,16 +385,12 @@ function ColorPreview({ name }: { name: string }) {
       aria-hidden="true"
     >
       {isTranslucent ? (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={CHECKERBOARD_STYLE}
-        />
+        <div aria-hidden="true" className={styles.checkerboard} />
       ) : null}
       <div
         ref={swatchRef}
-        className="relative h-full w-full"
-        style={{ background: resolvedColor ?? undefined }}
+        className={clsx("relative h-full w-full", styles.swatchFill)}
+        data-token={name}
       />
     </div>
   );
@@ -427,8 +403,11 @@ function SpacingPreview({ name }: { name: string }) {
       aria-hidden="true"
     >
       <div
-        className="h-full rounded-full bg-[hsl(var(--accent-2)/0.65)]"
-        style={{ width: `var(--${name})`, maxWidth: "100%" }}
+        className={clsx(
+          "h-full rounded-full bg-[hsl(var(--accent-2)/0.65)]",
+          styles.spacingBar,
+        )}
+        data-token={name}
       />
     </div>
   );
@@ -441,8 +420,11 @@ function RadiusPreview({ name }: { name: string }) {
       aria-hidden="true"
     >
       <div
-        className="aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70"
-        style={{ borderRadius: `var(--${name})` }}
+        className={clsx(
+          "aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70",
+          styles.radiusDemo,
+        )}
+        data-token={name}
       />
     </div>
   );
@@ -455,39 +437,24 @@ function ShadowPreview({ name }: { name: string }) {
       aria-hidden="true"
     >
       <div
-        className="h-[var(--space-7)] w-full rounded-card border border-[var(--card-hairline)] bg-panel/70"
-        style={{
-          boxShadow: `var(--${name})`,
-          maxWidth: "calc(var(--space-8) * 2)",
-        }}
+        className={clsx(
+          "h-[var(--space-7)] w-full rounded-card border border-[var(--card-hairline)] bg-panel/70",
+          styles.shadowDemo,
+        )}
+        data-token={name}
       />
     </div>
   );
 }
 
 function TypographyPreview({ token }: { token: TokenMeta }) {
-  const previewStyle = React.useMemo<React.CSSProperties>(() => {
-    const style: React.CSSProperties = {};
-    const cssReference = `var(--${token.name})`;
-
-    if (
-      (token.name.startsWith("font-") && !token.name.includes("weight")) ||
-      token.name.endsWith("-fs")
-    ) {
-      style.fontSize = cssReference;
-    }
-
-    if (token.name.includes("weight")) {
-      style.fontWeight = token.value;
-    }
-
-    return style;
-  }, [token.name, token.value]);
-
   return (
     <div
-      className="mt-[var(--space-2)] rounded-card border border-[var(--card-hairline)] bg-panel/60 px-[var(--space-3)] py-[var(--space-2)] text-ui font-semibold text-foreground"
-      style={previewStyle}
+      className={clsx(
+        "mt-[var(--space-2)] rounded-card border border-[var(--card-hairline)] bg-panel/60 px-[var(--space-3)] py-[var(--space-2)] text-ui font-semibold text-foreground",
+        styles.typographyPreview,
+      )}
+      data-token={token.name}
       aria-hidden="true"
     >
       Aa

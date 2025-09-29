@@ -60,10 +60,7 @@ export default function PromptsDemos() {
           <Input className="rounded-full" placeholder="Rounded" />
           <Input placeholder="Disabled" disabled />
           <Input placeholder="Error" aria-invalid="true" />
-          <Input
-            placeholder="Custom ring"
-            className="[--theme-ring:hsl(var(--danger))]"
-          />
+          <Input placeholder="Custom ring" ringTone="danger" />
           <Input placeholder="With action">
             <IconButton
               size="sm"

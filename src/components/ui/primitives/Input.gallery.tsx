@@ -54,6 +54,12 @@ const INPUT_STATES: readonly InputStateSpec[] = [
     props: { placeholder: "Loading", "data-loading": true },
     code: "<Input placeholder=\"Loading\" data-loading />",
   },
+  {
+    id: "custom-ring",
+    name: "Custom ring",
+    props: { placeholder: "Custom ring", ringTone: "danger" },
+    code: "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
+  },
 ];
 
 function InputStatePreview({ state }: { state: InputStateSpec }) {
@@ -85,6 +91,11 @@ export default defineGallerySection({
         { name: "height", type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"' },
         { name: "disabled", type: "boolean", defaultValue: "false" },
         { name: "data-loading", type: "boolean", defaultValue: "false" },
+        {
+          name: "ringTone",
+          type: '"accent" | "danger" | "primary" | "success" | "warning"',
+          defaultValue: "undefined",
+        },
       ],
       axes: [
         {
@@ -114,6 +125,7 @@ export default defineGallerySection({
   <Input placeholder="Active" className="bg-[--active]" />
   <Input placeholder="Disabled" disabled />
   <Input placeholder="Loading" data-loading />
+  <Input placeholder="Custom ring" ringTone="danger" />
 </div>`,
     },
   ],

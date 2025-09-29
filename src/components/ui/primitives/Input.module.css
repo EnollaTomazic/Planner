@@ -1,0 +1,21 @@
+.root {}
+
+.ringToneAccent {
+  --theme-ring: hsl(var(--accent));
+}
+
+.ringToneDanger {
+  --theme-ring: hsl(var(--danger));
+}
+
+.ringTonePrimary {
+  --theme-ring: hsl(var(--primary));
+}
+
+.ringToneSuccess {
+  --theme-ring: hsl(var(--success));
+}
+
+.ringToneWarning {
+  --theme-ring: hsl(var(--warning));
+}
