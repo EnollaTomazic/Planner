@@ -8,134 +8,134 @@
   inline-size: calc(var(--space-8) + var(--space-6));
 }
 
-:global([data-palette="aurora-g"]) {
+.statusCard {
+  color: var(--text-on-accent);
+  box-shadow: var(--elevation-2);
+}
+
+.auroraSwatch[data-palette="aurora-g"] {
   background-color: hsl(var(--aurora-g));
 }
 
-:global([data-palette="aurora-g-light"]) {
+.auroraSwatch[data-palette="aurora-g-light"] {
   background-color: var(
     --aurora-g-light-color,
     hsl(var(--aurora-g-light))
   );
 }
 
-:global([data-palette="aurora-p"]) {
+.auroraSwatch[data-palette="aurora-p"] {
   background-color: hsl(var(--aurora-p));
 }
 
-:global([data-palette="aurora-p-light"]) {
+.auroraSwatch[data-palette="aurora-p-light"] {
   background-color: var(
     --aurora-p-light-color,
     hsl(var(--aurora-p-light))
   );
 }
 
-:global([data-palette="background"]) {
+.paletteSwatch[data-palette="background"] {
   background-color: hsl(var(--background));
 }
 
-:global([data-palette="foreground"]) {
+.paletteSwatch[data-palette="foreground"] {
   background-color: hsl(var(--foreground));
 }
 
-:global([data-palette="text"]) {
+.paletteSwatch[data-palette="text"] {
   background-color: hsl(var(--text));
 }
 
-:global([data-palette="card"]) {
+.paletteSwatch[data-palette="card"] {
   background-color: hsl(var(--card));
 }
 
-:global([data-palette="panel"]) {
+.paletteSwatch[data-palette="panel"] {
   background-color: hsl(var(--panel));
 }
 
-:global([data-palette="border"]) {
+.paletteSwatch[data-palette="border"] {
   background-color: hsl(var(--border));
 }
 
-:global([data-palette="line"]) {
+.paletteSwatch[data-palette="line"] {
   background-color: hsl(var(--line));
 }
 
-:global([data-palette="input"]) {
+.paletteSwatch[data-palette="input"] {
   background-color: hsl(var(--input));
 }
 
-:global([data-palette="ring"]) {
+.paletteSwatch[data-palette="ring"] {
   background-color: hsl(var(--ring));
 }
 
-:global([data-palette="muted"]) {
+.paletteSwatch[data-palette="muted"] {
   background-color: hsl(var(--muted));
 }
 
-:global([data-palette="muted-foreground"]) {
+.paletteSwatch[data-palette="muted-foreground"] {
   background-color: hsl(var(--muted-foreground));
 }
 
-:global([data-palette="surface"]) {
+.paletteSwatch[data-palette="surface"] {
   background-color: hsl(var(--surface));
 }
 
-:global([data-palette="surface-2"]) {
+.paletteSwatch[data-palette="surface-2"] {
   background-color: hsl(var(--surface-2));
 }
 
-:global([data-palette="surface-vhs"]) {
+.paletteSwatch[data-palette="surface-vhs"] {
   background-color: hsl(var(--surface-vhs));
 }
 
-:global([data-palette="surface-streak"]) {
+.paletteSwatch[data-palette="surface-streak"] {
   background-color: hsl(var(--surface-streak));
 }
 
-:global([data-palette="icon-fg"]) {
+.paletteSwatch[data-palette="icon-fg"] {
   background-color: hsl(var(--icon-fg));
 }
 
-:global([data-palette="accent"]) {
+.paletteSwatch[data-palette="accent"] {
   background-color: hsl(var(--accent));
 }
 
-:global([data-palette="accent-2"]) {
+.paletteSwatch[data-palette="accent-2"] {
   background-color: hsl(var(--accent-2));
 }
 
-:global([data-palette="accent-3"]) {
+.paletteSwatch[data-palette="accent-3"] {
   background-color: hsl(var(--accent-3));
 }
 
-:global([data-palette="accent-foreground"]) {
+.paletteSwatch[data-palette="accent-foreground"] {
   background-color: hsl(var(--accent-foreground));
 }
 
-:global([data-palette="danger"]) {
+.paletteSwatch[data-palette="danger"] {
   background-color: hsl(var(--danger));
 }
 
-:global([data-palette="success"]) {
+.paletteSwatch[data-palette="success"] {
   background-color: hsl(var(--success));
 }
 
-:global([data-palette="glow-strong"]) {
+.paletteSwatch[data-palette="glow-strong"] {
   background-color: hsl(var(--glow-strong));
 }
 
-:global([data-palette="glow-soft"]) {
+.paletteSwatch[data-palette="glow-soft"] {
   background-color: hsl(var(--glow-soft));
 }
 
-:global([data-status]) {
-  color: var(--text-on-accent);
-  box-shadow: var(--elevation-2);
-}
-
-:global([data-status="warning"]) {
+.statusCard[data-status="warning"] {
   background-color: hsl(var(--warning));
 }
 
-:global([data-status="success"]) {
+.statusCard[data-status="success"] {
   background-color: hsl(var(--success));
   box-shadow: var(--elevation-2), 0 0 var(--space-4) hsl(var(--success-glow));
 }

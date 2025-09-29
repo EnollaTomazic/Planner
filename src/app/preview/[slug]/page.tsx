@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense } from "react";
 
 import {
   getGalleryPreviewRenderer,
   getGalleryPreviewRoute,
   getGalleryPreviewRoutes,
-  type GalleryPreviewRenderer,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
 import { Spinner } from "@/components/ui";
 import { VARIANT_LABELS } from "@/lib/theme";
+import PreviewSurfaceClient from "./PreviewSurfaceClient";
+import { previewSurfaceContainerClasses } from "./previewSurfaceStyles";
 
 const SKIP_PREVIEW_RENDER =
   process.env.GITHUB_PAGES === "true" || process.env.SKIP_PREVIEW_STATIC === "true";
@@ -47,83 +48,28 @@ export async function generateMetadata({
   };
 }
 
-function PreviewSurfaceContainer({
-  children,
-  status,
-}: {
-  readonly children?: React.ReactNode;
-  readonly status: "loading" | "loaded";
-}) {
-  return (
-    <section
-      aria-busy={status === "loading"}
-      aria-live={status === "loading" ? "polite" : undefined}
-      className="relative flex w-full items-center justify-center rounded-card r-card-lg border border-[hsl(var(--card-hairline)/0.6)] bg-[hsl(var(--surface-2)/0.7)] p-[var(--space-5)] shadow-[var(--shadow-inset-hairline)]"
-      data-preview-ready={status}
-    >
-      {children}
-    </section>
-  );
-}
-
 function PreviewFallback() {
   return (
-    <PreviewSurfaceContainer status="loading">
+    <section
+      aria-busy
+      aria-live="polite"
+      className={previewSurfaceContainerClasses}
+      data-preview-ready="loading"
+    >
       <div className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground" role="status">
         <Spinner />
         <span>Loading preview…</span>
       </div>
-    </PreviewSurfaceContainer>
+    </section>
   );
-}
-
-function PreviewSurface({
-  renderer,
-}: {
-  readonly renderer: GalleryPreviewRenderer;
-}) {
-  const [status, setStatus] = useState<"loading" | "loaded">("loading");
-
-  const rendered = useMemo(() => renderer(), [renderer]);
-
-  useEffect(() => {
-    if (!React.isValidElement(rendered)) {
-      setStatus("loaded");
-    }
-  }, [rendered]);
-
-  let content = rendered;
-
-  if (React.isValidElement(rendered)) {
-    const element = rendered as React.ReactElement<{
-      onReady?: (...args: unknown[]) => void;
-      onError?: (...args: unknown[]) => void;
-    }>;
-    content = React.cloneElement(element, {
-      onReady: (...args: unknown[]) => {
-        setStatus("loaded");
-        if (typeof element.props.onReady === "function") {
-          element.props.onReady(...args);
-        }
-      },
-      onError: (...args: unknown[]) => {
-        setStatus("loaded");
-        if (typeof element.props.onError === "function") {
-          element.props.onError(...args);
-        }
-      },
-    });
-  }
-
-  return <PreviewSurfaceContainer status={status}>{content}</PreviewSurfaceContainer>;
 }
 
 interface PreviewContentProps {
   readonly route: GalleryPreviewRoute;
-  readonly renderer: GalleryPreviewRenderer;
+  readonly previewId: string;
 }
 
-function PreviewContent({ route, renderer }: PreviewContentProps) {
+function PreviewContent({ route, previewId }: PreviewContentProps) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
   const axisSummary = route.axisParams
@@ -156,7 +102,7 @@ function PreviewContent({ route, renderer }: PreviewContentProps) {
           ) : null}
         </header>
         <Suspense fallback={<PreviewFallback />}>
-          <PreviewSurface renderer={renderer} />
+          <PreviewSurfaceClient previewId={previewId} />
         </Suspense>
       </div>
     </main>
@@ -195,12 +141,17 @@ function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) 
             <p className="text-caption text-muted-foreground">{axisSummary}</p>
           ) : null}
         </header>
-        <PreviewSurfaceContainer status="loading">
+        <section
+          aria-busy
+          aria-live="polite"
+          className={previewSurfaceContainerClasses}
+          data-preview-ready="loading"
+        >
           <div className="space-y-[var(--space-2)] text-label text-muted-foreground">
             <p>Preview unavailable in the static export.</p>
             <p>Clone the repository and run the development server to view this preview.</p>
           </div>
-        </PreviewSurfaceContainer>
+        </section>
       </div>
     </main>
   );
@@ -213,8 +164,7 @@ export default async function PreviewPage({ params }: PreviewPageParams) {
     notFound();
   }
 
-  const renderer = getGalleryPreviewRenderer(route.previewId);
-  if (!renderer) {
+  if (!getGalleryPreviewRenderer(route.previewId)) {
     notFound();
   }
 
@@ -222,5 +172,5 @@ export default async function PreviewPage({ params }: PreviewPageParams) {
     return <PreviewUnavailable route={route} />;
   }
 
-  return <PreviewContent route={route} renderer={renderer} />;
+  return <PreviewContent route={route} previewId={route.previewId} />;
 }

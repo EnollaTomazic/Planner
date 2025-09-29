@@ -226,8 +226,15 @@ export default async function RootLayout({
     return renderLayout();
   }
 
-  const { headers } = await import("next/headers");
-  const nonceHeader = await headers();
-  const nonce = nonceHeader.get("x-nonce") ?? undefined;
-  return renderLayout(nonce);
+  try {
+    const { headers } = await import("next/headers");
+    const nonceHeader = await headers();
+    const nonce = nonceHeader.get("x-nonce") ?? undefined;
+    return renderLayout(nonce);
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("Skipping nonce extraction; falling back to static layout.", error);
+    }
+    return renderLayout();
+  }
 }
