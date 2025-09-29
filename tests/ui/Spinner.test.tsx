@@ -8,4 +8,9 @@ describe('Spinner', () => {
     const { getByRole } = render(<Spinner />);
     expect(getByRole('status')).toBeInTheDocument();
   });
+
+  it('applies reduced motion safeguard', () => {
+    const { getByRole } = render(<Spinner />);
+    expect(getByRole('status')).toHaveClass('motion-reduce:animate-none');
+  });
 });
