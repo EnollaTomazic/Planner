@@ -8,121 +8,121 @@
   inline-size: calc(var(--space-8) + var(--space-6));
 }
 
-.auroraSwatch:global([data-palette="aurora-g"]) {
+.auroraSwatch[data-palette="aurora-g"] {
   background-color: hsl(var(--aurora-g));
 }
 
-.auroraSwatch:global([data-palette="aurora-g-light"]) {
+.auroraSwatch[data-palette="aurora-g-light"] {
   background-color: var(
     --aurora-g-light-color,
     hsl(var(--aurora-g-light))
   );
 }
 
-.auroraSwatch:global([data-palette="aurora-p"]) {
+.auroraSwatch[data-palette="aurora-p"] {
   background-color: hsl(var(--aurora-p));
 }
 
-.auroraSwatch:global([data-palette="aurora-p-light"]) {
+.auroraSwatch[data-palette="aurora-p-light"] {
   background-color: var(
     --aurora-p-light-color,
     hsl(var(--aurora-p-light))
   );
 }
 
-.paletteSwatch:global([data-palette="background"]) {
+.paletteSwatch[data-palette="background"] {
   background-color: hsl(var(--background));
 }
 
-.paletteSwatch:global([data-palette="foreground"]) {
+.paletteSwatch[data-palette="foreground"] {
   background-color: hsl(var(--foreground));
 }
 
-.paletteSwatch:global([data-palette="text"]) {
+.paletteSwatch[data-palette="text"] {
   background-color: hsl(var(--text));
 }
 
-.paletteSwatch:global([data-palette="card"]) {
+.paletteSwatch[data-palette="card"] {
   background-color: hsl(var(--card));
 }
 
-.paletteSwatch:global([data-palette="panel"]) {
+.paletteSwatch[data-palette="panel"] {
   background-color: hsl(var(--panel));
 }
 
-.paletteSwatch:global([data-palette="border"]) {
+.paletteSwatch[data-palette="border"] {
   background-color: hsl(var(--border));
 }
 
-.paletteSwatch:global([data-palette="line"]) {
+.paletteSwatch[data-palette="line"] {
   background-color: hsl(var(--line));
 }
 
-.paletteSwatch:global([data-palette="input"]) {
+.paletteSwatch[data-palette="input"] {
   background-color: hsl(var(--input));
 }
 
-.paletteSwatch:global([data-palette="ring"]) {
+.paletteSwatch[data-palette="ring"] {
   background-color: hsl(var(--ring));
 }
 
-.paletteSwatch:global([data-palette="muted"]) {
+.paletteSwatch[data-palette="muted"] {
   background-color: hsl(var(--muted));
 }
 
-.paletteSwatch:global([data-palette="muted-foreground"]) {
+.paletteSwatch[data-palette="muted-foreground"] {
   background-color: hsl(var(--muted-foreground));
 }
 
-.paletteSwatch:global([data-palette="surface"]) {
+.paletteSwatch[data-palette="surface"] {
   background-color: hsl(var(--surface));
 }
 
-.paletteSwatch:global([data-palette="surface-2"]) {
+.paletteSwatch[data-palette="surface-2"] {
   background-color: hsl(var(--surface-2));
 }
 
-.paletteSwatch:global([data-palette="surface-vhs"]) {
+.paletteSwatch[data-palette="surface-vhs"] {
   background-color: hsl(var(--surface-vhs));
 }
 
-.paletteSwatch:global([data-palette="surface-streak"]) {
+.paletteSwatch[data-palette="surface-streak"] {
   background-color: hsl(var(--surface-streak));
 }
 
-.paletteSwatch:global([data-palette="icon-fg"]) {
+.paletteSwatch[data-palette="icon-fg"] {
   background-color: hsl(var(--icon-fg));
 }
 
-.paletteSwatch:global([data-palette="accent"]) {
+.paletteSwatch[data-palette="accent"] {
   background-color: hsl(var(--accent));
 }
 
-.paletteSwatch:global([data-palette="accent-2"]) {
+.paletteSwatch[data-palette="accent-2"] {
   background-color: hsl(var(--accent-2));
 }
 
-.paletteSwatch:global([data-palette="accent-3"]) {
+.paletteSwatch[data-palette="accent-3"] {
   background-color: hsl(var(--accent-3));
 }
 
-.paletteSwatch:global([data-palette="accent-foreground"]) {
+.paletteSwatch[data-palette="accent-foreground"] {
   background-color: hsl(var(--accent-foreground));
 }
 
-.paletteSwatch:global([data-palette="danger"]) {
+.paletteSwatch[data-palette="danger"] {
   background-color: hsl(var(--danger));
 }
 
-.paletteSwatch:global([data-palette="success"]) {
+.paletteSwatch[data-palette="success"] {
   background-color: hsl(var(--success));
 }
 
-.paletteSwatch:global([data-palette="glow-strong"]) {
+.paletteSwatch[data-palette="glow-strong"] {
   background-color: hsl(var(--glow-strong));
 }
 
-.paletteSwatch:global([data-palette="glow-soft"]) {
+.paletteSwatch[data-palette="glow-soft"] {
   background-color: hsl(var(--glow-soft));
 }
 
@@ -131,11 +131,11 @@
   box-shadow: var(--elevation-2);
 }
 
-.statusCard:global([data-status="warning"]) {
+.statusCard[data-status="warning"] {
   background-color: hsl(var(--warning));
 }
 
-.statusCard:global([data-status="success"]) {
+.statusCard[data-status="success"] {
   background-color: hsl(var(--success));
   box-shadow: var(--elevation-2), 0 0 var(--space-4) hsl(var(--success-glow));
 }

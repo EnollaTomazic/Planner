@@ -7,7 +7,6 @@ import {
   getGalleryPreviewRenderer,
   getGalleryPreviewRoute,
   getGalleryPreviewRoutes,
-  type GalleryPreviewRenderer,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import PreviewSurface from "@/components/gallery/PreviewSurfaceClient";
@@ -81,10 +80,9 @@ function PreviewFallback() {
 
 interface PreviewContentProps {
   readonly route: GalleryPreviewRoute;
-  readonly renderer: GalleryPreviewRenderer;
 }
 
-function PreviewContent({ route, renderer }: PreviewContentProps) {
+function PreviewContent({ route }: PreviewContentProps) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
   const axisSummary = route.axisParams
@@ -117,7 +115,7 @@ function PreviewContent({ route, renderer }: PreviewContentProps) {
           ) : null}
         </header>
         <Suspense fallback={<PreviewFallback />}>
-          <PreviewSurface renderer={renderer} />
+          <PreviewSurface previewId={route.previewId} />
         </Suspense>
       </div>
     </main>
@@ -174,8 +172,7 @@ export default async function PreviewPage({ params }: PreviewPageParams) {
     notFound();
   }
 
-  const renderer = getGalleryPreviewRenderer(route.previewId);
-  if (!renderer) {
+  if (!getGalleryPreviewRenderer(route.previewId)) {
     notFound();
   }
 
@@ -183,5 +180,5 @@ export default async function PreviewPage({ params }: PreviewPageParams) {
     return <PreviewUnavailable route={route} />;
   }
 
-  return <PreviewContent route={route} renderer={renderer} />;
+  return <PreviewContent route={route} />;
 }

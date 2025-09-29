@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
-import type { GalleryPreviewRenderer } from "@/components/gallery";
+import PreviewRendererClient from "./PreviewRendererClient";
 
 function PreviewSurfaceContainer({
   children,
@@ -23,43 +23,28 @@ function PreviewSurfaceContainer({
   );
 }
 
-export default function PreviewSurface({
-  renderer,
-}: {
-  readonly renderer: GalleryPreviewRenderer;
-}) {
+interface PreviewSurfaceProps {
+  readonly previewId: string;
+}
+
+export default function PreviewSurface({ previewId }: PreviewSurfaceProps) {
   const [status, setStatus] = useState<"loading" | "loaded">("loading");
 
-  const rendered = useMemo(() => renderer(), [renderer]);
+  const handleReady = useCallback(() => {
+    setStatus("loaded");
+  }, []);
 
-  useEffect(() => {
-    if (!React.isValidElement(rendered)) {
-      setStatus("loaded");
-    }
-  }, [rendered]);
+  const handleError = useCallback(() => {
+    setStatus("loaded");
+  }, []);
 
-  let content = rendered;
-
-  if (React.isValidElement(rendered)) {
-    const element = rendered as React.ReactElement<{
-      onReady?: (...args: unknown[]) => void;
-      onError?: (...args: unknown[]) => void;
-    }>;
-    content = React.cloneElement(element, {
-      onReady: (...args: unknown[]) => {
-        setStatus("loaded");
-        if (typeof element.props.onReady === "function") {
-          element.props.onReady(...args);
-        }
-      },
-      onError: (...args: unknown[]) => {
-        setStatus("loaded");
-        if (typeof element.props.onError === "function") {
-          element.props.onError(...args);
-        }
-      },
-    });
-  }
-
-  return <PreviewSurfaceContainer status={status}>{content}</PreviewSurfaceContainer>;
+  return (
+    <PreviewSurfaceContainer status={status}>
+      <PreviewRendererClient
+        previewId={previewId}
+        onReady={handleReady}
+        onError={handleError}
+      />
+    </PreviewSurfaceContainer>
+  );
 }

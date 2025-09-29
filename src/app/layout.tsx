@@ -220,9 +220,12 @@ export default async function RootLayout({
     );
   };
 
-  if (process.env.GITHUB_PAGES === "true") {
-    // Static exports (GitHub Pages) do not provide response headers,
-    // so skip reading the nonce in that environment.
+  if (
+    process.env.GITHUB_PAGES === "true" ||
+    process.env.NEXT_PHASE === "phase-production-build"
+  ) {
+    // Static exports (GitHub Pages, production build prerender) do not provide
+    // response headers, so skip reading the nonce in those environments.
     return renderLayout();
   }
 
