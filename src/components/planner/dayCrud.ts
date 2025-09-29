@@ -124,6 +124,58 @@ export function removeTask(day: DayRecord, id: string) {
   });
 }
 
+export function reorderProjectTasks(
+  day: DayRecord,
+  projectId: string,
+  orderedIds: string[],
+) {
+  const projectTasks = day.tasks.filter((task) => task.projectId === projectId);
+  if (projectTasks.length <= 1) {
+    return day;
+  }
+
+  const projectTaskIds = projectTasks.map((task) => task.id);
+  const projectTaskIdSet = new Set(projectTaskIds);
+  const seen = new Set<string>();
+  const nextOrder: string[] = [];
+
+  for (const id of orderedIds) {
+    if (!projectTaskIdSet.has(id) || seen.has(id)) continue;
+    seen.add(id);
+    nextOrder.push(id);
+  }
+
+  for (const id of projectTaskIds) {
+    if (!seen.has(id)) {
+      nextOrder.push(id);
+    }
+  }
+
+  let changed = false;
+  for (let index = 0; index < projectTaskIds.length; index += 1) {
+    if (projectTaskIds[index] !== nextOrder[index]) {
+      changed = true;
+      break;
+    }
+  }
+
+  if (!changed) {
+    return day;
+  }
+
+  const nextById = new Map(projectTasks.map((task) => [task.id, task] as const));
+  let projectIndex = 0;
+
+  const tasks = day.tasks.map((task) => {
+    if (task.projectId !== projectId) return task;
+    const nextId = nextOrder[projectIndex++];
+    const nextTask = nextById.get(nextId);
+    return nextTask ?? task;
+  });
+
+  return finalizeDay(day, { tasks });
+}
+
 export function updateTaskReminder(
   day: DayRecord,
   id: string,

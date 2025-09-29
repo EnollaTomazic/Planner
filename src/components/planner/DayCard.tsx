@@ -32,6 +32,7 @@ export default function DayCard({ iso, isToday }: Props) {
     renameTask,
     toggleTask,
     deleteTask,
+    reorderTasks,
     addTaskImage,
     removeTaskImage: removeTaskImageForDay,
     doneCount,
@@ -120,6 +121,7 @@ export default function DayCard({ iso, isToday }: Props) {
               renameTask={renameTask}
               toggleTask={toggleTask}
               deleteTask={deleteTask}
+              reorderTasks={reorderTasks}
               addTaskImage={addTaskImage}
               removeTaskImage={(id, url, index) =>
                 removeTaskImageForDay(id, url, index)

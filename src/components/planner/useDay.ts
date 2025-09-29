@@ -32,6 +32,7 @@ export function useDay(iso: ISODate) {
     renameTask: crud.renameTask,
     deleteTask: crud.removeTask,
     toggleTask: crud.toggleTask,
+    reorderTasks: crud.reorderTasks,
     addTaskImage: crud.addTaskImage,
     removeTaskImage: crud.removeTaskImage,
     updateTaskReminder: crud.updateTaskReminder,

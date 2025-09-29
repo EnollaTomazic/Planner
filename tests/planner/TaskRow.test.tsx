@@ -8,7 +8,41 @@ import {
   cleanup,
 } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { Reorder } from "framer-motion";
 import TaskRow from "@/components/planner/TaskRow";
+
+const renderRow = (
+  override: Partial<React.ComponentProps<typeof TaskRow>> = {},
+) => {
+  const { task: overrideTask, ...rest } = override;
+  const task =
+    overrideTask ?? {
+      id: "1",
+      title: "Test task",
+      done: false,
+      createdAt: Date.now(),
+      images: [],
+    };
+
+  const props: React.ComponentProps<typeof TaskRow> = {
+    task,
+    toggleTask: noop,
+    deleteTask: noop,
+    renameTask: noop,
+    selectTask: noop,
+    addImage: noop,
+    removeImage: noop,
+    onReorder: noop,
+    onSwipe: noop,
+    ...rest,
+  };
+
+  return render(
+    <Reorder.Group values={[task.id]} onReorder={() => {}}>
+      <TaskRow {...props} />
+    </Reorder.Group>,
+  );
+};
 
 const noop = (..._args: unknown[]): void => {};
 
@@ -16,23 +50,7 @@ describe("TaskRow", () => {
   afterEach(cleanup);
 
   it("focuses input when entering edit mode", async () => {
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "Test task",
-          done: false,
-          createdAt: Date.now(),
-          images: [],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={noop}
-        removeImage={noop}
-      />,
-    );
+    renderRow();
     const textButton = screen.getByRole("button", { name: "Test task" });
     fireEvent.doubleClick(textButton);
     const input = screen.getByLabelText("Rename task Test task");
@@ -45,23 +63,11 @@ describe("TaskRow", () => {
     const selectTask = vi.fn();
     const toggleTask = vi.fn();
     const deleteTask = vi.fn();
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "Test task",
-          done: false,
-          createdAt: Date.now(),
-          images: [],
-        }}
-        toggleTask={toggleTask}
-        deleteTask={deleteTask}
-        renameTask={noop}
-        selectTask={selectTask}
-        addImage={noop}
-        removeImage={noop}
-      />,
-    );
+    renderRow({
+      toggleTask,
+      deleteTask,
+      selectTask,
+    });
     fireEvent.click(screen.getAllByLabelText("Toggle Test task done")[0]);
     fireEvent.click(screen.getAllByLabelText("Edit task")[0]);
     fireEvent.click(screen.getAllByLabelText("Delete task")[0]);
@@ -71,23 +77,17 @@ describe("TaskRow", () => {
   it("renders images and supports add/remove", () => {
     const addImage = vi.fn();
     const removeImage = vi.fn();
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "With image",
-          done: false,
-          createdAt: Date.now(),
-          images: ["https://example.com/a.jpg"],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={addImage}
-        removeImage={removeImage}
-      />,
-    );
+    renderRow({
+      task: {
+        id: "1",
+        title: "With image",
+        done: false,
+        createdAt: Date.now(),
+        images: ["https://example.com/a.jpg"],
+      },
+      addImage,
+      removeImage,
+    });
     const img = screen.getByRole("img", { name: /image for with image/i });
     expect(img).toBeInTheDocument();
     fireEvent.click(screen.getAllByLabelText("Remove image")[0]);
@@ -96,26 +96,19 @@ describe("TaskRow", () => {
 
   it("passes the correct index when removing duplicate images", () => {
     const removeImage = vi.fn();
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "With duplicates",
-          done: false,
-          createdAt: Date.now(),
-          images: [
-            "https://example.com/a.jpg",
-            "https://example.com/a.jpg",
-          ],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={noop}
-        removeImage={removeImage}
-      />,
-    );
+    renderRow({
+      task: {
+        id: "1",
+        title: "With duplicates",
+        done: false,
+        createdAt: Date.now(),
+        images: [
+          "https://example.com/a.jpg",
+          "https://example.com/a.jpg",
+        ],
+      },
+      removeImage,
+    });
 
     const removeButtons = screen.getAllByLabelText("Remove image");
     fireEvent.click(removeButtons[1]);
@@ -128,23 +121,16 @@ describe("TaskRow", () => {
     const handleAddImage = (url: string) => {
       addedUrl = url;
     };
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "Attachable",
-          done: false,
-          createdAt: Date.now(),
-          images: [],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={handleAddImage}
-        removeImage={noop}
-      />,
-    );
+    renderRow({
+      task: {
+        id: "1",
+        title: "Attachable",
+        done: false,
+        createdAt: Date.now(),
+        images: [],
+      },
+      addImage: handleAddImage,
+    });
     const input = screen.getByLabelText("Add image URL");
     const form = input.closest("form") as HTMLFormElement;
     const attachButton = within(form).getByRole("button", { name: /attach image/i });
@@ -162,23 +148,16 @@ describe("TaskRow", () => {
 
   it("rejects non-https image URLs", async () => {
     const handleAddImage = vi.fn();
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "Attachable",
-          done: false,
-          createdAt: Date.now(),
-          images: [],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={handleAddImage}
-        removeImage={noop}
-      />,
-    );
+    renderRow({
+      task: {
+        id: "1",
+        title: "Attachable",
+        done: false,
+        createdAt: Date.now(),
+        images: [],
+      },
+      addImage: handleAddImage,
+    });
 
     const input = screen.getByLabelText("Add image URL");
     const form = input.closest("form") as HTMLFormElement;
@@ -194,23 +173,15 @@ describe("TaskRow", () => {
   });
 
   it("provides accessible fallbacks when the task title is empty", () => {
-    render(
-      <TaskRow
-        task={{
-          id: "1",
-          title: "   ",
-          done: false,
-          createdAt: Date.now(),
-          images: [],
-        }}
-        toggleTask={noop}
-        deleteTask={noop}
-        renameTask={noop}
-        selectTask={noop}
-        addImage={noop}
-        removeImage={noop}
-      />,
-    );
+    renderRow({
+      task: {
+        id: "1",
+        title: "   ",
+        done: false,
+        createdAt: Date.now(),
+        images: [],
+      },
+    });
 
     expect(
       screen.getByLabelText("Select task Untitled task"),

@@ -265,6 +265,8 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
                   void url;
                   void index;
                 }}
+                onReorder={() => {}}
+                onSwipe={() => {}}
               />
             </ul>
           ),
@@ -334,6 +336,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
               renameTask={() => {}}
               toggleTask={() => {}}
               deleteTask={() => {}}
+              reorderTasks={() => {}}
               addTaskImage={() => {}}
               removeTaskImage={(
                 taskId: string,

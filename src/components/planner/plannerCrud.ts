@@ -8,6 +8,7 @@ import {
   renameTask as dayRenameTask,
   toggleTask as dayToggleTask,
   removeTask as dayRemoveTask,
+  reorderProjectTasks as dayReorderProjectTasks,
   addTaskImage as dayAddTaskImage,
   removeTaskImage as dayRemoveTaskImage,
   updateTaskReminder as dayUpdateTaskReminder,
@@ -59,6 +60,9 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const removeTask = (id: string) =>
     upsertDay(iso, (d) => dayRemoveTask(d, id));
 
+  const reorderTasks = (projectId: string, orderedIds: string[]) =>
+    upsertDay(iso, (d) => dayReorderProjectTasks(d, projectId, orderedIds));
+
   const addTaskImage = (id: string, url: string) =>
     upsertDay(iso, (d) => dayAddTaskImage(d, id, url));
 
@@ -85,6 +89,7 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     renameTask,
     toggleTask,
     removeTask,
+    reorderTasks,
     addTaskImage,
     removeTaskImage,
     updateTaskReminder,

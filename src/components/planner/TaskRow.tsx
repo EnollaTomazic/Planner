@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Reorder, animate, useMotionValue, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -28,6 +29,8 @@ type Props = {
   selectTask: () => void;
   addImage: (url: string) => void;
   removeImage: (url: string, index: number) => void;
+  onReorder?: (direction: "up" | "down") => void;
+  onSwipe?: (direction: "left" | "right") => void;
 };
 
 export default function TaskRow({
@@ -38,6 +41,8 @@ export default function TaskRow({
   selectTask,
   addImage,
   removeImage,
+  onReorder,
+  onSwipe,
 }: Props) {
   const [editing, setEditing] = React.useState(false);
   const [title, setTitle] = React.useState(task.title);
@@ -45,11 +50,19 @@ export default function TaskRow({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
   const [imageError, setImageError] = React.useState<string | null>(null);
+  const swipeSessionRef = React.useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    swiping: boolean;
+  } | null>(null);
   const trimmedImageUrl = imageUrl.trim();
   const canAttachImage = trimmedImageUrl.length > 0;
   const trimmedTaskTitle = task.title.trim();
   const accessibleTaskTitle = trimmedTaskTitle || "Untitled task";
   const renameTaskLabel = `Rename task ${accessibleTaskTitle}`;
+  const swipeX = useMotionValue(0);
+  const reduceMotion = useReducedMotion();
 
   const imageEntriesRef = React.useRef<Array<{ url: string; id: string }>>([]);
   const imageEntries = React.useMemo(() => {
@@ -104,6 +117,24 @@ export default function TaskRow({
     }
   }, [editing, task.title]);
 
+  React.useEffect(() => {
+    if (!editing) return;
+    swipeSessionRef.current = null;
+    swipeX.set(0);
+  }, [editing, swipeX]);
+
+  const resetSwipe = React.useCallback(() => {
+    if (reduceMotion) {
+      swipeX.set(0);
+      return;
+    }
+    animate(swipeX, 0, {
+      type: "spring",
+      stiffness: 320,
+      damping: 35,
+    });
+  }, [reduceMotion, swipeX]);
+
   const handleFocusWithin = React.useCallback(() => {
     setHasFocusWithin(true);
   }, []);
@@ -135,6 +166,18 @@ export default function TaskRow({
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.target !== event.currentTarget) return;
 
+      if (event.altKey && event.key === "ArrowUp") {
+        event.preventDefault();
+        onReorder?.("up");
+        return;
+      }
+
+      if (event.altKey && event.key === "ArrowDown") {
+        event.preventDefault();
+        onReorder?.("down");
+        return;
+      }
+
       if (event.key === "Enter") {
         event.preventDefault();
         selectTask();
@@ -144,7 +187,7 @@ export default function TaskRow({
         event.preventDefault();
       }
     },
-    [selectTask],
+    [onReorder, selectTask],
   );
 
   const handleRowKeyUp = React.useCallback(
@@ -188,8 +231,96 @@ export default function TaskRow({
     setImageError(null);
   }
 
+  const handlePointerDownCapture = React.useCallback(
+    (event: React.PointerEvent<HTMLLIElement>) => {
+      if (editing) {
+        swipeSessionRef.current = null;
+        return;
+      }
+
+      if (
+        event.target instanceof Element &&
+        event.target.closest(TASK_ROW_GUARD_SELECTOR)
+      ) {
+        swipeSessionRef.current = null;
+        return;
+      }
+
+      swipeSessionRef.current = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        swiping: false,
+      };
+      swipeX.set(0);
+    },
+    [editing, swipeX],
+  );
+
+  const handlePointerMove = React.useCallback(
+    (event: React.PointerEvent<HTMLLIElement>) => {
+      const session = swipeSessionRef.current;
+      if (!session || session.pointerId !== event.pointerId) return;
+
+      const deltaX = event.clientX - session.startX;
+      const deltaY = event.clientY - session.startY;
+
+      if (!session.swiping) {
+        if (Math.abs(deltaX) < 12) return;
+        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+          swipeSessionRef.current = null;
+          swipeX.set(0);
+          return;
+        }
+        session.swiping = true;
+      }
+
+      event.preventDefault();
+      const clamped = Math.max(Math.min(deltaX, 120), -120);
+      swipeX.set(clamped);
+    },
+    [swipeX],
+  );
+
+  const handlePointerEnd = React.useCallback(
+    (event: React.PointerEvent<HTMLLIElement>) => {
+      const session = swipeSessionRef.current;
+      if (!session || session.pointerId !== event.pointerId) return;
+
+      if (session.swiping) {
+        const deltaX = event.clientX - session.startX;
+        const threshold = 72;
+        if (Math.abs(deltaX) >= threshold) {
+          const direction = deltaX > 0 ? "right" : "left";
+          onSwipe?.(direction);
+        }
+      }
+
+      swipeSessionRef.current = null;
+      resetSwipe();
+    },
+    [onSwipe, resetSwipe],
+  );
+
+  const handlePointerCancel = React.useCallback(() => {
+    swipeSessionRef.current = null;
+    resetSwipe();
+  }, [resetSwipe]);
+
   return (
-    <li className="group">
+    <Reorder.Item
+      as="li"
+      className="group"
+      value={task.id}
+      id={task.id}
+      style={{ x: swipeX }}
+      data-task-id={task.id}
+      dragListener={!editing}
+      onPointerDownCapture={handlePointerDownCapture}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerEnd}
+      onPointerCancel={handlePointerCancel}
+    >
       <div
         className="relative"
         onFocusCapture={handleFocusWithin}
@@ -208,6 +339,7 @@ export default function TaskRow({
             "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
           )}
           data-focus-within={hasFocusWithin ? "true" : undefined}
+          aria-keyshortcuts="Alt+ArrowUp Alt+ArrowDown"
         >
           <span className="sr-only">{`Select task ${accessibleTaskTitle}`}</span>
         </button>
@@ -397,6 +529,6 @@ export default function TaskRow({
           {imageError}
         </p>
       )}
-    </li>
+    </Reorder.Item>
   );
 }

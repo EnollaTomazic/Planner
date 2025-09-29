@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Reorder } from "framer-motion";
 import Label from "@/components/ui/Label";
 import Input from "@/components/ui/primitives/Input";
 import EmptyRow from "./EmptyRow";
@@ -16,6 +17,7 @@ type Props = {
   renameTask: (id: string, title: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
+  reorderTasks: (projectId: string, orderedIds: string[]) => void;
   addTaskImage: (id: string, url: string) => void;
   removeTaskImage: (id: string, url: string, index: number) => void;
   setSelectedTaskId: (id: string) => void;
@@ -29,6 +31,7 @@ export default function TaskList({
   renameTask,
   toggleTask,
   deleteTask,
+  reorderTasks,
   addTaskImage,
   removeTaskImage,
   setSelectedTaskId,
@@ -45,8 +48,45 @@ export default function TaskList({
     },
     [selectedProjectId, tasksByProject, tasksById],
   );
+  const taskIds = React.useMemo(
+    () => tasksForSelected.map((task) => task.id),
+    [tasksForSelected],
+  );
+  const taskIdsKey = React.useMemo(() => taskIds.join("|"), [taskIds]);
+  const [orderedIds, setOrderedIds] = React.useState<string[]>(taskIds);
+  const tasksInOrder = React.useMemo(() => {
+    if (!orderedIds.length) return tasksForSelected;
+    const inOrder = orderedIds
+      .map((taskId) => tasksById[taskId])
+      .filter((task): task is DayTask => Boolean(task));
+    if (inOrder.length === tasksForSelected.length) {
+      return inOrder;
+    }
+    const missing = tasksForSelected.filter(
+      (task) => !orderedIds.includes(task.id),
+    );
+    return [...inOrder, ...missing];
+  }, [orderedIds, tasksById, tasksForSelected]);
   const hasSelectedProject = Boolean(selectedProjectId);
-  const isEmpty = !hasSelectedProject || tasksForSelected.length === 0;
+  const isEmpty = !hasSelectedProject || tasksInOrder.length === 0;
+
+  React.useEffect(() => {
+    setOrderedIds((prev) => {
+      if (prev.length === taskIds.length) {
+        let matched = true;
+        for (let index = 0; index < taskIds.length; index += 1) {
+          if (prev[index] !== taskIds[index]) {
+            matched = false;
+            break;
+          }
+        }
+        if (matched) {
+          return prev;
+        }
+      }
+      return taskIds;
+    });
+  }, [taskIdsKey, taskIds]);
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,6 +97,51 @@ export default function TaskList({
       }
     },
     [createTask, draftTask],
+  );
+
+  const handleReorder = React.useCallback(
+    (next: string[]) => {
+      if (!selectedProjectId) return;
+      setOrderedIds(next);
+      reorderTasks(selectedProjectId, next);
+    },
+    [reorderTasks, selectedProjectId],
+  );
+
+  const moveTask = React.useCallback(
+    (taskId: string, direction: "up" | "down") => {
+      if (!selectedProjectId) return;
+      setOrderedIds((prev) => {
+        const current = prev.length ? [...prev] : [...taskIds];
+        const index = current.indexOf(taskId);
+        if (index < 0) return prev;
+        const targetIndex =
+          direction === "up"
+            ? Math.max(0, index - 1)
+            : Math.min(current.length - 1, index + 1);
+        if (index === targetIndex) return prev;
+        current.splice(index, 1);
+        current.splice(targetIndex, 0, taskId);
+        reorderTasks(selectedProjectId, current);
+        return current;
+      });
+    },
+    [reorderTasks, selectedProjectId, taskIds],
+  );
+
+  const handleSwipe = React.useCallback(
+    (taskId: string, direction: "left" | "right") => {
+      if (direction === "right") {
+        toggleTask(taskId);
+        setSelectedTaskId(taskId);
+        return;
+      }
+
+      deleteTask(taskId);
+      setOrderedIds((prev) => prev.filter((id) => id !== taskId));
+      setSelectedTaskId("");
+    },
+    [deleteTask, setSelectedTaskId, toggleTask],
   );
 
   return (
@@ -88,11 +173,15 @@ export default function TaskList({
         />
       )}
       renderList={() => (
-        <ul
+        <Reorder.Group
           className="space-y-[var(--space-2)]"
           aria-label="Tasks"
+          axis="y"
+          values={orderedIds}
+          onReorder={handleReorder}
+          role="list"
         >
-          {tasksForSelected.map((t) => (
+          {tasksInOrder.map((t) => (
             <TaskRow
               key={t.id}
               task={t}
@@ -104,13 +193,15 @@ export default function TaskList({
                 deleteTask(t.id);
                 setSelectedTaskId("");
               }}
+              onReorder={(direction) => moveTask(t.id, direction)}
+              onSwipe={(direction) => handleSwipe(t.id, direction)}
               renameTask={(title) => renameTask(t.id, title)}
               selectTask={() => setSelectedTaskId(t.id)}
               addImage={(url) => addTaskImage(t.id, url)}
               removeImage={(url, index) => removeTaskImage(t.id, url, index)}
             />
           ))}
-        </ul>
+        </Reorder.Group>
       )}
       viewportSize={["minHTasks", "maxHTasks"]}
     />
