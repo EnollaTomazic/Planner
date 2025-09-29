@@ -1,0 +1,23 @@
+.switcher {
+  display: grid;
+  gap: var(--switcher-gap, var(--spacing-4));
+  align-items: var(--switcher-align, stretch);
+  grid-template-columns: minmax(0, 1fr);
+  container-type: inline-size;
+}
+
+@container (min-width: var(--switcher-threshold, 48rem)) {
+  .switcher {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(var(--switcher-min, 20rem), 100%), 1fr)
+    );
+  }
+
+  .switcher[data-distribution="fill"] {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(var(--switcher-min, 20rem), 100%), 1fr)
+    );
+  }
+}

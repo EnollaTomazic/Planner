@@ -1,0 +1,14 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--stack-gap, var(--spacing-4));
+  container-type: inline-size;
+}
+
+@container (min-width: 48rem) {
+  .stack {
+    gap: var(--stack-gap-lg, var(--stack-gap, var(--spacing-5)));
+  }
+}
