@@ -112,9 +112,11 @@ describe("copyText", () => {
     const select = vi.fn();
     const remove = vi.fn();
     const style = {} as CSSStyleDeclaration;
+    const classList = { add: vi.fn() } as unknown as DOMTokenList;
     const textarea = {
       value: "",
       style,
+      classList,
       select,
       remove,
     } as unknown as HTMLTextAreaElement;
@@ -144,9 +146,7 @@ describe("copyText", () => {
     expect(execCommand).toHaveBeenCalledWith("copy");
     expect(removeAllRanges).toHaveBeenCalledTimes(1);
     expect(remove).toHaveBeenCalledTimes(1);
-    expect((style as unknown as Record<string, string>).position).toBe("fixed");
-    expect((style as unknown as Record<string, string>).top).toBe("var(--visually-hidden-top)");
-    expect((style as unknown as Record<string, string>).opacity).toBe("0");
+    expect(classList.add).toHaveBeenCalledWith("clipboard-copy-buffer");
     expect(warnSpy).not.toHaveBeenCalled();
   });
 
@@ -170,9 +170,11 @@ describe("copyText", () => {
 
     const select = vi.fn();
     const remove = vi.fn();
+    const classList = { add: vi.fn() } as unknown as DOMTokenList;
     const textarea = {
       value: "",
       style: {} as CSSStyleDeclaration,
+      classList,
       select,
       remove,
     } as unknown as HTMLTextAreaElement;
@@ -203,6 +205,7 @@ describe("copyText", () => {
     expect(select).toHaveBeenCalledTimes(1);
     expect(removeAllRanges).toHaveBeenCalledTimes(1);
     expect(remove).toHaveBeenCalledTimes(1);
+    expect(classList.add).toHaveBeenCalledWith("clipboard-copy-buffer");
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining("[planner:clipboard] Failed to copy text"),
       execError,

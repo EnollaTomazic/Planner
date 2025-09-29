@@ -163,6 +163,13 @@
   html.fx-overdrive .card-neo-soft.glitchy:hover .card-title {
     animation: chromaJitter 0.8s steps(3, end) infinite;
   }
+
+  .clipboard-copy-buffer {
+    position: fixed;
+    top: var(--visually-hidden-top);
+    opacity: var(--opacity-hidden, 0);
+    pointer-events: none;
+  }
   @supports (color: color-contrast(white vs black)) {
     :root {
       --danger-foreground: color-contrast(
