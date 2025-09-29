@@ -157,7 +157,7 @@
     0 0 var(--spacing-4) var(--neon-soft);
   --shadow-neon-strong: 0 0 var(--spacing-3) var(--neon),
     0 0 var(--spacing-5) var(--neon-soft);
-  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),
+  --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),
     0 0 0 var(--hairline-w) hsl(var(--border) / 0.12);
   --shadow-control-hover: 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
   --lg-violet: var(--ring);
@@ -276,6 +276,32 @@
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
+  /* Depth & surface spacing (neumorphism) */
+  --neo-depth-sm: var(--spacing-1);
+  --neo-depth-md: var(--spacing-3);
+  --neo-depth-lg: var(--spacing-4);
+  --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
+  --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
+  --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Glow parity (retro-futurism) */
+  /* neo-glow-strength multiplies --shadow-neon */
+  --neo-glow-strength: 0.45;
+  --neon-outline-opacity: 0.35;
+  /* Glitch normalization (identical amplitude & cadence) */
+  /* 0–1 scaling for transforms/opacity */
+  --glitch-intensity: 1.0;
+  /* base animation length */
+  --glitch-duration: 450ms;
+  /* hue-rotate magnitude */
+  --glitch-fringe: 12deg;
+  /* overlay alpha */
+  --glitch-static-opacity: 0.18;
+  /* Retro grid parity */
+  --retro-grid-step: 24px;
+  --retro-grid-opacity: 0.15;
+  /* Accessibility clamps */
+  /* used in tests; not CSS-enforced */
+  --aa-min-contrast: 4.5;
   --shadow-neon:
     0 0 var(--space-1) hsl(var(--neon) / 0.55),
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
