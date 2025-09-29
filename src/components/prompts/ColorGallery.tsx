@@ -3,6 +3,7 @@
 import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
+import styles from "./ColorGallery.module.css";
 
 const paletteTabs: TabItem<ColorPalette>[] = [
   { key: "aurora", label: "Aurora" },
@@ -10,46 +11,22 @@ const paletteTabs: TabItem<ColorPalette>[] = [
   { key: "accents", label: "Accents" },
 ];
 
-const auroraSwatchStyle: React.CSSProperties = {
-  blockSize: "calc(var(--space-7) - var(--space-2))",
-  inlineSize: "calc(var(--space-7) - var(--space-2))",
-};
-
-const paletteSwatchStyle: React.CSSProperties = {
-  blockSize: "var(--space-8)",
-  inlineSize: "calc(var(--space-8) + var(--space-6))",
-};
-
-const auroraTokenOverrides: Record<string, string> = {
-  "aurora-g-light":
-    "var(--aurora-g-light-color, hsl(var(--aurora-g-light)))",
-  "aurora-p-light":
-    "var(--aurora-p-light-color, hsl(var(--aurora-p-light)))",
-};
-
 const statusSwatches: ReadonlyArray<{
   key: string;
   label: string;
   description: string;
-  background: string;
-  textColor: string;
-  shadow?: string;
 }> = [
   {
     key: "warning",
     label: "warning + text-on-accent",
-    description: "Use text-on-accent on caution banners and toasts so the copy stays readable against the saturated fill.",
-    background: "hsl(var(--warning))",
-    textColor: "var(--text-on-accent)",
+    description:
+      "Use text-on-accent on caution banners and toasts so the copy stays readable against the saturated fill.",
   },
   {
     key: "success",
     label: "success + text-on-accent",
     description:
       "Pair the success fill with text-on-accent and layer success-soft or success-glow for celebratory emphasis without washing out the edges.",
-    background: "hsl(var(--success))",
-    textColor: "var(--text-on-accent)",
-    shadow: "0 0 var(--space-4) hsl(var(--success-glow))",
   },
 ];
 
@@ -91,20 +68,20 @@ export default function ColorGallery() {
               <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-[var(--space-2)]">
                 <div
-                  className="rounded-[var(--radius-md)] bg-aurora-g"
-                  style={auroraSwatchStyle}
+                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
+                  data-palette="aurora-g"
                 />
                 <div
-                  className="rounded-[var(--radius-md)] bg-aurora-g-light"
-                  style={auroraSwatchStyle}
+                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
+                  data-palette="aurora-g-light"
                 />
                 <div
-                  className="rounded-[var(--radius-md)] bg-aurora-p"
-                  style={auroraSwatchStyle}
+                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
+                  data-palette="aurora-p"
                 />
                 <div
-                  className="rounded-[var(--radius-md)] bg-aurora-p-light"
-                  style={auroraSwatchStyle}
+                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
+                  data-palette="aurora-p-light"
                 />
               </div>
               <p className="mt-2 text-center text-label text-muted-foreground">
@@ -114,25 +91,17 @@ export default function ColorGallery() {
               </p>
             </div>
           )}
-          {COLOR_PALETTES[p.key].map((c) => {
-            const backgroundColor =
-              auroraTokenOverrides[c] ?? `hsl(var(--${c}))`;
-
-            return (
-              <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
-                <span className="text-label uppercase tracking-wide text-accent-3">
-                  {c}
-                </span>
-                <div
-                  className="rounded-[var(--radius-lg)] border"
-                  style={{
-                    ...paletteSwatchStyle,
-                    backgroundColor,
-                  }}
-                />
-              </div>
-            );
-          })}
+          {COLOR_PALETTES[p.key].map((c) => (
+            <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
+              <span className="text-label uppercase tracking-wide text-accent-3">
+                {c}
+              </span>
+              <div
+                className={`rounded-[var(--radius-lg)] border ${styles.paletteSwatch}`}
+                data-palette={c}
+              />
+            </div>
+          ))}
           {p.key === "accents" && (
             <div className="col-span-full flex flex-col gap-[var(--space-3)]">
               <span className="text-ui font-medium text-muted-foreground">
@@ -142,12 +111,8 @@ export default function ColorGallery() {
                 {statusSwatches.map((swatch) => (
                   <div
                     key={swatch.key}
-                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)] shadow-elev-2"
-                    style={{
-                      background: swatch.background,
-                      color: swatch.textColor,
-                      boxShadow: swatch.shadow,
-                    }}
+                    data-status={swatch.key}
+                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)]"
                   >
                     <span className="text-label uppercase tracking-wide opacity-80">
                       {swatch.label}
