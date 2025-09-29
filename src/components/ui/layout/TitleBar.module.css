@@ -1,0 +1,20 @@
+.termMini {
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--foreground) / 0.04),
+      hsl(var(--shadow-color) / 0.05)
+    ),
+    hsl(var(--card));
+  box-shadow: var(--shadow-neo-soft), var(--shadow-neo-strong);
+}
+
+.termMiniText {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: var(--font-ui);
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}

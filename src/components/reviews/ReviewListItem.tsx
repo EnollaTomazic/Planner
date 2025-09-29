@@ -8,9 +8,9 @@ import Badge from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20",
-  "hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)]",
-  "focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)]",
-  "active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)]",
+  "hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))]",
+  "focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))]",
+  "active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))]",
   "data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]",
 );
 
@@ -30,10 +30,10 @@ const itemLoading = cn(
 const loadingLine = "h-[var(--space-3)] rounded-card bg-muted";
 const scoreBadge = cn(
   "px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium",
-  "text-accent-foreground ring-1 ring-[theme('colors.interaction.accent.surfaceActive')] bg-gradient-to-br from-accent to-accent-2",
-  "hover:ring-[theme('colors.interaction.accent.surfaceHover')]",
-  "focus-visible:ring-[theme('colors.interaction.accent.surfaceHover')]",
-  "active:ring-[theme('colors.interaction.accent.surfaceActive')]",
+  "text-accent-2-foreground ring-1 ring-[theme('colors.interaction.info.surfaceActive')] bg-accent-2",
+  "hover:ring-[theme('colors.interaction.info.surfaceHover')]",
+  "focus-visible:ring-[theme('colors.interaction.info.surfaceHover')]",
+  "active:ring-[theme('colors.interaction.info.surfaceActive')]",
 );
 
 export type ReviewListItemProps = {

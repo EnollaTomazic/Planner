@@ -1,0 +1,452 @@
+"use client";
+
+import * as React from "react";
+import { createPortal } from "react-dom";
+import { Plus, CalendarClock, Sparkles } from "lucide-react";
+import {
+  Button,
+  GlitchSegmentedButton,
+  GlitchSegmentedGroup,
+  IconButton,
+  Label,
+  NeoCard,
+  Select,
+  Textarea,
+  useDialogTrap,
+} from "@/components/ui";
+import { cn } from "@/lib/utils";
+import {
+  buildRecurringOccurrences,
+  parsePlannerPhrase,
+  summariseParse,
+} from "@/lib/scheduling";
+import { fromISODate, toISODate } from "@/lib/date";
+import {
+  usePlannerActions,
+  usePlannerStore,
+  makeCrud,
+  type ISODate,
+} from "@/components/planner";
+
+const FLOATING_BUTTON_POSITION =
+  "fixed bottom-[var(--space-8)] right-[max(var(--space-3),calc((var(--viewport-width) - var(--shell-max,var(--shell-width))) / 2 + var(--space-3)))] z-50";
+
+type Mode = "task" | "project";
+
+type PlannerCreationDialogProps = {
+  open: boolean;
+  onClose: VoidFunction;
+  titleId: string;
+  descriptionId: string;
+  summaryId: string;
+  children: React.ReactNode;
+};
+
+function PlannerCreationDialog({
+  open,
+  onClose,
+  titleId,
+  descriptionId,
+  summaryId,
+  children,
+}: PlannerCreationDialogProps) {
+  const mountedRef = React.useRef(false);
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useDialogTrap({ open: open && mountedRef.current, onClose, ref: dialogRef });
+
+  if (!open || typeof document === "undefined") return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[hsl(var(--background)/0.85)] px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center sm:bg-[hsl(var(--background)/0.8)]">
+      <div
+        role="presentation"
+        aria-hidden="true"
+        className="absolute inset-0"
+        onClick={onClose}
+      />
+      <NeoCard
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        aria-details={summaryId}
+        className="relative w-full max-w-[min(calc(var(--space-16)*3+var(--space-8)),calc(var(--shell-width)*0.9))] card-pad space-y-[var(--space-5)]"
+      >
+        <IconButton
+          aria-label="Close creation sheet"
+          variant="ghost"
+          tone="primary"
+          size="sm"
+          className="absolute right-[var(--space-3)] top-[var(--space-3)]"
+          onClick={onClose}
+        >
+          <span className="sr-only">Close planner creation sheet</span>
+          {/* Using Plus with rotation for consistent glyph weight */}
+          <Plus className="rotate-45" />
+        </IconButton>
+        {children}
+      </NeoCard>
+    </div>,
+    document.body,
+  );
+}
+
+function useKeyboardShortcut(openSheet: VoidFunction) {
+  React.useEffect(() => {
+    const handle = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      const mod = event.metaKey || event.ctrlKey;
+      if (!mod) return;
+      if (event.shiftKey && key === "n") {
+        event.preventDefault();
+        openSheet();
+      }
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  }, [openSheet]);
+}
+
+const SEGMENT_OPTIONS: Array<{ value: Mode; label: string }> = [
+  { value: "task", label: "Task" },
+  { value: "project", label: "Project" },
+];
+
+export default function PlannerFab() {
+  const { focus, getDay, upsertDay } = usePlannerStore();
+  const { createProject, createTask } = usePlannerActions();
+  const [open, setOpen] = React.useState(false);
+  const [mode, setMode] = React.useState<Mode>("task");
+  const [inputValue, setInputValue] = React.useState("");
+  const [selectedProjectId, setSelectedProjectId] = React.useState<string>("");
+  const [error, setError] = React.useState<string | null>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+  const summaryId = React.useId();
+
+  const focusDate = React.useMemo(() => fromISODate(focus) ?? new Date(), [focus]);
+
+  const parsed = React.useMemo(
+    () => parsePlannerPhrase(inputValue, { now: focusDate }),
+    [focusDate, inputValue],
+  );
+
+  const targetIso = React.useMemo<ISODate>(
+    () => parsed.event.startDate ?? focus,
+    [parsed.event.startDate, focus],
+  );
+
+  const targetDay = getDay(targetIso);
+  const projects = targetDay.projects;
+  const focusProjects = getDay(focus).projects;
+
+  React.useEffect(() => {
+    if (!open) return;
+    const frame = window.requestAnimationFrame(() => {
+      textareaRef.current?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [open]);
+
+  React.useEffect(() => {
+    if (parsed.intent === "project" && parsed.confidence !== "low") {
+      setMode("project");
+    }
+  }, [parsed.confidence, parsed.intent]);
+
+  React.useEffect(() => {
+    if (mode !== "task") return;
+    if (projects.some((project) => project.id === selectedProjectId)) return;
+    if (focusProjects.some((project) => project.id === selectedProjectId)) return;
+    const fallback = projects[0]?.id ?? focusProjects[0]?.id ?? "";
+    if (fallback !== selectedProjectId) {
+      setSelectedProjectId(fallback);
+    }
+  }, [focusProjects, mode, projects, selectedProjectId]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setInputValue("");
+      setError(null);
+      setMode("task");
+    }
+  }, [open]);
+
+  const recurringSuggestions = React.useMemo(() => {
+    if (!parsed.recurrence) return [] as ISODate[];
+    return buildRecurringOccurrences(parsed.recurrence, {
+      startDate: parsed.event.startDate ?? focus,
+      now: focusDate,
+      count: 3,
+    });
+  }, [focus, focusDate, parsed.event.startDate, parsed.recurrence]);
+
+  const summaryText = React.useMemo(() => summariseParse(parsed), [parsed]);
+
+  const openSheet = React.useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const closeSheet = React.useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  useKeyboardShortcut(openSheet);
+
+  const handleSubmit = React.useCallback(
+    (isoOverride?: ISODate) => {
+      const trimmed = (parsed.event.title || inputValue).trim();
+      if (!trimmed) {
+        setError("Describe what you want to plan");
+        return;
+      }
+      const iso = isoOverride ?? parsed.event.startDate ?? focus;
+      if (!iso) {
+        setError("Unable to determine a target date");
+        return;
+      }
+
+      if (mode === "project" || parsed.intent === "project") {
+        const created = createProject({ iso, name: trimmed });
+        if (created) {
+          setError(null);
+          closeSheet();
+        } else {
+          setError("Enter a project name to continue");
+        }
+        return;
+      }
+
+      const dayProjects = getDay(iso).projects;
+      let projectId = dayProjects.some((project) => project.id === selectedProjectId)
+        ? selectedProjectId
+        : dayProjects[0]?.id ?? "";
+      if (!projectId && selectedProjectId) {
+        const focusProjects = getDay(focus).projects;
+        const sourceProject = focusProjects.find(
+          (project) => project.id === selectedProjectId,
+        );
+        if (sourceProject) {
+          const clonedId = makeCrud(iso, upsertDay).addProject(sourceProject.name);
+          if (clonedId) {
+            projectId = clonedId;
+          }
+        }
+      }
+      if (!projectId) {
+        setError("Create a project for this day first");
+        return;
+      }
+      const createdTaskId = createTask({ iso, projectId, title: trimmed });
+      if (!createdTaskId) {
+        setError("Unable to create a task");
+        return;
+      }
+      if (parsed.event.time) {
+        makeCrud(iso, upsertDay).updateTaskReminder(createdTaskId, {
+          enabled: true,
+          time: parsed.event.time,
+          leadMinutes: 0,
+        });
+      }
+      setError(null);
+      closeSheet();
+    },
+    [
+      closeSheet,
+      createProject,
+      createTask,
+      focus,
+      getDay,
+      inputValue,
+      mode,
+      parsed.event.startDate,
+      parsed.event.time,
+      parsed.event.title,
+      parsed.intent,
+      selectedProjectId,
+      upsertDay,
+    ],
+  );
+
+  const handleSubmitEvent = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      handleSubmit();
+    },
+    [handleSubmit],
+  );
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLFormElement>) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+        event.preventDefault();
+        handleSubmit();
+      }
+    },
+    [handleSubmit],
+  );
+
+  const projectItems = React.useMemo(
+    () =>
+      projects.map((project) => ({
+        value: project.id,
+        label: project.name,
+      })),
+    [projects],
+  );
+
+  return (
+    <>
+      <Button
+        aria-label="Open planner creation sheet"
+        className={cn(
+          FLOATING_BUTTON_POSITION,
+          "h-[var(--space-12)] min-w-[var(--space-12)] rounded-full px-[var(--space-5)] shadow-[var(--shadow-neo-strong)]",
+        )}
+        onClick={openSheet}
+        variant="primary"
+        tone="primary"
+        size="lg"
+      >
+        <Plus className="[&_path]:stroke-[2.2]" />
+        <span className="sr-only">Plan something new</span>
+      </Button>
+      <PlannerCreationDialog
+        open={open}
+        onClose={closeSheet}
+        titleId={titleId}
+        descriptionId={descriptionId}
+        summaryId={summaryId}
+      >
+        <div className="space-y-[var(--space-2)]">
+          <h2
+            id={titleId}
+            className="text-title font-semibold tracking-[-0.01em] text-foreground"
+          >
+            Plan something new
+          </h2>
+          <p
+            id={descriptionId}
+            className="text-label text-muted-foreground"
+          >
+            Describe your plan in natural language or switch to manual mode. Press Cmd/Ctrl + Shift + N to open, Cmd/Ctrl + Enter to save.
+          </p>
+        </div>
+        <form
+          className="space-y-[var(--space-5)]"
+          onSubmit={handleSubmitEvent}
+          onKeyDown={handleKeyDown}
+        >
+          <fieldset className="space-y-[var(--space-3)]">
+            <legend className="text-label font-medium text-muted-foreground">
+              Creation mode
+            </legend>
+            <GlitchSegmentedGroup
+              value={mode}
+              onChange={(value) => setMode(value as Mode)}
+              ariaLabelledby={undefined}
+              aria-label="Planner creation mode"
+              className="max-w-max"
+            >
+              {SEGMENT_OPTIONS.map((option) => (
+                <GlitchSegmentedButton key={option.value} value={option.value}>
+                  {option.label}
+                </GlitchSegmentedButton>
+              ))}
+            </GlitchSegmentedGroup>
+          </fieldset>
+          <div className="space-y-[var(--space-3)]">
+            <Label htmlFor={`${titleId}-textarea`} className="text-label font-medium text-muted-foreground">
+              What are you planning?
+            </Label>
+            <Textarea
+              id={`${titleId}-textarea`}
+              ref={textareaRef}
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              placeholder="Daily standup every weekday at 9am"
+              resize="resize-none"
+              rows={4}
+              className="[&_.textarea]:rounded-[var(--radius-card)]"
+              textareaClassName="text-ui"
+            />
+          </div>
+          {mode === "task" && (
+            <div className="space-y-[var(--space-3)]">
+              <Label htmlFor={`${titleId}-project`} className="text-label font-medium text-muted-foreground">
+                Select a project for {toISODate(targetIso)}
+              </Label>
+              <Select
+                id={`${titleId}-project`}
+                items={projectItems}
+                value={selectedProjectId}
+                onChange={setSelectedProjectId}
+                placeholder={projectItems.length ? undefined : "No projects available"}
+                disabled={!projectItems.length}
+                size="md"
+              />
+            </div>
+          )}
+          {summaryText && (
+            <div
+              id={summaryId}
+              className="flex items-start gap-[var(--space-3)] rounded-[var(--radius-md)] bg-[hsl(var(--card)/0.6)] px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground"
+            >
+              <CalendarClock className="mt-[var(--space-0_5)] size-[var(--space-5)]" aria-hidden />
+              <div className="space-y-[var(--space-1)]">
+                <p className="font-medium text-foreground">Detected details</p>
+                <p>{summaryText}</p>
+              </div>
+            </div>
+          )}
+          {parsed.recurrence && recurringSuggestions.length > 0 && (
+            <div className="space-y-[var(--space-2)]">
+              <p className="flex items-center gap-[var(--space-2)] text-label font-medium text-muted-foreground">
+                <Sparkles className="size-[var(--space-4)]" aria-hidden />
+                Upcoming occurrences
+              </p>
+              <div className="flex flex-wrap gap-[var(--space-2)]">
+                {recurringSuggestions.map((iso) => (
+                  <Button
+                    key={iso}
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => handleSubmit(iso)}
+                    className="rounded-full"
+                  >
+                    {iso}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+          {error && (
+            <p className="text-label text-danger" role="alert">
+              {error}
+            </p>
+          )}
+          <div className="flex items-center justify-end gap-[var(--space-3)]">
+            <Button type="button" variant="ghost" onClick={closeSheet}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary" tone="primary">
+              Save to planner
+            </Button>
+          </div>
+        </form>
+      </PlannerCreationDialog>
+    </>
+  );
+}

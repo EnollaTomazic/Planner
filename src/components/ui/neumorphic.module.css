@@ -1,0 +1,16 @@
+.neu {
+  background: var(--neu-surface, hsl(var(--card)));
+  box-shadow: var(--neo-shadow, var(--shadow-neo));
+  border-radius: var(--neu-radius, var(--radius-lg));
+  transition: box-shadow var(--dur-quick) var(--ease-out);
+}
+
+.neu-inset {
+  background: var(--neu-surface, hsl(var(--card)));
+  box-shadow: var(--neo-shadow-inset, var(--shadow-neo-inset));
+  border-radius: var(--neu-radius, var(--radius-lg));
+}
+
+.neu-hover:hover {
+  box-shadow: var(--neo-shadow-hover, var(--shadow-neo-strong));
+}
